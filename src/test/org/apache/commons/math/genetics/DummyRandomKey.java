@@ -16,18 +16,29 @@
  */
 package org.apache.commons.math.genetics;
 
+import java.util.List;
+
 /**
- * Fitness of a chromosome.
- *
- * @version $Revision:$ $Date:$
- * @since 2.0
+ * Implementation of RandomKey for testing purposes
  */
-public interface Fitness {
-    /**
-     * Compute the fitness. This is usually very time-consuming, so the value
-     * should be cached.
-     * 
-     * @return fitness
-     */
-    public double fitness();
+public class DummyRandomKey extends RandomKey<String> {
+
+    public DummyRandomKey(List<Double> representation) {
+        super(representation);
+    }
+    
+    public DummyRandomKey(Double[] representation) {
+        super(representation);
+    }
+
+    @Override
+    public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> representation) {
+        return new DummyRandomKey(representation);
+    }
+
+    public double fitness() {
+        // unimportant
+        return 0;
+    }
+    
 }

@@ -17,39 +17,47 @@
 package org.apache.commons.math.genetics;
 
 /**
- * A collection of chromosomes that facilitates generational evolution.
+ * Exception indicating that the representation of a chromosome is not valid.
  * 
- * @since 2.0
  * @version $Revision:$ $Date:$
+ * @since 2.0
  */
-public interface Population extends Iterable<Chromosome> {
-    /**
-     * Access the current population size.
-     * @return the current population size.
-     */
-    int getPopulationSize();
+public class InvalidRepresentationException extends Exception {
+
+    /** Serialization version id */
+    private static final long serialVersionUID = 1L;
 
     /**
-     * Access the maximum population size.
-     * @return the maximum population size.
+     * Constructor
      */
-    int getPopulationLimit();
+    public InvalidRepresentationException() {
+        super();
+    }
 
     /**
-     * Start the population for the next generation.
-     * @return the beginnings of the next generation.
+     * Construct an InvalidRepresentationException
+     * @param arg0 exception message
      */
-    Population nextGeneration();
+    public InvalidRepresentationException(String arg0) {
+        super(arg0);
+    }
 
     /**
-     * Add the given chromosome to the population.
-     * @param chromosome the chromosome to add.
+     * Construct an InvalidRepresentationException
+     * @param arg0 cause
      */
-    void addChromosome(Chromosome chromosome);
+    public InvalidRepresentationException(Throwable arg0) {
+        super(arg0);
+    }
 
     /**
-     * Access the fittest chromosome in this population.
-     * @return the fittest chromosome.
+     * Construct an InvalidRepresentationException
+     * 
+     * @param arg0 exception message
+     * @param arg1 cause
      */
-    Chromosome getFittestChromosome();
+    public InvalidRepresentationException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
+
 }

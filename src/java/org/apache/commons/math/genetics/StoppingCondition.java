@@ -18,7 +18,9 @@ package org.apache.commons.math.genetics;
 
 /**
  * Algorithm used to determine when to stop evolution.
- * @version $Revision$ $Date$
+ * 
+ * @since 2.0
+ * @version $Revision:$ $Date:$
  */
 public interface StoppingCondition {
     /**

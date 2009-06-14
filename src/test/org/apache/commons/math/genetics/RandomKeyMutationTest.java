@@ -16,18 +16,29 @@
  */
 package org.apache.commons.math.genetics;
 
-/**
- * Fitness of a chromosome.
- *
- * @version $Revision:$ $Date:$
- * @since 2.0
- */
-public interface Fitness {
-    /**
-     * Compute the fitness. This is usually very time-consuming, so the value
-     * should be cached.
-     * 
-     * @return fitness
-     */
-    public double fitness();
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class RandomKeyMutationTest {
+
+    @Test
+    public void testMutate() {
+        MutationPolicy mutation = new RandomKeyMutation();
+        int l=10;
+        for (int i=0; i<20; i++) {
+            DummyRandomKey origRk = new DummyRandomKey(RandomKey.randomPermutation(l));
+            Chromosome mutated = mutation.mutate(origRk);
+            DummyRandomKey mutatedRk = (DummyRandomKey) mutated;
+            
+            int changes = 0;
+            for (int j=0; j<origRk.getLength(); j++) {
+                if (origRk.getRepresentation().get(j) != mutatedRk.getRepresentation().get(j)) {
+                    changes++;
+                }
+            }
+            assertEquals(1,changes);
+        }
+    }
+
 }

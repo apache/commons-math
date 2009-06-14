@@ -16,18 +16,29 @@
  */
 package org.apache.commons.math.genetics;
 
+import java.util.List;
+
 /**
- * Fitness of a chromosome.
- *
- * @version $Revision:$ $Date:$
- * @since 2.0
+ * Implementation of BinaryChromosome for testing purposes
  */
-public interface Fitness {
-    /**
-     * Compute the fitness. This is usually very time-consuming, so the value
-     * should be cached.
-     * 
-     * @return fitness
-     */
-    public double fitness();
+public class DummyBinaryChromosome extends BinaryChromosome {
+
+    public DummyBinaryChromosome(List<Integer> representation) {
+        super(representation);
+    }
+    
+    public DummyBinaryChromosome(Integer[] representation) {
+        super(representation);
+    }
+
+    @Override
+    public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> representation) {
+        return new DummyBinaryChromosome(representation);
+    }
+
+    public double fitness() {
+        // uninteresting
+        return 0;
+    }
+
 }

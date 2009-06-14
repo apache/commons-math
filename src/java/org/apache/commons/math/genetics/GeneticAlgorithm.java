@@ -16,28 +16,83 @@
  */
 package org.apache.commons.math.genetics;
 
+import org.apache.commons.math.random.RandomGenerator;
+import org.apache.commons.math.random.JDKRandomGenerator;
+
 /**
  * Implementation of a genetic algorithm. All factors that govern the operation
  * of the algorithm can be configured for a specific problem.
- * 
- * @version $Revision$ $Date$
+ *
+ * @since 2.0
+ * @version $Revision:$ $Date:$
  */
 public class GeneticAlgorithm {
+
+    /**
+     * Static random number generator shared by GA implementation classes.
+     * Set the randomGenerator seed to get reproducible results.  
+     * Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative
+     * to the default JDK-provided PRNG.
+     */
+    private static RandomGenerator randomGenerator = new JDKRandomGenerator();
+    
+    /**
+     * Set the (static) random generator.
+     * 
+     * @param random random generator
+     */
+    public synchronized static void setRandomGenerator(RandomGenerator random) {
+        randomGenerator = random;
+    }
+    
+    /**
+     * Returns the (static) random generator.
+     * 
+     * @return the static random generator shared by GA implementation classes
+     */
+    public synchronized static RandomGenerator getRandomGenerator() {
+        return randomGenerator;
+    }
+      
     /** the crossover policy used by the algorithm. */
-    private CrossoverPolicy crossoverPolicy;
+    protected final CrossoverPolicy crossoverPolicy;
 
     /** the rate of crossover for the algorithm. */
-    private double crossoverRate;
+    protected final double crossoverRate;
 
     /** the mutation policy used by the algorithm. */
-    private MutationPolicy mutationPolicy;
+    protected final MutationPolicy mutationPolicy;
 
     /** the rate of mutation for the algorithm. */
-    private double mutationRate;
+    protected final double mutationRate;
 
     /** the selection policy used by the algorithm. */
-    private SelectionPolicy selectionPolicy;
-
+    protected final SelectionPolicy selectionPolicy;
+    
+    /**
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param crossoverRate The crossover rate as a percentage (0-1 inclusive)
+     * @param mutationPolicy The {@link MutationPolicy}
+     * @param mutationRate The mutation rate as a percentage (0-1 inclusive)
+     * @param selectionPolicy The {@link selectionPolicy}
+     */
+    public GeneticAlgorithm(
+            CrossoverPolicy crossoverPolicy, double crossoverRate,
+            MutationPolicy mutationPolicy, double mutationRate,
+            SelectionPolicy selectionPolicy) {
+        if (crossoverRate < 0 || crossoverRate > 1) {
+            throw new IllegalArgumentException("crossoverRate must be between 0 and 1");
+        }
+        if (mutationRate < 0 || mutationRate > 1) {
+            throw new IllegalArgumentException("mutationRate must be between 0 and 1");
+        }
+        this.crossoverPolicy = crossoverPolicy;
+        this.crossoverRate = crossoverRate;
+        this.mutationPolicy = mutationPolicy;
+        this.mutationRate = mutationRate;
+        this.selectionPolicy = selectionPolicy;
+    }
+    
     /**
      * Evolve the given population. Evolution stops when the stopping condition
      * is satisfied.
@@ -52,51 +107,6 @@ public class GeneticAlgorithm {
             current = nextGeneration(current);
         }
         return current;
-    }
-
-    /**
-     * Access the crossover policy.
-     * 
-     * @return the crossover policy.
-     */
-    private CrossoverPolicy getCrossoverPolicy() {
-        return crossoverPolicy;
-    }
-
-    /**
-     * Access the crossover rate.
-     * 
-     * @return the crossover rate.
-     */
-    private double getCrossoverRate() {
-        return crossoverRate;
-    }
-
-    /**
-     * Access the mutation policy.
-     * 
-     * @return the mutation policy.
-     */
-    private MutationPolicy getMutationPolicy() {
-        return mutationPolicy;
-    }
-
-    /**
-     * Access the mutation rate.
-     * 
-     * @return the mutation rate.
-     */
-    private double getMutationRate() {
-        return mutationRate;
-    }
-
-    /**
-     * Access the selection policy.
-     * 
-     * @return the selection policy.
-     */
-    private SelectionPolicy getSelectionPolicy() {
-        return selectionPolicy;
     }
 
     /**
@@ -118,89 +128,80 @@ public class GeneticAlgorithm {
      *    </ol>
      * </p>
      * 
-     * 
      * @param current the current population.
      * @return the population for the next generation.
      */
-    private Population nextGeneration(Population current) {
+    public Population nextGeneration(Population current) {
         Population nextGeneration = current.nextGeneration();
 
-        while (nextGeneration.getPopulationSize() < nextGeneration
-                .getPopulationLimit()) {
+        while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
             // select parent chromosomes
             ChromosomePair pair = getSelectionPolicy().select(current);
 
             // crossover?
-            if (Math.random() < getCrossoverRate()) {
+            if (randomGenerator.nextDouble() < getCrossoverRate()) {
                 // apply crossover policy to create two offspring
-                pair = getCrossoverPolicy().crossover(pair.getFirst(),
-                        pair.getSecond());
+                pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond());
             }
 
             // mutation?
-            if (Math.random() < getMutationRate()) {
+            if (randomGenerator.nextDouble() < getMutationRate()) {
                 // apply mutation policy to the chromosomes
                 pair = new ChromosomePair(
-                              getMutationPolicy().mutate(pair.getFirst()),
-                              getMutationPolicy().mutate(pair.getSecond())
-                           );
+                    getMutationPolicy().mutate(pair.getFirst()),
+                    getMutationPolicy().mutate(pair.getSecond()));
             }
 
             // add the first chromosome to the population
             nextGeneration.addChromosome(pair.getFirst());
             // is there still a place for the second chromosome?
-            if (nextGeneration.getPopulationSize() < nextGeneration
-                    .getPopulationLimit()) {
+            if (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
                 // add the second chromosome to the population
                 nextGeneration.addChromosome(pair.getSecond());
             }
         }
 
         return nextGeneration;
+    }    
+    
+    /**
+     * Returns the crossover policy.
+     * @return crossover policy
+     */
+    public CrossoverPolicy getCrossoverPolicy() {
+        return crossoverPolicy;
     }
 
     /**
-     * Modify the crossover policy.
-     * 
-     * @param value the new crossover policy.
+     * Returns the crossover rate.
+     * @return crossover rate
      */
-    public void setCrossoverPolicy(CrossoverPolicy value) {
-        this.crossoverPolicy = value;
+    public double getCrossoverRate() {
+        return crossoverRate;
     }
 
     /**
-     * Modify the crossover rate.
-     * 
-     * @param value the new crossover rate.
+     * Returns the mutation policy.
+     * @return mutation policy
      */
-    public void setCrossoverRate(double value) {
-        this.crossoverRate = value;
+    public MutationPolicy getMutationPolicy() {
+        return mutationPolicy;
     }
 
     /**
-     * Modify the mutation policy.
-     * 
-     * @param value the new mutation policy.
+     * Returns the mutation rate.
+     * @return mutation rate
      */
-    public void setMutationPolicy(MutationPolicy value) {
-        this.mutationPolicy = value;
+    public double getMutationRate() {
+        return mutationRate;
     }
 
     /**
-     * Modify the mutation rate.
-     * 
-     * @param value the new mutation rate.
+     * Returns the selection policy.
+     * @return selection policy
      */
-    public void setMutationRate(double value) {
-        this.mutationRate = value;
+    public SelectionPolicy getSelectionPolicy() {
+        return selectionPolicy;
     }
-
-    /**
-     * Modify the selection policy.
-     * 
-     * @param value the new selection policy.
-     */
-    public void setSelectionPolicy(SelectionPolicy value) {
-        this.selectionPolicy = value;
-    }
+        
 }
