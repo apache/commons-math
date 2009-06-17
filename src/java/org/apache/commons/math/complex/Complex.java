@@ -76,6 +76,16 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     private final double real;
     
     /**
+     * Record whether this complex number is equal to NaN
+     */
+    private final boolean isNaN;
+    
+    /**
+     * Record whether this complex number is infinite
+     */
+    private final boolean isInfinite;
+    
+    /**
      * Create a complex number given the real and imaginary parts.
      *
      * @param real the real part
@@ -85,6 +95,10 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         super();
         this.real = real;
         this.imaginary = imaginary;
+        
+        isNaN = Double.isNaN(real) || Double.isNaN(imaginary);
+        isInfinite = !isNaN &&
+        (Double.isInfinite(real) || Double.isInfinite(imaginary));
     }
 
     /**
@@ -318,7 +332,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * false otherwise
      */
     public boolean isNaN() {
-        return Double.isNaN(real) || Double.isNaN(imaginary);        
+        return isNaN;        
     }
     
     /**
@@ -331,8 +345,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * and neither part is <code>NaN</code>
      */
     public boolean isInfinite() {
-        return !isNaN() && 
-        (Double.isInfinite(real) || Double.isInfinite(imaginary));        
+        return isInfinite;        
     }
     
     /**
