@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -93,7 +95,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 
 public class GraggBulirschStoerIntegrator
-  extends AdaptiveStepsizeIntegrator {
+  extends AdaptiveStepsizeIntegrator implements Serializable {
 
   /** Serializable version identifier. */
   private static final long serialVersionUID = 7364884082146325264L;

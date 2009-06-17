@@ -20,6 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -155,7 +156,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsBashforthIntegrator extends MultistepIntegrator {
+public class AdamsBashforthIntegrator extends MultistepIntegrator implements Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 67792782787082199L;

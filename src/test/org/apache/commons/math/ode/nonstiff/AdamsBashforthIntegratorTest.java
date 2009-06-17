@@ -192,9 +192,7 @@ public class AdamsBashforthIntegratorTest {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream    oos = new ObjectOutputStream(bos);
         oos.writeObject(new AdamsBashforthIntegrator(8, step));
-        assertTrue(bos.size() > 2900);
-        assertTrue(bos.size() < 3000);
-
+        
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);
         FirstOrderIntegrator integ  = (AdamsBashforthIntegrator) ois.readObject();

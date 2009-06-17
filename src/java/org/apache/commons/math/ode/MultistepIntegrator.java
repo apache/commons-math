@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.ode;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.ode.events.CombinedEventsManager;
@@ -39,10 +40,12 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class MultistepIntegrator extends AbstractIntegrator {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -1705864253238417163L;
+public abstract class MultistepIntegrator extends AbstractIntegrator implements Serializable {
+    
+    /**
+     * Serialization UID
+     */
+    private static final long serialVersionUID = 1L;
 
     /** Starter integrator. */
     private FirstOrderIntegrator starter;

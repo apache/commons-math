@@ -143,10 +143,7 @@ public class EulerStepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
-
-    assertTrue(bos.size () > 82000);
-    assertTrue(bos.size () < 83000);
-
+    
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
     ContinuousOutputModel cm  = (ContinuousOutputModel) ois.readObject();
@@ -166,15 +163,13 @@ public class EulerStepInterpolatorTest {
         maxError = error;
       }
     }
-
     assertTrue(maxError < 0.001);
 
   }
 
   private static class DummyIntegrator extends RungeKuttaIntegrator {
 
-      private static final long serialVersionUID = -6936405965711773334L;
-
+      
       protected DummyIntegrator(RungeKuttaStepInterpolator prototype) {
           super("dummy", new double[0], new double[0][0], new double[0], prototype, Double.NaN);
       }

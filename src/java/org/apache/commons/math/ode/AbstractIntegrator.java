@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.ode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,10 +33,13 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class AbstractIntegrator implements FirstOrderIntegrator {
+public abstract class AbstractIntegrator implements FirstOrderIntegrator, Serializable {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 5771479854166853494L;
+    
+    /**
+     * Serialization UID
+     */
+    private static final long serialVersionUID = 1L;
 
     /** Name of the method. */
     private final String name;
@@ -74,6 +78,10 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         resetEvaluations();
     }
 
+    protected AbstractIntegrator() {
+        this(null);
+    }
+    
     /** {@inheritDoc} */
     public String getName() {
         return name;

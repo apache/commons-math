@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math;
 
-import java.io.Serializable;
 
 /**
  * Interface for algorithms handling convergence settings.
@@ -28,7 +27,7 @@ import java.io.Serializable;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface ConvergingAlgorithm extends Serializable {
+public interface ConvergingAlgorithm {
 
     /**
      * Set the upper limit for the number of iterations.

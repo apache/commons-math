@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.Serializable;
+
 /**
  * This class implements a second order Runge-Kutta integrator for
  * Ordinary Differential Equations.
@@ -40,7 +42,7 @@ package org.apache.commons.math.ode.nonstiff;
  */
 
 public class MidpointIntegrator
-  extends RungeKuttaIntegrator {
+  extends RungeKuttaIntegrator implements Serializable {
 
   /** Serializable version identifier. */
   private static final long serialVersionUID = -7690774342890000483L;

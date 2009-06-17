@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
@@ -36,7 +38,7 @@ import org.apache.commons.math.complex.Complex;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class LaguerreSolver extends UnivariateRealSolverImpl {
+public class LaguerreSolver extends UnivariateRealSolverImpl implements Serializable {
 
     /** serializable version identifier */
     private static final long serialVersionUID = -3775334783473775723L;

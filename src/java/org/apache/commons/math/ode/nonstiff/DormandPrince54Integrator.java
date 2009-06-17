@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.Serializable;
+
 /**
  * This class implements the 5(4) Dormand-Prince integrator for Ordinary
  * Differential Equations.
@@ -44,7 +46,7 @@ package org.apache.commons.math.ode.nonstiff;
  */
 
 public class DormandPrince54Integrator
-  extends EmbeddedRungeKuttaIntegrator {
+  extends EmbeddedRungeKuttaIntegrator implements Serializable {
 
   /** Serializable version identifier. */
   private static final long serialVersionUID = -7932553613600031791L;

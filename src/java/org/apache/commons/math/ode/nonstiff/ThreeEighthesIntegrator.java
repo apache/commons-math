@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.Serializable;
+
 /**
  * This class implements the 3/8 fourth order Runge-Kutta
  * integrator for Ordinary Differential Equations.
@@ -42,7 +44,7 @@ package org.apache.commons.math.ode.nonstiff;
  */
 
 public class ThreeEighthesIntegrator
-  extends RungeKuttaIntegrator {
+  extends RungeKuttaIntegrator implements Serializable {
 
   /** Serializable version identifier. */
   private static final long serialVersionUID = -2480984691453028021L;

@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.io.Serializable;
+
 /**
  * This class implements the classical fourth order Runge-Kutta
  * integrator for Ordinary Differential Equations (it is the most
@@ -43,7 +45,7 @@ package org.apache.commons.math.ode.nonstiff;
  */
 
 public class ClassicalRungeKuttaIntegrator
-  extends RungeKuttaIntegrator {
+  extends RungeKuttaIntegrator implements Serializable {
 
   /** Serializable version identifier. */
     private static final long serialVersionUID = 3710070023793519840L;

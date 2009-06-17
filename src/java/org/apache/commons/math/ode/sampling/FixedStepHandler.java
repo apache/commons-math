@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ode.DerivativeException;
 
 /**
@@ -40,7 +38,7 @@ import org.apache.commons.math.ode.DerivativeException;
  * @since 1.2
  */
 
-public interface FixedStepHandler extends Serializable {
+public interface FixedStepHandler  {
 
   /**
    * Handle the last accepted step

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import org.apache.commons.math.ode.events.EventHandler;
@@ -31,7 +30,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface ODEIntegrator extends Serializable {
+public interface ODEIntegrator  {
 
     /** Get the name of the method.
      * @return name of the method

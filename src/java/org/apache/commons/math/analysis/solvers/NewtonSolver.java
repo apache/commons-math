@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
@@ -31,7 +33,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @version $Revision$ $Date$
  */
-public class NewtonSolver extends UnivariateRealSolverImpl {
+public class NewtonSolver extends UnivariateRealSolverImpl implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = 7579593514004764309L;

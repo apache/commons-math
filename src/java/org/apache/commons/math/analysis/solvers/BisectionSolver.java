@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -28,7 +30,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * 
  * @version $Revision$ $Date$
  */
-public class BisectionSolver extends UnivariateRealSolverImpl {
+public class BisectionSolver extends UnivariateRealSolverImpl implements Serializable {
     
     /** Serializable version identifier */
     private static final long serialVersionUID = 5227509383222989438L;

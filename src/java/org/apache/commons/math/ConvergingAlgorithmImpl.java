@@ -17,6 +17,8 @@
 
 package org.apache.commons.math;
 
+import java.io.Serializable;
+
 /**
  * Provide a default implementation for several functions useful to generic
  * converging algorithms.
@@ -24,10 +26,12 @@ package org.apache.commons.math;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
+public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm, Serializable {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4059567655915789396L;
+    /**
+     *  Serialization UID.
+     */
+    private static final long serialVersionUID = 1L;
 
     /** Maximum absolute error. */
     protected double absoluteAccuracy;

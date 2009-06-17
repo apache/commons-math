@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.events;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
@@ -52,7 +50,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @since 1.2
  */
 
-public interface EventHandler extends Serializable {
+public interface EventHandler  {
 
   /** Stop indicator.
    * <p>This value should be used as the return value of the {@link

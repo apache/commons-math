@@ -20,6 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -169,10 +170,12 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsMoultonIntegrator extends MultistepIntegrator {
+public class AdamsMoultonIntegrator extends MultistepIntegrator implements Serializable {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -2740961714898447598L;
+    /**
+     * Serial identification Number
+     */
+    private static final long serialVersionUID = 3624292432281962886L;
 
     /** Cache for already computed coefficients. */
     private static final Map<Integer, CachedCoefficients> cache =
@@ -214,7 +217,8 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
         this.step = Math.abs(step);
 
     }
-
+      
+    
     /** {@inheritDoc} */
     public double integrate(final FirstOrderDifferentialEquations equations,
                             final double t0, final double[] y0,
@@ -490,8 +494,14 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
     }
 
-    /** Cache for already computed coefficients. */
-    private static class CachedCoefficients {
+    /** Cache for already computed coefficients. 
+     * @param <impements>*/
+    private static class CachedCoefficients implements Serializable {
+
+        /**
+         * Serialization UID
+         */
+        private static final long serialVersionUID = -8464316300182136812L;
 
         /** Transformer between multistep and Nordsieck representations. */
         private final RealMatrix msToN;
