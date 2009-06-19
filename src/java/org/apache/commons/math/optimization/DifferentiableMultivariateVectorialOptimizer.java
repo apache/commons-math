@@ -48,6 +48,16 @@ public interface DifferentiableMultivariateVectorialOptimizer {
     */
    int getIterations();
 
+   /** Set the maximal number of functions evaluations.
+    * @param maxEvaluations maximal number of function evaluations
+    */
+   void setMaxEvaluations(int maxEvaluations);
+
+   /** Get the maximal number of functions evaluations.
+    * @return maximal number of functions evaluations
+    */
+   int getMaxEvaluations();
+
     /** Get the number of evaluations of the objective function.
      * <p>
      * The number of evaluation correspond to the last call to the

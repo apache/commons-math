@@ -30,6 +30,26 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
 
+    /** Set the maximal number of functions evaluations.
+     * @param maxEvaluations maximal number of function evaluations
+     */
+    void setMaxEvaluations(int maxEvaluations);
+
+    /** Get the maximal number of functions evaluations.
+     * @return maximal number of functions evaluations
+     */
+    int getMaxEvaluations();
+
+    /** Get the number of evaluations of the objective function.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the objective function
+     */
+    int getEvaluations();
+
     /**
      * Find an optimum in the given interval.
      * <p>

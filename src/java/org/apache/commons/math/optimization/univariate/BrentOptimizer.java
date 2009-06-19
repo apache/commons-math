@@ -92,7 +92,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         double v = x;
         double w = x;
         double e = 0;
-        double fx = f.value(x);
+        double fx = computeObjectiveValue(f, x);
         if (goalType == GoalType.MAXIMIZE) {
             fx = -fx;
         }
@@ -145,7 +145,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
                 // f must not be evaluated too close to a or b.
                 u = x + ((Math.abs(d) > tol) ? d : ((d > 0) ? tol : -tol));
-                double fu = f.value(u);
+                double fu = computeObjectiveValue(f, u);
                 if (goalType == GoalType.MAXIMIZE) {
                     fu = -fu;
                 }

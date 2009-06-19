@@ -47,8 +47,14 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
     /** Number of iterations already performed for all starts. */
     private int totalIterations;
+
+    /** Number of evaluations already performed for all starts. */
+    private int totalEvaluations;
 
     /** Number of starts to go. */
     private int starts;
@@ -71,11 +77,12 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                                              final int starts,
                                              final RandomGenerator generator) {
         this.optimizer        = optimizer;
-        this.maxIterations    = Integer.MAX_VALUE;
         this.totalIterations  = 0;
         this.starts           = starts;
         this.generator        = generator;
         this.optima           = null;
+        setMaximalIterationCount(Integer.MAX_VALUE);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** {@inheritDoc} */
@@ -101,6 +108,16 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     /** {@inheritDoc} */
     public int getMaximalIterationCount() {
         return maxIterations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getEvaluations() {
+        return totalEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -131,6 +148,11 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     /** {@inheritDoc} */
     public void setMaximalIterationCount(int count) {
         this.maxIterations = count;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -184,14 +206,16 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                            final double min, final double max, final double startValue)
             throws ConvergenceException, FunctionEvaluationException {
 
-        optima          = new double[starts];
-        totalIterations = 0;
+        optima           = new double[starts];
+        totalIterations  = 0;
+        totalEvaluations = 0;
 
         // multi-start loop
         for (int i = 0; i < starts; ++i) {
 
             try {
                 optimizer.setMaximalIterationCount(maxIterations - totalIterations);
+                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, goalType, min, max,
                                                (i == 0) ? startValue : generator.nextDouble() * (max - min));
             } catch (FunctionEvaluationException fee) {
@@ -201,6 +225,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
             }
 
             totalIterations  += optimizer.getIterationCount();
+            totalEvaluations += optimizer.getEvaluations();
 
         }
 

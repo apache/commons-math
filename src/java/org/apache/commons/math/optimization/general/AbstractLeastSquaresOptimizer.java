@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
@@ -49,6 +50,9 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Number of iterations already performed. */
     private int iterations;
+
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
 
     /** Number of evaluations already performed. */
     private int objectiveEvaluations;
@@ -105,6 +109,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     protected AbstractLeastSquaresOptimizer() {
         setConvergenceChecker(new SimpleVectorialValueChecker());
         setMaxIterations(DEFAULT_MAX_ITERATIONS);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** {@inheritDoc} */
@@ -120,6 +125,16 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** {@inheritDoc} */
     public int getIterations() {
         return iterations;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -149,9 +164,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     protected void incrementIterationsCounter()
         throws OptimizationException {
         if (++iterations > maxIterations) {
-            if (++iterations > maxIterations) {
-                throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
-            }
+            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
         }
     }
 
@@ -179,12 +192,16 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** 
      * Update the residuals array and cost function value.
      * @exception FunctionEvaluationException if the function cannot be evaluated
-     * or its dimension doesn't match problem dimension
+     * or its dimension doesn't match problem dimension or maximal number of
+     * of evaluations is exceeded
      */
     protected void updateResidualsAndCost()
         throws FunctionEvaluationException {
 
-        ++objectiveEvaluations;
+        if (++objectiveEvaluations > maxEvaluations) {
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
+                                                  point);
+        }
         objective = f.value(point);
         if (objective.length != rows) {
             throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",

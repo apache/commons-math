@@ -18,7 +18,10 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.ConvergingAlgorithmImpl;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 
 /**
@@ -43,9 +46,15 @@ public abstract class AbstractUnivariateRealOptimizer
     /** Value of the function at the last computed result. */
     protected double functionValue;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
+    /** Number of evaluations already performed. */
+    private int evaluations;
+
     /**
      * Construct a solver with given iteration count and accuracy.
-     * 
+     * FunctionEvaluationExceptionFunctionEvaluationException
      * @param defaultAbsoluteAccuracy maximum absolute error
      * @param defaultMaximalIterationCount maximum number of iterations
      * @throws IllegalArgumentException if f is null or the 
@@ -55,6 +64,7 @@ public abstract class AbstractUnivariateRealOptimizer
                                               final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
         resultComputed = false;
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** Check if a result has been computed.
@@ -110,6 +120,38 @@ public abstract class AbstractUnivariateRealOptimizer
      */
     protected final void clearResult() {
         this.resultComputed = false;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getEvaluations() {
+        return evaluations;
+    }
+
+    /** 
+     * Compute the objective function value.
+     * @param point point at which the objective function must be evaluated
+     * @return objective function value at specified point
+     * @exception FunctionEvaluationException if the function cannot be evaluated
+     * or the maximal number of iterations is exceeded
+     */
+    protected double computeObjectiveValue(final UnivariateRealFunction f,
+                                           final double point)
+        throws FunctionEvaluationException {
+        if (++evaluations > maxEvaluations) {
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
+                                                  point);
+        }
+        return f.value(point);
     }
 
 }

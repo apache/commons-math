@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
@@ -36,7 +37,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @since 2.0
  */
 public abstract class AbstractScalarDifferentiableOptimizer
-    implements DifferentiableMultivariateRealOptimizer{
+    implements DifferentiableMultivariateRealOptimizer {
 
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
@@ -46,6 +47,9 @@ public abstract class AbstractScalarDifferentiableOptimizer
 
     /** Number of iterations already performed. */
     private int iterations;
+
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
 
     /** Number of evaluations already performed. */
     private int evaluations;
@@ -75,6 +79,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     protected AbstractScalarDifferentiableOptimizer() {
         setConvergenceChecker(new SimpleScalarValueChecker());
         setMaxIterations(DEFAULT_MAX_ITERATIONS);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** {@inheritDoc} */
@@ -90,6 +95,16 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** {@inheritDoc} */
     public int getIterations() {
         return iterations;
+    }
+
+    /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
     }
 
     /** {@inheritDoc} */
@@ -119,9 +134,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     protected void incrementIterationsCounter()
         throws OptimizationException {
         if (++iterations > maxIterations) {
-            if (++iterations > maxIterations) {
-                throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
-            }
+            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
         }
     }
 
@@ -142,11 +155,15 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @param point point at which the objective function must be evaluated
      * @return objective function value at specified point
      * @exception FunctionEvaluationException if the function cannot be evaluated
-     * or its dimension doesn't match problem dimension
+     * or its dimension doesn't match problem dimension or the maximal number
+     * of iterations is exceeded
      */
     protected double computeObjectiveValue(final double[] point)
         throws FunctionEvaluationException {
-        ++evaluations;
+        if (++evaluations > maxEvaluations) {
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
+                                                  point);
+        }
         return f.value(point);
     }
 

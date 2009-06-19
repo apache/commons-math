@@ -81,12 +81,13 @@ public class MultiStartMultivariateRealOptimizer implements MultivariateRealOpti
                                                final int starts,
                                                final RandomVectorGenerator generator) {
         this.optimizer        = optimizer;
-        this.maxIterations    = Integer.MAX_VALUE;
         this.totalIterations  = 0;
         this.totalEvaluations = 0;
         this.starts           = starts;
         this.generator        = generator;
         this.optima           = null;
+        setMaxIterations(Integer.MAX_VALUE);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** Get all the optima found during the last call to {@link

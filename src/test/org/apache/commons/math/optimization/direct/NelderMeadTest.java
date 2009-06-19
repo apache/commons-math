@@ -196,11 +196,11 @@ public class NelderMeadTest {
           optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
           optimizer.setMaxEvaluations(20);
           optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
-      } catch (OptimizationException oe) {
-          if (oe.getCause() instanceof ConvergenceException) {
-              throw (ConvergenceException) oe.getCause();
+      } catch (FunctionEvaluationException fee) {
+          if (fee.getCause() instanceof ConvergenceException) {
+              throw (ConvergenceException) fee.getCause();
           }
-          throw oe;
+          throw fee;
       }
   }
 

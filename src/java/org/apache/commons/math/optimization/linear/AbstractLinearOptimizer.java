@@ -84,9 +84,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     protected void incrementIterationsCounter()
         throws OptimizationException {
         if (++iterations > maxIterations) {
-            if (++iterations > maxIterations) {
-                throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
-            }
+            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
         }
     }
 
@@ -102,7 +100,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
         this.goalType              = goalType;
         this.restrictToNonNegative = restrictToNonNegative;
 
-        iterations = 0;
+        iterations  = 0;
 
         // solve the problem
         return doOptimize();

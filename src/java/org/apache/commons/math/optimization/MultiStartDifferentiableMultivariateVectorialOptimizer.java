@@ -52,6 +52,9 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
     /** Number of iterations already performed for all starts. */
     private int totalIterations;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
     /** Number of evaluations already performed for all starts. */
     private int totalEvaluations;
 
@@ -80,13 +83,14 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
                 final int starts,
                 final RandomVectorGenerator generator) {
         this.optimizer                = optimizer;
-        this.maxIterations            = Integer.MAX_VALUE;
         this.totalIterations          = 0;
         this.totalEvaluations         = 0;
         this.totalJacobianEvaluations = 0;
         this.starts                   = starts;
         this.generator                = generator;
         this.optima                   = null;
+        setMaxIterations(Integer.MAX_VALUE);
+        setMaxEvaluations(Integer.MAX_VALUE);
     }
 
     /** Get all the optima found during the last call to {@link
@@ -139,6 +143,16 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
     }
 
     /** {@inheritDoc} */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** {@inheritDoc} */
     public int getEvaluations() {
         return totalEvaluations;
     }
@@ -174,6 +188,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
 
             try {
                 optimizer.setMaxIterations(maxIterations - totalIterations);
+                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, target, weights,
                                                (i == 0) ? startPoint : generator.nextVector());
             } catch (FunctionEvaluationException fee) {

@@ -99,11 +99,11 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
-
     /** Number of iterations already performed. */
     private int iterations;
+
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
 
     /** Number of evaluations already performed. */
     private int evaluations;
@@ -336,14 +336,15 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
      * function evaluations</p>
      * @param x point on which the objective function should be evaluated
      * @return objective function value at the given point
-     * @exception FunctionEvaluationException if no value can be computed for the parameters
+     * @exception FunctionEvaluationException if no value can be computed for the
+     * parameters or if the maximal number of evaluations is exceeded
      * @exception IllegalArgumentException if the start point dimension is wrong
-     * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     protected double evaluate(final double[] x)
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
         if (++evaluations > maxEvaluations) {
-            throw new OptimizationException(new MaxEvaluationsExceededException(maxEvaluations));
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
+                                                  x);
         }
         return f.value(x);
     }
@@ -360,7 +361,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
         if (n != startConfiguration.length) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "dimension mismatch {0} != {1}",
-                    n, simplex.length);
+                    n, startConfiguration.length);
         }
 
         // set first vertex
