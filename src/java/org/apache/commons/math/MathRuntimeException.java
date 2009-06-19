@@ -424,4 +424,28 @@ public class MathRuntimeException extends RuntimeException {
         };
     }
 
+    /** Create an {@link java.lang.RuntimeException} for an internal error.
+     * @param cause underlying cause
+     * @return an {@link java.lang.RuntimeException} for an internal error
+     */
+    public static RuntimeException createInternalError(final Throwable cause) {
+
+        final String pattern  = "internal error, please fill a bug report at {0}";
+        final String argument = "https://issues.apache.org/jira/browse/MATH";
+
+        return new RuntimeException(buildMessage(Locale.US, pattern, argument)) {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -201865440834027016L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getLocalizedMessage() {
+                return buildMessage(Locale.getDefault(), pattern, argument);
+            }
+
+        };
+
+    }
+
 }

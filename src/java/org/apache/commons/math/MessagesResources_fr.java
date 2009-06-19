@@ -228,11 +228,19 @@ public class MessagesResources_fr
     { "unable to bracket optimum in line search",
       "impossible d''encadrer l''optimum lors de la recherche lin\u00e9aire" },
 
-    // org.apache.commons.math.optimization.linear2.NoFeasibleSolutionException
+    // org.apache.commons.math.optimization.fitting.HarmonicCoefficientsGuesser
+    { "unable to first guess the harmonic coefficients",
+      "impossible de faire une premi\u00e8re estimation des coefficients harmoniques" },
+
+    // org.apache.commons.math.optimization.fitting.HarmonicCoefficientsGuesser
+    { "sample contains {0} observed points, at least {1} are required",
+      "l''\u00e9chantillon ne contient que {0} points alors qu''au moins {1} sont n\u00e9cessaires" },
+
+    // org.apache.commons.math.optimization.linear.NoFeasibleSolutionException
     { "no feasible solution",
       "aucune solution r\u00e9alisable" },
 
-    // org.apache.commons.math.optimization.linear2.UnboundedSolutionException
+    // org.apache.commons.math.optimization.linear.UnboundedSolutionException
     { "unbounded solution",
       "solution non born\u00e9e" },
 
@@ -275,10 +283,9 @@ public class MessagesResources_fr
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
-    // org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
-    // org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
-    { "{0} is supported only for orders 2 or more",
-      "la m\u00e9thode {0} n''est disponible que pour les ordres 2 ou plus" },
+    // org.apache.commons.math.ode.MultistepIntegrator
+    { "{0} is supported only for 2 points or more",
+      "la m\u00e9thode {0} n''est disponible que pour 2 points ou plus" },
 
     // org.apache.commons.math.ode.stiff.BDFIntegrator
     { "unsupported order {0} for BDF methods, must be between {1} and {2}",
@@ -806,7 +813,11 @@ public class MessagesResources_fr
    { "map has been modified while iterating",
      "la table d''adressage a \u00e9t\u00e9 modifi\u00e9e pendant l''it\u00e9ration" },
    { "iterator exhausted",
-     "it\u00e9ration achev\u00e9e" }
+     "it\u00e9ration achev\u00e9e" },
+
+   // org.apache.commons.math.MathRuntimeException
+   { "internal error, please fill a bug report at {0}",
+     "erreur interne, veuillez signaler l''erreur \u00e0 {0}" }
 
   };
 
