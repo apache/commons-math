@@ -40,6 +40,7 @@
             using direct search methods (i.e. not using derivatives),</li>
             <li>the general package handles multivariate scalar or vector functions
             using derivatives.</li>
+            <li>the fitting package handles curve fitting by univariate real functions</li>
           </ul>
         </p>
         <p>
@@ -211,6 +212,55 @@
           or to change the line-search algorithm of the inner loop if desired (the default one is a Brent
           solver).
         </p>
+      </subsection>
+      <subsection name="12.6 Curve Fitting" href="fitting">
+        <p>
+          The fitting package deals with curve fitting for univariate real functions.
+          When a univariate real function y = f(x) does depend on some unknown parameters
+          p<sub>0</sub>, p<sub>1</sub> ... p<sub>n-1</sub>, curve fitting can be used to
+          find these parameters. It does this by <em>fitting</em> the curve so it remains
+          very close to a set of observed points (x<sub>0</sub>, y<sub>0</sub>),
+          (x<sub>1</sub>, y<sub>1</sub>) ... (x<sub>k-1</sub>, y<sub>k-1</sub>). This
+          fitting is done by finding the parameters values that minimizes the objective
+          function sum(y<sub>i</sub>-f(x<sub>i</sub>))<sup>2</sup>. This is really a least
+          squares problem.
+        </p>
+        <p>
+          For all provided curve fitters, the operating principle is the same. Users must first
+          create an instance of the fitter, then add the observed points and once the complete
+          sample of observed points has been added they must call the <code>fit</code> method
+          which will compute the parameters that best fit the sample. A weight is associated
+          with each observed point, this allows to take into account uncertainty on some points
+          when they come from loosy measurements for example. If no such information exist and
+          all points should be treated the same, it is safe to put 1.0 as the weight for all points.
+        </p>
+        <p>
+          The <a
+          href="../apidocs/org/apache/commons/math/optimization/fitting/CurveFitter.html">
+          CurveFitter</a> class provides curve fitting for general curves. Users must
+          provide their own implementation of the curve template as a class implementing
+          the <a
+          href="../apidocs/org/apache/commons/math/optimization/fitting/ParametricRealFunction.html">
+          ParametricRealFunction</a> interface and they must provide the initial guess of the
+          parameters. The more specialized <a
+          href="../apidocs/org/apache/commons/math/optimization/fitting/PolynomialFitter.html">
+          PolynomialFitter</a> and <a
+          href="../apidocs/org/apache/commons/math/optimization/fitting/HarmonicFitter.html">
+          HarmonicFitter</a> classes require neither an implementation of the parametric real function
+          not an initial guess as they are able to compute them by themselves.
+        </p>
+        <p>
+          An example of fitting a polynomial is given here:
+        </p>
+        <source>PolynomialFitter fitter = new PolynomialFitter(degree, new LevenbergMarquardtOptimizer());
+fitter.addObservedPoint(-1.00,  2.021170021833143);
+fitter.addObservedPoint(-0.99   2.221135431136975);
+fitter.addObservedPoint(-0.98   2.09985277659314);
+fitter.addObservedPoint(-0.97   2.0211192647627025);
+// lots of lines ommitted
+fitter.addObservedPoint( 0.99, -2.4345814727089854);
+PolynomialFunction fitted = fitter.fit();
+        </source>
       </subsection>
      </section>
   </body>

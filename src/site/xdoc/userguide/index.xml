@@ -120,6 +120,7 @@
                 <li><a href="analysis.html#a12.3_Linear_Programming">12.3 Linear Programming</a></li>
                 <li><a href="optimization.html#a12.4_Direct_Methods">12.4 Direct Methods</a></li>
                 <li><a href="analysis.html#a12.5_General_Case">12.5 General Case</a></li>
+                <li><a href="analysis.html#a12.6_Curve_Fitting">12.6 Curve Fitting</a></li>
                 </ul></li>                                 
         <li><a href="ode.html">13. Ordinary Differential Equations Integration</a>
                 <ul>

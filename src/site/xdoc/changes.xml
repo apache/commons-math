@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added curve fitting with a general case and two specific cases (polynomial and harmonic).
+      </action>
       <action dev="psteitz" type="update" issue="MATH-276" due-to="Mark Anderson">
         Optimized Complex isNaN(), isInfinite() by moving computation to constructor.
       </action>
