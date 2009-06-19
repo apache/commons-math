@@ -110,6 +110,16 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
+    <Method name="&lt;init>" params="double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.linear.RealMatrixImpl"/>
+    <Method name="getDataRef" params="" returns="double[][]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.linear.BlockFieldMatrix"/>
     <Method name="&lt;init>" params="int,int,org.apache.commons.math.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
