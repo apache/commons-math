@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.complex;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +46,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  */
 public class Complex implements FieldElement<Complex>, Serializable  {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
+    
     /** Serializable version identifier */
     private static final long serialVersionUID = -6195664516687396620L;
 
@@ -78,12 +78,12 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     /**
      * Record whether this complex number is equal to NaN
      */
-    private final boolean isNaN;
+    private final transient boolean isNaN;
     
     /**
      * Record whether this complex number is infinite
      */
-    private final boolean isInfinite;
+    private final transient boolean isInfinite;
     
     /**
      * Create a complex number given the real and imaginary parts.
@@ -970,6 +970,34 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      */
     protected Complex createComplex(double real, double imaginary) {
         return new Complex(real, imaginary);
+    }
+
+    /**
+     * Deserialize a Complex Object.
+     * @param ois The stream to deserialize from.
+     * @throws IOException If there is an error reading the stream.
+     * @throws ClassNotFoundException If this class cannot be found.
+     */
+     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+
+        try {
+            final java.lang.reflect.Field fNaN = getClass().getDeclaredField("isNaN");
+            fNaN.setAccessible(true);
+            fNaN.set(this, Double.isNaN(real) || Double.isNaN(imaginary));
+            final java.lang.reflect.Field fInf = getClass().getDeclaredField("isInfinite");
+            fInf.setAccessible(true);
+            fInf.set(this, !isNaN && (Double.isInfinite(real) || Double.isInfinite(imaginary)));
+        } catch (IllegalAccessException iae) {
+            IOException ioe = new IOException();
+            ioe.initCause(iae);
+            throw ioe;
+        } catch (NoSuchFieldException nsfe) {
+            IOException ioe = new IOException();
+            ioe.initCause(nsfe);
+            throw ioe;
+        }
+
     }
 
     /** {@inheritDoc} */

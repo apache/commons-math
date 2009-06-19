@@ -902,5 +902,16 @@ public class ComplexTest extends TestCase {
         assertEquals(nan, zeroNaN.getArgument());
         assertEquals(nan, Complex.NaN.getArgument());  
     }
+    
+    public void testSerial() {
+        Complex z = new Complex(3.0, 4.0);
+        assertEquals(z, TestUtils.serializeAndRecover(z));
+        Complex ncmplx = (Complex)TestUtils.serializeAndRecover(oneNaN);
+        assertEquals(nanZero, ncmplx);
+        assertTrue(ncmplx.isNaN());
+        Complex infcmplx = (Complex)TestUtils.serializeAndRecover(infInf);
+        assertEquals(infInf, infcmplx);
+        assertTrue(infcmplx.isInfinite());
+    }
 
 }
