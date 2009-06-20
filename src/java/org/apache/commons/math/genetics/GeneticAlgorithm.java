@@ -24,7 +24,7 @@ import org.apache.commons.math.random.JDKRandomGenerator;
  * of the algorithm can be configured for a specific problem.
  *
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public class GeneticAlgorithm {
 
@@ -34,6 +34,7 @@ public class GeneticAlgorithm {
      * Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative
      * to the default JDK-provided PRNG.
      */
+    //@GuardedBy("this")
     private static RandomGenerator randomGenerator = new JDKRandomGenerator();
     
     /**
@@ -74,7 +75,7 @@ public class GeneticAlgorithm {
      * @param crossoverRate The crossover rate as a percentage (0-1 inclusive)
      * @param mutationPolicy The {@link MutationPolicy}
      * @param mutationRate The mutation rate as a percentage (0-1 inclusive)
-     * @param selectionPolicy The {@link selectionPolicy}
+     * @param selectionPolicy The {@link SelectionPolicy}
      */
     public GeneticAlgorithm(
             CrossoverPolicy crossoverPolicy, double crossoverRate,
@@ -134,18 +135,20 @@ public class GeneticAlgorithm {
     public Population nextGeneration(Population current) {
         Population nextGeneration = current.nextGeneration();
 
+        RandomGenerator randGen = getRandomGenerator();
+        
         while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
             // select parent chromosomes
             ChromosomePair pair = getSelectionPolicy().select(current);
 
             // crossover?
-            if (randomGenerator.nextDouble() < getCrossoverRate()) {
+            if (randGen.nextDouble() < getCrossoverRate()) {
                 // apply crossover policy to create two offspring
                 pair = getCrossoverPolicy().crossover(pair.getFirst(), pair.getSecond());
             }
 
             // mutation?
-            if (randomGenerator.nextDouble() < getMutationRate()) {
+            if (randGen.nextDouble() < getMutationRate()) {
                 // apply mutation policy to the chromosomes
                 pair = new ChromosomePair(
                     getMutationPolicy().mutate(pair.getFirst()),
