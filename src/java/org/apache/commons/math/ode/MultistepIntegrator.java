@@ -17,19 +17,18 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
-import java.util.Arrays;
 
-import org.apache.commons.math.ode.events.CombinedEventsManager;
-import org.apache.commons.math.ode.events.EventException;
-import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.events.EventState;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
-import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
-import org.apache.commons.math.ode.sampling.StepNormalizer;
-import org.apache.commons.math.util.MathUtils;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -40,40 +39,120 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class MultistepIntegrator extends AbstractIntegrator implements Serializable {
-    
-    /**
-     * Serialization UID
-     */
+public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
+
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 1L;
+
+    /** Transformer. */
+    protected final transient NordsieckTransformer transformer;
 
     /** Starter integrator. */
     private FirstOrderIntegrator starter;
 
-    /** Previous steps times. */
-    protected double[] previousT;
+    /** Number of steps of the multistep method (including the one being computed). */
+    private final int nSteps;
 
-    /** Previous steps derivatives. */
-    protected double[][] previousF;
+    /** First scaled derivative (h y'). */
+    protected double[] scaled;
 
-    /** Time of last detected reset. */
-    private double resetTime;
+    /** Nordsieck matrix of the higher scaled derivatives.
+     * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y(k))</p>
+     */
+    protected RealMatrix nordsieck;
+
+    /** Stepsize control exponent. */
+    private double exp;
+
+    /** Safety factor for stepsize control. */
+    private double safety;
+
+    /** Minimal reduction factor for stepsize control. */
+    private double minReduction;
+
+    /** Maximal growth factor for stepsize control. */
+    private double maxGrowth;
 
     /**
-     * Build a multistep integrator with the given number of steps.
+     * Build a multistep integrator with the given stepsize bounds.
      * <p>The default starter integrator is set to the {@link
      * DormandPrince853Integrator Dormand-Prince 8(5,3)} integrator with
      * some defaults settings.</p>
      * @param name name of the method
-     * @param k number of steps of the multistep method
+     * @param nSteps number of steps of the multistep method
      * (including the one being computed)
+     * @param order order of the method
+     * @param minStep minimal step (must be positive even for backward
+     * integration), the last step can be smaller than this
+     * @param maxStep maximal step (must be positive even for backward
+     * integration)
+     * @param scalAbsoluteTolerance allowed absolute error
+     * @param scalRelativeTolerance allowed relative error
      */
-    protected MultistepIntegrator(final String name, final int k) {
-        super(name);
-        starter = new DormandPrince853Integrator(MathUtils.SAFE_MIN, Double.MAX_VALUE,
-                                                 1.0e-8, 1.0e-8);
-        previousT = new double[k];
-        previousF = new double[k][];
+    protected MultistepIntegrator(final String name, final int nSteps,
+                                  final int order,
+                                  final double minStep, final double maxStep,
+                                  final double scalAbsoluteTolerance,
+                                  final double scalRelativeTolerance) {
+
+        super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+
+        if (nSteps <= 1) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} is supported only for 2 points or more",
+                  name);
+        }
+
+        starter = new DormandPrince853Integrator(minStep, maxStep,
+                                                 scalAbsoluteTolerance,
+                                                 scalRelativeTolerance);
+        this.nSteps = nSteps;
+        transformer = NordsieckTransformer.getInstance(nSteps);
+
+        exp = -1.0 / order;
+
+        // set the default values of the algorithm control parameters
+        setSafety(0.9);
+        setMinReduction(0.2);
+        setMaxGrowth(10.0);
+
+    }
+
+    /**
+     * Build a multistep integrator with the given stepsize bounds.
+     * <p>The default starter integrator is set to the {@link
+     * DormandPrince853Integrator Dormand-Prince 8(5,3)} integrator with
+     * some defaults settings.</p>
+     * @param name name of the method
+     * @param nSteps number of steps of the multistep method
+     * (including the one being computed)
+     * @param order order of the method
+     * @param minStep minimal step (must be positive even for backward
+     * integration), the last step can be smaller than this
+     * @param maxStep maximal step (must be positive even for backward
+     * integration)
+     * @param vecAbsoluteTolerance allowed absolute error
+     * @param vecRelativeTolerance allowed relative error
+     */
+    protected MultistepIntegrator(final String name, final int nSteps,
+                                  final int order,
+                                  final double minStep, final double maxStep,
+                                  final double[] vecAbsoluteTolerance,
+                                  final double[] vecRelativeTolerance) {
+        super(name, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+        starter = new DormandPrince853Integrator(minStep, maxStep,
+                                                 vecAbsoluteTolerance,
+                                                 vecRelativeTolerance);
+        this.nSteps = nSteps;
+        transformer = NordsieckTransformer.getInstance(nSteps);
+
+        exp = -1.0 / order;
+
+        // set the default values of the algorithm control parameters
+        setSafety(0.9);
+        setMinReduction(0.2);
+        setMaxGrowth(10.0);
+
     }
 
     /**
@@ -96,250 +175,210 @@ public abstract class MultistepIntegrator extends AbstractIntegrator implements 
     }
 
     /** Start the integration.
-     * <p>This method computes the first few steps of the multistep method,
-     * using the underlying starter integrator, ensuring the returned steps
-     * all belong to the same smooth range.</p>
-     * <p>In order to ensure smoothness, the start phase is automatically
-     * restarted when a state or derivative reset is triggered by the
-     * registered events handlers before this start phase is completed. As
-     * an example, consider integrating a differential equation from t=0
-     * to t=100 with a 4 steps method and step size equal to 0.2. If an event
-     * resets the state at t=0.5, the start phase will not end at t=0.6 with
-     * steps at [0.0, 0.2, 0.4, 0.6] but instead will end at t=1.1 with steps
-     * at [0.5, 0.7, 0.9, 1.1].</p>
-     * <p>A side effect of the need for smoothness is that an ODE triggering
-     * short period regular resets will remain in the start phase throughout
-     * the integration range if the step size or the number of steps to store
-     * are too large.</p>
-     * <p>If the start phase ends prematurely (because of some triggered event
-     * for example), then the time of latest previous steps will be set to
-     * <code>Double.NaN</code>.</p>
-     * @param n number of steps to store
-     * @param h signed step size to use for the first steps
-     * @param manager discrete events manager to use
+     * <p>This method computes one step using the underlying starter integrator,
+     * and initializes the Nordsieck vector at step start. The starter integrator
+     * purpose is only to establish initial conditions, it does not really change
+     * time by itself. The top level multistep integrator remains in charge of
+     * handling time propagation and events handling as it will starts its own
+     * computation right from the beginning. In a sense, the starter integrator
+     * can be seen as a dummy one and so it will never trigger any user event nor
+     * call any user step handler.</p>
      * @param t0 initial time
-     * @param y state vector: contains the initial value of the state vector at t0,
-     * will be used to put the state vector at each successful step and hence
-     * contains the final value at the end of the start phase
-     * @return time of the end of the start phase
+     * @param y0 initial value of the state vector at t0
+     * @param t target time for the integration
+     * (can be set to a value smaller than <code>t0</code> for backward integration)
      * @throws IntegratorException if the integrator cannot perform integration
      * @throws DerivativeException this exception is propagated to the caller if
      * the underlying user function triggers one
      */
-    protected double start(final int n, final double h,
-                           final CombinedEventsManager manager,
-                           final double t0, final double[] y)
+    protected void start(final double t0, final double[] y0, final double t)
         throws DerivativeException, IntegratorException {
 
-        // clear the first steps
-        Arrays.fill(previousT, Double.NaN);
-        Arrays.fill(previousF, null);
-
-        // configure the event handlers
-        starter.clearEventHandlers();
-        for (EventState state : manager.getEventsStates()) {
-            starter.addEventHandler(new ResetCheckingWrapper(state.getEventHandler()),
-                                    state.getMaxCheckInterval(),
-                                    state.getConvergence(), state.getMaxIterationCount());
-        }
-
-        // configure the step handlers
-        starter.clearStepHandlers();
-        for (final StepHandler handler : stepHandlers) {
-            // add the user defined step handlers, filtering out the isLast indicator
-            starter.addStepHandler(new FilteringWrapper(handler));
-        }
-
-        // add one specific step handler to store the first steps
-        final StoringStepHandler store = new StoringStepHandler(n);
-        starter.addStepHandler(new StepNormalizer(h, store));
-
-        // integrate over the first few steps, ensuring no intermediate reset occurs
-        double t = t0;
-        double stopTime = Double.NaN;
-        FirstOrderDifferentialEquations equations =
-            new CountingDifferentialEquations(y.length);
-        do {
-            resetTime = Double.NaN;
-            final double dt = (n - 0.9999) * h;
-            for (EventHandler handler : starter.getEventHandlers()) {
-                ((ResetCheckingWrapper) handler).setRange(t, Math.abs(dt));
-            }
-            store.restart();
-
-            // we overshoot by 1/10000 step the end to make sure we don't miss the last point
-            stopTime = starter.integrate(equations, t, y, t + dt, y);
-
-            if (!Double.isNaN(resetTime)) {
-                // there was an intermediate reset, we restart
-                t = resetTime;
-            }
-        } while (!Double.isNaN(resetTime));
-
-        // clear configuration
+        // make sure NO user event nor user step handler is triggered,
+        // this is the task of the top level integrator, not the task
+        // of the starter integrator
         starter.clearEventHandlers();
         starter.clearStepHandlers();
 
-        if (store.getFinalState() != null) {
-            System.arraycopy(store.getFinalState(), 0, y, 0, y.length);
+        // set up one specific step handler to extract initial Nordsieck vector
+        starter.addStepHandler(new NordsieckInitializer(y0.length));
+
+        // start integration, expecting a InitializationCompletedMarkerException
+        try {
+            starter.integrate(new CountingDifferentialEquations(y0.length),
+                              t0, y0, t, new double[y0.length]);
+        } catch (DerivativeException de) {
+            if (!(de instanceof InitializationCompletedMarkerException)) {
+                // this is not the expected nominal interruption of the start integrator
+                throw de;
+            }
         }
-        return stopTime;
+
+        // remove the specific step handler
+        starter.clearStepHandlers();
 
     }
 
-    /** Rotate the previous steps arrays.
+    /** Get the minimal reduction factor for stepsize control.
+     * @return minimal reduction factor
      */
-    protected void rotatePreviousSteps() {
-        final double[] rolled = previousF[previousT.length - 1];
-        for (int k = previousF.length - 1; k > 0; --k) {
-            previousT[k] = previousT[k - 1];
-            previousF[k] = previousF[k - 1];
-        }
-        previousF[0] = rolled;
+    public double getMinReduction() {
+        return minReduction;
     }
 
-    /** Event handler wrapper to check if state or derivatives have been reset. */
-    private class ResetCheckingWrapper implements EventHandler {
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -3138614051962269485L;
-
-        /** Wrapped event handler. */
-        private final EventHandler handler;
-
-        /** Range start. */
-        private double rangeStart;
-
-        /** Range size. */
-        private double rangeSize;
-
-        /** Build a new instance.
-         * @param handler event handler to wrap
-         */
-        public ResetCheckingWrapper(final EventHandler handler) {
-            this.handler = handler;
-        }
-
-        /** Set the range.
-         * @param rangeStart range start
-         * @param rangeSize range size
-         */
-        public void setRange(final double rangeStart, final double rangeSize) {
-            this.rangeStart = rangeStart;
-            this.rangeSize  = rangeSize;
-        }
-
-        /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y, boolean increasing)
-            throws EventException {
-            final int action = handler.eventOccurred(t, y, increasing);
-            if (Math.abs(t - rangeStart) < 1.0e-10 * rangeSize) {
-                // we have encountered again an already handled reset, don't stop here
-                return action;
-            }
-            if ((action == RESET_DERIVATIVES) || (action == RESET_STATE)) {
-                // a singularity has been encountered
-                // we need to restart the start phase
-                resetTime = t;
-                return STOP;
-            }
-            return action;
-        }
-
-        /** {@inheritDoc} */
-        public double g(double t, double[] y) throws EventException {
-            return handler.g(t, y);
-        }
-
-        /** {@inheritDoc} */
-        public void resetState(double t, double[] y) throws EventException {
-            handler.resetState(t, y);
-        }
-        
+    /** Set the minimal reduction factor for stepsize control.
+     * @param minReduction minimal reduction factor
+     */
+    public void setMinReduction(final double minReduction) {
+        this.minReduction = minReduction;
     }
 
-    /** Step handler wrapper filtering out the isLast indicator. */
-    private class FilteringWrapper implements StepHandler {
+    /** Get the maximal growth factor for stepsize control.
+     * @return maximal growth factor
+     */
+    public double getMaxGrowth() {
+        return maxGrowth;
+    }
+
+    /** Set the maximal growth factor for stepsize control.
+     * @param maxGrowth maximal growth factor
+     */
+    public void setMaxGrowth(final double maxGrowth) {
+        this.maxGrowth = maxGrowth;
+    }
+
+    /** Get the safety factor for stepsize control.
+     * @return safety factor
+     */
+    public double getSafety() {
+      return safety;
+    }
+
+    /** Set the safety factor for stepsize control.
+     * @param safety safety factor
+     */
+    public void setSafety(final double safety) {
+      this.safety = safety;
+    }
+
+    /** Compute step grow/shrink factor according to normalized error.
+     * @param error normalized error of the current step
+     * @return grow/shrink factor for next step
+     */
+    protected double computeStepGrowShrinkFactor(final double error) {
+        return Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
+    }
+
+    /** Serialize the instance.
+     * @param oos stream where object should be written
+     * @throws IOException if object cannot be written to stream
+     */
+    private void writeObject(ObjectOutputStream oos)
+        throws IOException {
+        oos.defaultWriteObject();
+        oos.writeInt(nSteps);
+    }
+
+    /** Deserialize the instance.
+     * @param ois stream from which the object should be read
+     * @throws ClassNotFoundException if a class in the stream cannot be found
+     * @throws IOException if object cannot be read from the stream
+     */
+    private void readObject(ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+        try {
+
+            ois.defaultReadObject();
+            final int nSteps = ois.readInt();
+
+            final Class<MultistepIntegrator> cl = MultistepIntegrator.class;
+            final Field f = cl.getDeclaredField("transformer");
+            f.setAccessible(true);
+            f.set(this, NordsieckTransformer.getInstance(nSteps));
+
+        } catch (NoSuchFieldException nsfe) {
+            IOException ioe = new IOException();
+            ioe.initCause(nsfe);
+            throw ioe;
+        } catch (IllegalAccessException iae) {
+            IOException ioe = new IOException();
+            ioe.initCause(iae);
+            throw ioe;
+        }
+
+    }
+
+    /** Specialized step handler storing the first step. */
+    private class NordsieckInitializer implements StepHandler {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = 4607975253344802232L;
+        private static final long serialVersionUID = 4452937833660410413L;
 
-        /** Wrapped step handler. */
-        private final StepHandler handler;
+        /** Problem dimension. */
+        private final int n;
 
-        /** Build a new instance.
-         * @param handler step handler to wrap
+        /** Simple constructor.
+         * @param n problem dimension
          */
-        public FilteringWrapper(final StepHandler handler) {
-            this.handler = handler;
+        public NordsieckInitializer(final int n) {
+            this.n = n;
         }
 
         /** {@inheritDoc} */
         public void handleStep(StepInterpolator interpolator, boolean isLast)
-                throws DerivativeException {
-            // we force the isLast indicator to false EXCEPT if some event handler triggered a stop
-            handler.handleStep(interpolator, eventsHandlersManager.stop());
+            throws DerivativeException {
+
+            final double prev = interpolator.getPreviousTime();
+            final double curr = interpolator.getCurrentTime();
+            stepStart = prev;
+            stepSize  = (curr - prev) / nSteps;
+
+            // compute the first scaled derivative
+            interpolator.setInterpolatedTime(prev);
+            scaled = interpolator.getInterpolatedDerivatives().clone();
+            for (int j = 0; j < n; ++j) {
+                scaled[j] *= stepSize;
+            }
+
+            // compute the high order scaled derivatives
+            final double[][] multistep = new double[nSteps - 1][];
+            for (int i = 1; i < nSteps; ++i) {
+                interpolator.setInterpolatedTime(prev + stepSize * i);
+                final double[] msI = interpolator.getInterpolatedDerivatives().clone();
+                for (int j = 0; j < n; ++j) {
+                    msI[j] *= stepSize;
+                }
+                multistep[i - 1] = msI;
+            }
+            nordsieck = transformer.initializeHighOrderDerivatives(scaled, multistep);
+
+            // stop the integrator after the first step has been handled
+            throw new InitializationCompletedMarkerException();
+
         }
 
         /** {@inheritDoc} */
         public boolean requiresDenseOutput() {
-            return handler.requiresDenseOutput();
+            return true;
         }
 
         /** {@inheritDoc} */
         public void reset() {
-            handler.reset();
+            // nothing to do
         }
-        
+
     }
 
-    /** Specialized step handler storing the first few steps. */
-    private class StoringStepHandler implements FixedStepHandler {
+    /** Marker exception used ONLY to stop the starter integrator after first step. */
+    private static class InitializationCompletedMarkerException
+        extends DerivativeException {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = 4592974435520688797L;
+        private static final long serialVersionUID = -4105805787353488365L;
 
-        /** Number of steps to store. */
-        private final int n;
-
-        /** Counter for already stored steps. */
-        private int count;
-
-        /** Final state. */
-        private double[] finalState;
-
-        /** Build a new instance.
-         * @param n number of steps to store
-         */
-        public StoringStepHandler(final int n) {
-            this.n = n;
-            restart();
-        }
-
-        /** Restart storage.
-         */
-        public void restart() {
-            count = 0;
-            finalState = null;
-        }
-
-        /** Get the final state.
-         * @return final state
-         */
-        public double[] getFinalState() {
-            return finalState;
-        }
-
-        /** {@inheritDoc} */
-        public void handleStep(final double t, final double[] y, final double[] yDot,
-                               final boolean isLast) {
-            if (count++ < n) {
-                previousT[n - count] = t;
-                previousF[n - count] = yDot.clone();
-                if (count == n) {
-                    finalState = y.clone();
-                }
-            }
+        /** Simple constructor. */
+        public InitializationCompletedMarkerException() {
+            super((Throwable) null);
         }
 
     }
