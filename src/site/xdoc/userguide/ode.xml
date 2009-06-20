@@ -209,7 +209,10 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
       </subsection>
       <subsection name="13.4 Integrators" href="integrators">
         <p>
-          The tables below show the various integrators available for non-stiff problems.
+          The tables below show the various integrators available for non-stiff problems. Note that the
+          implementations of Adams-Bashforth and Adams-Moulton are adaptive stepsize, not fixed stepsize
+          as is usual for these multi-step integrators. This is due to the fact the implementation relies
+          on the Nordsieck vector representation of the state.
         </p>
         <p>
           <table border="1" align="center">
@@ -229,7 +232,9 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/HighamHall54Integrator.html">Higham and Hall</a></td><td>5</td><td>4</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/DormandPrince54Integrator.html">Dormand-Prince 5(4)</a></td><td>5</td><td>4</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/DormandPrince853Integrator.html">Dormand-Prince 8(5,3)</a></td><td>8</td><td>5 and 3</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.html">Gragg-Bulirsch-Stoer</a>	variable (up to 18 by default)</td><td>variable</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.html">Gragg-Bulirsch-Stoer</a></td><td>variable (up to 18 by default)</td><td>variable</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/AdamsBashforthIntegrator.html">Adams-Bashforth</a></td><td>variable</td><td>variable</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.html">Adams-Moulton</a></td><td>variable</td><td>variable</td></tr>
           </table>
         </p>
       </subsection>

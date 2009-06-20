@@ -312,10 +312,11 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="luc" type="add">
         New ODE integrators have been added: the explicit Adams-Bashforth and implicit
-        Adams-Moulton multistep methods. These methods support customizable starter
-        integrators and support discrete events even during the start phase.
-        All these methods provide the same rich features has the existing ones:
-        continuous output, step handlers, discrete events, G-stop ...
+        Adams-Moulton multistep methods. As the implementations of these methods are based
+        on Nordsieck vector rather than a traditional array of previous steps, they both
+        have been improved to handle adaptive stepsize. These methods provide the same rich
+        features has the existing ones: continuous output, step handlers, discrete events,
+        G-stop ...
       </action>
       <action dev="luc" type="fix" issue="MATH-214" >
         Replaced size adjustment of all steps of fixed steps Runge-Kutta integrators by
