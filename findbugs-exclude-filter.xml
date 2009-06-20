@@ -51,6 +51,13 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
+  <!-- The following equality test is intentional for division protection -->
+  <Match>
+    <Class name="org.apache.commons.math.analysis.interpolation.LoessInterpolator" />
+    <Method name="smooth" params="double[],double[]" returns="double[]" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>

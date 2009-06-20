@@ -280,7 +280,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           derivative is continuous but not smooth.  The x values passed to the
           interpolator must be ordered in ascending order.  It is not valid to
           evaluate the function for values outside the range 
-          <code>x<sub>0</sub></code>..<code>x<sub>N</sub></code>. 
+          <code>x<sub>0</sub></code>..<code>x<sub>N</sub></code>.
         </p>
         <p>
           The polynomial function returned by the Neville's algorithm is a single
@@ -293,6 +293,14 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           href="http://en.wikipedia.org/wiki/Runge's_phenomenon">Runge's phenomenom</a>
           the error can get worse as the degree of the polynomial increases, so
           adding more points does not always lead to a better interpolation.
+        </p>
+        <p>
+          Loess (or Lowess) interpolation is a robust interpolation useful for
+          smoothing univariate scaterplots. It has been described by William
+          Cleveland in his 1979 seminal paper <a
+          href="http://www.math.tau.ac.il/~yekutiel/MA%20seminar/Cleveland%201979.pdf">Robust
+          Locally Weighted Regression and Smoothing Scatterplots</a>. This kind of
+          interpolation is computationally intensive but robust.
         </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">
