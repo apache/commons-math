@@ -78,6 +78,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator, Serial
         resetEvaluations();
     }
 
+    /** Build an instance with a null name.
+     */
     protected AbstractIntegrator() {
         this(null);
     }

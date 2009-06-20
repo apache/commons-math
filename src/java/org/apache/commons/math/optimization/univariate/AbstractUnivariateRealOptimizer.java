@@ -139,6 +139,7 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /** 
      * Compute the objective function value.
+     * @param f objective function
      * @param point point at which the objective function must be evaluated
      * @return objective function value at specified point
      * @exception FunctionEvaluationException if the function cannot be evaluated
