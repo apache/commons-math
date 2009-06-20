@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import java.util.Arrays;
+
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -177,10 +179,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     if (y != y0) {
       System.arraycopy(y0, 0, y, 0, y0.length);
     }
-    final double[][] yDotK = new double[stages][];
-    for (int i = 0; i < stages; ++i) {
-      yDotK [i] = new double[y0.length];
-    }
+    final double[][] yDotK = new double[stages][y0.length];
     final double[] yTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
@@ -223,9 +222,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
             scale = vecAbsoluteTolerance;
           } else {
             scale = new double[y0.length];
-            for (int i = 0; i < scale.length; ++i) {
-              scale[i] = scalAbsoluteTolerance;
-            }
+            Arrays.fill(scale, scalAbsoluteTolerance);
           }
           hNew = initializeStep(equations, forward, getOrder(), scale,
                                 stepStart, y, yDotK[0], yTmp, yDotK[1]);
