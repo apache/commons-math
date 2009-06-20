@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -38,12 +37,8 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class MultiStartMultivariateRealOptimizer implements MultivariateRealOptimizer, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 5983375963110961019L;
+public class MultiStartMultivariateRealOptimizer
+    implements MultivariateRealOptimizer {
 
     /** Underlying classical optimizer. */
     private final MultivariateRealOptimizer optimizer;
