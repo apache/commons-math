@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.events;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,10 +35,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * @since 1.2
  */
 
-public class CombinedEventsManager implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4151965151236441261L;
+public class CombinedEventsManager {
 
     /** Events states. */
     private final List<EventState> states;

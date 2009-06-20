@@ -158,8 +158,6 @@ public class ThreeEighthesIntegratorTest
 
   private static class KeplerHandler implements StepHandler {
 
-    private static final long serialVersionUID = 4400497468419540899L;
-
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       maxError = 0;
@@ -202,7 +200,6 @@ public class ThreeEighthesIntegratorTest
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-          private static final long serialVersionUID = 0L;
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
                   assertEquals(step,
@@ -217,7 +214,6 @@ public class ThreeEighthesIntegratorTest
           }          
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
-          private static final long serialVersionUID = 0L;
           public void computeDerivatives(double t, double[] y, double[] dot) {
               dot[0] = 1.0;
           }

@@ -114,7 +114,6 @@ public class HighamHall54StepInterpolatorTest {
                                                               scalAbsoluteTolerance,
                                                               scalRelativeTolerance);
     integ.addStepHandler(new StepHandler() {
-        private static final long serialVersionUID = 9111679755950880352L;
         public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws DerivativeException {
             StepInterpolator cloned = interpolator.copy();

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 
 /**
  * This class implements the Gill fourth order Runge-Kutta
@@ -43,11 +42,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class GillIntegrator
-  extends RungeKuttaIntegrator implements Serializable {
-
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 5566682259665027132L;
+public class GillIntegrator extends RungeKuttaIntegrator {
 
   /** Time steps Butcher array. */
   private static final double[] c = {

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 
 /**
  * This class implements the classical fourth order Runge-Kutta
@@ -44,11 +43,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class ClassicalRungeKuttaIntegrator
-  extends RungeKuttaIntegrator implements Serializable {
-
-  /** Serializable version identifier. */
-    private static final long serialVersionUID = 3710070023793519840L;
+public class ClassicalRungeKuttaIntegrator extends RungeKuttaIntegrator {
 
   /** Time steps Butcher array. */
   private static final double[] c = {

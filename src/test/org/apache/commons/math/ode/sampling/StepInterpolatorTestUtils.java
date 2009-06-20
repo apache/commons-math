@@ -31,8 +31,6 @@ public class StepInterpolatorTestUtils {
         throws DerivativeException, IntegratorException {
         integrator.addStepHandler(new StepHandler() {
 
-            private static final long serialVersionUID = 2462564234755682953L;
-
             public boolean requiresDenseOutput() {
                 return true;
             }

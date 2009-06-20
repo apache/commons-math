@@ -150,7 +150,6 @@ public class EulerIntegratorTest
       final double step = 1.23456;
       FirstOrderIntegrator integ = new EulerIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-        private static final long serialVersionUID = 0L;
         public void handleStep(StepInterpolator interpolator, boolean isLast) {
             if (! isLast) {
                 assertEquals(step,

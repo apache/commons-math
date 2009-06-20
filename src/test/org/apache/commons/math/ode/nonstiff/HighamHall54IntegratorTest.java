@@ -360,7 +360,6 @@ public class HighamHall54IntegratorTest
   }
 
   private static class KeplerHandler implements StepHandler {
-    private static final long serialVersionUID = 3200246026175251943L;
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       nbSteps = 0;

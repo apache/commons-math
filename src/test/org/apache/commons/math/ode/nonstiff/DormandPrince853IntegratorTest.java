@@ -264,7 +264,6 @@ public class DormandPrince853IntegratorTest
   }
 
   private static class KeplerHandler implements StepHandler {
-    private static final long serialVersionUID = -1752092987112788459L;
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
@@ -308,7 +307,6 @@ public class DormandPrince853IntegratorTest
   }
 
   private static class VariableHandler implements StepHandler {
-    private static final long serialVersionUID = 5542665697103383623L;
     public VariableHandler() {
       reset();
     }
@@ -349,7 +347,6 @@ public class DormandPrince853IntegratorTest
   }
 
   private static class InterpolatingStepHandler implements StepHandler {
-    private static final long serialVersionUID = -5272695044664350727L;
     public boolean requiresDenseOutput() {
       return true;
     }

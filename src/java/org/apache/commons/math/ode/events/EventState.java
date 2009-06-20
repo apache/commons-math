@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.events;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -40,10 +38,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class EventState implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -216176055159247559L;
+public class EventState {
 
     /** Event handler. */
     private final EventHandler handler;
@@ -196,7 +191,6 @@ public class EventState implements Serializable {
                     increasing = (gb >= ga);
 
                     final UnivariateRealFunction f = new UnivariateRealFunction() {
-                        private static final long serialVersionUID = 620905575148456915L;
                         public double value(final double t) throws FunctionEvaluationException {
                             try {
                                 interpolator.setInterpolatedTime(t);

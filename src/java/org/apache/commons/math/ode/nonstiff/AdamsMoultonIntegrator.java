@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.MatrixVisitorException;
@@ -156,12 +155,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsMoultonIntegrator extends MultistepIntegrator implements Serializable {
-
-    /**
-     * Serial identification Number
-     */
-    private static final long serialVersionUID = 3624292432281962886L;
+public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
     /**
      * Build an Adams-Moulton integrator with the given order and step size.

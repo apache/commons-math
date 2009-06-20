@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,14 +32,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class AbstractIntegrator implements FirstOrderIntegrator, Serializable {
+public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     
-    /**
-     * Serialization UID
-     */
-    private static final long serialVersionUID = 1L;
-
     /** Name of the method. */
     private final String name;
 
@@ -253,9 +247,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator, Serial
 
     /** Specialized event handler to stop integration. */
     private static class EndTimeChecker implements EventHandler {
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -7029115498939113263L;
 
         /** Desired end time. */
         private final double endTime;

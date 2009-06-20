@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 
 /**
  * This class implements the 5(4) Higham and Hall integrator for
@@ -33,11 +32,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class HighamHall54Integrator
-  extends EmbeddedRungeKuttaIntegrator implements Serializable {
-
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 1462328766749870097L;
+public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
 
   /** Integrator method name. */
   private static final String METHOD_NAME = "Higham-Hall 5(4)";

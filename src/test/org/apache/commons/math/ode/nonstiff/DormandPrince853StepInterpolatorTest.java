@@ -114,7 +114,6 @@ public class DormandPrince853StepInterpolatorTest {
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
     integ.addStepHandler(new StepHandler() {
-        private static final long serialVersionUID = 2209212559670665268L;
         public void handleStep(StepInterpolator interpolator, boolean isLast)
         throws DerivativeException {
             StepInterpolator cloned = interpolator.copy();

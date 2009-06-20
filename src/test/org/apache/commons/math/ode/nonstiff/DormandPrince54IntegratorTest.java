@@ -125,8 +125,6 @@ public class DormandPrince54IntegratorTest
 
   private static class DP54SmallLastHandler implements StepHandler {
 
-    private static final long serialVersionUID = -8168590945325629799L;
-
     public DP54SmallLastHandler(double minStep) {
       lastSeen = false;
       this.minStep = minStep;
@@ -270,8 +268,6 @@ public class DormandPrince54IntegratorTest
   }
 
   private static class KeplerHandler implements StepHandler {
-    private static final long serialVersionUID = -1645853847806655456L;
-
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
@@ -315,7 +311,6 @@ public class DormandPrince54IntegratorTest
   }
 
   private static class VariableHandler implements StepHandler {
-    private static final long serialVersionUID = -5196650833828379228L;
     public VariableHandler() {
       firstTime = true;
       minStep = 0;

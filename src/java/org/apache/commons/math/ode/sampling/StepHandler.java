@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -44,7 +42,7 @@ import org.apache.commons.math.ode.SecondOrderIntegrator;
  * @since 1.2
  */
 
-public interface StepHandler extends Serializable {
+public interface StepHandler {
 
   /** Determines whether this handler needs dense output.
    * <p>This method allows the integrator to avoid performing extra

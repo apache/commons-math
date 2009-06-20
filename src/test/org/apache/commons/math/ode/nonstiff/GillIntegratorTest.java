@@ -167,7 +167,6 @@ public class GillIntegratorTest
   }
 
   private static class KeplerStepHandler implements StepHandler {
-    private static final long serialVersionUID = 1250933165809631538L;
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
@@ -205,7 +204,6 @@ public class GillIntegratorTest
       final double step = 1.23456;
       FirstOrderIntegrator integ = new GillIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-          private static final long serialVersionUID = 0L;
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
                   assertEquals(step,

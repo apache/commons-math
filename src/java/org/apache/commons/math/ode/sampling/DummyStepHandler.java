@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import java.io.Serializable;
 
 /**
  * This class is a step handler that does nothing.
@@ -36,8 +35,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class DummyStepHandler
-  implements StepHandler, Serializable {
+public class DummyStepHandler implements StepHandler {
 
   /** Private constructor.
    * The constructor is private to prevent users from creating
@@ -85,8 +83,5 @@ public class DummyStepHandler
 
   /** The only instance. */
   private static final DummyStepHandler instance = new DummyStepHandler();
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 2731635121223090252L;
 
 }

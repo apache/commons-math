@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 
 /**
  * This class implements a second order Runge-Kutta integrator for
@@ -41,11 +40,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class MidpointIntegrator
-  extends RungeKuttaIntegrator implements Serializable {
-
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = -7690774342890000483L;
+public class MidpointIntegrator extends RungeKuttaIntegrator {
 
   /** Time steps Butcher array. */
   private static final double[] c = {

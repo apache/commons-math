@@ -20,12 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -152,32 +146,6 @@ public class AdamsMoultonIntegratorTest {
                 assertTrue(integ.getEvaluations() < 90);
             }
         }
-
-    }
-
-    @Test
-    public void serialization()
-        throws IntegratorException, DerivativeException,
-               IOException, ClassNotFoundException {
-
-        TestProblem6 pb = new TestProblem6();
-        double range = Math.abs(pb.getFinalTime() - pb.getInitialTime());
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream    oos = new ObjectOutputStream(bos);
-        oos.writeObject(new AdamsMoultonIntegrator(5, 0, range, 1.0e-12, 1.0e-12));
-        assertTrue(bos.size() > 2800);
-        assertTrue(bos.size() < 3000);
-
-        ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
-        ObjectInputStream     ois = new ObjectInputStream(bis);
-        FirstOrderIntegrator integ  = (AdamsMoultonIntegrator) ois.readObject();
-        assertEquals("Adams-Moulton", integ.getName());
-        TestProblemHandler handler = new TestProblemHandler(pb, integ);
-        integ.addStepHandler(handler);
-        integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
-                        pb.getFinalTime(), new double[pb.getDimension()]);
-        assertTrue(handler.getMaximalValueError() < 8.0e-11);
 
     }
 

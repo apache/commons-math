@@ -273,7 +273,6 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   private static class KeplerStepHandler implements StepHandler {
-    private static final long serialVersionUID = -8231434585284002546L;
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
@@ -317,7 +316,6 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public static class VariableStepHandler implements StepHandler {
-    private static final long serialVersionUID = -5955452449048688985L;
     public VariableStepHandler() {
       reset();
     }

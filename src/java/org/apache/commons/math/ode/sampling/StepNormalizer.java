@@ -49,9 +49,6 @@ import org.apache.commons.math.ode.DerivativeException;
 
 public class StepNormalizer implements StepHandler {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -789699939659144654L;
-
     /** Fixed time step. */
     private double h;
 

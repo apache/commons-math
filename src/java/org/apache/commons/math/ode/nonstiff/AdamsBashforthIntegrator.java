@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -140,10 +138,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsBashforthIntegrator extends MultistepIntegrator implements Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 67792782787082199L;
+public class AdamsBashforthIntegrator extends MultistepIntegrator {
 
     /**
      * Build an Adams-Bashforth with the given order and step size.

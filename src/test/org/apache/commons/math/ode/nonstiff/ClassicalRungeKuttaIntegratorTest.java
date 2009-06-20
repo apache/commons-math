@@ -177,7 +177,6 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   private static class KeplerHandler implements StepHandler {
-    private static final long serialVersionUID = 7510061424396717277L;
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
@@ -215,7 +214,6 @@ public class ClassicalRungeKuttaIntegratorTest
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
       integ.addStepHandler(new StepHandler() {
-          private static final long serialVersionUID = 0L;
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
                   assertEquals(step,

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.Serializable;
 
 /**
  * This class implements a simple Euler integrator for Ordinary
@@ -47,11 +46,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public class EulerIntegrator
-  extends RungeKuttaIntegrator implements Serializable {
-
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 1828811360890387657L;
+public class EulerIntegrator extends RungeKuttaIntegrator {
 
   /** Time steps Butcher array. */
   private static final double[] c = {

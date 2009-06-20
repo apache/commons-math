@@ -41,9 +41,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1L;
-
     /** Transformer. */
     protected final transient NordsieckTransformer transformer;
 
@@ -311,9 +308,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     /** Specialized step handler storing the first step. */
     private class NordsieckInitializer implements StepHandler {
 
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = 4452937833660410413L;
-
         /** Problem dimension. */
         private final int n;
 
@@ -385,9 +379,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
     /** Wrapper for differential equations, ensuring start evaluations are counted. */
     private class CountingDifferentialEquations implements FirstOrderDifferentialEquations {
-
-        /** Serializable uid. */
-        private static final long serialVersionUID = -6329212616396607764L;
 
         /** Dimension of the problem. */
         private final int dimension;

@@ -53,11 +53,7 @@ package org.apache.commons.math.ode;
  * @since 1.2
  */
 
-public class FirstOrderConverter
-  implements FirstOrderDifferentialEquations {
-
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = -8233657110042144146L;
+public class FirstOrderConverter implements FirstOrderDifferentialEquations {
 
   /** Simple constructor.
    * Build a converter around a second order equations set.

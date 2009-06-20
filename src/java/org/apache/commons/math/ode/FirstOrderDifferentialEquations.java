@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
 
 /** This interface represents a first order differential equations set.
  *
@@ -46,7 +45,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public interface FirstOrderDifferentialEquations extends Serializable {
+public interface FirstOrderDifferentialEquations {
     
     /** Get the dimension of the problem.
      * @return dimension of the problem

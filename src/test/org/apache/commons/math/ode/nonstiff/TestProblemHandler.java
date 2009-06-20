@@ -29,9 +29,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class TestProblemHandler
   implements StepHandler {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 3589490480549900461L;
-
   /** Associated problem. */
   private TestProblemAbstract problem;
 
