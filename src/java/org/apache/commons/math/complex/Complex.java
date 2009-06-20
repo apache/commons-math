@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.complex;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -973,33 +971,15 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
     /**
-     * Deserialize a Complex Object.
-     * @param ois The stream to deserialize from.
-     * @throws IOException If there is an error reading the stream.
-     * @throws ClassNotFoundException If this class cannot be found.
+     * <p>Resolve the transient fields in a deserialized Complex Object.</p>
+     * <p>Subclasses will need to override {@link #createComplex} to deserialize properly</p> 
+     * @return A Complex instance with all fields resolved.
+     * @since 2.0
      */
-     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-
-        try {
-            final java.lang.reflect.Field fNaN = getClass().getDeclaredField("isNaN");
-            fNaN.setAccessible(true);
-            fNaN.set(this, Double.isNaN(real) || Double.isNaN(imaginary));
-            final java.lang.reflect.Field fInf = getClass().getDeclaredField("isInfinite");
-            fInf.setAccessible(true);
-            fInf.set(this, !isNaN && (Double.isInfinite(real) || Double.isInfinite(imaginary)));
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        }
-
+    private final Object readResolve() {
+        return createComplex(real, imaginary);
     }
-
+    
     /** {@inheritDoc} */
     public ComplexField getField() {
         return ComplexField.getInstance();
