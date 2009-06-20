@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
@@ -37,10 +35,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class MullerSolver extends UnivariateRealSolverImpl implements Serializable {
-
-    /** serializable version identifier */
-    private static final long serialVersionUID = 7768903775784754323L;
+public class MullerSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver for the given function.

@@ -35,9 +35,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 2535890386567281329L;
-
     /**
      * Construct an integrator for the given function.
      * 

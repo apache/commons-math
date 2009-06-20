@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
@@ -41,11 +39,8 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *  
  * @version $Revision$ $Date$
  */
-public class SecantSolver extends UnivariateRealSolverImpl implements Serializable {
+public class SecantSolver extends UnivariateRealSolverImpl {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 2477470651270304246L;
-
     /**
      * Construct a solver for the given function.
      * @param f function to solve.

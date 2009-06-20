@@ -36,9 +36,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4616482344304576900L;
-
     /**
      * Construct an integrator for the given function.
      * 

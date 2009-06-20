@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import java.io.Serializable;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -35,11 +34,7 @@ import org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpola
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class PolynomialFunctionNewtonForm implements UnivariateRealFunction,
-    Serializable {
-
-    /** serializable version identifier */
-    static final long serialVersionUID = -3353896576191389897L;
+public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.

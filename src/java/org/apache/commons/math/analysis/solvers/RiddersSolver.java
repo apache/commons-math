@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
@@ -36,10 +34,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class RiddersSolver extends UnivariateRealSolverImpl implements Serializable {
-
-    /** serializable version identifier */
-    private static final long serialVersionUID = -1556464494585337088L;
+public class RiddersSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver for the given function.

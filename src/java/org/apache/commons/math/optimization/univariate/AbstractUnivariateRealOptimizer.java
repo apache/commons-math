@@ -34,9 +34,6 @@ import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 public abstract class AbstractUnivariateRealOptimizer
     extends ConvergingAlgorithmImpl implements UnivariateRealOptimizer {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4543031162377070699L;
-
     /** Indicates where a root has been computed. */
     protected boolean resultComputed;
 

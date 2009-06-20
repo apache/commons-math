@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import java.io.Serializable;
-
 /** This interface represents a second order differential equations set.
 
  * <p>This interface should be implemented by all real second order
@@ -46,7 +44,7 @@ import java.io.Serializable;
  * @since 1.2
  */
 
-public interface SecondOrderDifferentialEquations extends Serializable {
+public interface SecondOrderDifferentialEquations {
 
   /** Get the dimension of the problem.
    * @return dimension of the problem

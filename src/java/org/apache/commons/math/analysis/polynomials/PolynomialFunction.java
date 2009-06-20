@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -30,10 +28,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @version $Revision$ $Date$
  */
-public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -7726511984200295583L;
+public class PolynomialFunction implements DifferentiableUnivariateRealFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,  

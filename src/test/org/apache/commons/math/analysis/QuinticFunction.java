@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -25,9 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  *
  * @version $Revision$ $Date$ 
  */
-public class QuinticFunction implements DifferentiableUnivariateRealFunction, Serializable {
-
-    private static final long serialVersionUID = -8866263034920607152L;
+public class QuinticFunction implements DifferentiableUnivariateRealFunction {
 
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
@@ -38,7 +34,6 @@ public class QuinticFunction implements DifferentiableUnivariateRealFunction, Se
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
-            private static final long serialVersionUID = 5265867813333370L;
             public double value(double x) throws FunctionEvaluationException {
                 return (5*x*x-3.75)*x*x+0.25;
             }

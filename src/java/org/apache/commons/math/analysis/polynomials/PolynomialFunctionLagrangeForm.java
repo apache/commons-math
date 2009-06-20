@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
@@ -35,11 +33,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction,
-    Serializable {
-
-    /** serializable version identifier */
-    static final long serialVersionUID = -3965199246151093920L;
+public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.

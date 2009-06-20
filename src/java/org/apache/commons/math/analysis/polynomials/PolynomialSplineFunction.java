@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.ArgumentOutsideDomainException;
@@ -59,10 +58,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public class PolynomialSplineFunction 
-    implements DifferentiableUnivariateRealFunction, Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 1619940313389547244L;
+    implements DifferentiableUnivariateRealFunction {
 
     /** Spline segment interval delimiters (knots).   Size is n+1 for n segments. */
     private double knots[];

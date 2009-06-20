@@ -51,9 +51,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -331962723352824098L;
-
     /** Abscissas for the 2 points method. */
     private static final double[] ABSCISSAS_2 = {
         -1.0 / Math.sqrt(3.0),

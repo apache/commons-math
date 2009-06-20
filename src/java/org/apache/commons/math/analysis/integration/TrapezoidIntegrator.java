@@ -34,9 +34,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 6963842845860399200L;
-
     /** Intermediate result. */
     private double s;
 

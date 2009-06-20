@@ -31,9 +31,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 public abstract class UnivariateRealSolverImpl
     extends ConvergingAlgorithmImpl implements UnivariateRealSolver {
 
-    /** Serializable version ID. */
-    private static final long serialVersionUID = 1L;
-
     /** Maximum error of function. */
     protected double functionValueAccuracy;
 

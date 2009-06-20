@@ -31,9 +31,6 @@ import org.apache.commons.math.optimization.GoalType;
  */
 public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 7185472920191999565L;
-
     /**
      * Golden section.
      */

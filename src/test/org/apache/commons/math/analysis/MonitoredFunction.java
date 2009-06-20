@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
 
 /**
@@ -25,9 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  *
  * @version $Revision$ $Date$ 
  */
-public class MonitoredFunction implements UnivariateRealFunction, Serializable {
-
-    private static final long serialVersionUID = -8403645545888892674L;
+public class MonitoredFunction implements UnivariateRealFunction {
 
     public MonitoredFunction(UnivariateRealFunction f) {
         callsCount = 0;

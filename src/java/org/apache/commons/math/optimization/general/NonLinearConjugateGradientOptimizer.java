@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.general;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -45,10 +43,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 
 public class NonLinearConjugateGradientOptimizer
     extends AbstractScalarDifferentiableOptimizer
-    implements DifferentiableMultivariateRealOptimizer, Serializable {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -6545223926568155458L;
+    implements DifferentiableMultivariateRealOptimizer {
 
     /** Update formula for the beta parameter. */
     private final ConjugateGradientFormula updateFormula;
@@ -242,10 +237,7 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /** Default identity preconditioner. */
-    private static class IdentityPreconditioner implements Preconditioner, Serializable {
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = 1868235977809734023L;
+    private static class IdentityPreconditioner implements Preconditioner {
 
         /** {@inheritDoc} */
         public double[] precondition(double[] variables, double[] r) {
@@ -263,13 +255,7 @@ public class NonLinearConjugateGradientOptimizer
      * extremum along the search direction.
      * </p>
      */
-    private class LineSearchFunction implements UnivariateRealFunction, Serializable {
-        // TODO: Add Serializable documentation
-        // TODO: Check Serializable implementation
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = 8184683950487801424L;
-
+    private class LineSearchFunction implements UnivariateRealFunction {
         /** Search direction. */
         private final double[] searchDirection;
 
