@@ -40,9 +40,8 @@ public class NordsieckStepInterpolatorTest {
     public void derivativesConsistency()
     throws DerivativeException, IntegratorException {
         TestProblem3 pb = new TestProblem3();
-        double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
-        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, step);
-        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, 0.0, 1.0, 1.0e-10, 1.0e-10);
+        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 7e-10);
     }
 
     @Test
@@ -51,8 +50,7 @@ public class NordsieckStepInterpolatorTest {
     IOException, ClassNotFoundException {
 
         TestProblem1 pb = new TestProblem1();
-        double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
-        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, step);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, 0.0, 1.0, 1.0e-10, 1.0e-10);
         integ.addStepHandler(new ContinuousOutputModel());
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
@@ -64,8 +62,8 @@ public class NordsieckStepInterpolatorTest {
             oos.writeObject(handler);
         }
 
-        assertTrue(bos.size () > 148000);
-        assertTrue(bos.size () < 149000);
+        assertTrue(bos.size () >  16000);
+        assertTrue(bos.size () <  17000);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);

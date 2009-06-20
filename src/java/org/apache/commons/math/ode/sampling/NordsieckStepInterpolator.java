@@ -22,8 +22,9 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
+import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 
 /**
@@ -93,7 +94,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         return new NordsieckStepInterpolator(this);
     }
 
-    /** Reinitialize the instance
+    /** Reinitialize the instance.
      * <p>Beware that all arrays <em>must</em> be references to integrator
      * arrays, in order to ensure proper update without copy.</p>
      * @param y reference to the integrator array holding the state at
@@ -105,7 +106,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         super.reinitialize(y, forward);
     }
 
-    /** Reinitialize the instance
+    /** Reinitialize the instance.
      * <p>Beware that all arrays <em>must</em> be references to integrator
      * arrays, in order to ensure proper update without copy.</p>
      * @param referenceTime time at which all arrays are defined
@@ -125,6 +126,20 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         // make sure the state and derivatives will depend on the new arrays
         setInterpolatedTime(getInterpolatedTime());
 
+    }
+
+    /** Rescale the instance.
+     * <p>Since the scaled and Nordiseck arrays are shared with the caller,
+     * this method has the side effect of rescaling this arrays in the caller too.</p>
+     * @param scalingH new step size to use in the scaled and nordsieck arrays
+     */
+    public void rescale(final double scalingH) {
+        final double ratio = scalingH / this.scalingH;
+        for (int i = 0; i < scaled.length; ++i) {
+            scaled[i] *= ratio;
+        }
+        nordsieck.walkInOptimizedOrder(new Rescaler(ratio));
+        this.scalingH = scalingH;
     }
 
     /** {@inheritDoc} */
@@ -151,7 +166,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
          * @param theta normalized interpolation abscissa within the step
          */
         public StateEstimator(final double scale, final double theta) {
-            this.scale  = scale;
+            this.scale = scale;
             lowPower   = theta;
             highPowers = new double[nordsieck.getRowDimension()];
             double thetaN = theta;
@@ -185,6 +200,32 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             return 0;
         }
 
+    }
+
+    /** Visitor rescaling the Nordsieck vector. */
+    private class Rescaler extends DefaultRealMatrixChangingVisitor {
+
+        /** Powers of the rescaling ratio. */
+        private final double[] powers;
+
+        /** Simple constructor.
+         * @param ratio rescaling ratio
+         */
+        public Rescaler(final double ratio) {
+            powers = new double[nordsieck.getRowDimension()];
+            double f = ratio;
+            for (int i = 0; i < powers.length; ++i) {
+                f *= ratio;
+                powers[i] = f;
+            }
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double visit(final int row, final int column, final double value) {
+            return value * powers[row];
+        }
+        
     }
 
     /** {@inheritDoc} */

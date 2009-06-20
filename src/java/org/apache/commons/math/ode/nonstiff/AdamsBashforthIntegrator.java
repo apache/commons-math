@@ -17,25 +17,9 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.fraction.BigFraction;
-import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math.linear.FieldLUDecompositionImpl;
-import org.apache.commons.math.linear.FieldMatrix;
-import org.apache.commons.math.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -161,48 +145,50 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator implements Ser
     /** Serializable version identifier. */
     private static final long serialVersionUID = 67792782787082199L;
 
-    /** Cache for already computed coefficients. */
-    private static final Map<Integer, CachedCoefficients> cache =
-        new HashMap<Integer, CachedCoefficients>();
-
-    /** Coefficients of the method. */
-    private final transient CachedCoefficients coefficients;
-
-    /** Integration step. */
-    private final double step;
+    /**
+     * Build an Adams-Bashforth with the given order and step size.
+     * @param order order of the method (must be greater than 1: due to
+     * an implementation limitation the order 1 method is not supported)
+     * @param minStep minimal step (must be positive even for backward
+     * integration), the last step can be smaller than this
+     * @param maxStep maximal step (must be positive even for backward
+     * integration)
+     * @param scalAbsoluteTolerance allowed absolute error
+     * @param scalRelativeTolerance allowed relative error
+     * @exception IllegalArgumentException if order is 1 or less
+     */
+    public AdamsBashforthIntegrator(final int order,
+                                    final double minStep, final double maxStep,
+                                    final double scalAbsoluteTolerance,
+                                    final double scalRelativeTolerance)
+        throws IllegalArgumentException {
+        super("Adams-Bashforth", order, order, minStep, maxStep,
+              scalAbsoluteTolerance, scalRelativeTolerance);
+    }
 
     /**
      * Build an Adams-Bashforth with the given order and step size.
      * @param order order of the method (must be greater than 1: due to
      * an implementation limitation the order 1 method is not supported)
-     * @param step integration step size
+     * @param minStep minimal step (must be positive even for backward
+     * integration), the last step can be smaller than this
+     * @param maxStep maximal step (must be positive even for backward
+     * integration)
+     * @param vecAbsoluteTolerance allowed absolute error
+     * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthIntegrator(final int order, final double step)
+    public AdamsBashforthIntegrator(final int order,
+                                    final double minStep, final double maxStep,
+                                    final double[] vecAbsoluteTolerance,
+                                    final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-
-        super("Adams-Bashforth", order);
-        if (order <= 1) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} is supported only for orders 2 or more",
-                  getName());
-        }
-
-        // cache the coefficients for each order, to avoid recomputing them
-        synchronized(cache) {
-            CachedCoefficients coeff = cache.get(order);
-            if (coeff == null) {
-                coeff = new CachedCoefficients(order);
-                cache.put(order, coeff);
-            }
-            coefficients = coeff;
-        }
-
-        this.step = Math.abs(step);
-
+        super("Adams-Bashforth", order, order, minStep, maxStep,
+              vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double integrate(final FirstOrderDifferentialEquations equations,
                             final double t0, final double[] y0,
                             final double t, final double[] y)
@@ -218,66 +204,115 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator implements Ser
         if (y != y0) {
             System.arraycopy(y0, 0, y, 0, n);
         }
+        final double[] yDot = new double[n];
+        final double[] yTmp = new double[y0.length];
 
         // set up an interpolator sharing the integrator arrays
         final NordsieckStepInterpolator interpolator = new NordsieckStepInterpolator();
         interpolator.reinitialize(y, forward);
+        final NordsieckStepInterpolator interpolatorTmp = new NordsieckStepInterpolator();
+        interpolatorTmp.reinitialize(yTmp, forward);
 
         // set up integration control objects
-        stepStart = t0;
-        stepSize  = forward ? step : -step;
         for (StepHandler handler : stepHandlers) {
             handler.reset();
         }
         CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
 
-        // compute the first few steps using the configured starter integrator
-        double stopTime = start(previousF.length, stepSize, manager, stepStart, y);
-        if (Double.isNaN(previousT[0])) {
-            return stopTime;
-        }
-        stepStart = previousT[0];
-
-        // convert to Nordsieck representation
-        double[]   scaled    = convertToNordsieckLow();
-        RealMatrix nordsieck = convertToNordsieckHigh(scaled);
+        // compute the initial Nordsieck vector using the configured starter integrator
+        start(t0, y, t);
         interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
         interpolator.storeTime(stepStart);
+        final int lastRow = nordsieck.getRowDimension() - 1;
 
+        // reuse the step that was chosen by the starter integrator
+        double hNew = stepSize;
+        interpolator.rescale(hNew);
+        
         boolean lastStep = false;
         while (!lastStep) {
 
             // shift all data
             interpolator.shift();
 
-            // discrete events handling
-            interpolator.storeTime(stepStart + stepSize);
-            if (manager.evaluateStep(interpolator)) {
-                stepSize = manager.getEventTime() - stepStart;
+            double error = 0;
+            for (boolean loop = true; loop;) {
+
+                stepSize = hNew;
+
+                // evaluate error using the last term of the Taylor expansion
+                error = 0;
+                for (int i = 0; i < y0.length; ++i) {
+                    final double yScale = Math.abs(y[i]);
+                    final double tol = (vecAbsoluteTolerance == null) ?
+                                       (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                                       (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
+                    final double ratio  = nordsieck.getEntry(lastRow, i) / tol;
+                    error += ratio * ratio;
+                }
+                error = Math.sqrt(error / y0.length);
+
+                if (error <= 1.0) {
+
+                    // predict a first estimate of the state at step end
+                    final double stepEnd = stepStart + stepSize;
+                    interpolator.setInterpolatedTime(stepEnd);
+                    System.arraycopy(interpolator.getInterpolatedState(), 0, yTmp, 0, y0.length);
+
+                    // evaluate the derivative
+                    computeDerivatives(stepEnd, yTmp, yDot);
+
+                    // update Nordsieck vector
+                    final double[] predictedScaled = new double[y0.length];
+                    for (int j = 0; j < y0.length; ++j) {
+                        predictedScaled[j] = stepSize * yDot[j];
+                    }
+                    final RealMatrix nordsieckTmp =
+                        transformer.updateHighOrderDerivativesPhase1(nordsieck);
+                    transformer.updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
+
+                    // discrete events handling
+                    interpolatorTmp.reinitialize(stepEnd, stepSize, predictedScaled, nordsieckTmp);
+                    interpolatorTmp.storeTime(stepStart);
+                    interpolatorTmp.shift();
+                    interpolatorTmp.storeTime(stepEnd);
+                    if (manager.evaluateStep(interpolatorTmp)) {
+                        final double dt = manager.getEventTime() - stepStart;
+                        if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                            // rejecting the step would lead to a too small next step, we accept it
+                            loop = false;
+                        } else {
+                            // reject the step to match exactly the next switch time
+                            hNew = dt;
+                            interpolator.rescale(hNew);
+                        }
+                    } else {
+                        // accept the step
+                        scaled    = predictedScaled;
+                        nordsieck = nordsieckTmp;
+                        interpolator.reinitialize(stepEnd, stepSize, scaled, nordsieck);
+                        loop = false;
+                    }
+
+                } else {
+                    // reject the step and attempt to reduce error by stepsize control
+                    final double factor = computeStepGrowShrinkFactor(error);
+                    hNew = filterStep(stepSize * factor, forward, false);
+                    interpolator.rescale(hNew);
+                }
+
             }
 
             // the step has been accepted (may have been truncated)
             final double nextStep = stepStart + stepSize;
+            System.arraycopy(yTmp, 0, y, 0, n);
             interpolator.storeTime(nextStep);
-            System.arraycopy(interpolator.getInterpolatedState(), 0, y, 0, n);
             manager.stepAccepted(nextStep, y);
             lastStep = manager.stop();
 
-            // update the Nordsieck vector
-            final double[] f0 = previousF[0];
-            previousT[0] = nextStep;
-            computeDerivatives(nextStep, y, f0);
-            nordsieck = coefficients.msUpdate.multiply(nordsieck);
-            final double[] end = new double[y0.length];
-            for (int j = 0; j < y0.length; ++j) {
-                end[j] = stepSize * f0[j];
-            }
-            nordsieck.walkInOptimizedOrder(new NordsieckUpdater(scaled, end, coefficients.c1));
-            scaled = end;
-            interpolator.reinitialize(nextStep, stepSize, scaled, nordsieck);
-
             // provide the step data to the step handler
             for (StepHandler handler : stepHandlers) {
+                interpolator.setInterpolatedTime(nextStep);
                 handler.handleStep(interpolator, lastStep);
             }
             stepStart = nextStep;
@@ -286,224 +321,32 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator implements Ser
 
                 // some events handler has triggered changes that
                 // invalidate the derivatives, we need to restart from scratch
-                stopTime = start(previousF.length, stepSize, manager, stepStart, y);
-                if (Double.isNaN(previousT[0])) {
-                    return stopTime;
-                }
-                stepStart = previousT[0];
-
-                // convert to Nordsieck representation
-                scaled    = convertToNordsieckLow();
-                nordsieck = convertToNordsieckHigh(scaled);
+                start(stepStart, y, t);
                 interpolator.reinitialize(stepStart, stepSize, scaled, nordsieck);
 
             }
 
+            if (! lastStep) {
+                // in some rare cases we may get here with stepSize = 0, for example
+                // when an event occurs at integration start, reducing the first step
+                // to zero; we have to reset the step to some safe non zero value
+                stepSize = filterStep(stepSize, forward, true);
+
+                // stepsize control for next step
+                final double  factor     = computeStepGrowShrinkFactor(error);
+                final double  scaledH    = stepSize * factor;
+                final double  nextT      = stepStart + scaledH;
+                final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+                hNew = filterStep(scaledH, forward, nextIsLast);
+                interpolator.rescale(hNew);
+            }
+
         }
 
-        stopTime  = stepStart;
+        final double stopTime  = stepStart;
         stepStart = Double.NaN;
         stepSize  = Double.NaN;
         return stopTime;
-
-    }
-
-    /** Convert the multistep representation after a restart to Nordsieck representation.
-     * @return first scaled derivative
-     */
-    private double[] convertToNordsieckLow() {
-
-        final double[] f0 = previousF[0];
-        final double[] scaled = new double[f0.length];
-        for (int j = 0; j < f0.length; ++j) {
-            scaled[j] = stepSize * f0[j];
-        }
-        return scaled;
-
-    }
-
-    /** Convert the multistep representation after a restart to Nordsieck representation.
-     * @param scaled first scaled derivative
-     * @return Nordsieck matrix of the higher scaled derivatives
-     */
-    private RealMatrix convertToNordsieckHigh(final double[] scaled) {
-
-        final double[] f0 = previousF[0];
-        final double[][] multistep = new double[coefficients.msToN.getColumnDimension()][f0.length];
-        for (int i = 0; i < multistep.length; ++i) {
-            final double[] msI = multistep[i];
-            final double[] fI  = previousF[i + 1];
-            for (int j = 0; j < f0.length; ++j) {
-                msI[j] = stepSize * fI[j] - scaled[j];
-            }
-        }
-
-        return coefficients.msToN.multiply(new Array2DRowRealMatrix(multistep, false));
-
-    }
-
-    /** Updater for Nordsieck vector. */
-    private static class NordsieckUpdater extends DefaultRealMatrixChangingVisitor {
-
-        /** Scaled first derivative at step start. */
-        private final double[] start;
-
-        /** Scaled first derivative at step end. */
-        private final double[] end;
-
-        /** Update coefficients. */
-        private final double[] c1;
-
-        /** Simple constructor.
-         * @param start scaled first derivative at step start
-         * @param end scaled first derivative at step end
-         * @param c1 update coefficients
-         */
-        public NordsieckUpdater(final double[] start, final double[] end,
-                                final double[] c1) {
-            this.start = start;
-            this.end   = end;
-            this.c1    = c1;
-        }
-
-       /** {@inheritDoc} */
-        @Override
-        public double visit(int row, int column, double value)
-            throws MatrixVisitorException {
-            return value + c1[row] * (start[column] - end[column]);
-        }
-
-    }
-
-    /** Cache for already computed coefficients. */
-    private static class CachedCoefficients {
-
-        /** Transformer between multistep and Nordsieck representations. */
-        private final RealMatrix msToN;
-
-        /** Update coefficients of the higher order derivatives wrt y'', y''' ... */
-        private final RealMatrix msUpdate;
-
-        /** Update coefficients of the higher order derivatives wrt y'. */
-        private final double[] c1;
-
-        /** Simple constructor.
-         * @param order order of the method (must be greater than 1: due to
-         * an implementation limitation the order 1 method is not supported)
-         */
-        public CachedCoefficients(int order) {
-
-            // compute exact coefficients
-            FieldMatrix<BigFraction> bigNtoMS = buildP(order);
-            FieldMatrix<BigFraction> bigMStoN =
-                new FieldLUDecompositionImpl<BigFraction>(bigNtoMS).getSolver().getInverse();
-            BigFraction[] u = new BigFraction[order - 1];
-            Arrays.fill(u, BigFraction.ONE);
-            BigFraction[] bigC1 = bigMStoN.operate(u);
-
-            // update coefficients are computed by combining transform from
-            // Nordsieck to multistep, then shifting rows to represent step advance
-            // then applying inverse transform
-            BigFraction[][] shiftedP = bigNtoMS.getData();
-            for (int i = shiftedP.length - 1; i > 0; --i) {
-                // shift rows
-                shiftedP[i] = shiftedP[i - 1];
-            }
-            shiftedP[0] = new BigFraction[order - 1];
-            Arrays.fill(shiftedP[0], BigFraction.ZERO);
-            FieldMatrix<BigFraction> bigMSupdate =
-                bigMStoN.multiply(new Array2DRowFieldMatrix<BigFraction>(shiftedP, false));
-
-            // convert coefficients to double
-            msToN    = MatrixUtils.bigFractionMatrixToRealMatrix(bigMStoN);
-            msUpdate = MatrixUtils.bigFractionMatrixToRealMatrix(bigMSupdate);
-            c1       = new double[order - 1];
-            for (int i = 0; i < order - 1; ++i) {
-                c1[i] = bigC1[i].doubleValue();
-            }
-
-        }
-
-        /** Build the P matrix transforming multistep to Nordsieck.
-         * <p>
-         * <p>
-         * Multistep representation uses y(k), s<sub>1</sub>(k), s<sub>1</sub>(k-1) ... s<sub>1</sub>(k-(n-1)).
-         * Nordsieck representation uses y(k), s<sub>1</sub>(k), s<sub>2</sub>(k) ... s<sub>n</sub>(k).
-         * The two representations share their two first components y(k) and
-         * s<sub>1</sub>(k). The P matrix is used to transform the remaining ones:
-         * <pre>
-         * [ s<sub>1</sub>(k-1) ... s<sub>1</sub>(k-(n-1)]<sup>T</sup> = s<sub>1</sub>(k) [1 ... 1]<sup>T</sup> + P [s<sub>2</sub>(k) ... s<sub>n</sub>(k)]<sup>T</sup>
-         * </pre>
-         * </p>
-         * @param order order of the method (must be strictly positive)
-         * @return P matrix
-         */
-        private static FieldMatrix<BigFraction> buildP(final int order) {
-
-            final BigFraction[][] pData = new BigFraction[order - 1][order - 1];
-
-            for (int i = 0; i < pData.length; ++i) {
-                // build the P matrix elements from Taylor series formulas
-                final BigFraction[] pI = pData[i];
-                final int factor = -(i + 1);
-                int aj = factor;
-                for (int j = 0; j < pI.length; ++j) {
-                    pI[j] = new BigFraction(aj * (j + 2));
-                    aj *= factor;
-                }
-            }
-
-            return new Array2DRowFieldMatrix<BigFraction>(pData, false);
-
-        }
-
-    }
-
-    /** Serialize the instance.
-     * @param oos stream where object should be written
-     * @throws IOException if object cannot be written to stream
-     */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        oos.writeInt(coefficients.msToN.getRowDimension() + 1);
-    }
-
-    /** Deserialize the instance.
-     * @param ois stream from which the object should be read
-     * @throws ClassNotFoundException if a class in the stream cannot be found
-     * @throws IOException if object cannot be read from the stream
-     */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        try {
-
-            ois.defaultReadObject();
-            final int order = ois.readInt();
-
-            final Class<AdamsBashforthIntegrator> cl = AdamsBashforthIntegrator.class;
-            final Field f = cl.getDeclaredField("coefficients");
-            f.setAccessible(true);
-
-            // cache the coefficients for each order, to avoid recomputing them
-            synchronized(cache) {
-                CachedCoefficients coeff = cache.get(order);
-                if (coeff == null) {
-                    coeff = new CachedCoefficients(order);
-                    cache.put(order, coeff);
-                }
-                f.set(this, coeff);
-            }
-
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
-        }
 
     }
 
