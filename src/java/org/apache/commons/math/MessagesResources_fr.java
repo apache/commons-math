@@ -178,6 +178,30 @@ public class MessagesResources_fr
     { "points {0} and {1} are not strictly increasing ({2} >= {3})",
       "les points {0} et {1} ne sont pas strictements croissants ({2} >= {3})" },
 
+    // org.apache.commons.math.analysis.interpolation.LoessInterpolator
+    { "bandwidth must be in the interval [0,1], but got {0}",
+      "la largeur de bande doit \u00eatre dans l''intervalle [0, 1], alors qu'elle vaut {0}" },
+    { "the number of robustness iterations must be non-negative, but got {0}",
+      "le nombre d''it\u00e9rations robuste ne peut \u00eatre n\u00e9gatif, alors qu''il est de {0}" },
+    { "Loess expects the abscissa and ordinate arrays to be of the same size, " +
+      "but got {0} abscisssae and {1} ordinatae",
+      "la r\u00e9gression Loess n\u00e9cessite autant d''abscisses que d''ordonn\u00e9es, " +
+      "mais {0} abscisses et {1} ordonn\u00e9es ont \u00e9t\u00e9 fournies" },
+    { "Loess expects at least 1 point",
+      "la r\u00e9gression Loess n\u00e9cessite au moins un point" },
+    { "the bandwidth must be large enough to accomodate at least 2 points. There are {0} " +
+      " data points, and bandwidth must be at least {1}  but it is only {2}",
+      "la largeur de bande doit \u00eatre assez grande pour supporter au moins 2 points. Il y a {0}" +
+      "donn\u00e9es et la largeur de bande doit \u00eatre au moins de {1}, or elle est seulement de {2}" },
+    { "all abscissae must be finite real numbers, but {0}-th is {1}",
+      "toutes les abscisses doivent \u00eatre des nombres r\u00e9els finis, mais l''abscisse {0} vaut {1}" },
+    { "all ordinatae must be finite real numbers, but {0}-th is {1}",
+      "toutes les ordonn\u00e9es doivent \u00eatre des nombres r\u00e9els finis, mais l''ordonn\u00e9e {0} vaut {1}" },
+    { "the abscissae array must be sorted in a strictly increasing order, " +
+      "but the {0}-th element is {1} whereas {2}-th is {3}",
+      "les abscisses doivent \u00eatre en ordre strictement croissant, " +
+      "mais l''\u00e9l\u00e9ment {0} vaut {1} alors que l''\u00e9l\u00e9ment {2} vaut {3}" },
+
     // org.apache.commons.math.util.ContinuedFraction
     { "Continued fraction convergents diverged to +/- infinity for value {0}",
       "Divergence de fraction continue \u00e0 l''infini pour la valeur {0}" },
