@@ -49,12 +49,12 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * A SummaryStatistics serving as a prototype for creating SummaryStatistics
      * contributing to this aggregate 
      */
-    private SummaryStatistics statisticsPrototype;
+    private final SummaryStatistics statisticsPrototype;
     
     /**
      * The SummaryStatistics in which aggregate statistics are accumulated 
      */
-    private SummaryStatistics statistics;
+    private final SummaryStatistics statistics;
     
     /**
      * Initializes a new AggregateSummaryStatistics with default statistics
@@ -216,7 +216,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
          * An additional SummaryStatistics into which values added to these
          * statistics (and possibly others) are aggregated
          */
-        private SummaryStatistics aggregateStatistics;
+        private final SummaryStatistics aggregateStatistics;
         
         /**
          * Initializes a new AggregatingSummaryStatistics with the specified
@@ -238,7 +238,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
         @Override
         public void addValue(double value) {
             super.addValue(value);
-            aggregateStatistics.addValue(value);
+            synchronized (aggregateStatistics) {
+                aggregateStatistics.addValue(value);
+            }
         }
     }
 }
