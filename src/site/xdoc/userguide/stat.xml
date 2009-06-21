@@ -543,9 +543,11 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           org.apache.commons.math.stat.correlation</a> package computes covariances
           and correlations for pairs of arrays or columns of a matrix.
           <a href="../apidocs/org/apache/commons/math/stat/correlation/Covariance.html">
-          Covariance</a> computes covariances and 
+          Covariance</a> computes covariances, 
           <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
-          PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients.
+          PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients and
+          <a href="../apidocs/org/apache/commons/math/stat/correlation/SpearmansCorrelation.html">
+          SpearmansCorrelation</a> computes Spearman's rank correlation.
         </p>
         <p>
           <strong>Implementation Notes</strong>
@@ -560,12 +562,19 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
            defaults to <code>true.</code>      
           </li>
           <li>
-            <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math/stat/correlation/PearsonsCorrelation.html">
           PearsonsCorrelation</a> computes correlations defined by the formula <br></br>
           <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code><br/>
           where <code>E(X)</code> and <code>E(Y)</code> are means of <code>X</code> and <code>Y</code>
           and <code>s(X)</code>, <code>s(Y)</code> are standard deviations.
           </li>
+          <li>
+          <a href="../apidocs/org/apache/commons/math/stat/correlation/SpearmansCorrelation.html">
+          SpearmansCorrelation</a> applies a rank transformation to the input data and computes Pearson's
+          correlation on the ranked data.  The ranking algorithm is configurable. By default, 
+          <a href="../apidocs/org/apache/commons/math/stat/ranking/NaturalRanking.html">
+          NaturalRanking</a> with default strategies for handling ties and NaN values is used.
+          </li> 
           </ul>
         </p>
         <p>
@@ -655,6 +664,20 @@ new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
            is the significance of the Pearson's correlation coefficient between the two columns
            of <code>data</code>.  If this value is less than .01, we can say that the correlation
            between the two columns of data is significant at the 99% level.
+          </dd>
+           <br></br>
+          <dt><strong>Spearman's rank correlation coefficient</strong></dt>
+          <br></br>
+          <dd>To compute the Spearman's rank-moment correlation between two double arrays
+          <code>x</code> and <code>y</code>:
+          <source>
+new SpearmansCorrelation().correlation(x, y)
+          </source>
+          This is equivalent to 
+          <source>
+RankingAlgorithm ranking = new NaturalRanking();
+new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
+          </source>
           </dd>
            <br></br>
         </dl>
