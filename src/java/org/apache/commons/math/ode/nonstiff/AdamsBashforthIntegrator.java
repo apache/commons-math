@@ -157,7 +157,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", nSteps, nSteps + 1, minStep, maxStep,
+        super("Adams-Bashforth", nSteps, nSteps, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
@@ -177,7 +177,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", nSteps, nSteps + 1, minStep, maxStep,
+        super("Adams-Bashforth", nSteps, nSteps, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
 

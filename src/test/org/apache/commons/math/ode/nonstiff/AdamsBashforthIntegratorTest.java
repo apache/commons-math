@@ -78,11 +78,11 @@ public class AdamsBashforthIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 28 and 42 factors are only valid for this test
+            // the 33 and 45 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            assertTrue(handler.getMaximalValueError() > (28.0 * scalAbsoluteTolerance));
-            assertTrue(handler.getMaximalValueError() < (42.0 * scalAbsoluteTolerance));
+            assertTrue(handler.getMaximalValueError() > (33.0 * scalAbsoluteTolerance));
+            assertTrue(handler.getMaximalValueError() < (45.0 * scalAbsoluteTolerance));
             assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
             int calls = pb.getCalls();
