@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 // commons-math
 import org.apache.commons.math.MathException;
-
+import org.apache.commons.math.TestUtils;
 // junit
 import junit.framework.TestCase;
 
@@ -226,6 +226,11 @@ public final class PolynomialFunctionTest extends TestCase {
 
     }
 
+    public void testSerial() {
+        PolynomialFunction p2 = new PolynomialFunction(new double[] { 3.0, 2.0, 1.0 });
+        assertEquals(p2, TestUtils.serializeAndRecover(p2));
+    }
+    
     public void checkPolynomial(PolynomialFunction p, String reference) {
         assertEquals(reference, p.toString());
     }

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -28,8 +31,13 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @version $Revision$ $Date$
  */
-public class PolynomialFunction implements DifferentiableUnivariateRealFunction {
+public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
 
+    /**
+     * Serializtion identifier
+     */
+    private static final long serialVersionUID = -7726511984200295583L;
+    
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.,  
      * coefficients[0] is the constant term and coefficients[n] is the 
@@ -314,5 +322,29 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction 
        return s.toString();
 
      }
+
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(coefficients);
+        return result;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof PolynomialFunction))
+            return false;
+        PolynomialFunction other = (PolynomialFunction) obj;
+        if (!Arrays.equals(coefficients, other.coefficients))
+            return false;
+        return true;
+    }
 
 }
