@@ -56,19 +56,19 @@ public class GeneticAlgorithm {
     }
       
     /** the crossover policy used by the algorithm. */
-    protected final CrossoverPolicy crossoverPolicy;
+    private final CrossoverPolicy crossoverPolicy;
 
     /** the rate of crossover for the algorithm. */
-    protected final double crossoverRate;
+    private final double crossoverRate;
 
     /** the mutation policy used by the algorithm. */
-    protected final MutationPolicy mutationPolicy;
+    private final MutationPolicy mutationPolicy;
 
     /** the rate of mutation for the algorithm. */
-    protected final double mutationRate;
+    private final double mutationRate;
 
     /** the selection policy used by the algorithm. */
-    protected final SelectionPolicy selectionPolicy;
+    private final SelectionPolicy selectionPolicy;
     
     /**
      * @param crossoverPolicy The {@link CrossoverPolicy}
