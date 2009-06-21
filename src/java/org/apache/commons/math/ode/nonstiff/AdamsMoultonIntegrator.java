@@ -36,10 +36,12 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * Differential Equations.
  *
  * <p>Adams-Moulton methods (in fact due to Adams alone) are implicit
- * multistep ODE solvers with fixed stepsize. The value of state vector
+ * multistep ODE solvers. This implementation is a variation of the classical
+ * one: it uses adaptive stepsize to implement error control, whereas
+ * classical implementations are fixed step size. The value of state vector
  * at step n+1 is a simple combination of the value at step n and of the
  * derivatives at steps n+1, n, n-1 ... Since y'<sub>n+1</sub> is needed to
- * compute y<sub>n+1</sub>, another method must be used to compute a first
+ * compute y<sub>n+1</sub>,another method must be used to compute a first
  * estimate of y<sub>n+1</sub>, then compute y'<sub>n+1</sub>, then compute
  * a final estimate of y<sub>n+1</sub> using the following formulas. Depending
  * on the number k of previous steps one wants to use for computing the next
@@ -52,8 +54,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   <li>...</li>
  * </ul>
  *
- * <p>A k-steps Adams-Moulton method is of order k+1. There is no theoretical limit to the
- * value of k, but due to an implementation limitation k must be greater than 1.</p>
+ * <p>A k-steps Adams-Moulton method is of order k+1.</p>
  *
  * <h3>Implementation details</h3>
  *
@@ -119,7 +120,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   Taylor series formulas,</li>
  *   <li>it simplifies step changes that occur when discrete events that truncate
  *   the step are triggered,</li>
- *   <li>it allows to extend the methods in order to support adaptive stepsize (not implemented yet).</li>
+ *   <li>it allows to extend the methods in order to support adaptive stepsize.</li>
  * </ul></p>
  * 
  * <p>The predicted Nordsieck vector at step n+1 is computed from the Nordsieck vector at step
@@ -158,9 +159,8 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 public class AdamsMoultonIntegrator extends MultistepIntegrator {
 
     /**
-     * Build an Adams-Moulton integrator with the given order and step size.
-     * @param order order of the method (must be greater than 1: due to
-     * an implementation limitation the order 1 method is not supported)
+     * Build an Adams-Moulton integrator with the given order and error control parameters.
+     * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -169,19 +169,18 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
      * @param scalRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonIntegrator(final int order,
+    public AdamsMoultonIntegrator(final int nSteps,
                                   final double minStep, final double maxStep,
                                   final double scalAbsoluteTolerance,
                                   final double scalRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Moulton", order, order, minStep, maxStep,
+        super("Adams-Moulton", nSteps, nSteps + 1, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
      * Build an Adams-Moulton integrator with the given order and step size.
-     * @param order order of the method (must be greater than 1: due to
-     * an implementation limitation the order 1 method is not supported)
+     * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -190,12 +189,12 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsMoultonIntegrator(final int order,
+    public AdamsMoultonIntegrator(final int nSteps,
                                   final double minStep, final double maxStep,
                                   final double[] vecAbsoluteTolerance,
                                   final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Moulton", order, order, minStep, maxStep,
+        super("Adams-Moulton", nSteps, nSteps + 1, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
       

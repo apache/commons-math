@@ -32,7 +32,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * Differential Equations.
  *
  * <p>Adams-Bashforth methods (in fact due to Adams alone) are explicit
- * multistep ODE solvers with fixed stepsize. The value of state vector
+ * multistep ODE solvers. This implementation is a variation of the classical
+ * one: it uses adaptive stepsize to implement error control, whereas
+ * classical implementations are fixed step size. The value of state vector
  * at step n+1 is a simple combination of the value at step n and of the
  * derivatives at steps n, n-1, n-2 ... Depending on the number k of previous
  * steps one wants to use for computing the next value, different formulas
@@ -45,8 +47,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   <li>...</li>
  * </ul>
  *
- * <p>A k-steps Adams-Bashforth method is of order k. There is no theoretical limit to the
- * value of k, but due to an implementation limitation k must be greater than 1.</p>
+ * <p>A k-steps Adams-Bashforth method is of order k.</p>
  *
  * <h3>Implementation details</h3>
  *
@@ -112,7 +113,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   Taylor series formulas,</li>
  *   <li>it simplifies step changes that occur when discrete events that truncate
  *   the step are triggered,</li>
- *   <li>it allows to extend the methods in order to support adaptive stepsize (not implemented yet).</li>
+ *   <li>it allows to extend the methods in order to support adaptive stepsize.</li>
  * </ul></p>
  * 
  * <p>The Nordsieck vector at step n+1 is computed from the Nordsieck vector at step n as follows:
@@ -142,8 +143,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
 
     /**
      * Build an Adams-Bashforth with the given order and step size.
-     * @param order order of the method (must be greater than 1: due to
-     * an implementation limitation the order 1 method is not supported)
+     * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -152,19 +152,18 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
      * @param scalRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthIntegrator(final int order,
+    public AdamsBashforthIntegrator(final int nSteps,
                                     final double minStep, final double maxStep,
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", order, order, minStep, maxStep,
+        super("Adams-Bashforth", nSteps, nSteps + 1, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
     /**
      * Build an Adams-Bashforth with the given order and step size.
-     * @param order order of the method (must be greater than 1: due to
-     * an implementation limitation the order 1 method is not supported)
+     * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
      * @param maxStep maximal step (must be positive even for backward
@@ -173,12 +172,12 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
      * @param vecRelativeTolerance allowed relative error
      * @exception IllegalArgumentException if order is 1 or less
      */
-    public AdamsBashforthIntegrator(final int order,
+    public AdamsBashforthIntegrator(final int nSteps,
                                     final double minStep, final double maxStep,
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", order, order, minStep, maxStep,
+        super("Adams-Bashforth", nSteps, nSteps + 1, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
 

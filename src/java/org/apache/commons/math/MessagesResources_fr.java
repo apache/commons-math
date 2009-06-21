@@ -308,8 +308,8 @@ public class MessagesResources_fr
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
     // org.apache.commons.math.ode.MultistepIntegrator
-    { "{0} is supported only for 2 points or more",
-      "la m\u00e9thode {0} n''est disponible que pour 2 points ou plus" },
+    { "{0} method needs at least one previous point",
+      "la m\u00e9thode {0} n\u00e9cessite au moins un point pr\u00e9c\u00e9dent" },
 
     // org.apache.commons.math.ode.stiff.BDFIntegrator
     { "unsupported order {0} for BDF methods, must be between {1} and {2}",

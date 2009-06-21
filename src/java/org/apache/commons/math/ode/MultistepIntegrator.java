@@ -47,7 +47,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     /** Starter integrator. */
     private FirstOrderIntegrator starter;
 
-    /** Number of steps of the multistep method (including the one being computed). */
+    /** Number of steps of the multistep method (excluding the one being computed). */
     private final int nSteps;
 
     /** First scaled derivative (h y'). */
@@ -77,7 +77,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * some defaults settings.</p>
      * @param name name of the method
      * @param nSteps number of steps of the multistep method
-     * (including the one being computed)
+     * (excluding the one being computed)
      * @param order order of the method
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
@@ -94,9 +94,9 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
-        if (nSteps <= 1) {
+        if (nSteps <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} is supported only for 2 points or more",
+                  "{0} method needs at least one previous point",
                   name);
         }
 
@@ -104,7 +104,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                                                  scalAbsoluteTolerance,
                                                  scalRelativeTolerance);
         this.nSteps = nSteps;
-        transformer = NordsieckTransformer.getInstance(nSteps);
+        transformer = NordsieckTransformer.getInstance(nSteps + 1);
 
         exp = -1.0 / order;
 
@@ -122,7 +122,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * some defaults settings.</p>
      * @param name name of the method
      * @param nSteps number of steps of the multistep method
-     * (including the one being computed)
+     * (excluding the one being computed)
      * @param order order of the method
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
@@ -141,7 +141,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                                                  vecAbsoluteTolerance,
                                                  vecRelativeTolerance);
         this.nSteps = nSteps;
-        transformer = NordsieckTransformer.getInstance(nSteps);
+        transformer = NordsieckTransformer.getInstance(nSteps + 1);
 
         exp = -1.0 / order;
 
@@ -291,7 +291,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
             final Class<MultistepIntegrator> cl = MultistepIntegrator.class;
             final Field f = cl.getDeclaredField("transformer");
             f.setAccessible(true);
-            f.set(this, NordsieckTransformer.getInstance(nSteps));
+            f.set(this, NordsieckTransformer.getInstance(nSteps + 1));
 
         } catch (NoSuchFieldException nsfe) {
             IOException ioe = new IOException();
@@ -325,7 +325,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
             final double prev = interpolator.getPreviousTime();
             final double curr = interpolator.getCurrentTime();
             stepStart = prev;
-            stepSize  = (curr - prev) / nSteps;
+            stepSize  = (curr - prev) / (nSteps + 1);
 
             // compute the first scaled derivative
             interpolator.setInterpolatedTime(prev);
@@ -335,8 +335,8 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
             }
 
             // compute the high order scaled derivatives
-            final double[][] multistep = new double[nSteps - 1][];
-            for (int i = 1; i < nSteps; ++i) {
+            final double[][] multistep = new double[nSteps][];
+            for (int i = 1; i <= nSteps; ++i) {
                 interpolator.setInterpolatedTime(prev + stepSize * i);
                 final double[] msI = interpolator.getInterpolatedDerivatives().clone();
                 for (int j = 0; j < n; ++j) {

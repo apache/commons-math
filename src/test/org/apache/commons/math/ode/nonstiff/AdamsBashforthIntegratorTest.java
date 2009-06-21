@@ -31,7 +31,7 @@ public class AdamsBashforthIntegratorTest {
     public void dimensionCheck() throws DerivativeException, IntegratorException {
         TestProblem1 pb = new TestProblem1();
         FirstOrderIntegrator integ =
-            new AdamsBashforthIntegrator(3, 0.0, 1.0, 1.0e-10, 1.0e-10);
+            new AdamsBashforthIntegrator(2, 0.0, 1.0, 1.0e-10, 1.0e-10);
         integ.integrate(pb,
                         0.0, new double[pb.getDimension()+10],
                         1.0, new double[pb.getDimension()+10]);
@@ -46,7 +46,7 @@ public class AdamsBashforthIntegratorTest {
           double[] vecAbsoluteTolerance = { 1.0e-15, 1.0e-16 };
           double[] vecRelativeTolerance = { 1.0e-15, 1.0e-16 };
 
-          FirstOrderIntegrator integ = new AdamsBashforthIntegrator(5, minStep, maxStep,
+          FirstOrderIntegrator integ = new AdamsBashforthIntegrator(4, minStep, maxStep,
                                                                     vecAbsoluteTolerance,
                                                                     vecRelativeTolerance);
           TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -69,7 +69,7 @@ public class AdamsBashforthIntegratorTest {
             double scalAbsoluteTolerance = Math.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
-            FirstOrderIntegrator integ = new AdamsBashforthIntegrator(5, minStep, maxStep,
+            FirstOrderIntegrator integ = new AdamsBashforthIntegrator(4, minStep, maxStep,
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
             TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -100,7 +100,7 @@ public class AdamsBashforthIntegratorTest {
         TestProblem1 pb  = new TestProblem1();
         double range = pb.getFinalTime() - pb.getInitialTime();
 
-        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(3, 0, range, 1.0e-12, 1.0e-12);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(2, 0, range, 1.0e-12, 1.0e-12);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
         integ.addStepHandler(handler);
         integ.setMaxEvaluations(650);
@@ -116,7 +116,7 @@ public class AdamsBashforthIntegratorTest {
         TestProblem5 pb = new TestProblem5();
         double range = Math.abs(pb.getFinalTime() - pb.getInitialTime());
 
-        FirstOrderIntegrator integ = new AdamsBashforthIntegrator(5, 0, range, 1.0e-12, 1.0e-12);
+        FirstOrderIntegrator integ = new AdamsBashforthIntegrator(4, 0, range, 1.0e-12, 1.0e-12);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
         integ.addStepHandler(handler);
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
@@ -133,14 +133,14 @@ public class AdamsBashforthIntegratorTest {
         TestProblem6 pb = new TestProblem6();
         double range = Math.abs(pb.getFinalTime() - pb.getInitialTime());
 
-        for (int order = 2; order < 9; ++order) {
+        for (int nSteps = 1; nSteps < 8; ++nSteps) {
             AdamsBashforthIntegrator integ =
-                new AdamsBashforthIntegrator(order, 1.0e-6 * range, 0.1 * range, 1.0e-10, 1.0e-10);
+                new AdamsBashforthIntegrator(nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-10, 1.0e-10);
             TestProblemHandler handler = new TestProblemHandler(pb, integ);
             integ.addStepHandler(handler);
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
-            if (order < 5) {
+            if (nSteps < 4) {
                 assertTrue(integ.getEvaluations() > 160);
             } else {
                 assertTrue(integ.getEvaluations() < 70);
