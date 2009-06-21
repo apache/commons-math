@@ -36,8 +36,9 @@
          <a href="#a1.3_Frequency_distributions">Frequency distributions</a><br></br>
          <a href="#a1.4_Simple_regression">Simple Regression</a><br></br>
          <a href="#a1.5_Multiple_linear_regression">Multiple Regression</a><br></br>
-         <a href="#a1.6_Covariance_and_correlation">Covariance and correlation</a><br></br>
-         <a href="#a1.7_Statistical_tests">Statistical Tests</a><br></br>
+         <a href="#a1.6_Rank_transformations">Rank transformations</a><br></br>
+         <a href="#a1.7_Covariance_and_correlation">Covariance and correlation</a><br></br>
+         <a href="#a1.8_Statistical_tests">Statistical Tests</a><br></br>
         </p>
       </subsection>
       <subsection name="1.2 Descriptive statistics">
@@ -493,8 +494,50 @@ regression.addData(y, x, omega); // we do need covariance
          </dd>
          </dl>
         </p>
-      </subsection>      
-      <subsection name="1.6 Covariance and correlation">
+      </subsection>    
+      <subsection name="1.6 Rank transformations">
+      <p>
+         Some statistical algorithms require that input data be replaced by ranks.
+         The <a href="../apidocs/org/apache/commons/math/stat/ranking/package-summary.html">
+         org.apache.commons.math.stat.ranking</a> package provides rank transformation.
+         <a href="../apidocs/org/apache/commons/math/stat/ranking/RankingAlgorithm.html">
+         RankingAlgorithm</a> defines the interface for ranking.  
+         <a href="../apidocs/org/apache/commons/math/stat/ranking/NaturalRanking.html">
+         NaturalRanking</a> provides an implementation that has two configuration options.
+         <ul>
+         <li><a href="../apidocs/org/apache/commons/math/stat/ranking/TiesStrategy.html">
+         Ties strategy</a> deterimines how ties in the source data are handled by the ranking</li>
+         <li><a href="../apidocs/org/apache/commons/math/stat/ranking/NaNStrategy.html">
+         NaN strategy</a> determines how NaN values in the source data are handled.</li>
+         </ul>
+      </p>
+      <p>
+         Examples:
+         <source>
+NaturalRanking ranking = new NaturalRanking(NaNStrategy.MINIMAL,
+TiesStrategy.MAXIMUM);
+double[] data = { 20, 17, 30, 42.3, 17, 50,
+                  Double.NaN, Double.NEGATIVE_INFINITY, 17 };
+double[] ranks = ranking.rank(exampleData);
+         </source>
+         results in <code>ranks</code> containing <code>{6, 5, 7, 8, 5, 9, 2, 2, 5}.</code>
+         <source>
+new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData);   
+         </source>
+         returns <code>{5, 2, 6, 7, 3, 8, 1, 4}.</code>
+      </p>
+      <p>
+        The default <code>NaNStrategy</code> is NaNStrategy.MAXIMAL.  This makes <code>NaN</code>
+        values larger than any other value (including <code>Double.POSITIVE_INFINITY</code>). The
+        default <code>TiesStrategy</code> is <code>TiesStrategy.AVERAGE,</code> which assigns tied
+        values the average of the ranks applicable to the sequence of ties.  See the 
+        <a href="../apidocs/org/apache/commons/math/stat/ranking/NaturalRanking.html">
+        NaturalRanking</a> for more examples and <a href="../apidocs/org/apache/commons/math/stat/ranking/TiesStrategy.html">
+        TiesStrategy</a> and <a href="../apidocs/org/apache/commons/math/stat/ranking/NaNStrategy.html">NaNStrategy</a>
+        for details on these configuration options.
+       </p>
+      </subsection>  
+      <subsection name="1.7 Covariance and correlation">
         <p>
           The <a href="../apidocs/org/apache/commons/math/stat/correlation/package-summary.html">
           org.apache.commons.math.stat.correlation</a> package computes covariances
@@ -617,7 +660,7 @@ new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
         </dl>
         </p>
       </subsection>
-            <subsection name="1.7 Statistical tests">
+            <subsection name="1.8 Statistical tests">
         <p>
           The interfaces and implementations in the
           <a href="../apidocs/org/apache/commons/math/stat/inference/">
