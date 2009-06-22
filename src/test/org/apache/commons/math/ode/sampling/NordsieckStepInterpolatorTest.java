@@ -40,7 +40,7 @@ public class NordsieckStepInterpolatorTest {
     public void derivativesConsistency()
     throws DerivativeException, IntegratorException {
         TestProblem3 pb = new TestProblem3();
-        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, 0.0, 1.0, 1.0e-10, 1.0e-10);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(4, 0.0, 1.0, 1.0e-10, 1.0e-10);
         StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 7e-10);
     }
 
@@ -50,7 +50,7 @@ public class NordsieckStepInterpolatorTest {
     IOException, ClassNotFoundException {
 
         TestProblem1 pb = new TestProblem1();
-        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(5, 0.0, 1.0, 1.0e-10, 1.0e-10);
+        AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(4, 0.0, 1.0, 1.0e-10, 1.0e-10);
         integ.addStepHandler(new ContinuousOutputModel());
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
