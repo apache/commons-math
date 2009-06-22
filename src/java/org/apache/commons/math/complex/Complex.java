@@ -976,7 +976,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return A Complex instance with all fields resolved.
      * @since 2.0
      */
-    private final Object readResolve() {
+    protected final Object readResolve() {
         return createComplex(real, imaginary);
     }
     
