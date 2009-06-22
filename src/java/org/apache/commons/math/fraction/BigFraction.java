@@ -68,8 +68,8 @@ public class BigFraction extends Number implements FieldElement<BigFraction>, Co
     /** A fraction representing "3/4". */
     public static final BigFraction THREE_QUARTERS = new BigFraction(3, 4);
 
-    /** A fraction representing "4/5". */
-    public static final BigFraction TWO_FIFTHS = new BigFraction(4, 5);
+    /** A fraction representing "2/5". */
+    public static final BigFraction TWO_FIFTHS = new BigFraction(2, 5);
 
     /** A fraction representing "2/4". */
     public static final BigFraction TWO_QUARTERS = new BigFraction(2, 4);

@@ -65,8 +65,8 @@ public class Fraction extends Number implements FieldElement<Fraction>, Comparab
     /** A fraction representing "3/4". */
     public static final Fraction THREE_QUARTERS = new Fraction(3, 4);
 
-    /** A fraction representing "4/5". */
-    public static final Fraction TWO_FIFTHS = new Fraction(4, 5);
+    /** A fraction representing "2/5". */
+    public static final Fraction TWO_FIFTHS = new Fraction(2, 5);
 
     /** A fraction representing "2/4". */
     public static final Fraction TWO_QUARTERS = new Fraction(2, 4);
