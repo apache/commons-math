@@ -28,6 +28,7 @@ import junit.framework.TestCase;
  */
 public class ComplexTest extends TestCase {
     
+
     private double inf = Double.POSITIVE_INFINITY;
     private double neginf = Double.NEGATIVE_INFINITY;
     private double nan = Double.NaN;
@@ -912,6 +913,38 @@ public class ComplexTest extends TestCase {
         Complex infcmplx = (Complex)TestUtils.serializeAndRecover(infInf);
         assertEquals(infInf, infcmplx);
         assertTrue(infcmplx.isInfinite());
+        TestComplex tz = new TestComplex(3.0, 4.0);
+        assertEquals(tz, TestUtils.serializeAndRecover(tz));
+        TestComplex ntcmplx = (TestComplex)TestUtils.serializeAndRecover(new TestComplex(oneNaN));
+        assertEquals(nanZero, ntcmplx);
+        assertTrue(ntcmplx.isNaN());
+        TestComplex inftcmplx = (TestComplex)TestUtils.serializeAndRecover(new TestComplex(infInf));
+        assertEquals(infInf, inftcmplx);
+        assertTrue(inftcmplx.isInfinite());
+    }
+    
+    /**
+     * Class to test extending Complex
+     */
+    public static class TestComplex extends Complex {
+
+        /**
+         * Serialization identifier.
+         */
+        private static final long serialVersionUID = 3268726724160389237L;
+
+        public TestComplex(double real, double imaginary) {
+            super(real, imaginary);
+        }
+        
+        public TestComplex(Complex other){
+            this(other.getReal(), other.getImaginary());
+        }
+        
+        protected TestComplex createComplex(double real, double imaginary){
+            return new TestComplex(real, imaginary);
+        }
+
     }
 
 }
