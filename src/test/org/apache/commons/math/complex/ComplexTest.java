@@ -940,7 +940,8 @@ public class ComplexTest extends TestCase {
         public TestComplex(Complex other){
             this(other.getReal(), other.getImaginary());
         }
-        
+
+        @Override
         protected TestComplex createComplex(double real, double imaginary){
             return new TestComplex(real, imaginary);
         }
