@@ -383,6 +383,10 @@ public class MessagesResources_fr
     { "matrix is singular",
       "matrice singuli\u00e8re" },
 
+    // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
+    { "cutoff singular value is {0}, should be at most {1}",
+      "la valeur singuli\u00e8re de coupure vaut {0}, elle ne devrait pas d\u00e9passer {1}" },
+
     // org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl
     // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
     // org.apache.commons.math.linear.decomposition.LUDecompositionImpl

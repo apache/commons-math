@@ -97,6 +97,42 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
     }
 
+    /** Test based on a dimension 4 Hadamard matrix. */
+    public void testHadamard() {
+        RealMatrix matrix = new Array2DRowRealMatrix(new double[][] {
+                {15.0 / 2.0,  5.0 / 2.0,  9.0 / 2.0,  3.0 / 2.0 },
+                { 5.0 / 2.0, 15.0 / 2.0,  3.0 / 2.0,  9.0 / 2.0 },
+                { 9.0 / 2.0,  3.0 / 2.0, 15.0 / 2.0,  5.0 / 2.0 },
+                { 3.0 / 2.0,  9.0 / 2.0,  5.0 / 2.0, 15.0 / 2.0 }
+        }, false);
+        SingularValueDecomposition svd = new SingularValueDecompositionImpl(matrix);
+        assertEquals(16.0, svd.getSingularValues()[0], 1.0e-14);
+        assertEquals( 8.0, svd.getSingularValues()[1], 1.0e-14);
+        assertEquals( 4.0, svd.getSingularValues()[2], 1.0e-14);
+        assertEquals( 2.0, svd.getSingularValues()[3], 1.0e-14);
+
+        RealMatrix fullCovariance = new Array2DRowRealMatrix(new double[][] {
+                {  85.0 / 1024, -51.0 / 1024, -75.0 / 1024,  45.0 / 1024 },
+                { -51.0 / 1024,  85.0 / 1024,  45.0 / 1024, -75.0 / 1024 },
+                { -75.0 / 1024,  45.0 / 1024,  85.0 / 1024, -51.0 / 1024 },
+                {  45.0 / 1024, -75.0 / 1024, -51.0 / 1024,  85.0 / 1024 }
+        }, false);
+        assertEquals(0.0,
+                     fullCovariance.subtract(svd.getCovariance(0.0)).getNorm(),
+                     1.0e-14);
+
+        RealMatrix halfCovariance = new Array2DRowRealMatrix(new double[][] {
+                {   5.0 / 1024,  -3.0 / 1024,   5.0 / 1024,  -3.0 / 1024 },
+                {  -3.0 / 1024,   5.0 / 1024,  -3.0 / 1024,   5.0 / 1024 },
+                {   5.0 / 1024,  -3.0 / 1024,   5.0 / 1024,  -3.0 / 1024 },
+                {  -3.0 / 1024,   5.0 / 1024,  -3.0 / 1024,   5.0 / 1024 }
+        }, false);
+        assertEquals(0.0,
+                     halfCovariance.subtract(svd.getCovariance(6.0)).getNorm(),
+                     1.0e-14);
+
+    }
+
     /** test A = USVt */
     public void testAEqualUSVt() {
         checkAEqualUSVt(MatrixUtils.createRealMatrix(testSquare));

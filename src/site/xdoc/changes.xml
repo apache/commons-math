@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" due-to="Dimitri Pourbaix">
+        Added a getCovariance method to singular value decomposition
+      </action>
       <action dev="luc" type="add" issue="MATH-278" due-to="Eugene Kirpichov">
         Added robust locally weighted regression (Loess).
       </action>

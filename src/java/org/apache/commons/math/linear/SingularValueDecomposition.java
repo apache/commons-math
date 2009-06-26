@@ -39,7 +39,8 @@ package org.apache.commons.math.linear;
  *   getRank},</li>
  *   <li>a {@link #getUT() getUT} method has been added,</li>
  *   <li>a {@link #getVT() getVT} method has been added,</li>
- *   <li>a {@link #getSolver() getSolver} method has been added.</li>
+ *   <li>a {@link #getSolver() getSolver} method has been added,</li>
+ *   <li>a {@link #getCovariance(double) getCovariance} method has been added.</li>
  * </ul>
  * @see <a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
@@ -95,6 +96,19 @@ public interface SingularValueDecomposition {
      * @see #getV()
      */
     RealMatrix getVT();
+
+    /**
+     * Returns the n &times; n covariance matrix.
+     * <p>The covariance matrix is V &times; J &times; V<sup>T</sup>
+     * where J is the diagonal matrix of the inverse of the squares of
+     * the singular values.</p>
+     * @param minSingularValue value below which singular values are ignored
+     * (a 0 or negative value implies all singular value will be used)
+     * @return covariance matrix
+     * @exception IllegalArgumentException if minSingularValue is larger than
+     * the largest singular value, meaning all singular values are ignored
+     */
+    RealMatrix getCovariance(double minSingularValue) throws IllegalArgumentException;
 
     /**
      * Returns the L<sub>2</sub> norm of the matrix.

@@ -257,6 +257,35 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     }
 
     /** {@inheritDoc} */
+    public RealMatrix getCovariance(final double minSingularValue) {
+
+        // get the number of singular values to consider
+        int dimension = 0;
+        while ((dimension < n) && (singularValues[dimension] >= minSingularValue)) {
+            ++dimension;
+        }
+
+        if (dimension == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "cutoff singular value is {0}, should be at most {1}",
+                  minSingularValue, singularValues[0]);
+        }
+
+        final double[][] data = new double[dimension][n];
+        getVT().walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
+            /** {@inheritDoc} */
+            @Override
+            public void visit(final int row, final int column, final double value) {
+                data[row][column] = value / singularValues[row];
+            }
+        }, 0, dimension - 1, 0, n - 1);
+
+        RealMatrix jv = new Array2DRowRealMatrix(data, false);
+        return jv.transpose().multiply(jv);
+
+    }
+
+    /** {@inheritDoc} */
     public double getNorm()
         throws InvalidMatrixException {
         return singularValues[0];
