@@ -660,7 +660,7 @@ public class MatrixUtils {
      * @param m matrix to convert
      * @return converted matrix
      */
-    public static RealMatrix fractionMatrixToRealMatrix(final FieldMatrix<Fraction> m) {
+    public static Array2DRowRealMatrix fractionMatrixToRealMatrix(final FieldMatrix<Fraction> m) {
         final FractionMatrixConverter converter = new FractionMatrixConverter();
         m.walkInOptimizedOrder(converter);
         return converter.getConvertedMatrix();
@@ -693,7 +693,7 @@ public class MatrixUtils {
         /** Get the converted matrix.
          * @return converted matrix
          */
-        RealMatrix getConvertedMatrix() {
+        Array2DRowRealMatrix getConvertedMatrix() {
             return new Array2DRowRealMatrix(data, false);
         }
 
@@ -704,7 +704,7 @@ public class MatrixUtils {
      * @param m matrix to convert
      * @return converted matrix
      */
-    public static RealMatrix bigFractionMatrixToRealMatrix(final FieldMatrix<BigFraction> m) {
+    public static Array2DRowRealMatrix bigFractionMatrixToRealMatrix(final FieldMatrix<BigFraction> m) {
         final BigFractionMatrixConverter converter = new BigFractionMatrixConverter();
         m.walkInOptimizedOrder(converter);
         return converter.getConvertedMatrix();
@@ -737,7 +737,7 @@ public class MatrixUtils {
         /** Get the converted matrix.
          * @return converted matrix
          */
-        RealMatrix getConvertedMatrix() {
+        Array2DRowRealMatrix getConvertedMatrix() {
             return new Array2DRowRealMatrix(data, false);
         }
 
