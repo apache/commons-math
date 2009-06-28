@@ -161,7 +161,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         Arrays.fill(interpolatedState, 0.0);
         Arrays.fill(interpolatedDerivatives, 0.0);
 
-        // apply Taylor formula for high order to low order,
+        // apply Taylor formula from high order to low order,
         // for the sake of numerical accuracy
         final double[][] nData = nordsieck.getDataRef();
         for (int i = nData.length - 1; i >= 0; --i) {
