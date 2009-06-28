@@ -29,9 +29,9 @@ import java.util.Random;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.TestProblem1;
+import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
-import org.apache.commons.math.ode.nonstiff.TestProblem1;
-import org.apache.commons.math.ode.nonstiff.TestProblem3;
 import org.junit.Test;
 
 public class NordsieckStepInterpolatorTest {

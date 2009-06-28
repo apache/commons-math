@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode;
 
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.events.EventHandler;

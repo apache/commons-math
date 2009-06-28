@@ -29,6 +29,7 @@ import java.io.IOException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;

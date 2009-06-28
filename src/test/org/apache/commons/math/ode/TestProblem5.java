@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode;
 
 /**
  * This class is used in the junit tests for the ODE integrators.

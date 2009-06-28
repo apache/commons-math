@@ -15,66 +15,50 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
 
  * <p>This specific problem is the following differential equation :
  * <pre>
- *    y1'' = -y1/r^3  y1 (0) = 1-e  y1' (0) = 0
- *    y2'' = -y2/r^3  y2 (0) = 0    y2' (0) =sqrt((1+e)/(1-e))
- *    r = sqrt (y1^2 + y2^2), e = 0.9
+ *    y' = -y
  * </pre>
- * This is a two-body problem in the plane which can be solved by
- * Kepler's equation
+ * the solution of this equation is a simple exponential function :
  * <pre>
- *   y1 (t) = ...
+ *   y (t) = y (t0) exp (t0-t)
  * </pre>
  * </p>
 
  */
-public class TestProblem3
+public class TestProblem1
   extends TestProblemAbstract {
 
   /** Serializable version identifier. */
-  private static final long serialVersionUID = 8567328542728919999L;
-
-  /** Eccentricity */
-  double e;
+  private static final long serialVersionUID = 1977870815289373164L;
 
   /** theoretical state */
   private double[] y;
 
   /**
    * Simple constructor.
-   * @param e eccentricity
    */
-  public TestProblem3(double e) {
+  public TestProblem1() {
     super();
-    this.e = e;
-    double[] y0 = { 1 - e, 0, 0, Math.sqrt((1+e)/(1-e)) };
+    double[] y0 = { 1.0, 0.1 };
     setInitialConditions(0.0, y0);
-    setFinalConditions(20.0);
-    double[] errorScale = { 1.0, 1.0, 1.0, 1.0 };
+    setFinalConditions(4.0);
+    double[] errorScale = { 1.0, 1.0 };
     setErrorScale(errorScale);
     y = new double[y0.length];
-  }
- 
-  /**
-   * Simple constructor.
-   */
-  public TestProblem3() {
-    this(0.1);
   }
  
   /**
    * Copy constructor.
    * @param problem problem to copy
    */
-  public TestProblem3(TestProblem3 problem) {
+  public TestProblem1(TestProblem1 problem) {
     super(problem);
-    e = problem.e;
     y = problem.y.clone();
   }
 
@@ -84,49 +68,24 @@ public class TestProblem3
    */
   @Override
   public Object clone() {
-    return new TestProblem3(this);
+    return new TestProblem1(this);
   }
 
   @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
 
-    // current radius
-    double r2 = y[0] * y[0] + y[1] * y[1];
-    double invR3 = 1 / (r2 * Math.sqrt(r2));
-
     // compute the derivatives
-    yDot[0] = y[2];
-    yDot[1] = y[3];
-    yDot[2] = -invR3  * y[0];
-    yDot[3] = -invR3  * y[1];
+    for (int i = 0; i < n; ++i)
+      yDot[i] = -y[i];
 
   }
 
   @Override
   public double[] computeTheoreticalState(double t) {
-
-    // solve Kepler's equation
-    double E = t;
-    double d = 0;
-    double corr = 0;
-    do {
-      double f2  = e * Math.sin(E);
-      double f0  = d - f2;
-      double f1  = 1 - e * Math.cos(E);
-      double f12 = f1 + f1;
-      corr  = f0 * f12 / (f1 * f12 - f0 * f2);
-      d -= corr;
-      E = t + d;
-    } while (Math.abs(corr) > 1.0e-12);
-
-    double cosE = Math.cos(E);
-    double sinE = Math.sin(E);
-
-    y[0] = cosE - e;
-    y[1] = Math.sqrt(1 - e * e) * sinE;
-    y[2] = -sinE / (1 - e * cosE);
-    y[3] = Math.sqrt(1 - e * e) * cosE / (1 - e * cosE);
-
+    double c = Math.exp (t0 - t);
+    for (int i = 0; i < n; ++i) {
+      y[i] = c * y0[i];
+    }
     return y;
   }
 

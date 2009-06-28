@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.TestProblemAbstract;
+import org.apache.commons.math.ode.TestProblemAbstract;
 
 public class StepInterpolatorTestUtils {
 

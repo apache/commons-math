@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode.nonstiff;
+package org.apache.commons.math.ode;
 
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ODEIntegrator;
@@ -26,7 +26,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * This class is used to handle steps for the test problems
  * integrated during the junit tests for the ODE integrators.
  */
-class TestProblemHandler
+public class TestProblemHandler
   implements StepHandler {
 
   /** Associated problem. */

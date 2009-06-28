@@ -20,8 +20,8 @@ package org.apache.commons.math.ode.sampling;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math.ode.nonstiff.TestProblem3;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
 

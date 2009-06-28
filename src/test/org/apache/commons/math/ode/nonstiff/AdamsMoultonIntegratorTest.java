@@ -23,6 +23,10 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.TestProblem1;
+import org.apache.commons.math.ode.TestProblem5;
+import org.apache.commons.math.ode.TestProblem6;
+import org.apache.commons.math.ode.TestProblemHandler;
 import org.junit.Test;
 
 public class AdamsMoultonIntegratorTest {
