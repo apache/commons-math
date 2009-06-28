@@ -19,13 +19,12 @@ package org.apache.commons.math.ode.nonstiff;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.MatrixVisitorException;
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.MultistepIntegrator;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -128,7 +127,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * <ul>
  *   <li>Y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n) + u<sup>T</sup> r<sub>n</sub></li>
  *   <li>S<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, Y<sub>n+1</sub>)</li>
- *   <li>R<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub></li>
+ *   <li>R<sub>n+1</sub> = (s<sub>1</sub>(n) - S<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub></li>
  * </ul>
  * where A is a rows shifting matrix (the lower left part is an identity matrix):
  * <pre>
@@ -156,7 +155,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsMoultonIntegrator extends MultistepIntegrator {
+public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
     /**
      * Build an Adams-Moulton integrator with the given order and error control parameters.
@@ -179,7 +178,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
     }
 
     /**
-     * Build an Adams-Moulton integrator with the given order and step size.
+     * Build an Adams-Moulton integrator with the given order and error control parameters.
      * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
@@ -264,9 +263,8 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
                 for (int j = 0; j < y0.length; ++j) {
                     predictedScaled[j] = stepSize * yDot[j];
                 }
-                final RealMatrix nordsieckTmp =
-                    transformer.updateHighOrderDerivativesPhase1(nordsieck);
-                transformer.updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
+                final Array2DRowRealMatrix nordsieckTmp = updateHighOrderDerivativesPhase1(nordsieck);
+                updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
 
                 // apply correction (C in the PECE sequence)
                 error = nordsieckTmp.walkInOptimizedOrder(new Corrector(y, predictedScaled, yTmp));
@@ -281,7 +279,7 @@ public class AdamsMoultonIntegrator extends MultistepIntegrator {
                     for (int j = 0; j < y0.length; ++j) {
                         correctedScaled[j] = stepSize * yDot[j];
                     }
-                    transformer.updateHighOrderDerivativesPhase2(predictedScaled, correctedScaled, nordsieckTmp);
+                    updateHighOrderDerivativesPhase2(predictedScaled, correctedScaled, nordsieckTmp);
 
                     // discrete events handling
                     interpolatorTmp.reinitialize(stepEnd, stepSize, correctedScaled, nordsieckTmp);

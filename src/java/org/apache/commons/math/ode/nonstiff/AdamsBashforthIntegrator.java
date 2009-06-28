@@ -17,11 +17,10 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.MultistepIntegrator;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -139,10 +138,10 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class AdamsBashforthIntegrator extends MultistepIntegrator {
+public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
     /**
-     * Build an Adams-Bashforth with the given order and step size.
+     * Build an Adams-Bashforth integrator with the given order and step control parameters.
      * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
@@ -162,7 +161,7 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
     }
 
     /**
-     * Build an Adams-Bashforth with the given order and step size.
+     * Build an Adams-Bashforth integrator with the given order and step control parameters.
      * @param nSteps number of steps of the method excluding the one being computed
      * @param minStep minimal step (must be positive even for backward
      * integration), the last step can be smaller than this
@@ -261,9 +260,8 @@ public class AdamsBashforthIntegrator extends MultistepIntegrator {
                     for (int j = 0; j < y0.length; ++j) {
                         predictedScaled[j] = stepSize * yDot[j];
                     }
-                    final RealMatrix nordsieckTmp =
-                        transformer.updateHighOrderDerivativesPhase1(nordsieck);
-                    transformer.updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
+                    final Array2DRowRealMatrix nordsieckTmp = updateHighOrderDerivativesPhase1(nordsieck);
+                    updateHighOrderDerivativesPhase2(scaled, predictedScaled, nordsieckTmp);
 
                     // discrete events handling
                     interpolatorTmp.reinitialize(stepEnd, stepSize, predictedScaled, nordsieckTmp);

@@ -17,13 +17,8 @@
 
 package org.apache.commons.math.ode;
 
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
-
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
@@ -41,9 +36,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
-    /** Transformer. */
-    protected final transient NordsieckTransformer transformer;
-
     /** Starter integrator. */
     private FirstOrderIntegrator starter;
 
@@ -56,7 +48,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     /** Nordsieck matrix of the higher scaled derivatives.
      * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y(k))</p>
      */
-    protected RealMatrix nordsieck;
+    protected Array2DRowRealMatrix nordsieck;
 
     /** Stepsize control exponent. */
     private double exp;
@@ -104,7 +96,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                                                  scalAbsoluteTolerance,
                                                  scalRelativeTolerance);
         this.nSteps = nSteps;
-        transformer = NordsieckTransformer.getInstance(nSteps + 1);
 
         exp = -1.0 / order;
 
@@ -141,7 +132,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                                                  vecAbsoluteTolerance,
                                                  vecRelativeTolerance);
         this.nSteps = nSteps;
-        transformer = NordsieckTransformer.getInstance(nSteps + 1);
 
         exp = -1.0 / order;
 
@@ -216,6 +206,15 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
     }
 
+    /** Initialize the high order scaled derivatives at step start.
+     * @param first first scaled derivative at step start
+     * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
+     * will be modified
+     * @return high order derivatives at step start
+     */
+    protected abstract Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
+                                                                           final double[][] multistep);
+
     /** Get the minimal reduction factor for stepsize control.
      * @return minimal reduction factor
      */
@@ -266,43 +265,15 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         return Math.min(maxGrowth, Math.max(minReduction, safety * Math.pow(error, exp)));
     }
 
-    /** Serialize the instance.
-     * @param oos stream where object should be written
-     * @throws IOException if object cannot be written to stream
-     */
-    private void writeObject(ObjectOutputStream oos)
-        throws IOException {
-        oos.defaultWriteObject();
-        oos.writeInt(nSteps);
-    }
-
-    /** Deserialize the instance.
-     * @param ois stream from which the object should be read
-     * @throws ClassNotFoundException if a class in the stream cannot be found
-     * @throws IOException if object cannot be read from the stream
-     */
-    private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException {
-        try {
-
-            ois.defaultReadObject();
-            final int nSteps = ois.readInt();
-
-            final Class<MultistepIntegrator> cl = MultistepIntegrator.class;
-            final Field f = cl.getDeclaredField("transformer");
-            f.setAccessible(true);
-            f.set(this, NordsieckTransformer.getInstance(nSteps + 1));
-
-        } catch (NoSuchFieldException nsfe) {
-            IOException ioe = new IOException();
-            ioe.initCause(nsfe);
-            throw ioe;
-        } catch (IllegalAccessException iae) {
-            IOException ioe = new IOException();
-            ioe.initCause(iae);
-            throw ioe;
-        }
-
+    /** Transformer used to convert the first step to Nordsieck representation. */
+    public static interface NordsieckTransformer {
+        /** Initialize the high order scaled derivatives at step start.
+         * @param first first scaled derivative at step start
+         * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
+         * will be modified
+         * @return high order derivatives at step start
+         */
+        RealMatrix initializeHighOrderDerivatives(double[] first, double[][] multistep);
     }
 
     /** Specialized step handler storing the first step. */
@@ -344,7 +315,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
                 }
                 multistep[i - 1] = msI;
             }
-            nordsieck = transformer.initializeHighOrderDerivatives(scaled, multistep);
+            nordsieck = initializeHighOrderDerivatives(scaled, multistep);
 
             // stop the integrator after the first step has been handled
             throw new InitializationCompletedMarkerException();
