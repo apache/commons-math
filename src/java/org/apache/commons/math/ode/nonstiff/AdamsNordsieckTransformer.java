@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.nonstiff;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,13 +32,12 @@ import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
-import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
 
-/** Transformer for Nordsieck vectors.
- * <p>This class i used by {@link MultistepIntegrator multistep integrators}
- * to convert between classical representation with several previous first
- * derivatives and Nordsieck representation with higher order scaled derivatives.</p>
+/** Transformer to Nordsieck vectors for Adams integrators.
+ * <p>This class i used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
+ * {@link AdamsMoultonIntegrator Adams-Moulton} integrators to convert between
+ * classical representation with several previous first derivatives and Nordsieck
+ * representation with higher order scaled derivatives.</p>
  *
  * <p>We define scaled derivatives s<sub>i</sub>(n) at step n as:
  * <pre>
@@ -89,18 +88,9 @@ import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
  * </pre></p>
  *
  * <p>Changing -i into +i in the formula above can be used to compute a similar transform between
- * classical representation and Nordsieck vector at step start. The resulting Q matrix is simply
+ * classical representation and Nordsieck vector at step start. The resulting matrix is simply
  * the absolute value of matrix P.</p>
- * 
- * <p>Using the Nordsieck vector has several advantages:
- * <ul>
- *   <li>it greatly simplifies step interpolation as the interpolator mainly applies
- *   Taylor series formulas,</li>
- *   <li>it simplifies step changes that occur when discrete events that truncate
- *   the step are triggered,</li>
- *   <li>it allows to extend the methods in order to support adaptive stepsize (not implemented yet).</li>
- * </ul></p>
- * 
+ *
  * <p>For {@link AdamsBashforthIntegrator Adams-Bashforth} method, the Nordsieck vector
  * at step n+1 is computed from the Nordsieck vector at step n as follows:
  * <ul>
@@ -126,16 +116,6 @@ import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
  *   <li>S<sub>1</sub>(n+1) = h f(t<sub>n+1</sub>, Y<sub>n+1</sub>)</li>
  *   <li>R<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub></li>
  * </ul>
- * where A is a rows shifting matrix (the lower left part is an identity matrix):
- * <pre>
- *        [ 0 0   ...  0 0 | 0 ]
- *        [ ---------------+---]
- *        [ 1 0   ...  0 0 | 0 ]
- *    A = [ 0 1   ...  0 0 | 0 ]
- *        [       ...      | 0 ]
- *        [ 0 0   ...  1 0 | 0 ]
- *        [ 0 0   ...  0 1 | 0 ]
- * </pre>
  * From this predicted vector, the corrected vector is computed as follows:
  * <ul>
  *   <li>y<sub>n+1</sub> = y<sub>n</sub> + S<sub>1</sub>(n+1) + [ -1 +1 -1 +1 ... &plusmn;1 ] r<sub>n+1</sub></li>
@@ -153,32 +133,33 @@ import org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class NordsieckTransformer {
+public class AdamsNordsieckTransformer {
 
     /** Cache for already computed coefficients. */
-    private static final Map<Integer, NordsieckTransformer> cache =
-        new HashMap<Integer, NordsieckTransformer>();
+    private static final Map<Integer, AdamsNordsieckTransformer> cache =
+        new HashMap<Integer, AdamsNordsieckTransformer>();
 
     /** Initialization matrix for the higher order derivatives wrt y'', y''' ... */
-    private final RealMatrix initialization;
+    private final Array2DRowRealMatrix initialization;
 
     /** Update matrix for the higher order derivatives h<sup>2</sup>/2y'', h<sup>3</sup>/6 y''' ... */
-    private final RealMatrix update;
+    private final Array2DRowRealMatrix update;
 
     /** Update coefficients of the higher order derivatives wrt y'. */
     private final double[] c1;
 
     /** Simple constructor.
      * @param nSteps number of steps of the multistep method
-     * (including the one being computed)
+     * (excluding the one being computed)
      */
-    private NordsieckTransformer(final int nSteps) {
+    private AdamsNordsieckTransformer(final int nSteps) {
 
         // compute exact coefficients
         FieldMatrix<BigFraction> bigP = buildP(nSteps);
         FieldDecompositionSolver<BigFraction> pSolver =
             new FieldLUDecompositionImpl<BigFraction>(bigP).getSolver();
-        BigFraction[] u = new BigFraction[nSteps - 1];
+
+        BigFraction[] u = new BigFraction[nSteps];
         Arrays.fill(u, BigFraction.ONE);
         BigFraction[] bigC1 = pSolver.solve(u);
 
@@ -190,12 +171,12 @@ public class NordsieckTransformer {
             // shift rows
             shiftedP[i] = shiftedP[i - 1];
         }
-        shiftedP[0] = new BigFraction[nSteps - 1];
+        shiftedP[0] = new BigFraction[nSteps];
         Arrays.fill(shiftedP[0], BigFraction.ZERO);
         FieldMatrix<BigFraction> bigMSupdate =
             pSolver.solve(new Array2DRowFieldMatrix<BigFraction>(shiftedP, false));
 
-        // initialization coefficients, computed from a Q matrix = abs(P)
+        // initialization coefficients, computed from a R matrix = abs(P)
         bigP.walkInOptimizedOrder(new DefaultFieldMatrixChangingVisitor<BigFraction>(BigFraction.ZERO) {
             /** {@inheritDoc} */
             @Override
@@ -203,14 +184,14 @@ public class NordsieckTransformer {
                 return ((column & 0x1) == 0x1) ? value : value.negate();
             }
         });
-        FieldMatrix<BigFraction> bigQInverse =
+        FieldMatrix<BigFraction> bigRInverse =
             new FieldLUDecompositionImpl<BigFraction>(bigP).getSolver().getInverse();
 
         // convert coefficients to double
-        initialization = MatrixUtils.bigFractionMatrixToRealMatrix(bigQInverse);
+        initialization = MatrixUtils.bigFractionMatrixToRealMatrix(bigRInverse);
         update         = MatrixUtils.bigFractionMatrixToRealMatrix(bigMSupdate);
-        c1             = new double[nSteps - 1];
-        for (int i = 0; i < nSteps - 1; ++i) {
+        c1             = new double[nSteps];
+        for (int i = 0; i < nSteps; ++i) {
             c1[i] = bigC1[i].doubleValue();
         }
 
@@ -218,37 +199,45 @@ public class NordsieckTransformer {
 
     /** Get the Nordsieck transformer for a given number of steps.
      * @param nSteps number of steps of the multistep method
-     * (including the one being computed)
+     * (excluding the one being computed)
      * @return Nordsieck transformer for the specified number of steps
      */
-    public static NordsieckTransformer getInstance(final int nSteps) {
+    public static AdamsNordsieckTransformer getInstance(final int nSteps) {
         synchronized(cache) {
-            NordsieckTransformer t = cache.get(nSteps);
+            AdamsNordsieckTransformer t = cache.get(nSteps);
             if (t == null) {
-                t = new NordsieckTransformer(nSteps);
+                t = new AdamsNordsieckTransformer(nSteps);
                 cache.put(nSteps, t);
             }
             return t;
         }
     }
 
-    /** Build the P matrix transforming multistep to Nordsieck.
-     * <p>
-     * Multistep representation uses y(k), s<sub>1</sub>(k), s<sub>1</sub>(k-1) ... s<sub>1</sub>(k-(n-1)).
-     * Nordsieck representation uses y(k), s<sub>1</sub>(k), s<sub>2</sub>(k) ... s<sub>n</sub>(k).
-     * The two representations share their two first components y(k) and
-     * s<sub>1</sub>(k). The P matrix is used to transform the remaining ones:
+    /** Get the number of steps of the method
+     * (excluding the one being computed).
+     * @return number of steps of the method
+     * (excluding the one being computed)
+     */
+    public int getNSteps() {
+        return c1.length;
+    }
+
+    /** Build the P matrix.
+     * <p>The P matrix general terms are shifted j (-i)<sup>j-1</sup> terms:
      * <pre>
-     * [ s<sub>1</sub>(k-1) ... s<sub>1</sub>(k-(n-1)]<sup>T</sup> = s<sub>1</sub>(k) [1 ... 1]<sup>T</sup> + P [s<sub>2</sub>(k) ... s<sub>n</sub>(k)]<sup>T</sup>
-     * </pre>
-     * </p>
+     *        [  -2   3   -4    5  ... ]
+     *        [  -4  12  -32   80  ... ]
+     *   P =  [  -6  27 -108  405  ... ]
+     *        [  -8  48 -256 1280  ... ]
+     *        [          ...           ]
+     * </pre></p>
      * @param nSteps number of steps of the multistep method
-     * (including the one being computed)
+     * (excluding the one being computed)
      * @return P matrix
      */
     private FieldMatrix<BigFraction> buildP(final int nSteps) {
 
-        final BigFraction[][] pData = new BigFraction[nSteps - 1][nSteps - 1];
+        final BigFraction[][] pData = new BigFraction[nSteps][nSteps];
 
         for (int i = 0; i < pData.length; ++i) {
             // build the P matrix elements from Taylor series formulas
@@ -271,7 +260,7 @@ public class NordsieckTransformer {
      * will be modified
      * @return high order derivatives at step start
      */
-    public RealMatrix initializeHighOrderDerivatives(final double[] first,
+    public Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
                                                      final double[][] multistep) {
         for (int i = 0; i < multistep.length; ++i) {
             final double[] msI = multistep[i];
@@ -282,7 +271,7 @@ public class NordsieckTransformer {
         return initialization.multiply(new Array2DRowRealMatrix(multistep, false));
     }
 
-    /** Update the high order scaled derivatives (phase 1).
+    /** Update the high order scaled derivatives for Adams integrators (phase 1).
      * <p>The complete update of high order derivatives has a form similar to:
      * <pre>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
@@ -293,11 +282,11 @@ public class NordsieckTransformer {
      * @return updated high order derivatives
      * @see #updateHighOrderDerivativesPhase2(double[], double[], RealMatrix)
      */
-    public RealMatrix updateHighOrderDerivativesPhase1(final RealMatrix highOrder) {
+    public Array2DRowRealMatrix updateHighOrderDerivativesPhase1(final Array2DRowRealMatrix highOrder) {
         return update.multiply(highOrder);
     }
 
-    /** Update the high order scaled derivatives (phase 2).
+    /** Update the high order scaled derivatives Adams integrators (phase 2).
      * <p>The complete update of high order derivatives has a form similar to:
      * <pre>
      * r<sub>n+1</sub> = (s<sub>1</sub>(n) - s<sub>1</sub>(n+1)) P<sup>-1</sup> u + P<sup>-1</sup> A P r<sub>n</sub>
