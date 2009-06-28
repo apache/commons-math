@@ -23,9 +23,6 @@ import java.io.ObjectOutput;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -59,7 +56,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     private double[] scaled;
 
     /** Nordsieck vector. */
-    private RealMatrix nordsieck;
+    private Array2DRowRealMatrix nordsieck;
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the
@@ -84,7 +81,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             scaled = interpolator.scaled.clone();
         }
         if (interpolator.nordsieck != null) {
-            nordsieck = interpolator.nordsieck.copy();
+            nordsieck = new Array2DRowRealMatrix(interpolator.nordsieck.getDataRef(), true);
         }
     }
 
@@ -117,7 +114,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      * nordsieck vector
      */
     public void reinitialize(final double referenceTime, final double scalingH,
-                             final double[] scaled, final RealMatrix nordsieck) {
+                             final double[] scaled, final Array2DRowRealMatrix nordsieck) {
         this.referenceTime = referenceTime;
         this.scalingH      = scalingH;
         this.scaled        = scaled;
@@ -134,132 +131,63 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      * @param scalingH new step size to use in the scaled and nordsieck arrays
      */
     public void rescale(final double scalingH) {
+
         final double ratio = scalingH / this.scalingH;
         for (int i = 0; i < scaled.length; ++i) {
             scaled[i] *= ratio;
         }
-        nordsieck.walkInOptimizedOrder(new Rescaler(ratio));
+
+        final double[][] nData = nordsieck.getDataRef();
+        double power = ratio;
+        for (int i = 0; i < nData.length; ++i) {
+            power *= ratio;
+            final double[] nDataI = nData[i];
+            for (int j = 0; j < nDataI.length; ++j) {
+                nDataI[j] *= power;
+            }
+        }
+
         this.scalingH = scalingH;
+
     }
 
     /** {@inheritDoc} */
     @Override
     protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH) {
+
         final double x = interpolatedTime - referenceTime;
-        nordsieck.walkInOptimizedOrder(new StateEstimator(x, x / scalingH));
-    }
+        final double normalizedAbscissa = x / scalingH;
 
-    /** State estimator. */
-    private class StateEstimator implements RealMatrixPreservingVisitor {
+        Arrays.fill(interpolatedState, 0.0);
+        Arrays.fill(interpolatedDerivatives, 0.0);
 
-        /** Scaling factor for derivative. */
-        private final double scale;
-
-        /** First order power. */
-        private final double lowPower;
-
-        /** High order powers. */
-        private final double[] highPowers;
-
-        /** Simple constructor.
-         * @param scale scaling factor for derivative
-         * @param theta normalized interpolation abscissa within the step
-         */
-        public StateEstimator(final double scale, final double theta) {
-            this.scale = scale;
-            lowPower   = theta;
-            highPowers = new double[nordsieck.getRowDimension()];
-            double thetaN = theta;
-            for (int i = 0; i < highPowers.length; ++i) {
-                thetaN *= theta;
-                highPowers[i] = thetaN;
+        // apply Taylor formula for high order to low order,
+        // for the sake of numerical accuracy
+        final double[][] nData = nordsieck.getDataRef();
+        for (int i = nData.length - 1; i >= 0; --i) {
+            final int order = i + 2;
+            final double[] nDataI = nData[i];
+            final double power = Math.pow(normalizedAbscissa, order);
+            for (int j = 0; j < nDataI.length; ++j) {
+                final double d = nDataI[j] * power;
+                interpolatedState[j]       += d;
+                interpolatedDerivatives[j] += order * d;
             }
         }
 
-        /** {@inheritDoc} */
-        public void start(int rows, int columns,
-                          int startRow, int endRow, int startColumn, int endColumn) {
-            Arrays.fill(interpolatedState, 0.0);
-            Arrays.fill(interpolatedDerivatives, 0.0);
+        for (int j = 0; j < currentState.length; ++j) {
+            interpolatedState[j] += currentState[j] + scaled[j] * normalizedAbscissa;
+            interpolatedDerivatives[j] =
+                (interpolatedDerivatives[j] + scaled[j] * normalizedAbscissa) / x;
         }
 
-        /** {@inheritDoc} */
-        public void visit(int row, int column, double value) {
-            final double d = value * highPowers[row];
-            interpolatedState[column]       += d;
-            interpolatedDerivatives[column] += (row + 2) * d;
-        }
-
-        /** {@inheritDoc} */
-        public double end() {
-            for (int j = 0; j < currentState.length; ++j) {
-                interpolatedState[j] += currentState[j] + scaled[j] * lowPower;
-                interpolatedDerivatives[j] =
-                    (interpolatedDerivatives[j] + scaled[j] * lowPower) / scale;
-            }
-            return 0;
-        }
-
-    }
-
-    /** Visitor rescaling the Nordsieck vector. */
-    private class Rescaler extends DefaultRealMatrixChangingVisitor {
-
-        /** Powers of the rescaling ratio. */
-        private final double[] powers;
-
-        /** Simple constructor.
-         * @param ratio rescaling ratio
-         */
-        public Rescaler(final double ratio) {
-            powers = new double[nordsieck.getRowDimension()];
-            double f = ratio;
-            for (int i = 0; i < powers.length; ++i) {
-                f *= ratio;
-                powers[i] = f;
-            }
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public double visit(final int row, final int column, final double value) {
-            return value * powers[row];
-        }
-        
     }
 
     /** {@inheritDoc} */
     @Override
     public void writeExternal(final ObjectOutput out)
         throws IOException {
-
-        // save the state of the base class
         writeBaseExternal(out);
-
-        // save the local attributes
-        final int n = (currentState == null) ? -1 : currentState.length;
-        if (scaled == null) {
-            out.writeBoolean(false);
-        } else {
-            out.writeBoolean(true);
-            for (int j = 0; j < n; ++j) {
-                out.writeDouble(scaled[j]);
-            }
-        }
-
-        if (nordsieck == null) {
-            out.writeBoolean(false);
-        } else {
-            out.writeBoolean(true);
-            final int rows = nordsieck.getRowDimension();
-            out.writeInt(rows);
-            for (int i = 0; i < rows; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    out.writeDouble(nordsieck.getEntry(i, j));
-                }
-            }
-        }
-
     }
 
     /** {@inheritDoc} */
@@ -270,34 +198,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         // read the base class 
         final double t = readBaseExternal(in);
 
-        // read the local attributes
-        final int n = (currentState == null) ? -1 : currentState.length;
-        final boolean hasScaled = in.readBoolean();
-        if (hasScaled) {
-            scaled = new double[n];
-            for (int j = 0; j < n; ++j) {
-                scaled[j] = in.readDouble();
-            }
-        } else {
-            scaled = null;
-        }
-
-        final boolean hasNordsieck = in.readBoolean();
-        if (hasNordsieck) {
-            final int rows = in.readInt();
-            final double[][] nData = new double[rows][n];
-            for (int i = 0; i < rows; ++i) {
-                final double[] nI = nData[i];
-                for (int j = 0; j < n; ++j) {
-                    nI[j] = in.readDouble();
-                }
-            }
-            nordsieck = new Array2DRowRealMatrix(nData, false);
-        } else {
-            nordsieck = null;
-        }
-
-        if (hasScaled && hasNordsieck) {
+        if ((scaled != null) && (nordsieck != null)) {
             // we can now set the interpolated time and state
             setInterpolatedTime(t);
         }
