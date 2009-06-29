@@ -187,18 +187,64 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     @Override
     public void writeExternal(final ObjectOutput out)
         throws IOException {
+
+        // save the state of the base class
         writeBaseExternal(out);
+
+        // save the local attributes
+        out.writeDouble(scalingH);
+        out.writeDouble(referenceTime);
+
+        final int n = (currentState == null) ? -1 : currentState.length;
+        if (scaled == null) {
+            out.writeBoolean(false);
+        } else {
+            out.writeBoolean(true);
+            for (int j = 0; j < n; ++j) {
+                out.writeDouble(scaled[j]);
+            }
+        }
+
+        if (nordsieck == null) {
+            out.writeBoolean(false);
+        } else {
+            out.writeBoolean(true);
+            out.writeObject(nordsieck);
+        }
+
     }
 
     /** {@inheritDoc} */
     @Override
     public void readExternal(final ObjectInput in)
-        throws IOException {
+        throws IOException, ClassNotFoundException {
 
         // read the base class 
         final double t = readBaseExternal(in);
 
-        if ((scaled != null) && (nordsieck != null)) {
+        // read the local attributes
+        scalingH      = in.readDouble();
+        referenceTime = in.readDouble();
+
+        final int n = (currentState == null) ? -1 : currentState.length;
+        final boolean hasScaled = in.readBoolean();
+        if (hasScaled) {
+            scaled = new double[n];
+            for (int j = 0; j < n; ++j) {
+                scaled[j] = in.readDouble();
+            }
+        } else {
+            scaled = null;
+        }
+
+        final boolean hasNordsieck = in.readBoolean();
+        if (hasNordsieck) {
+            nordsieck = (Array2DRowRealMatrix) in.readObject();
+        } else {
+            nordsieck = null;
+        }
+
+        if (hasScaled && hasNordsieck) {
             // we can now set the interpolated time and state
             setInterpolatedTime(t);
         }

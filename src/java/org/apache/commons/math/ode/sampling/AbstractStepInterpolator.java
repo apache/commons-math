@@ -362,7 +362,7 @@ public abstract class AbstractStepInterpolator
 
   /** {@inheritDoc} */
   public abstract void readExternal(ObjectInput in)
-    throws IOException;
+    throws IOException, ClassNotFoundException;
 
   /** Save the base state of the instance.
    * This method performs step finalization if it has not been done

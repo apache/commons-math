@@ -62,8 +62,8 @@ public class NordsieckStepInterpolatorTest {
             oos.writeObject(handler);
         }
 
-        assertTrue(bos.size () >  16000);
-        assertTrue(bos.size () <  17000);
+        assertTrue(bos.size () >  20000);
+        assertTrue(bos.size () <  25000);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);
