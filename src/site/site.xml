@@ -57,6 +57,7 @@
       <item name="3D Geometry"             href="/userguide/geometry.html"/>
       <item name="Optimization"            href="/userguide/optimization.html"/>
       <item name="Ordinary Differential Equations" href="/userguide/ode.html"/>
+      <item name="Genetic Algorithms"      href="/userguide/genetics.html"/>
     </menu>
 
   </body>

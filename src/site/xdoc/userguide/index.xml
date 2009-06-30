@@ -131,7 +131,13 @@
                 <li><a href="ode.html#a13.2_Discrete_Events_Handling">13.2 Discrete Events Handling</a></li>
                 <li><a href="ode.html#a13.3_ODE_Problems">13.3 ODE Problems</a></li>
                 <li><a href="ode.html#a13.4_Integrators">13.4 Integrators</a></li>
-                </ul></li>                                 
+                </ul></li>
+        <li><a href="genetics.html">14. Genetic Algorithms</a>   
+                <ul>
+                <li><a href="genetics.html#a14.1_Overview">14.1 Overview</a></li>
+                <li><a href="genetics.html#a14.2_GA_Framework">14.2 GA Framework</a></li>
+                <li><a href="genetics.html#a14.3_Implementation">14.3 Implementation and Examples</a></li>  
+                </ul></li>                           
         </ul>
       </section>
     
