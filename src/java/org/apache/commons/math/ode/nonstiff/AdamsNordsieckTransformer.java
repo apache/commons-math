@@ -280,7 +280,7 @@ public class AdamsNordsieckTransformer {
      * @param highOrder high order scaled derivatives
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
      * @return updated high order derivatives
-     * @see #updateHighOrderDerivativesPhase2(double[], double[], RealMatrix)
+     * @see #updateHighOrderDerivativesPhase2(double[], double[], Array2DRowRealMatrix)
      */
     public Array2DRowRealMatrix updateHighOrderDerivativesPhase1(final Array2DRowRealMatrix highOrder) {
         return update.multiply(highOrder);
@@ -297,7 +297,7 @@ public class AdamsNordsieckTransformer {
      * @param end first order scaled derivatives at step end
      * @param highOrder high order scaled derivatives, will be modified
      * (h<sup>2</sup>/2 y'', ... h<sup>k</sup>/k! y(k))
-     * @see #updateHighOrderDerivativesPhase1(RealMatrix)
+     * @see #updateHighOrderDerivativesPhase1(Array2DRowRealMatrix)
      */
     public void updateHighOrderDerivativesPhase2(final double[] start,
                                                  final double[] end,
