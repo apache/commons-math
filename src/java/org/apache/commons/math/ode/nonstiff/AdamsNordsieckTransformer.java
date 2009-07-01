@@ -25,13 +25,10 @@ import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DefaultFieldMatrixChangingVisitor;
-import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.FieldDecompositionSolver;
 import org.apache.commons.math.linear.FieldLUDecompositionImpl;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.MatrixVisitorException;
-import org.apache.commons.math.linear.RealMatrix;
 
 /** Transformer to Nordsieck vectors for Adams integrators.
  * <p>This class i used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
@@ -301,15 +298,15 @@ public class AdamsNordsieckTransformer {
      */
     public void updateHighOrderDerivativesPhase2(final double[] start,
                                                  final double[] end,
-                                                 final RealMatrix highOrder) {
-        highOrder.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
-            /** {@inheritDoc} */
-            @Override
-            public double visit(int row, int column, double value)
-                throws MatrixVisitorException {
-                return value + c1[row] * (start[column] - end[column]);
+                                                 final Array2DRowRealMatrix highOrder) {
+        final double[][] data = highOrder.getDataRef();
+        for (int i = 0; i < data.length; ++i) {
+            final double[] dataI = data[i];
+            final double c1I = c1[i];
+            for (int j = 0; j < dataI.length; ++j) {
+                dataI[j] += c1I * (start[j] - end[j]);
             }
-        });
+        }
     }
 
 }
