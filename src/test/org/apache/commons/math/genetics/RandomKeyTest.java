@@ -66,8 +66,8 @@ public class RandomKeyTest {
     public void testRandomPermutation() {
         // never generate an invalid one
         for (int i=0; i<10; i++) {
-            @SuppressWarnings("unused")
             DummyRandomKey drk = new DummyRandomKey(RandomKey.randomPermutation(20));
+            assertNotNull(drk);
         }
     }
 

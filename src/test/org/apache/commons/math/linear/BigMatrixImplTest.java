@@ -392,8 +392,8 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("nonsingular  R test 2",-1d,m.getDeterminant().doubleValue(),normTolerance);
 
         try {
-            new BigMatrixImpl(testData2).getDeterminant().doubleValue();
-            fail("Expecting InvalidMatrixException");
+            double d = new BigMatrixImpl(testData2).getDeterminant().doubleValue();
+            fail("Expecting InvalidMatrixException, got " + d);
         } catch (InvalidMatrixException ex) {
             // ignored
         }      
@@ -405,8 +405,8 @@ public final class BigMatrixImplTest extends TestCase {
         assertEquals("identity trace",3d,m.getTrace().doubleValue(),entryTolerance);
         m = new BigMatrixImpl(testData2);
         try {
-            m.getTrace().doubleValue();
-            fail("Expecting NonSquareMatrixException");
+            double t = m.getTrace().doubleValue();
+            fail("Expecting NonSquareMatrixException, got " + t);
         } catch (NonSquareMatrixException ex) {
             // ignored
         }      
