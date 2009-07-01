@@ -18,7 +18,6 @@
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;

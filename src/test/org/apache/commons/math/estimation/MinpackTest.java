@@ -568,7 +568,7 @@ public class MinpackTest
     public WeightedMeasurement[] getMeasurements() {
       WeightedMeasurement[] measurements = new WeightedMeasurement[m];
       for (int i = 0; i < m; ++i) {
-        measurements[i] = new MinpackMeasurement(i);
+        measurements[i] = new MinpackMeasurement(this, i);
       }
       return measurements;
     }
@@ -585,11 +585,12 @@ public class MinpackTest
 
     protected abstract double[] getResiduals();
 
-    private class MinpackMeasurement extends WeightedMeasurement {
+    private static class MinpackMeasurement extends WeightedMeasurement {
 
-      public MinpackMeasurement(int index) {
+      public MinpackMeasurement(MinpackFunction f, int index) {
         super(1.0, 0.0);
         this.index = index;
+        this.f = f;
       }
 
       @Override
@@ -598,7 +599,7 @@ public class MinpackTest
         // each time we need only one element, but it is only for test
         // purposes and is simpler to check.
         // This implementation should NOT be taken as an example, it is ugly!
-        return getResiduals()[index];
+        return f.getResiduals()[index];
       }
 
       @Override
@@ -607,15 +608,16 @@ public class MinpackTest
         // each time we need only one element, but it is only for test
         // purposes and is simpler to check.
         // This implementation should NOT be taken as an example, it is ugly!
-        for (int j = 0; j < n; ++j) {
-          if (parameter == parameters[j]) {
-            return getJacobian()[index][j];
+        for (int j = 0; j < f.n; ++j) {
+          if (parameter == f.parameters[j]) {
+            return f.getJacobian()[index][j];
           }
         }
         return 0;
       }
 
       private int index;
+      private transient final MinpackFunction f;
       private static final long serialVersionUID = 1L;
 
     }

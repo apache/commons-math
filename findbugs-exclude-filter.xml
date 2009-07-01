@@ -203,6 +203,11 @@
     <Method name="testNewNewtonSolverNull" params="" returns="void" />
     <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math.stat.regression.OLSMultipleLinearRegressionTest" />
+    <Method name="cannotAddNullYSampleData" params="" returns="void" />
+    <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
+  </Match>
   
   <!-- IntDoublePair intentionally implements Comparable inconsistently with equals -->
   <Match>

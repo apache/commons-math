@@ -674,7 +674,7 @@ public class LevenbergMarquardtEstimatorTest
     }
 
     public void addPoint(double px, double py) {
-      points.add(new PointModel(px, py));
+      points.add(new PointModel(this, px, py));
     }
 
     public int getM() {
@@ -725,45 +725,47 @@ public class LevenbergMarquardtEstimatorTest
       return cy.getEstimate();
     }
 
-    private class PointModel extends WeightedMeasurement {
+    private static class PointModel extends WeightedMeasurement {
 
-      public PointModel(double px, double py) {
+      public PointModel(Circle circle, double px, double py) {
         super(1.0, 0.0);
         this.px = px;
         this.py = py;
+        this.circle = circle;
       }
 
       @Override
       public double getPartial(EstimatedParameter parameter) {
-        if (parameter == cx) {
-          return getPartialDiX() - getPartialRadiusX();
-        } else if (parameter == cy) {
-          return getPartialDiY() - getPartialRadiusY();
+        if (parameter == circle.cx) {
+          return getPartialDiX() - circle.getPartialRadiusX();
+        } else if (parameter == circle.cy) {
+          return getPartialDiY() - circle.getPartialRadiusY();
         }
         return 0;
       }
 
       public double getCenterDistance() {
-        double dx = px - cx.getEstimate();
-        double dy = py - cy.getEstimate();
+        double dx = px - circle.cx.getEstimate();
+        double dy = py - circle.cy.getEstimate();
         return Math.sqrt(dx * dx + dy * dy);
       }
 
       public double getPartialDiX() {
-        return (cx.getEstimate() - px) / getCenterDistance();
+        return (circle.cx.getEstimate() - px) / getCenterDistance();
       }
 
       public double getPartialDiY() {
-        return (cy.getEstimate() - py) / getCenterDistance();
+        return (circle.cy.getEstimate() - py) / getCenterDistance();
       }
 
       @Override
       public double getTheoreticalValue() {
-        return getCenterDistance() - getRadius();
+        return getCenterDistance() - circle.getRadius();
       }
 
       private double px;
       private double py;
+      private transient final Circle circle;
       private static final long serialVersionUID = 1L;
 
     }
@@ -790,7 +792,7 @@ public class LevenbergMarquardtEstimatorTest
       }
 
       public void addPoint(double x, double y, double w) {
-          addMeasurement(new LocalMeasurement(x, y, w));
+          addMeasurement(new LocalMeasurement(this, x, y, w));
       }
 
       public double theoreticalValue(double x) {
@@ -807,25 +809,27 @@ public class LevenbergMarquardtEstimatorTest
           }
       }
 
-      private class LocalMeasurement extends WeightedMeasurement {
+      private static class LocalMeasurement extends WeightedMeasurement {
 
         private static final long serialVersionUID = 1555043155023729130L;
         private final double x;
+        private transient final QuadraticProblem pb;
 
           // constructor
-          public LocalMeasurement(double x, double y, double w) {
+          public LocalMeasurement(QuadraticProblem pb, double x, double y, double w) {
               super(w, y);
               this.x = x;
+              this.pb = pb;
           }
 
           @Override
           public double getTheoreticalValue() {
-              return theoreticalValue(x);
+              return pb.theoreticalValue(x);
           }
 
           @Override
           public double getPartial(EstimatedParameter parameter) {
-              return partial(x, parameter);
+              return pb.partial(x, parameter);
           }
 
       }
