@@ -105,8 +105,9 @@ public class CurveFitter {
 
     /** Fit a curve.
      * <p>This method compute the coefficients of the curve that best
-     * fit the sample of weighted pairs previously given through calls
-     * to the {@link #addWeightedPair addWeightedPair} method.</p>
+     * fit the sample of observed points previously given through calls
+     * to the {@link #addObservedPoint(WeightedObservedPoint)
+     * addObservedPoint} method.</p>
      * @param f parametric function to fit
      * @param initialGuess first guess of the function parameters
      * @return fitted parameters
