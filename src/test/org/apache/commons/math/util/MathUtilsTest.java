@@ -52,7 +52,7 @@ public final class MathUtilsTest extends TestCase {
      */
     private long binomialCoefficient(int n, int k) throws ArithmeticException {
         if (binomialCache.size() > n) {
-            Long cachedResult = binomialCache.get(n).get(new Integer(k));
+            Long cachedResult = binomialCache.get(n).get(Integer.valueOf(k));
             if (cachedResult != null) {
                 return cachedResult.longValue();
             }
@@ -80,7 +80,7 @@ public final class MathUtilsTest extends TestCase {
         for (int i = binomialCache.size(); i < n + 1; i++) {
             binomialCache.add(new HashMap<Integer, Long>());
         }
-        binomialCache.get(n).put(new Integer(k), new Long(result));
+        binomialCache.get(n).put(Integer.valueOf(k), Long.valueOf(result));
         return result;
     }
 

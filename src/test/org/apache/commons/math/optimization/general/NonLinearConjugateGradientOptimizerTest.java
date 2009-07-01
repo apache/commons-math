@@ -429,10 +429,6 @@ extends TestCase {
             points.add(new Point2D.Double(px, py));
         }
 
-        public int getN() {
-            return points.size();
-        }
-
         public double getRadius(Point2D.Double center) {
             double r = 0;
             for (Point2D.Double point : points) {

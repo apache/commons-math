@@ -63,7 +63,7 @@ public class GillIntegratorTest
       double previousError = Double.NaN;
       for (int i = 5; i < 10; ++i) {
 
-        TestProblemAbstract pb = (TestProblemAbstract) problems[k].clone();
+        TestProblemAbstract pb = problems[k].copy();
         double step = (pb.getFinalTime() - pb.getInitialTime())
           * Math.pow(2.0, -i);
 

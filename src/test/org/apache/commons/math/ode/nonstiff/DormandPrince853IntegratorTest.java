@@ -230,7 +230,7 @@ public class DormandPrince853IntegratorTest
   public void testNoDenseOutput()
     throws DerivativeException, IntegratorException {
     TestProblem1 pb1 = new TestProblem1();
-    TestProblem1 pb2 = (TestProblem1) pb1.clone();
+    TestProblem1 pb2 = pb1.copy();
     double minStep = 0.1 * (pb1.getFinalTime() - pb1.getInitialTime());
     double maxStep = pb1.getFinalTime() - pb1.getInitialTime();
     double scalAbsoluteTolerance = 1.0e-4;

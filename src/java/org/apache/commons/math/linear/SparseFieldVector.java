@@ -181,7 +181,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> append(FieldVector<T> v) {
-        if (v instanceof SparseFieldVector) {
+        if (v instanceof SparseFieldVector<?>) {
             return append((SparseFieldVector<T>) v);
         } else {
             return append(v.toArray());
@@ -438,7 +438,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc} */
     public FieldMatrix<T> outerProduct(FieldVector<T> v)
     throws IllegalArgumentException {
-        if(v instanceof SparseFieldVector)
+        if(v instanceof SparseFieldVector<?>)
             return outerProduct((SparseFieldVector<T>)v);
         else
             return outerProduct(v.toArray());
@@ -513,7 +513,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc} */
     public FieldVector<T> subtract(FieldVector<T> v)
            throws IllegalArgumentException {
-        if(v instanceof SparseFieldVector)
+        if(v instanceof SparseFieldVector<?>)
             return subtract((SparseFieldVector<T>)v);
         else
             return subtract(v.toArray());
@@ -573,7 +573,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
-        if (v instanceof SparseFieldVector) {
+        if (v instanceof SparseFieldVector<?>) {
             return add((SparseFieldVector<T>)v);
         } else {
             return add(v.toArray());

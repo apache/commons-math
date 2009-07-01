@@ -25,7 +25,7 @@ import org.apache.commons.math.ode.events.EventHandler;
  * integrated during the junit tests for the ODE integrators.
  */
 public abstract class TestProblemAbstract
-  implements FirstOrderDifferentialEquations, Cloneable {
+  implements FirstOrderDifferentialEquations {
 
   /** Serializable version identifier. */
   private static final long serialVersionUID = -8521928974502839379L;
@@ -82,11 +82,10 @@ public abstract class TestProblemAbstract
   }
 
   /**
-   * Clone operation.
+   * Copy operation.
    * @return a copy of the instance
    */
-  @Override
-  public abstract Object clone();
+  public abstract TestProblemAbstract copy();
 
   /**
    * Set the initial conditions

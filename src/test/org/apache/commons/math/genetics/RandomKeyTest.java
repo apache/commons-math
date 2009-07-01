@@ -28,14 +28,12 @@ public class RandomKeyTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testConstructor1() {
-        @SuppressWarnings("unused")
-        DummyRandomKey drk = new DummyRandomKey(new Double[] {0.2, 0.3, 1.2});
+        new DummyRandomKey(new Double[] {0.2, 0.3, 1.2});
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void testConstructor2() {
-        @SuppressWarnings("unused")
-        DummyRandomKey drk = new DummyRandomKey(new Double[] {0.2, 0.3, -0.2});
+        new DummyRandomKey(new Double[] {0.2, 0.3, -0.2});
     }
 
     @Test

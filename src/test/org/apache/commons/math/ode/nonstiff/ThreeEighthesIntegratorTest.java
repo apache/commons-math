@@ -63,7 +63,7 @@ public class ThreeEighthesIntegratorTest
       double previousError = Double.NaN;
       for (int i = 4; i < 10; ++i) {
 
-        TestProblemAbstract pb = (TestProblemAbstract) problems[k].clone();
+        TestProblemAbstract pb = problems[k].copy();
         double step = (pb.getFinalTime() - pb.getInitialTime())
           * Math.pow(2.0, -i);
 

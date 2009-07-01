@@ -59,7 +59,7 @@ public class MultiStartMultivariateRealOptimizerTest {
 
   }
 
-  private class Rosenbrock implements MultivariateRealFunction {
+  private static class Rosenbrock implements MultivariateRealFunction {
 
       private int count;
 

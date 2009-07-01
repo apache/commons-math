@@ -204,7 +204,7 @@ public class NelderMeadTest {
       }
   }
 
-  private class Rosenbrock implements MultivariateRealFunction {
+  private static class Rosenbrock implements MultivariateRealFunction {
 
       private int count;
 
@@ -225,7 +225,7 @@ public class NelderMeadTest {
 
   }
 
-  private class Powell implements MultivariateRealFunction {
+  private static class Powell implements MultivariateRealFunction {
 
       private int count;
 

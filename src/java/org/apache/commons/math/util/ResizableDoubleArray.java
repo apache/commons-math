@@ -338,20 +338,20 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * expansionCriteria
      * 
      * @param expansionFactor factor to be checked
-     * @param contractionCritera criteria to be checked
+     * @param contractionCriteria criteria to be checked
      * @throws IllegalArgumentException if the contractionCriteria is less than
      *         the expansionCriteria.
      */
     protected void checkContractExpand(
-        float contractionCritera,
+        float contractionCriteria,
         float expansionFactor) {
 
-        if (contractionCritera < expansionFactor) {
+        if (contractionCriteria < expansionFactor) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "contraction criteria ({0}) smaller than the expansion factor ({1}).  This would " +
                     "lead to a never ending loop of expansion and contraction as a newly expanded " +
                     "internal storage array would immediately satisfy the criteria for contraction",
-                    contractionCritera, expansionFactor);
+                    contractionCriteria, expansionFactor);
         }
 
         if (contractionCriteria <= 1.0) {
@@ -365,7 +365,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         if (expansionFactor <= 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "expansion factor smaller than one ({0})",
-                    contractionCriteria);
+                    expansionFactor);
         }
     }
     
@@ -648,7 +648,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public void setContractionCriteria(float contractionCriteria) {
         checkContractExpand(contractionCriteria, getExpansionFactor());
-        this.contractionCriteria = contractionCriteria;
+        synchronized(this) {
+        	this.contractionCriteria = contractionCriteria;
+        }
     }
     
 
@@ -693,7 +695,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public void setExpansionFactor(float expansionFactor) {
         checkContractExpand(getContractionCriteria(), expansionFactor);
         // The check above verifies that the expansion factor is > 1.0;
-        this.expansionFactor = expansionFactor;
+        synchronized(this) {
+        	this.expansionFactor = expansionFactor;
+        }
     }
 
     /**
@@ -711,7 +715,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                     expansionMode, MULTIPLICATIVE_MODE, "MULTIPLICATIVE_MODE",
                     ADDITIVE_MODE, "ADDITIVE_MODE");
         }
-        this.expansionMode = expansionMode;
+        synchronized(this) {
+        	this.expansionMode = expansionMode;
+        }
     }
     
     /**
@@ -876,17 +882,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.0
      */
     @Override
-    public int hashCode() {
+    public synchronized int hashCode() {
         int[] hashData = new int[7];
         hashData[0] = new Float(expansionFactor).hashCode();
         hashData[1] = new Float(contractionCriteria).hashCode();
         hashData[2] = expansionMode;
-        synchronized(this) {
             hashData[3] = Arrays.hashCode(internalArray);
             hashData[4] = initialCapacity;
             hashData[5] = numElements;
             hashData[6] = startIndex;
-        }
         return Arrays.hashCode(hashData);
     }
          

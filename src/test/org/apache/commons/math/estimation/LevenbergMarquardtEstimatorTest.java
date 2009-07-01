@@ -793,18 +793,6 @@ public class LevenbergMarquardtEstimatorTest
           addMeasurement(new LocalMeasurement(x, y, w));
       }
 
-      public double getA() {
-          return a.getEstimate();
-      }
-
-      public double getB() {
-          return b.getEstimate();
-      }
-
-      public double getC() {
-          return c.getEstimate();
-      }
-
       public double theoreticalValue(double x) {
           return ( (a.getEstimate() * x + b.getEstimate() ) * x + c.getEstimate());
       }

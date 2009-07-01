@@ -149,11 +149,11 @@ public class SparseFieldMatrixTest extends TestCase {
     public void testCopyFunctions() {
         SparseFieldMatrix<Fraction> m1 = createSparseMatrix(testData);
         FieldMatrix<Fraction> m2 = m1.copy();
-        assertTrue(m2 instanceof SparseFieldMatrix);
+        assertEquals(m1.getClass(), m2.getClass());
         assertEquals((m2), m1);
         SparseFieldMatrix<Fraction> m3 = createSparseMatrix(testData);
         FieldMatrix<Fraction> m4 = m3.copy();
-        assertTrue(m4 instanceof SparseFieldMatrix);
+        assertEquals(m3.getClass(), m4.getClass());
         assertEquals((m4), m3);
     }
 

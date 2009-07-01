@@ -148,7 +148,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     @Override
     protected boolean isSame(Chromosome another) {
         // type check
-        if (! (another instanceof RandomKey))
+        if (! (another instanceof RandomKey<?>))
             return false;
         RandomKey<?> anotherRk = (RandomKey<?>) another;
         // size check

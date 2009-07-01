@@ -35,5 +35,9 @@ public class TestProblem5
     super();
     setFinalConditions(2 * t0 - t1);
   }
- 
+
+  /** {@inheritDoc} */
+  public TestProblem5 copy() {
+    return new TestProblem5();
+  }
 }

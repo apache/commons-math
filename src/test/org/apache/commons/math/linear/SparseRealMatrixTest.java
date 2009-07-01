@@ -130,11 +130,11 @@ public final class SparseRealMatrixTest extends TestCase {
     public void testCopyFunctions() {
         OpenMapRealMatrix m1 = createSparseMatrix(testData);
         RealMatrix m2 = m1.copy();
-        assertTrue(m2 instanceof OpenMapRealMatrix);
+        assertEquals(m1.getClass(), m2.getClass());
         assertEquals((m2), m1);
         OpenMapRealMatrix m3 = createSparseMatrix(testData);
         RealMatrix m4 = m3.copy();
-        assertTrue(m4 instanceof OpenMapRealMatrix);
+        assertEquals(m3.getClass(), m4.getClass());
         assertEquals((m4), m3);
     }
 

@@ -363,50 +363,50 @@ public final class FieldMatrixImplTest extends TestCase {
     // test submatrix accessors
     public void testGetSubMatrix() {
         FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
-        checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
-        checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
-        checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
-        checkGetSubMatrix(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
-        checkGetSubMatrix(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
-        checkGetSubMatrix(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
-        checkGetSubMatrix(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
-        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        checkGetSubMatrix(m, null,  1, 0, 2, 4, true);
-        checkGetSubMatrix(m, null, -1, 1, 2, 2, true);
-        checkGetSubMatrix(m, null,  1, 0, 2, 2, true);
-        checkGetSubMatrix(m, null,  1, 0, 2, 4, true);
-        checkGetSubMatrix(m, null, new int[] {},    new int[] { 0 }, true);
-        checkGetSubMatrix(m, null, new int[] { 0 }, new int[] { 4 }, true);
+        checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0);
+        checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3);
+        checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3);   
+        checkGetSubMatrix(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 });  
+        checkGetSubMatrix(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 });  
+        checkGetSubMatrix(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }); 
+        checkGetSubMatrix(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }); 
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 }); 
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 }); 
+        checkGetSubMatrix(m, null,  1, 0, 2, 4);
+        checkGetSubMatrix(m, null, -1, 1, 2, 2);
+        checkGetSubMatrix(m, null,  1, 0, 2, 2);
+        checkGetSubMatrix(m, null,  1, 0, 2, 4);
+        checkGetSubMatrix(m, null, new int[] {},    new int[] { 0 });
+        checkGetSubMatrix(m, null, new int[] { 0 }, new int[] { 4 });
     }
 
     private void checkGetSubMatrix(FieldMatrix<Fraction> m, Fraction[][] reference,
-                                   int startRow, int endRow, int startColumn, int endColumn,
-                                   boolean mustFail) {
+                                   int startRow, int endRow, int startColumn, int endColumn) {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
-            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
-            if (mustFail) {
-                fail("Expecting MatrixIndexException");
+            if (reference != null) {
+            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
+            } else {
+            	fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
-            if (!mustFail) {
+            if (reference != null) {
                 throw e;
             }
         }
     }
     
     private void checkGetSubMatrix(FieldMatrix<Fraction> m, Fraction[][] reference,
-                                   int[] selectedRows, int[] selectedColumns,
-                                   boolean mustFail) {
+                                   int[] selectedRows, int[] selectedColumns) {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(selectedRows, selectedColumns);
-            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
-            if (mustFail) {
-                fail("Expecting MatrixIndexException");
+            if (reference != null) {
+            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
+            } else {
+            	fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
-            if (!mustFail) {
+            if (reference != null) {
                 throw e;
             }
         }
@@ -414,57 +414,57 @@ public final class FieldMatrixImplTest extends TestCase {
 
     public void testCopySubMatrix() {
         FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(subTestData);
-        checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
-        checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
-        checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
-        checkCopy(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
-        checkCopy(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
-        checkCopy(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
-        checkCopy(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
-        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0);
+        checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3);
+        checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3);   
+        checkCopy(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 });  
+        checkCopy(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 });  
+        checkCopy(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }); 
+        checkCopy(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }); 
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 }); 
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 }); 
         
-        checkCopy(m, null,  1, 0, 2, 4, true);
-        checkCopy(m, null, -1, 1, 2, 2, true);
-        checkCopy(m, null,  1, 0, 2, 2, true);
-        checkCopy(m, null,  1, 0, 2, 4, true);
-        checkCopy(m, null, new int[] {},    new int[] { 0 }, true);
-        checkCopy(m, null, new int[] { 0 }, new int[] { 4 }, true);
+        checkCopy(m, null,  1, 0, 2, 4);
+        checkCopy(m, null, -1, 1, 2, 2);
+        checkCopy(m, null,  1, 0, 2, 2);
+        checkCopy(m, null,  1, 0, 2, 4);
+        checkCopy(m, null, new int[] {},    new int[] { 0 });
+        checkCopy(m, null, new int[] { 0 }, new int[] { 4 });
     }
 
     private void checkCopy(FieldMatrix<Fraction> m, Fraction[][] reference,
-                           int startRow, int endRow, int startColumn, int endColumn,
-                           boolean mustFail) {
+                           int startRow, int endRow, int startColumn, int endColumn) {
         try {
             Fraction[][] sub = (reference == null) ?
                              new Fraction[1][1] :
                              new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
-            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
-            if (mustFail) {
-                fail("Expecting MatrixIndexException");
+            if (reference != null) {
+            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
+            } else {
+            	fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
-            if (!mustFail) {
+            if (reference != null) {
                 throw e;
             }
         }
     }
     
     private void checkCopy(FieldMatrix<Fraction> m, Fraction[][] reference,
-                           int[] selectedRows, int[] selectedColumns,
-                           boolean mustFail) {
+                           int[] selectedRows, int[] selectedColumns) {
         try {
             Fraction[][] sub = (reference == null) ?
                     new Fraction[1][1] :
                     new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
-            assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
-            if (mustFail) {
-                fail("Expecting MatrixIndexException");
+            if (reference != null) {
+            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
+            } else {
+            	fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
-            if (!mustFail) {
+            if (reference != null) {
                 throw e;
             }
         }

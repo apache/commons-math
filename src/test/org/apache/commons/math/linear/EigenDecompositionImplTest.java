@@ -293,13 +293,13 @@ public class EigenDecompositionImplTest extends TestCase {
         boolean found = false;
         int i = 0;
         while (!found && i < searchMatrix.getColumnDimension()) {
-            double multiplier = 1d;
+            double multiplier = 1.0;
             boolean matching = true;
             int j = 0;
             while (matching && j < searchMatrix.getRowDimension()) {
                 double colEntry = searchMatrix.getEntry(j, i);
                 // Use the first entry where both are non-zero as scalar
-                if (multiplier == 1d && Math.abs(colEntry) > 1E-14
+                if (Math.abs(multiplier - 1.0) <= Math.ulp(1.0) && Math.abs(colEntry) > 1E-14
                         && Math.abs(column[j]) > 1e-14) {
                     multiplier = colEntry / column[j];
                 } 

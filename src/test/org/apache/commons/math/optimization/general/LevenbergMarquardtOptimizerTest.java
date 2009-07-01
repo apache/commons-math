@@ -434,8 +434,7 @@ public class LevenbergMarquardtOptimizerTest
         Arrays.fill(target, 0.0);
         double[] weights = new double[circle.getN()];
         Arrays.fill(weights, 2.0);
-        optimum =
-            optimizer.optimize(circle, target, weights, new double[] { 98.680, 47.345 });
+        optimizer.optimize(circle, target, weights, new double[] { 98.680, 47.345 });
         cov = optimizer.getCovariances();
         assertEquals(0.0016, cov[0][0], 0.001);
         assertEquals(3.2e-7, cov[0][1], 1.0e-9);

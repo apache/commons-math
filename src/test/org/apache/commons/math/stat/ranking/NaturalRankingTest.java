@@ -199,5 +199,6 @@ public class NaturalRankingTest extends TestCase {
         ranking = new NaturalRanking(NaNStrategy.MINIMAL);
         ranks = ranking.rank(data);
         correctRanks = new double[] { 3, 4, 1.5, 1.5 };
+        TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 }

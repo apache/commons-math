@@ -613,11 +613,8 @@ public class FastFourierTransformer implements Serializable {
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
      */
-    private class MultiDimensionalComplexMatrix
-        implements Serializable, Cloneable {
-
-        /** Serializable version identifier. */
-        private static final long serialVersionUID =  0x564FCD47EBA8169BL;
+    private static class MultiDimensionalComplexMatrix
+        implements Cloneable {
 
         /** Size in all dimensions. */
         protected int[] dimensionSize;

@@ -63,13 +63,9 @@ public class TestProblem6
         y = problem.y.clone();
     }
 
-    /**
-     * Clone operation.
-     * @return a copy of the instance
-     */
-    @Override
-    public Object clone() {
-        return new TestProblem6(this);
+    /** {@inheritDoc} */
+    public TestProblem6 copy() {
+      return new TestProblem6(this);
     }
 
     @Override
