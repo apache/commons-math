@@ -19,8 +19,6 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.util.MathUtils;
-
 /**
  * <p>
  * A StatisticalSummary that aggregates statistics from several data sets or
