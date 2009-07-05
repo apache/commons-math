@@ -387,6 +387,44 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
     
     /**
+     * Return the product of this complex number and the given scalar number.
+     * <p>
+     * Implements preliminary checks for NaN and infinity followed by
+     * the definitional formula:
+     * <pre><code>
+     * c(a + bi) = (ca) + (cb)i
+     * </code></pre>
+     * </p>
+     * <p>
+     * Returns {@link #NaN} if either this or <code>rhs</code> has one or more
+     * NaN parts.
+     * </p>
+     * Returns {@link #INF} if neither this nor <code>rhs</code> has one or more
+     * NaN parts and if either this or <code>rhs</code> has one or more
+     * infinite parts (same result is returned regardless of the sign of the
+     * components).
+     * </p>
+     * <p>
+     * Returns finite values in components of the result per the
+     * definitional formula in all remaining cases.
+     *  </p>
+     * 
+     * @param rhs the scalar number
+     * @return the complex number product
+     */
+    public Complex multiply(double rhs) {
+        if (isNaN() || Double.isNaN(rhs)) {
+            return NaN;
+        }
+        if (Double.isInfinite(real) || Double.isInfinite(imaginary) ||
+            Double.isInfinite(rhs)) {
+            // we don't use Complex.isInfinite() to avoid testing for NaN again
+            return INF;
+        }
+        return createComplex(real * rhs, imaginary * rhs);
+    }
+    
+    /**
      * Return the additive inverse of this complex number.
      * <p>
      * Returns <code>Complex.NaN</code> if either real or imaginary

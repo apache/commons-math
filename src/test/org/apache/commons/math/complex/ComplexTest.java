@@ -219,6 +219,31 @@ public class ComplexTest extends TestCase {
         assertTrue(Double.isNaN(w.getImaginary()));  
     }
     
+    public void testScalarMultiply() {
+        Complex x = new Complex(3.0, 4.0);
+        double y = 2.0;
+        Complex z = x.multiply(y);
+        assertEquals(6.0, z.getReal(), 1.0e-5);
+        assertEquals(8.0, z.getImaginary(), 1.0e-5);
+    }
+    
+    public void testScalarMultiplyNaN() {
+        Complex x = new Complex(3.0, 4.0);
+        Complex z = x.multiply(Double.NaN);
+        assertTrue(z.isNaN());
+    }
+    
+    public void testScalarMultiplyInf() {
+        Complex z = new Complex(1,1);
+        Complex w = z.multiply(Double.POSITIVE_INFINITY);
+        assertEquals(w.getReal(), inf, 0);
+        assertEquals(w.getImaginary(), inf, 0);
+
+        w = z.multiply(Double.NEGATIVE_INFINITY);
+        assertEquals(w.getReal(), inf, 0);
+        assertEquals(w.getImaginary(), inf, 0);
+    }
+    
     public void testNegate() {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.negate();

@@ -45,6 +45,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="luc" type="add" issue="MATH-278" due-to="Eugene Kirpichov">
         Added robust locally weighted regression (Loess).
       </action>
+      <action dev="luc" type="add" issue="MATH-277" due-to="Mark Anderson">
+        Added a scalar multiply to the Complex class
+      </action>
       <action dev="luc" type="add" >
         Added curve fitting with a general case and two specific cases (polynomial and harmonic).
       </action>
