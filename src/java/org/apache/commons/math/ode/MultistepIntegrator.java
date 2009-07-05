@@ -210,7 +210,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param first first scaled derivative at step start
      * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
      * will be modified
-     * @return high order derivatives at step start
+     * @return high order scaled derivatives at step start
      */
     protected abstract Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
                                                                            final double[][] multistep);
