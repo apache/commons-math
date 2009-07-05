@@ -23,6 +23,7 @@ import java.io.ObjectOutput;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.ode.DerivativeException;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -58,6 +59,9 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     /** Nordsieck vector. */
     private Array2DRowRealMatrix nordsieck;
 
+    /** State variation. */
+    protected double[] stateVariation;
+
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the
      * {@link AbstractStepInterpolator#reinitialize} method should be called
@@ -83,6 +87,9 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         if (interpolator.nordsieck != null) {
             nordsieck = new Array2DRowRealMatrix(interpolator.nordsieck.getDataRef(), true);
         }
+        if (interpolator.stateVariation != null) {
+        	stateVariation = interpolator.stateVariation.clone();
+        }
     }
 
     /** {@inheritDoc} */
@@ -101,6 +108,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     @Override
     public void reinitialize(final double[] y, final boolean forward) {
         super.reinitialize(y, forward);
+        stateVariation = new double[y.length];
     }
 
     /** Reinitialize the instance.
@@ -151,6 +159,27 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
     }
 
+    /**
+     * Get the state vector variation from current to interpolated state.
+     * <p>This method is aimed at computing y(t<sub>interpolation</sub>)
+     * -y(t<sub>current</sub>) accurately by avoiding the cancellation errors
+     * that would occur if the subtraction were performed explicitly.</p>
+     * <p>The returned vector is a reference to a reused array, so
+     * it should not be modified and it should be copied if it needs
+     * to be preserved across several calls.</p>
+     * @return state vector at time {@link #getInterpolatedTime}
+     * @see #getInterpolatedDerivatives()
+     * @throws DerivativeException if this call induces an automatic
+     * step finalization that throws one
+     */
+    public double[] getInterpolatedStateVariation()
+        throws DerivativeException {
+    	// compute and ignore interpolated state
+    	// to make sure state variation is computed as a side effect
+    	getInterpolatedState();
+    	return stateVariation;
+    }
+
     /** {@inheritDoc} */
     @Override
     protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH) {
@@ -158,7 +187,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         final double x = interpolatedTime - referenceTime;
         final double normalizedAbscissa = x / scalingH;
 
-        Arrays.fill(interpolatedState, 0.0);
+        Arrays.fill(stateVariation, 0.0);
         Arrays.fill(interpolatedDerivatives, 0.0);
 
         // apply Taylor formula from high order to low order,
@@ -170,13 +199,14 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             final double power = Math.pow(normalizedAbscissa, order);
             for (int j = 0; j < nDataI.length; ++j) {
                 final double d = nDataI[j] * power;
-                interpolatedState[j]       += d;
+                stateVariation[j]          += d;
                 interpolatedDerivatives[j] += order * d;
             }
         }
 
         for (int j = 0; j < currentState.length; ++j) {
-            interpolatedState[j] += currentState[j] + scaled[j] * normalizedAbscissa;
+        	stateVariation[j] += scaled[j] * normalizedAbscissa;
+        	interpolatedState[j] = currentState[j] + stateVariation[j];
             interpolatedDerivatives[j] =
                 (interpolatedDerivatives[j] + scaled[j] * normalizedAbscissa) / x;
         }
@@ -212,6 +242,8 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             out.writeObject(nordsieck);
         }
 
+        // we don't save state variation, it will be recomputed
+
     }
 
     /** {@inheritDoc} */
@@ -246,7 +278,10 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
         if (hasScaled && hasNordsieck) {
             // we can now set the interpolated time and state
+            stateVariation = new double[n];
             setInterpolatedTime(t);
+        } else {
+            stateVariation = null;
         }
 
     }
