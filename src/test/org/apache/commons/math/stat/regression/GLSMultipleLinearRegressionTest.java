@@ -70,6 +70,17 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
     
     @Test(expected=IllegalArgumentException.class)
+    public void notEnoughData() {
+        double[]   reducedY = new double[y.length - 1];
+        double[][] reducedX = new double[x.length - 1][];
+        double[][] reducedO = new double[omega.length - 1][];
+        System.arraycopy(y,     0, reducedY, 0, reducedY.length);
+        System.arraycopy(x,     0, reducedX, 0, reducedX.length);
+        System.arraycopy(omega, 0, reducedO, 0, reducedO.length);
+        createRegression().newSampleData(reducedY, reducedX, reducedO);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
     public void cannotAddCovarianceDataWithSampleSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
         double[][] x = new double[2][];

@@ -311,12 +311,6 @@ public class MessagesResources_fr
     { "{0} method needs at least one previous point",
       "la m\u00e9thode {0} n\u00e9cessite au moins un point pr\u00e9c\u00e9dent" },
 
-    // org.apache.commons.math.ode.stiff.BDFIntegrator
-    { "unsupported order {0} for BDF methods, must be between {1} and {2}",
-      "ordre {0} non support\u00e9 pour les m\u00e9thodes BDF, doit \u00eatre entre {1} et {2}" },
-    { "corrector failed to converge after {0} iterations at t = {1}",
-      "\u00e9chec de convergence du correcteur apr\u00e8s {0} it\u00e9rations \u00e0 t = {1}" },
-
     // org.apache.commons.math.ode.ContinuousOutputModel
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "unexpected exception caught",
@@ -728,6 +722,10 @@ public class MessagesResources_fr
    // org.apache.commons.math.stat.regression.OLSMultipleLinearRegression
    { "matrix is not upper-triangular, entry ({0}, {1}) = {2} is too large",
      "matrice non triangulaire sup\u00e9rieure, l''\u00e9l\u00e9ment ({0}, {1}) = {2} est trop grand" },
+
+   // org.apache.commons.math.stat.regression.AbstractMultipleLinearRegression
+   { "not enough data ({0} rows) for this many predictors ({1} predictors)",
+     "pas assez de donn\u00e9es ({0} lignes) pour {1} pr\u00e9dicteurs" },
 
    // org.apache.commons.math.distribution.AbstractContinuousDistribution
    // org.apache.commons.math.distribution.AbstractIntegerDistribution

@@ -91,6 +91,10 @@ public abstract class AbstractMultipleLinearRegression implements
                   "dimension mismatch {0} != {1}",
                   (x == null) ? 0 : x.length,
                   (y == null) ? 0 : y.length);
+        } else if ((x.length > 0) && (x[0].length > x.length)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "not enough data ({0} rows) for this many predictors ({1} predictors)",
+                  x.length, x[0].length);
         }
     }
 
