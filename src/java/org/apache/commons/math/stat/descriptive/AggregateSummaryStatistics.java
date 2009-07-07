@@ -316,7 +316,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
             }
             AggregatingSummaryStatistics stat = (AggregatingSummaryStatistics)object;
             return (super.equals(stat) &&
-            		aggregateStatistics.equals(stat.aggregateStatistics));
+                    aggregateStatistics.equals(stat.aggregateStatistics));
         }
 
         /**
