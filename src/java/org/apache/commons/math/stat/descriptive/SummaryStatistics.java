@@ -292,7 +292,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Returns <code>Double.NaN</code> if no data values have been added and
      * returns <code>0</code> if there is just one value in the data set.</p>
      * <p>
-     * 
+     * @return second central moment statistic
      * @since 2.0
      */
     public double getSecondMoment() {
