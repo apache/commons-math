@@ -238,7 +238,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
             }
             sum += current.getSum();
             final double oldN = n;
-            final long curN = current.getN();
+            final double curN = current.getN();
             n += curN;
             final double meanDiff = current.getMean() - mean;
             mean = sum / n;

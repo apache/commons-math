@@ -77,6 +77,15 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         assertEquals("Wrong aggregate sum", 42.0, aggregate.getSum());
     }
     
+    /**
+     * Test aggregate function by randomly generating a dataset of 10-100 values
+     * from [-100, 100], dividing it into 2-5 partitions, computing stats for each
+     * partition and comparing the result of aggregate(...) applied to the collection
+     * of per-partition SummaryStatistics with a single SummaryStatistics computed
+     * over the full sample.
+     * 
+     * @throws Exception
+     */
     public void testAggregate() throws Exception {
         
         // Generate a random sample and random partition
@@ -106,6 +115,64 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         // Compare values
         StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
+    }
+    
+    
+    public void testAggregateDegenerate() throws Exception {
+        double[] totalSample = {1, 2, 3, 4, 5};
+        double[][] subSamples = {{1}, {2}, {3}, {4}, {5}};
+        
+        // Compute combined stats directly
+        SummaryStatistics totalStats = new SummaryStatistics();
+        for (int i = 0; i < totalSample.length; i++) {
+            totalStats.addValue(totalSample[i]);
+        }
+        
+        // Now compute subsample stats individually and aggregate
+        SummaryStatistics[] subSampleStats = new SummaryStatistics[5];
+        for (int i = 0; i < 5; i++) {
+            subSampleStats[i] = new SummaryStatistics();
+        }
+        Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < subSamples[i].length; j++) { 
+                subSampleStats[i].addValue(subSamples[i][j]);
+            }
+            aggregate.add(subSampleStats[i]);
+        }
+        
+        // Compare values
+        StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+        assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
+    }
+    
+    public void testAggregateSpecialValues() throws Exception {
+        double[] totalSample = {Double.POSITIVE_INFINITY, 2, 3, Double.NaN, 5};
+        double[][] subSamples = {{Double.POSITIVE_INFINITY, 2}, {3}, {Double.NaN}, {5}};
+        
+        // Compute combined stats directly
+        SummaryStatistics totalStats = new SummaryStatistics();
+        for (int i = 0; i < totalSample.length; i++) {
+            totalStats.addValue(totalSample[i]);
+        }
+        
+        // Now compute subsample stats individually and aggregate
+        SummaryStatistics[] subSampleStats = new SummaryStatistics[5];
+        for (int i = 0; i < 4; i++) {
+            subSampleStats[i] = new SummaryStatistics();
+        }
+        Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < subSamples[i].length; j++) { 
+                subSampleStats[i].addValue(subSamples[i][j]);
+            }
+            aggregate.add(subSampleStats[i]);
+        }
+        
+        // Compare values
+        StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+        assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
+        
     }
     
     /**
