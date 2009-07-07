@@ -18,6 +18,8 @@
 package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * <p>
@@ -200,6 +202,60 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
     }
     
     /**
+     * Computes aggregate summary statistics. This method can be used to combine statistics
+     * computed over partitions or subsamples - i.e., the StatisticalSummaryValues returned
+     * should contain the same values that would have been obtained by computing a single
+     * StatisticalSummary over the combined dataset.
+     * <p>
+     * Returns null if the collection is empty or null.
+     * </p>
+     * 
+     * @param statistics collection of SummaryStatistics to aggregate
+     * @return summary statistics for the combined dataset
+     */
+    public static StatisticalSummaryValues aggregate(Collection<SummaryStatistics> statistics) {
+        if (statistics == null) {
+            return null;
+        }
+        Iterator<SummaryStatistics> iterator = statistics.iterator();
+        if (!iterator.hasNext()) {
+            return null;
+        }
+        SummaryStatistics current = iterator.next();
+        long n = current.getN();
+        double min = current.getMin();
+        double sum = current.getSum();
+        double max = current.getMax();
+        double m2 = current.getSecondMoment();
+        double mean = current.getMean();
+        while (iterator.hasNext()) {
+            current = iterator.next();
+            if (current.getMin() < min || Double.isNaN(min)) {
+                min = current.getMin();
+            }
+            if (current.getMax() > max || Double.isNaN(max)) {
+                max = current.getMax();
+            }
+            sum += current.getSum();
+            final double oldN = n;
+            final long curN = current.getN();
+            n += curN;
+            final double meanDiff = current.getMean() - mean;
+            mean = sum / n;
+            m2 = m2 + current.getSecondMoment() + meanDiff * meanDiff * oldN * curN / n; 
+        }
+        final double variance;
+        if (n == 0) {
+            variance = Double.NaN;
+        } else if (n == 1) {
+            variance = 0d;
+        } else {
+            variance = m2 / (n - 1);
+        }
+        return new StatisticalSummaryValues(mean, variance, n, max, min, sum);
+    }
+    
+    /**
      * A SummaryStatistics that also forwards all values added to it to a second
      * {@code SummaryStatistics} for aggregation.
      *
@@ -271,6 +327,5 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
         public int hashCode() {
             return 123 + super.hashCode() + aggregateStatistics.hashCode();
         }
-
     }
 }
