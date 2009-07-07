@@ -283,6 +283,21 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     public double getSumOfLogs() {
         return sumLogImpl.getResult();
     }
+    
+    /**
+     * Returns a statistic related to the Second Central Moment.  Specifically,
+     * what is returned is the sum of squared deviations from the sample mean
+     * among the values that have been added.
+     * <p>
+     * Returns <code>Double.NaN</code> if no data values have been added and
+     * returns <code>0</code> if there is just one value in the data set.</p>
+     * <p>
+     * 
+     * @since 2.0
+     */
+    public double getSecondMoment() {
+        return secondMoment.getResult();
+    }
 
     /**
      * Generates a text report displaying summary statistics from values that
