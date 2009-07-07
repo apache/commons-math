@@ -65,7 +65,7 @@ public abstract class AbstractContinuousDistribution
         }
 
         // by default, do simple root finding using bracketing and default solver.
-        // subclasses can overide if there is a better method.
+        // subclasses can override if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
             public double value(double x) throws FunctionEvaluationException {

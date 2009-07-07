@@ -17,12 +17,11 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.ConvergenceException;
+import junit.framework.TestCase;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
@@ -89,15 +88,6 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
                 0.0, -2.0, 2.0);
         assertTrue(sin.value(result[0]) < 0);
         assertTrue(sin.value(result[1]) > 0);
-    }
-    
-    public void testBracketCornerSolution() throws MathException {
-        try {
-            UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0); 
-            fail("Expecting ConvergenceException");
-        } catch (ConvergenceException ex) {
-            // expected
-        }
     }
     
     public void testBadParameters() throws MathException {
