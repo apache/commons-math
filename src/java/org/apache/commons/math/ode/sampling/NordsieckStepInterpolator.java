@@ -88,7 +88,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             nordsieck = new Array2DRowRealMatrix(interpolator.nordsieck.getDataRef(), true);
         }
         if (interpolator.stateVariation != null) {
-        	stateVariation = interpolator.stateVariation.clone();
+            stateVariation = interpolator.stateVariation.clone();
         }
     }
 
@@ -174,10 +174,10 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      */
     public double[] getInterpolatedStateVariation()
         throws DerivativeException {
-    	// compute and ignore interpolated state
-    	// to make sure state variation is computed as a side effect
-    	getInterpolatedState();
-    	return stateVariation;
+        // compute and ignore interpolated state
+        // to make sure state variation is computed as a side effect
+        getInterpolatedState();
+        return stateVariation;
     }
 
     /** {@inheritDoc} */
@@ -205,8 +205,8 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         }
 
         for (int j = 0; j < currentState.length; ++j) {
-        	stateVariation[j] += scaled[j] * normalizedAbscissa;
-        	interpolatedState[j] = currentState[j] + stateVariation[j];
+            stateVariation[j] += scaled[j] * normalizedAbscissa;
+            interpolatedState[j] = currentState[j] + stateVariation[j];
             interpolatedDerivatives[j] =
                 (interpolatedDerivatives[j] + scaled[j] * normalizedAbscissa) / x;
         }
