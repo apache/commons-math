@@ -60,7 +60,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Solve for a zero root in the given interval.
-     * A solver may require that the interval brackets a single zero root.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
      * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
@@ -80,7 +82,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Solve for a zero root in the given interval.
-     * A solver may require that the interval brackets a single zero root.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
      * 
      * @param f the function to solve.
      * @param min the lower bound for the interval.
@@ -100,7 +104,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Solve for a zero in the given interval, start at startValue.
-     * A solver may require that the interval brackets a single zero root.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
      * 
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
@@ -121,7 +127,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Solve for a zero in the given interval, start at startValue.
-     * A solver may require that the interval brackets a single zero root.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
      * 
      * @param f the function to solve.
      * @param min the lower bound for the interval.

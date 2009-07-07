@@ -90,6 +90,12 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
         assertTrue(sin.value(result[1]) > 0);
     }
     
+    public void testBracketEndpointRoot() throws MathException {
+        double[] result = UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0);
+        assertEquals(0.0, sin.value(result[0]), 1.0e-15);
+        assertTrue(sin.value(result[1]) > 0);
+    }
+    
     public void testBadParameters() throws MathException {
         try { // null function
             UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);

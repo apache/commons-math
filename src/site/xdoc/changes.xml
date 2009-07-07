@@ -40,7 +40,9 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.0" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-280">
-        Fixed a bracketing issue in inverse cumulative probability computation
+        The behavior of the bracket method in UnivariateRealSolverUtils has been changed to return successfully
+        when a tentative bracketing interval has a root exactly at one of its end points. Previously, such intervals
+        triggered an exception.
       </action>
       <action dev="luc" type="add" issue="MATH-279" due-to="Michael Bjorkegren">
         Added a check for too few rows with respect to the number of predictors in linear regression
