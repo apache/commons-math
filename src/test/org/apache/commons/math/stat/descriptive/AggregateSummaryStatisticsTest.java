@@ -78,6 +78,60 @@ public class AggregateSummaryStatisticsTest extends TestCase {
     }
     
     /**
+     * Verify that aggregating over a partition gives the same results
+     * as direct computation.
+     * 
+     *  1) Randomly generate a dataset of 10-100 values
+     *     from [-100, 100]
+     *  2) Divide the dataset it into 2-5 partitions
+     *  3) Create an AggregateSummaryStatistic and ContributingStatistics
+     *     for each partition 
+     *  4) Compare results from the AggregateSummaryStatistic with values
+     *     returned by a single SummaryStatistics instance that is provided 
+     *     the full dataset
+     */
+    public void testAggregationConsistency() throws Exception {
+        
+        // Generate a random sample and random partition
+        double[] totalSample = generateSample();
+        double[][] subSamples = generatePartition(totalSample);
+        int nSamples = subSamples.length;
+        
+        // Create aggregator and total stats for comparison
+        AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
+        SummaryStatistics totalStats = new SummaryStatistics();
+        
+        // Create array of component stats
+        SummaryStatistics componentStats[] = new SummaryStatistics[nSamples];
+        
+        for (int i = 0; i < nSamples; i++) {
+            
+            // Make componentStats[i] a contributing statistic to aggregate
+            componentStats[i] = aggregate.createContributingStatistics();
+            
+            // Add values from subsample
+            for (int j = 0; j < subSamples[i].length; j++) {
+                componentStats[i].addValue(subSamples[i][j]);
+            }
+        }
+        
+        // Compute totalStats directly
+        for (int i = 0; i < totalSample.length; i++) {
+            totalStats.addValue(totalSample[i]);
+        }
+        
+        /*
+         * Compare statistics in totalStats with aggregate.
+         * Note that guaranteed success of this comparison depends on the
+         * fact that <aggregate> gets values in exactly the same order
+         * as <totalStats>. 
+         *  
+         */
+        assertEquals(totalStats.getSummary(), aggregate.getSummary());  
+        
+    }
+    
+    /**
      * Test aggregate function by randomly generating a dataset of 10-100 values
      * from [-100, 100], dividing it into 2-5 partitions, computing stats for each
      * partition and comparing the result of aggregate(...) applied to the collection
@@ -176,7 +230,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
     }
     
     /**
-     * Verifies that two StatisticalSummaryValues report the same values up
+     * Verifies that a StatisticalSummary and a StatisticalSummaryValues are equal up
      * to delta, with NaNs, infinities returned in the same spots. For max, min, n, values
      * have to agree exactly, delta is used only for sum, mean, variance, std dev.
      */

@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 /**
  * <p>
- * A StatisticalSummary that aggregates statistics from several data sets or
+ * An aggregator for {@code SummaryStatistics} from several data sets or
  * data set partitions.  In its simplest usage mode, the client creates an
  * instance via the zero-argument constructor, then uses
  * {@link #createContributingStatistics()} to obtain a {@code SummaryStatistics}
@@ -34,7 +34,16 @@ import java.util.Iterator;
  * Clients with specialized requirements can use alternative constructors to
  * control the statistics implementations and initial values used by the
  * contributing and the internal aggregate {@code SummaryStatistics} objects.
- * </p>
+ * </p><p>
+ * A static {@link #aggregate(Collection)} method is also included that computes
+ * aggregate statistics directly from a Collection of SummaryStatistics instances.
+ * </p><p>
+ * When {@link #createContributingStatistics()} is used to create SummaryStatistics
+ * instances to be aggregated concurrently, the created instances' 
+ * {@link SummaryStatistics#addValue(double)} methods must synchronize on the aggregating
+ * instance maintained by this class.  In multithreaded environments, if the functionality
+ * provided by {@link #aggregate(Collection)} is adequate, that method should be used
+ * to avoid unecessary computation and synchronization delays.</p>
  *
  * @since 2.0
  * @version $Revision:$ $Date:$
@@ -45,7 +54,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
 
  
     /** Serializable version identifier */
-   private static final long serialVersionUID = -8207112444016386906L;
+    private static final long serialVersionUID = -8207112444016386906L;
 
     /**
      * A SummaryStatistics serving as a prototype for creating SummaryStatistics
@@ -54,7 +63,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
     private final SummaryStatistics statisticsPrototype;
     
     /**
-     * The SummaryStatistics in which aggregate statistics are accumulated 
+     * The SummaryStatistics in which aggregate statistics are accumulated.
      */
     private final SummaryStatistics statistics;
     
@@ -124,7 +133,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getMax()
      */
     public double getMax() {
-        return statistics.getMax();
+        synchronized (statistics) {
+            return statistics.getMax();
+        }
     }
 
     /**
@@ -133,7 +144,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getMean()
      */
     public double getMean() {
-        return statistics.getMean();
+        synchronized (statistics) {
+            return statistics.getMean();
+        }
     }
 
     /**
@@ -143,7 +156,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getMin()
      */
     public double getMin() {
-        return statistics.getMin();
+        synchronized (statistics) {
+            return statistics.getMin();
+        }
     }
 
     /**
@@ -152,7 +167,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getN()
      */
     public long getN() {
-        return statistics.getN();
+        synchronized (statistics) {
+            return statistics.getN();
+        }
     }
 
     /**
@@ -162,7 +179,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getStandardDeviation()
      */
     public double getStandardDeviation() {
-        return statistics.getStandardDeviation();
+        synchronized (statistics) {
+            return statistics.getStandardDeviation();
+        }
     }
 
     /**
@@ -171,7 +190,9 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getSum()
      */
     public double getSum() {
-        return statistics.getSum();
+        synchronized (statistics) {
+            return statistics.getSum();
+        }
     }
 
     /**
@@ -181,7 +202,72 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see StatisticalSummary#getVariance()
      */
     public double getVariance() {
-        return statistics.getVariance();
+        synchronized (statistics) {
+            return statistics.getVariance();
+        }
+    }
+    
+    /**
+     * Returns the sum of the logs of all the aggregated data.
+     * 
+     * @return the sum of logs
+     * @see SummaryStatistics#getSumOfLogs()
+     */
+    public double getSumOfLogs() {
+        synchronized (statistics) {
+            return statistics.getSumOfLogs();
+        }
+    }
+    
+    /**
+     * Returns the geometric mean of all the aggregated data.
+     * 
+     * @return the geometric mean
+     * @see SummaryStatistics#getGeometricMean()
+     */
+    public double getGeometricMean() {
+        synchronized (statistics) {
+            return statistics.getGeometricMean();
+        }
+    }
+    
+    /**
+     * Returns the sum of the squares of all the aggregated data.
+     * 
+     * @return The sum of squares
+     * @see SummaryStatistics#getSumsq()
+     */
+    public double getSumsq() {
+        synchronized (statistics) {
+            return statistics.getSumsq();
+        }
+    }
+    
+    /**
+     * Returns a statistic related to the Second Central Moment.  Specifically,
+     * what is returned is the sum of squared deviations from the sample mean
+     * among the all of the aggregated data.
+     * 
+     * @return second central moment statistic
+     * @see SummaryStatistics#getSecondMoment()
+     */
+    public double getSecondMoment() {
+        synchronized (statistics) {
+            return statistics.getSecondMoment();
+        }
+    }
+    
+    /**
+     * Return a {@link StatisticalSummaryValues} instance reporting current
+     * aggregate statistics.
+     * 
+     * @return Current values of aggregate statistics
+     */
+    public StatisticalSummary getSummary() {
+        synchronized (statistics) {
+            return new StatisticalSummaryValues(getMean(), getVariance(), getN(), 
+                    getMax(), getMin(), getSum());
+        }
     }
 
     /**
