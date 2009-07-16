@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.MathException;
-
 import java.io.Serializable;
 import java.util.Arrays;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
@@ -132,7 +132,7 @@ public class LoessInterpolator
      * <li> All arguments and values are finite real numbers</li>
      * </ul>
      */
-    public final UnivariateRealFunction interpolate(
+    public final PolynomialSplineFunction interpolate(
             final double[] xval, final double[] yval) throws MathException {
         return new SplineInterpolator().interpolate(xval, smooth(xval, yval));
     }

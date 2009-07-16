@@ -19,7 +19,6 @@ package org.apache.commons.math.analysis.interpolation;
 import java.io.Serializable;
 
 import org.apache.commons.math.DuplicateSampleAbscissaException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm;
 
@@ -50,7 +49,7 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * @return a function which interpolates the data set
      * @throws DuplicateSampleAbscissaException if arguments are invalid
      */
-    public UnivariateRealFunction interpolate(double x[], double y[]) throws
+    public PolynomialFunctionNewtonForm interpolate(double x[], double y[]) throws
         DuplicateSampleAbscissaException {
 
         /**
@@ -76,9 +75,8 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
         }
         a = computeDividedDifference(x, y);
 
-        PolynomialFunctionNewtonForm p;
-        p = new PolynomialFunctionNewtonForm(a, c);
-        return p;
+        return new PolynomialFunctionNewtonForm(a, c);
+
     }
 
     /**

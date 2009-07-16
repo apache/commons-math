@@ -17,7 +17,6 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 
@@ -56,7 +55,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
      * @param y the values for the interpolation points
      * @return a function which interpolates the data set
      */
-    public UnivariateRealFunction interpolate(double x[], double y[]) {
+    public PolynomialSplineFunction interpolate(double x[], double y[]) {
         if (x.length != y.length) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "dimension mismatch {0} != {1}", x.length, y.length);
