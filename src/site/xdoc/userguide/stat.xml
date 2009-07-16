@@ -106,11 +106,6 @@
            the full array of values.
         </p>
         <p>
-           <code>MultivariateSummaryStatistics</code> is similar to <code>SummaryStatistics</code>
-           but handles n-tuple values instead of scalar values. It can also compute the
-           full covariance matrix for the input data.
-        </p>
-        <p>
           <table>
             <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th>
             <th>"Rolling" capability?</th></tr><tr><td>
@@ -122,6 +117,27 @@
             SummaryStatistics</a></td><td>min, max, mean, geometric mean, n,
             sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
+        </p>
+        <p>
+          <code>SummaryStatistics</code> can be aggregated using 
+          <a href="../apidocs/org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.html">
+          AggregateSummaryStatistics.</a>  This class can be used to concurrently gather statistics for multiple
+          datasets as well as for a combined sample including all of the data.
+       </p>
+        <p>
+           <code>MultivariateSummaryStatistics</code> is similar to <code>SummaryStatistics</code>
+           but handles n-tuple values instead of scalar values. It can also compute the
+           full covariance matrix for the input data.
+        </p>
+        <p>
+           Neither <code>DescriptiveStatistics</code> nor <code>SummaryStatistics</code> is
+           thread-safe. <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedDescriptiveStatistics.html">
+           SynchronizedDescriptiveStatistics</a> and
+           <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedSummaryStatistics.html"> 
+           SynchronizedSummaryStatistics</a>, respectively, provide thread-safe versions for applications that
+           require concurrent access to statistical aggregates by multiple threads.
+           <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html"> 
+           SynchronizedMultivariateSummaryStatistics</a> provides threadsafe <code>MultivariateSummaryStatistics.</code>
         </p>
         <p>
           There is also a utility class,
@@ -215,6 +231,54 @@ in.close();
 // Create a SynchronizedDescriptiveStatistics instance and
 // use as any other DescriptiveStatistics instance
 DescriptiveStatistics stats = DescriptiveStatistics.newInstance(SynchronizedDescriptiveStatistics.class);
+        </source>
+        </dd>
+        <dt>Compute statistics for multiple samples and overall statistics concurrently</dt>
+        <br/>
+        <dd>There are two ways to do this using <code>AggregateSummaryStatistics.</code> 
+        The first is to use an <code>AggregateSummaryStatistics</code> instance to accumulate
+        overall statistics contributed by <code>SummaryStatistics</code> instances created using
+        <a href="../apidocs/org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.html#createContributingStatistics()">
+          AggregateSummaryStatistics.createContributingStatistics()</a>:
+        <source>
+// Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
+// and AggregatingSummaryStatistics for the subsamples
+AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
+SummaryStatistics setOneStats = aggregate.createContributingStatistics();
+SummaryStatistics setTwoStats = aggregate.createContributingStatistics();
+// Add values to the subsample aggregates
+setOneStats.addValue(2);
+setOneStats.addValue(3);
+setTwoStats.addValue(2);
+setTwoStats.addValue(4);
+...
+// Full sample data is reported by the aggregate
+double totalSampleSum = aggregate.getSum();
+        </source>
+        The above approach has the disadvantages that the <code>addValue</code> calls must be synchronized on the
+        <code>SummaryStatistics</code> instance maintained by the aggregate and each value addition updates the
+        aggregate as well as the subsample. For applications that can wait to do the aggregation until all values
+        have been added, a static
+        <a href="../apidocs/org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.html#aggregate(java.util.Collection)">
+          aggregate</a> method is available, as shown in the following example.
+        This method should be used when aggregation needs to be done across threads.
+        <source>
+// Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
+// and AggregatingSummaryStatistics for the subsamples
+AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
+SummaryStatistics setOneStats = aggregate.createContributingStatistics();
+SummaryStatistics setTwoStats = aggregate.createContributingStatistics();
+// Add values to the subsample aggregates
+setOneStats.addValue(2);
+setOneStats.addValue(3);
+setTwoStats.addValue(2);
+setTwoStats.addValue(4);
+...
+// Get a <code>StatisticalSummary</code> describing the full set of data
+Collection&lt;SummaryStatistics&gt; aggregate = new ArrayList&lt;SummaryStatistics&gt;();
+aggregate.add(setOneStats);
+aggregate.add(setTwoStats);
+StatisticalSummary aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         </source>
         </dd>
         </dl>
