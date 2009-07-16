@@ -167,7 +167,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         }
         
         // Compare values
-        StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+        StatisticalSummary aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
     }
     
@@ -234,7 +234,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
      * to delta, with NaNs, infinities returned in the same spots. For max, min, n, values
      * have to agree exactly, delta is used only for sum, mean, variance, std dev.
      */
-    protected static void assertEquals(StatisticalSummary expected, StatisticalSummaryValues observed, double delta) {
+    protected static void assertEquals(StatisticalSummary expected, StatisticalSummary observed, double delta) {
         TestUtils.assertEquals(expected.getMax(), observed.getMax(), 0);
         TestUtils.assertEquals(expected.getMin(), observed.getMin(), 0);
         assertEquals(expected.getN(), observed.getN());
