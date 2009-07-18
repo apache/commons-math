@@ -82,10 +82,10 @@ public class AdamsMoultonIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 0.4 and 3.0 factors are only valid for this test
+            // the 0.15 and 3.0 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            assertTrue(handler.getMaximalValueError() > (0.4 * scalAbsoluteTolerance));
+            assertTrue(handler.getMaximalValueError() > (0.15 * scalAbsoluteTolerance));
             assertTrue(handler.getMaximalValueError() < (3.0 * scalAbsoluteTolerance));
             assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
@@ -147,7 +147,7 @@ public class AdamsMoultonIntegratorTest {
             if (nSteps < 4) {
                 assertTrue(integ.getEvaluations() > 150);
             } else {
-                assertTrue(integ.getEvaluations() < 90);
+                assertTrue(integ.getEvaluations() < 100);
             }
         }
 

@@ -66,7 +66,7 @@ public class AdamsBashforthIntegratorTest {
         throws DerivativeException, IntegratorException {
 
         int previousCalls = Integer.MAX_VALUE;
-        for (int i = -12; i < -2; ++i) {
+        for (int i = -12; i < -5; ++i) {
             TestProblem1 pb = new TestProblem1();
             double minStep = 0;
             double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -82,11 +82,11 @@ public class AdamsBashforthIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 33 and 45 factors are only valid for this test
+            // the 31 and 36 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            assertTrue(handler.getMaximalValueError() > (33.0 * scalAbsoluteTolerance));
-            assertTrue(handler.getMaximalValueError() < (45.0 * scalAbsoluteTolerance));
+            assertTrue(handler.getMaximalValueError() > (31.0 * scalAbsoluteTolerance));
+            assertTrue(handler.getMaximalValueError() < (36.0 * scalAbsoluteTolerance));
             assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
             int calls = pb.getCalls();
@@ -147,7 +147,7 @@ public class AdamsBashforthIntegratorTest {
             if (nSteps < 4) {
                 assertTrue(integ.getEvaluations() > 160);
             } else {
-                assertTrue(integ.getEvaluations() < 70);
+                assertTrue(integ.getEvaluations() < 80);
             }
         }
 

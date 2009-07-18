@@ -28,6 +28,28 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 /**
  * This class is the base class for multistep integrators for Ordinary
  * Differential Equations.
+ * <p>We define scaled derivatives s<sub>i</sub>(n) at step n as:
+ * <pre>
+ * s<sub>1</sub>(n) = h y'<sub>n</sub> for first derivative
+ * s<sub>2</sub>(n) = h<sup>2</sup>/2 y''<sub>n</sub> for second derivative
+ * s<sub>3</sub>(n) = h<sup>3</sup>/6 y'''<sub>n</sub> for third derivative
+ * ...
+ * s<sub>k</sub>(n) = h<sup>k</sup>/k! y(k)<sub>n</sub> for k<sup>th</sup> derivative
+ * </pre></p>
+ * <p>Rather than storing several previous steps separately, this implementation uses
+ * the Nordsieck vector with higher degrees scaled derivatives all taken at the same
+ * step (y<sub>n</sub>, s<sub>1</sub>(n) and r<sub>n</sub>) where r<sub>n</sub> is defined as:
+ * <pre>
+ * r<sub>n</sub> = [ s<sub>2</sub>(n), s<sub>3</sub>(n) ... s<sub>k</sub>(n) ]<sup>T</sup>
+ * </pre>
+ * (we omit the k index in the notation for clarity)</p>
+ * <p>
+ * Multistep integrators with Nordsieck representation are highly sensitive to
+ * large step changes because when the step is multiplied by a factor a, the
+ * k<sup>th</sup> component of the Nordsieck vector is multiplied by a<sup>k</sup>
+ * and the last components are the least accurate ones. The default max growth
+ * factor is therefore set to a quite low value: 2<sup>1/order</sup>.
+ * </p>
  *
  * @see org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
  * @see org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
@@ -67,6 +89,9 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * <p>The default starter integrator is set to the {@link
      * DormandPrince853Integrator Dormand-Prince 8(5,3)} integrator with
      * some defaults settings.</p>
+     * <p>
+     * The default max growth factor is set to a quite low value: 2<sup>1/order</sup>.
+     * </p>
      * @param name name of the method
      * @param nSteps number of steps of the multistep method
      * (excluding the one being computed)
@@ -102,7 +127,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(10.0);
+        setMaxGrowth(Math.pow(2.0, -exp));
 
     }
 
@@ -111,6 +136,9 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * <p>The default starter integrator is set to the {@link
      * DormandPrince853Integrator Dormand-Prince 8(5,3)} integrator with
      * some defaults settings.</p>
+     * <p>
+     * The default max growth factor is set to a quite low value: 2<sup>1/order</sup>.
+     * </p>
      * @param name name of the method
      * @param nSteps number of steps of the multistep method
      * (excluding the one being computed)
@@ -138,7 +166,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         // set the default values of the algorithm control parameters
         setSafety(0.9);
         setMinReduction(0.2);
-        setMaxGrowth(10.0);
+        setMaxGrowth(Math.pow(2.0, -exp));
 
     }
 
