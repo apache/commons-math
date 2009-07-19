@@ -198,13 +198,6 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                            final double min, final double max)
         throws ConvergenceException,
             FunctionEvaluationException {
-        return optimize(f, goalType, min, max, min + generator.nextDouble() * (max - min));
-    }
-
-    /** {@inheritDoc} */
-    public double optimize(final UnivariateRealFunction f, final GoalType goalType,
-                           final double min, final double max, final double startValue)
-            throws ConvergenceException, FunctionEvaluationException {
 
         optima           = new double[starts];
         totalIterations  = 0;
@@ -216,8 +209,11 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
             try {
                 optimizer.setMaximalIterationCount(maxIterations - totalIterations);
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
-                optima[i] = optimizer.optimize(f, goalType, min, max,
-                                               (i == 0) ? startValue : generator.nextDouble() * (max - min));
+                final double bound1 = min + generator.nextDouble() * (max - min);
+                final double bound2 = min + generator.nextDouble() * (max - min);
+                optima[i] = optimizer.optimize(f, goalType,
+                                               Math.min(bound1, bound2),
+                                               Math.max(bound1, bound2));
             } catch (FunctionEvaluationException fee) {
                 optima[i] = Double.NaN;
             } catch (ConvergenceException ce) {
@@ -255,6 +251,13 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
         // return the found point given the best objective function value
         return optima[0];
 
+    }
+
+    /** {@inheritDoc} */
+    public double optimize(final UnivariateRealFunction f, final GoalType goalType,
+                           final double min, final double max, final double startValue)
+            throws ConvergenceException, FunctionEvaluationException {
+        return optimize(f, goalType, min, max);
     }
 
 }
