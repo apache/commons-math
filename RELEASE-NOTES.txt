@@ -12,7 +12,7 @@ changes to existing features. Most notable among the new features are:
   - support for any field-based matrix (Complex, Fraction ...),
   - support for genetic algorithms
   - several new optimization algorithms (Dantzig's simplex for linear
-    contrained problems, conjugate gradient, Brent)
+    constrained problems, conjugate gradient, Brent)
   - support for curve fitting with special cases for harmonic and polynomial
     functions
   - support for state derivative in ODE step handlers
