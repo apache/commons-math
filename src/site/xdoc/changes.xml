@@ -215,7 +215,7 @@ The <action> type attribute can be add,update,fix,remove.
         accuracy settings.
       </action>
       <action dev="luc" type="add" issue="MATH-177" due-to="Gilles Sadowski">
-        Added a new minimization sub-package below the analysis package.
+        Added a new univariate sub-package below the optimization package.
       </action>
       <action dev="luc" type="update" >
         The analysis package has been reorganized with several sub-packages.
