@@ -1,161 +1,442 @@
 
-                        Apache Commons Math Version 1.2-RC2 
+                        Apache Commons Math Version 2.0
                                    RELEASE NOTES
 
-      
-This release combines bug fixes and new features. Most notable among the new 
-features are the estimation, optimization, geometry and ode packages added 
-from the Mantissa library. Implementations of fast Fourier transform, QR 
-decomposition and several numerical integration algorithms have also been 
-added, along with enhancements and extensions to packages included in Commons 
-Math 1.1. This release is source and binary compatible with earlier versions 
-of Commons Math. 
+
+This release is a major one. It combines bug fixes, new features and
+changes to existing features. Most notable among the new features are:
+  - decomposition algorithms in the linear algebra (LU, QR, Cholesky,
+    SVD, eigen decomposition) which are based on the popular JAMA API (but
+    much faster),
+  - support for sparse matrices and vectors,
+  - support for any field-based matrix (Complex, Fraction ...),
+  - support for genetic algorithms
+  - several new optimization algorithms (Dantzig's simplex for linear
+    contrained problems, conjugate gradient, Brent)
+  - support for curve fitting with special cases for harmonic and polynomial
+    functions
+  - support for state derivative in ODE step handlers
+  - new multistep integrators (Adams-Bashforth and Adams-Moulton) with
+    variable stepsize
+  - regression algorithms
+  - rank transformations
+
+This release is NOT source and binary compatible with earlier versions
+of Commons Math. Starting with version 2.0 of the library, the minimal
+version of the Java platform required to compile and use commons-math
+is Java 5. Switching to this new version is thought to be an easy task
+and it is recommended to do it. Most of the compilation errors users
+will encounter after the switch will be due to classes moved due to
+packages reorganization. These errors are simply solved by adjusting
+the import statements in users code. In any case, you can ask for help
+by sending a message to the users mailing list: user@commons.apache.org.
 
 For more information on Apache Commons Math, see
 http://commons.apache.org/math/
-      
-      
+
+
                              SUMMARY OF CHANGES
 
-ADDITIONS
+New features:
 
-* Added the estimation, optimization, geometry and ode packages from the 
-  Mantissa library. 
-          
-* MATH-120. Added Pascal distribution implementation. Thanks to Todd C. 
-  Parnell. 
-          
-* MATH-148. Added QR Decomposition. Thanks to Joni Salonen. 
-          
-* MATH-140. Added Fast Fourier Transform implementation. Thanks to Xiaogang 
-  Zhang. 
-          
-* MATH-173. Added one-way ANOVA implementation. Thanks to Bob MacCallum. 
-          
-* Added an angle normalization method in MathUtils to force angles in some 
-  user-defined interval 
-          
-* Added vectorial covariance computation (either sample or population 
-  covariance) 
-          
-* Added multivariate summary statistics. 
-          
+o Added curve fitting with a general case and two specific cases
+  (polynomial and harmonic).
 
-BUG FIXES
+o Added a way to limit the number of functions evaluations in
+  optimizers (the number of iterations could already be limited)
+  Thanks to Gilles Sadowski.
 
-* Fixed numerous warnings in test code. 
-          
-* MATH-156. Use the initial guess provided by the user in 
-  BrentSolver.solve(), thus improving speed. Thanks to Tyler Ward. 
-          
-* MATH-18. Made ComplexFormat format double values with a provided 
-  NumberFormat instance instead of using the real part format for all values. 
-  Thanks to Phil Steitz. 
-          
-* MATH-60. Modified ProperFractionFormat to reject embedded minus signs. 
-  Thanks to Nhung Nnguyen. 
-          
-* MATH-151. Added a nextAfter method in MathUtils to return the next 
-  machine-representable number in a specified direction from a given floating 
-  point number. Used this to ensure that MathUtils.round does not return 
-  incorrect results for numbers with bad IEEE754 representations. Thanks to 
-  Luc Maisonobe. 
-          
-* MATH-85. Modified getSumSquaredErrors method in SimpleRegression to always 
-  return a non-negative result. Thanks to Mark Osborn, Luc Maisonobe. 
-          
-* MATH-153. Corrected nextInt and nextLong to handle wide value ranges. 
-  Thanks to Remi Arntzen. 
-          
-* MATH-166. Increased default precision of Gamma and Beta functions. Thanks 
-  to Lukas Theussl. 
-          
-* MATH-167. Modified NormalDistributionImpl.cumulativeProbablity to catch 
-  MaxIterationsExceededException and return 0 or 1, resp. if the argument is 
-  more than 20 standard deviations from the mean. 
-          
-* MATH-174. Changed Mean.evaluate() to use a two-pass algorithm, improving 
-  accuracy by exploiting the the fact that this method has access to the full 
-  array of data values. 
-          
-* MATH-175. Added check and rescaling of expected counts to sum to sum of 
-  expected counts if necessary in ChiSquare test. Thanks to Carl Anderson. 
-          
-* MATH-164. Handle multiplication of Complex numbers with infinite parts 
-  specially. 
-          
-* MATH-182. Add integer overflow checks in Fraction constructor using double 
-  parameter. 
-          
-* MATH-185. Throw EOFException when using empty files with ValueServer in 
-  replay and digest modes. 
-          
-* MATH-184. Fixed AbstractIntegerDistribution cumulativeProbablility(-,-) to 
-  correctly handle double arguments. Thanks to Yegor Bryukhov. 
-          
+o Added support for rank transformations.
 
-UPDATES
+o Added support for any type of field in linear algebra (FielxMatrix,
+  FieldVector, FieldLUDecomposition)
 
-* MATH-158. Added log function to MathUtils. Thanks to Hasan Diwan. 
-          
-* MATH-160. Added two sample (binned comparison) ChiSquare test. Thanks to 
-  Matthias Hummel. 
-          
-* MATH-170. Added SynchronizedDescriptiveStatistics class. Thanks to David J. 
-  M. Karlsen. 
-          
-* MATH-154. Added addAndCheck, mulAndCheck, and subAndCheck MathUtils methods 
-  for long integer arguments. Thanks to Remi Arntzen. 
-          
-* MATH-171. Merged most functions from ComplexUtils into Complex class, added 
-  static factory method to Complex. Thanks to Niall Pemberton. 
-          
-* Deprecated abstract factory methods and made DescriptiveStatistics and and 
-  SummaryStatistics concrete classes. Pushed implementations up from 
-  DescriptiveStatisticsImpl, SummaryStatisticsImpl. Made implementations of 
-  statistics configurable via setters. 
-          
-* MATH-176. Add errors guessing to least-squares estimators. Thanks to 
-  Kazuhiro Koshino. 
-          
-* MATH-179. Add tests for Fraction constructor using double parameter. Thanks 
-  to Niall Pemberton. 
-          
-* MATH-181. Add Fraction constructor using max denominator value. Thanks to 
-  Niall Pemberton. 
-          
-* Added a equals and hash methods in MathUtils to check for double arrays 
-          
-* MATH-191. Added getSumOfLogs method to SummaryStatistics and made SumOfLogs 
-  instance used by GeometricMean configurable. 
-          
-* MATH-188. Made numerator and denominator final in Fraction and deprecated 
-  protected real and imaginary parts fields in Complex, making Fraction 
-  immutable and preparing Complex to become fully immutable in 2.0. Thanks to 
-  Sebastian Bazley. 
-          
-DEPRECATIONS SUMMARY
+o The RealMatrixImpl implementation classes has been renamed
+  Array2DRowRealMatrix to reflect its specificities and for
+  consistency with the new implementations. The previous name is still
+  available but is deprecated
 
-* The abstract factory pattern used to enable pluggable implementations in the
-  statistics, analysis and distributions packages has been deprecated and
-  replaced by setter injection.  
-  
-* Non-localized exception messages and associated constructors have been
-  deprecated and replaced by localized versions.
-  
-* Most methods from the ComplexUtils class have been deprecated, with
-  implementations moved to the Complex class.
-  
-See "clirr-report.html" included in the docs directory of the binary
-distribution for a detailed list of API changes. The "errors" reported at the
-top of the report are due to protected fields being moved to superclasses.
-These fields are still available, so there is no backward compatibility issue.
+o Added a block-based storage type for dense matrices improving speed
+  for large dimensions
 
-BUILDING COMMONS MATH
+o Added AggregateSummaryStatistics class to support aggregation of
+  SummaryStatistics. Thanks to John Bollinger.
 
-Commons math can be built from the source distribution using Maven 1, Maven 2,
-or Ant, launching any one of these from the top-level directory of the unpacked
-zip or tarball. For detailed build instructions and information about how to
-contribute to Commons Math, see "developers.html" in the docs directory of the
-binary distribution.
+o Added general Field and FieldElement interfaces to allow generic
+  algorithms to operate on fields. The library already provides
+  several implementations: Complex, Fraction, BigFraction and BigReal
 
+o Added a SparseRealVector class that implements a sparse vector for
+  the RealVector interface.
+
+o Added a getCovariance method to singular value decomposition Thanks
+  to Dimitri Pourbaix.
+
+o Added method to walk matrix entries with or without changing them in
+  the visitor design pattern sense. Three different orders can be
+  used, row by row, column by column or optimized order according to
+  internal storage. Optimized order should be preferred when no
+  specific order is needed, because it will be more cache efficient.
+
+o Added an int/double hash map (OpenIntToDoubleHashMap) with much
+  smaller memory overhead than standard java.util.Map (open addressing
+  and no boxing). Thanks to Ismael Juma.
+
+o Support for one dimensional vectors has been added to the linear
+  algebra package with a RealVector interface, a RealVectorImpl
+  default implementation using a single double array to store elements
+  and a RealVectorFormat for input/output. Thanks to Andreas Rieger.
+
+o New ODE integrators have been added: the explicit Adams-Bashforth
+  and implicit Adams-Moulton multistep methods. As the implementations
+  of these methods are based on Nordsieck vector rather than a
+  traditional array of previous steps, they both have been improved to
+  handle adaptive stepsize. These methods provide the same rich
+  features has the existing ones: continuous output, step handlers,
+  discrete events, G-stop ...
+
+o All ODE integrators now support setting a maximal number of
+  evaluations of differential equations function. If this number is
+  exceeded, an exception will be thrown during integration. This can
+  be used to prevent infinite loops if for example error control or
+  discrete events create a really large number of extremely small
+  steps.
+
+o All step interpolators for ODE integrators now provide interpolation
+  for both the state and its time derivatives. The interpolated
+  derivatives are the exact derivatives of the interpolated state,
+  thus preserving consistency.  The general step handlers hence do not
+  need to call the derivation function anymore. The fixed step
+  handlers also get the time derivative of the state as an additional
+  argument along with the state when they are called.
+
+o Switching functions can now throw dedicated SwitchException from all
+  their method. At upper call level, the various ODE integrators
+  handle these new exceptions and wrap them into IntegratorException
+  instances, hence the integrators methods signature did not change.
+
+o Added factory methods to create Chebyshev, Hermite, Laguerre and
+  Legendre polynomials.
+
+o Added add, subtract, negate, multiply and toString methods to
+  PolynomialFunction.
+
+o Added a Legendre-Gauss integrator.
+
+o Added add/subtract/multiply/divide functions with integer parameters
+  to Fraction
+
+o Added some utility functions to compute powers with integral types
+  (int, long, BigInteger).
+
+o Added a scalb method in MathUtils. This method is similar to the
+  method with same name added in java.lang.Math as of Java 6.
+
+o Added several convenience methods and constants for Vector3D and
+  Rotation.
+
+o MATH-114: Added PearsonsCorrelation class to compute correlation
+  matrices, standard errors and p-values for correlation
+  coefficients. Thanks to John Gant.
+
+o MATH-114: Added Covariance class to compute variance-covariance
+  matrices in new correlation package.
+
+o MATH-136: Added Spearman's rank correlation
+  (SpearmansCorrelation). Thanks to John Gant.
+
+o MATH-152: Added support for multi-dimensional Fourier
+  transform. Thanks to Remi Arntzen.
+
+o MATH-177: Added a new univariate sub-package below the optimization
+  package. Thanks to Gilles Sadowski.
+
+o MATH-178: Added support for the Zipf distribution. Thanks to Paul
+  Cowan.
+
+o MATH-202: Added the getSwitchingFunctions and
+  clearSwitchingFunctions to the FirstOrderIntegrator interface and
+  all its implementations
+
+o MATH-203: Added Mauro's patch to support multiple regression. Thanks
+  to Mauro Talevi.
+
+o MATH-212: Added support for copying statistics. Changes to stats
+  classes include copy constructor, static copy(-,-) and instance
+  copy() methods. Added copy() to UnivariateStatistic and
+  StorelessUnivariateStatistic interfaces. Thanks to Jason
+  C. HandUber.
+
+o MATH-215: Added Fast Hadamard Transform. Thanks to Bernhard
+  Grünewaldt.
+
+o MATH-219: Added removeData methods for the SimpleRegression
+  class. This allows to support regression calculations across a
+  sliding window of (time-based) observations without having to
+  recalculate for the entire window every time. Thanks to Andrew
+  Berry.
+
+o MATH-220: Added JAMA-like interfaces for eigen/singular
+  problems. The implementation are based on the very quick dqd/dqds
+  algorithms and some parts of the MRRR algorithm. This leads to very
+  fast and accurate solutions.
+
+o MATH-220: Added JAMA-like interfaces for decomposition
+  algorithms. These interfaces decompose a matrix as a product of
+  several other matrices with predefined properties and shapes
+  depending on the algorithm. These algorithms allow to solve the
+  equation A * X = B, either for an exact linear solution
+  (LU-decomposition, Cholesky decomposition) or an exact or
+  least-squares solution (QR-decomposition).
+
+o MATH-222: Added beta distribution. Thanks to Ted Dunning.
+
+o MATH-222: Added probability density functions computation for
+  distributions for which it is feasible. Thanks to Ted Dunning.
+
+o MATH-229: Added a removal feature for observations in descriptive
+  statistics. Thanks to Cyril Briquet.
+
+o MATH-230: Added support for sparse matrix. Thanks to Sujit Pal and
+  Ismael Juma.
+
+o MATH-231: Added an abstract matrix implementation simplifying
+  extension by users.
+
+o MATH-232: Added Frobenius matrix norm.
+
+o MATH-234: Added setter methods for rows and columns in matrices.
+
+o MATH-236: Added nth root computation for complex numbers. Thanks to
+  Bernhard Grünewaldt.
+
+o MATH-246: Added an optimizer for constrained linear problems based
+  on 2-phases standard simplex. Thanks to Benjamin McCann.
+
+o MATH-247: Added a MathUtils method to check equality given some
+  error bounds. Thanks to Benjamin McCann.
+
+o MATH-251: Added a BigFraction class that does not overflow when big
+  numerators or denominators are used. Thanks to Benjamin Croizet.
+
+o MATH-256:  Added  Fraction.toString()
+
+o MATH-266: Added a clustering package with an implementation of the
+  k-means++ algorithm Thanks to Benjamin McCann.
+
+o MATH-267:  Added digamma function. Thanks to Ted Dunning.
+
+o MATH-277: Added a scalar multiply to the Complex class Thanks to
+  Mark Anderson.
+
+o MATH-278: Added robust locally weighted regression (Loess). Thanks
+  to Eugene Kirpichov.
+
+o MATH-279: Added a check for too few rows with respect to the number
+  of predictors in linear regression Thanks to Michael Bjorkegren.
+
+Fixed Bugs:
+
+o Fixed an infinite loop encountered in some backward integration
+  cases for ODE solvers. Thanks to Pascal Parraud.
+
+o Fixed inconsistencies in the naming scheme for static fields in
+  Vector3D and Rotation with respect to the overall library.
+
+o MATH-177: Redesigned the optimization framework for a simpler yet
+  more powerful API.  Added non-linear conjugate gradient optimizer.
+
+o MATH-193: Javadoc and style fixes. Thanks to Michael Heuer and Sebb.
+
+o MATH-198: Added an error detection for missing imaginary character
+  while parsing complex string Thanks to Frederick Salardi.
+
+o MATH-199: Detect numerical problems in Q.R decomposition for
+  Levenberg-Marquardt estimator and report them appropriately Thanks
+  to Mick.
+
+o MATH-200: Fixed several crashes in getCovariances() and
+  guessParametersErrors() in AbstractEstimator when some parameters
+  are bound. The methods now explicitly give result only about unbound
+  parameters. Thanks to Plamen Petrov.
+
+o MATH-201: Fixed truncation error in t-test classes for large t
+  values. Thanks to Peter Wyngaard.
+
+o MATH-204: Added root checks for the endpoints. Thanks to Mick.
+
+o MATH-205: Fixed formula in fast cosine transformer javadoc
+  comments. Thanks to Roman Werpachowski.
+
+o MATH-207: Added Genetic Algorithm implementation. Thanks to David
+  Stefka.
+
+o MATH-209: Fixed dimension error on output vector for the operate
+  method in RealMatrixImpl and BigMatrixImpl classes. Thanks to Thomas
+  Chust.
+
+o MATH-210: Changed return type for
+  FirstOrderIntegrator.getSwitchingFunctions() to a collection of
+  SwitchingFunction instances. This better suits the intended use of
+  the method and fixes a visibility error since the previous return
+  type referenced the package private SwitchState class.
+
+o MATH-213: Changed return type for FirstOrderIntegrator.integrate()
+  to double in order to retrieve exact stop time. This allows to
+  handle properly integration interruption due to an EventHandler
+  instance asking to stop the integration when its associated event is
+  triggered. The state was already set to the current state at
+  interruption time, but it was difficult to get the corresponding
+  time (it involved setting a step handler monitoring the last step
+  specially).
+
+o MATH-214: Replaced size adjustment of all steps of fixed steps
+  Runge-Kutta integrators by a truncation of the last step only.
+
+o MATH-216: Improved fast Fourier transform efficiency. Thanks to
+  Cyril Briquet.
+
+o MATH-221: Changed the Complex.equals() method so that it considers
+  +0 and -0 are equal, as required by IEEE-754 standard. Thanks to
+  Dieter Roth.
+
+o MATH-223: Greatly improved QR-decomposition speed using transposed
+  matrices internally. Thanks to John Mulcahy.
+
+o MATH-226: Fixed an error in CorrelatedRandomVectorGenerator leading
+  to a component of the generated vector being constant. Thanks to
+  Stuart Siegel.
+
+o MATH-227: Fixed F distribution inverse CDF computation for small
+  denominator degrees of freedom. Thanks to Joerg Henning.
+
+o MATH-238: Fixed an error in gcd computation for large values. Thanks
+  to Christian Semrau.
+
+o MATH-240: Fixed error in factorial computation for 17 <= n <= 20.
+  Thanks to Christian Semrau.
+
+o MATH-241: Fixed error in binomial coefficient computation. Thanks to
+  Christian Semrau.
+
+o MATH-243: Fixed an error in computing gcd and lcm for some extreme
+  values at integer range boundaries. Thanks to Christian Semrau.
+
+o MATH-248: Greatly improved multiplication speed for sparse matrices
+
+o MATH-252: Fixed a comparison error when two different fractions
+  evaluate to the same double due to limited precision.
+
+o MATH-253: Fixed threading issues with MathException and
+  MathRuntimeException Thanks to Sebb.
+
+o MATH-254: Fixed threading issues with UnivariateRealSolverUtils
+  factory Thanks to Sebb.
+
+o MATH-255: Reduced visibility of MessagesResources_fr.contents field
+  to private Thanks to Sebb.
+
+o MATH-257: Fixed inconsistent access to multidimensional array in
+  FastFourierTransformer Thanks to Sebb.
+
+o MATH-263: Added getNorm1, getNormInf, distance1 and distanceInf to
+  the Vector3D class
+
+o MATH-264: Added an utility equality method between double numbers
+  using tolerance in ulps (Units in Last Position) Thanks to Gilles
+  Sadowski.
+
+o MATH-265: Added distance1, distance and distanceInf utility methods
+  for double and int arrays in MathUtils Thanks to Benjamin McCann.
+
+o MATH-272: Fixed a problem when setting some variables (several
+  variables were set instead of only one) Thanks to Benjamin McCann.
+
+o MATH-273: Fixed a wrong check for basic variables Thanks to Benjamin
+  McCann.
+
+o MATH-274: Fixed detection of not positive definite matrices in
+  Cholesky decomposition
+
+o MATH-280: The behavior of the bracket method in
+  UnivariateRealSolverUtils has been changed to return successfully
+  when a tentative bracketing interval has a root exactly at one of
+  its end points. Previously, such intervals triggered an exception.
+
+Changes:
+
+o Changed the return type of the various interpolation algorithms to
+  the specific implementation of UnivariateRealFunction each one uses
+  Thanks to Gilles Sadowski.
+
+o Completed internationalization of all error messages
+
+o Integration algorithms now can have both relative and absolute
+  accuracy settings.
+
+o The analysis package has been reorganized with several sub-packages.
+
+o The ODE integrators now support several step handlers at once,
+  instead of just one.  This is more consistent with event handlers
+  management.  The setStepHandler method has therefore been replaced
+  by addStephandler, the getStepHandler method has been replaced by
+  getStepHandlers which returns a Collection and a clearStepHandlers
+  method has been added.
+
+o Events handlers in the ODE package now also provide the switching
+  function variation (increasing/decreasing) when an event occurs
+
+o Clarified the ODE package by breaking in into several sub-packages
+  and renaming classes (SwitchingFunctions/EventHandler,
+  SwitchingFunctionsHandler/CombinedEventsManager)
+
+o The FirstOrderDifferentialEquations, FirstOrderIntegrator and
+  FixedStepHandler interfaces now extends Serializable, allowing
+  integrators, problems and handlers to be embedded into users
+  Serializable classes.
+
+o Replaced public no argument constructors with IDENTITY or ZERO
+  static instances for immutable classes Vector3D and Rotation.
+
+o Greatly improved RealMatrixImpl and BigMatrixImpl performances, both
+  in terms of speed and in terms of temporary memory footprint.
+
+o Starting with version 2.0 of the library, the minimal version of the
+  Java platform required to compile and use commons-math is Java 5.
+  This version is widely deployed now on many systems. It brings
+  new important features for specific mathematical developments, for
+  example new functions (log10, cbrt, ulp, signum, cosh, sinh, tanh,
+  hypot, expm1, log1p), autoboxing, MathContext or RoundingMode. It
+  also brings important features for general development, for example
+  enums, generics or annotations.
+
+o Removed deprecated features. This includes the following
+  changes. Factory-based instantiation replaced by setter injection in
+  1.2 in several classes have been removed. Protected fields in
+  matrices implementations have been declared final and
+  private. Identity factory methods moved to MatrixUtils class have
+  been removed. Complex utilities methods that have been superseded by
+  Complex instance methods have been removed.
+
+o MATH-189: Changed FractionFormat to extend NumberFormat.
+
+o MATH-217: Changed OLS regression implementation added in MATH-203 to
+  use QR decomposition to solve the normal equations.
+
+o MATH-218: The root solvers and the integrators now take the function
+  to solve as a parameter to the solve/integrate methods, thus
+  allowing to reuse the same solver/integrator for different
+  functions.
+
+o MATH-242: Forced symmetry in binomialCoefficientLog and added test
+  cases for MathUtils. Thanks to Christian Semrau.
+
+o MATH-276: Optimized Complex isNaN(), isInfinite() by moving
+  computation to constructor. Thanks to Mark Anderson.
+
+
+For complete information on commons-math, including instructions on
+how to submit bug reports, patches, or suggestions for improvement,
+see the commons-math website:
+
+http://commons.apache.org/math/
