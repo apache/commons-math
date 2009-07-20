@@ -31,9 +31,9 @@ import org.apache.commons.math.util.MathUtils;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class Fraction extends Number implements FieldElement<Fraction>, Comparable<Fraction>, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
+public class Fraction
+    extends Number
+    implements FieldElement<Fraction>, Comparable<Fraction>, Serializable {
 
     /** A fraction representing "2 / 1". */
     public static final Fraction TWO = new Fraction(2, 1);
