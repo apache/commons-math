@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.util.MathUtils;
 
 /** 
@@ -33,12 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SimpleScalarValueChecker implements RealConvergenceChecker, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 2490271385513842607L;
+public class SimpleScalarValueChecker implements RealConvergenceChecker {
 
     /** Default relative threshold. */
     private static final double DEFAULT_RELATIVE_THRESHOLD = 100 * MathUtils.EPSILON;
