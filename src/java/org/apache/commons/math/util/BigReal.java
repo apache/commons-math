@@ -35,8 +35,6 @@ import org.apache.commons.math.FieldElement;
  * @version $Revision$ $Date$
  */
 public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7887631840434052850L;
@@ -206,6 +204,20 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     /** {@inheritDoc} */
     public int compareTo(BigReal a) {
         return d.compareTo(a.d);
+    }
+
+    /** Get the double value corresponding to the instance.
+     * @return double value corresponding to the instance
+     */
+    public double doubleValue() {
+        return d.doubleValue();
+    }
+
+    /** Get the BigDecimal value corresponding to the instance.
+     * @return BigDecimal value corresponding to the instance
+     */
+    public BigDecimal bigDecimalValue() {
+        return d;
     }
 
     /** {@inheritDoc} */
