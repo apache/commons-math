@@ -31,8 +31,6 @@ import org.apache.commons.math.Field;
  * @since 2.0
  */
 public class BigFractionField implements Field<BigFraction>, Serializable  {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1699294557189741703L;
@@ -65,6 +63,14 @@ public class BigFractionField implements Field<BigFraction>, Serializable  {
     private static class LazyHolder {
         /** Cached field instance. */
         private static final BigFractionField INSTANCE = new BigFractionField();
+    }
+
+    /** Handle deserialization of the singleton.
+     * @return the singleton instance
+     */
+    private Object readResolve() {
+        // return the singleton instance
+        return LazyHolder.INSTANCE; 
     }
 
 }
