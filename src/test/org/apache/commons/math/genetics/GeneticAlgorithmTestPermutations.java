@@ -106,7 +106,6 @@ public class GeneticAlgorithmTestPermutations {
 
         public MinPermutations(List<Double> representation) {
             super(representation);
-            // TODO Auto-generated constructor stub
         }
 
         public double fitness() {
