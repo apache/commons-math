@@ -19,8 +19,10 @@ package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.TestUtils;
 
 /**
  * @version $Revision$ $Date$
@@ -92,4 +94,9 @@ public class DefaultTransformerTest extends TestCase {
             // expected
         }
     }
+
+    public void testSerial() {
+        assertEquals(new DefaultTransformer(), TestUtils.serializeAndRecover(new DefaultTransformer()));
+    }
+
 }

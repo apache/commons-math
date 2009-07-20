@@ -30,8 +30,6 @@ import org.apache.commons.math.MathException;
  * @version $Revision$ $Date$
  */
 public class DefaultTransformer implements NumberTransformer, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
    
     /** Serializable version identifier */
     private static final long serialVersionUID = 4019938025047800455L;
@@ -60,4 +58,23 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
                                     "Conversion Exception in Transformation: {0}", e.getMessage());
         }
     }
+
+    /** {@inheritDoc} */
+    public boolean equals(Object other) {
+        if (this == other) { 
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        return other instanceof DefaultTransformer;
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        // some arbitrary number ...
+        return 401993047;
+    }
+
 }
