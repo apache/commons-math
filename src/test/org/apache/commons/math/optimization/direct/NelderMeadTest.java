@@ -32,6 +32,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.SimpleRealPointChecker;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.junit.Test;
 
@@ -193,7 +194,7 @@ public class NelderMeadTest {
       try {
           Powell powell = new Powell();
           NelderMead optimizer = new NelderMead();
-          optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
+          optimizer.setConvergenceChecker(new SimpleRealPointChecker(-1.0, 1.0e-3));
           optimizer.setMaxEvaluations(20);
           optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
       } catch (FunctionEvaluationException fee) {

@@ -32,6 +32,7 @@ import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.SimpleVectorialPointChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
@@ -385,7 +386,7 @@ extends TestCase {
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
         optimizer.setMaxIterations(100);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-15, 1.0e-15));
+        optimizer.setConvergenceChecker(new SimpleVectorialPointChecker(1.0e-30, 1.0e-30));
         try {
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
