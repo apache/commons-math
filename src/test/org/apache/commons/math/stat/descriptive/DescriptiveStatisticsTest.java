@@ -75,6 +75,17 @@ public class DescriptiveStatisticsTest extends TestCase {
             // expected
         }
     }
+
+    public void test20090720() {
+        DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics(100);
+        for (int i = 0; i < 161; i++) {
+            descriptiveStatistics.addValue(1.2);
+        }
+        descriptiveStatistics.clear();
+        descriptiveStatistics.addValue(1.2);
+        assertEquals(1, descriptiveStatistics.getN());
+    }
+
     public void testRemoval() {
 
         final DescriptiveStatistics dstat = createDescriptiveStatistics();

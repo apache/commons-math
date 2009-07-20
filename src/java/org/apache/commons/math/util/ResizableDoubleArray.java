@@ -375,6 +375,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized void clear() {
         numElements = 0;
+        startIndex = 0;
         internalArray = new double[initialCapacity];
     }
     
