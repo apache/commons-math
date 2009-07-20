@@ -41,7 +41,6 @@ public final class NewtonSolverTest extends TestCase {
         result = solver.solve(1, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
         
-        //TODO:  create abstract solver test class, move these there
         assertEquals(result, solver.getResult(), 0);
         assertTrue(solver.getIterationCount() > 0);
     }
@@ -60,7 +59,6 @@ public final class NewtonSolverTest extends TestCase {
        result = solver.solve(f, 1, 4);
        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
        
-       //TODO:  create abstract solver test class, move these there
        assertEquals(result, solver.getResult(), 0);
        assertTrue(solver.getIterationCount() > 0);
    }
