@@ -31,8 +31,6 @@ import org.apache.commons.math.Field;
  * @since 2.0
  */
 public class ComplexField implements Field<Complex>, Serializable  {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -6130362688700788798L;
@@ -65,6 +63,14 @@ public class ComplexField implements Field<Complex>, Serializable  {
     private static class LazyHolder {
         /** Cached field instance. */
         private static final ComplexField INSTANCE = new ComplexField();
+    }
+
+    /** Handle deserialization of the singleton.
+     * @return the singleton instance
+     */
+    private Object readResolve() {
+        // return the singleton instance
+        return LazyHolder.INSTANCE; 
     }
 
 }
