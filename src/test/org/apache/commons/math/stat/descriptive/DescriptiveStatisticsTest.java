@@ -37,9 +37,13 @@ public class DescriptiveStatisticsTest extends TestCase {
         suite.setName("DescriptiveStatistics Tests");
         return suite;
     }
-    
+
+    protected DescriptiveStatistics createDescriptiveStatistics() {
+        return new DescriptiveStatistics();
+    }
+
     public void testSetterInjection() throws Exception {
-        DescriptiveStatistics stats = new DescriptiveStatistics();
+        DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(3);
         assertEquals(2, stats.getMean(), 1E-10);
@@ -49,7 +53,7 @@ public class DescriptiveStatisticsTest extends TestCase {
     }
     
     public void testPercentileSetter() throws Exception {
-        DescriptiveStatistics stats = new DescriptiveStatistics();
+        DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(2);
         stats.addValue(3);
@@ -73,7 +77,7 @@ public class DescriptiveStatisticsTest extends TestCase {
     }
     public void testRemoval() {
 
-        final DescriptiveStatistics dstat = new DescriptiveStatistics();
+        final DescriptiveStatistics dstat = createDescriptiveStatistics();
 
         checkremoval(dstat, 1, 6.0, 0.0, Double.NaN);
         checkremoval(dstat, 3, 5.0, 3.0, 4.5);
