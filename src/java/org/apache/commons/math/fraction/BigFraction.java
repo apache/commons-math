@@ -31,9 +31,9 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class BigFraction extends Number implements FieldElement<BigFraction>, Comparable<BigFraction>, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
+public class BigFraction
+    extends Number
+    implements FieldElement<BigFraction>, Comparable<BigFraction>, Serializable {
 
     /** A fraction representing "2 / 1". */
     public static final BigFraction TWO = new BigFraction(2);

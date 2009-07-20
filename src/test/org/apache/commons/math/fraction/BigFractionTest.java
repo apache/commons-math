@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.TestUtils;
 
 import junit.framework.TestCase;
 
@@ -548,6 +549,17 @@ public class BigFractionTest extends TestCase {
         assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(-13));
         assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(-13l));
         assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(BigInteger.valueOf(-13l)));
+    }
+
+    public void testSerial() throws FractionConversionException {
+        BigFraction[] fractions = {
+            new BigFraction(3, 4), BigFraction.ONE, BigFraction.ZERO,
+            new BigFraction(17), new BigFraction(Math.PI, 1000),
+            new BigFraction(-5, 2)
+        };
+        for (BigFraction fraction : fractions) {
+            assertEquals(fraction, TestUtils.serializeAndRecover(fraction));
+        }
     }
 
 }
