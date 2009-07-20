@@ -32,8 +32,6 @@ import org.apache.commons.math.MathException;
  * @version $Revision$ $Date$
  */
 public class TransformerMap implements NumberTransformer, Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 4605318041528645258L;
@@ -152,6 +150,43 @@ public class TransformerMap implements NumberTransformer, Serializable {
         }
 
         return value;
+    }
+
+    /** {@inheritDoc} */
+    public boolean equals(Object other) {
+        if (this == other) { 
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        try {
+            TransformerMap rhs = (TransformerMap) other;
+            if (! defaultTransformer.equals(rhs.defaultTransformer)) {
+                return false;
+            }
+            if (map.size() != rhs.map.size()) {
+                return false;
+            }
+            for (Map.Entry<Class<?>, NumberTransformer> entry : map.entrySet()) {
+                if (! entry.getValue().equals(rhs.map.get(entry.getKey()))) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (ClassCastException cce) {
+            return false;
+        }
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public int hashCode() {
+        int hash = defaultTransformer.hashCode();
+        for (NumberTransformer t : map.values()) {
+            hash = hash * 31 + t.hashCode();
+        }
+        return hash;
     }
 
 }

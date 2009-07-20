@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.TestCase;
 
 /**
@@ -101,4 +103,12 @@ public class TransformerMapTest extends TestCase {
         map.putTransformer(TransformerMapTest.class, expected);
         assertTrue(map.transformers().contains(expected));
     }
+
+    public void testSerial(){
+        NumberTransformer expected = new DefaultTransformer();
+        TransformerMap map = new TransformerMap();
+        map.putTransformer(TransformerMapTest.class, expected);
+        assertEquals(map, TestUtils.serializeAndRecover(map));
+    }
+
 }
