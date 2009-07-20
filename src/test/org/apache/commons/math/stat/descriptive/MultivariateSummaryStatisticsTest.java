@@ -43,8 +43,12 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         return suite;
     }
 
+    protected MultivariateSummaryStatistics createMultivariateSummaryStatistics(int k, boolean isCovarianceBiasCorrected) {
+        return new MultivariateSummaryStatistics(k, isCovarianceBiasCorrected);
+    }
+
     public void testSetterInjection() throws Exception {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
                         new sumMean(), new sumMean()
                       });
@@ -68,7 +72,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     }
     
     public void testSetterIllegalState() throws Exception {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
         try {
@@ -119,7 +123,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
 
     public void testDimension() {
         try {
-            new MultivariateSummaryStatistics(2, true).addValue(new double[3]);
+            createMultivariateSummaryStatistics(2, true).addValue(new double[3]);
         } catch (DimensionMismatchException dme) {
             // expected behavior
         } catch (Exception e) {
@@ -129,7 +133,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
 
     /** test stats */
     public void testStats() throws DimensionMismatchException {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         assertEquals(0, u.getN());
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 2, 3 });
@@ -161,7 +165,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     }     
 
     public void testN0andN1Conditions() throws Exception {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(1, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
         assertTrue(Double.isNaN(u.getMean()[0]));
         assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
 
@@ -178,7 +182,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     }
 
     public void testNaNContracts() throws DimensionMismatchException {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(1, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
         assertTrue(Double.isNaN(u.getMean()[0])); 
         assertTrue(Double.isNaN(u.getMin()[0])); 
         assertTrue(Double.isNaN(u.getStandardDeviation()[0])); 
@@ -193,7 +197,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     }
 
     public void testSerialization() throws DimensionMismatchException {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         // Empty test
         TestUtils.checkSerializedEquality(u);
         MultivariateSummaryStatistics s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
@@ -214,13 +218,13 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     }
 
     public void testEqualsAndHashCode() throws DimensionMismatchException {
-        MultivariateSummaryStatistics u = new MultivariateSummaryStatistics(2, true);
+        MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         MultivariateSummaryStatistics t = null;
         int emptyHash = u.hashCode();
         assertTrue(u.equals(u));
         assertFalse(u.equals(t));
         assertFalse(u.equals(Double.valueOf(0)));
-        t = new MultivariateSummaryStatistics(2, true);
+        t = createMultivariateSummaryStatistics(2, true);
         assertTrue(t.equals(u));
         assertTrue(u.equals(t));
         assertEquals(emptyHash, t.hashCode());
