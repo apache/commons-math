@@ -31,8 +31,6 @@ import org.apache.commons.math.Field;
  * @since 2.0
  */
 public class BigRealField implements Field<BigReal>, Serializable  {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 4756431066541037559L;
@@ -65,6 +63,14 @@ public class BigRealField implements Field<BigReal>, Serializable  {
     private static class LazyHolder {
         /** Cached field instance. */
         private static final BigRealField INSTANCE = new BigRealField();
+    }
+
+    /** Handle deserialization of the singleton.
+     * @return the singleton instance
+     */
+    private Object readResolve() {
+        // return the singleton instance
+        return LazyHolder.INSTANCE; 
     }
 
 }
