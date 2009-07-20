@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
 import org.apache.commons.math.FunctionEvaluationException;
@@ -27,18 +26,11 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 /** 
  * This class implements the multi-directional direct search method.
  *
- * implements Serializable since 2.0
- * 
  * @version $Revision$ $Date$
  * @see NelderMead
  * @since 1.2
  */
-public class MultiDirectional extends DirectSearchOptimizer implements Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -5347711305645019145L;
+public class MultiDirectional extends DirectSearchOptimizer {
 
     /** Expansion coefficient. */
     private final double khi;

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
 import org.apache.commons.math.FunctionEvaluationException;
@@ -27,18 +26,11 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 /** 
  * This class implements the Nelder-Mead direct search method.
  *
- * implements Serializable since 2.0
- * 
  * @version $Revision$ $Date$
  * @see MultiDirectional
  * @since 1.2
  */
-public class NelderMead extends DirectSearchOptimizer implements Serializable {
-    // TODO: Add Serializable documentation
-    // TODO: Check Serializable implementation
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -5810365844886183056L;
+public class NelderMead extends DirectSearchOptimizer {
 
     /** Reflection coefficient. */
     private final double rho;

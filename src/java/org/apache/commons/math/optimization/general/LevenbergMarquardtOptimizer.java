@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.optimization.general;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.FunctionEvaluationException;
@@ -100,10 +99,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * @since 2.0
  *
  */
-public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer implements Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 8851282236194244323L;
+public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** Number of solved point. */
     private int solvedCols;

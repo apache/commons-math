@@ -17,11 +17,9 @@
 
 package org.apache.commons.math.optimization.general;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.BlockRealMatrix;
+import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
@@ -44,10 +42,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  *
  */
 
-public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer implements Serializable {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 7011643996279553223L;
+public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** Indicator for using LU decomposition. */
     private final boolean useLU;

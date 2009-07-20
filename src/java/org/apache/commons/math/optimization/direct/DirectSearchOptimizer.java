@@ -77,7 +77,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
  *
- * implements MultivariateRealOptimizer, Serializable since 2.0
+ * implements MultivariateRealOptimizer since 2.0
  * 
  * @see MultivariateRealFunction
  * @see NelderMead
