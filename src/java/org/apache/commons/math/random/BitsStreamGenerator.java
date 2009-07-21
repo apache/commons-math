@@ -51,6 +51,7 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
      * {@link #nextFloat()}, {@link #nextGaussian()}, {@link #nextInt()},
      * {@link #next(int)} and {@link #nextLong()}.</p>
      * @param bits number of random bits to produce
+     * @return random bits generated
      */
     protected abstract int next(int bits);
 

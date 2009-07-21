@@ -223,6 +223,7 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
      * {@link #nextFloat()}, {@link #nextGaussian()}, {@link #nextInt()},
      * {@link #next(int)} and {@link #nextLong()}.</p>
      * @param bits number of random bits to produce
+     * @return random bits generated
      */
     protected int next(int bits) {
 
