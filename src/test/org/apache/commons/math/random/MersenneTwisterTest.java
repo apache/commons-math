@@ -45,6 +45,11 @@ public class MersenneTwisterTest {
                      0.006);
     }
 
+    @Test(expected=java.lang.IllegalArgumentException.class)
+    public void testNextIntNeg() {
+        new MersenneTwister(1).nextInt(-1);
+    }
+
     @Test
     public void testNextIntN() {
         MersenneTwister mt = new MersenneTwister(0x12b8a7412bb25el);
