@@ -27,8 +27,8 @@ import java.util.Random;
  */
 public class RandomAdaptor extends Random implements RandomGenerator {
     
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 2570805822599485047L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 2306581345647615033L;
 
     /** Wrapped randomGenerator instance */
     private RandomGenerator randomGenerator = null;
@@ -173,17 +173,26 @@ public class RandomAdaptor extends Random implements RandomGenerator {
         return randomGenerator.nextLong();
     }
 
-    /**
-     * Sets the seed of the underyling random number generator using a 
-     * <code>long</code> seed.  Sequences of values generated starting with the
-     * same seeds should be identical.
-     *
-     * @param seed the seed value
-     */
+    /** {@inheritDoc} */
+    public void setSeed(int seed) {
+        if (randomGenerator != null) {  // required to avoid NPE in constructor
+            randomGenerator.setSeed(seed);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public void setSeed(int[] seed) {
+        if (randomGenerator != null) {  // required to avoid NPE in constructor
+            randomGenerator.setSeed(seed);
+        }
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void setSeed(long seed) {
         if (randomGenerator != null) {  // required to avoid NPE in constructor
             randomGenerator.setSeed(seed);
         }
     }
+
 }

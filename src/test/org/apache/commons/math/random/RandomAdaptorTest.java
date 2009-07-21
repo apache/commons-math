@@ -98,7 +98,14 @@ public class RandomAdaptorTest extends RandomDataTest {
             return 0;
         }
 
+        public void setSeed(int seed) {
+        }
+        
+        public void setSeed(int[] seed) {
+        }
+
         public void setSeed(long seed) {
-        }       
+        }
+
     }
 }

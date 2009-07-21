@@ -27,10 +27,31 @@ package org.apache.commons.math.random;
 public interface RandomGenerator {
     
     /**
-     * Sets the seed of the underyling random number generator using a 
-     * <code>long</code> seed.  Sequences of values generated starting with the
-     * same seeds should be identical.
-     *
+     * Sets the seed of the underyling random number generator using an
+     * <code>int</code> seed.
+     * <p>Sequences of values generated starting with the same seeds
+     * should be identical.
+     * </p>
+     * @param seed the seed value
+     */
+    void setSeed(int seed);
+
+    /**
+     * Sets the seed of the underyling random number generator using an
+     * <code>int</code> array seed.
+     * <p>Sequences of values generated starting with the same seeds
+     * should be identical.
+     * </p>
+     * @param seed the seed value
+     */
+    void setSeed(int[] seed);
+    
+    /**
+     * Sets the seed of the underyling random number generator using a
+     * <code>long</code> seed.
+     * <p>Sequences of values generated starting with the same seeds
+     * should be identical.
+     * </p>
      * @param seed the seed value
      */
     void setSeed(long seed);
