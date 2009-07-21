@@ -345,6 +345,7 @@ public class MessagesResources_fr
       "l''adresse {0} ne contient aucune donn\u00e9e" },
 
     // org.apache.commons.math.random.AbstractRandomGenerator
+    // org.apache.commons.math.random.BitsStreamGenerator
     { "upper bound must be positive ({0})",
       "la borne sup\u00e9rieure doit \u00eatre positive ({0})" },
 

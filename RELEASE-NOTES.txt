@@ -20,6 +20,7 @@ changes to existing features. Most notable among the new features are:
     variable stepsize
   - regression algorithms
   - rank transformations
+  - Mersenne twister pseudo random number generator
 
 This release is NOT source and binary compatible with earlier versions
 of Commons Math. Starting with version 2.0 of the library, the minimal
@@ -47,6 +48,9 @@ o Added a way to limit the number of functions evaluations in
   Thanks to Gilles Sadowski.
 
 o Added support for rank transformations.
+
+o Added an implementation of the Mersenne twister pseudo random number
+  generator from Makoto Matsumoto and Takuji Nishimura
 
 o Added support for any type of field in linear algebra (FielxMatrix,
   FieldVector, FieldLUDecomposition)

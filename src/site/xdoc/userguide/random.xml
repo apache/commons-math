@@ -48,7 +48,10 @@
      pluggable.  By default, the JDK-supplied PseudoRandom Number Generator
      (PRNG) is used, but alternative generators can be "plugged in" using an
      adaptor framework, which provides a generic facility for replacing 
-     <code>java.util.Random</code> with an alternative PRNG.
+     <code>java.util.Random</code> with an alternative PRNG. Another very
+     good PRNG suitable for Monte-Carlo analysis (but <strong>not</strong>
+     for cryptography) provided by the library is the Mersenne twister from
+     Makoto Matsumoto and Takuji Nishimura
     </p>
     <p>
      Sections 2.2-2.6 below show how to use the commons math API to generate
