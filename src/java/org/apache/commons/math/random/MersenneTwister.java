@@ -36,11 +36,6 @@ import java.io.Serializable;
  * Number Generator</a>, ACM Transactions on Modeling and Computer
  * Simulation, Vol. 8, No. 1, January 1998, pp 3--30</p>
 
- * <p>The class is implemented as a specialization of the standard
- * <code>java.util.Random</code> class. This allows to use it in
- * algorithms expecting a standard random generator, and hence benefit
- * from a better generator without code change.</p>
-
  * <p>This class is mainly a Java port of the 2002-01-26 version of
  * the generator written in C by Makoto Matsumoto and Takuji
  * Nishimura. Here is their original copyright:</p>
