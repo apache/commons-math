@@ -202,12 +202,6 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
      * @param seed the initial seed (64 bits integer)
      */
     public void setSeed(long seed) {
-        if (mt == null) {
-            // this is probably a spurious call from base class constructor,
-            // we do nothing and wait for the setSeed in our own
-            // constructors after array allocation
-            return;
-        }
         setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
