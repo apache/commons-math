@@ -314,9 +314,7 @@ class SimplexTableau implements Serializable {
 
     /**
      * Get the current solution.
-     * <p>
-     * {@link #solve} should be called first for this to be the optimal solution.
-     * </p>
+     * 
      * @return current solution
      */
     protected RealPointValuePair getSolution() {
