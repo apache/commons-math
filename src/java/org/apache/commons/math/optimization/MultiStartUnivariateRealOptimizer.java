@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import java.util.Arrays;
-
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
@@ -64,6 +62,9 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
 
     /** Found optima. */
     private double[] optima;
+
+    /** Found function values at optima. */
+    private double[] optimaValues;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer
@@ -175,22 +176,49 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
      * in the constructor. It is ordered with the results from the
      * runs that did converge first, sorted from best to worst
      * objective value (i.e in ascending order if minimizing and in
-     * descending order if maximizing), followed by and null elements
+     * descending order if maximizing), followed by Double.NaN elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(UnivariateRealFunction,
+     * elements will be NaN if the {@link #optimize(UnivariateRealFunction,
      * GoalType, double, double) optimize} method did throw a {@link
      * ConvergenceException ConvergenceException}). This also means that
-     * if the first element is non null, it is the best point found across
+     * if the first element is not NaN, it is the best point found across
      * all starts.</p>
      * @return array containing the optima
      * @exception IllegalStateException if {@link #optimize(UnivariateRealFunction,
      * GoalType, double, double) optimize} has not been called
+     * @see #getOptimaValues()
      */
     public double[] getOptima() throws IllegalStateException {
         if (optima == null) {
             throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
         }
         return optima.clone();
+    }
+
+    /** Get all the function values at optima found during the last call to {@link
+     * #optimize(UnivariateRealFunction, GoalType, double, double) optimize}.
+     * <p>
+     * The returned array as one element for each start as specified
+     * in the constructor. It is ordered with the results from the
+     * runs that did converge first, sorted from best to worst
+     * objective value (i.e in ascending order if minimizing and in
+     * descending order if maximizing), followed by Double.NaN elements
+     * corresponding to the runs that did not converge. This means all
+     * elements will be NaN if the {@link #optimize(UnivariateRealFunction,
+     * GoalType, double, double) optimize} method did throw a {@link
+     * ConvergenceException ConvergenceException}). This also means that
+     * if the first element is not NaN, it is the best point found across
+     * all starts.</p>
+     * @return array containing the optima
+     * @exception IllegalStateException if {@link #optimize(UnivariateRealFunction,
+     * GoalType, double, double) optimize} has not been called
+     * @see #getOptima()
+     */
+    public double[] getOptimaValues() throws IllegalStateException {
+        if (optimaValues == null) {
+            throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
+        }
+        return optimaValues.clone();
     }
 
     /** {@inheritDoc} */
@@ -200,6 +228,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
             FunctionEvaluationException {
 
         optima           = new double[starts];
+        optimaValues     = new double[starts];
         totalIterations  = 0;
         totalEvaluations = 0;
 
@@ -211,13 +240,16 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 final double bound1 = min + generator.nextDouble() * (max - min);
                 final double bound2 = min + generator.nextDouble() * (max - min);
-                optima[i] = optimizer.optimize(f, goalType,
-                                               Math.min(bound1, bound2),
-                                               Math.max(bound1, bound2));
+                optima[i]       = optimizer.optimize(f, goalType,
+                                                     Math.min(bound1, bound2),
+                                                     Math.max(bound1, bound2));
+                optimaValues[i] = optimizer.getFunctionValue();
             } catch (FunctionEvaluationException fee) {
-                optima[i] = Double.NaN;
+                optima[i]       = Double.NaN;
+                optimaValues[i] = Double.NaN;
             } catch (ConvergenceException ce) {
-                optima[i] = Double.NaN;
+                optima[i]       = Double.NaN;
+                optimaValues[i] = Double.NaN;
             }
 
             totalIterations  += optimizer.getIterationCount();
@@ -231,14 +263,37 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
             if (Double.isNaN(optima[i])) {
                 optima[i] = optima[--lastNaN];
                 optima[lastNaN + 1] = Double.NaN;
+                optimaValues[i] = optimaValues[--lastNaN];
+                optimaValues[lastNaN + 1] = Double.NaN;
             }
         }
-        Arrays.sort(optima, 0, lastNaN);
-        if (goalType == GoalType.MAXIMIZE) {
-            for (int i = 0, j = lastNaN - 1; i < j; ++i, --j) {
-                double tmp = optima[i];
-                optima[i] = optima[j];
-                optima[j] = tmp;
+
+        double currX = optima[0];
+        double currY = optimaValues[0];
+        for (int j = 1; j < lastNaN; ++j) {
+            final double prevY = currY;
+            currX = optima[j];
+            currY = optimaValues[j];
+            if ((goalType == GoalType.MAXIMIZE) ^ (currY < prevY)) {
+                // the current element should be inserted closer to the beginning
+                int i = j - 1;
+                double mIX = optima[i];
+                double mIY = optimaValues[i];
+                while ((i >= 0) && ((goalType == GoalType.MAXIMIZE) ^ (currY < mIY))) {
+                    optima[i + 1]       = mIX;
+                    optimaValues[i + 1] = mIY;
+                    if (i-- != 0) {
+                        mIX = optima[i];
+                        mIY = optimaValues[i];
+                    } else {
+                        mIX = Double.NaN;
+                        mIY = Double.NaN;
+                    }
+                }
+                optima[i + 1]       = currX;
+                optimaValues[i + 1] = currY;
+                currX = optima[j];
+                currY = optimaValues[j];
             }
         }
 
