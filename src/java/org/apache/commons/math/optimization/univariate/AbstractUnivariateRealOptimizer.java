@@ -88,18 +88,6 @@ public abstract class AbstractUnivariateRealOptimizer
     /**
      * Convenience function for implementations.
      * 
-     * @param result the result to set
-     * @param iterationCount the iteration count to set
-     */
-    protected final void setResult(final double result, final int iterationCount) {
-        this.result         = result;
-        this.iterationCount = iterationCount;
-        this.resultComputed = true;
-    }
-
-    /**
-     * Convenience function for implementations.
-     * 
      * @param x the result to set
      * @param fx the result to set
      * @param iterationCount the iteration count to set
