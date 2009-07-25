@@ -3,9 +3,9 @@
                                    RELEASE NOTES
 
 
-This release is a major one. It combines bug fixes, new features and
+This is a major release. It combines bug fixes, new features and
 changes to existing features. Most notable among the new features are:
-  - decomposition algorithms in the linear algebra (LU, QR, Cholesky,
+  - decomposition algorithms in the linear algebra package (LU, QR, Cholesky,
     SVD, eigen decomposition) which are based on the popular JAMA API (but
     much faster),
   - support for sparse matrices and vectors,
@@ -25,15 +25,15 @@ changes to existing features. Most notable among the new features are:
 This release is NOT source and binary compatible with earlier versions
 of Commons Math. Starting with version 2.0 of the library, the minimal
 version of the Java platform required to compile and use commons-math
-is Java 5. Switching to this new version is thought to be an easy task
-and it is recommended to do it. Most of the compilation errors users
-will encounter after the switch will be due to classes moved due to
-packages reorganization. These errors are simply solved by adjusting
-the import statements in users code. In any case, you can ask for help
-by sending a message to the users mailing list: user@commons.apache.org.
-
-For more information on Apache Commons Math, see
-http://commons.apache.org/math/
+is Java 5.  Users are encouraged to upgrade to this version, as in addition
+to new features, this release includes numerous bug fixes.  Users of 
+Commons Math 1.0-1.2 should recompile their code against the 2.0 jar. 
+Most of the compilation errors users will encounter after the switch
+will be due to classes moved due to package reorganization.  These errors
+are simply solved by adjusting the import statements in users code.
+Users can can ask for help with migration or any other problem related
+to commons math by sending a message to the apache commons users
+mailing list: user@commons.apache.org.
 
 
                              SUMMARY OF CHANGES
