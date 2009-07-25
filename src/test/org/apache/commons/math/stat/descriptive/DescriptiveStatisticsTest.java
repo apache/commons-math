@@ -13,6 +13,8 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
+import java.util.Locale;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -42,7 +44,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         return new DescriptiveStatistics();
     }
 
-    public void testSetterInjection() throws Exception {
+    public void testSetterInjection() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(3);
@@ -50,6 +52,114 @@ public class DescriptiveStatisticsTest extends TestCase {
         // Now lets try some new math
         stats.setMeanImpl(new deepMean());
         assertEquals(42, stats.getMean(), 1E-10);
+    }
+    
+    public void testCopy() {
+        DescriptiveStatistics stats = createDescriptiveStatistics();
+        stats.addValue(1);
+        stats.addValue(3);
+        DescriptiveStatistics copy = new DescriptiveStatistics(stats);
+        assertEquals(2, copy.getMean(), 1E-10);
+        // Now lets try some new math
+        stats.setMeanImpl(new deepMean());
+        copy = stats.copy();
+        assertEquals(42, copy.getMean(), 1E-10);
+    }
+    
+    public void testWindowSize() {
+        DescriptiveStatistics stats = createDescriptiveStatistics();
+        stats.setWindowSize(300);
+        for (int i = 0; i < 100; ++i) {
+            stats.addValue(i + 1);
+        }
+        int refSum = (100 * 101) / 2;
+        assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
+        assertEquals(300, stats.getWindowSize());
+        try {
+            stats.setWindowSize(-3);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException iae) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught: " + e.getMessage());
+        }
+        assertEquals(300, stats.getWindowSize());
+        stats.setWindowSize(50);
+        assertEquals(50, stats.getWindowSize());
+        int refSum2 = refSum - (50 * 51) / 2;
+        assertEquals(refSum2 / 50.0, stats.getMean(), 1E-10);
+    }
+    
+    public void testGetValues() {
+        DescriptiveStatistics stats = createDescriptiveStatistics();
+        for (int i = 100; i > 0; --i) {
+            stats.addValue(i);
+        }
+        int refSum = (100 * 101) / 2;
+        assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
+        double[] v = stats.getValues();
+        for (int i = 0; i < v.length; ++i) {
+            assertEquals(100.0 - i, v[i], 1.0e-10);
+        }
+        double[] s = stats.getSortedValues();
+        for (int i = 0; i < s.length; ++i) {
+            assertEquals(i + 1.0, s[i], 1.0e-10);
+        }
+        assertEquals(12.0, stats.getElement(88), 1.0e-10);
+    }
+    
+    public void testToString() {
+        DescriptiveStatistics stats = createDescriptiveStatistics();
+        stats.addValue(1);
+        stats.addValue(2);
+        stats.addValue(3);
+        Locale d = Locale.getDefault();
+        Locale.setDefault(Locale.US);
+        assertEquals("DescriptiveStatistics:\n" +
+                     "n: 3\n" +
+                     "min: 1.0\n" +
+                     "max: 3.0\n" +
+                     "mean: 2.0\n" +
+                     "std dev: 1.0\n" +
+                     "median: 2.0\n" +
+                     "skewness: 0.0\n" +
+                     "kurtosis: NaN\n",  stats.toString());
+        Locale.setDefault(d);
+    }
+
+    public void testShuffledStatistics() {
+        // the purpose of this test is only to check the get/set methods
+        // we are aware shuffling statistics like this is really not
+        // something sensible to do in production ...
+        DescriptiveStatistics reference = createDescriptiveStatistics();
+        DescriptiveStatistics shuffled  = createDescriptiveStatistics();
+
+        UnivariateStatistic tmp = shuffled.getGeometricMeanImpl();
+        shuffled.setGeometricMeanImpl(shuffled.getMeanImpl());
+        shuffled.setMeanImpl(shuffled.getKurtosisImpl());
+        shuffled.setKurtosisImpl(shuffled.getSkewnessImpl());
+        shuffled.setSkewnessImpl(shuffled.getVarianceImpl());
+        shuffled.setVarianceImpl(shuffled.getMaxImpl());
+        shuffled.setMaxImpl(shuffled.getMinImpl());
+        shuffled.setMinImpl(shuffled.getSumImpl());
+        shuffled.setSumImpl(shuffled.getSumsqImpl());
+        shuffled.setSumsqImpl(tmp);
+
+        for (int i = 100; i > 0; --i) {
+            reference.addValue(i);
+            shuffled.addValue(i);
+        }
+
+        assertEquals(reference.getMean(),          shuffled.getGeometricMean(), 1.0e-10);
+        assertEquals(reference.getKurtosis(),      shuffled.getMean(),          1.0e-10);
+        assertEquals(reference.getSkewness(),      shuffled.getKurtosis(), 1.0e-10);
+        assertEquals(reference.getVariance(),      shuffled.getSkewness(), 1.0e-10);
+        assertEquals(reference.getMax(),           shuffled.getVariance(), 1.0e-10);
+        assertEquals(reference.getMin(),           shuffled.getMax(), 1.0e-10);
+        assertEquals(reference.getSum(),           shuffled.getMin(), 1.0e-10);
+        assertEquals(reference.getSumsq(),         shuffled.getSum(), 1.0e-10);
+        assertEquals(reference.getGeometricMean(), shuffled.getSumsq(), 1.0e-10);
+
     }
     
     public void testPercentileSetter() throws Exception {
