@@ -100,12 +100,12 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
                      "min: 1.0, 1.0\n" +
                      "max: 3.0, 3.0\n" +
                      "mean: 2.0, 2.0\n" +
-                     "geometric mean: 1.8171205928321394, 1.8171205928321394\n" +
+                     "geometric mean: 1.817..., 1.817...\n" +
                      "sum of squares: 14.0, 14.0\n" +
-                     "sum of logarithms: 1.791759469228055, 1.791759469228055\n" +
+                     "sum of logarithms: 1.791..., 1.791...\n" +
                      "standard deviation: 1.0, 1.0\n" +
                      "covariance: Array2DRowRealMatrix{{1.0,-1.0},{-1.0,1.0}}\n",
-                     stats.toString());
+                     stats.toString().replaceAll("([0-9]+\\.[0-9][0-9][0-9])[0-9]+", "$1..."));
         Locale.setDefault(d);
     }
 
