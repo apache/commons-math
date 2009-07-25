@@ -71,7 +71,6 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * Initializes a new AggregateSummaryStatistics with default statistics
      * implementations.
      * 
-     * @see SummaryStatistics#SummaryStatistics()
      */
     public AggregateSummaryStatistics() {
         this(new SummaryStatistics());
