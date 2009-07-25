@@ -238,8 +238,8 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
             try {
                 optimizer.setMaximalIterationCount(maxIterations - totalIterations);
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
-                final double bound1 = min + generator.nextDouble() * (max - min);
-                final double bound2 = min + generator.nextDouble() * (max - min);
+                final double bound1 = (i == 0) ? min : min + generator.nextDouble() * (max - min);
+                final double bound2 = (i == 0) ? max : min + generator.nextDouble() * (max - min);
                 optima[i]       = optimizer.optimize(f, goalType,
                                                      Math.min(bound1, bound2),
                                                      Math.max(bound1, bound2));
