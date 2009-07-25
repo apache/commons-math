@@ -79,7 +79,6 @@ public class LoessInterpolatorTest {
         double noisyResidualSum = 0;
         double fitResidualSum = 0;
 
-        System.out.println();
         for(int i = 0; i < numPoints; ++i) {
             double expected = Math.sin(xval[i]);
             double noisy = yval[i];
