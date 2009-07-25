@@ -31,7 +31,7 @@ Commons Math 1.0-1.2 should recompile their code against the 2.0 jar.
 Most of the compilation errors users will encounter after the switch
 will be due to classes moved due to package reorganization.  These errors
 are simply solved by adjusting the import statements in users code.
-Users can can ask for help with migration or any other problem related
+Users can ask for help with migration or any other problem related
 to commons math by sending a message to the apache commons users
 mailing list: user@commons.apache.org.
 
