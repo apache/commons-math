@@ -56,6 +56,9 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
         optimizer.setMaxIterations(100);
+        assertEquals(100, optimizer.getMaxIterations());
+        optimizer.setMaxEvaluations(100);
+        assertEquals(100, optimizer.getMaxEvaluations());
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         BrentSolver solver = new BrentSolver();
         solver.setAbsoluteAccuracy(1.0e-13);
@@ -69,8 +72,13 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             assertEquals(96.075902096, center.x, 1.0e-8);
             assertEquals(48.135167894, center.y, 1.0e-8);
         }
+        System.out.println(optimizer.getGradientEvaluations());
+        assertTrue(optimizer.getGradientEvaluations() > 650);
+        assertTrue(optimizer.getGradientEvaluations() < 700);
         assertTrue(optimizer.getEvaluations() > 70);
         assertTrue(optimizer.getEvaluations() < 90);
+        assertTrue(optimizer.getIterations() > 70);
+        assertTrue(optimizer.getIterations() < 90);
         assertEquals(3.1267527, optimum.getValue(), 1.0e-8);
     }
 
