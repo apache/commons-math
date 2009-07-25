@@ -19,8 +19,10 @@ package org.apache.commons.math.optimization;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
@@ -39,13 +41,61 @@ public class MultiStartUnivariateRealOptimizerTest {
             new MultiStartUnivariateRealOptimizer(underlying, 10, g);
         minimizer.optimize(f, GoalType.MINIMIZE, -100.0, 100.0);
         double[] optima = minimizer.getOptima();
+        double[] optimaValues = minimizer.getOptimaValues();
         for (int i = 1; i < optima.length; ++i) {
             double d = (optima[i] - optima[i-1]) / (2 * Math.PI);
             assertTrue (Math.abs(d - Math.rint(d)) < 1.0e-8);
             assertEquals(-1.0, f.value(optima[i]), 1.0e-10);
+            assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }
         assertTrue(minimizer.getEvaluations() > 2900);
         assertTrue(minimizer.getEvaluations() < 3100);
+    }
+
+    @Test
+    public void testQuinticMin() throws MathException {
+        // The quintic function has zeros at 0, +-0.5 and +-1.
+        // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
+        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateRealOptimizer underlying = new BrentOptimizer();
+        JDKRandomGenerator g = new JDKRandomGenerator();
+        g.setSeed(4312000053l);
+        MultiStartUnivariateRealOptimizer minimizer =
+            new MultiStartUnivariateRealOptimizer(underlying, 5, g);
+        minimizer.setAbsoluteAccuracy(10 * minimizer.getAbsoluteAccuracy());
+        minimizer.setRelativeAccuracy(10 * minimizer.getRelativeAccuracy());
+
+        try {
+            minimizer.getOptima();
+            fail("an exception should have been thrown");
+        } catch (IllegalStateException ise) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+        try {
+            minimizer.getOptimaValues();
+            fail("an exception should have been thrown");
+        } catch (IllegalStateException ise) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+
+        assertEquals(-0.27195612846834, minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2), 1.0e-13);
+        assertEquals(-0.27194301946870, minimizer.getResult(), 1.0e-13);
+        assertEquals(-0.04433426940878, minimizer.getFunctionValue(), 1.0e-13);
+
+        double[] optima = minimizer.getOptima();
+        double[] optimaValues = minimizer.getOptimaValues();
+        for (int i = 0; i < optima.length; ++i) {
+            assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
+        }
+
+        assertTrue(minimizer.getEvaluations()    >= 510);
+        assertTrue(minimizer.getEvaluations()    <= 530);
+        assertTrue(minimizer.getIterationCount() >= 150);
+        assertTrue(minimizer.getIterationCount() <= 170);
 
     }
 
