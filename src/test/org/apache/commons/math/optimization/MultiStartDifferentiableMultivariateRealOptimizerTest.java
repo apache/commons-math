@@ -72,7 +72,6 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             assertEquals(96.075902096, center.x, 1.0e-8);
             assertEquals(48.135167894, center.y, 1.0e-8);
         }
-        System.out.println(optimizer.getGradientEvaluations());
         assertTrue(optimizer.getGradientEvaluations() > 650);
         assertTrue(optimizer.getGradientEvaluations() < 700);
         assertTrue(optimizer.getEvaluations() > 70);
