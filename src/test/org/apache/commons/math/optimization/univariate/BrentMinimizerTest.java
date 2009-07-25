@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -79,6 +80,24 @@ public final class BrentMinimizerTest {
         assertEquals(-0.27195613, minimizer.optimize(f, GoalType.MINIMIZE, -1.0, 0.2), 1.0e-8);
         assertTrue(minimizer.getIterationCount() <= 50);
 
+    }
+
+    @Test
+    public void testQuinticMax() throws MathException {
+        // The quintic function has zeros at 0, +-0.5 and +-1.
+        // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
+        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateRealOptimizer minimizer = new BrentOptimizer();
+        assertEquals(0.27195613, minimizer.optimize(f, GoalType.MAXIMIZE, 0.2, 0.3), 1.0e-8);
+        minimizer.setMaximalIterationCount(30);
+        try {
+            minimizer.optimize(f, GoalType.MAXIMIZE, 0.2, 0.3);
+            fail("an exception should have been thrown");
+        } catch (MaxIterationsExceededException miee) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
     }
 
     @Test
