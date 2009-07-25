@@ -70,7 +70,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /**
      * Returns the row with the minimum ratio as given by the minimum ratio test (MRT).
      * @param tableau simple tableau for the problem
-     * @param col the column to test the ratio of.  See {@link #getPivotColumn()}
+     * @param col the column to test the ratio of.  See {@link #getPivotColumn(SimplexTableau)}
      * @return row with the minimum ratio
      */
     private Integer getPivotRow(final int col, final SimplexTableau tableau) {
