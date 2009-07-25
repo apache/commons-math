@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
@@ -37,6 +38,8 @@ public final class BrentMinimizerTest {
     public void testSinMin() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer minimizer = new BrentOptimizer();
+        minimizer.setMaxEvaluations(200);
+        assertEquals(200, minimizer.getMaxEvaluations());
         try {
             minimizer.getResult();
             fail("an exception should have been thrown");
@@ -49,6 +52,17 @@ public final class BrentMinimizerTest {
         assertTrue(minimizer.getIterationCount() <= 50);
         assertEquals(3 * Math.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 1, 5), 70 * minimizer.getAbsoluteAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
+        assertTrue(minimizer.getEvaluations()    <= 100);
+        assertTrue(minimizer.getEvaluations()    >=  90);
+        minimizer.setMaxEvaluations(50);
+        try {
+            minimizer.optimize(f, GoalType.MINIMIZE, 4, 5);
+            fail("an exception should have been thrown");
+        } catch (FunctionEvaluationException fee) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
     }
 
     @Test
