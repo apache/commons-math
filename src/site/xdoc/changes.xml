@@ -38,7 +38,33 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="2.0" date="TBD" description="TBD">
+    <release version="2.0" date="2009-08-03" description="
+This is a major release. It combines bug fixes, new features and
+changes to existing features. Most notable among the new features are:
+decomposition algorithms in the linear algebra package (LU, QR, Cholesky,
+SVD, eigen decomposition) which are based on the popular JAMA API (but
+much faster); support for sparse matrices and vectors;
+support for any field-based matrix (Complex, Fraction ...);
+support for genetic algorithms;
+several new optimization algorithms (Dantzig's simplex for linear
+constrained problems, conjugate gradient, Brent);
+support for curve fitting with special cases for harmonic and polynomial
+functions;
+support for state derivative in ODE step handlers;
+new multistep integrators (Adams-Bashforth and Adams-Moulton) with
+variable stepsize;
+regression algorithms;
+rank transformations;
+Mersenne twister pseudo random number generator.
+This release is NOT source and binary compatible with earlier versions
+of Commons Math. Starting with version 2.0 of the library, the minimal
+version of the Java platform required to compile and use commons-math
+is Java 5.  Users are encouraged to upgrade to this version, as in addition
+to new features, this release includes numerous bug fixes.  Users of 
+Commons Math 1.0-1.2 should recompile their code against the 2.0 jar. 
+Most of the compilation errors users will encounter after the switch
+will be due to classes moved due to package reorganization.  These errors
+are simply solved by adjusting the import statements in users code.">
       <action dev="luc" type="add" >
         Added an implementation of the Mersenne twister pseudo random number generator
         from Makoto Matsumoto and Takuji Nishimura
