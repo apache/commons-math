@@ -4,37 +4,45 @@ Copyright 2001-2009 The Apache Software Foundation
 This product includes software developed by
 The Apache Software Foundation (http://www.apache.org/).
 
+===============================================================================
 The LinearConstraint, LinearObjectiveFunction, LinearOptimizer,
 RelationShip, SimplexSolver and SimplexTableau classes in package
-org.apache.commons.math.optimization.linear includes software developed by
-Benjamin McCann (http://www.benmccann.com) and distributed with with
+org.apache.commons.math.optimization.linear include software developed by
+Benjamin McCann (http://www.benmccann.com) and distributed with
 the following copyright: Copyright 2009 Google Inc.
+===============================================================================
 
+This product includes software developed by the
+University of Chicago, as Operator of Argonne National
+Laboratory.
 The LevenbergMarquardtOptimizer class in package
 org.apache.commons.math.optimization.general includes software
 translated from the lmder, lmpar and qrsolv Fortran routines
-from the Minpack package and
-distributed under the following disclaimer:
-   http://www.netlib.org/minpack/disclaimer
+from the Minpack package
+Minpack Copyright Notice (1999) University of Chicago.  All rights reserved
+===============================================================================
 
 The GraggBulirschStoerIntegrator class in package
 org.apache.commons.math.ode.nonstiff includes software translated
-from the odex Fortran routine developed by E. Hairer and G. Wanner
-and distributed under the following
-license:
-   http://www.unige.ch/~hairer/prog/licence.txt
+from the odex Fortran routine developed by E. Hairer and G. Wanner.
+Original source copyright:
+Copyright (c) 2004, Ernst Hairer
+===============================================================================
 
 The EigenDecompositionImpl class in package
 org.apache.commons.math.linear includes software translated
-from some LAPACK Fortran routines and distributed under the
-following license:
-http://www.netlib.org/lapack/LICENSE
+from some LAPACK Fortran routines.  Original source copyright:
+Copyright (c) 1992-2008 The University of Tennessee.  All rights reserved.
+===============================================================================
 
 The MersenneTwister class in package org.apache.commons.math.random
 includes software translated from the 2002-01-26 version of
 the Mersenne-Twister generator written in C by Makoto Matsumoto and Takuji
-Nishimura which is distributed une a BSD license :
-http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/MT2002/CODES/mt19937ar.c
+Nishimura. Original source copyright:
+Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+All rights reserved
+===============================================================================
 
-The complete text of these licenses and disclaimers as available at
-time of code inclusion are in the LICENSE.txt file.
+The complete text of licenses and disclaimers associated with the the original
+sources enumerated above at the time of code translation are in the LICENSE.txt
+file.
