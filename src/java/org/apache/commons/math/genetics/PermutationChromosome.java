@@ -24,7 +24,7 @@ import java.util.List;
  * @param <T>
  *            type of the permuted objects
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public interface PermutationChromosome<T> {
 

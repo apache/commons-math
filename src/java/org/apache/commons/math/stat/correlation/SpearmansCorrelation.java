@@ -33,7 +33,7 @@ import org.apache.commons.math.stat.ranking.RankingAlgorithm;
  * The ranking algorithm can be set using a constructor argument.</p>
  * 
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 
 public class SpearmansCorrelation {   

@@ -26,7 +26,7 @@ import org.apache.commons.math.MathRuntimeException;
  * of the array representation to a random value uniformly distributed in [0,1].
  * 
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public class RandomKeyMutation implements MutationPolicy {
 

@@ -27,7 +27,7 @@ import org.apache.commons.math.TestUtils;
 /**
  * Test cases for the {@link OpenMapRealVector} class.
  *
- * @version $Revision: 728186 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class SparseRealVectorTest extends TestCase {
 

@@ -26,7 +26,7 @@ import java.util.List;
  * fittest chromosome among them. 
  * 
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public class TournamentSelection implements SelectionPolicy {
     

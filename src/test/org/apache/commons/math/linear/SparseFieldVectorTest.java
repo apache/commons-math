@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 /**
  * Test cases for the {@link SparseFieldVector} class.
  *
- * @version $Revision: 728186 $ $Date: 2009-04-20 11:42:11 -0700 (Mon, 20 Apr 2009) $
+ * @version $Revision$ $Date$
  */
 public class SparseFieldVectorTest extends TestCase {
 

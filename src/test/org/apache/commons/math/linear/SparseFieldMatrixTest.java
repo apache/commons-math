@@ -28,7 +28,7 @@ import junit.framework.TestSuite;
 /**
  * Test cases for the {@link SparseFieldMatrix} class.
  *
- * @version $Revision: 728186 $ $Date: 2009-04-20 11:42:11 -0700 (Mon, 20 Apr 2009) $
+ * @version $Revision$ $Date$
  */
 public class SparseFieldMatrixTest extends TestCase {
     // 3 x 3 identity matrix

@@ -24,7 +24,7 @@ import java.util.List;
  * Population of chromosomes represented by a {@link List}.
  *
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public abstract class ListPopulation implements Population {
     

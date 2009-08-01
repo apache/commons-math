@@ -18,7 +18,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision:$ $Date:$ -->
+<!-- $Revision$ $Date$ -->
 <document url="genetics.html">
   <properties>
     <title>The Commons Math User Guide - Genetic Algorithms</title>

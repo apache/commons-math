@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Chromosome represented by a vector of 0s and 1s.
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  * @since 2.0
  */
 public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {

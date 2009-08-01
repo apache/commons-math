@@ -24,7 +24,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * Test cases for Spearman's rank correlation
  * 
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
 

@@ -24,7 +24,7 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
  * Sparse matrix implementation based on an open addressed map.
  * 
  * @param <T> the type of the field elements
- * @version $Revision: 762117 $ $Date: 2009-04-05 09:53:35 -0700 (Sun, 05 Apr 2009) $
+ * @version $Revision$ $Date$
  * @since 2.0
  */
 public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
