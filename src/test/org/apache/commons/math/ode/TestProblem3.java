@@ -104,8 +104,8 @@ public class TestProblem3
     // solve Kepler's equation
     double E = t;
     double d = 0;
-    double corr = 0;
-    do {
+    double corr = 999.0;
+    for (int i = 0; (i < 50) && (Math.abs(corr) > 1.0e-12); ++i) {
       double f2  = e * Math.sin(E);
       double f0  = d - f2;
       double f1  = 1 - e * Math.cos(E);
@@ -113,7 +113,7 @@ public class TestProblem3
       corr  = f0 * f12 / (f1 * f12 - f0 * f2);
       d -= corr;
       E = t + d;
-    } while (Math.abs(corr) > 1.0e-12);
+    };
 
     double cosE = Math.cos(E);
     double sinE = Math.sin(E);
