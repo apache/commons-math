@@ -258,8 +258,8 @@
           <version>2.2-beta-4</version>
           <configuration>
             <descriptors>
-              <descriptor>src/assembly/src.xml</descriptor>
-              <descriptor>src/assembly/bin.xml</descriptor>
+              <descriptor>src/main/assembly/src.xml</descriptor>
+              <descriptor>src/main/assembly/bin.xml</descriptor>
             </descriptors>
           </configuration>
         </plugin>
