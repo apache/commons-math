@@ -81,7 +81,7 @@
         <pathelement path="${testclassesdir}"/>
       </classpath>
       <batchtest todir="${testreportdir}">
-        <fileset dir="src/test">
+        <fileset dir="src/test/java">
           <include name="**/*Test.java"/>
           <exclude name="**/*AbstractTest.java"/>
         </fileset>
@@ -107,7 +107,7 @@
       </classpath>
     </javac>
     <copy todir="${testclassesdir}">
-      <fileset dir="src/test">
+      <fileset dir="src/test/resources">
         <include name="**/*.xml"/>
         <include name="**/*.txt"/>
       </fileset>
