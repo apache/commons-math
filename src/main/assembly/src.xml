@@ -27,19 +27,8 @@
   <fileSets>
     <fileSet>
       <includes>
-        <include>LICENSE*</include>
-        <include>NOTICE*</include>
-        <include>pom.xml</include>
-        <include>project.xml</include>
-        <include>project.properties</include>
-        <include>maven.xml</include>
-        <include>build.xml</include>
-        <include>build.properties.sample</include>
-        <include>checkstyle.xml</include>
-        <include>RELEASE-NOTES*</include>
-        <include>release-notes.jsl</include>
-        <include>findbugs-exclude-filter.xml</include>
-        <include>license-header.txt</include>
+        <include>*.txt</include>
+        <include>*.xml</include>
       </includes>
     </fileSet>
     <fileSet>
