@@ -65,6 +65,9 @@ Commons Math 1.0-1.2 should recompile their code against the 2.0 jar.
 Most of the compilation errors users will encounter after the switch
 will be due to classes moved due to package reorganization.  These errors
 are simply solved by adjusting the import statements in users code.">
+      <action dev="luc" type="fix" issue="MATH-281" due-to="Albert Huang">
+        Fixed an error in RealMatrix javadoc
+      </action>
       <action dev="luc" type="add" >
         Added an implementation of the Mersenne twister pseudo random number generator
         from Makoto Matsumoto and Takuji Nishimura

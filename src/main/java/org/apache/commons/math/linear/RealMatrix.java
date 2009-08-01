@@ -60,7 +60,7 @@ public interface RealMatrix extends AnyMatrix {
      * Compute this minus m.
      *
      * @param m    matrix to be subtracted
-     * @return     this + m
+     * @return     this - m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
     RealMatrix subtract(RealMatrix m) throws IllegalArgumentException;

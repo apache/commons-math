@@ -367,6 +367,8 @@ o MATH-280: The behavior of the bracket method in
   when a tentative bracketing interval has a root exactly at one of
   its end points. Previously, such intervals triggered an exception.
 
+o MATH-281: Fixed an error in RealMatrix javadoc
+
 Changes:
 
 o Changed the return type of the various interpolation algorithms to
