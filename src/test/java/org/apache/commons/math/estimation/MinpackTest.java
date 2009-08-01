@@ -1206,6 +1206,7 @@ public class MinpackTest
                                double[] theoreticalMinParams) {
       super(m, startParams, theoreticalStartCost,
             theoreticalMinCost, theoreticalMinParams);
+      setCostAccuracy(2.5e-8);
     }
 
     @Override

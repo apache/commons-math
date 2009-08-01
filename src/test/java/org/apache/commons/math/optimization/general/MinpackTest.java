@@ -1196,6 +1196,7 @@ public class MinpackTest extends TestCase {
                                double[] theoreticalMinParams) {
       super(m, startParams, theoreticalMinCost,
             theoreticalMinParams);
+      setCostAccuracy(2.5e-8);
     }
 
     @Override
