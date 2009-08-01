@@ -229,16 +229,6 @@
   </properties> 
 
   <build>
-    <testSourceDirectory>src/test</testSourceDirectory>
-      <testResources>
-        <testResource>
-          <directory>src/test</directory>
-          <includes>
-            <include>**/*.xml</include>
-            <include>**/*.txt</include>
-          </includes>
-        </testResource>
-      </testResources>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
