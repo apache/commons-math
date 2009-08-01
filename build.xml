@@ -52,13 +52,16 @@
   <property name="component.title"         value="Commons MATH"/>
 
   <!-- The current version number of this component -->
-  <property name="component.version"       value="2.0-SNAPSHOT"/>
+  <property name="component.version"       value="2.0"/>
 
   <!-- The base directory for component sources -->
-  <property name="source.home"             value="src/java"/>
+  <property name="source.home"             value="src/main/java"/>
 
   <!-- The base directory for unit test sources -->
-  <property name="test.home"               value="src/test"/>
+  <property name="test.home"               value="src/test/java"/>
+
+  <!-- The base directory for unit test resources -->
+  <property name="test.resources"          value="src/test/resources"/>
 
   <!-- Download lib dir -->
   <property name="download.lib.dir"        value="lib"/>
@@ -167,7 +170,7 @@
       </javac>
     
       <copy todir="${build.home}/test-classes">
-          <fileset dir="${test.home}">
+          <fileset dir="${test.resources}">
               <include name="**/*.xml"/>
               <include name="**/*.txt"/>
           </fileset>
