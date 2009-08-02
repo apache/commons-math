@@ -33,6 +33,7 @@ public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStat
         return suite;
     }
 
+    @Override
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new SynchronizedDescriptiveStatistics();
     }

@@ -153,6 +153,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean equals(Object other) {
         if (this == other) { 
             return true;
