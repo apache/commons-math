@@ -238,7 +238,7 @@ public class OpenMapRealVector implements SparseRealVector, Serializable {
      */
     public OpenMapRealVector add(OpenMapRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        OpenMapRealVector res = (OpenMapRealVector)copy();
+        OpenMapRealVector res = copy();
         Iterator iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -1137,7 +1137,7 @@ public class OpenMapRealVector implements SparseRealVector, Serializable {
      */
     public OpenMapRealVector subtract(OpenMapRealVector v) throws IllegalArgumentException{
         checkVectorDimensions(v.getDimension());
-        OpenMapRealVector res = (OpenMapRealVector)copy();
+        OpenMapRealVector res = copy();
         Iterator iter = v.getEntries().iterator();
         while (iter.hasNext()) {
             iter.advance();
