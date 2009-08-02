@@ -178,7 +178,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
                 throw new InvalidRepresentationException("Values of representation must be in [0,1] interval");
             }
         }
-    };
+    }
     
 
     /**
