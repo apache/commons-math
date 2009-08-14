@@ -38,6 +38,12 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
+    <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-283" due-to="Michael Nischt">
+        Prevent infinite loops in multi-directional direct optimization method when
+        the start point is exactly at the optimal point
+      </action>
+    </release>
     <release version="2.0" date="2009-08-03" description="
 This is a major release. It combines bug fixes, new features and
 changes to existing features. Most notable among the new features are:
