@@ -196,7 +196,7 @@ double std = StatUtils.variance(values);
 double median = StatUtils.percentile(50);
 
 // Compute the mean of the first three values in the array
-mean = StatuUtils.mean(values, 0, 3);
+mean = StatUtils.mean(values, 0, 3);
         </source>
         </dd>
         <dt>Maintain a "rolling mean" of the most recent 100 values from
