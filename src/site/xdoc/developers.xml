@@ -61,10 +61,9 @@
         <li>Like most commons components, commons-math uses Apache Maven as our
             build tool. We now use Maven 2 as our primary build platform (what
             we use to cut releases, for continuous integration builds, and for
-            development).  The sources can also be built using Maven 1.0.2 or
-            Ant (a working Maven 1 project.xml and Ant build.xml are included
-            in the top level project directory). To build commons math using
-            Maven 2, you can follow the instructions for
+            development).  The sources can also be built using Ant (a working 
+            Ant build.xml is included in the top level project directory). 
+            To build commons math using Maven 2, you can follow the instructions for
             <a href="http://maven.apache.org/run-maven/index.html">Building a
             project with Maven 2</a>. Launch Maven from the top-level directory
             in the checkout of commons-math trunk. No special setup is required,
