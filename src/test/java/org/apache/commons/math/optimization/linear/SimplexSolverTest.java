@@ -46,8 +46,18 @@ public class SimplexSolverTest {
         assertEquals(1.0, solution.getPoint()[1], .0000001);
         assertEquals(1.0, solution.getPoint()[2], .0000001);
         assertEquals(3.0, solution.getValue(), .0000001);
-      }
+    }
 
+    @Test
+    public void testMath286() throws OptimizationException {
+      LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.2, 0.3 }, 0 );
+      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+      constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ, 23.0));
+
+      RealPointValuePair solution = new SimplexSolver().optimize(f, constraints, GoalType.MAXIMIZE, true);
+      assertEquals(6.9, solution.getValue(), .0000001);
+    }
+    
     @Test
     public void testSimplexSolver() throws OptimizationException {
         LinearObjectiveFunction f =

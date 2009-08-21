@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-286" due-to="Benjamin McCann">
+        Fixed an error leading the simplex solver to compute the right solution
+        but return another one
+      </action>
       <action dev="luc" type="fix" issue="MATH-283" due-to="Michael Nischt">
         Prevent infinite loops in multi-directional direct optimization method when
         the start point is exactly at the optimal point

@@ -270,8 +270,27 @@ class SimplexTableau implements Serializable {
      * @return the row that the variable is basic in.  null if the column is not basic
      */
     private Integer getBasicRow(final int col) {
+        return getBasicRow(col, true);
+    }
+
+    /**
+     * Checks whether the given column is basic.
+     * @param col index of the column to check
+     * @return the row that the variable is basic in.  null if the column is not basic
+     */
+    private Integer getBasicRowForSolution(final int col) {
+        return getBasicRow(col, false);
+    }
+    
+    /**
+     * Checks whether the given column is basic.
+     * @param col index of the column to check
+     * @return the row that the variable is basic in.  null if the column is not basic
+     */
+    private Integer getBasicRow(final int col, boolean ignoreObjectiveRows) {
         Integer row = null;
-        for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {
+        int start = ignoreObjectiveRows ? getNumObjectiveFunctions() : 0;
+        for (int i = start; i < getHeight(); i++) {
             if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && (row == null)) {
                 row = i;
             } else if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {
@@ -318,24 +337,23 @@ class SimplexTableau implements Serializable {
      * @return current solution
      */
     protected RealPointValuePair getSolution() {
-        double[] coefficients = new double[getOriginalNumDecisionVariables()];
-        Integer basicRow =
-            getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());
-        double mostNegative = basicRow == null ? 0 : getEntry(basicRow, getRhsOffset());
-        Set<Integer> basicRows = new HashSet<Integer>();
-        for (int i = 0; i < coefficients.length; i++) {
-            basicRow = getBasicRow(getNumObjectiveFunctions() + i);
-            if (basicRows.contains(basicRow)) {
-                // if multiple variables can take a given value 
-                // then we choose the first and set the rest equal to 0
-                coefficients[i] = 0;
-            } else {
-                basicRows.add(basicRow);
-                coefficients[i] =
-                    (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
-                    (restrictToNonNegative ? 0 : mostNegative);
-            }
-        }
+      double[] coefficients = new double[getOriginalNumDecisionVariables()];
+      Integer negativeVarBasicRow = getBasicRowForSolution(getNegativeDecisionVariableOffset());
+      double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
+      Set<Integer> basicRows = new HashSet<Integer>();
+      for (int i = 0; i < coefficients.length; i++) {
+          Integer basicRow = getBasicRowForSolution(getNumObjectiveFunctions() + i);
+          if (basicRows.contains(basicRow)) {
+              // if multiple variables can take a given value 
+              // then we choose the first and set the rest equal to 0
+              coefficients[i] = 0;
+          } else {
+              basicRows.add(basicRow);
+              coefficients[i] =
+                  (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
+                  (restrictToNonNegative ? 0 : mostNegative);
+          }
+      }
         return new RealPointValuePair(coefficients, f.getValue(coefficients));
     }
 
@@ -429,6 +447,15 @@ class SimplexTableau implements Serializable {
      */
     protected final int getRhsOffset() {
         return getWidth() - 1;
+    }
+    
+    /**
+     * Returns the offset of the extra decision variable added when there is a
+     * negative decision variable in the original problem.
+     * @return the offset of x-
+     */
+    protected final int getNegativeDecisionVariableOffset() {
+      return getNumObjectiveFunctions() + getOriginalNumDecisionVariables();
     }
 
     /**
