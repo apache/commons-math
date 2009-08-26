@@ -69,7 +69,7 @@ class SimplexTableau implements Serializable {
     private final LinearObjectiveFunction f;
 
     /** Linear constraints. */
-    private final Collection<LinearConstraint> constraints;
+    private final List<LinearConstraint> constraints;
 
     /** Whether to restrict the variables to non-negative values. */
     private final boolean restrictToNonNegative;
@@ -103,7 +103,7 @@ class SimplexTableau implements Serializable {
                    final GoalType goalType, final boolean restrictToNonNegative,
                    final double epsilon) {
         this.f                      = f;
-        this.constraints            = constraints;
+        this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
         this.epsilon                = epsilon;
         this.numDecisionVariables   = getNumVariables() + (restrictToNonNegative ? 0 : 1);
@@ -123,7 +123,6 @@ class SimplexTableau implements Serializable {
     protected double[][] createTableau(final boolean maximize) {
 
         // create a matrix of the correct size
-        List<LinearConstraint> constraints = getNormalizedConstraints();
         int width = numDecisionVariables + numSlackVariables +
         numArtificialVariables + getNumObjectiveFunctions() + 1; // + 1 is for RHS
         int height = constraints.size() + getNumObjectiveFunctions();
@@ -192,9 +191,10 @@ class SimplexTableau implements Serializable {
 
     /**
      * Get new versions of the constraints which have positive right hand sides.
+     * @param constraints original (not normalized) constraints
      * @return new versions of the constraints
      */
-    public List<LinearConstraint> getNormalizedConstraints() {
+    public List<LinearConstraint> normalizeConstraints(Collection<LinearConstraint> constraints) {
         List<LinearConstraint> normalized = new ArrayList<LinearConstraint>();
         for (LinearConstraint constraint : constraints) {
             normalized.add(normalize(constraint));
