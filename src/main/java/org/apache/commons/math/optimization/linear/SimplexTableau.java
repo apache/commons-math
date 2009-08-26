@@ -136,50 +136,51 @@ class SimplexTableau implements Serializable {
         matrix[zIndex][zIndex] = maximize ? 1 : -1;
         RealVector objectiveCoefficients =
             maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-            copyArray(objectiveCoefficients.getData(), matrix[zIndex], getNumObjectiveFunctions());
-            matrix[zIndex][width - 1] =
-                maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
+        copyArray(objectiveCoefficients.getData(), matrix[zIndex], getNumObjectiveFunctions());
+        matrix[zIndex][width - 1] =
+            maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
 
-                if (!restrictToNonNegative) {
-                    matrix[zIndex][getSlackVariableOffset() - 1] =
-                        getInvertedCoeffiecientSum(objectiveCoefficients);
-                }
+        if (!restrictToNonNegative) {
+            matrix[zIndex][getSlackVariableOffset() - 1] =
+                getInvertedCoeffiecientSum(objectiveCoefficients);
+        }
 
-                // initialize the constraint rows
-                int slackVar = 0;
-                int artificialVar = 0;
-                for (int i = 0; i < constraints.size(); i++) {
-                    LinearConstraint constraint = constraints.get(i);
-                    int row = getNumObjectiveFunctions() + i;
+        // initialize the constraint rows
+        int slackVar = 0;
+        int artificialVar = 0;
+        for (int i = 0; i < constraints.size(); i++) {
+            LinearConstraint constraint = constraints.get(i);
+            int row = getNumObjectiveFunctions() + i;
 
-                    // decision variable coefficients
-                    copyArray(constraint.getCoefficients().getData(), matrix[row], 1);
+            // decision variable coefficients
+            copyArray(constraint.getCoefficients().getData(), matrix[row], 1);
 
-                    // x-
-                    if (!restrictToNonNegative) {
-                        matrix[row][getSlackVariableOffset() - 1] =
-                            getInvertedCoeffiecientSum(constraint.getCoefficients());
-                    }
+            // x-
+            if (!restrictToNonNegative) {
+                matrix[row][getSlackVariableOffset() - 1] =
+                    getInvertedCoeffiecientSum(constraint.getCoefficients());
+            }
 
-                    // RHS
-                    matrix[row][width - 1] = constraint.getValue();
+            // RHS
+            matrix[row][width - 1] = constraint.getValue();
 
-                    // slack variables
-                    if (constraint.getRelationship() == Relationship.LEQ) {
-                        matrix[row][getSlackVariableOffset() + slackVar++] = 1;  // slack
-                    } else if (constraint.getRelationship() == Relationship.GEQ) {
-                        matrix[row][getSlackVariableOffset() + slackVar++] = -1; // excess
-                    }
+            // slack variables
+            if (constraint.getRelationship() == Relationship.LEQ) {
+                matrix[row][getSlackVariableOffset() + slackVar++] = 1;  // slack
+            } else if (constraint.getRelationship() == Relationship.GEQ) {
+                matrix[row][getSlackVariableOffset() + slackVar++] = -1; // excess
+            }
 
-                    // artificial variables
-                    if ((constraint.getRelationship() == Relationship.EQ) ||
-                        (constraint.getRelationship() == Relationship.GEQ)) {
-                        matrix[0][getArtificialVariableOffset() + artificialVar] = 1; 
-                        matrix[row][getArtificialVariableOffset() + artificialVar++] = 1; 
-                    }
-                }
+            // artificial variables
+            if ((constraint.getRelationship() == Relationship.EQ) ||
+                    (constraint.getRelationship() == Relationship.GEQ)) {
+                matrix[0][getArtificialVariableOffset() + artificialVar] = 1; 
+                matrix[row][getArtificialVariableOffset() + artificialVar++] = 1; 
+            }
+        }
 
-                return matrix;
+        return matrix;
+
     }
 
     /** Get the number of variables.
