@@ -43,6 +43,9 @@ The <action> type attribute can be add,update,fix,remove.
         Fixed a NullPointerException when no solution is possible and some constraints
         are negative
       </action>
+      <action dev="luc" type="fix" issue="MATH-289" >
+        Removed an unused argument in a private method
+      </action>
       <action dev="luc" type="fix" issue="MATH-288" due-to="Benjamin McCann">
         Fixed an error induced by entries set to 0
       </action>

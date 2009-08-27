@@ -136,7 +136,7 @@ class SimplexTableau implements Serializable {
         matrix[zIndex][zIndex] = maximize ? 1 : -1;
         RealVector objectiveCoefficients =
             maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-        copyArray(objectiveCoefficients.getData(), matrix[zIndex], getNumObjectiveFunctions());
+        copyArray(objectiveCoefficients.getData(), matrix[zIndex]);
         matrix[zIndex][width - 1] =
             maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
 
@@ -153,7 +153,7 @@ class SimplexTableau implements Serializable {
             int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
-            copyArray(constraint.getCoefficients().getData(), matrix[row], 1);
+            copyArray(constraint.getCoefficients().getData(), matrix[row]);
 
             // x-
             if (!restrictToNonNegative) {
@@ -325,10 +325,8 @@ class SimplexTableau implements Serializable {
     /**
      * @param src the source array
      * @param dest the destination array
-     * @param destPos the destination position
      */
-    private void copyArray(final double[] src, final double[] dest,
-                           final int destPos) {
+    private void copyArray(final double[] src, final double[] dest) {
         System.arraycopy(src, 0, dest, getNumObjectiveFunctions(), src.length); 
     }
 
