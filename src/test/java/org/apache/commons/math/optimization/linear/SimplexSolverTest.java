@@ -75,13 +75,24 @@ public class SimplexSolverTest {
     }
 
     @Test
-    public void testMath290() throws OptimizationException {
+    public void testMath290GEQ() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 5 }, 0 );
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] { 2, 0 }, Relationship.GEQ, -1.0));
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
-        assertNotNull(solution);
+        assertEquals(0, solution.getValue(), .0000001);
+        assertEquals(0, solution.getPoint()[0], .0000001);
+        assertEquals(0, solution.getPoint()[1], .0000001);
+    }
+
+    @Test(expected=NoFeasibleSolutionException.class)
+    public void testMath290LEQ() throws OptimizationException {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 5 }, 0 );
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] { 2, 0 }, Relationship.LEQ, -1.0));
+        SimplexSolver solver = new SimplexSolver();
+        solver.optimize(f, constraints, GoalType.MINIMIZE, true);
     }
 
     @Test
