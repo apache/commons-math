@@ -987,6 +987,62 @@ public final class MathUtils {
      public static double normalizeAngle(double a, double center) {
          return a - TWO_PI * Math.floor((a + Math.PI - center) / TWO_PI);
      }
+     
+     /**
+      * <p>Normalizes an array to make it sum to a specified value.  
+      * Returns the result of the transformation <pre>
+      *    x |-> x * normalizedSum / sum
+      * </pre>
+      * applied to each non-NaN element x of the input array, where sum is the
+      * sum of the non-NaN entries in the input array.</p>
+      * 
+      * <p>Throws IllegalArgumentException if <code>normalizedSum</code> is infinite
+      * or NaN and ArithmeticException if the input array contains any infinite elements
+      * or sums to 0</p>
+      * 
+      * <p>Ignores (i.e., copies unchanged to the output array) NaNs in the input array.</p>
+      * 
+      * @param values input array to be normalized
+      * @param normalizedSum target sum for the normalized array
+      * @return normalized array
+      * @throws ArithmeticException if the input array contains infinite elements or sums to zero
+      * @throws IllegalArgumentException if the target sum is infinite or NaN
+      */
+     public static double[] normalizeArray(double[] values, double normalizedSum)
+       throws ArithmeticException, IllegalArgumentException {
+         if (Double.isInfinite(normalizedSum)) {
+             throw MathRuntimeException.createIllegalArgumentException(
+                     "Cannot normalize to an infinite value");
+         }
+         if (Double.isNaN(normalizedSum)) {
+             throw MathRuntimeException.createIllegalArgumentException(
+                     "Cannot normalize to NaN");
+         }
+         double sum = 0d;
+         final int len = values.length;
+         double[] out = new double[len];
+         for (int i = 0; i < len; i++) {
+             if (Double.isInfinite(values[i])) {
+                 throw MathRuntimeException.createArithmeticException(
+                         "Array contains an infinite element", values[i], i);
+             }
+             if (!Double.isNaN(values[i])) {
+                 sum += values[i];
+             }
+         }
+         if (sum == 0) {
+             throw MathRuntimeException.createArithmeticException(
+                     "Array sums to zero"); 
+         }
+         for (int i = 0; i < len; i++) {
+             if (Double.isNaN(values[i])) {
+                 out[i] = Double.NaN;
+             } else {
+                 out[i] = values[i] * normalizedSum / sum;
+             }
+         }
+         return out;  
+     }
 
     /**
      * Round the given value to the specified number of decimal places. The

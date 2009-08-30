@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" type="add">
+        Added normalizeArray method to MathUtils.
+      </action>
       <action dev="luc" type="fix" issue="MATH-290" due-to="Benjamin McCann">
         Fixed a NullPointerException in simplex solver when no solution is possible
         and some constraints are negative.
