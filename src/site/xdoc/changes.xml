@@ -40,22 +40,22 @@ The <action> type attribute can be add,update,fix,remove.
   <body>
     <release version="2.1" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-290" due-to="Benjamin McCann">
-        Fixed a NullPointerException when no solution is possible and some constraints
-        are negative
+        Fixed a NullPointerException in simplex solver when no solution is possible
+        and some constraints are negative.
       </action>
       <action dev="luc" type="fix" issue="MATH-289" >
-        Removed an unused argument in a private method
+        Removed an unused argument in a private method in simplex solver.
       </action>
       <action dev="luc" type="fix" issue="MATH-288" due-to="Benjamin McCann">
-        Fixed an error induced by entries set to 0
+        Fixed an error induced by entries set to 0 in simplex solver.
       </action>
       <action dev="luc" type="fix" issue="MATH-286" due-to="Benjamin McCann">
         Fixed an error leading the simplex solver to compute the right solution
-        but return another one
+        but return another one.
       </action>
       <action dev="luc" type="fix" issue="MATH-283" due-to="Michael Nischt">
         Prevent infinite loops in multi-directional direct optimization method when
-        the start point is exactly at the optimal point
+        the start point is exactly at the optimal point.
       </action>
     </release>
     <release version="2.0" date="2009-08-03" description="
