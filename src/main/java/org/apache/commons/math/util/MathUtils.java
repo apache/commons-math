@@ -1024,7 +1024,7 @@ public final class MathUtils {
          for (int i = 0; i < len; i++) {
              if (Double.isInfinite(values[i])) {
                  throw MathRuntimeException.createArithmeticException(
-                         "Array contains an infinite element", values[i], i);
+                         "Array contains an infinite element, {0} at index {1}", values[i], i);
              }
              if (!Double.isNaN(values[i])) {
                  sum += values[i];

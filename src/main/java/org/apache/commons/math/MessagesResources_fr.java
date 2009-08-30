@@ -62,6 +62,12 @@ public class MessagesResources_fr
        " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
       "m\u00e9thode d''arondi {0} invalide, m\u00e9thodes valides : {1} ({2}), {3} ({4})," +
        " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})" },
+    { "Cannot normalize to an infinite value",
+      "impossible de normaliser vers une valeur infinie" },
+    { "Cannot normalize to NaN",
+      "impossible de normaliser vers NaN" },
+    { "Array contains an infinite element, {0} at index {1}",
+      "le tableau contient l''\u00e9l\u00e9ment infini {0} \u00e0 l''index {1}" },
 
     // org.apache.commons.math.FunctionEvaluationException
     { "evaluation failed for argument = {0}",
