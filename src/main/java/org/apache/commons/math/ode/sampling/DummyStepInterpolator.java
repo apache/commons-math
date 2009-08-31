@@ -22,7 +22,6 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 
 /** This class is a step interpolator that does nothing.
  *
@@ -47,9 +46,9 @@ public class DummyStepInterpolator
    * should be called before using the instance in order to initialize
    * the internal arrays. This constructor is used only in order to delay
    * the initialization in some cases. As an example, the {@link
-   * EmbeddedRungeKuttaIntegrator} uses the prototyping design pattern
-   * to create the step interpolators by cloning an uninitialized
-   * model and latter initializing the copy.
+   * org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator} uses
+   * the prototyping design pattern to create the step interpolators by
+   * cloning an uninitialized model and latter initializing the copy.
    */
   public DummyStepInterpolator() {
     super();

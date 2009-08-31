@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
@@ -109,9 +108,9 @@ public class MultiStartDifferentiableMultivariateRealOptimizer
      * corresponding to the runs that did not converge. This means all
      * elements will be null if the {@link #optimize(DifferentiableMultivariateRealFunction,
      * GoalType, double[]) optimize} method did throw a {@link
-     * ConvergenceException ConvergenceException}). This also means that
-     * if the first element is non null, it is the best point found across
-     * all starts.</p>
+     * org.apache.commons.math.ConvergenceException ConvergenceException}).
+     * This also means that if the first element is non null, it is the best
+     * point found across all starts.</p>
      * @return array containing the optima
      * @exception IllegalStateException if {@link #optimize(DifferentiableMultivariateRealFunction,
      * GoalType, double[]) optimize} has not been called

@@ -25,7 +25,6 @@ import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /** 
@@ -48,7 +47,8 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     private final boolean useLU;
 
     /** Simple constructor with default settings.
-     * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}
+     * <p>The convergence check is set to a {@link
+     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}
      * and the maximal number of evaluation is set to
      * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_ITERATIONS}.
      * @param useLU if true, the normal equations will be solved using LU

@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.ode.events;
 
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.sampling.StepHandler;
-
 /** This interface represents a handler for discrete events triggered
  * during ODE integration.
  *
@@ -73,7 +70,8 @@ public interface EventHandler  {
    * #eventOccurred eventOccurred} method when the integration should
    * go on after the event ending the current step, with a new derivatives
    * vector (which will be retrieved thanks to the {@link
-   * FirstOrderDifferentialEquations#computeDerivatives} method).</p>
+   * org.apache.commons.math.ode.FirstOrderDifferentialEquations#computeDerivatives}
+   * method).</p>
    */
   public static final int RESET_DERIVATIVES = 2;
 
@@ -107,16 +105,16 @@ public interface EventHandler  {
    * step handler itself is called. It allows the user to update his
    * internal data to acknowledge the fact the event has been handled
    * (for example setting a flag in the {@link
-   * FirstOrderDifferentialEquations differential equations} to switch
-   * the derivatives computation in case of discontinuity), or to
-   * direct the integrator to either stop or continue integration,
-   * possibly with a reset state or derivatives.</p>
+   * org.apache.commons.math.ode.FirstOrderDifferentialEquations
+   * differential equations} to switch the derivatives computation in
+   * case of discontinuity), or to direct the integrator to either stop
+   * or continue integration, possibly with a reset state or derivatives.</p>
 
    * <ul>
    *   <li>if {@link #STOP} is returned, the step handler will be called
    *   with the <code>isLast</code> flag of the {@link
-   *   StepHandler#handleStep handleStep} method set to true and the
-   *   integration will be stopped,</li>
+   *   org.apache.commons.math.ode.sampling.StepHandler#handleStep handleStep}
+   *   method set to true and the integration will be stopped,</li>
    *   <li>if {@link #RESET_STATE} is returned, the {@link #resetState
    *   resetState} method will be called once the step handler has
    *   finished its task, and the integrator will also recompute the

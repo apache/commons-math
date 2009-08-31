@@ -26,7 +26,6 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 
 /** 
  * Non-linear conjugate gradient optimizer.
@@ -58,7 +57,8 @@ public class NonLinearConjugateGradientOptimizer
     private double initialStep;
 
     /** Simple constructor with default settings.
-     * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}
+     * <p>The convergence check is set to a {@link
+     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}
      * and the maximal number of iterations is set to
      * {@link AbstractScalarDifferentiableOptimizer#DEFAULT_MAX_ITERATIONS}.
      * @param updateFormula formula to use for updating the &beta; parameter,

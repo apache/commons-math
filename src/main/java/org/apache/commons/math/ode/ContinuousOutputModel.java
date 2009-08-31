@@ -22,7 +22,6 @@ import java.util.List;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -75,7 +74,8 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * ContinuousOutputModel instance can be important if the state vector
  * is large, if the integration interval is long or if the steps are
  * small (which can result from small tolerance settings in {@link
- * AdaptiveStepsizeIntegrator adaptive step size integrators}).</p>
+ * org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator adaptive
+ * step size integrators}).</p>
  *
  * @see StepHandler
  * @see StepInterpolator

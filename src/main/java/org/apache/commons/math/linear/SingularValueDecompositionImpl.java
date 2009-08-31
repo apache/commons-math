@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -79,8 +78,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     /**
      * Calculates the Singular Value Decomposition of the given matrix. 
      * @param matrix The matrix to decompose.
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
+     * @exception InvalidMatrixException (wrapping a {@link
+     * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
     public SingularValueDecompositionImpl(RealMatrix matrix)
         throws InvalidMatrixException {

@@ -23,9 +23,6 @@ import java.io.ObjectOutput;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.SecondOrderIntegrator;
-import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.
@@ -35,8 +32,8 @@ import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
  * retrieve the state vector at intermediate times between the
  * previous and the current grid points (dense output).</p>
  *
- * @see FirstOrderIntegrator
- * @see SecondOrderIntegrator
+ * @see org.apache.commons.math.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math.ode.SecondOrderIntegrator
  * @see StepHandler
  *
  * @version $Revision$ $Date$
@@ -84,9 +81,10 @@ public abstract class AbstractStepInterpolator
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
    * some cases. As an example, the {@link
-   * EmbeddedRungeKuttaIntegrator} uses the prototyping design pattern
-   * to create the step interpolators by cloning an uninitialized
-   * model and latter initializing the copy.
+   * org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator}
+   * class uses the prototyping design pattern to create the step
+   * interpolators by cloning an uninitialized model and latter
+   * initializing the copy.
    */
   protected AbstractStepInterpolator() {
     previousTime            = Double.NaN;

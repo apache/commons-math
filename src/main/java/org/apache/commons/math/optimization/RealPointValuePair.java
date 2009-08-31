@@ -19,13 +19,12 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 /** 
  * This class holds a point and the value of an objective function at this point.
  * <p>This is a simple immutable container.</p>
  * @see VectorialPointValuePair
- * @see MultivariateRealFunction
+ * @see org.apache.commons.math.analysis.MultivariateRealFunction
  * @version $Revision$ $Date$
  * @since 2.0
  */

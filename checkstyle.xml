@@ -62,13 +62,18 @@
     <!-- Require hash code override when equals is -->
     <module name="EqualsHashCode"/>
     
-    <!-- Disallow unecessary instantiantion of Boolean, String -->
+    <!-- Disallow unnecessary instantiation of Boolean, String -->
     <module name="IllegalInstantiation">
       <property name="classes" value="java.lang.Boolean, java.lang.String"/>
     </module>
 
     <!-- Required for SuppressionCommentFilter below -->
     <module name="FileContentsHolder"/>
+ 
+    <!--  Import should be explicit, really needed and only from pure java packages -->
+    <module name="AvoidStarImport" />
+    <module name="UnusedImports" />
+    <module name="IllegalImport" />
 
   </module>
   

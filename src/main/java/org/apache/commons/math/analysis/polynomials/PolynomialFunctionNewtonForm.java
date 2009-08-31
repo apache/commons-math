@@ -19,7 +19,6 @@ package org.apache.commons.math.analysis.polynomials;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpolator;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -198,7 +197,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * @param a the coefficients in Newton form formula
      * @param c the centers
      * @throws IllegalArgumentException if not valid
-     * @see DividedDifferenceInterpolator#computeDividedDifference(double[],
+     * @see org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpolator#computeDividedDifference(double[],
      * double[])
      */
     protected static void verifyInputArray(double a[], double c[]) throws

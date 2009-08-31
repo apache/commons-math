@@ -17,10 +17,7 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.SecondOrderIntegrator;
 
 /**
  * This interface represents a handler that should be called after
@@ -35,8 +32,8 @@ import org.apache.commons.math.ode.SecondOrderIntegrator;
  * last one, store the points in an ephemeris, or forward them to
  * specialized processing or output methods.</p>
  *
- * @see FirstOrderIntegrator
- * @see SecondOrderIntegrator
+ * @see org.apache.commons.math.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math.ode.SecondOrderIntegrator
  * @see StepInterpolator
  * @version $Revision$ $Date$
  * @since 1.2
@@ -67,11 +64,11 @@ public interface StepHandler {
    * object on each call, so if the instance wants to keep it across
    * all calls (for example to provide at the end of the integration a
    * continuous model valid throughout the integration range, as the
-   * {@link ContinuousOutputModel ContinuousOutputModel} class does),
-   * it should build a local copy using the clone method of the
-   * interpolator and store this copy. Keeping only a reference to the
-   * interpolator and reusing it will result in unpredictable
-   * behaviour (potentially crashing the application).
+   * {@link org.apache.commons.math.ode.ContinuousOutputModel
+   * ContinuousOutputModel} class does), it should build a local copy
+   * using the clone method of the interpolator and store this copy.
+   * Keeping only a reference to the interpolator and reusing it will
+   * result in unpredictable behavior (potentially crashing the application).
    * @param isLast true if the step is the last one
    * @throws DerivativeException this exception is propagated to the
    * caller if the underlying user function triggers one

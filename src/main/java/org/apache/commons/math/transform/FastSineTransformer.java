@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.analysis.*;
-import org.apache.commons.math.complex.*;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.complex.Complex;
 
 /**
  * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/

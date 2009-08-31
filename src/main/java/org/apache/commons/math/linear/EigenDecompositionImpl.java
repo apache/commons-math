@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.MathUtils;
@@ -156,8 +155,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
      * {@link MathUtils#SAFE_MIN})
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
+     * @exception InvalidMatrixException (wrapping a {@link
+     * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
     public EigenDecompositionImpl(final RealMatrix matrix,
                                   final double splitTolerance)
@@ -180,8 +179,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
      * {@link MathUtils#SAFE_MIN})
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
+     * @exception InvalidMatrixException (wrapping a {@link
+     * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
     public EigenDecompositionImpl(final double[] main, double[] secondary,
             final double splitTolerance)
@@ -226,8 +225,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Decompose a tridiagonal symmetric matrix. 
-     * @exception InvalidMatrixException (wrapping a {@link ConvergenceException}
-     * if algorithm fails to converge
+     * @exception InvalidMatrixException (wrapping a {@link
+     * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
     private void decompose() {
 

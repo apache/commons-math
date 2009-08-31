@@ -20,8 +20,6 @@ package org.apache.commons.math.ode.sampling;
 import java.io.Externalizable;
 
 import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.SecondOrderIntegrator;
 
 /** This interface represents an interpolator over the last step
  * during an ODE integration.
@@ -41,8 +39,8 @@ import org.apache.commons.math.ode.SecondOrderIntegrator;
  * {@link #copy()} method.
  * </p>
  *
- * @see FirstOrderIntegrator
- * @see SecondOrderIntegrator
+ * @see org.apache.commons.math.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math.ode.SecondOrderIntegrator
  * @see StepHandler
  * @version $Revision$ $Date$
  * @since 1.2
