@@ -286,6 +286,8 @@ class SimplexTableau implements Serializable {
     /**
      * Checks whether the given column is basic.
      * @param col index of the column to check
+     * @param ignoreObjectiveRows if true ignore the first rows which correspond
+     * to objective functions
      * @return the row that the variable is basic in.  null if the column is not basic
      */
     private Integer getBasicRow(final int col, boolean ignoreObjectiveRows) {
