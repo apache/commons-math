@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -51,7 +52,7 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         suite.setName("Variance Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +60,12 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.var;
     }
-    
+
+    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    public double expectedWeightedValue() {
+        return this.weightedVar;
+    }
+
     /**
      * Make sure Double.NaN is returned iff n = 0
      *
@@ -70,10 +76,10 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         std.increment(1d);
         assertEquals(0d, std.getResult(), 0);
     }
-    
+
     /**
      * Test population version of variance
-     */ 
+     */
     public void testPopulation() {
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         SecondMoment m = new SecondMoment();
@@ -84,13 +90,13 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         v1.incrementAll(values);
         assertEquals(populationVariance(values), v1.getResult(), 1E-14);
         v1 = new Variance(false, m);
-        assertEquals(populationVariance(values), v1.getResult(), 1E-14);     
+        assertEquals(populationVariance(values), v1.getResult(), 1E-14);
         v1 = new Variance(false);
         assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
         v1.incrementAll(values);
-        assertEquals(populationVariance(values), v1.getResult(), 1E-14);     
+        assertEquals(populationVariance(values), v1.getResult(), 1E-14);
     }
-    
+
     /**
      * Definitional formula for population variance
      */
@@ -98,9 +104,26 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         double mean = new Mean().evaluate(v);
         double sum = 0;
         for (int i = 0; i < v.length; i++) {
-           sum += (v[i] - mean) * (v[i] - mean); 
+           sum += (v[i] - mean) * (v[i] - mean);
         }
         return sum / v.length;
+    }
+
+    public void testWeightedVariance() {
+        Variance variance = new Variance();
+        assertEquals(expectedWeightedValue(), 
+                variance.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
+        
+        // All weights = 1 -> weighted variance = unweighted variance
+        assertEquals(expectedValue(),
+                variance.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
+        
+        // All weights the same -> when weights are normalized to sum to the length of the values array,
+        // weighted variance = unweighted value
+        assertEquals(expectedValue(),
+                variance.evaluate(testArray, MathUtils.normalizeArray(identicalWeightsArray, testArray.length),
+                        0, testArray.length), getTolerance());
+        
     }
 
 }

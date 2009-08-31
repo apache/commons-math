@@ -40,6 +40,8 @@ public class AbstractUnivariateStatisticTest extends TestCase {
     }
     
     protected double[] testArray = {0, 1, 2, 3, 4, 5};
+    protected double[] testWeightsArray = {0.3, 0.2, 1.3, 1.1, 1.0, 1.8};
+    protected double[] testNegativeWeightsArray = {-0.3, 0.2, -1.3, 1.1, 1.0, 1.8};
     protected double[] nullArray = null;
     protected double[] singletonArray = {0};
     protected Mean testStatistic = new Mean();
@@ -85,6 +87,24 @@ public class AbstractUnivariateStatisticTest extends TestCase {
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
-        }      
-    } 
+        }
+        try {
+            testStatistic.test(testArray, nullArray, 0, 1);  // null weights array
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            testStatistic.test(singletonArray, testWeightsArray, 0, 1);  // weights.length != value.length
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            testStatistic.test(testArray, testNegativeWeightsArray, 0, 6);  // can't have negative weights
+            fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+    }
 }

@@ -22,7 +22,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 
 /**
- * <p>Computes the arithmetic mean of a set of values. Uses the definitional 
+ * <p>Computes the arithmetic mean of a set of values. Uses the definitional
  * formula:</p>
  * <p>
  * mean = sum(x_i) / n
@@ -30,7 +30,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
  * <p>where <code>n</code> is the number of observations.
  * </p>
  * <p>When {@link #increment(double)} is used to add data incrementally from a
- * stream of (unstored) values, the value of the statistic that 
+ * stream of (unstored) values, the value of the statistic that
  * {@link #getResult()} returns is computed using the following recursive
  * updating algorithm: </p>
  * <ol>
@@ -80,18 +80,18 @@ public class Mean extends AbstractStorelessUnivariateStatistic
 
     /**
      * Constructs a Mean with an External Moment.
-     * 
+     *
      * @param m1 the moment
      */
     public Mean(final FirstMoment m1) {
         this.moment = m1;
         incMoment = false;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code Mean} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Mean} instance to copy
      */
     public Mean(Mean original) {
@@ -141,7 +141,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link Mean} for details on the computing algorithm.</p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -154,10 +154,10 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         if (test(values, begin, length)) {
             Sum sum = new Sum();
             double sampleSize = length;
-            
+
             // Compute initial estimate using definitional formula
             double xbar = sum.evaluate(values, begin, length) / sampleSize;
-            
+
             // Compute correction factor in second pass
             double correction = 0;
             for (int i = begin; i < begin + length; i++) {
@@ -167,7 +167,54 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         }
         return Double.NaN;
     }
-    
+
+    /**
+     * Returns the weighted arithmetic mean of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     * <p>
+     * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
+     * described above is used here, with weights applied in computing both the original
+     * estimate and the correction factor.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     *     <li>the start and length arguments do not determine a valid array</li>
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights,
+                           final int begin, final int length) {
+        if (test(values, weights, begin, length)) {
+            Sum sum = new Sum();
+
+            // Compute initial estimate using definitional formula
+            double sumw = sum.evaluate(weights,begin,length);
+            double xbarw = sum.evaluate(values, weights, begin, length) / sumw;
+
+            // Compute correction factor in second pass
+            double correction = 0;
+            for (int i = begin; i < begin + length; i++) {
+                correction += weights[i] * (values[i] - xbarw);
+            }
+            return xbarw + (correction/sumw);
+        }
+        return Double.NaN;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -177,12 +224,12 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         copy(this, result);
         return result;
     }
-    
-    
+
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source Mean to copy
      * @param dest Mean to copy to
      * @throws NullPointerException if either source or dest is null

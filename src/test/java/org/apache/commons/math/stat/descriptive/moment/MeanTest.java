@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Mean stat;
-    
+
     /**
      * @param name
      */
@@ -42,7 +42,7 @@ public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
         suite.setName("Mean  Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -58,12 +58,23 @@ public class MeanTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.mean;
     }
-    
+
+    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    public double expectedWeightedValue() {
+        return this.weightedMean;
+    }
+
     public void testSmallSamples() {
         Mean mean = new Mean();
         assertTrue(Double.isNaN(mean.getResult()));
         mean.increment(1d);
         assertEquals(1d, mean.getResult(), 0);
+    }
+
+    public void testWeightedMean() {
+        Mean mean = new Mean();
+        assertEquals(expectedWeightedValue(), mean.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
+        assertEquals(expectedValue(), mean.evaluate(testArray, identicalWeightsArray, 0, testArray.length), getTolerance());
     }
 
 }

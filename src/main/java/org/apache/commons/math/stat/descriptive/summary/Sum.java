@@ -53,17 +53,17 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         n = 0;
         value = Double.NaN;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code Sum} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Sum} instance to copy
      */
     public Sum(Sum original) {
         copy(original, this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -91,7 +91,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     public long getN() {
         return n;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -107,7 +107,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -126,7 +126,45 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         }
         return sum;
     }
-    
+
+    /**
+     * The weighted sum of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     *     <li>the start and length arguments do not determine a valid array</li>
+     * </ul></p>
+     * <p>
+     * Uses the formula, <pre>
+     *    weighted sum = &Sigma;(values[i] * weights[i])
+     * </pre></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the sum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights,
+                           final int begin, final int length) {
+        double sum = Double.NaN;
+        if (test(values, weights, begin, length)) {
+            sum = 0.0;
+            for (int i = begin; i < begin + length; i++) {
+                sum += (values[i] * weights[i]);
+            }
+        }
+        return sum;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -136,11 +174,11 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         copy(this, result);
         return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source Sum to copy
      * @param dest Sum to copy to
      * @throws NullPointerException if either source or dest is null

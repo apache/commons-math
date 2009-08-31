@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Product stat;
-    
+
     /**
      * @param name
      */
@@ -42,7 +42,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         suite.setName("Product Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -58,7 +58,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
     public double getTolerance() {
         return 10E8;    //sic -- big absolute error due to only 15 digits of accuracy in double
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -66,7 +66,12 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.product;
     }
-    
+
+    /**Expected value for  the testArray defined in UnivariateStatisticAbstractTest */
+    public double expectedWeightedValue() {
+        return this.weightedProduct;
+    }
+
     public void testSpecialValues() {
         Product product = new Product();
         assertTrue(Double.isNaN(product.getResult()));
@@ -77,9 +82,15 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         product.increment(Double.NEGATIVE_INFINITY);
         assertEquals(Double.NEGATIVE_INFINITY, product.getResult(), 0);
         product.increment(Double.NaN);
-        assertTrue(Double.isNaN(product.getResult())); 
+        assertTrue(Double.isNaN(product.getResult()));
         product.increment(1);
-        assertTrue(Double.isNaN(product.getResult())); 
+        assertTrue(Double.isNaN(product.getResult()));
+    }
+
+    public void testWeightedProduct() {
+        Product product = new Product();
+        assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
+        assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
 
 }
