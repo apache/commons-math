@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.random.RandomGenerator;
@@ -208,6 +209,8 @@ public class NaturalRanking implements RankingAlgorithm {
             case FIXED:   // Record positions of NaNs
                 nanPositions = getNanPositions(ranks);
                 break;
+            default: // this should not happen unless NaNStrategy enum is changed
+                throw MathRuntimeException.createInternalError(null);
         }
         
         // Sort the IntDoublePairs
@@ -354,6 +357,8 @@ public class NaturalRanking implements RankingAlgorithm {
                     ranks[iterator.next()] = f + i++;
                 }
                 break;
+            default: // this should not happen unless TiesStrategy enum is changed
+                throw MathRuntimeException.createInternalError(null);
         }   
     }
     

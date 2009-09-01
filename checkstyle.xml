@@ -78,6 +78,26 @@
     <!-- Utility class should not be instantiated, they must have a private constructor -->
     <module name="HideUtilityClassConstructor" />
 
+    <!-- Switch statements should be complete and with independent cases -->
+    <module name="FallThrough" />
+    <module name="MissingSwitchDefault" />
+
+    <!--
+    <module name="ConstantName" />
+    <module name="HiddenField">
+        <property name="ignoreConstructorParameter" value="true" />
+        <property name="ignoreSetter" value="true" />
+    </module>
+    <module name="DeclarationOrder" />
+    <module name="IllegalCatch" />
+    <module name="RedundantModifier" />
+    <module name="StringLiteralEquality" />
+    <module name="ModifierOrder" />
+    <module name="MultipleStringLiterals" />
+    <module name="MultipleVariableDeclarations" />
+    <module name="TodoComment" />
+    <module name="UnnecessaryParentheses" />
+    -->
   </module>
   
   <!-- Require package javadoc -->
