@@ -113,8 +113,8 @@ public class GeneticAlgorithmTestBinary {
         }
 
         @Override
-        public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> representation) {
-            return new FindOnes(representation);
+        public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+            return new FindOnes(chromosomeRepresentation);
         }
 
     }

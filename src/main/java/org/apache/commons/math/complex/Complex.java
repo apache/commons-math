@@ -1001,13 +1001,13 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     /**
      * Create a complex number given the real and imaginary parts.
      *
-     * @param real the real part
-     * @param imaginary the imaginary part
+     * @param realPart the real part
+     * @param imaginaryPart the imaginary part
      * @return a new complex number instance
      * @since 1.2
      */
-    protected Complex createComplex(double real, double imaginary) {
-        return new Complex(real, imaginary);
+    protected Complex createComplex(double realPart, double imaginaryPart) {
+        return new Complex(realPart, imaginaryPart);
     }
 
     /**

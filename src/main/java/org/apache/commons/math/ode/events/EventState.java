@@ -138,17 +138,17 @@ public class EventState {
     }
 
     /** Reinitialize the beginning of the step.
-     * @param t0 value of the independent <i>time</i> variable at the
+     * @param tStart value of the independent <i>time</i> variable at the
      * beginning of the step
-     * @param y0 array containing the current value of the state vector
+     * @param yStart array containing the current value of the state vector
      * at the beginning of the step
      * @exception EventException if the event handler
      * value cannot be evaluated at the beginning of the step
      */
-    public void reinitializeBegin(final double t0, final double[] y0)
+    public void reinitializeBegin(final double tStart, final double[] yStart)
         throws EventException {
-        this.t0 = t0;
-        g0 = handler.g(t0, y0);
+        t0 = tStart;
+        g0 = handler.g(tStart, yStart);
         g0Positive = (g0 >= 0);
     }
 

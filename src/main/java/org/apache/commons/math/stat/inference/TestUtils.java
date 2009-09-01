@@ -53,11 +53,11 @@ public class TestUtils  {
     /**
      * Set the (singleton) TTest instance.
      * 
-     * @param tTest the new instance to use
+     * @param chiSquareTest the new instance to use
      * @since 1.2
      */
-    public static void setChiSquareTest(TTest tTest) {
-        TestUtils.tTest = tTest;
+    public static void setChiSquareTest(TTest chiSquareTest) {
+        TestUtils.tTest = chiSquareTest;
     }
     
     /**

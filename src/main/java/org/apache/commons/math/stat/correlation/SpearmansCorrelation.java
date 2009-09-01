@@ -124,11 +124,11 @@ public class SpearmansCorrelation {
      * input rectangular array.  The columns of the array represent values
      * of variables to be correlated.
      * 
-     * @param data matrix with columns representing variables to correlate
+     * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
-    public RealMatrix computeCorrelationMatrix(double[][] data) {
-       return computeCorrelationMatrix(new BlockRealMatrix(data));
+    public RealMatrix computeCorrelationMatrix(double[][] matrix) {
+       return computeCorrelationMatrix(new BlockRealMatrix(matrix));
     }
     
     /**

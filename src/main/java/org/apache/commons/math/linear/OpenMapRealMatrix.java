@@ -33,10 +33,10 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
     private static final long serialVersionUID = -5962461716457143437L;
 
     /** Number of rows of the matrix. */
-    private final int rowDimension;
+    private final int rows;
 
     /** Number of columns of the matrix. */
-    private final int columnDimension;
+    private final int columns;
 
     /** Storage for (sparse) matrix elements. */
     private final OpenIntToDoubleHashMap entries;
@@ -48,8 +48,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
      */
     public OpenMapRealMatrix(int rowDimension, int columnDimension) {
         super(rowDimension, columnDimension);
-        this.rowDimension = rowDimension;
-        this.columnDimension = columnDimension;
+        this.rows    = rowDimension;
+        this.columns = columnDimension;
         this.entries = new OpenIntToDoubleHashMap(0.0);
     }
   
@@ -58,8 +58,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
      * @param matrix matrix to copy
      */
     public OpenMapRealMatrix(OpenMapRealMatrix matrix) {
-        this.rowDimension = matrix.rowDimension;
-        this.columnDimension = matrix.columnDimension;
+        this.rows    = matrix.rows;
+        this.columns = matrix.columns;
         this.entries = new OpenIntToDoubleHashMap(matrix.entries);
     }
   
@@ -79,7 +79,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
     /** {@inheritDoc} */
     @Override
     public int getColumnDimension() {
-        return columnDimension;
+        return columns;
     }
 
     /** {@inheritDoc} */
@@ -108,8 +108,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         final OpenMapRealMatrix out = new OpenMapRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
             iterator.advance();
-            final int row = iterator.key() / columnDimension;
-            final int col = iterator.key() - row * columnDimension;
+            final int row = iterator.key() / columns;
+            final int col = iterator.key() - row * columns;
             out.setEntry(row, col, getEntry(row, col) + iterator.value());
         }
 
@@ -143,8 +143,8 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         final OpenMapRealMatrix out = new OpenMapRealMatrix(this);
         for (OpenIntToDoubleHashMap.Iterator iterator = m.entries.iterator(); iterator.hasNext();) {
             iterator.advance();
-            final int row = iterator.key() / columnDimension;
-            final int col = iterator.key() - row * columnDimension;
+            final int row = iterator.key() / columns;
+            final int col = iterator.key() - row * columns;
             out.setEntry(row, col, getEntry(row, col) - iterator.value());
         }
 
@@ -164,13 +164,13 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
             MatrixUtils.checkMultiplicationCompatible(this, m);
 
             final int outCols = m.getColumnDimension();
-            final BlockRealMatrix out = new BlockRealMatrix(rowDimension, outCols);
+            final BlockRealMatrix out = new BlockRealMatrix(rows, outCols);
             for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
                 iterator.advance();
                 final double value = iterator.value();
                 final int key      = iterator.key();
-                final int i        = key / columnDimension;
-                final int k        = key % columnDimension;
+                final int i        = key / columns;
+                final int k        = key % columns;
                 for (int j = 0; j < outCols; ++j) {
                     out.addToEntry(i, j, value * m.getEntry(k, j));
                 }
@@ -195,13 +195,13 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int outCols = m.getColumnDimension();
-        OpenMapRealMatrix out = new OpenMapRealMatrix(rowDimension, outCols);
+        OpenMapRealMatrix out = new OpenMapRealMatrix(rows, outCols);
         for (OpenIntToDoubleHashMap.Iterator iterator = entries.iterator(); iterator.hasNext();) {
             iterator.advance();
             final double value = iterator.value();
             final int key      = iterator.key();
-            final int i        = key / columnDimension;
-            final int k        = key % columnDimension;
+            final int i        = key / columns;
+            final int k        = key % columns;
             for (int j = 0; j < outCols; ++j) {
                 final int rightKey = m.computeKey(k, j);
                 if (m.entries.containsKey(rightKey)) {
@@ -232,7 +232,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
     /** {@inheritDoc} */
     @Override
     public int getRowDimension() {
-        return rowDimension;
+        return rows;
     }
 
     /** {@inheritDoc} */
@@ -285,7 +285,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
      * @return key within the map to access the matrix element
      */
     private int computeKey(int row, int column) {
-        return row * columnDimension + column;
+        return row * columns + column;
     }
 
 

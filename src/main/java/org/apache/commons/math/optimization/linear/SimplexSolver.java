@@ -184,7 +184,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     public RealPointValuePair doOptimize()
         throws OptimizationException {
         final SimplexTableau tableau =
-            new SimplexTableau(f, constraints, goalType, restrictToNonNegative, epsilon);
+            new SimplexTableau(function, linearConstraints, goal, nonNegative, epsilon);
         solvePhase1(tableau);
         tableau.discardArtificialVariables();
         while (!isOptimal(tableau)) {

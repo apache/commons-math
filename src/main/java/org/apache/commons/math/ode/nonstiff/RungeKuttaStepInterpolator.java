@@ -108,18 +108,18 @@ abstract class RungeKuttaStepInterpolator
    * {@link AbstractStepInterpolator#getInterpolatedState
    * getInterpolatedState} method (for an interpolator which needs a
    * finalization) or if it clones the step interpolator.</p>
-   * @param integrator integrator being used
+   * @param rkIntegrator integrator being used
    * @param y reference to the integrator array holding the state at
    * the end of the step
-   * @param yDotK reference to the integrator array holding all the
+   * @param yDotArray reference to the integrator array holding all the
    * intermediate slopes
    * @param forward integration direction indicator
    */
-  public void reinitialize(final AbstractIntegrator integrator,
-                           final double[] y, final double[][] yDotK, final boolean forward) {
+  public void reinitialize(final AbstractIntegrator rkIntegrator,
+                           final double[] y, final double[][] yDotArray, final boolean forward) {
     reinitialize(y, forward);
-    this.yDotK = yDotK;
-    this.integrator = integrator;
+    this.yDotK = yDotArray;
+    this.integrator = rkIntegrator;
   }
 
   /** {@inheritDoc} */

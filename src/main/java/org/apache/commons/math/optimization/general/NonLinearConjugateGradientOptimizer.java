@@ -83,12 +83,12 @@ public class NonLinearConjugateGradientOptimizer
 
     /**
      * Set the solver to use during line search.
-     * @param solver solver to use during line search, may be null
+     * @param lineSearchSolver solver to use during line search, may be null
      * to remove an already registered solver and fall back to the
      * default {@link BrentSolver Brent solver}.
      */
-    public void setLineSearchSolver(final UnivariateRealSolver solver) {
-        this.solver = solver;
+    public void setLineSearchSolver(final UnivariateRealSolver lineSearchSolver) {
+        this.solver = lineSearchSolver;
     }
 
     /**
@@ -124,7 +124,7 @@ public class NonLinearConjugateGradientOptimizer
             }
             final int n = point.length;
             double[] r = computeObjectiveGradient(point);
-            if (goalType == GoalType.MINIMIZE) {
+            if (goal == GoalType.MINIMIZE) {
                 for (int i = 0; i < n; ++i) {
                     r[i] = -r[i];
                 }
@@ -168,7 +168,7 @@ public class NonLinearConjugateGradientOptimizer
                     point[i] += step * searchDirection[i];
                 }
                 r = computeObjectiveGradient(point);
-                if (goalType == GoalType.MINIMIZE) {
+                if (goal == GoalType.MINIMIZE) {
                     for (int i = 0; i < n; ++i) {
                         r[i] = -r[i];
                     }

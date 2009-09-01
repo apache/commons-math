@@ -183,8 +183,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                     "upper bound ({0}) must be greater than lower bound ({1})",
                     upper, lower);
         }
-        RandomGenerator rand = getRan();
-        double r = rand.nextDouble();
+        double r = getRan().nextDouble();
         return (int) ((r * upper) + ((1.0 - r) * lower) + r);
     }
 
@@ -204,8 +203,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                   "upper bound ({0}) must be greater than lower bound ({1})",
                   upper, lower);
         }
-        RandomGenerator rand = getRan();
-        double r = rand.nextDouble();
+        double r = getRan().nextDouble();
         return (long) ((r * upper) + ((1.0 - r) * lower) + r);
     }
 
@@ -356,7 +354,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                   "the Poisson mean must be positive ({0})", mean);
         }
 
-        RandomGenerator rand = getRan();
+        final RandomGenerator generator = getRan();
 
         double pivot = 6.0;
         if (mean < pivot) {
@@ -366,7 +364,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             double rnd = 1.0d;
 
             while (n < 1000 * mean) {
-                rnd = rand.nextDouble();
+                rnd = generator.nextDouble();
                 r = r * rnd;
                 if (r >= p) {
                     n++;
@@ -458,8 +456,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw MathRuntimeException.createIllegalArgumentException(
                   "standard deviation must be positive ({0})", sigma);
         }
-        RandomGenerator rand = getRan();
-        return sigma * rand.nextGaussian() + mu;
+        return sigma * getRan().nextGaussian() + mu;
     }
 
     /**
@@ -481,10 +478,10 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw MathRuntimeException.createIllegalArgumentException(
                   "mean must be positive ({0})", mean);
         }
-        RandomGenerator rand = getRan();
-        double unif = rand.nextDouble();
+        final RandomGenerator generator = getRan();
+        double unif = generator.nextDouble();
         while (unif == 0.0d) {
-            unif = rand.nextDouble();
+            unif = generator.nextDouble();
         }
         return -mean * Math.log(unif);
     }
@@ -511,12 +508,12 @@ public class RandomDataImpl implements RandomData, Serializable {
                   "upper bound ({0}) must be greater than lower bound ({1})",
                   upper, lower);
         }
-        RandomGenerator rand = getRan();
+        final RandomGenerator generator = getRan();
 
         // ensure nextDouble() isn't 0.0
-        double u = rand.nextDouble();
+        double u = generator.nextDouble();
         while (u <= 0.0) {
-            u = rand.nextDouble();
+            u = generator.nextDouble();
         }
 
         return lower + u * (upper - lower);

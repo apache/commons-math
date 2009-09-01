@@ -32,8 +32,8 @@ public class DummyRandomKey extends RandomKey<String> {
     }
 
     @Override
-    public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> representation) {
-        return new DummyRandomKey(representation);
+    public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
+        return new DummyRandomKey(chromosomeRepresentation);
     }
 
     public double fitness() {

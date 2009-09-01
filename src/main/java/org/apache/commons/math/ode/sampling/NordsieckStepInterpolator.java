@@ -114,19 +114,20 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     /** Reinitialize the instance.
      * <p>Beware that all arrays <em>must</em> be references to integrator
      * arrays, in order to ensure proper update without copy.</p>
-     * @param referenceTime time at which all arrays are defined
-     * @param scalingH step size used in the scaled and nordsieck arrays
-     * @param scaled reference to the integrator array holding the first
+     * @param time time at which all arrays are defined
+     * @param stepSize step size used in the scaled and nordsieck arrays
+     * @param scaledDerivative reference to the integrator array holding the first
      * scaled derivative
-     * @param nordsieck reference to the integrator matrix holding the
+     * @param nordsieckVector reference to the integrator matrix holding the
      * nordsieck vector
      */
-    public void reinitialize(final double referenceTime, final double scalingH,
-                             final double[] scaled, final Array2DRowRealMatrix nordsieck) {
-        this.referenceTime = referenceTime;
-        this.scalingH      = scalingH;
-        this.scaled        = scaled;
-        this.nordsieck     = nordsieck;
+    public void reinitialize(final double time, final double stepSize,
+                             final double[] scaledDerivative,
+                             final Array2DRowRealMatrix nordsieckVector) {
+        this.referenceTime = time;
+        this.scalingH      = stepSize;
+        this.scaled        = scaledDerivative;
+        this.nordsieck     = nordsieckVector;
 
         // make sure the state and derivatives will depend on the new arrays
         setInterpolatedTime(getInterpolatedTime());
@@ -136,11 +137,11 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     /** Rescale the instance.
      * <p>Since the scaled and Nordiseck arrays are shared with the caller,
      * this method has the side effect of rescaling this arrays in the caller too.</p>
-     * @param scalingH new step size to use in the scaled and nordsieck arrays
+     * @param stepSize new step size to use in the scaled and nordsieck arrays
      */
-    public void rescale(final double scalingH) {
+    public void rescale(final double stepSize) {
 
-        final double ratio = scalingH / this.scalingH;
+        final double ratio = stepSize / scalingH;
         for (int i = 0; i < scaled.length; ++i) {
             scaled[i] *= ratio;
         }
@@ -155,7 +156,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
             }
         }
 
-        this.scalingH = scalingH;
+        scalingH = stepSize;
 
     }
 

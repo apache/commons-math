@@ -246,8 +246,8 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(RealConvergenceChecker checker) {
-        this.checker = checker;
+    public void setConvergenceChecker(RealConvergenceChecker convergenceChecker) {
+        this.checker = convergenceChecker;
     }
 
     /** {@inheritDoc} */
@@ -256,9 +256,9 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(final MultivariateRealFunction f,
-                                         final GoalType goalType,
-                                         final double[] startPoint)
+    public RealPointValuePair optimize(final MultivariateRealFunction function,
+                                       final GoalType goalType,
+                                       final double[] startPoint)
         throws FunctionEvaluationException, OptimizationException,
         IllegalArgumentException {
 
@@ -270,7 +270,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
             setStartConfiguration(unit);
         }
 
-        this.f = f;
+        this.f = function;
         final Comparator<RealPointValuePair> comparator =
             new Comparator<RealPointValuePair>() {
                 public int compare(final RealPointValuePair o1,

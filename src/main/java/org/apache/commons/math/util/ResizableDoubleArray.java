@@ -337,35 +337,33 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * IllegalArgumentException if the contractionCriteria is less than the 
      * expansionCriteria
      * 
-     * @param expansionFactor factor to be checked
-     * @param contractionCriteria criteria to be checked
+     * @param expansion factor to be checked
+     * @param contraction criteria to be checked
      * @throws IllegalArgumentException if the contractionCriteria is less than
      *         the expansionCriteria.
      */
-    protected void checkContractExpand(
-        float contractionCriteria,
-        float expansionFactor) {
+    protected void checkContractExpand(float contraction, float expansion) {
 
-        if (contractionCriteria < expansionFactor) {
+        if (contraction < expansion) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "contraction criteria ({0}) smaller than the expansion factor ({1}).  This would " +
                     "lead to a never ending loop of expansion and contraction as a newly expanded " +
                     "internal storage array would immediately satisfy the criteria for contraction",
-                    contractionCriteria, expansionFactor);
+                    contraction, expansion);
         }
 
-        if (contractionCriteria <= 1.0) {
+        if (contraction <= 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "contraction criteria smaller than one ({0}).  This would lead to a never ending " +
                     "loop of expansion and contraction as an internal storage array length equal " +
                     "to the number of elements would satisfy the contraction criteria.",
-                    contractionCriteria);
+                    contraction);
         }
 
-        if (expansionFactor <= 1.0) {
+        if (expansion <= 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "expansion factor smaller than one ({0})",
-                    expansionFactor);
+                    expansion);
         }
     }
     

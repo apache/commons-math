@@ -134,11 +134,11 @@ public abstract class UnivariateRealSolverImpl
     /**
      * Convenience function for implementations.
      * 
-     * @param result the result to set
+     * @param newResult the result to set
      * @param iterationCount the iteration count to set
      */
-    protected final void setResult(final double result, final int iterationCount) {
-        this.result         = result;
+    protected final void setResult(final double newResult, final int iterationCount) {
+        this.result         = newResult;
         this.iterationCount = iterationCount;
         this.resultComputed = true;
     }
@@ -171,16 +171,16 @@ public abstract class UnivariateRealSolverImpl
      * 
      * @param lower  the lower endpoint 
      * @param upper  the upper endpoint
-     * @param f the function
+     * @param function the function
      * @return true if f(lower) * f(upper) < 0
      * @throws FunctionEvaluationException if an error occurs evaluating the 
      * function at the endpoints
      */
     protected boolean isBracketing(final double lower, final double upper, 
-                                   final UnivariateRealFunction f)
+                                   final UnivariateRealFunction function)
         throws FunctionEvaluationException {
-        final double f1 = f.value(lower);
-        final double f2 = f.value(upper);
+        final double f1 = function.value(lower);
+        final double f2 = function.value(upper);
         return ((f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0));
     }
     
@@ -235,21 +235,21 @@ public abstract class UnivariateRealSolverImpl
      * 
      * @param lower  lower endpoint
      * @param upper upper endpoint
-     * @param f function
+     * @param function function
      * @throws IllegalArgumentException
      * @throws FunctionEvaluationException if an error occurs evaluating the 
      * function at the endpoints
      */
     protected void verifyBracketing(final double lower, final double upper, 
-                                    final UnivariateRealFunction f)
+                                    final UnivariateRealFunction function)
         throws FunctionEvaluationException {
         
         verifyInterval(lower, upper);
-        if (!isBracketing(lower, upper, f)) {
+        if (!isBracketing(lower, upper, function)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "function values at endpoints do not have different signs.  " +
                     "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                    lower, upper, f.value(lower), f.value(upper));       
+                    lower, upper, function.value(lower), function.value(upper));       
         }
     }
 }

@@ -172,8 +172,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * {@inheritDoc}
      */
     @Override    
-    protected void checkValidity(java.util.List<Double> representation) throws InvalidRepresentationException {
-        for (double val : representation) {
+    protected void checkValidity(java.util.List<Double> chromosomeRepresentation) throws InvalidRepresentationException {
+        for (double val : chromosomeRepresentation) {
             if (val < 0 || val > 1) {
                 throw new InvalidRepresentationException("Values of representation must be in [0,1] interval");
             }

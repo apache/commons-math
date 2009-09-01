@@ -183,10 +183,10 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * <p>The various step and event handlers for this starter integrator
      * will be managed automatically by the multi-step integrator. Any
      * user configuration for these elements will be cleared before use.</p>
-     * @param starter starter integrator
+     * @param starterIntegrator starter integrator
      */
-    public void setStarterIntegrator(FirstOrderIntegrator starter) {
-        this.starter = starter;
+    public void setStarterIntegrator(FirstOrderIntegrator starterIntegrator) {
+        this.starter = starterIntegrator;
     }
 
     /** Start the integration.

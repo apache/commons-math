@@ -79,16 +79,16 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     protected int rows;
 
     /** Objective function. */
-    private DifferentiableMultivariateVectorialFunction f;
+    private DifferentiableMultivariateVectorialFunction function;
 
     /** Objective function derivatives. */
     private MultivariateMatrixFunction jF;
 
     /** Target value for the objective functions at optimum. */
-    protected double[] target;
+    protected double[] targetValues;
 
     /** Weight for the least squares cost computation. */
-    protected double[] weights;
+    protected double[] residualsWeights;
 
     /** Current point. */
     protected double[] point;
@@ -148,8 +148,8 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(VectorialConvergenceChecker checker) {
-        this.checker = checker;
+    public void setConvergenceChecker(VectorialConvergenceChecker convergenceChecker) {
+        this.checker = convergenceChecker;
     }
 
     /** {@inheritDoc} */
@@ -182,7 +182,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = jacobian[i];
-            final double factor = -Math.sqrt(weights[i]);
+            final double factor = -Math.sqrt(residualsWeights[i]);
             for (int j = 0; j < cols; ++j) {
                 ji[j] *= factor;
             }
@@ -202,16 +202,16 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
             throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
                                                   point);
         }
-        objective = f.value(point);
+        objective = function.value(point);
         if (objective.length != rows) {
             throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
                                                   objective.length, rows);
         }
         cost = 0;
         for (int i = 0, index = 0; i < rows; i++, index += cols) {
-            final double residual = target[i] - objective[i];
+            final double residual = targetValues[i] - objective[i];
             residuals[i] = residual;
-            cost += weights[i] * residual * residual;
+            cost += residualsWeights[i] * residual * residual;
         }
         cost = Math.sqrt(cost);
 
@@ -231,7 +231,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         double criterion = 0;
         for (int i = 0; i < rows; ++i) {
             final double residual = residuals[i];
-            criterion += weights[i] * residual * residual;
+            criterion += residualsWeights[i] * residual * residual;
         }
         return Math.sqrt(criterion / rows);
     }
@@ -244,7 +244,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         double chiSquare = 0;
         for (int i = 0; i < rows; ++i) {
             final double residual = residuals[i];
-            chiSquare += residual * residual / weights[i];
+            chiSquare += residual * residual / residualsWeights[i];
         }
         return chiSquare;
     }
@@ -329,12 +329,12 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         jacobianEvaluations  = 0;
 
         // store least squares problem characteristics
-        this.f         = f;
-        jF             = f.jacobian();
-        this.target    = target.clone();
-        this.weights   = weights.clone();
-        this.point     = startPoint.clone();
-        this.residuals = new double[target.length];
+        function         = f;
+        jF               = f.jacobian();
+        targetValues     = target.clone();
+        residualsWeights = weights.clone();
+        this.point       = startPoint.clone();
+        this.residuals   = new double[target.length];
 
         // arrays shared with the other private methods
         rows      = target.length;

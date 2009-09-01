@@ -32,8 +32,8 @@ public class DummyBinaryChromosome extends BinaryChromosome {
     }
 
     @Override
-    public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> representation) {
-        return new DummyBinaryChromosome(representation);
+    public AbstractListChromosome<Integer> newFixedLengthChromosome(List<Integer> chromosomeRepresentation) {
+        return new DummyBinaryChromosome(chromosomeRepresentation);
     }
 
     public double fitness() {

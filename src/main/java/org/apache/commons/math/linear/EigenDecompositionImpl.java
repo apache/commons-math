@@ -851,27 +851,27 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             sigmaLow = 0;
 
             // find start of a new split segment to process
-            double eMin = (i0 == n0) ? 0 : work[4 * n0 - 6];
-            double eMax = 0;
-            double qMax = work[4 * n0 - 4];
-            double qMin = qMax;
+            double offDiagMin = (i0 == n0) ? 0 : work[4 * n0 - 6];
+            double offDiagMax = 0;
+            double diagMax    = work[4 * n0 - 4];
+            double diagMin    = diagMax;
             i0 = 0;
             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
                 if (work[i + 2] <= 0) {
                     i0 = 1 + i / 4;
                     break;
                 }
-                if (qMin >= 4 * eMax) {
-                    qMin = Math.min(qMin, work[i + 4]);
-                    eMax = Math.max(eMax, work[i + 2]);
+                if (diagMin >= 4 * offDiagMax) {
+                    diagMin    = Math.min(diagMin, work[i + 4]);
+                    offDiagMax = Math.max(offDiagMax, work[i + 2]);
                 }
-                qMax = Math.max(qMax, work[i] + work[i + 2]);
-                eMin = Math.min(eMin, work[i + 2]);
+                diagMax    = Math.max(diagMax, work[i] + work[i + 2]);
+                offDiagMin = Math.min(offDiagMin, work[i + 2]);
             }
-            work[4 * n0 - 2] = eMin;
+            work[4 * n0 - 2] = offDiagMin;
 
             // lower bound of Gershgorin disk
-            dMin = -Math.max(0, qMin - 2 * Math.sqrt(qMin * eMax));
+            dMin = -Math.max(0, diagMin - 2 * Math.sqrt(diagMin * offDiagMax));
 
             pingPong = 0;
             int maxIter = 30 * (n0 - i0);
@@ -887,11 +887,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 // check for new splits after "ping" steps
                 // when the last elements of qd array are very small
                 if ((pingPong == 0) && (n0 - i0 > 3) &&
-                    (work[4 * n0 - 1] <= TOLERANCE_2 * qMax) &&
+                    (work[4 * n0 - 1] <= TOLERANCE_2 * diagMax) &&
                     (work[4 * n0 - 2] <= TOLERANCE_2 * sigma)) {
-                    int split = i0 - 1;
-                    qMax = work[4 * i0];
-                    eMin = work[4 * i0 + 2];
+                    int split  = i0 - 1;
+                    diagMax    = work[4 * i0];
+                    offDiagMin = work[4 * i0 + 2];
                     double previousEMin = work[4 * i0 + 3];
                     for (int i = 4 * i0; i < 4 * n0 - 11; i += 4) {
                         if ((work[i + 3] <= TOLERANCE_2 * work[i]) &&
@@ -899,16 +899,16 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                             // insert a split
                             work[i + 2]  = -sigma;
                             split        = i / 4;
-                            qMax         = 0;
-                            eMin         = work[i + 6];
+                            diagMax      = 0;
+                            offDiagMin   = work[i + 6];
                             previousEMin = work[i + 7];
                         } else {
-                            qMax         = Math.max(qMax, work[i + 4]);
-                            eMin         = Math.min(eMin, work[i + 2]);
+                            diagMax      = Math.max(diagMax, work[i + 4]);
+                            offDiagMin   = Math.min(offDiagMin, work[i + 2]);
                             previousEMin = Math.min(previousEMin, work[i + 3]);
                         }
                     }
-                    work[4 * n0 - 2] = eMin;
+                    work[4 * n0 - 2] = offDiagMin;
                     work[4 * n0 - 1] = previousEMin;
                     i0 = split + 1;
                 }
@@ -1662,20 +1662,20 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Update sigma.
-     * @param tau shift to apply to sigma
+     * @param shift shift to apply to sigma
      */
-    private void updateSigma(final double tau) {
+    private void updateSigma(final double shift) {
         // BEWARE: do NOT attempt to simplify the following statements
         // the expressions below take care to accumulate the part of sigma
         // that does not fit within a double variable into sigmaLow
-        if (tau < sigma) {
-            sigmaLow += tau;
+        if (shift < sigma) {
+            sigmaLow += shift;
             final double t = sigma + sigmaLow;
             sigmaLow -= t - sigma;
             sigma = t;
         } else {
-            final double t = sigma + tau;
-            sigmaLow += sigma - (t - tau);
+            final double t = sigma + shift;
+            sigmaLow += sigma - (t - shift);
             sigma = t;
         }
     }
@@ -1731,8 +1731,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         int r = m - 1;
         double minG = Math.abs(work[6 * r] + work[6 * r + 3] + eigenvalue);
         for (int i = 0, sixI = 0; i < m - 1; ++i, sixI += 6) {
-            final double g = work[sixI] + d[i] * work[sixI + 9] / work[sixI + 10];
-            final double absG = Math.abs(g);
+            final double absG = Math.abs(work[sixI] + d[i] * work[sixI + 9] / work[sixI + 10]);
             if (absG < minG) {
                 r = i;
                 minG = absG;

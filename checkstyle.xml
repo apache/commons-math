@@ -85,11 +85,13 @@
     <!-- Constant names should obey the traditional all uppercase naming convention -->
     <module name="ConstantName" />
 
-    <!--
+    <!-- Method parameters and local variables should not hide fields, except in constructors and setters -->
     <module name="HiddenField">
         <property name="ignoreConstructorParameter" value="true" />
         <property name="ignoreSetter" value="true" />
     </module>
+
+    <!--
     <module name="DeclarationOrder" />
     <module name="IllegalCatch" />
     <module name="RedundantModifier" />

@@ -173,14 +173,14 @@ public abstract class AbstractEstimator implements Estimator {
         updateJacobian();
 
         // compute transpose(J).J, avoiding building big intermediate matrices
-        final int rows = problem.getMeasurements().length;
-        final int cols = problem.getUnboundParameters().length;
-        final int max  = cols * rows;
-        double[][] jTj = new double[cols][cols];
-        for (int i = 0; i < cols; ++i) {
-            for (int j = i; j < cols; ++j) {
+        final int n = problem.getMeasurements().length;
+        final int m = problem.getUnboundParameters().length;
+        final int max  = m * n;
+        double[][] jTj = new double[m][m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = i; j < m; ++j) {
                 double sum = 0;
-                for (int k = 0; k < max; k += cols) {
+                for (int k = 0; k < max; k += m) {
                     sum += jacobian[k + i] * jacobian[k + j];
                 }
                 jTj[i][j] = sum;

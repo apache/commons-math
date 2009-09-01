@@ -35,10 +35,10 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     private static final long serialVersionUID = 8589540077390120676L;
     
     /** The shape parameter. */
-    private double alpha;
+    private double shape;
     
     /** The scale parameter. */
-    private double beta;
+    private double scale;
     
     /**
      * Creates weibull distribution with the given shape and scale and a
@@ -72,7 +72,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      * @return the shape parameter.
      */
     public double getShape() {
-        return alpha;
+        return shape;
     }
     
     /**
@@ -80,7 +80,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      * @return the scale parameter.
      */
     public double getScale() {
-        return beta;
+        return scale;
     }
     
     /**
@@ -121,7 +121,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
                   "shape must be positive ({0})",
                   alpha);
         }       
-        this.alpha = alpha;
+        this.shape = alpha;
     }
     
     /**
@@ -134,7 +134,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
                   "scale must be positive ({0})",
                   beta);
         }       
-        this.beta = beta;
+        this.scale = beta;
     }
 
     /**

@@ -48,8 +48,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      * {@inheritDoc}
      */
     @Override
-    protected void checkValidity(List<Integer> representation) throws InvalidRepresentationException {
-        for (int i : representation) {
+    protected void checkValidity(List<Integer> chromosomeRepresentation) throws InvalidRepresentationException {
+        for (int i : chromosomeRepresentation) {
             if (i < 0 || i >1)
                 throw new InvalidRepresentationException("Elements can be only 0 or 1.");
         }

@@ -124,8 +124,8 @@ public class GeneticAlgorithmTestPermutations {
         }
 
         @Override
-        public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> representation) {
-            return new MinPermutations(representation);
+        public AbstractListChromosome<Double> newFixedLengthChromosome(List<Double> chromosomeRepresentation) {
+            return new MinPermutations(chromosomeRepresentation);
         }
     }
 }

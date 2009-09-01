@@ -115,11 +115,11 @@ public abstract class UnivariateRealIntegratorImpl
     /**
      * Convenience function for implementations.
      * 
-     * @param result the result to set
+     * @param newResult the result to set
      * @param iterationCount the iteration count to set
      */
-    protected final void setResult(double result, int iterationCount) {
-        this.result = result;
+    protected final void setResult(double newResult, int iterationCount) {
+        this.result         = newResult;
         this.iterationCount = iterationCount;
         this.resultComputed = true;
     }

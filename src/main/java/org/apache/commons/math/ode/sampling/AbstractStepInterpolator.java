@@ -164,9 +164,9 @@ public abstract class AbstractStepInterpolator
   /** Reinitialize the instance
    * @param y reference to the integrator array holding the state at
    * the end of the step
-   * @param forward integration direction indicator
+   * @param isForward integration direction indicator
    */
-  protected void reinitialize(final double[] y, final boolean forward) {
+  protected void reinitialize(final double[] y, final boolean isForward) {
 
     previousTime      = Double.NaN;
     currentTime       = Double.NaN;
@@ -178,7 +178,7 @@ public abstract class AbstractStepInterpolator
     interpolatedDerivatives = new double[y.length];
 
     finalized         = false;
-    this.forward      = forward;
+    this.forward      = isForward;
     this.dirtyState   = true;
 
   }

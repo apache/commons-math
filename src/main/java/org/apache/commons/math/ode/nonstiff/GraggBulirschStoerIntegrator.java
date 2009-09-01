@@ -150,29 +150,29 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * <p>By default, the test is performed, at most during two
    * iterations at each step, and at most once for each of these
    * iterations. The default stepsize reduction factor is 0.5.</p>
-   * @param performTest if true, stability check will be performed,
+   * @param performStabilityCheck if true, stability check will be performed,
      if false, the check will be skipped
-   * @param maxIter maximal number of iterations for which checks are
+   * @param maxNumIter maximal number of iterations for which checks are
    * performed (the number of iterations is reset to default if negative
    * or null)
-   * @param maxChecks maximal number of checks for each iteration
+   * @param maxNumChecks maximal number of checks for each iteration
    * (the number of checks is reset to default if negative or null)
-   * @param stabilityReduction stepsize reduction factor in case of
+   * @param stepsizeReductionFactor stepsize reduction factor in case of
    * failure (the factor is reset to default if lower than 0.0001 or
    * greater than 0.9999)
    */
-  public void setStabilityCheck(final boolean performTest,
-                                final int maxIter, final int maxChecks,
-                                final double stabilityReduction) {
+  public void setStabilityCheck(final boolean performStabilityCheck,
+                                final int maxNumIter, final int maxNumChecks,
+                                final double stepsizeReductionFactor) {
 
-    this.performTest = performTest;
-    this.maxIter     = (maxIter   <= 0) ? 2 : maxIter;
-    this.maxChecks   = (maxChecks <= 0) ? 1 : maxChecks;
+    this.performTest = performStabilityCheck;
+    this.maxIter     = (maxNumIter   <= 0) ? 2 : maxNumIter;
+    this.maxChecks   = (maxNumChecks <= 0) ? 1 : maxNumChecks;
 
-    if ((stabilityReduction < 0.0001) || (stabilityReduction > 0.9999)) {
+    if ((stepsizeReductionFactor < 0.0001) || (stepsizeReductionFactor > 0.9999)) {
       this.stabilityReduction = 0.5;
     } else {
-      this.stabilityReduction = stabilityReduction;
+      this.stabilityReduction = stepsizeReductionFactor;
     }
 
   }
@@ -192,40 +192,40 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * </pre>
    * The default values are 0.02 for stepControl3 and 4.0 for
    * stepControl4.</p>
-   * @param stepControl1 first stepsize control factor (the factor is
+   * @param control1 first stepsize control factor (the factor is
    * reset to default if lower than 0.0001 or greater than 0.9999)
-   * @param stepControl2 second stepsize control factor (the factor
+   * @param control2 second stepsize control factor (the factor
    * is reset to default if lower than 0.0001 or greater than 0.9999)
-   * @param stepControl3 third stepsize control factor (the factor is
+   * @param control3 third stepsize control factor (the factor is
    * reset to default if lower than 0.0001 or greater than 0.9999)
-   * @param stepControl4 fourth stepsize control factor (the factor
+   * @param control4 fourth stepsize control factor (the factor
    * is reset to default if lower than 1.0001 or greater than 999.9)
    */
-  public void setStepsizeControl(final double stepControl1, final double stepControl2,
-                                 final double stepControl3, final double stepControl4) {
+  public void setStepsizeControl(final double control1, final double control2,
+                                 final double control3, final double control4) {
 
-    if ((stepControl1 < 0.0001) || (stepControl1 > 0.9999)) {
+    if ((control1 < 0.0001) || (control1 > 0.9999)) {
       this.stepControl1 = 0.65;
     } else {
-      this.stepControl1 = stepControl1;
+      this.stepControl1 = control1;
     }
 
-    if ((stepControl2 < 0.0001) || (stepControl2 > 0.9999)) {
+    if ((control2 < 0.0001) || (control2 > 0.9999)) {
       this.stepControl2 = 0.94;
     } else {
-      this.stepControl2 = stepControl2;
+      this.stepControl2 = control2;
     }
 
-    if ((stepControl3 < 0.0001) || (stepControl3 > 0.9999)) {
+    if ((control3 < 0.0001) || (control3 > 0.9999)) {
       this.stepControl3 = 0.02;
     } else {
-      this.stepControl3 = stepControl3;
+      this.stepControl3 = control3;
     }
 
-    if ((stepControl4 < 1.0001) || (stepControl4 > 999.9)) {
+    if ((control4 < 1.0001) || (control4 > 999.9)) {
       this.stepControl4 = 4.0;
     } else {
-      this.stepControl4 = stepControl4;
+      this.stepControl4 = control4;
     }
 
   }
@@ -246,30 +246,30 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * <p>The default maximal order after construction is 18 (i.e. the
    * maximal number of columns is 9). The default values are 0.8 for
    * orderControl1 and 0.9 for orderControl2.</p>
-   * @param maxOrder maximal order in the extrapolation table (the
+   * @param maximalOrder maximal order in the extrapolation table (the
    * maximal order is reset to default if order <= 6 or odd)
-   * @param orderControl1 first order control factor (the factor is
+   * @param control1 first order control factor (the factor is
    * reset to default if lower than 0.0001 or greater than 0.9999)
-   * @param orderControl2 second order control factor (the factor
+   * @param control2 second order control factor (the factor
    * is reset to default if lower than 0.0001 or greater than 0.9999)
    */
-  public void setOrderControl(final int maxOrder,
-                              final double orderControl1, final double orderControl2) {
+  public void setOrderControl(final int maximalOrder,
+                              final double control1, final double control2) {
 
-    if ((maxOrder <= 6) || (maxOrder % 2 != 0)) {
+    if ((maximalOrder <= 6) || (maximalOrder % 2 != 0)) {
       this.maxOrder = 18;
     }
 
-    if ((orderControl1 < 0.0001) || (orderControl1 > 0.9999)) {
+    if ((control1 < 0.0001) || (control1 > 0.9999)) {
       this.orderControl1 = 0.8;
     } else {
-      this.orderControl1 = orderControl1;
+      this.orderControl1 = control1;
     }
 
-    if ((orderControl2 < 0.0001) || (orderControl2 > 0.9999)) {
+    if ((control2 < 0.0001) || (control2 > 0.9999)) {
       this.orderControl2 = 0.9;
     } else {
-      this.orderControl2 = orderControl2;
+      this.orderControl2 = control2;
     }
 
     // reinitialize the arrays
@@ -352,20 +352,20 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * default value for mudif is 4 and the interpolation error is used
    * in stepsize control by default.
 
-   * @param useInterpolationError if true, interpolation error is used
+   * @param useInterpolationErrorForControl if true, interpolation error is used
    * for stepsize control
-   * @param mudif interpolation order control parameter (the parameter
+   * @param mudifControlParameter interpolation order control parameter (the parameter
    * is reset to default if <= 0 or >= 7)
    */
-  public void setInterpolationControl(final boolean useInterpolationError,
-                                      final int mudif) {
+  public void setInterpolationControl(final boolean useInterpolationErrorForControl,
+                                      final int mudifControlParameter) {
 
-    this.useInterpolationError = useInterpolationError;
+    this.useInterpolationError = useInterpolationErrorForControl;
 
-    if ((mudif <= 0) || (mudif >= 7)) {
+    if ((mudifControlParameter <= 0) || (mudifControlParameter >= 7)) {
       this.mudif = 4;
     } else {
-      this.mudif = mudif;
+      this.mudif = mudifControlParameter;
     }
 
   }

@@ -481,10 +481,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     }
 
     /**
-     * @param isBiasCorrected The isBiasCorrected to set.
+     * @param biasCorrected The isBiasCorrected to set.
      */
-    public void setBiasCorrected(boolean isBiasCorrected) {
-        this.isBiasCorrected = isBiasCorrected;
+    public void setBiasCorrected(boolean biasCorrected) {
+        this.isBiasCorrected = biasCorrected;
     }
 
     /**
