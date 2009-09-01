@@ -241,7 +241,8 @@ public class RandomDataImpl implements RandomData, Serializable {
         try {
             alg = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException ex) {
-            return null; // gulp FIXME? -- this *should* never fail.
+            // this should never happen
+            throw MathRuntimeException.createInternalError(ex);
         }
         alg.reset();
 
