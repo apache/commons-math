@@ -82,8 +82,10 @@
     <module name="FallThrough" />
     <module name="MissingSwitchDefault" />
 
-    <!--
+    <!-- Constant names should obey the traditional all uppercase naming convention -->
     <module name="ConstantName" />
+
+    <!--
     <module name="HiddenField">
         <property name="ignoreConstructorParameter" value="true" />
         <property name="ignoreSetter" value="true" />
@@ -108,6 +110,11 @@
     <property name="offCommentFormat" value="CHECKSTYLE\: stop JavadocMethodCheck"/>
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume JavadocMethodCheck"/>
     <property name="checkFormat"      value="JavadocMethodCheck"/>
+  </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop ConstantName"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume ConstantName"/>
+    <property name="checkFormat"      value="ConstantName"/>
   </module>
 
 </module>

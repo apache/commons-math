@@ -34,7 +34,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     /**
      * Golden section.
      */
-    private static final double c = 0.5 * (3 - Math.sqrt(5));
+    private static final double GOLDEN_SECTION = 0.5 * (3 - Math.sqrt(5));
 
     /**
      * Construct a solver.
@@ -85,7 +85,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     private double localMin(final UnivariateRealFunction f, final GoalType goalType,
                             double a, double b, final double eps, final double t)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        double x = a + c * (b - a);
+        double x = a + GOLDEN_SECTION * (b - a);
         double v = x;
         double w = x;
         double e = 0;
@@ -137,7 +137,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                     }
                 } else { // Golden section step.
                     e = ((x < m) ? b : a) - x;
-                    d = c * e;
+                    d = GOLDEN_SECTION * e;
                 }
 
                 // f must not be evaluated too close to a or b.

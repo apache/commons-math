@@ -53,8 +53,10 @@ public class Vector3D
   /** Opposite of the third canonical vector (coordinates: 0, 0, -1).  */
   public static final Vector3D MINUS_K = new Vector3D(0, 0, -1);
 
+  // CHECKSTYLE: stop ConstantName
   /** A vector with all coordinates set to NaN. */
   public static final Vector3D NaN = new Vector3D(Double.NaN, Double.NaN, Double.NaN);
+  // CHECKSTYLE: resume ConstantName
 
   /** A vector with all coordinates set to positive infinity. */
   public static final Vector3D POSITIVE_INFINITY =

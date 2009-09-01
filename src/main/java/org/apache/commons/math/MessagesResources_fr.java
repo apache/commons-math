@@ -39,11 +39,11 @@ public class MessagesResources_fr
    */
   @Override
   public Object[][] getContents() {
-    return contents.clone();
+    return CONTENTS.clone();
   }
 
   /** Non-translated/translated messages arrays. */
-  private static final Object[][] contents = {
+  private static final Object[][] CONTENTS = {
 
     // org.apache.commons.math.util.MathUtils
     { "must have n >= k for binomial coefficient (n,k), got n = {0}, k = {1}",

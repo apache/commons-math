@@ -38,12 +38,12 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
   private static final String METHOD_NAME = "Higham-Hall 5(4)";
 
   /** Time steps Butcher array. */
-  private static final double[] staticC = {
+  private static final double[] STATIC_C = {
     2.0/9.0, 1.0/3.0, 1.0/2.0, 3.0/5.0, 1.0, 1.0
   };
 
   /** Internal weights Butcher array. */
-  private static final double[][] staticA = {
+  private static final double[][] STATIC_A = {
     {2.0/9.0},
     {1.0/12.0, 1.0/4.0},
     {1.0/8.0, 0.0, 3.0/8.0},
@@ -53,12 +53,12 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
   };
 
   /** Propagation weights Butcher array. */
-  private static final double[] staticB = {
+  private static final double[] STATIC_B = {
     1.0/12.0, 0.0, 27.0/32.0, -4.0/3.0, 125.0/96.0, 5.0/48.0, 0.0
   };
 
   /** Error weights Butcher array. */
-  private static final double[] staticE = {
+  private static final double[] STATIC_E = {
     -1.0/20.0, 0.0, 81.0/160.0, -6.0/5.0, 25.0/32.0, 1.0/16.0, -1.0/10.0
   };
 
@@ -74,7 +74,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
   public HighamHall54Integrator(final double minStep, final double maxStep,
                                 final double scalAbsoluteTolerance,
                                 final double scalRelativeTolerance) {
-    super(METHOD_NAME, false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
+    super(METHOD_NAME, false, STATIC_C, STATIC_A, STATIC_B, new HighamHall54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -90,7 +90,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
   public HighamHall54Integrator(final double minStep, final double maxStep,
                                 final double[] vecAbsoluteTolerance,
                                 final double[] vecRelativeTolerance) {
-    super(METHOD_NAME, false, staticC, staticA, staticB, new HighamHall54StepInterpolator(),
+    super(METHOD_NAME, false, STATIC_C, STATIC_A, STATIC_B, new HighamHall54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }
 
@@ -109,9 +109,9 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
     double error = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-      double errSum = staticE[0] * yDotK[0][j];
-      for (int l = 1; l < staticE.length; ++l) {
-        errSum += staticE[l] * yDotK[l][j];
+      double errSum = STATIC_E[0] * yDotK[0][j];
+      for (int l = 1; l < STATIC_E.length; ++l) {
+        errSum += STATIC_E[l] * yDotK[l][j];
       }
 
       final double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));

@@ -38,7 +38,7 @@ public class Gamma {
     private static final double DEFAULT_EPSILON = 10e-15;
 
     /** Lanczos coefficients */
-    private static final double[] lanczos =
+    private static final double[] LANCZOS =
     {
         0.99999999999999709182,
         57.156235665862923517,
@@ -94,10 +94,10 @@ public class Gamma {
             double g = 607.0 / 128.0;
             
             double sum = 0.0;
-            for (int i = lanczos.length - 1; i > 0; --i) {
-                sum = sum + (lanczos[i] / (x + i));
+            for (int i = LANCZOS.length - 1; i > 0; --i) {
+                sum = sum + (LANCZOS[i] / (x + i));
             }
-            sum = sum + lanczos[0];
+            sum = sum + LANCZOS[0];
 
             double tmp = x + g + .5;
             ret = ((x + .5) * Math.log(tmp)) - tmp +

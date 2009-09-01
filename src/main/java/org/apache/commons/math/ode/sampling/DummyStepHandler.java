@@ -48,7 +48,7 @@ public class DummyStepHandler implements StepHandler {
    * @return the only instance
    */
   public static DummyStepHandler getInstance() {
-    return instance;
+    return INSTANCE;
   }
 
   /** Determines whether this handler needs dense output.
@@ -82,6 +82,6 @@ public class DummyStepHandler implements StepHandler {
   }
 
   /** The only instance. */
-  private static final DummyStepHandler instance = new DummyStepHandler();
+  private static final DummyStepHandler INSTANCE = new DummyStepHandler();
 
 }

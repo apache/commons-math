@@ -38,34 +38,34 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 public final class StatUtils {
 
     /** sum */
-    private static final UnivariateStatistic sum = new Sum();
+    private static final UnivariateStatistic SUM = new Sum();
 
     /** sumSq */
-    private static final UnivariateStatistic sumSq = new SumOfSquares();
+    private static final UnivariateStatistic SUM_OF_SQUARES = new SumOfSquares();
 
     /** prod */
-    private static final UnivariateStatistic prod = new Product();
+    private static final UnivariateStatistic PRODUCT = new Product();
 
     /** sumLog */
-    private static final UnivariateStatistic sumLog = new SumOfLogs();
+    private static final UnivariateStatistic SUM_OF_LOGS = new SumOfLogs();
 
     /** min */
-    private static final UnivariateStatistic min = new Min();
+    private static final UnivariateStatistic MIN = new Min();
 
     /** max */
-    private static final UnivariateStatistic max = new Max();
+    private static final UnivariateStatistic MAX = new Max();
 
     /** mean */
-    private static final UnivariateStatistic mean = new Mean();
+    private static final UnivariateStatistic MEAN = new Mean();
 
     /** variance */
-    private static final Variance variance = new Variance();
+    private static final Variance VARIANCE = new Variance();
 
     /** percentile */
-    private static final Percentile percentile = new Percentile();
+    private static final Percentile PERCENTILE = new Percentile();
     
     /** geometric mean */
-    private static final GeometricMean geometricMean = new GeometricMean();
+    private static final GeometricMean GEOMETRIC_MEAN = new GeometricMean();
 
     /**
      * Private Constructor
@@ -86,7 +86,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double sum(final double[] values) {
-        return sum.evaluate(values);
+        return SUM.evaluate(values);
     }
 
     /**
@@ -105,7 +105,7 @@ public final class StatUtils {
      */
     public static double sum(final double[] values, final int begin, 
             final int length) {
-        return sum.evaluate(values, begin, length);
+        return SUM.evaluate(values, begin, length);
     }
 
     /**
@@ -120,7 +120,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double sumSq(final double[] values) {
-        return sumSq.evaluate(values);
+        return SUM_OF_SQUARES.evaluate(values);
     }
 
     /**
@@ -139,7 +139,7 @@ public final class StatUtils {
      */
     public static double sumSq(final double[] values, final int begin,
             final int length) {
-        return sumSq.evaluate(values, begin, length);
+        return SUM_OF_SQUARES.evaluate(values, begin, length);
     }
 
     /**
@@ -153,7 +153,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double product(final double[] values) {
-        return prod.evaluate(values);
+        return PRODUCT.evaluate(values);
     }
 
     /**
@@ -172,7 +172,7 @@ public final class StatUtils {
      */
     public static double product(final double[] values, final int begin,
             final int length) {
-        return prod.evaluate(values, begin, length);
+        return PRODUCT.evaluate(values, begin, length);
     }
 
     /**
@@ -190,7 +190,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double sumLog(final double[] values) {
-        return sumLog.evaluate(values);
+        return SUM_OF_LOGS.evaluate(values);
     }
 
     /**
@@ -213,7 +213,7 @@ public final class StatUtils {
      */
     public static double sumLog(final double[] values, final int begin,
             final int length) {
-        return sumLog.evaluate(values, begin, length);
+        return SUM_OF_LOGS.evaluate(values, begin, length);
     }
 
     /**
@@ -230,7 +230,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double mean(final double[] values) {
-        return mean.evaluate(values);
+        return MEAN.evaluate(values);
     }
 
     /**
@@ -252,7 +252,7 @@ public final class StatUtils {
      */
     public static double mean(final double[] values, final int begin,
             final int length) {
-        return mean.evaluate(values, begin, length);
+        return MEAN.evaluate(values, begin, length);
     }
     
     /**
@@ -269,7 +269,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double geometricMean(final double[] values) {
-        return geometricMean.evaluate(values);
+        return GEOMETRIC_MEAN.evaluate(values);
     }
 
     /**
@@ -291,7 +291,7 @@ public final class StatUtils {
      */
     public static double geometricMean(final double[] values, final int begin,
             final int length) {
-        return geometricMean.evaluate(values, begin, length);
+        return GEOMETRIC_MEAN.evaluate(values, begin, length);
     }
     
 
@@ -311,7 +311,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double variance(final double[] values) {
-        return variance.evaluate(values);
+        return VARIANCE.evaluate(values);
     }
 
     /**
@@ -336,7 +336,7 @@ public final class StatUtils {
      */
     public static double variance(final double[] values, final int begin,
             final int length) {
-        return variance.evaluate(values, begin, length);
+        return VARIANCE.evaluate(values, begin, length);
     }
     
     /**
@@ -367,7 +367,7 @@ public final class StatUtils {
      */
     public static double variance(final double[] values, final double mean, 
             final int begin, final int length) {
-        return variance.evaluate(values, mean, begin, length);    
+        return VARIANCE.evaluate(values, mean, begin, length);    
     }
     
     /**
@@ -393,7 +393,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double variance(final double[] values, final double mean) {
-        return variance.evaluate(values, mean);    
+        return VARIANCE.evaluate(values, mean);    
     }
 
     /**
@@ -414,7 +414,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double max(final double[] values) {
-        return max.evaluate(values);
+        return MAX.evaluate(values);
     }
 
     /**
@@ -441,7 +441,7 @@ public final class StatUtils {
      */
     public static double max(final double[] values, final int begin,
             final int length) {
-        return max.evaluate(values, begin, length);
+        return MAX.evaluate(values, begin, length);
     }
 
      /**
@@ -462,7 +462,7 @@ public final class StatUtils {
      * @throws IllegalArgumentException if the array is null
      */
     public static double min(final double[] values) {
-        return min.evaluate(values);
+        return MIN.evaluate(values);
     }
 
      /**
@@ -489,7 +489,7 @@ public final class StatUtils {
      */
     public static double min(final double[] values, final int begin,
             final int length) {
-        return min.evaluate(values, begin, length);
+        return MIN.evaluate(values, begin, length);
     }
     
     /**
@@ -516,7 +516,7 @@ public final class StatUtils {
      * or p is invalid
      */
     public static double percentile(final double[] values, final double p) {
-            return percentile.evaluate(values,p);
+            return PERCENTILE.evaluate(values,p);
     }
 
      /**
@@ -548,7 +548,7 @@ public final class StatUtils {
      */
     public static double percentile(final double[] values, final int begin, 
             final int length, final double p) {
-        return percentile.evaluate(values, begin, length, p);
+        return PERCENTILE.evaluate(values, begin, length, p);
     }   
     
     /**

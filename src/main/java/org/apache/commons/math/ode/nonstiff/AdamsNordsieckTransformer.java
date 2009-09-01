@@ -133,7 +133,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 public class AdamsNordsieckTransformer {
 
     /** Cache for already computed coefficients. */
-    private static final Map<Integer, AdamsNordsieckTransformer> cache =
+    private static final Map<Integer, AdamsNordsieckTransformer> CACHE =
         new HashMap<Integer, AdamsNordsieckTransformer>();
 
     /** Initialization matrix for the higher order derivatives wrt y'', y''' ... */
@@ -200,11 +200,11 @@ public class AdamsNordsieckTransformer {
      * @return Nordsieck transformer for the specified number of steps
      */
     public static AdamsNordsieckTransformer getInstance(final int nSteps) {
-        synchronized(cache) {
-            AdamsNordsieckTransformer t = cache.get(nSteps);
+        synchronized(CACHE) {
+            AdamsNordsieckTransformer t = CACHE.get(nSteps);
             if (t == null) {
                 t = new AdamsNordsieckTransformer(nSteps);
-                cache.put(nSteps, t);
+                CACHE.put(nSteps, t);
             }
             return t;
         }

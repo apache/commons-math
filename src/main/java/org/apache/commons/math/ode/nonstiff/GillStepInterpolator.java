@@ -90,13 +90,13 @@ class GillStepInterpolator
     final double soMt      = s * oMt;
     final double c23       = soMt * (1 + twoTheta);
     final double coeff1    = soMt * (1 - fourTheta);
-    final double coeff2    = c23  * tMq;
-    final double coeff3    = c23  * tPq;
+    final double coeff2    = c23  * TWO_MINUS_SQRT_2;
+    final double coeff3    = c23  * TWO_PLUS_SQRT_2;
     final double coeff4    = s * (1 + theta * (1 + fourTheta));
     final double coeffDot1 = theta * (twoTheta - 3) + 1;
     final double cDot23    = theta * oMt;
-    final double coeffDot2 = cDot23  * tMq;
-    final double coeffDot3 = cDot23  * tPq;
+    final double coeffDot2 = cDot23  * TWO_MINUS_SQRT_2;
+    final double coeffDot3 = cDot23  * TWO_PLUS_SQRT_2;
     final double coeffDot4 = theta * (twoTheta - 1);
 
     for (int i = 0; i < interpolatedState.length; ++i) {
@@ -113,10 +113,10 @@ class GillStepInterpolator
   }
 
   /** First Gill coefficient. */
-  private static final double tMq = 2 - Math.sqrt(2.0);
+  private static final double TWO_MINUS_SQRT_2 = 2 - Math.sqrt(2.0);
 
   /** Second Gill coefficient. */
-  private static final double tPq = 2 + Math.sqrt(2.0);
+  private static final double TWO_PLUS_SQRT_2 = 2 + Math.sqrt(2.0);
 
   /** Serializable version identifier */
   private static final long serialVersionUID = -107804074496313322L;

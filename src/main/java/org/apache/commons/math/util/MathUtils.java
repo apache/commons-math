@@ -470,7 +470,7 @@ public final class MathUtils {
     }
     
     /** All long-representable factorials */
-    private static final long[] factorials = new long[] 
+    private static final long[] FACTORIALS = new long[] 
        {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
         479001600, 6227020800l, 87178291200l, 1307674368000l, 20922789888000l,
         355687428096000l, 6402373705728000l, 121645100408832000l,
@@ -508,7 +508,7 @@ public final class MathUtils {
             throw new ArithmeticException(
                     "factorial value is too large to fit in a long");
         }
-        return factorials[n];
+        return FACTORIALS[n];
     }
 
     /**

@@ -58,14 +58,14 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
   private static final String METHOD_NAME = "Dormand-Prince 8 (5, 3)";
 
   /** Time steps Butcher array. */
-  private static final double[] staticC = {
+  private static final double[] STATIC_C = {
     (12.0 - 2.0 * Math.sqrt(6.0)) / 135.0, (6.0 - Math.sqrt(6.0)) / 45.0, (6.0 - Math.sqrt(6.0)) / 30.0,
     (6.0 + Math.sqrt(6.0)) / 30.0, 1.0/3.0, 1.0/4.0, 4.0/13.0, 127.0/195.0, 3.0/5.0,
     6.0/7.0, 1.0, 1.0
   };
 
   /** Internal weights Butcher array. */
-  private static final double[][] staticA = {
+  private static final double[][] STATIC_A = {
 
     // k2
     {(12.0 - 2.0 * Math.sqrt(6.0)) / 135.0},
@@ -132,7 +132,7 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
   };
 
   /** Propagation weights Butcher array. */
-  private static final double[] staticB = {
+  private static final double[] STATIC_B = {
       104257.0/1920240.0,
       0.0,
       0.0,
@@ -149,57 +149,57 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
   };
 
   /** First error weights array, element 1. */
-  private static final double e1_01 =         116092271.0 / 8848465920.0;
+  private static final double E1_01 =         116092271.0 / 8848465920.0;
 
   // elements 2 to 5 are zero, so they are neither stored nor used
 
   /** First error weights array, element 6. */
-  private static final double e1_06 =          -1871647.0 / 1527680.0;
+  private static final double E1_06 =          -1871647.0 / 1527680.0;
 
   /** First error weights array, element 7. */
-  private static final double e1_07 =         -69799717.0 / 140793660.0;
+  private static final double E1_07 =         -69799717.0 / 140793660.0;
 
   /** First error weights array, element 8. */
-  private static final double e1_08 =     1230164450203.0 / 739113984000.0;
+  private static final double E1_08 =     1230164450203.0 / 739113984000.0;
 
   /** First error weights array, element 9. */
-  private static final double e1_09 = -1980813971228885.0 / 5654156025964544.0;
+  private static final double E1_09 = -1980813971228885.0 / 5654156025964544.0;
 
   /** First error weights array, element 10. */
-  private static final double e1_10 =         464500805.0 / 1389975552.0;
+  private static final double E1_10 =         464500805.0 / 1389975552.0;
 
   /** First error weights array, element 11. */
-  private static final double e1_11 =     1606764981773.0 / 19613062656000.0;
+  private static final double E1_11 =     1606764981773.0 / 19613062656000.0;
 
   /** First error weights array, element 12. */
-  private static final double e1_12 =           -137909.0 / 6168960.0;
+  private static final double E1_12 =           -137909.0 / 6168960.0;
 
 
   /** Second error weights array, element 1. */
-  private static final double e2_01 =           -364463.0 / 1920240.0;
+  private static final double E2_01 =           -364463.0 / 1920240.0;
 
   // elements 2 to 5 are zero, so they are neither stored nor used
 
   /** Second error weights array, element 6. */
-  private static final double e2_06 =           3399327.0 / 763840.0;
+  private static final double E2_06 =           3399327.0 / 763840.0;
 
   /** Second error weights array, element 7. */
-  private static final double e2_07 =          66578432.0 / 35198415.0;
+  private static final double E2_07 =          66578432.0 / 35198415.0;
 
   /** Second error weights array, element 8. */
-  private static final double e2_08 =       -1674902723.0 / 288716400.0;
+  private static final double E2_08 =       -1674902723.0 / 288716400.0;
 
   /** Second error weights array, element 9. */
-  private static final double e2_09 =   -74684743568175.0 / 176692375811392.0;
+  private static final double E2_09 =   -74684743568175.0 / 176692375811392.0;
 
   /** Second error weights array, element 10. */
-  private static final double e2_10 =           -734375.0 / 4826304.0;
+  private static final double E2_10 =           -734375.0 / 4826304.0;
 
   /** Second error weights array, element 11. */
-  private static final double e2_11 =         171414593.0 / 851261400.0;
+  private static final double E2_11 =         171414593.0 / 851261400.0;
 
   /** Second error weights array, element 12. */
-  private static final double e2_12 =             69869.0 / 3084480.0;
+  private static final double E2_12 =             69869.0 / 3084480.0;
 
   /** Simple constructor.
    * Build an eighth order Dormand-Prince integrator with the given step bounds
@@ -213,7 +213,7 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
   public DormandPrince853Integrator(final double minStep, final double maxStep,
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance) {
-    super(METHOD_NAME, true, staticC, staticA, staticB,
+    super(METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
@@ -230,7 +230,7 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
   public DormandPrince853Integrator(final double minStep, final double maxStep,
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance) {
-    super(METHOD_NAME, true, staticC, staticA, staticB,
+    super(METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B,
           new DormandPrince853StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }
@@ -250,14 +250,14 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
     double error2 = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-      final double errSum1 = e1_01 * yDotK[0][j]  + e1_06 * yDotK[5][j] +
-                             e1_07 * yDotK[6][j]  + e1_08 * yDotK[7][j] +
-                             e1_09 * yDotK[8][j]  + e1_10 * yDotK[9][j] +
-                             e1_11 * yDotK[10][j] + e1_12 * yDotK[11][j];
-      final double errSum2 = e2_01 * yDotK[0][j]  + e2_06 * yDotK[5][j] +
-                             e2_07 * yDotK[6][j]  + e2_08 * yDotK[7][j] +
-                             e2_09 * yDotK[8][j]  + e2_10 * yDotK[9][j] +
-                             e2_11 * yDotK[10][j] + e2_12 * yDotK[11][j];
+      final double errSum1 = E1_01 * yDotK[0][j]  + E1_06 * yDotK[5][j] +
+                             E1_07 * yDotK[6][j]  + E1_08 * yDotK[7][j] +
+                             E1_09 * yDotK[8][j]  + E1_10 * yDotK[9][j] +
+                             E1_11 * yDotK[10][j] + E1_12 * yDotK[11][j];
+      final double errSum2 = E2_01 * yDotK[0][j]  + E2_06 * yDotK[5][j] +
+                             E2_07 * yDotK[6][j]  + E2_08 * yDotK[7][j] +
+                             E2_09 * yDotK[8][j]  + E2_10 * yDotK[9][j] +
+                             E2_11 * yDotK[10][j] + E2_12 * yDotK[11][j];
 
       final double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
       final double tol = (vecAbsoluteTolerance == null) ?

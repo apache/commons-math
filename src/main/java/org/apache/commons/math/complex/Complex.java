@@ -50,9 +50,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
     /** The square root of -1. A number representing "0.0 + 1.0i" */    
     public static final Complex I = new Complex(0.0, 1.0);
-    
+
+    // CHECKSTYLE: stop ConstantName
     /** A complex number representing "NaN + NaNi" */
     public static final Complex NaN = new Complex(Double.NaN, Double.NaN);
+    // CHECKSTYLE: resume ConstantName
 
     /** A complex number representing "+INF + INFi" */
     public static final Complex INF = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);

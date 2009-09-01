@@ -43,17 +43,17 @@ package org.apache.commons.math.ode.nonstiff;
 public class MidpointIntegrator extends RungeKuttaIntegrator {
 
   /** Time steps Butcher array. */
-  private static final double[] c = {
+  private static final double[] STATIC_C = {
     1.0 / 2.0
   };
 
   /** Internal weights Butcher array. */
-  private static final double[][] a = {
+  private static final double[][] STATIC_A = {
     { 1.0 / 2.0 }
   };
 
   /** Propagation weights Butcher array. */
-  private static final double[] b = {
+  private static final double[] STATIC_B = {
     0.0, 1.0
   };
 
@@ -62,7 +62,7 @@ public class MidpointIntegrator extends RungeKuttaIntegrator {
    * @param step integration step
    */
   public MidpointIntegrator(final double step) {
-    super("midpoint", c, a, b, new MidpointStepInterpolator(), step);
+    super("midpoint", STATIC_C, STATIC_A, STATIC_B, new MidpointStepInterpolator(), step);
   }
 
 }

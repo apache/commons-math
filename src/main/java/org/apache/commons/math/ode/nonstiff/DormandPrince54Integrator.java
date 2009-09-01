@@ -50,12 +50,12 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
   private static final String METHOD_NAME = "Dormand-Prince 5(4)";
 
   /** Time steps Butcher array. */
-  private static final double[] staticC = {
+  private static final double[] STATIC_C = {
     1.0/5.0, 3.0/10.0, 4.0/5.0, 8.0/9.0, 1.0, 1.0
   };
 
   /** Internal weights Butcher array. */
-  private static final double[][] staticA = {
+  private static final double[][] STATIC_A = {
     {1.0/5.0},
     {3.0/40.0, 9.0/40.0},
     {44.0/45.0, -56.0/15.0, 32.0/9.0},
@@ -65,29 +65,29 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
   };
 
   /** Propagation weights Butcher array. */
-  private static final double[] staticB = {
+  private static final double[] STATIC_B = {
     35.0/384.0, 0.0, 500.0/1113.0, 125.0/192.0, -2187.0/6784.0, 11.0/84.0, 0.0
   };
 
   /** Error array, element 1. */
-  private static final double e1 =     71.0 / 57600.0;
+  private static final double E1 =     71.0 / 57600.0;
 
   // element 2 is zero, so it is neither stored nor used
 
   /** Error array, element 3. */
-  private static final double e3 =    -71.0 / 16695.0;
+  private static final double E3 =    -71.0 / 16695.0;
 
   /** Error array, element 4. */
-  private static final double e4 =     71.0 / 1920.0;
+  private static final double E4 =     71.0 / 1920.0;
 
   /** Error array, element 5. */
-  private static final double e5 = -17253.0 / 339200.0;
+  private static final double E5 = -17253.0 / 339200.0;
 
   /** Error array, element 6. */
-  private static final double e6 =     22.0 / 525.0;
+  private static final double E6 =     22.0 / 525.0;
 
   /** Error array, element 7. */
-  private static final double e7 =     -1.0 / 40.0;
+  private static final double E7 =     -1.0 / 40.0;
 
   /** Simple constructor.
    * Build a fifth order Dormand-Prince integrator with the given step bounds
@@ -101,7 +101,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
   public DormandPrince54Integrator(final double minStep, final double maxStep,
                                    final double scalAbsoluteTolerance,
                                    final double scalRelativeTolerance) {
-    super(METHOD_NAME, true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
+    super(METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B, new DormandPrince54StepInterpolator(),
           minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
   }
 
@@ -117,7 +117,7 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
   public DormandPrince54Integrator(final double minStep, final double maxStep,
                                    final double[] vecAbsoluteTolerance,
                                    final double[] vecRelativeTolerance) {
-    super(METHOD_NAME, true, staticC, staticA, staticB, new DormandPrince54StepInterpolator(),
+    super(METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B, new DormandPrince54StepInterpolator(),
           minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
   }
 
@@ -136,9 +136,9 @@ public class DormandPrince54Integrator extends EmbeddedRungeKuttaIntegrator {
     double error = 0;
 
     for (int j = 0; j < y0.length; ++j) {
-        final double errSum = e1 * yDotK[0][j] +  e3 * yDotK[2][j] +
-                              e4 * yDotK[3][j] +  e5 * yDotK[4][j] +
-                              e6 * yDotK[5][j] +  e7 * yDotK[6][j];
+        final double errSum = E1 * yDotK[0][j] +  E3 * yDotK[2][j] +
+                              E4 * yDotK[3][j] +  E5 * yDotK[4][j] +
+                              E6 * yDotK[5][j] +  E7 * yDotK[6][j];
 
         final double yScale = Math.max(Math.abs(y0[j]), Math.abs(y1[j]));
         final double tol = (vecAbsoluteTolerance == null) ?
