@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math.stat.descriptive.summary.Sum;
 
 /**
  * Computes the variance of the available values.  By default, the unbiased

@@ -19,7 +19,6 @@ package org.apache.commons.math.stat.descriptive.summary;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
 
 /**
  * Returns the product of the available values.
