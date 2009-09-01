@@ -75,6 +75,9 @@
     <module name="UnusedImports" />
     <module name="IllegalImport" />
 
+    <!-- Utility class should not be instantiated, they must have a private constructor -->
+    <module name="HideUtilityClassConstructor" />
+
   </module>
   
   <!-- Require package javadoc -->

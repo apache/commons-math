@@ -38,9 +38,9 @@ import org.apache.commons.math.fraction.Fraction;
 public class MatrixUtils {
 
     /**
-     * Default constructor.
+     * Private constructor.
      */
-    public MatrixUtils() {
+    private MatrixUtils() {
         super();
     }
     
