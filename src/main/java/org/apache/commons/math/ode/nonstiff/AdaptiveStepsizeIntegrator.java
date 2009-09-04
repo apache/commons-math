@@ -263,7 +263,7 @@ public abstract class AdaptiveStepsizeIntegrator
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new IntegratorException(
-                      "minimal step size ({0}) reached, integration needs {1}",
+                      "minimal step size ({0,number,0.00E00}) reached, integration needs {1,number,0.00E00}",
                       minStep, Math.abs(h));
           }
       }

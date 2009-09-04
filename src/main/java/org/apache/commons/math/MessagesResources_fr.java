@@ -289,8 +289,8 @@ public class MessagesResources_fr
       "impossible de rendre la matrice orthogonale en {0} it\u00e9rations" },
 
     // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator
-    { "minimal step size ({0}) reached, integration needs {1}",
-      "pas minimal ({0}) atteint, l''int\u00e9gration n\u00e9cessite {1}" },
+    { "minimal step size ({0,number,0.00E00}) reached, integration needs {1,number,0.00E00}",
+      "pas minimal ({0,number,0.00E00}) atteint, l''int\u00e9gration n\u00e9cessite {1,number,0.00E00}" },
     { "dimensions mismatch: state vector has dimension {0}," +
       " absolute tolerance vector has dimension {1}",
       "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
