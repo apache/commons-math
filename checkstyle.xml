@@ -97,6 +97,13 @@
       <property name="illegalPattern" value="true"/>
       <property name="message" value="Trailing whitespace"/>
     </module>
+    
+    <!-- No System.out.println() statements -->
+    <module name="Regexp">
+      <!-- no sysouts -->
+      <property name="format" value="System\.out\.println"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
 
     <!--
     <module name="DeclarationOrder" />
