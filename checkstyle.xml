@@ -97,7 +97,6 @@
       <property name="illegalPattern" value="true"/>
       <property name="message" value="Trailing whitespace"/>
     </module>
-    
 
     <!--
     <module name="DeclarationOrder" />
@@ -111,6 +110,9 @@
     <module name="UnnecessaryParentheses" />
     -->
   </module>
+  
+  <!-- Require files to end with newline characters -->
+  <module name="NewlineAtEndOfFile"/>
   
   <!-- Require package javadoc -->
   <module name="PackageHtml"/>
