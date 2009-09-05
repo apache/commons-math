@@ -34,8 +34,8 @@ import junit.framework.TestCase;
  * Since zeta is unknown, f^(n)(zeta) cannot be calculated. But we can bound
  * it and use the absolute value upper bound for estimates. For reference,
  * see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 2.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class DividedDifferenceInterpolatorTest extends TestCase {
 

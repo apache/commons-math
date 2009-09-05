@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.moment.Variance;
 import junit.framework.TestCase;
 
 public class CovarianceTest extends TestCase {
-    
+
     protected final double[] longleyData = new double[] {
             60323,83.0,234289,2356,1590,107608,1947,
             61122,88.5,259426,2325,1456,108632,1948,
@@ -43,7 +43,7 @@ public class CovarianceTest extends TestCase {
             69331,115.7,518173,4806,2572,127852,1961,
             70551,116.9,554894,4007,2827,130081,1962
         };
-    
+
     protected final double[] swissData = new double[] {
             80.2,17.0,15,12,9.96,
             83.1,45.1,6,9,84.84,
@@ -93,19 +93,19 @@ public class CovarianceTest extends TestCase {
             44.7,46.6,16,29,50.43,
             42.8,27.7,22,29,58.33
         };
- 
-    
+
+
     /**
      * Test Longley dataset against R.
      * Data Source: J. Longley (1967) "An Appraisal of Least Squares
      * Programs for the Electronic Computer from the Point of View of the User"
      * Journal of the American Statistical Association, vol. 62. September,
      * pp. 819-841.
-     * 
+     *
      * Data are from NIST:
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
-    public void testLongly() {  
+    public void testLongly() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
         double[] rData = new double[] {
@@ -124,11 +124,11 @@ public class CovarianceTest extends TestCase {
          16240.93333333333, 5.092333333333334e+01, 470977.900000000,
          2973.033333333333, 1382.433333333333, 32917.40000000, 22.66666666666667
         };
-        
+
         TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 7, 7), covarianceMatrix, 10E-9);
 
     }
-    
+
     /**
      * Test R Swiss fertility dataset against R.
      * Data Source: R datasets package
@@ -143,10 +143,10 @@ public class CovarianceTest extends TestCase {
            -79.7295097132285, -139.6574005550416, 53.57585568917669, 92.4560592044403, -61.6988297872340,
             241.5632030527289, 379.9043755781684, -190.56061054579092, -61.6988297872340, 1739.2945371877890
          };
-         
+
          TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 5, 5), covarianceMatrix, 10E-13);
     }
-    
+
     /**
      * Constant column
      */
@@ -156,8 +156,8 @@ public class CovarianceTest extends TestCase {
         assertEquals(0d, new Covariance().covariance(noVariance, values, true), Double.MIN_VALUE);
         assertEquals(0d, new Covariance().covariance(noVariance, noVariance, true), Double.MIN_VALUE);
     }
-    
-    
+
+
     /**
      * Insufficient data
      */
@@ -178,7 +178,7 @@ public class CovarianceTest extends TestCase {
             // Expected
         }
     }
-    
+
     /**
      * Verify that diagonal entries are consistent with Variance computation and matrix matches
      * column-by-column covariances
@@ -186,18 +186,18 @@ public class CovarianceTest extends TestCase {
     public void testConsistency() {
         final RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         final RealMatrix covarianceMatrix = new Covariance(matrix).getCovarianceMatrix();
-        
+
         // Variances on the diagonal
         Variance variance = new Variance();
         for (int i = 0; i < 5; i++) {
             assertEquals(variance.evaluate(matrix.getColumn(i)), covarianceMatrix.getEntry(i,i), 10E-14);
         }
-        
+
         // Symmetry, column-consistency
-        assertEquals(covarianceMatrix.getEntry(2, 3), 
+        assertEquals(covarianceMatrix.getEntry(2, 3),
                 new Covariance().covariance(matrix.getColumn(2), matrix.getColumn(3), true), 10E-14);
         assertEquals(covarianceMatrix.getEntry(2, 3), covarianceMatrix.getEntry(3, 2), Double.MIN_VALUE);
-        
+
         // All columns same -> all entries = column variance
         RealMatrix repeatedColumns = new Array2DRowRealMatrix(47, 3);
         for (int i = 0; i < 3; i++) {
@@ -210,20 +210,20 @@ public class CovarianceTest extends TestCase {
                 assertEquals(columnVariance, repeatedCovarianceMatrix.getEntry(i, j), 10E-14);
             }
         }
-        
+
         // Check bias-correction defaults
         double[][] data = matrix.getData();
-        TestUtils.assertEquals("Covariances", 
+        TestUtils.assertEquals("Covariances",
                 covarianceMatrix, new Covariance().computeCovarianceMatrix(data),Double.MIN_VALUE);
-        TestUtils.assertEquals("Covariances", 
+        TestUtils.assertEquals("Covariances",
                 covarianceMatrix, new Covariance().computeCovarianceMatrix(data, true),Double.MIN_VALUE);
-        
+
         double[] x = data[0];
         double[] y = data[1];
-        assertEquals(new Covariance().covariance(x, y), 
-                new Covariance().covariance(x, y, true), Double.MIN_VALUE); 
+        assertEquals(new Covariance().covariance(x, y),
+                new Covariance().covariance(x, y, true), Double.MIN_VALUE);
     }
-    
+
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {
         double[][] matrixData = new double[nRows][nCols];
         int ptr = 0;
@@ -231,6 +231,6 @@ public class CovarianceTest extends TestCase {
             System.arraycopy(data, ptr, matrixData[i], 0, nCols);
             ptr += nCols;
         }
-        return new Array2DRowRealMatrix(matrixData); 
+        return new Array2DRowRealMatrix(matrixData);
     }
 }

@@ -19,7 +19,7 @@ package org.apache.commons.math.estimation;
 
 import java.io.Serializable;
 
-/** 
+/**
  * This class represents measurements in estimation problems.
  *
  * <p>This abstract class implements all the methods needed to handle
@@ -56,7 +56,7 @@ public abstract class WeightedMeasurement implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4360046376796901941L;
 
-    /** 
+    /**
    * Simple constructor.
    * Build a measurement with the given parameters, and set its ignore
    * flag to false.
@@ -64,7 +64,7 @@ public abstract class WeightedMeasurement implements Serializable {
    * (two common choices are either to use 1.0 for all measurements, or to
    * use a value proportional to the inverse of the variance of the measurement
    * type)
-   * 
+   *
    * @param measuredValue measured value
    */
   public WeightedMeasurement(double weight, double measuredValue) {
@@ -74,9 +74,9 @@ public abstract class WeightedMeasurement implements Serializable {
   }
 
   /** Simple constructor.
-   * 
+   *
    * Build a measurement with the given parameters
-   * 
+   *
    * @param weight weight of the measurement in the least squares problem
    * @param measuredValue measured value
    * @param ignored true if the measurement should be ignored
@@ -88,51 +88,51 @@ public abstract class WeightedMeasurement implements Serializable {
     this.ignored       = ignored;
   }
 
-  /** 
+  /**
    * Get the weight of the measurement in the least squares problem
-   * 
+   *
    * @return weight
    */
   public double getWeight() {
     return weight;
   }
 
-  /** 
+  /**
    * Get the measured value
-   * 
+   *
    * @return measured value
    */
   public double getMeasuredValue() {
     return measuredValue;
   }
 
-  /** 
+  /**
    * Get the residual for this measurement
    * The residual is the measured value minus the theoretical value.
-   * 
+   *
    * @return residual
    */
   public double getResidual() {
     return measuredValue - getTheoreticalValue();
   }
 
-  /** 
+  /**
    * Get the theoretical value expected for this measurement
    * <p>The theoretical value is the value expected for this measurement
    * if the model and its parameter were all perfectly known.</p>
    * <p>The value must be computed using the current estimate of the parameters
    * set by the solver in the problem.</p>
-   * 
+   *
    * @return theoretical value
    */
   public abstract double getTheoreticalValue();
 
-  /** 
+  /**
    * Get the partial derivative of the {@link #getTheoreticalValue
    * theoretical value} according to the parameter.
    * <p>The value must be computed using the current estimate of the parameters
    * set by the solver in the problem.</p>
-   * 
+   *
    * @param parameter parameter against which the partial derivative
    * should be computed
    * @return partial derivative of the {@link #getTheoreticalValue
@@ -140,20 +140,20 @@ public abstract class WeightedMeasurement implements Serializable {
    */
   public abstract double getPartial(EstimatedParameter parameter);
 
-  /** 
+  /**
    * Set the ignore flag to the specified value
    * Setting the ignore flag to true allow to reject wrong
    * measurements, which sometimes can be detected only rather late.
-   * 
+   *
    * @param ignored value for the ignore flag
    */
   public void setIgnored(boolean ignored) {
     this.ignored = ignored;
   }
 
-  /** 
+  /**
    * Check if this measurement should be ignored
-   * 
+   *
    * @return true if the measurement should be ignored
    */
   public boolean isIgnored() {

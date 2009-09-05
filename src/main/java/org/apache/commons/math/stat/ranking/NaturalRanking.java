@@ -31,10 +31,10 @@ import org.apache.commons.math.random.RandomGenerator;
 /**
  * <p> Ranking based on the natural ordering on doubles.</p>
  * <p>NaNs are treated according to the configured {@link NaNStrategy} and ties
- * are handled using the selected {@link TiesStrategy}. 
+ * are handled using the selected {@link TiesStrategy}.
  * Configuration settings are supplied in optional constructor arguments.
  * Defaults are {@link NaNStrategy#MAXIMAL} and {@link TiesStrategy#AVERAGE},
- * respectively. When using {@link TiesStrategy#RANDOM}, a 
+ * respectively. When using {@link TiesStrategy#RANDOM}, a
  * {@link RandomGenerator} may be supplied as a constructor argument.</p>
  * <p>Examples:
  * <table border="1" cellpadding="3">
@@ -63,27 +63,27 @@ import org.apache.commons.math.random.RandomGenerator;
  * <td>MINIMAL</td>
  * <td>MAXIMUM</td>
  * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table></p>
- * 
+ *
  * @since 2.0
  * @version $Revision$ $Date$
  */
 public class NaturalRanking implements RankingAlgorithm {
-   
+
     /** NaN strategy - defaults to NaNs maximal */
     private final NaNStrategy nanStrategy;
-    
+
     /** Ties strategy - defaults to ties averaged */
     private final TiesStrategy tiesStrategy;
-    
+
     /** Source of random data - used only when ties strategy is RANDOM */
     private final RandomData randomData;
-    
+
     /** default NaN strategy */
     public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.MAXIMAL;
-    
+
     /** default ties strategy */
     public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;
-    
+
     /**
      * Create a NaturalRanking with default strategies for handling ties and NaNs.
      */
@@ -96,7 +96,7 @@ public class NaturalRanking implements RankingAlgorithm {
 
     /**
      * Create a NaturalRanking with the given TiesStrategy.
-     * 
+     *
      * @param tiesStrategy the TiesStrategy to use
      */
     public NaturalRanking(TiesStrategy tiesStrategy) {
@@ -108,19 +108,19 @@ public class NaturalRanking implements RankingAlgorithm {
 
     /**
      * Create a NaturalRanking with the given NaNStrategy.
-     * 
+     *
      * @param nanStrategy the NaNStrategy to use
      */
     public NaturalRanking(NaNStrategy nanStrategy) {
         super();
         this.nanStrategy = nanStrategy;
         tiesStrategy = DEFAULT_TIES_STRATEGY;
-        randomData = null; 
+        randomData = null;
     }
 
     /**
      * Create a NaturalRanking with the given NaNStrategy and TiesStrategy.
-     * 
+     *
      * @param nanStrategy NaNStrategy to use
      * @param tiesStrategy TiesStrategy to use
      */
@@ -130,11 +130,11 @@ public class NaturalRanking implements RankingAlgorithm {
         this.tiesStrategy = tiesStrategy;
         randomData = new RandomDataImpl();
     }
-    
+
     /**
      * Create a NaturalRanking with TiesStrategy.RANDOM and the given
      * RandomGenerator as the source of random data.
-     * 
+     *
      * @param randomGenerator source of random data
      */
     public NaturalRanking(RandomGenerator randomGenerator) {
@@ -148,7 +148,7 @@ public class NaturalRanking implements RankingAlgorithm {
     /**
      * Create a NaturalRanking with the given NaNStrategy, TiesStrategy.RANDOM
      * and the given source of random data.
-     * 
+     *
      * @param nanStrategy NaNStrategy to use
      * @param randomGenerator source of random data
      */
@@ -159,10 +159,10 @@ public class NaturalRanking implements RankingAlgorithm {
         this.tiesStrategy = TiesStrategy.RANDOM;
         randomData = new RandomDataImpl(randomGenerator);
     }
-    
+
     /**
      * Return the NaNStrategy
-     * 
+     *
      * @return returns the NaNStrategy
      */
     public NaNStrategy getNanStrategy() {
@@ -171,7 +171,7 @@ public class NaturalRanking implements RankingAlgorithm {
 
     /**
      * Return the TiesStrategy
-     * 
+     *
      * @return the TiesStrategy
      */
     public TiesStrategy getTiesStrategy() {
@@ -182,18 +182,18 @@ public class NaturalRanking implements RankingAlgorithm {
      * Rank <code>data</code> using the natural ordering on Doubles, with
      * NaN values handled according to <code>nanStrategy</code> and ties
      * resolved using <code>tiesStrategy.</code>
-     * 
+     *
      * @param data array to be ranked
      * @return array of ranks
      */
     public double[] rank(double[] data) {
-        
+
         // Array recording initial positions of data to be ranked
-        IntDoublePair[] ranks = new IntDoublePair[data.length];  
+        IntDoublePair[] ranks = new IntDoublePair[data.length];
         for (int i = 0; i < data.length; i++) {
             ranks[i] = new IntDoublePair(data[i], i);
         }
-        
+
         // Recode, remove or record positions of NaNs
         List<Integer> nanPositions = null;
         switch (nanStrategy) {
@@ -212,14 +212,14 @@ public class NaturalRanking implements RankingAlgorithm {
             default: // this should not happen unless NaNStrategy enum is changed
                 throw MathRuntimeException.createInternalError(null);
         }
-        
+
         // Sort the IntDoublePairs
         Arrays.sort(ranks);
-        
+
         // Walk the sorted array, filling output array using sorted positions,
         // resolving ties as we go
         double[] out = new double[ranks.length];
-        int pos = 1;  // position in sorted array 
+        int pos = 1;  // position in sorted array
         out[ranks[0].getPosition()] = pos;
         List<Integer> tiesTrace = new ArrayList<Integer>();
         tiesTrace.add(ranks[0].getPosition());
@@ -246,11 +246,11 @@ public class NaturalRanking implements RankingAlgorithm {
         }
         return out;
     }
-    
+
     /**
      * Returns an array that is a copy of the input array with IntDoublePairs
      * having NaN values removed.
-     * 
+     *
      * @param ranks input array
      * @return array with NaN-valued entries removed
      */
@@ -279,8 +279,8 @@ public class NaturalRanking implements RankingAlgorithm {
     }
 
     /**
-     * Recodes NaN values to the given value. 
-     * 
+     * Recodes NaN values to the given value.
+     *
      * @param ranks array to recode
      * @param value the value to replace NaNs with
      */
@@ -292,10 +292,10 @@ public class NaturalRanking implements RankingAlgorithm {
             }
         }
     }
-    
+
     /**
      * Checks for presence of NaNs in <code>ranks.</code>
-     * 
+     *
      * @param ranks array to be searched for NaNs
      * @return true iff ranks contains one or more NaNs
      */
@@ -307,7 +307,7 @@ public class NaturalRanking implements RankingAlgorithm {
         }
         return false;
     }
-    
+
     /**
      * Resolve a sequence of ties, using the configured {@link TiesStrategy}.
      * The input <code>ranks</code> array is expected to take the same value
@@ -316,20 +316,20 @@ public class NaturalRanking implements RankingAlgorithm {
      * tiesTrace = <2,4,7> and tiesStrategy is MINIMUM, ranks will be unchanged.
      * The same array and trace with tiesStrategy AVERAGE will come out
      * <5,8,3,6,3,7,1,3>.
-     * 
-     * @param ranks array of ranks 
+     *
+     * @param ranks array of ranks
      * @param tiesTrace list of indices where <code>ranks</code> is constant
-     * -- that is, for any i and j in TiesTrace, <code> ranks[i] == ranks[j] 
+     * -- that is, for any i and j in TiesTrace, <code> ranks[i] == ranks[j]
      * </code>
      */
     private void resolveTie(double[] ranks, List<Integer> tiesTrace) {
-        
+
         // constant value of ranks over tiesTrace
         final double c = ranks[tiesTrace.get(0)];
-        
+
         // length of sequence of tied ranks
         final int length = tiesTrace.size();
-        
+
         switch (tiesStrategy) {
             case  AVERAGE:  // Replace ranks with average
                 fill(ranks, tiesTrace, (2 * c + length - 1) / 2d);
@@ -344,7 +344,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 Iterator<Integer> iterator = tiesTrace.iterator();
                 long f = Math.round(c);
                 while (iterator.hasNext()) {
-                    ranks[iterator.next()] = 
+                    ranks[iterator.next()] =
                         randomData.nextLong(f, f + length - 1);
                 }
                 break;
@@ -359,12 +359,12 @@ public class NaturalRanking implements RankingAlgorithm {
                 break;
             default: // this should not happen unless TiesStrategy enum is changed
                 throw MathRuntimeException.createInternalError(null);
-        }   
+        }
     }
-    
+
     /**
      * Sets<code>data[i] = value</code> for each i in <code>tiesTrace.</code>
-     * 
+     *
      * @param data array to modify
      * @param tiesTrace list of index values to set
      * @param value value to set
@@ -375,10 +375,10 @@ public class NaturalRanking implements RankingAlgorithm {
             data[iterator.next()] = value;
         }
     }
-    
+
     /**
      * Set <code>ranks[i] = Double.NaN</code> for each i in <code>nanPositions.</code>
-     * 
+     *
      * @param ranks array to modify
      * @param nanPositions list of index values to set to <code>Double.NaN</code>
      */
@@ -388,14 +388,14 @@ public class NaturalRanking implements RankingAlgorithm {
         }
         Iterator<Integer> iterator = nanPositions.iterator();
         while (iterator.hasNext()) {
-            ranks[iterator.next().intValue()] = Double.NaN;  
+            ranks[iterator.next().intValue()] = Double.NaN;
         }
-        
+
     }
-    
+
     /**
      * Returns a list of indexes where <code>ranks</code> is <code>NaN.</code>
-     * 
+     *
      * @param ranks array to search for <code>NaNs</code>
      * @return list of indexes i such that <code>ranks[i] = NaN</code>
      */
@@ -406,9 +406,9 @@ public class NaturalRanking implements RankingAlgorithm {
                 out.add(Integer.valueOf(i));
             }
         }
-        return out;     
+        return out;
     }
-    
+
     /**
      * Represents the position of a double value in an ordering.
      * Comparable interface is implemented so Arrays.sort can be used
@@ -436,7 +436,7 @@ public class NaturalRanking implements RankingAlgorithm {
         /**
          * Compare this IntDoublePair to another pair.
          * Only the <strong>values</strong> are compared.
-         * 
+         *
          * @param other the other pair to compare this to
          * @return result of <code>Double.compare(value, other.value)</code>
          */

@@ -29,7 +29,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>
  * This implementation employs basic trapezoid rule as building blocks to
  * calculate the Simpson's rule of alternating 2/3 and 4/3.</p>
- *  
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -37,7 +37,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
     /**
      * Construct an integrator for the given function.
-     * 
+     *
      * @param f function to integrate
      * @deprecated as of 2.0 the integrand function is passed as an argument
      * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
@@ -65,10 +65,10 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
     public double integrate(final UnivariateRealFunction f,
                             final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
-        
+
         int i = 1;
         double s, olds, t, oldt;
-        
+
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();
@@ -88,7 +88,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(s - olds);
                 final double rLimit =
-                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5; 
+                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;

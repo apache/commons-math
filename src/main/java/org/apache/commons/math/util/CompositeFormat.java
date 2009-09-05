@@ -36,7 +36,7 @@ public abstract class CompositeFormat extends Format {
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance()} with the only customizing that the
-     * maximum number of fraction digits is set to 2.  
+     * maximum number of fraction digits is set to 2.
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
@@ -46,7 +46,7 @@ public abstract class CompositeFormat extends Format {
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance(java.util.Locale)} with the only
-     * customizing that the maximum number of fraction digits is set to 2.  
+     * customizing that the maximum number of fraction digits is set to 2.
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
@@ -81,19 +81,19 @@ public abstract class CompositeFormat extends Format {
          int index = pos.getIndex();
          final int n = source.length();
          char ret = 0;
-    
+
          if (index < n) {
              char c;
              do {
                  c = source.charAt(index++);
              } while (Character.isWhitespace(c) && index < n);
              pos.setIndex(index);
-         
+
              if (index < n) {
                  ret = c;
              }
          }
-         
+
          return ret;
     }
 
@@ -109,12 +109,12 @@ public abstract class CompositeFormat extends Format {
     private Number parseNumber(final String source, final double value,
                                final ParsePosition pos) {
         Number ret = null;
-        
+
         StringBuffer sb = new StringBuffer();
         sb.append('(');
         sb.append(value);
         sb.append(')');
-        
+
         final int n = sb.length();
         final int startIndex = pos.getIndex();
         final int endIndex = startIndex + n;
@@ -124,7 +124,7 @@ public abstract class CompositeFormat extends Format {
                 pos.setIndex(endIndex);
             }
         }
-        
+
         return ret;
     }
 
@@ -143,7 +143,7 @@ public abstract class CompositeFormat extends Format {
         final int startIndex = pos.getIndex();
         Number number = format.parse(source, pos);
         final int endIndex = pos.getIndex();
-        
+
         // check for error parsing number
         if (startIndex == endIndex) {
             // try parsing special numbers
@@ -157,7 +157,7 @@ public abstract class CompositeFormat extends Format {
                 }
             }
         }
-        
+
         return number;
     }
 

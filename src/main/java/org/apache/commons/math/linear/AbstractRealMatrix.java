@@ -29,8 +29,8 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public abstract class AbstractRealMatrix implements RealMatrix {
-    
-    
+
+
     /** Cached LU solver.
      * @deprecated as of release 2.0, since all methods using this are deprecated
      */
@@ -85,7 +85,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
                 out.setEntry(row, col, getEntry(row, col) + m.getEntry(row, col));
-            }  
+            }
         }
 
         return out;
@@ -104,7 +104,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
                 out.setEntry(row, col, getEntry(row, col) - m.getEntry(row, col));
-            }  
+            }
         }
 
         return out;
@@ -228,7 +228,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         });
     }
-    
+
     /** {@inheritDoc} */
     public double getFrobeniusNorm() {
         return walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
@@ -255,7 +255,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         });
     }
-    
+
     /** {@inheritDoc} */
     public RealMatrix getSubMatrix(final int startRow, final int endRow,
                                    final int startColumn, final int endColumn)
@@ -297,7 +297,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         return subMatrix;
 
-    } 
+    }
 
     /** {@inheritDoc} */
     public void copySubMatrix(final int startRow, final int endRow,
@@ -369,24 +369,24 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) 
+    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
         throws MatrixIndexException {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
 
         for (int r = 1; r < nRows; ++r) {
             if (subMatrix[r].length != nCols) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        nCols, subMatrix[r].length); 
+                        nCols, subMatrix[r].length);
             }
         }
 
@@ -399,7 +399,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             for (int j = 0; j < nCols; ++j) {
                 setEntry(row + i, column + j, subMatrix[i][j]);
             }
-        } 
+        }
 
         lu = null;
 
@@ -419,7 +419,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         return out;
 
     }
-    
+
     /** {@inheritDoc} */
     public void setRowMatrix(final int row, final RealMatrix matrix)
         throws MatrixIndexException, InvalidMatrixException {
@@ -437,7 +437,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public RealMatrix getColumnMatrix(final int column)
         throws MatrixIndexException {
@@ -470,7 +470,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public RealVector getRowVector(final int row)
         throws MatrixIndexException {
@@ -493,7 +493,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public RealVector getColumnVector(final int column)
         throws MatrixIndexException {
@@ -516,7 +516,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public double[] getRow(final int row)
         throws MatrixIndexException {
@@ -548,7 +548,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public double[] getColumn(final int column)
         throws MatrixIndexException {
@@ -580,7 +580,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public abstract double getEntry(int row, int column)
         throws MatrixIndexException;
@@ -1005,20 +1005,20 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                     res.append(",");
                 }
                 res.append(getEntry(i, j));
-            } 
+            }
             res.append("}");
-        } 
+        }
 
         res.append("}");
         return res.toString();
 
-    } 
-    
+    }
+
     /**
      * Returns true iff <code>object</code> is a
      * <code>RealMatrix</code> instance with the same dimensions as this
      * and all corresponding matrix entries are equal.
-     * 
+     *
      * @param object the object to test equality against.
      * @return true if object equals this
      */
@@ -1045,10 +1045,10 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
         return true;
     }
-    
+
     /**
      * Computes a hashcode for the matrix.
-     * 
+     *
      * @return hashcode for matrix
      */
     @Override
@@ -1060,7 +1060,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         ret = ret * 31 + nCols;
         for (int row = 0; row < nRows; ++row) {
             for (int col = 0; col < nCols; ++col) {
-               ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) * 
+               ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) *
                    MathUtils.hash(getEntry(row, col));
            }
         }

@@ -38,13 +38,13 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  */
 public class BigFractionFormat extends AbstractFormat implements Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -2932167925527338976L;
 
     /**
      * Create an improper formatting instance with the default number format
-     * for the numerator and denominator.  
+     * for the numerator and denominator.
      */
     public BigFractionFormat() {
     }
@@ -71,7 +71,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
 
     /**
      * Get the set of locales for which complex formats are available.  This
-     * is the same set as the {@link NumberFormat} set. 
+     * is the same set as the {@link NumberFormat} set.
      * @return available complex format locales.
      */
     public static Locale[] getAvailableLocales() {
@@ -88,7 +88,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     public static String formatBigFraction(final BigFraction f) {
         return getImproperInstance().format(f);
     }
-    
+
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
@@ -96,7 +96,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     public static BigFractionFormat getImproperInstance() {
         return getImproperInstance(Locale.getDefault());
     }
-    
+
     /**
      * Returns the default complex format for the given locale.
      * @param locale the specific locale used by the format.
@@ -105,7 +105,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     public static BigFractionFormat getImproperInstance(final Locale locale) {
         return new BigFractionFormat(getDefaultNumberFormat(locale));
     }
-    
+
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
@@ -113,7 +113,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     public static BigFractionFormat getProperInstance() {
         return getProperInstance(Locale.getDefault());
     }
-    
+
     /**
      * Returns the default complex format for the given locale.
      * @param locale the specific locale used by the format.
@@ -122,7 +122,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     public static BigFractionFormat getProperInstance(final Locale locale) {
         return new ProperBigFractionFormat(getDefaultNumberFormat(locale));
     }
-    
+
     /**
      * Formats a {@link BigFraction} object to produce a string.  The BigFraction is
      * output in improper format.
@@ -135,17 +135,17 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      */
     public StringBuffer format(final BigFraction BigFraction,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
-        
+
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
         getNumeratorFormat().format(BigFraction.getNumerator(), toAppendTo, pos);
         toAppendTo.append(" / ");
         getDenominatorFormat().format(BigFraction.getDenominator(), toAppendTo, pos);
-        
+
         return toAppendTo;
     }
-    
+
     /**
      * Formats an object and appends the result to a StringBuffer.
      * <code>obj</code> must be either a  {@link BigFraction} object or a
@@ -172,11 +172,11 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
         } else if (obj instanceof Number) {
             ret = format(new BigFraction(((Number) obj).doubleValue()),
                          toAppendTo, pos);
-        } else { 
+        } else {
             throw MathRuntimeException.createIllegalArgumentException(
                 "cannot format given object as a fraction number");
         }
-        
+
         return ret;
     }
 
@@ -198,10 +198,10 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
         }
         return result;
     }
-    
+
     /**
      * Parses a string to produce a {@link BigFraction} object.
-     * This method expects the string to be formatted as an improper BigFraction.  
+     * This method expects the string to be formatted as an improper BigFraction.
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link BigFraction} object.

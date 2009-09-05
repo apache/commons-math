@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,45 +29,45 @@ import org.apache.commons.math.TestUtils;
  */
 
 public final class Array2DRowRealMatrixTest extends TestCase {
-    
+
     // 3 x 3 identity matrix
     protected double[][] id = { {1d,0d,0d}, {0d,1d,0d}, {0d,0d,1d} };
-    
+
     // Test data for group operations
     protected double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
     protected double[][] testDataLU = {{2d, 5d, 3d}, {.5d, -2.5d, 6.5d}, {0.5d, 0.2d, .2d}};
     protected double[][] testDataPlus2 = { {3d,4d,5d}, {4d,7d,5d}, {3d,2d,10d} };
-    protected double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d}, 
+    protected double[][] testDataMinus = { {-1d,-2d,-3d}, {-2d,-5d,-3d},
        {-1d,0d,-8d} };
     protected double[] testDataRow1 = {1d,2d,3d};
     protected double[] testDataCol3 = {3d,3d,8d};
-    protected double[][] testDataInv = 
+    protected double[][] testDataInv =
         { {-40d,16d,9d}, {13d,-5d,-3d}, {5d,-2d,-1d} };
     protected double[] preMultTest = {8,12,33};
     protected double[][] testData2 ={ {1d,2d,3d}, {2d,5d,3d}};
     protected double[][] testData2T = { {1d,2d}, {2d,5d}, {3d,3d}};
-    protected double[][] testDataPlusInv = 
+    protected double[][] testDataPlusInv =
         { {-39d,18d,12d}, {15d,0d,0d}, {6d,-2d,7d} };
-    
+
     // lu decomposition tests
     protected double[][] luData = { {2d,3d,3d}, {0d,5d,7d}, {6d,9d,8d} };
     protected double[][] luDataLUDecomposition = { {6d,9d,8d}, {0d,5d,7d},
             {0.33333333333333,0d,0.33333333333333} };
-    
+
     // singular matrices
     protected double[][] singular = { {2d,3d}, {2d,3d} };
     protected double[][] bigSingular = {{1d,2d,3d,4d}, {2d,5d,3d,4d},
         {7d,3d,256d,1930d}, {3d,7d,6d,8d}}; // 4th row = 1st + 2nd
     protected double[][] detData = { {1d,2d,3d}, {4d,5d,6d}, {7d,8d,10d} };
     protected double[][] detData2 = { {1d, 3d}, {2d, 4d}};
-    
+
     // vectors
     protected double[] testVector = {1,2,3};
     protected double[] testVector2 = {1,2,3,4};
-    
+
     // submatrix accessor tests
     protected double[][] subTestData = {{1, 2, 3, 4}, {1.5, 2.5, 3.5, 4.5},
-            {2, 4, 6, 8}, {4, 5, 6, 7}}; 
+            {2, 4, 6, 8}, {4, 5, 6, 7}};
     // array selections
     protected double[][] subRows02Cols13 = { {2, 4}, {4, 8}};
     protected double[][] subRows03Cols12 = { {2, 3}, {5, 6}};
@@ -85,21 +85,21 @@ public final class Array2DRowRealMatrixTest extends TestCase {
     // column matrices
     protected double[][] subColumn1 = {{2}, {2.5}, {4}, {5}};
     protected double[][] subColumn3 = {{4}, {4.5}, {8}, {7}};
-    
+
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
-    
+
     public Array2DRowRealMatrixTest(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(Array2DRowRealMatrixTest.class);
         suite.setName("Array2DRowRealMatrix Tests");
         return suite;
     }
-    
+
     /** test dimensions */
     public void testDimensions() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -110,8 +110,8 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals("testData2 row dimension",m2.getRowDimension(),2);
         assertEquals("testData2 column dimension",m2.getColumnDimension(),3);
         assertTrue("testData2 is not square",!m2.isSquare());
-    } 
-    
+    }
+
     /** test copy functions */
     public void testCopyFunctions() {
         Array2DRowRealMatrix m1 = new Array2DRowRealMatrix(testData);
@@ -120,8 +120,8 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         Array2DRowRealMatrix m3 = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix m4 = new Array2DRowRealMatrix(m3.getData(), false);
         assertEquals(m4,m3);
-    }           
-    
+    }
+
     /** test add */
     public void testAdd() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -134,9 +134,9 @@ public final class Array2DRowRealMatrixTest extends TestCase {
                     testDataPlusInv[row][col],sumEntries[row][col],
                         entryTolerance);
             }
-        }    
+        }
     }
-    
+
     /** test add failure */
     public void testAddFail() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -148,7 +148,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // ignored
         }
     }
-    
+
     /** test norm */
     public void testNorm() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -156,7 +156,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals("testData norm",14d,m.getNorm(),entryTolerance);
         assertEquals("testData2 norm",7d,m2.getNorm(),entryTolerance);
     }
-    
+
     /** test Frobenius norm */
     public void testFrobeniusNorm() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -164,21 +164,21 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
         assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
-    
+
      /** test m-n = m + -n */
     public void testPlusMinus() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix m2 = new Array2DRowRealMatrix(testDataInv);
         TestUtils.assertEquals("m-n = m + -n",m.subtract(m2),
-            m2.scalarMultiply(-1d).add(m),entryTolerance);        
+            m2.scalarMultiply(-1d).add(m),entryTolerance);
         try {
             m.subtract(new Array2DRowRealMatrix(testData2));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
-        }      
+        }
     }
-   
+
     /** test multiply */
      public void testMultiply() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
@@ -194,28 +194,28 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         TestUtils.assertEquals("identity multiply",identity.multiply(mInv),
             mInv,entryTolerance);
         TestUtils.assertEquals("identity multiply",m2.multiply(identity),
-            m2,entryTolerance); 
+            m2,entryTolerance);
         try {
             m.multiply(new Array2DRowRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
-        }      
-    }   
-    
+        }
+    }
+
     //Additional Test for Array2DRowRealMatrixTest.testMultiply
 
     private double[][] d3 = new double[][] {{1,2,3,4},{5,6,7,8}};
     private double[][] d4 = new double[][] {{1},{2},{3},{4}};
     private double[][] d5 = new double[][] {{30},{70}};
-     
-    public void testMultiply2() { 
-       RealMatrix m3 = new Array2DRowRealMatrix(d3);   
+
+    public void testMultiply2() {
+       RealMatrix m3 = new Array2DRowRealMatrix(d3);
        RealMatrix m4 = new Array2DRowRealMatrix(d4);
        RealMatrix m5 = new Array2DRowRealMatrix(d5);
        TestUtils.assertEquals("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
-   }  
-        
+   }
+
     /** test trace */
     public void testTrace() {
         RealMatrix m = new Array2DRowRealMatrix(id);
@@ -226,16 +226,16 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ex) {
             // ignored
-        }      
+        }
     }
-    
+
     /** test sclarAdd */
     public void testScalarAdd() {
         RealMatrix m = new Array2DRowRealMatrix(testData);
         TestUtils.assertEquals("scalar add",new Array2DRowRealMatrix(testDataPlus2),
             m.scalarAdd(2d),entryTolerance);
     }
-                    
+
     /** test operate */
     public void testOperate() {
         RealMatrix m = new Array2DRowRealMatrix(id);
@@ -249,7 +249,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
-        }      
+        }
     }
 
     /** test issue MATH-209 */
@@ -263,10 +263,10 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals( 7.0, b[1], 1.0e-12);
         assertEquals(11.0, b[2], 1.0e-12);
     }
-    
+
     /** test transpose */
     public void testTranspose() {
-        RealMatrix m = new Array2DRowRealMatrix(testData); 
+        RealMatrix m = new Array2DRowRealMatrix(testData);
         RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
         RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
         TestUtils.assertEquals("inverse-transpose", mIT, mTI, normTolerance);
@@ -274,7 +274,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         RealMatrix mt = new Array2DRowRealMatrix(testData2T);
         TestUtils.assertEquals("transpose",mt,m.transpose(),normTolerance);
     }
-    
+
     /** test preMultiply by vector */
     public void testPremultiplyVector() {
         RealMatrix m = new Array2DRowRealMatrix(testData);
@@ -290,13 +290,13 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // ignored
         }
     }
-    
+
     public void testPremultiply() {
-        RealMatrix m3 = new Array2DRowRealMatrix(d3);   
+        RealMatrix m3 = new Array2DRowRealMatrix(d3);
         RealMatrix m4 = new Array2DRowRealMatrix(d4);
         RealMatrix m5 = new Array2DRowRealMatrix(d5);
         TestUtils.assertEquals("m3*m4=m5", m4.preMultiply(m3), m5, entryTolerance);
-        
+
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix mInv = new Array2DRowRealMatrix(testDataInv);
         Array2DRowRealMatrix identity = new Array2DRowRealMatrix(id);
@@ -313,9 +313,9 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             fail("Expecting illegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // ignored
-        }      
+        }
     }
-    
+
     public void testGetVectors() {
         RealMatrix m = new Array2DRowRealMatrix(testData);
         TestUtils.assertEquals("get row",m.getRow(0),testDataRow1,entryTolerance);
@@ -333,7 +333,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // ignored
         }
     }
-    
+
     public void testGetEntry() {
         RealMatrix m = new Array2DRowRealMatrix(testData);
         assertEquals("get entry",m.getEntry(0,1),2d,entryTolerance);
@@ -344,7 +344,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // expected
         }
     }
-        
+
     /** test examples in user guide */
     public void testExamples() {
         // Create a real matrix with two rows and three columns
@@ -358,10 +358,10 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse(); 
+        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
-        
+
         // Solve example
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new Array2DRowRealMatrix(coefficientsData);
@@ -369,22 +369,22 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         double[] solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
         assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
         assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
-        assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);   
-        
+        assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);
+
     }
-    
+
     // test submatrix accessors
     public void testGetSubMatrix() {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         checkGetSubMatrix(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkGetSubMatrix(m, subRows00Cols33,  0 , 0 , 3, 3, false);
-        checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
-        checkGetSubMatrix(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
-        checkGetSubMatrix(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
-        checkGetSubMatrix(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
-        checkGetSubMatrix(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
-        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
+        checkGetSubMatrix(m, subRows01Cols23,  0 , 1 , 2, 3, false);
+        checkGetSubMatrix(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);
+        checkGetSubMatrix(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);
+        checkGetSubMatrix(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false);
+        checkGetSubMatrix(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false);
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false);
+        checkGetSubMatrix(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false);
         checkGetSubMatrix(m, null,  1, 0, 2, 4, true);
         checkGetSubMatrix(m, null, -1, 1, 2, 2, true);
         checkGetSubMatrix(m, null,  1, 0, 2, 2, true);
@@ -408,7 +408,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             }
         }
     }
-    
+
     private void checkGetSubMatrix(RealMatrix m, double[][] reference,
                                    int[] selectedRows, int[] selectedColumns,
                                    boolean mustFail) {
@@ -429,14 +429,14 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         checkCopy(m, subRows23Cols00,  2 , 3 , 0, 0, false);
         checkCopy(m, subRows00Cols33,  0 , 0 , 3, 3, false);
-        checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);   
-        checkCopy(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);  
-        checkCopy(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);  
-        checkCopy(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false); 
-        checkCopy(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false); 
-        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false); 
-        
+        checkCopy(m, subRows01Cols23,  0 , 1 , 2, 3, false);
+        checkCopy(m, subRows02Cols13,  new int[] { 0, 2 }, new int[] { 1, 3 },    false);
+        checkCopy(m, subRows03Cols12,  new int[] { 0, 3 }, new int[] { 1, 2 },    false);
+        checkCopy(m, subRows03Cols123, new int[] { 0, 3 }, new int[] { 1, 2, 3 }, false);
+        checkCopy(m, subRows20Cols123, new int[] { 2, 0 }, new int[] { 1, 2, 3 }, false);
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false);
+        checkCopy(m, subRows31Cols31,  new int[] { 3, 1 }, new int[] { 3, 1 },    false);
+
         checkCopy(m, null,  1, 0, 2, 4, true);
         checkCopy(m, null, -1, 1, 2, 2, true);
         checkCopy(m, null,  1, 0, 2, 2, true);
@@ -463,7 +463,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             }
         }
     }
-    
+
     private void checkCopy(RealMatrix m, double[][] reference,
                            int[] selectedRows, int[] selectedColumns,
                            boolean mustFail) {
@@ -487,9 +487,9 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         RealMatrix mRow0 = new Array2DRowRealMatrix(subRow0);
         RealMatrix mRow3 = new Array2DRowRealMatrix(subRow3);
-        assertEquals("Row0", mRow0, 
+        assertEquals("Row0", mRow0,
                 m.getRowMatrix(0));
-        assertEquals("Row3", mRow3, 
+        assertEquals("Row3", mRow3,
                 m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
@@ -504,7 +504,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testSetRowMatrix() {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         RealMatrix mRow3 = new Array2DRowRealMatrix(subRow3);
@@ -524,14 +524,14 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testGetColumnMatrix() {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         RealMatrix mColumn1 = new Array2DRowRealMatrix(subColumn1);
         RealMatrix mColumn3 = new Array2DRowRealMatrix(subColumn3);
-        assertEquals("Column1", mColumn1, 
+        assertEquals("Column1", mColumn1,
                 m.getColumnMatrix(1));
-        assertEquals("Column3", mColumn3, 
+        assertEquals("Column3", mColumn3,
                 m.getColumnMatrix(3));
         try {
             m.getColumnMatrix(-1);
@@ -606,7 +606,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testGetColumnVector() {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         RealVector mColumn1 = columnToVector(subColumn1);
@@ -691,7 +691,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testGetColumn() {
         RealMatrix m = new Array2DRowRealMatrix(subTestData);
         double[] mColumn1 = columnToArray(subColumn1);
@@ -743,10 +743,10 @@ public final class Array2DRowRealMatrixTest extends TestCase {
     private void checkArrays(double[] expected, double[] actual) {
         assertEquals(expected.length, actual.length);
         for (int i = 0; i < expected.length; ++i) {
-            assertEquals(expected[i], actual[i]);            
+            assertEquals(expected[i], actual[i]);
         }
     }
-    
+
     public void testEqualsAndHashCode() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix m1 = (Array2DRowRealMatrix) m.copy();
@@ -757,9 +757,9 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals(m, m1);
         assertFalse(m.equals(null));
         assertFalse(m.equals(mt));
-        assertFalse(m.equals(new Array2DRowRealMatrix(bigSingular))); 
+        assertFalse(m.equals(new Array2DRowRealMatrix(bigSingular)));
     }
-    
+
     public void testToString() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         assertEquals("Array2DRowRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
@@ -768,45 +768,45 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         assertEquals("Array2DRowRealMatrix{}",
                 m.toString());
     }
-    
+
     public void testSetSubMatrix() throws Exception {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         m.setSubMatrix(detData2,1,1);
         RealMatrix expected = MatrixUtils.createRealMatrix
             (new double[][] {{1.0,2.0,3.0},{2.0,1.0,3.0},{1.0,2.0,4.0}});
-        assertEquals(expected, m);  
-        
+        assertEquals(expected, m);
+
         m.setSubMatrix(detData2,0,0);
         expected = MatrixUtils.createRealMatrix
             (new double[][] {{1.0,3.0,3.0},{2.0,4.0,3.0},{1.0,2.0,4.0}});
-        assertEquals(expected, m);  
-        
-        m.setSubMatrix(testDataPlus2,0,0);      
+        assertEquals(expected, m);
+
+        m.setSubMatrix(testDataPlus2,0,0);
         expected = MatrixUtils.createRealMatrix
             (new double[][] {{3.0,4.0,5.0},{4.0,7.0,5.0},{3.0,2.0,10.0}});
-        assertEquals(expected, m);   
-        
+        assertEquals(expected, m);
+
         // dimension overflow
-        try {  
+        try {
             m.setSubMatrix(testData,1,1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException e) {
             // expected
         }
         // dimension underflow
-        try {  
+        try {
             m.setSubMatrix(testData,-1,1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException e) {
             // expected
         }
-        try {  
+        try {
             m.setSubMatrix(testData,1,-1);
             fail("expecting MatrixIndexException");
         } catch (MatrixIndexException e) {
             // expected
         }
-        
+
         // null
         try {
             m.setSubMatrix(null,1,1);
@@ -827,7 +827,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         } catch (IllegalStateException e) {
             // expected
         }
-        
+
         // ragged
         try {
             m.setSubMatrix(new double[][] {{1}, {2, 3}}, 0, 0);
@@ -835,7 +835,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
-       
+
         // empty
         try {
             m.setSubMatrix(new double[][] {{}}, 0, 0);
@@ -843,7 +843,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
-        
+
     }
 
     public void testWalk() {
@@ -862,11 +862,11 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, 0), 0);
             assertEquals(0.0, m.getEntry(i, columns - 1), 0);
         }
         for (int j = 0; j < columns; ++j) {
-            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(0, j), 0);
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
@@ -882,11 +882,11 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         m.walkInOptimizedOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, 0), 0);
             assertEquals(0.0, m.getEntry(i, columns - 1), 0);
         }
         for (int j = 0; j < columns; ++j) {
-            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(0, j), 0);
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
@@ -902,11 +902,11 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         m.walkInRowOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, 0), 0);
             assertEquals(0.0, m.getEntry(i, columns - 1), 0);
         }
         for (int j = 0; j < columns; ++j) {
-            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(0, j), 0);
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
@@ -922,11 +922,11 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         m.walkInColumnOrder(getVisitor, 1, rows - 2, 1, columns - 2);
         assertEquals((rows - 2) * (columns - 2), getVisitor.getCount());
         for (int i = 0; i < rows; ++i) {
-            assertEquals(0.0, m.getEntry(i, 0), 0);                    
+            assertEquals(0.0, m.getEntry(i, 0), 0);
             assertEquals(0.0, m.getEntry(i, columns - 1), 0);
         }
         for (int j = 0; j < columns; ++j) {
-            assertEquals(0.0, m.getEntry(0, j), 0);                    
+            assertEquals(0.0, m.getEntry(0, j), 0);
             assertEquals(0.0, m.getEntry(rows - 1, j), 0);
         }
 
@@ -936,8 +936,8 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         assertEquals(m,TestUtils.serializeAndRecover(m));
     }
-    
-    
+
+
     private static class SetVisitor extends DefaultRealMatrixChangingVisitor {
         @Override
         public double visit(int i, int j, double value) {
@@ -958,14 +958,14 @@ public final class Array2DRowRealMatrixTest extends TestCase {
     }
 
     //--------------- -----------------Protected methods
-    
+
     /** extracts the l  and u matrices from compact lu representation */
-    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {   
+    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {
         if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
                 lowerData.length != upperData.length
                 || lowerData.length != lu.getRowDimension()) {
             throw new InvalidMatrixException("incorrect dimensions");
-        }    
+        }
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -978,11 +978,11 @@ public final class Array2DRowRealMatrixTest extends TestCase {
                 } else {
                     lowerData[i][j] = 0d;
                     upperData[i][j] = lu.getEntry(i, j);
-                }   
+                }
             }
         }
     }
-    
+
     /** Returns the result of applying the given row permutation to the matrix */
     protected RealMatrix permuteRows(RealMatrix matrix, int[] permutation) {
         if (!matrix.isSquare() || matrix.getRowDimension() != permutation.length) {
@@ -998,7 +998,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
         }
         return new Array2DRowRealMatrix(out);
     }
-    
+
 //    /** Useful for debugging */
 //    private void dumpMatrix(RealMatrix m) {
 //          for (int i = 0; i < m.getRowDimension(); i++) {
@@ -1009,6 +1009,6 @@ public final class Array2DRowRealMatrixTest extends TestCase {
 //              System.out.println(os);
 //          }
 //    }
-        
+
 }
 

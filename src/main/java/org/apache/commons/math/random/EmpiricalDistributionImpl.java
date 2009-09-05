@@ -90,7 +90,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Creates a new EmpiricalDistribution  with the specified bin count.
-     * 
+     *
      * @param binCount number of bins
      */
     public EmpiricalDistributionImpl(int binCount) {
@@ -101,7 +101,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      /**
      * Computes the empirical distribution from the provided
      * array of numbers.
-     * 
+     *
      * @param in the input data array
      */
     public void load(double[] in) {
@@ -119,7 +119,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     /**
      * Computes the empirical distribution using data read from a URL.
      * @param url  url of the input file
-     * 
+     *
      * @throws IOException if an IO error occurs
      */
     public void load(URL url) throws IOException {
@@ -156,7 +156,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Computes the empirical distribution from the input file.
-     * 
+     *
      * @param file the input file
      * @throws IOException if an IO error occurs
      */
@@ -192,9 +192,9 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>beanStats</code> abstracting the source of data.
      */
     private abstract class DataAdapter{
-        /** 
+        /**
          * Compute bin stats.
-         * 
+         *
          * @param min minimum value
          * @param delta  grid size
          * @throws Exception  if an error occurs computing bin stats
@@ -203,7 +203,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 throws Exception;
         /**
          * Compute sample statistics.
-         * 
+         *
          * @throws Exception if an error occurs computing sample stats
          */
         public abstract void computeStats() throws Exception;
@@ -216,7 +216,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private class DataAdapterFactory{
         /**
          * Creates a DataAdapter from a data object
-         * 
+         *
          * @param in object providing access to the data
          * @return DataAdapter instance
          */
@@ -240,13 +240,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>DataAdapter</code> for data provided through some input stream
      */
     private class StreamDataAdapter extends DataAdapter{
-        
+
         /** Input stream providng access to the data */
         private BufferedReader inputStream;
-        
+
         /**
          * Create a StreamDataAdapter from a BufferedReader
-         * 
+         *
          * @param in BufferedReader input stream
          */
         public StreamDataAdapter(BufferedReader in){
@@ -255,7 +255,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes binStats
-         * 
+         *
          * @param min  minimum value
          * @param delta  grid size
          * @throws IOException if an IO error occurs
@@ -276,7 +276,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes sampleStats
-         * 
+         *
          * @throws IOException if an IOError occurs
          */
         @Override
@@ -297,13 +297,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>DataAdapter</code> for data provided as array of doubles.
      */
     private class ArrayDataAdapter extends DataAdapter{
-        
+
         /** Array of input  data values */
         private double[] inputArray;
-        
+
         /**
          * Construct an ArrayDataAdapter from a double[] array
-         * 
+         *
          * @param in double[] array holding the data
          */
         public ArrayDataAdapter(double[] in){
@@ -312,7 +312,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes sampleStats
-         * 
+         *
          * @throws IOException if an IO error occurs
          */
         @Override
@@ -324,7 +324,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         /**
          * Computes binStats
-         * 
+         *
          * @param min  minimum value
          * @param delta  grid size
          * @throws IOException  if an IO error occurs
@@ -342,7 +342,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Fills binStats array (second pass through data file).
-     * 
+     *
      * @param in object providing access to the data
      * @throws IOException  if an IO error occurs
      */
@@ -392,10 +392,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
         upperBounds[binCount-1] = 1.0d;
     }
-    
+
     /**
      * Returns the index of the bin to which the given value belongs
-     * 
+     *
      * @param min  the minimum value
      * @param value  the value whose bin we are trying to find
      * @param delta  the grid size
@@ -403,13 +403,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      */
     private int findBin(double min, double value, double delta) {
         return Math.min(
-                Math.max((int) Math.ceil((value- min) / delta) - 1, 0), 
+                Math.max((int) Math.ceil((value- min) / delta) - 1, 0),
                 binCount - 1);
         }
 
     /**
      * Generates a random value from this distribution.
-     * 
+     *
      * @return the random value.
      * @throws IllegalStateException if the distribution has not been loaded
      */
@@ -443,7 +443,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * Returns a {@link StatisticalSummary} describing this distribution.
      * <strong>Preconditions:</strong><ul>
      * <li>the distribution must be loaded before invoking this method</li></ul>
-     * 
+     *
      * @return the sample statistics
      * @throws IllegalStateException if the distribution has not been loaded
      */
@@ -453,7 +453,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Returns the number of bins.
-     * 
+     *
      * @return the number of bins.
      */
     public int getBinCount() {
@@ -464,7 +464,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * Returns a List of {@link SummaryStatistics} instances containing
      * statistics describing the values in each of the bins.  The list is
      * indexed on the bin number.
-     * 
+     *
      * @return List of bin statistics.
      */
     public List<SummaryStatistics> getBinStats() {
@@ -476,7 +476,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
        Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
      *  (upperBounds[binCount-1],max]
-     * 
+     *
      * @return array of bin upper bounds
      */
     public double[] getUpperBounds() {
@@ -488,7 +488,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
 
     /**
      * Property indicating whether or not the distribution has been loaded.
-     * 
+     *
      * @return true if the distribution has been loaded
      */
     public boolean isLoaded() {

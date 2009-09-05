@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import junit.framework.TestCase;
  */
 public class SparseFieldVectorTest extends TestCase {
 
-    // 
+    //
     protected Fraction[][] ma1 = {{new Fraction(1), new Fraction(2), new Fraction(3)}, {new Fraction(4), new Fraction(5), new Fraction(6)}, {new Fraction(7), new Fraction(8), new Fraction(9)}};
     protected Fraction[] vec1 = {new Fraction(1), new Fraction(2), new Fraction(3)};
     protected Fraction[] vec2 = {new Fraction(4), new Fraction(5), new Fraction(6)};
@@ -47,7 +47,7 @@ public class SparseFieldVectorTest extends TestCase {
 
     protected FractionField field = FractionField.getInstance();
 
-    public void testMapFunctions() throws FractionConversionException { 
+    public void testMapFunctions() throws FractionConversionException {
         SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
 
         //octave =  v1 .+ 2.0
@@ -108,11 +108,11 @@ public class SparseFieldVectorTest extends TestCase {
 
     }
 
-    public void testBasicFunctions() throws FractionConversionException { 
+    public void testBasicFunctions() throws FractionConversionException {
         SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
         SparseFieldVector<Fraction> v2 = new SparseFieldVector<Fraction>(field,vec2);
 
-        SparseFieldVector<Fraction> v2_t = new SparseFieldVector<Fraction>(field,vec2); 
+        SparseFieldVector<Fraction> v2_t = new SparseFieldVector<Fraction>(field,vec2);
 
         //octave =  v1 + v2
         FieldVector<Fraction> v_add = v1.add(v2);
@@ -168,19 +168,19 @@ public class SparseFieldVectorTest extends TestCase {
     }
 
 
-    public void testMisc() { 
+    public void testMisc() {
         SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
         try {
-            v1.checkVectorDimensions(2); 
+            v1.checkVectorDimensions(2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
-        }     
+        }
 
 
     }

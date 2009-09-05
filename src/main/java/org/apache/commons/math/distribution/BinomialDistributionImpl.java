@@ -100,10 +100,10 @@ public class BinomialDistributionImpl
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected int getDomainLowerBound(double p) {
@@ -113,10 +113,10 @@ public class BinomialDistributionImpl
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected int getDomainUpperBound(double p) {
@@ -126,7 +126,7 @@ public class BinomialDistributionImpl
     /**
      * For this distribution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
-     * @return PDF for this distribution. 
+     * @return PDF for this distribution.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
@@ -149,9 +149,9 @@ public class BinomialDistributionImpl
 
     /**
      * For this distribution, X, this method returns P(X = x).
-     * 
+     *
      * @param x the value at which the PMF is evaluated.
-     * @return PMF for this distribution. 
+     * @return PMF for this distribution.
      */
     public double probability(int x) {
         double ret;
@@ -166,7 +166,7 @@ public class BinomialDistributionImpl
         }
         return ret;
     }
-    
+
     /**
      * For this distribution, X, this method returns the largest x, such
      * that P(X &le; x) &le; <code>p</code>.
@@ -185,11 +185,11 @@ public class BinomialDistributionImpl
         // handle extreme values explicitly
         if (p == 0) {
             return -1;
-        } 
-        if (p == 1) {
-            return Integer.MAX_VALUE; 
         }
-        
+        if (p == 1) {
+            return Integer.MAX_VALUE;
+        }
+
         // use default bisection impl
         return super.inverseCumulativeProbability(p);
     }

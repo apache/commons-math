@@ -22,7 +22,7 @@ import org.apache.commons.math.fraction.BigFraction;
 
 /**
  * A collection of static methods that operate on or return polynomials.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -219,7 +219,7 @@ public class PolynomialsUtils {
         return new PolynomialFunction(a);
 
     }
-    
+
     /** Compute polynomial coefficients up to a given degree.
      * @param degree maximal degree
      * @param maxDegree current maximal degree

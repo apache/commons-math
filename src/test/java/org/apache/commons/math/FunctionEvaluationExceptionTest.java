@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class FunctionEvaluationExceptionTest extends TestCase {
-    
+
     public void testConstructor(){
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0);
         assertNull(ex.getCause());
@@ -33,7 +33,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertTrue(ex.getMessage().indexOf("0") > 0);
         assertEquals(0.0, ex.getArgument()[0], 0);
     }
-    
+
     public void testConstructorArray(){
         FunctionEvaluationException ex =
             new FunctionEvaluationException(new double[] { 0, 1, 2 });
@@ -44,7 +44,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         assertEquals(1.0, ex.getArgument()[1], 0);
         assertEquals(2.0, ex.getArgument()[2], 0);
     }
-    
+
     public void testConstructorPatternArguments(){
         String pattern = "evaluation failed for argument = {0}";
         Object[] arguments = { Double.valueOf(0.0) };

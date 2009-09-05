@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
  * Test cases for ExponentialDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class ExponentialDistributionTest extends ContinuousDistributionAbstractTest {
@@ -34,30 +34,30 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     }
 
     //-------------- Implementations for abstract methods -----------------------
-    
+
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public ContinuousDistribution makeDistribution() {
         return new ExponentialDistributionImpl(5.0);
-    }   
-    
+    }
+
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
-        return new double[] {0.005002502d, 0.05025168d, 0.1265890d, 0.2564665d, 0.5268026d, 
+        return new double[] {0.005002502d, 0.05025168d, 0.1265890d, 0.2564665d, 0.5268026d,
                 34.53878d, 23.02585d, 18.44440d, 14.97866d, 11.51293d};
     }
-    
+
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d}; 
+                0.990d, 0.975d, 0.950d, 0.900d};
     }
-    
+
     //------------ Additional tests -------------------------------------------
- 
+
     public void testCumulativeProbabilityExtremes() throws Exception {
         setCumulativeTestPoints(new double[] {-2, 0});
         setCumulativeTestValues(new double[] {0, 0});
@@ -91,7 +91,7 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
         // computed using  print(dexp(2, rate=1/3), digits=10) in R 2.5
         assertEquals(0.1711390397, d2.density(2.0), 1e-8);
     }
-    
+
     public void testMeanAccessors() {
         ExponentialDistribution distribution = (ExponentialDistribution) getDistribution();
         assertEquals(5d, distribution.getMean(), Double.MIN_VALUE);
@@ -104,5 +104,5 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
             // expected
         }
     }
-   
+
 }

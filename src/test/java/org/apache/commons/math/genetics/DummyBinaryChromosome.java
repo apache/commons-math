@@ -26,7 +26,7 @@ public class DummyBinaryChromosome extends BinaryChromosome {
     public DummyBinaryChromosome(List<Integer> representation) {
         super(representation);
     }
-    
+
     public DummyBinaryChromosome(Integer[] representation) {
         super(representation);
     }

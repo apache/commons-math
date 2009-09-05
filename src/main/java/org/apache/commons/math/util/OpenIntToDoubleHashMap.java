@@ -281,7 +281,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
                 j = probe(perturb, j);
                 index = j & mask;
                 perturb >>= PERTURB_SHIFT;
-                
+
                 if (states[index] != FULL || keys[index] == key) {
                     break;
                 }
@@ -340,7 +340,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         return size;
     }
 
-    
+
     /**
      * Remove the value associated with a key.
      * @param key key to which the value is associated
@@ -475,7 +475,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
         return h ^ (h >>> 7) ^ (h >>> 4);
     }
 
-    
+
     /** Iterator class for the map. */
     public class Iterator {
 
@@ -592,5 +592,5 @@ public class OpenIntToDoubleHashMap implements Serializable {
         count = 0;
     }
 
-            
+
 }

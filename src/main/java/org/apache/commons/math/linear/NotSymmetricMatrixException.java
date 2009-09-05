@@ -19,10 +19,10 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathException;
 
-/** 
+/**
  * This class represents exceptions thrown when a matrix expected to
  * be symmetric is not
- * 
+ *
  * @since 2.0
  * @version $Revision$ $Date$
  */

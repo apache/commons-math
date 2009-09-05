@@ -25,8 +25,8 @@ import junit.framework.TestCase;
  * <p>
  * FST algorithm is exact, the small tolerance number is used only
  * to account for round-off errors.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class FastSineTransformerTest extends TestCase {
 

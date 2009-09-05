@@ -26,7 +26,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * This TansformerMap automates the transformation of mixed object types.
- * It provides a means to set NumberTransformers that will be selected 
+ * It provides a means to set NumberTransformers that will be selected
  * based on the Class of the object handed to the Maps
  * <code>double transform(Object o)</code> method.
  * @version $Revision$ $Date$
@@ -120,7 +120,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
     }
 
     /**
-     * Returns the Set of NumberTransformers used as values 
+     * Returns the Set of NumberTransformers used as values
      * in the map.
      * @return Set of NumberTransformers
      */
@@ -131,10 +131,10 @@ public class TransformerMap implements NumberTransformer, Serializable {
     /**
      * Attempts to transform the Object against the map of
      * NumberTransformers. Otherwise it returns Double.NaN.
-     * 
+     *
      * @param o the Object to be transformed.
      * @return the double value of the Object.
-     * @throws MathException if the Object can not be transformed into a Double. 
+     * @throws MathException if the Object can not be transformed into a Double.
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
     public double transform(Object o) throws MathException {
@@ -155,7 +155,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
-        if (this == other) { 
+        if (this == other) {
             return true;
         }
         if (other == null) {
@@ -179,7 +179,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
             return false;
         }
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {

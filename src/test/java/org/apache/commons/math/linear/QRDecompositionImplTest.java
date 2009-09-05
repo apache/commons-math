@@ -33,25 +33,25 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 public class QRDecompositionImplTest extends TestCase {
-    double[][] testData3x3NonSingular = { 
-            { 12, -51, 4 }, 
+    double[][] testData3x3NonSingular = {
+            { 12, -51, 4 },
             { 6, 167, -68 },
             { -4, 24, -41 }, };
 
-    double[][] testData3x3Singular = { 
-            { 1, 4, 7, }, 
+    double[][] testData3x3Singular = {
+            { 1, 4, 7, },
             { 2, 5, 8, },
             { 3, 6, 9, }, };
 
-    double[][] testData3x4 = { 
-            { 12, -51, 4, 1 }, 
+    double[][] testData3x4 = {
+            { 12, -51, 4, 1 },
             { 6, 167, -68, 2 },
             { -4, 24, -41, 3 }, };
 
-    double[][] testData4x3 = { 
-            { 12, -51, 4, }, 
+    double[][] testData4x3 = {
+            { 12, -51, 4, },
             { 6, 167, -68, },
-            { -4, 24, -41, }, 
+            { -4, 24, -41, },
             { -5, 34, 7, }, };
 
     private static final double entryTolerance = 10e-16;
@@ -91,7 +91,7 @@ public class QRDecompositionImplTest extends TestCase {
         assertEquals(rows,    qr.getQ().getRowDimension());
         assertEquals(rows,    qr.getQ().getColumnDimension());
         assertEquals(rows,    qr.getR().getRowDimension());
-        assertEquals(columns, qr.getR().getColumnDimension());        
+        assertEquals(columns, qr.getR().getColumnDimension());
     }
 
     /** test A = QR */
@@ -250,7 +250,7 @@ public class QRDecompositionImplTest extends TestCase {
         assertTrue(q == qr.getQ());
         assertTrue(r == qr.getR());
         assertTrue(h == qr.getH());
-        
+
     }
 
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {

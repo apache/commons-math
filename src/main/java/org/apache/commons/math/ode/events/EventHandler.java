@@ -27,7 +27,7 @@ package org.apache.commons.math.ode.events;
  * discontinuities, or simply when the user wants to monitor some
  * states boundaries crossings.
  * </p>
- * 
+ *
  * <p>These events are defined as occurring when a <code>g</code>
  * switching function sign changes.</p>
  *
@@ -84,7 +84,7 @@ public interface EventHandler  {
 
   /** Compute the value of the switching function.
 
-   * <p>The discrete events are generated when the sign of this 
+   * <p>The discrete events are generated when the sign of this
    * switching function changes. The integrator will take care to change
    * the stepsize in such a way these events occur exactly at step boundaries.
    * The switching function must be continuous in its roots neighborhood
@@ -137,7 +137,7 @@ public interface EventHandler  {
    * @exception EventException if the event occurrence triggers an error
    */
   public int eventOccurred(double t, double[] y, boolean increasing) throws EventException;
-  
+
   /** Reset the state prior to continue the integration.
 
    * <p>This method is called after the step handler has returned and

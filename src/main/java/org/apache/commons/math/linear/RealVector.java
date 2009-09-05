@@ -35,7 +35,7 @@ package org.apache.commons.math.linear;
  * <pre>
  *   RealVector result = v.mapAddToSelf(3.0).mapTanToSelf().mapSquareToSelf();
  * </pre>
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -791,7 +791,7 @@ public interface RealVector {
      * @return  true if any coordinate of this vector is NaN; false otherwise
      */
     public boolean isNaN();
-    
+
     /**
      * Returns true if any coordinate of this vector is infinite and none are NaN;
      * false otherwise
@@ -799,5 +799,5 @@ public interface RealVector {
      * false otherwise
      */
     public boolean isInfinite();
-    
+
 }

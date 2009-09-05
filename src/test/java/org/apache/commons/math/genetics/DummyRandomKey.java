@@ -26,7 +26,7 @@ public class DummyRandomKey extends RandomKey<String> {
     public DummyRandomKey(List<Double> representation) {
         super(representation);
     }
-    
+
     public DummyRandomKey(Double[] representation) {
         super(representation);
     }
@@ -40,5 +40,5 @@ public class DummyRandomKey extends RandomKey<String> {
         // unimportant
         return 0;
     }
-    
+
 }

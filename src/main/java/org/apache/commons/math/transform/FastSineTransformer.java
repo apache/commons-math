@@ -34,7 +34,7 @@ import org.apache.commons.math.complex.Complex;
  * In addition, the first element must be 0 and it's enforced in function
  * transformation after sampling.</p>
  * <p>As of version 2.0 this no longer implements Serializable</p>
- * 
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -52,7 +52,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is F<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -67,7 +67,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is F<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -91,7 +91,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is F<sub>n</sub> = &radic;(2/N) &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -107,7 +107,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is F<sub>n</sub> = &radic;(2/N) &sum;<sub>k=0</sub><sup>N-1</sup> f<sub>k</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -132,7 +132,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is f<sub>k</sub> = (2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -148,7 +148,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is f<sub>k</sub> = (2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -172,7 +172,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is f<sub>k</sub> = &radic;(2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -187,7 +187,7 @@ public class FastSineTransformer implements RealTransformer {
      * <p>
      * The formula is f<sub>k</sub> = &radic;(2/N) &sum;<sub>n=0</sub><sup>N-1</sup> F<sub>n</sub> sin(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

@@ -23,7 +23,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 
 /**
  * Sparse matrix implementation based on an open addressed map.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -52,7 +52,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         this.columns = columnDimension;
         this.entries = new OpenIntToDoubleHashMap(0.0);
     }
-  
+
     /**
      * Build a matrix by copying another one.
      * @param matrix matrix to copy
@@ -62,7 +62,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         this.columns = matrix.columns;
         this.entries = new OpenIntToDoubleHashMap(matrix.entries);
     }
-  
+
     /** {@inheritDoc} */
     @Override
     public OpenMapRealMatrix copy() {

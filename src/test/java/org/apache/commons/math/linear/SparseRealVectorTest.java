@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.apache.commons.math.TestUtils;
  */
 public class SparseRealVectorTest extends TestCase {
 
-    // 
+    //
     protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
     protected double[] vec1 = {1d, 2d, 3d};
     protected double[] vec2 = {4d, 5d, 6d};
@@ -45,7 +45,7 @@ public class SparseRealVectorTest extends TestCase {
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
 
-    // Testclass to test the RealVector interface 
+    // Testclass to test the RealVector interface
     // only with enough content to support the test
     public static class SparseRealVectorTestImpl implements RealVector, Serializable {
 
@@ -521,7 +521,7 @@ public class SparseRealVectorTest extends TestCase {
         OpenMapRealVector v1 = new OpenMapRealVector(vec1);
         OpenMapRealVector v2 = new OpenMapRealVector(vec2);
         OpenMapRealVector v4 = new OpenMapRealVector(vec4);
-        SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2); 
+        SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2);
 
         RealVector v_append_1 = v1.append(v2);
         assertEquals("testData len", 6, v_append_1.getDimension());
@@ -538,7 +538,7 @@ public class SparseRealVectorTest extends TestCase {
 	    RealVector v_append_4 = v1.append(v2_t);
         assertEquals("testData len", 6, v_append_4.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3));
-        
+
         RealVector vout5 = v4.getSubVector(3, 3);
         assertEquals("testData len", 3, vout5.getDimension());
         assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1));
@@ -605,7 +605,7 @@ public class SparseRealVectorTest extends TestCase {
 
     }
 
-    public void testMapFunctions() { 
+    public void testMapFunctions() {
         OpenMapRealVector v1 = new OpenMapRealVector(vec1);
 
         //octave =  v1 .+ 2.0
@@ -806,7 +806,7 @@ public class SparseRealVectorTest extends TestCase {
 
         //octave =  asin(vat)
         RealVector v_mapAsinToSelf = vat.copy();
-        v_mapAsinToSelf.mapAsinToSelf();        
+        v_mapAsinToSelf.mapAsinToSelf();
         double[] result_mapAsinToSelf = {0.0d,5.235987755982989e-01d,1.570796326794897e+00d};
         assertClose("compare vectors" ,result_mapAsinToSelf,v_mapAsinToSelf.getData(),normTolerance);
 
@@ -933,12 +933,12 @@ public class SparseRealVectorTest extends TestCase {
 
     }
 
-    public void testBasicFunctions() { 
+    public void testBasicFunctions() {
         OpenMapRealVector v1 = new OpenMapRealVector(vec1);
         OpenMapRealVector v2 = new OpenMapRealVector(vec2);
         OpenMapRealVector v_null = new OpenMapRealVector(vec_null);
 
-        SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2); 
+        SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2);
 
         //octave =  sqrt(sumsq(v1))
         double d_getNorm = v1.getNorm();
@@ -1024,7 +1024,7 @@ public class SparseRealVectorTest extends TestCase {
         assertEquals("compare val ",4d, m_outerProduct_2.getEntry(0,0));
 
         RealVector v_unitVector = v1.unitVector();
-        RealVector v_unitVector_2 = v1.mapDivide(v1.getNorm()); 
+        RealVector v_unitVector_2 = v1.mapDivide(v1.getNorm());
         assertClose("compare vect" ,v_unitVector.getData(),v_unitVector_2.getData(),normTolerance);
 
         try {
@@ -1056,21 +1056,21 @@ public class SparseRealVectorTest extends TestCase {
         double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection_2.getData(), result_projection_2, normTolerance);
 
-    }  
+    }
 
-    public void testMisc() { 
+    public void testMisc() {
         OpenMapRealVector v1 = new OpenMapRealVector(vec1);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
         try {
-            v1.checkVectorDimensions(2); 
+            v1.checkVectorDimensions(2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
-        }     
+        }
 
 
     }
@@ -1100,7 +1100,7 @@ public class SparseRealVectorTest extends TestCase {
         OpenMapRealVector v = new OpenMapRealVector(new double[] { 0, 1, 2 });
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
-    
+
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {

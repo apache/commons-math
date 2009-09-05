@@ -24,7 +24,7 @@ import java.util.List;
  * One point crossover policy. A random crossover point is selected and the
  * first part from each parent is copied to the corresponding child, and the
  * second parts are copied crosswise.
- * 
+ *
  * Example:
  * <pre>
  * -C- denotes a crossover point
@@ -36,22 +36,22 @@ import java.util.List;
  *      /------------\ /-----\              /------------\ /-----\
  * c1 = (1 0 1 0 0 1  | 1 1 1)    X    p2 = (0 1 1 0 1 0  | 0 1 1)
  * </pre>
- * 
- * This policy works only on {@link AbstractListChromosome}, and therefore it 
+ *
+ * This policy works only on {@link AbstractListChromosome}, and therefore it
  * is parametrized by T. Moreover, the chromosomes must have same lengths.
- * 
+ *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 2.0
  * @version $Revision$ $Date$
- * 
+ *
  */
 public class OnePointCrossover<T> implements CrossoverPolicy {
-    
+
     /**
      * Performs one point crossover. A random crossover point is selected and the
      * first part from each parent is copied to the corresponding child, and the
      * second parts are copied crosswise.
-     * 
+     *
      * Example:
      * -C- denotes a crossover point
      *                   -C-                                -C-
@@ -61,7 +61,7 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
      *            VV         (**)                      VV        (*)
      *      /------------\ /-----\              /------------\ /-----\
      * c1 = (1 0 1 0 0 1  | 1 1 1)    X    p2 = (0 1 1 0 1 0  | 0 1 1)
-     * 
+     *
      * @param first first parent (p1)
      * @param second second parent (p2)
      * @return pair of two children (c1,c2)
@@ -77,23 +77,23 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
 
     /**
      * Helper for {@link #crossover(Chromosome, Chromosome)}. Performs the actual crossover.
-     * 
+     *
      * @param first the first chromosome.
      * @param second the second chromosome.
      * @return the pair of new chromosomes that resulted from the crossover.
      */
     private ChromosomePair crossover(AbstractListChromosome<T> first, AbstractListChromosome<T> second) {
         int length = first.getLength();
-        if (length != second.getLength()) 
+        if (length != second.getLength())
             throw new IllegalArgumentException("Both chromosomes must have same lengths.");
-        
+
         // array representations of the parents
         List<T> parent1Rep = first.getRepresentation();
         List<T> parent2Rep = second.getRepresentation();
         // and of the children
         ArrayList<T> child1Rep = new ArrayList<T> (first.getLength());
         ArrayList<T> child2Rep = new ArrayList<T> (second.getLength());
-        
+
         // select a crossover point at random (0 and length makes no sense)
         int crossoverIndex = 1 + (GeneticAlgorithm.getRandomGenerator().nextInt(length-2));
 
@@ -107,7 +107,7 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
             child1Rep.add(parent2Rep.get(i));
             child2Rep.add(parent1Rep.get(i));
         }
-        
+
         return new ChromosomePair(
                 first.newFixedLengthChromosome(child1Rep),
                 second.newFixedLengthChromosome(child2Rep)

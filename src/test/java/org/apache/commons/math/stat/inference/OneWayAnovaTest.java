@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import java.util.List;
 public class OneWayAnovaTest extends TestCase {
 
     protected OneWayAnova testStatistic = new OneWayAnovaImpl();
-    
+
     private double[] emptyArray = {};
 
     private double[] classA =
@@ -65,7 +65,7 @@ public class OneWayAnovaTest extends TestCase {
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
-        
+
         assertEquals("ANOVA F-value",  0.0150579150579,
                  testStatistic.anovaFValue(twoClasses), 1E-12);
 
@@ -77,7 +77,7 @@ public class OneWayAnovaTest extends TestCase {
             fail("empty array for key classX, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
-        }  
+        }
 
         List<double[]> tooFew = new ArrayList<double[]>();
         tooFew.add(classA);
@@ -86,9 +86,9 @@ public class OneWayAnovaTest extends TestCase {
             fail("less than two classes, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
-        }  
+        }
     }
-    
+
 
     public void testAnovaPValue() throws Exception {
         // Target comparison values computed using R version 2.6.0 (Linux version)
@@ -103,7 +103,7 @@ public class OneWayAnovaTest extends TestCase {
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
-        
+
         assertEquals("ANOVA P-value",  0.904212960464,
                  testStatistic.anovaPValue(twoClasses), 1E-12);
 
@@ -121,7 +121,7 @@ public class OneWayAnovaTest extends TestCase {
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
-        
+
         assertFalse("ANOVA Test P>0.01", testStatistic.anovaTest(twoClasses, 0.01));
     }
 

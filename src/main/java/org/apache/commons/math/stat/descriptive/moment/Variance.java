@@ -56,18 +56,18 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * To compute population variances, set this property to <code>false.</code>
  * </p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -9111962718267217978L;  
-      
+    private static final long serialVersionUID = -9111962718267217978L;
+
     /** SecondMoment is used in incremental calculation of Variance*/
     protected SecondMoment moment = null;
 
@@ -432,7 +432,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 for (int i = 0; i < weights.length; i++) {
                     sumWts += weights[i];
                 }
-                
+
                 if (isBiasCorrected) {
                     var = accum / (sumWts - 1);
                 } else {

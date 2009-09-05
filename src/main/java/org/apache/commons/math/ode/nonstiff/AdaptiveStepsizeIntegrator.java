@@ -54,7 +54,7 @@ import org.apache.commons.math.ode.IntegratorException;
 public abstract class AdaptiveStepsizeIntegrator
   extends AbstractIntegrator {
 
-  
+
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.
    * @param name name of the method

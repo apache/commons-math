@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import org.apache.commons.math.fraction.FractionField;
  */
 public class ArrayFieldVectorTest extends TestCase {
 
-    // 
+    //
     protected Fraction[][] ma1 = {
             {new Fraction(1), new Fraction(2), new Fraction(3)},
             {new Fraction(4), new Fraction(5), new Fraction(6)},
@@ -58,7 +58,7 @@ public class ArrayFieldVectorTest extends TestCase {
             {new Fraction(7), new Fraction(8), new Fraction(9)}
     };
 
-    // Testclass to test the FieldVector<Fraction> interface 
+    // Testclass to test the FieldVector<Fraction> interface
     // only with enough content to support the test
     public static class FieldVectorTestImpl<T extends FieldElement<T>>
         implements FieldVector<T>, Serializable {
@@ -340,7 +340,7 @@ public class ArrayFieldVectorTest extends TestCase {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
         ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(vec2);
         ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4);
-        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2); 
+        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2);
 
         FieldVector<Fraction> v_append_1 = v1.append(v2);
         assertEquals(6, v_append_1.getDimension());
@@ -436,7 +436,7 @@ public class ArrayFieldVectorTest extends TestCase {
         }
 
 
-        ArrayFieldVector<Fraction> vout10 = (ArrayFieldVector<Fraction>) v1.copy();       
+        ArrayFieldVector<Fraction> vout10 = (ArrayFieldVector<Fraction>) v1.copy();
         ArrayFieldVector<Fraction> vout10_2 = (ArrayFieldVector<Fraction>) v1.copy();
         assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, new Fraction(11, 10));
@@ -444,7 +444,7 @@ public class ArrayFieldVectorTest extends TestCase {
 
     }
 
-    public void testMapFunctions() { 
+    public void testMapFunctions() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
 
         //octave =  v1 .+ 2.0
@@ -504,12 +504,12 @@ public class ArrayFieldVectorTest extends TestCase {
 
     }
 
-    public void testBasicFunctions() { 
+    public void testBasicFunctions() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
         ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(vec2);
         new ArrayFieldVector<Fraction>(vec_null);
 
-        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2); 
+        FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2);
 
         //octave =  v1 + v2
         ArrayFieldVector<Fraction> v_add = v1.add(v2);
@@ -570,46 +570,46 @@ public class ArrayFieldVectorTest extends TestCase {
         Fraction[] result_projection_2 = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
         checkArray("compare vect", v_projection_2.getData(), result_projection_2);
 
-    }  
+    }
 
-    public void testMisc() { 
+    public void testMisc() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
         ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4);
         FieldVector<Fraction> v4_2 = new ArrayFieldVector<Fraction>(vec4);
 
         String out1 = v1.toString();
         assertTrue("some output ",  out1.length()!=0);
-        /*    
+        /*
          Fraction[] dout1 = v1.copyOut();
         assertEquals(3, dout1.length);
-        assertNotSame("testData not same object ", v1.data, dout1);   
-         */      
+        assertNotSame("testData not same object ", v1.data, dout1);
+         */
         try {
-            v1.checkVectorDimensions(2); 
+            v1.checkVectorDimensions(2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
-        } 
+        }
 
        try {
-            v1.checkVectorDimensions(v4); 
+            v1.checkVectorDimensions(v4);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
-        }        
+        }
 
         try {
-            v1.checkVectorDimensions(v4_2); 
+            v1.checkVectorDimensions(v4_2);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
-        }        
+        }
 
     }
 
@@ -617,7 +617,7 @@ public class ArrayFieldVectorTest extends TestCase {
         ArrayFieldVector<Fraction> v = new ArrayFieldVector<Fraction>(vec1);
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
-  
+
     /** verifies that two vectors are equals */
     protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
         if (m.length != n.length) {

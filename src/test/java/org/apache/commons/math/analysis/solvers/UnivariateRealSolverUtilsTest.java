@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,9 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtilsTest extends TestCase {
-    
+
     protected UnivariateRealFunction sin = new SinFunction();
-    
+
     public void testSolveNull() throws MathException {
         try {
             UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
@@ -38,25 +38,25 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
             // success
         }
     }
-    
+
     public void testSolveBadParameters() throws MathException {
         try { // bad endpoints
-            UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0); 
+            UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0);
         } catch (IllegalArgumentException ex) {
             // expected
-        }    
+        }
         try { // bad accuracy
-            UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0); 
+            UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0);
         } catch (IllegalArgumentException ex) {
             // expected
-        }        
+        }
     }
-    
-    public void testSolveSin() throws MathException {     
+
+    public void testSolveSin() throws MathException {
         double x = UnivariateRealSolverUtils.solve(sin, 1.0, 4.0);
         assertEquals(Math.PI, x, 1.0e-4);
     }
-    
+
     public void testSolveAccuracyNull()  throws MathException {
         try {
             double accuracy = 1.0e-6;
@@ -66,36 +66,36 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
             // success
         }
     }
-    
+
     public void testSolveAccuracySin() throws MathException {
         double accuracy = 1.0e-6;
         double x = UnivariateRealSolverUtils.solve(sin, 1.0,
                 4.0, accuracy);
         assertEquals(Math.PI, x, accuracy);
     }
-    
+
     public void testSolveNoRoot() throws MathException {
         try {
-            UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);  
-            fail("Expecting IllegalArgumentException ");  
+            UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);
+            fail("Expecting IllegalArgumentException ");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
-    
+
     public void testBracketSin() throws MathException {
-        double[] result = UnivariateRealSolverUtils.bracket(sin, 
+        double[] result = UnivariateRealSolverUtils.bracket(sin,
                 0.0, -2.0, 2.0);
         assertTrue(sin.value(result[0]) < 0);
         assertTrue(sin.value(result[1]) > 0);
     }
-    
+
     public void testBracketEndpointRoot() throws MathException {
         double[] result = UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0);
         assertEquals(0.0, sin.value(result[0]), 1.0e-15);
         assertTrue(sin.value(result[1]) > 0);
     }
-    
+
     public void testBadParameters() throws MathException {
         try { // null function
             UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
@@ -120,7 +120,7 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
-        }        
+        }
     }
-    
+
 }

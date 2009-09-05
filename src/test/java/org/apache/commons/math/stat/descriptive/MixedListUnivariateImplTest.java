@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
     private double tolerance = 10E-15;
 
     private TransformerMap transformers = new TransformerMap();
-    
+
     public MixedListUnivariateImplTest(String name) {
         super(name);
         transformers = new TransformerMap();
@@ -106,7 +106,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
         assertTrue(
             "Mean of n = 1 set should be value of single item n1, instead it is " + u.getMean() ,
             u.getMean() == one);
-            
+
         assertTrue(
             "StdDev of n = 1 set should be zero, instead it is: "
                 + u.getStandardDeviation(),

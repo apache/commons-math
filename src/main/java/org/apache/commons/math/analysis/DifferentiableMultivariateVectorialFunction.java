@@ -18,7 +18,7 @@
 package org.apache.commons.math.analysis;
 
 
-/** 
+/**
  * Extension of {@link MultivariateVectorialFunction} representing a differentiable
  * multivariate vectorial function.
  * @version $Revision$ $Date$

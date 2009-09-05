@@ -84,7 +84,7 @@ public class CholeskyDecompositionImplTest {
                 {-0.09376327,  0.10400408, 0.07137959, 0.04762857 },
                 { 0.30328980,  0.07137959, 0.30458776, 0.04882449 },
                 { 0.04909388,  0.04762857, 0.04882449, 0.07543265 }
-            
+
         }));
     }
 
@@ -144,7 +144,7 @@ public class CholeskyDecompositionImplTest {
         // check the same cached instance is returned the second time
         assertTrue(l  == llt.getL());
         assertTrue(lt == llt.getLT());
-        
+
     }
 
 }

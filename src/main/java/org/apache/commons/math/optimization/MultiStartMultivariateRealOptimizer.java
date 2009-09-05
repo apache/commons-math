@@ -25,7 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
-/** 
+/**
  * Special implementation of the {@link MultivariateRealOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>

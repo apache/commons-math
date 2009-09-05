@@ -24,27 +24,27 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * Returns the maximum of the available values.
  * <p>
  * <ul>
- * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+ * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
  * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
- * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+ * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>,
  * the result is <code>Double.POSITIVE_INFINITY.</code></li>
  * </ul></p>
 * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Max extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -5593383832225844641L;    
-    
+    private static final long serialVersionUID = -5593383832225844641L;
+
     /** Number of values that have been added */
     private long n;
-        
+
     /** Current value of the statistic */
     private double value;
 
@@ -55,17 +55,17 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
         n = 0;
         value = Double.NaN;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code Max} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Max} instance to copy
      */
     public Max(Max original) {
         copy(original, this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -100,7 +100,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
     public long getN() {
         return n;
     }
-    
+
     /**
      * Returns the maximum of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
@@ -110,12 +110,12 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
      * the array index parameters are not valid.</p>
      * <p>
      * <ul>
-     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code> 
+     * <li>The result is <code>NaN</code> iff all values are <code>NaN</code>
      * (i.e. <code>NaN</code> values have no impact on the value of the statistic).</li>
-     * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>, 
+     * <li>If any of the values equals <code>Double.POSITIVE_INFINITY</code>,
      * the result is <code>Double.POSITIVE_INFINITY.</code></li>
      * </ul></p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -136,7 +136,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
         }
         return max;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -146,11 +146,11 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
         copy(this, result);
         return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source Max to copy
      * @param dest Max to copy to
      * @throws NullPointerException if either source or dest is null

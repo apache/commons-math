@@ -27,7 +27,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
-/** 
+/**
  * Gauss-Newton least-squares solver.
  * <p>
  * This class solve a least-square problem by solving the normal equations

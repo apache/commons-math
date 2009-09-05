@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -123,8 +123,8 @@ public class SparseFieldMatrixTest extends TestCase {
         } catch (FractionConversionException e) {
             // ignore, can't happen
         }
-        
-                
+
+
     }
 
     public static Test suite() {
@@ -165,8 +165,8 @@ public class SparseFieldMatrixTest extends TestCase {
         FieldMatrix<Fraction> mPlusMInv = m.add(mInv);
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
-                assertEquals("sum entry entry", 
-                    mDataPlusInv.getEntry(row, col).doubleValue(), mPlusMInv.getEntry(row, col).doubleValue(), 
+                assertEquals("sum entry entry",
+                    mDataPlusInv.getEntry(row, col).doubleValue(), mPlusMInv.getEntry(row, col).doubleValue(),
                     entryTolerance);
             }
         }
@@ -184,7 +184,7 @@ public class SparseFieldMatrixTest extends TestCase {
         }
     }
 
-    
+
     /** test m-n = m + -n */
     public void testPlusMinus() {
         SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
@@ -254,7 +254,7 @@ public class SparseFieldMatrixTest extends TestCase {
     /** test sclarAdd */
     public void testScalarAdd() {
         FieldMatrix<Fraction> m = createSparseMatrix(testData);
-        assertClose("scalar add", createSparseMatrix(testDataPlus2), 
+        assertClose("scalar add", createSparseMatrix(testDataPlus2),
             m.scalarAdd(new Fraction(2)), entryTolerance);
     }
 
@@ -287,8 +287,8 @@ public class SparseFieldMatrixTest extends TestCase {
 
     /** test transpose */
     public void testTranspose() {
-        
-        FieldMatrix<Fraction> m = createSparseMatrix(testData); 
+
+        FieldMatrix<Fraction> m = createSparseMatrix(testData);
         FieldMatrix<Fraction> mIT = new FieldLUDecompositionImpl<Fraction>(m).getSolver().getInverse().transpose();
         FieldMatrix<Fraction> mTI = new FieldLUDecompositionImpl<Fraction>(m.transpose()).getSolver().getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
@@ -380,7 +380,7 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        FieldMatrix<Fraction> pInverse = new FieldLUDecompositionImpl<Fraction>(p).getSolver().getInverse(); 
+        FieldMatrix<Fraction> pInverse = new FieldLUDecompositionImpl<Fraction>(p).getSolver().getInverse();
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
 
@@ -413,17 +413,17 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("Rows23Cols00", mRows23Cols00, m.getSubMatrix(2, 3, 0, 0));
         assertEquals("Rows00Cols33", mRows00Cols33, m.getSubMatrix(0, 0, 3, 3));
         assertEquals("Rows01Cols23", mRows01Cols23, m.getSubMatrix(0, 1, 2, 3));
-        assertEquals("Rows02Cols13", mRows02Cols13, 
+        assertEquals("Rows02Cols13", mRows02Cols13,
             m.getSubMatrix(new int[] { 0, 2 }, new int[] { 1, 3 }));
-        assertEquals("Rows03Cols12", mRows03Cols12, 
+        assertEquals("Rows03Cols12", mRows03Cols12,
             m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2 }));
-        assertEquals("Rows03Cols123", mRows03Cols123, 
+        assertEquals("Rows03Cols123", mRows03Cols123,
             m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2, 3 }));
-        assertEquals("Rows20Cols123", mRows20Cols123, 
+        assertEquals("Rows20Cols123", mRows20Cols123,
             m.getSubMatrix(new int[] { 2, 0 }, new int[] { 1, 2, 3 }));
-        assertEquals("Rows31Cols31", mRows31Cols31, 
+        assertEquals("Rows31Cols31", mRows31Cols31,
             m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
-        assertEquals("Rows31Cols31", mRows31Cols31, 
+        assertEquals("Rows31Cols31", mRows31Cols31,
             m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
 
         try {
@@ -568,7 +568,7 @@ public class SparseFieldMatrixTest extends TestCase {
     /* Disable for now
     public void testToString() {
         SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
-        assertEquals("SparseFieldMatrix<Fraction>{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}", 
+        assertEquals("SparseFieldMatrix<Fraction>{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
             m.toString());
         m = new SparseFieldMatrix<Fraction>(field, 1, 1);
         assertEquals("SparseFieldMatrix<Fraction>{{0.0}}", m.toString());
@@ -593,8 +593,8 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals(expected, m);
 
         // javadoc example
-        SparseFieldMatrix<Fraction> matrix = 
-            createSparseMatrix(new Fraction[][] { 
+        SparseFieldMatrix<Fraction> matrix =
+            createSparseMatrix(new Fraction[][] {
         { new Fraction(1), new Fraction(2), new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6), new Fraction(7), new Fraction(8) }, { new Fraction(9), new Fraction(0), new Fraction(1), new Fraction(2) } });
         matrix.setSubMatrix(new Fraction[][] { { new Fraction(3), new Fraction(4) }, { new Fraction(5), new Fraction(6) } }, 1, 1);
         expected = createSparseMatrix(new Fraction[][] {
@@ -663,7 +663,7 @@ public class SparseFieldMatrixTest extends TestCase {
             for(int j=0; j < m.getColumnDimension(); j++){
                 assertEquals(msg, m.getEntry(i,j).doubleValue(), n.getEntry(i,j).doubleValue(), tolerance);
             }
-            
+
         }
     }
 
@@ -678,7 +678,7 @@ public class SparseFieldMatrixTest extends TestCase {
                     tolerance);
         }
     }
-    
+
     private SparseFieldMatrix<Fraction> createSparseMatrix(Fraction[][] data) {
         SparseFieldMatrix<Fraction> matrix = new SparseFieldMatrix<Fraction>(field, data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {

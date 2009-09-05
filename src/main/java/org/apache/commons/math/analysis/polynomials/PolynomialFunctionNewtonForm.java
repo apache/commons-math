@@ -37,7 +37,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
-     * coefficients[0] is the constant term and coefficients[n] is the 
+     * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
     private double coefficients[];
@@ -60,7 +60,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * completely change, not just a permutation of old a[].
      * <p>
      * The constructor makes copy of the input arrays and assigns them.</p>
-     * 
+     *
      * @param a the coefficients in Newton form formula
      * @param c the centers
      * @throws IllegalArgumentException if input arrays are not valid
@@ -90,7 +90,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
 
     /**
      * Returns the degree of the polynomial.
-     * 
+     *
      * @return the degree of the polynomial
      */
     public int degree() {
@@ -101,7 +101,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * Returns a copy of coefficients in Newton form formula.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of coefficients in Newton form formula
      */
     public double[] getNewtonCoefficients() {
@@ -114,7 +114,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * Returns a copy of the centers array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of the centers array
      */
     public double[] getCenters() {
@@ -127,7 +127,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * Returns a copy of the coefficients array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of the coefficients array
      */
     public double[] getCoefficients() {
@@ -193,7 +193,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * <p>
      * The centers must be distinct for interpolation purposes, but not
      * for general use. Thus it is not verified here.</p>
-     * 
+     *
      * @param a the coefficients in Newton form formula
      * @param c the centers
      * @throws IllegalArgumentException if not valid

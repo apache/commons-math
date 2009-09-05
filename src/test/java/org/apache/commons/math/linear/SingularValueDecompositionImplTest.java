@@ -199,7 +199,7 @@ public class SingularValueDecompositionImplTest extends TestCase {
         assertTrue(u == svd.getU());
         assertTrue(s == svd.getS());
         assertTrue(v == svd.getV());
-        
+
     }
 
     /** test matrices values */

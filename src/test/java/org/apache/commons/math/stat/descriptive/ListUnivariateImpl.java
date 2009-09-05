@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -8837442489133392138L;
-    
+
     /**
      * Holds a reference to a list - GENERICs are going to make
      * our lives easier here as we could only accept List<Number>
@@ -49,7 +49,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public ListUnivariateImpl(){
         this(new ArrayList<Object>());
     }
-    
+
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
@@ -57,7 +57,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public ListUnivariateImpl(List<Object> list) {
         this(list, new DefaultTransformer());
     }
-    
+
     /**
      * Construct a ListUnivariate with a specific List.
      * @param list The list that will back this DescriptiveStatistics
@@ -109,13 +109,13 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
             calcIndex = (list.size() - windowSize) + index;
         }
 
-        
+
         try {
             value = transformer.transform(list.get(calcIndex));
         } catch (MathException e) {
             e.printStackTrace();
         }
-        
+
         return value;
     }
 
@@ -141,9 +141,9 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public void addValue(double v) {
         list.add(Double.valueOf(v));
     }
-    
+
     /**
-     * Adds an object to this list. 
+     * Adds an object to this list.
      * @param o Object to add to the list
      */
     public void addObject(Object o) {
@@ -159,7 +159,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public void clear() {
         list.clear();
     }
-    
+
     /**
      * Apply the given statistic to this univariate collection.
      * @param stat the statistic to apply
@@ -174,7 +174,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         }
         return Double.NaN;
     }
-    
+
     /**
      * Access the number transformer.
      * @return the number transformer.
@@ -190,12 +190,12 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public void setTransformer(NumberTransformer transformer) {
         this.transformer = transformer;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public synchronized void setWindowSize(int windowSize) {
         this.windowSize = windowSize;
-        //Discard elements from the front of the list if the windowSize is less than 
+        //Discard elements from the front of the list if the windowSize is less than
         // the size of the list.
         int extra = list.size() - windowSize;
         for (int i = 0; i < extra; i++) {

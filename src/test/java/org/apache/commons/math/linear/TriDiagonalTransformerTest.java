@@ -106,7 +106,7 @@ public class TriDiagonalTransformerTest extends TestCase {
     private void checkOrthogonal(RealMatrix m) {
         RealMatrix mTm = m.transpose().multiply(m);
         RealMatrix id  = MatrixUtils.createRealIdentityMatrix(mTm.getRowDimension());
-        assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-15);        
+        assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-15);
     }
 
     public void testTTriDiagonal() {
@@ -121,7 +121,7 @@ public class TriDiagonalTransformerTest extends TestCase {
             for (int j = 0; j < cols; ++j) {
                 if ((i < j - 1) || (i > j + 1)) {
                     assertEquals(0, m.getEntry(i, j), 1.0e-16);
-                }                    
+                }
             }
         }
     }
@@ -176,7 +176,7 @@ public class TriDiagonalTransformerTest extends TestCase {
         // check the same cached instance is returned the second time
         assertTrue(q == transformer.getQ());
         assertTrue(t == transformer.getT());
-        
+
     }
 
     public static Test suite() {

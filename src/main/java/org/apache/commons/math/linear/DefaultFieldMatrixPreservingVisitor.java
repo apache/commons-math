@@ -25,7 +25,7 @@ import org.apache.commons.math.FieldElement;
  * This class is a convenience to create custom visitors without defining all
  * methods. This class provides default implementations that do nothing.
  * </p>
- * 
+ *
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0

@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-/** 
+/**
  * This class holds a point and the vectorial value of an objective function at this point.
  * <p>This is a simple immutable container.</p>
  * @see RealPointValuePair

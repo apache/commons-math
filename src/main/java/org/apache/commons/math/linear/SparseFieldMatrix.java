@@ -22,7 +22,7 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
 
 /**
  * Sparse matrix implementation based on an open addressed map.
- * 
+ *
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0
@@ -42,7 +42,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * column dimension
      */
     private final int columns;
-    
+
 
     /**
      * Creates a matrix with no data.
@@ -71,7 +71,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         this.columns = columnDimension;
         entries = new OpenIntToFieldHashMap<T>(field);
     }
-    
+
     /**
      * Copy constructor.
      * @param other The instance to copy
@@ -112,7 +112,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         } else {
             entries.put(key, value);
         }
-       
+
     }
 
     /** {@inheritDoc} */
@@ -161,7 +161,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         } else {
             entries.put(key, value);
         }
-        
+
     }
 
     /** {@inheritDoc} */
@@ -175,7 +175,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
         } else {
             entries.put(computeKey(row, column), value);
         }
-        
+
     }
     /**
      * Compute the key to access a matrix element

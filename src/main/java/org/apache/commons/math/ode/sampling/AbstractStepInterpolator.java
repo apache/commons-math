@@ -229,17 +229,17 @@ public abstract class AbstractStepInterpolator
   public double getPreviousTime() {
     return previousTime;
   }
-    
+
   /** {@inheritDoc} */
   public double getCurrentTime() {
     return currentTime;
   }
-    
+
   /** {@inheritDoc} */
   public double getInterpolatedTime() {
     return interpolatedTime;
   }
-    
+
   /** {@inheritDoc} */
   public void setInterpolatedTime(final double time) {
       interpolatedTime = time;
@@ -264,7 +264,7 @@ public abstract class AbstractStepInterpolator
   protected abstract void computeInterpolatedStateAndDerivatives(double theta,
                                                                  double oneMinusThetaH)
     throws DerivativeException;
-    
+
   /** {@inheritDoc} */
   public double[] getInterpolatedState() throws DerivativeException {
 

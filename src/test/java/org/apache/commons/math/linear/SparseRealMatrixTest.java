@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link OpenMapRealMatrix} class.
- * 
+ *
  * @version $Revision$ $Date: 2008-11-07 06:48:13 -0800 (Fri, 07 Nov
  *          2008) $
  */
@@ -146,8 +146,8 @@ public final class SparseRealMatrixTest extends TestCase {
         RealMatrix mPlusMInv = m.add(mInv);
         for (int row = 0; row < m.getRowDimension(); row++) {
             for (int col = 0; col < m.getColumnDimension(); col++) {
-                assertEquals("sum entry entry", 
-                    mDataPlusInv.getEntry(row, col), mPlusMInv.getEntry(row, col), 
+                assertEquals("sum entry entry",
+                    mDataPlusInv.getEntry(row, col), mPlusMInv.getEntry(row, col),
                     entryTolerance);
             }
         }
@@ -242,7 +242,7 @@ public final class SparseRealMatrixTest extends TestCase {
     /** test sclarAdd */
     public void testScalarAdd() {
         RealMatrix m = createSparseMatrix(testData);
-        assertClose("scalar add", createSparseMatrix(testDataPlus2), 
+        assertClose("scalar add", createSparseMatrix(testDataPlus2),
             m.scalarAdd(2d), entryTolerance);
     }
 
@@ -275,8 +275,8 @@ public final class SparseRealMatrixTest extends TestCase {
 
     /** test transpose */
     public void testTranspose() {
-        
-        RealMatrix m = createSparseMatrix(testData); 
+
+        RealMatrix m = createSparseMatrix(testData);
         RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
         RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
@@ -368,7 +368,7 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals(2, p.getRowDimension());
         assertEquals(2, p.getColumnDimension());
         // Invert p
-        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse(); 
+        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
         assertEquals(2, pInverse.getRowDimension());
         assertEquals(2, pInverse.getColumnDimension());
 
@@ -401,17 +401,17 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("Rows23Cols00", mRows23Cols00, m.getSubMatrix(2, 3, 0, 0));
         assertEquals("Rows00Cols33", mRows00Cols33, m.getSubMatrix(0, 0, 3, 3));
         assertEquals("Rows01Cols23", mRows01Cols23, m.getSubMatrix(0, 1, 2, 3));
-        assertEquals("Rows02Cols13", mRows02Cols13, 
+        assertEquals("Rows02Cols13", mRows02Cols13,
             m.getSubMatrix(new int[] { 0, 2 }, new int[] { 1, 3 }));
-        assertEquals("Rows03Cols12", mRows03Cols12, 
+        assertEquals("Rows03Cols12", mRows03Cols12,
             m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2 }));
-        assertEquals("Rows03Cols123", mRows03Cols123, 
+        assertEquals("Rows03Cols123", mRows03Cols123,
             m.getSubMatrix(new int[] { 0, 3 }, new int[] { 1, 2, 3 }));
-        assertEquals("Rows20Cols123", mRows20Cols123, 
+        assertEquals("Rows20Cols123", mRows20Cols123,
             m.getSubMatrix(new int[] { 2, 0 }, new int[] { 1, 2, 3 }));
-        assertEquals("Rows31Cols31", mRows31Cols31, 
+        assertEquals("Rows31Cols31", mRows31Cols31,
             m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
-        assertEquals("Rows31Cols31", mRows31Cols31, 
+        assertEquals("Rows31Cols31", mRows31Cols31,
             m.getSubMatrix(new int[] { 3, 1 }, new int[] { 3, 1 }));
 
         try {
@@ -555,7 +555,7 @@ public final class SparseRealMatrixTest extends TestCase {
 
     public void testToString() {
         OpenMapRealMatrix m = createSparseMatrix(testData);
-        assertEquals("OpenMapRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}", 
+        assertEquals("OpenMapRealMatrix{{1.0,2.0,3.0},{2.0,5.0,3.0},{1.0,0.0,8.0}}",
             m.toString());
         m = new OpenMapRealMatrix(1, 1);
         assertEquals("OpenMapRealMatrix{{0.0}}", m.toString());
@@ -579,8 +579,8 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals(expected, m);
 
         // javadoc example
-        OpenMapRealMatrix matrix = 
-            createSparseMatrix(new double[][] { 
+        OpenMapRealMatrix matrix =
+            createSparseMatrix(new double[][] {
         { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 0, 1, 2 } });
         matrix.setSubMatrix(new double[][] { { 3, 4 }, { 5, 6 } }, 1, 1);
         expected = createSparseMatrix(new double[][] {
@@ -664,7 +664,7 @@ public final class SparseRealMatrixTest extends TestCase {
                     tolerance);
         }
     }
-    
+
     private OpenMapRealMatrix createSparseMatrix(double[][] data) {
         OpenMapRealMatrix matrix = new OpenMapRealMatrix(data.length, data[0].length);
         for (int row = 0; row < data.length; row++) {

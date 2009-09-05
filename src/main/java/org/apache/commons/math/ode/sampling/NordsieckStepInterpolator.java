@@ -252,7 +252,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     public void readExternal(final ObjectInput in)
         throws IOException, ClassNotFoundException {
 
-        // read the base class 
+        // read the base class
         final double t = readBaseExternal(in);
 
         // read the local attributes

@@ -53,13 +53,13 @@ public class ThreeEighthesIntegratorTest
     } catch(IntegratorException ie) {
     }
   }
-  
+
   public void testDecreasingSteps()
     throws DerivativeException, IntegratorException  {
-      
+
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
-    
+
       double previousError = Double.NaN;
       for (int i = 4; i < 10; ++i) {
 
@@ -217,7 +217,7 @@ public class ThreeEighthesIntegratorTest
               return false;
           }
           public void reset() {
-          }          
+          }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
           public void computeDerivatives(double t, double[] y, double[] dot) {

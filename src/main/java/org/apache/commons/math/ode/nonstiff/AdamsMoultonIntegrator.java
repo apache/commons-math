@@ -112,7 +112,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *        [  -8  48 -256 1280  ... ]
  *        [          ...           ]
  * </pre></p>
- * 
+ *
  * <p>Using the Nordsieck vector has several advantages:
  * <ul>
  *   <li>it greatly simplifies step interpolation as the interpolator mainly applies
@@ -121,7 +121,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   the step are triggered,</li>
  *   <li>it allows to extend the methods in order to support adaptive stepsize.</li>
  * </ul></p>
- * 
+ *
  * <p>The predicted Nordsieck vector at step n+1 is computed from the Nordsieck vector at step
  * n as follows:
  * <ul>
@@ -196,8 +196,8 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         super("Adams-Moulton", nSteps, nSteps + 1, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
-      
-    
+
+
     /** {@inheritDoc} */
     @Override
     public double integrate(final FirstOrderDifferentialEquations equations,
@@ -238,7 +238,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
         double hNew = stepSize;
         interpolator.rescale(hNew);
-        
+
         boolean lastStep = false;
         while (!lastStep) {
 

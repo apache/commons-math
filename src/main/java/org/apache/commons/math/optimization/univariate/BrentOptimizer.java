@@ -25,12 +25,12 @@ import org.apache.commons.math.optimization.GoalType;
  * Implements Richard Brent's algorithm (from his book "Algorithms for
  * Minimization without Derivatives", p. 79) for finding minima of real
  * univariate functions.
- *  
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
-    
+
     /**
      * Golden section.
      */
@@ -49,7 +49,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         throws MaxIterationsExceededException, FunctionEvaluationException {
         return optimize(f, goalType, min, max);
     }
-    
+
     /** {@inheritDoc} */
     public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max)
@@ -57,7 +57,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         clearResult();
         return localMin(f, goalType, min, max, relativeAccuracy, absoluteAccuracy);
     }
-    
+
     /**
      * Find the minimum of the function {@code f} within the interval {@code (a, b)}.
      *
@@ -80,7 +80,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating
-     * the function. 
+     * the function.
      */
     private double localMin(final UnivariateRealFunction f, final GoalType goalType,
                             double a, double b, final double eps, final double t)

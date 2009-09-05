@@ -35,22 +35,22 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  *  Note that this statistic is undefined for n < 4.  <code>Double.Nan</code>
  *  is returned when there is not sufficient data to compute the statistic.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2784465764798260919L;  
-      
+    private static final long serialVersionUID = 2784465764798260919L;
+
     /**Fourth Moment on which this statistic is based */
     protected FourthMoment moment;
 
-    /** 
+    /**
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
@@ -68,18 +68,18 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
 
     /**
      * Construct a Kurtosis from an external moment
-     * 
+     *
      * @param m4 external Moment
      */
     public Kurtosis(final FourthMoment m4) {
         incMoment = false;
         this.moment = m4;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code Kurtosis} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Kurtosis} instance to copy
      */
     public Kurtosis(Kurtosis original) {
@@ -139,17 +139,17 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
     public long getN() {
         return moment.getN();
     }
-    
+
     /* UnvariateStatistic Approach  */
 
     /**
      * Returns the kurtosis of the entries in the specified portion of the
-     * input array.  
+     * input array.
      * <p>
      * See {@link Kurtosis} for details on the computing algorithm.</p>
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -160,17 +160,17 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      */
     @Override
     public double evaluate(final double[] values,final int begin, final int length) {
-        // Initialize the kurtosis  
-        double kurt = Double.NaN;   
-        
-        if (test(values, begin, length) && length > 3) {       
-            
+        // Initialize the kurtosis
+        double kurt = Double.NaN;
+
+        if (test(values, begin, length) && length > 3) {
+
             // Compute the mean and standard deviation
             Variance variance = new Variance();
             variance.incrementAll(values, begin, length);
             double mean = variance.moment.m1;
             double stdDev = Math.sqrt(variance.getResult());
-            
+
             // Sum the ^4 of the distance from the mean divided by the
             // standard deviation
             double accum3 = 0.0;
@@ -178,21 +178,21 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
                 accum3 += Math.pow((values[i] - mean), 4.0);
             }
             accum3 /= Math.pow(stdDev, 4.0d);
-            
+
             // Get N
             double n0 = length;
-            
+
             double coefficientOne =
                 (n0 * (n0 + 1)) / ((n0 - 1) * (n0 - 2) * (n0 - 3));
             double termTwo =
                 ((3 * Math.pow(n0 - 1, 2.0)) / ((n0 - 2) * (n0 - 3)));
-            
+
             // Calculate kurtosis
             kurt = (coefficientOne * accum3) - termTwo;
-        }       
+        }
         return kurt;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -202,11 +202,11 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
         copy(this, result);
         return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source Kurtosis to copy
      * @param dest Kurtosis to copy to
      * @throws NullPointerException if either source or dest is null

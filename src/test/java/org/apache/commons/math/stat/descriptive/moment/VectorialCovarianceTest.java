@@ -83,7 +83,7 @@ extends TestCase {
         VectorialCovariance stat = new VectorialCovariance(points[0].length, true);
         assertEquals(stat, TestUtils.serializeAndRecover(stat));
     }
-    
+
     @Override
     public void setUp() {
         points = new double[][] {

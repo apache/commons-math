@@ -22,7 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * An interface representing a real function that depends on one independent
  * variable plus some extra parameters.
- *  
+ *
  * @version $Revision$ $Date$
  */
 public interface ParametricRealFunction {

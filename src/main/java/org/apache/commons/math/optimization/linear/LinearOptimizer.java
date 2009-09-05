@@ -23,7 +23,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
-/** 
+/**
  * This interface represents an optimization algorithm for linear problems.
  * <p>Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function. In the linear case the form of

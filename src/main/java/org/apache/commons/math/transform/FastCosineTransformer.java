@@ -53,7 +53,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
      *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -68,7 +68,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
      *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -91,7 +91,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is F<sub>n</sub> = &radic;(1/2N) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -109,7 +109,7 @@ public class FastCosineTransformer implements RealTransformer {
      *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
      *
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -134,7 +134,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -151,7 +151,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -176,7 +176,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -191,7 +191,7 @@ public class FastCosineTransformer implements RealTransformer {
      * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval

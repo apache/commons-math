@@ -81,7 +81,7 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
 
     /**
      * Returns a copy of the divided difference array.
-     * <p> 
+     * <p>
      * The divided difference array is defined recursively by <pre>
      * f[x0] = f(x0)
      * f[x0,x1,...,xk] = (f(x1,...,xk) - f(x0,...,x[k-1])) / (xk - x0)

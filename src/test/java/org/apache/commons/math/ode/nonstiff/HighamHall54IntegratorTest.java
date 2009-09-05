@@ -79,7 +79,7 @@ public class HighamHall54IntegratorTest
       }
 
     } catch (Exception e) {
-      fail("wrong exception caught: " + e.getMessage());        
+      fail("wrong exception caught: " + e.getMessage());
     }
   }
 

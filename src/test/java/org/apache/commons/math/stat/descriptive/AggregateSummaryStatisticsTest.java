@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import org.apache.commons.math.TestUtils;
  *
  */
 public class AggregateSummaryStatisticsTest extends TestCase {
-    
+
     /**
      * Creates and returns a {@code Test} representing all the test cases in this
      * class
@@ -46,7 +46,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         suite.setName("AggregateSummaryStatistics tests");
         return suite;
     }
-    
+
     /**
      * Tests the standard aggregation behavior
      */
@@ -54,11 +54,11 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
         SummaryStatistics setOneStats = aggregate.createContributingStatistics();
         SummaryStatistics setTwoStats = aggregate.createContributingStatistics();
-        
+
         assertNotNull("The set one contributing stats are null", setOneStats);
         assertNotNull("The set two contributing stats are null", setTwoStats);
         assertNotSame("Contributing stats objects are the same", setOneStats, setTwoStats);
-        
+
         setOneStats.addValue(2);
         setOneStats.addValue(3);
         setOneStats.addValue(5);
@@ -66,93 +66,93 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         setOneStats.addValue(11);
         assertEquals("Wrong number of set one values", 5, setOneStats.getN());
         assertEquals("Wrong sum of set one values", 28.0, setOneStats.getSum());
-        
+
         setTwoStats.addValue(2);
         setTwoStats.addValue(4);
         setTwoStats.addValue(8);
         assertEquals("Wrong number of set two values", 3, setTwoStats.getN());
         assertEquals("Wrong sum of set two values", 14.0, setTwoStats.getSum());
-        
+
         assertEquals("Wrong number of aggregate values", 8, aggregate.getN());
         assertEquals("Wrong aggregate sum", 42.0, aggregate.getSum());
     }
-    
+
     /**
      * Verify that aggregating over a partition gives the same results
      * as direct computation.
-     * 
+     *
      *  1) Randomly generate a dataset of 10-100 values
      *     from [-100, 100]
      *  2) Divide the dataset it into 2-5 partitions
      *  3) Create an AggregateSummaryStatistic and ContributingStatistics
-     *     for each partition 
+     *     for each partition
      *  4) Compare results from the AggregateSummaryStatistic with values
-     *     returned by a single SummaryStatistics instance that is provided 
+     *     returned by a single SummaryStatistics instance that is provided
      *     the full dataset
      */
     public void testAggregationConsistency() throws Exception {
-        
+
         // Generate a random sample and random partition
         double[] totalSample = generateSample();
         double[][] subSamples = generatePartition(totalSample);
         int nSamples = subSamples.length;
-        
+
         // Create aggregator and total stats for comparison
         AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
         SummaryStatistics totalStats = new SummaryStatistics();
-        
+
         // Create array of component stats
         SummaryStatistics componentStats[] = new SummaryStatistics[nSamples];
-        
+
         for (int i = 0; i < nSamples; i++) {
-            
+
             // Make componentStats[i] a contributing statistic to aggregate
             componentStats[i] = aggregate.createContributingStatistics();
-            
+
             // Add values from subsample
             for (int j = 0; j < subSamples[i].length; j++) {
                 componentStats[i].addValue(subSamples[i][j]);
             }
         }
-        
+
         // Compute totalStats directly
         for (int i = 0; i < totalSample.length; i++) {
             totalStats.addValue(totalSample[i]);
         }
-        
+
         /*
          * Compare statistics in totalStats with aggregate.
          * Note that guaranteed success of this comparison depends on the
          * fact that <aggregate> gets values in exactly the same order
-         * as <totalStats>. 
-         *  
+         * as <totalStats>.
+         *
          */
-        assertEquals(totalStats.getSummary(), aggregate.getSummary());  
-        
+        assertEquals(totalStats.getSummary(), aggregate.getSummary());
+
     }
-    
+
     /**
      * Test aggregate function by randomly generating a dataset of 10-100 values
      * from [-100, 100], dividing it into 2-5 partitions, computing stats for each
      * partition and comparing the result of aggregate(...) applied to the collection
      * of per-partition SummaryStatistics with a single SummaryStatistics computed
      * over the full sample.
-     * 
+     *
      * @throws Exception
      */
     public void testAggregate() throws Exception {
-        
+
         // Generate a random sample and random partition
         double[] totalSample = generateSample();
         double[][] subSamples = generatePartition(totalSample);
         int nSamples = subSamples.length;
-       
+
         // Compute combined stats directly
         SummaryStatistics totalStats = new SummaryStatistics();
         for (int i = 0; i < totalSample.length; i++) {
             totalStats.addValue(totalSample[i]);
         }
-        
+
         // Now compute subsample stats individually and aggregate
         SummaryStatistics[] subSampleStats = new SummaryStatistics[nSamples];
         for (int i = 0; i < nSamples; i++) {
@@ -160,28 +160,28 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         }
         Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
         for (int i = 0; i < nSamples; i++) {
-            for (int j = 0; j < subSamples[i].length; j++) { 
+            for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
             }
             aggregate.add(subSampleStats[i]);
         }
-        
+
         // Compare values
         StatisticalSummary aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
     }
-    
-    
+
+
     public void testAggregateDegenerate() throws Exception {
         double[] totalSample = {1, 2, 3, 4, 5};
         double[][] subSamples = {{1}, {2}, {3}, {4}, {5}};
-        
+
         // Compute combined stats directly
         SummaryStatistics totalStats = new SummaryStatistics();
         for (int i = 0; i < totalSample.length; i++) {
             totalStats.addValue(totalSample[i]);
         }
-        
+
         // Now compute subsample stats individually and aggregate
         SummaryStatistics[] subSampleStats = new SummaryStatistics[5];
         for (int i = 0; i < 5; i++) {
@@ -189,27 +189,27 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         }
         Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < subSamples[i].length; j++) { 
+            for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
             }
             aggregate.add(subSampleStats[i]);
         }
-        
+
         // Compare values
         StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
     }
-    
+
     public void testAggregateSpecialValues() throws Exception {
         double[] totalSample = {Double.POSITIVE_INFINITY, 2, 3, Double.NaN, 5};
         double[][] subSamples = {{Double.POSITIVE_INFINITY, 2}, {3}, {Double.NaN}, {5}};
-        
+
         // Compute combined stats directly
         SummaryStatistics totalStats = new SummaryStatistics();
         for (int i = 0; i < totalSample.length; i++) {
             totalStats.addValue(totalSample[i]);
         }
-        
+
         // Now compute subsample stats individually and aggregate
         SummaryStatistics[] subSampleStats = new SummaryStatistics[5];
         for (int i = 0; i < 4; i++) {
@@ -217,18 +217,18 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         }
         Collection<SummaryStatistics> aggregate = new ArrayList<SummaryStatistics>();
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < subSamples[i].length; j++) { 
+            for (int j = 0; j < subSamples[i].length; j++) {
                 subSampleStats[i].addValue(subSamples[i][j]);
             }
             aggregate.add(subSampleStats[i]);
         }
-        
+
         // Compare values
         StatisticalSummaryValues aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
-        
+
     }
-    
+
     /**
      * Verifies that a StatisticalSummary and a StatisticalSummaryValues are equal up
      * to delta, with NaNs, infinities returned in the same spots. For max, min, n, values
@@ -244,12 +244,12 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         TestUtils.assertEquals(expected.getVariance(), observed.getVariance(), delta);
     }
 
-    
+
     /**
      * Generates a random sample of double values.
-     * Sample size is random, between 10 and 100 and values are 
+     * Sample size is random, between 10 and 100 and values are
      * uniformly distributed over [-100, 100].
-     * 
+     *
      * @return array of random double values
      */
     private double[] generateSample() {
@@ -259,13 +259,13 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         for (int i = 0; i < out.length; i++) {
             out[i] = randomData.nextUniform(-100, 100);
         }
-        return out;     
+        return out;
     }
-    
+
     /**
      * Generates a partition of <sample> into up to 5 sequentially selected
      * subsamples with randomly selected partition points.
-     * 
+     *
      * @param sample array to partition
      * @return rectangular array with rows = subsamples
      */
@@ -300,5 +300,5 @@ public class AggregateSummaryStatisticsTest extends TestCase {
             return out;
         }
     }
-    
+
 }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,8 +34,8 @@ import junit.framework.TestSuite;
  * regressions. On average Brent-Dekker should use 4..5 iterations for the
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
- * 
- * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $ 
+ *
+ * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
 public final class BrentSolverTest extends TestCase {
 
@@ -53,7 +53,7 @@ public final class BrentSolverTest extends TestCase {
     public void testDeprecated() throws MathException {
         // The sinus function is behaved well around the root at #pi. The second
         // order derivative is zero, which means linar approximating methods will
-        // still converge quadratically. 
+        // still converge quadratically.
         UnivariateRealFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = new BrentSolver(f);
@@ -90,7 +90,7 @@ public final class BrentSolverTest extends TestCase {
     public void testSinZero() throws MathException {
         // The sinus function is behaved well around the root at #pi. The second
         // order derivative is zero, which means linar approximating methods will
-        // still converge quadratically. 
+        // still converge quadratically.
         UnivariateRealFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = new BrentSolver();
@@ -309,11 +309,11 @@ public final class BrentSolverTest extends TestCase {
         result = UnivariateRealSolverUtils.solve(f, 0.85, 5);
         assertEquals(result, 1.0, 1E-6);
     }
-    
+
     public void testRootEndpoints() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new BrentSolver();
-        
+
         // endpoint is root
         double result = solver.solve(f, Math.PI, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
@@ -321,7 +321,7 @@ public final class BrentSolverTest extends TestCase {
         result = solver.solve(f, 3, Math.PI);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
     }
-    
+
     public void testBadEndpoints() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new BrentSolver();
@@ -350,7 +350,7 @@ public final class BrentSolverTest extends TestCase {
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         int referenceCallsCount = f.getCallsCount();
         assertTrue(referenceCallsCount >= 13);
- 
+
         // invalid guess (it *is* a root, but outside of the range)
         try {
           result = solver.solve(f, 0.6, 7.0, 0.0);
@@ -360,13 +360,13 @@ public final class BrentSolverTest extends TestCase {
         } catch (Exception e) {
             fail("wrong exception caught: " + e.getMessage());
         }
- 
+
         // bad guess
         f.setCallsCount(0);
         result = solver.solve(f, 0.6, 7.0, 0.61);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         assertTrue(f.getCallsCount() > referenceCallsCount);
- 
+
         // good guess
         f.setCallsCount(0);
         result = solver.solve(f, 0.6, 7.0, 0.999999);
@@ -379,7 +379,7 @@ public final class BrentSolverTest extends TestCase {
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         assertEquals(0, solver.getIterationCount());
         assertEquals(1, f.getCallsCount());
- 
+
     }
-    
+
 }

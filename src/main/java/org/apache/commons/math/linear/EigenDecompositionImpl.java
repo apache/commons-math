@@ -150,7 +150,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private RealMatrix cachedVt;
 
     /**
-     * Calculates the eigen decomposition of the given symmetric matrix. 
+     * Calculates the eigen decomposition of the given symmetric matrix.
      * @param matrix The <strong>symmetric</strong> matrix to decompose.
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
      * geometric mean to split the tridiagonal matrix (a suggested value is
@@ -173,7 +173,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Calculates the eigen decomposition of the given tridiagonal symmetric matrix. 
+     * Calculates the eigen decomposition of the given tridiagonal symmetric matrix.
      * @param main the main diagonal of the matrix (will be copied)
      * @param secondary the secondary diagonal of the matrix (will be copied)
      * @param splitTolerance tolerance on the off-diagonal elements relative to the
@@ -224,7 +224,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Decompose a tridiagonal symmetric matrix. 
+     * Decompose a tridiagonal symmetric matrix.
      * @exception InvalidMatrixException (wrapping a {@link
      * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
@@ -357,7 +357,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-    
+
         /** Real part of the realEigenvalues. */
         private double[] realEigenvalues;
 
@@ -377,7 +377,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                        final ArrayRealVector[] eigenvectors) {
             this.realEigenvalues = realEigenvalues;
             this.imagEigenvalues = imagEigenvalues;
-            this.eigenvectors    = eigenvectors; 
+            this.eigenvectors    = eigenvectors;
         }
 
         /** Solve the linear equation A &times; X = B for symmetric matrices A.
@@ -587,7 +587,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             final double upper = dCurrent + radius;
             work[upperStart + i] = upper;
             upperSpectra = Math.max(upperSpectra, upper);
-            
+
         }
 
         final double dCurrent = main[m - 1];
@@ -657,7 +657,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 } else {
                     for (int i = 0; i < n; ++i) {
                         realEigenvalues[begin + i] = lambda - work[4 * i];
-                    }                    
+                    }
                 }
 
             }
@@ -768,7 +768,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             // in fact, there are solutions to the equation, but in the context
             // of symmetric realEigenvalues problem, there should be three distinct
             // real roots, so we throw an error if this condition is not met
-            throw new InvalidMatrixException("cannot solve degree {0} equation", 3);           
+            throw new InvalidMatrixException("cannot solve degree {0} equation", 3);
         }
         final double sqrtMq = Math.sqrt(-q);
         final double theta  = Math.acos(r / (-q * sqrtMq));
@@ -1019,7 +1019,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     if (s <= t) {
                         s = work[k - 3] * work[k - 5] / (t * (1 + Math.sqrt(1 + s / t)));
                     } else {
-                        s = work[k - 3] * work[k - 5] / (t + Math.sqrt(t * (t + s)));                      
+                        s = work[k - 3] * work[k - 5] / (t + Math.sqrt(t * (t + s)));
                     }
                     t = work[k - 7] + (s + work[k - 5]);
                     work[k - 3] *= work[k - 7] / t;
@@ -1433,7 +1433,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         int nn = 4 * end + pingPong - 1;
         switch (deflated) {
 
-        case 0 : // no realEigenvalues deflated. 
+        case 0 : // no realEigenvalues deflated.
             if (dMin == dN || dMin == dN1) {
 
                 double b1 = Math.sqrt(work[nn - 3]) * Math.sqrt(work[nn - 5]);
@@ -1441,7 +1441,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 double a2 = work[nn - 7] + work[nn - 5];
 
                 if (dMin == dN && dMin1 == dN1) {
-                    // cases 2 and 3. 
+                    // cases 2 and 3.
                     final double gap2 = dMin2 - a2 - dMin2 * 0.25;
                     final double gap1 = a2 - dN - ((gap2 > 0.0 && gap2 > b2) ? (b2 / gap2) * b2 : (b1 + b2));
                     if (gap1 > 0.0 && gap1 > b1) {
@@ -1572,7 +1572,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             break;
 
         case 1 : // one eigenvalue just deflated. use dMin1, dN1 for dMin and dN.
-            if (dMin1 == dN1 && dMin2 == dN2) { 
+            if (dMin1 == dN1 && dMin2 == dN2) {
 
                 // cases 7 and 8.
                 tType = -7;
@@ -1618,7 +1618,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         case 2 : // two realEigenvalues deflated. use dMin2, dN2 for dMin and dN.
 
             // cases 10 and 11.
-            if (dMin2 == dN2 && 2 * work[nn - 5] < work[nn - 7]) { 
+            if (dMin2 == dN2 && 2 * work[nn - 5] < work[nn - 7]) {
                 tType = -10;
                 final double s = 0.333 * dMin2;
                 if (work[nn - 5] > work[nn - 7]) {
@@ -1711,7 +1711,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     /**
      * Find an eigenvector corresponding to an eigenvalue, using bidiagonals.
      * <p>This method corresponds to algorithm X from Dhillon's thesis.</p>
-     * 
+     *
      * @param eigenvalue eigenvalue for which eigenvector is desired
      * @param d diagonal elements of the initial non-shifted D matrix
      * @param l off-diagonal elements of the initial non-shifted L matrix

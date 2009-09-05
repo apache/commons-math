@@ -34,7 +34,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
-    
+
     /** Name of the method. */
     private final String name;
 
@@ -77,7 +77,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     protected AbstractIntegrator() {
         this(null);
     }
-    
+
     /** {@inheritDoc} */
     public String getName() {
         return name;
@@ -271,7 +271,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         /** {@inheritDoc} */
         public void resetState(double t, double[] y) {
         }
-        
+
     }
 
 }

@@ -35,19 +35,19 @@ public interface FDistribution extends ContinuousDistribution {
      * @param degreesOfFreedom the new numerator degrees of freedom.
      */
     void setNumeratorDegreesOfFreedom(double degreesOfFreedom);
-    
+
     /**
      * Access the numerator degrees of freedom.
      * @return the numerator degrees of freedom.
      */
     double getNumeratorDegreesOfFreedom();
-    
+
     /**
      * Modify the denominator degrees of freedom.
      * @param degreesOfFreedom the new denominator degrees of freedom.
      */
     void setDenominatorDegreesOfFreedom(double degreesOfFreedom);
-    
+
     /**
      * Access the denominator degrees of freedom.
      * @return the denominator degrees of freedom.

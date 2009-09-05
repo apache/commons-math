@@ -19,7 +19,7 @@ package org.apache.commons.math.geometry;
 
 import org.apache.commons.math.MathException;
 
-/** 
+/**
  * This class represents exceptions thrown while building rotations
  * from matrices.
  *
@@ -30,7 +30,7 @@ import org.apache.commons.math.MathException;
 public class NotARotationMatrixException
   extends MathException {
 
-  /** 
+  /**
    * Simple constructor.
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)

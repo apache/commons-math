@@ -23,7 +23,7 @@ package org.apache.commons.math.linear;
  * This class is a convenience to create custom visitors without defining all
  * methods. This class provides default implementations that do nothing.
  * </p>
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */

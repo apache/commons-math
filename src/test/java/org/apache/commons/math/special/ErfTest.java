@@ -48,7 +48,7 @@ public class ErfTest extends TestCase {
         double actual = Erf.erf(x);
         double expected = 0.99;
         assertEquals(expected, actual, 1.0e-5);
-    
+
         actual = Erf.erf(-x);
         expected = -expected;
         assertEquals(expected, actual, 1.0e-5);
@@ -59,7 +59,7 @@ public class ErfTest extends TestCase {
         double actual = Erf.erf(x);
         double expected = 0.995;
         assertEquals(expected, actual, 1.0e-5);
-        
+
         actual = Erf.erf(-x);
         expected = -expected;
         assertEquals(expected, actual, 1.0e-5);
@@ -70,7 +70,7 @@ public class ErfTest extends TestCase {
         double actual = Erf.erf(x);
         double expected = 0.999;
         assertEquals(expected, actual, 1.0e-5);
-        
+
         actual = Erf.erf(-x);
         expected = -expected;
         assertEquals(expected, actual, 1.0e-5);

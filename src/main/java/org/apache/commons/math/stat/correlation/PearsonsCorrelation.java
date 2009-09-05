@@ -27,26 +27,26 @@ import org.apache.commons.math.stat.regression.SimpleRegression;
 /**
  * Computes Pearson's product-moment correlation coefficients for pairs of arrays
  * or columns of a matrix.
- * 
- * <p>The constructors that take <code>RealMatrix</code> or 
+ *
+ * <p>The constructors that take <code>RealMatrix</code> or
  * <code>double[][]</code> arguments generate correlation matrices.  The
  * columns of the input matrices are assumed to represent variable values.
  * Correlations are given by the formula</p>
  * <code>cor(X, Y) = &Sigma;[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code>
  * where <code>E(X)</code> is the mean of <code>X</code>, <code>E(Y)</code>
  * is the mean of the <code>Y</code> values and s(X), s(Y) are standard deviations.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class PearsonsCorrelation {
-    
+
     /** correlation matrix */
     private final RealMatrix correlationMatrix;
-    
+
     /** number of observations */
     private final int nObs;
-    
+
     /**
      * Create a PearsonsCorrelation instance without data
      */
@@ -55,11 +55,11 @@ public class PearsonsCorrelation {
         correlationMatrix = null;
         nObs = 0;
     }
-    
+
     /**
      * Create a PearsonsCorrelation from a rectangular array
      * whose columns represent values of variables to be correlated.
-     * 
+     *
      * @param data rectangular array with columns representing variables
      * @throws IllegalArgumentException if the input data array is not
      * rectangular with at least two rows and two columns.
@@ -67,11 +67,11 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(double[][] data) {
         this(new BlockRealMatrix(data));
     }
-    
+
     /**
      * Create a PearsonsCorrelation from a RealMatrix whose columns
      * represent variables to be correlated.
-     * 
+     *
      * @param matrix matrix with columns representing variables to correlate
      */
     public PearsonsCorrelation(RealMatrix matrix) {
@@ -79,13 +79,13 @@ public class PearsonsCorrelation {
         nObs = matrix.getRowDimension();
         correlationMatrix = computeCorrelationMatrix(matrix);
     }
-    
+
     /**
      * Create a PearsonsCorrelation from a {@link Covariance}.  The correlation
      * matrix is computed by scaling the Covariance's covariance matrix.
      * The Covariance instance must have been created from a data matrix with
      * columns representing variable values.
-     * 
+     *
      * @param covariance Covariance instance
      */
     public PearsonsCorrelation(Covariance covariance) {
@@ -96,11 +96,11 @@ public class PearsonsCorrelation {
         nObs = covariance.getN();
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
     }
-    
+
     /**
      * Create a PearsonsCorrelation from a covariance matrix.  The correlation
      * matrix is computed by scaling the covariance matrix.
-     * 
+     *
      * @param covarianceMatrix covariance matrix
      * @param numberOfObservations the number of observations in the dataset used to compute
      * the covariance matrix
@@ -108,18 +108,18 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(RealMatrix covarianceMatrix, int numberOfObservations) {
         nObs = numberOfObservations;
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
-        
+
     }
-    
+
     /**
      * Returns the correlation matrix
-     * 
+     *
      * @return correlation matrix
      */
     public RealMatrix getCorrelationMatrix() {
-        return correlationMatrix;  
+        return correlationMatrix;
     }
-    
+
     /**
      * Returns a matrix of standard errors associated with the estimates
      * in the correlation matrix.<br/>
@@ -127,9 +127,9 @@ public class PearsonsCorrelation {
      * error associated with <code>getCorrelationMatrix.getEntry(i,j)</code>
      * <p>The formula used to compute the standard error is <br/>
      * <code>SE<sub>r</sub> = ((1 - r<sup>2</sup>) / (n - 2))<sup>1/2</sup></code>
-     * where <code>r</code> is the estimated correlation coefficient and 
+     * where <code>r</code> is the estimated correlation coefficient and
      * <code>n</code> is the number of observations in the source dataset.</p>
-     * 
+     *
      * @return matrix of correlation standard errors
      */
     public RealMatrix getCorrelationStandardErrors() {
@@ -151,9 +151,9 @@ public class PearsonsCorrelation {
      * that a random variable distributed as <code>t<sub>n-2</sub></code> takes
      * a value with absolute value greater than or equal to <br>
      * <code>|r|((n - 2) / (1 - r<sup>2</sup>))<sup>1/2</sup></code></p>
-     * <p>The values in the matrix are sometimes referred to as the 
+     * <p>The values in the matrix are sometimes referred to as the
      * <i>significance</i> of the corresponding correlation coefficients.</p>
-     * 
+     *
      * @return matrix of p-values
      * @throws MathException if an error occurs estimating probabilities
      */
@@ -174,12 +174,12 @@ public class PearsonsCorrelation {
         }
         return new BlockRealMatrix(out);
     }
-    
-    
+
+
     /**
      * Computes the correlation matrix for the columns of the
      * input matrix.
-     * 
+     *
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
@@ -196,28 +196,28 @@ public class PearsonsCorrelation {
         }
         return outMatrix;
     }
-    
+
     /**
      * Computes the correlation matrix for the columns of the
      * input rectangular array.  The colums of the array represent values
      * of variables to be correlated.
-     * 
+     *
      * @param data matrix with columns representing variables to correlate
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(double[][] data) {
        return computeCorrelationMatrix(new BlockRealMatrix(data));
     }
-    
+
     /**
      * Computes the Pearson's product-moment correlation coefficient between the two arrays.
-     * 
+     *
      * </p>Throws IllegalArgumentException if the arrays do not have the same length
      * or their common length is less than 2</p>
      *
      * @param xArray first data array
      * @param yArray second data array
-     * @return Returns Pearson's correlation coefficient for the two arrays 
+     * @return Returns Pearson's correlation coefficient for the two arrays
      * @throws  IllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
@@ -235,15 +235,15 @@ public class PearsonsCorrelation {
                     xArray.length, yArray.length);
         }
     }
-    
+
     /**
      * Derives a correlation matrix from a covariance matrix.
-     * 
+     *
      * <p>Uses the formula <br/>
-     * <code>r(X,Y) = cov(X,Y)/s(X)s(Y)</code> where 
+     * <code>r(X,Y) = cov(X,Y)/s(X)s(Y)</code> where
      * <code>r(&middot,&middot;)</code> is the correlation coefficient and
      * <code>s(&middot;)</code> means standard deviation.</p>
-     * 
+     *
      * @param covarianceMatrix the covariance matrix
      * @return correlation matrix
      */
@@ -254,7 +254,7 @@ public class PearsonsCorrelation {
             double sigma = Math.sqrt(covarianceMatrix.getEntry(i, i));
             outMatrix.setEntry(i, i, 1d);
             for (int j = 0; j < i; j++) {
-                double entry = covarianceMatrix.getEntry(i, j) / 
+                double entry = covarianceMatrix.getEntry(i, j) /
                        (sigma * Math.sqrt(covarianceMatrix.getEntry(j, j)));
                 outMatrix.setEntry(i, j, entry);
                 outMatrix.setEntry(j, i, entry);
@@ -262,11 +262,11 @@ public class PearsonsCorrelation {
         }
         return outMatrix;
     }
-    
+
     /**
      * Throws IllegalArgumentException of the matrix does not have at least
      * two columns and two rows
-     * 
+     *
      * @param matrix matrix to check for sufficiency
      */
     private void checkSufficientData(final RealMatrix matrix) {

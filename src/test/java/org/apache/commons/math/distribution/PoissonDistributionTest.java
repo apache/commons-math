@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * <code>PoissonDistributionTest</code>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
@@ -39,15 +39,15 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         setTolerance(1e-12);
     }
 
-    /** 
-     * Creates the default discrete distribution instance to use in tests. 
+    /**
+     * Creates the default discrete distribution instance to use in tests.
      */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);  
+        return new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
     }
 
-    /** 
+    /**
      * Creates the default probability density test input values.
      */
     @Override
@@ -62,7 +62,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     @Override
     public double[] makeDensityTestValues() {
         return new double[] { 0d, 0.0183156388887d,  0.073262555555d,
-                0.14652511111d, 0.195366814813d, 0.195366814813, 
+                0.14652511111d, 0.195366814813d, 0.195366814813,
                 0.156293451851d, 0.00529247667642d, 8.27746364655e-09};
     }
 
@@ -79,20 +79,20 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] { 0d,  0.0183156388887d, 0.0915781944437d, 
+        return new double[] { 0d,  0.0183156388887d, 0.0915781944437d,
                 0.238103305554d, 0.433470120367d, 0.62883693518,
                 0.78513038703d,  0.99716023388d, 0.999999998077 };
     }
 
-    /** 
+    /**
      * Creates the default inverse cumulative probability test input values.
      * Increased 3rd and 7th values slightly as computed cumulative
-     * probabilities for corresponding values exceeds the target value (still 
+     * probabilities for corresponding values exceeds the target value (still
      * within tolerance).
      */
     @Override
     public double[] makeInverseCumulativeTestPoints() {
-        return new double[] { 0d,  0.018315638889d, 0.0915781944437d, 
+        return new double[] { 0d,  0.018315638889d, 0.0915781944437d,
                 0.238103305554d, 0.433470120367d, 0.62883693518,
                 0.78513038704d,  0.99716023388d, 0.999999998077 };
     }
@@ -130,7 +130,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
         assertEquals(-1, dist.inverseCumulativeProbability(0d));
     }
-    
+
     public void testMean() {
         PoissonDistribution dist = new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
         try {
@@ -138,17 +138,17 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             fail("negative mean.  IllegalArgumentException expected");
         } catch(IllegalArgumentException ex) {
         }
-        
+
         dist.setMean(10.0);
         assertEquals(10.0, dist.getMean(), 0.0);
     }
-    
+
     public void testLargeMeanCumulativeProbability() {
         PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 10000000.0) {
             dist.setMean(mean);
-            
+
             double x = mean * 2.0;
             double dx = x / 10.0;
             while (x >= 0) {
@@ -159,17 +159,17 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 }
                 x -= dx;
             }
-            
+
             mean *= 10.0;
         }
     }
-    
+
     public void testLargeMeanInverseCumulativeProbability() {
         PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 10000000.0) {
             dist.setMean(mean);
-            
+
             double p = 0.1;
             double dp = p;
             while (p < 1.0) {
@@ -180,7 +180,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 }
                 p += dp;
             }
-            
+
             mean *= 10.0;
         }
     }

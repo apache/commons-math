@@ -76,7 +76,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private RealMatrix cachedVt;
 
     /**
-     * Calculates the Singular Value Decomposition of the given matrix. 
+     * Calculates the Singular Value Decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @exception InvalidMatrixException (wrapping a {@link
      * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
@@ -134,7 +134,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 iData[0] = ei1;
                 for (int i = 0; i < n - 1; ++i) {
                     // compute Bt.E.S^(-1) where E is the eigenvectors matrix
-                    // we reuse the array from matrix E to store the result 
+                    // we reuse the array from matrix E to store the result
                     final double[] ei0 = ei1;
                     ei1 = eData[i + 1];
                     iData[i + 1] = ei1;
@@ -214,7 +214,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 iData[0] = ei1;
                 for (int i = 0; i < m - 1; ++i) {
                     // compute Bt.E.S^(-1) where E is the eigenvectors matrix
-                    // we reuse the array from matrix E to store the result 
+                    // we reuse the array from matrix E to store the result
                     final double[] ei0 = ei1;
                     ei1 = eData[i + 1];
                     iData[i + 1] = ei1;
@@ -319,7 +319,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-        
+
         /** Singular values. */
         private final double[] singularValues;
 

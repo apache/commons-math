@@ -23,10 +23,10 @@ import org.apache.commons.math.MathRuntimeException;
 
 /**
  * Implementation for the {@link ZipfDistribution}.
- * 
+ *
  * @version $Revision$ $Date$
  */
-public class ZipfDistributionImpl extends AbstractIntegerDistribution 
+public class ZipfDistributionImpl extends AbstractIntegerDistribution
     implements ZipfDistribution, Serializable {
 
     /** Serializable version identifier. */
@@ -39,10 +39,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     private double exponent;
 
     /**
-     * Create a new Zipf distribution with the given number of elements and 
-     * exponent. Both values must be positive; otherwise an 
+     * Create a new Zipf distribution with the given number of elements and
+     * exponent. Both values must be positive; otherwise an
      * <code>IllegalArgumentException</code> is thrown.
-     * 
+     *
      * @param numberOfElements the number of elements
      * @param exponent the exponent
      * @exception IllegalArgumentException if n &le; 0 or s &le; 0.0
@@ -55,7 +55,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Get the number of elements (e.g. corpus size) for the distribution.
-     * 
+     *
      * @return the number of elements
      */
     public int getNumberOfElements() {
@@ -64,9 +64,9 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an 
+     * The parameter value must be positive; otherwise an
      * <code>IllegalArgumentException</code> is thrown.
-     * 
+     *
      * @param n the number of elements
      * @exception IllegalArgumentException if n &le; 0
      */
@@ -79,10 +79,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         }
         this.numberOfElements = n;
     }
-    
+
     /**
      * Get the exponent characterising the distribution.
-     * 
+     *
      * @return the exponent
      */
     public double getExponent() {
@@ -91,9 +91,9 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an 
+     * The parameter value must be positive; otherwise an
      * <code>IllegalArgumentException</code> is thrown.
-     * 
+     *
      * @param s the exponent
      * @exception IllegalArgumentException if s &le; 0.0
      */
@@ -109,7 +109,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * The probability mass function P(X = x) for a Zipf distribution.
-     * 
+     *
      * @param x the value at which the probability density function is evaluated.
      * @return the value of the probability mass function at x
      */
@@ -121,10 +121,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         return (1.0 / Math.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
 
     }
-    
+
     /**
      * The probability distribution function P(X <= x) for a Zipf distribution.
-     * 
+     *
      * @param x the value at which the PDF is evaluated.
      * @return Zipf distribution function evaluated at x
      */
@@ -143,10 +143,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected int getDomainLowerBound(final double p) {
@@ -156,10 +156,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected int getDomainUpperBound(final double p) {
@@ -168,10 +168,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
 
     /**
-     * Calculates the Nth generalized harmonic number. See 
-     * <a href="http://mathworld.wolfram.com/HarmonicSeries.html">Harmonic 
+     * Calculates the Nth generalized harmonic number. See
+     * <a href="http://mathworld.wolfram.com/HarmonicSeries.html">Harmonic
      * Series</a>.
-     * 
+     *
      * @param n the term in the series to calculate (must be &ge; 1)
      * @param m the exponent; special case m == 1.0 is the harmonic series
      * @return the nth generalized harmonic number

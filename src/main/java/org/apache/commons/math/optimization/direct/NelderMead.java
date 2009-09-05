@@ -23,7 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
-/** 
+/**
  * This class implements the Nelder-Mead direct search method.
  *
  * @version $Revision$ $Date$

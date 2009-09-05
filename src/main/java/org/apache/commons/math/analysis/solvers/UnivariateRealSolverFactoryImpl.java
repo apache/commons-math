@@ -25,7 +25,7 @@ package org.apache.commons.math.analysis.solvers;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
-        
+
     /**
      * Default constructor.
      */
@@ -37,7 +37,7 @@ public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory
     public UnivariateRealSolver newDefaultSolver() {
         return newBrentSolver();
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public UnivariateRealSolver newBisectionSolver() {
@@ -49,13 +49,13 @@ public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory
     public UnivariateRealSolver newBrentSolver() {
         return new BrentSolver();
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public UnivariateRealSolver newNewtonSolver() {
         return new NewtonSolver();
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public UnivariateRealSolver newSecantSolver() {

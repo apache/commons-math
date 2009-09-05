@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 
 /**
- * An interface to classes that implement an algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the
  * QR-decomposition of a real matrix.
  * <p>This interface is based on the class with similar name from the now defunct
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
@@ -30,7 +30,7 @@ package org.apache.commons.math.linear;
  *   by a {@link #getSolver() getSolver} method and the equivalent methods provided by
  *   the returned {@link DecompositionSolver}.</li>
  * </ul>
- *   
+ *
  * @see <a href="http://mathworld.wolfram.com/QRDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/QR_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
@@ -39,7 +39,7 @@ package org.apache.commons.math.linear;
 public interface QRDecomposition {
 
     /**
-     * Returns the matrix R of the decomposition. 
+     * Returns the matrix R of the decomposition.
      * <p>R is an upper-triangular matrix</p>
      * @return the R matrix
      */

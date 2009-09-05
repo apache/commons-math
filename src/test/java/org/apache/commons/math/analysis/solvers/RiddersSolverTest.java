@@ -32,8 +32,8 @@ import junit.framework.TestCase;
  * accuracy of 1E-6, it generally takes less than 5 iterations for close
  * initial bracket and 5 to 10 iterations for distant initial bracket
  * to converge.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class RiddersSolverTest extends TestCase {
 

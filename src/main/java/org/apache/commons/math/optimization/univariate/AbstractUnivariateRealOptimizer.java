@@ -27,7 +27,7 @@ import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 /**
  * Provide a default implementation for several functions useful to generic
  * optimizers.
- *  
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -54,7 +54,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * FunctionEvaluationExceptionFunctionEvaluationException
      * @param defaultAbsoluteAccuracy maximum absolute error
      * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the 
+     * @throws IllegalArgumentException if f is null or the
      * defaultAbsoluteAccuracy is not valid
      */
     protected AbstractUnivariateRealOptimizer(final int defaultMaximalIterationCount,
@@ -87,7 +87,7 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /**
      * Convenience function for implementations.
-     * 
+     *
      * @param x the result to set
      * @param fx the result to set
      * @param iterationCount the iteration count to set
@@ -122,7 +122,7 @@ public abstract class AbstractUnivariateRealOptimizer
         return evaluations;
     }
 
-    /** 
+    /**
      * Compute the objective function value.
      * @param f objective function
      * @param point point at which the objective function must be evaluated

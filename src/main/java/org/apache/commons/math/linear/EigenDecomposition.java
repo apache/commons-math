@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 
 /**
- * An interface to classes that implement an algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the
  * eigen decomposition of a real matrix.
  * <p>The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
@@ -44,7 +44,7 @@ package org.apache.commons.math.linear;
 public interface EigenDecomposition {
 
     /**
-     * Returns the matrix V of the decomposition. 
+     * Returns the matrix V of the decomposition.
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * <p>The columns of V are the eigenvectors of the original matrix.</p>
      * @return the V matrix
@@ -52,7 +52,7 @@ public interface EigenDecomposition {
     RealMatrix getV();
 
     /**
-     * Returns the block diagonal matrix D of the decomposition. 
+     * Returns the block diagonal matrix D of the decomposition.
      * <p>D is a block diagonal matrix.</p>
      * <p>Real eigenvalues are on the diagonal while complex values are on
      * 2x2 blocks { {real +imaginary}, {-imaginary, real} }.</p>
@@ -63,7 +63,7 @@ public interface EigenDecomposition {
     RealMatrix getD();
 
     /**
-     * Returns the transpose of the matrix V of the decomposition. 
+     * Returns the transpose of the matrix V of the decomposition.
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * <p>The columns of V are the eigenvectors of the original matrix.</p>
      * @return the transpose of the V matrix

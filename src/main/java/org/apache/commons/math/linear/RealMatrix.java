@@ -23,7 +23,7 @@ package org.apache.commons.math.linear;
  * <p>
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public interface RealMatrix extends AnyMatrix {
@@ -114,7 +114,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return norm
      */
     double getNorm();
-    
+
     /**
      * Returns the <a href="http://mathworld.wolfram.com/FrobeniusNorm.html">
      * Frobenius norm</a> of the matrix.
@@ -122,7 +122,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return norm
      */
     double getFrobeniusNorm();
-    
+
     /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
@@ -137,7 +137,7 @@ public interface RealMatrix extends AnyMatrix {
      */
    RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn)
        throws MatrixIndexException;
-   
+
    /**
     * Gets a submatrix. Rows and columns are indicated
     * counting from 0 to n-1.
@@ -167,7 +167,7 @@ public interface RealMatrix extends AnyMatrix {
   void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
                      double[][] destination)
       throws MatrixIndexException, IllegalArgumentException;
-  
+
   /**
    * Copy a submatrix. Rows and columns are indicated
    * counting from 0 to n-1.
@@ -181,35 +181,35 @@ public interface RealMatrix extends AnyMatrix {
    */
   void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination)
       throws MatrixIndexException, IllegalArgumentException;
- 
+
    /**
     * Replace the submatrix starting at <code>row, column</code> using data in
     * the input <code>subMatrix</code> array. Indexes are 0-based.
-    * <p> 
+    * <p>
     * Example:<br>
     * Starting with <pre>
     * 1  2  3  4
     * 5  6  7  8
     * 9  0  1  2
     * </pre>
-    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking
     * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
     * 1  2  3  4
     * 5  3  4  8
     * 9  5  6  2
     * </pre></p>
-    * 
+    *
     * @param subMatrix  array containing the submatrix replacement data
     * @param row  row coordinate of the top, left element to be replaced
     * @param column  column coordinate of the top, left element to be replaced
-    * @throws MatrixIndexException  if subMatrix does not fit into this 
-    *    matrix from element in (row, column) 
+    * @throws MatrixIndexException  if subMatrix does not fit into this
+    *    matrix from element in (row, column)
     * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
     *  (not all rows have the same length) or empty
     * @throws NullPointerException if <code>subMatrix</code> is null
     * @since 2.0
     */
-   void setSubMatrix(double[][] subMatrix, int row, int column) 
+   void setSubMatrix(double[][] subMatrix, int row, int column)
        throws MatrixIndexException;
 
    /**
@@ -221,7 +221,7 @@ public interface RealMatrix extends AnyMatrix {
     * @throws MatrixIndexException if the specified row index is invalid
     */
    RealMatrix getRowMatrix(int row) throws MatrixIndexException;
-   
+
    /**
     * Sets the entries in row number <code>row</code>
     * as a row matrix.  Row indices start at 0.
@@ -235,7 +235,7 @@ public interface RealMatrix extends AnyMatrix {
     */
    void setRowMatrix(int row, RealMatrix matrix)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in column number <code>column</code>
     * as a column matrix.  Column indices start at 0.
@@ -259,7 +259,7 @@ public interface RealMatrix extends AnyMatrix {
     */
    void setColumnMatrix(int column, RealMatrix matrix)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in row number <code>row</code>
     * as a vector.  Row indices start at 0.
@@ -283,7 +283,7 @@ public interface RealMatrix extends AnyMatrix {
     */
    void setRowVector(int row, RealVector vector)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in column number <code>column</code>
     * as a vector.  Column indices start at 0.
@@ -306,7 +306,7 @@ public interface RealMatrix extends AnyMatrix {
     */
    void setColumnVector(int column, RealVector vector)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
@@ -331,7 +331,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     void setRow(int row, double[] array)
         throws MatrixIndexException, InvalidMatrixException;
-    
+
     /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
@@ -356,17 +356,17 @@ public interface RealMatrix extends AnyMatrix {
      */
     void setColumn(int column, double[] array)
         throws MatrixIndexException, InvalidMatrixException;
-    
+
     /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
@@ -377,13 +377,13 @@ public interface RealMatrix extends AnyMatrix {
     /**
      * Set the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param value matrix entry to be set in row,column
@@ -395,13 +395,13 @@ public interface RealMatrix extends AnyMatrix {
     /**
      * Change an entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param increment value to add to the current matrix entry in row,column
@@ -413,13 +413,13 @@ public interface RealMatrix extends AnyMatrix {
     /**
      * Change an entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param factor multiplication factor for the current matrix entry in row,column

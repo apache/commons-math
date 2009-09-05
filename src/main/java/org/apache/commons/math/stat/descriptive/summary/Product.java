@@ -23,24 +23,24 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Returns the product of the available values.
  * <p>
- * If there are no values in the dataset, or any of the values are 
+ * If there are no values in the dataset, or any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Product extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 2824226005990582538L;   
-     
+    private static final long serialVersionUID = 2824226005990582538L;
+
     /**The number of values that have been added */
     private long n;
-    
+
     /**
      * The current Running Product.
      */
@@ -131,7 +131,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * <p>Returns the weighted product of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.</p>
-     * 
+     *
      * <p>Throws <code>IllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
@@ -141,7 +141,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li>
      * </ul></p>
-     * 
+     *
      * <p>Uses the formula, <pre>
      *    weighted product = &prod;values[i]<sup>weights[i]</sup>
      * </pre>

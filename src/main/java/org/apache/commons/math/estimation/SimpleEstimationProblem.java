@@ -52,7 +52,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
         measurements = new ArrayList<WeightedMeasurement>();
     }
 
-    /** 
+    /**
      * Get all the parameters of the problem.
      * @return parameters
      */
@@ -60,7 +60,7 @@ public class SimpleEstimationProblem implements EstimationProblem {
         return parameters.toArray(new EstimatedParameter[parameters.size()]);
     }
 
-    /** 
+    /**
      * Get the unbound parameters of the problem.
      * @return unbound parameters
      */
@@ -76,10 +76,10 @@ public class SimpleEstimationProblem implements EstimationProblem {
 
         // convert to an array
         return unbound.toArray(new EstimatedParameter[unbound.size()]);
-        
+
     }
 
-    /** 
+    /**
      * Get the measurements of an estimation problem.
      * @return measurements
      */

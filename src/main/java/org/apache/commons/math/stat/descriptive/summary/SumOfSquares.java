@@ -23,24 +23,24 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Returns the sum of the squares of the available values.
  * <p>
- * If there are no values in the dataset, or any of the values are 
+ * If there are no values in the dataset, or any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class SumOfSquares extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 1460986908574398008L;  
-      
+    private static final long serialVersionUID = 1460986908574398008L;
+
     /** */
     private long n;
-    
+
     /**
      * The currently running sumSq
      */
@@ -53,17 +53,17 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
         n = 0;
         value = Double.NaN;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code SumOfSquares} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code SumOfSquares} instance to copy
      */
     public SumOfSquares(SumOfSquares original) {
         copy(original, this);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -91,7 +91,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     public long getN() {
         return n;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -107,7 +107,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * is empty.
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -126,7 +126,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
         }
         return sumSq;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -136,11 +136,11 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
         copy(this, result);
         return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source SumOfSquares to copy
      * @param dest SumOfSquares to copy to
      * @throws NullPointerException if either source or dest is null

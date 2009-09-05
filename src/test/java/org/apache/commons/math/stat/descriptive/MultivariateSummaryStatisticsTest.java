@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     public MultivariateSummaryStatisticsTest(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(MultivariateSummaryStatisticsTest.class);
         suite.setName("MultivariateSummaryStatistics tests");
@@ -73,7 +73,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         assertEquals(3, u.getMean()[1], 1E-14);
         assertEquals(2, u.getDimension());
     }
-    
+
     public void testSetterIllegalState() throws Exception {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.addValue(new double[] { 1, 2 });
@@ -139,12 +139,12 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         TestUtils.assertEquals(reference.getGeometricMean(), shuffled.getSumLog(),        1.0e-10);
 
     }
-    
+
     /**
      * Bogus mean implementation to test setter injection.
      * Returns the sum instead of the mean.
      */
-    static class sumMean implements StorelessUnivariateStatistic {   
+    static class sumMean implements StorelessUnivariateStatistic {
         private double sum = 0;
         private long n = 0;
         public double evaluate(double[] values, int begin, int length) {
@@ -154,7 +154,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
             return 0;
         }
         public void clear() {
-          sum = 0; 
+          sum = 0;
           n = 0;
         }
         public long getN() {
@@ -170,7 +170,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         public void incrementAll(double[] values, int start, int length) {
         }
         public void incrementAll(double[] values) {
-        }   
+        }
         public StorelessUnivariateStatistic copy() {
             return new sumMean();
         }
@@ -216,8 +216,8 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 0), 1.0e-10);
         assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 1), 1.0e-10);
         u.clear();
-        assertEquals(0, u.getN());    
-    }     
+        assertEquals(0, u.getN());
+    }
 
     public void testN0andN1Conditions() throws Exception {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
@@ -230,7 +230,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         assertEquals(1.0, u.getGeometricMean()[0], 1.0e-10);
         assertEquals(0.0, u.getStandardDeviation()[0], 1.0e-10);
 
-        /* n=2 */               
+        /* n=2 */
         u.addValue(new double[] { 2 });
         assertTrue(u.getStandardDeviation()[0] > 0);
 
@@ -238,15 +238,15 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
 
     public void testNaNContracts() throws DimensionMismatchException {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
-        assertTrue(Double.isNaN(u.getMean()[0])); 
-        assertTrue(Double.isNaN(u.getMin()[0])); 
-        assertTrue(Double.isNaN(u.getStandardDeviation()[0])); 
+        assertTrue(Double.isNaN(u.getMean()[0]));
+        assertTrue(Double.isNaN(u.getMin()[0]));
+        assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
         assertTrue(Double.isNaN(u.getGeometricMean()[0]));
 
         u.addValue(new double[] { 1.0 });
-        assertFalse(Double.isNaN(u.getMean()[0])); 
-        assertFalse(Double.isNaN(u.getMin()[0])); 
-        assertFalse(Double.isNaN(u.getStandardDeviation()[0])); 
+        assertFalse(Double.isNaN(u.getMean()[0]));
+        assertFalse(Double.isNaN(u.getMin()[0]));
+        assertFalse(Double.isNaN(u.getStandardDeviation()[0]));
         assertFalse(Double.isNaN(u.getGeometricMean()[0]));
 
     }
@@ -302,7 +302,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         t.addValue(new double[] { 5d, 1d });
         assertTrue(t.equals(u));
         assertTrue(u.equals(t));
-        assertEquals(u.hashCode(), t.hashCode());   
+        assertEquals(u.hashCode(), t.hashCode());
 
         // Clear and make sure summaries are indistinguishable from empty summary
         u.clear();

@@ -18,7 +18,7 @@ package org.apache.commons.math.genetics;
 
 /**
  * Exception indicating that the representation of a chromosome is not valid.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -52,7 +52,7 @@ public class InvalidRepresentationException extends Exception {
 
     /**
      * Construct an InvalidRepresentationException
-     * 
+     *
      * @param arg0 exception message
      * @param arg1 cause
      */

@@ -21,7 +21,7 @@ import org.apache.commons.math.FieldElement;
 
 /**
  * Interface defining a visitor for matrix entries.
- * 
+ *
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0

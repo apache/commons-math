@@ -92,7 +92,7 @@ public class BiDiagonalTransformerTest extends TestCase {
     private void checkOrthogonal(RealMatrix m) {
         RealMatrix mTm = m.transpose().multiply(m);
         RealMatrix id  = MatrixUtils.createRealIdentityMatrix(mTm.getRowDimension());
-        assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-14);        
+        assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-14);
     }
 
     public void testBBiDiagonal() {
@@ -109,7 +109,7 @@ public class BiDiagonalTransformerTest extends TestCase {
                 if (rows < cols) {
                     if ((i < j) || (i > j + 1)) {
                         assertEquals(0, m.getEntry(i, j), 1.0e-16);
-                    }                    
+                    }
                 } else {
                     if ((i < j - 1) || (i > j)) {
                         assertEquals(0, m.getEntry(i, j), 1.0e-16);
@@ -148,7 +148,7 @@ public class BiDiagonalTransformerTest extends TestCase {
         assertTrue(u == transformer.getU());
         assertTrue(b == transformer.getB());
         assertTrue(v == transformer.getV());
-        
+
     }
 
     public void testUpperOrLower() {

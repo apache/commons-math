@@ -96,7 +96,7 @@ public class FirstOrderConverter implements FirstOrderDifferentialEquations {
     // build the result state derivative
     System.arraycopy(zDot,  0, yDot, 0,         dimension);
     System.arraycopy(zDDot, 0, yDot, dimension, dimension);
-    
+
   }
 
   /** Underlying second order equations set. */

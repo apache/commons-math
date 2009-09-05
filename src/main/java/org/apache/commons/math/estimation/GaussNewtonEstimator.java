@@ -26,7 +26,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
 
-/** 
+/**
  * This class implements a solver for estimation problems.
  *
  * <p>This class solves estimation problems using a weighted least
@@ -67,10 +67,10 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      */
     public GaussNewtonEstimator() {
         this.steadyStateThreshold = DEFAULT_STEADY_STATE_THRESHOLD;
-        this.convergence          = DEFAULT_CONVERGENCE;        
+        this.convergence          = DEFAULT_CONVERGENCE;
     }
 
-    /** 
+    /**
      * Simple constructor.
      *
      * <p>This constructor builds an estimator and stores its convergence
@@ -132,7 +132,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
         this.steadyStateThreshold = steadyStateThreshold;
     }
 
-    /** 
+    /**
      * Solve an estimation problem using a least squares criterion.
      *
      * <p>This method set the unbound parameters of the given problem

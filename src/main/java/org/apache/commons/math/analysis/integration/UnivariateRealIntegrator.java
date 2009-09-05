@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Interface for univariate real integration algorithms.
- *  
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -45,7 +45,7 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
 
     /**
      * Get the lower limit for the number of iterations.
-     * 
+     *
      * @return the actual lower limit
      */
     int getMinimalIterationCount();
@@ -54,14 +54,14 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * Reset the lower limit for the number of iterations to the default.
      * <p>
      * The default value is supplied by the implementation.</p>
-     * 
+     *
      * @see #setMinimalIterationCount(int)
      */
     void resetMinimalIterationCount();
 
     /**
      * Integrate the function in the given interval.
-     * 
+     *
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
@@ -75,12 +75,12 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * since 2.0
      */
     @Deprecated
-    double integrate(double min, double max) throws ConvergenceException, 
+    double integrate(double min, double max) throws ConvergenceException,
         FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Integrate the function in the given interval.
-     * 
+     *
      * @param f the integrand function
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -92,12 +92,12 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the integrator
      */
-    double integrate(UnivariateRealFunction f, double min, double max) throws ConvergenceException, 
+    double integrate(UnivariateRealFunction f, double min, double max) throws ConvergenceException,
         FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Get the result of the last run of the integrator.
-     * 
+     *
      * @return the last result
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed

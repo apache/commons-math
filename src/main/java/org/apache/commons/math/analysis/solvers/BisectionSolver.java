@@ -22,17 +22,17 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
- * bisection algorithm</a> for finding zeros of univariate real functions. 
+ * bisection algorithm</a> for finding zeros of univariate real functions.
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class BisectionSolver extends UnivariateRealSolverImpl {
-    
+
     /**
      * Construct a solver for the given function.
-     * 
+     *
      * @param f function to solve.
      * @deprecated as of 2.0 the function to solve is passed as an argument
      * to the {@link #solve(UnivariateRealFunction, double, double)} or
@@ -46,7 +46,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     * 
+     *
      */
     public BisectionSolver() {
         super(100, 1E-6);
@@ -58,7 +58,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
         throws MaxIterationsExceededException, FunctionEvaluationException {
         return solve(f, min, max);
     }
-    
+
     /** {@inheritDoc} */
     @Deprecated
     public double solve(double min, double max)
@@ -75,13 +75,13 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     public double solve(final UnivariateRealFunction f, double min, double max)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-            
+
         clearResult();
         verifyInterval(min,max);
         double m;
         double fm;
         double fmin;
-        
+
         int i = 0;
         while (i < maximalIterationCount) {
             m = UnivariateRealSolverUtils.midpoint(min, max);
@@ -103,7 +103,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
             }
             ++i;
         }
-        
+
         throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

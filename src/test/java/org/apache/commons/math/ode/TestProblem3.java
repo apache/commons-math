@@ -60,14 +60,14 @@ public class TestProblem3
     setErrorScale(errorScale);
     y = new double[y0.length];
   }
- 
+
   /**
    * Simple constructor.
    */
   public TestProblem3() {
     this(0.1);
   }
- 
+
   /**
    * Copy constructor.
    * @param problem problem to copy

@@ -109,23 +109,23 @@ public class FastHadamardTransformer implements RealTransformer {
      * +----+----------+---------+----------+
      * </code>
      * </pre>
-     * 
+     *
      * <b><u>How it works</u></b>
      * <ol>
-     * <li>Construct a matrix with N rows and n+1 columns<br>   <b>hadm[n+1][N]</b> 
+     * <li>Construct a matrix with N rows and n+1 columns<br>   <b>hadm[n+1][N]</b>
      * <br><i>(If I use [x][y] it always means [row-offset][column-offset] of a Matrix with n rows and m columns. Its entries go from M[0][0] to M[n][m])</i></li>
      * <li>Place the input vector <b>x[N]</b> in the first column of the matrix <b>hadm</b></li>
      * <li>The entries of the submatrix D<sub>top</sub> are calculated as follows.
      * <br>D<sub>top</sub> goes from entry [0][1] to [N/2-1][n+1].
-     * <br>The columns of D<sub>top</sub> are the pairwise mutually exclusive sums of the previous column 
+     * <br>The columns of D<sub>top</sub> are the pairwise mutually exclusive sums of the previous column
      * </li>
      * <li>The entries of the submatrix D<sub>bottom</sub> are calculated as follows.
      * <br>D<sub>bottom</sub> goes from entry [N/2][1] to [N][n+1].
-     * <br>The columns of D<sub>bottom</sub> are the pairwise differences of the previous column 
+     * <br>The columns of D<sub>bottom</sub> are the pairwise differences of the previous column
      * </li>
      * <li>How D<sub>top</sub> and D<sub>bottom</sub> you can understand best with the example for N=8 above.
      * <li>The output vector y is now in the last column of <b>hadm</b></li>
-     * <li><i>Algorithm from: http://www.archive.chipcenter.com/dsp/DSP000517F1.html</i></li>    
+     * <li><i>Algorithm from: http://www.archive.chipcenter.com/dsp/DSP000517F1.html</i></li>
      * </ol>
      * <br>
      * <b><u>Visually</u></b>
@@ -146,7 +146,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * |N     | x<sub>N/2</sub>   |        \/           |
      * +------+--------+---+---+---+-----+---+
      * </pre>
-     * 
+     *
      * @param x input vector
      * @return y output vector
      * @exception IllegalArgumentException if input array is not a power of 2
@@ -178,14 +178,14 @@ public class FastHadamardTransformer implements RealTransformer {
             yPrevious = yTmp;
 
             // iterate from top to bottom (row)
-            for (int i = 0; i < halfN; ++i) { 
+            for (int i = 0; i < halfN; ++i) {
                 // D<sub>top</sub>
                 // The top part works with addition
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
             }
-            for (int i = halfN; i < n; ++i) { 
-                // D<sub>bottom</sub>   
+            for (int i = halfN; i < n; ++i) {
+                // D<sub>bottom</sub>
                 // The bottom part works with subtraction
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
@@ -229,14 +229,14 @@ public class FastHadamardTransformer implements RealTransformer {
             yPrevious = yTmp;
 
             // iterate from top to bottom (row)
-            for (int i = 0; i < halfN; ++i) { 
+            for (int i = 0; i < halfN; ++i) {
                 // D<sub>top</sub>
                 // The top part works with addition
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
             }
-            for (int i = halfN; i < n; ++i) { 
-                // D<sub>bottom</sub>   
+            for (int i = halfN; i < n; ++i) {
+                // D<sub>bottom</sub>
                 // The bottom part works with subtraction
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];

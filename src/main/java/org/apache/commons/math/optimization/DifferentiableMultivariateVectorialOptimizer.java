@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 
-/** 
+/**
  * This interface represents an optimization algorithm for {@link DifferentiableMultivariateVectorialFunction
  * vectorial differentiable objective functions}.
  * <p>Optimization algorithms find the input point set that either {@link GoalType

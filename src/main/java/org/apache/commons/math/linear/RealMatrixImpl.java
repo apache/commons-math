@@ -35,10 +35,10 @@ import org.apache.commons.math.MathRuntimeException;
  * <p>
  * <strong>Usage notes</strong>:<br>
  * <ul><li>
- * The LU decomposition is cached and reused on subsequent calls.   
+ * The LU decomposition is cached and reused on subsequent calls.
  * If data are modified via references to the underlying array obtained using
  * <code>getDataRef()</code>, then the stored LU decomposition will not be
- * discarded.  In this case, you need to explicitly invoke 
+ * discarded.  In this case, you need to explicitly invoke
  * <code>LUDecompose()</code> to recompute the decomposition
  * before using any of the methods above.</li>
  * <li>
@@ -52,7 +52,7 @@ import org.apache.commons.math.MathRuntimeException;
  */
 @Deprecated
 public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -1067294169172445528L;
 
@@ -119,14 +119,14 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         } else {
             if (d == null) {
                 throw new NullPointerException();
-            }   
+            }
             final int nRows = d.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
@@ -134,7 +134,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
                             "some rows have length {0} while others have length {1}",
                             nCols, d[r].length);
                 }
-            }       
+            }
             data = d;
         }
     }
@@ -311,7 +311,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) 
+    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
     throws MatrixIndexException {
         if (data == null) {
             if (row > 0) {
@@ -326,19 +326,19 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
             }
             data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
                             "some rows have length {0} while others have length {1}",
-                            nCols, subMatrix[i].length); 
+                            nCols, subMatrix[i].length);
                 }
                 System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
             }
@@ -384,7 +384,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
                     row, column, getRowDimension(), getColumnDimension());
-        }      
+        }
     }
 
     /** {@inheritDoc} */
@@ -397,7 +397,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
                     row, column, getRowDimension(), getColumnDimension());
-        }      
+        }
     }
 
     /** {@inheritDoc} */

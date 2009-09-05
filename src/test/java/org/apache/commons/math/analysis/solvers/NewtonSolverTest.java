@@ -33,14 +33,14 @@ public final class NewtonSolverTest extends TestCase {
     public void testDeprecated() throws MathException {
         DifferentiableUnivariateRealFunction f = new SinFunction();
         double result;
-        
+
         UnivariateRealSolver solver = new NewtonSolver(f);
         result = solver.solve(3, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(1, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
-        
+
         assertEquals(result, solver.getResult(), 0);
         assertTrue(solver.getIterationCount() > 0);
     }
@@ -51,14 +51,14 @@ public final class NewtonSolverTest extends TestCase {
    public void testSinZero() throws MathException {
        DifferentiableUnivariateRealFunction f = new SinFunction();
        double result;
-       
+
        UnivariateRealSolver solver = new NewtonSolver();
        result = solver.solve(f, 3, 4);
        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
 
        result = solver.solve(f, 1, 4);
        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
-       
+
        assertEquals(result, solver.getResult(), 0);
        assertTrue(solver.getIterationCount() > 0);
    }
@@ -104,5 +104,5 @@ public final class NewtonSolverTest extends TestCase {
         result = solver.solve(f, 0.85, 5);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
     }
-    
+
 }

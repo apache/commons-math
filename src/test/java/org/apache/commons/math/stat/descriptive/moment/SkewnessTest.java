@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Skewness stat;
-    
+
     /**
      * @param name
      */
@@ -51,7 +51,7 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
         suite.setName("Skewness Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +59,7 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.skew;
     }
-    
+
     /**
      * Make sure Double.NaN is returned iff n < 3
      *
@@ -72,7 +72,7 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
         skew.increment(1d);
         assertTrue(Double.isNaN(skew.getResult()));
         skew.increment(1d);
-        assertFalse(Double.isNaN(skew.getResult()));      
+        assertFalse(Double.isNaN(skew.getResult()));
     }
 
 }

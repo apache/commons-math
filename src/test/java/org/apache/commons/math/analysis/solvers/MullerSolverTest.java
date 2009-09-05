@@ -34,8 +34,8 @@ import junit.framework.TestCase;
  * <p>
  * Tests for the exponential function illustrate the situations where
  * Muller solver performs poorly.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class MullerSolverTest extends TestCase {
 

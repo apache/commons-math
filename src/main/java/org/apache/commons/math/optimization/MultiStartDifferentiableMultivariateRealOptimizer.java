@@ -25,7 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
-/** 
+/**
  * Special implementation of the {@link DifferentiableMultivariateRealOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>

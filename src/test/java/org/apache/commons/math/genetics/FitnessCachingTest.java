@@ -24,13 +24,13 @@ import org.junit.Test;
 
 
 public class FitnessCachingTest {
-    
+
     // parameters for the GA
-    private static final int DIMENSION = 50; 
+    private static final int DIMENSION = 50;
     private static final double CROSSOVER_RATE = 1;
     private static final double MUTATION_RATE = 0.1;
     private static final int TOURNAMENT_ARITY = 5;
-    
+
     private static final int POPULATION_SIZE = 10;
     private static final int NUM_GENERATIONS = 50;
     private static final double ELITISM_RATE = 0.2;
@@ -49,15 +49,15 @@ public class FitnessCachingTest {
                 MUTATION_RATE, // no mutation
                 new TournamentSelection(TOURNAMENT_ARITY)
         );
-        
+
         // initial population
         Population initial = randomPopulation();
         // stopping conditions
         StoppingCondition stopCond = new FixedGenerationCount(NUM_GENERATIONS);
-        
+
         // run the algorithm
         ga.evolve(initial, stopCond);
-        
+
         int neededCalls =
             POPULATION_SIZE /*initial population*/ +
             (NUM_GENERATIONS - 1) /*for each population*/ * (int)(POPULATION_SIZE * (1.0 - ELITISM_RATE)) /*some chromosomes are copied*/
@@ -71,19 +71,19 @@ public class FitnessCachingTest {
      */
     private static ElitisticListPopulation randomPopulation() {
         List<Chromosome> popList = new LinkedList<Chromosome>();
-        
+
         for (int i=0; i<POPULATION_SIZE; i++) {
             BinaryChromosome randChrom = new DummyCountingBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(DIMENSION));
             popList.add(randChrom);
-        }        
+        }
         return new ElitisticListPopulation(popList, popList.size(), ELITISM_RATE);
     }
-    
+
     private static class DummyCountingBinaryChromosome extends DummyBinaryChromosome {
 
         public DummyCountingBinaryChromosome(List<Integer> representation) {
             super(representation);
-        }        
+        }
 
         @Override
         public double fitness() {

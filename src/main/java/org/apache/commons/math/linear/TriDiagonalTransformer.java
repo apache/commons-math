@@ -82,7 +82,7 @@ class TriDiagonalTransformer {
     }
 
     /**
-     * Returns the matrix Q of the transform. 
+     * Returns the matrix Q of the transform.
      * <p>Q is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the Q matrix
      */
@@ -94,7 +94,7 @@ class TriDiagonalTransformer {
     }
 
     /**
-     * Returns the transpose of the matrix Q of the transform. 
+     * Returns the transpose of the matrix Q of the transform.
      * <p>Q is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the Q matrix
      */
@@ -139,7 +139,7 @@ class TriDiagonalTransformer {
     }
 
     /**
-     * Returns the tridiagonal matrix T of the transform. 
+     * Returns the tridiagonal matrix T of the transform.
      * @return the T matrix
      */
     public RealMatrix getT() {

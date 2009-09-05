@@ -24,7 +24,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Test cases for the DescriptiveStatistics class.
- * 
+ *
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
@@ -53,7 +53,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         stats.setMeanImpl(new deepMean());
         assertEquals(42, stats.getMean(), 1E-10);
     }
-    
+
     public void testCopy() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
@@ -65,7 +65,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         copy = stats.copy();
         assertEquals(42, copy.getMean(), 1E-10);
     }
-    
+
     public void testWindowSize() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.setWindowSize(300);
@@ -89,7 +89,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         int refSum2 = refSum - (50 * 51) / 2;
         assertEquals(refSum2 / 50.0, stats.getMean(), 1E-10);
     }
-    
+
     public void testGetValues() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         for (int i = 100; i > 0; --i) {
@@ -107,7 +107,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         }
         assertEquals(12.0, stats.getElement(88), 1.0e-10);
     }
-    
+
     public void testToString() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
@@ -161,25 +161,25 @@ public class DescriptiveStatisticsTest extends TestCase {
         assertEquals(reference.getGeometricMean(), shuffled.getSumsq(), 1.0e-10);
 
     }
-    
+
     public void testPercentileSetter() throws Exception {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(2);
         stats.addValue(3);
         assertEquals(2, stats.getPercentile(50.0), 1E-10);
-        
+
         // Inject wrapped Percentile impl
         stats.setPercentileImpl(new goodPercentile());
         assertEquals(2, stats.getPercentile(50.0), 1E-10);
-        
+
         // Try "new math" impl
         stats.setPercentileImpl(new subPercentile());
         assertEquals(10.0, stats.getPercentile(10.0), 1E-10);
-        
+
         // Try to set bad impl
         try {
-            stats.setPercentileImpl(new badPercentile()); 
+            stats.setPercentileImpl(new badPercentile());
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
@@ -225,11 +225,11 @@ public class DescriptiveStatisticsTest extends TestCase {
         assertTrue(MathUtils.equals(mean3, dstat.getMean()));
 
     }
-    
+
     // Test UnivariateStatistics impls for setter injection tests
-    
+
     /**
-     * A new way to compute the mean 
+     * A new way to compute the mean
      */
     static class deepMean implements UnivariateStatistic {
 
@@ -239,12 +239,12 @@ public class DescriptiveStatisticsTest extends TestCase {
 
         public double evaluate(double[] values) {
             return 42;
-        }  
+        }
         public UnivariateStatistic copy() {
             return new deepMean();
         }
     }
-    
+
     /**
      * Test percentile implementation - wraps a Percentile
      */
@@ -258,14 +258,14 @@ public class DescriptiveStatisticsTest extends TestCase {
         }
         public double evaluate(double[] values) {
             return percentile.evaluate(values);
-        }  
+        }
         public UnivariateStatistic copy() {
             goodPercentile result = new goodPercentile();
             result.setQuantile(percentile.getQuantile());
             return result;
         }
     }
-    
+
     /**
      * Test percentile subclass - another "new math" impl
      * Always returns currently set quantile
@@ -278,7 +278,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         @Override
         public double evaluate(double[] values) {
             return getQuantile();
-        }  
+        }
         private static final long serialVersionUID = 8040701391045914979L;
         @Override
         public Percentile copy() {
@@ -286,7 +286,7 @@ public class DescriptiveStatisticsTest extends TestCase {
             return result;
         }
     }
-    
+
     /**
      * "Bad" test percentile implementation - no setQuantile
      */
@@ -302,5 +302,5 @@ public class DescriptiveStatisticsTest extends TestCase {
             return new badPercentile();
         }
     }
-    
+
 }

@@ -94,7 +94,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * odd elements are distance measurements in meters with a 15m standard deviation.
      * In this case, the weights array should be initialized with value
      * 1.0/(0.01<sup>2</sup>) in the even elements and 1.0/(15.0<sup>2</sup>) in the
-     * odd elements (i.e. reciprocals of variances). 
+     * odd elements (i.e. reciprocals of variances).
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the

@@ -24,13 +24,13 @@ import org.apache.commons.math.linear.RealVector;
 
 /**
  * The GLS implementation of the multiple linear regression.
- * 
+ *
  * GLS assumes a general covariance matrix Omega of the error
  * <pre>
  * u ~ N(0, Omega)
  * </pre>
- * 
- * Estimated by GLS, 
+ *
+ * Estimated by GLS,
  * <pre>
  * b=(X' Omega^-1 X)^-1X'Omega^-1 y
  * </pre>
@@ -42,7 +42,7 @@ import org.apache.commons.math.linear.RealVector;
  * @since 2.0
  */
 public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
-    
+
     /** Covariance matrix. */
     private RealMatrix Omega;
 
@@ -64,7 +64,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
 
     /**
      * Add the covariance data.
-     * 
+     *
      * @param omega the [n,n] array representing the covariance
      */
     protected void newCovarianceData(double[][] omega){
@@ -83,7 +83,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         }
         return OmegaInverse;
     }
-    
+
     /**
      * Calculates beta by GLS.
      * <pre>
@@ -127,5 +127,5 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         double t = residuals.dotProduct(getOmegaInverse().operate(residuals));
         return t / (X.getRowDimension() - X.getColumnDimension());
     }
-    
+
 }

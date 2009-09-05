@@ -41,7 +41,7 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
-        
+
         assertEquals(0.0, solution.getPoint()[0], .0000001);
         assertEquals(1.0, solution.getPoint()[1], .0000001);
         assertEquals(1.0, solution.getPoint()[2], .0000001);
@@ -121,7 +121,7 @@ public class SimplexSolverTest {
         assertEquals(10.0, solution.getPoint()[0], 0.0);
         assertEquals(30.0, solution.getValue(), 0.0);
     }
-    
+
     /**
      * With no artificial variables needed (no equals and no greater than
      * constraints) we can go straight to Phase 2.
@@ -227,7 +227,7 @@ public class SimplexSolverTest {
       assertEquals(0.0, solution.getPoint()[2], 0.0);
       assertEquals(15.0, solution.getValue(), 0.0);
   }
-    
+
     @Test
     public void testTrivialModel() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 1, 1 }, 0);
@@ -365,7 +365,7 @@ public class SimplexSolverTest {
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
         assertEquals(7518.0, solution.getValue(), .0000001);
     }
-    
+
     /**
      * Converts a test string to a {@link LinearConstraint}.
      * Ex: x0 + x1 + x2 + x3 - x12 = 0

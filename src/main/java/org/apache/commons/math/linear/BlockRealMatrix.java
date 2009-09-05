@@ -62,7 +62,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 2.0
  */
 public class BlockRealMatrix extends AbstractRealMatrix implements Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 4991895511313664478L;
 
@@ -214,7 +214,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             if (length != columns) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        columns, length); 
+                        columns, length);
             }
         }
 
@@ -638,7 +638,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return data;
-        
+
     }
 
     /** {@inheritDoc} */
@@ -666,7 +666,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
         return maxColSum;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public double getFrobeniusNorm() {
@@ -811,7 +811,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         // safety checks
         final int refLength = subMatrix[0].length;
         if (refLength < 1) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");             
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
@@ -820,7 +820,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             if (subRow.length != refLength) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        refLength, subRow.length); 
+                        refLength, subRow.length);
             }
         }
 
@@ -946,7 +946,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public BlockRealMatrix getColumnMatrix(final int column)

@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Interface for (univariate real) optimization algorithms.
- *  
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
@@ -97,7 +97,7 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
 
     /**
      * Get the result of the last run of the optimizer.
-     * 
+     *
      * @return the last result.
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
@@ -106,7 +106,7 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
 
     /**
      * Get the result of the last run of the optimizer.
-     * 
+     *
      * @return the value of the function at the last result.
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.

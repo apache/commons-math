@@ -30,9 +30,9 @@ import org.apache.commons.math.special.Erf;
  *
  * @version $Revision$ $Date$
  */
-public class NormalDistributionImpl extends AbstractContinuousDistribution 
+public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
@@ -41,7 +41,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /** The mean of this distribution. */
     private double mean = 0;
-    
+
     /** The standard deviation of this distribution. */
     private double standardDeviation = 1;
 
@@ -55,23 +55,23 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         setMean(mean);
         setStandardDeviation(sd);
     }
-    
+
     /**
      * Creates normal distribution with the mean equal to zero and standard
-     * deviation equal to one. 
+     * deviation equal to one.
      */
     public NormalDistributionImpl(){
         this(0.0, 1.0);
     }
-    
+
     /**
      * Access the mean.
      * @return mean for this distribution
-     */ 
+     */
     public double getMean() {
         return mean;
     }
-    
+
     /**
      * Modify the mean.
      * @param mean for this distribution
@@ -98,7 +98,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
             throw MathRuntimeException.createIllegalArgumentException(
                   "standard deviation must be positive ({0})",
                   sd);
-        }       
+        }
         standardDeviation = sd;
     }
 
@@ -116,7 +116,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>. 
+     * @return CDF evaluted at <code>x</code>.
      * @throws MathException if the algorithm fails to converge; unless
      * x is more than 20 standard deviations from the mean, in which case the
      * convergence exception is caught and 0 or 1 is returned.
@@ -135,12 +135,12 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
             }
         }
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      * <p>
-     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
+     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and
      * <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
      *
      * @param p the desired probability
@@ -151,7 +151,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *         probability.
      */
     @Override
-    public double inverseCumulativeProbability(final double p) 
+    public double inverseCumulativeProbability(final double p)
     throws MathException {
         if (p == 0) {
             return Double.NEGATIVE_INFINITY;
@@ -161,15 +161,15 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         }
         return super.inverseCumulativeProbability(p);
     }
-    
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -180,7 +180,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = getMean();
         }
-        
+
         return ret;
     }
 
@@ -188,10 +188,10 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -202,7 +202,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = Double.MAX_VALUE;
         }
-        
+
         return ret;
     }
 
@@ -210,7 +210,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -225,7 +225,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = getMean();
         }
-        
+
         return ret;
     }
 }

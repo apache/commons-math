@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ public class MathExceptionTest extends TestCase {
         assertNull(ex.getMessage());
         assertEquals(0, ex.getMessage(Locale.FRENCH).length());
     }
-    
+
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
@@ -49,7 +49,7 @@ public class MathExceptionTest extends TestCase {
         assertFalse(pattern.equals(ex.getMessage()));
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
@@ -72,7 +72,7 @@ public class MathExceptionTest extends TestCase {
         assertFalse(pattern.equals(ex.getMessage()));
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
     /**
      * Tests the printStackTrace() operation.
      */
@@ -86,18 +86,18 @@ public class MathExceptionTest extends TestCase {
         ex.printStackTrace(ps);
         String stack = baos.toString();
         String outerMsg = "org.apache.commons.math.MathException: outer message";
-        String innerMsg = "Caused by: " + 
+        String innerMsg = "Caused by: " +
         "org.apache.commons.math.MathConfigurationException: inner message";
         assertTrue(stack.startsWith(outerMsg));
         assertTrue(stack.indexOf(innerMsg) > 0);
-        
+
         PrintWriter pw = new PrintWriter(ps, true);
         ex.printStackTrace(pw);
         stack = baos.toString();
         assertTrue(stack.startsWith(outerMsg));
         assertTrue(stack.indexOf(innerMsg) > 0);
     }
-    
+
     /**
      * Test serialization
      */
@@ -107,17 +107,17 @@ public class MathExceptionTest extends TestCase {
         MathException cause = new MathConfigurationException(inMsg);
         MathException ex = new MathException(cause, outMsg);
         MathException image = (MathException) TestUtils.serializeAndRecover(ex);
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         ex.printStackTrace(ps);
         String stack = baos.toString();
-        
+
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         PrintStream ps2 = new PrintStream(baos2);
         image.printStackTrace(ps2);
         String stack2 = baos2.toString();
-        
+
         // See if JDK supports nested exceptions.  If not, stack trace of
         // inner exception will not be serialized
         boolean jdkSupportsNesting = false;
@@ -127,7 +127,7 @@ public class MathExceptionTest extends TestCase {
         } catch (NoSuchMethodException e) {
             jdkSupportsNesting = false;
         }
-        
+
         if (jdkSupportsNesting) {
             assertEquals(stack, stack2);
         } else {

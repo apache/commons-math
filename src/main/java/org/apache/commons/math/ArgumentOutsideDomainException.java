@@ -31,7 +31,7 @@ public class ArgumentOutsideDomainException extends FunctionEvaluationException 
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @param lower lower bound of the domain
      * @param upper upper bound of the domain
      */

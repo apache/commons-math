@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 
 /**
- * An interface to classes that implement an algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the
  * Cholesky decomposition of a real symmetric positive-definite matrix.
  * <p>This interface is based on the class with similar name from the now defunct
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
@@ -34,7 +34,7 @@ package org.apache.commons.math.linear;
  *   #getSolver() getSolver} method and the equivalent method provided by
  *   the returned {@link DecompositionSolver}.</li>
  * </ul>
- *   
+ *
  * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
@@ -43,7 +43,7 @@ package org.apache.commons.math.linear;
 public interface CholeskyDecomposition {
 
     /**
-     * Returns the matrix L of the decomposition. 
+     * Returns the matrix L of the decomposition.
      * <p>L is an lower-triangular matrix</p>
      * @return the L matrix
      */

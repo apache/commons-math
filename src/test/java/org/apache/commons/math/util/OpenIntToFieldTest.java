@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,7 +62,7 @@ public class OpenIntToFieldTest extends TestCase {
         Random r = new Random();
         double dd=0;
         for (int i = 0; i < 2000; ++i)
-            dd = r.nextDouble(); 
+            dd = r.nextDouble();
             try {
                 map.put(r.nextInt(), new Fraction(dd));
             } catch (FractionConversionException e) {
@@ -78,12 +78,12 @@ public class OpenIntToFieldTest extends TestCase {
         }
         return map;
     }
-    
+
     public void testPutAndGetWith0ExpectedSize() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field,0);
         assertPutAndGet(map);
     }
-    
+
     public void testPutAndGetWithExpectedSize() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field,500);
         assertPutAndGet(map);
@@ -132,7 +132,7 @@ public class OpenIntToFieldTest extends TestCase {
     public void testGetAbsent() {
         Map<Integer, Fraction> generated = generateAbsent();
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
-        
+
         for (Map.Entry<Integer, Fraction> mapEntry : generated.entrySet())
             assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
     }
@@ -187,7 +187,7 @@ public class OpenIntToFieldTest extends TestCase {
 
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         int mapSize = map.size();
-        
+
         for (Map.Entry<Integer, Fraction> mapEntry : generated.entrySet()) {
             map.remove(mapEntry.getKey());
             assertEquals(mapSize, map.size());
@@ -282,14 +282,14 @@ public class OpenIntToFieldTest extends TestCase {
         map.put(key3, value1);
         assertEquals(value1, map.get(key3));
         assertEquals(3, map.size());
-        
+
         map.remove(key2);
         Fraction value2 = new Fraction(2);
         map.put(key3, value2);
         assertEquals(value2, map.get(key3));
         assertEquals(2, map.size());
     }
-    
+
     /**
      * Similar to testPutKeysWithCollisions() but exercises the codepaths in a slightly
      * different manner.
@@ -303,7 +303,7 @@ public class OpenIntToFieldTest extends TestCase {
         map.put(key2, value1);
         assertEquals(2, map.size());
         assertEquals(value1, map.get(key2));
-        
+
         map.remove(key1);
         Fraction value2 = new Fraction(2);
         map.put(key2, value2);

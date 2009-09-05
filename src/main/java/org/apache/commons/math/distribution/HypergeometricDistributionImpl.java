@@ -28,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
-    implements HypergeometricDistribution, Serializable 
+    implements HypergeometricDistribution, Serializable
 {
 
     /** Serializable version identifier */
@@ -36,13 +36,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /** The number of successes in the population. */
     private int numberOfSuccesses;
-    
+
     /** The population size. */
     private int populationSize;
-    
+
     /** The sample size. */
     private int sampleSize;
-    
+
     /**
      * Construct a new hypergeometric distribution with the given the population
      * size, the number of successes in the population, and the sample size.
@@ -71,12 +71,12 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * For this distribution, X, this method returns P(X &le; x).
      * @param x the value at which the PDF is evaluated.
-     * @return PDF for this distribution. 
+     * @return PDF for this distribution.
      */
     @Override
     public double cumulativeProbability(int x) {
         double ret;
-        
+
         int n = getPopulationSize();
         int m = getNumberOfSuccesses();
         int k = getSampleSize();
@@ -89,7 +89,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         } else {
             ret = innerCumulativeProbability(domain[0], x, 1, n, m, k);
         }
-        
+
         return ret;
     }
 
@@ -99,7 +99,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @param m number of successes in the population.
      * @param k the sample size.
      * @return a two element array containing the lower and upper bounds of the
-     *         hypergeometric distribution.  
+     *         hypergeometric distribution.
      */
     private int[] getDomain(int n, int m, int k){
         return new int[]{
@@ -107,28 +107,28 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             getUpperDomain(m, k)
         };
     }
-    
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected int getDomainLowerBound(double p) {
         return getLowerDomain(getPopulationSize(), getNumberOfSuccesses(),
             getSampleSize());
     }
-    
+
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected int getDomainUpperBound(double p) {
@@ -141,7 +141,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
-     * @return the lowest domain value of the hypergeometric distribution.  
+     * @return the lowest domain value of the hypergeometric distribution.
      */
     private int getLowerDomain(int n, int m, int k) {
         return Math.max(0, m - (n - k));
@@ -176,7 +176,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * parameters.
      * @param m number of successes in the population.
      * @param k the sample size.
-     * @return the highest domain value of the hypergeometric distribution.  
+     * @return the highest domain value of the hypergeometric distribution.
      */
     private int getUpperDomain(int m, int k){
         return Math.min(k, m);
@@ -184,13 +184,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X = x).
-     * 
+     *
      * @param x the value at which the PMF is evaluated.
-     * @return PMF for this distribution. 
+     * @return PMF for this distribution.
      */
     public double probability(int x) {
         double ret;
-        
+
         int n = getPopulationSize();
         int m = getNumberOfSuccesses();
         int k = getSampleSize();
@@ -201,19 +201,19 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         } else {
             ret = probability(n, m, k, x);
         }
-        
+
         return ret;
     }
-    
+
     /**
      * For the distribution, X, defined by the given hypergeometric distribution
      * parameters, this method returns P(X = x).
-     * 
+     *
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
      * @param x the value at which the PMF is evaluated.
-     * @return PMF for the distribution. 
+     * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
         return Math.exp(MathUtils.binomialCoefficientLog(m, x) +
@@ -248,7 +248,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         }
         populationSize = size;
     }
-    
+
     /**
      * Modify the sample size.
      * @param size the new sample size.
@@ -259,7 +259,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             throw MathRuntimeException.createIllegalArgumentException(
                   "sample size must be positive ({0})",
                   size);
-        }    
+        }
         sampleSize = size;
     }
 
@@ -271,7 +271,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     public double upperCumulativeProbability(int x) {
         double ret;
-        
+
         int n = getPopulationSize();
         int m = getNumberOfSuccesses();
         int k = getSampleSize();
@@ -284,14 +284,14 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         } else {
             ret = innerCumulativeProbability(domain[1], x, -1, n, m, k);
         }
-        
+
         return ret;
     }
-    
+
     /**
      * For this distribution, X, this method returns P(x0 &le; X &le; x1).  This
      * probability is computed by summing the point probabilities for the values
-     * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx. 
+     * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx.
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @param dx the direction of summation. 1 indicates summing from x0 to x1.
@@ -299,7 +299,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
-     * @return P(x0 &le; X &le; x1). 
+     * @return P(x0 &le; X &le; x1).
      */
     private double innerCumulativeProbability(
         int x0, int x1, int dx, int n, int m, int k)

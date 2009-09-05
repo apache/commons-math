@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization;
 
 import java.io.Serializable;
 
-/** 
+/**
  * Goal type for an optimization problem.
  * @version $Revision$ $Date$
  * @since 2.0

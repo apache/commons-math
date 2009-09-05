@@ -30,7 +30,7 @@ public class FractionTest extends TestCase {
         assertEquals(expectedNumerator, actual.getNumerator());
         assertEquals(expectedDenominator, actual.getDenominator());
     }
-    
+
     public void testConstructor() {
         assertFraction(0, 1, new Fraction(0, 1));
         assertFraction(0, 1, new Fraction(0, 2));
@@ -41,7 +41,7 @@ public class FractionTest extends TestCase {
         assertFraction(-1, 2, new Fraction(1, -2));
         assertFraction(-1, 2, new Fraction(-2, 4));
         assertFraction(-1, 2, new Fraction(2, -4));
-        
+
         // overflow
         try {
             new Fraction(Integer.MIN_VALUE, -1);
@@ -55,11 +55,11 @@ public class FractionTest extends TestCase {
         } catch (ArithmeticException ex) {
             // success
         }
-        try {        
+        try {
             assertFraction(0, 1, new Fraction(0.00000000000001));
             assertFraction(2, 5, new Fraction(0.40000000000001));
             assertFraction(15, 1, new Fraction(15.0000000000001));
-            
+
         } catch (ConvergenceException ex) {
             fail(ex.getMessage());
         }
@@ -165,7 +165,7 @@ public class FractionTest extends TestCase {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(1, 3);
         Fraction third = new Fraction(1, 2);
-        
+
         assertEquals(0, first.compareTo(first));
         assertEquals(0, first.compareTo(third));
         assertEquals(1, first.compareTo(second));
@@ -180,7 +180,7 @@ public class FractionTest extends TestCase {
         assertEquals( 1, pi2.compareTo(pi1));
         assertEquals(0.0, pi1.doubleValue() - pi2.doubleValue(), 1.0e-20);
     }
-    
+
     public void testDoubleValue() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(1, 3);
@@ -188,7 +188,7 @@ public class FractionTest extends TestCase {
         assertEquals(0.5, first.doubleValue(), 0.0);
         assertEquals(1.0 / 3.0, second.doubleValue(), 0.0);
     }
-    
+
     public void testFloatValue() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(1, 3);
@@ -196,7 +196,7 @@ public class FractionTest extends TestCase {
         assertEquals(0.5f, first.floatValue(), 0.0f);
         assertEquals((float)(1.0 / 3.0), second.floatValue(), 0.0f);
     }
-    
+
     public void testIntValue() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(3, 2);
@@ -204,7 +204,7 @@ public class FractionTest extends TestCase {
         assertEquals(0, first.intValue());
         assertEquals(1, second.intValue());
     }
-    
+
     public void testLongValue() {
         Fraction first = new Fraction(1, 2);
         Fraction second = new Fraction(3, 2);
@@ -212,7 +212,7 @@ public class FractionTest extends TestCase {
         assertEquals(0L, first.longValue());
         assertEquals(1L, second.longValue());
     }
-    
+
     public void testConstructorDouble() {
         try {
             assertFraction(1, 2, new Fraction(0.5));
@@ -227,35 +227,35 @@ public class FractionTest extends TestCase {
             fail(ex.getMessage());
         }
     }
-    
+
     public void testAbs() {
         Fraction a = new Fraction(10, 21);
         Fraction b = new Fraction(-10, 21);
         Fraction c = new Fraction(10, -21);
-        
+
         assertFraction(10, 21, a.abs());
         assertFraction(10, 21, b.abs());
         assertFraction(10, 21, c.abs());
     }
-    
+
     public void testReciprocal() {
         Fraction f = null;
-        
+
         f = new Fraction(50, 75);
         f = f.reciprocal();
         assertEquals(3, f.getNumerator());
         assertEquals(2, f.getDenominator());
-        
+
         f = new Fraction(4, 3);
         f = f.reciprocal();
         assertEquals(3, f.getNumerator());
         assertEquals(4, f.getDenominator());
-        
+
         f = new Fraction(-15, 47);
         f = f.reciprocal();
         assertEquals(-47, f.getNumerator());
         assertEquals(15, f.getDenominator());
-        
+
         f = new Fraction(0, 3);
         try {
             f = f.reciprocal();
@@ -268,15 +268,15 @@ public class FractionTest extends TestCase {
         assertEquals(1, f.getNumerator());
         assertEquals(Integer.MAX_VALUE, f.getDenominator());
     }
-    
+
     public void testNegate() {
         Fraction f = null;
-        
+
         f = new Fraction(50, 75);
         f = f.negate();
         assertEquals(-2, f.getNumerator());
         assertEquals(3, f.getDenominator());
-        
+
         f = new Fraction(-50, 75);
         f = f.negate();
         assertEquals(2, f.getNumerator());
@@ -294,16 +294,16 @@ public class FractionTest extends TestCase {
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
     }
-    
+
     public void testAdd() {
         Fraction a = new Fraction(1, 2);
         Fraction b = new Fraction(2, 3);
-        
+
         assertFraction(1, 1, a.add(a));
         assertFraction(7, 6, a.add(b));
         assertFraction(7, 6, b.add(a));
         assertFraction(4, 3, b.add(b));
-        
+
         Fraction f1 = new Fraction(Integer.MAX_VALUE - 1, 1);
         Fraction f2 = Fraction.ONE;
         Fraction f = f1.add(f2);
@@ -312,18 +312,18 @@ public class FractionTest extends TestCase {
         f = f1.add(1);
         assertEquals(Integer.MAX_VALUE, f.getNumerator());
         assertEquals(1, f.getDenominator());
-        
+
         f1 = new Fraction(-1, 13*13*2*2);
         f2 = new Fraction(-2, 13*17*2);
         f = f1.add(f2);
         assertEquals(13*13*17*2*2, f.getDenominator());
         assertEquals(-17 - 2*13*2, f.getNumerator());
-        
+
         try {
             f.add(null);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {}
-        
+
         // if this fraction is added naively, it will overflow.
         // check that it doesn't.
         f1 = new Fraction(1,32768*3);
@@ -337,18 +337,18 @@ public class FractionTest extends TestCase {
         f = f1.add(f2);
         assertEquals(Integer.MIN_VALUE+1, f.getNumerator());
         assertEquals(3, f.getDenominator());
-        
+
         f1 = new Fraction(Integer.MAX_VALUE - 1, 1);
         f2 = Fraction.ONE;
         f = f1.add(f2);
         assertEquals(Integer.MAX_VALUE, f.getNumerator());
         assertEquals(1, f.getDenominator());
-        
+
         try {
             f = f.add(Fraction.ONE); // should overflow
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
-        
+
         // denominator should not be a multiple of 2 or 3 to trigger overflow
         f1 = new Fraction(Integer.MIN_VALUE, 5);
         f2 = new Fraction(-1,5);
@@ -356,19 +356,19 @@ public class FractionTest extends TestCase {
             f = f1.add(f2); // should overflow
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
-        
+
         try {
             f= new Fraction(-Integer.MAX_VALUE, 1);
             f = f.add(f);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         try {
             f= new Fraction(-Integer.MAX_VALUE, 1);
             f = f.add(f);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         f1 = new Fraction(3,327680);
         f2 = new Fraction(2,59049);
         try {
@@ -376,39 +376,39 @@ public class FractionTest extends TestCase {
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
     }
-    
+
     public void testDivide() {
         Fraction a = new Fraction(1, 2);
         Fraction b = new Fraction(2, 3);
-        
+
         assertFraction(1, 1, a.divide(a));
         assertFraction(3, 4, a.divide(b));
         assertFraction(4, 3, b.divide(a));
         assertFraction(1, 1, b.divide(b));
-        
+
         Fraction f1 = new Fraction(3, 5);
         Fraction f2 = Fraction.ZERO;
         try {
             f1.divide(f2);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         f1 = new Fraction(0, 5);
         f2 = new Fraction(2, 7);
         Fraction f = f1.divide(f2);
         assertSame(Fraction.ZERO, f);
-        
+
         f1 = new Fraction(2, 7);
         f2 = Fraction.ONE;
         f = f1.divide(f2);
         assertEquals(2, f.getNumerator());
         assertEquals(7, f.getDenominator());
-        
+
         f1 = new Fraction(1, Integer.MAX_VALUE);
-        f = f1.divide(f1);  
+        f = f1.divide(f1);
         assertEquals(1, f.getNumerator());
         assertEquals(1, f.getDenominator());
-        
+
         f1 = new Fraction(Integer.MIN_VALUE, Integer.MAX_VALUE);
         f2 = new Fraction(1, Integer.MAX_VALUE);
         f = f1.divide(f2);
@@ -419,7 +419,7 @@ public class FractionTest extends TestCase {
             f.divide(null);
             fail("IllegalArgumentException");
         } catch (IllegalArgumentException ex) {}
-        
+
         try {
             f1 = new Fraction(1, Integer.MAX_VALUE);
             f = f1.divide(f1.reciprocal());  // should overflow
@@ -437,16 +437,16 @@ public class FractionTest extends TestCase {
         assertEquals(175, f.getDenominator());
 
     }
-    
+
     public void testMultiply() {
         Fraction a = new Fraction(1, 2);
         Fraction b = new Fraction(2, 3);
-        
+
         assertFraction(1, 4, a.multiply(a));
         assertFraction(1, 3, a.multiply(b));
         assertFraction(1, 3, b.multiply(a));
         assertFraction(4, 9, b.multiply(b));
-        
+
         Fraction f1 = new Fraction(Integer.MAX_VALUE, 1);
         Fraction f2 = new Fraction(Integer.MIN_VALUE, Integer.MAX_VALUE);
         Fraction f = f1.multiply(f2);
@@ -463,22 +463,22 @@ public class FractionTest extends TestCase {
         assertEquals(18, f.getNumerator());
         assertEquals(7, f.getDenominator());
     }
-    
+
     public void testSubtract() {
         Fraction a = new Fraction(1, 2);
         Fraction b = new Fraction(2, 3);
-        
+
         assertFraction(0, 1, a.subtract(a));
         assertFraction(-1, 6, a.subtract(b));
         assertFraction(1, 6, b.subtract(a));
         assertFraction(0, 1, b.subtract(b));
-        
+
         Fraction f = new Fraction(1,1);
         try {
             f.subtract(null);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {}
-        
+
         // if this fraction is subtracted naively, it will overflow.
         // check that it doesn't.
         Fraction f1 = new Fraction(1,32768*3);
@@ -492,7 +492,7 @@ public class FractionTest extends TestCase {
         f = f1.subtract(f2);
         assertEquals(Integer.MIN_VALUE+1, f.getNumerator());
         assertEquals(3, f.getDenominator());
-        
+
         f1 = new Fraction(Integer.MAX_VALUE, 1);
         f2 = Fraction.ONE;
         f = f1.subtract(f2);
@@ -508,7 +508,7 @@ public class FractionTest extends TestCase {
             f = f1.subtract(f2);
             fail("expecting ArithmeticException");  //should overflow
         } catch (ArithmeticException ex) {}
-        
+
         // denominator should not be a multiple of 2 or 3 to trigger overflow
         f1 = new Fraction(Integer.MIN_VALUE, 5);
         f2 = new Fraction(1,5);
@@ -516,19 +516,19 @@ public class FractionTest extends TestCase {
             f = f1.subtract(f2); // should overflow
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
-        
+
         try {
             f= new Fraction(Integer.MIN_VALUE, 1);
             f = f.subtract(Fraction.ONE);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         try {
             f= new Fraction(Integer.MAX_VALUE, 1);
             f = f.subtract(Fraction.ONE.negate());
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         f1 = new Fraction(3,327680);
         f2 = new Fraction(2,59049);
         try {
@@ -536,7 +536,7 @@ public class FractionTest extends TestCase {
             fail("expecting ArithmeticException but got: " + f.toString());
         } catch (ArithmeticException ex) {}
     }
-    
+
     public void testEqualsAndHashCode() {
         Fraction zero  = new Fraction(0,1);
         Fraction nullFraction = null;
@@ -549,7 +549,7 @@ public class FractionTest extends TestCase {
         Fraction one = new Fraction(1,1);
         assertFalse((one.equals(zero) ||zero.equals(one)));
     }
-    
+
     public void testGetReducedFraction() {
         Fraction threeFourths = new Fraction(3, 4);
         assertTrue(threeFourths.equals(Fraction.getReducedFraction(6, 8)));

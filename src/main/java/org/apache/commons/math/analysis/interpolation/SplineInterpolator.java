@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
  * Computes a natural (also known as "free", "unclamped") cubic spline interpolation for the data set.
  * <p>
  * The {@link #interpolate(double[], double[])} method returns a {@link PolynomialSplineFunction}
- * consisting of n cubic polynomials, defined over the subintervals determined by the x values,  
+ * consisting of n cubic polynomials, defined over the subintervals determined by the x values,
  * x[0] < x[i] ... < x[n].  The x values are referred to as "knot points."</p>
  * <p>
  * The value of the PolynomialSplineFunction at a point x that is greater than or equal to the smallest
@@ -34,13 +34,13 @@ import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
  * </p>
  * <p>
  * The interpolating polynomials satisfy: <ol>
- * <li>The value of the PolynomialSplineFunction at each of the input x values equals the 
+ * <li>The value of the PolynomialSplineFunction at each of the input x values equals the
  *  corresponding y value.</li>
- * <li>Adjacent polynomials are equal through two derivatives at the knot points (i.e., adjacent polynomials 
+ * <li>Adjacent polynomials are equal through two derivatives at the knot points (i.e., adjacent polynomials
  *  "match up" at the knot points, as do their first and second derivatives).</li>
  * </ol></p>
  * <p>
- * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires, 
+ * The cubic spline interpolation algorithm implemented is as described in R.L. Burden, J.D. Faires,
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
  * </p>
  *
@@ -48,7 +48,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {
-    
+
     /**
      * Computes an interpolating function for the data set.
      * @param x the arguments for the interpolation points
@@ -60,15 +60,15 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             throw MathRuntimeException.createIllegalArgumentException(
                   "dimension mismatch {0} != {1}", x.length, y.length);
         }
-        
+
         if (x.length < 3) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "{0} points are required, got only {1}", 3, x.length);
         }
-        
+
         // Number of intervals.  The number of data points is n + 1.
-        int n = x.length - 1;   
-        
+        int n = x.length - 1;
+
         for (int i = 0; i < n; i++) {
             if (x[i]  >= x[i + 1]) {
                 throw MathRuntimeException.createIllegalArgumentException(
@@ -76,13 +76,13 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
                       i, i+1, x[i], x[i+1]);
             }
         }
-        
+
         // Differences between knot points
         double h[] = new double[n];
         for (int i = 0; i < n; i++) {
             h[i] = x[i + 1] - x[i];
         }
-        
+
         double mu[] = new double[n];
         double z[] = new double[n + 1];
         mu[0] = 0d;
@@ -94,21 +94,21 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             z[i] = (3d * (y[i + 1] * h[i - 1] - y[i] * (x[i + 1] - x[i - 1])+ y[i - 1] * h[i]) /
                     (h[i - 1] * h[i]) - h[i - 1] * z[i - 1]) / g;
         }
-       
+
         // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
         double b[] = new double[n];
         double c[] = new double[n + 1];
         double d[] = new double[n];
-        
+
         z[n] = 0d;
         c[n] = 0d;
-        
+
         for (int j = n -1; j >=0; j--) {
             c[j] = z[j] - mu[j] * c[j + 1];
             b[j] = (y[j + 1] - y[j]) / h[j] - h[j] * (c[j + 1] + 2d * c[j]) / 3d;
             d[j] = (c[j + 1] - c[j]) / (3d * h[j]);
         }
-        
+
         PolynomialFunction polynomials[] = new PolynomialFunction[n];
         double coefficients[] = new double[4];
         for (int i = 0; i < n; i++) {
@@ -118,7 +118,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
             coefficients[3] = d[i];
             polynomials[i] = new PolynomialFunction(coefficients);
         }
-        
+
         return new PolynomialSplineFunction(x, polynomials);
     }
 

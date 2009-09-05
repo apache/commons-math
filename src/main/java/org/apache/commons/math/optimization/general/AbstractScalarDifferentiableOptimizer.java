@@ -138,7 +138,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
         }
     }
 
-    /** 
+    /**
      * Compute the gradient vector.
      * @param evaluationPoint point at which the gradient must be evaluated
      * @return gradient at the specified point
@@ -150,7 +150,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
         return gradient.value(evaluationPoint);
     }
 
-    /** 
+    /**
      * Compute the objective function value.
      * @param evaluationPoint point at which the objective function must be evaluated
      * @return objective function value at specified point

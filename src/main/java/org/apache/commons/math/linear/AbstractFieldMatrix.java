@@ -34,7 +34,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 2.0
  */
 public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements FieldMatrix<T> {
-    
+
     /** Field to which the elements belong. */
     private final Field<T> field;
 
@@ -48,10 +48,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     protected static <T extends FieldElement<T>> Field<T> extractField(final T[][] d)
         throws IllegalArgumentException {
         if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
         if (d[0].length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
         return d[0][0].getField();
     }
@@ -66,7 +66,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     protected static <T extends FieldElement<T>> Field<T> extractField(final T[] d)
         throws IllegalArgumentException {
         if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
         return d[0].getField();
     }
@@ -87,8 +87,8 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
                                                                   final int rows,
                                                                   final int columns) {
         if (columns < 0) {
-            T[] dummyRow = (T[]) Array.newInstance(field.getZero().getClass(), 0); 
-            return (T[][]) Array.newInstance(dummyRow.getClass(), rows);            
+            T[] dummyRow = (T[]) Array.newInstance(field.getZero().getClass(), 0);
+            return (T[][]) Array.newInstance(dummyRow.getClass(), rows);
         }
         T[][] array =
             (T[][]) Array.newInstance(field.getZero().getClass(), new int[] { rows, columns });
@@ -121,7 +121,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     protected AbstractFieldMatrix() {
         field = null;
     }
-    
+
     /**
      * Creates a matrix with no data
      * @param field field to which the elements belong
@@ -178,7 +178,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
                 out.setEntry(row, col, getEntry(row, col).add(m.getEntry(row, col)));
-            }  
+            }
         }
 
         return out;
@@ -197,7 +197,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         for (int row = 0; row < rowCount; ++row) {
             for (int col = 0; col < columnCount; ++col) {
                 out.setEntry(row, col, getEntry(row, col).subtract(m.getEntry(row, col)));
-            }  
+            }
         }
 
         return out;
@@ -324,7 +324,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
         return subMatrix;
 
-    } 
+    }
 
     /** {@inheritDoc} */
     public void copySubMatrix(final int startRow, final int endRow,
@@ -396,24 +396,24 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setSubMatrix(final T[][] subMatrix, final int row, final int column) 
+    public void setSubMatrix(final T[][] subMatrix, final int row, final int column)
         throws MatrixIndexException {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
 
         for (int r = 1; r < nRows; ++r) {
             if (subMatrix[r].length != nCols) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        nCols, subMatrix[r].length); 
+                        nCols, subMatrix[r].length);
             }
         }
 
@@ -426,7 +426,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
             for (int j = 0; j < nCols; ++j) {
                 setEntry(row + i, column + j, subMatrix[i][j]);
             }
-        } 
+        }
 
     }
 
@@ -444,7 +444,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         return out;
 
     }
-    
+
     /** {@inheritDoc} */
     public void setRowMatrix(final int row, final FieldMatrix<T> matrix)
         throws MatrixIndexException, InvalidMatrixException {
@@ -462,7 +462,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public FieldMatrix<T> getColumnMatrix(final int column)
         throws MatrixIndexException {
@@ -495,7 +495,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public FieldVector<T> getRowVector(final int row)
         throws MatrixIndexException {
@@ -518,7 +518,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public FieldVector<T> getColumnVector(final int column)
         throws MatrixIndexException {
@@ -541,7 +541,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public T[] getRow(final int row)
         throws MatrixIndexException {
@@ -573,7 +573,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public T[] getColumn(final int column)
         throws MatrixIndexException {
@@ -605,7 +605,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
     }
-    
+
     /** {@inheritDoc} */
     public abstract T getEntry(int row, int column)
         throws MatrixIndexException;
@@ -953,20 +953,20 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
                     res.append(",");
                 }
                 res.append(getEntry(i, j));
-            } 
+            }
             res.append("}");
-        } 
+        }
 
         res.append("}");
         return res.toString();
 
-    } 
-    
+    }
+
     /**
      * Returns true iff <code>object</code> is a
      * <code>FieldMatrix</code> instance with the same dimensions as this
      * and all corresponding matrix entries are equal.
-     * 
+     *
      * @param object the object to test equality against.
      * @return true if object equals this
      */
@@ -994,10 +994,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
         return true;
     }
-    
+
     /**
      * Computes a hashcode for the matrix.
-     * 
+     *
      * @return hashcode for matrix
      */
     @Override
@@ -1066,7 +1066,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
                                            startColumn, endColumn);
         }
 
-    
+
     }
 
     /**

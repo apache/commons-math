@@ -63,7 +63,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** Convergence checker. */
     protected VectorialConvergenceChecker checker;
 
-    /** 
+    /**
      * Jacobian matrix.
      * <p>This matrix is in canonical form just after the calls to
      * {@link #updateJacobian()}, but may be modified by the solver
@@ -168,7 +168,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
     }
 
-    /** 
+    /**
      * Update the jacobian matrix.
      * @exception FunctionEvaluationException if the function jacobian
      * cannot be evaluated or its dimension doesn't match problem dimension
@@ -189,7 +189,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
     }
 
-    /** 
+    /**
      * Update the residuals array and cost function value.
      * @exception FunctionEvaluationException if the function cannot be evaluated
      * or its dimension doesn't match problem dimension or maximal number of
@@ -217,14 +217,14 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     }
 
-    /** 
+    /**
      * Get the Root Mean Square value.
      * Get the Root Mean Square value, i.e. the root of the arithmetic
      * mean of the square of all weighted residuals. This is related to the
      * criterion that is minimized by the optimizer as follows: if
      * <em>c</em> if the criterion, and <em>n</em> is the number of
      * measurements, then the RMS is <em>sqrt (c/n)</em>.
-     * 
+     *
      * @return RMS value
      */
     public double getRMS() {

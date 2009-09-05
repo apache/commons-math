@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.Frequency;
- 
+
 
 /**
  * Test cases for the AbstractRandomGenerator class
@@ -28,20 +28,20 @@ import org.apache.commons.math.stat.Frequency;
  */
 
 public class AbstractRandomGeneratorTest extends RandomDataTest {
-    
+
     protected TestRandomGenerator testGenerator = new TestRandomGenerator();
-    
+
     public AbstractRandomGeneratorTest(String name) {
         super(name);
         randomData = new RandomDataImpl(testGenerator);
-    } 
-    
+    }
+
     public static Test suite() {
         TestSuite suite = new TestSuite(AbstractRandomGeneratorTest.class);
         suite.setName("AbstractRandomGenerator Tests");
         return suite;
     }
-    
+
     @Override
     public void testNextInt() {
         try {
@@ -55,26 +55,26 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         for (int i=0; i<smallSampleSize; i++) {
             value = testGenerator.nextInt(4);
             assertTrue("nextInt range",(value >= 0) && (value <= 3));
-            freq.addValue(value);  
+            freq.addValue(value);
         }
         long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
-        } 
-        
+        }
+
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
         assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected,observed) < 16.27);    
+                testStatistic.chiSquare(expected,observed) < 16.27);
     }
-    
+
     @Override
     public void testNextLong() {
         long q1 = Long.MAX_VALUE/4;
         long q2 = 2 *  q1;
         long q3 = 3 * q1;
-        
+
         Frequency freq = new Frequency();
         long val = 0;
         int value = 0;
@@ -89,22 +89,22 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
             } else {
                 value = 3;
             }
-            freq.addValue(value);  
+            freq.addValue(value);
         }
         long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
-        } 
-        
+        }
+
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
         assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected,observed) < 16.27);    
+                testStatistic.chiSquare(expected,observed) < 16.27);
     }
-    
+
     public void testNextBoolean() {
-        long halfSampleSize = smallSampleSize / 2; 
+        long halfSampleSize = smallSampleSize / 2;
         double[] expected = {halfSampleSize, halfSampleSize};
         long[] observed = new long[2];
         for (int i=0; i<smallSampleSize; i++) {
@@ -118,9 +118,9 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
          * Change to 6.635 for alpha = .01
          */
         assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected,observed) < 10.828);    
+                testStatistic.chiSquare(expected,observed) < 10.828);
     }
-    
+
     public void testNextFloat() {
         Frequency freq = new Frequency();
         float val = 0;
@@ -136,17 +136,17 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
             } else {
                 value = 3;
             }
-            freq.addValue(value);  
+            freq.addValue(value);
         }
         long[] observed = new long[4];
         for (int i=0; i<4; i++) {
             observed[i] = freq.getCount(i);
-        } 
-        
+        }
+
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
         assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected,observed) < 16.27);    
+                testStatistic.chiSquare(expected,observed) < 16.27);
     }
 }

@@ -30,31 +30,31 @@ public class GeneticAlgorithm {
 
     /**
      * Static random number generator shared by GA implementation classes.
-     * Set the randomGenerator seed to get reproducible results.  
+     * Set the randomGenerator seed to get reproducible results.
      * Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative
      * to the default JDK-provided PRNG.
      */
     //@GuardedBy("this")
     private static RandomGenerator randomGenerator = new JDKRandomGenerator();
-    
+
     /**
      * Set the (static) random generator.
-     * 
+     *
      * @param random random generator
      */
     public synchronized static void setRandomGenerator(RandomGenerator random) {
         randomGenerator = random;
     }
-    
+
     /**
      * Returns the (static) random generator.
-     * 
+     *
      * @return the static random generator shared by GA implementation classes
      */
     public synchronized static RandomGenerator getRandomGenerator() {
         return randomGenerator;
     }
-      
+
     /** the crossover policy used by the algorithm. */
     private final CrossoverPolicy crossoverPolicy;
 
@@ -69,7 +69,7 @@ public class GeneticAlgorithm {
 
     /** the selection policy used by the algorithm. */
     private final SelectionPolicy selectionPolicy;
-    
+
     /**
      * @param crossoverPolicy The {@link CrossoverPolicy}
      * @param crossoverRate The crossover rate as a percentage (0-1 inclusive)
@@ -93,11 +93,11 @@ public class GeneticAlgorithm {
         this.mutationRate = mutationRate;
         this.selectionPolicy = selectionPolicy;
     }
-    
+
     /**
      * Evolve the given population. Evolution stops when the stopping condition
      * is satisfied.
-     * 
+     *
      * @param initial the initial, seed population.
      * @param condition the stopping condition used to stop evolution.
      * @return the population that satisfies the stopping condition.
@@ -128,7 +128,7 @@ public class GeneticAlgorithm {
      *    <li>Return nextGeneration</li>
      *    </ol>
      * </p>
-     * 
+     *
      * @param current the current population.
      * @return the population for the next generation.
      */
@@ -136,7 +136,7 @@ public class GeneticAlgorithm {
         Population nextGeneration = current.nextGeneration();
 
         RandomGenerator randGen = getRandomGenerator();
-        
+
         while (nextGeneration.getPopulationSize() < nextGeneration.getPopulationLimit()) {
             // select parent chromosomes
             ChromosomePair pair = getSelectionPolicy().select(current);
@@ -165,8 +165,8 @@ public class GeneticAlgorithm {
         }
 
         return nextGeneration;
-    }    
-    
+    }
+
     /**
      * Returns the crossover policy.
      * @return crossover policy
@@ -206,5 +206,5 @@ public class GeneticAlgorithm {
     public SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;
     }
-        
+
 }

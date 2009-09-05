@@ -23,24 +23,24 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
   * Returns the sum of the available values.
  * <p>
- * If there are no values in the dataset, or any of the values are 
+ * If there are no values in the dataset, or any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Sum extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -8231831954703408316L;  
-      
+    private static final long serialVersionUID = -8231831954703408316L;
+
     /** */
     private long n;
-    
+
     /**
      * The currently running sum.
      */

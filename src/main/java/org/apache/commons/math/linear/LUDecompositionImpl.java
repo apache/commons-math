@@ -58,7 +58,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     private static final double DEFAULT_TOO_SMALL = 10E-12;
 
     /**
-     * Calculates the LU-decomposition of the given matrix. 
+     * Calculates the LU-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @exception InvalidMatrixException if matrix is not square
      */
@@ -68,7 +68,7 @@ public class LUDecompositionImpl implements LUDecomposition {
     }
 
     /**
-     * Calculates the LU-decomposition of the given matrix. 
+     * Calculates the LU-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @param singularityThreshold threshold (based on partial row norm)
      * under which a matrix is considered singular
@@ -228,7 +228,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-    
+
         /** Entries of LU decomposition. */
         private final double lu[][];
 

@@ -25,7 +25,7 @@ import org.apache.commons.math.linear.BlockRealMatrix;
 import junit.framework.TestCase;
 
 public class PearsonsCorrelationTest extends TestCase {
-    
+
     protected final double[] longleyData = new double[] {
             60323,83.0,234289,2356,1590,107608,1947,
             61122,88.5,259426,2325,1456,108632,1948,
@@ -44,7 +44,7 @@ public class PearsonsCorrelationTest extends TestCase {
             69331,115.7,518173,4806,2572,127852,1961,
             70551,116.9,554894,4007,2827,130081,1962
         };
-    
+
     protected final double[] swissData = new double[] {
             80.2,17.0,15,12,9.96,
             83.1,45.1,6,9,84.84,
@@ -94,14 +94,14 @@ public class PearsonsCorrelationTest extends TestCase {
             44.7,46.6,16,29,50.43,
             42.8,27.7,22,29,58.33
         };
- 
-    
+
+
     /**
      * Test Longley dataset against R.
      */
-    public void testLongly() throws Exception {  
+    public void testLongly() throws Exception {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
-        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
         double[] rData = new double[] {
                 1.000000000000000, 0.9708985250610560, 0.9835516111796693, 0.5024980838759942,
@@ -118,28 +118,28 @@ public class PearsonsCorrelationTest extends TestCase {
                 0.3644162671890320, 1.000000000000000, 0.9939528462329257,
                 0.971329459192119, 0.9911491900672053, 0.9952734837647849, 0.6682566045621746,
                 0.4172451498349454, 0.993952846232926, 1.0000000000000000
-        }; 
+        };
         TestUtils.assertEquals("correlation matrix", createRealMatrix(rData, 7, 7), correlationMatrix, 10E-15);
-        
+
         double[] rPvalues = new double[] {
                 4.38904690369668e-10,
                 8.36353208910623e-12, 7.8159700933611e-14,
-                0.0472894097790304, 0.01030636128354301, 0.01316878049026582, 
+                0.0472894097790304, 0.01030636128354301, 0.01316878049026582,
                 0.0749178049642416, 0.06971758330341182, 0.0830166169296545, 0.510948586323452,
-                3.693245043123738e-09, 4.327782576751815e-11, 1.167954621905665e-13, 0.00331028281967516, 0.1652293725106684, 
+                3.693245043123738e-09, 4.327782576751815e-11, 1.167954621905665e-13, 0.00331028281967516, 0.1652293725106684,
                 3.95834476307755e-10, 1.114663916723657e-13, 1.332267629550188e-15, 0.00466039138541463, 0.1078477071581498, 7.771561172376096e-15
         };
         RealMatrix rPMatrix = createLowerTriangularRealMatrix(rPvalues, 7);
         fillUpper(rPMatrix, 0d);
         TestUtils.assertEquals("correlation p values", rPMatrix, corrInstance.getCorrelationPValues(), 10E-15);
     }
-    
+
     /**
      * Test R Swiss fertility dataset against R.
      */
     public void testSwissFertility() throws Exception {
          RealMatrix matrix = createRealMatrix(swissData, 47, 5);
-         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
          RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
          double[] rData = new double[] {
                1.0000000000000000, 0.3530791836199747, -0.6458827064572875, -0.6637888570350691,  0.4636847006517939,
@@ -149,7 +149,7 @@ public class PearsonsCorrelationTest extends TestCase {
                  0.4636847006517939, 0.4010950530487398, -0.5727418060641666, -0.1538589170909148, 1.0000000000000000
          };
          TestUtils.assertEquals("correlation matrix", createRealMatrix(rData, 5, 5), correlationMatrix, 10E-15);
-         
+
          double[] rPvalues = new double[] {
                  0.01491720061472623,
                  9.45043734069043e-07, 9.95151527133974e-08,
@@ -160,7 +160,7 @@ public class PearsonsCorrelationTest extends TestCase {
          fillUpper(rPMatrix, 0d);
          TestUtils.assertEquals("correlation p values", rPMatrix, corrInstance.getCorrelationPValues(), 10E-15);
     }
-    
+
     /**
      * Constant column
      */
@@ -169,12 +169,12 @@ public class PearsonsCorrelationTest extends TestCase {
         double[] values = new double[] {1, 2, 3, 4};
         assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(noVariance, values)));
     }
-    
-    
+
+
     /**
      * Insufficient data
      */
-     
+
     public void testInsufficientData() {
         double[] one = new double[] {1};
         double[] two = new double[] {2};
@@ -192,7 +192,7 @@ public class PearsonsCorrelationTest extends TestCase {
             // Expected
         }
     }
-    
+
     /**
      * Verify that direct t-tests using standard error estimates are consistent
      * with reported p-values
@@ -200,7 +200,7 @@ public class PearsonsCorrelationTest extends TestCase {
     public void testStdErrorConsistency() throws Exception {
         TDistribution tDistribution = new TDistributionImpl(45);
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
-        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix rValues = corrInstance.getCorrelationMatrix();
         RealMatrix pValues = corrInstance.getCorrelationPValues();
         RealMatrix stdErrors = corrInstance.getCorrelationStandardErrors();
@@ -212,14 +212,14 @@ public class PearsonsCorrelationTest extends TestCase {
             }
         }
     }
-    
+
     /**
      * Verify that creating correlation from covariance gives same results as
      * direct computation from the original matrix
      */
     public void testCovarianceConsistency() throws Exception {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
-        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         Covariance covInstance = new Covariance(matrix);
         PearsonsCorrelation corrFromCovInstance = new PearsonsCorrelation(covInstance);
         TestUtils.assertEquals("correlation values", corrInstance.getCorrelationMatrix(),
@@ -228,8 +228,8 @@ public class PearsonsCorrelationTest extends TestCase {
                 corrFromCovInstance.getCorrelationPValues(), 10E-15);
         TestUtils.assertEquals("standard errors", corrInstance.getCorrelationStandardErrors(),
                 corrFromCovInstance.getCorrelationStandardErrors(), 10E-15);
-        
-        PearsonsCorrelation corrFromCovInstance2 = 
+
+        PearsonsCorrelation corrFromCovInstance2 =
             new PearsonsCorrelation(covInstance.getCovarianceMatrix(), 16);
         TestUtils.assertEquals("correlation values", corrInstance.getCorrelationMatrix(),
                 corrFromCovInstance2.getCorrelationMatrix(), 10E-15);
@@ -238,20 +238,20 @@ public class PearsonsCorrelationTest extends TestCase {
         TestUtils.assertEquals("standard errors", corrInstance.getCorrelationStandardErrors(),
                 corrFromCovInstance2.getCorrelationStandardErrors(), 10E-15);
     }
-    
-     
+
+
     public void testConsistency() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
-        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix); 
+        PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         double[][] data = matrix.getData();
         double[] x = matrix.getColumn(0);
         double[] y = matrix.getColumn(1);
-        assertEquals(new PearsonsCorrelation().correlation(x, y), 
+        assertEquals(new PearsonsCorrelation().correlation(x, y),
                 corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
         TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
                 new PearsonsCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
     }
-    
+
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {
         double[][] matrixData = new double[nRows][nCols];
         int ptr = 0;
@@ -259,9 +259,9 @@ public class PearsonsCorrelationTest extends TestCase {
             System.arraycopy(data, ptr, matrixData[i], 0, nCols);
             ptr += nCols;
         }
-        return new BlockRealMatrix(matrixData); 
+        return new BlockRealMatrix(matrixData);
     }
-    
+
     protected RealMatrix createLowerTriangularRealMatrix(double[] data, int dimension) {
         int ptr = 0;
         RealMatrix result = new BlockRealMatrix(dimension, dimension);
@@ -273,7 +273,7 @@ public class PearsonsCorrelationTest extends TestCase {
         }
         return result;
     }
-    
+
     protected void fillUpper(RealMatrix matrix, double diagonalValue) {
         int dimension = matrix.getColumnDimension();
         for (int i = 0; i < dimension; i++) {
@@ -281,6 +281,6 @@ public class PearsonsCorrelationTest extends TestCase {
             for (int j = i+1; j < dimension; j++) {
                 matrix.setEntry(i, j, matrix.getEntry(j, i));
             }
-        }  
+        }
     }
 }

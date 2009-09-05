@@ -24,7 +24,7 @@ import org.apache.commons.math.MathRuntimeException;
 /**
  * Implementation of {@link BigMatrix} using a BigDecimal[][] array to store entries
  * and <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
- * LU decompostion</a> to support linear system 
+ * LU decompostion</a> to support linear system
  * solution and inverse.
  * <p>
  * The LU decompostion is performed as needed, to support the following operations: <ul>
@@ -46,51 +46,51 @@ import org.apache.commons.math.MathRuntimeException;
  * As specified in the {@link BigMatrix} interface, matrix element indexing
  * is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</li></ul></p>
- * 
+ *
  * @deprecated as of 2.0, replaced by {@link Array2DRowFieldMatrix} with a {@link
  * org.apache.commons.math.util.BigReal} parameter
  * @version $Revision$ $Date$
  */
 @Deprecated
 public class BigMatrixImpl implements BigMatrix, Serializable {
-    
+
     /** Serialization id */
     private static final long serialVersionUID = -1011428905656140431L;
-    
+
     /** Entries of the matrix */
     protected BigDecimal data[][] = null;
-    
+
     /** Entries of cached LU decomposition.
      *  All updates to data (other than luDecompose()) *must* set this to null
      */
     protected BigDecimal lu[][] = null;
-    
+
     /** Permutation associated with LU decomposition */
     protected int[] permutation = null;
-    
+
     /** Parity of the permutation associated with the LU decomposition */
     protected int parity = 1;
-    
+
     /** Rounding mode for divisions **/
     private int roundingMode = BigDecimal.ROUND_HALF_UP;
-    
+
     /*** BigDecimal scale ***/
     private int scale = 64;
-    
+
     /** Bound to determine effective singularity in LU decomposition */
     private static final BigDecimal TOO_SMALL = new BigDecimal(10E-12);
-    
+
     /** BigDecimal 0 */
     static final BigDecimal ZERO = new BigDecimal(0);
     /** BigDecimal 1 */
     static final BigDecimal ONE = new BigDecimal(1);
-    
-    /** 
+
+    /**
      * Creates a matrix with no data
      */
     public BigMatrixImpl() {
     }
-    
+
     /**
      * Create a new BigMatrix with the supplied row and column dimensions.
      *
@@ -113,7 +113,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         data = new BigDecimal[rowDimension][columnDimension];
         lu = null;
     }
-    
+
     /**
      * Create a new BigMatrix using <code>d</code> as the underlying
      * data array.
@@ -152,23 +152,23 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         } else {
             if (d == null) {
                 throw new NullPointerException();
-            }   
+            }
             final int nRows = d.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
             }
 
             final int nCols = d[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
                           "some rows have length {0} while others have length {1}",
-                          nCols, d[r].length); 
+                          nCols, d[r].length);
                 }
-            }       
+            }
             data = d;
         }
         lu = null;
@@ -188,26 +188,26 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigMatrixImpl(double[][] d) {
         final int nRows = d.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
 
         final int nCols = d[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
         for (int row = 1; row < nRows; row++) {
             if (d[row].length != nCols) {
                 throw MathRuntimeException.createIllegalArgumentException(
                       "some rows have length {0} while others have length {1}",
-                      nCols, d[row].length); 
+                      nCols, d[row].length);
             }
         }
         this.copyIn(d);
         lu = null;
     }
-    
+
     /**
-     * Create a new BigMatrix using the values represented by the strings in 
+     * Create a new BigMatrix using the values represented by the strings in
      * <code>d</code> as the underlying data array.
      *
      * @param d data for new matrix
@@ -218,27 +218,27 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigMatrixImpl(String[][] d) {
         final int nRows = d.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
 
         final int nCols = d[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
         for (int row = 1; row < nRows; row++) {
             if (d[row].length != nCols) {
                 throw MathRuntimeException.createIllegalArgumentException(
                       "some rows have length {0} while others have length {1}",
-                      nCols, d[row].length); 
+                      nCols, d[row].length);
             }
         }
         this.copyIn(d);
         lu = null;
     }
-    
+
     /**
      * Create a new (column) BigMatrix using <code>v</code> as the
-     * data for the unique column of the <code>v.length x 1</code> matrix 
+     * data for the unique column of the <code>v.length x 1</code> matrix
      * created.
      * <p>
      * The input array is copied, not referenced.</p>
@@ -252,7 +252,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             data[row][0] = v[row];
         }
     }
-    
+
     /**
      * Create a new BigMatrix which is a copy of this.
      *
@@ -261,7 +261,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigMatrix copy() {
         return new BigMatrixImpl(this.copyOut(), false);
     }
-    
+
     /**
      * Compute the sum of this and <code>m</code>.
      *
@@ -285,7 +285,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 final BigDecimal[] outDataRow = outData[row];
                 for (int col = 0; col < columnCount; col++) {
                     outDataRow[col] = dataRow[col].add(m.getEntry(row, col));
-                }  
+                }
             }
             return new BigMatrixImpl(outData, false);
         }
@@ -312,7 +312,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             final BigDecimal[] outDataRow = outData[row];
             for (int col = 0; col < columnCount; col++) {
                 outDataRow[col] = dataRow[col].add(mRow[col]);
-            }  
+            }
         }
         return new BigMatrixImpl(outData, false);
     }
@@ -340,7 +340,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 final BigDecimal[] outDataRow = outData[row];
                 for (int col = 0; col < columnCount; col++) {
                     outDataRow[col] = dataRow[col].subtract(getEntry(row, col));
-                }  
+                }
             }
             return new BigMatrixImpl(outData, false);
         }
@@ -367,7 +367,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             final BigDecimal[] outDataRow = outData[row];
             for (int col = 0; col < columnCount; col++) {
                 outDataRow[col] = dataRow[col].subtract(mRow[col]);
-            }  
+            }
         }
         return new BigMatrixImpl(outData, false);
     }
@@ -471,7 +471,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 }
                 outDataRow[col] = sum;
             }
-        }            
+        }
         return new BigMatrixImpl(outData, false);
     }
 
@@ -496,7 +496,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigDecimal[][] getData() {
         return copyOut();
     }
-    
+
     /**
      * Returns matrix entries as a two-dimensional array.
      * <p>
@@ -516,7 +516,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return d;
     }
-    
+
     /**
      * Returns a reference to the underlying data array.
      * <p>
@@ -527,17 +527,17 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigDecimal[][] getDataRef() {
         return data;
     }
-    
+
     /***
      * Gets the rounding mode for division operations
      * The default is {@link java.math.BigDecimal#ROUND_HALF_UP}
      * @see BigDecimal
      * @return the rounding mode.
-     */ 
+     */
     public int getRoundingMode() {
         return roundingMode;
     }
-    
+
     /***
      * Sets the rounding mode for decimal divisions.
      * @see BigDecimal
@@ -546,7 +546,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public void setRoundingMode(int roundingMode) {
         this.roundingMode = roundingMode;
     }
-    
+
     /***
      * Sets the scale for division operations.
      * The default is 64
@@ -556,7 +556,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public int getScale() {
         return scale;
     }
-    
+
     /***
      * Sets the scale for division operations.
      * @see BigDecimal
@@ -565,7 +565,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public void setScale(int scale) {
         this.scale = scale;
     }
-    
+
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MaximumAbsoluteRowSumNorm.html">
      * maximum absolute row sum norm</a> of the matrix.
@@ -583,7 +583,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return maxColSum;
     }
-    
+
     /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
@@ -625,7 +625,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         return new BigMatrixImpl(subMatrixData, false);
 
     }
-    
+
     /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
@@ -668,53 +668,53 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             }
         }
         return new BigMatrixImpl(subMatrixData, false);
-    } 
-    
+    }
+
     /**
      * Replace the submatrix starting at <code>row, column</code> using data in
      * the input <code>subMatrix</code> array. Indexes are 0-based.
-     * <p> 
+     * <p>
      * Example:<br>
      * Starting with <pre>
      * 1  2  3  4
      * 5  6  7  8
      * 9  0  1  2
      * </pre>
-     * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+     * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking
      * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
      * 1  2  3  4
      * 5  3  4  8
      * 9  5  6  2
      * </pre></p>
-     * 
+     *
      * @param subMatrix  array containing the submatrix replacement data
      * @param row  row coordinate of the top, left element to be replaced
      * @param column  column coordinate of the top, left element to be replaced
-     * @throws MatrixIndexException  if subMatrix does not fit into this 
-     *    matrix from element in (row, column) 
+     * @throws MatrixIndexException  if subMatrix does not fit into this
+     *    matrix from element in (row, column)
      * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
      *  (not all rows have the same length) or empty
      * @throws NullPointerException if <code>subMatrix</code> is null
      * @since 1.1
      */
-    public void setSubMatrix(BigDecimal[][] subMatrix, int row, int column) 
+    public void setSubMatrix(BigDecimal[][] subMatrix, int row, int column)
     throws MatrixIndexException {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
 
         for (int r = 1; r < nRows; r++) {
             if (subMatrix[r].length != nCols) {
                 throw MathRuntimeException.createIllegalArgumentException(
                       "some rows have length {0} while others have length {1}",
-                      nCols, subMatrix[r].length); 
+                      nCols, subMatrix[r].length);
             }
         }
 
@@ -730,7 +730,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                         column);
             }
             data = new BigDecimal[nRows][nCols];
-            System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);          
+            System.arraycopy(subMatrix, 0, data, 0, subMatrix.length);
         } else {
             MatrixUtils.checkRowIndex(this, row);
             MatrixUtils.checkColumnIndex(this, column);
@@ -739,12 +739,12 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         for (int i = 0; i < nRows; i++) {
             System.arraycopy(subMatrix[i], 0, data[row + i], column, nCols);
-        } 
+        }
 
         lu = null;
 
     }
-    
+
     /**
      * Returns the entries in row number <code>row</code>
      * as a row matrix.  Row indices start at 0.
@@ -756,11 +756,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigMatrix getRowMatrix(int row) throws MatrixIndexException {
         MatrixUtils.checkRowIndex(this, row);
         final int ncols = this.getColumnDimension();
-        final BigDecimal[][] out = new BigDecimal[1][ncols]; 
+        final BigDecimal[][] out = new BigDecimal[1][ncols];
         System.arraycopy(data[row], 0, out[0], 0, ncols);
         return new BigMatrixImpl(out, false);
-    } 
-    
+    }
+
     /**
      * Returns the entries in column number <code>column</code>
      * as a column matrix.  Column indices start at 0.
@@ -772,13 +772,13 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public BigMatrix getColumnMatrix(int column) throws MatrixIndexException {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = this.getRowDimension();
-        final BigDecimal[][] out = new BigDecimal[nRows][1]; 
+        final BigDecimal[][] out = new BigDecimal[nRows][1];
         for (int row = 0; row < nRows; row++) {
             out[row][0] = data[row][column];
         }
         return new BigMatrixImpl(out, false);
     }
-    
+
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
@@ -796,7 +796,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         System.arraycopy(data[row], 0, out, 0, ncols);
         return out;
     }
-    
+
      /**
      * Returns the entries in row number <code>row</code> as an array
      * of double values.
@@ -817,7 +817,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
      /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
@@ -837,7 +837,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      * Returns the entries in column number <code>col</code> as an array
      * of double values.
@@ -858,18 +858,18 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
      /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
-     * @param row  row location of entry to be fetched  
+     * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
      * @throws MatrixIndexException if the row or column index is not valid
@@ -884,11 +884,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
-    
+
     /**
      * Returns the entry in the specified row and column as a double.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
@@ -904,7 +904,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public double getEntryAsDouble(int row, int column) throws MatrixIndexException {
         return getEntry(row,column).doubleValue();
     }
-    
+
     /**
      * Returns the transpose matrix.
      *
@@ -922,17 +922,17 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return new BigMatrixImpl(outData, false);
     }
-    
+
     /**
      * Returns the inverse matrix if this matrix is invertible.
-     * 
+     *
      * @return inverse matrix
      * @throws InvalidMatrixException if this is not invertible
      */
     public BigMatrix inverse() throws InvalidMatrixException {
         return solve(MatrixUtils.createBigIdentityMatrix(getRowDimension()));
     }
-    
+
     /**
      * Returns the determinant of this matrix.
      *
@@ -953,7 +953,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             return det;
         }
     }
-    
+
      /**
      * Is this a square matrix?
      * @return true if the matrix is square (rowDimension = columnDimension)
@@ -961,7 +961,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public boolean isSquare() {
         return (this.getColumnDimension() == this.getRowDimension());
     }
-    
+
     /**
      * Is this a singular matrix?
      * @return true if the matrix is singular
@@ -978,7 +978,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             return false; // so the matrix is not singular
         }
     }
-    
+
     /**
      * Returns the number of rows in the matrix.
      *
@@ -987,7 +987,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public int getRowDimension() {
         return data.length;
     }
-    
+
     /**
      * Returns the number of columns in the matrix.
      *
@@ -996,13 +996,13 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     public int getColumnDimension() {
         return data[0].length;
     }
-    
+
      /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace
-     * 
+     *
      * @throws IllegalArgumentException if this matrix is not square.
      */
     public BigDecimal getTrace() throws IllegalArgumentException {
@@ -1015,7 +1015,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return trace;
     }
-    
+
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.
      *
@@ -1041,7 +1041,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.
      *
@@ -1056,7 +1056,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return operate(bd);
     }
-    
+
     /**
      * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
      *
@@ -1082,11 +1082,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  array of constants forming RHS of linear systems to
      * to solve
@@ -1109,11 +1109,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  array of constants forming RHS of linear systems to
      * to solve
@@ -1128,11 +1128,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return solve(bd);
     }
-    
+
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  matrix of constant vectors forming RHS of linear systems to
      * to solve
@@ -1152,11 +1152,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         if (this.isSingular()) { // side effect: compute LU decomp
             throw new SingularMatrixException();
         }
-        
+
         final int nCol = this.getColumnDimension();
         final int nColB = b.getColumnDimension();
         final int nRowB = b.getRowDimension();
-        
+
         // Apply permutations to b
         final BigDecimal[][] bp = new BigDecimal[nRowB][nColB];
         for (int row = 0; row < nRowB; row++) {
@@ -1165,7 +1165,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 bpRow[col] = b.getEntry(permutation[row], col);
             }
         }
-        
+
         // Solve LY = b
         for (int col = 0; col < nCol; col++) {
             for (int i = col + 1; i < nCol; i++) {
@@ -1176,7 +1176,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 }
             }
         }
-        
+
         // Solve UX = Y
         for (int col = nCol - 1; col >= 0; col--) {
             final BigDecimal[] bpCol = bp[col];
@@ -1196,11 +1196,11 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         return new BigMatrixImpl(bp, false);
 
     }
-    
+
     /**
-     * Computes a new 
+     * Computes a new
      * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
-     * LU decompostion</a> for this matrix, storing the result for use by other methods. 
+     * LU decompostion</a> for this matrix, storing the result for use by other methods.
      * <p>
      * <strong>Implementation Note</strong>:<br>
      * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
@@ -1216,26 +1216,26 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @throws InvalidMatrixException if the matrix is non-square or singular.
      */
     public void luDecompose() throws InvalidMatrixException {
-        
+
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
         if (nRows != nCols) {
             throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
         }
         lu = this.getData();
-        
+
         // Initialize permutation array and parity
         permutation = new int[nRows];
         for (int row = 0; row < nRows; row++) {
             permutation[row] = row;
         }
         parity = 1;
-        
+
         // Loop over columns
         for (int col = 0; col < nCols; col++) {
-            
+
             BigDecimal sum = ZERO;
-            
+
             // upper
             for (int row = 0; row < col; row++) {
                 final BigDecimal[] luRow = lu[row];
@@ -1245,7 +1245,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 }
                 luRow[col] = sum;
             }
-            
+
             // lower
             int max = col; // permutation row
             BigDecimal largest = ZERO;
@@ -1256,20 +1256,20 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                     sum = sum.subtract(luRow[i].multiply(lu[i][col]));
                 }
                 luRow[col] = sum;
-                
+
                 // maintain best permutation choice
                 if (sum.abs().compareTo(largest) == 1) {
                     largest = sum.abs();
                     max = row;
                 }
             }
-            
+
             // Singularity check
             if (lu[max][col].abs().compareTo(TOO_SMALL) <= 0) {
                 lu = null;
                 throw new SingularMatrixException();
             }
-            
+
             // Pivot if necessary
             if (max != col) {
                 BigDecimal tmp = ZERO;
@@ -1283,18 +1283,18 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                 permutation[col] = temp;
                 parity = -parity;
             }
-            
+
             // Divide the lower elements by the "winning" diagonal elt.
             final BigDecimal luDiag = lu[col][col];
             for (int row = col + 1; row < nRows; row++) {
                 final BigDecimal[] luRow = lu[row];
                 luRow[col] = luRow[col].divide(luDiag, scale, roundingMode);
             }
-            
+
         }
-        
+
     }
-    
+
     /**
      * Get a string representation for this matrix.
      * @return a string representation for this matrix
@@ -1314,20 +1314,20 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
                         res.append(",");
                     }
                     res.append(data[i][j]);
-                } 
+                }
                 res.append("}");
-            } 
+            }
         }
         res.append("}");
         return res.toString();
-    } 
-    
+    }
+
     /**
-     * Returns true iff <code>object</code> is a 
+     * Returns true iff <code>object</code> is a
      * <code>BigMatrixImpl</code> instance with the same dimensions as this
      * and all corresponding matrix entries are equal.  BigDecimal.equals
      * is used to compare corresponding entries.
-     * 
+     *
      * @param object the object to test equality against.
      * @return true if object equals this
      */
@@ -1355,10 +1355,10 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return true;
     }
-    
+
     /**
      * Computes a hashcode for the matrix.
-     * 
+     *
      * @return hashcode for matrix
      */
     @Override
@@ -1371,39 +1371,39 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         for (int row = 0; row < nRows; row++) {
             final BigDecimal[] dataRow = data[row];
             for (int col = 0; col < nCols; col++) {
-                ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) * 
+                ret = ret * 31 + (11 * (row+1) + 17 * (col+1)) *
                 dataRow[col].hashCode();
             }
-        }   
+        }
         return ret;
     }
-    
+
     //------------------------ Protected methods
-    
+
     /**
      *  Returns the LU decomposition as a BigMatrix.
-     *  Returns a fresh copy of the cached LU matrix if this has been computed; 
-     *  otherwise the composition is computed and cached for use by other methods.   
-     *  Since a copy is returned in either case, changes to the returned matrix do not 
-     *  affect the LU decomposition property. 
+     *  Returns a fresh copy of the cached LU matrix if this has been computed;
+     *  otherwise the composition is computed and cached for use by other methods.
+     *  Since a copy is returned in either case, changes to the returned matrix do not
+     *  affect the LU decomposition property.
      * <p>
-     * The matrix returned is a compact representation of the LU decomposition. 
-     * Elements below the main diagonal correspond to entries of the "L" matrix;   
+     * The matrix returned is a compact representation of the LU decomposition.
+     * Elements below the main diagonal correspond to entries of the "L" matrix;
      * elements on and above the main diagonal correspond to entries of the "U"
      * matrix.</p>
      * <p>
      * Example: <pre>
-     * 
+     *
      *     Returned matrix                L                  U
-     *         2  3  1                   1  0  0            2  3  1          
+     *         2  3  1                   1  0  0            2  3  1
      *         5  4  6                   5  1  0            0  4  6
-     *         1  7  8                   1  7  1            0  0  8          
+     *         1  7  8                   1  7  1            0  0  8
      * </pre>
-     * 
+     *
      * The L and U matrices satisfy the matrix equation LU = permuteRows(this), <br>
      *  where permuteRows reorders the rows of the matrix to follow the order determined
      *  by the <a href=#getPermutation()>permutation</a> property.</p>
-     * 
+     *
      * @return LU decomposition matrix
      * @throws InvalidMatrixException if the matrix is non-square or singular.
      */
@@ -1413,7 +1413,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return new BigMatrixImpl(lu);
     }
-    
+
     /**
      * Returns the permutation associated with the lu decomposition.
      * The entries of the array represent a permutation of the numbers 0, ... , nRows - 1.
@@ -1423,7 +1423,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * and current first row is last.</p>
      * <p>
      * Returns a fresh copy of the array.</p>
-     * 
+     *
      * @return the permutation
      */
     protected int[] getPermutation() {
@@ -1431,9 +1431,9 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         System.arraycopy(permutation, 0, out, 0, permutation.length);
         return out;
     }
-    
+
     //------------------------ Private methods
-    
+
     /**
      * Returns a fresh copy of the underlying data array.
      *
@@ -1448,7 +1448,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         return out;
     }
-    
+
     /**
      * Replaces data with a fresh copy of the input array.
      * <p>
@@ -1462,7 +1462,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
     private void copyIn(BigDecimal[][] in) {
         setSubMatrix(in,0,0);
     }
-    
+
     /**
      * Replaces data with a fresh copy of the input array.
      *
@@ -1481,7 +1481,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
         }
         lu = null;
     }
-    
+
     /**
      * Replaces data with BigDecimals represented by the strings in the input
      * array.

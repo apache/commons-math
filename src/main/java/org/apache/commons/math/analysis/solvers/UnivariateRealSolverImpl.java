@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
- *  
+ *
  * @version $Revision$ $Date$
  */
 public abstract class UnivariateRealSolverImpl
@@ -56,11 +56,11 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Construct a solver with given iteration count and accuracy.
-     * 
+     *
      * @param f the function to solve.
      * @param defaultAbsoluteAccuracy maximum absolute error
      * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the 
+     * @throws IllegalArgumentException if f is null or the
      * defaultAbsoluteAccuracy is not valid
      * @deprecated as of 2.0 the function to solve is passed as an argument
      * to the {@link #solve(UnivariateRealFunction, double, double)} or
@@ -82,10 +82,10 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Construct a solver with given iteration count and accuracy.
-     * 
+     *
      * @param defaultAbsoluteAccuracy maximum absolute error
      * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the 
+     * @throws IllegalArgumentException if f is null or the
      * defaultAbsoluteAccuracy is not valid
      */
     protected UnivariateRealSolverImpl(final int defaultMaximalIterationCount,
@@ -133,7 +133,7 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Convenience function for implementations.
-     * 
+     *
      * @param newResult the result to set
      * @param iterationCount the iteration count to set
      */
@@ -145,7 +145,7 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Convenience function for implementations.
-     * 
+     *
      * @param x the result to set
      * @param fx the result to set
      * @param iterationCount the iteration count to set
@@ -168,25 +168,25 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Returns true iff the function takes opposite signs at the endpoints.
-     * 
-     * @param lower  the lower endpoint 
+     *
+     * @param lower  the lower endpoint
      * @param upper  the upper endpoint
      * @param function the function
      * @return true if f(lower) * f(upper) < 0
-     * @throws FunctionEvaluationException if an error occurs evaluating the 
+     * @throws FunctionEvaluationException if an error occurs evaluating the
      * function at the endpoints
      */
-    protected boolean isBracketing(final double lower, final double upper, 
+    protected boolean isBracketing(final double lower, final double upper,
                                    final UnivariateRealFunction function)
         throws FunctionEvaluationException {
         final double f1 = function.value(lower);
         final double f2 = function.value(upper);
         return ((f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0));
     }
-    
+
     /**
      * Returns true if the arguments form a (strictly) increasing sequence
-     * 
+     *
      * @param start  first number
      * @param mid   second number
      * @param end  third number
@@ -195,11 +195,11 @@ public abstract class UnivariateRealSolverImpl
     protected boolean isSequence(final double start, final double mid, final double end) {
         return (start < mid) && (mid < end);
     }
-    
+
     /**
-     * Verifies that the endpoints specify an interval, 
+     * Verifies that the endpoints specify an interval,
      * throws IllegalArgumentException if not
-     * 
+     *
      * @param lower  lower endpoint
      * @param upper upper endpoint
      * @throws IllegalArgumentException
@@ -209,13 +209,13 @@ public abstract class UnivariateRealSolverImpl
             throw MathRuntimeException.createIllegalArgumentException(
                     "endpoints do not specify an interval: [{0}, {1}]",
                     lower, upper);
-        }       
+        }
     }
-    
+
     /**
      * Verifies that <code>lower < initial < upper</code>
      * throws IllegalArgumentException if not
-     * 
+     *
      * @param lower  lower endpoint
      * @param initial initial value
      * @param upper upper endpoint
@@ -226,30 +226,30 @@ public abstract class UnivariateRealSolverImpl
             throw MathRuntimeException.createIllegalArgumentException(
                     "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
                     lower, initial, upper);
-        }       
+        }
     }
-    
+
     /**
      * Verifies that the endpoints specify an interval and the function takes
      * opposite signs at the enpoints, throws IllegalArgumentException if not
-     * 
+     *
      * @param lower  lower endpoint
      * @param upper upper endpoint
      * @param function function
      * @throws IllegalArgumentException
-     * @throws FunctionEvaluationException if an error occurs evaluating the 
+     * @throws FunctionEvaluationException if an error occurs evaluating the
      * function at the endpoints
      */
-    protected void verifyBracketing(final double lower, final double upper, 
+    protected void verifyBracketing(final double lower, final double upper,
                                     final UnivariateRealFunction function)
         throws FunctionEvaluationException {
-        
+
         verifyInterval(lower, upper);
         if (!isBracketing(lower, upper, function)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "function values at endpoints do not have different signs.  " +
                     "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                    lower, upper, function.value(lower), function.value(upper));       
+                    lower, upper, function.value(lower), function.value(upper));
         }
     }
 }

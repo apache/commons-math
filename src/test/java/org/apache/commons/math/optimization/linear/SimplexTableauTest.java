@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 public class SimplexTableauTest extends TestCase {
 
-    public void testInitialization() {    
+    public void testInitialization() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
@@ -42,7 +42,7 @@ public class SimplexTableauTest extends TestCase {
         assertMatrixEquals(expectedInitialTableau, tableau.getData());
     }
 
-    public void testdiscardArtificialVariables() {    
+    public void testdiscardArtificialVariables() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
@@ -62,7 +62,7 @@ public class SimplexTableauTest extends TestCase {
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] {1, 0}, Relationship.LEQ, 2));
         constraints.add(new LinearConstraint(new double[] {0, 1}, Relationship.LEQ, 3));
-        constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.LEQ, 4));    
+        constraints.add(new LinearConstraint(new double[] {1, 1}, Relationship.LEQ, 4));
         SimplexTableau tableau =
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] initialTableau = {

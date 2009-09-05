@@ -372,7 +372,7 @@ public class ValueServer {
     /**
      * Construct a ValueServer instance using a RandomData as its source
      * of random data.
-     * 
+     *
      * @param randomData the RandomData instance used to source random data
      * @since 1.1
      */

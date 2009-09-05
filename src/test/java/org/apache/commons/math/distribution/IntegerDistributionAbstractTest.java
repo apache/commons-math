@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,9 @@ import junit.framework.TestCase;
  * Abstract base class for {@link IntegerDistribution} tests.
  * <p>
  * To create a concrete test class for an integer distribution implementation,
- *  implement makeDistribution() to return a distribution instance to use in 
+ *  implement makeDistribution() to return a distribution instance to use in
  *  tests and each of the test data generation methods below.  In each case, the
- *  test points and test values arrays returned represent parallel arrays of 
+ *  test points and test values arrays returned represent parallel arrays of
  *  inputs and expected values for the distribution returned by makeDistribution().
  *  <p>
  *  makeDensityTestPoints() -- arguments used to test probability density calculation
@@ -36,39 +36,39 @@ import junit.framework.TestCase;
  * <p>
  *  To implement additional test cases with different distribution instances and test data,
  *  use the setXxx methods for the instance data in test cases and call the verifyXxx methods
- *  to verify results. 
- * 
+ *  to verify results.
+ *
  * @version $Revision$ $Date$
  */
 public abstract class IntegerDistributionAbstractTest extends TestCase {
-    
+
 //-------------------- Private test instance data -------------------------
     /** Discrete distribution instance used to perform tests */
     private IntegerDistribution distribution;
-    
+
     /** Tolerance used in comparing expected and returned values */
     private double tolerance = 1E-4;
-    
+
     /** Arguments used to test probability density calculations */
     private int[] densityTestPoints;
-    
+
     /** Values used to test probability density calculations */
     private double[] densityTestValues;
-    
+
     /** Arguments used to test cumulative probability density calculations */
     private int[] cumulativeTestPoints;
-    
+
     /** Values used to test cumulative probability density calculations */
     private double[] cumulativeTestValues;
-    
+
     /** Arguments used to test inverse cumulative probability density calculations */
     private double[] inverseCumulativeTestPoints;
-    
+
     /** Values used to test inverse cumulative probability density calculations */
     private int[] inverseCumulativeTestValues;
-    
+
     //-------------------------------------------------------------------------
-    
+
     /**
      * Constructor for IntegerDistributionAbstractTest.
      * @param name
@@ -76,34 +76,34 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     public IntegerDistributionAbstractTest(String name) {
         super(name);
     }
-    
+
     //-------------------- Abstract methods -----------------------------------
-    
+
     /** Creates the default discrete distribution instance to use in tests. */
     public abstract IntegerDistribution makeDistribution();
-    
+
     /** Creates the default probability density test input values */
     public abstract int[] makeDensityTestPoints();
-    
+
     /** Creates the default probability density test expected values */
     public abstract double[] makeDensityTestValues();
-    
+
     /** Creates the default cumulative probability density test input values */
     public abstract int[] makeCumulativeTestPoints();
-    
+
     /** Creates the default cumulative probability density test expected values */
     public abstract double[] makeCumulativeTestValues();
-    
+
     /** Creates the default inverse cumulative probability test input values */
     public abstract double[] makeInverseCumulativeTestPoints();
-    
+
     /** Creates the default inverse cumulative probability density test expected values */
     public abstract int[] makeInverseCumulativeTestValues();
-    
+
     //-------------------- Setup / tear down ----------------------------------
-     
+
     /**
-     * Setup sets all test instance data to default values 
+     * Setup sets all test instance data to default values
      */
     @Override
     protected void setUp() throws Exception {
@@ -114,14 +114,14 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         cumulativeTestPoints = makeCumulativeTestPoints();
         cumulativeTestValues = makeCumulativeTestValues();
         inverseCumulativeTestPoints = makeInverseCumulativeTestPoints();
-        inverseCumulativeTestValues = makeInverseCumulativeTestValues();   
+        inverseCumulativeTestValues = makeInverseCumulativeTestValues();
     }
-    
+
     /**
      * Cleans up test instance data
      */
     @Override
-    protected void tearDown() throws Exception {      
+    protected void tearDown() throws Exception {
         super.tearDown();
         distribution = null;
         densityTestPoints = null;
@@ -129,11 +129,11 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         cumulativeTestPoints = null;
         cumulativeTestValues = null;
         inverseCumulativeTestPoints = null;
-        inverseCumulativeTestValues = null;   
+        inverseCumulativeTestValues = null;
     }
-    
+
     //-------------------- Verification methods -------------------------------
-    
+
     /**
      * Verifies that probability density calculations match expected values
      * using current test instance data
@@ -141,36 +141,36 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     protected void verifyDensities() throws Exception {
         for (int i = 0; i < densityTestPoints.length; i++) {
             assertEquals("Incorrect density value returned for " + densityTestPoints[i],
-                    densityTestValues[i], 
+                    densityTestValues[i],
                     distribution.probability(densityTestPoints[i]), tolerance);
-        }     
+        }
     }
-    
+
     /**
      * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
-     */   
+     */
     protected void verifyCumulativeProbabilities() throws Exception {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             assertEquals("Incorrect cumulative probability value returned for " + cumulativeTestPoints[i],
-                    cumulativeTestValues[i], 
+                    cumulativeTestValues[i],
                     distribution.cumulativeProbability(cumulativeTestPoints[i]), tolerance);
-        }           
+        }
     }
-    
-    
+
+
     /**
      * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
     protected void verifyInverseCumulativeProbabilities() throws Exception {
         for (int i = 0; i < inverseCumulativeTestPoints.length; i++) {
-            assertEquals("Incorrect inverse cumulative probability value returned for " 
-                    + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i], 
+            assertEquals("Incorrect inverse cumulative probability value returned for "
+                    + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i],
                     distribution.inverseCumulativeProbability(inverseCumulativeTestPoints[i]));
-        }           
+        }
     }
-    
+
     //------------------------ Default test cases -----------------------------
 
     /**
@@ -178,17 +178,17 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      * using default test instance data
      */
     public void testDensities() throws Exception {
-        verifyDensities();     
+        verifyDensities();
     }
-    
+
     /**
      * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testCumulativeProbabilities() throws Exception {
-        verifyCumulativeProbabilities();      
+        verifyCumulativeProbabilities();
     }
-    
+
     /**
      * Verifies that floating point arguments are correctly handled by
      * cumulativeProbablility(-,-)
@@ -200,7 +200,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
             assertEquals(
                     "Incorrect cumulative probability value returned for " +
                     cumulativeTestPoints[i],
-                    cumulativeTestValues[i], 
+                    cumulativeTestValues[i],
                     distribution.cumulativeProbability(arg), tolerance);
             if (i < cumulativeTestPoints.length - 1) {
                 double arg2 = cumulativeTestPoints[i + 1];
@@ -219,33 +219,33 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
                            cumulativeTestPoints[i + 1]),
                    distribution.cumulativeProbability(arg, arg2), tolerance);
             }
-        } 
+        }
         int one = 1;
         int ten = 10;
         int two = 2;
         double oned = one;
         double twod = two;
         double tend = ten;
-        assertEquals(distribution.cumulativeProbability(one, two), 
+        assertEquals(distribution.cumulativeProbability(one, two),
                 distribution.cumulativeProbability(oned, twod), tolerance);
-        assertEquals(distribution.cumulativeProbability(one, two), 
+        assertEquals(distribution.cumulativeProbability(one, two),
                 distribution.cumulativeProbability(oned - tolerance,
                         twod + 0.9), tolerance);
-        assertEquals(distribution.cumulativeProbability(two, ten), 
+        assertEquals(distribution.cumulativeProbability(two, ten),
                 distribution.cumulativeProbability(twod, tend), tolerance);
-        assertEquals(distribution.cumulativeProbability(two, ten), 
+        assertEquals(distribution.cumulativeProbability(two, ten),
                 distribution.cumulativeProbability(twod - tolerance,
                         tend + 0.9), tolerance);
     }
-    
+
     /**
      * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testInverseCumulativeProbabilities() throws Exception {
-        verifyInverseCumulativeProbabilities();       
+        verifyInverseCumulativeProbabilities();
     }
-    
+
     /**
      * Verifies that illegal arguments are correctly handled
      */
@@ -267,9 +267,9 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
             fail("Expecting IllegalArgumentException for p = 2");
         } catch (IllegalArgumentException ex) {
             // expected
-        }       
+        }
     }
-    
+
     //------------------ Getters / Setters for test instance data -----------
     /**
      * @return Returns the cumulativeTestPoints.

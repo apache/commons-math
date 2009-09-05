@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -276,7 +276,7 @@ public class MersenneTwisterTest {
             950049240l, 4173257693l, 1760124957l,  512151405l,  681175196l,  580563018l, 1169662867l, 4015033554l,
             2687781101l,  699691603l, 2673494188l, 1137221356l,  123599888l,  472658308l, 1053598179l, 1012713758l,
             3481064843l, 3759461013l, 3981457956l, 3830587662l, 1877191791l, 3650996736l,  988064871l, 3515461600l,
-            4089077232l, 2225147448l, 1249609188l, 2643151863l, 3896204135l, 2416995901l, 1397735321l, 3460025646l 
+            4089077232l, 2225147448l, 1249609188l, 2643151863l, 3896204135l, 2416995901l, 1397735321l, 3460025646l
         };
         double[] refDouble = {
             0.76275443, 0.99000644, 0.98670464, 0.10143112, 0.27933125, 0.69867227, 0.94218740, 0.03427201,

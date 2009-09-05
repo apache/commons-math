@@ -81,7 +81,7 @@ import org.apache.commons.math.util.MathUtils;
  * This implementation is not synchronized.
  * </ul>
  * </p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class RandomDataImpl implements RandomData, Serializable {
@@ -104,7 +104,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Construct a RandomDataImpl using the supplied {@link RandomGenerator} as
      * the source of (non-secure) random data.
-     * 
+     *
      * @param rand
      *            the source of (non-secure) random data
      * @since 1.1
@@ -126,7 +126,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Each binary byte is translated into 2 hex digits</li>
      * </ol>
      * </p>
-     * 
+     *
      * @param len
      *            the desired string length.
      * @return the random string.
@@ -170,7 +170,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random int value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.
-     * 
+     *
      * @param lower
      *            the lower bound.
      * @param upper
@@ -190,7 +190,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Generate a random long value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive.
-     * 
+     *
      * @param lower
      *            the lower bound.
      * @param upper
@@ -222,7 +222,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Each byte of the binary digest is converted to 2 hex digits.</li>
      * </ol>
      * </p>
-     * 
+     *
      * @param len
      *            the length of the generated string
      * @return the random string
@@ -281,7 +281,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Generate a random int value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
      * a secure random number generator.
-     * 
+     *
      * @param lower
      *            the lower bound.
      * @param upper
@@ -302,7 +302,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Generate a random long value uniformly distributed between
      * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
      * a secure random number generator.
-     * 
+     *
      * @param lower
      *            the lower bound.
      * @param upper
@@ -329,13 +329,13 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <p>
      * The Poisson process (and hence value returned) is bounded by 1000 * mean.
      * </p>
-     * 
+     *
      * <p>
      * For large means, uses a reject method as described in <a
      * href="http://cg.scs.carleton.ca/~luc/rnbookindex.html">Non-Uniform Random
      * Variate Generation</a>
      * </p>
-     * 
+     *
      * <p>
      * References:
      * <ul>
@@ -343,7 +343,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * New York, NY. Springer-Verlag</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param mean
      *            mean of the Poisson distribution.
      * @return the random Poisson value.
@@ -444,7 +444,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Generate a random value from a Normal (a.k.a. Gaussian) distribution with
      * the given mean, <code>mu</code> and the given standard deviation,
      * <code>sigma</code>.
-     * 
+     *
      * @param mu
      *            the mean of the distribution
      * @param sigma
@@ -468,7 +468,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Method</a> to generate exponentially distributed random values from
      * uniform deviates.
      * </p>
-     * 
+     *
      * @param mean
      *            the mean of the distribution
      * @return the random Exponential value
@@ -494,7 +494,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * random double if Random.nextDouble() returns 0). This is necessary to
      * provide a symmetric output interval (both endpoints excluded).
      * </p>
-     * 
+     *
      * @param lower
      *            the lower bound.
      * @param upper
@@ -524,7 +524,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <p>
      * Creates and initializes a default generator if null.
      * </p>
-     * 
+     *
      * @return the Random used to generate random data
      * @since 1.1
      */
@@ -541,7 +541,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <p>
      * Creates and initializes if null.
      * </p>
-     * 
+     *
      * @return the SecureRandom used to generate secure random data
      */
     private SecureRandom getSecRan() {
@@ -557,7 +557,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <p>
      * Will create and initialize if null.
      * </p>
-     * 
+     *
      * @param seed
      *            the seed value to use
      */
@@ -587,7 +587,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <p>
      * Will create and initialize if null.
      * </p>
-     * 
+     *
      * @param seed
      *            the seed value to use
      */
@@ -619,7 +619,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <strong>USAGE NOTE:</strong> This method carries <i>significant</i>
      * overhead and may take several seconds to execute.
      * </p>
-     * 
+     *
      * @param algorithm
      *            the name of the PRNG algorithm
      * @param provider
@@ -655,7 +655,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>.
      * </p>
-     * 
+     *
      * @param n
      *            domain of the permutation (must be positive)
      * @param k
@@ -691,7 +691,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * generate random samples, <a
      * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>
-     * 
+     *
      * @param c
      *            Collection to sample from.
      * @param k
@@ -723,7 +723,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Uses a 2-cycle permutation shuffle to randomly re-order the last elements
      * of list.
-     * 
+     *
      * @param list
      *            list to be shuffled
      * @param end
@@ -745,7 +745,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Returns an array representing n.
-     * 
+     *
      * @param n
      *            the natural number to represent
      * @return array with entries = elements of n

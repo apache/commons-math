@@ -43,7 +43,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /**
      * Runs the K-means++ clustering algorithm.
-     * 
+     *
      * @param points the points to cluster
      * @param k the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm
@@ -57,7 +57,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
         assignPointsToClusters(clusters, points);
 
         // iterate through updating the centers until we're done
-        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations; 
+        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
         for (int count = 0; count < max; count++) {
             boolean clusteringChanged = false;
             List<Cluster<T>> newClusters = new ArrayList<Cluster<T>>();
@@ -79,7 +79,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /**
      * Adds the given points to the closest {@link Cluster}.
-     * 
+     *
      * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to add the points to
      * @param points the points to add to the given {@link Cluster}s
@@ -94,7 +94,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /**
      * Use K-means++ to choose the initial centers.
-     * 
+     *
      * @param <T> type of the points to cluster
      * @param points the points to choose the initial centers from
      * @param k the number of centers to choose
@@ -113,7 +113,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
         final double[] dx2 = new double[pointSet.size()];
         while (resultSet.size() < k) {
-            // For each data point x, compute D(x), the distance between x and 
+            // For each data point x, compute D(x), the distance between x and
             // the nearest center that has already been chosen.
             int sum = 0;
             for (int i = 0; i < pointSet.size(); i++) {
@@ -142,7 +142,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /**
      * Returns the nearest {@link Cluster} to the given point
-     * 
+     *
      * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @param point the point to find the nearest {@link Cluster} for

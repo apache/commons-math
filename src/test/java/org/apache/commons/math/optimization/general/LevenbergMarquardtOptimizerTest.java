@@ -39,7 +39,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
  * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
- * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files. 
+ * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files.
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
@@ -210,7 +210,7 @@ public class LevenbergMarquardtOptimizerTest
                 {  2, 1,  3 },
                 { -3, 0, -9 }
         }, new double[] { 1, 1, 1 });
- 
+
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         assertTrue(Math.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
@@ -590,8 +590,8 @@ public class LevenbergMarquardtOptimizerTest
             for (int i = 0; i < n; ++i) {
                 Point2D.Double pi = points.get(i);
                 double di   = pi.distance(center);
-                jacobian[i][0] = (center.x - pi.x) / di - dRdX;    
-                jacobian[i][1] = (center.y - pi.y) / di - dRdY;    
+                jacobian[i][0] = (center.x - pi.x) / di - dRdX;
+                jacobian[i][1] = (center.y - pi.y) / di - dRdY;
             }
 
             return jacobian;

@@ -25,24 +25,24 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * is the positive square root of the variance.  This implementation wraps a
  * {@link Variance} instance.  The <code>isBiasCorrected</code> property of the
  * wrapped Variance instance is exposed, so that this class can be used to
- * compute both the "sample standard deviation" (the square root of the 
+ * compute both the "sample standard deviation" (the square root of the
  * bias-corrected "sample variance") or the "population standard deviation"
- * (the square root of the non-bias-corrected "population variance"). See 
- * {@link Variance} for more information.  
+ * (the square root of the non-bias-corrected "population variance"). See
+ * {@link Variance} for more information.
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 5728716329662425188L;  
-    
+    private static final long serialVersionUID = 5728716329662425188L;
+
     /** Wrapped Variance instance */
     private Variance variance = null;
 
@@ -56,44 +56,44 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
 
     /**
      * Constructs a StandardDeviation from an external second moment.
-     * 
+     *
      * @param m2 the external moment
      */
     public StandardDeviation(final SecondMoment m2) {
         variance = new Variance(m2);
     }
-    
+
     /**
      * Copy constructor, creates a new {@code StandardDeviation} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code StandardDeviation} instance to copy
      */
     public StandardDeviation(StandardDeviation original) {
         copy(original, this);
     }
-    
+
     /**
      * Contructs a StandardDeviation with the specified value for the
-     * <code>isBiasCorrected</code> property.  If this property is set to 
+     * <code>isBiasCorrected</code> property.  If this property is set to
      * <code>true</code>, the {@link Variance} used in computing results will
      * use the bias-corrected, or "sample" formula.  See {@link Variance} for
      * details.
-     * 
+     *
      * @param isBiasCorrected  whether or not the variance computation will use
      * the bias-corrected formula
      */
     public StandardDeviation(boolean isBiasCorrected) {
         variance = new Variance(isBiasCorrected);
     }
-    
+
     /**
      * Contructs a StandardDeviation with the specified value for the
      * <code>isBiasCorrected</code> property and the supplied external moment.
      * If <code>isBiasCorrected</code> is set to <code>true</code>, the
      * {@link Variance} used in computing results will use the bias-corrected,
      * or "sample" formula.  See {@link Variance} for details.
-     * 
+     *
      * @param isBiasCorrected  whether or not the variance computation will use
      * the bias-corrected formula
       * @param m2 the external moment
@@ -109,7 +109,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public void increment(final double d) {
         variance.increment(d);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -134,7 +134,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     }
 
     /**
-     * Returns the Standard Deviation of the entries in the input array, or 
+     * Returns the Standard Deviation of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
@@ -142,16 +142,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
-     * 
+     *
      * @param values the input array
      * @return the standard deviation of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the array is null
-     */  
+     */
     @Override
     public double evaluate(final double[] values)  {
         return Math.sqrt(variance.evaluate(values));
     }
-    
+
     /**
      * Returns the Standard Deviation of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
@@ -162,7 +162,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
-     * 
+     *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
@@ -174,7 +174,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public double evaluate(final double[] values, final int begin, final int length)  {
        return Math.sqrt(variance.evaluate(values, begin, length));
     }
-    
+
     /**
      * Returns the Standard Deviation of the entries in the specified portion of
      * the input array, using the precomputed mean value.  Returns
@@ -190,7 +190,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
-     * 
+     *
      * @param values the input array
      * @param mean the precomputed mean value
      * @param begin index of the first array element to include
@@ -203,7 +203,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
             final int begin, final int length)  {
         return Math.sqrt(variance.evaluate(values, mean, begin, length));
     }
-    
+
     /**
      * Returns the Standard Deviation of the entries in the input array, using
      * the precomputed mean value.  Returns
@@ -219,7 +219,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
-     * 
+     *
      * @param values the input array
      * @param mean the precomputed mean value
      * @return the standard deviation of the values or Double.NaN if length = 0
@@ -228,7 +228,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public double evaluate(final double[] values, final double mean)  {
         return Math.sqrt(variance.evaluate(values, mean));
     }
-    
+
     /**
      * @return Returns the isBiasCorrected.
      */
@@ -242,7 +242,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public void setBiasCorrected(boolean isBiasCorrected) {
         variance.setBiasCorrected(isBiasCorrected);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -252,12 +252,12 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
         copy(this, result);
         return result;
     }
-    
-    
+
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source StandardDeviation to copy
      * @param dest StandardDeviation to copy to
      * @throws NullPointerException if either source or dest is null
@@ -265,5 +265,5 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     public static void copy(StandardDeviation source, StandardDeviation dest) {
         dest.variance = source.variance.copy();
     }
-    
+
 }

@@ -30,11 +30,11 @@ import java.util.ResourceBundle;
 * Supports nesting, emulating JDK 1.4 behavior if necessary.</p>
 * <p>
 * Adapted from <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/FunctorException.html"/>.</p>
-* 
+*
 * @version $Revision$ $Date$
 */
 public class MathException extends Exception {
-    
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -9004610152740737812L;
 
@@ -63,7 +63,7 @@ public class MathException extends Exception {
                 // the value of the resource is the translated string
                 return bundle.getString(s);
             }
-            
+
         } catch (MissingResourceException mre) {
             // do nothing here
         }
@@ -82,7 +82,7 @@ public class MathException extends Exception {
      * @return a message string
      */
     private static String buildMessage(Locale locale, String pattern, Object ... arguments) {
-        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);
     }
 
     /**
@@ -94,7 +94,7 @@ public class MathException extends Exception {
         this.pattern   = null;
         this.arguments = new Object[0];
     }
-    
+
     /**
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message.
@@ -120,7 +120,7 @@ public class MathException extends Exception {
         this.pattern   = getMessage();
         this.arguments = new Object[0];
     }
-    
+
     /**
      * Constructs a new <code>MathException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
@@ -158,7 +158,7 @@ public class MathException extends Exception {
     /** Gets the message in a specified locale.
      *
      * @param locale Locale in which the message should be translated
-     * 
+     *
      * @return localized message
      * @since 1.2
      */
@@ -179,7 +179,7 @@ public class MathException extends Exception {
     public void printStackTrace() {
         printStackTrace(System.err);
     }
-    
+
     /**
      * Prints the stack trace of this exception to the specified stream.
      *

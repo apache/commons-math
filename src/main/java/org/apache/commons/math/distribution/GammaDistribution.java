@@ -35,19 +35,19 @@ public interface GammaDistribution extends ContinuousDistribution, HasDensity<Do
      * @param alpha the new shape parameter.
      */
     void setAlpha(double alpha);
-    
+
     /**
      * Access the shape parameter, alpha
      * @return alpha.
      */
     double getAlpha();
-    
+
     /**
      * Modify the scale parameter, beta.
      * @param beta the new scale parameter.
      */
     void setBeta(double beta);
-    
+
     /**
      * Access the scale parameter, beta
      * @return beta.

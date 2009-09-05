@@ -57,7 +57,7 @@ public class TestProblem4
     setErrorScale(errorScale);
     y = new double[y0.length];
   }
- 
+
   /**
    * Copy constructor.
    * @param problem problem to copy
@@ -111,7 +111,7 @@ public class TestProblem4
       sign = -sign;
       return EventHandler.RESET_STATE;
     }
-  
+
     public void resetState(double t, double[] y) {
       y[0] = -y[0];
       y[1] = -y[1];
@@ -133,7 +133,7 @@ public class TestProblem4
     public int eventOccurred(double t, double[] y, boolean increasing) {
       return EventHandler.STOP;
     }
-  
+
     public void resetState(double t, double[] y) {
     }
 

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,14 +29,14 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Kurtosis stat;
-    
+
     /**
      * @param name
      */
     public KurtosisTest(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(KurtosisTest.class);
         suite.setName("Kurtosis  Tests");
@@ -58,7 +58,7 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.kurt;
     }
-    
+
     /**
      * Make sure Double.NaN is returned iff n < 4
      *
@@ -73,7 +73,7 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
         kurt.increment(1d);
         assertTrue(Double.isNaN(kurt.getResult()));
         kurt.increment(1d);
-        assertFalse(Double.isNaN(kurt.getResult()));      
+        assertFalse(Double.isNaN(kurt.getResult()));
     }
 
 }

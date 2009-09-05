@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,12 +68,12 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         }
         return map;
     }
-    
+
     public void testPutAndGetWith0ExpectedSize() {
         OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap(0);
         assertPutAndGet(map);
     }
-    
+
     public void testPutAndGetWithExpectedSize() {
         OpenIntToDoubleHashMap map = new OpenIntToDoubleHashMap(500);
         assertPutAndGet(map);
@@ -122,7 +122,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
     public void testGetAbsent() {
         Map<Integer, Double> generated = generateAbsent();
         OpenIntToDoubleHashMap map = createFromJavaMap();
-        
+
         for (Map.Entry<Integer, Double> mapEntry : generated.entrySet())
             assertTrue(Double.isNaN(map.get(mapEntry.getKey())));
     }
@@ -177,7 +177,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
 
         OpenIntToDoubleHashMap map = createFromJavaMap();
         int mapSize = map.size();
-        
+
         for (Map.Entry<Integer, Double> mapEntry : generated.entrySet()) {
             map.remove(mapEntry.getKey());
             assertEquals(mapSize, map.size());
@@ -272,14 +272,14 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         map.put(key3, value1);
         assertEquals(value1, map.get(key3));
         assertEquals(3, map.size());
-        
+
         map.remove(key2);
         double value2 = 2.0;
         map.put(key3, value2);
         assertEquals(value2, map.get(key3));
         assertEquals(2, map.size());
     }
-    
+
     /**
      * Similar to testPutKeysWithCollisions() but exercises the codepaths in a slightly
      * different manner.
@@ -293,7 +293,7 @@ public class OpenIntToDoubleHashMapTest extends TestCase {
         map.put(key2, value1);
         assertEquals(2, map.size());
         assertEquals(value1, map.get(key2));
-        
+
         map.remove(key1);
         double value2 = 2.0;
         map.put(key2, value2);

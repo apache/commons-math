@@ -27,25 +27,25 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  * <p>
  * skewness = [n / (n -1) (n - 2)] sum[(x_i - mean)^3] / std^3 </p>
  * <p>
- * where n is the number of values, mean is the {@link Mean} and std is the 
+ * where n is the number of values, mean is the {@link Mean} and std is the
  * {@link StandardDeviation} </p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally. </p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Skewness extends AbstractStorelessUnivariateStatistic implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 7101857578996691352L;    
-    
+    private static final long serialVersionUID = 7101857578996691352L;
+
     /** Third moment on which this statistic is based */
     protected ThirdMoment moment = null;
 
-     /** 
+     /**
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot
@@ -69,11 +69,11 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         incMoment = false;
         this.moment = m3;
     }
-     
+
     /**
      * Copy constructor, creates a new {@code Skewness} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Skewness} instance to copy
      */
     public Skewness(Skewness original) {
@@ -94,12 +94,12 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * Returns the value of the statistic based on the values that have been added.
      * <p>
      * See {@link Skewness} for the definition used in the computation.</p>
-     * 
+     *
      * @return the skewness of the available values.
      */
     @Override
     public double getResult() {
-        
+
         if (moment.n < 3) {
             return Double.NaN;
         }
@@ -119,7 +119,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     public long getN() {
         return moment.getN();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -137,7 +137,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * See {@link Skewness} for the definition used in the computation.</p>
      * <p>
      * Throws <code>IllegalArgumentException</code> if the array is null.</p>
-     * 
+     *
      * @param values the input array
      * @param begin the index of the first array element to include
      * @param length the number of elements to include
@@ -147,7 +147,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, 
+    public double evaluate(final double[] values,final int begin,
             final int length) {
 
         // Initialize the skewness
@@ -157,7 +157,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             Mean mean = new Mean();
             // Get the mean and the standard deviation
             double m = mean.evaluate(values, begin, length);
-            
+
             // Calc the std, this is implemented here instead
             // of using the standardDeviation method eliminate
             // a duplicate pass to get the mean
@@ -169,22 +169,22 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
             }
             double stdDev = Math.sqrt((accum - (Math.pow(accum2, 2) / length)) /
                     (length - 1));
-            
+
             double accum3 = 0.0;
             for (int i = begin; i < begin + length; i++) {
                 accum3 += Math.pow(values[i] - m, 3.0d);
             }
             accum3 /= Math.pow(stdDev, 3.0d);
-            
+
             // Get N
             double n0 = length;
-            
+
             // Calculate skewness
             skew = (n0 / ((n0 - 1) * (n0 - 2))) * accum3;
         }
         return skew;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -194,11 +194,11 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
         copy(this, result);
         return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source Skewness to copy
      * @param dest Skewness to copy to
      * @throws NullPointerException if either source or dest is null

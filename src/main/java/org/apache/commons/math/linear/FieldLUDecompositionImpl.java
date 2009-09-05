@@ -64,7 +64,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     private FieldMatrix<T> cachedP;
 
     /**
-     * Calculates the LU-decomposition of the given matrix. 
+     * Calculates the LU-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @exception NonSquareMatrixException if matrix is not square
      */

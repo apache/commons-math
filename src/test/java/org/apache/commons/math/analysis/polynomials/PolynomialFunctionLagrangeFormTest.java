@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * give us the exact same polynomial as result. Thus we can use a very
  * small tolerance to account only for round-off errors.
  *
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date$
  */
 public final class PolynomialFunctionLagrangeFormTest extends TestCase {
 

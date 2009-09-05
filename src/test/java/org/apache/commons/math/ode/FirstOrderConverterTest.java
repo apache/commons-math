@@ -39,10 +39,10 @@ public class FirstOrderConverterTest
       assertTrue(eqn1.getDimension() == (2 * eqn2.getDimension()));
     }
   }
-  
+
   public void testDecreasingSteps()
     throws DerivativeException, IntegratorException {
-      
+
     double previousError = Double.NaN;
     for (int i = 0; i < 10; ++i) {
 
@@ -53,7 +53,7 @@ public class FirstOrderConverterTest
         assertTrue(Math.abs(error) < Math.abs(previousError));
       }
       previousError = error;
-      
+
     }
   }
 
@@ -70,34 +70,34 @@ public class FirstOrderConverterTest
                    - Math.sin(4.0);
     assertTrue(Math.abs(error) > 0.1);
   }
-  
+
   public static Test suite() {
     return new TestSuite(FirstOrderConverterTest.class);
   }
 
   private static class Equations
     implements SecondOrderDifferentialEquations {
-      
+
      private int n;
 
       private double omega2;
-      
+
       public Equations(int n, double omega) {
         this.n = n;
         omega2 = omega * omega;
       }
-      
+
       public int getDimension() {
         return n;
       }
-      
+
       public void computeSecondDerivatives(double t, double[] y, double[] yDot,
                                            double[] yDDot) {
         for (int i = 0; i < n; ++i) {
           yDDot[i] = -omega2 * y[i];
         }
     }
-      
+
   }
 
   private double integrateWithSpecifiedStep(double omega,

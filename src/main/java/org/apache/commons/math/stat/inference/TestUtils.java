@@ -25,7 +25,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * perform inference tests.
  *
  * @since 1.1
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date$
  */
 public class TestUtils  {
     /**
@@ -34,100 +34,100 @@ public class TestUtils  {
     protected TestUtils() {
         super();
     }
-    
+
     /** Singleton TTest instance using default implementation. */
     private static TTest tTest = new TTestImpl();
-   
+
     /** Singleton ChiSquareTest instance using default implementation. */
-    private static ChiSquareTest chiSquareTest = 
+    private static ChiSquareTest chiSquareTest =
         new ChiSquareTestImpl();
-    
+
     /** Singleton ChiSquareTest instance using default implementation. */
-    private static UnknownDistributionChiSquareTest unknownDistributionChiSquareTest = 
+    private static UnknownDistributionChiSquareTest unknownDistributionChiSquareTest =
         new ChiSquareTestImpl();
-    
+
     /** Singleton OneWayAnova instance using default implementation. */
     private static OneWayAnova oneWayAnova =
         new OneWayAnovaImpl();
-    
+
     /**
      * Set the (singleton) TTest instance.
-     * 
+     *
      * @param chiSquareTest the new instance to use
      * @since 1.2
      */
     public static void setChiSquareTest(TTest chiSquareTest) {
         TestUtils.tTest = chiSquareTest;
     }
-    
+
     /**
      * Return a (singleton) TTest instance.  Does not create a new instance.
-     * 
+     *
      * @return a TTest instance
      */
     public static TTest getTTest() {
         return tTest;
     }
-    
+
     /**
      * Set the (singleton) ChiSquareTest instance.
-     * 
+     *
      * @param chiSquareTest the new instance to use
      * @since 1.2
      */
     public static void setChiSquareTest(ChiSquareTest chiSquareTest) {
         TestUtils.chiSquareTest = chiSquareTest;
     }
-    
+
     /**
      * Return a (singleton) ChiSquareTest instance.  Does not create a new instance.
-     * 
+     *
      * @return a ChiSquareTest instance
      */
     public static ChiSquareTest getChiSquareTest() {
         return chiSquareTest;
     }
-    
+
     /**
      * Set the (singleton) UnknownDistributionChiSquareTest instance.
-     * 
+     *
      * @param unknownDistributionChiSquareTest the new instance to use
      * @since 1.2
      */
     public static void setUnknownDistributionChiSquareTest(UnknownDistributionChiSquareTest unknownDistributionChiSquareTest) {
         TestUtils.unknownDistributionChiSquareTest = unknownDistributionChiSquareTest;
     }
-    
+
     /**
      * Return a (singleton) UnknownDistributionChiSquareTest instance.  Does not create a new instance.
-     * 
+     *
      * @return a UnknownDistributionChiSquareTest instance
      */
     public static UnknownDistributionChiSquareTest getUnknownDistributionChiSquareTest() {
         return unknownDistributionChiSquareTest;
     }
-    
+
     /**
      * Set the (singleton) OneWayAnova instance
-     * 
+     *
      * @param oneWayAnova the new instance to use
      * @since 1.2
      */
     public static void setOneWayAnova(OneWayAnova oneWayAnova) {
         TestUtils.oneWayAnova = oneWayAnova;
     }
-    
+
     /**
      * Return a (singleton) OneWayAnova instance.  Does not create a new instance.
-     * 
+     *
      * @return a OneWayAnova instance
      * @since 1.2
      */
     public static OneWayAnova getOneWayAnova() {
         return oneWayAnova;
     }
-    
-    
+
+
     // CHECKSTYLE: stop JavadocMethodCheck
 
     /**
@@ -309,7 +309,7 @@ public class TestUtils  {
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquare(long[][])
      */
-    public static double chiSquare(long[][] counts) 
+    public static double chiSquare(long[][] counts)
         throws IllegalArgumentException {
         return chiSquareTest.chiSquare(counts);
     }
@@ -378,7 +378,7 @@ public class TestUtils  {
         throws IllegalArgumentException, MathException {
         return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaFValue(Collection)
      *
@@ -388,17 +388,17 @@ public class TestUtils  {
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaFValue(categoryData);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaPValue(Collection)
-     * 
+     *
      * @since 1.2
      */
     public static double oneWayAnovaPValue(Collection<double[]> categoryData)
     throws IllegalArgumentException, MathException {
         return oneWayAnova.anovaPValue(categoryData);
     }
-    
+
     /**
      * @see org.apache.commons.math.stat.inference.OneWayAnova#anovaTest(Collection,double)
      *

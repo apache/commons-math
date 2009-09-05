@@ -98,7 +98,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         }
 
     }
-    
+
     private void checkInverseDoubleTransform(int[]x, int[] y) {
         // Initiate the transformer
         FastHadamardTransformer transformer = new FastHadamardTransformer();
@@ -115,5 +115,5 @@ public final class FastHadamardTransformerTest extends TestCase {
         }
 
     }
-    
+
 }

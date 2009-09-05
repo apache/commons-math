@@ -35,7 +35,7 @@ public interface TDistribution extends ContinuousDistribution {
      * @param degreesOfFreedom the new degrees of freedom.
      */
     void setDegreesOfFreedom(double degreesOfFreedom);
-    
+
     /**
      * Access the degrees of freedom.
      * @return the degrees of freedom.

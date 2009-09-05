@@ -74,7 +74,7 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
         }
         int random = next(32);
         while (i < bytes.length) {
-            bytes[i++] = (byte) (random & 0xff); 
+            bytes[i++] = (byte) (random & 0xff);
             random     = random >> 8;
         }
     }

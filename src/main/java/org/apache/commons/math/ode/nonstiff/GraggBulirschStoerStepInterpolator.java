@@ -351,7 +351,7 @@ class GraggBulirschStoerStepInterpolator
     }
 
   }
-    
+
   /** {@inheritDoc} */
   @Override
   public void writeExternal(final ObjectOutput out)
@@ -377,7 +377,7 @@ class GraggBulirschStoerStepInterpolator
   public void readExternal(final ObjectInput in)
     throws IOException {
 
-    // read the base class 
+    // read the base class
     final double t = readBaseExternal(in);
     final int dimension = (currentState == null) ? -1 : currentState.length;
 

@@ -64,7 +64,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 2.0
  */
 public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -4602336630143123183L;
 
@@ -219,7 +219,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             if (length != columns) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        columns, length); 
+                        columns, length);
             }
         }
 
@@ -653,7 +653,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         }
 
         return data;
-        
+
     }
 
     /** {@inheritDoc} */
@@ -788,7 +788,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         // safety checks
         final int refLength = subMatrix[0].length;
         if (refLength < 1) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");             
+            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
@@ -797,7 +797,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             if (subRow.length != refLength) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "some rows have length {0} while others have length {1}",
-                        refLength, subRow.length); 
+                        refLength, subRow.length);
             }
         }
 
@@ -923,7 +923,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         }
 
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> getColumnMatrix(final int column)

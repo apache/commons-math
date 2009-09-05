@@ -75,5 +75,5 @@ public interface StepHandler {
    */
   public void handleStep(StepInterpolator interpolator, boolean isLast)
     throws DerivativeException;
-    
+
 }

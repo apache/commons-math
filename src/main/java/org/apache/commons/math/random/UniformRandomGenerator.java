@@ -17,15 +17,15 @@
 
 package org.apache.commons.math.random;
 
-/** 
+/**
  * This class implements a normalized uniform random generator.
  * <p>Since it is a normalized random generator, it generates values
- * from a uniform distribution with mean equal to 0 and standard 
+ * from a uniform distribution with mean equal to 0 and standard
  * deviation equal to 1. Generated values fall in the range
  * [-&#x0221A;3, +&#x0221A;3].</p>
- * 
+ *
  * @since 1.2
- * 
+ *
  * @version $Revision$ $Date$
  */
 

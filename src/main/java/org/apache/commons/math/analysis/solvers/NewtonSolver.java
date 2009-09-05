@@ -25,14 +25,14 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
- * Newton's Method</a> for finding zeros of real univariate functions. 
- * <p> 
+ * Newton's Method</a> for finding zeros of real univariate functions.
+ * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *
  * @version $Revision$ $Date$
  */
 public class NewtonSolver extends UnivariateRealSolverImpl {
-    
+
     /**
      * Construct a solver for the given function.
      * @param f function to solve.
@@ -56,7 +56,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max)
-        throws MaxIterationsExceededException, 
+        throws MaxIterationsExceededException,
         FunctionEvaluationException  {
         return solve(f, min, max);
     }
@@ -70,12 +70,12 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
     /**
      * Find a zero near the midpoint of <code>min</code> and <code>max</code>.
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function or derivative
      * @throws IllegalArgumentException if min is not less than max
@@ -88,13 +88,13 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
     /**
      * Find a zero near the value <code>startValue</code>.
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval (ignored).
      * @param max the upper bound for the interval (ignored).
      * @param startValue the start value to use.
      * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded 
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function or derivative
      * @throws IllegalArgumentException if startValue is not between min and max or
@@ -132,5 +132,5 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
             throw MathRuntimeException.createIllegalArgumentException("function is not differentiable");
         }
     }
-    
+
 }

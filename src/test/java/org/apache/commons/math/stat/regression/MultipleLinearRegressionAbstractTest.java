@@ -33,14 +33,14 @@ public abstract class MultipleLinearRegressionAbstractTest {
     }
 
     protected abstract MultipleLinearRegression createRegression();
-    
+
     protected abstract int getNumberOfRegressors();
-    
+
     protected abstract int getSampleSize();
 
     @Test
     public void canEstimateRegressionParameters(){
-        double[] beta = regression.estimateRegressionParameters();        
+        double[] beta = regression.estimateRegressionParameters();
         assertEquals(getNumberOfRegressors(), beta.length);
     }
 
@@ -49,7 +49,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
         double[] e = regression.estimateResiduals();
         assertEquals(getSampleSize(), e.length);
     }
-    
+
     @Test
     public void canEstimateRegressionParametersVariance(){
         double[][] variance = regression.estimateRegressionParametersVariance();
@@ -62,6 +62,6 @@ public abstract class MultipleLinearRegressionAbstractTest {
             double variance = regression.estimateRegressandVariance();
             assertTrue(variance > 0.0);
         }
-    }   
+    }
 
 }

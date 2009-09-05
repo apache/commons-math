@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
  * Interface representing a univariate real interpolating function.
- *  
+ *
  * @version $Revision$ $Date$
  */
 public interface UnivariateRealInterpolator {

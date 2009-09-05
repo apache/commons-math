@@ -386,7 +386,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
   /** Prototype of the step interpolator. */
   private RungeKuttaStepInterpolator prototype;
-                                         
+
   /** Stepsize control exponent. */
   private double exp;
 

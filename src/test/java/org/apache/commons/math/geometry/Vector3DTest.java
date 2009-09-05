@@ -52,7 +52,7 @@ public class Vector3DTest
     assertTrue(Math.abs(v.getY() - 2) < 1.0e-12);
     assertTrue(Math.abs(v.getZ() - 3) < 1.0e-12);
   }
-  
+
   public void testNorm1() {
     assertEquals(0.0, Vector3D.ZERO.getNorm1());
     assertEquals(6.0, new Vector3D(1, -2, 3).getNorm1(), 0);
@@ -203,13 +203,13 @@ public class Vector3DTest
   }
 
   public void testAngle() {
-     assertEquals(0.22572612855273393616, 
+     assertEquals(0.22572612855273393616,
                   Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6)),
                   1.0e-12);
-     assertEquals(7.98595620686106654517199e-8, 
+     assertEquals(7.98595620686106654517199e-8,
                   Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(2, 4, 6.000001)),
                   1.0e-12);
-     assertEquals(3.14159257373023116985197793156, 
+     assertEquals(3.14159257373023116985197793156,
                   Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(-2, -4, -6.000001)),
                   1.0e-12);
      try {
@@ -227,7 +227,7 @@ public class Vector3DTest
       assertEquals(y, v.getY(), 1.0e-12);
       assertEquals(z, v.getZ(), 1.0e-12);
   }
-  
+
   public static Test suite() {
     return new TestSuite(Vector3DTest.class);
   }

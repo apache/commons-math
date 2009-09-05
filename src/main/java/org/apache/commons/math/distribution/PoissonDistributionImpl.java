@@ -25,7 +25,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implementation for the {@link PoissonDistribution}.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class PoissonDistributionImpl extends AbstractIntegerDistribution
@@ -36,7 +36,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /** Distribution used to compute normal approximation. */
     private NormalDistribution normal;
-    
+
     /**
      * Holds the Poisson mean for the distribution.
      */
@@ -44,9 +44,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Create a new Poisson distribution with the given the mean.
-     * The mean value must be positive; otherwise an 
+     * The mean value must be positive; otherwise an
      * <code>IllegalArgument</code> is thrown.
-     * 
+     *
      * @param p the Poisson mean
      * @throws IllegalArgumentException if p &le; 0
      */
@@ -56,9 +56,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Create a new Poisson distribution with the given the mean.
-     * The mean value must be positive; otherwise an 
+     * The mean value must be positive; otherwise an
      * <code>IllegalArgument</code> is thrown.
-     * 
+     *
      * @param p the Poisson mean
      * @param z a normal distribution used to compute normal approximations.
      * @throws IllegalArgumentException if p &le; 0
@@ -72,7 +72,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Get the Poisson mean for the distribution.
-     * 
+     *
      * @return the Poisson mean for the distribution.
      */
     public double getMean() {
@@ -81,9 +81,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Set the Poisson mean for the distribution.
-     * The mean value must be positive; otherwise an 
+     * The mean value must be positive; otherwise an
      * <code>IllegalArgument</code> is thrown.
-     * 
+     *
      * @param p the Poisson mean value
      * @throws IllegalArgumentException if p &le; 0
      */
@@ -100,7 +100,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * The probability mass function P(X = x) for a Poisson distribution.
-     * 
+     *
      * @param x the value at which the probability density function is evaluated.
      * @return the value of the probability mass function at x
      */
@@ -108,13 +108,13 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         if (x < 0 || x == Integer.MAX_VALUE) {
             return 0;
         }
-        return Math.pow(getMean(), x) / 
+        return Math.pow(getMean(), x) /
             MathUtils.factorialDouble(x) * Math.exp(-mean);
     }
-    
+
     /**
      * The probability distribution function P(X <= x) for a Poisson distribution.
-     * 
+     *
      * @param x the value at which the PDF is evaluated.
      * @return Poisson distribution function evaluated at x
      * @throws MathException if the cumulative probability can not be
@@ -128,7 +128,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         if (x == Integer.MAX_VALUE) {
             return 1;
         }
-        return Gamma.regularizedGammaQ((double)x + 1, mean, 
+        return Gamma.regularizedGammaQ((double)x + 1, mean,
                 1E-12, Integer.MAX_VALUE);
     }
 
@@ -139,7 +139,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * <p>
      * The computation uses "half-correction" -- evaluating the normal
      * distribution function at <code>x + 0.5</code></p>
-     * 
+     *
      * @param x the upper bound, inclusive
      * @return the distribution function value calculated using a normal approximation
      * @throws MathException if an error occurs computing the normal approximation
@@ -153,7 +153,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain lower bound
      */
@@ -166,7 +166,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain upper bound
      */
@@ -174,7 +174,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     protected int getDomainUpperBound(double p) {
         return Integer.MAX_VALUE;
     }
-    
+
     /**
      * Modify the normal distribution used to compute normal approximations.
      * The caller is responsible for insuring the normal distribution has the
@@ -185,5 +185,5 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     public void setNormal(NormalDistribution value) {
         normal = value;
     }
-    
+
 }

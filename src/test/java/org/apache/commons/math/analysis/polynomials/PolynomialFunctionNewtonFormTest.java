@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * <p>
  * The small tolerance number is used only to account for round-off errors.
  *
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date$
  */
 public final class PolynomialFunctionNewtonFormTest extends TestCase {
 

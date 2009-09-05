@@ -27,17 +27,17 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Brent algorithm</a> for  finding zeros of real univariate functions.
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
- *  
+ *
  * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 7694577816772532779L;
 
     /**
      * Construct a solver for the given function.
-     * 
+     *
      * @param f function to solve.
      * @deprecated as of 2.0 the function to solve is passed as an argument
      * to the {@link #solve(UnivariateRealFunction, double, double)} or
@@ -76,7 +76,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * function at the three points have the same sign (note that it is
      * allowed to have endpoints with the same sign if the initial point has
      * opposite sign function-wise).</p>
-     * 
+     *
      * @param f function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
@@ -84,7 +84,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * initial point is known).
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException the maximum iteration count
-     * is exceeded 
+     * is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating
      *  the function
      * @throws IllegalArgumentException if initial is not between min and max
@@ -132,37 +132,37 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         return solve(f, min, yMin, max, yMax, initial, yInitial);
 
     }
-    
+
     /**
      * Find a zero in the given interval.
      * <p>
      * Requires that the values of the function at the endpoints have opposite
      * signs. An <code>IllegalArgumentException</code> is thrown if this is not
      * the case.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, 
+        throws MaxIterationsExceededException,
         FunctionEvaluationException {
-        
+
         clearResult();
         verifyInterval(min, max);
-        
+
         double ret = Double.NaN;
-        
+
         double yMin = f.value(min);
         double yMax = f.value(max);
-        
+
         // Verify bracketing
         double sign = yMin * yMax;
         if (sign > 0) {
@@ -178,7 +178,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "function values at endpoints do not have different signs.  " +
                         "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                        min, max, yMin, yMax);       
+                        min, max, yMin, yMax);
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess
@@ -194,7 +194,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         return ret;
     }
-        
+
     /**
      * Find a zero starting search according to the three provided points.
      * @param f the function to solve
@@ -210,7 +210,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating
-     * the function 
+     * the function
      */
     private double solve(final UnivariateRealFunction f,
                          double x0, double y0,
@@ -286,7 +286,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                     delta = p / p1;
                 }
             }
-            // Save old X1, Y1 
+            // Save old X1, Y1
             x0 = x1;
             y0 = y1;
             // Compute new X1, Y1

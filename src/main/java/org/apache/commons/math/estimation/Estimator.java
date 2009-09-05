@@ -39,7 +39,7 @@ package org.apache.commons.math.estimation;
 @Deprecated
 public interface Estimator {
 
-  /** 
+  /**
    * Solve an estimation problem.
    *
    * <p>The method should set the parameters of the problem to several
@@ -56,7 +56,7 @@ public interface Estimator {
   public void estimate(EstimationProblem problem)
     throws EstimationException;
 
-  /** 
+  /**
    * Get the Root Mean Square value.
    * Get the Root Mean Square value, i.e. the root of the arithmetic
    * mean of the square of all weighted residuals. This is related to the
@@ -64,7 +64,7 @@ public interface Estimator {
    * <em>c</em> is the criterion, and <em>n</em> is the number of
    * measurements, then the RMS is <em>sqrt (c/n)</em>.
    * @see #guessParametersErrors(EstimationProblem)
-   * 
+   *
    * @param problem estimation problem
    * @return RMS value
    */

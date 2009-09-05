@@ -23,16 +23,16 @@ import java.util.List;
 
 /**
  * Chromosome represented by an immutable list of a fixed length.
- * 
+ *
  * @param <T> type of the representation list
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {
-    
+
     /** List representing the chromosome */
     private final List<T> representation;
-    
+
     /**
      * Constructor.
      * @param representation inner representation of the chromosome
@@ -45,7 +45,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
         }
         this.representation = Collections.unmodifiableList(new ArrayList<T> (representation));
     }
-    
+
     /**
      * Constructor.
      * @param representation inner representation of the chromosome
@@ -55,7 +55,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     }
 
     /**
-     * 
+     *
      * Asserts that <code>representation</code> can represent a valid chromosome.
      * @param chromosomeRepresentation representation of the chromosome
      * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
@@ -84,16 +84,16 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      * given <code>arrayRepresentation</code>. This is needed in crossover and
      * mutation operators, where we need a new instance of the same class, but
      * with different array representation.
-     * 
+     *
      * Usually, this method just calls a constructor of the class.
-     * 
+     *
      * @param chromosomeRepresentation
      *            the inner array representation of the new chromosome.
      * @return new instance extended from FixedLengthChromosome with the given
      *         arrayRepresentation
      */
     public abstract AbstractListChromosome<T> newFixedLengthChromosome(final List<T> chromosomeRepresentation);
-    
+
     /**
      * {@inheritDoc}
      */

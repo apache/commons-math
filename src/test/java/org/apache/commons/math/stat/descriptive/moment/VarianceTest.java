@@ -25,13 +25,13 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Variance stat;
-    
+
     /**
      * @param name
      */
@@ -111,19 +111,19 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 
     public void testWeightedVariance() {
         Variance variance = new Variance();
-        assertEquals(expectedWeightedValue(), 
+        assertEquals(expectedWeightedValue(),
                 variance.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
-        
+
         // All weights = 1 -> weighted variance = unweighted variance
         assertEquals(expectedValue(),
                 variance.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
-        
+
         // All weights the same -> when weights are normalized to sum to the length of the values array,
         // weighted variance = unweighted value
         assertEquals(expectedValue(),
                 variance.evaluate(testArray, MathUtils.normalizeArray(identicalWeightsArray, testArray.length),
                         0, testArray.length), getTolerance());
-        
+
     }
 
 }

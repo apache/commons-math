@@ -28,7 +28,7 @@ import org.apache.commons.math.MathException;
  */
 public class DerivativeException
   extends MathException {
-    
+
   /** Serializable version identifier */
   private static final long serialVersionUID = 5666710788967425123L;
 

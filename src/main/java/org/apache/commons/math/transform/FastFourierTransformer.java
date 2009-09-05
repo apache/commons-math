@@ -63,7 +63,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -78,7 +78,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -100,7 +100,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
      * </p>
-     * 
+     *
      * @param f the complex data array to be transformed
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -116,7 +116,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
      * </p>
-     * 
+     *
      * @param f the real data array to be transformed
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -133,7 +133,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
      * </p>
-     * 
+     *
      * @param f the function to be sampled and transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -157,7 +157,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
      * </p>
-     * 
+     *
      * @param f the complex data array to be transformed
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -175,7 +175,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -192,7 +192,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -216,7 +216,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
      * </p>
-     * 
+     *
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -234,7 +234,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
      * </p>
-     * 
+     *
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -251,7 +251,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
      * </p>
-     * 
+     *
      * @param f the function to be sampled and inversely transformed
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -275,7 +275,7 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
      * </p>
-     * 
+     *
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -400,7 +400,7 @@ public class FastFourierTransformer implements Serializable {
                         f[i+j+k].getImaginary() * omega_k_times_m_imaginary,
                         f[i+j+k].getReal() * omega_k_times_m_imaginary +
                         f[i+j+k].getImaginary() * omega_k_times_m_real);
-                  
+
                     f[i+j+k] = f[j+k].subtract(z);
                     f[j+k] = f[j+k].add(z);
                 }
@@ -477,7 +477,7 @@ public class FastFourierTransformer implements Serializable {
 
     /**
      * Returns true if the argument is power of 2.
-     * 
+     *
      * @param n the number to test
      * @return true if the argument is power of 2
      */
@@ -487,7 +487,7 @@ public class FastFourierTransformer implements Serializable {
 
     /**
      * Verifies that the data set has length of power of 2.
-     * 
+     *
      * @param d the data array
      * @throws IllegalArgumentException if array length is not power of 2
      */
@@ -496,12 +496,12 @@ public class FastFourierTransformer implements Serializable {
             throw MathRuntimeException.createIllegalArgumentException(
                     "{0} is not a power of 2, consider padding for fix",
                     d.length);
-        }       
+        }
     }
 
     /**
      * Verifies that the data set has length of power of 2.
-     * 
+     *
      * @param o the data array
      * @throws IllegalArgumentException if array length is not power of 2
      */
@@ -510,12 +510,12 @@ public class FastFourierTransformer implements Serializable {
             throw MathRuntimeException.createIllegalArgumentException(
                     "{0} is not a power of 2, consider padding for fix",
                     o.length);
-        }       
+        }
     }
 
     /**
      * Verifies that the endpoints specify an interval.
-     * 
+     *
      * @param lower lower endpoint
      * @param upper upper endpoint
      * @throws IllegalArgumentException if not interval
@@ -527,9 +527,9 @@ public class FastFourierTransformer implements Serializable {
             throw MathRuntimeException.createIllegalArgumentException(
                     "endpoints do not specify an interval: [{0}, {1}]",
                     lower, upper);
-        }       
+        }
     }
-    
+
     /**
      * Performs a multi-dimensional Fourier transform on a given array.
      * Use {@link #inversetransform2(Complex[])} and
@@ -555,7 +555,7 @@ public class FastFourierTransformer implements Serializable {
         }
         return mdcm.getArray();
     }
-    
+
     /**
      * Performs one dimension of a multi-dimensional Fourier transform.
      *
@@ -577,12 +577,12 @@ public class FastFourierTransformer implements Serializable {
                 subVector[d] = i;
                 temp[i] = mdcm.get(subVector);
             }
-            
+
             if (forward)
                 temp = transform2(temp);
             else
                 temp = inversetransform2(temp);
-            
+
             for (int i = 0; i < dimensionSize[d]; i++) {
                 subVector[d] = i;
                 mdcm.set(temp[i], subVector);
@@ -673,15 +673,15 @@ public class FastFourierTransformer implements Serializable {
                         "some dimensions don't match: {0} != {1}",
                         vector.length, dimensionSize.length);
             }
-            
+
             Object lastDimension = multiDimensionalComplexArray;
-            
+
             for (int i = 0; i < dimensionSize.length; i++) {
                 lastDimension = ((Object[]) lastDimension)[vector[i]];
             }
             return (Complex) lastDimension;
         }
-        
+
         /**
          * Set a matrix element.
          * @param magnitude magnitude of the element
@@ -741,7 +741,7 @@ public class FastFourierTransformer implements Serializable {
             clone(mdcm);
             return mdcm;
         }
-        
+
         /**
          * Copy contents of current array into mdcm.
          * @param mdcm array where to copy data
@@ -765,15 +765,15 @@ public class FastFourierTransformer implements Serializable {
                     }
                 }
             }
-            
+
             for (int[] nextVector: vectorList) {
                 mdcm.set(get(nextVector), nextVector);
             }
         }
     }
-    
-    
-    /** Computes the n<sup>th</sup> roots of unity. 
+
+
+    /** Computes the n<sup>th</sup> roots of unity.
      * A cache of already computed values is maintained.
      */
     private static class RootsOfUnity implements Serializable {
@@ -800,13 +800,13 @@ public class FastFourierTransformer implements Serializable {
        * Build an engine for computing then <sup>th</sup> roots of unity
        */
       public RootsOfUnity() {
-        
+
         omegaCount = 0;
         omegaReal = null;
         omegaImaginaryForward = null;
         omegaImaginaryInverse = null;
         isForward = true;
-        
+
       }
 
       /**
@@ -815,15 +815,15 @@ public class FastFourierTransformer implements Serializable {
        * @throws IllegalStateException if no roots of unity have been computed yet
        */
       public synchronized boolean isForward() throws IllegalStateException {
-          
+
         if (omegaCount == 0) {
           throw MathRuntimeException.createIllegalStateException(
                   "roots of unity have not been computed yet");
-        }        
+        }
         return isForward;
-        
+
       }
-      
+
       /** Computes the n<sup>th</sup> roots of unity.
        * <p>The computed omega[] = { 1, w, w<sup>2</sup>, ... w<sup>(n-1)</sup> } where
        * w = exp(-2 &pi; i / n), i = &sqrt;(-1).</p>
@@ -841,10 +841,10 @@ public class FastFourierTransformer implements Serializable {
         }
 
         isForward = (n > 0);
-        
+
         // avoid repetitive calculations
         final int absN = Math.abs(n);
-        
+
         if (absN == omegaCount) {
             return;
         }
@@ -879,7 +879,7 @@ public class FastFourierTransformer implements Serializable {
        */
       public synchronized double getOmegaReal(int k)
         throws IllegalStateException, IllegalArgumentException {
-        
+
         if (omegaCount == 0) {
             throw MathRuntimeException.createIllegalStateException(
                     "roots of unity have not been computed yet");
@@ -889,9 +889,9 @@ public class FastFourierTransformer implements Serializable {
                     "out of range root of unity index {0} (must be in [{1};{2}])",
                     k, 0, omegaCount - 1);
         }
-        
+
         return omegaReal[k];
-        
+
       }
 
       /**
@@ -903,7 +903,7 @@ public class FastFourierTransformer implements Serializable {
        */
       public synchronized double getOmegaImaginary(int k)
         throws IllegalStateException, IllegalArgumentException {
-      
+
         if (omegaCount == 0) {
             throw MathRuntimeException.createIllegalStateException(
                     "roots of unity have not been computed yet");
@@ -916,9 +916,9 @@ public class FastFourierTransformer implements Serializable {
 
         return (isForward) ?
             omegaImaginaryForward[k] : omegaImaginaryInverse[k];
-        
+
       }
 
     }
-    
+
 }

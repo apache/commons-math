@@ -18,9 +18,9 @@ package org.apache.commons.math.genetics;
 
 /**
  * A collection of chromosomes that facilitates generational evolution.
- * 
+ *
  * @since 2.0
- * @version $Revision:$ $Date:$
+ * @version $Revision$ $Date$
  */
 public interface Population extends Iterable<Chromosome> {
     /**

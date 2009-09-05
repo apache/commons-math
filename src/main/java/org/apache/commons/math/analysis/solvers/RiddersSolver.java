@@ -30,7 +30,7 @@ import org.apache.commons.math.util.MathUtils;
  * Systems, 26 (1979), 979 - 980.
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
- *  
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -38,7 +38,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver for the given function.
-     * 
+     *
      * @param f function to solve
      * @deprecated as of 2.0 the function to solve is passed as an argument
      * to the {@link #solve(UnivariateRealFunction, double, double)} or
@@ -75,7 +75,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * Find a root in the given interval with initial value.
      * <p>
      * Requires bracketing condition.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -108,14 +108,14 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * Find a root in the given interval.
      * <p>
      * Requires bracketing condition.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,

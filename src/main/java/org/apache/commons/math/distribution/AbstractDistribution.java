@@ -22,8 +22,8 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * Base class for probability distributions.   
- *  
+ * Base class for probability distributions.
+ *
  * @version $Revision$ $Date$
  */
 public abstract class AbstractDistribution
@@ -31,7 +31,7 @@ public abstract class AbstractDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
-    
+
     /**
      * Default constructor.
      */
@@ -46,7 +46,7 @@ public abstract class AbstractDistribution
      * The default implementation uses the identity</p>
      * <p>
      * P(x0 &le; X &le; x1) = P(X &le; x1) - P(X &le; x0) </p>
-     * 
+     *
      * @param x0 the (inclusive) lower bound
      * @param x1 the (inclusive) upper bound
      * @return the probability that a random variable with this distribution

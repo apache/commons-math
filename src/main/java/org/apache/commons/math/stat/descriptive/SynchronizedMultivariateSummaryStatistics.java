@@ -144,7 +144,7 @@ public class SynchronizedMultivariateSummaryStatistics
     public synchronized double[] getGeometricMean() {
         return super.getGeometricMean();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -160,7 +160,7 @@ public class SynchronizedMultivariateSummaryStatistics
     public synchronized void clear() {
         super.clear();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -168,7 +168,7 @@ public class SynchronizedMultivariateSummaryStatistics
     public synchronized boolean equals(Object object) {
         return super.equals(object);
     }
-    
+
     /**
      * {@inheritDoc}
      */

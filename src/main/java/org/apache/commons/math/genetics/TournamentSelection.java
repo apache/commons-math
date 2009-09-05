@@ -23,19 +23,19 @@ import java.util.List;
  * Tournament selection scheme. Each of the two selected chromosomes is selected
  * based on n-ary tournament -- this is done by drawing {@link #arity} random
  * chromosomes without replacement from the population, and then selecting the
- * fittest chromosome among them. 
- * 
+ * fittest chromosome among them.
+ *
  * @since 2.0
  * @version $Revision$ $Date$
  */
 public class TournamentSelection implements SelectionPolicy {
-    
+
     /** number of chromosomes included in the tournament selections */
     private int arity;
-    
+
     /**
      * Creates a new TournamentSelection instance.
-     * 
+     *
      * @param arity
      *            how many chromosomes will be drawn to the tournament
      */
@@ -48,7 +48,7 @@ public class TournamentSelection implements SelectionPolicy {
      * chromosomes is selected based on n-ary tournament -- this is done by
      * drawing {@link #arity} random chromosomes without replacement from the
      * population, and then selecting the fittest chromosome among them.
-     * 
+     *
      * @param population
      *            the population from which the chromosomes are choosen.
      * @return the selected chromosomes.
@@ -59,12 +59,12 @@ public class TournamentSelection implements SelectionPolicy {
                 tournament((ListPopulation)population)
                 );
     }
-    
+
     /**
      * Helper for {@link #select(Population)}. Draw {@link #arity} random
      * chromosomes without replacement from the population, and then select the
      * fittest chromosome among them.
-     * 
+     *
      * @param population
      *            the population from which the chromosomes are choosen.
      * @return the selected chromosome.
@@ -79,7 +79,7 @@ public class TournamentSelection implements SelectionPolicy {
                 return null;
             }
         };
-        
+
         // create a copy of the chromosome list
         List<Chromosome> chromosomes = new ArrayList<Chromosome> (population.getChromosomes());
         for (int i=0; i<this.arity; i++) {
@@ -95,7 +95,7 @@ public class TournamentSelection implements SelectionPolicy {
 
     /**
      * Gets the arity (number of chromosomes drawn to the tournament).
-     * 
+     *
      * @return arity of the tournament
      */
     public int getArity() {
@@ -104,7 +104,7 @@ public class TournamentSelection implements SelectionPolicy {
 
     /**
      * Sets the arity (number of chromosomes drawn to the tournament).
-     * 
+     *
      * @param arity arity of the tournament
      */
     public void setArity(int arity) {

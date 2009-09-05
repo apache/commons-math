@@ -29,7 +29,7 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
  * Base class for continuous distributions.  Default implementations are
  * provided for some of the methods that do not vary from distribution to
  * distribution.
- *  
+ *
  * @version $Revision$ $Date$
  */
 public abstract class AbstractContinuousDistribution
@@ -38,7 +38,7 @@ public abstract class AbstractContinuousDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
-    
+
     /**
      * Default constructor.
      */
@@ -76,8 +76,8 @@ public abstract class AbstractContinuousDistribution
                 }
             }
         };
-              
-        // Try to bracket root, test domain endoints if this fails     
+
+        // Try to bracket root, test domain endoints if this fails
         double lowerBound = getDomainLowerBound(p);
         double upperBound = getDomainUpperBound(p);
         double[] bracket = null;
@@ -86,20 +86,20 @@ public abstract class AbstractContinuousDistribution
                     rootFindingFunction, getInitialDomain(p),
                     lowerBound, upperBound);
         }  catch (ConvergenceException ex) {
-            /* 
+            /*
              * Check domain endpoints to see if one gives value that is within
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the
              * case if density has bounded support and p is 0 or 1).
-             * 
+             *
              * TODO: expose the default solver, defaultAbsoluteAccuracy as
              * a constant.
-             */ 
+             */
             if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
                 return lowerBound;
             }
             if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
                 return upperBound;
-            }     
+            }
             // Failed bracket convergence was not because of corner solution
             throw new MathException(ex);
         }
@@ -114,7 +114,7 @@ public abstract class AbstractContinuousDistribution
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -124,10 +124,10 @@ public abstract class AbstractContinuousDistribution
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     protected abstract double getDomainLowerBound(double p);
 
@@ -135,10 +135,10 @@ public abstract class AbstractContinuousDistribution
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     protected abstract double getDomainUpperBound(double p);
 }

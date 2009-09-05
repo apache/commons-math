@@ -74,7 +74,7 @@ public final class MathUtils {
 
     /**
      * Add two integers, checking for overflow.
-     * 
+     *
      * @param x an addend
      * @param y an addend
      * @return the sum <code>x+y</code>
@@ -92,7 +92,7 @@ public final class MathUtils {
 
     /**
      * Add two long integers, checking for overflow.
-     * 
+     *
      * @param a an addend
      * @param b an addend
      * @return the sum <code>a+b</code>
@@ -103,10 +103,10 @@ public final class MathUtils {
     public static long addAndCheck(long a, long b) {
         return addAndCheck(a, b, "overflow: add");
     }
-    
+
     /**
      * Add two long integers, checking for overflow.
-     * 
+     *
      * @param a an addend
      * @param b an addend
      * @param msg the message to use for any thrown exception.
@@ -122,7 +122,7 @@ public final class MathUtils {
             ret = addAndCheck(b, a, msg);
         } else {
             // assert a <= b
-            
+
             if (a < 0) {
                 if (b < 0) {
                     // check for negative overflow
@@ -149,7 +149,7 @@ public final class MathUtils {
         }
         return ret;
     }
-    
+
     /**
      * Returns an exact representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
@@ -167,7 +167,7 @@ public final class MathUtils {
      * <code>Long.MAX_VALUE</code> an <code>ArithMeticException</code> is
      * thrown.</li>
      * </ul></p>
-     * 
+     *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
@@ -186,7 +186,7 @@ public final class MathUtils {
         // Use symmetry for large k
         if (k > n / 2)
             return binomialCoefficient(n, n - k);
-        
+
         // We use the formula
         // (n choose k) = n! / (n-k)! / k!
         // (n choose k) == ((n-k+1)*...*n) / (1*...*k)
@@ -239,7 +239,7 @@ public final class MathUtils {
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
      * </ul></p>
-     * 
+     *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
@@ -259,15 +259,15 @@ public final class MathUtils {
         if (n < 67) {
             return binomialCoefficient(n,k);
         }
-        
+
         double result = 1d;
         for (int i = 1; i <= k; i++) {
              result *= (double)(n - k + i) / (double)i;
         }
-  
+
         return Math.floor(result + 0.5);
     }
-    
+
     /**
      * Returns the natural <code>log</code> of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
@@ -280,7 +280,7 @@ public final class MathUtils {
      * <li> <code>0 <= k <= n </code> (otherwise
      * <code>IllegalArgumentException</code> is thrown)</li>
      * </ul></p>
-     * 
+     *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return <code>n choose k</code>
@@ -294,22 +294,22 @@ public final class MathUtils {
         if ((k == 1) || (k == n - 1)) {
             return Math.log(n);
         }
-        
+
         /*
          * For values small enough to do exact integer computation,
-         * return the log of the exact value 
+         * return the log of the exact value
          */
-        if (n < 67) {  
+        if (n < 67) {
             return Math.log(binomialCoefficient(n,k));
         }
-        
+
         /*
          * Return the log of binomialCoefficientDouble for values that will not
          * overflow binomialCoefficientDouble
          */
-        if (n < 1030) { 
+        if (n < 1030) {
             return Math.log(binomialCoefficientDouble(n, k));
-        } 
+        }
 
         if (k > n / 2) {
             return binomialCoefficientLog(n, n - k);
@@ -330,7 +330,7 @@ public final class MathUtils {
             logSum -= Math.log(i);
         }
 
-        return logSum;      
+        return logSum;
     }
 
     /**
@@ -352,10 +352,10 @@ public final class MathUtils {
                   n);
         }
     }
-    
+
     /**
      * Compares two numbers given some amount of allowed error.
-     * 
+     *
      * @param x the first number
      * @param y the second number
      * @param eps the amount of error to allow when checking for equality
@@ -371,22 +371,22 @@ public final class MathUtils {
         }
         return 1;
     }
-    
+
     /**
      * Returns the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
      * hyperbolic cosine</a> of x.
-     * 
+     *
      * @param x double value for which to find the hyperbolic cosine
      * @return hyperbolic cosine of x
      */
     public static double cosh(double x) {
         return (Math.exp(x) + Math.exp(-x)) / 2.0;
     }
-    
+
     /**
      * Returns true iff both arguments are NaN or neither is NaN and they are
      * equal
-     * 
+     *
      * @param x first value
      * @param y second value
      * @return true if the values are equal or both are NaN
@@ -401,7 +401,7 @@ public final class MathUtils {
      * <p>
      * Two NaNs are considered equals, as are two infinities with same sign.
      * </p>
-     * 
+     *
      * @param x first value
      * @param y second value
      * @param eps the amount of absolute error to allow
@@ -410,7 +410,7 @@ public final class MathUtils {
     public static boolean equals(double x, double y, double eps) {
       return equals(x, y) || (Math.abs(y - x) <= eps);
     }
-    
+
     /**
      * Returns true iff both arguments are equal or within the range of allowed
      * error (inclusive).
@@ -447,7 +447,7 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are null or have same dimensions
      * and all their elements are {@link #equals(double,double) equals}
-     * 
+     *
      * @param x first array
      * @param y second array
      * @return true if the values are both null or have same dimension
@@ -468,9 +468,9 @@ public final class MathUtils {
         }
         return true;
     }
-    
+
     /** All long-representable factorials */
-    private static final long[] FACTORIALS = new long[] 
+    private static final long[] FACTORIALS = new long[]
        {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
         479001600, 6227020800l, 87178291200l, 1307674368000l, 20922789888000l,
         355687428096000l, 6402373705728000l, 121645100408832000l,
@@ -491,7 +491,7 @@ public final class MathUtils {
      * an <code>ArithMeticException </code> is thrown.</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      * @throws ArithmeticException if the result is too large to be represented
@@ -526,7 +526,7 @@ public final class MathUtils {
      * Double.MAX_VALUE, Double.POSITIVE_INFINITY is returned</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      * @throws IllegalArgumentException if n < 0
@@ -551,7 +551,7 @@ public final class MathUtils {
      * <li> <code>n >= 0</code> (otherwise
      * <code>IllegalArgumentException</code> is thrown)</li>
      * </ul></p>
-     * 
+     *
      * @param n argument
      * @return <code>n!</code>
      * @throws IllegalArgumentException if preconditions are not met.
@@ -593,7 +593,7 @@ public final class MathUtils {
      * <li>The invocation <code>gcd(0, 0)</code> is the only one which returns
      * <code>0</code>.</li>
      * </ul>
-     * 
+     *
      * @param p any number
      * @param q any number
      * @return the greatest common divisor, never negative
@@ -664,7 +664,7 @@ public final class MathUtils {
 
     /**
      * Returns an integer hash code representing the given double value.
-     * 
+     *
      * @param value the value to be hashed
      * @return the hash code
      */
@@ -674,7 +674,7 @@ public final class MathUtils {
 
     /**
      * Returns an integer hash code representing the given double array.
-     * 
+     *
      * @param value the value to be hashed (may be null)
      * @return the hash code
      * @since 1.2
@@ -686,7 +686,7 @@ public final class MathUtils {
     /**
      * For a byte value x, this method returns (byte)(+1) if x >= 0 and
      * (byte)(-1) if x < 0.
-     * 
+     *
      * @param x the value, a byte
      * @return (byte)(+1) or (byte)(-1), depending on the sign of x
      */
@@ -698,7 +698,7 @@ public final class MathUtils {
      * For a double precision value x, this method returns +1.0 if x >= 0 and
      * -1.0 if x < 0. Returns <code>NaN</code> if <code>x</code> is
      * <code>NaN</code>.
-     * 
+     *
      * @param x the value, a double
      * @return +1.0 or -1.0, depending on the sign of x
      */
@@ -712,7 +712,7 @@ public final class MathUtils {
     /**
      * For a float value x, this method returns +1.0F if x >= 0 and -1.0F if x <
      * 0. Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.
-     * 
+     *
      * @param x the value, a float
      * @return +1.0F or -1.0F, depending on the sign of x
      */
@@ -725,7 +725,7 @@ public final class MathUtils {
 
     /**
      * For an int value x, this method returns +1 if x >= 0 and -1 if x < 0.
-     * 
+     *
      * @param x the value, an int
      * @return +1 or -1, depending on the sign of x
      */
@@ -735,7 +735,7 @@ public final class MathUtils {
 
     /**
      * For a long value x, this method returns +1L if x >= 0 and -1L if x < 0.
-     * 
+     *
      * @param x the value, a long
      * @return +1L or -1L, depending on the sign of x
      */
@@ -746,7 +746,7 @@ public final class MathUtils {
     /**
      * For a short value x, this method returns (short)(+1) if x >= 0 and
      * (short)(-1) if x < 0.
-     * 
+     *
      * @param x the value, a short
      * @return (short)(+1) or (short)(-1), depending on the sign of x
      */
@@ -768,7 +768,7 @@ public final class MathUtils {
      * <li>The result of <code>lcm(0, x)</code> and <code>lcm(x, 0)</code> is
      * <code>0</code> for any <code>x</code>.
      * </ul>
-     * 
+     *
      * @param a any number
      * @param b any number
      * @return the least common multiple, never negative
@@ -788,29 +788,29 @@ public final class MathUtils {
         return lcm;
     }
 
-    /** 
-     * <p>Returns the 
+    /**
+     * <p>Returns the
      * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
      * for base <code>b</code> of <code>x</code>.
      * </p>
-     * <p>Returns <code>NaN<code> if either argument is negative.  If 
+     * <p>Returns <code>NaN<code> if either argument is negative.  If
      * <code>base</code> is 0 and <code>x</code> is positive, 0 is returned.
-     * If <code>base</code> is positive and <code>x</code> is 0, 
+     * If <code>base</code> is positive and <code>x</code> is 0,
      * <code>Double.NEGATIVE_INFINITY</code> is returned.  If both arguments
      * are 0, the result is <code>NaN</code>.</p>
-     * 
+     *
      * @param base the base of the logarithm, must be greater than 0
      * @param x argument, must be greater than 0
      * @return the value of the logarithm - the number y such that base^y = x.
      * @since 1.2
-     */ 
+     */
     public static double log(double base, double x) {
         return Math.log(x)/Math.log(base);
     }
 
     /**
      * Multiply two integers, checking for overflow.
-     * 
+     *
      * @param x a factor
      * @param y a factor
      * @return the product <code>x*y</code>
@@ -828,7 +828,7 @@ public final class MathUtils {
 
     /**
      * Multiply two long integers, checking for overflow.
-     * 
+     *
      * @param a first value
      * @param b second value
      * @return the product <code>a * b</code>
@@ -857,7 +857,7 @@ public final class MathUtils {
                         ret = a * b;
                     } else {
                         throw new ArithmeticException(msg);
-                        
+
                     }
                 } else {
                     // assert b == 0
@@ -866,7 +866,7 @@ public final class MathUtils {
             } else if (a > 0) {
                 // assert a > 0
                 // assert b > 0
-                
+
                 // check for positive overflow with positive a, positive b
                 if (a <= Long.MAX_VALUE / b) {
                     ret = a * b;
@@ -891,7 +891,7 @@ public final class MathUtils {
      * strictly less than <code>d</code> is returned.</p>
      * <p>
      * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
-     * 
+     *
      * @param d base number
      * @param direction (the only important thing is whether
      * direction is greater or smaller than d)
@@ -941,7 +941,7 @@ public final class MathUtils {
     /**
      * Scale a number by 2<sup>scaleFactor</sup>.
      * <p>If <code>d</code> is 0 or NaN or Infinite, it is returned unchanged.</p>
-     * 
+     *
      * @param d base number
      * @param scaleFactor power of two by which d sould be multiplied
      * @return d &times; 2<sup>scaleFactor</sup>
@@ -987,21 +987,21 @@ public final class MathUtils {
      public static double normalizeAngle(double a, double center) {
          return a - TWO_PI * Math.floor((a + Math.PI - center) / TWO_PI);
      }
-     
+
      /**
-      * <p>Normalizes an array to make it sum to a specified value.  
+      * <p>Normalizes an array to make it sum to a specified value.
       * Returns the result of the transformation <pre>
       *    x |-> x * normalizedSum / sum
       * </pre>
       * applied to each non-NaN element x of the input array, where sum is the
       * sum of the non-NaN entries in the input array.</p>
-      * 
+      *
       * <p>Throws IllegalArgumentException if <code>normalizedSum</code> is infinite
       * or NaN and ArithmeticException if the input array contains any infinite elements
       * or sums to 0</p>
-      * 
+      *
       * <p>Ignores (i.e., copies unchanged to the output array) NaNs in the input array.</p>
-      * 
+      *
       * @param values input array to be normalized
       * @param normalizedSum target sum for the normalized array
       * @return normalized array
@@ -1032,7 +1032,7 @@ public final class MathUtils {
          }
          if (sum == 0) {
              throw MathRuntimeException.createArithmeticException(
-                     "Array sums to zero"); 
+                     "Array sums to zero");
          }
          for (int i = 0; i < len; i++) {
              if (Double.isNaN(values[i])) {
@@ -1041,13 +1041,13 @@ public final class MathUtils {
                  out[i] = values[i] * normalizedSum / sum;
              }
          }
-         return out;  
+         return out;
      }
 
     /**
      * Round the given value to the specified number of decimal places. The
      * value is rounded using the {@link BigDecimal#ROUND_HALF_UP} method.
-     * 
+     *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @return the rounded value.
@@ -1061,7 +1061,7 @@ public final class MathUtils {
      * Round the given value to the specified number of decimal places. The
      * value is rounded using the given method which is any method defined in
      * {@link BigDecimal}.
-     * 
+     *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @param roundingMethod the rounding method as defined in
@@ -1077,7 +1077,7 @@ public final class MathUtils {
                    .doubleValue();
         } catch (NumberFormatException ex) {
             if (Double.isInfinite(x)) {
-                return x;          
+                return x;
             } else {
                 return Double.NaN;
             }
@@ -1087,7 +1087,7 @@ public final class MathUtils {
     /**
      * Round the given value to the specified number of decimal places. The
      * value is rounding using the {@link BigDecimal#ROUND_HALF_UP} method.
-     * 
+     *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @return the rounded value.
@@ -1101,7 +1101,7 @@ public final class MathUtils {
      * Round the given value to the specified number of decimal places. The
      * value is rounded using the given method which is any method defined in
      * {@link BigDecimal}.
-     * 
+     *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @param roundingMethod the rounding method as defined in
@@ -1119,7 +1119,7 @@ public final class MathUtils {
      * Round the given non-negative, value to the "nearest" integer. Nearest is
      * determined by the rounding method specified. Rounding methods are defined
      * in {@link BigDecimal}.
-     * 
+     *
      * @param unscaled the value to round.
      * @param sign the sign of the original, scaled value.
      * @param roundingMethod the rounding method as defined in
@@ -1215,7 +1215,7 @@ public final class MathUtils {
      * <p>
      * For a byte value x, this method returns (byte)(+1) if x > 0, (byte)(0) if
      * x = 0, and (byte)(-1) if x < 0.</p>
-     * 
+     *
      * @param x the value, a byte
      * @return (byte)(+1), (byte)(0), or (byte)(-1), depending on the sign of x
      */
@@ -1231,7 +1231,7 @@ public final class MathUtils {
      * <code>+1.0</code> if <code>x > 0</code>, <code>0.0</code> if
      * <code>x = 0.0</code>, and <code>-1.0</code> if <code>x < 0</code>.
      * Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.</p>
-     * 
+     *
      * @param x the value, a double
      * @return +1.0, 0.0, or -1.0, depending on the sign of x
      */
@@ -1249,7 +1249,7 @@ public final class MathUtils {
      * For a float value x, this method returns +1.0F if x > 0, 0.0F if x =
      * 0.0F, and -1.0F if x < 0. Returns <code>NaN</code> if <code>x</code>
      * is <code>NaN</code>.</p>
-     * 
+     *
      * @param x the value, a float
      * @return +1.0F, 0.0F, or -1.0F, depending on the sign of x
      */
@@ -1266,7 +1266,7 @@ public final class MathUtils {
      * <p>
      * For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1
      * if x < 0.</p>
-     * 
+     *
      * @param x the value, an int
      * @return +1, 0, or -1, depending on the sign of x
      */
@@ -1280,7 +1280,7 @@ public final class MathUtils {
      * <p>
      * For a long value x, this method returns +1L if x > 0, 0L if x = 0, and
      * -1L if x < 0.</p>
-     * 
+     *
      * @param x the value, a long
      * @return +1L, 0L, or -1L, depending on the sign of x
      */
@@ -1294,7 +1294,7 @@ public final class MathUtils {
      * <p>
      * For a short value x, this method returns (short)(+1) if x > 0, (short)(0)
      * if x = 0, and (short)(-1) if x < 0.</p>
-     * 
+     *
      * @param x the value, a short
      * @return (short)(+1), (short)(0), or (short)(-1), depending on the sign of
      *         x
@@ -1306,7 +1306,7 @@ public final class MathUtils {
     /**
      * Returns the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
      * hyperbolic sine</a> of x.
-     * 
+     *
      * @param x double value for which to find the hyperbolic sine
      * @return hyperbolic sine of x
      */
@@ -1316,7 +1316,7 @@ public final class MathUtils {
 
     /**
      * Subtract two integers, checking for overflow.
-     * 
+     *
      * @param x the minuend
      * @param y the subtrahend
      * @return the difference <code>x-y</code>
@@ -1334,7 +1334,7 @@ public final class MathUtils {
 
     /**
      * Subtract two long integers, checking for overflow.
-     * 
+     *
      * @param a first value
      * @param b second value
      * @return the difference <code>a-b</code>
@@ -1572,7 +1572,7 @@ public final class MathUtils {
         }
         return sum;
     }
-    
+
     /**
      * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
      *
@@ -1603,7 +1603,7 @@ public final class MathUtils {
         }
         return Math.sqrt(sum);
     }
-    
+
     /**
      * Calculates the L<sub>2</sub> (Euclidean) distance between two points.
      *
@@ -1619,7 +1619,7 @@ public final class MathUtils {
       }
       return Math.sqrt(sum);
     }
-    
+
     /**
      * Calculates the L<sub>&infin;</sub> (max of abs) distance between two points.
      *
@@ -1634,7 +1634,7 @@ public final class MathUtils {
         }
         return max;
     }
-    
+
     /**
      * Calculates the L<sub>&infin;</sub> (max of abs) distance between two points.
      *
@@ -1650,5 +1650,5 @@ public final class MathUtils {
         return max;
     }
 
-    
+
 }

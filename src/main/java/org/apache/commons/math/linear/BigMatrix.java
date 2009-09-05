@@ -39,7 +39,7 @@ public interface BigMatrix extends AnyMatrix {
      * @return matrix copy
      */
     BigMatrix copy();
-    
+
     /**
      * Compute the sum of this and m.
      *
@@ -48,7 +48,7 @@ public interface BigMatrix extends AnyMatrix {
      * @exception  IllegalArgumentException if m is not the same size as this
      */
     BigMatrix add(BigMatrix m) throws IllegalArgumentException;
-    
+
     /**
      * Compute this minus m.
      *
@@ -57,7 +57,7 @@ public interface BigMatrix extends AnyMatrix {
      * @exception  IllegalArgumentException if m is not the same size as this
      */
     BigMatrix subtract(BigMatrix m) throws IllegalArgumentException;
-    
+
      /**
      * Returns the result of adding d to each entry of this.
      *
@@ -65,7 +65,7 @@ public interface BigMatrix extends AnyMatrix {
      * @return     d + this
      */
     BigMatrix scalarAdd(BigDecimal d);
-    
+
     /**
      * Returns the result multiplying each entry of this by d.
      *
@@ -73,17 +73,17 @@ public interface BigMatrix extends AnyMatrix {
      * @return     d * this
      */
     BigMatrix scalarMultiply(BigDecimal d);
-    
+
     /**
      * Returns the result of postmultiplying this by m.
      *
      * @param m    matrix to postmultiply by
      * @return     this * m
-     * @throws     IllegalArgumentException 
+     * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
     BigMatrix multiply(BigMatrix m) throws IllegalArgumentException;
-    
+
     /**
      * Returns the result premultiplying this by <code>m</code>.
      * @param m    matrix to premultiply by
@@ -92,7 +92,7 @@ public interface BigMatrix extends AnyMatrix {
      *             if rowDimension(this) != columnDimension(m)
      */
     public BigMatrix preMultiply(BigMatrix m) throws IllegalArgumentException;
-    
+
     /**
      * Returns matrix entries as a two-dimensional array.
      *
@@ -120,7 +120,7 @@ public interface BigMatrix extends AnyMatrix {
      * @return norm
      */
     BigDecimal getNorm();
-    
+
     /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
@@ -135,7 +135,7 @@ public interface BigMatrix extends AnyMatrix {
      */
     BigMatrix getSubMatrix(int startRow, int endRow, int startColumn,
             int endColumn) throws MatrixIndexException;
-    
+
     /**
      * Gets a submatrix. Rows and columns are indicated
      * counting from 0 to n-1.
@@ -148,7 +148,7 @@ public interface BigMatrix extends AnyMatrix {
      */
     BigMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
     throws MatrixIndexException;
-    
+
     /**
      * Returns the entries in row number <code>row</code>
      * as a row matrix.  Row indices start at 0.
@@ -158,7 +158,7 @@ public interface BigMatrix extends AnyMatrix {
      * @throws MatrixIndexException if the specified row index is invalid
      */
     BigMatrix getRowMatrix(int row) throws MatrixIndexException;
-    
+
     /**
      * Returns the entries in column number <code>column</code>
      * as a column matrix.  Column indices start at 0.
@@ -168,7 +168,7 @@ public interface BigMatrix extends AnyMatrix {
      * @throws MatrixIndexException if the specified column index is invalid
      */
     BigMatrix getColumnMatrix(int column) throws MatrixIndexException;
-    
+
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
@@ -222,24 +222,24 @@ public interface BigMatrix extends AnyMatrix {
     /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
-     * @param row  row location of entry to be fetched  
+     * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
      * @throws MatrixIndexException if the row or column index is not valid
      */
     BigDecimal getEntry(int row, int column) throws MatrixIndexException;
-    
+
     /**
      * Returns the entry in the specified row and column as a double.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
@@ -259,25 +259,25 @@ public interface BigMatrix extends AnyMatrix {
      * @return transpose matrix
      */
     BigMatrix transpose();
-    
+
     /**
      * Returns the inverse of this matrix.
      *
      * @return inverse matrix
-     * @throws org.apache.commons.math.linear.InvalidMatrixException if 
+     * @throws org.apache.commons.math.linear.InvalidMatrixException if
      *     this is not invertible
      */
     BigMatrix inverse() throws InvalidMatrixException;
-    
+
     /**
      * Returns the determinant of this matrix.
      *
      * @return determinant
-      *@throws org.apache.commons.math.linear.InvalidMatrixException if 
+      *@throws org.apache.commons.math.linear.InvalidMatrixException if
       *    matrix is not square
      */
     BigDecimal getDeterminant() throws InvalidMatrixException;
-    
+
     /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
@@ -285,7 +285,7 @@ public interface BigMatrix extends AnyMatrix {
      * @return trace
      */
     BigDecimal getTrace();
-    
+
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.
      *
@@ -303,14 +303,14 @@ public interface BigMatrix extends AnyMatrix {
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
     BigDecimal[] preMultiply(BigDecimal[] v) throws IllegalArgumentException;
-    
+
     /**
      * Returns the solution vector for a linear system with coefficient
      * matrix = this and constant vector = <code>b</code>.
      *
      * @param b  constant vector
      * @return vector of solution values to AX = b, where A is *this
-     * @throws IllegalArgumentException if this.rowDimension != b.length 
+     * @throws IllegalArgumentException if this.rowDimension != b.length
      * @throws org.apache.commons.math.linear.InvalidMatrixException if this matrix is not square or is singular
      */
     BigDecimal[] solve(BigDecimal[] b) throws IllegalArgumentException, InvalidMatrixException;
@@ -318,7 +318,7 @@ public interface BigMatrix extends AnyMatrix {
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
      * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>. 
+     * <code>b</code>.
      *
      * @param b  matrix of constant vectors forming RHS of linear systems to
      * to solve

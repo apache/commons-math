@@ -45,7 +45,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         omega[5] = new double[]{0, 0, 0, 0, 0, 6.0};
         super.setUp();
     }
-   
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddXSampleData() {
         createRegression().newSampleData(new double[]{}, null, null);
@@ -55,7 +55,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void cannotAddNullYSampleData() {
         createRegression().newSampleData(null, new double[][]{}, null);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddSampleDataWithSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
@@ -63,12 +63,12 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         x[0] = new double[]{1.0, 0};
         createRegression().newSampleData(y, x, null);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddNullCovarianceData() {
         createRegression().newSampleData(new double[]{}, new double[][]{}, null);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void notEnoughData() {
         double[]   reducedY = new double[y.length - 1];
@@ -79,7 +79,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         System.arraycopy(omega, 0, reducedO, 0, reducedO.length);
         createRegression().newSampleData(reducedY, reducedX, reducedO);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddCovarianceDataWithSampleSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
@@ -120,5 +120,5 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     protected int getSampleSize() {
         return y.length;
     }
-        
+
 }

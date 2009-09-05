@@ -52,7 +52,7 @@ public class TestProblem1
     setErrorScale(errorScale);
     y = new double[y0.length];
   }
- 
+
   /**
    * Copy constructor.
    * @param problem problem to copy

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ public class ConvergenceExceptionTest extends TestCase {
         assertNotNull(ex.getMessage(Locale.FRENCH));
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
     public void testConstructorPatternArguments(){
         String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
@@ -47,7 +47,7 @@ public class ConvergenceExceptionTest extends TestCase {
         assertFalse(pattern.equals(ex.getMessage()));
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
@@ -70,5 +70,5 @@ public class ConvergenceExceptionTest extends TestCase {
         assertFalse(pattern.equals(ex.getMessage()));
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
 }

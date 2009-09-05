@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,59 +60,59 @@ public class BetaTest extends TestCase {
     public void testRegularizedBetaPositivePositiveNan() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, Double.NaN);
     }
-    
+
     public void testRegularizedBetaNegativePositivePositive() {
         testRegularizedBeta(Double.NaN, -0.5, 1.0, 2.0);
     }
-    
+
     public void testRegularizedBetaPositiveNegativePositive() {
         testRegularizedBeta(Double.NaN, 0.5, -1.0, 2.0);
     }
-    
+
     public void testRegularizedBetaPositivePositiveNegative() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, -2.0);
     }
-    
+
     public void testRegularizedBetaZeroPositivePositive() {
         testRegularizedBeta(0.0, 0.0, 1.0, 2.0);
     }
-    
+
     public void testRegularizedBetaPositiveZeroPositive() {
         testRegularizedBeta(Double.NaN, 0.5, 0.0, 2.0);
     }
-    
+
     public void testRegularizedBetaPositivePositiveZero() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, 0.0);
     }
-    
+
     public void testRegularizedBetaPositivePositivePositive() {
         testRegularizedBeta(0.75, 0.5, 1.0, 2.0);
     }
-    
+
     public void testLogBetaNanPositive() {
         testLogBeta(Double.NaN, Double.NaN, 2.0);
     }
-    
+
     public void testLogBetaPositiveNan() {
         testLogBeta(Double.NaN, 1.0, Double.NaN);
     }
-    
+
     public void testLogBetaNegativePositive() {
         testLogBeta(Double.NaN, -1.0, 2.0);
     }
-    
+
     public void testLogBetaPositiveNegative() {
         testLogBeta(Double.NaN, 1.0, -2.0);
     }
-    
+
     public void testLogBetaZeroPositive() {
         testLogBeta(Double.NaN, 0.0, 2.0);
     }
-    
+
     public void testLogBetaPositiveZero() {
         testLogBeta(Double.NaN, 1.0, 0.0);
     }
-    
+
     public void testLogBetaPositivePositive() {
         testLogBeta(-0.693147180559945, 1.0, 2.0);
     }

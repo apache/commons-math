@@ -30,7 +30,7 @@ public class UnboundedSolutionException extends OptimizationException {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 940539497277290619L;
 
-    /** 
+    /**
      * Simple constructor using a default message.
      */
     public UnboundedSolutionException() {

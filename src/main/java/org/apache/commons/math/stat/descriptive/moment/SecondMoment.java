@@ -35,18 +35,18 @@ import java.io.Serializable;
  * Returns <code>Double.NaN</code> if no data values have been added and
  * returns <code>0</code> if there is just one value in the data set.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class SecondMoment extends FirstMoment implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = 3942403127395076445L;  
-      
+    private static final long serialVersionUID = 3942403127395076445L;
+
     /** second moment of values that have been added */
     protected double m2;
 
@@ -57,18 +57,18 @@ public class SecondMoment extends FirstMoment implements Serializable {
         super();
         m2 = Double.NaN;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code SecondMoment} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code SecondMoment} instance to copy
      */
     public SecondMoment(SecondMoment original) {
         super(original);
         this.m2 = original.m2;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -97,7 +97,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     public double getResult() {
         return m2;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -105,13 +105,13 @@ public class SecondMoment extends FirstMoment implements Serializable {
     public SecondMoment copy() {
         SecondMoment result = new SecondMoment();
         copy(this, result);
-        return result; 
+        return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source SecondMoment to copy
      * @param dest SecondMoment to copy to
      * @throws NullPointerException if either source or dest is null

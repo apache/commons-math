@@ -39,7 +39,7 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * Loads model x and y sample data from a flat array of data, overriding any previous sample.
      * Assumes that rows are concatenated with y values first in each row.
-     * 
+     *
      * @param data input data array
      * @param nobs number of observations (rows)
      * @param nvars number of independent variables (columns, not counting y)
@@ -58,10 +58,10 @@ public abstract class AbstractMultipleLinearRegression implements
         this.X = new Array2DRowRealMatrix(x);
         this.Y = new ArrayRealVector(y);
     }
-    
+
     /**
      * Loads new y sample data, overriding any previous sample
-     * 
+     *
      * @param y the [n,1] array representing the y sample
      */
     protected void newYSampleData(double[] y) {
@@ -70,7 +70,7 @@ public abstract class AbstractMultipleLinearRegression implements
 
     /**
      * Loads new x sample data, overriding any previous sample
-     * 
+     *
      * @param x the [n,k] array representing the x sample
      */
     protected void newXSampleData(double[][] x) {
@@ -79,7 +79,7 @@ public abstract class AbstractMultipleLinearRegression implements
 
     /**
      * Validates sample data.
-     * 
+     *
      * @param x the [n,k] array representing the x sample
      * @param y the [n,1] array representing the y sample
      * @throws IllegalArgumentException if the x and y array data are not
@@ -100,7 +100,7 @@ public abstract class AbstractMultipleLinearRegression implements
 
     /**
      * Validates sample data.
-     * 
+     *
      * @param x the [n,k] array representing the x sample
      * @param covariance the [n,n] array representing the covariance matrix
      * @throws IllegalArgumentException if the x sample data or covariance
@@ -141,7 +141,7 @@ public abstract class AbstractMultipleLinearRegression implements
     public double[][] estimateRegressionParametersVariance() {
         return calculateBetaVariance().getData();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -165,7 +165,7 @@ public abstract class AbstractMultipleLinearRegression implements
 
     /**
      * Calculates the beta of multiple linear regression in matrix notation.
-     * 
+     *
      * @return beta
      */
     protected abstract RealVector calculateBeta();
@@ -173,14 +173,14 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * Calculates the beta variance of multiple linear regression in matrix
      * notation.
-     * 
+     *
      * @return beta variance
      */
     protected abstract RealMatrix calculateBetaVariance();
 
     /**
      * Calculates the Y variance of multiple linear regression.
-     * 
+     *
      * @return Y variance
      */
     protected abstract double calculateYVariance();
@@ -188,11 +188,11 @@ public abstract class AbstractMultipleLinearRegression implements
     /**
      * Calculates the residuals of multiple linear regression in matrix
      * notation.
-     * 
+     *
      * <pre>
      * u = y - X * b
      * </pre>
-     * 
+     *
      * @return The residuals [n,1] matrix
      */
     protected RealVector calculateResiduals() {

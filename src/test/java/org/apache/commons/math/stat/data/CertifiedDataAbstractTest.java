@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,11 +36,11 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  * @version $Revision$ $Date$
  */
 public abstract class CertifiedDataAbstractTest extends TestCase {
-    
+
     private DescriptiveStatistics descriptives;
-    
+
     private SummaryStatistics summaries;
-    
+
     private Map<String, Double> certifiedValues;
 
     @Override
@@ -48,7 +48,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
         certifiedValues = new HashMap<String, Double>();
-        
+
         loadData();
     }
 
@@ -58,12 +58,12 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         try {
             URL resourceURL = getClass().getClassLoader().getResource(getResourceName());
             in = new BufferedReader(new InputStreamReader(resourceURL.openStream()));
-            
+
             String line = in.readLine();
             while (line != null) {
-                
-                /* this call to StringUtils did little for the 
-                 * following conditional structure 
+
+                /* this call to StringUtils did little for the
+                 * following conditional structure
                  */
                 line = line.trim();
 
@@ -102,14 +102,14 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
     protected void tearDown() throws Exception {
         descriptives.clear();
         descriptives = null;
-        
+
         summaries.clear();
         summaries = null;
-        
+
         certifiedValues.clear();
         certifiedValues = null;
     }
-    
+
     public void testCertifiedValues() {
         for (String name : certifiedValues.keySet()) {
             Double expectedValue = certifiedValues.get(name);
@@ -129,12 +129,12 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
             }
         }
     }
-    
-    
+
+
     protected Double getProperty(Object bean, String name) {
         try {
             // Get the value of prop
-            String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1); 
+            String prop = "get" + name.substring(0,1).toUpperCase() + name.substring(1);
             Method meth = bean.getClass().getMethod(prop, new Class[0]);
             Object property = meth.invoke(bean, new Object[0]);
             if (meth.getReturnType().equals(Double.TYPE)) {

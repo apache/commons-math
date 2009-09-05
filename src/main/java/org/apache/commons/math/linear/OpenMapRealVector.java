@@ -1233,7 +1233,7 @@ public class OpenMapRealVector implements SparseRealVector, Serializable {
         return getData();
     }
 
-    /** {@inheritDoc} 
+    /** {@inheritDoc}
      * <p> Implementation Note: This works on exact values, and as a result
      * it is possible for {@code a.subtract(b)} to be the zero vector, while
      * {@code a.hashCode() != b.hashCode()}.</p>
@@ -1255,9 +1255,9 @@ public class OpenMapRealVector implements SparseRealVector, Serializable {
         return result;
     }
 
-    /**  
+    /**
      * <p> Implementation Note: This performs an exact comparison, and as a result
-     * it is possible for {@code a.subtract(b}} to be the zero vector, while 
+     * it is possible for {@code a.subtract(b}} to be the zero vector, while
      * {@code  a.equals(b) == false}.</p>
      * {@inheritDoc}
      */
@@ -1300,7 +1300,7 @@ public class OpenMapRealVector implements SparseRealVector, Serializable {
     }
 
     /**
-     * 
+     *
      * @return the percentage of none zero elements as a decimal percent.
      */
     public double getSparcity() {

@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
  * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
- * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files. 
+ * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files.
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
@@ -515,7 +515,7 @@ public class LevenbergMarquardtEstimatorTest
       double[] errors = estimator.guessParametersErrors(circle);
       assertEquals(1.384, errors[0], 0.001);
       assertEquals(0.905, errors[1], 0.001);
-  
+
       // add perfect measurements and check errors are reduced
       double cx = circle.getX();
       double cy = circle.getY();
@@ -622,7 +622,7 @@ public class LevenbergMarquardtEstimatorTest
       }
       return set.toArray(new EstimatedParameter[set.size()]);
     }
-  
+
     private LinearMeasurement[] measurements;
 
   }

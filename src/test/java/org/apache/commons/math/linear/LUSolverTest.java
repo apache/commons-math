@@ -39,7 +39,7 @@ public class LUSolverTest extends TestCase {
             { 0.0, 5.0, 7.0 },
             { 6.0, 9.0, 8.0 }
     };
-    
+
     // singular matrices
     private double[][] singular = {
             { 2.0, 3.0 },

@@ -28,27 +28,27 @@ public class ChromosomeTest {
     @Test
     public void testCompareTo() {
         Chromosome c1 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 0;
             }
         };
         Chromosome c2 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 10;
             }
         };
         Chromosome c3 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 10;
             }
         };
-        
+
         assertTrue(c1.compareTo(c2) < 0);
         assertTrue(c2.compareTo(c1) > 0);
         assertEquals(0,c3.compareTo(c2));
         assertEquals(0,c2.compareTo(c3));
     }
-    
+
     private abstract static class DummyChromosome extends Chromosome {
         private final int repr;
 
@@ -60,7 +60,7 @@ public class ChromosomeTest {
             return ((DummyChromosome) another).repr == repr;
         }
     }
-    
+
     @Test
     public void testFindSameChromosome() {
         Chromosome c1 = new DummyChromosome(1) {
@@ -88,7 +88,7 @@ public class ChromosomeTest {
                 return 15;
             }
         };
-        
+
         List<Chromosome> popChr = new ArrayList<Chromosome>();
         popChr.add(c1);
         popChr.add(c2);
@@ -99,10 +99,10 @@ public class ChromosomeTest {
                 return null;
             }
         };
-        
+
         assertNull(c5.findSameChromosome(pop));
         assertEquals(c1, c4.findSameChromosome(pop));
-        
+
         c4.searchForFitnessUpdate(pop);
         assertEquals(1, c4.getFitness(),0);
     }

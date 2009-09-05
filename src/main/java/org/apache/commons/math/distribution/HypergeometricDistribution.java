@@ -36,31 +36,31 @@ public interface HypergeometricDistribution extends IntegerDistribution {
      * @return the number of successes.
      */
     public abstract int getNumberOfSuccesses();
-    
+
     /**
      * Access the population size.
      * @return the population size.
      */
     public abstract int getPopulationSize();
-    
+
     /**
      * Access the sample size.
      * @return the sample size.
      */
     public abstract int getSampleSize();
-    
+
     /**
      * Modify the number of successes.
      * @param num the new number of successes.
      */
     public abstract void setNumberOfSuccesses(int num);
-    
+
     /**
      * Modify the population size.
      * @param size the new population size.
      */
     public abstract void setPopulationSize(int size);
-    
+
     /**
      * Modify the sample size.
      * @param size the new sample size.

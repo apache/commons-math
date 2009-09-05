@@ -27,89 +27,89 @@ import org.apache.commons.math.stat.ranking.RankingAlgorithm;
  * <p>Spearman's rank correlation. This implementation performs a rank
  * transformation on the input data and then computes {@link PearsonsCorrelation}
  * on the ranked data.</p>
- * 
+ *
  * <p>By default, ranks are computed using {@link NaturalRanking} with default
  * strategies for handling NaNs and ties in the data (NaNs maximal, ties averaged).
  * The ranking algorithm can be set using a constructor argument.</p>
- * 
+ *
  * @since 2.0
  * @version $Revision$ $Date$
  */
 
-public class SpearmansCorrelation {   
-   
+public class SpearmansCorrelation {
+
     /** Input data */
     private final RealMatrix data;
-    
+
     /** Ranking algorithm  */
     private final RankingAlgorithm rankingAlgorithm;
-    
+
     /** Rank correlation */
     private final PearsonsCorrelation rankCorrelation;
-    
+
     /**
      * Create a SpearmansCorrelation with the given input data matrix
      * and ranking algorithm.
-     * 
+     *
      * @param dataMatrix matrix of data with columns representing
      * variables to correlate
      * @param rankingAlgorithm ranking algorithm
-     */    
+     */
     public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm) {
-        this.data = dataMatrix.copy(); 
+        this.data = dataMatrix.copy();
         this.rankingAlgorithm = rankingAlgorithm;
         rankTransform(data);
         rankCorrelation = new PearsonsCorrelation(data);
     }
-    
+
     /**
      * Create a SpearmansCorrelation from the given data matrix.
-     * 
+     *
      * @param dataMatrix matrix of data with columns representing
      * variables to correlate
      */
     public SpearmansCorrelation(final RealMatrix dataMatrix) {
         this(dataMatrix, new NaturalRanking());
     }
-    
+
     /**
      * Create a SpearmansCorrelation without data.
      */
     public SpearmansCorrelation() {
-        data = null; 
+        data = null;
         this.rankingAlgorithm = new NaturalRanking();
         rankCorrelation = null;
     }
-    
+
     /**
-     * Calculate the Spearman Rank Correlation Matrix. 
-     * 
+     * Calculate the Spearman Rank Correlation Matrix.
+     *
      * @return Spearman Rank Correlation Matrix
      */
     public RealMatrix getCorrelationMatrix() {
         return rankCorrelation.getCorrelationMatrix();
     }
-    
+
     /**
      * Returns a {@link PearsonsCorrelation} instance constructed from the
      * ranked input data. That is,
      * <code>new SpearmansCorrelation(matrix).getRankCorrelation()</code>
-     * is equivalent to 
+     * is equivalent to
      * <code>new PearsonsCorrelation(rankTransform(matrix))</code> where
      * <code>rankTransform(matrix)</code> is the result of applying the
      * configured <code>RankingAlgorithm</code> to each of the columns of
      * <code>matrix.</code>
-     * 
+     *
      * @return PearsonsCorrelation among ranked column data
      */
     public PearsonsCorrelation getRankCorrelation() {
         return rankCorrelation;
     }
-    
+
     /**
      * Computes the Spearman's rank correlation matrix for the columns of the
      * input matrix.
-     * 
+     *
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
@@ -118,28 +118,28 @@ public class SpearmansCorrelation {
         rankTransform(matrixCopy);
         return new PearsonsCorrelation().computeCorrelationMatrix(matrixCopy);
     }
-    
+
     /**
      * Computes the Spearman's rank correlation matrix for the columns of the
      * input rectangular array.  The columns of the array represent values
      * of variables to be correlated.
-     * 
+     *
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
     public RealMatrix computeCorrelationMatrix(double[][] matrix) {
        return computeCorrelationMatrix(new BlockRealMatrix(matrix));
     }
-    
+
     /**
      * Computes the Spearman's rank correlation coefficient between the two arrays.
-     * 
+     *
      * </p>Throws IllegalArgumentException if the arrays do not have the same length
      * or their common length is less than 2</p>
      *
      * @param xArray first data array
      * @param yArray second data array
-     * @return Returns Spearman's rank correlation coefficient for the two arrays 
+     * @return Returns Spearman's rank correlation coefficient for the two arrays
      * @throws  IllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
@@ -155,11 +155,11 @@ public class SpearmansCorrelation {
                     xArray.length, yArray.length);
         }
     }
-    
+
     /**
      * Applies rank transform to each of the columns of <code>matrix</code>
      * using the current <code>rankingAlgorithm</code>
-     * 
+     *
      * @param matrix matrix to transform
      */
     private void rankTransform(RealMatrix matrix) {

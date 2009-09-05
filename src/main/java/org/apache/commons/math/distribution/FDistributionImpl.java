@@ -40,7 +40,7 @@ public class FDistributionImpl
 
     /** The numerator degrees of freedom*/
     private double denominatorDegreesOfFreedom;
-    
+
     /**
      * Create a F distribution using the given degrees of freedom.
      * @param numeratorDegreesOfFreedom the numerator degrees of freedom.
@@ -52,19 +52,19 @@ public class FDistributionImpl
         setNumeratorDegreesOfFreedom(numeratorDegreesOfFreedom);
         setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
     }
-    
+
     /**
      * For this distribution, X, this method returns P(X &lt; x).
-     * 
+     *
      * The implementation of this method is based on:
      * <ul>
      * <li>
      * <a href="http://mathworld.wolfram.com/F-Distribution.html">
      * F-Distribution</a>, equation (4).</li>
      * </ul>
-     * 
+     *
      * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * @return CDF for this distribution.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
@@ -75,14 +75,14 @@ public class FDistributionImpl
         } else {
             double n = getNumeratorDegreesOfFreedom();
             double m = getDenominatorDegreesOfFreedom();
-            
+
             ret = Beta.regularizedBeta((n * x) / (m + n * x),
                 0.5 * n,
                 0.5 * m);
         }
         return ret;
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
@@ -97,7 +97,7 @@ public class FDistributionImpl
      *         probability.
      */
     @Override
-    public double inverseCumulativeProbability(final double p) 
+    public double inverseCumulativeProbability(final double p)
         throws MathException {
         if (p == 0) {
             return 0d;
@@ -107,15 +107,15 @@ public class FDistributionImpl
         }
         return super.inverseCumulativeProbability(p);
     }
-        
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -126,10 +126,10 @@ public class FDistributionImpl
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -140,7 +140,7 @@ public class FDistributionImpl
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -154,7 +154,7 @@ public class FDistributionImpl
         }
         return ret;
     }
-    
+
     /**
      * Modify the numerator degrees of freedom.
      * @param degreesOfFreedom the new numerator degrees of freedom.
@@ -169,7 +169,7 @@ public class FDistributionImpl
         }
         this.numeratorDegreesOfFreedom = degreesOfFreedom;
     }
-    
+
     /**
      * Access the numerator degrees of freedom.
      * @return the numerator degrees of freedom.
@@ -177,7 +177,7 @@ public class FDistributionImpl
     public double getNumeratorDegreesOfFreedom() {
         return numeratorDegreesOfFreedom;
     }
-    
+
     /**
      * Modify the denominator degrees of freedom.
      * @param degreesOfFreedom the new denominator degrees of freedom.
@@ -192,7 +192,7 @@ public class FDistributionImpl
         }
         this.denominatorDegreesOfFreedom = degreesOfFreedom;
     }
-    
+
     /**
      * Access the denominator degrees of freedom.
      * @return the denominator degrees of freedom.

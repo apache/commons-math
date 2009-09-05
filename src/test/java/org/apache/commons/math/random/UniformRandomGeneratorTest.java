@@ -39,8 +39,8 @@ extends TestCase {
         assertEquals(0.0, StatUtils.mean(sample), 0.07);
         assertEquals(1.0, StatUtils.variance(sample), 0.02);
     }
-    
-    
+
+
     public static Test suite() {
         return new TestSuite(UniformRandomGeneratorTest.class);
     }

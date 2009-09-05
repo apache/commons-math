@@ -34,7 +34,7 @@ public class TDistributionImpl
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -5852615386664158222L;
-    
+
     /** The degrees of freedom*/
     private double degreesOfFreedom;
 
@@ -71,7 +71,7 @@ public class TDistributionImpl
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>. 
+     * @return CDF evaluted at <code>x</code>.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
@@ -94,12 +94,12 @@ public class TDistributionImpl
 
         return ret;
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      * <p>
-     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
+     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and
      * <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
      *
      * @param p the desired probability
@@ -110,7 +110,7 @@ public class TDistributionImpl
      *         probability.
      */
     @Override
-    public double inverseCumulativeProbability(final double p) 
+    public double inverseCumulativeProbability(final double p)
     throws MathException {
         if (p == 0) {
             return Double.NEGATIVE_INFINITY;
@@ -125,10 +125,10 @@ public class TDistributionImpl
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -139,10 +139,10 @@ public class TDistributionImpl
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -153,7 +153,7 @@ public class TDistributionImpl
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */

@@ -200,7 +200,7 @@ public class ContinuousOutputModel
   public double getInitialTime() {
     return initialTime;
   }
-    
+
   /**
    * Get the final integration time.
    * @return final integration time
@@ -218,7 +218,7 @@ public class ContinuousOutputModel
   public double getInterpolatedTime() {
     return steps.get(index).getInterpolatedTime();
   }
-    
+
   /** Set the time of the interpolated point.
    * <p>This method should <strong>not</strong> be called before the
    * integration is over because some internal variables are set only
@@ -329,7 +329,7 @@ public class ContinuousOutputModel
     return steps.get(index).getInterpolatedState();
   }
 
-  /** Compare a step interval and a double. 
+  /** Compare a step interval and a double.
    * @param time point to locate
    * @param interval step interval
    * @return -1 if the double is before the interval, 0 if it is in

@@ -51,35 +51,35 @@ public abstract class UnivariateRealSolverFactory {
     public static UnivariateRealSolverFactory newInstance() {
         return new UnivariateRealSolverFactoryImpl();
     }
-    
+
     /**
      * Create a new {@link UnivariateRealSolver}.  The
      * actual solver returned is determined by the underlying factory.
      * @return the new solver.
      */
     public abstract UnivariateRealSolver newDefaultSolver();
-    
+
     /**
      * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the bisection method.
      * @return the new solver.
      */
     public abstract UnivariateRealSolver newBisectionSolver();
-    
+
     /**
      * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the Brent method.
      * @return the new solver.
      */
     public abstract UnivariateRealSolver newBrentSolver();
-    
+
     /**
      * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of Newton's Method.
      * @return the new solver.
      */
     public abstract UnivariateRealSolver newNewtonSolver();
-    
+
     /**
      * Create a new {@link UnivariateRealSolver}.  The
      * solver is an implementation of the secant method.

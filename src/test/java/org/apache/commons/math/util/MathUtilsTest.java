@@ -311,7 +311,7 @@ public final class MathUtilsTest extends TestCase {
       assertTrue(MathUtils.compareTo(152.308, 152.32, .011) < 0);
       assertTrue(MathUtils.compareTo(152.33, 152.318, .011) > 0);
     }
-    
+
     public void testCosh() {
         double x = 3.0;
         double expected = 10.06766;
@@ -361,7 +361,7 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(153, 153.00000000000006, 1));
         assertTrue(MathUtils.equals(153, 152.99999999999997, 1));
         assertFalse(MathUtils.equals(153, 152.99999999999994, 1));
-        
+
         assertTrue(MathUtils.equals(-128, -127.99999999999999, 1));
         assertFalse(MathUtils.equals(-128, -127.99999999999997, 1));
         assertTrue(MathUtils.equals(-128, -128.00000000000003, 1));
@@ -378,7 +378,7 @@ public final class MathUtilsTest extends TestCase {
 
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
-    
+
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));
         assertFalse(MathUtils.equals(null, new double[] { 1d }));
@@ -406,7 +406,7 @@ public final class MathUtilsTest extends TestCase {
             assertEquals(i + "! ", factorial(i), MathUtils.factorialDouble(i), Double.MIN_VALUE);
             assertEquals(i + "! ", Math.log(factorial(i)), MathUtils.factorialLog(i), 10E-12);
         }
-        
+
         assertEquals("0", 1, MathUtils.factorial(0));
         assertEquals("0", 1.0d, MathUtils.factorialDouble(0), 1E-14);
         assertEquals("0", 0.0d, MathUtils.factorialLog(0), 1E-14);
@@ -529,7 +529,7 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.hash(new double[] { 1d }) ==
                     MathUtils.hash(new double[] { 1d, 1d }));
     }
-    
+
     /**
      * Make sure that permuted arrays do not hash to the same value.
      */
@@ -537,12 +537,12 @@ public final class MathUtilsTest extends TestCase {
         double[] original = new double[10];
         double[] permuted = new double[10];
         RandomDataImpl random = new RandomDataImpl();
-        
+
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
             original[i] = random.nextUniform(i + 0.5, i + 0.75);
         }
-        
+
         // Generate a random permutation, making sure it is not the identity
         boolean isIdentity = true;
         do {
@@ -554,7 +554,7 @@ public final class MathUtilsTest extends TestCase {
                 permuted[i] = original[permutation[i]];
             }
         } while (isIdentity);
-        
+
         // Verify that permuted array has different hash
         assertFalse(MathUtils.hash(original) == MathUtils.hash(permuted));
     }
@@ -627,7 +627,7 @@ public final class MathUtilsTest extends TestCase {
         } catch (ArithmeticException ex) {
             // expected
         }
-        
+
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Integer.MIN_VALUE, 1<<20);
@@ -796,53 +796,53 @@ public final class MathUtilsTest extends TestCase {
             }
         }
     }
-    
+
     public void testNormalizeArray() {
         double[] testValues1 = new double[] {1, 1, 2};
         TestUtils.assertEquals(
                 new double[] {.25, .25, .5},
                 MathUtils.normalizeArray(testValues1, 1),
                 Double.MIN_VALUE);
-     
+
         double[] testValues2 = new double[] {-1, -1, 1};
         TestUtils.assertEquals(
                 new double[] {1, 1, -1},
                 MathUtils.normalizeArray(testValues2, 1),
                 Double.MIN_VALUE);
-        
+
         // Ignore NaNs
         double[] testValues3 = new double[] {-1, -1, Double.NaN, 1, Double.NaN};
         TestUtils.assertEquals(
                 new double[] {1, 1,Double.NaN, -1, Double.NaN},
                 MathUtils.normalizeArray(testValues3, 1),
                 Double.MIN_VALUE);
-        
+
         // Zero sum -> ArithmeticException
         double[] zeroSum = new double[] {-1, 1};
         try {
             MathUtils.normalizeArray(zeroSum, 1);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         // Infinite elements -> ArithmeticException
         double[] hasInf = new double[] {1, 2, 1, Double.NEGATIVE_INFINITY};
         try {
             MathUtils.normalizeArray(hasInf, 1);
             fail("expecting ArithmeticException");
         } catch (ArithmeticException ex) {}
-        
+
         // Infinite target -> IllegalArgumentException
         try {
             MathUtils.normalizeArray(testValues1, Double.POSITIVE_INFINITY);
             fail("expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {}
-        
+
         // NaN target -> IllegalArgumentException
         try {
             MathUtils.normalizeArray(testValues1, Double.NaN);
             fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}  
-        
+        } catch (IllegalArgumentException ex) {}
+
     }
 
     public void testRoundDouble() {
@@ -1225,7 +1225,7 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(bigOne, MathUtils.pow(twentyOne, 103));
         assertEquals(bigOne, MathUtils.pow(twentyOne, 103l));
         assertEquals(bigOne, MathUtils.pow(twentyOne, BigInteger.valueOf(103l)));
-        
+
     }
 
     public void testL1DistanceDouble() {

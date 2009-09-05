@@ -35,22 +35,22 @@ import org.apache.commons.math.util.CompositeFormat;
  * @version $Revision$ $Date$
  */
 public class ComplexFormat extends CompositeFormat {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -3343698360149467646L;
 
      /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
-    
+
     /** The notation used to signify the imaginary part of the complex number. */
     private String imaginaryCharacter;
-    
+
     /** The format used for the imaginary part. */
     private NumberFormat imaginaryFormat;
 
     /** The format used for the real part. */
     private NumberFormat realFormat;
-    
+
     /**
      * Create an instance with the default imaginary character, 'i', and the
      * default number format for both real and imaginary parts.
@@ -67,7 +67,7 @@ public class ComplexFormat extends CompositeFormat {
     public ComplexFormat(NumberFormat format) {
         this(DEFAULT_IMAGINARY_CHARACTER, format);
     }
-    
+
     /**
      * Create an instance with a custom number format for the real part and a
      * custom number format for the imaginary part.
@@ -77,7 +77,7 @@ public class ComplexFormat extends CompositeFormat {
     public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat) {
         this(DEFAULT_IMAGINARY_CHARACTER, realFormat, imaginaryFormat);
     }
-    
+
     /**
      * Create an instance with a custom imaginary character, and the default
      * number format for both real and imaginary parts.
@@ -86,7 +86,7 @@ public class ComplexFormat extends CompositeFormat {
     public ComplexFormat(String imaginaryCharacter) {
         this(imaginaryCharacter, getDefaultNumberFormat());
     }
-    
+
     /**
      * Create an instance with a custom imaginary character, and a custom number
      * format for both real and imaginary parts.
@@ -96,7 +96,7 @@ public class ComplexFormat extends CompositeFormat {
     public ComplexFormat(String imaginaryCharacter, NumberFormat format) {
         this(imaginaryCharacter, format, (NumberFormat)format.clone());
     }
-    
+
     /**
      * Create an instance with a custom imaginary character, a custom number
      * format for the real part, and a custom number format for the imaginary
@@ -115,7 +115,7 @@ public class ComplexFormat extends CompositeFormat {
 
     /**
      * Get the set of locales for which complex formats are available.
-     * <p>This is the same set as the {@link NumberFormat} set.</p> 
+     * <p>This is the same set as the {@link NumberFormat} set.</p>
      * @return available complex format locales.
      */
     public static Locale[] getAvailableLocales() {
@@ -132,7 +132,7 @@ public class ComplexFormat extends CompositeFormat {
     public static String formatComplex(Complex c) {
         return getInstance().format(c);
     }
-    
+
     /**
      * Formats a {@link Complex} object to produce a string.
      *
@@ -144,14 +144,14 @@ public class ComplexFormat extends CompositeFormat {
      */
     public StringBuffer format(Complex complex, StringBuffer toAppendTo,
             FieldPosition pos) {
-        
+
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
         // format real
         double re = complex.getReal();
         formatDouble(re, getRealFormat(), toAppendTo, pos);
-        
+
         // format sign and imaginary
         double im = complex.getImaginary();
         if (im < 0.0) {
@@ -163,12 +163,12 @@ public class ComplexFormat extends CompositeFormat {
             formatDouble(im, getImaginaryFormat(), toAppendTo, pos);
             toAppendTo.append(getImaginaryCharacter());
         }
-        
+
         return toAppendTo;
     }
-    
+
     /**
-     * Formats a object to produce a string.  <code>obj</code> must be either a 
+     * Formats a object to produce a string.  <code>obj</code> must be either a
      * {@link Complex} object or a {@link Number} object.  Any other type of
      * object will result in an {@link IllegalArgumentException} being thrown.
      *
@@ -183,20 +183,20 @@ public class ComplexFormat extends CompositeFormat {
     @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
             FieldPosition pos) {
-        
+
         StringBuffer ret = null;
-        
+
         if (obj instanceof Complex) {
             ret = format( (Complex)obj, toAppendTo, pos);
         } else if (obj instanceof Number) {
             ret = format( new Complex(((Number)obj).doubleValue(), 0.0),
                 toAppendTo, pos);
-        } else { 
+        } else {
             throw MathRuntimeException.createIllegalArgumentException(
                   "cannot format a {0} instance as a complex number",
                   obj.getClass().getName());
         }
-        
+
         return ret;
     }
 
@@ -207,7 +207,7 @@ public class ComplexFormat extends CompositeFormat {
     public String getImaginaryCharacter() {
         return imaginaryCharacter;
     }
-    
+
     /**
      * Access the imaginaryFormat.
      * @return the imaginaryFormat.
@@ -215,7 +215,7 @@ public class ComplexFormat extends CompositeFormat {
     public NumberFormat getImaginaryFormat() {
         return imaginaryFormat;
     }
-    
+
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
@@ -223,7 +223,7 @@ public class ComplexFormat extends CompositeFormat {
     public static ComplexFormat getInstance() {
         return getInstance(Locale.getDefault());
     }
-    
+
     /**
      * Returns the default complex format for the given locale.
      * @param locale the specific locale used by the format.
@@ -233,7 +233,7 @@ public class ComplexFormat extends CompositeFormat {
         NumberFormat f = getDefaultNumberFormat(locale);
         return new ComplexFormat(f);
     }
-    
+
     /**
      * Access the realFormat.
      * @return the realFormat.
@@ -260,7 +260,7 @@ public class ComplexFormat extends CompositeFormat {
         }
         return result;
     }
-    
+
     /**
      * Parses a string to produce a {@link Complex} object.
      *
@@ -327,7 +327,7 @@ public class ComplexFormat extends CompositeFormat {
         return new Complex(re.doubleValue(), im.doubleValue() * sign);
 
     }
-     
+
     /**
      * Parses a string to produce a object.
      *
@@ -354,7 +354,7 @@ public class ComplexFormat extends CompositeFormat {
         }
         this.imaginaryCharacter = imaginaryCharacter;
     }
-    
+
     /**
      * Modify the imaginaryFormat.
      * @param imaginaryFormat The new imaginaryFormat value.
@@ -368,7 +368,7 @@ public class ComplexFormat extends CompositeFormat {
         }
         this.imaginaryFormat = imaginaryFormat;
     }
-    
+
     /**
      * Modify the realFormat.
      * @param realFormat The new realFormat value.

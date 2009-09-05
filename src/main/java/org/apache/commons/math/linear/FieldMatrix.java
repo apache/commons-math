@@ -26,7 +26,7 @@ import org.apache.commons.math.FieldElement;
  * <p>
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</p>
- * 
+ *
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  */
@@ -131,7 +131,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
    FieldMatrix<T> getSubMatrix(int startRow, int endRow, int startColumn, int endColumn)
        throws MatrixIndexException;
-   
+
    /**
     * Gets a submatrix. Rows and columns are indicated
     * counting from 0 to n-1.
@@ -161,7 +161,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
   void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
                      T[][] destination)
       throws MatrixIndexException, IllegalArgumentException;
-  
+
   /**
    * Copy a submatrix. Rows and columns are indicated
    * counting from 0 to n-1.
@@ -175,35 +175,35 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
    */
   void copySubMatrix(int[] selectedRows, int[] selectedColumns, T[][] destination)
       throws MatrixIndexException, IllegalArgumentException;
- 
+
    /**
     * Replace the submatrix starting at <code>row, column</code> using data in
     * the input <code>subMatrix</code> array. Indexes are 0-based.
-    * <p> 
+    * <p>
     * Example:<br>
     * Starting with <pre>
     * 1  2  3  4
     * 5  6  7  8
     * 9  0  1  2
     * </pre>
-    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking 
+    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking
     * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
     * 1  2  3  4
     * 5  3  4  8
     * 9  5  6  2
     * </pre></p>
-    * 
+    *
     * @param subMatrix  array containing the submatrix replacement data
     * @param row  row coordinate of the top, left element to be replaced
     * @param column  column coordinate of the top, left element to be replaced
-    * @throws MatrixIndexException  if subMatrix does not fit into this 
-    *    matrix from element in (row, column) 
+    * @throws MatrixIndexException  if subMatrix does not fit into this
+    *    matrix from element in (row, column)
     * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
     *  (not all rows have the same length) or empty
     * @throws NullPointerException if <code>subMatrix</code> is null
     * @since 2.0
     */
-   void setSubMatrix(T[][] subMatrix, int row, int column) 
+   void setSubMatrix(T[][] subMatrix, int row, int column)
        throws MatrixIndexException;
 
    /**
@@ -215,7 +215,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * @throws MatrixIndexException if the specified row index is invalid
     */
    FieldMatrix<T> getRowMatrix(int row) throws MatrixIndexException;
-   
+
    /**
     * Sets the entries in row number <code>row</code>
     * as a row matrix.  Row indices start at 0.
@@ -229,7 +229,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     */
    void setRowMatrix(int row, FieldMatrix<T> matrix)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in column number <code>column</code>
     * as a column matrix.  Column indices start at 0.
@@ -253,7 +253,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     */
    void setColumnMatrix(int column, FieldMatrix<T> matrix)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in row number <code>row</code>
     * as a vector.  Row indices start at 0.
@@ -277,7 +277,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     */
    void setRowVector(int row, FieldVector<T> vector)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
    /**
     * Returns the entries in column number <code>column</code>
     * as a vector.  Column indices start at 0.
@@ -300,7 +300,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     */
    void setColumnVector(int column, FieldVector<T> vector)
        throws MatrixIndexException, InvalidMatrixException;
-   
+
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
@@ -325,7 +325,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     void setRow(int row, T[] array)
         throws MatrixIndexException, InvalidMatrixException;
-    
+
     /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
@@ -350,17 +350,17 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     void setColumn(int column, T[] array)
         throws MatrixIndexException, InvalidMatrixException;
-    
+
     /**
      * Returns the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be fetched
      * @param column  column location of entry to be fetched
      * @return matrix entry in row,column
@@ -371,13 +371,13 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     /**
      * Set the entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param value matrix entry to be set in row,column
@@ -389,13 +389,13 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     /**
      * Change an entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param increment value to add to the current matrix entry in row,column
@@ -407,13 +407,13 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     /**
      * Change an entry in the specified row and column.
      * <p>
-     * Row and column indices start at 0 and must satisfy 
+     * Row and column indices start at 0 and must satisfy
      * <ul>
      * <li><code>0 <= row < rowDimension</code></li>
      * <li><code> 0 <= column < columnDimension</code></li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
-     * 
+     *
      * @param row  row location of entry to be set
      * @param column  column location of entry to be set
      * @param factor multiplication factor for the current matrix entry in row,column

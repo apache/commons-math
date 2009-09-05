@@ -53,8 +53,8 @@ import java.io.Serializable;
  *   <li>Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.</li>
- *   <li>The names of its contributors may not be used to endorse or promote 
- *       products derived from this software without specific prior written 
+ *   <li>The names of its contributors may not be used to endorse or promote
+ *       products derived from this software without specific prior written
  *       permission.</li>
  * </ol></td></tr>
 
@@ -143,7 +143,7 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         for (mti = 1; mti < N; ++mti) {
             // See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier.
             // initializer from the 2002-01-09 C version by Makoto Matsumoto
-            longMT = (1812433253l * (longMT ^ (longMT >> 30)) + mti) & 0xffffffffL; 
+            longMT = (1812433253l * (longMT ^ (longMT >> 30)) + mti) & 0xffffffffL;
             mt[mti]= (int) longMT;
         }
     }

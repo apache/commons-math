@@ -97,7 +97,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             data = d.clone();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw MathRuntimeException.createIllegalArgumentException(
-                      "vector must have at least one element"); 
+                      "vector must have at least one element");
         }
     }
 
@@ -672,7 +672,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
 
     /**
      * Set a set of consecutive elements.
-     * 
+     *
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
      * @exception MatrixIndexException if the index is
@@ -706,7 +706,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
 
     /**
      * Check if instance dimension is equal to some expected value.
-     * 
+     *
      * @param n expected dimension.
      * @exception IllegalArgumentException if the dimension is
      * inconsistent with vector size
@@ -737,13 +737,13 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @return true if two 3D vector objects are equal, false if
      *         object is null, not an instance of Vector3D, or
      *         not equal to this Vector3D instance
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object other) {
 
-      if (this == other) { 
+      if (this == other) {
         return true;
       }
 
@@ -771,7 +771,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
       }
 
     }
-    
+
     /**
      * Get a hashCode for the real vector.
      * <p>All NaN values have the same hash code.</p>

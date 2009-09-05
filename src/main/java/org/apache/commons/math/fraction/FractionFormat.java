@@ -35,13 +35,13 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  */
 public class FractionFormat extends AbstractFormat {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 3008655719530972611L;
 
     /**
      * Create an improper formatting instance with the default number format
-     * for the numerator and denominator.  
+     * for the numerator and denominator.
      */
     public FractionFormat() {
     }
@@ -68,7 +68,7 @@ public class FractionFormat extends AbstractFormat {
 
     /**
      * Get the set of locales for which complex formats are available.  This
-     * is the same set as the {@link NumberFormat} set. 
+     * is the same set as the {@link NumberFormat} set.
      * @return available complex format locales.
      */
     public static Locale[] getAvailableLocales() {
@@ -85,7 +85,7 @@ public class FractionFormat extends AbstractFormat {
     public static String formatFraction(Fraction f) {
         return getImproperInstance().format(f);
     }
-    
+
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
@@ -93,7 +93,7 @@ public class FractionFormat extends AbstractFormat {
     public static FractionFormat getImproperInstance() {
         return getImproperInstance(Locale.getDefault());
     }
-    
+
     /**
      * Returns the default complex format for the given locale.
      * @param locale the specific locale used by the format.
@@ -102,7 +102,7 @@ public class FractionFormat extends AbstractFormat {
     public static FractionFormat getImproperInstance(final Locale locale) {
         return new FractionFormat(getDefaultNumberFormat(locale));
     }
-    
+
     /**
      * Returns the default complex format for the current locale.
      * @return the default complex format.
@@ -110,7 +110,7 @@ public class FractionFormat extends AbstractFormat {
     public static FractionFormat getProperInstance() {
         return getProperInstance(Locale.getDefault());
     }
-    
+
     /**
      * Returns the default complex format for the given locale.
      * @param locale the specific locale used by the format.
@@ -119,17 +119,17 @@ public class FractionFormat extends AbstractFormat {
     public static FractionFormat getProperInstance(final Locale locale) {
         return new ProperFractionFormat(getDefaultNumberFormat(locale));
     }
-    
+
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of fraction digits, which is set to 0.  
+     * customizing is the maximum number of fraction digits, which is set to 0.
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
         return getDefaultNumberFormat(Locale.getDefault());
     }
-    
+
     /**
      * Formats a {@link Fraction} object to produce a string.  The fraction is
      * output in improper format.
@@ -142,7 +142,7 @@ public class FractionFormat extends AbstractFormat {
      */
     public StringBuffer format(final Fraction fraction,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
-        
+
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
@@ -150,12 +150,12 @@ public class FractionFormat extends AbstractFormat {
         toAppendTo.append(" / ");
         getDenominatorFormat().format(fraction.getDenominator(), toAppendTo,
             pos);
-        
+
         return toAppendTo;
     }
-    
+
     /**
-     * Formats an object and appends the result to a StringBuffer. <code>obj</code> must be either a 
+     * Formats an object and appends the result to a StringBuffer. <code>obj</code> must be either a
      * {@link Fraction} object or a {@link Number} object.  Any other type of
      * object will result in an {@link IllegalArgumentException} being thrown.
      *
@@ -171,7 +171,7 @@ public class FractionFormat extends AbstractFormat {
     public StringBuffer format(final Object obj,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
         StringBuffer ret = null;
-        
+
         if (obj instanceof Fraction) {
             ret = format((Fraction) obj, toAppendTo, pos);
         } else if (obj instanceof Number) {
@@ -183,11 +183,11 @@ public class FractionFormat extends AbstractFormat {
                     "cannot convert given object to a fraction number: {0}",
                     ex.getLocalizedMessage());
             }
-        } else { 
+        } else {
             throw MathRuntimeException.createIllegalArgumentException(
                 "cannot format given object as a fraction number");
         }
-        
+
         return ret;
     }
 
@@ -209,10 +209,10 @@ public class FractionFormat extends AbstractFormat {
         }
         return result;
     }
-    
+
     /**
      * Parses a string to produce a {@link Fraction} object.  This method
-     * expects the string to be formatted as an improper fraction.  
+     * expects the string to be formatted as an improper fraction.
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link Fraction} object.
@@ -269,5 +269,5 @@ public class FractionFormat extends AbstractFormat {
 
         return new Fraction(num.intValue(), den.intValue());
     }
-    
+
 }

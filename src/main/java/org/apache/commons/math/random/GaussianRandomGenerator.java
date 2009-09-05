@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.random;
 
-/** 
+/**
  * This class is a gaussian normalized random generator for scalars.
  * <p>This class is a simple wrapper around the {@link
  * RandomGenerator#nextGaussian} method.</p>

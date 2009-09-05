@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest;
 public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     protected Percentile stat;
-    
+
     /**
      * @param name
      */
@@ -42,12 +42,12 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         suite.setName("Percentile Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public UnivariateStatistic getUnivariateStatistic() {   
+    public UnivariateStatistic getUnivariateStatistic() {
         return new Percentile(95.0);
     }
 
@@ -64,7 +64,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         Percentile p = new Percentile(75);
         assertEquals(3.0, p.evaluate(d), 1.0e-5);
     }
-    
+
     public void testPercentile() {
         double[] d = new double[] {1, 3, 2, 4};
         Percentile p = new Percentile(30);
@@ -75,7 +75,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         assertEquals(3.75, p.evaluate(d), 1.0e-5);
         p.setQuantile(50);
         assertEquals(2.5, p.evaluate(d), 1.0e-5);
-        
+
         // invalid percentiles
         try {
             p.evaluate(d, 0, d.length, -1.0);
@@ -90,21 +90,21 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             // success
         }
     }
-    
+
     public void testNISTExample() {
-        double[] d = new double[] {95.1772, 95.1567, 95.1937, 95.1959, 
+        double[] d = new double[] {95.1772, 95.1567, 95.1937, 95.1959,
                 95.1442, 95.0610,  95.1591, 95.1195, 95.1772, 95.0925, 95.1990, 95.1682
         };
-        Percentile p = new Percentile(90); 
+        Percentile p = new Percentile(90);
         assertEquals(95.1981, p.evaluate(d), 1.0e-4);
         assertEquals(95.1990, p.evaluate(d,0,d.length, 100d), 0);
     }
-    
+
     public void test5() {
         Percentile percentile = new Percentile(5);
         assertEquals(this.percentile5, percentile.evaluate(testArray), getTolerance());
     }
-    
+
     public void testNullEmpty() {
         Percentile percentile = new Percentile(50);
         double[] nullArray = null;
@@ -114,20 +114,20 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             fail("Expecting IllegalArgumentException for null array");
         } catch (IllegalArgumentException ex) {
             // expected
-        }  
-        assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));        
+        }
+        assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
     }
-    
+
     public void testSingleton() {
         Percentile percentile = new Percentile(50);
         double[] singletonArray = new double[] {1d};
         assertEquals(1d, percentile.evaluate(singletonArray), 0);
         assertEquals(1d, percentile.evaluate(singletonArray, 0, 1), 0);
         assertEquals(1d, percentile.evaluate(singletonArray, 0, 1, 5), 0);
-        assertEquals(1d, percentile.evaluate(singletonArray, 0, 1, 100), 0); 
-        assertTrue(Double.isNaN(percentile.evaluate(singletonArray, 0, 0)));     
+        assertEquals(1d, percentile.evaluate(singletonArray, 0, 1, 100), 0);
+        assertTrue(Double.isNaN(percentile.evaluate(singletonArray, 0, 0)));
     }
-    
+
     public void testSpecialValues() {
         Percentile percentile = new Percentile(50);
         double[] specialValues = new double[] {0d, 1d, 2d, 3d, 4d,  Double.NaN};
@@ -135,22 +135,22 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         specialValues =  new double[] {Double.NEGATIVE_INFINITY, 1d, 2d, 3d,
                 Double.NaN, Double.POSITIVE_INFINITY};
         assertEquals(2.5d, percentile.evaluate(specialValues), 0);
-        specialValues = new double[] {1d, 1d, Double.POSITIVE_INFINITY, 
+        specialValues = new double[] {1d, 1d, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY};
         assertTrue(Double.isInfinite(percentile.evaluate(specialValues)));
-        specialValues = new double[] {1d, 1d, Double.NaN, 
+        specialValues = new double[] {1d, 1d, Double.NaN,
                 Double.NaN};
         assertTrue(Double.isNaN(percentile.evaluate(specialValues)));
-        specialValues = new double[] {1d, 1d, Double.NEGATIVE_INFINITY, 
+        specialValues = new double[] {1d, 1d, Double.NEGATIVE_INFINITY,
                 Double.NEGATIVE_INFINITY};
         // Interpolation results in NEGATIVE_INFINITY + POSITIVE_INFINITY
-        assertTrue(Double.isNaN(percentile.evaluate(specialValues)));   
+        assertTrue(Double.isNaN(percentile.evaluate(specialValues)));
     }
-    
+
     public void testSetQuantile() {
         Percentile percentile = new Percentile(10);
         percentile.setQuantile(100); // OK
-        assertEquals(100, percentile.getQuantile(), 0);      
+        assertEquals(100, percentile.getQuantile(), 0);
         try {
             percentile.setQuantile(0);
             fail("Expecting IllegalArgumentException");
@@ -162,7 +162,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
-        }        
+        }
     }
-    
+
 }

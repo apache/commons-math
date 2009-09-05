@@ -17,38 +17,38 @@
 package org.apache.commons.math.genetics;
 
 /**
- * Stops after a fixed number of generations.  Each time 
+ * Stops after a fixed number of generations.  Each time
  * {@link #isSatisfied(Population)} is invoked, a generation counter is
- * incremented.  Once the counter reaches the configured 
+ * incremented.  Once the counter reaches the configured
  * <code>maxGenerations</code> value, {@link #isSatisfied(Population)} returns
  * true.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class FixedGenerationCount implements StoppingCondition {
     /** Number of generations that have passed */
     private int numGenerations = 0;
-    
+
     /** Maximum number of generations (stopping criteria) */
     private final int maxGenerations;
-    
+
     /**
      * Create a new FixedGenerationCount instance.
-     * 
+     *
      * @param maxGenerations number of generations to evolve
      */
     public FixedGenerationCount(int maxGenerations) {
-        if (maxGenerations <= 0) 
+        if (maxGenerations <= 0)
             throw new IllegalArgumentException("The number of generations has to be >= 0");
         this.maxGenerations = maxGenerations;
     }
-    
+
     /**
      * Determine whether or not the given number of generations have passed.
      * Increments the number of generations counter if the maximum has not
      * been reached.
-     * 
+     *
      * @param population ignored (no impact on result)
      * @return <code>true</code> IFF the maximum number of generations has been exceeded
      */

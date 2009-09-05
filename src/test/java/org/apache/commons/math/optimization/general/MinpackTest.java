@@ -33,7 +33,7 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
  * href="http://www.netlib.org/minpack/ex/file17">file17</a> and <a
- * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files. 
+ * href="http://www.netlib.org/minpack/ex/file22">file22</a> test files.
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for
  * convenience, it is reproduced below.</p>
@@ -134,7 +134,7 @@ public class MinpackTest extends TestCase {
     minpackTest(new HelicalValleyFunction(new double[] { -100.0, 0.0, 0.0},
                                           991.261822123701), false);
   }
-    
+
   public void testMinpackPowellSingular() {
     minpackTest(new PowellSingularFunction(new double[] { 3.0, -1.0, 0.0, 1.0 },
                                            14.6628782986152), false);
@@ -143,7 +143,7 @@ public class MinpackTest extends TestCase {
     minpackTest(new PowellSingularFunction(new double[] { 300.0, -100.0, 0.0, 100.0 },
                                            126887.903284750), false);
   }
-    
+
   public void testMinpackFreudensteinRoth() {
     minpackTest(new FreudensteinRothFunction(new double[] { 0.5, -2.0 },
                                              20.0124960961895, 6.99887517584575,
@@ -164,7 +164,7 @@ public class MinpackTest extends TestCase {
                                                -0.89680510749204
                                              }), false);
   }
-    
+
   public void testMinpackBard() {
     minpackTest(new BardFunction(1.0, 6.45613629515967, 0.0906359603390466,
                                  new double[] {
@@ -185,7 +185,7 @@ public class MinpackTest extends TestCase {
                                    -164464906.857771
                                  }), false);
   }
-    
+
   public void testMinpackKowalikOsborne() {
     minpackTest(new KowalikOsborneFunction(new double[] { 0.25, 0.39, 0.415, 0.39 },
                                            0.0728915102882945,
@@ -215,7 +215,7 @@ public class MinpackTest extends TestCase {
                                              0.134575665392506
                                            }), false);
   }
-    
+
   public void testMinpackMeyer() {
     minpackTest(new MeyerFunction(new double[] { 0.02, 4000.0, 250.0 },
                                   41153.4665543031, 9.37794514651874,
@@ -232,9 +232,9 @@ public class MinpackTest extends TestCase {
                                     901.268527953801
                                   }), true);
   }
-    
+
   public void testMinpackWatson() {
-  
+
     minpackTest(new WatsonFunction(6, 0.0,
                                    5.47722557505166, 0.0478295939097601,
                                    new double[] {
@@ -317,12 +317,12 @@ public class MinpackTest extends TestCase {
                                    }), false);
 
   }
-    
+
   public void testMinpackBox3Dimensional() {
     minpackTest(new Box3DimensionalFunction(10, new double[] { 0.0, 10.0, 20.0 },
                                             32.1115837449572), false);
   }
-    
+
   public void testMinpackJennrichSampson() {
     minpackTest(new JennrichSampsonFunction(10, new double[] { 0.3, 0.4 },
                                             64.5856498144943, 11.1517793413499,
@@ -354,7 +354,7 @@ public class MinpackTest extends TestCase {
                                          -0.403688070279258, 0.236665033746463
                                         }), false);
   }
-    
+
   public void testMinpackChebyquad() {
     minpackTest(new ChebyquadFunction(1, 8, 1.0,
                                       1.88623796907732, 1.88623796907732,
@@ -392,7 +392,7 @@ public class MinpackTest extends TestCase {
                                         0.833291216194063,  0.940379732824644
                                       }), false);
   }
-    
+
   public void testMinpackBrownAlmostLinear() {
     minpackTest(new BrownAlmostLinearFunction(10, 0.5,
                                               16.5302162063499, 0.0,
@@ -411,7 +411,7 @@ public class MinpackTest extends TestCase {
                                                0.979430303349865, 0.979430303349865,
                                                0.979430303349865, 0.979430303349865,
                                                0.979430303349865, 1.20569696650135
-                                              }), false);  
+                                              }), false);
     minpackTest(new BrownAlmostLinearFunction(10, 50.0,
                                               0.9765625e17, 0.0,
                                               new double[] {
@@ -460,7 +460,7 @@ public class MinpackTest extends TestCase {
                                                 0.999999999999121
                                               }), false);
     }
-    
+
   public void testMinpackOsborne1() {
       minpackTest(new Osborne1Function(new double[] { 0.5, 1.5, -1.0, 0.01, 0.02, },
                                        0.937564021037838, 0.00739249260904843,
@@ -470,9 +470,9 @@ public class MinpackTest extends TestCase {
                                          0.0221227011813076
                                        }), false);
     }
-    
+
   public void testMinpackOsborne2() {
-      
+
     minpackTest(new Osborne2Function(new double[] {
                                        1.3, 0.65, 0.65, 0.7, 0.6,
                                        3.0, 5.0, 7.0, 2.0, 4.5, 5.5
@@ -512,7 +512,7 @@ public class MinpackTest extends TestCase {
 
   private static abstract class MinpackFunction
       implements DifferentiableMultivariateVectorialFunction, Serializable {
- 
+
       private static final long serialVersionUID = -6209760235478794233L;
       protected int      n;
       protected int      m;
@@ -1025,7 +1025,7 @@ public class MinpackTest extends TestCase {
       34780.0, 28610.0, 23650.0, 19630.0,
       16370.0, 13720.0, 11540.0,  9744.0,
        8261.0,  7030.0,  6005.0,  5147.0,
-       4427.0,  3820.0,  3307.0,  2872.0                  
+       4427.0,  3820.0,  3307.0,  2872.0
     };
 
   }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package org.apache.commons.math.distribution;
  * Test cases for FDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class FDistributionTest extends ContinuousDistributionAbstractTest {
@@ -35,29 +35,29 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     //-------------- Implementations for abstract methods -----------------------
-    
+
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public ContinuousDistribution makeDistribution() {
         return new FDistributionImpl(5.0, 6.0);
-    }   
-    
+    }
+
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R version 1.8.1 (linux version)
         return new double[] {0.03468084d ,0.09370091d, 0.1433137d,
-            0.2020084d, 0.2937283d, 20.80266d, 8.745895d, 5.987565d, 
+            0.2020084d, 0.2937283d, 20.80266d, 8.745895d, 5.987565d,
             4.387374d, 3.107512d};
     }
-    
+
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d}; 
+                0.990d, 0.975d, 0.950d, 0.900d};
     }
-    
+
     // --------------------- Override tolerance  --------------
     @Override
     protected void setUp() throws Exception {
@@ -78,7 +78,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
-    
+
     public void testDfAccessors() {
         FDistribution distribution = (FDistribution) getDistribution();
         assertEquals(5d, distribution.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
@@ -99,7 +99,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-    } 
+    }
 
     public void testLargeDegreesOfFreedom() throws Exception {
         org.apache.commons.math.distribution.FDistributionImpl fd =

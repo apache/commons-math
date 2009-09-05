@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import java.net.URL;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
- 
+
 /**
  * Test cases for the ValueServer class.
  *
@@ -34,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 public final class ValueServerTest extends RetryTestCase {
 
     private ValueServer vs = new ValueServer();
-    
+
     public ValueServerTest(String name) {
         super(name);
     }
@@ -44,7 +44,7 @@ public final class ValueServerTest extends RetryTestCase {
         vs.setMode(ValueServer.DIGEST_MODE);
         try {
             URL url = getClass().getResource("testData.txt");
-            vs.setValuesFileURL(url); 
+            vs.setValuesFileURL(url);
         } catch (Exception ex) {
             fail("malformed test URL");
         }
@@ -56,8 +56,8 @@ public final class ValueServerTest extends RetryTestCase {
         return suite;
     }
 
-   
-    /** 
+
+    /**
       * Generate 1000 random values and make sure they look OK.<br>
       * Note that there is a non-zero (but very small) probability that
       * these tests will fail even if the code is working as designed.
@@ -66,31 +66,31 @@ public final class ValueServerTest extends RetryTestCase {
         double next = 0.0;
         double tolerance = 0.1;
         vs.computeDistribution();
-        assertTrue("empirical distribution property", 
+        assertTrue("empirical distribution property",
             vs.getEmpiricalDistribution() != null);
         SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
-        }    
+        }
         assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         assertEquals
-         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), 
+         ("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
-        
+
         vs.computeDistribution(500);
         stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
-        }    
+        }
         assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         assertEquals
-         ("std dev", 1.0173699343977738, stats.getStandardDeviation(), 
+         ("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
-        
+
     }
-    
+
     /**
       * Make sure exception thrown if digest getNext is attempted
       * before loading empiricalDistribution.
@@ -131,7 +131,7 @@ public final class ValueServerTest extends RetryTestCase {
     }
 
     /**
-     * Test ValueServer REPLAY_MODE using values in testData file.<br> 
+     * Test ValueServer REPLAY_MODE using values in testData file.<br>
      * Check that the values 1,2,1001,1002 match data file values 1 and 2.
      * the sample data file.
      */
@@ -157,8 +157,8 @@ public final class ValueServerTest extends RetryTestCase {
         // make sure no NPE
         vs.closeReplayFile();
     }
-    
-    /** 
+
+    /**
      * Test other ValueServer modes
      */
     public void testModes() throws Exception {
@@ -185,7 +185,7 @@ public final class ValueServerTest extends RetryTestCase {
             // ignored
         }
     }
-    
+
     /**
      * Test fill
      */
@@ -202,7 +202,7 @@ public final class ValueServerTest extends RetryTestCase {
             assertEquals("fill test in place",2,v2[i],Double.MIN_VALUE);
         }
     }
-    
+
     /**
      * Test getters to make Clover happy
      */
@@ -213,5 +213,5 @@ public final class ValueServerTest extends RetryTestCase {
         URL url = vs.getValuesFileURL();
         assertEquals("valuesFileURL test","http://www.apache.org",url.toString());
     }
-                          
+
 }

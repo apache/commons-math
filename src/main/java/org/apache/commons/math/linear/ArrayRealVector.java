@@ -96,9 +96,9 @@ public class ArrayRealVector implements RealVector, Serializable {
         throws NullPointerException, IllegalArgumentException {
         if (d == null) {
             throw new NullPointerException();
-        }   
+        }
         if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("vector must have at least one element"); 
+            throw MathRuntimeException.createIllegalArgumentException("vector must have at least one element");
         }
         data = copyArray ? d.clone() :  d;
     }
@@ -936,7 +936,7 @@ public class ArrayRealVector implements RealVector, Serializable {
             checkVectorDimensions(v);
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i); 
+                final double delta = data[i] - v.getEntry(i);
                 sum += delta * delta;
             }
             return Math.sqrt(sum);
@@ -982,7 +982,7 @@ public class ArrayRealVector implements RealVector, Serializable {
             checkVectorDimensions(v);
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i); 
+                final double delta = data[i] - v.getEntry(i);
                 sum += Math.abs(delta);
             }
             return sum;
@@ -1028,7 +1028,7 @@ public class ArrayRealVector implements RealVector, Serializable {
             checkVectorDimensions(v);
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
-                final double delta = data[i] - v.getEntry(i); 
+                final double delta = data[i] - v.getEntry(i);
                 max = Math.max(max, Math.abs(delta));
             }
             return max;
@@ -1237,7 +1237,7 @@ public class ArrayRealVector implements RealVector, Serializable {
 
     /**
      * Set a set of consecutive elements.
-     * 
+     *
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
      * @exception MatrixIndexException if the index is
@@ -1277,7 +1277,7 @@ public class ArrayRealVector implements RealVector, Serializable {
 
     /**
      * Check if instance dimension is equal to some expected value.
-     * 
+     *
      * @param n expected dimension.
      * @exception IllegalArgumentException if the dimension is
      * inconsistent with vector size
@@ -1303,7 +1303,7 @@ public class ArrayRealVector implements RealVector, Serializable {
         }
         return false;
     }
-    
+
     /**
      * Returns true if any coordinate of this vector is infinite and none are NaN;
      * false otherwise
@@ -1325,7 +1325,7 @@ public class ArrayRealVector implements RealVector, Serializable {
         return false;
 
     }
-    
+
     /**
      * Test for the equality of two real vectors.
      * <p>
@@ -1343,12 +1343,12 @@ public class ArrayRealVector implements RealVector, Serializable {
      * @return true if two vector objects are equal, false if
      *         object is null, not an instance of RealVector, or
      *         not equal to this RealVector instance
-     * 
+     *
      */
     @Override
     public boolean equals(Object other) {
 
-      if (this == other) { 
+      if (this == other) {
         return true;
       }
 
@@ -1380,7 +1380,7 @@ public class ArrayRealVector implements RealVector, Serializable {
       }
 
     }
-    
+
     /**
      * Get a hashCode for the real vector.
      * <p>All NaN values have the same hash code.</p>

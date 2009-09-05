@@ -64,7 +64,7 @@ public class QRDecompositionImpl implements QRDecomposition {
     private RealMatrix cachedH;
 
     /**
-     * Calculates the QR-decomposition of the given matrix. 
+     * Calculates the QR-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      */
     public QRDecompositionImpl(RealMatrix matrix) {
@@ -186,11 +186,11 @@ public class QRDecompositionImpl implements QRDecomposition {
             final int m = qrt[0].length;
             cachedQT = MatrixUtils.createRealMatrix(m, m);
 
-            /* 
-             * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then 
-             * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in 
-             * succession to the result 
-             */ 
+            /*
+             * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
+             * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
+             * succession to the result
+             */
             for (int minor = m - 1; minor >= Math.min(m, n); minor--) {
                 cachedQT.setEntry(minor, minor, 1.0);
             }
@@ -248,7 +248,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-    
+
         /**
          * A packed TRANSPOSED representation of the QR decomposition.
          * <p>The elements BELOW the diagonal are the elements of the UPPER triangular
@@ -386,7 +386,7 @@ public class QRDecompositionImpl implements QRDecomposition {
                 // apply Householder transforms to solve Q.y = b
                 for (int minor = 0; minor < Math.min(m, n); minor++) {
                     final double[] qrtMinor = qrt[minor];
-                    final double factor     = 1.0 / (rDiag[minor] * qrtMinor[minor]); 
+                    final double factor     = 1.0 / (rDiag[minor] * qrtMinor[minor]);
 
                     Arrays.fill(alpha, 0, kWidth, 0.0);
                     for (int row = minor; row < m; ++row) {

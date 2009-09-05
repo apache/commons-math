@@ -35,7 +35,7 @@ public interface ChiSquaredDistribution extends ContinuousDistribution, HasDensi
      * @param degreesOfFreedom the new degrees of freedom.
      */
     void setDegreesOfFreedom(double degreesOfFreedom);
-    
+
     /**
      * Access the degrees of freedom.
      * @return the degrees of freedom.

@@ -105,7 +105,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *        [  -8  48 -256 1280  ... ]
  *        [          ...           ]
  * </pre></p>
- * 
+ *
  * <p>Using the Nordsieck vector has several advantages:
  * <ul>
  *   <li>it greatly simplifies step interpolation as the interpolator mainly applies
@@ -114,7 +114,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  *   the step are triggered,</li>
  *   <li>it allows to extend the methods in order to support adaptive stepsize.</li>
  * </ul></p>
- * 
+ *
  * <p>The Nordsieck vector at step n+1 is computed from the Nordsieck vector at step n as follows:
  * <ul>
  *   <li>y<sub>n+1</sub> = y<sub>n</sub> + s<sub>1</sub>(n) + u<sup>T</sup> r<sub>n</sub></li>
@@ -221,7 +221,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
         // reuse the step that was chosen by the starter integrator
         double hNew = stepSize;
         interpolator.rescale(hNew);
-        
+
         boolean lastStep = false;
         while (!lastStep) {
 

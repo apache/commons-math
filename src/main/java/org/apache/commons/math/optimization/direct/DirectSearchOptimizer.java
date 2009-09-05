@@ -32,7 +32,7 @@ import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
-/** 
+/**
  * This class implements simplex-based direct search optimization
  * algorithms.
  *
@@ -78,7 +78,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * algorithms.</p>
  *
  * implements MultivariateRealOptimizer since 2.0
- * 
+ *
  * @see MultivariateRealFunction
  * @see NelderMead
  * @see MultiDirectional

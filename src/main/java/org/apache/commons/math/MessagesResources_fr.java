@@ -19,7 +19,7 @@ package org.apache.commons.math;
 
 import java.util.ListResourceBundle;
 
-/** 
+/**
  * French localization message resources for the commons-math library.
  * @version $Revision$ $Date$
  * @since 1.2
@@ -27,13 +27,13 @@ import java.util.ListResourceBundle;
 public class MessagesResources_fr
   extends ListResourceBundle {
 
-  /** 
+  /**
    * Simple constructor.
    */
   public MessagesResources_fr() {
   }
 
-  /** 
+  /**
    * Get the non-translated/translated messages arrays from this resource bundle.
    * @return non-translated/translated messages arrays
    */
@@ -405,7 +405,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.SparseRealVector
     { "vector length mismatch: got {0} but expected {1}",
       "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
-      
+
     // org.apache.commons.math.linear.ArrayRealVector
     // org.apache.commons.math.linear.ArrayFieldVector
     // org.apache.commons.math.linear.SparseRealVector
@@ -433,7 +433,7 @@ public class MessagesResources_fr
 
     // org.apache.commons.math.linear.AbstractRealMatrix
     // org.apache.commons.math.linear.AbstractFieldMatrix
-    // org.apache.commons.math.stat.inference.ChiSquareTestImpl      
+    // org.apache.commons.math.stat.inference.ChiSquareTestImpl
     { "some rows have length {0} while others have length {1}",
       "certaines lignes ont une longueur de {0} alors que d''autres ont une longueur de {1}" },
 

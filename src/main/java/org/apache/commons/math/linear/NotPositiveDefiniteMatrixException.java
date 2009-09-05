@@ -19,10 +19,10 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathException;
 
-/** 
+/**
  * This class represents exceptions thrown when a matrix expected to
  * be positive definite is not.
- * 
+ *
  * @since 1.2
  * @version $Revision$ $Date$
  */

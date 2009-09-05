@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 
 /**
- * An interface to classes that implement an algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the
  * LU-decomposition of a real matrix.
  * <p>The LU-decomposition of matrix A is a set of three matrices: P, L and U
  * such that P&times;A = L&times;U. P is a rows permutation matrix that is used
@@ -37,7 +37,7 @@ package org.apache.commons.math.linear;
  *   by a {@link #getSolver() getSolver} method and the equivalent methods provided by
  *   the returned {@link DecompositionSolver}.</li>
  * </ul>
- *   
+ *
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
  * @version $Revision$ $Date$
@@ -46,14 +46,14 @@ package org.apache.commons.math.linear;
 public interface LUDecomposition {
 
     /**
-     * Returns the matrix L of the decomposition. 
+     * Returns the matrix L of the decomposition.
      * <p>L is an lower-triangular matrix</p>
      * @return the L matrix (or null if decomposed matrix is singular)
      */
     RealMatrix getL();
 
     /**
-     * Returns the matrix U of the decomposition. 
+     * Returns the matrix U of the decomposition.
      * <p>U is an upper-triangular matrix</p>
      * @return the U matrix (or null if decomposed matrix is singular)
      */

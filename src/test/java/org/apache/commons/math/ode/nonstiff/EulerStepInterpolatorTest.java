@@ -145,7 +145,7 @@ public class EulerStepInterpolatorTest {
     for (StepHandler handler : integ.getStepHandlers()) {
         oos.writeObject(handler);
     }
-    
+
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
     ContinuousOutputModel cm  = (ContinuousOutputModel) ois.readObject();
@@ -171,7 +171,7 @@ public class EulerStepInterpolatorTest {
 
   private static class DummyIntegrator extends RungeKuttaIntegrator {
 
-      
+
       protected DummyIntegrator(RungeKuttaStepInterpolator prototype) {
           super("dummy", new double[0], new double[0][0], new double[0], prototype, Double.NaN);
       }

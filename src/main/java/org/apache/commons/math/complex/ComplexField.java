@@ -70,7 +70,7 @@ public class ComplexField implements Field<Complex>, Serializable  {
      */
     private Object readResolve() {
         // return the singleton instance
-        return LazyHolder.INSTANCE; 
+        return LazyHolder.INSTANCE;
     }
 
 }

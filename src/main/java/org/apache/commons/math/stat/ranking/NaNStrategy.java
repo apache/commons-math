@@ -34,16 +34,16 @@ package org.apache.commons.math.stat.ranking;
  * @version $Revision$ $Date$
  */
 public enum NaNStrategy {
-    
+
     /** NaNs are considered minimal in the ordering */
     MINIMAL,
-    
+
     /** NaNs are considered maximal in the ordering */
     MAXIMAL,
-    
+
     /** NaNs are removed before computing ranks */
     REMOVED,
-    
+
     /** NaNs are left in place */
     FIXED
 }

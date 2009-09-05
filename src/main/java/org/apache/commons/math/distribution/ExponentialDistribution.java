@@ -35,7 +35,7 @@ public interface ExponentialDistribution extends ContinuousDistribution, HasDens
      * @param mean the new mean.
      */
     void setMean(double mean);
-    
+
     /**
      * Access the mean.
      * @return the mean.

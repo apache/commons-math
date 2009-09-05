@@ -203,7 +203,7 @@ class DormandPrince853StepInterpolator
     }
 
   }
- 
+
   /** {@inheritDoc} */
   @Override
   protected void doFinalize()

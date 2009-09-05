@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
 
-/** 
+/**
  * This interface represents a preconditioner for differentiable scalar
  * objective function optimizers.
  * @version $Revision$ $Date$
@@ -27,7 +27,7 @@ import org.apache.commons.math.FunctionEvaluationException;
  */
 public interface Preconditioner {
 
-    /** 
+    /**
      * Precondition a search direction.
      * <p>
      * The returned preconditioned search direction must be computed fast or

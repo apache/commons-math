@@ -41,7 +41,7 @@ public class Beta {
      * Returns the
      * <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">
      * regularized beta function</a> I(x, a, b).
-     * 
+     *
      * @param x the value.
      * @param a the a parameter.
      * @param b the b parameter.
@@ -58,7 +58,7 @@ public class Beta {
      * Returns the
      * <a href="http://mathworld.wolfram.com/RegularizedBetaFunction.html">
      * regularized beta function</a> I(x, a, b).
-     * 
+     *
      * @param x the value.
      * @param a the a parameter.
      * @param b the b parameter.
@@ -76,11 +76,11 @@ public class Beta {
 
     /**
      * Returns the regularized beta function I(x, a, b).
-     * 
+     *
      * @param x the value.
      * @param a the a parameter.
      * @param b the b parameter.
-     * @param maxIterations Maximum number of "iterations" to complete. 
+     * @param maxIterations Maximum number of "iterations" to complete.
      * @return the regularized beta function I(x, a, b)
      * @throws MathException if the algorithm fails to converge.
      */
@@ -89,10 +89,10 @@ public class Beta {
     {
         return regularizedBeta(x, a, b, DEFAULT_EPSILON, maxIterations);
     }
-    
+
     /**
      * Returns the regularized beta function I(x, a, b).
-     * 
+     *
      * The implementation of this method is based on:
      * <ul>
      * <li>
@@ -102,14 +102,14 @@ public class Beta {
      * <a href="http://functions.wolfram.com/06.21.10.0001.01">
      * Regularized Beta Function</a>.</li>
      * </ul>
-     * 
+     *
      * @param x the value.
      * @param a the a parameter.
      * @param b the b parameter.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
-     * @param maxIterations Maximum number of "iterations" to complete. 
+     * @param maxIterations Maximum number of "iterations" to complete.
      * @return the regularized beta function I(x, a, b)
      * @throws MathException if the algorithm fails to converge.
      */
@@ -158,7 +158,7 @@ public class Beta {
 
     /**
      * Returns the natural logarithm of the beta function B(a, b).
-     * 
+     *
      * @param a the a parameter.
      * @param b the b parameter.
      * @return log(B(a, b))
@@ -166,7 +166,7 @@ public class Beta {
     public static double logBeta(double a, double b) {
         return logBeta(a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
-    
+
     /**
      * Returns the natural logarithm of the beta function B(a, b).
      *
@@ -175,18 +175,18 @@ public class Beta {
      * <li><a href="http://mathworld.wolfram.com/BetaFunction.html">
      * Beta Function</a>, equation (1).</li>
      * </ul>
-     * 
+     *
      * @param a the a parameter.
      * @param b the b parameter.
      * @param epsilon When the absolute value of the nth item in the
      *                series is less than epsilon the approximation ceases
      *                to calculate further elements in the series.
-     * @param maxIterations Maximum number of "iterations" to complete. 
+     * @param maxIterations Maximum number of "iterations" to complete.
      * @return log(B(a, b))
      */
     public static double logBeta(double a, double b, double epsilon,
         int maxIterations) {
-            
+
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(b) || (a <= 0.0) || (b <= 0.0)) {

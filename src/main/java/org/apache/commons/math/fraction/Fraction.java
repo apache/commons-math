@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
  * Representation of a rational number.
  *
  * implements Serializable since 2.0
- * 
+ *
  * @since 1.1
  * @version $Revision$ $Date$
  */
@@ -82,7 +82,7 @@ public class Fraction
 
     /** The denominator. */
     private final int denominator;
-    
+
     /** The numerator. */
     private final int numerator;
 
@@ -206,7 +206,7 @@ public class Fraction
             if ((p2 > overflow) || (q2 > overflow)) {
                 throw new FractionConversionException(value, p2, q2);
             }
-            
+
             double convergent = (double)p2 / (double)q2;
             if (n < maxIterations && Math.abs(convergent - value) > epsilon && q2 < maxDenominator) {
                 p0 = p1;
@@ -223,7 +223,7 @@ public class Fraction
         if (n >= maxIterations) {
             throw new FractionConversionException(value, maxIterations);
         }
-        
+
         if (q2 < maxDenominator) {
             this.numerator = (int) p2;
             this.denominator = (int) q2;
@@ -233,16 +233,16 @@ public class Fraction
         }
 
     }
-    
+
     /**
-     * Create a fraction from an int. 
+     * Create a fraction from an int.
      * The fraction is num / 1.
      * @param num the numerator.
      */
     public Fraction(int num) {
         this(num, 1);
     }
-    
+
     /**
      * Create a fraction given the numerator and denominator.  The fraction is
      * reduced to lowest terms.
@@ -269,7 +269,7 @@ public class Fraction
             num /= d;
             den /= d;
         }
-        
+
         // move sign to numerator.
         if (den < 0) {
             num = -num;
@@ -278,7 +278,7 @@ public class Fraction
         this.numerator   = num;
         this.denominator = den;
     }
-    
+
     /**
      * Returns the absolute value of this fraction.
      * @return the absolute value.
@@ -290,9 +290,9 @@ public class Fraction
         } else {
             ret = negate();
         }
-        return ret;        
+        return ret;
     }
-    
+
     /**
      * Compares this object to another based on size.
      * @param object the object to compare to
@@ -314,7 +314,7 @@ public class Fraction
     public double doubleValue() {
         return (double)numerator / (double)denominator;
     }
-    
+
     /**
      * Test for the equality of two fractions.  If the lowest term
      * numerator and denominators are the same for both fractions, the two
@@ -327,8 +327,8 @@ public class Fraction
     @Override
     public boolean equals(Object other) {
         boolean ret;
-        
-        if (this == other) { 
+
+        if (this == other) {
             ret = true;
         } else if (other == null) {
             ret = false;
@@ -344,10 +344,10 @@ public class Fraction
                 ret = false;
             }
         }
-        
+
         return ret;
     }
-    
+
     /**
      * Gets the fraction as a <tt>float</tt>. This calculates the fraction as
      * the numerator divided by denominator.
@@ -357,7 +357,7 @@ public class Fraction
     public float floatValue() {
         return (float)doubleValue();
     }
-    
+
     /**
      * Access the denominator.
      * @return the denominator.
@@ -365,7 +365,7 @@ public class Fraction
     public int getDenominator() {
         return denominator;
     }
-    
+
     /**
      * Access the numerator.
      * @return the numerator.
@@ -373,7 +373,7 @@ public class Fraction
     public int getNumerator() {
         return numerator;
     }
-    
+
     /**
      * Gets a hashCode for the fraction.
      * @return a hash code value for this object
@@ -382,7 +382,7 @@ public class Fraction
     public int hashCode() {
         return 37 * (37 * 17 + getNumerator()) + getDenominator();
     }
-    
+
     /**
      * Gets the fraction as an <tt>int</tt>. This returns the whole number part
      * of the fraction.
@@ -392,7 +392,7 @@ public class Fraction
     public int intValue() {
         return (int)doubleValue();
     }
-    
+
     /**
      * Gets the fraction as a <tt>long</tt>. This returns the whole number part
      * of the fraction.
@@ -402,7 +402,7 @@ public class Fraction
     public long longValue() {
         return (long)doubleValue();
     }
-    
+
     /**
      * Return the additive inverse of this fraction.
      * @return the negation of this fraction.
@@ -422,7 +422,7 @@ public class Fraction
     public Fraction reciprocal() {
         return new Fraction(denominator, numerator);
     }
-    
+
     /**
      * <p>Adds the value of this fraction to another, returning the result in reduced form.
      * The algorithm follows Knuth, 4.5.1.</p>
@@ -447,7 +447,7 @@ public class Fraction
     }
 
     /**
-     * <p>Subtracts the value of another fraction from the value of this one, 
+     * <p>Subtracts the value of another fraction from the value of this one,
      * returning the result in reduced form.</p>
      *
      * @param fraction  the fraction to subtract, must not be <code>null</code>
@@ -469,9 +469,9 @@ public class Fraction
         return new Fraction(numerator - i * denominator, denominator);
     }
 
-    /** 
+    /**
      * Implement add and subtract using algorithm described in Knuth 4.5.1.
-     * 
+     *
      * @param fraction the fraction to subtract, must not be <code>null</code>
      * @param isAdd true to add, false to subtract
      * @return a <code>Fraction</code> instance with the resulting values
@@ -489,7 +489,7 @@ public class Fraction
         }
         if (fraction.numerator == 0) {
             return this;
-        }     
+        }
         // if denominators are randomly distributed, d1 will be 1 about 61%
         // of the time.
         int d1 = MathUtils.gcd(denominator, fraction.denominator);
@@ -498,7 +498,7 @@ public class Fraction
             int uvp = MathUtils.mulAndCheck(numerator, fraction.denominator);
             int upv = MathUtils.mulAndCheck(fraction.numerator, denominator);
             return new Fraction
-                (isAdd ? MathUtils.addAndCheck(uvp, upv) : 
+                (isAdd ? MathUtils.addAndCheck(uvp, upv) :
                  MathUtils.subAndCheck(uvp, upv),
                  MathUtils.mulAndCheck(denominator, fraction.denominator));
         }
@@ -521,13 +521,13 @@ public class Fraction
             throw MathRuntimeException.createArithmeticException("overflow, numerator too large after multiply: {0}",
                                                                  w);
         }
-        return new Fraction (w.intValue(), 
-                MathUtils.mulAndCheck(denominator/d1, 
+        return new Fraction (w.intValue(),
+                MathUtils.mulAndCheck(denominator/d1,
                         fraction.denominator/d2));
     }
 
     /**
-     * <p>Multiplies the value of this fraction by another, returning the 
+     * <p>Multiplies the value of this fraction by another, returning the
      * result in reduced form.</p>
      *
      * @param fraction  the fraction to multiply by, must not be <code>null</code>
@@ -638,7 +638,7 @@ public class Fraction
      * Returns the <code>String</code> representing this fraction, ie
      * "num / dem" or just "num" if the denominator is one.
      * </p>
-     * 
+     *
      * @return a string representation of the fraction.
      * @see java.lang.Object#toString()
      */

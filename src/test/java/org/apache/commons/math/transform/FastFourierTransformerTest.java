@@ -26,8 +26,8 @@ import junit.framework.TestCase;
  * <p>
  * FFT algorithm is exact, the small tolerance number is used only
  * to account for round-off errors.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class FastFourierTransformerTest extends TestCase {
 
@@ -77,7 +77,7 @@ public final class FastFourierTransformerTest extends TestCase {
             assertEquals(y2[i].getImaginary(), result[i].getImaginary(), tolerance);
         }
     }
-    
+
     public void test2DData() {
         FastFourierTransformer transformer = new FastFourierTransformer();
         double tolerance = 1E-12;
@@ -90,14 +90,14 @@ public final class FastFourierTransformerTest extends TestCase {
                 -1.5), new Complex(0, .5)}};
         Complex[][] output = (Complex[][])transformer.mdfft(input, true);
         Complex[][] output2 = (Complex[][])transformer.mdfft(output, false);
-        
+
         assertEquals(input.length, output.length);
         assertEquals(input.length, output2.length);
         assertEquals(input[0].length, output[0].length);
         assertEquals(input[0].length, output2[0].length);
         assertEquals(input[1].length, output[1].length);
         assertEquals(input[1].length, output2[1].length);
-        
+
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
                 assertEquals(input[i][j].getImaginary(), output2[i][j].getImaginary(),
@@ -109,7 +109,7 @@ public final class FastFourierTransformerTest extends TestCase {
             }
         }
     }
-    
+
     /**
      * Test of transformer for the sine function.
      */

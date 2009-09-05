@@ -35,10 +35,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /** The shape parameter. */
     private double alpha;
-    
+
     /** The scale parameter. */
     private double beta;
-    
+
     /**
      * Create a new gamma distribution with the given alpha and beta values.
      * @param alpha the shape parameter.
@@ -49,10 +49,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         setAlpha(alpha);
         setBeta(beta);
     }
-    
+
     /**
      * For this distribution, X, this method returns P(X &lt; x).
-     * 
+     *
      * The implementation of this method is based on:
      * <ul>
      * <li>
@@ -61,24 +61,24 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
      * Belmont, CA: Duxbury Press.</li>
      * </ul>
-     * 
+     *
      * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * @return CDF for this distribution.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException{
         double ret;
-    
+
         if (x <= 0.0) {
             ret = 0.0;
         } else {
             ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
         }
-    
+
         return ret;
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
@@ -93,7 +93,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      *         probability.
      */
     @Override
-    public double inverseCumulativeProbability(final double p) 
+    public double inverseCumulativeProbability(final double p)
     throws MathException {
         if (p == 0) {
             return 0d;
@@ -103,7 +103,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         }
         return super.inverseCumulativeProbability(p);
     }
-    
+
     /**
      * Modify the shape parameter, alpha.
      * @param alpha the new shape parameter.
@@ -117,7 +117,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         }
         this.alpha = alpha;
     }
-    
+
     /**
      * Access the shape parameter, alpha
      * @return alpha.
@@ -125,7 +125,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     public double getAlpha() {
         return alpha;
     }
-    
+
     /**
      * Modify the scale parameter, beta.
      * @param beta the new scale parameter.
@@ -139,7 +139,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         }
         this.beta = beta;
     }
-    
+
     /**
      * Access the scale parameter, beta
      * @return beta.
@@ -163,7 +163,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
@@ -178,10 +178,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -198,7 +198,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
             // use max value
             ret = Double.MAX_VALUE;
         }
-        
+
         return ret;
     }
 
@@ -206,7 +206,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -224,7 +224,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
             // use mean
             ret = getAlpha() * getBeta();
         }
-        
+
         return ret;
     }
 }

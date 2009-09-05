@@ -56,7 +56,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
 
     protected double weightedMean = 12.366995073891626d;
-    protected double weightedVar =   9.974760968886391d; 
+    protected double weightedVar =   9.974760968886391d;
     protected double weightedStd = Math.sqrt(weightedVar);
     protected double weightedProduct = 8517647448765288000000d;
     protected double weightedSum = 251.05d;
@@ -111,7 +111,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
                 copy.evaluate(testArray),
                 getTolerance());
     }
-    
+
     /**
      * Tests consistency of weighted statistic computation.
      * For statistics that support weighted evaluation, this test case compares
@@ -120,9 +120,9 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
      * value appearing only once but with a weight value equal to its multiplicity
      * in the repeating array.
      */
-    
+
     public void testWeightedConsistency() throws Exception {
-        
+
         // See if this statistic computes weighted statistics
         // If not, skip this test
         UnivariateStatistic statistic = getUnivariateStatistic();
@@ -133,23 +133,23 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
         } catch (NoSuchMethodException ex) {
             return;  // skip test
         }
-        
+
         // Create arrays of values and corresponding integral weights
         // and longer array with values repeated according to the weights
         final int len = 10;        // length of values array
         final double mu = 0;       // mean of test data
-        final double sigma = 5;    // std dev of test data 
+        final double sigma = 5;    // std dev of test data
         double[] values = new double[len];
         double[] weights = new double[len];
-        RandomData randomData = new RandomDataImpl();  
-        
+        RandomData randomData = new RandomDataImpl();
+
         // Fill weights array with random int values between 1 and 5
         int[] intWeights = new int[len];
         for (int i = 0; i < len; i++) {
             intWeights[i] = randomData.nextInt(1, 5);
             weights[i] = intWeights[i];
         }
-        
+
         // Fill values array with random data from N(mu, sigma)
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
@@ -161,21 +161,21 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
                 valuesList.add(new Double(value));
             }
         }
-        
+
         // Dump valuesList into repeatedValues array
         int sumWeights = valuesList.size();
         double[] repeatedValues = new double[sumWeights];
         for (int i = 0; i < sumWeights; i++) {
             repeatedValues[i] = valuesList.get(i);
         }
-        
+
         // Compare result of weighted statistic computation with direct computation
         // on array of repeated values
         double weightedResult = (Double) evaluateMethod.invoke(
                 statistic, values, weights, 0, values.length);
         TestUtils.assertRelativelyEquals(
-                statistic.evaluate(repeatedValues), weightedResult, 10E-14); 
-        
+                statistic.evaluate(repeatedValues), weightedResult, 10E-14);
+
     }
 
 }

@@ -24,23 +24,23 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 
 /**
- * Implements a modified version of the 
+ * Implements a modified version of the
  * <a href="http://mathworld.wolfram.com/SecantMethod.html">secant method</a>
- * for approximating a zero of a real univariate function.  
+ * for approximating a zero of a real univariate function.
  * <p>
  * The algorithm is modified to maintain bracketing of a root by successive
  * approximations. Because of forced bracketing, convergence may be slower than
  * the unrestricted secant algorithm. However, this implementation should in
- * general outperform the 
+ * general outperform the
  * <a href="http://mathworld.wolfram.com/MethodofFalsePosition.html">
  * regula falsi method.</a></p>
  * <p>
  * The function is assumed to be continuous but not necessarily smooth.</p>
- *  
+ *
  * @version $Revision$ $Date$
  */
 public class SecantSolver extends UnivariateRealSolverImpl {
-    
+
     /**
      * Construct a solver for the given function.
      * @param f function to solve.
@@ -77,7 +77,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 
     /**
      * Find a zero in the given interval.
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -85,7 +85,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
@@ -94,7 +94,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         throws MaxIterationsExceededException, FunctionEvaluationException {
         return solve(f, min, max);
     }
-    
+
     /**
      * Find a zero in the given interval.
      * @param f the function to solve
@@ -103,17 +103,17 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        
+
         clearResult();
         verifyInterval(min, max);
-        
+
         // Index 0 is the old approximation for the root.
         // Index 1 is the last calculated approximation  for the root.
         // Index 2 is a bracket for the root with respect to x0.
@@ -123,15 +123,15 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         double x1 = max;
         double y0 = f.value(x0);
         double y1 = f.value(x1);
-        
+
         // Verify bracketing
         if (y0 * y1 >= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "function values at endpoints do not have different signs, " +
                   "endpoints: [{0}, {1}], values: [{2}, {3}]",
-                  min, max, y0, y1);       
+                  min, max, y0, y1);
         }
-        
+
         double x2 = x0;
         double y2 = y0;
         double oldDelta = x2 - x1;
@@ -171,7 +171,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
             x1 = x1 + delta;
             y1 = f.value(x1);
             if ((y1 > 0) == (y2 > 0)) {
-                // New bracket is (x0,x1).                    
+                // New bracket is (x0,x1).
                 x2 = x0;
                 y2 = y0;
             }

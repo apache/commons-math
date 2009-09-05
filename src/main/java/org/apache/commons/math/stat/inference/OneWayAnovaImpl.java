@@ -29,12 +29,12 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 /**
  * Implements one-way ANOVA statistics defined in the {@link OneWayAnovaImpl}
  * interface.
- * 
- * <p>Uses the 
+ *
+ * <p>Uses the
  * {@link org.apache.commons.math.distribution.FDistribution
  *  commons-math F Distribution implementation} to estimate exact p-values.</p>
  *
- * <p>This implementation is based on a description at 
+ * <p>This implementation is based on a description at
  * http://faculty.vassar.edu/lowry/ch13pt1.html</p>
  * <pre>
  * Abbreviations: bg = between groups,
@@ -52,10 +52,10 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      */
     public OneWayAnovaImpl() {
     }
-    
+
     /**
      * {@inheritDoc}<p>
-     * This implementation computes the F statistic using the definitional 
+     * This implementation computes the F statistic using the definitional
      * formula<pre>
      *   F = msbg/mswg</pre>
      * where<pre>
@@ -111,7 +111,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
 
     /**
      * This method actually does the calculations (except P-value).
-     * 
+     *
      * @param categoryData <code>Collection</code> of <code>double[]</code>
      * arrays each containing data for one category
      * @return computed AnovaStats
@@ -128,7 +128,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
                   "two or more categories required, got {0}",
                   categoryData.size());
         }
-        
+
         // check if each category has enough data and all is double[]
         for (double[] array : categoryData) {
             if (array.length <= 1) {
@@ -143,7 +143,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         Sum totsum = new Sum();
         SumOfSquares totsumsq = new SumOfSquares();
         int totnum = 0;
-        
+
         for (double[] data : categoryData) {
 
             Sum sum = new Sum();
@@ -167,7 +167,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
             double ss = sumsq.getResult() - sum.getResult() * sum.getResult() / num;
             sswg += ss;
         }
-        double sst = totsumsq.getResult() - totsum.getResult() * 
+        double sst = totsumsq.getResult() - totsum.getResult() *
             totsum.getResult()/totnum;
         double ssbg = sst - sswg;
         int dfbg = categoryData.size() - 1;
@@ -178,7 +178,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
         return new AnovaStats(dfbg, dfwg, F);
     }
 
-    /** 
+    /**
         Convenience class to pass dfbg,dfwg,F values around within AnovaImpl.
         No get/set methods provided.
     */

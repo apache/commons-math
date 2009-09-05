@@ -23,17 +23,17 @@ import java.io.Serializable;
  * Returns the median of the available values.  This is the same as the 50th percentile.
  * See {@link Percentile} for a description of the algorithm used.
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class Median extends Percentile implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -3961477041290915687L;    
+    private static final long serialVersionUID = -3961477041290915687L;
 
     /**
      * Default constructor.
@@ -41,15 +41,15 @@ public class Median extends Percentile implements Serializable {
     public Median() {
         super(50.0);
     }
-    
+
     /**
      * Copy constructor, creates a new {@code Median} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code Median} instance to copy
      */
     public Median(Median original) {
         super(original);
-    }        
+    }
 
 }

@@ -73,7 +73,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
     /**
      * Returns a copy of the polynomial function.
-     * 
+     *
      * @return a fresh copy of the polynomial function
      * @deprecated as of 2.0 the function is not stored anymore within the instance.
      */
@@ -100,7 +100,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * Find a real root in the given interval with initial value.
      * <p>
      * Requires bracketing condition.</p>
-     * 
+     *
      * @param f function to solve (must be polynomial)
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -147,7 +147,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
@@ -192,7 +192,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /**
      * Returns true iff the given complex root is actually a real zero
      * in the given interval, within the solver tolerance level.
-     * 
+     *
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param z the complex root
@@ -208,14 +208,14 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /**
      * Find all complex roots for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * 
+     *
      * @param coefficients the polynomial coefficients array
      * @param initial the start value to use
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] solveAll(double coefficients[], double initial) throws
@@ -232,14 +232,14 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /**
      * Find all complex roots for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * 
+     *
      * @param coefficients the polynomial coefficients array
      * @param initial the start value to use
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] solveAll(Complex coefficients[], Complex initial) throws
@@ -281,14 +281,14 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
     /**
      * Find a complex root for the polynomial with the given coefficients,
      * starting from the given initial value.
-     * 
+     *
      * @param coefficients the polynomial coefficients array
      * @param initial the start value to use
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex solve(Complex coefficients[], Complex initial) throws

@@ -281,7 +281,7 @@ public class LoessInterpolator
             // Recompute the robustness weights.
 
             // Find the median residual.
-            // An arraycopy and a sort are completely tractable here, 
+            // An arraycopy and a sort are completely tractable here,
             // because the preceding loop is a lot more expensive
             System.arraycopy(residuals, 0, sortedResiduals, 0, n);
             Arrays.sort(sortedResiduals);
@@ -328,7 +328,7 @@ public class LoessInterpolator
     }
 
     /**
-     * Compute the 
+     * Compute the
      * <a href="http://en.wikipedia.org/wiki/Local_regression#Weight_function">tricube</a>
      * weight function
      *

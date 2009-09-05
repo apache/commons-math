@@ -43,7 +43,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
 
     /**
      * Create an improper formatting instance with the default number format
-     * for the numerator and denominator.  
+     * for the numerator and denominator.
      */
     protected AbstractFormat() {
         this(getDefaultNumberFormat());
@@ -73,7 +73,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of BigFraction digits, which is set to 0.  
+     * customizing is the maximum number of BigFraction digits, which is set to 0.
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
@@ -83,7 +83,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of BigFraction digits, which is set to 0.  
+     * customizing is the maximum number of BigFraction digits, which is set to 0.
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
@@ -168,17 +168,17 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
                  c = source.charAt(index++);
              } while (Character.isWhitespace(c) && index < n);
              pos.setIndex(index);
-         
+
              if (index < n) {
                  ret = c;
              }
          }
-         
+
          return ret;
     }
 
     /**
-     * Formats a double value as a fraction and appends the result to a StringBuffer. 
+     * Formats a double value as a fraction and appends the result to a StringBuffer.
      *
      * @param value the double value to format
      * @param buffer StringBuffer to append to
@@ -193,9 +193,9 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
         return format(Double.valueOf(value), buffer, position);
     }
 
-    
+
     /**
-     * Formats a long value as a fraction and appends the result to a StringBuffer. 
+     * Formats a long value as a fraction and appends the result to a StringBuffer.
      *
      * @param value the long value to format
      * @param buffer StringBuffer to append to

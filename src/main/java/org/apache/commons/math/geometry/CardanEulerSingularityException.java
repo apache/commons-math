@@ -28,7 +28,7 @@ import org.apache.commons.math.MathException;
 public class CardanEulerSingularityException
   extends MathException {
 
-  /** 
+  /**
    * Simple constructor.
    * build an exception with a default message.
    * @param isCardan if true, the rotation is related to Cardan angles,

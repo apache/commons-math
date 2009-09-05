@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 
 
 /**
- * An interface to classes that implement an algorithm to calculate the 
+ * An interface to classes that implement an algorithm to calculate the
  * Singular Value Decomposition of a real matrix.
  * <p>The Singular Value Decomposition of matrix A is a set of three matrices:
  * U, &Sigma; and V such that A = U &times; &Sigma; &times; V<sup>T</sup>.
@@ -50,7 +50,7 @@ package org.apache.commons.math.linear;
 public interface SingularValueDecomposition {
 
     /**
-     * Returns the matrix U of the decomposition. 
+     * Returns the matrix U of the decomposition.
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix
      * @see #getUT()
@@ -58,7 +58,7 @@ public interface SingularValueDecomposition {
     RealMatrix getU();
 
     /**
-     * Returns the transpose of the matrix U of the decomposition. 
+     * Returns the transpose of the matrix U of the decomposition.
      * <p>U is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the U matrix (or null if decomposed matrix is singular)
      * @see #getU()
@@ -66,7 +66,7 @@ public interface SingularValueDecomposition {
     RealMatrix getUT();
 
     /**
-     * Returns the diagonal matrix &Sigma; of the decomposition. 
+     * Returns the diagonal matrix &Sigma; of the decomposition.
      * <p>&Sigma; is a diagonal matrix. The singular values are provided in
      * non-increasing order, for compatibility with Jama.</p>
      * @return the &Sigma; matrix
@@ -82,7 +82,7 @@ public interface SingularValueDecomposition {
     double[] getSingularValues();
 
     /**
-     * Returns the matrix V of the decomposition. 
+     * Returns the matrix V of the decomposition.
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix (or null if decomposed matrix is singular)
      * @see #getVT()
@@ -90,7 +90,7 @@ public interface SingularValueDecomposition {
     RealMatrix getV();
 
     /**
-     * Returns the transpose of the matrix V of the decomposition. 
+     * Returns the transpose of the matrix V of the decomposition.
      * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
      * @return the V matrix (or null if decomposed matrix is singular)
      * @see #getV()

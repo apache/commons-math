@@ -24,10 +24,10 @@ package org.apache.commons.math.analysis;
  */
 public interface DifferentiableUnivariateMatrixFunction
     extends UnivariateMatrixFunction {
- 
+
     /**
      * Returns the derivative of the function
-     * 
+     *
      * @return  the derivative function
      */
     public UnivariateMatrixFunction derivative();

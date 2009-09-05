@@ -96,7 +96,7 @@ public abstract class TestProblemAbstract
     calls     = 0;
     n         = y0.length;
     this.t0   = t0;
-    this.y0   = y0.clone(); 
+    this.y0   = y0.clone();
    }
 
   /**
@@ -112,7 +112,7 @@ public abstract class TestProblemAbstract
    * @param errorScale error scale
    */
   protected void setErrorScale(double[] errorScale) {
-    this.errorScale = errorScale.clone(); 
+    this.errorScale = errorScale.clone();
   }
 
   public int getDimension() {

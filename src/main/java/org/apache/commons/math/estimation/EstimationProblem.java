@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.estimation;
 
-/** 
+/**
  * This interface represents an estimation problem.
  *
  * <p>This interface should be implemented by all real estimation
@@ -46,19 +46,19 @@ package org.apache.commons.math.estimation;
  */
 @Deprecated
 public interface EstimationProblem {
-  /** 
+  /**
    * Get the measurements of an estimation problem.
    * @return measurements
    */
   public WeightedMeasurement[] getMeasurements();
 
-  /** 
+  /**
    * Get the unbound parameters of the problem.
    * @return unbound parameters
    */
   public EstimatedParameter[] getUnboundParameters();
 
-  /** 
+  /**
    * Get all the parameters of the problem.
    * @return parameters
    */

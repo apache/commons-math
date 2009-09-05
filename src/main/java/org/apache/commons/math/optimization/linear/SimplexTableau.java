@@ -37,7 +37,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * A tableau for use in the Simplex method.
- * 
+ *
  * <p>
  * Example:
  * <pre>
@@ -86,9 +86,9 @@ class SimplexTableau implements Serializable {
     /** Number of artificial variables. */
     protected int numArtificialVariables;
 
-    /** Amount of error to accept in floating point comparisons. */ 
+    /** Amount of error to accept in floating point comparisons. */
     protected final double epsilon;
-    
+
     /**
      * Build a tableau for a linear problem.
      * @param f linear objective function
@@ -174,8 +174,8 @@ class SimplexTableau implements Serializable {
             // artificial variables
             if ((constraint.getRelationship() == Relationship.EQ) ||
                     (constraint.getRelationship() == Relationship.GEQ)) {
-                matrix[0][getArtificialVariableOffset() + artificialVar] = 1; 
-                matrix[row][getArtificialVariableOffset() + artificialVar++] = 1; 
+                matrix[0][getArtificialVariableOffset() + artificialVar] = 1;
+                matrix[row][getArtificialVariableOffset() + artificialVar++] = 1;
             }
         }
 
@@ -214,7 +214,7 @@ class SimplexTableau implements Serializable {
                                         constraint.getRelationship().oppositeRelationship(),
                                         -1 * constraint.getValue());
         }
-        return new LinearConstraint(constraint.getCoefficients(), 
+        return new LinearConstraint(constraint.getCoefficients(),
                                     constraint.getRelationship(), constraint.getValue());
     }
 
@@ -282,7 +282,7 @@ class SimplexTableau implements Serializable {
     private Integer getBasicRowForSolution(final int col) {
         return getBasicRow(col, false);
     }
-    
+
     /**
      * Checks whether the given column is basic.
      * @param col index of the column to check
@@ -329,12 +329,12 @@ class SimplexTableau implements Serializable {
      * @param dest the destination array
      */
     private void copyArray(final double[] src, final double[] dest) {
-        System.arraycopy(src, 0, dest, getNumObjectiveFunctions(), src.length); 
+        System.arraycopy(src, 0, dest, getNumObjectiveFunctions(), src.length);
     }
 
     /**
      * Get the current solution.
-     * 
+     *
      * @return current solution
      */
     protected RealPointValuePair getSolution() {
@@ -345,7 +345,7 @@ class SimplexTableau implements Serializable {
       for (int i = 0; i < coefficients.length; i++) {
           Integer basicRow = getBasicRowForSolution(getNumObjectiveFunctions() + i);
           if (basicRows.contains(basicRow)) {
-              // if multiple variables can take a given value 
+              // if multiple variables can take a given value
               // then we choose the first and set the rest equal to 0
               coefficients[i] = 0;
           } else {
@@ -449,7 +449,7 @@ class SimplexTableau implements Serializable {
     protected final int getRhsOffset() {
         return getWidth() - 1;
     }
-    
+
     /**
      * Returns the offset of the extra decision variable added when there is a
      * negative decision variable in the original problem.
@@ -510,7 +510,7 @@ class SimplexTableau implements Serializable {
     @Override
     public boolean equals(Object other) {
 
-      if (this == other) { 
+      if (this == other) {
         return true;
       }
 
@@ -536,7 +536,7 @@ class SimplexTableau implements Serializable {
       }
 
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {

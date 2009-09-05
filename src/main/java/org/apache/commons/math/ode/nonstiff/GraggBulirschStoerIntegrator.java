@@ -325,7 +325,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     } else {
       // step size sequence: 2, 4, 6, 8, ...
       for (int k = 0; k < size; ++k) {
-        sequence[k] = 2 * (k + 1); 
+        sequence[k] = 2 * (k + 1);
       }
     }
 

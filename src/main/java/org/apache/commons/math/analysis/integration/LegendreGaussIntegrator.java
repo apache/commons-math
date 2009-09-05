@@ -163,7 +163,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     public double integrate(final UnivariateRealFunction f,
             final double min, final double max)
         throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
-        
+
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();

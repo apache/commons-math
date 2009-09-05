@@ -23,7 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.random.RandomGenerator;
 
-/** 
+/**
  * Special implementation of the {@link UnivariateRealOptimizer} interface adding
  * multi-start features to an existing optimizer.
  * <p>

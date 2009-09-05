@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Interface for (univariate real) rootfinding algorithms.
  * <p>
  * Implementations will search for only one zero in the given interval.</p>
- *  
+ *
  * @version $Revision$ $Date$
  */
 public interface UnivariateRealSolver extends ConvergingAlgorithm {
@@ -39,10 +39,10 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * <p>
      * This is a safety guard and it shouldn't be necessary to change this in
      * general.</p>
-     * 
+     *
      * @param accuracy the accuracy.
      * @throws IllegalArgumentException if the accuracy can't be achieved by
-     * the solver or is otherwise deemed unreasonable. 
+     * the solver or is otherwise deemed unreasonable.
      */
     void setFunctionValueAccuracy(double accuracy);
 
@@ -63,7 +63,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * <p>A solver may require that the interval brackets a single zero root.
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
-     * 
+     *
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @return a value where the function is zero
@@ -77,7 +77,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * since 2.0
      */
     @Deprecated
-    double solve(double min, double max) throws ConvergenceException, 
+    double solve(double min, double max) throws ConvergenceException,
         FunctionEvaluationException;
 
     /**
@@ -85,7 +85,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * <p>A solver may require that the interval brackets a single zero root.
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
-     * 
+     *
      * @param f the function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
@@ -99,7 +99,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @since 2.0
      */
     double solve(UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException, 
+        throws ConvergenceException,
         FunctionEvaluationException;
 
     /**
@@ -107,7 +107,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * <p>A solver may require that the interval brackets a single zero root.
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
-     * 
+     *
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
@@ -130,7 +130,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * <p>A solver may require that the interval brackets a single zero root.
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
-     * 
+     *
      * @param f the function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
@@ -149,7 +149,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Get the result of the last run of the solver.
-     * 
+     *
      * @return the last result.
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
@@ -158,7 +158,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 
     /**
      * Get the result of the last run of the solver.
-     * 
+     *
      * @return the value of the function at the last result.
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.

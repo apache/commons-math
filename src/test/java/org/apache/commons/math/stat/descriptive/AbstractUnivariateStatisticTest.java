@@ -23,38 +23,38 @@ import junit.framework.TestSuite;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 
 /**
- * Tests for AbstractUnivariateStatistic 
+ * Tests for AbstractUnivariateStatistic
  *
  * @version $Revision$ $Date$
  */
 public class AbstractUnivariateStatisticTest extends TestCase {
-    
+
     public AbstractUnivariateStatisticTest(String name) {
         super(name);
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(AbstractUnivariateStatisticTest.class);
         suite.setName("AbstractUnivariateStatistic Tests");
         return suite;
     }
-    
+
     protected double[] testArray = {0, 1, 2, 3, 4, 5};
     protected double[] testWeightsArray = {0.3, 0.2, 1.3, 1.1, 1.0, 1.8};
     protected double[] testNegativeWeightsArray = {-0.3, 0.2, -1.3, 1.1, 1.0, 1.8};
     protected double[] nullArray = null;
     protected double[] singletonArray = {0};
     protected Mean testStatistic = new Mean();
-    
+
     public void testTestPositive() {
         for (int j = 0; j < 6; j++) {
             for (int i = 1; i < (7 - j); i++) {
                 assertTrue(testStatistic.test(testArray, 0, i));
-            }  
+            }
         }
         assertTrue(testStatistic.test(singletonArray, 0, 1));
     }
-    
+
     public void testTestNegative() {
         assertFalse(testStatistic.test(singletonArray, 0, 0));
         assertFalse(testStatistic.test(testArray, 0, 0));

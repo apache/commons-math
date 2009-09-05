@@ -36,28 +36,28 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
 
 public class QRSolverTest extends TestCase {
-    double[][] testData3x3NonSingular = { 
-            { 12, -51,   4 }, 
+    double[][] testData3x3NonSingular = {
+            { 12, -51,   4 },
             {  6, 167, -68 },
             { -4,  24, -41 }
     };
 
-    double[][] testData3x3Singular = { 
-            { 1, 2,  2 }, 
+    double[][] testData3x3Singular = {
+            { 1, 2,  2 },
             { 2, 4,  6 },
             { 4, 8, 12 }
     };
 
-    double[][] testData3x4 = { 
-            { 12, -51,   4, 1 }, 
+    double[][] testData3x4 = {
+            { 12, -51,   4, 1 },
             {  6, 167, -68, 2 },
             { -4,  24, -41, 3 }
     };
 
-    double[][] testData4x3 = { 
-            { 12, -51,   4 }, 
+    double[][] testData4x3 = {
+            { 12, -51,   4 },
             {  6, 167, -68 },
-            { -4,  24, -41 }, 
+            { -4,  24, -41 },
             { -5,  34,   7 }
     };
 

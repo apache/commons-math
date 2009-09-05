@@ -27,26 +27,26 @@ public class ListPopulationTest {
     @Test
     public void testGetFittestChromosome() {
         Chromosome c1 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 0;
             }
         };
         Chromosome c2 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 10;
             }
         };
         Chromosome c3 = new Chromosome() {
-            public double fitness() {                
+            public double fitness() {
                 return 15;
             }
         };
-        
+
         ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome> ();
         chromosomes.add(c1);
         chromosomes.add(c2);
         chromosomes.add(c3);
-        
+
         ListPopulation population = new ListPopulation(chromosomes,10) {
 
             public Population nextGeneration() {
@@ -54,7 +54,7 @@ public class ListPopulationTest {
                 return null;
             }
         };
-        
+
         assertEquals(c3, population.getFittestChromosome());
     }
 

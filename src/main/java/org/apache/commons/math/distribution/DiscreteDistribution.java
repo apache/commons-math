@@ -27,7 +27,7 @@ public interface DiscreteDistribution extends Distribution {
      * For a random variable X whose values are distributed according
      * to this distribution, this method returns P(X = x). In other words, this
      * method represents the probability mass function, or PMF for the distribution.
-     * 
+     *
      * @param x the value at which the probability mass function is evaluated.
      * @return the value of the probability mass function at x
      */

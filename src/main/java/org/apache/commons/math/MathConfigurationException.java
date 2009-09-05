@@ -33,7 +33,7 @@ public class MathConfigurationException extends MathException implements Seriali
     public MathConfigurationException() {
         super();
     }
-    
+
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.

@@ -70,7 +70,7 @@ public class FractionField implements Field<Fraction>, Serializable  {
      */
     private Object readResolve() {
         // return the singleton instance
-        return LazyHolder.INSTANCE; 
+        return LazyHolder.INSTANCE;
     }
 
 }

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class DuplicateSampleAbscissaExceptionTest extends TestCase {
-    
+
     public void testConstructor(){
         DuplicateSampleAbscissaException ex = new DuplicateSampleAbscissaException(1.2, 10, 11);
         assertNull(ex.getCause());
@@ -34,5 +34,5 @@ public class DuplicateSampleAbscissaExceptionTest extends TestCase {
         assertEquals(1.2, ex.getDuplicateAbscissa(), 0);
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
 }

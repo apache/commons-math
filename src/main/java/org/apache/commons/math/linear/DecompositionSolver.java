@@ -29,7 +29,7 @@ package org.apache.commons.math.linear;
  * ||A &times; X - B|| is exactly 0. Other solvers can also find solutions
  * with non-square matrix A and with non-null minimal norm. If an exact linear
  * solution exists it is also the minimal norm solution.</p>
- *   
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */

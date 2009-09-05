@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class MaxIterationsExceededExceptionTest extends TestCase {
-    
+
     public void testSimpleConstructor(){
         MaxIterationsExceededException ex = new MaxIterationsExceededException(1000000);
         assertNull(ex.getCause());
@@ -47,5 +47,5 @@ public class MaxIterationsExceededExceptionTest extends TestCase {
         assertEquals(1000000, ex.getMaxIterations());
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
-    
+
 }

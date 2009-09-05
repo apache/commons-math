@@ -29,11 +29,11 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class SimplexSolver extends AbstractLinearOptimizer {
 
-    /** Default amount of error to accept in floating point comparisons. */ 
+    /** Default amount of error to accept in floating point comparisons. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
 
-    /** Amount of error to accept in floating point comparisons. */ 
-    protected final double epsilon;  
+    /** Amount of error to accept in floating point comparisons. */
+    protected final double epsilon;
 
     /**
      * Build a simplex solver with default settings.
@@ -83,7 +83,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
                 final double ratio = rhs / entry;
                 if (ratio < minRatio) {
                     minRatio = ratio;
-                    minRatioPos = i; 
+                    minRatioPos = i;
                 }
             }
         }

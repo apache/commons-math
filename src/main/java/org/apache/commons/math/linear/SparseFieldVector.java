@@ -31,7 +31,7 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
  * @since 2.0
  */
 public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
-    
+
     /**
      *  Serial version id
      */
@@ -57,7 +57,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         this(field, 0);
     }
 
-    
+
     /**
      * Construct a (dimension)-length vector of zeros.
      * @param field field to which the elements belong
@@ -80,7 +80,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         entries = new OpenIntToFieldHashMap<T>(v.entries);
     }
 
-    
+
     /**
      * Build a vector with known the sparseness (for advanced use only).
      * @param field field to which the elements belong
@@ -109,7 +109,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         }
     }
 
-     
+
 
     /**
      * Copy constructor.
@@ -128,7 +128,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     private OpenIntToFieldHashMap<T> getEntries() {
         return entries;
     }
-    
+
     /**
      * Optimized method to add sparse vectors.
      * @param v vector to add
@@ -153,7 +153,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     }
 
-    
+
     /** {@inheritDoc} */
     public FieldVector<T> add(T[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -185,7 +185,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             return append((SparseFieldVector<T>) v);
         } else {
             return append(v.toArray());
-        }   
+        }
     }
 
     /** {@inheritDoc} */
@@ -390,7 +390,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      /** {@inheritDoc} */
      public FieldVector<T> mapSubtract(T d) {
         return copy().mapSubtractToSelf(d);
-    }    
+    }
 
      /** {@inheritDoc} */
      public FieldVector<T> mapSubtractToSelf(T d) {
@@ -485,7 +485,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         for (int i = 0; i < v.length; i++) {
             setEntry(i + index, v[i]);
         }
-        
+
     }
 
     /**
@@ -537,7 +537,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     public T[] toArray() {
         return getData();
     }
-    
+
     /**
      * Check if an index is valid.
      *
@@ -656,5 +656,5 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
 
-    
+
 }

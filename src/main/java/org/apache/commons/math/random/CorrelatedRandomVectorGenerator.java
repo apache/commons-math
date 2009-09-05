@@ -22,8 +22,8 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 
-/** 
- * A {@link RandomVectorGenerator} that generates vectors with with 
+/**
+ * A {@link RandomVectorGenerator} that generates vectors with with
  * correlated components.
  * <p>Random vectors with correlated components are built by combining
  * the uncorrelated components of another random vector in such a way that

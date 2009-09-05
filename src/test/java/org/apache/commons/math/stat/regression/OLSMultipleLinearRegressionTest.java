@@ -31,7 +31,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
 
     private double[] y;
     private double[][] x;
-    
+
     @Before
     @Override
     public void setUp(){
@@ -62,7 +62,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     protected int getSampleSize() {
         return y.length;
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddXSampleData() {
         createRegression().newSampleData(new double[]{}, null);
@@ -72,7 +72,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void cannotAddNullYSampleData() {
         createRegression().newSampleData(null, new double[][]{});
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddSampleDataWithSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
@@ -80,11 +80,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         x[0] = new double[]{1.0, 0};
         createRegression().newSampleData(y, x);
     }
-    
+
     @Test
     public void testPerfectFit() {
         double[] betaHat = regression.estimateRegressionParameters();
-        TestUtils.assertEquals(betaHat, 
+        TestUtils.assertEquals(betaHat,
                                new double[]{ 11.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0, 4.0 / 5.0, 5.0 / 6.0 },
                                1e-14);
         double[] residuals = regression.estimateResiduals();
@@ -109,15 +109,15 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                      errors.subtract(referenceVariance).getNorm(),
                      5.0e-16 * referenceVariance.getNorm());
     }
-    
-    
+
+
     /**
      * Test Longley dataset against certified values provided by NIST.
      * Data Source: J. Longley (1967) "An Appraisal of Least Squares
      * Programs for the Electronic Computer from the Point of View of the User"
      * Journal of the American Statistical Association, vol. 62. September,
      * pp. 819-841.
-     * 
+     *
      * Certified values (and data) are from NIST:
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
@@ -143,23 +143,23 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             69331,115.7,518173,4806,2572,127852,1961,
             70551,116.9,554894,4007,2827,130081,1962
         };
-        
+
         // Transform to Y and X required by interface
         int nobs = 16;
         int nvars = 6;
-        
+
         // Estimate the model
         OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
         model.newSampleData(design, nobs, nvars);
-        
+
         // Check expected beta values from NIST
         double[] betaHat = model.estimateRegressionParameters();
-        TestUtils.assertEquals(betaHat, 
+        TestUtils.assertEquals(betaHat,
           new double[]{-3482258.63459582, 15.0618722713733,
                 -0.358191792925910E-01,-2.02022980381683,
                 -1.03322686717359,-0.511041056535807E-01,
-                 1829.15146461355}, 2E-8); // 
-        
+                 1829.15146461355}, 2E-8); //
+
         // Check expected residuals from R
         double[] residuals = model.estimateResiduals();
         TestUtils.assertEquals(residuals, new double[]{
@@ -170,7 +170,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 -155.5499735953195,-85.6713080421283,341.9315139607727,
                 -206.7578251937366},
                       1E-8);
-        
+
         // Check standard errors from NIST
         double[] errors = model.estimateRegressionParametersStandardErrors();
         TestUtils.assertEquals(new double[] {890420.383607373,
@@ -179,9 +179,9 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                        0.488399681651699,
                        0.214274163161675,
                        0.226073200069370,
-                       455.478499142212}, errors, 1E-6); 
+                       455.478499142212}, errors, 1E-6);
     }
-    
+
     /**
      * Test R Swiss fertility dataset against R.
      * Data Source: R datasets package
@@ -248,7 +248,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
 
         // Check expected beta values from R
         double[] betaHat = model.estimateRegressionParameters();
-        TestUtils.assertEquals(betaHat, 
+        TestUtils.assertEquals(betaHat,
                 new double[]{91.05542390271397,
                 -0.22064551045715,
                 -0.26058239824328,
@@ -274,30 +274,30 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 5.4326230830188482,-7.2375578629692230,2.1671550814448222,
                 15.0147574652763112,4.8625103516321015,-7.1597256413907706,
                 -0.4515205619767598,-10.2916870903837587,-15.7812984571900063},
-                1E-12); 
-        
+                1E-12);
+
         // Check standard errors from R
         double[] errors = model.estimateRegressionParametersStandardErrors();
         TestUtils.assertEquals(new double[] {6.94881329475087,
                 0.07360008972340,
                 0.27410957467466,
                 0.19454551679325,
-                0.03726654773803}, errors, 1E-10); 
+                0.03726654773803}, errors, 1E-10);
     }
-    
+
     /**
      * Test hat matrix computation
-     * 
+     *
      * @throws Exception
      */
     @Test
     public void testHat() throws Exception {
-        
+
         /*
-         * This example is from "The Hat Matrix in Regression and ANOVA", 
-         * David C. Hoaglin and Roy E. Welsch, 
+         * This example is from "The Hat Matrix in Regression and ANOVA",
+         * David C. Hoaglin and Roy E. Welsch,
          * The American Statistician, Vol. 32, No. 1 (Feb., 1978), pp. 17-22.
-         * 
+         *
          */
         double[] design = new double[] {
                 11.14, .499, 11.1,
@@ -311,16 +311,16 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 11.02, .406, 10.5,
                 11.41, .467, 10.7
         };
-        
+
         int nobs = 10;
         int nvars = 2;
-        
+
         // Estimate the model
         OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
         model.newSampleData(design, nobs, nvars);
-        
+
         RealMatrix hat = model.calculateHat();
-        
+
         // Reference data is upper half of symmetric hat matrix
         double[] referenceData = new double[] {
                 .418, -.002,  .079, -.274, -.046,  .181,  .128,  .222,  .050,  .242,
@@ -334,24 +334,24 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                                                                         .315,  .148,
                                                                                .187
         };
-        
+
         // Check against reference data and verify symmetry
         int k = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = i; j < 10; j++) {
                 assertEquals(referenceData[k], hat.getEntry(i, j), 10e-3);
                 assertEquals(hat.getEntry(i, j), hat.getEntry(j, i), 10e-12);
-                k++;  
+                k++;
             }
         }
-        
-        /* 
-         * Verify that residuals computed using the hat matrix are close to 
+
+        /*
+         * Verify that residuals computed using the hat matrix are close to
          * what we get from direct computation, i.e. r = (I - H) y
          */
         double[] residuals = model.estimateResiduals();
         RealMatrix I = MatrixUtils.createRealIdentityMatrix(10);
         double[] hatResiduals = I.subtract(hat).operate(model.Y).getData();
-        TestUtils.assertEquals(residuals, hatResiduals, 10e-12);    
+        TestUtils.assertEquals(residuals, hatResiduals, 10e-12);
     }
 }

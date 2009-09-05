@@ -23,44 +23,44 @@ import org.apache.commons.math.linear.ArrayRealVector;
  * <p>
  * Maintains an <code>argument</code> property holding the input value that
  * caused the function evaluation to fail.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class FunctionEvaluationException extends MathException  {
-    
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4305020489115478365L;
 
     /** Argument causing function evaluation failure */
     private double[] argument;
-    
+
     /**
      * Construct an exception indicating the argument value
      * that caused the function evaluation to fail.
-     * 
-     * @param argument  the failing function argument 
+     *
+     * @param argument  the failing function argument
      */
     public FunctionEvaluationException(double argument) {
         super("evaluation failed for argument = {0}", argument);
         this.argument = new double[] { argument };
     }
-    
+
     /**
      * Construct an exception indicating the argument value
      * that caused the function evaluation to fail.
-     * 
-     * @param argument  the failing function argument 
+     *
+     * @param argument  the failing function argument
      * @since 2.0
      */
     public FunctionEvaluationException(double[] argument) {
         super("evaluation failed for argument = {0}", new ArrayRealVector(argument));
         this.argument = argument.clone();
     }
-    
+
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @param pattern format specifier
      * @param arguments format arguments
      * @since 1.2
@@ -74,7 +74,7 @@ public class FunctionEvaluationException extends MathException  {
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @param pattern format specifier
      * @param arguments format arguments
      * @since 2.0
@@ -89,7 +89,7 @@ public class FunctionEvaluationException extends MathException  {
      * Constructs an exception with specified root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param cause  the exception or error that caused this exception to be thrown
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @since 1.2
      */
     public FunctionEvaluationException(Throwable cause, double argument) {
@@ -101,7 +101,7 @@ public class FunctionEvaluationException extends MathException  {
      * Constructs an exception with specified root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param cause  the exception or error that caused this exception to be thrown
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @since 2.0
      */
     public FunctionEvaluationException(Throwable cause, double[] argument) {
@@ -113,7 +113,7 @@ public class FunctionEvaluationException extends MathException  {
      * Constructs an exception with specified formatted detail message and root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param cause  the exception or error that caused this exception to be thrown
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @param pattern format specifier
      * @param arguments format arguments
      * @since 1.2
@@ -129,7 +129,7 @@ public class FunctionEvaluationException extends MathException  {
      * Constructs an exception with specified formatted detail message and root cause.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param cause  the exception or error that caused this exception to be thrown
-     * @param argument  the failing function argument 
+     * @param argument  the failing function argument
      * @param pattern format specifier
      * @param arguments format arguments
      * @since 2.0
@@ -143,7 +143,7 @@ public class FunctionEvaluationException extends MathException  {
 
     /**
      * Returns the function argument that caused this exception.
-     * 
+     *
      * @return  argument that caused function evaluation to fail
      */
     public double[] getArgument() {

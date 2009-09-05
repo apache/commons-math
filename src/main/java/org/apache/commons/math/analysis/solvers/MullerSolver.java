@@ -39,7 +39,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver for the given function.
-     * 
+     *
      * @param f function to solve
      * @deprecated as of 2.0 the function to solve is passed as an argument
      * to the {@link #solve(UnivariateRealFunction, double, double)} or
@@ -76,7 +76,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * Find a real root in the given interval with initial value.
      * <p>
      * Requires bracketing condition.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -120,7 +120,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * bisection as a safety backup if it performs very poorly.</p>
      * <p>
      * The formulas here use divided differences directly.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -128,7 +128,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
@@ -228,14 +228,14 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * approximation is often negligible.</p>
      * <p>
      * The formulas here do not use divided differences directly.</p>
-     * 
+     *
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      * @deprecated replaced by {@link #solve2(UnivariateRealFunction, double, double)}
      * since 2.0
@@ -261,7 +261,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * approximation is often negligible.</p>
      * <p>
      * The formulas here do not use divided differences directly.</p>
-     * 
+     *
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
@@ -269,7 +269,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function 
+     * function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve2(final UnivariateRealFunction f,

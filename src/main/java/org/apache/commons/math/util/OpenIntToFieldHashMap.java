@@ -40,7 +40,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 2.0
  */
 public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {
-    
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -9179080286849120720L;
 
@@ -71,7 +71,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
     /** Field to which the elements belong. */
     private final Field<T> field;
-    
+
     /** Keys table. */
     private int[] keys;
 
@@ -293,7 +293,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
                 j = probe(perturb, j);
                 index = j & mask;
                 perturb >>= PERTURB_SHIFT;
-                
+
                 if (states[index] != FULL || keys[index] == key) {
                     break;
                 }
@@ -352,7 +352,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
         return size;
     }
 
-    
+
     /**
      * Remove the value associated with a key.
      * @param key key to which the value is associated
@@ -487,7 +487,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
         return h ^ (h >>> 7) ^ (h >>> 4);
     }
 
-    
+
     /** Iterator class for the map. */
     public class Iterator {
 

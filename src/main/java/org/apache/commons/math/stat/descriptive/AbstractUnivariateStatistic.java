@@ -19,16 +19,16 @@ package org.apache.commons.math.stat.descriptive;
 import org.apache.commons.math.MathRuntimeException;
 
 /**
- * Abstract base class for all implementations of the 
+ * Abstract base class for all implementations of the
  * {@link UnivariateStatistic} interface.
  * <p>
- * Provides a default implementation of <code>evaluate(double[]),</code> 
+ * Provides a default implementation of <code>evaluate(double[]),</code>
  * delegating to <code>evaluate(double[], int, int)</code> in the natural way.
  * </p>
  * <p>
  * Also includes a <code>test</code> method that performs generic parameter
  * validation for the <code>evaluate</code> methods.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public abstract class AbstractUnivariateStatistic
@@ -164,7 +164,7 @@ public abstract class AbstractUnivariateStatistic
                 containsPositiveWeight = true;
             }
         }
-        
+
         if (!containsPositiveWeight) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "weight array must contain at least one non-zero value");

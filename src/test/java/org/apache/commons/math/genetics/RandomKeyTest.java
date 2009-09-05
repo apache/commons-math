@@ -30,7 +30,7 @@ public class RandomKeyTest {
     public void testConstructor1() {
         new DummyRandomKey(new Double[] {0.2, 0.3, 1.2});
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void testConstructor2() {
         new DummyRandomKey(new Double[] {0.2, 0.3, -0.2});
@@ -43,7 +43,7 @@ public class RandomKeyTest {
         DummyRandomKey drk3 = new DummyRandomKey(new Double[] {0.4, 0.15, 0.5, 0.8, 0.2});
         DummyRandomKey drk4 = new DummyRandomKey(new Double[] {0.4, 0.25, 0.5, 0.8, 0.2});
         DummyRandomKey drk5 = new DummyRandomKey(new Double[] {0.4, 0.25, 0.5, 0.8, 0.2, 0.5});
-        
+
         assertTrue(drk1.isSame(drk2));
         assertTrue(drk2.isSame(drk3));
         assertFalse(drk3.isSame(drk4));
@@ -54,7 +54,7 @@ public class RandomKeyTest {
     public void testDecode() {
         DummyRandomKey drk = new DummyRandomKey(new Double[] {0.4, 0.1, 0.5, 0.8, 0.2});
         List<String> decoded = drk.decode(Arrays.asList(new String[] {"a", "b", "c", "d", "e"}));
-        
+
         assertEquals("b", decoded.get(0));
         assertEquals("e", decoded.get(1));
         assertEquals("a", decoded.get(2));
@@ -75,7 +75,7 @@ public class RandomKeyTest {
     public void testIdentityPermutation() {
         DummyRandomKey drk = new DummyRandomKey(RandomKey.identityPermutation(5));
         List<String> decoded = drk.decode(Arrays.asList(new String[] {"a", "b", "c", "d", "e"}));
-        
+
         assertEquals("a", decoded.get(0));
         assertEquals("b", decoded.get(1));
         assertEquals("c", decoded.get(2));
@@ -86,7 +86,7 @@ public class RandomKeyTest {
     @Test
     public void testComparatorPermutation() {
         List<String> data = Arrays.asList(new String[] {"x", "b", "c", "z", "b"});
-        
+
         List<Double> permutation = RandomKey.comparatorPermutation(data, new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return o1.compareTo(o2);
@@ -101,7 +101,7 @@ public class RandomKeyTest {
         assertEquals("c", decodedData.get(2));
         assertEquals("x", decodedData.get(3));
         assertEquals("z", decodedData.get(4));
-        
+
         permutation = RandomKey.comparatorPermutation(data, new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return o2.compareTo(o1);
@@ -117,15 +117,15 @@ public class RandomKeyTest {
         assertEquals("b", decodedData.get(3));
         assertEquals("b", decodedData.get(4));
     }
-    
+
     @Test
     public void testInducedPermutation() {
         List<String> origData = Arrays.asList(new String[] {"a", "b", "c", "d", "d"});
         List<String> permutedData = Arrays.asList(new String[] {"d", "b", "c", "a", "d"});
-        
+
         DummyRandomKey drk = new DummyRandomKey(RandomKey.inducedPermutation(origData, permutedData));
         List<String> decoded = drk.decode(origData);
-        
+
         assertEquals("d", decoded.get(0));
         assertEquals("b", decoded.get(1));
         assertEquals("c", decoded.get(2));
@@ -160,5 +160,5 @@ public class RandomKeyTest {
         assertEquals("b", decodedData.get(1));
         assertEquals("c", decodedData.get(2));
     }
-    
+
 }

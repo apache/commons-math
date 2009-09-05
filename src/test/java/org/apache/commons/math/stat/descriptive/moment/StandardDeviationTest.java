@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected StandardDeviation stat;
-    
+
     /**
      * @param name
      */
@@ -51,7 +51,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         suite.setName("StandardDeviation Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +59,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
     public double expectedValue() {
         return this.std;
     }
-    
+
     /**
      * Make sure Double.NaN is returned iff n = 0
      *
@@ -70,10 +70,10 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         std.increment(1d);
         assertEquals(0d, std.getResult(), 0);
     }
-    
+
     /**
      * Test population version of variance
-     */ 
+     */
     public void testPopulation() {
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         double sigma = populationStandardDeviation(values);
@@ -85,13 +85,13 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         s1.incrementAll(values);
         assertEquals(sigma, s1.getResult(), 1E-14);
         s1 = new StandardDeviation(false, m);
-        assertEquals(sigma, s1.getResult(), 1E-14);     
+        assertEquals(sigma, s1.getResult(), 1E-14);
         s1 = new StandardDeviation(false);
         assertEquals(sigma, s1.evaluate(values), 1E-14);
         s1.incrementAll(values);
-        assertEquals(sigma, s1.getResult(), 1E-14);     
+        assertEquals(sigma, s1.getResult(), 1E-14);
     }
-    
+
     /**
      * Definitional formula for population standard deviation
      */
@@ -99,7 +99,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         double mean = new Mean().evaluate(v);
         double sum = 0;
         for (int i = 0; i < v.length; i++) {
-            sum += (v[i] - mean) * (v[i] - mean); 
+            sum += (v[i] - mean) * (v[i] - mean);
         }
         return Math.sqrt(sum / v.length);
     }

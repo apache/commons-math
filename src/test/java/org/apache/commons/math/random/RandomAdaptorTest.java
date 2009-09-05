@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,29 +26,29 @@ import java.util.Random;
  */
 
 public class RandomAdaptorTest extends RandomDataTest {
-    
+
     public RandomAdaptorTest(String name) {
         super(name);
-    } 
-    
+    }
+
     public static Test suite() {
         TestSuite suite = new TestSuite(RandomAdaptorTest.class);
         suite.setName("RandomAdaptor Tests");
         return suite;
     }
-    
+
     public void testAdaptor() {
         ConstantGenerator generator = new ConstantGenerator();
         Random random = RandomAdaptor.createAdaptor(generator);
         checkConstant(random);
         RandomAdaptor randomAdaptor = new RandomAdaptor(generator);
-        checkConstant(randomAdaptor); 
+        checkConstant(randomAdaptor);
     }
-    
+
     private void checkConstant(Random random) {
         byte[] bytes = new byte[] {0};
         random.nextBytes(bytes);
-        assertEquals(0, bytes[0]);  
+        assertEquals(0, bytes[0]);
         assertEquals(false, random.nextBoolean());
         assertEquals(0, random.nextDouble(), 0);
         assertEquals(0, random.nextFloat(), 0);
@@ -59,18 +59,18 @@ public class RandomAdaptorTest extends RandomDataTest {
         random.setSeed(100);
         assertEquals(0, random.nextDouble(), 0);
     }
-    
+
     /*
      * "Constant" generator to test Adaptor delegation.
      * "Powered by Eclipse ;-)"
-     * 
+     *
      */
     private static class ConstantGenerator implements RandomGenerator {
-        
+
         public boolean nextBoolean() {
             return false;
         }
-        
+
         public void nextBytes(byte[] bytes) {
         }
 
@@ -100,7 +100,7 @@ public class RandomAdaptorTest extends RandomDataTest {
 
         public void setSeed(int seed) {
         }
-        
+
         public void setSeed(int[] seed) {
         }
 

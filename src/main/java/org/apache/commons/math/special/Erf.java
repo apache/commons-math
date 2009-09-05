@@ -35,14 +35,14 @@ public class Erf {
 
     /**
      * Returns the error function erf(x).
-     * 
+     *
      * The implementation of this method is based on:
      * <ul>
      * <li>
      * <a href="http://mathworld.wolfram.com/Erf.html">
      * Erf</a>, equation (3).</li>
      * </ul>
-     * 
+     *
      * @param x the value.
      * @return the error function erf(x)
      * @throws MathException if the algorithm fails to converge.

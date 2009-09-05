@@ -28,17 +28,17 @@ public interface DoubleArray {
 
     /**
      * Returns the number of elements currently in the array.  Please note
-     * that this may be different from the length of the internal storage array.  
-     * 
+     * that this may be different from the length of the internal storage array.
+     *
      * @return number of elements
      */
     int getNumElements();
 
     /**
      * Returns the element at the specified index.  Note that if an
-     * out of bounds index is supplied a ArrayIndexOutOfBoundsException 
+     * out of bounds index is supplied a ArrayIndexOutOfBoundsException
      * will be thrown.
-     * 
+     *
      * @param index index to fetch a value from
      * @return value stored at the specified index
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
@@ -49,10 +49,10 @@ public interface DoubleArray {
     /**
      * Sets the element at the specified index.  If the specified index is greater than
      * <code>getNumElements() - 1</code>, the <code>numElements</code> property
-     * is increased to <code>index +1</code> and additional storage is allocated 
-     * (if necessary) for the new element and all  (uninitialized) elements 
+     * is increased to <code>index +1</code> and additional storage is allocated
+     * (if necessary) for the new element and all  (uninitialized) elements
      * between the new element and the previous end of the array).
-     * 
+     *
      * @param index index to store a value in
      * @param value value to store at the specified index
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
@@ -62,7 +62,7 @@ public interface DoubleArray {
 
     /**
      * Adds an element to the end of this expandable array
-     * 
+     *
      * @param value to be added to end of array
      */
     void addElement(double value);
@@ -78,7 +78,7 @@ public interface DoubleArray {
      * and addElementRolling(5) is invoked, the result is an array containing
      * the entries 2, 3, 4, 5 and the value returned is 1.
      * </p>
-     * 
+     *
      * @param value the value to be added to the array
      * @return the value which has been discarded or "pushed" out of the array
      *         by this rolling insert
@@ -86,9 +86,9 @@ public interface DoubleArray {
     double addElementRolling(double value);
 
     /**
-     * Returns a double[] array containing the elements of this 
-     * <code>DoubleArray</code>.  If the underlying implementation is 
-     * array-based, this method should always return a copy, rather than a 
+     * Returns a double[] array containing the elements of this
+     * <code>DoubleArray</code>.  If the underlying implementation is
+     * array-based, this method should always return a copy, rather than a
      * reference to the underlying array so that changes made to the returned
      *  array have no effect on the <code>DoubleArray.</code>
      *

@@ -30,26 +30,26 @@ import org.apache.commons.math.MathRuntimeException;
  * Minus signs are only allowed in the whole number part - i.e.,
  * "-3 1/2" is legitimate and denotes -7/2, but "-3 -1/2" is invalid and
  * will result in a <code>ParseException</code>.</p>
- * 
+ *
  * @since 1.1
  * @version $Revision$ $Date$
  */
 public class ProperBigFractionFormat extends BigFractionFormat {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -6337346779577272307L;
-    
+
     /** The format used for the whole number. */
     private NumberFormat wholeFormat;
 
     /**
      * Create a proper formatting instance with the default number format for
-     * the whole, numerator, and denominator.  
+     * the whole, numerator, and denominator.
      */
     public ProperBigFractionFormat() {
         this(getDefaultNumberFormat());
     }
-    
+
     /**
      * Create a proper formatting instance with a custom number format for the
      * whole, numerator, and denominator.
@@ -59,7 +59,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
     public ProperBigFractionFormat(final NumberFormat format) {
         this(format, (NumberFormat)format.clone(), (NumberFormat)format.clone());
     }
-    
+
     /**
      * Create a proper formatting instance with a custom number format for each
      * of the whole, numerator, and denominator.
@@ -73,7 +73,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
         super(numeratorFormat, denominatorFormat);
         setWholeFormat(wholeFormat);
     }
-    
+
     /**
      * Formats a {@link BigFraction} object to produce a string.  The BigFraction
      * is output in proper format.
@@ -87,7 +87,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
     @Override
     public StringBuffer format(final BigFraction fraction,
                                final StringBuffer toAppendTo, final FieldPosition pos) {
-        
+
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
@@ -95,7 +95,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
         BigInteger den = fraction.getDenominator();
         BigInteger whole = num.divide(den);
         num = num.remainder(den);
-        
+
         if (!BigInteger.ZERO.equals(whole)) {
             getWholeFormat().format(whole, toAppendTo, pos);
             toAppendTo.append(' ');
@@ -106,7 +106,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
         getNumeratorFormat().format(num, toAppendTo, pos);
         toAppendTo.append(" / ");
         getDenominatorFormat().format(den, toAppendTo, pos);
-        
+
         return toAppendTo;
     }
 
@@ -117,7 +117,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
     public NumberFormat getWholeFormat() {
         return wholeFormat;
     }
-    
+
     /**
      * Parses a string to produce a {@link BigFraction} object.  This method
      * expects the string to be formatted as a proper BigFraction.
@@ -125,7 +125,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
      * Minus signs are only allowed in the whole number part - i.e.,
      * "-3 1/2" is legitimate and denotes -7/2, but "-3 -1/2" is invalid and
      * will result in a <code>ParseException</code>.</p>
-     * 
+     *
      * @param source the string to parse
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link BigFraction} object.
@@ -137,7 +137,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
         if (ret != null) {
             return ret;
         }
-        
+
         final int initialIndex = pos.getIndex();
 
         // parse whitespace
@@ -155,7 +155,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
 
         // parse whitespace
         parseAndIgnoreWhitespace(source, pos);
-        
+
         // parse numerator
         BigInteger num = parseNextBigInteger(source, pos);
         if (num == null) {
@@ -165,7 +165,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
             pos.setIndex(initialIndex);
             return null;
         }
-        
+
         if (num.compareTo(BigInteger.ZERO) < 0) {
             // minus signs should be leading, invalid expression
             pos.setIndex(initialIndex);
@@ -204,7 +204,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
             pos.setIndex(initialIndex);
             return null;
         }
-        
+
         if (den.compareTo(BigInteger.ZERO) < 0) {
             // minus signs must be leading, invalid
             pos.setIndex(initialIndex);
@@ -223,7 +223,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
         return new BigFraction(num, den);
 
     }
-    
+
     /**
      * Modify the whole format.
      * @param format The new whole format value.

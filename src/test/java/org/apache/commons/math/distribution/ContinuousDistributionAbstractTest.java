@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.apache.commons.math.TestUtils;
  * <p>
  * To implement additional test cases with different distribution instances and
  * test data, use the setXxx methods for the instance data in test cases and
- * call the verifyXxx methods to verify results. 
+ * call the verifyXxx methods to verify results.
  * <p>
  * Error tolerance can be overriden by implementing getTolerance().
  * <p>
@@ -50,32 +50,32 @@ import org.apache.commons.math.TestUtils;
  * <p>
  * See {@link NormalDistributionTest} and {@link ChiSquareDistributionTest}
  * for examples.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public abstract class ContinuousDistributionAbstractTest extends TestCase {
-    
+
 //-------------------- Private test instance data -------------------------
     /**  Distribution instance used to perform tests */
     private ContinuousDistribution distribution;
-    
+
     /** Tolerance used in comparing expected and returned values */
     private double tolerance = 1E-4;
-    
+
     /** Arguments used to test cumulative probability density calculations */
     private double[] cumulativeTestPoints;
-    
+
     /** Values used to test cumulative probability density calculations */
     private double[] cumulativeTestValues;
-    
+
     /** Arguments used to test inverse cumulative probability density calculations */
     private double[] inverseCumulativeTestPoints;
-    
+
     /** Values used to test inverse cumulative probability density calculations */
     private double[] inverseCumulativeTestValues;
-    
+
     //-------------------------------------------------------------------------
-    
+
     /**
      * Constructor for ContinuousDistributionAbstractTest.
      * @param name
@@ -83,34 +83,34 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     public ContinuousDistributionAbstractTest(String name) {
         super(name);
     }
-    
+
     //-------------------- Abstract methods -----------------------------------
-    
+
     /** Creates the default continuous distribution instance to use in tests. */
     public abstract ContinuousDistribution makeDistribution();
-    
+
     /** Creates the default cumulative probability density test input values */
     public abstract double[] makeCumulativeTestPoints();
-    
+
     /** Creates the default cumulative probability density test expected values */
     public abstract double[] makeCumulativeTestValues();
-    
+
     //---- Default implementations of inverse test data generation methods ----
-    
+
     /** Creates the default inverse cumulative probability test input values */
     public double[] makeInverseCumulativeTestPoints() {
         return makeCumulativeTestValues();
     }
-    
+
     /** Creates the default inverse cumulative probability density test expected values */
     public double[] makeInverseCumulativeTestValues() {
         return makeCumulativeTestPoints();
     }
-    
+
     //-------------------- Setup / tear down ----------------------------------
-     
+
     /**
-     * Setup sets all test instance data to default values 
+     * Setup sets all test instance data to default values
      */
     @Override
     protected void setUp() throws Exception {
@@ -119,90 +119,90 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
         cumulativeTestPoints = makeCumulativeTestPoints();
         cumulativeTestValues = makeCumulativeTestValues();
         inverseCumulativeTestPoints = makeInverseCumulativeTestPoints();
-        inverseCumulativeTestValues = makeInverseCumulativeTestValues();   
+        inverseCumulativeTestValues = makeInverseCumulativeTestValues();
     }
-    
+
     /**
      * Cleans up test instance data
      */
     @Override
-    protected void tearDown() throws Exception {      
+    protected void tearDown() throws Exception {
         super.tearDown();
         distribution = null;
         cumulativeTestPoints = null;
         cumulativeTestValues = null;
         inverseCumulativeTestPoints = null;
-        inverseCumulativeTestValues = null;   
+        inverseCumulativeTestValues = null;
     }
-    
+
     //-------------------- Verification methods -------------------------------
-    
+
     /**
      * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
-     */   
+     */
     protected void verifyCumulativeProbabilities() throws Exception {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
-            TestUtils.assertEquals("Incorrect cumulative probability value returned for " 
-                + cumulativeTestPoints[i], cumulativeTestValues[i], 
-                distribution.cumulativeProbability(cumulativeTestPoints[i]), 
+            TestUtils.assertEquals("Incorrect cumulative probability value returned for "
+                + cumulativeTestPoints[i], cumulativeTestValues[i],
+                distribution.cumulativeProbability(cumulativeTestPoints[i]),
                 getTolerance());
-        }           
+        }
     }
-    
+
     /**
      * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
     protected void verifyInverseCumulativeProbabilities() throws Exception {
         for (int i = 0; i < inverseCumulativeTestPoints.length; i++) {
-            TestUtils.assertEquals("Incorrect inverse cumulative probability value returned for " 
-                + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i], 
-                 distribution.inverseCumulativeProbability(inverseCumulativeTestPoints[i]), 
+            TestUtils.assertEquals("Incorrect inverse cumulative probability value returned for "
+                + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i],
+                 distribution.inverseCumulativeProbability(inverseCumulativeTestPoints[i]),
                  getTolerance());
-        }           
+        }
     }
-    
+
     //------------------------ Default test cases -----------------------------
-    
+
     /**
      * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testCumulativeProbabilities() throws Exception {
-        verifyCumulativeProbabilities();      
+        verifyCumulativeProbabilities();
     }
-    
+
     /**
      * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
     public void testInverseCumulativeProbabilities() throws Exception {
-        verifyInverseCumulativeProbabilities();       
+        verifyInverseCumulativeProbabilities();
     }
-    
+
     /**
      * Verifies that probability computations are consistent
      */
     public void testConsistency() throws Exception {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
-            
+
             // check that cdf(x, x) = 0
-            TestUtils.assertEquals(0d, 
+            TestUtils.assertEquals(0d,
                distribution.cumulativeProbability
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
-            
+
             // check that P(a < X < b) = P(X < b) - P(X < a)
             double upper = Math.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double lower = Math.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
-            double diff = distribution.cumulativeProbability(upper) - 
+            double diff = distribution.cumulativeProbability(upper) -
                 distribution.cumulativeProbability(lower);
             double direct = distribution.cumulativeProbability(lower, upper);
-            TestUtils.assertEquals("Inconsistent cumulative probabilities for (" 
+            TestUtils.assertEquals("Inconsistent cumulative probabilities for ("
                     + lower + "," + upper + ")", diff, direct, tolerance);
         }
     }
-    
+
     /**
      * Verifies that illegal arguments are correctly handled
      */
@@ -224,9 +224,9 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
             fail("Expecting IllegalArgumentException for p = 2");
         } catch (IllegalArgumentException ex) {
             // expected
-        }       
+        }
     }
-    
+
     //------------------ Getters / Setters for test instance data -----------
     /**
      * @return Returns the cumulativeTestPoints.

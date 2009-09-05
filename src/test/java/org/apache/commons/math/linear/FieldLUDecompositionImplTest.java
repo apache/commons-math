@@ -46,7 +46,7 @@ public class FieldLUDecompositionImplTest extends TestCase {
             { new Fraction(2), new Fraction(3), new Fraction(7) },
             { new Fraction(6), new Fraction(6), new Fraction(8) }
     };
-    
+
     // singular matrices
     private Fraction[][] singular = {
             { new Fraction(2), new Fraction(3) },
@@ -265,7 +265,7 @@ public class FieldLUDecompositionImplTest extends TestCase {
         assertTrue(l == lu.getL());
         assertTrue(u == lu.getU());
         assertTrue(p == lu.getP());
-        
+
     }
 
     /** test matrices values */
@@ -305,7 +305,7 @@ public class FieldLUDecompositionImplTest extends TestCase {
         assertTrue(l == lu.getL());
         assertTrue(u == lu.getU());
         assertTrue(p == lu.getP());
-        
+
     }
 
 }

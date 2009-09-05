@@ -352,7 +352,7 @@ public class DormandPrince54IntegratorTest
         assertTrue(minStep < (1.0 / 450.0));
         assertTrue(maxStep > (1.0 / 4.2));
       }
-    }  
+    }
     private boolean firstTime;
     private double  minStep;
     private double  maxStep;

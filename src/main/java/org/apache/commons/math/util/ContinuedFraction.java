@@ -35,7 +35,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
  * @version $Revision$ $Date$
  */
 public abstract class ContinuedFraction {
-    
+
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 
@@ -67,7 +67,7 @@ public abstract class ContinuedFraction {
     /**
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
-     * @return the value of the continued fraction evaluated at x. 
+     * @return the value of the continued fraction evaluated at x.
      * @throws MathException if the algorithm fails to converge.
      */
     public double evaluate(double x) throws MathException {
@@ -78,7 +78,7 @@ public abstract class ContinuedFraction {
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
-     * @return the value of the continued fraction evaluated at x. 
+     * @return the value of the continued fraction evaluated at x.
      * @throws MathException if the algorithm fails to converge.
      */
     public double evaluate(double x, double epsilon) throws MathException {
@@ -89,7 +89,7 @@ public abstract class ContinuedFraction {
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
      * @param maxIterations maximum number of convergents
-     * @return the value of the continued fraction evaluated at x. 
+     * @return the value of the continued fraction evaluated at x.
      * @throws MathException if the algorithm fails to converge.
      */
     public double evaluate(double x, int maxIterations) throws MathException {
@@ -100,7 +100,7 @@ public abstract class ContinuedFraction {
      * <p>
      * Evaluates the continued fraction at the value x.
      * </p>
-     * 
+     *
      * <p>
      * The implementation of this method is based on equations 14-17 of:
      * <ul>
@@ -115,11 +115,11 @@ public abstract class ContinuedFraction {
      * very large intermediate results which can result in numerical overflow.
      * As a means to combat these overflow conditions, the intermediate results
      * are scaled whenever they threaten to become numerically unstable.</p>
-     *   
+     *
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
      * @param maxIterations maximum number of convergents
-     * @return the value of the continued fraction evaluated at x. 
+     * @return the value of the continued fraction evaluated at x.
      * @throws MathException if the algorithm fails to converge.
      */
     public double evaluate(double x, double epsilon, int maxIterations)
@@ -155,7 +155,7 @@ public abstract class ContinuedFraction {
             }
             double r = p2 / q2;
             relativeError = Math.abs(r / c - 1.0);
-                
+
             // prepare for next iteration
             c = p2 / q2;
             p0 = p1;

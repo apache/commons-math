@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis;
 
-/** 
+/**
  * Extension of {@link MultivariateRealFunction} representing a differentiable
  * multivariate real function.
  * @version $Revision$ $Date$

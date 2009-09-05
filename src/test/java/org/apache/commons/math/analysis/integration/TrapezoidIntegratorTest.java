@@ -28,8 +28,8 @@ import junit.framework.TestCase;
  * <p>
  * Test runs show that for a default relative accuracy of 1E-6, it
  * generally takes 10 to 15 iterations for the integral to converge.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class TrapezoidIntegratorTest extends TestCase {
 

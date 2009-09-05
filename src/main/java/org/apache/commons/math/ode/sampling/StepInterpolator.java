@@ -54,13 +54,13 @@ public interface StepInterpolator
    * @return previous grid point time
    */
   public double getPreviousTime();
-    
+
   /**
    * Get the current grid point time.
    * @return current grid point time
    */
   public double getCurrentTime();
-    
+
   /**
    * Get the time of the interpolated point.
    * If {@link #setInterpolatedTime} has not been called, it returns
@@ -68,7 +68,7 @@ public interface StepInterpolator
    * @return interpolation point time
    */
   public double getInterpolatedTime();
-    
+
   /**
    * Set the time of the interpolated point.
    * <p>Setting the time outside of the current step is now allowed, but

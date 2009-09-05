@@ -32,7 +32,7 @@ public final class BisectionSolverTest extends TestCase {
     public void testDeprecated() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         double result;
-        
+
         UnivariateRealSolver solver = new BisectionSolver(f);
         result = solver.solve(3, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
@@ -44,7 +44,7 @@ public final class BisectionSolverTest extends TestCase {
     public void testSinZero() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         double result;
-        
+
         UnivariateRealSolver solver = new BisectionSolver();
         result = solver.solve(f, 3, 4);
         assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
@@ -90,67 +90,67 @@ public final class BisectionSolverTest extends TestCase {
 
         result = solver.solve(f, 0.85, 5);
         assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        
+
         assertEquals(result, solver.getResult(), 0);
         assertTrue(solver.getIterationCount() > 0);
     }
-    
+
     /**
-     * 
+     *
      */
     public void testSetFunctionValueAccuracy(){
-        double expected = 1.0e-2;    
+        double expected = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         solver.setFunctionValueAccuracy(expected);
         assertEquals(expected, solver.getFunctionValueAccuracy(), 1.0e-2);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testResetFunctionValueAccuracy(){
-        double newValue = 1.0e-2;    
+        double newValue = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         double oldValue = solver.getFunctionValueAccuracy();
         solver.setFunctionValueAccuracy(newValue);
         solver.resetFunctionValueAccuracy();
         assertEquals(oldValue, solver.getFunctionValueAccuracy(), 1.0e-2);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testSetAbsoluteAccuracy(){
-        double expected = 1.0e-2; 
+        double expected = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         solver.setAbsoluteAccuracy(expected);
-        assertEquals(expected, solver.getAbsoluteAccuracy(), 1.0e-2); 
-    }        
-    
+        assertEquals(expected, solver.getAbsoluteAccuracy(), 1.0e-2);
+    }
+
     /**
-     * 
+     *
      */
     public void testResetAbsoluteAccuracy(){
-        double newValue = 1.0e-2;       
+        double newValue = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         double oldValue = solver.getAbsoluteAccuracy();
         solver.setAbsoluteAccuracy(newValue);
         solver.resetAbsoluteAccuracy();
         assertEquals(oldValue, solver.getAbsoluteAccuracy(), 1.0e-2);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testSetMaximalIterationCount(){
         int expected = 100;
         UnivariateRealSolver solver = new BisectionSolver();
         solver.setMaximalIterationCount(expected);
         assertEquals(expected, solver.getMaximalIterationCount());
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testResetMaximalIterationCount(){
         int newValue = 10000;
@@ -159,29 +159,29 @@ public final class BisectionSolverTest extends TestCase {
         solver.setMaximalIterationCount(newValue);
         solver.resetMaximalIterationCount();
         assertEquals(oldValue, solver.getMaximalIterationCount());
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testSetRelativeAccuracy(){
         double expected = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         solver.setRelativeAccuracy(expected);
         assertEquals(expected, solver.getRelativeAccuracy(), 1.0e-2);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testResetRelativeAccuracy(){
-        double newValue = 1.0e-2;        
+        double newValue = 1.0e-2;
         UnivariateRealSolver solver = new BisectionSolver();
         double oldValue = solver.getRelativeAccuracy();
         solver.setRelativeAccuracy(newValue);
         solver.resetRelativeAccuracy();
         assertEquals(oldValue, solver.getRelativeAccuracy(), 1.0e-2);
-    }        
-    
-   
+    }
+
+
 }

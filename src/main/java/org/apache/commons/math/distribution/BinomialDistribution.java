@@ -35,19 +35,19 @@ public interface BinomialDistribution extends IntegerDistribution {
      * @return the number of trials.
      */
     int getNumberOfTrials();
-    
+
     /**
      * Access the probability of success for this distribution.
      * @return the probability of success.
      */
     double getProbabilityOfSuccess();
-    
+
     /**
      * Change the number of trials for this distribution.
      * @param trials the new number of trials.
      */
     void setNumberOfTrials(int trials);
-    
+
     /**
      * Change the probability of success for this distribution.
      * @param p the new probability of success.

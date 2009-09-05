@@ -73,10 +73,10 @@ public class ClassicalRungeKuttaIntegratorTest
     } catch(IntegratorException ie) {
     }
   }
-  
+
   public void testDecreasingSteps()
     throws DerivativeException, IntegratorException  {
-      
+
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
 
@@ -231,7 +231,7 @@ public class ClassicalRungeKuttaIntegratorTest
               return false;
           }
           public void reset() {
-          }          
+          }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
           private static final long serialVersionUID = 0L;

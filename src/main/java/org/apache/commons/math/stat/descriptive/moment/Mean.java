@@ -48,23 +48,23 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
  * <p>
  *  Returns <code>Double.NaN</code> if the dataset is empty.
  * </p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
- * 
+ *
  * @version $Revision$ $Date$
  */
-public class Mean extends AbstractStorelessUnivariateStatistic 
+public class Mean extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1296043746617791564L;    
-    
+    private static final long serialVersionUID = -1296043746617791564L;
+
     /** First moment on which this statistic is based. */
     protected FirstMoment moment;
 
-    /** 
+    /**
      * Determines whether or not this statistic can be incremented or cleared.
      * <p>
      * Statistics based on (constructed from) external moments cannot

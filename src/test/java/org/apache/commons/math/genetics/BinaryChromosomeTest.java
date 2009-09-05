@@ -23,31 +23,31 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 public class BinaryChromosomeTest {
-    
+
     @Test
-    public void testInvalidConstructor() {        
+    public void testInvalidConstructor() {
         Integer[][] reprs = new Integer[][] {
                 new Integer[] {0,1,0,1,2},
                 new Integer[] {0,1,0,1,-1}
         };
-        
+
         for (Integer[] repr : reprs) {
             try {
                 new DummyBinaryChromosome(repr);
                 fail("Exception not caught");
             } catch (IllegalArgumentException e) {
-                
+
             }
         }
     }
-    
+
     @Test
     public void testRandomConstructor() {
         for (int i=0; i<20; i++) {
             new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(10));
         }
     }
-    
+
     @Test
     public void testIsSame() {
         Chromosome c1 = new DummyBinaryChromosome(new Integer[] {0,1,0,1,0,1});
@@ -56,7 +56,7 @@ public class BinaryChromosomeTest {
         Chromosome c4 = new DummyBinaryChromosome(new Integer[] {1,1,0,1,0,1});
         Chromosome c5 = new DummyBinaryChromosome(new Integer[] {0,1,0,1,0,0});
         Chromosome c6 = new DummyBinaryChromosome(new Integer[] {0,1,0,1,0,1});
-        
+
         assertFalse(c1.isSame(c2));
         assertFalse(c1.isSame(c3));
         assertFalse(c1.isSame(c4));

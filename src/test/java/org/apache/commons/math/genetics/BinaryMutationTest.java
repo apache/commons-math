@@ -25,12 +25,12 @@ public class BinaryMutationTest {
     @Test
     public void testMutate() {
         BinaryMutation mutation = new BinaryMutation();
-        
+
         // stochastic testing :)
         for (int i=0; i<20; i++) {
-            DummyBinaryChromosome original = new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(10));            
+            DummyBinaryChromosome original = new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(10));
             DummyBinaryChromosome mutated = (DummyBinaryChromosome) mutation.mutate(original);
-            
+
             // one gene should be different
             int numDifferent = 0;
             for (int j=0; j<original.getRepresentation().size(); j++) {

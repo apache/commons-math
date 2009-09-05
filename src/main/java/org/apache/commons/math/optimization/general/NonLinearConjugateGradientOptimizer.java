@@ -27,7 +27,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
-/** 
+/**
  * Non-linear conjugate gradient optimizer.
  * <p>
  * This class supports both the Fletcher-Reeves and the Polak-Ribi&egrave;re
@@ -189,7 +189,7 @@ public class NonLinearConjugateGradientOptimizer
                     double deltaMid = 0;
                     for (int i = 0; i < r.length; ++i) {
                         deltaMid += r[i] * steepestDescent[i];
-                    }                    
+                    }
                     beta = (delta - deltaMid) / deltaOld;
                 }
                 steepestDescent = newSteepestDescent;

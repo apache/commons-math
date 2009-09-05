@@ -37,7 +37,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
-     * coefficients[0] is the constant term and coefficients[n] is the 
+     * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
     private double coefficients[];
@@ -57,7 +57,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * values. The order of interpolating points are not important.
      * <p>
      * The constructor makes copy of the input arrays and assigns them.</p>
-     * 
+     *
      * @param x interpolating points
      * @param y function values at interpolating points
      * @throws IllegalArgumentException if input arrays are not valid
@@ -91,7 +91,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
 
     /**
      * Returns the degree of the polynomial.
-     * 
+     *
      * @return the degree of the polynomial
      */
     public int degree() {
@@ -102,7 +102,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * Returns a copy of the interpolating points array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of the interpolating points array
      */
     public double[] getInterpolatingPoints() {
@@ -115,7 +115,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * Returns a copy of the interpolating values array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of the interpolating values array
      */
     public double[] getInterpolatingValues() {
@@ -128,7 +128,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * Returns a copy of the coefficients array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
-     * 
+     *
      * @return a fresh copy of the coefficients array
      */
     public double[] getCoefficients() {
@@ -141,7 +141,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     }
 
     /**
-     * Evaluate the Lagrange polynomial using 
+     * Evaluate the Lagrange polynomial using
      * <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
      * Neville's Algorithm</a>. It takes O(N^2) time.
      * <p>
@@ -276,7 +276,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * <p>
      * The interpolating points must be distinct. However it is not
      * verified here, it is checked in evaluate() and computeCoefficients().</p>
-     * 
+     *
      * @param x the interpolating points array
      * @param y the interpolating values array
      * @throws IllegalArgumentException if not valid

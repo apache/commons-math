@@ -48,7 +48,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 class ThreeEighthesStepInterpolator
   extends RungeKuttaStepInterpolator {
-    
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link

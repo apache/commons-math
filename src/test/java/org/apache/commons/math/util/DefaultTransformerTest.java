@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.apache.commons.math.TestUtils;
  */
 public class DefaultTransformerTest extends TestCase {
     /**
-     * 
+     *
      */
     public void testTransformDouble() throws Exception {
         double expected = 1.0;
@@ -37,9 +37,9 @@ public class DefaultTransformerTest extends TestCase {
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
     }
-    
+
     /**
-     * 
+     *
      */
     public void testTransformNull(){
         DefaultTransformer t = new DefaultTransformer();
@@ -50,29 +50,29 @@ public class DefaultTransformerTest extends TestCase {
             // expected
         }
     }
-    
+
     /**
-     * 
+     *
      */
     public void testTransformInteger() throws Exception {
         double expected = 1.0;
         Integer input = Integer.valueOf(1);
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testTransformBigDecimal() throws Exception {
         double expected = 1.0;
         BigDecimal input = new BigDecimal("1.0");
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
-    }        
-    
+    }
+
     /**
-     * 
+     *
      */
     public void testTransformString() throws Exception {
         double expected = 1.0;
@@ -80,9 +80,9 @@ public class DefaultTransformerTest extends TestCase {
         DefaultTransformer t = new DefaultTransformer();
         assertEquals(expected, t.transform(input), 1.0e-4);
     }
-    
+
     /**
-     * 
+     *
      */
     public void testTransformObject(){
         Boolean input = Boolean.TRUE;

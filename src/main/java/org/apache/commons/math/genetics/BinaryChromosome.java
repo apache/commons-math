@@ -22,12 +22,12 @@ import java.util.List;
 
 /**
  * Chromosome represented by a vector of 0s and 1s.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
-    
+
     /**
      * Constructor.
      * @param representation list of {0,1} values representing the chromosome
@@ -35,7 +35,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     public BinaryChromosome(List<Integer> representation) {
         super(representation);
     }
-    
+
     /**
      * Constructor.
      * @param representation array of {0,1} values representing the chromosome
@@ -43,7 +43,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     public BinaryChromosome(Integer[] representation) {
         super(representation);
     }
-     
+
     /**
      * {@inheritDoc}
      */
@@ -68,7 +68,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
         }
         return rList;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -81,7 +81,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
         // size check
         if (getLength() != anotherBc.getLength())
             return false;
-        
+
         for (int i=0; i< getRepresentation().size(); i++) {
             if (!(getRepresentation().get(i).equals(anotherBc.getRepresentation().get(i))))
                 return false;

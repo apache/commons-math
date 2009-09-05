@@ -97,7 +97,7 @@ public class PolynomialFitter {
             }
             return y;
         }
-        
+
     }
 
 }

@@ -27,17 +27,17 @@ import java.util.List;
  * @version $Revision$ $Date$
  */
 public abstract class ListPopulation implements Population {
-    
+
     /** List of chromosomes */
     private List<Chromosome> chromosomes;
-    
+
     /** maximial size of the population */
     private int populationLimit;
-    
-    
+
+
     /**
      * Creates a new ListPopulation instance.
-     * 
+     *
      * @param chromosomes list of chromosomes in the population
      * @param populationLimit maximal size of the population
      */
@@ -48,15 +48,15 @@ public abstract class ListPopulation implements Population {
         if (populationLimit < 0) {
             throw new IllegalArgumentException("Population limit has to be >= 0");
         }
-            
+
         this.chromosomes = chromosomes;
         this.populationLimit = populationLimit;
     }
-    
+
     /**
      * Creates a new ListPopulation instance and initializes its inner
      * chromosome list.
-     * 
+     *
      * @param populationLimit maximal size of the population
      */
     public ListPopulation (int populationLimit) {
@@ -74,7 +74,7 @@ public abstract class ListPopulation implements Population {
     public void setChromosomes(List<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
     }
-    
+
     /**
      * Access the list of chromosomes.
      * @return the list of chromosomes
@@ -97,7 +97,7 @@ public abstract class ListPopulation implements Population {
      */
     public Chromosome getFittestChromosome() {
         // best so far
-        Chromosome bestChromosome = this.chromosomes.get(0);    
+        Chromosome bestChromosome = this.chromosomes.get(0);
         for (Chromosome chromosome : this.chromosomes) {
             if (chromosome.compareTo(bestChromosome) > 0) {
                 // better chromosome found
@@ -106,7 +106,7 @@ public abstract class ListPopulation implements Population {
         }
         return bestChromosome;
     }
-    
+
     /**
      * Access the maximum population size.
      * @return the maximum population size.
@@ -114,7 +114,7 @@ public abstract class ListPopulation implements Population {
     public int getPopulationLimit() {
         return this.populationLimit;
     }
-    
+
     /**
      * Sets the maximal population size.
      * @param populationLimit maximal population size.
@@ -127,10 +127,10 @@ public abstract class ListPopulation implements Population {
      * Access the current population size.
      * @return the current population size.
      */
-    public int getPopulationSize() {        
+    public int getPopulationSize() {
         return this.chromosomes.size();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -138,13 +138,13 @@ public abstract class ListPopulation implements Population {
     public String toString() {
         return this.chromosomes.toString();
     }
-    
+
     /**
      * Chromosome list iterator
-     * 
+     *
      * @return chromosome iterator
      */
-    public Iterator<Chromosome> iterator() {        
+    public Iterator<Chromosome> iterator() {
         return chromosomes.iterator();
     }
 }

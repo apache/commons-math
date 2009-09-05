@@ -37,10 +37,10 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * Serializtion identifier
      */
     private static final long serialVersionUID = -7726511984200295583L;
-    
+
     /**
-     * The coefficients of the polynomial, ordered by degree -- i.e.,  
-     * coefficients[0] is the constant term and coefficients[n] is the 
+     * The coefficients of the polynomial, ordered by degree -- i.e.,
+     * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
     private final double coefficients[];
@@ -50,11 +50,11 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * of the coefficients array is the constant term.  Higher degree
      * coefficients follow in sequence.  The degree of the resulting polynomial
      * is the index of the last non-null element of the array, or 0 if all elements
-     * are null. 
+     * are null.
      * <p>
      * The constructor makes a copy of the input array and assigns the copy to
      * the coefficients property.</p>
-     * 
+     *
      * @param c polynomial coefficients
      * @throws NullPointerException if c is null
      * @throws IllegalArgumentException if c is empty
@@ -78,7 +78,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      *  The value returned is <br>
      *   <code>coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]</code>
      * </p>
-     * 
+     *
      * @param x the argument for which the function value should be computed
      * @return the value of the polynomial at the given point
      * @see UnivariateRealFunction#value(double)
@@ -90,32 +90,32 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
 
     /**
      *  Returns the degree of the polynomial
-     * 
+     *
      * @return the degree of the polynomial
      */
     public int degree() {
         return coefficients.length - 1;
     }
-    
+
     /**
      * Returns a copy of the coefficients array.
      * <p>
      * Changes made to the returned copy will not affect the coefficients of
      * the polynomial.</p>
-     * 
+     *
      * @return  a fresh copy of the coefficients array
      */
     public double[] getCoefficients() {
         return coefficients.clone();
     }
-    
+
     /**
      * Uses Horner's Method to evaluate the polynomial with the given coefficients at
      * the argument.
-     * 
+     *
      * @param coefficients  the coefficients of the polynomial to evaluate
      * @param argument  the input value
-     * @return  the value of the polynomial 
+     * @return  the value of the polynomial
      * @throws IllegalArgumentException if coefficients is empty
      * @throws NullPointerException if coefficients is null
      */
@@ -222,7 +222,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
 
     /**
      * Returns the coefficients of the derivative of the polynomial with the given coefficients.
-     * 
+     *
      * @param coefficients  the coefficients of the polynomial to differentiate
      * @return the coefficients of the derivative or null if coefficients has length 1.
      * @throws IllegalArgumentException if coefficients is empty
@@ -242,19 +242,19 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
         }
         return result;
     }
-    
+
     /**
      * Returns the derivative as a PolynomialRealFunction
-     * 
+     *
      * @return  the derivative polynomial
      */
     public PolynomialFunction polynomialDerivative() {
         return new PolynomialFunction(differentiate(coefficients));
     }
-    
+
     /**
      * Returns the derivative as a UnivariateRealFunction
-     * 
+     *
      * @return  the derivative function
      */
     public UnivariateRealFunction derivative() {

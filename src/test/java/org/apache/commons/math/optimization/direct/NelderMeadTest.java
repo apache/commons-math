@@ -66,7 +66,7 @@ public class NelderMeadTest {
           assertNull(ce.getCause());
       } catch (Exception e) {
           fail("wrong exception caught: " + e.getMessage());
-      } 
+      }
       try {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
@@ -76,7 +76,7 @@ public class NelderMeadTest {
           assertNotNull(ce.getCause());
       } catch (Exception e) {
           fail("wrong exception caught: " + e.getMessage());
-      } 
+      }
   }
 
   @Test
@@ -118,7 +118,7 @@ public class NelderMeadTest {
       optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { +1, 0 });
       assertEquals(xP,        optimum.getPoint()[0], 5.0e-6);
       assertEquals(yM,        optimum.getPoint()[1], 6.0e-6);
-      assertEquals(valueXpYm, optimum.getValue(),    1.0e-11);              
+      assertEquals(valueXpYm, optimum.getValue(),    1.0e-11);
       assertTrue(optimizer.getEvaluations() > 60);
       assertTrue(optimizer.getEvaluations() < 90);
 

@@ -24,10 +24,10 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverFactoryImplTest extends TestCase {
-    
+
     /** solver factory */
     private UnivariateRealSolverFactory factory;
-    
+
     /**
      * @throws java.lang.Exception
      * @see junit.framework.TestCase#tearDown()
@@ -37,7 +37,7 @@ public class UnivariateRealSolverFactoryImplTest extends TestCase {
         super.setUp();
         factory = new UnivariateRealSolverFactoryImpl();
     }
-    
+
     /**
      * @throws java.lang.Exception
      * @see junit.framework.TestCase#tearDown()

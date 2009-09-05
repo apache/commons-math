@@ -24,7 +24,7 @@ import org.apache.commons.math.MathRuntimeException;
 /**
  * Mutation operator for {@link RandomKey}s. Changes a randomly chosen element
  * of the array representation to a random value uniformly distributed in [0,1].
- * 
+ *
  * @since 2.0
  * @version $Revision$ $Date$
  */
@@ -32,8 +32,8 @@ public class RandomKeyMutation implements MutationPolicy {
 
     /**
      * {@inheritDoc}
-     * 
-     * @throws IllegalArgumentException if <code>original</code> is not a 
+     *
+     * @throws IllegalArgumentException if <code>original</code> is not a
      * {@link RandomKey} instance
      */
     public Chromosome mutate(Chromosome original) {
@@ -42,14 +42,14 @@ public class RandomKeyMutation implements MutationPolicy {
                     "RandomKeyMutation works only with RandomKeys, got " +
                     original.getClass().getSimpleName());
         }
-        
+
         RandomKey<?> originalRk = (RandomKey<?>) original;
         List<Double> repr = originalRk.getRepresentation();
         int rInd = GeneticAlgorithm.getRandomGenerator().nextInt(repr.size());
-        
+
         List<Double> newRepr = new ArrayList<Double> (repr);
         newRepr.set(rInd, GeneticAlgorithm.getRandomGenerator().nextDouble());
-        
+
         return originalRk.newFixedLengthChromosome(newRepr);
     }
 

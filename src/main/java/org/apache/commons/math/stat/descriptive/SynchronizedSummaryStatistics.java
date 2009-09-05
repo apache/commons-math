@@ -24,7 +24,7 @@ package org.apache.commons.math.stat.descriptive;
  * conditions.  In effect, this implementation makes modification and access
  * methods atomic operations for a single instance.  That is to say, as one
  * thread is computing a statistic from the instance, no other thread can modify
- * the instance nor compute another statistic. 
+ * the instance nor compute another statistic.
  *
  * @since 1.2
  * @version $Revision$ $Date$
@@ -40,10 +40,10 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public SynchronizedSummaryStatistics() {
         super();
     }
-    
+
     /**
      * A copy constructor. Creates a deep-copy of the {@code original}.
-     * 
+     *
      * @param original the {@code SynchronizedSummaryStatistics} instance to copy
      */
     public SynchronizedSummaryStatistics(SynchronizedSummaryStatistics original) {
@@ -66,7 +66,7 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
         super.addValue(value);
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -146,7 +146,7 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
         return super.toString();
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -297,26 +297,26 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public synchronized void setVarianceImpl(StorelessUnivariateStatistic varianceImpl) {
         super.setVarianceImpl(varianceImpl);
     }
-    
+
     /**
      * Returns a copy of this SynchronizedSummaryStatistics instance with the
      * same internal state.
-     * 
+     *
      * @return a copy of this
      */
     @Override
     public synchronized SynchronizedSummaryStatistics copy() {
-        SynchronizedSummaryStatistics result = 
+        SynchronizedSummaryStatistics result =
             new SynchronizedSummaryStatistics();
         copy(this, result);
-        return result; 
+        return result;
     }
-     
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
      * <p>Acquires synchronization lock on source, then dest before copying.</p>
-     * 
+     *
      * @param source SynchronizedSummaryStatistics to copy
      * @param dest SynchronizedSummaryStatistics to copy to
      * @throws NullPointerException if either source or dest is null
@@ -329,5 +329,5 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
             }
         }
     }
-    
+
 }

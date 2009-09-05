@@ -19,7 +19,7 @@ package org.apache.commons.math.estimation;
 
 import org.apache.commons.math.MathException;
 
-/** 
+/**
  * This class represents exceptions thrown by the estimation solvers.
  *
  * @version $Revision$ $Date$
@@ -35,7 +35,7 @@ extends MathException {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -573038581493881337L;
 
-    /** 
+    /**
      * Simple constructor.
      * Build an exception by translating and formating a message
      * @param specifier format specifier (to be translated)

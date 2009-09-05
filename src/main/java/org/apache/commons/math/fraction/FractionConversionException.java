@@ -45,7 +45,7 @@ public class FractionConversionException extends ConvergenceException {
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param value double value to convert
-     * @param p current numerator 
+     * @param p current numerator
      * @param q current denominator
      */
     public FractionConversionException(double value, long p, long q) {

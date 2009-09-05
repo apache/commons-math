@@ -53,7 +53,7 @@ public class MultiDirectionalTest {
           Assert.assertNull(ce.getCause());
       } catch (Exception e) {
           Assert.fail("wrong exception caught: " + e.getMessage());
-      } 
+      }
       try {
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
@@ -63,7 +63,7 @@ public class MultiDirectionalTest {
           Assert.assertNotNull(ce.getCause());
       } catch (Exception e) {
           Assert.fail("wrong exception caught: " + e.getMessage());
-      } 
+      }
   }
 
   @Test
@@ -105,7 +105,7 @@ public class MultiDirectionalTest {
       optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { +1, 0 });
       Assert.assertEquals(xP,        optimum.getPoint()[0], 2.0e-8);
       Assert.assertEquals(yM,        optimum.getPoint()[1], 3.0e-6);
-      Assert.assertEquals(valueXpYm, optimum.getValue(),    2.0e-12);              
+      Assert.assertEquals(valueXpYm, optimum.getValue(),    2.0e-12);
       Assert.assertTrue(optimizer.getEvaluations() > 120);
       Assert.assertTrue(optimizer.getEvaluations() < 150);
 
@@ -213,7 +213,7 @@ public class MultiDirectionalTest {
       final double[] actualPosition = estimate.getPoint();
       Assert.assertEquals(expectedPosition[0], actualPosition[0], EPSILON );
       Assert.assertEquals(expectedPosition[1], actualPosition[1], EPSILON );
-      
+
   }
 
   private static class Gaussian2D implements MultivariateRealFunction {
@@ -221,7 +221,7 @@ public class MultiDirectionalTest {
       private final double[] maximumPosition;
 
       private final double std;
-      
+
       public Gaussian2D(double xOpt, double yOpt, double std) {
           maximumPosition = new double[] { xOpt, yOpt };
           this.std = std;

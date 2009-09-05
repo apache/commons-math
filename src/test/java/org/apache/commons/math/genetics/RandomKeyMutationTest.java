@@ -30,7 +30,7 @@ public class RandomKeyMutationTest {
             DummyRandomKey origRk = new DummyRandomKey(RandomKey.randomPermutation(l));
             Chromosome mutated = mutation.mutate(origRk);
             DummyRandomKey mutatedRk = (DummyRandomKey) mutated;
-            
+
             int changes = 0;
             for (int j=0; j<origRk.getLength(); j++) {
                 if (origRk.getRepresentation().get(j) != mutatedRk.getRepresentation().get(j)) {

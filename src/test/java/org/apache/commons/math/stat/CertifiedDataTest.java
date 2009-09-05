@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,20 +61,20 @@ public class CertifiedDataTest extends TestCase  {
         SummaryStatistics u = new SummaryStatistics();
         loadStats("data/PiDigits.txt", u);
         assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-13);
-        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);  
+        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);
 
         loadStats("data/Mavro.txt", u);
         assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
-        
+
         loadStats("data/Michelso.txt", u);
         assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-13);
-        assertEquals("Michelso: mean", mean, u.getMean(), 1E-13);   
-                                        
+        assertEquals("Michelso: mean", mean, u.getMean(), 1E-13);
+
         loadStats("data/NumAcc1.txt", u);
         assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
-        
+
         loadStats("data/NumAcc2.txt", u);
         assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
@@ -87,23 +87,23 @@ public class CertifiedDataTest extends TestCase  {
     public void testDescriptiveStatistics() throws Exception {
 
         DescriptiveStatistics u = new DescriptiveStatistics();
-        
+
         loadStats("data/PiDigits.txt", u);
         assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("PiDigits: mean", mean, u.getMean(), 1E-14);
-        
+
         loadStats("data/Mavro.txt", u);
         assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);        
-        
+        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
+
         loadStats("data/Michelso.txt", u);
         assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("Michelso: mean", mean, u.getMean(), 1E-14);   
+        assertEquals("Michelso: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/NumAcc1.txt", u);
         assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
-        
+
         loadStats("data/NumAcc2.txt", u);
         assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
         assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
@@ -115,7 +115,7 @@ public class CertifiedDataTest extends TestCase  {
      * @param statistical summary
      */
     private void loadStats(String resource, Object u) throws Exception {
-        
+
         DescriptiveStatistics d = null;
         SummaryStatistics s = null;
         if (u instanceof DescriptiveStatistics) {
@@ -127,14 +127,14 @@ public class CertifiedDataTest extends TestCase  {
                 "clear", new Class[]{}).invoke(u, new Object[]{});
         mean = Double.NaN;
         std = Double.NaN;
-        
+
         BufferedReader in =
             new BufferedReader(
                     new InputStreamReader(
                             CertifiedDataTest.class.getResourceAsStream(resource)));
-        
+
         String line = null;
-        
+
         for (int j = 0; j < 60; j++) {
             line = in.readLine();
             if (j == 40) {
@@ -148,9 +148,9 @@ public class CertifiedDataTest extends TestCase  {
                             line.substring(line.lastIndexOf(":") + 1).trim());
             }
         }
-        
+
         line = in.readLine();
-        
+
         while (line != null) {
             if (d != null) {
                 d.addValue(Double.parseDouble(line.trim()));
@@ -159,7 +159,7 @@ public class CertifiedDataTest extends TestCase  {
             }
             line = in.readLine();
         }
-        
+
         in.close();
     }
 }

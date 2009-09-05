@@ -24,7 +24,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
-/** 
+/**
  * This class implements the multi-directional direct search method.
  *
  * @version $Revision$ $Date$

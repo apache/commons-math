@@ -37,24 +37,24 @@ import java.io.Serializable;
  * Returns <code>Double.NaN</code> if no data values have been added and
  * returns <code>0</code> if there is just one value in the data set.</p>
  * <p>
- * <strong>Note that this implementation is not synchronized.</strong> If 
+ * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
- * one of the threads invokes the <code>increment()</code> or 
+ * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class ThirdMoment extends SecondMoment implements Serializable {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -7818711964045118679L;  
-      
+    private static final long serialVersionUID = -7818711964045118679L;
+
     /** third moment of values that have been added */
     protected double m3;
 
      /**
-     * Square of deviation of most recently added value from previous first 
-     * moment, normalized by previous sample size.  Retained to prevent 
+     * Square of deviation of most recently added value from previous first
+     * moment, normalized by previous sample size.  Retained to prevent
      * repeated computation in higher order moments.  nDevSq = nDev * nDev.
      */
     protected double nDevSq;
@@ -67,11 +67,11 @@ public class ThirdMoment extends SecondMoment implements Serializable {
         m3 = Double.NaN;
         nDevSq = Double.NaN;
     }
-    
+
     /**
      * Copy constructor, creates a new {@code ThirdMoment} identical
      * to the {@code original}
-     * 
+     *
      * @param original the {@code ThirdMoment} instance to copy
      */
     public ThirdMoment(ThirdMoment original) {
@@ -85,8 +85,8 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     public void increment(final double d) {
         if (n < 1) {
             m3 = m2 = m1 = 0.0;
-        }  
-       
+        }
+
         double prevM2 = m2;
         super.increment(d);
         nDevSq = nDev * nDev;
@@ -111,7 +111,7 @@ public class ThirdMoment extends SecondMoment implements Serializable {
         m3 = Double.NaN;
         nDevSq = Double.NaN;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -119,13 +119,13 @@ public class ThirdMoment extends SecondMoment implements Serializable {
     public ThirdMoment copy() {
         ThirdMoment result = new ThirdMoment();
         copy(this, result);
-        return result; 
+        return result;
     }
-    
+
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
-     * 
+     *
      * @param source ThirdMoment to copy
      * @param dest ThirdMoment to copy to
      * @throws NullPointerException if either source or dest is null

@@ -51,7 +51,7 @@ public abstract class AbstractEstimator implements Estimator {
 
     /**
      * Set the maximal number of cost evaluations allowed.
-     * 
+     *
      * @param maxCostEval maximal number of cost evaluations allowed
      * @see #estimate
      */
@@ -61,23 +61,23 @@ public abstract class AbstractEstimator implements Estimator {
 
     /**
      * Get the number of cost evaluations.
-     * 
+     *
      * @return number of cost evaluations
      * */
     public final int getCostEvaluations() {
         return costEvaluations;
     }
 
-    /** 
+    /**
      * Get the number of jacobian evaluations.
-     * 
+     *
      * @return number of jacobian evaluations
      * */
     public final int getJacobianEvaluations() {
         return jacobianEvaluations;
     }
 
-    /** 
+    /**
      * Update the jacobian matrix.
      */
     protected void updateJacobian() {
@@ -99,7 +99,7 @@ public abstract class AbstractEstimator implements Estimator {
       ++jacobianEvaluations;
     }
 
-    /** 
+    /**
      * Update the residuals array and cost function value.
      * @exception EstimationException if the number of cost evaluations
      * exceeds the maximum allowed
@@ -123,14 +123,14 @@ public abstract class AbstractEstimator implements Estimator {
 
     }
 
-    /** 
+    /**
      * Get the Root Mean Square value.
      * Get the Root Mean Square value, i.e. the root of the arithmetic
      * mean of the square of all weighted residuals. This is related to the
      * criterion that is minimized by the estimator as follows: if
      * <em>c</em> if the criterion, and <em>n</em> is the number of
      * measurements, then the RMS is <em>sqrt (c/n)</em>.
-     * 
+     *
      * @param problem estimation problem
      * @return RMS value
      */
@@ -168,7 +168,7 @@ public abstract class AbstractEstimator implements Estimator {
      */
     public double[][] getCovariances(EstimationProblem problem)
       throws EstimationException {
- 
+
         // set up the jacobian
         updateJacobian();
 
@@ -253,7 +253,7 @@ public abstract class AbstractEstimator implements Estimator {
 
     }
 
-    /** 
+    /**
      * Solve an estimation problem.
      *
      * <p>The method should set the parameters of the problem to several
@@ -276,7 +276,7 @@ public abstract class AbstractEstimator implements Estimator {
     /** Array of parameters. */
     protected EstimatedParameter[] parameters;
 
-    /** 
+    /**
      * Jacobian matrix.
      * <p>This matrix is in canonical form just after the calls to
      * {@link #updateJacobian()}, but may be modified by the solver

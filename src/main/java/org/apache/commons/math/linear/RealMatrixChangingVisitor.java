@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 /**
  * Interface defining a visitor for matrix entries.
- * 
+ *
  * @see DefaultRealMatrixChangingVisitor
  * @version $Revision$ $Date$
  * @since 2.0

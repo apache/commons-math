@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 
-/** 
+/**
  * This class solves a least squares problem.
  *
  * <p>This implementation <em>should</em> work even for over-determined systems
@@ -101,7 +101,7 @@ import java.util.Arrays;
 @Deprecated
 public class LevenbergMarquardtEstimator extends AbstractEstimator implements Serializable {
 
-  /** 
+  /**
    * Build an estimator for least squares problems.
    * <p>The default values for the algorithm settings are:
    *   <ul>
@@ -126,12 +126,12 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
   }
 
-  /** 
+  /**
    * Set the positive input variable used in determining the initial step bound.
    * This bound is set to the product of initialStepBoundFactor and the euclidean norm of diag*x if nonzero,
    * or else to initialStepBoundFactor itself. In most cases factor should lie
    * in the interval (0.1, 100.0). 100.0 is a generally recommended value
-   * 
+   *
    * @param initialStepBoundFactor initial step bound factor
    * @see #estimate
    */
@@ -139,9 +139,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     this.initialStepBoundFactor = initialStepBoundFactor;
   }
 
-  /** 
+  /**
    * Set the desired relative error in the sum of squares.
-   * 
+   *
    * @param costRelativeTolerance desired relative error in the sum of squares
    * @see #estimate
    */
@@ -149,9 +149,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     this.costRelativeTolerance = costRelativeTolerance;
   }
 
-  /** 
+  /**
    * Set the desired relative error in the approximate solution parameters.
-   * 
+   *
    * @param parRelativeTolerance desired relative error
    * in the approximate solution parameters
    * @see #estimate
@@ -160,9 +160,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     this.parRelativeTolerance = parRelativeTolerance;
   }
 
-  /** 
+  /**
    * Set the desired max cosine on the orthogonality.
-   * 
+   *
    * @param orthoTolerance desired max cosine on the orthogonality
    * between the function vector and the columns of the jacobian
    * @see #estimate
@@ -171,7 +171,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     this.orthoTolerance = orthoTolerance;
   }
 
-  /** 
+  /**
    * Solve an estimation problem using the Levenberg-Marquardt algorithm.
    * <p>The algorithm used is a modified Levenberg-Marquardt one, based
    * on the MINPACK <a href="http://www.netlib.org/minpack/lmder.f">lmder</a>
@@ -189,7 +189,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
    *   <li>Jorge   J. More</li>
    *   </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
-   * 
+   *
    * @param problem estimation problem to solve
    * @exception EstimationException if convergence cannot be
    * reached with the specified algorithm settings or if there are more variables
@@ -224,7 +224,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
     // evaluate the function at the starting point and calculate its norm
     updateResidualsAndCost();
-    
+
     // outer loop
     lmPar = 0;
     boolean firstIteration = true;
@@ -259,10 +259,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           diag[k] = dk;
         }
         xNorm = Math.sqrt(xNorm);
-        
+
         // initialize the step bound delta
         delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
- 
+
       }
 
       // check orthogonality between function vector and jacobian columns
@@ -301,7 +301,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         double[] tmpVec = residuals;
         residuals = oldRes;
         oldRes    = tmpVec;
-        
+
         // determine the Levenberg-Marquardt parameter
         determineLMParameter(oldRes, delta, diag, work1, work2, work3);
 
@@ -389,7 +389,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           residuals = oldRes;
           oldRes    = tmpVec;
         }
-   
+
         // tests for convergence.
         if (((Math.abs(actRed) <= costRelativeTolerance) &&
              (preRed <= costRelativeTolerance) &&
@@ -422,7 +422,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
   }
 
-  /** 
+  /**
    * Determine the Levenberg-Marquardt parameter.
    * <p>This implementation is a translation in Java of the MINPACK
    * <a href="http://www.netlib.org/minpack/lmpar.f">lmpar</a>
@@ -436,7 +436,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
    *   <li>Jorge   J. More</li>
    * </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
-   * 
+   *
    * @param qy array containing qTy
    * @param delta upper bound on the euclidean norm of diagR * lmDir
    * @param diag diagonal matrix
@@ -487,7 +487,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     if (rank == solvedCols) {
       for (int j = 0; j < solvedCols; ++j) {
         int pj = permutation[j];
-        work1[pj] *= diag[pj] / dxNorm; 
+        work1[pj] *= diag[pj] / dxNorm;
       }
       sum2 = 0;
       for (int j = 0; j < solvedCols; ++j) {
@@ -558,11 +558,11 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           ((parl == 0) && (fp <= previousFP) && (previousFP < 0))) {
         return;
       }
- 
+
       // compute the Newton correction
       for (int j = 0; j < solvedCols; ++j) {
        int pj = permutation[j];
-        work1[pj] = work3[pj] * diag[pj] / dxNorm; 
+        work1[pj] = work3[pj] * diag[pj] / dxNorm;
       }
       for (int j = 0; j < solvedCols; ++j) {
         int pj = permutation[j];
@@ -592,7 +592,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     }
   }
 
-  /** 
+  /**
    * Solve a*x = b and d*x = 0 in the least squares sense.
    * <p>This implementation is a translation in Java of the MINPACK
    * <a href="http://www.netlib.org/minpack/qrsolv.f">qrsolv</a>
@@ -606,7 +606,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
    *   <li>Jorge   J. More</li>
    * </ul>
    * <p>Luc Maisonobe did the Java translation.</p>
-   * 
+   *
    * @param qy array containing qTy
    * @param diag diagonal matrix
    * @param lmDiag diagonal elements associated with lmDir
@@ -716,7 +716,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
   }
 
-  /** 
+  /**
    * Decompose a matrix A as A.P = Q.R using Householder transforms.
    * <p>As suggested in the P. Lascaux and R. Theodor book
    * <i>Analyse num&eacute;rique matricielle appliqu&eacute;e &agrave;
@@ -812,9 +812,9 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
 
   }
 
-  /** 
+  /**
    * Compute the product Qt.y for some Q.R. decomposition.
-   * 
+   *
    * @param y vector to multiply (will be overwritten with the result)
    */
   private void qTy(double[] y) {

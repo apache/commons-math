@@ -29,8 +29,8 @@ import junit.framework.TestCase;
  * Romberg algorithm is very fast for good behavior integrand. Test runs
  * show that for a default relative accuracy of 1E-6, it generally takes
  * takes less than 5 iterations for the integral to converge.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class RombergIntegratorTest extends TestCase {
 

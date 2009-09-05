@@ -30,7 +30,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Romberg integration employs k successive refinements of the trapezoid
  * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
  * is a special case of k = 2.</p>
- *  
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -38,7 +38,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
     /**
      * Construct an integrator for the given function.
-     * 
+     *
      * @param f function to integrate
      * @deprecated as of 2.0 the integrand function is passed as an argument
      * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
@@ -66,7 +66,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
     public double integrate(final UnivariateRealFunction f,
                             final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
-        
+
         int i = 1, j, m = maximalIterationCount + 1;
         // Array structure here can be improved for better space
         // efficiency because only the lower triangle is used.
@@ -90,7 +90,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(s - olds);
                 final double rLimit =
-                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5; 
+                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;

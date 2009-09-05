@@ -17,9 +17,9 @@
 package org.apache.commons.math.stat.descriptive;
 
 /**
- * Extends the definition of {@link UnivariateStatistic} with 
+ * Extends the definition of {@link UnivariateStatistic} with
  * {@link #increment} and {@link #incrementAll(double[])} methods for adding
- * values and updating internal state.  
+ * values and updating internal state.
  * <p>
  * This interface is designed to be used for calculating statistics that can be
  * computed in one pass through the data without storing the full array of
@@ -34,23 +34,23 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * @param d  the new value.
      */
     void increment(double d);
-    
+
     /**
      * Updates the internal state of the statistic to reflect addition of
      * all values in the values array.  Does not clear the statistic first --
      * i.e., the values are added <strong>incrementally</strong> to the dataset.
-     * 
+     *
      * @param values  array holding the new values to add
      * @throws IllegalArgumentException if the array is null
      */
     void incrementAll(double[] values);
-    
+
     /**
      * Updates the internal state of the statistic to reflect addition of
      * the values in the designated portion of the values array.  Does not
-     * clear the statistic first -- i.e., the values are added 
+     * clear the statistic first -- i.e., the values are added
      * <strong>incrementally</strong> to the dataset.
-     * 
+     *
      * @param values  array holding the new values to add
      * @param start  the array index of the first value to add
      * @param length  the number of elements to add
@@ -75,10 +75,10 @@ public interface StorelessUnivariateStatistic extends UnivariateStatistic {
      * Clears the internal state of the Statistic
      */
     void clear();
-    
+
     /**
      * Returns a copy of the statistic with the same internal state.
-     * 
+     *
      * @return a copy of the statistic
      */
     StorelessUnivariateStatistic copy();

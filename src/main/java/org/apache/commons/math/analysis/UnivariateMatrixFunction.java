@@ -20,7 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * An interface representing a univariate matrix function.
- *  
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */

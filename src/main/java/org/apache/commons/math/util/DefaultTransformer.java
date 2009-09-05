@@ -22,22 +22,22 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 
 /**
- * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This 
- * provides some simple conversion capabilities to turn any java.lang.Number 
- * into a primitive double or to turn a String representation of a Number into 
+ * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This
+ * provides some simple conversion capabilities to turn any java.lang.Number
+ * into a primitive double or to turn a String representation of a Number into
  * a double.
  *
  * @version $Revision$ $Date$
  */
 public class DefaultTransformer implements NumberTransformer, Serializable {
-   
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 4019938025047800455L;
-    
+
     /**
      * @param o  the object that gets transformed.
      * @return a double primitive representation of the Object o.
-     * @throws org.apache.commons.math.MathException If it cannot successfully 
+     * @throws org.apache.commons.math.MathException If it cannot successfully
      * be transformed or is null.
      * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html"/>
      */
@@ -50,7 +50,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         if (o instanceof Number) {
             return ((Number)o).doubleValue();
         }
-            
+
         try {
             return Double.valueOf(o.toString()).doubleValue();
         } catch (NumberFormatException e) {
@@ -62,7 +62,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
-        if (this == other) { 
+        if (this == other) {
             return true;
         }
         if (other == null) {
@@ -70,7 +70,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         }
         return other instanceof DefaultTransformer;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {

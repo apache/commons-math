@@ -21,31 +21,31 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ElitisticListPopulationTest {
-    
+
     private static int counter = 0;
 
     @Test
     public void testNextGeneration() {
         ElitisticListPopulation pop = new ElitisticListPopulation(100, 0.203);
-        
+
         for (int i=0; i<pop.getPopulationLimit(); i++) {
             pop.addChromosome(new DummyChromosome());
         }
-        
+
         Population nextGeneration = pop.nextGeneration();
-        
+
         assertEquals(20, nextGeneration.getPopulationSize());
     }
-    
+
     private static class DummyChromosome extends Chromosome {
         private final int fitness;
-        
+
         public DummyChromosome() {
             this.fitness = counter;
             counter++;
         }
-        
-        public double fitness() {            
+
+        public double fitness() {
             return this.fitness;
         }
     }

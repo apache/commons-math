@@ -23,7 +23,7 @@ package org.apache.commons.math;
  * @version $Revision$ $Date$
  */
 public class ConvergenceException extends MathException {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 4883703247677159141L;
 
@@ -33,7 +33,7 @@ public class ConvergenceException extends MathException {
     public ConvergenceException() {
         super("Convergence failed");
     }
-    
+
     /**
      * Constructs an exception with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.

@@ -105,7 +105,7 @@ public class LinearObjectiveFunction implements Serializable {
     @Override
     public boolean equals(Object other) {
 
-      if (this == other) { 
+      if (this == other) {
         return true;
       }
 
@@ -124,7 +124,7 @@ public class LinearObjectiveFunction implements Serializable {
       }
 
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public int hashCode() {

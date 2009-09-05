@@ -211,7 +211,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
   /** Prototype of the step interpolator. */
   private RungeKuttaStepInterpolator prototype;
-                                         
+
   /** Integration step. */
   private double step;
 

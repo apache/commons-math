@@ -187,7 +187,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-    
+
         /** Row-oriented storage for L<sup>T</sup> matrix data. */
         private final double[][] lTData;
 

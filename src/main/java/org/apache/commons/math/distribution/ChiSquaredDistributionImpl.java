@@ -28,13 +28,13 @@ import org.apache.commons.math.MathException;
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
     implements ChiSquaredDistribution, Serializable  {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -8352658048349159782L;
 
-    /** Internal Gamma distribution. */    
+    /** Internal Gamma distribution. */
     private GammaDistribution gamma;
-    
+
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom.
      * @param df degrees of freedom.
@@ -42,7 +42,7 @@ public class ChiSquaredDistributionImpl
     public ChiSquaredDistributionImpl(double df) {
         this(df, new GammaDistributionImpl(df / 2.0, 2.0));
     }
-    
+
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom.
      * @param df degrees of freedom.
@@ -54,7 +54,7 @@ public class ChiSquaredDistributionImpl
         setGamma(g);
         setDegreesOfFreedom(df);
     }
-    
+
     /**
      * Modify the degrees of freedom.
      * @param degreesOfFreedom the new degrees of freedom.
@@ -62,7 +62,7 @@ public class ChiSquaredDistributionImpl
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         getGamma().setAlpha(degreesOfFreedom / 2.0);
     }
-        
+
     /**
      * Access the degrees of freedom.
      * @return the degrees of freedom.
@@ -84,14 +84,14 @@ public class ChiSquaredDistributionImpl
     /**
      * For this distribution, X, this method returns P(X &lt; x).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution. 
+     * @return CDF for this distribution.
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
         return getGamma().cumulativeProbability(x);
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
@@ -116,15 +116,15 @@ public class ChiSquaredDistributionImpl
         }
         return super.inverseCumulativeProbability(p);
     }
-        
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -135,10 +135,10 @@ public class ChiSquaredDistributionImpl
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -154,7 +154,7 @@ public class ChiSquaredDistributionImpl
             // use max
             ret = Double.MAX_VALUE;
         }
-        
+
         return ret;
     }
 
@@ -162,7 +162,7 @@ public class ChiSquaredDistributionImpl
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -170,7 +170,7 @@ public class ChiSquaredDistributionImpl
     protected double getInitialDomain(double p) {
         // NOTE: chi squared is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
-        
+
         double ret;
 
         if (p < .5) {
@@ -180,10 +180,10 @@ public class ChiSquaredDistributionImpl
             // use mean
             ret = getDegreesOfFreedom();
         }
-        
+
         return ret;
     }
-    
+
     /**
      * Modify the underlying gamma distribution.  The caller is responsible for
      * insuring the gamma distribution has the proper parameter settings.
@@ -192,7 +192,7 @@ public class ChiSquaredDistributionImpl
      */
     public void setGamma(GammaDistribution g) {
         this.gamma = g;
-        
+
     }
 
     /**

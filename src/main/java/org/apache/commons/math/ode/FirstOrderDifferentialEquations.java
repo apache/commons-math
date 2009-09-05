@@ -46,12 +46,12 @@ package org.apache.commons.math.ode;
  */
 
 public interface FirstOrderDifferentialEquations {
-    
+
     /** Get the dimension of the problem.
      * @return dimension of the problem
      */
     public int getDimension();
-    
+
     /** Get the current time derivative of the state vector.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
@@ -61,5 +61,5 @@ public interface FirstOrderDifferentialEquations {
      */
     public void computeDerivatives(double t, double[] y, double[] yDot)
     throws DerivativeException;
-    
+
 }

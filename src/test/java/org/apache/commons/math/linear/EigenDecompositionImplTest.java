@@ -116,7 +116,7 @@ public class EigenDecompositionImplTest extends TestCase {
             if (i < 5) {
                 ref[i] = 2 * r.nextDouble() - 1;
             } else {
-                ref[i] = 0.0001 * r.nextDouble() + 6;                
+                ref[i] = 0.0001 * r.nextDouble() + 6;
             }
         }
         Arrays.sort(ref);
@@ -131,7 +131,7 @@ public class EigenDecompositionImplTest extends TestCase {
         for (int i = 0; i < ref.length; ++i) {
             assertEquals(ref[ref.length - i - 1], eigenValues[i], 2.0e-14);
         }
-        
+
     }
 
     /** test dimensions */
@@ -221,19 +221,19 @@ public class EigenDecompositionImplTest extends TestCase {
                 {3,  2,  4},
                 {2,  0,  2},
                 {4,  2,  3}
-        }); 
+        });
         EigenDecomposition ed = new EigenDecompositionImpl(repeated, MathUtils.SAFE_MIN);
         checkEigenValues((new double[] {8, -1, -1}), ed, 1E-12);
         checkEigenVector((new double[] {2, 1, 2}), ed, 1E-12);
     }
-    
+
     /**
      * Matrix with eigenvalues {2, 0, 12}
      */
     public void testDistinctEigenvalues() {
         RealMatrix distinct = MatrixUtils.createRealMatrix(new double[][] {
-                {3, 1, -4},  
-                {1, 3, -4}, 
+                {3, 1, -4},
+                {1, 3, -4},
                 {-4, -4, 8}
         });
         EigenDecomposition ed = new EigenDecompositionImpl(distinct, MathUtils.SAFE_MIN);
@@ -242,7 +242,7 @@ public class EigenDecompositionImplTest extends TestCase {
         checkEigenVector((new double[] {1, 1, 1}), ed, 1E-12);
         checkEigenVector((new double[] {-1, -1, 2}), ed, 1E-12);
     }
-    
+
     /**
      * Verifies that the given EigenDecomposition has eigenvalues equivalent to
      * the targetValues, ignoring the order of the values and allowing
@@ -256,7 +256,7 @@ public class EigenDecompositionImplTest extends TestCase {
             assertTrue(isIncludedValue(targetValues[i], observed, tolerance));
         }
     }
-    
+
     /**
      * Returns true iff there is an entry within tolerance of value in
      * searchArray.
@@ -273,7 +273,7 @@ public class EigenDecompositionImplTest extends TestCase {
        }
        return found;
     }
-    
+
     /**
      * Returns true iff eigenVector is a scalar multiple of one of the columns
      * of ed.getV().  Does not try linear combinations - i.e., should only be
@@ -283,7 +283,7 @@ public class EigenDecompositionImplTest extends TestCase {
             EigenDecomposition ed, double tolerance) {
         assertTrue(isIncludedColumn(eigenVector, ed.getV(), tolerance));
     }
-    
+
     /**
      * Returns true iff there is a column that is a scalar multiple of column
      * in searchMatrix (modulo tolerance)
@@ -302,7 +302,7 @@ public class EigenDecompositionImplTest extends TestCase {
                 if (Math.abs(multiplier - 1.0) <= Math.ulp(1.0) && Math.abs(colEntry) > 1E-14
                         && Math.abs(column[j]) > 1e-14) {
                     multiplier = colEntry / column[j];
-                } 
+                }
                 if (Math.abs(column[j] * multiplier - colEntry) > tolerance) {
                     matching = false;
                 }

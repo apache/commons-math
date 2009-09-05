@@ -26,20 +26,20 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Represents a polynomial spline function.
  * <p>
- * A <strong>polynomial spline function</strong> consists of a set of 
- * <i>interpolating polynomials</i> and an ascending array of domain 
+ * A <strong>polynomial spline function</strong> consists of a set of
+ * <i>interpolating polynomials</i> and an ascending array of domain
  * <i>knot points</i>, determining the intervals over which the spline function
  * is defined by the constituent polynomials.  The polynomials are assumed to
  * have been computed to match the values of another function at the knot
- * points.  The value consistency constraints are not currently enforced by 
+ * points.  The value consistency constraints are not currently enforced by
  * <code>PolynomialSplineFunction</code> itself, but are assumed to hold among
  * the polynomials and knot points passed to the constructor.</p>
  * <p>
  * N.B.:  The polynomials in the <code>polynomials</code> property must be
- * centered on the knot points to compute the spline function values.  
+ * centered on the knot points to compute the spline function values.
  * See below.</p>
  * <p>
- * The domain of the polynomial spline function is 
+ * The domain of the polynomial spline function is
  * <code>[smallest knot, largest knot]</code>.  Attempts to evaluate the
  * function at values outside of this range generate IllegalArgumentExceptions.
  * </p>
@@ -57,7 +57,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @version $Revision$ $Date$
  */
-public class PolynomialSplineFunction 
+public class PolynomialSplineFunction
     implements DifferentiableUnivariateRealFunction {
 
     /** Spline segment interval delimiters (knots).   Size is n+1 for n segments. */
@@ -71,13 +71,13 @@ public class PolynomialSplineFunction
      * knot segment to which x belongs.
      */
     private PolynomialFunction polynomials[] = null;
-    
-    /** 
+
+    /**
      * Number of spline segments = number of polynomials
-     *  = number of partition points - 1 
+     *  = number of partition points - 1
      */
     private int n = 0;
-    
+
 
     /**
      * Construct a polynomial spline function with the given segment delimiters
@@ -85,14 +85,14 @@ public class PolynomialSplineFunction
      * <p>
      * The constructor copies both arrays and assigns the copies to the knots
      * and polynomials properties, respectively.</p>
-     * 
+     *
      * @param knots spline segment interval delimiters
      * @param polynomials polynomial functions that make up the spline
      * @throws NullPointerException if either of the input arrays is null
-     * @throws IllegalArgumentException if knots has length less than 2,  
+     * @throws IllegalArgumentException if knots has length less than 2,
      * <code>polynomials.length != knots.length - 1 </code>, or the knots array
      * is not strictly increasing.
-     * 
+     *
      */
     public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[]) {
         if (knots.length < 2) {
@@ -109,7 +109,7 @@ public class PolynomialSplineFunction
             throw MathRuntimeException.createIllegalArgumentException(
                   "knot values must be strictly increasing");
         }
-        
+
         this.n = knots.length -1;
         this.knots = new double[n + 1];
         System.arraycopy(knots, 0, this.knots, 0, n + 1);
@@ -125,7 +125,7 @@ public class PolynomialSplineFunction
      * <p>
      * See {@link PolynomialSplineFunction} for details on the algorithm for
      * computing the value of the function.</p>
-     * 
+     *
      * @param v the point for which the function value should be computed
      * @return the value
      * @throws ArgumentOutsideDomainException if v is outside of the domain of
@@ -148,7 +148,7 @@ public class PolynomialSplineFunction
         }
         return polynomials[i].value(v - knots[i]);
     }
-    
+
     /**
      * Returns the derivative of the polynomial spline function as a UnivariateRealFunction
      * @return  the derivative function
@@ -156,10 +156,10 @@ public class PolynomialSplineFunction
     public UnivariateRealFunction derivative() {
         return polynomialSplineDerivative();
     }
-    
+
     /**
      * Returns the derivative of the polynomial spline function as a PolynomialSplineFunction
-     * 
+     *
      * @return  the derivative function
      */
     public PolynomialSplineFunction polynomialSplineDerivative() {
@@ -171,9 +171,9 @@ public class PolynomialSplineFunction
     }
 
     /**
-     * Returns the number of spline segments = the number of polynomials 
+     * Returns the number of spline segments = the number of polynomials
      * = the number of knot points - 1.
-     * 
+     *
      * @return the number of spline segments
      */
     public int getN() {
@@ -185,7 +185,7 @@ public class PolynomialSplineFunction
      * <p>
      * Returns a fresh copy of the array. Changes made to the copy will
      * not affect the polynomials property.</p>
-     * 
+     *
      * @return the interpolating polynomials
      */
     public PolynomialFunction[] getPolynomials() {
@@ -199,19 +199,19 @@ public class PolynomialSplineFunction
      * <p>
      * Returns a fresh copy of the array. Changes made to the copy
      * will not affect the knots property.</p>
-     * 
+     *
      * @return the knot points
      */
     public double[] getKnots() {
         double out[] = new double[n + 1];
         System.arraycopy(knots, 0, out, 0, n + 1);
-        return out;  
+        return out;
     }
 
     /**
      * Determines if the given array is ordered in a strictly increasing
      * fashion.
-     * 
+     *
      * @param x the array to examine.
      * @return <code>true</code> if the elements in <code>x</code> are ordered
      * in a stricly increasing manner.  <code>false</code>, otherwise.

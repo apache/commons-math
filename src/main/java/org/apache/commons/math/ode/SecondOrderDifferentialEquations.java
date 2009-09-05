@@ -50,7 +50,7 @@ public interface SecondOrderDifferentialEquations {
    * @return dimension of the problem
    */
   public int getDimension();
-    
+
   /** Get the current time derivative of the state vector.
    * @param t current value of the independent <I>time</I> variable
    * @param y array containing the current value of the state vector

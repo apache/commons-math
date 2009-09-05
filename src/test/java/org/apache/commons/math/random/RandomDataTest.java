@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Test cases for the RandomData class.
- * 
+ *
  * @version $Revision$ $Date: 2009-04-05 11:55:59 -0500 (Sun, 05 Apr
  *          2009) $
  */
@@ -451,7 +451,7 @@ public class RandomDataTest extends RetryTestCase {
 
 		/*
 		 * remove this test back soon, since it takes about 4 seconds
-		 * 
+		 *
 		 * try { randomData.setSecureAlgorithm("SHA1PRNG","SUN"); } catch
 		 * (NoSuchProviderException ex) { ; } assertTrue("different seeds",
 		 * !hex.equals(randomData.nextSecureHexString(40))); try {
@@ -459,7 +459,7 @@ public class RandomDataTest extends RetryTestCase {
 		 * fail("expecting NoSuchAlgorithmException"); } catch
 		 * (NoSuchProviderException ex) { ; } catch (NoSuchAlgorithmException
 		 * ex) { ; }
-		 * 
+		 *
 		 * try { randomData.setSecureAlgorithm("SHA1PRNG","NOSUCHPROVIDER");
 		 * fail("expecting NoSuchProviderException"); } catch
 		 * (NoSuchProviderException ex) { ; }

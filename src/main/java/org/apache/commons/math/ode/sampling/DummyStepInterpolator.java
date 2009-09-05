@@ -95,7 +95,7 @@ public class DummyStepInterpolator
     throws DerivativeException {
       System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
   }
-    
+
   /** Write the instance to an output channel.
    * @param out output channel
    * @exception IOException if the instance cannot be written
@@ -115,7 +115,7 @@ public class DummyStepInterpolator
   public void readExternal(final ObjectInput in)
     throws IOException {
 
-    // read the base class 
+    // read the base class
     final double t = readBaseExternal(in);
 
     // we can now set the interpolated time and state

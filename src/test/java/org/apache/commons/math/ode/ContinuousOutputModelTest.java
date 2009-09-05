@@ -128,7 +128,7 @@ public class ContinuousOutputModelTest
           assertEquals(Math.cos(t), y[0], 1.0e-7);
           assertEquals(Math.sin(t), y[1], 1.0e-7);
       }
-      
+
   }
 
   public void testErrorConditions()
@@ -136,7 +136,7 @@ public class ContinuousOutputModelTest
 
       ContinuousOutputModel cm = new ContinuousOutputModel();
       cm.handleStep(buildInterpolator(0, new double[] { 0.0, 1.0, -2.0 }, 1), true);
-      
+
       // dimension mismatch
       assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0 }, 2.0));
 

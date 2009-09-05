@@ -35,7 +35,7 @@ import org.apache.commons.math.MathRuntimeException;
  * @version $Revision$ $Date$
  */
 public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 7260756672015356458L;
 
@@ -108,14 +108,14 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
         } else {
             if (d == null) {
                 throw new NullPointerException();
-            }   
+            }
             final int nRows = d.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
@@ -123,7 +123,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
                             "some rows have length {0} while others have length {1}",
                             nCols, d[r].length);
                 }
-            }       
+            }
             data = d;
         }
     }
@@ -301,7 +301,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
 
     /** {@inheritDoc} */
     @Override
-    public void setSubMatrix(final T[][] subMatrix, final int row, final int column) 
+    public void setSubMatrix(final T[][] subMatrix, final int row, final int column)
     throws MatrixIndexException {
         if (data == null) {
             if (row > 0) {
@@ -316,19 +316,19 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column"); 
+                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
             }
             data = buildArray(getField(), subMatrix.length, nCols);
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
                             "some rows have length {0} while others have length {1}",
-                            nCols, subMatrix[i].length); 
+                            nCols, subMatrix[i].length);
                 }
                 System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
             }
@@ -374,7 +374,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
                     row, column, getRowDimension(), getColumnDimension());
-        }      
+        }
     }
 
     /** {@inheritDoc} */
@@ -387,7 +387,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
             throw new MatrixIndexException(
                     "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
                     row, column, getRowDimension(), getColumnDimension());
-        }      
+        }
     }
 
     /** {@inheritDoc} */

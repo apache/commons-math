@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
 /**
  * Test cases for the {@link SumOfSquares} class.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected SumOfSquares stat;
-    
+
     /**
      * @param name
      */
@@ -43,7 +43,7 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         suite.setName("SumSq Tests");
         return suite;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +59,7 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
     public double expectedValue() {
         return this.sumSq;
     }
-    
+
     public void testSpecialValues() {
         SumOfSquares sumSq = new SumOfSquares();
         assertTrue(Double.isNaN(sumSq.getResult()));
@@ -70,9 +70,9 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         sumSq.increment(Double.NEGATIVE_INFINITY);
         assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
         sumSq.increment(Double.NaN);
-        assertTrue(Double.isNaN(sumSq.getResult())); 
+        assertTrue(Double.isNaN(sumSq.getResult()));
         sumSq.increment(1);
-        assertTrue(Double.isNaN(sumSq.getResult())); 
+        assertTrue(Double.isNaN(sumSq.getResult()));
     }
 
 }

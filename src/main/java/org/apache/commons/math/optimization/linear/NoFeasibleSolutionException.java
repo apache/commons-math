@@ -30,7 +30,7 @@ public class NoFeasibleSolutionException extends OptimizationException {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3044253632189082760L;
 
-    /** 
+    /**
      * Simple constructor using a default message.
      */
     public NoFeasibleSolutionException() {

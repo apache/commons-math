@@ -48,10 +48,10 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( f.value( -123.5), c[0], tolerance );
         assertEquals( f.value( 3.0), c[0], tolerance );
         assertEquals( f.value( 456.89), c[0], tolerance );
-        
+
         assertEquals(f.degree(), 0);
         assertEquals(f.derivative().value(0), 0, tolerance);
-        
+
         assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
     }
 
@@ -59,7 +59,7 @@ public final class PolynomialFunctionTest extends TestCase {
      * tests the value of a linear polynomial.
      *
      * <p>This will test the function f(x) = 3*x - 1.5</p>
-     * <p>This will have the values 
+     * <p>This will have the values
      *  <tt>f(0.0) = -1.5, f(-1.0) = -4.5, f(-2.5) = -9.0,
      *      f(0.5) = 0.0, f(1.5) = 3.0</tt> and <tt>f(3.0) = 7.5</tt>
      * </p>
@@ -77,11 +77,11 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( 0.0, f.value( 0.5), tolerance );
         assertEquals( 3.0, f.value( 1.5), tolerance );
         assertEquals( 7.5, f.value( 3.0), tolerance );
-        
+
         assertEquals(f.degree(), 1);
-        
+
         assertEquals(f.polynomialDerivative().derivative().value(0), 0, tolerance);
-    
+
     }
 
 
@@ -103,12 +103,12 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( -2.0, f.value( 1.5), tolerance );
         assertEquals( 7.0, f.value( -1.5), tolerance );
         assertEquals( 265.5312, f.value( 12.34), tolerance );
-    
-    }    
+
+    }
 
 
-    /** 
-     * This will test the quintic function 
+    /**
+     * This will test the quintic function
      *   f(x) = x^2(x-5)(x+3)(x-1) = x^5 - 3x^4 -13x^3 + 15x^2</p>
      *
      */
@@ -125,16 +125,16 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( 0.0, f.value( -3.0), tolerance );
         assertEquals( 54.84375, f.value( -1.5), tolerance );
         assertEquals( -8.06637, f.value( 1.3), tolerance );
-        
+
         assertEquals(f.degree(), 5);
-    
-    }    
+
+    }
 
 
     /**
      * tests the firstDerivative function by comparison
      *
-     * <p>This will test the functions 
+     * <p>This will test the functions
      * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
      * and <tt>h(x) = 6x - 4</tt>
      */
@@ -230,7 +230,7 @@ public final class PolynomialFunctionTest extends TestCase {
         PolynomialFunction p2 = new PolynomialFunction(new double[] { 3.0, 2.0, 1.0 });
         assertEquals(p2, TestUtils.serializeAndRecover(p2));
     }
-    
+
     public void checkPolynomial(PolynomialFunction p, String reference) {
         assertEquals(reference, p.toString());
     }

@@ -38,7 +38,7 @@ import org.apache.commons.math.FieldElement;
  * <pre>
  *   RealVector result = v.mapAddToSelf(3.0).mapTanToSelf().mapSquareToSelf();
  * </pre>
- * 
+ *
  * @param <T> the type of the field elements
  * @version $Revision$ $Date$
  * @since 2.0

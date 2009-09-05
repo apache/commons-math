@@ -27,7 +27,7 @@ public class FixedGenerationCountTest {
     @Test
     public void testIsSatisfied() {
         FixedGenerationCount fgc = new FixedGenerationCount(20);
-        
+
         int cnt = 0;
         Population pop = new Population() {
             public void addChromosome(Chromosome chromosome) {
@@ -54,7 +54,7 @@ public class FixedGenerationCountTest {
                 return null;
             }
         };
-        
+
         while (!fgc.isSatisfied(pop))
             cnt++;
         assertEquals(20, cnt);

@@ -22,26 +22,26 @@ package org.apache.commons.math.distribution;
  * <p>
  * References:
  * <ul>
- * <li><a href="http://mathworld.wolfram.com/ZipfDistribution.html">Zipf 
+ * <li><a href="http://mathworld.wolfram.com/ZipfDistribution.html">Zipf
  * Distribution</a></li>
  * </ul>
  * </p>
- * 
+ *
  * @version $Revision$ $Date$
  */
 public interface ZipfDistribution extends IntegerDistribution {
     /**
      * Get the number of elements (e.g. corpus size) for the distribution.
-     * 
+     *
      * @return the number of elements
      */
     public int getNumberOfElements();
 
     /**
      * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an 
+     * The parameter value must be positive; otherwise an
      * <code>IllegalArgumentException</code> is thrown.
-     * 
+     *
      * @param n the number of elements
      * @throws IllegalArgumentException if n &le; 0
      */
@@ -49,16 +49,16 @@ public interface ZipfDistribution extends IntegerDistribution {
 
     /**
      * Get the exponent characterising the distribution.
-     * 
+     *
      * @return the exponent
      */
     public double getExponent();
 
     /**
      * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an 
+     * The parameter value must be positive; otherwise an
      * <code>IllegalArgumentException</code> is thrown.
-     * 
+     *
      * @param s the exponent
      * @throws IllegalArgumentException if s &le; 0.0
      */

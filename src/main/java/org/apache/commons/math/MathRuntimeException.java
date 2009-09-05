@@ -30,12 +30,12 @@ import java.util.ResourceBundle;
 
 /**
 * Base class for commons-math unchecked exceptions.
-* 
+*
 * @version $Revision$ $Date$
 * @since 2.0
 */
 public class MathRuntimeException extends RuntimeException {
-    
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5128983364075381060L;
 
@@ -64,7 +64,7 @@ public class MathRuntimeException extends RuntimeException {
                 // the value of the resource is the translated string
                 return bundle.getString(s);
             }
-            
+
         } catch (MissingResourceException mre) {
             // do nothing here
         }
@@ -84,7 +84,7 @@ public class MathRuntimeException extends RuntimeException {
      */
     private static String buildMessage(final Locale locale, final String pattern,
                                        final Object ... arguments) {
-        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);
     }
 
     /**
@@ -112,7 +112,7 @@ public class MathRuntimeException extends RuntimeException {
         this.pattern   = getMessage();
         this.arguments = new Object[0];
     }
-    
+
     /**
      * Constructs a new <code>MathRuntimeException</code> with specified
      * formatted detail message and nested <code>Throwable</code> root cause.
@@ -148,7 +148,7 @@ public class MathRuntimeException extends RuntimeException {
     /** Gets the message in a specified locale.
      *
      * @param locale Locale in which the message should be translated
-     * 
+     *
      * @return localized message
      */
     public String getMessage(final Locale locale) {
@@ -168,7 +168,7 @@ public class MathRuntimeException extends RuntimeException {
     public void printStackTrace() {
         printStackTrace(System.err);
     }
-    
+
     /**
      * Prints the stack trace of this exception to the specified stream.
      *

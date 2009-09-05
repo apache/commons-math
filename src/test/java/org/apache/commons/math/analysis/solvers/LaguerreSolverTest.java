@@ -30,8 +30,8 @@ import junit.framework.TestCase;
  * show that for a default absolute accuracy of 1E-6, it generally takes
  * less than 5 iterations to find one root, provided solveAll() is not
  * invoked, and 15 to 20 iterations to find all roots for quintic function.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class LaguerreSolverTest extends TestCase {
 
@@ -157,7 +157,7 @@ public final class LaguerreSolverTest extends TestCase {
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
-        
+
         expected = new Complex(0.5, -0.5 * Math.sqrt(3.0));
         tolerance = Math.max(solver.getAbsoluteAccuracy(),
                     Math.abs(expected.abs() * solver.getRelativeAccuracy()));

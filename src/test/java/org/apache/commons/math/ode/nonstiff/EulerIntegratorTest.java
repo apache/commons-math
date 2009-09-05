@@ -52,7 +52,7 @@ public class EulerIntegratorTest
     } catch(IntegratorException ie) {
     }
   }
-  
+
   public void testDecreasingSteps()
     throws DerivativeException, IntegratorException {
 
@@ -166,7 +166,7 @@ public class EulerIntegratorTest
             return false;
         }
         public void reset() {
-        }          
+        }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
                           private static final long serialVersionUID = 0L;

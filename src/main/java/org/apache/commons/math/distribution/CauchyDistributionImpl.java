@@ -28,26 +28,26 @@ import org.apache.commons.math.MathRuntimeException;
  * @since 1.1
  * @version $Revision$ $Date$
  */
-public class CauchyDistributionImpl extends AbstractContinuousDistribution 
+public class CauchyDistributionImpl extends AbstractContinuousDistribution
         implements CauchyDistribution, Serializable {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
     /** The median of this distribution. */
     private double median = 0;
-    
+
     /** The scale of this distribution. */
     private double scale = 1;
-    
+
     /**
      * Creates cauchy distribution with the medain equal to zero and scale
-     * equal to one. 
+     * equal to one.
      */
     public CauchyDistributionImpl(){
         this(0.0, 1.0);
     }
-    
+
     /**
      * Create a cauchy distribution using the given median and scale.
      * @param median median for this distribution
@@ -62,16 +62,16 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>. 
+     * @return CDF evaluted at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
         return 0.5 + (Math.atan((x - median) / scale) / Math.PI);
     }
-    
+
     /**
      * Access the median.
      * @return median for this distribution
-     */ 
+     */
     public double getMedian() {
         return median;
     }
@@ -83,12 +83,12 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     public double getScale() {
         return scale;
     }
-    
+
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      * <p>
-     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and 
+     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and
      * <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
      *
      * @param p the desired probability
@@ -111,7 +111,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         }
         return ret;
     }
-    
+
     /**
      * Modify the median.
      * @param median for this distribution
@@ -129,18 +129,18 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "scale must be positive ({0})", s);
-        }       
+        }
         scale = s;
     }
-    
+
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -151,7 +151,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = getMedian();
         }
-        
+
         return ret;
     }
 
@@ -159,10 +159,10 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -173,7 +173,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = Double.MAX_VALUE;
         }
-        
+
         return ret;
     }
 
@@ -181,7 +181,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * Access the initial domain value, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return initial domain value
      */
@@ -196,7 +196,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         } else {
             ret = getMedian();
         }
-        
+
         return ret;
     }
 }

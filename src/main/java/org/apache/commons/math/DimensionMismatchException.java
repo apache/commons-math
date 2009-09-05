@@ -18,12 +18,12 @@ package org.apache.commons.math;
 
 /**
  * Error thrown when two dimensions differ.
- * 
+ *
  * @since 1.2
  * @version $Revision$ $Date$
  */
 public class DimensionMismatchException extends MathException {
-    
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -1316089546353786411L;
 
@@ -45,7 +45,7 @@ public class DimensionMismatchException extends MathException {
     public int getDimension1() {
         return dimension1;
     }
-    
+
     /**
      * Get the second dimension
      * @return second dimension
@@ -56,8 +56,8 @@ public class DimensionMismatchException extends MathException {
 
     /** First dimension. */
     private int dimension1;
-    
+
     /** Second dimension. */
     private int dimension2;
-    
+
 }

@@ -21,11 +21,11 @@ import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
 
-/** 
+/**
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated
  * components. Components of generated vectors follow (independent) Gaussian
  * distributions, with parameters supplied in the constructor.
- * 
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
@@ -74,7 +74,7 @@ public class UncorrelatedRandomVectorGenerator
    */
   public double[] nextVector() {
 
-    double[] random = new double[mean.length]; 
+    double[] random = new double[mean.length];
     for (int i = 0; i < random.length; ++i) {
       random[i] = mean[i] + standardDeviation[i] * generator.nextNormalizedDouble();
     }
