@@ -61,8 +61,14 @@ public class FractionField implements Field<Fraction>, Serializable  {
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
+
+        /** Private constructor. */
+        private LazyHolder() {
+        }
+
         /** Cached field instance. */
         private static final FractionField INSTANCE = new FractionField();
+
     }
 
     /** Handle deserialization of the singleton.

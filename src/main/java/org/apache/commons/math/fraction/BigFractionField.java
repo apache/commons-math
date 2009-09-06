@@ -61,8 +61,14 @@ public class BigFractionField implements Field<BigFraction>, Serializable  {
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
+
+        /** Private constructor. */
+        private LazyHolder() {
+        }
+
         /** Cached field instance. */
         private static final BigFractionField INSTANCE = new BigFractionField();
+
     }
 
     /** Handle deserialization of the singleton.
