@@ -69,6 +69,12 @@ import org.apache.commons.math.random.RandomGenerator;
  */
 public class NaturalRanking implements RankingAlgorithm {
 
+    /** default NaN strategy */
+    public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.MAXIMAL;
+
+    /** default ties strategy */
+    public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;
+
     /** NaN strategy - defaults to NaNs maximal */
     private final NaNStrategy nanStrategy;
 
@@ -77,12 +83,6 @@ public class NaturalRanking implements RankingAlgorithm {
 
     /** Source of random data - used only when ties strategy is RANDOM */
     private final RandomData randomData;
-
-    /** default NaN strategy */
-    public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.MAXIMAL;
-
-    /** default ties strategy */
-    public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;
 
     /**
      * Create a NaturalRanking with default strategies for handling ties and NaNs.

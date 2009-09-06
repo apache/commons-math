@@ -29,11 +29,11 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 */
 public class OpenMapRealVector implements SparseRealVector, Serializable {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8772222695580707260L;
-
     /** Default Tolerance for having a value considered zero. */
     public static final double DEFAULT_ZERO_TOLERANCE = 1.0e-12;
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 8772222695580707260L;
 
     /** Entries of the vector. */
     private final OpenIntToDoubleHashMap entries;

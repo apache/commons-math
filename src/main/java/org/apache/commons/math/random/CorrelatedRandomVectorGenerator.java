@@ -62,6 +62,21 @@ import org.apache.commons.math.linear.RealMatrix;
 public class CorrelatedRandomVectorGenerator
     implements RandomVectorGenerator {
 
+    /** Mean vector. */
+    private final double[] mean;
+
+    /** Underlying generator. */
+    private final NormalizedRandomGenerator generator;
+
+    /** Storage for the normalized vector. */
+    private final double[] normalized;
+
+    /** Permutated Cholesky root of the covariance matrix. */
+    private RealMatrix root;
+
+    /** Rank of the covariance matrix. */
+    private int rank;
+
     /** Simple constructor.
      * <p>Build a correlated random vector generator from its mean
      * vector and covariance matrix.</p>
@@ -284,20 +299,5 @@ public class CorrelatedRandomVectorGenerator
         return correlated;
 
     }
-
-    /** Mean vector. */
-    private double[] mean;
-
-    /** Permutated Cholesky root of the covariance matrix. */
-    private RealMatrix root;
-
-    /** Rank of the covariance matrix. */
-    private int rank;
-
-    /** Underlying generator. */
-    private NormalizedRandomGenerator generator;
-
-    /** Storage for the normalized vector. */
-    private double[] normalized;
 
 }

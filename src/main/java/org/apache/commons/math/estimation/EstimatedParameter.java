@@ -37,90 +37,90 @@ import java.io.Serializable;
 public class EstimatedParameter
   implements Serializable {
 
-  /** Simple constructor.
-   * Build an instance from a first estimate of the parameter,
-   * initially considered unbound.
-   * @param name name of the parameter
-   * @param firstEstimate first estimate of the parameter
-   */
-  public EstimatedParameter(String name, double firstEstimate) {
-    this.name = name;
-    estimate  = firstEstimate;
-    bound     = false;
-  }
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -555440800213416949L;
 
-  /** Simple constructor.
-   * Build an instance from a first estimate of the parameter and a
-   * bound flag
-   * @param name name of the parameter
-   * @param firstEstimate first estimate of the parameter
-   * @param bound flag, should be true if the parameter is bound
-   */
-  public EstimatedParameter(String name,
-                            double firstEstimate,
-                            boolean bound) {
-    this.name  = name;
-    estimate   = firstEstimate;
-    this.bound = bound;
-  }
+    /** Current value of the parameter */
+    protected double  estimate;
 
-  /** Copy constructor.
-   * Build a copy of a parameter
-   * @param parameter instance to copy
-   */
-  public EstimatedParameter(EstimatedParameter parameter) {
-    name     = parameter.name;
-    estimate = parameter.estimate;
-    bound    = parameter.bound;
-  }
+    /** Name of the parameter */
+    private   String  name;
 
-  /** Set a new estimated value for the parameter.
-   * @param estimate new estimate for the parameter
-   */
-  public void setEstimate(double estimate) {
-    this.estimate = estimate;
-  }
+    /** Indicator for bound parameters
+     * (ie parameters that should not be estimated)
+     */
+    private   boolean bound;
 
-  /** Get the current estimate of the parameter
-   * @return current estimate
-   */
-  public double getEstimate() {
-    return estimate;
-  }
+    /** Simple constructor.
+     * Build an instance from a first estimate of the parameter,
+     * initially considered unbound.
+     * @param name name of the parameter
+     * @param firstEstimate first estimate of the parameter
+     */
+    public EstimatedParameter(String name, double firstEstimate) {
+        this.name = name;
+        estimate  = firstEstimate;
+        bound     = false;
+    }
 
-  /** get the name of the parameter
-   * @return parameter name
-   */
-  public String getName() {
-    return name;
-  }
+    /** Simple constructor.
+     * Build an instance from a first estimate of the parameter and a
+     * bound flag
+     * @param name name of the parameter
+     * @param firstEstimate first estimate of the parameter
+     * @param bound flag, should be true if the parameter is bound
+     */
+    public EstimatedParameter(String name,
+                              double firstEstimate,
+                              boolean bound) {
+        this.name  = name;
+        estimate   = firstEstimate;
+        this.bound = bound;
+    }
 
-  /** Set the bound flag of the parameter
-   * @param bound this flag should be set to true if the parameter is
-   * bound (i.e. if it should not be adjusted by the solver).
-   */
-  public void setBound(boolean bound) {
-    this.bound = bound;
-  }
+    /** Copy constructor.
+     * Build a copy of a parameter
+     * @param parameter instance to copy
+     */
+    public EstimatedParameter(EstimatedParameter parameter) {
+        name     = parameter.name;
+        estimate = parameter.estimate;
+        bound    = parameter.bound;
+    }
 
-  /** Check if the parameter is bound
-   * @return true if the parameter is bound */
-  public boolean isBound() {
-    return bound;
-  }
+    /** Set a new estimated value for the parameter.
+     * @param estimate new estimate for the parameter
+     */
+    public void setEstimate(double estimate) {
+        this.estimate = estimate;
+    }
 
-  /** Name of the parameter */
-  private   String  name;
+    /** Get the current estimate of the parameter
+     * @return current estimate
+     */
+    public double getEstimate() {
+        return estimate;
+    }
 
-  /** Current value of the parameter */
-  protected double  estimate;
+    /** get the name of the parameter
+     * @return parameter name
+     */
+    public String getName() {
+        return name;
+    }
 
-  /** Indicator for bound parameters
-   * (ie parameters that should not be estimated)
-   */
-  private   boolean bound;
+    /** Set the bound flag of the parameter
+     * @param bound this flag should be set to true if the parameter is
+     * bound (i.e. if it should not be adjusted by the solver).
+     */
+    public void setBound(boolean bound) {
+        this.bound = bound;
+    }
 
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -555440800213416949L;
+    /** Check if the parameter is bound
+     * @return true if the parameter is bound */
+    public boolean isBound() {
+        return bound;
+    }
 
 }

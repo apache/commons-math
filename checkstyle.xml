@@ -116,8 +116,10 @@
     <module name="RedundantModifier" />
     <module name="ModifierOrder" />
 
-    <!--
+    <!-- Use a consistent way to put declarations -->
     <module name="DeclarationOrder" />
+
+    <!--
     <module name="IllegalCatch" />
     <module name="StringLiteralEquality" />
     <module name="MultipleStringLiterals" />
@@ -143,6 +145,11 @@
     <property name="offCommentFormat" value="CHECKSTYLE\: stop ConstantName"/>
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume ConstantName"/>
     <property name="checkFormat"      value="ConstantName"/>
+  </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop HideUtilityClassConstructor"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume HideUtilityClassConstructor"/>
+    <property name="checkFormat"      value="HideUtilityClassConstructor"/>
   </module>
 
 </module>

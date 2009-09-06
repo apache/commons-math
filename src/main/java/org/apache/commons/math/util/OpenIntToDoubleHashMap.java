@@ -38,6 +38,15 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class OpenIntToDoubleHashMap implements Serializable {
 
+    /** Status indicator for free table entries. */
+    protected static final byte FREE    = 0;
+
+    /** Status indicator for full table entries. */
+    protected static final byte FULL    = 1;
+
+    /** Status indicator for removed table entries. */
+    protected static final byte REMOVED = 2;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -3646337053166149105L;
 
@@ -56,15 +65,6 @@ public class OpenIntToDoubleHashMap implements Serializable {
 
     /** Number of bits to perturb the index when probing for collision resolution. */
     private static final int PERTURB_SHIFT = 5;
-
-    /** Status indicator for free table entries. */
-    protected static final byte FREE    = 0;
-
-    /** Status indicator for full table entries. */
-    protected static final byte FULL    = 1;
-
-    /** Status indicator for removed table entries. */
-    protected static final byte REMOVED = 2;
 
     /** Keys table. */
     private int[] keys;

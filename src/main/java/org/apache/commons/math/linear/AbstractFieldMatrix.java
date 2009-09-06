@@ -39,6 +39,45 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     private final Field<T> field;
 
     /**
+     * Constructor for use with Serializable
+     */
+    protected AbstractFieldMatrix() {
+        field = null;
+    }
+
+    /**
+     * Creates a matrix with no data
+     * @param field field to which the elements belong
+     */
+    protected AbstractFieldMatrix(final Field<T> field) {
+        this.field = field;
+    }
+
+    /**
+     * Create a new FieldMatrix<T> with the supplied row and column dimensions.
+     *
+     * @param field field to which the elements belong
+     * @param rowDimension  the number of rows in the new matrix
+     * @param columnDimension  the number of columns in the new matrix
+     * @throws IllegalArgumentException if row or column dimension is not positive
+     */
+    protected AbstractFieldMatrix(final Field<T> field,
+                                  final int rowDimension, final int columnDimension)
+        throws IllegalArgumentException {
+        if (rowDimension <= 0 ) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid row dimension {0} (must be positive)",
+                    rowDimension);
+        }
+        if (columnDimension <= 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    "invalid column dimension {0} (must be positive)",
+                    columnDimension);
+        }
+        this.field = field;
+    }
+
+    /**
      * Get the elements type from an array.
      * @param <T> the type of the field elements
      * @param d data array
@@ -113,45 +152,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         T[] array = (T[]) Array.newInstance(field.getZero().getClass(), length);
         Arrays.fill(array, field.getZero());
         return array;
-    }
-
-    /**
-     * Constructor for use with Serializable
-     */
-    protected AbstractFieldMatrix() {
-        field = null;
-    }
-
-    /**
-     * Creates a matrix with no data
-     * @param field field to which the elements belong
-     */
-    protected AbstractFieldMatrix(final Field<T> field) {
-        this.field = field;
-    }
-
-    /**
-     * Create a new FieldMatrix<T> with the supplied row and column dimensions.
-     *
-     * @param field field to which the elements belong
-     * @param rowDimension  the number of rows in the new matrix
-     * @param columnDimension  the number of columns in the new matrix
-     * @throws IllegalArgumentException if row or column dimension is not positive
-     */
-    protected AbstractFieldMatrix(final Field<T> field,
-                                  final int rowDimension, final int columnDimension)
-        throws IllegalArgumentException {
-        if (rowDimension <= 0 ) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid row dimension {0} (must be positive)",
-                    rowDimension);
-        }
-        if (columnDimension <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid column dimension {0} (must be positive)",
-                    columnDimension);
-        }
-        this.field = field;
     }
 
     /** {@inheritDoc} */

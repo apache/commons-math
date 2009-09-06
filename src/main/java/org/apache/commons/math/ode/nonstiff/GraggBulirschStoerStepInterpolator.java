@@ -77,75 +77,31 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class GraggBulirschStoerStepInterpolator
   extends AbstractStepInterpolator {
 
-  /** Slope at the beginning of the step. */
-  private double[] y0Dot;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 7320613236731409847L;
 
-  /** State at the end of the step. */
-  private double[] y1;
+    /** Slope at the beginning of the step. */
+    private double[] y0Dot;
 
-  /** Slope at the end of the step. */
-  private double[] y1Dot;
+    /** State at the end of the step. */
+    private double[] y1;
 
-  /** Derivatives at the middle of the step.
-   * element 0 is state at midpoint, element 1 is first derivative ...
-   */
-  private double[][] yMidDots;
+    /** Slope at the end of the step. */
+    private double[] y1Dot;
 
-  /** Interpolation polynoms. */
-  private double[][] polynoms;
+    /** Derivatives at the middle of the step.
+     * element 0 is state at midpoint, element 1 is first derivative ...
+     */
+    private double[][] yMidDots;
 
-  /** Error coefficients for the interpolation. */
-  private double[] errfac;
+    /** Interpolation polynoms. */
+    private double[][] polynoms;
 
-  /** Degree of the interpolation polynoms. */
-  private int currentDegree;
+    /** Error coefficients for the interpolation. */
+    private double[] errfac;
 
-  /** Reallocate the internal tables.
-   * Reallocate the internal tables in order to be able to handle
-   * interpolation polynoms up to the given degree
-   * @param maxDegree maximal degree to handle
-   */
-  private void resetTables(final int maxDegree) {
-
-    if (maxDegree < 0) {
-      polynoms      = null;
-      errfac        = null;
-      currentDegree = -1;
-    } else {
-
-      final double[][] newPols = new double[maxDegree + 1][];
-      if (polynoms != null) {
-        System.arraycopy(polynoms, 0, newPols, 0, polynoms.length);
-        for (int i = polynoms.length; i < newPols.length; ++i) {
-          newPols[i] = new double[currentState.length];
-        }
-      } else {
-        for (int i = 0; i < newPols.length; ++i) {
-          newPols[i] = new double[currentState.length];
-        }
-      }
-      polynoms = newPols;
-
-      // initialize the error factors array for interpolation
-      if (maxDegree <= 4) {
-        errfac = null;
-      } else {
-        errfac = new double[maxDegree - 4];
-        for (int i = 0; i < errfac.length; ++i) {
-          final int ip5 = i + 5;
-          errfac[i] = 1.0 / (ip5 * ip5);
-          final double e = 0.5 * Math.sqrt (((double) (i + 1)) / ip5);
-          for (int j = 0; j <= i; ++j) {
-            errfac[i] *= e / (j + 1);
-          }
-        }
-      }
-
-      currentDegree = 0;
-
-    }
-
-  }
+    /** Degree of the interpolation polynoms. */
+    private int currentDegree;
 
   /** Simple constructor.
    * This constructor should not be used directly, it is only intended
@@ -217,6 +173,53 @@ class GraggBulirschStoerStepInterpolator
                          polynoms[i], 0, dimension);
       }
       currentDegree = interpolator.currentDegree;
+    }
+
+  }
+
+  /** Reallocate the internal tables.
+   * Reallocate the internal tables in order to be able to handle
+   * interpolation polynoms up to the given degree
+   * @param maxDegree maximal degree to handle
+   */
+  private void resetTables(final int maxDegree) {
+
+    if (maxDegree < 0) {
+      polynoms      = null;
+      errfac        = null;
+      currentDegree = -1;
+    } else {
+
+      final double[][] newPols = new double[maxDegree + 1][];
+      if (polynoms != null) {
+        System.arraycopy(polynoms, 0, newPols, 0, polynoms.length);
+        for (int i = polynoms.length; i < newPols.length; ++i) {
+          newPols[i] = new double[currentState.length];
+        }
+      } else {
+        for (int i = 0; i < newPols.length; ++i) {
+          newPols[i] = new double[currentState.length];
+        }
+      }
+      polynoms = newPols;
+
+      // initialize the error factors array for interpolation
+      if (maxDegree <= 4) {
+        errfac = null;
+      } else {
+        errfac = new double[maxDegree - 4];
+        for (int i = 0; i < errfac.length; ++i) {
+          final int ip5 = i + 5;
+          errfac[i] = 1.0 / (ip5 * ip5);
+          final double e = 0.5 * Math.sqrt (((double) (i + 1)) / ip5);
+          for (int j = 0; j <= i; ++j) {
+            errfac[i] *= e / (j + 1);
+          }
+        }
+      }
+
+      currentDegree = 0;
+
     }
 
   }
@@ -395,8 +398,5 @@ class GraggBulirschStoerStepInterpolator
     setInterpolatedTime(t);
 
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 7320613236731409847L;
 
 }

@@ -47,6 +47,15 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class GillStepInterpolator
   extends RungeKuttaStepInterpolator {
 
+    /** First Gill coefficient. */
+    private static final double TWO_MINUS_SQRT_2 = 2 - Math.sqrt(2.0);
+
+    /** Second Gill coefficient. */
+    private static final double TWO_PLUS_SQRT_2 = 2 + Math.sqrt(2.0);
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -107804074496313322L;
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link
@@ -111,14 +120,5 @@ class GillStepInterpolator
      }
 
   }
-
-  /** First Gill coefficient. */
-  private static final double TWO_MINUS_SQRT_2 = 2 - Math.sqrt(2.0);
-
-  /** Second Gill coefficient. */
-  private static final double TWO_PLUS_SQRT_2 = 2 + Math.sqrt(2.0);
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -107804074496313322L;
 
 }

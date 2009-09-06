@@ -45,9 +45,6 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class Complex implements FieldElement<Complex>, Serializable  {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -6195664516687396620L;
-
     /** The square root of -1. A number representing "0.0 + 1.0i" */
     public static final Complex I = new Complex(0.0, 1.0);
 
@@ -65,24 +62,19 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     /** A complex number representing "0.0 + 0.0i" */
     public static final Complex ZERO = new Complex(0.0, 0.0);
 
-    /**
-     * The imaginary part
-     */
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -6195664516687396620L;
+
+    /** The imaginary part. */
     private final double imaginary;
 
-    /**
-     * The real part
-     */
+    /** The real part. */
     private final double real;
 
-    /**
-     * Record whether this complex number is equal to NaN
-     */
+    /** Record whether this complex number is equal to NaN. */
     private final transient boolean isNaN;
 
-    /**
-     * Record whether this complex number is infinite
-     */
+    /** Record whether this complex number is infinite. */
     private final transient boolean isInfinite;
 
     /**

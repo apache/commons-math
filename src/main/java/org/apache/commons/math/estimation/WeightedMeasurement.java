@@ -56,7 +56,16 @@ public abstract class WeightedMeasurement implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4360046376796901941L;
 
-    /**
+    /** Measurement weight. */
+    private final double  weight;
+
+    /** Value of the measurements. */
+    private final double  measuredValue;
+
+    /** Ignore measurement indicator. */
+    private boolean ignored;
+
+  /**
    * Simple constructor.
    * Build a measurement with the given parameters, and set its ignore
    * flag to false.
@@ -159,14 +168,5 @@ public abstract class WeightedMeasurement implements Serializable {
   public boolean isIgnored() {
     return ignored;
   }
-
-  /** Measurement weight. */
-  private final double  weight;
-
-  /** Value of the measurements. */
-  private final double  measuredValue;
-
-  /** Ignore measurement indicator. */
-  private       boolean ignored;
 
 }

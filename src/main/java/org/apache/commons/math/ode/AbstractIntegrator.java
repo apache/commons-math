@@ -34,6 +34,17 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
+    /** Step handler. */
+    protected Collection<StepHandler> stepHandlers;
+
+    /** Current step start time. */
+    protected double stepStart;
+
+    /** Current stepsize. */
+    protected double stepSize;
+
+    /** Events handlers manager. */
+    protected CombinedEventsManager eventsHandlersManager;
 
     /** Name of the method. */
     private final String name;
@@ -46,18 +57,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** Differential equations to integrate. */
     private transient FirstOrderDifferentialEquations equations;
-
-    /** Step handler. */
-    protected Collection<StepHandler> stepHandlers;
-
-    /** Current step start time. */
-    protected double stepStart;
-
-    /** Current stepsize. */
-    protected double stepSize;
-
-    /** Events handlers manager. */
-    protected CombinedEventsManager eventsHandlersManager;
 
     /** Build an instance.
      * @param name name of the method

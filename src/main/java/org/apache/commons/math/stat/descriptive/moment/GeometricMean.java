@@ -74,6 +74,14 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     }
 
     /**
+     * Create a GeometricMean instance using the given SumOfLogs instance
+     * @param sumOfLogs sum of logs instance to use for computation
+     */
+    public GeometricMean(SumOfLogs sumOfLogs) {
+        this.sumOfLogs = sumOfLogs;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -81,14 +89,6 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
         GeometricMean result = new GeometricMean();
         copy(this, result);
         return result;
-    }
-
-    /**
-     * Create a GeometricMean instance using the given SumOfLogs instance
-     * @param sumOfLogs sum of logs instance to use for computation
-     */
-    public GeometricMean(SumOfLogs sumOfLogs) {
-        this.sumOfLogs = sumOfLogs;
     }
 
     /**

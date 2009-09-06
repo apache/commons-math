@@ -40,6 +40,9 @@ import org.apache.commons.math.ode.DerivativeException;
 public class DummyStepInterpolator
   extends AbstractStepInterpolator {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 1708010296707839488L;
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * <code>AbstractStepInterpolator.reinitialize</code> protected method
@@ -122,8 +125,5 @@ public class DummyStepInterpolator
     setInterpolatedTime(t);
 
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 1708010296707839488L;
 
 }

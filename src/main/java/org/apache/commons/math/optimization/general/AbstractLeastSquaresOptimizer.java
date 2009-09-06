@@ -45,21 +45,6 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
-    /** Maximal number of iterations allowed. */
-    private int maxIterations;
-
-    /** Number of iterations already performed. */
-    private int iterations;
-
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
-
-    /** Number of evaluations already performed. */
-    private int objectiveEvaluations;
-
-    /** Number of jacobian evaluations. */
-    private int jacobianEvaluations;
-
     /** Convergence checker. */
     protected VectorialConvergenceChecker checker;
 
@@ -78,12 +63,6 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** Number of rows of the jacobian matrix. */
     protected int rows;
 
-    /** Objective function. */
-    private DifferentiableMultivariateVectorialFunction function;
-
-    /** Objective function derivatives. */
-    private MultivariateMatrixFunction jF;
-
     /** Target value for the objective functions at optimum. */
     protected double[] targetValues;
 
@@ -101,6 +80,27 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Cost value (square root of the sum of the residuals). */
     protected double cost;
+
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed. */
+    private int iterations;
+
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
+    /** Number of evaluations already performed. */
+    private int objectiveEvaluations;
+
+    /** Number of jacobian evaluations. */
+    private int jacobianEvaluations;
+
+    /** Objective function. */
+    private DifferentiableMultivariateVectorialFunction function;
+
+    /** Objective function derivatives. */
+    private MultivariateMatrixFunction jF;
 
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link SimpleVectorialValueChecker}

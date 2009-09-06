@@ -41,17 +41,14 @@ import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 public class LoessInterpolator
         implements UnivariateRealInterpolator, Serializable {
 
+    /** Default value of the bandwidth parameter. */
+    public static final double DEFAULT_BANDWIDTH = 0.3;
+
+    /** Default value of the number of robustness iterations. */
+    public static final int DEFAULT_ROBUSTNESS_ITERS = 2;
+
     /** serializable version identifier. */
     private static final long serialVersionUID = 5204927143605193821L;
-
-    /**
-     * Default value of the bandwidth parameter.
-     */
-    public static final double DEFAULT_BANDWIDTH = 0.3;
-    /**
-     * Default value of the number of robustness iterations.
-     */
-    public static final int DEFAULT_ROBUSTNESS_ITERS = 2;
 
     /**
      * The bandwidth parameter: when computing the loess fit at

@@ -229,19 +229,14 @@ public class UnivariateRealSolverUtils {
         }
     }
 
+    // CHECKSTYLE: stop HideUtilityClassConstructor
     /** Holder for the factory.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
-
-        /** Private constructor. */
-        private LazyHolder() {
-        }
-
         /** Cached solver factory */
-        private static final UnivariateRealSolverFactory FACTORY =
-            UnivariateRealSolverFactory.newInstance();
-
+        private static final UnivariateRealSolverFactory FACTORY = UnivariateRealSolverFactory.newInstance();
     }
+    // CHECKSTYLE: resume HideUtilityClassConstructor
 
 }

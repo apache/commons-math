@@ -67,6 +67,33 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 public abstract class EmbeddedRungeKuttaIntegrator
   extends AdaptiveStepsizeIntegrator {
 
+    /** Indicator for <i>fsal</i> methods. */
+    private final boolean fsal;
+
+    /** Time steps from Butcher array (without the first zero). */
+    private final double[] c;
+
+    /** Internal weights from Butcher array (without the first empty row). */
+    private final double[][] a;
+
+    /** External weights for the high order method from Butcher array. */
+    private final double[] b;
+
+    /** Prototype of the step interpolator. */
+    private final RungeKuttaStepInterpolator prototype;
+
+    /** Stepsize control exponent. */
+    private final double exp;
+
+    /** Safety factor for stepsize control. */
+    private double safety;
+
+    /** Minimal reduction factor for stepsize control. */
+    private double minReduction;
+
+    /** Maximal growth factor for stepsize control. */
+    private double maxGrowth;
+
   /** Build a Runge-Kutta integrator with the given Butcher array.
    * @param name name of the method
    * @param fsal indicate that the method is an <i>fsal</i>
@@ -371,32 +398,5 @@ public abstract class EmbeddedRungeKuttaIntegrator
   protected abstract double estimateError(double[][] yDotK,
                                           double[] y0, double[] y1,
                                           double h);
-
-  /** Indicator for <i>fsal</i> methods. */
-  private boolean fsal;
-
-  /** Time steps from Butcher array (without the first zero). */
-  private double[] c;
-
-  /** Internal weights from Butcher array (without the first empty row). */
-  private double[][] a;
-
-  /** External weights for the high order method from Butcher array. */
-  private double[] b;
-
-  /** Prototype of the step interpolator. */
-  private RungeKuttaStepInterpolator prototype;
-
-  /** Stepsize control exponent. */
-  private double exp;
-
-  /** Safety factor for stepsize control. */
-  private double safety;
-
-  /** Minimal reduction factor for stepsize control. */
-  private double minReduction;
-
-  /** Maximal growth factor for stepsize control. */
-  private double maxGrowth;
 
 }

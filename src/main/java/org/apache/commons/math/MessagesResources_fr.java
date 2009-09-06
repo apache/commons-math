@@ -27,21 +27,6 @@ import java.util.ListResourceBundle;
 public class MessagesResources_fr
   extends ListResourceBundle {
 
-  /**
-   * Simple constructor.
-   */
-  public MessagesResources_fr() {
-  }
-
-  /**
-   * Get the non-translated/translated messages arrays from this resource bundle.
-   * @return non-translated/translated messages arrays
-   */
-  @Override
-  public Object[][] getContents() {
-    return CONTENTS.clone();
-  }
-
   /** Non-translated/translated messages arrays. */
   private static final Object[][] CONTENTS = {
 
@@ -853,5 +838,20 @@ public class MessagesResources_fr
      "erreur interne, veuillez signaler l''erreur \u00e0 {0}" }
 
   };
+
+  /**
+   * Simple constructor.
+   */
+  public MessagesResources_fr() {
+  }
+
+  /**
+   * Get the non-translated/translated messages arrays from this resource bundle.
+   * @return non-translated/translated messages arrays
+   */
+  @Override
+  public Object[][] getContents() {
+    return CONTENTS.clone();
+  }
 
 }

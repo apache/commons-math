@@ -42,6 +42,9 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
     /** Serializable version identifier */
     private static final long serialVersionUID = -7179861704951334960L;
 
+    /** State variation. */
+    protected double[] stateVariation;
+
     /** Step size used in the first scaled derivative and Nordsieck vector. */
     private double scalingH;
 
@@ -58,9 +61,6 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
     /** Nordsieck vector. */
     private Array2DRowRealMatrix nordsieck;
-
-    /** State variation. */
-    protected double[] stateVariation;
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the

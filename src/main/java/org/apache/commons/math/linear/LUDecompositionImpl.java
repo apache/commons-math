@@ -33,6 +33,9 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class LUDecompositionImpl implements LUDecomposition {
 
+    /** Default bound to determine effective singularity in LU decomposition */
+    private static final double DEFAULT_TOO_SMALL = 10E-12;
+
     /** Entries of LU decomposition. */
     private double lu[][];
 
@@ -53,9 +56,6 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /** Cached value of P. */
     private RealMatrix cachedP;
-
-    /** Default bound to determine effective singularity in LU decomposition */
-    private static final double DEFAULT_TOO_SMALL = 10E-12;
 
     /**
      * Calculates the LU-decomposition of the given matrix.

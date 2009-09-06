@@ -91,34 +91,6 @@ public class BigFraction
 
     /**
      * <p>
-     * Creates a <code>BigFraction</code> instance with the 2 parts of a fraction
-     * Y/Z.
-     * </p>
-     *
-     * <p>
-     * Any negative signs are resolved to be on the numerator.
-     * </p>
-     *
-     * @param numerator
-     *            the numerator, for example the three in 'three sevenths'.
-     * @param denominator
-     *            the denominator, for example the seven in 'three sevenths'.
-     * @return a new fraction instance, with the numerator and denominator
-     *         reduced.
-     * @throws ArithmeticException
-     *             if the denominator is <code>zero</code>.
-     */
-    public static BigFraction getReducedFraction(final int numerator,
-                                                 final int denominator) {
-        if (numerator == 0) {
-            return ZERO; // normalize zero.
-        }
-
-        return new BigFraction(numerator, denominator);
-    }
-
-    /**
-     * <p>
      * Create a {@link BigFraction} equivalent to the passed <tt>BigInteger</tt>, ie
      * "num / 1".
      * </p>
@@ -439,6 +411,34 @@ public class BigFraction
      */
     public BigFraction(final long num, final long den) {
         this(BigInteger.valueOf(num), BigInteger.valueOf(den));
+    }
+
+    /**
+     * <p>
+     * Creates a <code>BigFraction</code> instance with the 2 parts of a fraction
+     * Y/Z.
+     * </p>
+     *
+     * <p>
+     * Any negative signs are resolved to be on the numerator.
+     * </p>
+     *
+     * @param numerator
+     *            the numerator, for example the three in 'three sevenths'.
+     * @param denominator
+     *            the denominator, for example the seven in 'three sevenths'.
+     * @return a new fraction instance, with the numerator and denominator
+     *         reduced.
+     * @throws ArithmeticException
+     *             if the denominator is <code>zero</code>.
+     */
+    public static BigFraction getReducedFraction(final int numerator,
+                                                 final int denominator) {
+        if (numerator == 0) {
+            return ZERO; // normalize zero.
+        }
+
+        return new BigFraction(numerator, denominator);
     }
 
     /**

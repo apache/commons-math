@@ -71,6 +71,36 @@ public class MultivariateSummaryStatistics
     /** Serialization UID */
     private static final long serialVersionUID = 2271900808994826718L;
 
+    /** Dimension of the data. */
+    private int k;
+
+    /** Count of values that have been added */
+    private long n = 0;
+
+    /** Sum statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] sumImpl;
+
+    /** Sum of squares statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] sumSqImpl;
+
+    /** Minimum statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] minImpl;
+
+    /** Maximum statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] maxImpl;
+
+    /** Sum of log statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] sumLogImpl;
+
+    /** Geometric mean statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] geoMeanImpl;
+
+    /** Mean statistic implementation - can be reset by setter. */
+    private StorelessUnivariateStatistic[] meanImpl;
+
+    /** Covariance statistic implementation - cannot be reset. */
+    private VectorialCovariance covarianceImpl;
+
     /**
      * Construct a MultivariateSummaryStatistics instance
      * @param k dimension of the data
@@ -103,36 +133,6 @@ public class MultivariateSummaryStatistics
             new VectorialCovariance(k, isCovarianceBiasCorrected);
 
     }
-
-    /** Dimension of the data. */
-    private int k;
-
-    /** Count of values that have been added */
-    private long n = 0;
-
-    /** Sum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumImpl;
-
-    /** Sum of squares statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumSqImpl;
-
-    /** Minimum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] minImpl;
-
-    /** Maximum statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] maxImpl;
-
-    /** Sum of log statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] sumLogImpl;
-
-    /** Geometric mean statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] geoMeanImpl;
-
-    /** Mean statistic implementation - can be reset by setter. */
-    private StorelessUnivariateStatistic[] meanImpl;
-
-    /** Covariance statistic implementation - cannot be reset. */
-    private VectorialCovariance covarianceImpl;
 
     /**
      * Add an n-tuple to the data

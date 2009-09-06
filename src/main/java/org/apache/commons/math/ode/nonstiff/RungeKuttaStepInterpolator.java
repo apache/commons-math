@@ -37,6 +37,12 @@ import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 abstract class RungeKuttaStepInterpolator
   extends AbstractStepInterpolator {
 
+    /** Slopes at the intermediate points */
+    protected double[][] yDotK;
+
+    /** Reference to the integrator. */
+    protected AbstractIntegrator integrator;
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link #reinitialize} method should be called before using the
@@ -173,11 +179,5 @@ abstract class RungeKuttaStepInterpolator
     }
 
   }
-
-  /** Slopes at the intermediate points */
-  protected double[][] yDotK;
-
-  /** Reference to the integrator. */
-  protected AbstractIntegrator integrator;
 
 }

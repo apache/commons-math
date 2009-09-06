@@ -30,17 +30,17 @@ import org.apache.commons.math.MathException;
 public class NotARotationMatrixException
   extends MathException {
 
-  /**
-   * Simple constructor.
-   * Build an exception by translating and formating a message
-   * @param specifier format specifier (to be translated)
-   * @param parts to insert in the format (no translation)
-   */
-  public NotARotationMatrixException(String specifier, Object ... parts) {
-    super(specifier, parts);
-  }
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 5647178478658937642L;
 
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 5647178478658937642L;
+    /**
+     * Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     */
+    public NotARotationMatrixException(String specifier, Object ... parts) {
+        super(specifier, parts);
+    }
 
 }

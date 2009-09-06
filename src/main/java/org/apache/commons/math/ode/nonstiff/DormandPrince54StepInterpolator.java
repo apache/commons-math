@@ -34,6 +34,61 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class DormandPrince54StepInterpolator
   extends RungeKuttaStepInterpolator {
 
+    /** Last row of the Butcher-array internal weights, element 0. */
+    private static final double A70 =    35.0 /  384.0;
+
+    // element 1 is zero, so it is neither stored nor used
+
+    /** Last row of the Butcher-array internal weights, element 2. */
+    private static final double A72 =   500.0 / 1113.0;
+
+    /** Last row of the Butcher-array internal weights, element 3. */
+    private static final double A73 =   125.0 /  192.0;
+
+    /** Last row of the Butcher-array internal weights, element 4. */
+    private static final double A74 = -2187.0 / 6784.0;
+
+    /** Last row of the Butcher-array internal weights, element 5. */
+    private static final double A75 =    11.0 /   84.0;
+
+    /** Shampine (1986) Dense output, element 0. */
+    private static final double D0 =  -12715105075.0 /  11282082432.0;
+
+    // element 1 is zero, so it is neither stored nor used
+
+    /** Shampine (1986) Dense output, element 2. */
+    private static final double D2 =   87487479700.0 /  32700410799.0;
+
+    /** Shampine (1986) Dense output, element 3. */
+    private static final double D3 =  -10690763975.0 /   1880347072.0;
+
+    /** Shampine (1986) Dense output, element 4. */
+    private static final double D4 =  701980252875.0 / 199316789632.0;
+
+    /** Shampine (1986) Dense output, element 5. */
+    private static final double D5 =   -1453857185.0 /    822651844.0;
+
+    /** Shampine (1986) Dense output, element 6. */
+    private static final double D6 =      69997945.0 /     29380423.0;
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 4104157279605906956L;
+
+    /** First vector for interpolation. */
+    private double[] v1;
+
+    /** Second vector for interpolation. */
+    private double[] v2;
+
+    /** Third vector for interpolation. */
+    private double[] v3;
+
+    /** Fourth vector for interpolation. */
+    private double[] v4;
+
+    /** Initialization indicator for the interpolation vectors. */
+    private boolean vectorsInitialized;
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link #reinitialize} method should be called before using the
@@ -155,60 +210,5 @@ class DormandPrince54StepInterpolator
     }
 
   }
-
-  /** First vector for interpolation. */
-  private double[] v1;
-
-  /** Second vector for interpolation. */
-  private double[] v2;
-
-  /** Third vector for interpolation. */
-  private double[] v3;
-
-  /** Fourth vector for interpolation. */
-  private double[] v4;
-
-  /** Initialization indicator for the interpolation vectors. */
-  private boolean vectorsInitialized;
-
-  /** Last row of the Butcher-array internal weights, element 0. */
-  private static final double A70 =    35.0 /  384.0;
-
-  // element 1 is zero, so it is neither stored nor used
-
-  /** Last row of the Butcher-array internal weights, element 2. */
-  private static final double A72 =   500.0 / 1113.0;
-
-  /** Last row of the Butcher-array internal weights, element 3. */
-  private static final double A73 =   125.0 /  192.0;
-
-  /** Last row of the Butcher-array internal weights, element 4. */
-  private static final double A74 = -2187.0 / 6784.0;
-
-  /** Last row of the Butcher-array internal weights, element 5. */
-  private static final double A75 =    11.0 /   84.0;
-
-  /** Shampine (1986) Dense output, element 0. */
-  private static final double D0 =  -12715105075.0 /  11282082432.0;
-
-  // element 1 is zero, so it is neither stored nor used
-
-  /** Shampine (1986) Dense output, element 2. */
-  private static final double D2 =   87487479700.0 /  32700410799.0;
-
-  /** Shampine (1986) Dense output, element 3. */
-  private static final double D3 =  -10690763975.0 /   1880347072.0;
-
-  /** Shampine (1986) Dense output, element 4. */
-  private static final double D4 =  701980252875.0 / 199316789632.0;
-
-  /** Shampine (1986) Dense output, element 5. */
-  private static final double D5 =   -1453857185.0 /    822651844.0;
-
-  /** Shampine (1986) Dense output, element 6. */
-  private static final double D6 =      69997945.0 /     29380423.0;
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = 4104157279605906956L;
 
 }

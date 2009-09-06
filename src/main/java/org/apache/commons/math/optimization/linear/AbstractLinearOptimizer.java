@@ -37,12 +37,6 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
-    /** Maximal number of iterations allowed. */
-    private int maxIterations;
-
-    /** Number of iterations already performed. */
-    private int iterations;
-
     /** Linear objective function. */
     protected LinearObjectiveFunction function;
 
@@ -54,6 +48,12 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
     /** Whether to restrict the variables to non-negative values. */
     protected boolean nonNegative;
+
+    /** Maximal number of iterations allowed. */
+    private int maxIterations;
+
+    /** Number of iterations already performed. */
+    private int iterations;
 
     /** Simple constructor with default settings.
      * <p>The maximal number of evaluation is set to its default value.</p>

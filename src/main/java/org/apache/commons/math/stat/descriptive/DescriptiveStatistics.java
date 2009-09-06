@@ -55,6 +55,13 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  */
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
+    /**
+     * Represents an infinite window size.  When the {@link #getWindowSize()}
+     * returns this value, there is no limit to the number of data values
+     * that can be stored in the dataset.
+     */
+    public static final int INFINITE_WINDOW = -1;
+
     /** Serialization UID */
     private static final long serialVersionUID = 4133067267405273064L;
 
@@ -120,13 +127,6 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     public DescriptiveStatistics(DescriptiveStatistics original) {
         copy(original, this);
     }
-
-    /**
-     * Represents an infinite window size.  When the {@link #getWindowSize()}
-     * returns this value, there is no limit to the number of data values
-     * that can be stored in the dataset.
-     */
-    public static final int INFINITE_WINDOW = -1;
 
     /**
      * Adds the value to the dataset. If the dataset is at the maximum size

@@ -34,6 +34,12 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1569292426375546027L;
 
+    /** Square root of three. */
+    private static final double SQRT3 = Math.sqrt(3.0);
+
+    /** Underlying generator. */
+    private final RandomGenerator generator;
+
     /** Create a new generator.
      * @param generator underlying random generator to use
      */
@@ -49,11 +55,5 @@ public class UniformRandomGenerator implements NormalizedRandomGenerator {
     public double nextNormalizedDouble() {
         return SQRT3 * (2 * generator.nextDouble() - 1.0);
     }
-
-    /** Underlying generator. */
-    private RandomGenerator generator;
-
-    /** Square root of three. */
-    private static final double SQRT3 = Math.sqrt(3.0);
 
 }

@@ -36,14 +36,14 @@ import org.apache.commons.math.FieldElement;
  */
 public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Serializable {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 7887631840434052850L;
-
     /** A big real representing 0. */
     public static final BigReal ZERO = new BigReal(BigDecimal.ZERO);
 
     /** A big real representing 1. */
     public static final BigReal ONE = new BigReal(BigDecimal.ONE);
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 7887631840434052850L;
 
     /** Underlying BigDecimal. */
     private final BigDecimal d;

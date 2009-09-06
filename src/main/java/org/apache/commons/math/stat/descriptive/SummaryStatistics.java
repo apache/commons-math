@@ -59,21 +59,6 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     /** Serialization UID */
     private static final long serialVersionUID = -2021321786743555871L;
 
-    /**
-     * Construct a SummaryStatistics instance
-     */
-    public SummaryStatistics() {
-    }
-
-    /**
-     * A copy constructor. Creates a deep-copy of the {@code original}.
-     *
-     * @param original the {@code SummaryStatistics} instance to copy
-     */
-    public SummaryStatistics(SummaryStatistics original) {
-        copy(original, this);
-    }
-
     /** count of values that have been added */
     protected long n = 0;
 
@@ -127,6 +112,21 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 
     /** Variance statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic varianceImpl = variance;
+
+    /**
+     * Construct a SummaryStatistics instance
+     */
+    public SummaryStatistics() {
+    }
+
+    /**
+     * A copy constructor. Creates a deep-copy of the {@code original}.
+     *
+     * @param original the {@code SummaryStatistics} instance to copy
+     */
+    public SummaryStatistics(SummaryStatistics original) {
+        copy(original, this);
+    }
 
     /**
      * Return a {@link StatisticalSummaryValues} instance reporting current

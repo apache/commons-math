@@ -40,6 +40,47 @@ public abstract class AbstractEstimator implements Estimator {
     /** Default maximal number of cost evaluations allowed. */
     public static final int DEFAULT_MAX_COST_EVALUATIONS = 100;
 
+    /** Array of measurements. */
+    protected WeightedMeasurement[] measurements;
+
+    /** Array of parameters. */
+    protected EstimatedParameter[] parameters;
+
+    /**
+     * Jacobian matrix.
+     * <p>This matrix is in canonical form just after the calls to
+     * {@link #updateJacobian()}, but may be modified by the solver
+     * in the derived class (the {@link LevenbergMarquardtEstimator
+     * Levenberg-Marquardt estimator} does this).</p>
+     */
+    protected double[] jacobian;
+
+    /** Number of columns of the jacobian matrix. */
+    protected int cols;
+
+    /** Number of rows of the jacobian matrix. */
+    protected int rows;
+
+    /** Residuals array.
+     * <p>This array is in canonical form just after the calls to
+     * {@link #updateJacobian()}, but may be modified by the solver
+     * in the derived class (the {@link LevenbergMarquardtEstimator
+     * Levenberg-Marquardt estimator} does this).</p>
+     */
+    protected double[] residuals;
+
+    /** Cost value (square root of the sum of the residuals). */
+    protected double cost;
+
+    /** Maximal allowed number of cost evaluations. */
+    private int maxCostEval;
+
+    /** Number of cost evaluations. */
+    private int costEvaluations;
+
+    /** Number of jacobian evaluations. */
+    private int jacobianEvaluations;
+
     /**
      * Build an abstract estimator for least squares problems.
      * <p>The maximal number of cost evaluations allowed is set
@@ -269,46 +310,5 @@ public abstract class AbstractEstimator implements Estimator {
      */
     public abstract void estimate(EstimationProblem problem)
     throws EstimationException;
-
-    /** Array of measurements. */
-    protected WeightedMeasurement[] measurements;
-
-    /** Array of parameters. */
-    protected EstimatedParameter[] parameters;
-
-    /**
-     * Jacobian matrix.
-     * <p>This matrix is in canonical form just after the calls to
-     * {@link #updateJacobian()}, but may be modified by the solver
-     * in the derived class (the {@link LevenbergMarquardtEstimator
-     * Levenberg-Marquardt estimator} does this).</p>
-     */
-    protected double[] jacobian;
-
-    /** Number of columns of the jacobian matrix. */
-    protected int cols;
-
-    /** Number of rows of the jacobian matrix. */
-    protected int rows;
-
-    /** Residuals array.
-     * <p>This array is in canonical form just after the calls to
-     * {@link #updateJacobian()}, but may be modified by the solver
-     * in the derived class (the {@link LevenbergMarquardtEstimator
-     * Levenberg-Marquardt estimator} does this).</p>
-     */
-    protected double[] residuals;
-
-    /** Cost value (square root of the sum of the residuals). */
-    protected double cost;
-
-    /** Maximal allowed number of cost evaluations. */
-    private int maxCostEval;
-
-    /** Number of cost evaluations. */
-    private int costEvaluations;
-
-    /** Number of jacobian evaluations. */
-    private int jacobianEvaluations;
 
 }

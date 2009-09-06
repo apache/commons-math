@@ -37,24 +37,6 @@ public class GeneticAlgorithm {
     //@GuardedBy("this")
     private static RandomGenerator randomGenerator = new JDKRandomGenerator();
 
-    /**
-     * Set the (static) random generator.
-     *
-     * @param random random generator
-     */
-    public static synchronized void setRandomGenerator(RandomGenerator random) {
-        randomGenerator = random;
-    }
-
-    /**
-     * Returns the (static) random generator.
-     *
-     * @return the static random generator shared by GA implementation classes
-     */
-    public static synchronized RandomGenerator getRandomGenerator() {
-        return randomGenerator;
-    }
-
     /** the crossover policy used by the algorithm. */
     private final CrossoverPolicy crossoverPolicy;
 
@@ -92,6 +74,24 @@ public class GeneticAlgorithm {
         this.mutationPolicy = mutationPolicy;
         this.mutationRate = mutationRate;
         this.selectionPolicy = selectionPolicy;
+    }
+
+    /**
+     * Set the (static) random generator.
+     *
+     * @param random random generator
+     */
+    public static synchronized void setRandomGenerator(RandomGenerator random) {
+        randomGenerator = random;
+    }
+
+    /**
+     * Returns the (static) random generator.
+     *
+     * @return the static random generator shared by GA implementation classes
+     */
+    public static synchronized RandomGenerator getRandomGenerator() {
+        return randomGenerator;
     }
 
     /**

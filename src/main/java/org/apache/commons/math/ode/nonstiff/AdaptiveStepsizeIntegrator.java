@@ -54,6 +54,26 @@ import org.apache.commons.math.ode.IntegratorException;
 public abstract class AdaptiveStepsizeIntegrator
   extends AbstractIntegrator {
 
+    /** Allowed absolute scalar error. */
+    protected final double scalAbsoluteTolerance;
+
+    /** Allowed relative scalar error. */
+    protected final double scalRelativeTolerance;
+
+    /** Allowed absolute vectorial error. */
+    protected final double[] vecAbsoluteTolerance;
+
+    /** Allowed relative vectorial error. */
+    protected final double[] vecRelativeTolerance;
+
+    /** User supplied initial step. */
+    private double initialStep;
+
+    /** Minimal step. */
+    private final double minStep;
+
+    /** Maximal step. */
+    private final double maxStep;
 
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.
@@ -309,26 +329,5 @@ public abstract class AdaptiveStepsizeIntegrator
   public double getMaxStep() {
     return maxStep;
   }
-
-  /** Minimal step. */
-  private double minStep;
-
-  /** Maximal step. */
-  private double maxStep;
-
-  /** User supplied initial step. */
-  private double initialStep;
-
-  /** Allowed absolute scalar error. */
-  protected double scalAbsoluteTolerance;
-
-  /** Allowed relative scalar error. */
-  protected double scalRelativeTolerance;
-
-  /** Allowed absolute vectorial error. */
-  protected double[] vecAbsoluteTolerance;
-
-  /** Allowed relative vectorial error. */
-  protected double[] vecRelativeTolerance;
 
 }

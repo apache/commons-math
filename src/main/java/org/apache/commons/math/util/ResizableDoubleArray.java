@@ -73,14 +73,14 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -3485529955529426875L;
-
     /** additive expansion mode */
     public static final int ADDITIVE_MODE = 1;
 
     /** multiplicative expansion mode */
     public static final int MULTIPLICATIVE_MODE = 0;
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -3485529955529426875L;
 
     /**
      * The contraction criteria determines when the internal array will be

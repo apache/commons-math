@@ -33,6 +33,15 @@ import org.apache.commons.math.MathRuntimeException;
 public class UncorrelatedRandomVectorGenerator
   implements RandomVectorGenerator {
 
+    /** Underlying scalar generator. */
+    private final NormalizedRandomGenerator generator;
+
+    /** Mean vector. */
+    private final double[] mean;
+
+    /** Standard deviation vector. */
+    private final double[] standardDeviation;
+
   /** Simple constructor.
    * <p>Build an uncorrelated random vector generator from
    * its mean and standard deviation vectors.</p>
@@ -82,14 +91,5 @@ public class UncorrelatedRandomVectorGenerator
     return random;
 
   }
-
-  /** Mean vector. */
-  private double[] mean;
-
-  /** Standard deviation vector. */
-  private double[] standardDeviation;
-
-  /** Underlying scalar generator. */
-  private NormalizedRandomGenerator generator;
 
 }

@@ -65,6 +65,16 @@ public final class MathUtils {
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
 
+    /** All long-representable factorials */
+    private static final long[] FACTORIALS = new long[] {
+                       1l,                  1l,                   2l,
+                       6l,                 24l,                 120l,
+                     720l,               5040l,               40320l,
+                  362880l,            3628800l,            39916800l,
+               479001600l,         6227020800l,         87178291200l,
+           1307674368000l,     20922789888000l,     355687428096000l,
+        6402373705728000l, 121645100408832000l, 2432902008176640000l };
+
     /**
      * Private Constructor
      */
@@ -468,13 +478,6 @@ public final class MathUtils {
         }
         return true;
     }
-
-    /** All long-representable factorials */
-    private static final long[] FACTORIALS = new long[]
-       {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800,
-        479001600, 6227020800l, 87178291200l, 1307674368000l, 20922789888000l,
-        355687428096000l, 6402373705728000l, 121645100408832000l,
-        2432902008176640000l};
 
     /**
      * Returns n!. Shorthand for <code>n</code> <a

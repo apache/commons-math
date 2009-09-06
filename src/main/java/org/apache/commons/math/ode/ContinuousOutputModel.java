@@ -86,6 +86,24 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 public class ContinuousOutputModel
   implements StepHandler, Serializable {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -1417964919405031606L;
+
+    /** Initial integration time. */
+    private double initialTime;
+
+    /** Final integration time. */
+    private double finalTime;
+
+    /** Integration direction indicator. */
+    private boolean forward;
+
+    /** Current interpolator index. */
+    private int index;
+
+    /** Steps table. */
+    private List<StepInterpolator> steps;
+
   /** Simple constructor.
    * Build an empty continuous output model.
    */
@@ -354,23 +372,5 @@ public class ContinuousOutputModel
       return 0;
     }
   }
-
-  /** Initial integration time. */
-  private double initialTime;
-
-  /** Final integration time. */
-  private double finalTime;
-
-  /** Integration direction indicator. */
-  private boolean forward;
-
-  /** Current interpolator index. */
-  private int index;
-
-  /** Steps table. */
-  private List<StepInterpolator> steps;
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -1417964919405031606L;
 
 }

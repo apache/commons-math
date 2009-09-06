@@ -57,19 +57,15 @@ public class BigFractionField implements Field<BigFraction>, Serializable  {
         return BigFraction.ZERO;
     }
 
+    // CHECKSTYLE: stop HideUtilityClassConstructor
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>
      */
     private static class LazyHolder {
-
-        /** Private constructor. */
-        private LazyHolder() {
-        }
-
         /** Cached field instance. */
         private static final BigFractionField INSTANCE = new BigFractionField();
-
     }
+    // CHECKSTYLE: resume HideUtilityClassConstructor
 
     /** Handle deserialization of the singleton.
      * @return the singleton instance

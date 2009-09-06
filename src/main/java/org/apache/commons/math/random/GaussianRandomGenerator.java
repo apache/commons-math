@@ -27,10 +27,13 @@ package org.apache.commons.math.random;
 
 public class GaussianRandomGenerator implements NormalizedRandomGenerator {
 
+    /** Underlying generator. */
+    private final RandomGenerator generator;
+
     /** Create a new generator.
      * @param generator underlying random generator to use
      */
-    public GaussianRandomGenerator(RandomGenerator generator) {
+    public GaussianRandomGenerator(final RandomGenerator generator) {
         this.generator = generator;
     }
 
@@ -40,8 +43,5 @@ public class GaussianRandomGenerator implements NormalizedRandomGenerator {
     public double nextNormalizedDouble() {
         return generator.nextGaussian();
     }
-
-    /** Underlying generator. */
-    private RandomGenerator generator;
 
 }

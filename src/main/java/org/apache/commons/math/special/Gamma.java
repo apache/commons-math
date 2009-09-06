@@ -60,6 +60,12 @@ public class Gamma {
     /** Avoid repeated computation of log of 2 PI in logGamma */
     private static final double HALF_LOG_2_PI = 0.5 * Math.log(2.0 * Math.PI);
 
+    // limits for switching algorithm in digamma
+    /** C limit. */
+    private static final double C_LIMIT = 49;
+
+    /** S limit. */
+    private static final double S_LIMIT = 1e-5;
 
     /**
      * Default constructor.  Prohibit instantiation.
@@ -261,12 +267,6 @@ public class Gamma {
         return ret;
     }
 
-
-    // limits for switching algorithm in digamma
-    /** C limit */
-     private static final double C_LIMIT = 49;
-     /** S limit */
-     private static final double S_LIMIT = 1e-5;
 
     /**
      * <p>Computes the digamma function of x.</p>

@@ -65,11 +65,11 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -4602336630143123183L;
-
     /** Block size. */
     public static final int BLOCK_SIZE = 36;
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -4602336630143123183L;
 
     /** Blocks of matrix entries. */
     private final T blocks[][];

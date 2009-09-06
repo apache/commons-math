@@ -42,6 +42,15 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
+    /** Convergence checker. */
+    protected RealConvergenceChecker checker;
+
+    /** Type of optimization. */
+    protected GoalType goal;
+
+    /** Current point set. */
+    protected double[] point;
+
     /** Maximal number of iterations allowed. */
     private int maxIterations;
 
@@ -57,20 +66,11 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** Number of gradient evaluations. */
     private int gradientEvaluations;
 
-    /** Convergence checker. */
-    protected RealConvergenceChecker checker;
-
     /** Objective function. */
     private DifferentiableMultivariateRealFunction function;
 
     /** Objective function gradient. */
     private MultivariateVectorialFunction gradient;
-
-    /** Type of optimization. */
-    protected GoalType goal;
-
-    /** Current point set. */
-    protected double[] point;
 
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link SimpleScalarValueChecker}

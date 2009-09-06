@@ -63,11 +63,11 @@ import org.apache.commons.math.MathRuntimeException;
  */
 public class BlockRealMatrix extends AbstractRealMatrix implements Serializable {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 4991895511313664478L;
-
     /** Block size. */
     public static final int BLOCK_SIZE = 52;
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 4991895511313664478L;
 
     /** Blocks of matrix entries. */
     private final double blocks[][];

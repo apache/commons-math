@@ -28,12 +28,6 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * @version $Revision$ $Date$
  */
 public class TestUtils  {
-    /**
-     * Prevent instantiation.
-     */
-    protected TestUtils() {
-        super();
-    }
 
     /** Singleton TTest instance using default implementation. */
     private static TTest tTest = new TTestImpl();
@@ -49,6 +43,13 @@ public class TestUtils  {
     /** Singleton OneWayAnova instance using default implementation. */
     private static OneWayAnova oneWayAnova =
         new OneWayAnovaImpl();
+
+    /**
+     * Prevent instantiation.
+     */
+    protected TestUtils() {
+        super();
+    }
 
     /**
      * Set the (singleton) TTest instance.

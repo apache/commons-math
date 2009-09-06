@@ -93,8 +93,65 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 
 public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
-  /** Integrator method name. */
-  private static final String METHOD_NAME = "Gragg-Bulirsch-Stoer";
+    /** Integrator method name. */
+    private static final String METHOD_NAME = "Gragg-Bulirsch-Stoer";
+
+    /** maximal order. */
+    private int maxOrder;
+
+    /** step size sequence. */
+    private int[] sequence;
+
+    /** overall cost of applying step reduction up to iteration k+1, in number of calls. */
+    private int[] costPerStep;
+
+    /** cost per unit step. */
+    private double[] costPerTimeUnit;
+
+    /** optimal steps for each order. */
+    private double[] optimalStep;
+
+    /** extrapolation coefficients. */
+    private double[][] coeff;
+
+    /** stability check enabling parameter. */
+    private boolean performTest;
+
+    /** maximal number of checks for each iteration. */
+    private int maxChecks;
+
+    /** maximal number of iterations for which checks are performed. */
+    private int maxIter;
+
+    /** stepsize reduction factor in case of stability check failure. */
+    private double stabilityReduction;
+
+    /** first stepsize control factor. */
+    private double stepControl1;
+
+    /** second stepsize control factor. */
+    private double stepControl2;
+
+    /** third stepsize control factor. */
+    private double stepControl3;
+
+    /** fourth stepsize control factor. */
+    private double stepControl4;
+
+    /** first order control factor. */
+    private double orderControl1;
+
+    /** second order control factor. */
+    private double orderControl2;
+
+    /** dense outpute required. */
+    private boolean denseOutput;
+
+    /** use interpolation error in stepsize control. */
+    private boolean useInterpolationError;
+
+    /** interpolation order control parameter. */
+    private int mudif;
 
   /** Simple constructor.
    * Build a Gragg-Bulirsch-Stoer integrator with the given step
@@ -940,64 +997,5 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     return stepStart;
 
   }
-
-  /** maximal order. */
-  private int maxOrder;
-
-  /** step size sequence. */
-  private int[] sequence;
-
-  /** overall cost of applying step reduction up to iteration k+1,
-   *  in number of calls.
-   */
-  private int[] costPerStep;
-
-  /** cost per unit step. */
-  private double[] costPerTimeUnit;
-
-  /** optimal steps for each order. */
-  private double[] optimalStep;
-
-  /** extrapolation coefficients. */
-  private double[][] coeff;
-
-  /** stability check enabling parameter. */
-  private boolean performTest;
-
-  /** maximal number of checks for each iteration. */
-  private int maxChecks;
-
-  /** maximal number of iterations for which checks are performed. */
-  private int maxIter;
-
-  /** stepsize reduction factor in case of stability check failure. */
-  private double stabilityReduction;
-
-  /** first stepsize control factor. */
-  private double stepControl1;
-
-  /** second stepsize control factor. */
-  private double stepControl2;
-
-  /** third stepsize control factor. */
-  private double stepControl3;
-
-  /** fourth stepsize control factor. */
-  private double stepControl4;
-
-  /** first order control factor. */
-  private double orderControl1;
-
-  /** second order control factor. */
-  private double orderControl2;
-
-  /** dense outpute required. */
-  private boolean denseOutput;
-
-  /** use interpolation error in stepsize control. */
-  private boolean useInterpolationError;
-
-  /** interpolation order control parameter. */
-  private int mudif;
 
 }

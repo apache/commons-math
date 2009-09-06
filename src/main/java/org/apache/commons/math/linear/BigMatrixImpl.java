@@ -54,6 +54,15 @@ import org.apache.commons.math.MathRuntimeException;
 @Deprecated
 public class BigMatrixImpl implements BigMatrix, Serializable {
 
+    /** BigDecimal 0 */
+    static final BigDecimal ZERO = new BigDecimal(0);
+
+    /** BigDecimal 1 */
+    static final BigDecimal ONE = new BigDecimal(1);
+
+    /** Bound to determine effective singularity in LU decomposition */
+    private static final BigDecimal TOO_SMALL = new BigDecimal(10E-12);
+
     /** Serialization id */
     private static final long serialVersionUID = -1011428905656140431L;
 
@@ -76,14 +85,6 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
 
     /*** BigDecimal scale ***/
     private int scale = 64;
-
-    /** Bound to determine effective singularity in LU decomposition */
-    private static final BigDecimal TOO_SMALL = new BigDecimal(10E-12);
-
-    /** BigDecimal 0 */
-    static final BigDecimal ZERO = new BigDecimal(0);
-    /** BigDecimal 1 */
-    static final BigDecimal ONE = new BigDecimal(1);
 
     /**
      * Creates a matrix with no data

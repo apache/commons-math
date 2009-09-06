@@ -44,6 +44,12 @@ import java.util.List;
 @Deprecated
 public class SimpleEstimationProblem implements EstimationProblem {
 
+    /** Estimated parameters. */
+    private final List<EstimatedParameter> parameters;
+
+    /** Measurements. */
+    private final List<WeightedMeasurement> measurements;
+
     /**
      * Build an empty instance without parameters nor measurements.
      */
@@ -101,11 +107,5 @@ public class SimpleEstimationProblem implements EstimationProblem {
     protected void addMeasurement(WeightedMeasurement m) {
         measurements.add(m);
     }
-
-    /** Estimated parameters. */
-    private final List<EstimatedParameter> parameters;
-
-    /** Measurements. */
-    private final List<WeightedMeasurement> measurements;
 
 }

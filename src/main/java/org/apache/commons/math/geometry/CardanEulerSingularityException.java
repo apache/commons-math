@@ -28,17 +28,17 @@ import org.apache.commons.math.MathException;
 public class CardanEulerSingularityException
   extends MathException {
 
-  /**
-   * Simple constructor.
-   * build an exception with a default message.
-   * @param isCardan if true, the rotation is related to Cardan angles,
-   * if false it is related to EulerAngles
-   */
-  public CardanEulerSingularityException(boolean isCardan) {
-    super(isCardan ? "Cardan angles singularity" : "Euler angles singularity");
-  }
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -1360952845582206770L;
 
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -1360952845582206770L;
+    /**
+     * Simple constructor.
+     * build an exception with a default message.
+     * @param isCardan if true, the rotation is related to Cardan angles,
+     * if false it is related to EulerAngles
+     */
+    public CardanEulerSingularityException(boolean isCardan) {
+        super(isCardan ? "Cardan angles singularity" : "Euler angles singularity");
+    }
 
 }

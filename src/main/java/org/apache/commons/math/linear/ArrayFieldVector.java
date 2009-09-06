@@ -35,20 +35,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7648186910365927050L;
 
-    /** Field to which the elements belong. */
-    private final Field<T> field;
-
     /** Entries of the vector. */
     protected T[] data;
 
-    /** Build an array of elements.
-     * @param length size of the array to build
-     * @return a new array
-     */
-    @SuppressWarnings("unchecked")
-    private T[] buildArray(final int length) {
-        return (T[]) Array.newInstance(field.getZero().getClass(), length);
-    }
+    /** Field to which the elements belong. */
+    private final Field<T> field;
 
     /**
      * Build a 0-length vector.
@@ -226,6 +217,15 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             throw MathRuntimeException.createIllegalArgumentException(
                       "vector must have at least one element");
         }
+    }
+
+    /** Build an array of elements.
+     * @param length size of the array to build
+     * @return a new array
+     */
+    @SuppressWarnings("unchecked")
+    private T[] buildArray(final int length) {
+        return (T[]) Array.newInstance(field.getZero().getClass(), length);
     }
 
     /** {@inheritDoc} */

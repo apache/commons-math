@@ -103,6 +103,46 @@ import java.util.Arrays;
 @Deprecated
 public class LevenbergMarquardtEstimator extends AbstractEstimator implements Serializable {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -5705952631533171019L;
+
+    /** Number of solved variables. */
+    private int solvedCols;
+
+    /** Diagonal elements of the R matrix in the Q.R. decomposition. */
+    private double[] diagR;
+
+    /** Norms of the columns of the jacobian matrix. */
+    private double[] jacNorm;
+
+    /** Coefficients of the Householder transforms vectors. */
+    private double[] beta;
+
+    /** Columns permutation array. */
+    private int[] permutation;
+
+    /** Rank of the jacobian matrix. */
+    private int rank;
+
+    /** Levenberg-Marquardt parameter. */
+    private double lmPar;
+
+    /** Parameters evolution direction associated with lmPar. */
+    private double[] lmDir;
+
+    /** Positive input variable used in determining the initial step bound. */
+    private double initialStepBoundFactor;
+
+    /** Desired relative error in the sum of squares. */
+    private double costRelativeTolerance;
+
+    /**  Desired relative error in the approximate solution parameters. */
+    private double parRelativeTolerance;
+
+    /** Desired max cosine on the orthogonality between the function vector
+     * and the columns of the jacobian. */
+    private double orthoTolerance;
+
   /**
    * Build an estimator for least squares problems.
    * <p>The default values for the algorithm settings are:
@@ -833,45 +873,5 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
       }
     }
   }
-
-  /** Number of solved variables. */
-  private int solvedCols;
-
-  /** Diagonal elements of the R matrix in the Q.R. decomposition. */
-  private double[] diagR;
-
-  /** Norms of the columns of the jacobian matrix. */
-  private double[] jacNorm;
-
-  /** Coefficients of the Householder transforms vectors. */
-  private double[] beta;
-
-  /** Columns permutation array. */
-  private int[] permutation;
-
-  /** Rank of the jacobian matrix. */
-  private int rank;
-
-  /** Levenberg-Marquardt parameter. */
-  private double lmPar;
-
-  /** Parameters evolution direction associated with lmPar. */
-  private double[] lmDir;
-
-  /** Positive input variable used in determining the initial step bound. */
-  private double initialStepBoundFactor;
-
-  /** Desired relative error in the sum of squares. */
-  private double costRelativeTolerance;
-
-  /**  Desired relative error in the approximate solution parameters. */
-  private double parRelativeTolerance;
-
-  /** Desired max cosine on the orthogonality between the function vector
-   * and the columns of the jacobian. */
-  private double orthoTolerance;
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -5705952631533171019L;
 
 }

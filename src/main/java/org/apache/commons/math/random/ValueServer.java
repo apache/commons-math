@@ -46,49 +46,61 @@ import org.apache.commons.math.MathRuntimeException;
  *
  */
 public class ValueServer {
-    /** mode determines how values are generated */
-    private int mode = 5;
 
-    /** URI to raw data values  */
-    private URL valuesFileURL = null;
-
-    /** Mean for use with non-data-driven modes */
-    private double mu = 0.0;
-
-    /** Standard deviation for use with GAUSSIAN_MODE */
-    private double sigma = 0.0;
-
-    /** Empirical probability distribution for use with DIGEST_MODE */
-    private EmpiricalDistribution empiricalDistribution = null;
-
-    /** file pointer for REPLAY_MODE */
-    private BufferedReader filePointer = null;
-
-    /** RandomDataImpl to use for random data generation */
-    private RandomData randomData = new RandomDataImpl();
-
-    // Data generation modes ======================================
-
-    /** Use empirical distribution  */
+    /** Use empirical distribution.  */
     public static final int DIGEST_MODE = 0;
 
-    /** Replay data from valuesFilePath */
+    /** Replay data from valuesFilePath. */
     public static final int REPLAY_MODE = 1;
 
-    /** Uniform random deviates with mean = mu */
+    /** Uniform random deviates with mean = &mu;. */
     public static final int UNIFORM_MODE = 2;
 
-    /** Exponential random deviates with mean = mu */
+    /** Exponential random deviates with mean = &mu;. */
     public static final int EXPONENTIAL_MODE = 3;
 
-    /** Gaussian random deviates with mean = mu, std dev = sigma */
+    /** Gaussian random deviates with mean = &mu;, std dev = &sigma;. */
     public static final int GAUSSIAN_MODE = 4;
 
     /** Always return mu */
     public static final int CONSTANT_MODE = 5;
 
+    /** mode determines how values are generated. */
+    private int mode = 5;
+
+    /** URI to raw data values. */
+    private URL valuesFileURL = null;
+
+    /** Mean for use with non-data-driven modes. */
+    private double mu = 0.0;
+
+    /** Standard deviation for use with GAUSSIAN_MODE. */
+    private double sigma = 0.0;
+
+    /** Empirical probability distribution for use with DIGEST_MODE. */
+    private EmpiricalDistribution empiricalDistribution = null;
+
+    /** File pointer for REPLAY_MODE. */
+    private BufferedReader filePointer = null;
+
+    /** RandomDataImpl to use for random data generation. */
+    private RandomData randomData = new RandomDataImpl();
+
+    // Data generation modes ======================================
+
     /** Creates new ValueServer */
     public ValueServer() {
+    }
+
+    /**
+     * Construct a ValueServer instance using a RandomData as its source
+     * of random data.
+     *
+     * @param randomData the RandomData instance used to source random data
+     * @since 1.1
+     */
+    public ValueServer(RandomData randomData) {
+        this.randomData = randomData;
     }
 
     /**
@@ -369,15 +381,4 @@ public class ValueServer {
         return randomData.nextGaussian(mu, sigma);
     }
 
-    /**
-     * Construct a ValueServer instance using a RandomData as its source
-     * of random data.
-     *
-     * @param randomData the RandomData instance used to source random data
-     * @since 1.1
-     */
-    public ValueServer(RandomData randomData) {
-        super();
-        this.randomData = randomData;
-    }
 }

@@ -54,6 +54,21 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 
 public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
+    /** Time steps from Butcher array (without the first zero). */
+    private final double[] c;
+
+    /** Internal weights from Butcher array (without the first empty row). */
+    private final double[][] a;
+
+    /** External weights for the high order method from Butcher array. */
+    private final double[] b;
+
+    /** Prototype of the step interpolator. */
+    private final RungeKuttaStepInterpolator prototype;
+
+    /** Integration step. */
+    private final double step;
+
   /** Simple constructor.
    * Build a Runge-Kutta integrator with the given
    * step. The default step handler does nothing.
@@ -199,20 +214,5 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     return stopTime;
 
   }
-
-  /** Time steps from Butcher array (without the first zero). */
-  private double[] c;
-
-  /** Internal weights from Butcher array (without the first empty row). */
-  private double[][] a;
-
-  /** External weights for the high order method from Butcher array. */
-  private double[] b;
-
-  /** Prototype of the step interpolator. */
-  private RungeKuttaStepInterpolator prototype;
-
-  /** Integration step. */
-  private double step;
 
 }

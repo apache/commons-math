@@ -44,6 +44,9 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class MidpointStepInterpolator
   extends RungeKuttaStepInterpolator {
 
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -865524111506042509L;
+
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link
@@ -93,8 +96,5 @@ class MidpointStepInterpolator
     }
 
   }
-
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -865524111506042509L;
 
 }

@@ -58,12 +58,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
-    /** Starter integrator. */
-    private FirstOrderIntegrator starter;
-
-    /** Number of steps of the multistep method (excluding the one being computed). */
-    private final int nSteps;
-
     /** First scaled derivative (h y'). */
     protected double[] scaled;
 
@@ -71,6 +65,12 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y(k))</p>
      */
     protected Array2DRowRealMatrix nordsieck;
+
+    /** Starter integrator. */
+    private FirstOrderIntegrator starter;
+
+    /** Number of steps of the multistep method (excluding the one being computed). */
+    private final int nSteps;
 
     /** Stepsize control exponent. */
     private double exp;
