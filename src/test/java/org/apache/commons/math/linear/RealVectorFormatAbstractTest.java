@@ -366,19 +366,22 @@ public abstract class RealVectorFormatAbstractTest extends TestCase {
 
     public void testForgottenPrefix() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new RealVectorFormat().parse("1; 1; 1}", pos));
+        final String source = "1; 1; 1}";
+        assertNull("Should not parse <"+source+">",new RealVectorFormat().parse(source, pos));
         assertEquals(0, pos.getErrorIndex());
     }
 
     public void testForgottenSeparator() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new RealVectorFormat().parse("{1; 1 1}", pos));
+        final String source = "{1; 1 1}";
+        assertNull("Should not parse <"+source+">",new RealVectorFormat().parse(source, pos));
         assertEquals(6, pos.getErrorIndex());
     }
 
     public void testForgottenSuffix() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new RealVectorFormat().parse("{1; 1; 1 ", pos));
+        final String source = "{1; 1; 1 ";
+        assertNull("Should not parse <"+source+">",new RealVectorFormat().parse(source, pos));
         assertEquals(8, pos.getErrorIndex());
     }
 
