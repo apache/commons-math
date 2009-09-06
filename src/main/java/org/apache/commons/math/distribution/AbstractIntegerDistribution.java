@@ -102,7 +102,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @throws MathException if the cumulative probability can not be
      *            computed due to convergence or other numerical errors.
      */
-    abstract public double cumulativeProbability(int x) throws MathException;
+    public abstract double cumulativeProbability(int x) throws MathException;
 
     /**
      * For a random variable X whose values are distributed according

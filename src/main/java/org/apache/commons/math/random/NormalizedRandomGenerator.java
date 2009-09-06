@@ -33,6 +33,6 @@ public interface NormalizedRandomGenerator {
    * standard deviation.</p>
    * @return a random scalar with null mean and unit standard deviation
    */
-  public double nextNormalizedDouble();
+  double nextNormalizedDouble();
 
 }

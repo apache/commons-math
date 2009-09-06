@@ -39,6 +39,6 @@ public interface PermutationChromosome<T> {
      * @return permutation of <code>sequence</code> represented by this
      *         permutation
      */
-    public List<T> decode(List<T> sequence);
+    List<T> decode(List<T> sequence);
 
 }

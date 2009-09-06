@@ -65,7 +65,7 @@ public interface TTest {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
      */
-    public abstract double pairedT(double[] sample1, double[] sample2)
+    double pairedT(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException;
     /**
      * Returns the <i>observed significance level</i>, or
@@ -100,7 +100,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double pairedTTest(double[] sample1, double[] sample2)
+    double pairedTTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException;
     /**
      * Performs a paired t-test evaluating the null hypothesis that the
@@ -134,7 +134,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
-    public abstract boolean pairedTTest(
+    boolean pairedTTest(
         double[] sample1,
         double[] sample2,
         double alpha)
@@ -154,7 +154,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if input array length is less than 2
      */
-    public abstract double t(double mu, double[] observed)
+    double t(double mu, double[] observed)
         throws IllegalArgumentException;
     /**
      * Computes a <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm#formula">
@@ -172,7 +172,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public abstract double t(double mu, StatisticalSummary sampleStats)
+    double t(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException;
     /**
      * Computes a 2-sample t statistic,  under the hypothesis of equal
@@ -207,7 +207,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public abstract double homoscedasticT(double[] sample1, double[] sample2)
+    double homoscedasticT(double[] sample1, double[] sample2)
         throws IllegalArgumentException;
     /**
      * Computes a 2-sample t statistic, without the hypothesis of equal
@@ -237,7 +237,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public abstract double t(double[] sample1, double[] sample2)
+    double t(double[] sample1, double[] sample2)
         throws IllegalArgumentException;
     /**
      * Computes a 2-sample t statistic </a>, comparing the means of the datasets
@@ -270,7 +270,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public abstract double t(
+    double t(
         StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException;
@@ -309,7 +309,7 @@ public interface TTest {
      * @return t statistic
      * @throws IllegalArgumentException if the precondition is not met
      */
-    public abstract double homoscedasticT(
+    double homoscedasticT(
         StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException;
@@ -339,7 +339,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double tTest(double mu, double[] sample)
+    double tTest(double mu, double[] sample)
         throws IllegalArgumentException, MathException;
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
@@ -376,7 +376,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error computing the p-value
      */
-    public abstract boolean tTest(double mu, double[] sample, double alpha)
+    boolean tTest(double mu, double[] sample, double alpha)
         throws IllegalArgumentException, MathException;
     /**
      * Returns the <i>observed significance level</i>, or
@@ -406,7 +406,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double tTest(double mu, StatisticalSummary sampleStats)
+    double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException;
     /**
      * Performs a <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">
@@ -444,7 +444,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract boolean tTest(
+    boolean tTest(
         double mu,
         StatisticalSummary sampleStats,
         double alpha)
@@ -485,7 +485,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double tTest(double[] sample1, double[] sample2)
+    double tTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException;
     /**
      * Returns the <i>observed significance level</i>, or
@@ -520,7 +520,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double homoscedasticTTest(
+    double homoscedasticTTest(
         double[] sample1,
         double[] sample2)
         throws IllegalArgumentException, MathException;
@@ -574,7 +574,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
-    public abstract boolean tTest(
+    boolean tTest(
         double[] sample1,
         double[] sample2,
         double alpha)
@@ -630,7 +630,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
-    public abstract boolean homoscedasticTTest(
+    boolean homoscedasticTTest(
         double[] sample1,
         double[] sample2,
         double alpha)
@@ -669,7 +669,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double tTest(
+    double tTest(
         StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException;
@@ -706,7 +706,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the precondition is not met
      * @throws MathException if an error occurs computing the p-value
      */
-    public abstract double homoscedasticTTest(
+    double homoscedasticTTest(
         StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException;
@@ -763,7 +763,7 @@ public interface TTest {
      * @throws IllegalArgumentException if the preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
-    public abstract boolean tTest(
+    boolean tTest(
         StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2,
         double alpha)

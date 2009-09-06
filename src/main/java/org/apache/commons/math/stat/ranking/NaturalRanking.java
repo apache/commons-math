@@ -418,10 +418,10 @@ public class NaturalRanking implements RankingAlgorithm {
     private static class IntDoublePair implements Comparable<IntDoublePair>  {
 
         /** Value of the pair */
-        final private double value;
+        private final double value;
 
         /** Original position of the pair */
-        final private int position;
+        private final int position;
 
         /**
          * Construct an IntDoublePair with the given value and position.

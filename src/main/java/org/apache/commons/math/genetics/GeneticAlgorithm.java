@@ -42,7 +42,7 @@ public class GeneticAlgorithm {
      *
      * @param random random generator
      */
-    public synchronized static void setRandomGenerator(RandomGenerator random) {
+    public static synchronized void setRandomGenerator(RandomGenerator random) {
         randomGenerator = random;
     }
 
@@ -51,7 +51,7 @@ public class GeneticAlgorithm {
      *
      * @return the static random generator shared by GA implementation classes
      */
-    public synchronized static RandomGenerator getRandomGenerator() {
+    public static synchronized RandomGenerator getRandomGenerator() {
         return randomGenerator;
     }
 

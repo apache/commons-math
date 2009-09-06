@@ -91,7 +91,7 @@ public interface BigMatrix extends AnyMatrix {
      * @throws     IllegalArgumentException
      *             if rowDimension(this) != columnDimension(m)
      */
-    public BigMatrix preMultiply(BigMatrix m) throws IllegalArgumentException;
+    BigMatrix preMultiply(BigMatrix m) throws IllegalArgumentException;
 
     /**
      * Returns matrix entries as a two-dimensional array.

@@ -98,7 +98,7 @@ public interface RealMatrix extends AnyMatrix {
      * @throws     IllegalArgumentException
      *             if rowDimension(this) != columnDimension(m)
      */
-    public RealMatrix preMultiply(RealMatrix m) throws IllegalArgumentException;
+    RealMatrix preMultiply(RealMatrix m) throws IllegalArgumentException;
 
     /**
      * Returns matrix entries as a two-dimensional array.

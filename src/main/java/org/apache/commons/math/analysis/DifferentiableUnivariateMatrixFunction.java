@@ -30,6 +30,6 @@ public interface DifferentiableUnivariateMatrixFunction
      *
      * @return  the derivative function
      */
-    public UnivariateMatrixFunction derivative();
+    UnivariateMatrixFunction derivative();
 
 }

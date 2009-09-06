@@ -25,12 +25,13 @@ import org.apache.commons.math.FunctionEvaluationException;
  * @since 2.0
  */
 public interface UnivariateVectorialFunction {
+
     /**
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
      * @return the value
      * @throws FunctionEvaluationException if the function evaluation fails
      */
-    public double[] value(double x) throws FunctionEvaluationException;
+    double[] value(double x) throws FunctionEvaluationException;
 
 }

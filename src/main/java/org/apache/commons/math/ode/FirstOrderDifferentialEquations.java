@@ -50,7 +50,7 @@ public interface FirstOrderDifferentialEquations {
     /** Get the dimension of the problem.
      * @return dimension of the problem
      */
-    public int getDimension();
+    int getDimension();
 
     /** Get the current time derivative of the state vector.
      * @param t current value of the independent <I>time</I> variable
@@ -59,7 +59,6 @@ public interface FirstOrderDifferentialEquations {
      * @throws DerivativeException this exception is propagated to the caller if the
      * underlying user function triggers one
      */
-    public void computeDerivatives(double t, double[] y, double[] yDot)
-    throws DerivativeException;
+    void computeDerivatives(double t, double[] y, double[] yDot) throws DerivativeException;
 
 }

@@ -38,7 +38,7 @@ public interface PoissonDistribution extends IntegerDistribution {
      *
      * @return the mean for the distribution.
      */
-    public double getMean();
+    double getMean();
 
     /**
      * Set the mean for the distribution.
@@ -48,7 +48,7 @@ public interface PoissonDistribution extends IntegerDistribution {
      * @param p the mean
      * @throws IllegalArgumentException if p &le; 0
      */
-    public void setMean(double p);
+    void setMean(double p);
 
     /**
      * Calculates the Poisson distribution function using a normal approximation.
@@ -57,5 +57,6 @@ public interface PoissonDistribution extends IntegerDistribution {
      * @return the distribution function value calculated using a normal approximation
      * @throws MathException if an error occurs computing the normal approximation
      */
-    public double normalApproximateProbability(int x) throws MathException;
+    double normalApproximateProbability(int x) throws MathException;
+
 }

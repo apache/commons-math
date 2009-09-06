@@ -32,6 +32,7 @@ import java.util.Collection;
  * @version $Revision$ $Date$
  */
 public interface OneWayAnova {
+
     /**
      * Computes the ANOVA F-value for a collection of <code>double[]</code>
      * arrays.
@@ -50,7 +51,7 @@ public interface OneWayAnova {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
      */
-    public double anovaFValue(Collection<double[]> categoryData)
+    double anovaFValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException;
 
     /**
@@ -71,7 +72,7 @@ public interface OneWayAnova {
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
      */
-    public double anovaPValue(Collection<double[]> categoryData)
+    double anovaPValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException;
 
     /**
@@ -95,8 +96,8 @@ public interface OneWayAnova {
      * @throws IllegalArgumentException if the preconditions are not met
      * @throws MathException if the statistic can not be computed do to a
      *         convergence or other numerical error.
-    */
-    public boolean anovaTest(Collection<double[]> categoryData, double alpha)
+     */
+    boolean anovaTest(Collection<double[]> categoryData, double alpha)
         throws IllegalArgumentException, MathException;
 
 }

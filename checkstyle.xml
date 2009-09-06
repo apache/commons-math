@@ -112,12 +112,14 @@
       <property name="message" value="developers names should be in pom file"/>
     </module>
 
+    <!-- Use a consistent way to put modifiers -->
+    <module name="RedundantModifier" />
+    <module name="ModifierOrder" />
+
     <!--
     <module name="DeclarationOrder" />
     <module name="IllegalCatch" />
-    <module name="RedundantModifier" />
     <module name="StringLiteralEquality" />
-    <module name="ModifierOrder" />
     <module name="MultipleStringLiterals" />
     <module name="MultipleVariableDeclarations" />
     <module name="TodoComment" />

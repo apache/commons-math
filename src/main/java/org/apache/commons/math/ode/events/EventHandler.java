@@ -54,7 +54,7 @@ public interface EventHandler  {
    * #eventOccurred eventOccurred} method when the integration should be
    * stopped after the event ending the current step.</p>
    */
-  public static final int STOP = 0;
+  int STOP = 0;
 
   /** Reset state indicator.
    * <p>This value should be used as the return value of the {@link
@@ -63,7 +63,7 @@ public interface EventHandler  {
    * vector (which will be retrieved thanks to the {@link #resetState
    * resetState} method).</p>
    */
-  public static final int RESET_STATE = 1;
+  int RESET_STATE = 1;
 
   /** Reset derivatives indicator.
    * <p>This value should be used as the return value of the {@link
@@ -73,14 +73,14 @@ public interface EventHandler  {
    * org.apache.commons.math.ode.FirstOrderDifferentialEquations#computeDerivatives}
    * method).</p>
    */
-  public static final int RESET_DERIVATIVES = 2;
+  int RESET_DERIVATIVES = 2;
 
   /** Continue indicator.
    * <p>This value should be used as the return value of the {@link
    * #eventOccurred eventOccurred} method when the integration should go
    * on after the event ending the current step.</p>
    */
-  public static final int CONTINUE = 3;
+  int CONTINUE = 3;
 
   /** Compute the value of the switching function.
 
@@ -96,7 +96,7 @@ public interface EventHandler  {
    * @return value of the g switching function
    * @exception EventException if the switching function cannot be evaluated
    */
-  public double g(double t, double[] y) throws EventException;
+  double g(double t, double[] y) throws EventException;
 
   /** Handle an event and choose what to do next.
 
@@ -136,7 +136,7 @@ public interface EventHandler  {
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
    * @exception EventException if the event occurrence triggers an error
    */
-  public int eventOccurred(double t, double[] y, boolean increasing) throws EventException;
+  int eventOccurred(double t, double[] y, boolean increasing) throws EventException;
 
   /** Reset the state prior to continue the integration.
 
@@ -154,6 +154,6 @@ public interface EventHandler  {
    * the new state should be put in the same array
    * @exception EventException if the state cannot be reseted
    */
-  public void resetState(double t, double[] y) throws EventException;
+  void resetState(double t, double[] y) throws EventException;
 
 }

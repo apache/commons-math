@@ -46,20 +46,19 @@ import org.apache.commons.math.ode.DerivativeException;
  * @since 1.2
  */
 
-public interface StepInterpolator
-  extends Externalizable {
+public interface StepInterpolator extends Externalizable {
 
   /**
    * Get the previous grid point time.
    * @return previous grid point time
    */
-  public double getPreviousTime();
+  double getPreviousTime();
 
   /**
    * Get the current grid point time.
    * @return current grid point time
    */
-  public double getCurrentTime();
+  double getCurrentTime();
 
   /**
    * Get the time of the interpolated point.
@@ -67,7 +66,7 @@ public interface StepInterpolator
    * the current grid point time.
    * @return interpolation point time
    */
-  public double getInterpolatedTime();
+  double getInterpolatedTime();
 
   /**
    * Set the time of the interpolated point.
@@ -81,7 +80,7 @@ public interface StepInterpolator
    * created using {@link #copy()}.</p>
    * @param time time of the interpolated point
    */
-  public void setInterpolatedTime(double time);
+  void setInterpolatedTime(double time);
 
   /**
    * Get the state vector of the interpolated point.
@@ -93,8 +92,7 @@ public interface StepInterpolator
    * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  public double[] getInterpolatedState()
-      throws DerivativeException;
+  double[] getInterpolatedState() throws DerivativeException;
 
   /**
    * Get the derivatives of the state vector of the interpolated point.
@@ -107,8 +105,7 @@ public interface StepInterpolator
    * step finalization that throws one
    * @since 2.0
    */
-  public double[] getInterpolatedDerivatives()
-      throws DerivativeException;
+  double[] getInterpolatedDerivatives() throws DerivativeException;
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by
@@ -119,7 +116,7 @@ public interface StepInterpolator
    * @return true if the integration variable (time) increases during
    * integration
    */
-  public boolean isForward();
+  boolean isForward();
 
   /** Copy the instance.
    * <p>The copied instance is guaranteed to be independent from the
@@ -130,6 +127,6 @@ public interface StepInterpolator
    * step finalization that throws one
    * @see #setInterpolatedTime(double)
    */
-   public StepInterpolator copy() throws DerivativeException;
+   StepInterpolator copy() throws DerivativeException;
 
 }

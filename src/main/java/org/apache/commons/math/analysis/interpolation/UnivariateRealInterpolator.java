@@ -34,6 +34,6 @@ public interface UnivariateRealInterpolator {
      * @throws MathException if arguments violate assumptions made by the
      *         interpolationg algorithm
      */
-    public UnivariateRealFunction interpolate(double xval[], double yval[])
+    UnivariateRealFunction interpolate(double xval[], double yval[])
         throws MathException;
 }

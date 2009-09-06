@@ -108,7 +108,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @throws     IllegalArgumentException
      *             if rowDimension(this) != columnDimension(m)
      */
-    public FieldMatrix<T> preMultiply(FieldMatrix<T> m) throws IllegalArgumentException;
+    FieldMatrix<T> preMultiply(FieldMatrix<T> m) throws IllegalArgumentException;
 
     /**
      * Returns matrix entries as a two-dimensional array.

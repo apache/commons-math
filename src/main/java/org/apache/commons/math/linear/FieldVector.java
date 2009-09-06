@@ -172,8 +172,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return a vector containing this[i] * v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVector<T> ebeMultiply(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldVector<T> ebeMultiply(FieldVector<T> v) throws IllegalArgumentException;
 
     /**
      * Element-by-element multiplication.
@@ -181,8 +180,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return a vector containing this[i] * v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVector<T> ebeMultiply(T[] v)
-        throws IllegalArgumentException;
+    FieldVector<T> ebeMultiply(T[] v) throws IllegalArgumentException;
 
     /**
      * Element-by-element division.
@@ -190,8 +188,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVector<T> ebeDivide(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldVector<T> ebeDivide(FieldVector<T> v) throws IllegalArgumentException;
 
     /**
      * Element-by-element division.
@@ -199,8 +196,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
-    public FieldVector<T> ebeDivide(T[] v)
-        throws IllegalArgumentException;
+    FieldVector<T> ebeDivide(T[] v) throws IllegalArgumentException;
 
     /**
      * Returns vector entries as a T array.

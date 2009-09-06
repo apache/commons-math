@@ -27,9 +27,9 @@ package org.apache.commons.math.random;
 
 public interface RandomVectorGenerator {
 
-  /** Generate a random vector.
-   * @return a random vector as an array of double.
-   */
-  public double[] nextVector();
+    /** Generate a random vector.
+     * @return a random vector as an array of double.
+     */
+    double[] nextVector();
 
 }

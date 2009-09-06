@@ -354,7 +354,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    abstract protected VectorialPointValuePair doOptimize()
+    protected abstract VectorialPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
 
 }

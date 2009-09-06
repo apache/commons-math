@@ -30,6 +30,6 @@ public interface DifferentiableUnivariateVectorialFunction
      *
      * @return  the derivative function
      */
-    public UnivariateVectorialFunction derivative();
+    UnivariateVectorialFunction derivative();
 
 }

@@ -34,7 +34,7 @@ public interface ParametricRealFunction {
      * @return the value
      * @throws FunctionEvaluationException if the function evaluation fails
      */
-    public double value(double x, double[] parameters)
+    double value(double x, double[] parameters)
         throws FunctionEvaluationException;
 
     /**
@@ -44,7 +44,7 @@ public interface ParametricRealFunction {
      * @return the value
      * @throws FunctionEvaluationException if the function evaluation fails
      */
-    public double[] gradient(double x, double[] parameters)
+    double[] gradient(double x, double[] parameters)
         throws FunctionEvaluationException;
 
 }

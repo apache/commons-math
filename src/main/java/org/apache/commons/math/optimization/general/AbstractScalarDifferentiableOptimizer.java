@@ -195,7 +195,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
-    abstract protected RealPointValuePair doOptimize()
+    protected abstract RealPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
 
 }

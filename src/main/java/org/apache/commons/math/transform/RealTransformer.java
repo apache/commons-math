@@ -62,7 +62,7 @@ public interface RealTransformer  {
      * @return the real inversely transformed array (signal)
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public abstract double[] inversetransform(double f[])
+    double[] inversetransform(double f[])
         throws IllegalArgumentException;
 
     /**

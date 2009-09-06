@@ -53,9 +53,8 @@ public interface FirstOrderIntegrator extends ODEIntegrator {
    * @throws DerivativeException this exception is propagated to the caller if
    * the underlying user function triggers one
    */
-  public double integrate (FirstOrderDifferentialEquations equations,
-                           double t0, double[] y0,
-                           double t, double[] y)
-    throws DerivativeException, IntegratorException;
+  double integrate (FirstOrderDifferentialEquations equations,
+                    double t0, double[] y0,
+                    double t, double[] y) throws DerivativeException, IntegratorException;
 
 }

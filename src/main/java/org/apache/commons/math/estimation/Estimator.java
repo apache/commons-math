@@ -53,8 +53,7 @@ public interface Estimator {
    * @exception EstimationException if the problem cannot be solved
    *
    */
-  public void estimate(EstimationProblem problem)
-    throws EstimationException;
+  void estimate(EstimationProblem problem) throws EstimationException;
 
   /**
    * Get the Root Mean Square value.
@@ -68,7 +67,7 @@ public interface Estimator {
    * @param problem estimation problem
    * @return RMS value
    */
-  public double getRMS(EstimationProblem problem);
+  double getRMS(EstimationProblem problem);
 
   /**
    * Get the covariance matrix of estimated parameters.
@@ -77,8 +76,7 @@ public interface Estimator {
    * @exception EstimationException if the covariance matrix
    * cannot be computed (singular problem)
    */
-  public double[][] getCovariances(EstimationProblem problem)
-    throws EstimationException;
+  double[][] getCovariances(EstimationProblem problem) throws EstimationException;
 
   /**
    * Guess the errors in estimated parameters.
@@ -87,7 +85,6 @@ public interface Estimator {
    * @return errors in estimated parameters
      * @exception EstimationException if the error cannot be guessed
    */
-  public double[] guessParametersErrors(EstimationProblem problem)
-    throws EstimationException;
+  double[] guessParametersErrors(EstimationProblem problem) throws EstimationException;
 
 }

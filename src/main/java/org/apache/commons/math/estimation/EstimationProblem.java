@@ -46,22 +46,23 @@ package org.apache.commons.math.estimation;
  */
 @Deprecated
 public interface EstimationProblem {
-  /**
-   * Get the measurements of an estimation problem.
-   * @return measurements
-   */
-  public WeightedMeasurement[] getMeasurements();
 
-  /**
-   * Get the unbound parameters of the problem.
-   * @return unbound parameters
-   */
-  public EstimatedParameter[] getUnboundParameters();
+    /**
+     * Get the measurements of an estimation problem.
+     * @return measurements
+     */
+    WeightedMeasurement[] getMeasurements();
 
-  /**
-   * Get all the parameters of the problem.
-   * @return parameters
-   */
-  public EstimatedParameter[] getAllParameters();
+    /**
+     * Get the unbound parameters of the problem.
+     * @return unbound parameters
+     */
+    EstimatedParameter[] getUnboundParameters();
+
+    /**
+     * Get all the parameters of the problem.
+     * @return parameters
+     */
+    EstimatedParameter[] getAllParameters();
 
 }

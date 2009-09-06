@@ -112,7 +112,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
      * @exception OptimizationException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
-    abstract protected RealPointValuePair doOptimize()
+    protected abstract RealPointValuePair doOptimize()
         throws OptimizationException;
 
 }

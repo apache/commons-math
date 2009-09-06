@@ -29,6 +29,6 @@ public interface DifferentiableUnivariateRealFunction
      *
      * @return  the derivative function
      */
-    public UnivariateRealFunction derivative();
+    UnivariateRealFunction derivative();
 
 }

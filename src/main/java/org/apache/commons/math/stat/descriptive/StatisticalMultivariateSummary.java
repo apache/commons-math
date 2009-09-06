@@ -25,11 +25,13 @@ import org.apache.commons.math.linear.RealMatrix;
  * @version $Revision$ $Date$
  */
 public interface StatisticalMultivariateSummary {
+
     /**
      * Returns the dimension of the data
      * @return The dimension of the data
      */
-    public int getDimension();
+    int getDimension();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * mean of the i<sup>th</sup> entries of the arrays
@@ -37,13 +39,15 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component means
      */
-    public abstract double[] getMean();
+    double[] getMean();
+
     /**
      * Returns the covariance of the available values.
      * @return The covariance, null if no multivariate sample
      * have been added or a zeroed matrix for a single value set.
      */
-    public abstract RealMatrix getCovariance();
+    RealMatrix getCovariance();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * standard deviation of the i<sup>th</sup> entries of the arrays
@@ -51,7 +55,8 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component standard deviations
      */
-    public abstract double[] getStandardDeviation();
+    double[] getStandardDeviation();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * maximum of the i<sup>th</sup> entries of the arrays
@@ -59,7 +64,8 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component maxima
      */
-    public abstract double[] getMax();
+    double[] getMax();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * minimum of the i<sup>th</sup> entries of the arrays
@@ -67,12 +73,14 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component minima
      */
-    public abstract double[] getMin();
+    double[] getMin();
+
     /**
      * Returns the number of available values
      * @return The number of available values
      */
-    public abstract long getN();
+    long getN();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * geometric mean of the i<sup>th</sup> entries of the arrays
@@ -80,7 +88,8 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component geometric means
      */
-    public double[] getGeometricMean();
+    double[] getGeometricMean();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * sum of the i<sup>th</sup> entries of the arrays
@@ -88,7 +97,8 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component sums
      */
-    public abstract double[] getSum();
+    double[] getSum();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * sum of squares of the i<sup>th</sup> entries of the arrays
@@ -96,7 +106,8 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component sums of squares
      */
-    public abstract double[] getSumSq();
+    double[] getSumSq();
+
     /**
      * Returns an array whose i<sup>th</sup> entry is the
      * sum of logs of the i<sup>th</sup> entries of the arrays
@@ -104,5 +115,6 @@ public interface StatisticalMultivariateSummary {
      *
      * @return the array of component log sums
      */
-    public abstract double[] getSumLog();
+    double[] getSumLog();
+
 }

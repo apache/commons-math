@@ -57,7 +57,6 @@ public interface FixedStepHandler  {
    * @param isLast true if the step is the last one
    * @throws DerivativeException if some error condition is encountered
    */
-  public void handleStep(double t, double[] y, double[] yDot, boolean isLast)
-      throws DerivativeException;
+  void handleStep(double t, double[] y, double[] yDot, boolean isLast) throws DerivativeException;
 
 }
