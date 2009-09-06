@@ -840,7 +840,7 @@ public class FastFourierTransformer implements Serializable {
                   "cannot compute 0-th root of unity, indefinite result");
         }
 
-        isForward = (n > 0);
+        isForward = n > 0;
 
         // avoid repetitive calculations
         final int absN = Math.abs(n);
@@ -914,8 +914,7 @@ public class FastFourierTransformer implements Serializable {
                   k, 0, omegaCount - 1);
         }
 
-        return (isForward) ?
-            omegaImaginaryForward[k] : omegaImaginaryInverse[k];
+        return isForward ? omegaImaginaryForward[k] : omegaImaginaryInverse[k];
 
       }
 

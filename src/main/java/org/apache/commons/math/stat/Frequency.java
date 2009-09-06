@@ -557,7 +557,7 @@ public class Frequency implements Serializable {
          */
         @SuppressWarnings("unchecked")
         public int compare(Comparable<T> o1, Comparable<T> o2) {
-            return (o1.compareTo((T) o2));
+            return o1.compareTo((T) o2);
         }
     }
 

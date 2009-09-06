@@ -93,8 +93,8 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see #createContributingStatistics()
      */
     public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics) {
-        this(prototypeStatistics, (prototypeStatistics == null ? null :
-                new SummaryStatistics(prototypeStatistics)));
+        this(prototypeStatistics,
+             prototypeStatistics == null ? null : new SummaryStatistics(prototypeStatistics));
     }
 
     /**
@@ -118,11 +118,11 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      * @see #createContributingStatistics()
      */
     public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics,
-            SummaryStatistics initialStatistics) {
-        this.statisticsPrototype = ((prototypeStatistics == null) ?
-                new SummaryStatistics() : prototypeStatistics);
-        this.statistics = ((initialStatistics == null) ?
-                new SummaryStatistics() : initialStatistics);
+                                      SummaryStatistics initialStatistics) {
+        this.statisticsPrototype =
+            (prototypeStatistics == null) ? new SummaryStatistics() : prototypeStatistics;
+        this.statistics =
+            (initialStatistics == null) ? new SummaryStatistics() : initialStatistics;
     }
 
     /**
@@ -400,8 +400,8 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
                 return false;
             }
             AggregatingSummaryStatistics stat = (AggregatingSummaryStatistics)object;
-            return (super.equals(stat) &&
-                    aggregateStatistics.equals(stat.aggregateStatistics));
+            return super.equals(stat) &&
+                   aggregateStatistics.equals(stat.aggregateStatistics);
         }
 
         /**

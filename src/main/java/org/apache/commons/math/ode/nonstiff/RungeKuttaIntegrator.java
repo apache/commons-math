@@ -100,7 +100,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     sanityChecks(equations, t0, y0, t, y);
     setEquations(equations);
     resetEvaluations();
-    final boolean forward = (t > t0);
+    final boolean forward = t > t0;
 
     // create some internal working arrays
     final int stages = c.length + 1;

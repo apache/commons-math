@@ -160,7 +160,7 @@ public class TTestImpl implements TTest  {
     public boolean pairedTTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (pairedTTest(sample1, sample2) < alpha);
+        return pairedTTest(sample1, sample2) < alpha;
     }
 
     /**
@@ -444,7 +444,7 @@ public class TTestImpl implements TTest  {
     public boolean tTest(double mu, double[] sample, double alpha)
     throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (tTest(mu, sample) < alpha);
+        return tTest(mu, sample) < alpha;
     }
 
     /**
@@ -522,7 +522,7 @@ public class TTestImpl implements TTest  {
             double alpha)
     throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (tTest(mu, sampleStats) < alpha);
+        return tTest(mu, sampleStats) < alpha;
     }
 
     /**
@@ -669,7 +669,7 @@ public class TTestImpl implements TTest  {
             double alpha)
     throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (tTest(sample1, sample2) < alpha);
+        return tTest(sample1, sample2) < alpha;
     }
 
     /**
@@ -727,7 +727,7 @@ public class TTestImpl implements TTest  {
             double alpha)
     throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (homoscedasticTTest(sample1, sample2) < alpha);
+        return homoscedasticTTest(sample1, sample2) < alpha;
     }
 
      /**
@@ -874,7 +874,7 @@ public class TTestImpl implements TTest  {
             StatisticalSummary sampleStats2, double alpha)
     throws IllegalArgumentException, MathException {
         checkSignificanceLevel(alpha);
-        return (tTest(sampleStats1, sampleStats2) < alpha);
+        return tTest(sampleStats1, sampleStats2) < alpha;
     }
 
     //----------------------------------------------- Protected methods

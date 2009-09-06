@@ -159,7 +159,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         if (test(values, weights, begin, length)) {
             sum = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                sum += (values[i] * weights[i]);
+                sum += values[i] * weights[i];
             }
         }
         return sum;

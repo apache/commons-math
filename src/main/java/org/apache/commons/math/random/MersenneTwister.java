@@ -241,10 +241,10 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         y = mt[mti++];
 
         // tempering
-        y ^= (y >>> 11);
+        y ^=  y >>> 11;
         y ^= (y <<   7) & 0x9d2c5680;
         y ^= (y <<  15) & 0xefc60000;
-        y ^= (y >>> 18);
+        y ^=  y >>> 18;
 
         return y >>> (32 - bits);
 

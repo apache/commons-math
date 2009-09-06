@@ -948,7 +948,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
             return ZERO;
         } else {
             BigDecimal det = (parity == 1) ? ONE : ONE.negate();
-            for (int i = 0; i < this.getRowDimension(); i++) {
+            for (int i = 0; i < getRowDimension(); i++) {
                 det = det.multiply(lu[i][i]);
             }
             return det;
@@ -960,7 +960,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      * @return true if the matrix is square (rowDimension = columnDimension)
      */
     public boolean isSquare() {
-        return (this.getColumnDimension() == this.getRowDimension());
+        return getColumnDimension() == getRowDimension();
     }
 
     /**

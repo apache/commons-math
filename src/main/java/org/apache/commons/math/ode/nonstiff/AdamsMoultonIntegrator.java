@@ -209,7 +209,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         sanityChecks(equations, t0, y0, t, y);
         setEquations(equations);
         resetEvaluations();
-        final boolean forward = (t > t0);
+        final boolean forward = t > t0;
 
         // initialize working arrays
         if (y != y0) {

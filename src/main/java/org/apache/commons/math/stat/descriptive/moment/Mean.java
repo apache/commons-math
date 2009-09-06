@@ -161,7 +161,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
             // Compute correction factor in second pass
             double correction = 0;
             for (int i = begin; i < begin + length; i++) {
-                correction += (values[i] - xbar);
+                correction += values[i] - xbar;
             }
             return xbar + (correction/sampleSize);
         }

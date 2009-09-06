@@ -117,13 +117,13 @@ public class Complex implements FieldElement<Complex>, Serializable  {
                 return Math.abs(real);
             }
             double q = real / imaginary;
-            return (Math.abs(imaginary) * Math.sqrt(1 + q*q));
+            return Math.abs(imaginary) * Math.sqrt(1 + q * q);
         } else {
             if (real == 0.0) {
                 return Math.abs(imaginary);
             }
             double q = imaginary / real;
-            return (Math.abs(real) * Math.sqrt(1 + q*q));
+            return Math.abs(real) * Math.sqrt(1 + q * q);
         }
     }
 

@@ -234,7 +234,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
             for (j = i; j > 0; j--) {
                 c[j] = c[j-1] - c[j] * x[i];
             }
-            c[0] *= (-x[i]);
+            c[0] *= -x[i];
             c[i+1] = 1;
         }
 
@@ -244,7 +244,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
             d = 1;
             for (j = 0; j < n; j++) {
                 if (i != j) {
-                    d *= (x[i] - x[j]);
+                    d *= x[i] - x[j];
                 }
             }
             if (d == 0.0) {

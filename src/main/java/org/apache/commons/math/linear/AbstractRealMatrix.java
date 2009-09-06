@@ -636,7 +636,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public boolean isSquare() {
-        return (getColumnDimension() == getRowDimension());
+        return getColumnDimension() == getRowDimension();
     }
 
     /** {@inheritDoc} */

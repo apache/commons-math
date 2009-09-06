@@ -135,12 +135,12 @@ public class StatisticalSummaryValues implements Serializable,
             return false;
         }
         StatisticalSummaryValues stat = (StatisticalSummaryValues) object;
-        return (MathUtils.equals(stat.getMax(), this.getMax()) &&
-                MathUtils.equals(stat.getMean(),this.getMean()) &&
-                MathUtils.equals(stat.getMin(),this.getMin()) &&
-                MathUtils.equals(stat.getN(), this.getN()) &&
-                MathUtils.equals(stat.getSum(), this.getSum()) &&
-                MathUtils.equals(stat.getVariance(),this.getVariance()));
+        return MathUtils.equals(stat.getMax(),      getMax())  &&
+               MathUtils.equals(stat.getMean(),     getMean()) &&
+               MathUtils.equals(stat.getMin(),      getMin())  &&
+               MathUtils.equals(stat.getN(),        getN())    &&
+               MathUtils.equals(stat.getSum(),      getSum())  &&
+               MathUtils.equals(stat.getVariance(), getVariance());
     }
 
     /**

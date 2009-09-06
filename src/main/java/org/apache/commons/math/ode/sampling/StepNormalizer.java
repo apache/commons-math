@@ -122,7 +122,7 @@ public class StepNormalizer implements StepHandler {
             lastDerivatives = interpolator.getInterpolatedDerivatives().clone();
 
             // take the integration direction into account
-            forward = (interpolator.getCurrentTime() >= lastTime);
+            forward = interpolator.getCurrentTime() >= lastTime;
             if (! forward) {
                 h = -h;
             }

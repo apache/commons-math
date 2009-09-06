@@ -87,13 +87,12 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
             rescale = true;
         }
         double sumSq = 0.0d;
-        double dev = 0.0d;
         for (int i = 0; i < observed.length; i++) {
             if (rescale) {
-                dev = (observed[i] - ratio * expected[i]);
+                final double dev = observed[i] - ratio * expected[i];
                 sumSq += dev * dev / (ratio * expected[i]);
             } else {
-                dev = (observed[i] - expected[i]);
+                final double dev = observed[i] - expected[i];
                 sumSq += dev * dev / expected[i];
             }
         }
@@ -140,7 +139,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                   "out of bounds significance level {0}, must be between {1} and {2}",
                   alpha, 0, 0.5);
         }
-        return (chiSquareTest(expected, observed) < alpha);
+        return chiSquareTest(expected, observed) < alpha;
     }
 
     /**
@@ -208,7 +207,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                   "out of bounds significance level {0}, must be between {1} and {2}",
                   alpha, 0.0, 0.5);
         }
-        return (chiSquareTest(counts) < alpha);
+        return chiSquareTest(counts) < alpha;
     }
 
     /**
@@ -256,7 +255,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                   "observed counts are all 0 in second observed array");
         }
         // Compare and compute weight only if different
-        unequalCounts = (countSum1 != countSum2);
+        unequalCounts = countSum1 != countSum2;
         if (unequalCounts) {
             weight = Math.sqrt((double) countSum1 / (double) countSum2);
         }
@@ -315,7 +314,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                   "out of bounds significance level {0}, must be between {1} and {2}",
                   alpha, 0.0, 0.5);
         }
-        return (chiSquareTestDataSetsComparison(observed1, observed2) < alpha);
+        return chiSquareTestDataSetsComparison(observed1, observed2) < alpha;
     }
 
     /**

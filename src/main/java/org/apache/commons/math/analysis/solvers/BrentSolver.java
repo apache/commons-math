@@ -239,7 +239,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 setResult(x1, i);
                 return result;
             }
-            double dx = (x2 - x1);
+            double dx = x2 - x1;
             double tolerance =
                 Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy);
             if (Math.abs(dx) <= tolerance) {

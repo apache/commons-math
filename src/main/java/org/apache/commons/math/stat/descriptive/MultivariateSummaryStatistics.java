@@ -369,16 +369,15 @@ public class MultivariateSummaryStatistics
             return false;
         }
         MultivariateSummaryStatistics stat = (MultivariateSummaryStatistics) object;
-        return (MathUtils.equals(stat.getGeometricMean(),
-                this.getGeometricMean()) &&
-                MathUtils.equals(stat.getMax(), this.getMax()) &&
-                MathUtils.equals(stat.getMean(),this.getMean()) &&
-                MathUtils.equals(stat.getMin(),this.getMin()) &&
-                MathUtils.equals(stat.getN(), this.getN()) &&
-                MathUtils.equals(stat.getSum(), this.getSum()) &&
-                MathUtils.equals(stat.getSumSq(),this.getSumSq()) &&
-                MathUtils.equals(stat.getSumLog(),this.getSumLog()) &&
-                stat.getCovariance().equals(this.getCovariance()));
+        return MathUtils.equals(stat.getGeometricMean(), getGeometricMean()) &&
+               MathUtils.equals(stat.getMax(),           getMax())           &&
+               MathUtils.equals(stat.getMean(),          getMean())          &&
+               MathUtils.equals(stat.getMin(),           getMin())           &&
+               MathUtils.equals(stat.getN(),             getN())             &&
+               MathUtils.equals(stat.getSum(),           getSum())           &&
+               MathUtils.equals(stat.getSumSq(),         getSumSq())         &&
+               MathUtils.equals(stat.getSumLog(),        getSumLog())        &&
+               stat.getCovariance().equals( getCovariance());
     }
 
     /**

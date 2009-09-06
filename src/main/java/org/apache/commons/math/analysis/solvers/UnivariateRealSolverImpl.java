@@ -181,7 +181,7 @@ public abstract class UnivariateRealSolverImpl
         throws FunctionEvaluationException {
         final double f1 = function.value(lower);
         final double f2 = function.value(upper);
-        return ((f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0));
+        return (f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0);
     }
 
     /**

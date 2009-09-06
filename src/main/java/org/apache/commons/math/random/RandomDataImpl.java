@@ -430,9 +430,8 @@ public class RandomDataImpl implements RandomData, Serializable {
                     x = Math.ceil(y);
                     w = -delta / mu2delta * (1.0 + y / 2.0) - e - x * logMeanMu;
                 }
-                accept = (w <= x * Math.log(mu) -
-                         MathUtils.factorialLog((int) (mu + x)) /
-                         muFactorialLog);
+                accept = w <= x * Math.log(mu) -
+                         MathUtils.factorialLog((int) (mu + x)) / muFactorialLog;
             }
             // cast to long is acceptable because both x and mu are whole
             // numbers.

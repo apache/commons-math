@@ -105,7 +105,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
                   "out of bounds significance level {0}, must be between {1} and {2}",
                   alpha, 0, 0.5);
         }
-        return (anovaPValue(categoryData) < alpha);
+        return anovaPValue(categoryData) < alpha;
     }
 
 

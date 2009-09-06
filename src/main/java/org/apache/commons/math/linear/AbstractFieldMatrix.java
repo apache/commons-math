@@ -644,7 +644,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
     /** {@inheritDoc} */
     public boolean isSquare() {
-        return (getColumnDimension() == getRowDimension());
+        return getColumnDimension() == getRowDimension();
     }
 
     /** {@inheritDoc} */

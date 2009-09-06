@@ -234,16 +234,11 @@ public class LoessInterpolator
                 double sumX = 0, sumXSquared = 0, sumY = 0, sumXY = 0;
                 double denom = Math.abs(1.0 / (xval[edge] - x));
                 for (int k = ileft; k <= iright; ++k) {
-                    final double xk = xval[k];
-                    final double yk = yval[k];
-                    double dist;
-                    if (k < i) {
-                        dist = (x - xk);
-                    } else {
-                        dist = (xk - x);
-                    }
-                    final double w = tricube(dist * denom) * robustnessWeights[k];
-                    final double xkw = xk * w;
+                    final double xk   = xval[k];
+                    final double yk   = yval[k];
+                    final double dist = (k < i) ? x - xk : xk - x;
+                    final double w    = tricube(dist * denom) * robustnessWeights[k];
+                    final double xkw  = xk * w;
                     sumWeights += w;
                     sumX += xkw;
                     sumXSquared += xk * xkw;

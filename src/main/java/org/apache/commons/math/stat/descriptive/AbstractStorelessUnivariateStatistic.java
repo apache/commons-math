@@ -165,8 +165,8 @@ public abstract class AbstractStorelessUnivariateStatistic
             return false;
         }
         AbstractStorelessUnivariateStatistic stat = (AbstractStorelessUnivariateStatistic) object;
-        return (MathUtils.equals(stat.getResult(), this.getResult()) &&
-                MathUtils.equals(stat.getN(), this.getN()));
+        return MathUtils.equals(stat.getResult(), this.getResult()) &&
+               MathUtils.equals(stat.getN(), this.getN());
     }
 
     /**

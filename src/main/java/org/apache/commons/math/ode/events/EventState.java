@@ -149,7 +149,7 @@ public class EventState {
         throws EventException {
         t0 = tStart;
         g0 = handler.g(tStart, yStart);
-        g0Positive = (g0 >= 0);
+        g0Positive = g0 >= 0;
     }
 
     /** Evaluate the impact of the proposed step on the event handler.
@@ -188,7 +188,7 @@ public class EventState {
                     // there is a sign change: an event is expected during this step
 
                     // variation direction, with respect to the integration direction
-                    increasing = (gb >= ga);
+                    increasing = gb >= ga;
 
                     final UnivariateRealFunction f = new UnivariateRealFunction() {
                         public double value(final double t) throws FunctionEvaluationException {
@@ -288,7 +288,7 @@ public class EventState {
             g0Positive        = increasing;
             nextAction        = handler.eventOccurred(t, y, !(increasing ^ forward));
         } else {
-            g0Positive = (g0 >= 0);
+            g0Positive = g0 >= 0;
             nextAction = EventHandler.CONTINUE;
         }
     }

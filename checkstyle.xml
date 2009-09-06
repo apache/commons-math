@@ -119,13 +119,15 @@
     <!-- Use a consistent way to put declarations -->
     <module name="DeclarationOrder" />
 
+    <!-- Don't add up parentheses when they are not required -->
+    <module name="UnnecessaryParentheses" />
+
     <!--
     <module name="IllegalCatch" />
     <module name="StringLiteralEquality" />
     <module name="MultipleStringLiterals" />
     <module name="MultipleVariableDeclarations" />
     <module name="TodoComment" />
-    <module name="UnnecessaryParentheses" />
     -->
   </module>
   

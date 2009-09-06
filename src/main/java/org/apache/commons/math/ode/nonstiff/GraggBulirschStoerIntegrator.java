@@ -560,7 +560,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     sanityChecks(equations, t0, y0, t, y);
     setEquations(equations);
     resetEvaluations();
-    final boolean forward = (t > t0);
+    final boolean forward = t > t0;
 
     // create some internal working arrays
     final double[] yDot0   = new double[y0.length];

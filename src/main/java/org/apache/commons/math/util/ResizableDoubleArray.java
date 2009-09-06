@@ -594,7 +594,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the length of the internal storage array.
      */
     synchronized int getInternalLength() {
-        return (internalArray.length);
+        return internalArray.length;
     }
 
     /**
@@ -604,7 +604,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return number of elements
      */
     public synchronized int getNumElements() {
-        return (numElements);
+        return numElements;
     }
 
     /**
@@ -621,7 +621,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Deprecated
     public synchronized double[] getValues() {
-        return (internalArray);
+        return internalArray;
     }
 
     /**
@@ -637,7 +637,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.0
      */
     public synchronized double[] getInternalValues() {
-        return (internalArray);
+        return internalArray;
     }
 
     /**

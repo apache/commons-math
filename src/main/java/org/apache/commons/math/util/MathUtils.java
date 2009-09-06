@@ -227,7 +227,7 @@ public final class MathUtils {
             // unnecessary.
             for (int j = 1, i = n - k + 1; j <= k; i++, j++) {
                 long d = gcd(i, j);
-                result = mulAndCheck((result / (j / d)), (i / d));
+                result = mulAndCheck(result / (j / d), i / d);
             }
         }
         return result;
@@ -402,7 +402,7 @@ public final class MathUtils {
      * @return true if the values are equal or both are NaN
      */
     public static boolean equals(double x, double y) {
-        return ((Double.isNaN(x) && Double.isNaN(y)) || x == y);
+        return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
     }
 
     /**
@@ -614,7 +614,7 @@ public final class MathUtils {
                         "overflow: gcd({0}, {1}) is 2^31",
                         p, q);
             }
-            return (Math.abs(u) + Math.abs(v));
+            return Math.abs(u) + Math.abs(v);
         }
         // keep u and v negative, as negative integers range down to
         // -2^31, while positive numbers can only be as large as 2^31-1

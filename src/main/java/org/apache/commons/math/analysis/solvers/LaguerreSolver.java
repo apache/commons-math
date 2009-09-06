@@ -117,9 +117,15 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         throws ConvergenceException, FunctionEvaluationException {
 
         // check for zeros before verifying bracketing
-        if (f.value(min) == 0.0) { return min; }
-        if (f.value(max) == 0.0) { return max; }
-        if (f.value(initial) == 0.0) { return initial; }
+        if (f.value(min) == 0.0) {
+            return min;
+        }
+        if (f.value(max) == 0.0) {
+            return max;
+        }
+        if (f.value(initial) == 0.0) {
+            return initial;
+        }
 
         verifyBracketing(min, max, f);
         verifySequence(min, initial, max);
@@ -299,8 +305,8 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             throw MathRuntimeException.createIllegalArgumentException(
                   "polynomial degree must be positive: degree={0}", n);
         }
-        Complex N = new Complex(n, 0.0);
-        Complex N1 = new Complex((n-1), 0.0);
+        Complex N  = new Complex(n,     0.0);
+        Complex N1 = new Complex(n - 1, 0.0);
 
         int i = 1;
         Complex pv = null;

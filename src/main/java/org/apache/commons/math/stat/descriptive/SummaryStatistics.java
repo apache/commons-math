@@ -221,7 +221,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
                 stdDev = 0.0;
             }
         }
-        return (stdDev);
+        return stdDev;
     }
 
     /**
@@ -360,15 +360,14 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return (MathUtils.equals(stat.getGeometricMean(), this.getGeometricMean()) &&
-                MathUtils.equals(stat.getMax(), this.getMax()) &&
-                MathUtils.equals(stat.getMean(), this.getMean()) &&
-                MathUtils.equals(stat.getMin(), this.getMin()) &&
-                MathUtils.equals(stat.getN(), this.getN()) &&
-                MathUtils.equals(stat.getSum(), this.getSum()) &&
-                MathUtils.equals(stat.getSumsq(), this.getSumsq()) &&
-                MathUtils.equals(stat.getVariance(),
-            this.getVariance()));
+        return MathUtils.equals(stat.getGeometricMean(), getGeometricMean()) &&
+               MathUtils.equals(stat.getMax(),           getMax())           &&
+               MathUtils.equals(stat.getMean(),          getMean())          &&
+               MathUtils.equals(stat.getMin(),           getMin())           &&
+               MathUtils.equals(stat.getN(),             getN())             &&
+               MathUtils.equals(stat.getSum(),           getSum())           &&
+               MathUtils.equals(stat.getSumsq(),         getSumsq())         &&
+               MathUtils.equals(stat.getVariance(),      getVariance());
     }
 
     /**

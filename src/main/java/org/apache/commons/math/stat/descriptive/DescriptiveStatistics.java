@@ -208,7 +208,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                 stdDev = 0.0;
             }
         }
-        return (stdDev);
+        return stdDev;
     }
 
     /**
