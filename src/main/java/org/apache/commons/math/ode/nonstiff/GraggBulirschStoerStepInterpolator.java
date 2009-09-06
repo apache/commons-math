@@ -71,7 +71,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  *
  * @see GraggBulirschStoerIntegrator
  * @version $Revision$ $Date$
- * @author E. Hairer and G. Wanner (fortran version)
  * @since 1.2
  */
 

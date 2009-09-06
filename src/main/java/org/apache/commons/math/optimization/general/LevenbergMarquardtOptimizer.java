@@ -37,8 +37,15 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * changes. The changes include the over-determined resolution and the Q.R.
  * decomposition which has been rewritten following the algorithm described in the
  * P. Lascaux and R. Theodor book <i>Analyse num&eacute;rique matricielle
- * appliqu&eacute;e &agrave; l'art de l'ing&eacute;nieur</i>, Masson 1986. The
- * redistribution policy for MINPACK is available <a
+ * appliqu&eacute;e &agrave; l'art de l'ing&eacute;nieur</i>, Masson 1986.</p>
+ * <p>The authors of the original fortran version are:
+ * <ul>
+ * <li>Argonne National Laboratory. MINPACK project. March 1980</li>
+ * <li>Burton S. Garbow</li>
+ * <li>Kenneth E. Hillstrom</li>
+ * <li>Jorge J. More</li>
+ * </ul>
+ * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
  * is reproduced below.</p>
  *
@@ -89,12 +96,6 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
  * <ol></td></tr>
  * </table>
-
- * @author Argonne National Laboratory. MINPACK project. March 1980 (original fortran)
- * @author Burton S. Garbow (original fortran)
- * @author Kenneth E. Hillstrom (original fortran)
- * @author Jorge J. More (original fortran)
-
  * @version $Revision$ $Date$
  * @since 2.0
  *

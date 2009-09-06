@@ -105,6 +105,13 @@
       <property name="illegalPattern" value="true"/>
     </module>
 
+    <!-- Authors should be in pom.xml file -->
+    <module name="Regexp">
+      <property name="format" value="@author"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="developers names should be in pom file"/>
+    </module>
+
     <!--
     <module name="DeclarationOrder" />
     <module name="IllegalCatch" />

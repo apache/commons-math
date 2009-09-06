@@ -31,7 +31,6 @@ import org.apache.commons.math.util.CompositeFormat;
  * be replaced with 'j' (or anything else), and the number format for both real
  * and imaginary parts can be configured.
  *
- * @author Apache Software Foundation
  * @version $Revision$ $Date$
  */
 public class ComplexFormat extends CompositeFormat {

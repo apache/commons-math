@@ -87,7 +87,6 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</strong></td></tr>
  * </table>
  *
- * @author E. Hairer and G. Wanner (fortran version)
  * @version $Revision$ $Date$
  * @since 1.2
  */

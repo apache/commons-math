@@ -46,11 +46,15 @@ import org.apache.commons.math.util.MathUtils;
  * href="http://www.netlib.org/lapack/lawnspdf/lawn155.pdf">An Implementation of the
  * dqds Algorithm (Positive Case)</a> and on the corresponding LAPACK routines (DLARRE,
  * DLASQ2, DLAZQ3, DLAZQ4, DLASQ5 and DLASQ6).</p>
- * @author Beresford Parlett, University of California, Berkeley, USA (fortran version)
- * @author Jim Demmel, University of California, Berkeley, USA (fortran version)
- * @author Inderjit Dhillon, University of Texas, Austin, USA(fortran version)
- * @author Osni Marques, LBNL/NERSC, USA (fortran version)
- * @author Christof Voemel, University of California, Berkeley, USA(fortran version)
+ * <p>The authors of the original fortran version are:
+ *   <ul>
+ *     <li>Beresford Parlett, University of California, Berkeley, USA</li>
+ *     <li>Jim Demmel, University of California, Berkeley, USA</li>
+ *     <li>Inderjit Dhillon, University of Texas, Austin, USA</li>
+ *     <li>Osni Marques, LBNL/NERSC, USA</li>
+ *     <li>Christof Voemel, University of California, Berkeley, USA</li>
+ *   </ul>
+ * </p>
  * @version $Revision$ $Date$
  * @since 2.0
  */
