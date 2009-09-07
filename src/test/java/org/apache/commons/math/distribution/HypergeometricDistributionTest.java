@@ -173,15 +173,15 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
             int x = (int)data[i][0];
             double pdf = data[i][1];
             double actualPdf = dist.probability(x);
-            TestUtils.assertRelativelyEquals(pdf, actualPdf, 1.0e-9);
+            TestUtils.assertRelativelyEquals("Expected equals for <"+x+"> pdf",pdf, actualPdf, 1.0e-9);
 
             double cdf = data[i][2];
             double actualCdf = dist.cumulativeProbability(x);
-            TestUtils.assertRelativelyEquals(cdf, actualCdf, 1.0e-9);
+            TestUtils.assertRelativelyEquals("Expected equals for <"+x+"> cdf",cdf, actualCdf, 1.0e-9);
 
             double cdf1 = data[i][3];
             double actualCdf1 = dist.upperCumulativeProbability(x);
-            TestUtils.assertRelativelyEquals(cdf1, actualCdf1, 1.0e-9);
+            TestUtils.assertRelativelyEquals("Expected equals for <"+x+"> cdf1",cdf1, actualCdf1, 1.0e-9);
         }
     }
 
