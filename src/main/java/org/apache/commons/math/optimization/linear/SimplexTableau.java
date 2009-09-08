@@ -27,9 +27,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -106,7 +106,8 @@ class SimplexTableau implements Serializable {
         this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
         this.epsilon                = epsilon;
-        this.numDecisionVariables   = getNumVariables() + (restrictToNonNegative ? 0 : 1);
+        this.numDecisionVariables   = f.getCoefficients().getDimension() +
+                                      (restrictToNonNegative ? 0 : 1);
         this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
         this.numArtificialVariables = getConstraintTypeCounts(Relationship.EQ) +
@@ -181,13 +182,6 @@ class SimplexTableau implements Serializable {
 
         return matrix;
 
-    }
-
-    /** Get the number of variables.
-     * @return number of variables
-     */
-    public int getNumVariables() {
-        return f.getCoefficients().getDimension();
     }
 
     /**
@@ -270,7 +264,7 @@ class SimplexTableau implements Serializable {
      * @param col index of the column to check
      * @return the row that the variable is basic in.  null if the column is not basic
      */
-    private Integer getBasicRow(final int col) {
+    Integer getBasicRow(final int col) {
         return getBasicRow(col, true);
     }
 
@@ -323,13 +317,25 @@ class SimplexTableau implements Serializable {
         this.numArtificialVariables = 0;
     }
 
-
     /**
      * @param src the source array
      * @param dest the destination array
      */
     private void copyArray(final double[] src, final double[] dest) {
         System.arraycopy(src, 0, dest, getNumObjectiveFunctions(), src.length);
+    }
+
+    /**
+     * Returns whether the problem is at an optimal state.
+     * @return whether the model has been solved
+     */
+    boolean isOptimal() {
+        for (int i = getNumObjectiveFunctions(); i < getWidth() - 1; i++) {
+            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -17,6 +17,9 @@
 
 package org.apache.commons.math.optimization.linear;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.util.MathUtils;
@@ -73,23 +76,42 @@ public class SimplexSolver extends AbstractLinearOptimizer {
      * @param col the column to test the ratio of.  See {@link #getPivotColumn(SimplexTableau)}
      * @return row with the minimum ratio
      */
-    private Integer getPivotRow(final int col, final SimplexTableau tableau) {
+    private Integer getPivotRow(SimplexTableau tableau, final int col) {
+        // create a list of all the rows that tie for the lowest score in the minimum ratio test
+        List<Integer> minRatioPositions = new ArrayList<Integer>();
         double minRatio = Double.MAX_VALUE;
-        Integer minRatioPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
             if (MathUtils.compareTo(entry, 0, epsilon) > 0) {
                 final double ratio = rhs / entry;
-                if (ratio < minRatio) {
+                if (MathUtils.equals(ratio, minRatio, epsilon)) {
+                    minRatioPositions.add(i);
+                } else if (ratio < minRatio) {
                     minRatio = ratio;
-                    minRatioPos = i;
+                    minRatioPositions = new ArrayList<Integer>();
+                    minRatioPositions.add(i);
                 }
             }
         }
-        return minRatioPos;
-    }
 
+        if (minRatioPositions.size() == 0) {
+          return null;
+        } else if (minRatioPositions.size() > 1) {
+          // there's a degeneracy as indicated by a tie in the minimum ratio test
+          // check if there's an artificial variable that can be forced out of the basis
+          for (Integer row : minRatioPositions) {
+            for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+              int column = i + tableau.getArtificialVariableOffset();
+              if (MathUtils.equals(tableau.getEntry(row, column), 1, epsilon) &&
+                  row.equals(tableau.getBasicRow(column))) {
+                return row;
+              }
+            }
+          }
+        }
+        return minRatioPositions.get(0);
+    }
 
     /**
      * Runs one iteration of the Simplex method on the given model.
@@ -103,7 +125,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         incrementIterationsCounter();
 
         Integer pivotCol = getPivotColumn(tableau);
-        Integer pivotRow = getPivotRow(pivotCol, tableau);
+        Integer pivotRow = getPivotRow(tableau, pivotCol);
         if (pivotRow == null) {
             throw new UnboundedSolutionException();
         }
@@ -122,54 +144,20 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     }
 
     /**
-     * Checks whether Phase 1 is solved.
-     * @param tableau simple tableau for the problem
-     * @return whether Phase 1 is solved
-     */
-    private boolean isPhase1Solved(final SimplexTableau tableau) {
-        if (tableau.getNumArtificialVariables() == 0) {
-            return true;
-        }
-        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Returns whether the problem is at an optimal state.
-     * @param tableau simple tableau for the problem
-     * @return whether the model has been solved
-     */
-    public boolean isOptimal(final SimplexTableau tableau) {
-        if (tableau.getNumArtificialVariables() > 0) {
-            return false;
-        }
-        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Solves Phase 1 of the Simplex method.
      * @param tableau simple tableau for the problem
      * @exception OptimizationException if the maximal number of iterations is
      * exceeded, or if the problem is found not to have a bounded solution, or
      * if there is no feasible solution
      */
-    protected void solvePhase1(final SimplexTableau tableau)
-        throws OptimizationException {
+    protected void solvePhase1(final SimplexTableau tableau) throws OptimizationException {
+
         // make sure we're in Phase 1
         if (tableau.getNumArtificialVariables() == 0) {
             return;
         }
 
-        while (!isPhase1Solved(tableau)) {
+        while (!tableau.isOptimal()) {
             doIteration(tableau);
         }
 
@@ -181,13 +169,14 @@ public class SimplexSolver extends AbstractLinearOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    public RealPointValuePair doOptimize()
-        throws OptimizationException {
+    public RealPointValuePair doOptimize() throws OptimizationException {
         final SimplexTableau tableau =
             new SimplexTableau(function, linearConstraints, goal, nonNegative, epsilon);
+
         solvePhase1(tableau);
         tableau.discardArtificialVariables();
-        while (!isOptimal(tableau)) {
+
+        while (!tableau.isOptimal()) {
             doIteration(tableau);
         }
         return tableau.getSolution();

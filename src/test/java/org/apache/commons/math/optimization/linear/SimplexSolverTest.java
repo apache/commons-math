@@ -17,13 +17,11 @@
 
 package org.apache.commons.math.optimization.linear;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -42,20 +40,34 @@ public class SimplexSolverTest {
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
 
-        assertEquals(0.0, solution.getPoint()[0], .0000001);
-        assertEquals(1.0, solution.getPoint()[1], .0000001);
-        assertEquals(1.0, solution.getPoint()[2], .0000001);
-        assertEquals(3.0, solution.getValue(), .0000001);
+        Assert.assertEquals(0.0, solution.getPoint()[0], .0000001);
+        Assert.assertEquals(1.0, solution.getPoint()[1], .0000001);
+        Assert.assertEquals(1.0, solution.getPoint()[2], .0000001);
+        Assert.assertEquals(3.0, solution.getValue(), .0000001);
     }
 
     @Test
     public void testMath286() throws OptimizationException {
-      LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.2, 0.3 }, 0 );
-      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
-      constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ, 23.0));
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.2, 0.3 }, 0 );
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ, 23.0));
 
-      RealPointValuePair solution = new SimplexSolver().optimize(f, constraints, GoalType.MAXIMIZE, true);
-      assertEquals(6.9, solution.getValue(), .0000001);
+        SimplexSolver solver = new SimplexSolver();
+        RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+        Assert.assertEquals(6.9, solution.getValue(), .0000001);
+    }
+
+    @Test
+    public void testDegeneracy() throws OptimizationException {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.7 }, 0 );
+        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.LEQ, 18.0));
+        constraints.add(new LinearConstraint(new double[] { 1, 0 }, Relationship.GEQ, 10.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 1 }, Relationship.GEQ, 8.0));
+
+        SimplexSolver solver = new SimplexSolver();
+        RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+        Assert.assertEquals(13.6, solution.getValue(), .0000001);
     }
 
     @Test
@@ -70,7 +82,7 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
-        assertEquals(10.0, solution.getValue(), .0000001);
+        Assert.assertEquals(10.0, solution.getValue(), .0000001);
     }
 
     @Test
@@ -80,9 +92,9 @@ public class SimplexSolverTest {
         constraints.add(new LinearConstraint(new double[] { 2, 0 }, Relationship.GEQ, -1.0));
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
-        assertEquals(0, solution.getValue(), .0000001);
-        assertEquals(0, solution.getPoint()[0], .0000001);
-        assertEquals(0, solution.getPoint()[1], .0000001);
+        Assert.assertEquals(0, solution.getValue(), .0000001);
+        Assert.assertEquals(0, solution.getPoint()[0], .0000001);
+        Assert.assertEquals(0, solution.getPoint()[1], .0000001);
     }
 
     @Test(expected=NoFeasibleSolutionException.class)
@@ -105,9 +117,9 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(2.0, solution.getPoint()[0], 0.0);
-        assertEquals(2.0, solution.getPoint()[1], 0.0);
-        assertEquals(57.0, solution.getValue(), 0.0);
+        Assert.assertEquals(2.0, solution.getPoint()[0], 0.0);
+        Assert.assertEquals(2.0, solution.getPoint()[1], 0.0);
+        Assert.assertEquals(57.0, solution.getValue(), 0.0);
     }
 
     @Test
@@ -118,8 +130,8 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(10.0, solution.getPoint()[0], 0.0);
-        assertEquals(30.0, solution.getValue(), 0.0);
+        Assert.assertEquals(10.0, solution.getPoint()[0], 0.0);
+        Assert.assertEquals(30.0, solution.getValue(), 0.0);
     }
 
     /**
@@ -136,9 +148,9 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(2.0, solution.getPoint()[0], 0.0);
-        assertEquals(2.0, solution.getPoint()[1], 0.0);
-        assertEquals(50.0, solution.getValue(), 0.0);
+        Assert.assertEquals(2.0, solution.getPoint()[0], 0.0);
+        Assert.assertEquals(2.0, solution.getPoint()[1], 0.0);
+        Assert.assertEquals(50.0, solution.getValue(), 0.0);
     }
 
     @Test
@@ -151,9 +163,9 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, false);
-        assertEquals(4.0, solution.getPoint()[0], 0.0);
-        assertEquals(0.0, solution.getPoint()[1], 0.0);
-        assertEquals(-13.0, solution.getValue(), 0.0);
+        Assert.assertEquals(4.0, solution.getPoint()[0], 0.0);
+        Assert.assertEquals(0.0, solution.getPoint()[1], 0.0);
+        Assert.assertEquals(-13.0, solution.getValue(), 0.0);
     }
 
     @Test
@@ -165,9 +177,9 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-        assertEquals(-2.0, solution.getPoint()[0], 0.0);
-        assertEquals(8.0, solution.getPoint()[1], 0.0);
-        assertEquals(12.0, solution.getValue(), 0.0);
+        Assert.assertEquals(-2.0, solution.getPoint()[0], 0.0);
+        Assert.assertEquals(8.0, solution.getPoint()[1], 0.0);
+        Assert.assertEquals(12.0, solution.getValue(), 0.0);
     }
 
     @Test(expected = NoFeasibleSolutionException.class)
@@ -203,12 +215,12 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
-        assertEquals(2902.92783505155, solution.getPoint()[0], .0000001);
-        assertEquals(480.419243986254, solution.getPoint()[1], .0000001);
-        assertEquals(0.0, solution.getPoint()[2], .0000001);
-        assertEquals(0.0, solution.getPoint()[3], .0000001);
-        assertEquals(0.0, solution.getPoint()[4], .0000001);
-        assertEquals(1438556.7491409, solution.getValue(), .0000001);
+        Assert.assertEquals(2902.92783505155, solution.getPoint()[0], .0000001);
+        Assert.assertEquals(480.419243986254, solution.getPoint()[1], .0000001);
+        Assert.assertEquals(0.0, solution.getPoint()[2], .0000001);
+        Assert.assertEquals(0.0, solution.getPoint()[3], .0000001);
+        Assert.assertEquals(0.0, solution.getPoint()[4], .0000001);
+        Assert.assertEquals(1438556.7491409, solution.getValue(), .0000001);
     }
 
     @Test
@@ -222,10 +234,10 @@ public class SimplexSolverTest {
 
       SimplexSolver solver = new SimplexSolver();
       RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, false);
-      assertEquals(1.0, solution.getPoint()[0], 0.0);
-      assertEquals(1.0, solution.getPoint()[1], 0.0);
-      assertEquals(0.0, solution.getPoint()[2], 0.0);
-      assertEquals(15.0, solution.getValue(), 0.0);
+      Assert.assertEquals(1.0, solution.getPoint()[0], 0.0);
+      Assert.assertEquals(1.0, solution.getPoint()[1], 0.0);
+      Assert.assertEquals(0.0, solution.getPoint()[2], 0.0);
+      Assert.assertEquals(15.0, solution.getValue(), 0.0);
   }
 
     @Test
@@ -236,7 +248,7 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
-        assertEquals(0, solution.getValue(), .0000001);
+        Assert.assertEquals(0, solution.getValue(), .0000001);
     }
 
     @Test
@@ -363,7 +375,7 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, true);
-        assertEquals(7518.0, solution.getValue(), .0000001);
+        Assert.assertEquals(7518.0, solution.getValue(), .0000001);
     }
 
     /**
@@ -385,13 +397,13 @@ public class SimplexSolverTest {
         String[] equationParts = s.split("[>|<]?=");
         double rhs = Double.parseDouble(equationParts[1].trim());
 
-        RealVector lhs = new ArrayRealVector(numCoefficients);
+        double[] lhs = new double[numCoefficients];
         String left = equationParts[0].replaceAll(" ?x", "");
         String[] coefficients = left.split(" ");
         for (String coefficient : coefficients) {
             double value = coefficient.charAt(0) == '-' ? -1 : 1;
             int index = Integer.parseInt(coefficient.replaceFirst("[+|-]", "").trim());
-            lhs.setEntry(index, value);
+            lhs[index] = value;
         }
         return new LinearConstraint(lhs, relationship, rhs);
     }

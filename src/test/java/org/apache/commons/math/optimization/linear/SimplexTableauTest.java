@@ -22,11 +22,12 @@ import java.util.Collection;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.optimization.GoalType;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+public class SimplexTableauTest {
 
-public class SimplexTableauTest extends TestCase {
-
+    @Test
     public void testInitialization() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
@@ -42,6 +43,7 @@ public class SimplexTableauTest extends TestCase {
         assertMatrixEquals(expectedInitialTableau, tableau.getData());
     }
 
+    @Test
     public void testdiscardArtificialVariables() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
@@ -57,6 +59,7 @@ public class SimplexTableauTest extends TestCase {
         assertMatrixEquals(expectedTableau, tableau.getData());
     }
 
+    @Test
     public void testTableauWithNoArtificialVars() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {15, 10}, 0);
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -74,13 +77,15 @@ public class SimplexTableauTest extends TestCase {
         assertMatrixEquals(initialTableau, tableau.getData());
     }
 
+    @Test
     public void testSerial() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
-        assertEquals(tableau, TestUtils.serializeAndRecover(tableau));
+        Assert.assertEquals(tableau, TestUtils.serializeAndRecover(tableau));
     }
+
     private LinearObjectiveFunction createFunction() {
         return new LinearObjectiveFunction(new double[] {15, 10}, 0);
     }
@@ -94,11 +99,11 @@ public class SimplexTableauTest extends TestCase {
     }
 
     private void assertMatrixEquals(double[][] expected, double[][] result) {
-        assertEquals("Wrong number of rows.", expected.length, result.length);
+        Assert.assertEquals("Wrong number of rows.", expected.length, result.length);
         for (int i = 0; i < expected.length; i++) {
-            assertEquals("Wrong number of columns.", expected[i].length, result[i].length);
+            Assert.assertEquals("Wrong number of columns.", expected[i].length, result[i].length);
             for (int j = 0; j < expected[i].length; j++) {
-                assertEquals("Wrong value at position [" + i + "," + j + "]", expected[i][j], result[i][j]);
+                Assert.assertEquals("Wrong value at position [" + i + "," + j + "]", expected[i][j], result[i][j], 1.0e-15);
             }
         }
     }
