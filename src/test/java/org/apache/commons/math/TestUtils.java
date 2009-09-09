@@ -169,8 +169,8 @@ public class TestUtils {
         } else if (expected == 0.0) {
             Assert.assertEquals(msg, actual, expected, relativeError);
         } else {
-            double x = Math.abs((expected - actual) / expected);
-            Assert.assertEquals(msg, 0.0, x, relativeError);
+            double absError = Math.abs(expected) * relativeError;
+            Assert.assertEquals(msg, expected, actual, absError);
         }
     }
 
