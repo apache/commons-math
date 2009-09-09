@@ -50,12 +50,12 @@ public class SimplexTableauTest {
         SimplexTableau tableau =
             new SimplexTableau(f, constraints, GoalType.MAXIMIZE, false, 1.0e-6);
         double[][] expectedTableau = {
-                                      { 1, -15, -10, 25, 0, 0, 0},
-                                      { 0,   1,   0, -1, 1, 0, 2},
-                                      { 0,   0,   1, -1, 0, 1, 3},
-                                      { 0,   1,   1, -2, 0, 0, 4}
+                                      { 1, -15, -10, 0, 0, 0, 0},
+                                      { 0,   1,   0, 1, 0, 0, 2},
+                                      { 0,   0,   1, 0, 1, 0, 3},
+                                      { 0,   1,   1, 0, 0, 1, 4}
         };
-        tableau.discardArtificialVariables();
+        tableau.dropPhase1Objective();
         assertMatrixEquals(expectedTableau, tableau.getData());
     }
 

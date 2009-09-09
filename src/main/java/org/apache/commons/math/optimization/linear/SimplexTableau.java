@@ -112,8 +112,7 @@ class SimplexTableau implements Serializable {
                                       getConstraintTypeCounts(Relationship.GEQ);
         this.numArtificialVariables = getConstraintTypeCounts(Relationship.EQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
-        this.tableau = new Array2DRowRealMatrix(createTableau(goalType == GoalType.MAXIMIZE));
-        initialize();
+        this.tableau = createTableau(goalType == GoalType.MAXIMIZE);
     }
 
     /**
@@ -121,29 +120,29 @@ class SimplexTableau implements Serializable {
      * @param maximize if true, goal is to maximize the objective function
      * @return created tableau
      */
-    protected double[][] createTableau(final boolean maximize) {
+    protected RealMatrix createTableau(final boolean maximize) {
 
         // create a matrix of the correct size
         int width = numDecisionVariables + numSlackVariables +
         numArtificialVariables + getNumObjectiveFunctions() + 1; // + 1 is for RHS
         int height = constraints.size() + getNumObjectiveFunctions();
-        double[][] matrix = new double[height][width];
+        Array2DRowRealMatrix matrix = new Array2DRowRealMatrix(height, width);
 
         // initialize the objective function rows
         if (getNumObjectiveFunctions() == 2) {
-            matrix[0][0] = -1;
+            matrix.setEntry(0, 0, -1);
         }
         int zIndex = (getNumObjectiveFunctions() == 1) ? 0 : 1;
-        matrix[zIndex][zIndex] = maximize ? 1 : -1;
+        matrix.setEntry(zIndex, zIndex, maximize ? 1 : -1);
         RealVector objectiveCoefficients =
             maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-        copyArray(objectiveCoefficients.getData(), matrix[zIndex]);
-        matrix[zIndex][width - 1] =
-            maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();
+        copyArray(objectiveCoefficients.getData(), matrix.getDataRef()[zIndex]);
+        matrix.setEntry(zIndex, width - 1,
+            maximize ? f.getConstantTerm() : -1 * f.getConstantTerm());
 
         if (!restrictToNonNegative) {
-            matrix[zIndex][getSlackVariableOffset() - 1] =
-                getInvertedCoeffiecientSum(objectiveCoefficients);
+            matrix.setEntry(zIndex, getSlackVariableOffset() - 1,
+                getInvertedCoeffiecientSum(objectiveCoefficients));
         }
 
         // initialize the constraint rows
@@ -154,34 +153,34 @@ class SimplexTableau implements Serializable {
             int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
-            copyArray(constraint.getCoefficients().getData(), matrix[row]);
+            copyArray(constraint.getCoefficients().getData(), matrix.getDataRef()[row]);
 
             // x-
             if (!restrictToNonNegative) {
-                matrix[row][getSlackVariableOffset() - 1] =
-                    getInvertedCoeffiecientSum(constraint.getCoefficients());
+                matrix.setEntry(row, getSlackVariableOffset() - 1,
+                    getInvertedCoeffiecientSum(constraint.getCoefficients()));
             }
 
             // RHS
-            matrix[row][width - 1] = constraint.getValue();
+            matrix.setEntry(row, width - 1, constraint.getValue());
 
             // slack variables
             if (constraint.getRelationship() == Relationship.LEQ) {
-                matrix[row][getSlackVariableOffset() + slackVar++] = 1;  // slack
+                matrix.setEntry(row, getSlackVariableOffset() + slackVar++, 1);  // slack
             } else if (constraint.getRelationship() == Relationship.GEQ) {
-                matrix[row][getSlackVariableOffset() + slackVar++] = -1; // excess
+                matrix.setEntry(row, getSlackVariableOffset() + slackVar++, -1); // excess
             }
 
             // artificial variables
             if ((constraint.getRelationship() == Relationship.EQ) ||
                     (constraint.getRelationship() == Relationship.GEQ)) {
-                matrix[0][getArtificialVariableOffset() + artificialVar] = 1;
-                matrix[row][getArtificialVariableOffset() + artificialVar++] = 1;
+                matrix.setEntry(0, getArtificialVariableOffset() + artificialVar, 1);
+                matrix.setEntry(row, getArtificialVariableOffset() + artificialVar++, 1);
+                matrix.setRowVector(0, matrix.getRowVector(0).subtract(matrix.getRowVector(row)));
             }
         }
 
         return matrix;
-
     }
 
     /**
@@ -236,17 +235,6 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Puts the tableau in proper form by zeroing out the artificial variables
-     * in the objective function via elementary row operations.
-     */
-    private void initialize() {
-        for (int artificialVar = 0; artificialVar < numArtificialVariables; artificialVar++) {
-            int row = getBasicRow(getArtificialVariableOffset() + artificialVar);
-            subtractRow(0, row, 1.0);
-        }
-    }
-
-    /**
      * Get the -1 times the sum of all coefficients in the given array.
      * @param coefficients coefficients to sum
      * @return the -1 times the sum of all coefficients in the given array.
@@ -264,30 +252,9 @@ class SimplexTableau implements Serializable {
      * @param col index of the column to check
      * @return the row that the variable is basic in.  null if the column is not basic
      */
-    Integer getBasicRow(final int col) {
-        return getBasicRow(col, true);
-    }
-
-    /**
-     * Checks whether the given column is basic.
-     * @param col index of the column to check
-     * @return the row that the variable is basic in.  null if the column is not basic
-     */
-    private Integer getBasicRowForSolution(final int col) {
-        return getBasicRow(col, false);
-    }
-
-    /**
-     * Checks whether the given column is basic.
-     * @param col index of the column to check
-     * @param ignoreObjectiveRows if true ignore the first rows which correspond
-     * to objective functions
-     * @return the row that the variable is basic in.  null if the column is not basic
-     */
-    private Integer getBasicRow(final int col, boolean ignoreObjectiveRows) {
+    protected Integer getBasicRow(final int col) {
         Integer row = null;
-        int start = ignoreObjectiveRows ? getNumObjectiveFunctions() : 0;
-        for (int i = start; i < getHeight(); i++) {
+        for (int i = 0; i < getHeight(); i++) {
             if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && (row == null)) {
                 row = i;
             } else if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {
@@ -298,21 +265,42 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Removes the phase 1 objective function and artificial variables from this tableau.
+     * Removes the phase 1 objective function, positive cost non-artificial variables,
+     * and the non-basic artificial variables from this tableau.
      */
-    protected void discardArtificialVariables() {
-        if (numArtificialVariables == 0) {
+    protected void dropPhase1Objective() {
+        if (getNumObjectiveFunctions() == 1) {
             return;
         }
-        int width = getWidth() - numArtificialVariables - 1;
-        int height = getHeight() - 1;
-        double[][] matrix = new double[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width - 1; j++) {
-                matrix[i][j] = getEntry(i + 1, j + 1);
-            }
-            matrix[i][width - 1] = getEntry(i + 1, getRhsOffset());
+
+        List<Integer> columnsToDrop = new ArrayList<Integer>();
+        columnsToDrop.add(0);
+
+        // positive cost non-artificial variables
+        for (int i = getNumObjectiveFunctions(); i < getArtificialVariableOffset(); i++) {
+          if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) > 0) {
+            columnsToDrop.add(i);
+          }
         }
+
+        // non-basic artificial variables
+        for (int i = 0; i < getNumArtificialVariables(); i++) {
+          int col = i + getArtificialVariableOffset();
+          if (getBasicRow(col) == null) {
+            columnsToDrop.add(col);
+          }
+        }
+
+        double[][] matrix = new double[getHeight() - 1][getWidth() - columnsToDrop.size()];
+        for (int i = 1; i < getHeight(); i++) {
+          int col = 0;
+          for (int j = 0; j < getWidth(); j++) {
+            if (!columnsToDrop.contains(j)) {
+              matrix[i - 1][col++] = tableau.getEntry(i, j);
+            }
+          }
+        }
+
         this.tableau = new Array2DRowRealMatrix(matrix);
         this.numArtificialVariables = 0;
     }
@@ -345,11 +333,11 @@ class SimplexTableau implements Serializable {
      */
     protected RealPointValuePair getSolution() {
       double[] coefficients = new double[getOriginalNumDecisionVariables()];
-      Integer negativeVarBasicRow = getBasicRowForSolution(getNegativeDecisionVariableOffset());
+      Integer negativeVarBasicRow = getBasicRow(getNegativeDecisionVariableOffset());
       double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
       Set<Integer> basicRows = new HashSet<Integer>();
       for (int i = 0; i < coefficients.length; i++) {
-          Integer basicRow = getBasicRowForSolution(getNumObjectiveFunctions() + i);
+          Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);
           if (basicRows.contains(basicRow)) {
               // if multiple variables can take a given value
               // then we choose the first and set the rest equal to 0
@@ -391,10 +379,8 @@ class SimplexTableau implements Serializable {
      */
     protected void subtractRow(final int minuendRow, final int subtrahendRow,
                                final double multiple) {
-        for (int j = 0; j < getWidth(); j++) {
-            tableau.setEntry(minuendRow, j, tableau.getEntry(minuendRow, j) -
-                             multiple * tableau.getEntry(subtrahendRow, j));
-        }
+        tableau.setRowVector(minuendRow, tableau.getRowVector(minuendRow)
+            .subtract(tableau.getRowVector(subtrahendRow).mapMultiply(multiple)));
     }
 
     /**

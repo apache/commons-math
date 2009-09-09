@@ -174,7 +174,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             new SimplexTableau(function, linearConstraints, goal, nonNegative, epsilon);
 
         solvePhase1(tableau);
-        tableau.discardArtificialVariables();
+        tableau.dropPhase1Objective();
 
         while (!tableau.isOptimal()) {
             doIteration(tableau);

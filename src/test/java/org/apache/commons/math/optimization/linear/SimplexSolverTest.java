@@ -48,13 +48,17 @@ public class SimplexSolverTest {
 
     @Test
     public void testMath286() throws OptimizationException {
-        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.2, 0.3 }, 0 );
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.6, 0.4 }, 0 );
         Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
-        constraints.add(new LinearConstraint(new double[] { 1, 1 }, Relationship.EQ, 23.0));
+        constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 23.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 23.0));
+        constraints.add(new LinearConstraint(new double[] { 1, 0, 0, 0, 0, 0 }, Relationship.GEQ, 10.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 0, 1, 0, 0, 0 }, Relationship.GEQ, 8.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 0, 0, 0, 1, 0 }, Relationship.GEQ, 5.0));
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
-        Assert.assertEquals(6.9, solution.getValue(), .0000001);
+        Assert.assertEquals(25.8, solution.getValue(), .0000001);
     }
 
     @Test
