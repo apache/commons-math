@@ -58,7 +58,13 @@ public class SimplexSolverTest {
 
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+
         Assert.assertEquals(25.8, solution.getValue(), .0000001);
+        Assert.assertEquals(23.0, solution.getPoint()[0] + solution.getPoint()[2] + solution.getPoint()[4], 0.0000001);
+        Assert.assertEquals(23.0, solution.getPoint()[1] + solution.getPoint()[3] + solution.getPoint()[5], 0.0000001);
+        Assert.assertTrue(solution.getPoint()[0] >= 10.0 - 0.0000001);
+        Assert.assertTrue(solution.getPoint()[2] >= 8.0 - 0.0000001);
+        Assert.assertTrue(solution.getPoint()[4] >= 5.0 - 0.0000001);
     }
 
     @Test
