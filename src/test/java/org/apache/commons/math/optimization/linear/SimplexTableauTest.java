@@ -44,7 +44,7 @@ public class SimplexTableauTest {
     }
 
     @Test
-    public void testdiscardArtificialVariables() {
+    public void testDropPhase1Objective() {
         LinearObjectiveFunction f = createFunction();
         Collection<LinearConstraint> constraints = createConstraints();
         SimplexTableau tableau =
