@@ -74,6 +74,9 @@ class SimplexTableau implements Serializable {
     /** Whether to restrict the variables to non-negative values. */
     private final boolean restrictToNonNegative;
 
+    /** The variables each column represents */
+    private final List<String> columnLabels = new ArrayList<String>();
+
     /** Simple tableau. */
     private transient RealMatrix tableau;
 
@@ -113,6 +116,27 @@ class SimplexTableau implements Serializable {
         this.numArtificialVariables = getConstraintTypeCounts(Relationship.EQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
         this.tableau = createTableau(goalType == GoalType.MAXIMIZE);
+        initializeColumnLabels();
+    }
+
+    protected void initializeColumnLabels() {
+      if (getNumObjectiveFunctions() == 2) {
+        columnLabels.add("W");
+      }
+      columnLabels.add("Z");
+      for (int i = 0; i < getOriginalNumDecisionVariables(); i++) {
+        columnLabels.add("x" + i);
+      }
+      if (!restrictToNonNegative) {
+        columnLabels.add("x-");
+      }
+      for (int i = 0; i < getNumSlackVariables(); i++) {
+        columnLabels.add("s" + i);
+      }
+      for (int i = 0; i < getNumArtificialVariables(); i++) {
+        columnLabels.add("a" + i);
+      }
+      columnLabels.add("RHS");
     }
 
     /**
@@ -301,6 +325,10 @@ class SimplexTableau implements Serializable {
           }
         }
 
+        for (int i = columnsToDrop.size() - 1; i >= 0; i--) {
+          columnLabels.remove((int) columnsToDrop.get(i));
+        }
+
         this.tableau = new Array2DRowRealMatrix(matrix);
         this.numArtificialVariables = 0;
     }
@@ -332,12 +360,19 @@ class SimplexTableau implements Serializable {
      * @return current solution
      */
     protected RealPointValuePair getSolution() {
-      double[] coefficients = new double[getOriginalNumDecisionVariables()];
-      Integer negativeVarBasicRow = getBasicRow(getNegativeDecisionVariableOffset());
+      int negativeVarColumn = columnLabels.indexOf("x-");
+      Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
       double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
+
       Set<Integer> basicRows = new HashSet<Integer>();
+      double[] coefficients = new double[getOriginalNumDecisionVariables()];
       for (int i = 0; i < coefficients.length; i++) {
-          Integer basicRow = getBasicRow(getNumObjectiveFunctions() + i);
+          int colIndex = columnLabels.indexOf("x" + i);
+          if (colIndex < 0) {
+            coefficients[i] = 0;
+            continue;
+          }
+          Integer basicRow = getBasicRow(colIndex);
           if (basicRows.contains(basicRow)) {
               // if multiple variables can take a given value
               // then we choose the first and set the rest equal to 0
@@ -349,7 +384,7 @@ class SimplexTableau implements Serializable {
                   (restrictToNonNegative ? 0 : mostNegative);
           }
       }
-        return new RealPointValuePair(coefficients, f.getValue(coefficients));
+      return new RealPointValuePair(coefficients, f.getValue(coefficients));
     }
 
     /**
@@ -443,15 +478,6 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Returns the offset of the extra decision variable added when there is a
-     * negative decision variable in the original problem.
-     * @return the offset of x-
-     */
-    protected final int getNegativeDecisionVariableOffset() {
-      return getNumObjectiveFunctions() + getOriginalNumDecisionVariables();
-    }
-
-    /**
      * Get the number of decision variables.
      * <p>
      * If variables are not restricted to positive values, this will include 1
@@ -471,7 +497,7 @@ class SimplexTableau implements Serializable {
      * @see #getNumDecisionVariables()
      */
     protected final int getOriginalNumDecisionVariables() {
-        return restrictToNonNegative ? numDecisionVariables : numDecisionVariables - 1;
+        return f.getCoefficients().getDimension();
     }
 
     /**
@@ -562,4 +588,5 @@ class SimplexTableau implements Serializable {
         ois.defaultReadObject();
         MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
     }
+
 }

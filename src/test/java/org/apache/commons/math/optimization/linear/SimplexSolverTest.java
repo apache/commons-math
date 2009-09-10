@@ -117,6 +117,43 @@ public class SimplexSolverTest {
     }
 
     @Test
+    public void testMath293() throws OptimizationException {
+      LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.4, 0.6}, 0 );
+      Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+      constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 30.0));
+      constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 30.0));
+      constraints.add(new LinearConstraint(new double[] { 0.8, 0.2, 0.0, 0.0, 0.0, 0.0 }, Relationship.GEQ, 10.0));
+      constraints.add(new LinearConstraint(new double[] { 0.0, 0.0, 0.7, 0.3, 0.0, 0.0 }, Relationship.GEQ, 10.0));
+      constraints.add(new LinearConstraint(new double[] { 0.0, 0.0, 0.0, 0.0, 0.4, 0.6 }, Relationship.GEQ, 10.0));
+
+      SimplexSolver solver = new SimplexSolver();
+      RealPointValuePair solution1 = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+
+      Assert.assertEquals(15.7143, solution1.getPoint()[0], .0001);
+      Assert.assertEquals(0.0, solution1.getPoint()[1], .0001);
+      Assert.assertEquals(14.2857, solution1.getPoint()[2], .0001);
+      Assert.assertEquals(0.0, solution1.getPoint()[3], .0001);
+      Assert.assertEquals(0.0, solution1.getPoint()[4], .0001);
+      Assert.assertEquals(30.0, solution1.getPoint()[5], .0001);
+      Assert.assertEquals(40.57143, solution1.getValue(), .0001);
+
+      double valA = 0.8 * solution1.getPoint()[0] + 0.2 * solution1.getPoint()[1];
+      double valB = 0.7 * solution1.getPoint()[2] + 0.3 * solution1.getPoint()[3];
+      double valC = 0.4 * solution1.getPoint()[4] + 0.6 * solution1.getPoint()[5];
+
+      f = new LinearObjectiveFunction(new double[] { 0.8, 0.2, 0.7, 0.3, 0.4, 0.6}, 0 );
+      constraints = new ArrayList<LinearConstraint>();
+      constraints.add(new LinearConstraint(new double[] { 1, 0, 1, 0, 1, 0 }, Relationship.EQ, 30.0));
+      constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 1, 0, 1 }, Relationship.EQ, 30.0));
+      constraints.add(new LinearConstraint(new double[] { 0.8, 0.2, 0.0, 0.0, 0.0, 0.0 }, Relationship.GEQ, valA));
+      constraints.add(new LinearConstraint(new double[] { 0.0, 0.0, 0.7, 0.3, 0.0, 0.0 }, Relationship.GEQ, valB));
+      constraints.add(new LinearConstraint(new double[] { 0.0, 0.0, 0.0, 0.0, 0.4, 0.6 }, Relationship.GEQ, valC));
+
+      RealPointValuePair solution2 = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+      Assert.assertEquals(40.57143, solution2.getValue(), .0001);
+    }
+
+    @Test
     public void testSimplexSolver() throws OptimizationException {
         LinearObjectiveFunction f =
             new LinearObjectiveFunction(new double[] { 15, 10 }, 7);
