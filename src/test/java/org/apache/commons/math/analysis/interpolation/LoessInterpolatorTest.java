@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Assert;
 
 import org.apache.commons.math.MathException;
 import org.junit.Test;
@@ -33,8 +31,8 @@ public class LoessInterpolatorTest {
         double[] xval = {0.5};
         double[] yval = {0.7};
         double[] res = new LoessInterpolator().smooth(xval, yval);
-        assertEquals(1, res.length);
-        assertEquals(0.7, res[0], 0.0);
+        Assert.assertEquals(1, res.length);
+        Assert.assertEquals(0.7, res[0], 0.0);
     }
 
     @Test
@@ -42,9 +40,9 @@ public class LoessInterpolatorTest {
         double[] xval = {0.5, 0.6};
         double[] yval = {0.7, 0.8};
         double[] res = new LoessInterpolator().smooth(xval, yval);
-        assertEquals(2, res.length);
-        assertEquals(0.7, res[0], 0.0);
-        assertEquals(0.8, res[1], 0.0);
+        Assert.assertEquals(2, res.length);
+        Assert.assertEquals(0.7, res[0], 0.0);
+        Assert.assertEquals(0.8, res[1], 0.0);
     }
 
     @Test
@@ -53,9 +51,9 @@ public class LoessInterpolatorTest {
         double[] yval = {2,4,6,8,10};
         LoessInterpolator li = new LoessInterpolator(0.6, 2);
         double[] res = li.smooth(xval, yval);
-        assertEquals(5, res.length);
+        Assert.assertEquals(5, res.length);
         for(int i = 0; i < 5; ++i) {
-            assertEquals(yval[i], res[i], 1e-8);
+            Assert.assertEquals(yval[i], res[i], 1e-8);
         }
     }
 
@@ -88,7 +86,7 @@ public class LoessInterpolatorTest {
             fitResidualSum += Math.pow(fit - expected, 2);
         }
 
-        assertTrue(fitResidualSum < noisyResidualSum);
+        Assert.assertTrue(fitResidualSum < noisyResidualSum);
     }
 
     @Test
@@ -118,7 +116,7 @@ public class LoessInterpolatorTest {
         }
 
         for(int i = 1; i < variances.length; ++i) {
-            assertTrue(variances[i] < variances[i-1]);
+            Assert.assertTrue(variances[i] < variances[i-1]);
         }
     }
 
@@ -151,111 +149,74 @@ public class LoessInterpolatorTest {
         }
 
         for(int i = 1; i < variances.length; ++i) {
-            assertTrue(variances[i] < variances[i-1]);
+            Assert.assertTrue(variances[i] < variances[i-1]);
         }
     }
 
-    @Test
-    public void testUnequalSizeArguments() {
-        try {
-            new LoessInterpolator().smooth(new double[] {1,2,3}, new double[] {1,2,3,4});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testUnequalSizeArguments() throws MathException {
+        new LoessInterpolator().smooth(new double[] {1,2,3}, new double[] {1,2,3,4});
     }
 
-    @Test
-    public void testEmptyData() {
-        try {
-            new LoessInterpolator().smooth(new double[] {}, new double[] {});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testEmptyData() throws MathException {
+        new LoessInterpolator().smooth(new double[] {}, new double[] {});
     }
 
-    @Test
-    public void testNonStrictlyIncreasing() {
-        try {
-            new LoessInterpolator().smooth(new double[] {4,3,1,2}, new double[] {3,4,5,6});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {1,2,2,3}, new double[] {3,4,5,6});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testNonStrictlyIncreasing1() throws MathException {
+        new LoessInterpolator().smooth(new double[] {4,3,1,2}, new double[] {3,4,5,6});
     }
 
-    @Test
-    public void testNotAllFiniteReal() {
-        try {
-            new LoessInterpolator().smooth(new double[] {1,2,Double.NaN}, new double[] {3,4,5});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {1,2,Double.POSITIVE_INFINITY}, new double[] {3,4,5});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {1,2,Double.NEGATIVE_INFINITY}, new double[] {3,4,5});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NaN});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.POSITIVE_INFINITY});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NEGATIVE_INFINITY});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testNonStrictlyIncreasing2() throws MathException {
+        new LoessInterpolator().smooth(new double[] {1,2,2,3}, new double[] {3,4,5,6});
     }
 
-    @Test
-    public void testInsufficientBandwidth() {
-        try {
-            LoessInterpolator li = new LoessInterpolator(0.1, 3);
-            li.smooth(new double[] {1,2,3,4,5,6,7,8,9,10,11,12}, new double[] {1,2,3,4,5,6,7,8,9,10,11,12});
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal1() throws MathException {
+        new LoessInterpolator().smooth(new double[] {1,2,Double.NaN}, new double[] {3,4,5});
     }
 
-    @Test
-    public void testCompletelyIncorrectBandwidth() {
-        try {
-            new LoessInterpolator(-0.2, 3);
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
-        try {
-            new LoessInterpolator(1.1, 3);
-            fail();
-        } catch(MathException e) {
-            // Expected
-        }
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal2() throws MathException {
+        new LoessInterpolator().smooth(new double[] {1,2,Double.POSITIVE_INFINITY}, new double[] {3,4,5});
+    }
+
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal3() throws MathException {
+        new LoessInterpolator().smooth(new double[] {1,2,Double.NEGATIVE_INFINITY}, new double[] {3,4,5});
+    }
+
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal4() throws MathException {
+        new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NaN});
+    }
+
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal5() throws MathException {
+        new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.POSITIVE_INFINITY});
+    }
+
+    @Test(expected=MathException.class)
+    public void testNotAllFiniteReal6() throws MathException {
+        new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NEGATIVE_INFINITY});
+    }
+
+    @Test(expected=MathException.class)
+    public void testInsufficientBandwidth() throws MathException {
+        LoessInterpolator li = new LoessInterpolator(0.1, 3);
+        li.smooth(new double[] {1,2,3,4,5,6,7,8,9,10,11,12}, new double[] {1,2,3,4,5,6,7,8,9,10,11,12});
+    }
+
+    @Test(expected=MathException.class)
+    public void testCompletelyIncorrectBandwidth1() throws MathException {
+        new LoessInterpolator(-0.2, 3);
+    }
+
+    @Test(expected=MathException.class)
+    public void testCompletelyIncorrectBandwidth2() throws MathException {
+        new LoessInterpolator(1.1, 3);
     }
 
     private void generateSineData(double[] xval, double[] yval, double xnoise, double ynoise) {
