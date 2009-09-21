@@ -69,6 +69,15 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     /** Sample statistics */
     private SummaryStatistics sampleStats = null;
 
+    /** Max loaded value */
+    private double max = Double.NEGATIVE_INFINITY;
+
+    /** Min loaded value */
+    private double min = Double.POSITIVE_INFINITY;
+
+    /** Grid size */
+    private double delta = 0d;
+
     /** number of bins */
     private int binCount = 1000;
 
@@ -195,11 +204,9 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         /**
          * Compute bin stats.
          *
-         * @param min minimum value
-         * @param delta  grid size
          * @throws Exception  if an error occurs computing bin stats
          */
-        public abstract void computeBinStats(double min, double delta)
+        public abstract void computeBinStats()
                 throws Exception;
         /**
          * Compute sample statistics.
@@ -256,18 +263,16 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         /**
          * Computes binStats
          *
-         * @param min  minimum value
-         * @param delta  grid size
          * @throws IOException if an IO error occurs
          */
         @Override
-        public void computeBinStats(double min, double delta)
+        public void computeBinStats()
                 throws IOException {
             String str = null;
             double val = 0.0d;
             while ((str = inputStream.readLine()) != null) {
                 val = Double.parseDouble(str);
-                SummaryStatistics stats = binStats.get(findBin(min, val, delta));
+                SummaryStatistics stats = binStats.get(findBin(val));
                 stats.addValue(val);
             }
 
@@ -296,7 +301,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     /**
      * <code>DataAdapter</code> for data provided as array of doubles.
      */
-    private class ArrayDataAdapter extends DataAdapter{
+    private class ArrayDataAdapter extends DataAdapter {
 
         /** Array of input  data values */
         private double[] inputArray;
@@ -325,16 +330,14 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         /**
          * Computes binStats
          *
-         * @param min  minimum value
-         * @param delta  grid size
          * @throws IOException  if an IO error occurs
          */
         @Override
-        public void computeBinStats(double min, double delta)
+        public void computeBinStats()
             throws IOException {
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
-                    binStats.get(findBin(min, inputArray[i], delta));
+                    binStats.get(findBin(inputArray[i]));
                 stats.addValue(inputArray[i]);
             }
         }
@@ -347,16 +350,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @throws IOException  if an IO error occurs
      */
     private void fillBinStats(Object in) throws IOException {
-        // Load array of bin upper bounds -- evenly spaced from min - max
-        double min = sampleStats.getMin();
-        double max = sampleStats.getMax();
-        double delta = (max - min)/(Double.valueOf(binCount)).doubleValue();
-        double[] binUpperBounds = new double[binCount];
-        binUpperBounds[0] = min + delta;
-        for (int i = 1; i< binCount - 1; i++) {
-            binUpperBounds[i] = binUpperBounds[i-1] + delta;
-        }
-        binUpperBounds[binCount -1] = max;
+        // Set up grid
+        min = sampleStats.getMin();
+        max = sampleStats.getMax();
+        delta = (max - min)/(Double.valueOf(binCount)).doubleValue();
 
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
@@ -371,7 +368,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         DataAdapterFactory aFactory = new DataAdapterFactory();
         DataAdapter da = aFactory.getAdapter(in);
         try {
-            da.computeBinStats(min, delta);
+            da.computeBinStats();
         } catch (IOException ioe) {
             // don't wrap exceptions which are already IOException
             throw ioe;
@@ -396,12 +393,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     /**
      * Returns the index of the bin to which the given value belongs
      *
-     * @param min  the minimum value
      * @param value  the value whose bin we are trying to find
-     * @param delta  the grid size
      * @return the index of the bin containing the value
      */
-    private int findBin(double min, double value, double delta) {
+    private int findBin(double value) {
         return Math.min(
                 Math.max((int) Math.ceil((value- min) / delta) - 1, 0),
                 binCount - 1);
@@ -472,14 +467,39 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     }
 
     /**
-     * Returns (a fresh copy of) the array of upper bounds for the bins.
-       Bins are: <br/>
+     * <p>Returns a fresh copy of the array of upper bounds for the bins.
+     * Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
-     *  (upperBounds[binCount-1],max]
+     *  (upperBounds[binCount-2], upperBounds[binCount-1] = max].</p>
+     *
+     * <p>Note: In versions 1.0-2.0 of commons-math, this method
+     * incorrectly returned the array of probability generator upper
+     * bounds now returned by {@link #getGeneratorUpperBounds()}.</p>
      *
      * @return array of bin upper bounds
      */
     public double[] getUpperBounds() {
+        double[] binUpperBounds = new double[binCount];
+        binUpperBounds[0] = min + delta;
+        for (int i = 1; i < binCount - 1; i++) {
+            binUpperBounds[i] = binUpperBounds[i-1] + delta;
+        }
+        binUpperBounds[binCount - 1] = max;
+        return binUpperBounds;
+    }
+
+    /**
+     * <p>Returns a fresh copy of the array of upper bounds of the subintervals
+     * of [0,1] used in generating data from the empirical distribution.
+     * Subintervals correspond to bins with lengths proportional to bin counts.</p>
+     *
+     * <p>In versions 1.0-2.0 of commons-math, this array was (incorrectly) returned
+     * by {@link #getUpperBounds()}.</p>
+     *
+     * @since 2.1
+     * @return array of upper bounds of subintervals used in data generation
+     */
+    public double[] getGeneratorUpperBounds() {
         int len = upperBounds.length;
         double[] out = new double[len];
         System.arraycopy(upperBounds, 0, out, 0, len);
