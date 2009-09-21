@@ -124,7 +124,7 @@ public interface EmpiricalDistribution {
     /**
      * Returns the array of upper bounds for the bins.  Bins are: <br/>
      * [min,upperBounds[0]],(upperBounds[0],upperBounds[1]],...,
-     *  (upperBounds[binCount-1],max].
+     *  (upperBounds[binCount-2], upperBounds[binCount-1] = max].
      *
      * @return array of bin upper bounds
      */
