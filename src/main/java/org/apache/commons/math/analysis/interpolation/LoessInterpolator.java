@@ -47,6 +47,9 @@ public class LoessInterpolator
     /** Default value of the number of robustness iterations. */
     public static final int DEFAULT_ROBUSTNESS_ITERS = 2;
 
+    /** Default value for accuracy. */
+    public static final double DEFAULT_ACCURACY = 1e-12;
+
     /** serializable version identifier. */
     private static final long serialVersionUID = 5204927143605193821L;
 
@@ -70,20 +73,33 @@ public class LoessInterpolator
     private final int robustnessIters;
 
     /**
+     * If the median residual at a certain robustness iteration
+     * is less than this amount, no more iterations are done.
+     */
+    private final double accuracy;
+
+    /**
      * Constructs a new {@link LoessInterpolator}
-     * with a bandwidth of {@link #DEFAULT_BANDWIDTH} and
-     * {@link #DEFAULT_ROBUSTNESS_ITERS} robustness iterations.
-     * See {@link #LoessInterpolator(double, int)} for an explanation of
+     * with a bandwidth of {@link #DEFAULT_BANDWIDTH},
+     * {@link #DEFAULT_ROBUSTNESS_ITERS} robustness iterations
+     * and an accuracy of {#link #DEFAULT_ACCURACY}.
+     * See {@link #LoessInterpolator(double, int, double)} for an explanation of
      * the parameters.
      */
     public LoessInterpolator() {
         this.bandwidth = DEFAULT_BANDWIDTH;
         this.robustnessIters = DEFAULT_ROBUSTNESS_ITERS;
+        this.accuracy = DEFAULT_ACCURACY;
     }
 
     /**
      * Constructs a new {@link LoessInterpolator}
      * with given bandwidth and number of robustness iterations.
+     * <p>
+     * Calling this constructor is equivalent to calling {link {@link
+     * #LoessInterpolator(double, int, double) LoessInterpolator(bandwidth,
+     * robustnessIters, LoessInterpolator.DEFAULT_ACCURACY)}
+     * </p>
      *
      * @param bandwidth  when computing the loess fit at
      * a particular point, this fraction of source points closest
@@ -97,8 +113,34 @@ public class LoessInterpolator
      * {@link #DEFAULT_ROBUSTNESS_ITERS}.
      * @throws MathException if bandwidth does not lie in the interval [0,1]
      * or if robustnessIters is negative.
+     * @see #LoessInterpolator(double, int, double)
      */
     public LoessInterpolator(double bandwidth, int robustnessIters) throws MathException {
+        this(bandwidth, robustnessIters, DEFAULT_ACCURACY);
+    }
+
+    /**
+     * Constructs a new {@link LoessInterpolator}
+     * with given bandwidth, number of robustness iterations and accuracy.
+     *
+     * @param bandwidth  when computing the loess fit at
+     * a particular point, this fraction of source points closest
+     * to the current point is taken into account for computing
+     * a least-squares regression.</br>
+     * A sensible value is usually 0.25 to 0.5, the default value is
+     * {@link #DEFAULT_BANDWIDTH}.
+     * @param robustnessIters This many robustness iterations are done.</br>
+     * A sensible value is usually 0 (just the initial fit without any
+     * robustness iterations) to 4, the default value is
+     * {@link #DEFAULT_ROBUSTNESS_ITERS}.
+     * @param accuracy If the median residual at a certain robustness iteration
+     * is less than this amount, no more iterations are done.
+     * @throws MathException if bandwidth does not lie in the interval [0,1]
+     * or if robustnessIters is negative.
+     * @see #LoessInterpolator(double, int)
+     * @since 2.1
+     */
+    public LoessInterpolator(double bandwidth, int robustnessIters, double accuracy) throws MathException {
         if (bandwidth < 0 || bandwidth > 1) {
             throw new MathException("bandwidth must be in the interval [0,1], but got {0}",
                                     bandwidth);
@@ -110,6 +152,7 @@ public class LoessInterpolator
                                     robustnessIters);
         }
         this.robustnessIters = robustnessIters;
+        this.accuracy = accuracy;
     }
 
     /**
@@ -135,10 +178,11 @@ public class LoessInterpolator
     }
 
     /**
-     * Compute a loess fit on the data at the original abscissae.
+     * Compute a weighted loess fit on the data at the original abscissae.
      *
      * @param xval the arguments for the interpolation points
      * @param yval the values for the interpolation points
+     * @param weights point weights: coefficients by which the robustness weight of a point is multiplied
      * @return values of the loess fit at corresponding original abscissae
      * @throws MathException if some of the following conditions are false:
      * <ul>
@@ -146,8 +190,9 @@ public class LoessInterpolator
      * <li> The arguments are in a strictly increasing order</li>
      * <li> All arguments and values are finite real numbers</li>
      * </ul>
+     * @since 2.1
      */
-    public final double[] smooth(final double[] xval, final double[] yval)
+    public final double[] smooth(final double[] xval, final double[] yval, final double[] weights)
             throws MathException {
         if (xval.length != yval.length) {
             throw new MathException(
@@ -163,8 +208,9 @@ public class LoessInterpolator
             throw new MathException("Loess expects at least 1 point");
         }
 
-        checkAllFiniteReal(xval, true);
-        checkAllFiniteReal(yval, false);
+        checkAllFiniteReal(xval, "all abscissae must be finite real numbers, but {0}-th is {1}");
+        checkAllFiniteReal(yval, "all ordinatae must be finite real numbers, but {0}-th is {1}");
+        checkAllFiniteReal(weights, "all weights must be finite real numbers, but {0}-th is {1}");
 
         checkStrictlyIncreasing(xval);
 
@@ -237,7 +283,7 @@ public class LoessInterpolator
                     final double xk   = xval[k];
                     final double yk   = yval[k];
                     final double dist = (k < i) ? x - xk : xk - x;
-                    final double w    = tricube(dist * denom) * robustnessWeights[k];
+                    final double w    = tricube(dist * denom) * robustnessWeights[k] * weights[k];
                     final double xkw  = xk * w;
                     sumWeights += w;
                     sumX += xkw;
@@ -252,7 +298,7 @@ public class LoessInterpolator
                 final double meanXSquared = sumXSquared / sumWeights;
 
                 final double beta;
-                if (meanXSquared == meanX * meanX) {
+                if (Math.sqrt(Math.abs(meanXSquared - meanX * meanX)) < accuracy) {
                     beta = 0;
                 } else {
                     beta = (meanXY - meanX * meanY) / (meanXSquared - meanX * meanX);
@@ -279,18 +325,47 @@ public class LoessInterpolator
             Arrays.sort(sortedResiduals);
             final double medianResidual = sortedResiduals[n / 2];
 
-            if (medianResidual == 0) {
+            if (Math.abs(medianResidual) < accuracy) {
                 break;
             }
 
             for (int i = 0; i < n; ++i) {
                 final double arg = residuals[i] / (6 * medianResidual);
-                robustnessWeights[i] = (arg >= 1) ? 0 : Math.pow(1 - arg * arg, 2);
+                if (arg >= 1) {
+                    robustnessWeights[i] = 0;
+                } else {
+                    final double w = 1 - arg * arg;
+                    robustnessWeights[i] = w * w;
+                }
             }
         }
 
         return res;
     }
+
+    /**
+     * Compute a loess fit on the data at the original abscissae.
+     *
+     * @param xval the arguments for the interpolation points
+     * @param yval the values for the interpolation points
+     * @return values of the loess fit at corresponding original abscissae
+     * @throws MathException if some of the following conditions are false:
+     * <ul>
+     * <li> Arguments and values are of the same size that is greater than zero</li>
+     * <li> The arguments are in a strictly increasing order</li>
+     * <li> All arguments and values are finite real numbers</li>
+     * </ul>
+     */
+    public final double[] smooth(final double[] xval, final double[] yval)
+            throws MathException {
+
+        final double[] unitWeights = new double[xval.length];
+        Arrays.fill(unitWeights, 1.0);
+
+        return smooth(xval, yval, unitWeights);
+
+    }
+
 
     /**
      * Given an index interval into xval that embraces a certain number of
@@ -336,18 +411,14 @@ public class LoessInterpolator
      * Check that all elements of an array are finite real numbers.
      *
      * @param values the values array
-     * @param isAbscissae if true, elements are abscissae otherwise they are ordinatae
-     * @throws MathException if one of the values is not
-     *         a finite real number
+     * @param pattern pattern of the error message
+     * @throws MathException if one of the values is not a finite real number
      */
-    private static void checkAllFiniteReal(final double[] values, final boolean isAbscissae)
+    private static void checkAllFiniteReal(final double[] values, final String pattern)
         throws MathException {
         for (int i = 0; i < values.length; i++) {
             final double x = values[i];
             if (Double.isInfinite(x) || Double.isNaN(x)) {
-                final String pattern = isAbscissae ?
-                        "all abscissae must be finite real numbers, but {0}-th is {1}" :
-                        "all ordinatae must be finite real numbers, but {0}-th is {1}";
                 throw new MathException(pattern, i, x);
             }
         }

@@ -188,6 +188,8 @@ public class MessagesResources_fr
       "toutes les abscisses doivent \u00eatre des nombres r\u00e9els finis, mais l''abscisse {0} vaut {1}" },
     { "all ordinatae must be finite real numbers, but {0}-th is {1}",
       "toutes les ordonn\u00e9es doivent \u00eatre des nombres r\u00e9els finis, mais l''ordonn\u00e9e {0} vaut {1}" },
+    { "all weights must be finite real numbers, but {0}-th is {1}",
+      "tous les poids doivent \u00eatre des nombres r\u00e9els finis, mais le poids {0} vaut {1}" },
     { "the abscissae array must be sorted in a strictly increasing order, " +
       "but the {0}-th element is {1} whereas {2}-th is {3}",
       "les abscisses doivent \u00eatre en ordre strictement croissant, " +

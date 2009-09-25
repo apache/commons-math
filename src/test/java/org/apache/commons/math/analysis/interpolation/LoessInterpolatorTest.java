@@ -219,6 +219,54 @@ public class LoessInterpolatorTest {
         new LoessInterpolator(1.1, 3);
     }
 
+    @Test
+    public void testMath296withoutWeights() throws MathException {
+        double[] xval = {
+                0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
+                 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0};
+        double[] yval = {
+                0.47, 0.48, 0.55, 0.56, -0.08, -0.04, -0.07, -0.07,
+                -0.56, -0.46, -0.56, -0.52, -3.03, -3.08, -3.09,
+                -3.04, 3.54, 3.46, 3.36, 3.35};
+        // Output from R, rounded to .001
+        double[] yref = {
+                0.461, 0.499, 0.541, 0.308, 0.175, -0.042, -0.072,
+                -0.196, -0.311, -0.446, -0.557, -1.497, -2.133,
+                -3.08, -3.09, -0.621, 0.982, 3.449, 3.389, 3.336
+        };
+        LoessInterpolator li = new LoessInterpolator(0.3, 4, 1e-12);
+        double[] res = li.smooth(xval, yval);
+        Assert.assertEquals(xval.length, res.length);
+        for(int i = 0; i < res.length; ++i) {
+            Assert.assertEquals(yref[i], res[i], 0.02);
+        }
+    }
+
+    @Test
+    public void testMath296withWeights() throws MathException {
+        double[] xval = {
+                0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
+                 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0};
+        double[] yval = {
+                0.47, 0.48, 0.55, 0.56, -0.08, -0.04, -0.07, -0.07,
+                -0.56, -0.46, -0.56, -0.52, -3.03, -3.08, -3.09,
+                -3.04, 3.54, 3.46, 3.36, 3.35};
+        double[] weights = {
+                1,1,1,1,1,1,1,1,1,1,
+                1,1,0,0,1,1,0,0,1,1};
+        // Output from R, rounded to .001
+        double[] yref = {
+                0.478, 0.492, 0.484, 0.320, 0.179, -0.003, -0.088, -0.209,
+                -0.327, -0.455, -0.518, -0.537, -1.492, -2.115, -3.09, -3.04,
+                -3.0, 0.155, 1.752, 3.35};
+        LoessInterpolator li = new LoessInterpolator(0.3, 4, 1e-12);
+        double[] res = li.smooth(xval, yval,weights);
+        Assert.assertEquals(xval.length, res.length);
+        for(int i = 0; i < res.length; ++i) {
+            Assert.assertEquals(yref[i], res[i], 0.05);
+        }
+    }
+
     private void generateSineData(double[] xval, double[] yval, double xnoise, double ynoise) {
         double dx = 2 * Math.PI / xval.length;
         double x = 0;
