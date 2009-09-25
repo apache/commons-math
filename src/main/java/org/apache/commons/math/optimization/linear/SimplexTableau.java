@@ -119,6 +119,9 @@ class SimplexTableau implements Serializable {
         initializeColumnLabels();
     }
 
+    /**
+     * Initialize the labels for the columns.
+     */
     protected void initializeColumnLabels() {
       if (getNumObjectiveFunctions() == 2) {
         columnLabels.add("W");
