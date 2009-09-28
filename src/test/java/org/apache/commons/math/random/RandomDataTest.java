@@ -18,11 +18,18 @@ package org.apache.commons.math.random;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import junit.framework.AssertionFailedError;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.distribution.PoissonDistribution;
+import org.apache.commons.math.distribution.PoissonDistributionImpl;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
+import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
@@ -217,6 +224,132 @@ public class RandomDataTest extends RetryTestCase {
 			// ignored
 		}
 
+	}
+	
+	public void testNextPoissionConistency() throws Exception {
+	    // TODO: increase upper bound to 40 when MATH-294 is resolved
+	    for (int i = 1; i < 6; i++) {
+	        checkNextPoissonConsistency(i);
+	    }
+	}
+	
+	/** 
+	 * Verifies that nextPoisson(mean) generates an empirical distribution of values
+	 * consistent with PoissonDistributionImpl by generating 1000 values, computing a
+	 * grouped frequency distribution of the observed values and comparing this distribution
+	 * to the corresponding expected distribution computed using PoissonDistributionImpl.
+	 * Uses ChiSquare test of goodness of fit to evaluate the null hypothesis that the
+	 * distributions are the same. If the null hypothesis can be rejected with confidence
+	 * 1 - alpha, the check fails.  This check will fail randomly with probability alpha.
+	 */
+	public void checkNextPoissonConsistency(double mean) throws Exception {
+	    // Generate sample values
+	    int sampleSize = 1000;        // Number of deviates to generate
+	    int minExpectedCount = 7;     // Minimum size of expected bin count 
+	    long maxObservedValue = 0;   
+	    double alpha = 0.001;         // Probability of false failure         
+	    Frequency frequency = new Frequency();
+	    for (int i = 0; i < sampleSize; i++) {
+	        long value = randomData.nextPoisson(mean);
+	        if (value > maxObservedValue) {
+	            maxObservedValue = value;
+	        }
+	        frequency.addValue(value);
+	    }
+	    
+	    /*
+	     *  Set up bins for chi-square test.  
+	     *  Ensure expected counts are all at least minExpectedCount.
+	     *  Start with upper and lower tail bins.
+	     *  Lower bin = [0, lower); Upper bin = [upper, +inf).
+	     */
+	    PoissonDistribution poissonDistribution = new PoissonDistributionImpl(mean);
+	    int lower = 1;
+	    while (poissonDistribution.cumulativeProbability(lower - 1) * sampleSize < minExpectedCount) {
+	        lower++;
+	    }
+	    int upper = (int) (5 * mean);  // Even for mean = 1, not much mass beyond 5
+	    while ((1 - poissonDistribution.cumulativeProbability(upper - 1)) * sampleSize < minExpectedCount) {
+	        upper--;
+	    }
+	    
+	    // Set bin width for interior bins.  For poisson, only need to look at end bins.
+	    int binWidth = 1;
+	    boolean widthSufficient = false;
+	    double lowerBinMass = 0;
+	    double upperBinMass = 0;
+	    while (!widthSufficient) {
+	        lowerBinMass = poissonDistribution.cumulativeProbability(lower, lower + binWidth - 1);
+	        upperBinMass = poissonDistribution.cumulativeProbability(upper - binWidth + 1, upper);
+	        widthSufficient = Math.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
+	        binWidth++;
+	    }
+	   
+	    /*
+	     *  Determine interior bin bounds.  Bins are
+	     *  [0, lower = binBounds[0]), [lower, binBounds[1]), [binBounds[0], binBounds[1]), ... , 
+	     *    [binBounds[binCount - 2], upper = binBounds[binCount - 1]), [upper, +inf)
+	     *  
+	     */
+	    List<Integer> binBounds = new ArrayList<Integer>();
+	    binBounds.add(lower);
+	    int bound = lower + binWidth;
+	    while (bound < upper - binWidth) {
+	        binBounds.add(bound);
+	        bound += binWidth;
+	    }
+	    binBounds.add(bound);
+	    binBounds.add(upper);
+	    
+	    // Compute observed and expected bin counts
+	    final int binCount = binBounds.size() + 1; 
+	    long[] observed = new long[binCount];
+	    double[] expected = new double[binCount];
+	    
+	    // Bottom bin
+	    observed[0] = 0;
+	    for (int i = 0; i < lower; i++) {
+	        observed[0] += frequency.getCount(i);
+	    }
+	    expected[0] = poissonDistribution.cumulativeProbability(lower - 1) * sampleSize;
+	    
+	    // Top bin
+	    observed[binCount - 1] = 0;
+	    for (int i = upper; i <= maxObservedValue; i++) {
+	        observed[binCount - 1] += frequency.getCount(i);
+	    }
+	    expected[binCount - 1] = (1 - poissonDistribution.cumulativeProbability(upper - 1)) * sampleSize;
+	    
+	    // Interior bins
+	    for (int i = 1; i < binCount - 1; i++) {
+	        observed[i] = 0;
+	        for (int j = binBounds.get(i - 1); j < binBounds.get(i); j++) {
+	            observed[i] += frequency.getCount(j);
+	        } // Expected count is (mass in [binBounds[i], binBounds[i+1])) * sampleSize
+	        expected[i] = (poissonDistribution.cumulativeProbability(binBounds.get(i) - 1) -
+	            poissonDistribution.cumulativeProbability(binBounds.get(i - 1) -1)) * sampleSize;
+	    }
+	    
+	    // Use chisquare test to verify that generated values are poisson(mean)-distributed
+	    ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
+	    try {
+	        // Fail if we can reject null hypothesis that distributions are the same
+	        assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
+	    } catch (AssertionFailedError ex) {
+	        StringBuffer msgBuffer = new StringBuffer();
+	        msgBuffer.append("Chisquare test failed for mean = ");
+	        msgBuffer.append(mean);
+	        msgBuffer.append(" p-value = ");
+	        msgBuffer.append(chiSquareTest.chiSquareTest(expected, observed));
+	        msgBuffer.append(" chisquare statistic = ");
+	        msgBuffer.append(chiSquareTest.chiSquare(expected, observed));
+	        msgBuffer.append(". \n");
+	        msgBuffer.append("This test can fail randomly due to sampling error with probability ");
+	        msgBuffer.append(alpha);
+	        msgBuffer.append(".");
+	        fail(msgBuffer.toString());
+	    }
+	    
 	}
 
 	public void testNextPoissonLargeMean() {
