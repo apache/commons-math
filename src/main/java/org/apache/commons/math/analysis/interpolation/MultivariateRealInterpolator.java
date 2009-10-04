@@ -17,23 +17,30 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 /**
  * Interface representing a univariate real interpolating function.
- *
+ *  
  * @version $Revision$ $Date$
  */
-public interface UnivariateRealInterpolator {
+public interface MultivariateRealInterpolator {
 
     /**
      * Computes an interpolating function for the data set.
-     * @param xval the arguments for the interpolation points
+     *
+     * @param xval the arguments for the interpolation points.
+     * {@code xval[i][0]} is the first component of interpolation point
+     * {@code i}, {@code xval[i][1]} is the second component, and so on
+     * until {@code xval[i][d-1]}, the last component of that interpolation
+     * point (where {@code d} is thus the dimension of the space).
      * @param yval the values for the interpolation points
      * @return a function which interpolates the data set
      * @throws MathException if arguments violate assumptions made by the
-     *         interpolation algorithm
+     *         interpolation algorithm or some dimension mismatch occurs
+     * @throws IllegalArgumentException if there are no data (xval null or zero length)
      */
-    UnivariateRealFunction interpolate(double xval[], double yval[])
-        throws MathException;
+    public MultivariateRealFunction interpolate(double[][] xval,
+                                                double[] yval)
+        throws MathException, IllegalArgumentException;
 }

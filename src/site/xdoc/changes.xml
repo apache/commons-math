@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" tyoe="add" issue="MATH-300" due-to="Gilles Sadowski">
+        Added support for multidimensional interpolation using the robust microsphere algorithm.
+      </action>
       <action dev="psteitz" tyoe="fix" issue="MATH-298">
         Fixed implementation of EmpiricalDistributionImpl#getUpperBounds to match
         interface contract.  Added getGeneratorUpperBounds method to

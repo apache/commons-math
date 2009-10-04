@@ -88,10 +88,21 @@ public class MessagesResources_fr
     // org.apache.commons.math.random.UncorrelatedRandomVectorGenerator
     // org.apache.commons.math.stat.regression.AbstractMultipleLinearRegression
     // org.apache.commons.math.stat.inference.ChiSquareTestImpl
+    // org.apache.commons.math.analysis.interpolation.MicrosphereInterpolatingFunction
     { "dimension mismatch {0} != {1}",
       "dimensions incompatibles {0} != {1}" },
 
-    // org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException
+    // org.apache.commons.math.analysis.interpolation.MicrosphereInterpolatingFunction
+    { "no data",
+      "aucune donn\u00e9e" },
+
+    // org.apache.commons.math.analysis.interpolation.MicrosphereInterpolator
+    { "brightness exponent should be positive or null, but got {0}",
+      "l''exposant de brillance devrait \u00eatre positif ou null, or e = {0}" },
+    { "number of microsphere elements must be positive, but got {0}",
+      "le nombre d''\u00e9l\u00e9ments de la microsph\u00e8re devrait \u00eatre positif, or n = {0}" },
+
+   // org.apache.commons.math.linear.decomposition.NotPositiveDefiniteMatrixException
     { "not positive definite matrix",
       "matrice non d\u00e9finie positive" },
 

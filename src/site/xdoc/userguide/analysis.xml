@@ -302,6 +302,11 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           Locally Weighted Regression and Smoothing Scatterplots</a>. This kind of
           interpolation is computationally intensive but robust.
         </p>
+        <p>
+          Microsphere interpolation is a robust multidimensional interpolation algorithm.
+          It has been described in William Dudziak's <a
+          href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
+        </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">
         <p>
