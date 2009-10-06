@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.AssertionFailedError;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -227,9 +228,13 @@ public class RandomDataTest extends RetryTestCase {
 	}
 	
 	public void testNextPoissionConistency() throws Exception {
-	    // TODO: increase upper bound to 40 when MATH-294 is resolved
+	    // TODO: once MATH-294 is resolved, increase upper bounds on test means
 	    for (int i = 1; i < 6; i++) {
 	        checkNextPoissonConsistency(i);
+	    }
+	    RandomData randomData = new RandomDataImpl();
+	    for (int i = 1; i < 10; i++) {
+	        checkNextPoissonConsistency(randomData.nextUniform(1, 6));
 	    }
 	}
 	
@@ -287,7 +292,7 @@ public class RandomDataTest extends RetryTestCase {
 	   
 	    /*
 	     *  Determine interior bin bounds.  Bins are
-	     *  [0, lower = binBounds[0]), [lower, binBounds[1]), [binBounds[0], binBounds[1]), ... , 
+	     *  [1, lower = binBounds[0]), [lower, binBounds[1]), [binBounds[1], binBounds[2]), ... , 
 	     *    [binBounds[binCount - 2], upper = binBounds[binCount - 1]), [upper, +inf)
 	     *  
 	     */
@@ -337,6 +342,7 @@ public class RandomDataTest extends RetryTestCase {
 	        assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
 	    } catch (AssertionFailedError ex) {
 	        StringBuffer msgBuffer = new StringBuffer();
+	        DecimalFormat df = new DecimalFormat("#.##");
 	        msgBuffer.append("Chisquare test failed for mean = ");
 	        msgBuffer.append(mean);
 	        msgBuffer.append(" p-value = ");
@@ -344,6 +350,19 @@ public class RandomDataTest extends RetryTestCase {
 	        msgBuffer.append(" chisquare statistic = ");
 	        msgBuffer.append(chiSquareTest.chiSquare(expected, observed));
 	        msgBuffer.append(". \n");
+	        msgBuffer.append("bin\t\texpected\tobserved\n");
+	        for (int i = 0; i < expected.length; i++) {
+	            msgBuffer.append("[");
+	            msgBuffer.append(i == 0 ? 1: binBounds.get(i - 1));
+	            msgBuffer.append(",");
+	            msgBuffer.append(i == binBounds.size() ? "inf": binBounds.get(i));
+	            msgBuffer.append(")");
+	            msgBuffer.append("\t\t");
+	            msgBuffer.append(df.format(expected[i]));
+	            msgBuffer.append("\t\t");
+	            msgBuffer.append(observed[i]);
+	            msgBuffer.append("\n");
+	        }
 	        msgBuffer.append("This test can fail randomly due to sampling error with probability ");
 	        msgBuffer.append(alpha);
 	        msgBuffer.append(".");
