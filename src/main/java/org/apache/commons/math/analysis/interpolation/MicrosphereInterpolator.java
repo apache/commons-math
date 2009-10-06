@@ -98,7 +98,7 @@ public class MicrosphereInterpolator
      */
     public void setBrightnessExponent(final int brightnessExponent) {
         if (brightnessExponent < 0) {
-            MathRuntimeException.createIllegalArgumentException(
+            throw MathRuntimeException.createIllegalArgumentException(
                 "brightness exponent should be positive or null, but got {0}",
                 brightnessExponent);
         }
@@ -112,7 +112,7 @@ public class MicrosphereInterpolator
      */
     public void setMicropshereElements(final int microsphereElements) {
         if (microsphereElements < 0) {
-            MathRuntimeException.createIllegalArgumentException(
+            throw MathRuntimeException.createIllegalArgumentException(
                 "number of microsphere elements must be positive, but got {0}",
                 microsphereElements);
         }

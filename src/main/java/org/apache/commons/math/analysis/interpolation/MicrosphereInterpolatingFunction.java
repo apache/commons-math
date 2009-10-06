@@ -151,7 +151,7 @@ public class MicrosphereInterpolatingFunction
                                             UnitSphereRandomVectorGenerator rand)
         throws DimensionMismatchException, IllegalArgumentException {
         if (xval.length == 0 || xval[0] == null) {
-            MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException("no data");
         }
 
         if (xval.length != yval.length) {
