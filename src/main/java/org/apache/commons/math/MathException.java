@@ -53,7 +53,6 @@ public class MathException extends Exception {
      * detail message.
      */
     public MathException() {
-        super();
         this.pattern   = null;
         this.arguments = new Object[0];
     }
@@ -66,7 +65,6 @@ public class MathException extends Exception {
      * @param arguments format arguments
      */
     public MathException(String pattern, Object ... arguments) {
-      super(buildMessage(Locale.US, pattern, arguments));
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -95,7 +93,7 @@ public class MathException extends Exception {
      * @since 1.2
      */
     public MathException(Throwable rootCause, String pattern, Object ... arguments) {
-      super(buildMessage(Locale.US, pattern, arguments), rootCause);
+      super(rootCause);
       this.pattern   = pattern;
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
@@ -126,17 +124,6 @@ public class MathException extends Exception {
 
     }
 
-    /**
-     * Builds a message string by from a pattern and its arguments.
-     * @param locale Locale in which the message should be translated
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return a message string
-     */
-    private static String buildMessage(Locale locale, String pattern, Object ... arguments) {
-        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);
-    }
-
     /** Gets the pattern used to build the message of this throwable.
      *
      * @return the pattern used to build the message of this throwable
@@ -162,8 +149,14 @@ public class MathException extends Exception {
      * @return localized message
      * @since 1.2
      */
-    public String getMessage(Locale locale) {
-        return buildMessage(locale, pattern, arguments);
+    public String getMessage(final Locale locale) {
+        return (pattern == null) ? "" : new MessageFormat(translate(pattern, locale), locale).format(arguments);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return getMessage(Locale.US);
     }
 
     /** {@inheritDoc} */

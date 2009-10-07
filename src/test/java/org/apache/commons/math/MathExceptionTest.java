@@ -32,8 +32,8 @@ public class MathExceptionTest extends TestCase {
     public void testConstructor(){
         MathException ex = new MathException();
         assertNull(ex.getCause());
-        assertNull(ex.getMessage());
-        assertEquals(0, ex.getMessage(Locale.FRENCH).length());
+        assertEquals("", ex.getMessage());
+        assertEquals("", ex.getMessage(Locale.FRENCH));
     }
 
     public void testConstructorPatternArguments(){

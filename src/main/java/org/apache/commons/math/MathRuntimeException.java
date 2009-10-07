@@ -57,9 +57,8 @@ public class MathRuntimeException extends RuntimeException {
      * @param arguments format arguments
      */
     public MathRuntimeException(final String pattern, final Object ... arguments) {
-      super(buildMessage(Locale.US, pattern, arguments));
-      this.pattern   = pattern;
-      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
+        this.pattern   = pattern;
+        this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /**
@@ -86,9 +85,9 @@ public class MathRuntimeException extends RuntimeException {
      */
     public MathRuntimeException(final Throwable rootCause,
                                 final String pattern, final Object ... arguments) {
-      super(buildMessage(Locale.US, pattern, arguments), rootCause);
-      this.pattern   = pattern;
-      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
+        super(rootCause);
+        this.pattern   = pattern;
+        this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
     /**
@@ -157,6 +156,12 @@ public class MathRuntimeException extends RuntimeException {
 
     /** {@inheritDoc} */
     @Override
+    public String getMessage() {
+        return getMessage(Locale.US);
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
     }
@@ -193,10 +198,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static ArithmeticException createArithmeticException(final String pattern,
                                                                 final Object ... arguments) {
-        return new ArithmeticException(buildMessage(Locale.US, pattern, arguments)) {
+        return new ArithmeticException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 7705628723242533939L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -216,10 +227,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
                                                                                       final Object ... arguments) {
-        return new ArrayIndexOutOfBoundsException(buildMessage(Locale.US, pattern, arguments)) {
+        return new ArrayIndexOutOfBoundsException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -3394748305449283486L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -239,10 +256,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static EOFException createEOFException(final String pattern,
                                                   final Object ... arguments) {
-        return new EOFException(buildMessage(Locale.US, pattern, arguments)) {
+        return new EOFException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 279461544586092584L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -279,10 +302,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static IllegalArgumentException createIllegalArgumentException(final String pattern,
                                                                           final Object ... arguments) {
-        return new IllegalArgumentException(buildMessage(Locale.US, pattern, arguments)) {
+        return new IllegalArgumentException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -6555453980658317913L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -315,10 +344,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static IllegalStateException createIllegalStateException(final String pattern,
                                                                     final Object ... arguments) {
-        return new IllegalStateException(buildMessage(Locale.US, pattern, arguments)) {
+        return new IllegalStateException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -95247648156277208L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -338,10 +373,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
                                                                                         final Object ... arguments) {
-        return new ConcurrentModificationException(buildMessage(Locale.US, pattern, arguments)) {
+        return new ConcurrentModificationException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 6134247282754009421L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -361,10 +402,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static NoSuchElementException createNoSuchElementException(final String pattern,
                                                                       final Object ... arguments) {
-        return new NoSuchElementException(buildMessage(Locale.US, pattern, arguments)) {
+        return new NoSuchElementException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = 7304273322489425799L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -384,10 +431,16 @@ public class MathRuntimeException extends RuntimeException {
      */
     public static NullPointerException createNullPointerException(final String pattern,
                                                                   final Object ... arguments) {
-        return new NullPointerException(buildMessage(Locale.US, pattern, arguments)) {
+        return new NullPointerException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -3075660477939965216L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -410,10 +463,16 @@ public class MathRuntimeException extends RuntimeException {
     public static ParseException createParseException(final int offset,
                                                       final String pattern,
                                                       final Object ... arguments) {
-        return new ParseException(buildMessage(Locale.US, pattern, arguments), offset) {
+        return new ParseException(null, offset) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -1103502177342465975L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
 
             /** {@inheritDoc} */
             @Override
@@ -433,10 +492,16 @@ public class MathRuntimeException extends RuntimeException {
         final String pattern  = "internal error, please fill a bug report at {0}";
         final String argument = "https://issues.apache.org/jira/browse/MATH";
 
-        return new RuntimeException(buildMessage(Locale.US, pattern, argument)) {
+        return new RuntimeException() {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -201865440834027016L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, argument);
+            }
 
             /** {@inheritDoc} */
             @Override
