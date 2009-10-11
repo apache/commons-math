@@ -151,17 +151,50 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 
             double x = mean * 2.0;
             double dx = x / 10.0;
+            double p = Double.NaN;
+            double sigma = Math.sqrt(mean);
             while (x >= 0) {
                 try {
-                    dist.cumulativeProbability(x);
+                    p = dist.cumulativeProbability(x);
+                    assertFalse("NaN cumulative probability returned for mean = " +
+                            mean + " x = " + x,Double.isNaN(p));
+                    if (x > mean - 2 * sigma) {
+                        assertTrue("Zero cum probaility returned for mean = " +
+                                mean + " x = " + x, p > 0);
+                    }
                 } catch (MathException ex) {
                     fail("mean of " + mean + " and x of " + x + " caused " + ex.getMessage());
                 }
                 x -= dx;
             }
-
+ 
             mean *= 10.0;
         }
+    }
+    
+    /**
+     * JIRA: MATH-282
+     * TODO: activate this test when MATH-282 is resolved
+     */
+    public void testCumulativeProbabilitySpecial() throws Exception {
+        /*
+        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
+        dist.setMean(9120);
+        checkProbability(dist, 9075);
+        checkProbability(dist, 9102);
+        dist.setMean(5058);
+        checkProbability(dist, 5044);
+        dist.setMean(6986);
+        checkProbability(dist, 6950);
+        */
+    }
+    
+    private void checkProbability(PoissonDistribution dist, double x) throws Exception {
+        double p = dist.cumulativeProbability(x);
+        assertFalse("NaN cumulative probability returned for mean = " +
+                dist.getMean() + " x = " + x, Double.isNaN(p));
+        assertTrue("Zero cum probability returned for mean = " +
+                dist.getMean() + " x = " + x, p > 0);
     }
 
     public void testLargeMeanInverseCumulativeProbability() {
