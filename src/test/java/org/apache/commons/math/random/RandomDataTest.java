@@ -228,14 +228,20 @@ public class RandomDataTest extends RetryTestCase {
 	}
 	
 	public void testNextPoissionConistency() throws Exception {
-	    // TODO: once MATH-294 is resolved, increase upper bounds on test means
-	    for (int i = 1; i < 6; i++) {
+	    // Small integral means
+	    for (int i = 1; i < 100; i++) {
 	        checkNextPoissonConsistency(i);
 	    }
+	    // non-integer means
 	    RandomData randomData = new RandomDataImpl();
 	    for (int i = 1; i < 10; i++) {
-	        checkNextPoissonConsistency(randomData.nextUniform(1, 6));
+	        checkNextPoissonConsistency(randomData.nextUniform(1, 1000));
 	    }
+	    // large means 
+	    // TODO: When MATH-282 is resolved, s/3000/10000 below
+	    for (int i = 1; i < 10; i++) {
+            checkNextPoissonConsistency(randomData.nextUniform(1000, 3000));
+        }
 	}
 	
 	/** 
@@ -367,15 +373,7 @@ public class RandomDataTest extends RetryTestCase {
 	        msgBuffer.append(alpha);
 	        msgBuffer.append(".");
 	        fail(msgBuffer.toString());
-	    }
-	    
-	}
-
-	public void testNextPoissonLargeMean() {
-		for (int i = 0; i < 1000; i++) {
-			long n = randomData.nextPoisson(1500.0);
-			assertTrue(0 <= n);
-		}
+	    }  
 	}
 
 	/** test dispersion and failute modes for nextHex() */

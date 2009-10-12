@@ -322,30 +322,17 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * {@inheritDoc}
      * <p>
-     * <strong>Algorithm Description</strong>: For small means, uses simulation
-     * of a Poisson process using Uniform deviates, as described <a
-     * href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
-     * </p>
-     * <p>
-     * The Poisson process (and hence value returned) is bounded by 1000 * mean.
-     * </p>
+     * <strong>Algorithm Description</strong>:
+     * <ul><li> For small means, uses simulation of a Poisson process
+     * using Uniform deviates, as described
+     * <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
+     * The Poisson process (and hence value returned) is bounded by 1000 * mean.</li>
      *
-     * <p>
-     * For large means, uses a reject method as described in <a
-     * href="http://cg.scs.carleton.ca/~luc/rnbookindex.html">Non-Uniform Random
-     * Variate Generation</a>
-     * </p>
+     * <li> For large means, uses the rejection algorithm described in <br/>
+     * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
+     * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
      *
-     * <p>
-     * References:
-     * <ul>
-     * <li>Devroye, Luc. (1986). <i>Non-Uniform Random Variate Generation</i>.
-     * New York, NY. Springer-Verlag</li>
-     * </ul>
-     * </p>
-     *
-     * @param mean
-     *            mean of the Poisson distribution.
+     * @param mean mean of the Poisson distribution.
      * @return the random Poisson value.
      */
     public long nextPoisson(double mean) {
@@ -356,7 +343,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
         final RandomGenerator generator = getRan();
 
-        double pivot = 6.0;
+        final double pivot = 40.0d;
         if (mean < pivot) {
             double p = Math.exp(-mean);
             long n = 0;
@@ -374,68 +361,70 @@ public class RandomDataImpl implements RandomData, Serializable {
             }
             return n;
         } else {
-            double mu = Math.floor(mean);
-            double delta = Math.floor(pivot + (mu - pivot) / 2.0); // integer
-            // between 6
-            // and mean
-            double mu2delta = 2.0 * mu + delta;
-            double muDeltaHalf = mu + delta / 2.0;
-            double logMeanMu = Math.log(mean / mu);
+            final double lambda = Math.floor(mean);
+            final double lambdaFractional = mean - lambda;
+            final double logLambda = Math.log(lambda);
+            final double logLambdaFactorial = MathUtils.factorialLog((int) lambda);
+            final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
+            final double delta = Math.sqrt(lambda * Math.log(32 * lambda / Math.PI + 1));
+            final double halfDelta = delta / 2;
+            final double twolpd = 2 * lambda + delta;
+            final double a1 = Math.sqrt(Math.PI * twolpd) * Math.exp(1 / 8 * lambda);
+            final double a2 = (twolpd / delta) * Math.exp(-delta * (1 + delta) / twolpd);
+            final double aSum = a1 + a2 + 1;
+            final double p1 = a1 / aSum;
+            final double p2 = a2 / aSum;
+            final double c1 = 1 / (8 * lambda);
 
-            double muFactorialLog = MathUtils.factorialLog((int) mu);
-
-            double c1 = Math.sqrt(Math.PI * mu / 2.0);
-            double c2 = c1 +
-                        Math.sqrt(Math.PI * muDeltaHalf /
-                                  (2.0 * Math.exp(1.0 / mu2delta)));
-            double c3 = c2 + 2.0;
-            double c4 = c3 + Math.exp(1.0 / 78.0);
-            double c = c4 + 2.0 / delta * mu2delta *
-                       Math.exp(-delta / mu2delta * (1.0 + delta / 2.0));
-
-            double y = 0.0;
-            double x = 0.0;
-            double w = Double.POSITIVE_INFINITY;
-
-            boolean accept = false;
-            while (!accept) {
-                double u = nextUniform(0.0, c);
-                double e = nextExponential(mean);
-
-                if (u <= c1) {
-                    double z = nextGaussian(0.0, 1.0);
-                    y = -Math.abs(z) * Math.sqrt(mu) - 1.0;
-                    x = Math.floor(y);
-                    w = -z * z / 2.0 - e - x * logMeanMu;
-                    if (x < -mu) {
-                        w = Double.POSITIVE_INFINITY;
+            double x = 0;
+            double y = 0;
+            double v = 0;
+            int a = 0;
+            double t = 0;
+            double qr = 0;
+            double qa = 0;
+            for (;;) {
+                final double u = nextUniform(0.0, 1);
+                if (u <= p1) {
+                    final double n = nextGaussian(0d, 1d);
+                    x = n * Math.sqrt(lambda + halfDelta) - 0.5d;
+                    if (x > delta || x < -lambda) {
+                        continue;
                     }
-                } else if (c1 < u && u <= c2) {
-                    double z = nextGaussian(0.0, 1.0);
-                    y = 1.0 + Math.abs(z) * Math.sqrt(muDeltaHalf);
-                    x = Math.ceil(y);
-                    w = (-y * y + 2.0 * y) / mu2delta - e - x * logMeanMu;
-                    if (x > delta) {
-                        w = Double.POSITIVE_INFINITY;
+                    y = x < 0 ? Math.floor(x) : Math.ceil(x);
+                    final double e = nextExponential(1d);
+                    v = -e - (n * n / 2) + c1;
+                } else {
+                    if (u > p1 + p2) {
+                        y = lambda;
+                        break;
+                    } else {
+                        x = delta + (twolpd / delta) * nextExponential(1d);
+                        y = Math.ceil(x);
+                        v = -nextExponential(1d) - delta * (x + 1) / twolpd;
                     }
-                } else if (c2 < u && u <= c3) {
-                    x = 0.0;
-                    w = -e;
-                } else if (c3 < u && u <= c4) {
-                    x = 1.0;
-                    w = -e - logMeanMu;
-                } else if (c4 < u) {
-                    double v = nextExponential(mean);
-                    y = delta + v * 2.0 / delta * mu2delta;
-                    x = Math.ceil(y);
-                    w = -delta / mu2delta * (1.0 + y / 2.0) - e - x * logMeanMu;
                 }
-                accept = w <= x * Math.log(mu) -
-                         MathUtils.factorialLog((int) (mu + x)) / muFactorialLog;
+                a = x < 0 ? 1 : 0;
+                t = y * (y + 1) / (2 * lambda);
+                if (v < -t && a == 0) {
+                    y = lambda + y;
+                    break;
+                }
+                qr = t * ((2 * y + 1) / (6 * lambda) - 1);
+                qa = qr - (t * t) / (3 * (lambda + a * (y + 1)));
+                if (v < qa) {
+                    y = lambda + y;
+                    break;
+                }
+                if (v > qr) {
+                    continue;
+                }
+                if (v < y * logLambda - MathUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
+                    y = lambda + y;
+                    break;
+                }
             }
-            // cast to long is acceptable because both x and mu are whole
-            // numbers.
-            return (long) (x + mu);
+            return y2 + (long) y;
         }
     }
 

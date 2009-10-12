@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" tyoe="fix" issue="MATH-294">
+        Fixed implementation of RandomDataImpl#nextPoisson by implementing an alternative
+        algorithm for large means.
+      </action>
       <action dev="psteitz" tyoe="add" issue="MATH-300" due-to="Gilles Sadowski">
         Added support for multidimensional interpolation using the robust microsphere algorithm.
       </action>
