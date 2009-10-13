@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 /**
  * Interface representing a univariate real interpolating function.
- *  
+ *
  * @version $Revision$ $Date$
  */
 public interface MultivariateRealInterpolator {
@@ -40,7 +40,6 @@ public interface MultivariateRealInterpolator {
      *         interpolation algorithm or some dimension mismatch occurs
      * @throws IllegalArgumentException if there are no data (xval null or zero length)
      */
-    public MultivariateRealFunction interpolate(double[][] xval,
-                                                double[] yval)
+    MultivariateRealFunction interpolate(double[][] xval, double[] yval)
         throws MathException, IllegalArgumentException;
 }

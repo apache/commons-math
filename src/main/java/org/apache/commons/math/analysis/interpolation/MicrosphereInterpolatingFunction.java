@@ -16,17 +16,16 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
 
 /**
@@ -184,8 +183,7 @@ public class MicrosphereInterpolatingFunction
      * @param point Interpolation point.
      * @return the interpolated value.
      */
-    public double value(double[] point)
-        throws FunctionEvaluationException {
+    public double value(double[] point) {
 
         final RealVector p = new ArrayRealVector(point);
 
@@ -235,6 +233,7 @@ public class MicrosphereInterpolatingFunction
      *
      * @param v Vector.
      * @param w Vector.
+     * @return cosine of the angle
      */
     private double cosAngle(final RealVector v, final RealVector w) {
         return v.dotProduct(w) / (v.getNorm() * w.getNorm());

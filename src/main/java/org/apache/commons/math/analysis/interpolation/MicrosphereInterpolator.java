@@ -107,16 +107,16 @@ public class MicrosphereInterpolator
 
     /**
      * Set the number of microsphere elements.
-     * @param microsphereElements Number of surface elements of the microsphere.
+     * @param elements Number of surface elements of the microsphere.
      * @throws IllegalArgumentException if {@code microsphereElements <= 0}.
      */
-    public void setMicropshereElements(final int microsphereElements) {
+    public void setMicropshereElements(final int elements) {
         if (microsphereElements < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                 "number of microsphere elements must be positive, but got {0}",
                 microsphereElements);
         }
-        this.microsphereElements = microsphereElements;
+        this.microsphereElements = elements;
     }
 
 }
