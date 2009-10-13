@@ -122,8 +122,10 @@
     <!-- Don't add up parentheses when they are not required -->
     <module name="UnnecessaryParentheses" />
 
-    <!--
+   <!--  Don't use too widespread catch (Exception, Throwable, RuntimeException)  -->
     <module name="IllegalCatch" />
+
+    <!--
     <module name="StringLiteralEquality" />
     <module name="MultipleStringLiterals" />
     <module name="MultipleVariableDeclarations" />

@@ -118,7 +118,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         try {
             da.computeStats();
             fillBinStats(in);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new MathRuntimeException(e);
         }
         loaded = true;
@@ -136,17 +136,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             new BufferedReader(new InputStreamReader(url.openStream()));
         try {
             DataAdapter da = new StreamDataAdapter(in);
-            try {
-                da.computeStats();
-            } catch (IOException ioe) {
-                // don't wrap exceptions which are already IOException
-                throw ioe;
-            } catch (RuntimeException rte) {
-                // don't wrap RuntimeExceptions
-                throw rte;
-            } catch (Exception e) {
-                throw MathRuntimeException.createIOException(e);
-            }
+            da.computeStats();
             if (sampleStats.getN() == 0) {
                 throw MathRuntimeException.createEOFException("URL {0} contains no data",
                                                               url);
@@ -173,17 +163,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         BufferedReader in = new BufferedReader(new FileReader(file));
         try {
             DataAdapter da = new StreamDataAdapter(in);
-            try {
-                da.computeStats();
-            } catch (IOException ioe) {
-                // don't wrap exceptions which are already IOException
-                throw ioe;
-            } catch (RuntimeException rte) {
-                // don't wrap RuntimeExceptions
-                throw rte;
-            } catch (Exception e) {
-                throw MathRuntimeException.createIOException(e);
-            }
+            da.computeStats();
             in = new BufferedReader(new FileReader(file));
             fillBinStats(in);
             loaded = true;
@@ -201,20 +181,23 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * <code>beanStats</code> abstracting the source of data.
      */
     private abstract class DataAdapter{
+
         /**
          * Compute bin stats.
          *
-         * @throws Exception  if an error occurs computing bin stats
+         * @throws IOException  if an error occurs computing bin stats
          */
-        public abstract void computeBinStats()
-                throws Exception;
+        public abstract void computeBinStats() throws IOException;
+
         /**
          * Compute sample statistics.
          *
-         * @throws Exception if an error occurs computing sample stats
+         * @throws IOException if an error occurs computing sample stats
          */
-        public abstract void computeStats() throws Exception;
+        public abstract void computeStats() throws IOException;
+
     }
+
     /**
      * Factory of <code>DataAdapter</code> objects. For every supported source
      * of data (array of doubles, file, etc.) an instance of the proper object
@@ -248,7 +231,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      */
     private class StreamDataAdapter extends DataAdapter{
 
-        /** Input stream providng access to the data */
+        /** Input stream providing access to the data */
         private BufferedReader inputStream;
 
         /**
@@ -260,14 +243,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             super();
             inputStream = in;
         }
-        /**
-         * Computes binStats
-         *
-         * @throws IOException if an IO error occurs
-         */
+
+        /** {@inheritDoc} */
         @Override
-        public void computeBinStats()
-                throws IOException {
+        public void computeBinStats() throws IOException {
             String str = null;
             double val = 0.0d;
             while ((str = inputStream.readLine()) != null) {
@@ -279,11 +258,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             inputStream.close();
             inputStream = null;
         }
-        /**
-         * Computes sampleStats
-         *
-         * @throws IOException if an IOError occurs
-         */
+
+        /** {@inheritDoc} */
         @Override
         public void computeStats() throws IOException {
             String str = null;
@@ -315,11 +291,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             super();
             inputArray = in;
         }
-        /**
-         * Computes sampleStats
-         *
-         * @throws IOException if an IO error occurs
-         */
+
+        /** {@inheritDoc} */
         @Override
         public void computeStats() throws IOException {
             sampleStats = new SummaryStatistics();
@@ -327,14 +300,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 sampleStats.addValue(inputArray[i]);
             }
         }
-        /**
-         * Computes binStats
-         *
-         * @throws IOException  if an IO error occurs
-         */
+
+        /** {@inheritDoc} */
         @Override
-        public void computeBinStats()
-            throws IOException {
+        public void computeBinStats() throws IOException {
             for (int i = 0; i < inputArray.length; i++) {
                 SummaryStatistics stats =
                     binStats.get(findBin(inputArray[i]));
@@ -367,17 +336,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         // Filling data in binStats Array
         DataAdapterFactory aFactory = new DataAdapterFactory();
         DataAdapter da = aFactory.getAdapter(in);
-        try {
-            da.computeBinStats();
-        } catch (IOException ioe) {
-            // don't wrap exceptions which are already IOException
-            throw ioe;
-        } catch (RuntimeException rte) {
-            // don't wrap RuntimeExceptions
-            throw rte;
-        } catch (Exception e) {
-            throw MathRuntimeException.createIOException(e);
-        }
+        da.computeBinStats();
 
         // Assign upperBounds based on bin counts
         upperBounds = new double[binCount];

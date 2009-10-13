@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -195,8 +194,8 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();
         try {
             dist.load((double[]) null);
-            fail("load((double[]) null) expected RuntimeException");
-        } catch (MathRuntimeException e) {
+            fail("load((double[]) null) expected NullPointerException");
+        } catch (NullPointerException e) {
             // expected
         } catch (Exception e) {
             fail("wrong exception caught");
