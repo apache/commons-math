@@ -67,37 +67,41 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
                             final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
 
-        int i = 1, j, m = maximalIterationCount + 1;
-        // Array structure here can be improved for better space
-        // efficiency because only the lower triangle is used.
-        double r, t[][] = new double[m][m], s, olds;
+        final int m = maximalIterationCount + 1;
+        double previousRow[] = new double[m];
+        double currentRow[]  = new double[m];
 
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        t[0][0] = qtrap.stage(f, min, max, 0);
-        olds = t[0][0];
-        while (i <= maximalIterationCount) {
-            t[i][0] = qtrap.stage(f, min, max, i);
-            for (j = 1; j <= i; j++) {
+        currentRow[0] = qtrap.stage(f, min, max, 0);
+        double olds = currentRow[0];
+        for (int i = 1; i <= maximalIterationCount; ++i) {
+
+            // switch rows
+            final double[] tmpRow = previousRow;
+            previousRow = currentRow;
+            currentRow = tmpRow;
+
+            currentRow[0] = qtrap.stage(f, min, max, i);
+            for (int j = 1; j <= i; j++) {
                 // Richardson extrapolation coefficient
-                r = (1L << (2 * j)) -1;
-                t[i][j] = t[i][j-1] + (t[i][j-1] - t[i-1][j-1]) / r;
+                final double r = (1L << (2 * j)) - 1;
+                final double tIJm1 = currentRow[j - 1];
+                currentRow[j] = tIJm1 + (tIJm1 - previousRow[j - 1]) / r;
             }
-            s = t[i][i];
+            final double s = currentRow[i];
             if (i >= minimalIterationCount) {
-                final double delta = Math.abs(s - olds);
-                final double rLimit =
-                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
+                final double delta  = Math.abs(s - olds);
+                final double rLimit = relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;
                 }
             }
             olds = s;
-            i++;
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
     }
