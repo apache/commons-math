@@ -274,8 +274,13 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     /**
      * Verifies that the interpolation arrays are valid.
      * <p>
+     * The arrays features checked by this method are that both arrays have the
+     * same length and this length is at least 2.
+     * </p>
+     * <p>
      * The interpolating points must be distinct. However it is not
-     * verified here, it is checked in evaluate() and computeCoefficients().</p>
+     * verified here, it is checked in evaluate() and computeCoefficients().
+     * </p>
      *
      * @param x the interpolating points array
      * @param y the interpolating values array
@@ -283,17 +288,18 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * @see #evaluate(double[], double[], double)
      * @see #computeCoefficients()
      */
-    public static void verifyInterpolationArray(double x[], double y[]) throws
-        IllegalArgumentException {
+    public static void verifyInterpolationArray(double x[], double y[])
+        throws IllegalArgumentException {
 
-        if (Math.min(x.length, y.length) < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} points are required, got only {1}",
-                  2, Math.min(x.length, y.length));
-        }
         if (x.length != y.length) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "dimension mismatch {0} != {1}", x.length, y.length);
         }
+
+        if (x.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "{0} points are required, got only {1}", 2, x.length);
+        }
+
     }
 }
