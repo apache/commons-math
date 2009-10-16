@@ -43,11 +43,15 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
     private double coefficients[];
 
     /**
-     * Members of c[] are called centers of the Newton polynomial.
+     * Centers of the Newton polynomial.
+     */
+    private double c[];
+
+    /**
      * When all c[i] = 0, a[] becomes normal polynomial coefficients,
      * i.e. a[i] = coefficients[i].
      */
-    private double a[], c[];
+    private double a[];
 
     /**
      * Whether the polynomial coefficients are available.
@@ -170,16 +174,16 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * It also uses nested multiplication but takes O(N^2) time.
      */
     protected void computeCoefficients() {
-        int i, j, n = degree();
+        final int n = degree();
 
         coefficients = new double[n+1];
-        for (i = 0; i <= n; i++) {
+        for (int i = 0; i <= n; i++) {
             coefficients[i] = 0.0;
         }
 
         coefficients[0] = a[n];
-        for (i = n-1; i >= 0; i--) {
-            for (j = n-i; j > 0; j--) {
+        for (int i = n-1; i >= 0; i--) {
+            for (int j = n-i; j > 0; j--) {
                 coefficients[j] = coefficients[j-1] - c[i] * coefficients[j];
             }
             coefficients[0] = a[i] - c[i] * coefficients[0];

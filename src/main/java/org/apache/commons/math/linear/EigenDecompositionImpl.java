@@ -670,10 +670,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         // sort the realEigenvalues in decreasing order
         Arrays.sort(realEigenvalues);
-        for (int i = 0, j = realEigenvalues.length - 1; i < j; ++i, --j) {
+        int j = realEigenvalues.length - 1;
+        for (int i = 0; i < j; ++i) {
             final double tmp = realEigenvalues[i];
             realEigenvalues[i] = realEigenvalues[j];
             realEigenvalues[j] = tmp;
+            --j;
         }
 
     }
@@ -1126,12 +1128,14 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     private boolean flipIfWarranted(final int n, final int step) {
         if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
             // flip array
-            for (int i = 0, j = 4 * n - 1; i < j; i += 4, j -= 4) {
+            int j = 4 * n - 1;
+            for (int i = 0; i < j; i += 4) {
                 for (int k = 0; k < 4; k += step) {
                     final double tmp = work[i + k];
                     work[i + k] = work[j - k];
                     work[j - k] = tmp;
                 }
+                j -= 4;
             }
             return true;
         }
@@ -1734,12 +1738,14 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         // the least diagonal element in the twisted factorization
         int r = m - 1;
         double minG = Math.abs(work[6 * r] + work[6 * r + 3] + eigenvalue);
-        for (int i = 0, sixI = 0; i < m - 1; ++i, sixI += 6) {
+        int sixI = 0;
+        for (int i = 0; i < m - 1; ++i) {
             final double absG = Math.abs(work[sixI] + d[i] * work[sixI + 9] / work[sixI + 10]);
             if (absG < minG) {
                 r = i;
                 minG = absG;
             }
+            sixI += 6;
         }
 
         // solve the singular system by ignoring the equation
@@ -1784,7 +1790,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                                                        final double lambda) {
         final int nM1 = d.length - 1;
         double si = -lambda;
-        for (int i = 0, sixI = 0; i < nM1; ++i, sixI += 6) {
+        int sixI = 0;
+        for (int i = 0; i < nM1; ++i) {
             final double di   = d[i];
             final double li   = l[i];
             final double diP1 = di + si;
@@ -1793,6 +1800,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             work[sixI + 1]    = diP1;
             work[sixI + 2]    = liP1;
             si = li * liP1 * si - lambda;
+            sixI += 6;
         }
         work[6 * nM1 + 1] = d[nM1] + si;
         work[6 * nM1]     = si;
@@ -1810,7 +1818,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                                                         final double lambda) {
         final int nM1 = d.length - 1;
         double pi = d[nM1] - lambda;
-        for (int i = nM1 - 1, sixI = 6 * i; i >= 0; --i, sixI -= 6) {
+        int sixI = 6 * (nM1 - 1);
+        for (int i = nM1 - 1; i >= 0; --i) {
             final double di   = d[i];
             final double li   = l[i];
             final double diP1 = di * li * li + pi;
@@ -1819,6 +1828,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             work[sixI + 10]   = diP1;
             work[sixI +  5]   = li * t;
             pi = pi * t - lambda;
+            sixI -= 6;
         }
         work[3] = pi;
         work[4] = pi;

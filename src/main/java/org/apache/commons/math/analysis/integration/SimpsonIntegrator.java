@@ -66,25 +66,22 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
                             final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
 
-        int i = 1;
-        double s, olds, t, oldt;
-
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
         if (minimalIterationCount == 1) {
-            s = (4 * qtrap.stage(f, min, max, 1) - qtrap.stage(f, min, max, 0)) / 3.0;
+            final double s = (4 * qtrap.stage(f, min, max, 1) - qtrap.stage(f, min, max, 0)) / 3.0;
             setResult(s, 1);
             return result;
         }
         // Simpson's rule requires at least two trapezoid stages.
-        olds = 0;
-        oldt = qtrap.stage(f, min, max, 0);
-        while (i <= maximalIterationCount) {
-            t = qtrap.stage(f, min, max, i);
-            s = (4 * t - oldt) / 3.0;
+        double olds = 0;
+        double oldt = qtrap.stage(f, min, max, 0);
+        for (int i = 1; i <= maximalIterationCount; ++i) {
+            final double t = qtrap.stage(f, min, max, i);
+            final double s = (4 * t - oldt) / 3.0;
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(s - olds);
                 final double rLimit =
@@ -96,7 +93,6 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
             }
             olds = s;
             oldt = t;
-            i++;
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
     }

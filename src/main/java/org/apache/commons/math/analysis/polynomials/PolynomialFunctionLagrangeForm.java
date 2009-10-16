@@ -43,9 +43,14 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     private double coefficients[];
 
     /**
-     * Interpolating points (abscissas) and the function values at these points.
+     * Interpolating points (abscissas).
      */
-    private double x[], y[];
+    private double x[];
+
+    /**
+     * Function values at interpolating points.
+     */
+    private double y[];
 
     /**
      * Whether the polynomial coefficients are available.
@@ -158,21 +163,19 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     public static double evaluate(double x[], double y[], double z) throws
         DuplicateSampleAbscissaException, IllegalArgumentException {
 
-        int i, j, n, nearest = 0;
-        double value, c[], d[], tc, td, divider, w, dist, min_dist;
-
         verifyInterpolationArray(x, y);
 
-        n = x.length;
-        c = new double[n];
-        d = new double[n];
-        min_dist = Double.POSITIVE_INFINITY;
-        for (i = 0; i < n; i++) {
+        int nearest = 0;
+        final int n = x.length;
+        final double[] c = new double[n];
+        final double[] d = new double[n];
+        double min_dist = Double.POSITIVE_INFINITY;
+        for (int i = 0; i < n; i++) {
             // initialize the difference arrays
             c[i] = y[i];
             d[i] = y[i];
             // find out the abscissa closest to z
-            dist = Math.abs(z - x[i]);
+            final double dist = Math.abs(z - x[i]);
             if (dist < min_dist) {
                 nearest = i;
                 min_dist = dist;
@@ -180,19 +183,19 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
         }
 
         // initial approximation to the function value at z
-        value = y[nearest];
+        double value = y[nearest];
 
-        for (i = 1; i < n; i++) {
-            for (j = 0; j < n-i; j++) {
-                tc = x[j] - z;
-                td = x[i+j] - z;
-                divider = x[j] - x[i+j];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n-i; j++) {
+                final double tc = x[j] - z;
+                final double td = x[i+j] - z;
+                final double divider = x[j] - x[i+j];
                 if (divider == 0.0) {
                     // This happens only when two abscissas are identical.
                     throw new DuplicateSampleAbscissaException(x[i], i, i+j);
                 }
                 // update the difference arrays
-                w = (c[j+1] - d[j]) / divider;
+                final double w = (c[j+1] - d[j]) / divider;
                 c[j] = tc * w;
                 d[j] = td * w;
             }
@@ -218,31 +221,29 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * @throws ArithmeticException if any abscissas coincide
      */
     protected void computeCoefficients() throws ArithmeticException {
-        int i, j, n;
-        double c[], tc[], d, t;
 
-        n = degree() + 1;
+        final int n = degree() + 1;
         coefficients = new double[n];
-        for (i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             coefficients[i] = 0.0;
         }
 
         // c[] are the coefficients of P(x) = (x-x[0])(x-x[1])...(x-x[n-1])
-        c = new double[n+1];
+        final double[] c = new double[n+1];
         c[0] = 1.0;
-        for (i = 0; i < n; i++) {
-            for (j = i; j > 0; j--) {
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j > 0; j--) {
                 c[j] = c[j-1] - c[j] * x[i];
             }
             c[0] *= -x[i];
             c[i+1] = 1;
         }
 
-        tc = new double[n];
-        for (i = 0; i < n; i++) {
+        final double[] tc = new double[n];
+        for (int i = 0; i < n; i++) {
             // d = (x[i]-x[0])...(x[i]-x[i-1])(x[i]-x[i+1])...(x[i]-x[n-1])
-            d = 1;
-            for (j = 0; j < n; j++) {
+            double d = 1;
+            for (int j = 0; j < n; j++) {
                 if (i != j) {
                     d *= x[i] - x[j];
                 }
@@ -256,13 +257,13 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
                     }
                 }
             }
-            t = y[i] / d;
+            final double t = y[i] / d;
             // Lagrange polynomial is the sum of n terms, each of which is a
             // polynomial of degree n-1. tc[] are the coefficients of the i-th
             // numerator Pi(x) = (x-x[0])...(x-x[i-1])(x-x[i+1])...(x-x[n-1]).
             tc[n-1] = c[n];     // actually c[n] = 1
             coefficients[n-1] += t * tc[n-1];
-            for (j = n-2; j >= 0; j--) {
+            for (int j = n-2; j >= 0; j--) {
                 tc[j] = c[j+1] + tc[j+1] * x[i];
                 coefficients[j] += t * tc[j];
             }

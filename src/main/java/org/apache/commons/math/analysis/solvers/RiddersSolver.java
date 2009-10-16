@@ -125,34 +125,38 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
         // [x1, x2] is the bracketing interval in each iteration
         // x3 is the midpoint of [x1, x2]
         // x is the new root approximation and an endpoint of the new interval
-        double x1, x2, x3, x, oldx, y1, y2, y3, y, delta, correction, tolerance;
-
-        x1 = min; y1 = f.value(x1);
-        x2 = max; y2 = f.value(x2);
+        double x1 = min;
+        double y1 = f.value(x1);
+        double x2 = max;
+        double y2 = f.value(x2);
 
         // check for zeros before verifying bracketing
-        if (y1 == 0.0) { return min; }
-        if (y2 == 0.0) { return max; }
+        if (y1 == 0.0) {
+            return min;
+        }
+        if (y2 == 0.0) {
+            return max;
+        }
         verifyBracketing(min, max, f);
 
         int i = 1;
-        oldx = Double.POSITIVE_INFINITY;
+        double oldx = Double.POSITIVE_INFINITY;
         while (i <= maximalIterationCount) {
             // calculate the new root approximation
-            x3 = 0.5 * (x1 + x2);
-            y3 = f.value(x3);
+            final double x3 = 0.5 * (x1 + x2);
+            final double y3 = f.value(x3);
             if (Math.abs(y3) <= functionValueAccuracy) {
                 setResult(x3, i);
                 return result;
             }
-            delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
-            correction = (MathUtils.sign(y2) * MathUtils.sign(y3)) *
-                         (x3 - x1) / Math.sqrt(delta);
-            x = x3 - correction;                // correction != 0
-            y = f.value(x);
+            final double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
+            final double correction = (MathUtils.sign(y2) * MathUtils.sign(y3)) *
+                                      (x3 - x1) / Math.sqrt(delta);
+            final double x = x3 - correction;                // correction != 0
+            final double y = f.value(x);
 
             // check for convergence
-            tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
+            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
             if (Math.abs(x - oldx) <= tolerance) {
                 setResult(x, i);
                 return result;
@@ -166,17 +170,23 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
             // Ridders' method guarantees x1 < x < x2
             if (correction > 0.0) {             // x1 < x < x3
                 if (MathUtils.sign(y1) + MathUtils.sign(y) == 0.0) {
-                    x2 = x; y2 = y;
+                    x2 = x;
+                    y2 = y;
                 } else {
-                    x1 = x; x2 = x3;
-                    y1 = y; y2 = y3;
+                    x1 = x;
+                    x2 = x3;
+                    y1 = y;
+                    y2 = y3;
                 }
             } else {                            // x3 < x < x2
                 if (MathUtils.sign(y2) + MathUtils.sign(y) == 0.0) {
-                    x1 = x; y1 = y;
+                    x1 = x;
+                    y1 = y;
                 } else {
-                    x1 = x3; x2 = x;
-                    y1 = y3; y2 = y;
+                    x1 = x3;
+                    x2 = x;
+                    y1 = y3;
+                    y2 = y;
                 }
             }
             oldx = x;

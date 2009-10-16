@@ -186,7 +186,8 @@ public class OpenIntToDoubleHashMap implements Serializable {
             return missingEntries;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {
@@ -215,7 +216,8 @@ public class OpenIntToDoubleHashMap implements Serializable {
             return false;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {
@@ -358,7 +360,8 @@ public class OpenIntToDoubleHashMap implements Serializable {
             return missingEntries;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {

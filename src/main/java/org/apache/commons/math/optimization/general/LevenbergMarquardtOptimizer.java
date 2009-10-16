@@ -220,7 +220,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         lmDir       = new double[cols];
 
         // local point
-        double   delta   = 0, xNorm = 0;
+        double   delta   = 0;
+        double   xNorm   = 0;
         double[] diag    = new double[cols];
         double[] oldX    = new double[cols];
         double[] oldRes  = new double[rows];
@@ -492,7 +493,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         // if the jacobian is not rank deficient, the Newton step provides
         // a lower bound, parl, for the zero of the function,
         // otherwise set this bound to zero
-        double sum2, parl = 0;
+        double sum2;
+        double parl = 0;
         if (rank == solvedCols) {
             for (int j = 0; j < solvedCols; ++j) {
                 int pj = permutation[j];
@@ -658,14 +660,15 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 // appropriate element in the current row of d
                 if (lmDiag[k] != 0) {
 
-                    double sin, cos;
+                    final double sin;
+                    final double cos;
                     double rkk = jacobian[k][pk];
                     if (Math.abs(rkk) < Math.abs(lmDiag[k])) {
-                        double cotan = rkk / lmDiag[k];
+                        final double cotan = rkk / lmDiag[k];
                         sin   = 1.0 / Math.sqrt(1.0 + cotan * cotan);
                         cos   = sin * cotan;
                     } else {
-                        double tan = lmDiag[k] / rkk;
+                        final double tan = lmDiag[k] / rkk;
                         cos = 1.0 / Math.sqrt(1.0 + tan * tan);
                         sin = cos * tan;
                     }
@@ -673,16 +676,16 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     // compute the modified diagonal element of R and
                     // the modified element of (Qty,0)
                     jacobian[k][pk] = cos * rkk + sin * lmDiag[k];
-                    double temp = cos * work[k] + sin * qtbpj;
+                    final double temp = cos * work[k] + sin * qtbpj;
                     qtbpj = -sin * work[k] + cos * qtbpj;
                     work[k] = temp;
 
                     // accumulate the tranformation in the row of s
                     for (int i = k + 1; i < solvedCols; ++i) {
                         double rik = jacobian[i][pk];
-                        temp = cos * rik + sin * lmDiag[i];
+                        final double temp2 = cos * rik + sin * lmDiag[i];
                         lmDiag[i] = -sin * rik + cos * lmDiag[i];
-                        jacobian[i][pk] = temp;
+                        jacobian[i][pk] = temp2;
                     }
 
                 }

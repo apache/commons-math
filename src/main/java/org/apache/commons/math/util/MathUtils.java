@@ -205,29 +205,35 @@ public final class MathUtils {
         long result = 1;
         if (n <= 61) {
             // For n <= 61, the naive implementation cannot overflow.
-            for (int j = 1, i = n - k + 1; j <= k; i++, j++) {
+            int i = n - k + 1;
+            for (int j = 1; j <= k; j++) {
                 result = result * i / j;
+                i++;
             }
         } else if (n <= 66) {
             // For n > 61 but n <= 66, the result cannot overflow,
             // but we must take care not to overflow intermediate values.
-            for (int j = 1, i = n - k + 1; j <= k; i++, j++) {
+            int i = n - k + 1;
+            for (int j = 1; j <= k; j++) {
                 // We know that (result * i) is divisible by j,
                 // but (result * i) may overflow, so we split j:
                 // Filter out the gcd, d, so j/d and i/d are integer.
                 // result is divisible by (j/d) because (j/d)
                 // is relative prime to (i/d) and is a divisor of
                 // result * (i/d).
-                long d = gcd(i, j);
+                final long d = gcd(i, j);
                 result = (result / (j / d)) * (i / d);
+                i++;
             }
         } else {
             // For n > 66, a result overflow might occur, so we check
             // the multiplication, taking care to not overflow
             // unnecessary.
-            for (int j = 1, i = n - k + 1; j <= k; i++, j++) {
-                long d = gcd(i, j);
+            int i = n - k + 1;
+            for (int j = 1; j <= k; j++) {
+                final long d = gcd(i, j);
                 result = mulAndCheck(result / (j / d), i / d);
+                i++;
             }
         }
         return result;

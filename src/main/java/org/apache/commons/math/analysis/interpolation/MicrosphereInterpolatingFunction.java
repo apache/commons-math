@@ -162,12 +162,13 @@ public class MicrosphereInterpolatingFunction
 
         // Copy data samples.
         samples = new HashMap<RealVector, Double>(yval.length);
-        for (int i = 0, max = xval.length; i < max; i++) {
-            if (xval[i].length != dimension) {
-                throw new DimensionMismatchException(xval.length, yval.length);
+        for (int i = 0; i < xval.length; ++i) {
+            final double[] xvalI = xval[i];
+            if ( xvalI.length != dimension) {
+                throw new DimensionMismatchException(xvalI.length, dimension);
             }
 
-            samples.put(new ArrayRealVector(xval[i]), yval[i]);
+            samples.put(new ArrayRealVector(xvalI), yval[i]);
         }
 
         microsphere = new ArrayList<MicrosphereSurfaceElement>(microsphereElements);

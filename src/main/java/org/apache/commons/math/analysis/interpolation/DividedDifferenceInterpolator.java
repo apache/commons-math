@@ -57,8 +57,6 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
          * p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
          *        a[n](x-c[0])(x-c[1])...(x-c[n-1])
          */
-        double a[], c[];
-
         PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
 
         /**
@@ -69,12 +67,10 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
          * <p>
          * Note x[], y[], a[] have the same length but c[]'s size is one less.</p>
          */
-        c = new double[x.length-1];
-        for (int i = 0; i < c.length; i++) {
-            c[i] = x[i];
-        }
-        a = computeDividedDifference(x, y);
+        final double[] c = new double[x.length-1];
+        System.arraycopy(x, 0, c, 0, c.length);
 
+        final double[] a = computeDividedDifference(x, y);
         return new PolynomialFunctionNewtonForm(a, c);
 
     }
@@ -94,25 +90,19 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * @return a fresh copy of the divided difference array
      * @throws DuplicateSampleAbscissaException if any abscissas coincide
      */
-    protected static double[] computeDividedDifference(double x[], double y[])
+    protected static double[] computeDividedDifference(final double x[], final double y[])
         throws DuplicateSampleAbscissaException {
-
-        int i, j, n;
-        double divdiff[], a[], denominator;
 
         PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
 
-        n = x.length;
-        divdiff = new double[n];
-        for (i = 0; i < n; i++) {
-            divdiff[i] = y[i];      // initialization
-        }
+        final double[] divdiff = y.clone(); // initialization
 
-        a = new double [n];
+        final int n = x.length;
+        final double[] a = new double [n];
         a[0] = divdiff[0];
-        for (i = 1; i < n; i++) {
-            for (j = 0; j < n-i; j++) {
-                denominator = x[j+i] - x[j];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n-i; j++) {
+                final double denominator = x[j+i] - x[j];
                 if (denominator == 0.0) {
                     // This happens only when two abscissas are identical.
                     throw new DuplicateSampleAbscissaException(x[j], j, j+i);

@@ -124,7 +124,8 @@ public abstract class AbstractEstimator implements Estimator {
     protected void updateJacobian() {
         incrementJacobianEvaluationsCounter();
         Arrays.fill(jacobian, 0);
-        for (int i = 0, index = 0; i < rows; i++) {
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
             WeightedMeasurement wm = measurements[i];
             double factor = -Math.sqrt(wm.getWeight());
             for (int j = 0; j < cols; ++j) {
@@ -154,7 +155,8 @@ public abstract class AbstractEstimator implements Estimator {
         }
 
         cost = 0;
-        for (int i = 0, index = 0; i < rows; i++, index += cols) {
+        int index = 0;
+        for (int i = 0; i < rows; i++, index += cols) {
             WeightedMeasurement wm = measurements[i];
             double residual = wm.getResidual();
             residuals[i] = Math.sqrt(wm.getWeight()) * residual;

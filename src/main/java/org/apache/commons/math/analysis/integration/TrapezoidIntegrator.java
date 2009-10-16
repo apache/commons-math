@@ -77,17 +77,15 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
                  final double min, final double max, final int n)
         throws FunctionEvaluationException {
 
-        long i, np;
-        double x, spacing, sum = 0;
-
         if (n == 0) {
             s = 0.5 * (max - min) * (f.value(min) + f.value(max));
             return s;
         } else {
-            np = 1L << (n-1);           // number of new points in this stage
-            spacing = (max - min) / np; // spacing between adjacent new points
-            x = min + 0.5 * spacing;    // the first new point
-            for (i = 0; i < np; i++) {
+            final long np = 1L << (n-1);           // number of new points in this stage
+            double sum = 0;
+            final double spacing = (max - min) / np; // spacing between adjacent new points
+            double x = min + 0.5 * spacing;    // the first new point
+            for (long i = 0; i < np; i++) {
                 sum += f.value(x);
                 x += spacing;
             }
@@ -109,16 +107,13 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
                             final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException, IllegalArgumentException {
 
-        int i = 1;
-        double t, oldt;
-
         clearResult();
         verifyInterval(min, max);
         verifyIterationCount();
 
-        oldt = stage(f, min, max, 0);
-        while (i <= maximalIterationCount) {
-            t = stage(f, min, max, i);
+        double oldt = stage(f, min, max, 0);
+        for (int i = 1; i <= maximalIterationCount; ++i) {
+            final double t = stage(f, min, max, i);
             if (i >= minimalIterationCount) {
                 final double delta = Math.abs(t - oldt);
                 final double rLimit =
@@ -129,7 +124,6 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
                 }
             }
             oldt = t;
-            i++;
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
     }

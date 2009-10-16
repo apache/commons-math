@@ -344,58 +344,58 @@ public class FastFourierTransformer implements Serializable {
     protected Complex[] fft(Complex data[])
         throws IllegalArgumentException {
 
-        int i, j, k, m, N = data.length;
-        Complex A, B, C, D, E, F, z, f[] = new Complex[N];
+        final int n = data.length;
+        final Complex f[] = new Complex[n];
 
         // initial simple cases
         verifyDataSet(data);
-        if (N == 1) {
+        if (n == 1) {
             f[0] = data[0];
             return f;
         }
-        if (N == 2) {
+        if (n == 2) {
             f[0] = data[0].add(data[1]);
             f[1] = data[0].subtract(data[1]);
             return f;
         }
 
         // permute original data array in bit-reversal order
-        j = 0;
-        for (i = 0; i < N; i++) {
-            f[i] = data[j];
-            k = N >> 1;
-            while (j >= k && k > 0) {
-                j -= k; k >>= 1;
+        int ii = 0;
+        for (int i = 0; i < n; i++) {
+            f[i] = data[ii];
+            int k = n >> 1;
+            while (ii >= k && k > 0) {
+                ii -= k; k >>= 1;
             }
-            j += k;
+            ii += k;
         }
 
         // the bottom base-4 round
-        for (i = 0; i < N; i += 4) {
-            A = f[i].add(f[i+1]);
-            B = f[i+2].add(f[i+3]);
-            C = f[i].subtract(f[i+1]);
-            D = f[i+2].subtract(f[i+3]);
-            E = C.add(D.multiply(Complex.I));
-            F = C.subtract(D.multiply(Complex.I));
-            f[i] = A.add(B);
-            f[i+2] = A.subtract(B);
+        for (int i = 0; i < n; i += 4) {
+            final Complex a = f[i].add(f[i+1]);
+            final Complex b = f[i+2].add(f[i+3]);
+            final Complex c = f[i].subtract(f[i+1]);
+            final Complex d = f[i+2].subtract(f[i+3]);
+            final Complex e1 = c.add(d.multiply(Complex.I));
+            final Complex e2 = c.subtract(d.multiply(Complex.I));
+            f[i] = a.add(b);
+            f[i+2] = a.subtract(b);
             // omegaCount indicates forward or inverse transform
-            f[i+1] = roots.isForward() ? F : E;
-            f[i+3] = roots.isForward() ? E : F;
+            f[i+1] = roots.isForward() ? e2 : e1;
+            f[i+3] = roots.isForward() ? e1 : e2;
         }
 
         // iterations from bottom to top take O(N*logN) time
-        for (i = 4; i < N; i <<= 1) {
-            m = N / (i<<1);
-            for (j = 0; j < N; j += i<<1) {
-                for (k = 0; k < i; k++) {
+        for (int i = 4; i < n; i <<= 1) {
+            final int m = n / (i<<1);
+            for (int j = 0; j < n; j += i<<1) {
+                for (int k = 0; k < i; k++) {
                     //z = f[i+j+k].multiply(roots.getOmega(k*m));
                     final int k_times_m = k*m;
                     final double omega_k_times_m_real = roots.getOmegaReal(k_times_m);
                     final double omega_k_times_m_imaginary = roots.getOmegaImaginary(k_times_m);
                     //z = f[i+j+k].multiply(omega[k*m]);
-                    z = new Complex(
+                    final Complex z = new Complex(
                         f[i+j+k].getReal() * omega_k_times_m_real -
                         f[i+j+k].getImaginary() * omega_k_times_m_imaginary,
                         f[i+j+k].getReal() * omega_k_times_m_imaginary +

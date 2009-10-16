@@ -208,10 +208,12 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
                                                   objective.length, rows);
         }
         cost = 0;
-        for (int i = 0, index = 0; i < rows; i++, index += cols) {
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
             residuals[i] = residual;
             cost += residualsWeights[i] * residual * residual;
+            index += cols;
         }
         cost = Math.sqrt(cost);
 

@@ -277,7 +277,10 @@ public class LoessInterpolator
                 // and http://en.wikipedia.org/wiki/Weighted_least_squares
                 // (section "Weighted least squares")
                 double sumWeights = 0;
-                double sumX = 0, sumXSquared = 0, sumY = 0, sumXY = 0;
+                double sumX = 0;
+                double sumXSquared = 0;
+                double sumY = 0;
+                double sumXY = 0;
                 double denom = Math.abs(1.0 / (xval[edge] - x));
                 for (int k = ileft; k <= iright; ++k) {
                     final double xk   = xval[k];

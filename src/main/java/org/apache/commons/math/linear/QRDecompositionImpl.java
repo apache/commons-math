@@ -417,9 +417,10 @@ public class QRDecompositionImpl implements QRDecomposition {
                     final double   factor = 1.0 / rDiag[j];
                     final double[] yJ     = y[j];
                     final double[] xBlock = xBlocks[jBlock * cBlocks + kBlock];
-                    for (int k = 0, index = (j - jStart) * kWidth; k < kWidth; ++k, ++index) {
-                        yJ[k]        *= factor;
-                        xBlock[index] = yJ[k];
+                    int index = (j - jStart) * kWidth;
+                    for (int k = 0; k < kWidth; ++k) {
+                        yJ[k]          *= factor;
+                        xBlock[index++] = yJ[k];
                     }
 
                     final double[] qrtJ = qrt[j];

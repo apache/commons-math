@@ -256,7 +256,8 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     lmDir       = new double[cols];
 
     // local variables
-    double   delta   = 0, xNorm = 0;
+    double   delta   = 0;
+    double   xNorm = 0;
     double[] diag    = new double[cols];
     double[] oldX    = new double[cols];
     double[] oldRes  = new double[rows];
@@ -315,8 +316,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           double s  = jacNorm[pj];
           if (s != 0) {
             double sum = 0;
-            for (int i = 0, index = pj; i <= j; ++i, index += cols) {
+            int index = pj;
+            for (int i = 0; i <= j; ++i) {
               sum += jacobian[index] * residuals[i];
+              index += cols;
             }
             maxCosine = Math.max(maxCosine, Math.abs(sum) / (s * cost));
           }
@@ -379,8 +382,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           int pj = permutation[j];
           double dirJ = lmDir[pj];
           work1[j] = 0;
-          for (int i = 0, index = pj; i <= j; ++i, index += cols) {
+          int index = pj;
+          for (int i = 0; i <= j; ++i) {
             work1[i] += jacobian[index] * dirJ;
+            index += cols;
           }
         }
         double coeff1 = 0;
@@ -500,8 +505,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     for (int k = rank - 1; k >= 0; --k) {
       int pk = permutation[k];
       double ypk = lmDir[pk] / diagR[pk];
-      for (int i = 0, index = pk; i < k; ++i, index += cols) {
+      int index = pk;
+      for (int i = 0; i < k; ++i) {
         lmDir[permutation[i]] -= ypk * jacobian[index];
+        index += cols;
       }
       lmDir[pk] = ypk;
     }
@@ -525,7 +532,8 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     // if the jacobian is not rank deficient, the Newton step provides
     // a lower bound, parl, for the zero of the function,
     // otherwise set this bound to zero
-    double sum2, parl = 0;
+    double sum2;
+    double parl = 0;
     if (rank == solvedCols) {
       for (int j = 0; j < solvedCols; ++j) {
         int pj = permutation[j];
@@ -535,8 +543,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
       for (int j = 0; j < solvedCols; ++j) {
         int pj = permutation[j];
         double sum = 0;
-        for (int i = 0, index = pj; i < j; ++i, index += cols) {
+        int index = pj;
+        for (int i = 0; i < j; ++i) {
           sum += jacobian[index] * work1[permutation[i]];
+          index += cols;
         }
         double s = (work1[pj] - sum) / diagR[pj];
         work1[pj] = s;
@@ -550,8 +560,10 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
     for (int j = 0; j < solvedCols; ++j) {
       int pj = permutation[j];
       double sum = 0;
-      for (int i = 0, index = pj; i <= j; ++i, index += cols) {
+      int index = pj;
+      for (int i = 0; i <= j; ++i) {
         sum += jacobian[index] * qy[i];
+        index += cols;
       }
       sum /= diag[pj];
       sum2 += sum * sum;
@@ -691,14 +703,15 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         // appropriate element in the current row of d
         if (lmDiag[k] != 0) {
 
-          double sin, cos;
+          final double sin;
+          final double cos;
           double rkk = jacobian[k * cols + pk];
           if (Math.abs(rkk) < Math.abs(lmDiag[k])) {
-            double cotan = rkk / lmDiag[k];
+            final double cotan = rkk / lmDiag[k];
             sin   = 1.0 / Math.sqrt(1.0 + cotan * cotan);
             cos   = sin * cotan;
           } else {
-            double tan = lmDiag[k] / rkk;
+            final double tan = lmDiag[k] / rkk;
             cos = 1.0 / Math.sqrt(1.0 + tan * tan);
             sin = cos * tan;
           }
@@ -706,16 +719,16 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
           // compute the modified diagonal element of R and
           // the modified element of (Qty,0)
           jacobian[k * cols + pk] = cos * rkk + sin * lmDiag[k];
-          double temp = cos * work[k] + sin * qtbpj;
+          final double temp = cos * work[k] + sin * qtbpj;
           qtbpj = -sin * work[k] + cos * qtbpj;
           work[k] = temp;
 
           // accumulate the tranformation in the row of s
           for (int i = k + 1; i < solvedCols; ++i) {
             double rik = jacobian[i * cols + pk];
-            temp = cos * rik + sin * lmDiag[i];
+            final double temp2 = cos * rik + sin * lmDiag[i];
             lmDiag[i] = -sin * rik + cos * lmDiag[i];
-            jacobian[i * cols + pk] = temp;
+            jacobian[i * cols + pk] = temp2;
           }
 
         }
@@ -864,12 +877,16 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
       int pk = permutation[k];
       int kDiag = k * cols + pk;
       double gamma = 0;
-      for (int i = k, index = kDiag; i < rows; ++i, index += cols) {
+      int index = kDiag;
+      for (int i = k; i < rows; ++i) {
         gamma += jacobian[index] * y[i];
+        index += cols;
       }
       gamma *= beta[pk];
-      for (int i = k, index = kDiag; i < rows; ++i, index += cols) {
+      index = kDiag;
+      for (int i = k; i < rows; ++i) {
         y[i] -= gamma * jacobian[index];
+        index += cols;
       }
     }
   }

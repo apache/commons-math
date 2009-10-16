@@ -122,15 +122,24 @@
     <!-- Don't add up parentheses when they are not required -->
     <module name="UnnecessaryParentheses" />
 
-   <!--  Don't use too widespread catch (Exception, Throwable, RuntimeException)  -->
+    <!--  Don't use too widespread catch (Exception, Throwable, RuntimeException)  -->
     <module name="IllegalCatch" />
 
-    <!--
+    <!-- Don't use = or != for string comparisons -->
     <module name="StringLiteralEquality" />
-    <module name="MultipleStringLiterals" />
+ 
+   <!-- Don't declare multiple variables in the same statement -->
     <module name="MultipleVariableDeclarations" />
-    <module name="TodoComment" />
+
+    <!-- String literals more than one character long should not be repeated several times -->
+    <!--
+    <module name="MultipleStringLiterals" >
+      <property name="ignoreStringsRegexp" value='^(("")|("."))$'/>
+    </module>
     -->
+
+    <!-- <module name="TodoComment" /> -->
+
   </module>
   
   <!-- Require files to end with newline characters -->

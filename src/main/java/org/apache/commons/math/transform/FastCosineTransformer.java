@@ -218,45 +218,45 @@ public class FastCosineTransformer implements RealTransformer {
     protected double[] fct(double f[])
         throws IllegalArgumentException {
 
-        double A, B, C, F1, x[], F[] = new double[f.length];
+        final double transformed[] = new double[f.length];
 
-        int N = f.length - 1;
-        if (!FastFourierTransformer.isPowerOf2(N)) {
+        final int n = f.length - 1;
+        if (!FastFourierTransformer.isPowerOf2(n)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "{0} is not a power of 2 plus one",
                     f.length);
         }
-        if (N == 1) {       // trivial case
-            F[0] = 0.5 * (f[0] + f[1]);
-            F[1] = 0.5 * (f[0] - f[1]);
-            return F;
+        if (n == 1) {       // trivial case
+            transformed[0] = 0.5 * (f[0] + f[1]);
+            transformed[1] = 0.5 * (f[0] - f[1]);
+            return transformed;
         }
 
         // construct a new array and perform FFT on it
-        x = new double[N];
-        x[0] = 0.5 * (f[0] + f[N]);
-        x[N >> 1] = f[N >> 1];
-        F1 = 0.5 * (f[0] - f[N]);   // temporary variable for F[1]
-        for (int i = 1; i < (N >> 1); i++) {
-            A = 0.5 * (f[i] + f[N-i]);
-            B = Math.sin(i * Math.PI / N) * (f[i] - f[N-i]);
-            C = Math.cos(i * Math.PI / N) * (f[i] - f[N-i]);
-            x[i] = A - B;
-            x[N-i] = A + B;
-            F1 += C;
+        final double[] x = new double[n];
+        x[0] = 0.5 * (f[0] + f[n]);
+        x[n >> 1] = f[n >> 1];
+        double t1 = 0.5 * (f[0] - f[n]);   // temporary variable for transformed[1]
+        for (int i = 1; i < (n >> 1); i++) {
+            final double a = 0.5 * (f[i] + f[n-i]);
+            final double b = Math.sin(i * Math.PI / n) * (f[i] - f[n-i]);
+            final double c = Math.cos(i * Math.PI / n) * (f[i] - f[n-i]);
+            x[i] = a - b;
+            x[n-i] = a + b;
+            t1 += c;
         }
         FastFourierTransformer transformer = new FastFourierTransformer();
         Complex y[] = transformer.transform(x);
 
         // reconstruct the FCT result for the original array
-        F[0] = y[0].getReal();
-        F[1] = F1;
-        for (int i = 1; i < (N >> 1); i++) {
-            F[2*i] = y[i].getReal();
-            F[2*i+1] = F[2*i-1] - y[i].getImaginary();
+        transformed[0] = y[0].getReal();
+        transformed[1] = t1;
+        for (int i = 1; i < (n >> 1); i++) {
+            transformed[2 * i]     = y[i].getReal();
+            transformed[2 * i + 1] = transformed[2 * i - 1] - y[i].getImaginary();
         }
-        F[N] = y[N >> 1].getReal();
+        transformed[n] = y[n >> 1].getReal();
 
-        return F;
+        return transformed;
     }
 }

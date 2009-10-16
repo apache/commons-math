@@ -198,7 +198,8 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             return missingEntries;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {
@@ -227,7 +228,8 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             return false;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {
@@ -370,7 +372,8 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             return missingEntries;
         }
 
-        for (int perturb = perturb(hash), j = index; states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+        int j = index;
+        for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
             j = probe(perturb, j);
             index = j & mask;
             if (containsKey(key, index)) {
