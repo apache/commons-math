@@ -199,7 +199,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
          * @param dfwg degrees of freedom in denominator (within groups)
          * @param F statistic
          */
-        public AnovaStats(int dfbg, int dfwg, double F) {
+        private AnovaStats(int dfbg, int dfwg, double F) {
             this.dfbg = dfbg;
             this.dfwg = dfwg;
             this.F = F;
