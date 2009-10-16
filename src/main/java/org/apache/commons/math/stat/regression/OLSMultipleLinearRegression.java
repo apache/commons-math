@@ -16,14 +16,12 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.ArrayRealVector;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a
@@ -141,7 +139,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealVector calculateBeta() {
-        return solveUpperTriangular(qr.getR(), qr.getQ().transpose().operate(Y));
+        return qr.getSolver().solve(Y);
     }
 
     /**
@@ -178,65 +176,4 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
                (X.getRowDimension() - X.getColumnDimension());
     }
 
-    /** TODO:  Find a home for the following methods in the linear package */
-
-    /**
-     * <p>Uses back substitution to solve the system</p>
-     *
-     * <p>coefficients X = constants</p>
-     *
-     * <p>coefficients must upper-triangular and constants must be a column
-     * matrix.  The solution is returned as a column matrix.</p>
-     *
-     * <p>The number of columns in coefficients determines the length
-     * of the returned solution vector (column matrix).  If constants
-     * has more rows than coefficients has columns, excess rows are ignored.
-     * Similarly, extra (zero) rows in coefficients are ignored</p>
-     *
-     * @param coefficients upper-triangular coefficients matrix
-     * @param constants column RHS constants vector
-     * @return solution matrix as a column vector
-     *
-     */
-    private static RealVector solveUpperTriangular(RealMatrix coefficients,
-                                                   RealVector constants) {
-        checkUpperTriangular(coefficients, 1E-12);
-        int length = coefficients.getColumnDimension();
-        double x[] = new double[length];
-        for (int i = 0; i < length; i++) {
-            int index = length - 1 - i;
-            double sum = 0;
-            for (int j = index + 1; j < length; j++) {
-                sum += coefficients.getEntry(index, j) * x[j];
-            }
-            x[index] = (constants.getEntry(index) - sum) / coefficients.getEntry(index, index);
-        }
-        return new ArrayRealVector(x);
-    }
-
-    /**
-     * <p>Check if a matrix is upper-triangular.</p>
-     *
-     * <p>Makes sure all below-diagonal elements are within epsilon of 0.</p>
-     *
-     * @param m matrix to check
-     * @param epsilon maximum allowable absolute value for elements below
-     * the main diagonal
-     *
-     * @throws IllegalArgumentException if m is not upper-triangular
-     */
-    private static void checkUpperTriangular(RealMatrix m, double epsilon) {
-        int nCols = m.getColumnDimension();
-        int nRows = m.getRowDimension();
-        for (int r = 0; r < nRows; r++) {
-            int bound = Math.min(r, nCols);
-            for (int c = 0; c < bound; c++) {
-                if (Math.abs(m.getEntry(r, c)) > epsilon) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                          "matrix is not upper-triangular, entry ({0}, {1}) = {2} is too large",
-                          r, c, m.getEntry(r, c));
-                }
-            }
-        }
-    }
 }

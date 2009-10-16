@@ -724,10 +724,6 @@ public class MessagesResources_fr
    { "out of bounds significance level {0}, must be between {1} and {2}",
      "niveau de signification {0} hors domaine, doit \u00eatre entre {1} et {2}" },
 
-   // org.apache.commons.math.stat.regression.OLSMultipleLinearRegression
-   { "matrix is not upper-triangular, entry ({0}, {1}) = {2} is too large",
-     "matrice non triangulaire sup\u00e9rieure, l''\u00e9l\u00e9ment ({0}, {1}) = {2} est trop grand" },
-
    // org.apache.commons.math.stat.regression.AbstractMultipleLinearRegression
    { "not enough data ({0} rows) for this many predictors ({1} predictors)",
      "pas assez de donn\u00e9es ({0} lignes) pour {1} pr\u00e9dicteurs" },
