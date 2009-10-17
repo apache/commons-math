@@ -227,7 +227,7 @@ public class RandomDataTest extends RetryTestCase {
 
 	}
 	
-	public void testNextPoissionConistency() throws Exception {
+	public void testNextPoissonConsistency() throws Exception {
 	    // Small integral means
 	    for (int i = 1; i < 100; i++) {
 	        checkNextPoissonConsistency(i);
