@@ -244,6 +244,24 @@ public class EigenDecompositionImplTest extends TestCase {
     }
 
     /**
+     * Verifies operation on indefinite matrix
+     */
+    public void testZeroDivide() {
+        RealMatrix indefinite = MatrixUtils.createRealMatrix(new double [][] {
+                { 0.0, 1.0, -1.0 }, 
+                { 1.0, 1.0, 0.0 }, 
+                { -1.0,0.0, 1.0 }        
+        });
+        EigenDecomposition ed = new EigenDecompositionImpl(indefinite, MathUtils.SAFE_MIN);
+        checkEigenValues((new double[] {2, 1, -1}), ed, 1E-12);
+        double isqrt3 = 1/Math.sqrt(3.0);
+        checkEigenVector((new double[] {isqrt3,isqrt3,-isqrt3}), ed, 1E-12);
+        double isqrt2 = 1/Math.sqrt(2.0);
+        checkEigenVector((new double[] {0.0,-isqrt2,-isqrt2}), ed, 1E-12);
+        double isqrt6 = 1/Math.sqrt(6.0);
+        checkEigenVector((new double[] {2*isqrt6,-isqrt6,isqrt6}), ed, 1E-12);
+    }
+    /**
      * Verifies that the given EigenDecomposition has eigenvalues equivalent to
      * the targetValues, ignoring the order of the values and allowing
      * values to differ by tolerance.
@@ -257,6 +275,7 @@ public class EigenDecompositionImplTest extends TestCase {
         }
     }
 
+    
     /**
      * Returns true iff there is an entry within tolerance of value in
      * searchArray.

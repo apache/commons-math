@@ -1699,19 +1699,21 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         // perform an initial non-shifted LDLt decomposition
         final double[] d = new double[m];
         final double[] l = new double[m - 1];
-        double di = main[0];
+        // avoid zero divide on indefinite matrix
+        final double mu = realEigenvalues[m-1] <= 0 && realEigenvalues[0] > 0 ? 0.5-realEigenvalues[m-1] : 0;
+        double di = main[0]+mu;
         d[0] = di;
         for (int i = 1; i < m; ++i) {
             final double eiM1  = secondary[i - 1];
             final double ratio = eiM1 / di;
-            di       = main[i] - eiM1 * ratio;
+            di       = main[i] - eiM1 * ratio + mu;
             l[i - 1] = ratio;
             d[i]     = di;
         }
 
         // compute eigenvectors
         for (int i = 0; i < m; ++i) {
-            eigenvectors[i] = findEigenvector(realEigenvalues[i], d, l);
+            eigenvectors[i] = findEigenvector(realEigenvalues[i]+mu, d, l);
         }
 
     }
