@@ -21,7 +21,7 @@ package org.apache.commons.math.linear;
 /**
  * An interface to classes that implement an algorithm to calculate the
  * QR-decomposition of a real matrix.
- * <p>This interface is based on the class with similar name from the now defunct
+ * <p>This interface is based on the class with similar name from the
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>

@@ -25,7 +25,7 @@ package org.apache.commons.math.linear;
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
  * A, V and D are all m &times; m matrices.</p>
  * <p>This interface is similar in spirit to the <code>EigenvalueDecomposition</code>
- * class from the now defunct <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
+ * class from the <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a>
  * library, with the following changes:</p>
  * <ul>
  *   <li>a {@link #getVT() getVt} method has been added,</li>

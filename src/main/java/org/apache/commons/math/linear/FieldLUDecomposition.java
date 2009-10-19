@@ -26,7 +26,7 @@ import org.apache.commons.math.FieldElement;
  * such that P&times;A = L&times;U. P is a rows permutation matrix that is used
  * to rearrange the rows of A before so that it can be decomposed. L is a lower
  * triangular matrix with unit diagonal terms and U is an upper triangular matrix.</p>
- * <p>This interface is based on the class with similar name from the now defunct
+ * <p>This interface is based on the class with similar name from the
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library.</p>
  * <ul>
  *   <li>a {@link #getP() getP} method has been added,</li>

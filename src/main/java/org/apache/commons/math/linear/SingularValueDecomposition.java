@@ -27,7 +27,7 @@ package org.apache.commons.math.linear;
  * Let A be an m &times; n matrix, then U is an m &times; m orthogonal matrix,
  * &Sigma; is a m &times; n diagonal matrix with positive diagonal elements,
  * and V is an n &times; n orthogonal matrix.</p>
- * <p>This interface is similar to the class with similar name from the now defunct
+ * <p>This interface is similar to the class with similar name from the
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
  * <ul>
