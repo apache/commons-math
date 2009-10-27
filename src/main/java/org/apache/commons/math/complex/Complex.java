@@ -177,7 +177,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * <pre><code>
      *    a + bi          ac + bd + (bc - ad)i
      *    ----------- = -------------------------
-     *    c + di               c<sup>2</sup> + d<sup>2</sup>
+     *    c + di         c<sup>2</sup> + d<sup>2</sup>
      * </code></pre>
      * but uses
      * <a href="http://doi.acm.org/10.1145/1039813.1039814">
@@ -221,17 +221,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         }
 
         if (Math.abs(c) < Math.abs(d)) {
-            if (d == 0.0) {
-                return createComplex(real/c, imaginary/c);
-            }
             double q = c / d;
             double denominator = c * q + d;
             return createComplex((real * q + imaginary) / denominator,
                 (imaginary * q - real) / denominator);
         } else {
-            if (c == 0.0) {
-                return createComplex(imaginary/d, -real/c);
-            }
             double q = d / c;
             double denominator = d * q + c;
             return createComplex((imaginary * q + real) / denominator,
