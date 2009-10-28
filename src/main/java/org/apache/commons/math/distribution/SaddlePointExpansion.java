@@ -1,6 +1,23 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * <p>
@@ -21,19 +38,16 @@ import org.apache.commons.math.special.Gamma;
  * http://www.herine.net/stat/papers/dbinom.pdf</a></li>
  * </ol>
  * </p>
- * 
- * @since 1.2
- * @version $Revision: 1.3 $ $Date: 2007/11/18 23:51:21 $
+ *
+ * @since 2.1
+ * @version $Revision$ $Date$
  */
 final class SaddlePointExpansion {
 
-    /** 2 &#960;. */
-    private static double PI_2 = 2.0 * Math.PI;
-
     /** 1/2 * log(2 &#960;). */
-    private static double HALF_LOG_2_PI = 0.5 * Math.log(PI_2);
+    private static double HALF_LOG_2_PI = 0.5 * Math.log(MathUtils.TWO_PI);
 
-    /** exact striling expansion error for certain values. */
+    /** exact Stirling expansion error for certain values. */
     private static final double[] EXACT_STIRLING_ERRORS = { 0.0, /* 0.0 */
     0.1534264097200273452913848, /* 0.5 */
     0.0810614667953272582196702, /* 1.0 */
@@ -85,7 +99,7 @@ final class SaddlePointExpansion {
      * http://mathworld.wolfram.com/StirlingsSeries.html</a></li>
      * </ol>
      * </p>
-     * 
+     *
      * @param z the value.
      * @return the Striling's series error.
      */
@@ -96,16 +110,17 @@ final class SaddlePointExpansion {
             if (Math.floor(z2) == z2) {
                 ret = EXACT_STIRLING_ERRORS[(int) z2];
             } else {
-                ret = Gamma.logGamma(z + 1.0) - (z + 0.5) * Math.log(z) + z
-                        - HALF_LOG_2_PI;
+                ret = Gamma.logGamma(z + 1.0) - (z + 0.5) * Math.log(z) +
+                      z - HALF_LOG_2_PI;
             }
         } else {
             double z2 = z * z;
-            ret = (0.083333333333333333333 - (0.00277777777777777777778 - (0.00079365079365079365079365 - (0.000595238095238095238095238 - 0.0008417508417508417508417508 / z2)
-                    / z2)
-                    / z2)
-                    / z2)
-                    / z;
+            ret = (0.083333333333333333333 -
+                    (0.00277777777777777777778 -
+                            (0.00079365079365079365079365 -
+                                    (0.000595238095238095238095238 -
+                                            0.0008417508417508417508417508 /
+                                            z2) / z2) / z2) / z2) / z;
         }
         return ret;
     }
@@ -121,7 +136,7 @@ final class SaddlePointExpansion {
      * http://www.herine.net/stat/papers/dbinom.pdf</a></li>
      * </ol>
      * </p>
-     * 
+     *
      * @param x the x value.
      * @param mu the average.
      * @return a part of the deviance.
@@ -129,7 +144,7 @@ final class SaddlePointExpansion {
     static double getDeviancePart(double x, double mu) {
         double ret;
         if (Math.abs(x - mu) < 0.1 * (x + mu)) {
-            double d = (x - mu);
+            double d = x - mu;
             double v = d / (x + mu);
             double s1 = v * d;
             double s = Double.NaN;
@@ -152,7 +167,7 @@ final class SaddlePointExpansion {
     /**
      * Compute the PMF for a binomial distribution using the saddle point
      * expansion.
-     * 
+     *
      * @param x the value at which the probability is evaluated.
      * @param n the number of trials.
      * @param p the probability of success.
@@ -174,10 +189,10 @@ final class SaddlePointExpansion {
                 ret = n * Math.log(p);
             }
         } else {
-            ret = getStirlingError(n) - getStirlingError(x)
-                    - getStirlingError(n - x) - getDeviancePart(x, n * p)
-                    - getDeviancePart(n - x, n * q);
-            double f = (PI_2 * x * (n - x)) / n;
+            ret = getStirlingError(n) - getStirlingError(x) -
+                  getStirlingError(n - x) - getDeviancePart(x, n * p) -
+                  getDeviancePart(n - x, n * q);
+            double f = (MathUtils.TWO_PI * x * (n - x)) / n;
             ret = -0.5 * Math.log(f) + ret;
         }
         return ret;

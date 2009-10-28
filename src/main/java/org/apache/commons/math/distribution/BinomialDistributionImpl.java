@@ -1,15 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.math.distribution;
 
@@ -18,13 +21,11 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
-import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link BinomialDistribution}.
- * 
- * @version $Revision$ $Date: 2009-09-05 12:36:48 -0500 (Sat, 05 Sep
- *          2009) $
+ *
+ * @version $Revision$ $Date$
  */
 public class BinomialDistributionImpl extends AbstractIntegerDistribution
         implements BinomialDistribution, Serializable {
@@ -41,7 +42,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     /**
      * Create a binomial distribution with the given number of trials and
      * probability of success.
-     * 
+     *
      * @param trials the number of trials.
      * @param p the probability of success.
      */
@@ -53,7 +54,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Access the number of trials for this distribution.
-     * 
+     *
      * @return the number of trials.
      */
     public int getNumberOfTrials() {
@@ -62,7 +63,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Access the probability of success for this distribution.
-     * 
+     *
      * @return the probability of success.
      */
     public double getProbabilityOfSuccess() {
@@ -71,7 +72,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Change the number of trials for this distribution.
-     * 
+     *
      * @param trials the new number of trials.
      * @throws IllegalArgumentException if <code>trials</code> is not a valid
      *             number of trials.
@@ -86,7 +87,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Change the probability of success for this distribution.
-     * 
+     *
      * @param p the new probability of success.
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *             probability.
@@ -102,7 +103,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt;
      *         <code>p</code>
@@ -115,7 +116,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt;
      *         <code>p</code>
@@ -127,7 +128,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X &le; x).
-     * 
+     *
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution.
      * @throws MathException if the cumulative probability can not be computed
@@ -149,7 +150,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X = x).
-     * 
+     *
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution.
      */
@@ -172,7 +173,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
      * Returns <code>-1</code> for p=0 and <code>Integer.MAX_VALUE</code> for
      * p=1.
      * </p>
-     * 
+     *
      * @param p the desired probability
      * @return the largest x such that P(X &le; x) <= p
      * @throws MathException if the inverse cumulative probability can not be

@@ -1,15 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.apache.commons.math.distribution;
@@ -21,9 +24,8 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * The default implementation of {@link HypergeometricDistribution}.
- * 
- * @version $Revision$ $Date: 2009-09-05 12:36:48 -0500 (Sat, 05 Sep
- *          2009) $
+ *
+ * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         implements HypergeometricDistribution, Serializable {
@@ -43,7 +45,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Construct a new hypergeometric distribution with the given the population
      * size, the number of successes in the population, and the sample size.
-     * 
+     *
      * @param populationSize the population size.
      * @param numberOfSuccesses number of successes in the population.
      * @param sampleSize the sample size.
@@ -70,7 +72,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X &le; x).
-     * 
+     *
      * @param x the value at which the PDF is evaluated.
      * @return PDF for this distribution.
      */
@@ -96,7 +98,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Return the domain for the given hypergeometric distribution parameters.
-     * 
+     *
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
@@ -110,7 +112,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt;
      *         <code>p</code>
@@ -124,7 +126,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
      * bracket a PDF root.
-     * 
+     *
      * @param p the desired probability for the critical value
      * @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt;
      *         <code>p</code>
@@ -137,7 +139,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Return the lowest domain value for the given hypergeometric distribution
      * parameters.
-     * 
+     *
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
@@ -149,7 +151,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Access the number of successes.
-     * 
+     *
      * @return the number of successes.
      */
     public int getNumberOfSuccesses() {
@@ -158,7 +160,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Access the population size.
-     * 
+     *
      * @return the population size.
      */
     public int getPopulationSize() {
@@ -167,7 +169,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Access the sample size.
-     * 
+     *
      * @return the sample size.
      */
     public int getSampleSize() {
@@ -177,7 +179,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Return the highest domain value for the given hypergeometric distribution
      * parameters.
-     * 
+     *
      * @param m number of successes in the population.
      * @param k the sample size.
      * @return the highest domain value of the hypergeometric distribution.
@@ -188,7 +190,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X = x).
-     * 
+     *
      * @param x the value at which the PMF is evaluated.
      * @return PMF for this distribution.
      */
@@ -208,10 +210,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
             double q = (double) (m - sampleSize) / (double) m;
             double p1 = SaddlePointExpansion.logBinomialProbability(x,
                     numberOfSuccesses, p, q);
-            double p2 = SaddlePointExpansion.logBinomialProbability(sampleSize
-                    - x, f, p, q);
-            double p3 = SaddlePointExpansion.logBinomialProbability(sampleSize,
-                    m, p, q);
+            double p2 =
+                SaddlePointExpansion.logBinomialProbability(sampleSize - x, f, p, q);
+            double p3 =
+                SaddlePointExpansion.logBinomialProbability(sampleSize, m, p, q);
             ret = Math.exp(p1 + p2 - p3);
         }
 
@@ -221,7 +223,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * For the distribution, X, defined by the given hypergeometric distribution
      * parameters, this method returns P(X = x).
-     * 
+     *
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
@@ -229,14 +231,14 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
-        return Math.exp(MathUtils.binomialCoefficientLog(m, x)
-                + MathUtils.binomialCoefficientLog(n - m, k - x)
-                - MathUtils.binomialCoefficientLog(n, k));
+        return Math.exp(MathUtils.binomialCoefficientLog(m, x) +
+               MathUtils.binomialCoefficientLog(n - m, k - x) -
+               MathUtils.binomialCoefficientLog(n, k));
     }
 
     /**
      * Modify the number of successes.
-     * 
+     *
      * @param num the new number of successes.
      * @throws IllegalArgumentException if <code>num</code> is negative.
      */
@@ -250,7 +252,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Modify the population size.
-     * 
+     *
      * @param size the new population size.
      * @throws IllegalArgumentException if <code>size</code> is not positive.
      */
@@ -264,7 +266,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * Modify the sample size.
-     * 
+     *
      * @param size the new sample size.
      * @throws IllegalArgumentException if <code>size</code> is negative.
      */
@@ -278,7 +280,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, X, this method returns P(X &ge; x).
-     * 
+     *
      * @param x the value at which the CDF is evaluated.
      * @return upper tail CDF for this distribution.
      * @since 1.1
@@ -306,7 +308,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * For this distribution, X, this method returns P(x0 &le; X &le; x1). This
      * probability is computed by summing the point probabilities for the values
      * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx.
-     * 
+     *
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @param dx the direction of summation. 1 indicates summing from x0 to x1.
