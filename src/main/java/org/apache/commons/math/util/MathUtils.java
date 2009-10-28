@@ -38,6 +38,9 @@ public final class MathUtils {
      */
     public static final double SAFE_MIN = 0x1.0p-1022;
 
+    /** 2 &pi;. */
+    public static final double TWO_PI = 2 * Math.PI;
+
     /** -1.0 cast as a byte. */
     private static final byte  NB = (byte)-1;
 
@@ -55,9 +58,6 @@ public final class MathUtils {
 
     /** 0.0 cast as a short. */
     private static final short ZS = (short)0;
-
-    /** 2 &pi;. */
-    private static final double TWO_PI = 2 * Math.PI;
 
     /** Gap between NaN and regular numbers. */
     private static final int NAN_GAP = 4 * 1024 * 1024;
