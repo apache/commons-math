@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="brentworden" type="update" issue="MATH-311" due-to="Nipun Jawalkar">
+        Changed probability calculations for Binomial, Poisson, and Hypergeometric
+        distributions to use Catherine Loader's saddle point approximations.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-306" due-to="Joerg Huber">
         Removed dead code from Complex#divide.
       </action>
