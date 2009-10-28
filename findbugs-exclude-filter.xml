@@ -26,6 +26,14 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
+    <Class name="org.apache.commons.math.distribution.SaddlePointExpansion" />
+    <Or>
+      <Method name="getDeviancePart" params="double,double" returns="double" />
+      <Method name="getStirlingError" params="double" returns="double" />
+    </Or>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.optimization.univariate.BrentOptimizer" />
     <Method name="localMin" params="org.apache.commons.math.analysis.UnivariateRealFunction,org.apache.commons.math.optimization.GoalType,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
