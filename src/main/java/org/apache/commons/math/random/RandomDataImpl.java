@@ -457,12 +457,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * uniform deviates.
      * </p>
      *
-     * @param mean
-     *            the mean of the distribution
+     * @param mean the mean of the distribution
      * @return the random Exponential value
      */
     public double nextExponential(double mean) {
-        if (mean < 0.0) {
+        if (mean <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "mean must be positive ({0})", mean);
         }

@@ -563,7 +563,12 @@ public class RandomDataTest extends RetryTestCase {
 		} catch (IllegalArgumentException ex) {
 			// ignored
 		}
-		assertEquals("0 mean", 0, randomData.nextExponential(0), 10E-8);
+        try {
+            randomData.nextExponential(0);
+            fail("zero mean -- expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // ignored
+        }
 		long cumFreq = 0;
 		double v = 0;
 		for (int i = 0; i < largeSampleSize; i++) {

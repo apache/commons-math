@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-309" due-to="Mikkel Meyer Andersen">
+        Fixed parameter test in RandomDataImpl#nextExponential. The method now throws
+        IllegalArgumentException for mean = 0.
+      </action>
       <action dev="brentworden" type="update" issue="MATH-311" due-to="Nipun Jawalkar">
         Changed probability calculations for Binomial, Poisson, and Hypergeometric
         distributions to use Catherine Loader's saddle point approximations.
