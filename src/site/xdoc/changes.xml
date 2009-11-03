@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-308" due-to="Dimitri Pourbaix">
+        Fixed an ArrayIndexOutOfBoundsException in eigen decomposition. Kudos to Dimitri
+        for debugging this, it was really difficult.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-309" due-to="Mikkel Meyer Andersen">
         Fixed parameter test in RandomDataImpl#nextExponential. The method now throws
         IllegalArgumentException for mean = 0.

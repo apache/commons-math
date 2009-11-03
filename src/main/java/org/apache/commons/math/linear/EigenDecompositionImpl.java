@@ -595,8 +595,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
 
         final double dCurrent = main[m - 1];
-        work[lowerStart + m - 1] = dCurrent - eCurrent;
-        work[upperStart + m - 1] = dCurrent + eCurrent;
+        final double lower = dCurrent - eCurrent;
+        work[lowerStart + m - 1] = lower;
+        lowerSpectra = Math.min(lowerSpectra, lower);
+        final double upper = dCurrent + eCurrent;
+        work[upperStart + m - 1] = upper;
+        upperSpectra = Math.max(upperSpectra, upper);
         minPivot = MathUtils.SAFE_MIN * Math.max(1.0, eMax * eMax);
 
     }
@@ -647,7 +651,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
                 tau = (range[1] - range[0]) * MathUtils.EPSILON * n + 2 * minPivot;
 
-                // decompose T&lambda;I as LDL<sup>T</sup>
+                // decompose T-&lambda;I as LDL<sup>T</sup>
                 ldlTDecomposition(lambda, begin, n);
 
                 // apply general dqd/dqds method
@@ -899,8 +903,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     diagMax    = work[4 * i0];
                     offDiagMin = work[4 * i0 + 2];
                     double previousEMin = work[4 * i0 + 3];
-                    for (int i = 4 * i0; i < 4 * n0 - 11; i += 4) {
-                        if ((work[i + 3] <= TOLERANCE_2 * work[i]) &&
+                    for (int i = 4 * i0; i < 4 * n0 - 16; i += 4) {
+                        if ((work[i + 3] <= TOLERANCE_2 * work[i]) ||
                             (work[i + 2] <= TOLERANCE_2 * sigma)) {
                             // insert a split
                             work[i + 2]  = -sigma;
@@ -1537,7 +1541,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
 
                 // approximate contribution to norm squared from i < nn-2.
-                if (end - start > 2) {
+                if (end - start > 3) {
                     b2 = work[nn - 13] / work[nn - 15];
                     a2 = a2 + b2;
                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
