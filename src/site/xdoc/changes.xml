@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-318" due-to="Dimitri Pourbaix">
+        Fixed an index computation error in eigen decomposition. Once again, kudos to Dimitri
+        for debugging this.
+      </action>
       <action dev="luc" type="fix" issue="MATH-308" due-to="Dimitri Pourbaix">
         Fixed an ArrayIndexOutOfBoundsException in eigen decomposition. Kudos to Dimitri
         for debugging this, it was really difficult.
