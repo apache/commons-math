@@ -837,7 +837,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
 
         // initial checks for splits (see Parlett & Marques section 3.3)
-        flipIfWarranted(n, 2);
+        flipEveryOtherIfWarranted(n);
 
         // two iterations with Li's test for initial splits
         initialSplits(n);
@@ -1051,7 +1051,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         // step 2: flip array if needed
         if ((dMin <= 0) || (deflatedEnd < end)) {
-            if (flipIfWarranted(deflatedEnd, 1)) {
+            if (flipAllIfWarranted(deflatedEnd)) {
                 dMin2 = Math.min(dMin2, work[l - 1]);
                 work[l - 1] =
                     Math.min(work[l - 1],
@@ -1123,27 +1123,59 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /**
-     * Flip qd array if warranted.
+     * Flip all elements of qd array if warranted.
      * @param n number of rows in the block
-     * @param step within the array (1 for flipping all elements, 2 for flipping
-     * only every other element)
      * @return true if qd array was flipped
      */
-    private boolean flipIfWarranted(final int n, final int step) {
-        if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
-            // flip array
-            int j = 4 * (n - 1);
-            for (int i = 0; i < j; i += 4) {
-                for (int k = 0; k < 4; k += step) {
-                    final double tmp = work[i + k];
-                    work[i + k] = work[j - k];
-                    work[j - k] = tmp;
-                }
-                j -= 4;
-            }
-            return true;
+    private boolean flipAllIfWarranted(final int n) {
+        if (1.5 * work[pingPong] >= work[4 * (n - 1) + pingPong]) {
+            return false;
         }
-        return false;
+
+        int j = 4 * (n - 1);
+        for (int i = 0; i < j; i += 4) {
+            final double tmp1 = work[i];
+            work[i] = work[j];
+            work[j] = tmp1;
+            final double tmp2 = work[i+1];
+            work[i+1] = work[j+1];
+            work[j+1] = tmp2;
+            final double tmp3 = work[i+2];
+            work[i+2] = work[j-2];
+            work[j-2] = tmp3;
+            final double tmp4 = work[i+3];
+            work[i+3] = work[j-1];
+            work[j-1] = tmp4;
+            j -= 4;
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Flip every other elements of qd array if warranted.
+     * @param n number of rows in the block
+     * @return true if qd array was flipped
+     */
+    private boolean flipEveryOtherIfWarranted(final int n) {
+        if (1.5 * work[pingPong] >= work[4 * (n - 1) + pingPong]) {
+            return false;
+        }
+
+        // flip array
+        int j = 4 * (n - 1);
+        for (int i = 0; i < j; i += 4) {
+            for (int k = 0; k < 4; k += 2) {
+                final double tmp = work[i + k];
+                work[i + k] = work[j - k];
+                work[j - k] = tmp;
+            }
+            j -= 4;
+        }
+
+        return true;
+
     }
 
     /**

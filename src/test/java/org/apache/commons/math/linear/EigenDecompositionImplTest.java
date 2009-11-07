@@ -188,6 +188,50 @@ public class EigenDecompositionImplTest extends TestCase {
 
     }
 
+    public void testMathpbx03() {
+
+        double[] mainTridiagonal = {
+            1809.0978259647177,3395.4763425956166,1832.1894584712693,3804.364873592377,
+            806.0482458637571,2403.656427234185,28.48691431556015
+        };
+        double[] secondaryTridiagonal = {
+            -656.8932064545833,-469.30804108920734,-1021.7714889369421,
+            -1152.540497328983,-939.9765163817368,-12.885877015422391
+        };
+
+        // the reference values have been computed using routine DSTEMR
+        // from the fortran library LAPACK version 3.2.1
+        double[] refEigenValues = {
+            4603.121913685183245,3691.195818048970978,2743.442955402465032,1657.596442107321764,
+            1336.797819095331306,30.129865209677519,17.035352085224986
+        };
+
+        RealVector[] refEigenVectors = {
+            new ArrayRealVector(new double[] {-0.036249830202337,0.154184732411519,-0.346016328392363,0.867540105133093,-0.294483395433451,0.125854235969548,-0.000354507444044}),
+            new ArrayRealVector(new double[] {-0.318654191697157,0.912992309960507,-0.129270874079777,-0.184150038178035,0.096521712579439,-0.070468788536461,0.000247918177736}),
+            new ArrayRealVector(new double[] {-0.051394668681147,0.073102235876933,0.173502042943743,-0.188311980310942,-0.327158794289386,0.905206581432676,-0.004296342252659}),
+            new ArrayRealVector(new double[] {0.838150199198361,0.193305209055716,-0.457341242126146,-0.166933875895419,0.094512811358535,0.119062381338757,-0.000941755685226}),
+            new ArrayRealVector(new double[] {0.438071395458547,0.314969169786246,0.768480630802146,0.227919171600705,-0.193317045298647,-0.170305467485594,0.001677380536009}),
+            new ArrayRealVector(new double[] {-0.003726503878741,-0.010091946369146,-0.067152015137611,-0.113798146542187,-0.313123000097908,-0.118940107954918,0.932862311396062}),
+            new ArrayRealVector(new double[] {0.009373003194332,0.025570377559400,0.170955836081348,0.291954519805750,0.807824267665706,0.320108347088646,0.360202112392266}),
+        };
+
+        // the following line triggers the exception
+        EigenDecomposition decomposition =
+            new EigenDecompositionImpl(mainTridiagonal, secondaryTridiagonal, MathUtils.SAFE_MIN);
+
+        double[] eigenValues = decomposition.getRealEigenvalues();
+        for (int i = 0; i < refEigenValues.length; ++i) {
+            assertEquals(refEigenValues[i], eigenValues[i], 1.0e-4);
+            if (refEigenVectors[i].dotProduct(decomposition.getEigenvector(i)) < 0) {
+                assertEquals(0, refEigenVectors[i].add(decomposition.getEigenvector(i)).getNorm(), 1.0e-5);
+            } else {
+                assertEquals(0, refEigenVectors[i].subtract(decomposition.getEigenvector(i)).getNorm(), 1.0e-5);
+            }
+        }
+
+    }
+
     /** test a matrix already in tridiagonal form. */
     public void testTridiagonal() {
         Random r = new Random(4366663527842l);
