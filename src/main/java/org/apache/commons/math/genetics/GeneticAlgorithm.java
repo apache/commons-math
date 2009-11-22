@@ -34,7 +34,6 @@ public class GeneticAlgorithm {
      * Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative
      * to the default JDK-provided PRNG.
      */
-    //@GuardedBy("this")
     private static RandomGenerator randomGenerator = new JDKRandomGenerator();
 
     /** the crossover policy used by the algorithm. */
@@ -51,6 +50,9 @@ public class GeneticAlgorithm {
 
     /** the selection policy used by the algorithm. */
     private final SelectionPolicy selectionPolicy;
+
+    /** the number of generations evolved to reach {@link StoppingCondition} in the last run. */
+    private int generationsEvolved = 0;
 
     /**
      * @param crossoverPolicy The {@link CrossoverPolicy}
@@ -96,6 +98,8 @@ public class GeneticAlgorithm {
 
     /**
      * Evolve the given population. Evolution stops when the stopping condition
+     * is satisfied. Updates the {@link #getGenerationsEvolved() generationsEvolved}
+     * property with the number of generations evolved before the StoppingCondition
      * is satisfied.
      *
      * @param initial the initial, seed population.
@@ -104,8 +108,10 @@ public class GeneticAlgorithm {
      */
     public Population evolve(Population initial, StoppingCondition condition) {
         Population current = initial;
+        generationsEvolved = 0;
         while (!condition.isSatisfied(current)) {
             current = nextGeneration(current);
+            generationsEvolved++;
         }
         return current;
     }
@@ -205,6 +211,16 @@ public class GeneticAlgorithm {
      */
     public SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;
+    }
+
+    /**
+     * Returns the number of generations evolved to 
+     * reach {@link StoppingCondition} in the last run.
+     * 
+     * @return number of generations evolved
+     */
+    public int getGenerationsEvolved() {
+        return generationsEvolved;
     }
 
 }
