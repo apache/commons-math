@@ -239,6 +239,8 @@
             <configuration>
               <includes>
                 <include>**/*Test.java</include>
+                <include>**/*TestBinary.java</include>
+                <include>**/*TestPermutations.java</include>
               </includes>
               <excludes>
                 <exclude>**/*AbstractTest.java</exclude>
