@@ -48,6 +48,8 @@ public class GeneticAlgorithmTestBinary {
                 MUTATION_RATE,
                 new TournamentSelection(TOURNAMENT_ARITY)
         );
+        
+        assertEquals(0, ga.getGenerationsEvolved());
 
         // initial population
         Population initial = randomPopulation();
@@ -67,9 +69,8 @@ public class GeneticAlgorithmTestBinary {
         // however, for some implementations of GA, this need not be true :)
 
         assertTrue(bestFinal.compareTo(bestInitial) > 0);
-
-        //System.out.println(bestInitial);
-        //System.out.println(bestFinal);
+        assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
+ 
     }
 
 
