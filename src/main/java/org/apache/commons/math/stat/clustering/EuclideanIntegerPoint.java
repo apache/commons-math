@@ -98,5 +98,20 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
         }
         return hashCode;
     }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        final StringBuffer buff = new StringBuffer("(");
+        final int[] coordinates = getPoint();
+        for (int i = 0; i < coordinates.length; i++) {
+            buff.append(coordinates[i]);
+            if (i < coordinates.length - 1) {
+                buff.append(",");
+            }
+        }
+        buff.append(")");
+        return buff.toString();
+    }
 
 }
