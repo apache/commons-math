@@ -128,12 +128,11 @@ public class BiDiagonalTransformerTest {
             }));
        final double s3  = Math.sqrt(3.0);
        final double s14 = Math.sqrt(14.0);
-       final double s42 = Math.sqrt(42.0);
        final double s1553 = Math.sqrt(1553.0);
        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
-           {  -1.0 / s14,  5.0 / s42,  1.0 / s3 },
-           {  -2.0 / s14, -4.0 / s42,  1.0 / s3 },
-           {  -3.0 / s14,  1.0 / s42, -1.0 / s3 }
+           {  -1.0 / s14,  5.0 / (s3 * s14),  1.0 / s3 },
+           {  -2.0 / s14, -4.0 / (s3 * s14),  1.0 / s3 },
+           {  -3.0 / s14,  1.0 / (s3 * s14), -1.0 / s3 }
        });
        RealMatrix bRef = MatrixUtils.createRealMatrix(new double[][] {
            { -s14, s1553 / s14,   0.0 },
