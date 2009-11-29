@@ -29,6 +29,10 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class ArrayRealVector implements RealVector, Serializable {
 
+    /** Message for non fitting position and size. */
+    private static final String NON_FITTING_POSITION_AND_SIZE_MESSAGE =
+        "position {0} and size {1} don't fit to the size of the input array {2}";
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
 
@@ -112,8 +116,7 @@ public class ArrayRealVector implements RealVector, Serializable {
     public ArrayRealVector(double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "position {0} and size {1} don't fit to the size of the input array {2}",
-                    pos, size, d.length);
+                  NON_FITTING_POSITION_AND_SIZE_MESSAGE, pos, size, d.length);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -139,8 +142,7 @@ public class ArrayRealVector implements RealVector, Serializable {
     public ArrayRealVector(Double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "position {0} and size {1} don't fit to the size of the input array {2}",
-                    pos, size, d.length);
+                  NON_FITTING_POSITION_AND_SIZE_MESSAGE, pos, size, d.length);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {

@@ -33,6 +33,10 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  */
 public class TTestImpl implements TTest  {
 
+    /** Message for insufficient data. */
+    private static final String INSUFFICIENT_DATA_MESSAGE =
+        "insufficient data for t statistic, needs at least 2, got {0}";
+
     /** Distribution used to compute inference statistics. */
     private TDistribution distribution;
 
@@ -1039,7 +1043,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((data == null) || (data.length < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "insufficient data for t statistic, needs at least 2, got {0}",
+                  INSUFFICIENT_DATA_MESSAGE,
                   (data == null) ? 0 : data.length);
         }
     }
@@ -1052,7 +1056,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((stat == null) || (stat.getN() < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "insufficient data for t statistic, needs at least 2, got {0}",
+                  INSUFFICIENT_DATA_MESSAGE,
                   (stat == null) ? 0 : stat.getN());
         }
     }

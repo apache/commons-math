@@ -32,6 +32,14 @@ import org.apache.commons.math.MathRuntimeException;
 public abstract class AbstractIntegerDistribution extends AbstractDistribution
     implements IntegerDistribution, Serializable {
 
+    /** Message for endpoints in wrong order. */
+    private static final String WRONG_ORDER_ENDPOINTS_MESSAGE =
+        "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})";
+
+    /** Message for out of range point. */
+    private static final String OUT_OF_RANGE_POINT =
+        "{0} out of [{1}, {2}] range";
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -1146319659338487221L;
 
@@ -79,8 +87,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
         throws MathException {
         if (x0 > x1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
-                  x0, x1);
+                  WRONG_ORDER_ENDPOINTS_MESSAGE, x0, x1);
         }
         if (Math.floor(x0) < x0) {
             return cumulativeProbability(((int) Math.floor(x0)) + 1,
@@ -137,8 +144,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     public double cumulativeProbability(int x0, int x1) throws MathException {
         if (x0 > x1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
-                  x0, x1);
+                  WRONG_ORDER_ENDPOINTS_MESSAGE, x0, x1);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
     }
@@ -157,7 +163,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     public int inverseCumulativeProbability(final double p) throws MathException{
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  OUT_OF_RANGE_POINT, p, 0.0, 1.0);
         }
 
         // by default, do simple bisection.

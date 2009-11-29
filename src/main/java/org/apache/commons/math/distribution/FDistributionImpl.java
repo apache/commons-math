@@ -32,6 +32,10 @@ public class FDistributionImpl
     extends AbstractContinuousDistribution
     implements FDistribution, Serializable  {
 
+    /** Message for non positive degrees of freddom. */
+    private static final String NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE =
+        "degrees of freedom must be positive ({0})";
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -8516354193418641566L;
 
@@ -164,8 +168,7 @@ public class FDistributionImpl
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "degrees of freedom must be positive ({0})",
-                  degreesOfFreedom);
+                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
         }
         this.numeratorDegreesOfFreedom = degreesOfFreedom;
     }
@@ -187,8 +190,7 @@ public class FDistributionImpl
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "degrees of freedom must be positive ({0})",
-                  degreesOfFreedom);
+                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
         }
         this.denominatorDegreesOfFreedom = degreesOfFreedom;
     }

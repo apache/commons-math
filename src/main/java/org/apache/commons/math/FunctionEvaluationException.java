@@ -31,6 +31,10 @@ public class FunctionEvaluationException extends MathException  {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4305020489115478365L;
 
+    /** Message for failed evaluation. */
+    private static final String FAILED_EVALUATION_MESSAGE =
+        "evaluation failed for argument = {0}";
+
     /** Argument causing function evaluation failure */
     private double[] argument;
 
@@ -41,7 +45,7 @@ public class FunctionEvaluationException extends MathException  {
      * @param argument  the failing function argument
      */
     public FunctionEvaluationException(double argument) {
-        super("evaluation failed for argument = {0}", argument);
+        super(FAILED_EVALUATION_MESSAGE, argument);
         this.argument = new double[] { argument };
     }
 
@@ -53,7 +57,7 @@ public class FunctionEvaluationException extends MathException  {
      * @since 2.0
      */
     public FunctionEvaluationException(double[] argument) {
-        super("evaluation failed for argument = {0}", new ArrayRealVector(argument));
+        super(FAILED_EVALUATION_MESSAGE, new ArrayRealVector(argument));
         this.argument = argument.clone();
     }
 

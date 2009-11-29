@@ -36,6 +36,10 @@ public class LUDecompositionImpl implements LUDecomposition {
     /** Default bound to determine effective singularity in LU decomposition */
     private static final double DEFAULT_TOO_SMALL = 10E-12;
 
+    /** Message for vector length mismatch. */
+    private static final String VECTOR_LENGTH_MISMATCH_MESSAGE =
+        "vector length mismatch: got {0} but expected {1}";
+
     /** Entries of LU decomposition. */
     private double lu[][];
 
@@ -262,8 +266,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int m = pivot.length;
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "vector length mismatch: got {0} but expected {1}",
-                        b.length, m);
+                        VECTOR_LENGTH_MISMATCH_MESSAGE, b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -307,8 +310,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 final int m = pivot.length;
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "vector length mismatch: got {0} but expected {1}",
-                            b.getDimension(), m);
+                            VECTOR_LENGTH_MISMATCH_MESSAGE, b.getDimension(), m);
                 }
                 if (singular) {
                     throw new SingularMatrixException();

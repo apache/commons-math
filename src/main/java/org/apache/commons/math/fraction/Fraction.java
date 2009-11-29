@@ -77,6 +77,18 @@ public class Fraction
     /** A fraction representing "-1 / 1". */
     public static final Fraction MINUS_ONE = new Fraction(-1, 1);
 
+    /** Message for zero denominator. */
+    private static final String ZERO_DENOMINATOR_MESSAGE =
+        "zero denominator in fraction {0}/{1}";
+
+    /** Message for overflow. */
+    private static final String OVERFLOW_MESSAGE =
+        "overflow in fraction {0}/{1}, cannot negate";
+
+    /** Message for null fraction. */
+    private static final String NULL_FRACTION =
+        "null fraction";
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 3698073679419233275L;
 
@@ -252,13 +264,13 @@ public class Fraction
      */
     public Fraction(int num, int den) {
         if (den == 0) {
-            throw MathRuntimeException.createArithmeticException("zero denominator in fraction {0}/{1}",
-                                                                 num, den);
+            throw MathRuntimeException.createArithmeticException(
+                  ZERO_DENOMINATOR_MESSAGE, num, den);
         }
         if (den < 0) {
             if (num == Integer.MIN_VALUE || den == Integer.MIN_VALUE) {
-                throw MathRuntimeException.createArithmeticException("overflow in fraction {0}/{1}, cannot negate",
-                                                                     num, den);
+                throw MathRuntimeException.createArithmeticException(
+                      OVERFLOW_MESSAGE, num, den);
             }
             num = -num;
             den = -den;
@@ -409,8 +421,8 @@ public class Fraction
      */
     public Fraction negate() {
         if (numerator==Integer.MIN_VALUE) {
-            throw MathRuntimeException.createArithmeticException("overflow in fraction {0}/{1}, cannot negate",
-                                                                 numerator, denominator);
+            throw MathRuntimeException.createArithmeticException(
+                  OVERFLOW_MESSAGE, numerator, denominator);
         }
         return new Fraction(-numerator, denominator);
     }
@@ -481,7 +493,7 @@ public class Fraction
      */
     private Fraction addSub(Fraction fraction, boolean isAdd) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException("null fraction");
+            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
         }
         // zero is identity for addition.
         if (numerator == 0) {
@@ -538,7 +550,7 @@ public class Fraction
      */
     public Fraction multiply(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException("null fraction");
+            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
         }
         if (numerator == 0 || fraction.numerator == 0) {
             return ZERO;
@@ -573,7 +585,7 @@ public class Fraction
      */
     public Fraction divide(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException("null fraction");
+            throw MathRuntimeException.createIllegalArgumentException(NULL_FRACTION);
         }
         if (fraction.numerator == 0) {
             throw MathRuntimeException.createArithmeticException(
@@ -606,8 +618,7 @@ public class Fraction
     public static Fraction getReducedFraction(int numerator, int denominator) {
         if (denominator == 0) {
             throw MathRuntimeException.createArithmeticException(
-                    "zero denominator in fraction {0}/{1}",
-                    numerator, denominator);
+                  ZERO_DENOMINATOR_MESSAGE, numerator, denominator);
         }
         if (numerator==0) {
             return ZERO; // normalize zero.
@@ -620,8 +631,7 @@ public class Fraction
             if (numerator==Integer.MIN_VALUE ||
                     denominator==Integer.MIN_VALUE) {
                 throw MathRuntimeException.createArithmeticException(
-                        "overflow in fraction {0}/{1}, cannot negate",
-                        numerator, denominator);
+                      OVERFLOW_MESSAGE, numerator, denominator);
             }
             numerator = -numerator;
             denominator = -denominator;

@@ -80,6 +80,10 @@ public class BigFraction
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5630213147331578515L;
 
+    /** Message for zero denominator. */
+    private static final String FORBIDDEN_ZERO_DENOMINATOR =
+        "denominator must be different from 0";
+
     /** <code>BigInteger</code> representation of 100. */
     private static final BigInteger ONE_HUNDRED_DOUBLE = BigInteger.valueOf(100);
 
@@ -125,7 +129,7 @@ public class BigFraction
             throw MathRuntimeException.createNullPointerException("denominator is null");
         }
         if (BigInteger.ZERO.equals(den)) {
-            throw MathRuntimeException.createArithmeticException("denominator must be different from 0");
+            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
         }
         if (BigInteger.ZERO.equals(num)) {
             numerator   = BigInteger.ZERO;
@@ -615,7 +619,7 @@ public class BigFraction
      */
     public BigFraction divide(final BigInteger bg) {
         if (BigInteger.ZERO.equals(bg)) {
-            throw MathRuntimeException.createArithmeticException("denominator must be different from 0");
+            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
         }
         return new BigFraction(numerator, denominator.multiply(bg));
     }
@@ -668,7 +672,7 @@ public class BigFraction
      */
     public BigFraction divide(final BigFraction fraction) {
         if (BigInteger.ZERO.equals(fraction.numerator)) {
-            throw MathRuntimeException.createArithmeticException("denominator must be different from 0");
+            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
         }
 
         return multiply(fraction.reciprocal());

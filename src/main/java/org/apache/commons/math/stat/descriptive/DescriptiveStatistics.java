@@ -65,6 +65,17 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     /** Serialization UID */
     private static final long serialVersionUID = 4133067267405273064L;
 
+    /** Name of the setQuantile method. */
+    private static final String SET_QUANTILE_METHOD_NAME = "setQuantile";
+
+    /** Message for unsupported setQuantile. */
+    private static final String UNSUPPORTED_METHOD_MESSAGE =
+        "percentile implementation {0} does not support {1}";
+
+    /** Message for illegal accesson setquantile. */
+    private static final String ILLEGAL_ACCESS_MESSAGE =
+        "cannot access {0} method in percentile implementation {1}";
+
     /** hold the window size **/
     protected int windowSize = INFINITE_WINDOW;
 
@@ -377,17 +388,17 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
             ((Percentile) percentileImpl).setQuantile(p);
         } else {
             try {
-                percentileImpl.getClass().getMethod("setQuantile",
+                percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
                         new Class[] {Double.TYPE}).invoke(percentileImpl,
                                 new Object[] {Double.valueOf(p)});
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
                 throw MathRuntimeException.createIllegalArgumentException(
-                      "percentile implementation {0} does not support setQuantile",
-                      percentileImpl.getClass().getName());
+                      UNSUPPORTED_METHOD_MESSAGE,
+                      percentileImpl.getClass().getName(), SET_QUANTILE_METHOD_NAME);
             } catch (IllegalAccessException e2) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      "cannot access setQuantile method in percentile implementation {0}",
-                      percentileImpl.getClass().getName());
+                      ILLEGAL_ACCESS_MESSAGE,
+                      SET_QUANTILE_METHOD_NAME, percentileImpl.getClass().getName());
             } catch (InvocationTargetException e3) {
                 throw MathRuntimeException.createIllegalArgumentException(e3.getCause());
             }
@@ -560,7 +571,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     public synchronized void setPercentileImpl(
             UnivariateStatistic percentileImpl) {
         try {
-            percentileImpl.getClass().getMethod("setQuantile",
+            percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
                     new Class[] {Double.TYPE}).invoke(percentileImpl,
                             new Object[] {Double.valueOf(50.0d)});
         } catch (NoSuchMethodException e1) {
@@ -569,8 +580,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                   percentileImpl.getClass().getName());
         } catch (IllegalAccessException e2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "cannot access setQuantile method in percentile implementation {0}",
-                  percentileImpl.getClass().getName());
+                  ILLEGAL_ACCESS_MESSAGE,
+                  SET_QUANTILE_METHOD_NAME, percentileImpl.getClass().getName());
         } catch (InvocationTargetException e3) {
             throw MathRuntimeException.createIllegalArgumentException(e3.getCause());
         }

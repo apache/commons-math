@@ -48,6 +48,22 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
+    /** Message for not power of 2. */
+    private static final String NOT_POWER_OF_TWO_MESSAGE =
+        "{0} is not a power of 2, consider padding for fix";
+
+    /** Message for dimension mismatch. */
+    private static final String DIMENSION_MISMATCH_MESSAGE =
+        "some dimensions don't match: {0} != {1}";
+
+    /** Message for not computed roots of unity. */
+    private static final String MISSING_ROOTS_OF_UNITY_MESSAGE =
+        "roots of unity have not been computed yet";
+
+    /** Message for out of range root index. */
+    private static final String OUT_OF_RANGE_ROOT_INDEX_MESSAGE =
+        "out of range root of unity index {0} (must be in [{1};{2}])";
+
     /** roots of unity */
     private RootsOfUnity roots = new RootsOfUnity();
 
@@ -494,8 +510,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(double d[]) throws IllegalArgumentException {
         if (!isPowerOf2(d.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} is not a power of 2, consider padding for fix",
-                    d.length);
+                    NOT_POWER_OF_TWO_MESSAGE, d.length);
         }
     }
 
@@ -508,8 +523,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(Object o[]) throws IllegalArgumentException {
         if (!isPowerOf2(o.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} is not a power of 2, consider padding for fix",
-                    o.length);
+                    NOT_POWER_OF_TWO_MESSAGE, o.length);
         }
     }
 
@@ -663,15 +677,13 @@ public class FastFourierTransformer implements Serializable {
             if (vector == null) {
                 if (dimensionSize.length > 0) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "some dimensions don't match: {0} != {1}",
-                            0, dimensionSize.length);
+                            DIMENSION_MISMATCH_MESSAGE, 0, dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't match: {0} != {1}",
-                        vector.length, dimensionSize.length);
+                        DIMENSION_MISMATCH_MESSAGE, vector.length, dimensionSize.length);
             }
 
             Object lastDimension = multiDimensionalComplexArray;
@@ -694,15 +706,13 @@ public class FastFourierTransformer implements Serializable {
             if (vector == null) {
                 if (dimensionSize.length > 0) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "some dimensions don't match: {0} != {1}",
-                            0, dimensionSize.length);
+                            DIMENSION_MISMATCH_MESSAGE, 0, dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some dimensions don't match: {0} != {1}",
-                        vector.length,dimensionSize.length);
+                        DIMENSION_MISMATCH_MESSAGE, vector.length,dimensionSize.length);
             }
 
             Object[] lastDimension = (Object[]) multiDimensionalComplexArray;
@@ -818,7 +828,7 @@ public class FastFourierTransformer implements Serializable {
 
         if (omegaCount == 0) {
           throw MathRuntimeException.createIllegalStateException(
-                  "roots of unity have not been computed yet");
+                  MISSING_ROOTS_OF_UNITY_MESSAGE);
         }
         return isForward;
 
@@ -882,12 +892,11 @@ public class FastFourierTransformer implements Serializable {
 
         if (omegaCount == 0) {
             throw MathRuntimeException.createIllegalStateException(
-                    "roots of unity have not been computed yet");
+                    MISSING_ROOTS_OF_UNITY_MESSAGE);
         }
         if ((k < 0) || (k >= omegaCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "out of range root of unity index {0} (must be in [{1};{2}])",
-                    k, 0, omegaCount - 1);
+                    OUT_OF_RANGE_ROOT_INDEX_MESSAGE, k, 0, omegaCount - 1);
         }
 
         return omegaReal[k];
@@ -906,12 +915,11 @@ public class FastFourierTransformer implements Serializable {
 
         if (omegaCount == 0) {
             throw MathRuntimeException.createIllegalStateException(
-                    "roots of unity have not been computed yet");
+                    MISSING_ROOTS_OF_UNITY_MESSAGE);
         }
         if ((k < 0) || (k >= omegaCount)) {
           throw MathRuntimeException.createIllegalArgumentException(
-                  "out of range root of unity index {0} (must be in [{1};{2}])",
-                  k, 0, omegaCount - 1);
+                  OUT_OF_RANGE_ROOT_INDEX_MESSAGE, k, 0, omegaCount - 1);
         }
 
         return isForward ? omegaImaginaryForward[k] : omegaImaginaryInverse[k];

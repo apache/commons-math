@@ -43,10 +43,8 @@ public class MessagesResources_fr
     { "cannot raise an integral value to a negative power ({0}^{1})",
       "impossible d''\u00e9lever une valeur enti\u00e8re " +
       "\u00e0 une puissance n\u00e9gative ({0}^{1})" },
-    { "invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4})," +
-       " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
-      "m\u00e9thode d''arondi {0} invalide, m\u00e9thodes valides : {1} ({2}), {3} ({4})," +
-       " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})" },
+    { "invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
+      "m\u00e9thode d''arondi {0} invalide, m\u00e9thodes valides : {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})" },
     { "Cannot normalize to an infinite value",
       "impossible de normaliser vers une valeur infinie" },
     { "Cannot normalize to NaN",
@@ -225,7 +223,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
     { "simplex must contain at least one point",
       "le simplex doit contenir au moins un point" },
-    { "equals vertices {0} and {1} in simplex configuration",
+    { "equal vertices {0} and {1} in simplex configuration",
       "sommets {0} et {1} \u00e9gaux dans la configuration du simplex" },
 
     // org.apache.commons.math.estimation.AbstractEstimation
@@ -289,25 +287,17 @@ public class MessagesResources_fr
     // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator
     { "minimal step size ({0,number,0.00E00}) reached, integration needs {1,number,0.00E00}",
       "pas minimal ({0,number,0.00E00}) atteint, l''int\u00e9gration n\u00e9cessite {1,number,0.00E00}" },
-    { "dimensions mismatch: state vector has dimension {0}," +
-      " absolute tolerance vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
-      " et le vecteur de tol\u00e9rance absolue ({1})" },
-    { "dimensions mismatch: state vector has dimension {0}," +
-      " relative tolerance vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0})," +
-      " et le vecteur de tol\u00e9rance relative ({1})" },
+    { "dimensions mismatch: state vector has dimension {0}, absolute tolerance vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0}), et le vecteur de tol\u00e9rance absolue ({1})" },
+    { "dimensions mismatch: state vector has dimension {0}, relative tolerance vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le vecteur d''\u00e9tat ({0}), et le vecteur de tol\u00e9rance relative ({1})" },
 
     // org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator,
     // org.apache.commons.math.ode.nonstiff.RungeKuttaIntegrator
-    { "dimensions mismatch: ODE problem has dimension {0}," +
-      " initial state vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
-      " et le vecteur d''\u00e9tat initial ({1})" },
-    { "dimensions mismatch: ODE problem has dimension {0}," +
-      " final state vector has dimension {1}",
-      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0})," +
-      " et le vecteur d''\u00e9tat final ({1})" },
+    { "dimensions mismatch: ODE problem has dimension {0}, initial state vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0}), et le vecteur d''\u00e9tat initial ({1})" },
+    { "dimensions mismatch: ODE problem has dimension {0}, final state vector has dimension {1}",
+      "incompatibilit\u00e9 de dimensions entre le probl\u00e8me ODE ({0}), et le vecteur d''\u00e9tat final ({1})" },
     { "too small integration interval: length = {0}",
       "intervalle d''int\u00e9gration trop petit : {0}" },
 
@@ -392,7 +382,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.decomposition.QRDecompositionImpl
     // org.apache.commons.math.linear.decomposition.SingularValueDecompositionImpl
     { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-      "dimensions erronn\u00e9es : {0}x{1} \u00e0 la place de {2}x{3}" },
+      "dimensions incoh\u00e9rentes : {0}x{1} \u00e0 la place de {2}x{3}" },
 
     // org.apache.commons.math.linear.decomposition.CholeskyDecompositionImpl
     // org.apache.commons.math.linear.decomposition.EigenDecompositionImpl
@@ -402,7 +392,7 @@ public class MessagesResources_fr
     // org.apache.commons.math.linear.ArrayRealVector
     // org.apache.commons.math.linear.SparseRealVector
     { "vector length mismatch: got {0} but expected {1}",
-      "dimension de vecteur erronn\u00e9e : {0} \u00e0 la place de {1}" },
+      "taille de vecteur invalide : {0} au lieu de {1} attendue" },
 
     // org.apache.commons.math.linear.ArrayRealVector
     // org.apache.commons.math.linear.ArrayFieldVector
@@ -420,10 +410,6 @@ public class MessagesResources_fr
       "nombre de lignes invalide : {0} (doit \u00eatre positif)" },
     { "invalid column dimension: {0} (must be positive)",
       "nombre de colonnes invalide : {0} (doit \u00eatre positif)" },
-    { "vector length mismatch: got {0} but expected {1}",
-      "taille de vecteur invalide : {0} au lieu de {1} attendue" },
-    { "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-      "dimensions incoh\u00e9rentes : {0}x{1} \u00e0 la place de {2}x{3}" },
     { "matrix must have at least one row",
       "une matrice doit comporter au moins une ligne" },
     { "matrix must have at least one column",
@@ -648,11 +634,11 @@ public class MessagesResources_fr
    // org.apache.commons.math.stat.descriptive.DescriptiveStatistics
    { "window size must be positive ({0})",
      "la taille de la fen\u00eatre doit \u00eatre positive ({0})" },
-   { "percentile implementation {0} does not support setQuantile",
-     "l''implantation de pourcentage {0} ne dispose pas de la m\u00e9thode setQuantile" },
-   { "cannot access setQuantile method in percentile implementation {0}",
-     "acc\u00e8s impossible \u00e0 la m\u00e9thode setQuantile" +
-     " dans l''implantation de pourcentage {0}" },
+   { "percentile implementation {0} does not support {1}",
+     "l''implantation de pourcentage {0} ne dispose pas de la m\u00e9thode {1}" },
+   { "cannot access {0} method in percentile implementation {1}",
+     "acc\u00e8s impossible \u00e0 la m\u00e9thode {0}" +
+     " dans l''implantation de pourcentage {1}" },
    { "out of bounds quantile value: {0}, must be in (0, 100]",
      "valeur de quantile {0} hors bornes, doit \u00eatre dans l''intervalle ]0, 100]" },
 
@@ -679,11 +665,9 @@ public class MessagesResources_fr
 
    // org.apache.commons.math.stat.descriptive.moment.Kurtosis
    { "statistics constructed from external moments cannot be incremented",
-     "les statistiques bas\u00e9es sur des moments externes " +
-     "ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre incr\u00e9ment\u00e9es" },
    { "statistics constructed from external moments cannot be cleared",
-     "les statistiques bas\u00e9es sur des moments externes " +
-     "ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
+     "les statistiques bas\u00e9es sur des moments externes ne peuvent pas \u00eatre remises \u00e0 z\u00e9ro" },
 
    // org.apache.commons.math.stat.inference.ChiSquareTestImpl
    { "expected array length = {0}, must be at least 2",

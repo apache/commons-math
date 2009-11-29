@@ -62,6 +62,9 @@ import org.apache.commons.math.util.MathUtils;
  */
 class SimplexTableau implements Serializable {
 
+    /** Column label for negative vars. */
+    private static final String NEGATIVE_VAR_COLUMN_LABEL = "x-";
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
 
@@ -131,7 +134,7 @@ class SimplexTableau implements Serializable {
         columnLabels.add("x" + i);
       }
       if (!restrictToNonNegative) {
-        columnLabels.add("x-");
+        columnLabels.add(NEGATIVE_VAR_COLUMN_LABEL);
       }
       for (int i = 0; i < getNumSlackVariables(); i++) {
         columnLabels.add("s" + i);
@@ -363,7 +366,7 @@ class SimplexTableau implements Serializable {
      * @return current solution
      */
     protected RealPointValuePair getSolution() {
-      int negativeVarColumn = columnLabels.indexOf("x-");
+      int negativeVarColumn = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);
       Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
       double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
 

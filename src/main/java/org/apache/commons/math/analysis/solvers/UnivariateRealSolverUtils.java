@@ -27,6 +27,11 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtils {
+
+    /** Message for null function.*/
+    private static final String NULL_FUNCTION_MESSAGE =
+        "function is null";
+
     /**
      * Default constructor.
      */
@@ -168,7 +173,7 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {
 
         if (function == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function is null");
+            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
         }
         if (maximumIterations <= 0)  {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -225,7 +230,7 @@ public class UnivariateRealSolverUtils {
      */
     private static void setup(UnivariateRealFunction f) {
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function is null");
+            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
         }
     }
 
