@@ -115,7 +115,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                                        MathUtils.SAFE_MIN);
         singularValues = eigenDecomposition.getRealEigenvalues();
         for (int i = 0; i < singularValues.length; ++i) {
-            singularValues[i] = Math.sqrt(singularValues[i]);
+            final double si = singularValues[i];
+            singularValues[i] = (si < 0) ? 0.0 : Math.sqrt(si);
         }
 
     }
@@ -133,14 +134,15 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 double[] ei1 = eData[0];
                 iData[0] = ei1;
                 for (int i = 0; i < n - 1; ++i) {
-                    // compute Bt.E.S^(-1) where E is the eigenvectors matrix
+                    // compute B.E.S^(-1) where E is the eigenvectors matrix
                     // we reuse the array from matrix E to store the result
+                    final double mi = mainBidiagonal[i];
+                    final double si = secondaryBidiagonal[i];
                     final double[] ei0 = ei1;
                     ei1 = eData[i + 1];
                     iData[i + 1] = ei1;
                     for (int j = 0; j < n; ++j) {
-                        ei0[j] = (mainBidiagonal[i] * ei0[j] +
-                                  secondaryBidiagonal[i] * ei1[j]) / singularValues[j];
+                        ei0[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
                     }
                 }
                 // last row
@@ -215,12 +217,13 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 for (int i = 0; i < m - 1; ++i) {
                     // compute Bt.E.S^(-1) where E is the eigenvectors matrix
                     // we reuse the array from matrix E to store the result
+                    final double mi = mainBidiagonal[i];
+                    final double si = secondaryBidiagonal[i];
                     final double[] ei0 = ei1;
                     ei1 = eData[i + 1];
                     iData[i + 1] = ei1;
                     for (int j = 0; j < m; ++j) {
-                        ei0[j] = (mainBidiagonal[i] * ei0[j] +
-                                  secondaryBidiagonal[i] * ei1[j]) / singularValues[j];
+                        ei0[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
                     }
                 }
                 // last row
