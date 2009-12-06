@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-322" >
+        Fixed an error in handling very close events in ODE integration.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-305" due-to="Erik van Ingen">
         Fixed an overflow error in MathUtils.distance that was causing KMeansPlusPlusClusterer
         to fail with a NullPointerException when component distances between points

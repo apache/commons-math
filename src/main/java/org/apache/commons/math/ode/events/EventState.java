@@ -19,6 +19,7 @@ package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.ode.DerivativeException;
@@ -187,6 +188,26 @@ public class EventState {
                 if (g0Positive ^ (gb >= 0)) {
                     // there is a sign change: an event is expected during this step
 
+                    if (ga * gb > 0) {
+                        // this is a corner case:
+                        // - there was an event near ta,
+                        // - there is another event between ta and tb
+                        // - when ta was computed, convergence was reached on the "wrong side" of the interval
+                        // this implies that the real sign of ga is the same as gb, so we need to slightly
+                        // shift ta to make sure ga and gb get opposite signs and the solver won't complain
+                        // about bracketing
+                        final double epsilon = (forward ? 0.25 : -0.25) * convergence;
+                        for (int k = 0; (k < 4) && (ga * gb > 0); ++k) {
+                            ta += epsilon;
+                            interpolator.setInterpolatedTime(ta);
+                            ga = handler.g(ta, interpolator.getInterpolatedState());
+                        }
+                        if (ga * gb > 0) {
+                            // this should never happen
+                            throw MathRuntimeException.createInternalError(null);
+                        }
+                    }
+                         
                     // variation direction, with respect to the integration direction
                     increasing = gb >= ga;
 
@@ -205,16 +226,9 @@ public class EventState {
                     final BrentSolver solver = new BrentSolver();
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
-                    double root;
-                    try {
-                        root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
-                    } catch (IllegalArgumentException iae) {
-                        // the interval did not really bracket a root
-                        root = Double.NaN;
-                    }
-                    if (Double.isNaN(root) ||
-                        ((Math.abs(root - ta) <= convergence) &&
-                         (Math.abs(root - previousEventTime) <= convergence))) {
+                    final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+                    if ((Math.abs(root - ta) <= convergence) &&
+                         (Math.abs(root - previousEventTime) <= convergence)) {
                         // we have either found nothing or found (again ?) a past event, we simply ignore it
                         ta = tb;
                         ga = gb;
