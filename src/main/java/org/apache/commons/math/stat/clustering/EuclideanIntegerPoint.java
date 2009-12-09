@@ -98,7 +98,7 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
         }
         return hashCode;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public String toString() {

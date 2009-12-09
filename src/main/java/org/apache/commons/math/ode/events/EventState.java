@@ -207,7 +207,7 @@ public class EventState {
                             throw MathRuntimeException.createInternalError(null);
                         }
                     }
-                         
+
                     // variation direction, with respect to the integration direction
                     increasing = gb >= ga;
 
