@@ -113,7 +113,7 @@ public class TestProblem3
       corr  = f0 * f12 / (f1 * f12 - f0 * f2);
       d -= corr;
       E = t + d;
-    };
+    }
 
     double cosE = Math.cos(E);
     double sinE = Math.sin(E);
