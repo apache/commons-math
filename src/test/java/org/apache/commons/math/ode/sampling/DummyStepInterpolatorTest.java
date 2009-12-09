@@ -128,15 +128,15 @@ public class DummyStepInterpolatorTest {
   }
 
   private static class BadStepInterpolator extends DummyStepInterpolator {
-	  @SuppressWarnings("unused")
-	  public BadStepInterpolator() {
-	  }
-	  public BadStepInterpolator(double[] y, boolean forward) {
-		  super(y, forward);
-	  }
-	  @Override
-	  protected void doFinalize()
-	  throws DerivativeException {
+      @SuppressWarnings("unused")
+      public BadStepInterpolator() {
+      }
+      public BadStepInterpolator(double[] y, boolean forward) {
+          super(y, forward);
+      }
+      @Override
+      protected void doFinalize()
+      throws DerivativeException {
           throw new DerivativeException(null);
       }
   }

@@ -32,7 +32,7 @@ public class TTestFactoryTest extends TTestTest {
 
     @Override
     public void setUp() {
-    	super.setUp();
+        super.setUp();
         testStatistic = TestUtils.getTTest();
     }
 

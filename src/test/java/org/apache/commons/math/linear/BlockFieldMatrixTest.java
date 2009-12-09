@@ -589,7 +589,7 @@ public final class BlockFieldMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockFieldMatrix<Fraction>(reference), sub);
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -647,9 +647,9 @@ public final class BlockFieldMatrixTest extends TestCase {
                              new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             if (reference != null) {
-            	assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
+                assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -666,9 +666,9 @@ public final class BlockFieldMatrixTest extends TestCase {
                     new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             if (reference != null) {
-            	assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
+                assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {

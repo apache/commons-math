@@ -385,9 +385,9 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
             if (reference != null) {
-            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
+                assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -401,9 +401,9 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             FieldMatrix<Fraction> sub = m.getSubMatrix(selectedRows, selectedColumns);
             if (reference != null) {
-            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
+                assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), sub);
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -440,9 +440,9 @@ public final class FieldMatrixImplTest extends TestCase {
                              new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             if (reference != null) {
-            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
+                assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -459,9 +459,9 @@ public final class FieldMatrixImplTest extends TestCase {
                     new Fraction[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             if (reference != null) {
-            	assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
+                assertEquals(new Array2DRowFieldMatrix<Fraction>(reference), new Array2DRowFieldMatrix<Fraction>(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {

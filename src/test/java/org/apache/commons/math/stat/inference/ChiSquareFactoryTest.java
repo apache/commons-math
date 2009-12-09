@@ -32,7 +32,7 @@ public class ChiSquareFactoryTest extends ChiSquareTestTest {
 
     @Override
     public void setUp() throws Exception {
-    	super.setUp();
+        super.setUp();
         testStatistic = TestUtils.getUnknownDistributionChiSquareTest();
     }
 

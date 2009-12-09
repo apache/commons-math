@@ -498,9 +498,9 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
             if (reference != null) {
-            	 assertEquals(new BlockRealMatrix(reference), sub);
+                assertEquals(new BlockRealMatrix(reference), sub);
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -514,9 +514,9 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
             if (reference != null) {
-            	assertEquals(new BlockRealMatrix(reference), sub);
+                assertEquals(new BlockRealMatrix(reference), sub);
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -572,9 +572,9 @@ public final class BlockRealMatrixTest extends TestCase {
                              new double[reference.length][reference[0].length];
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             if (reference != null) {
-            	assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
+                assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
@@ -591,9 +591,9 @@ public final class BlockRealMatrixTest extends TestCase {
                     new double[reference.length][reference[0].length];
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             if (reference != null) {
-            	assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
+                assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             } else {
-            	fail("Expecting MatrixIndexException");
+                fail("Expecting MatrixIndexException");
             }
         } catch (MatrixIndexException e) {
             if (reference != null) {
