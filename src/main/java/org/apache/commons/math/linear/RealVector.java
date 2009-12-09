@@ -16,6 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import java.util.Iterator;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+
+
 /**
  * Interface defining a real-valued vector with basic algebraic operations.
  * <p>
@@ -40,6 +46,74 @@ package org.apache.commons.math.linear;
  * @since 2.0
  */
 public interface RealVector {
+
+    /**
+     * Acts as if it is implemented as:
+     * Entry e = null;
+     * for(Iterator<Entry> it = iterator(); it.hasNext(); e = it.next()) {
+     *   e.setValue(function.value(e.getValue()));
+     * }
+     * @param function to apply to each successive entry
+     * @return this vector
+     * @throws FunctionEvaluationException if function throws it on application to any entry
+     */
+    RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException;
+
+    /**
+     * Acts as if implemented as:
+     * return copy().map(function);
+     * @param function to apply to each successive entry
+     * @return a new vector
+     * @throws FunctionEvaluationException if function throws it on application to any entry
+     */
+    RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException;
+
+    /** Class representing a modifiable entry in the vector. */
+    public abstract class Entry {
+
+        /** Index of the entry. */
+        private int index;
+
+        /** Get the value of the entry.
+         * @return value of the entry
+         */
+        public abstract double getValue();
+
+        /** Set the value of the entry.
+         * @param value new value for the entry
+         */
+        public abstract void setValue(double value);
+
+        /** Get the index of the entry.
+         * @return index of the entry
+         */
+        public int getIndex() {
+            return index;
+        }
+
+        /** Set the index of the entry.
+         * @param index new index for the entry
+         */
+        public void setIndex(int index) {
+            this.index = index;
+        }
+
+    }
+
+    /**
+     * Generic dense iterator - starts with index == zero, and hasNext() == true until index == getDimension();
+     * @return a dense iterator
+     */
+    Iterator<Entry> iterator();
+
+    /**
+     * Specialized implementations may choose to not iterate over all dimensions, either because those values are
+     * unset, or are equal to defaultValue(), or are small enough to be ignored for the purposes of iteration.
+     * No guarantees are made about order of iteration.
+     * In dense implementations, this method will often delegate to {@see #iterator() }
+     * @return a sparse iterator
+     */
+    Iterator<Entry> sparseIterator();
 
     /**
      * Returns a (deep) copy of this.
