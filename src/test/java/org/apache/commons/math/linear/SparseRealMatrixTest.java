@@ -542,7 +542,7 @@ public final class SparseRealMatrixTest extends TestCase {
 
     public void testEqualsAndHashCode() {
         OpenMapRealMatrix m = createSparseMatrix(testData);
-        OpenMapRealMatrix m1 = (OpenMapRealMatrix) m.copy();
+        OpenMapRealMatrix m1 = m.copy();
         OpenMapRealMatrix mt = (OpenMapRealMatrix) m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());

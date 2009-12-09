@@ -980,8 +980,8 @@ public final class BlockRealMatrixTest extends TestCase {
 
     public void testEqualsAndHashCode() {
         BlockRealMatrix m = new BlockRealMatrix(testData);
-        BlockRealMatrix m1 = (BlockRealMatrix) m.copy();
-        BlockRealMatrix mt = (BlockRealMatrix) m.transpose();
+        BlockRealMatrix m1 = m.copy();
+        BlockRealMatrix mt = m.transpose();
         assertTrue(m.hashCode() != mt.hashCode());
         assertEquals(m.hashCode(), m1.hashCode());
         assertEquals(m, m);

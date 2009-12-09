@@ -112,7 +112,7 @@ public class GeneticAlgorithmTestPermutations {
             int res = 0;
             List<Integer> decoded = decode(sequence);
             for (int i=0; i<decoded.size(); i++) {
-                int value = (Integer) decoded.get(i);
+                int value = decoded.get(i);
                 if (value != i) {
                     // bad position found
                     res += Math.abs(value - i);
