@@ -535,7 +535,7 @@ public class SparseRealVectorTest extends TestCase {
         assertEquals("testData len", 6, v_append_3.getDimension());
         assertEquals("testData is  ", 4.0, v_append_3.getEntry(3));
 
-	    RealVector v_append_4 = v1.append(v2_t);
+        RealVector v_append_4 = v1.append(v2_t);
         assertEquals("testData len", 6, v_append_4.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3));
 
@@ -551,7 +551,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        OpenMapRealVector v_set1 = (OpenMapRealVector) v1.copy();
+        OpenMapRealVector v_set1 = v1.copy();
         v_set1.setEntry(1, 11.0);
         assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1));
         try {
@@ -563,7 +563,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        OpenMapRealVector v_set2 = (OpenMapRealVector) v4.copy();
+        OpenMapRealVector v_set2 = v4.copy();
         v_set2.setSubVector(3, v1);
         assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6));
@@ -576,7 +576,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        OpenMapRealVector v_set3 = (OpenMapRealVector) v1.copy();
+        OpenMapRealVector v_set3 = v1.copy();
         v_set3.set(13.0);
         assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2));
 
@@ -589,7 +589,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        OpenMapRealVector v_set4 = (OpenMapRealVector) v4.copy();
+        OpenMapRealVector v_set4 = v4.copy();
         v_set4.setSubVector(3, v2_t);
         assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3));
         assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6));
@@ -1036,7 +1036,7 @@ public class SparseRealVectorTest extends TestCase {
             fail("wrong exception caught");
         }
 
-        OpenMapRealVector v_unitize = (OpenMapRealVector)v1.copy();
+        OpenMapRealVector v_unitize = v1.copy();
         v_unitize.unitize();
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
