@@ -769,9 +769,15 @@ public abstract class AbstractRealVector implements RealVector {
             if (current.getValue() == 0) {
                 advance(current);
             }
-            next = new EntryImpl();
-            next.setIndex(current.getIndex());
-            advance(next);
+            if(current.getIndex() >= 0){
+                // There is at least one non-zero entry
+                next = new EntryImpl();
+                next.setIndex(current.getIndex());
+                advance(next);
+            } else {
+                // The vector consists of only zero entries, so deny having a next
+                current = null;
+            }
         }
 
         /** Advance an entry up to the next non null one.

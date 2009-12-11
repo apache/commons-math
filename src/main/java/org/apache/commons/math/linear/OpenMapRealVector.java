@@ -1250,4 +1250,70 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return (double)entries.size()/(double)getDimension();
     }
 
+    /** @{InheritDoc} */
+    public java.util.Iterator<Entry> sparseIterator() {
+        return new OpenMapSparseIterator();
+    }
+    
+    /**
+     *  Implementation of <code>Entry</code> optimized for OpenMap.
+     * <p>This implementation does not allow arbitrary calls to <code>setIndex</code>
+     * since the order that entries are returned is undefined.
+     */
+    protected class OpenMapEntry extends Entry {
+        private final Iterator iter;
+
+        protected OpenMapEntry(Iterator iter) {
+            this.iter = iter;
+        }
+        /** {@InheritDoc} */
+        @Override
+        public double getValue() {
+            return iter.value();
+        }
+
+        /** {@InheritDoc} */
+        @Override
+        public void setValue(double value) {
+            entries.put(iter.key(), value);
+        }
+        
+        /** {@InheritDoc} */
+        @Override
+        public int getIndex() {
+            return iter.key();
+        }
+    }
+    
+    /**
+     *  Iterator class to do iteration over just the non-zero elements.
+     *  <p>This implementation is fail-fast, so cannot be used to modify any zero element. 
+     *
+     */
+    
+    protected class OpenMapSparseIterator implements java.util.Iterator<Entry> {
+        private final Iterator iter;
+        private final Entry current;
+        
+        protected OpenMapSparseIterator() {
+            iter = entries.iterator();
+            current = new OpenMapEntry(iter);
+        }
+
+        /** {@InheritDoc} */
+        public boolean hasNext() {
+            return iter.hasNext();
+        }
+
+        /** {@InheritDoc} */
+        public Entry next() {
+            iter.advance();
+            return current;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("Not supported");
+       }
+        
+    }
 }
