@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunctions;
+import org.apache.commons.math.analysis.ComposableFunction;
 
 /**
  * This class provides default basic implementations for many methods in the
@@ -273,7 +273,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAbsToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ABS);
+            return mapToSelf(ComposableFunction.ABS);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -287,7 +287,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAcosToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ACOS);
+            return mapToSelf(ComposableFunction.ACOS);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -301,7 +301,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAsinToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ASIN);
+            return mapToSelf(ComposableFunction.ASIN);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -315,7 +315,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAtanToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ATAN);
+            return mapToSelf(ComposableFunction.ATAN);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -329,7 +329,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapCbrtToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.CBRT);
+            return mapToSelf(ComposableFunction.CBRT);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -343,7 +343,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapCeilToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.CEIL);
+            return mapToSelf(ComposableFunction.CEIL);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -357,7 +357,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapCosToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.COS);
+            return mapToSelf(ComposableFunction.COS);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -371,7 +371,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapCoshToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.COSH);
+            return mapToSelf(ComposableFunction.COSH);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -390,7 +390,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapExpToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.EXP);
+            return mapToSelf(ComposableFunction.EXP);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -404,7 +404,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapExpm1ToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.EXP1M);
+            return mapToSelf(ComposableFunction.EXPM1);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -418,7 +418,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapFloorToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.FLOOR);
+            return mapToSelf(ComposableFunction.FLOOR);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -437,7 +437,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLogToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.LOG);
+            return mapToSelf(ComposableFunction.LOG);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -451,7 +451,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLog10ToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.LOG10);
+            return mapToSelf(ComposableFunction.LOG10);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -465,7 +465,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLog1pToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ASIN);
+            return mapToSelf(ComposableFunction.ASIN);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -489,7 +489,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapRintToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.RINT);
+            return mapToSelf(ComposableFunction.RINT);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -503,7 +503,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapSignumToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.SIGNUM);
+            return mapToSelf(ComposableFunction.SIGNUM);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -517,7 +517,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapSinToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.SIN);
+            return mapToSelf(ComposableFunction.SIN);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -531,7 +531,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapSinhToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.SINH);
+            return mapToSelf(ComposableFunction.SINH);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -545,7 +545,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapSqrtToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.SQRT);
+            return mapToSelf(ComposableFunction.SQRT);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -564,7 +564,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapTanToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.TAN);
+            return mapToSelf(ComposableFunction.TAN);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -578,7 +578,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapTanhToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.TANH);
+            return mapToSelf(ComposableFunction.TANH);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -592,7 +592,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapUlpToSelf() {
         try {
-            return mapToSelf(UnivariateRealFunctions.ULP);
+            return mapToSelf(ComposableFunction.ULP);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }

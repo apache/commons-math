@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-313" due-to="Jake Mannix">
+        Added composition features for real functions.
+      </action>
       <action dev="luc" type="fix" issue="MATH-312" due-to="Jake Mannix">
         Added mapping and iteration methods to vectors. Provided a default implementation
         for the numerous simple methods in the RealVectorInterface.
