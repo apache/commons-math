@@ -1250,70 +1250,82 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return (double)entries.size()/(double)getDimension();
     }
 
-    /** @{InheritDoc} */
+    /** {@inheritDoc} */
     public java.util.Iterator<Entry> sparseIterator() {
         return new OpenMapSparseIterator();
     }
-    
+
     /**
      *  Implementation of <code>Entry</code> optimized for OpenMap.
      * <p>This implementation does not allow arbitrary calls to <code>setIndex</code>
      * since the order that entries are returned is undefined.
      */
     protected class OpenMapEntry extends Entry {
+
+        /** Iterator pointing to the entry. */
         private final Iterator iter;
 
+        /** Build an entry from an iterator point to an element.
+         * @param iter iterator pointing to the entry
+         */
         protected OpenMapEntry(Iterator iter) {
             this.iter = iter;
         }
-        /** {@InheritDoc} */
+
+        /** {@inheritDoc} */
         @Override
         public double getValue() {
             return iter.value();
         }
 
-        /** {@InheritDoc} */
+        /** {@inheritDoc} */
         @Override
         public void setValue(double value) {
             entries.put(iter.key(), value);
         }
-        
-        /** {@InheritDoc} */
+
+        /** {@inheritDoc} */
         @Override
         public int getIndex() {
             return iter.key();
         }
+
     }
-    
+
     /**
      *  Iterator class to do iteration over just the non-zero elements.
-     *  <p>This implementation is fail-fast, so cannot be used to modify any zero element. 
+     *  <p>This implementation is fail-fast, so cannot be used to modify any zero element.
      *
      */
-    
     protected class OpenMapSparseIterator implements java.util.Iterator<Entry> {
+
+        /** Underlying iterator. */
         private final Iterator iter;
+
+        /** Current entry. */
         private final Entry current;
-        
+
+        /** Simple constructor. */
         protected OpenMapSparseIterator() {
             iter = entries.iterator();
             current = new OpenMapEntry(iter);
         }
 
-        /** {@InheritDoc} */
+        /** {@inheritDoc} */
         public boolean hasNext() {
             return iter.hasNext();
         }
 
-        /** {@InheritDoc} */
+        /** {@inheritDoc} */
         public Entry next() {
             iter.advance();
             return current;
         }
 
+        /** {@inheritDoc} */
         public void remove() {
             throw new UnsupportedOperationException("Not supported");
        }
-        
+
     }
 }
