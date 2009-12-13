@@ -50,11 +50,9 @@ public class SparseRealVectorTest extends TestCase {
 
     // Testclass to test the RealVector interface
     // only with enough content to support the test
-    public static class SparseRealVectorTestImpl implements RealVector, Serializable {
+    public static class SparseRealVectorTestImpl extends AbstractRealVector implements Serializable {
 
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = 4715341047369582908L;
-
+        private static final long serialVersionUID = -6251371752518113791L;
         /** Entries of the vector. */
         protected double data[];
 
@@ -78,11 +76,7 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public Iterator<Entry> sparseIterator() {
-            throw unsupported();
-        }
-
-        public RealVector copy() {
+        public AbstractRealVector copy() {
             return new SparseRealVectorTestImpl(data);
         }
 

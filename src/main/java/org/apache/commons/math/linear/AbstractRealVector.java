@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 
@@ -152,10 +153,10 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAddToSelf(double d) {
         if (d != 0) {
-            Iterator<Entry> it = iterator();
-            Entry e;
-            while (it.hasNext() && (e = it.next()) != null) {
-                e.setValue(e.getValue() + d);
+            try {
+                return mapToSelf(BinaryFunction.ADD.fix1stArgument(d));
+            } catch (FunctionEvaluationException e) {
+                throw new IllegalArgumentException(e);
             }
         }
         return this;
@@ -383,6 +384,15 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
+    public RealVector mapDivideToSelf(double d){
+        try {
+            return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
+        } catch (FunctionEvaluationException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    
+    /** {@inheritDoc} */
     public RealVector mapExp() {
         return copy().mapExpToSelf();
     }
@@ -395,12 +405,12 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-
+    
     /** {@inheritDoc} */
     public RealVector mapExpm1() {
         return copy().mapExpm1ToSelf();
     }
-
+    
     /** {@inheritDoc} */
     public RealVector mapExpm1ToSelf() {
         try {
@@ -409,12 +419,12 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-
+    
     /** {@inheritDoc} */
     public RealVector mapFloor() {
         return copy().mapFloorToSelf();
     }
-
+    
     /** {@inheritDoc} */
     public RealVector mapFloorToSelf() {
         try {
@@ -423,10 +433,19 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-
+    
     /** {@inheritDoc} */
     public RealVector mapInv() {
         return copy().mapInvToSelf();
+    }
+    
+    /** {@inheritDoc} */
+    public RealVector mapInvToSelf() {
+        try {
+            return mapToSelf(ComposableFunction.INVERT);
+        } catch (FunctionEvaluationException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /** {@inheritDoc} */
@@ -465,7 +484,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapLog1pToSelf() {
         try {
-            return mapToSelf(ComposableFunction.ASIN);
+            return mapToSelf(ComposableFunction.LOG1P);
         } catch (FunctionEvaluationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -475,10 +494,28 @@ public abstract class AbstractRealVector implements RealVector {
     public RealVector mapMultiply(double d) {
         return copy().mapMultiplyToSelf(d);
     }
+    
+    /** {@inheritDoc} */
+    public RealVector mapMultiplyToSelf(double d){
+        try {
+            return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
+        } catch (FunctionEvaluationException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
     /** {@inheritDoc} */
     public RealVector mapPow(double d) {
         return copy().mapPowToSelf(d);
+    }
+    
+    /** {@inheritDoc} */
+    public RealVector mapPowToSelf(double d){
+        try {
+            return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
+        } catch (FunctionEvaluationException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     /** {@inheritDoc} */
@@ -554,6 +591,11 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapSubtract(double d) {
         return copy().mapSubtractToSelf(d);
+    }
+    
+    /** {@inheritDoc} */
+    public RealVector mapSubtractToSelf(double d){
+        return mapAddToSelf(-d);
     }
 
     /** {@inheritDoc} */
