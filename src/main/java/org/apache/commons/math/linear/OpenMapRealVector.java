@@ -303,6 +303,34 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return new OpenMapRealVector(this);
     }
 
+    /**
+     * Optimized method to compute the dot product with an OpenMapRealVector.
+     * Iterates over the smaller of the two.
+     * @param v The vector to compute the dot product with
+     * @return The dot product of <code>this</code> and <code>v</code>
+     * @throws IllegalArgumentException If the dimensions don't match
+     */
+    public double dotProduct(OpenMapRealVector v) throws IllegalArgumentException {
+        checkVectorDimensions(v.getDimension());
+        boolean thisIsSmaller  = entries.size() < v.entries.size();
+        Iterator iter = thisIsSmaller  ? entries.iterator() : v.entries.iterator();
+        OpenIntToDoubleHashMap larger = thisIsSmaller  ? v.entries : entries;
+        double d = 0;
+        while(iter.hasNext()) {
+            iter.advance();
+            d += iter.value() * larger.get(iter.key());
+        }
+        return d;
+    }
+    
+    /** {@inheritDoc} */
+    public double dotProduct(RealVector v) throws IllegalArgumentException {
+        if(v instanceof OpenMapRealVector) {
+            return dotProduct((OpenMapRealVector)v);
+        } else {
+            return super.dotProduct(v);
+        }
+    }
 
     /** {@inheritDoc} */
     public OpenMapRealVector ebeDivide(RealVector v) throws IllegalArgumentException {

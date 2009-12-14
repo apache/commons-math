@@ -196,7 +196,7 @@ public abstract class AbstractRealVector implements RealVector {
     public double getDistance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v);
         double d = 0;
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
             final double diff = e.getValue() - v.getEntry(e.getIndex());
@@ -207,15 +207,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public double getDistance(double[] v) throws IllegalArgumentException {
-        checkVectorDimensions(v.length);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
-            final double diff = e.getValue() - v[e.getIndex()];
-            d += diff * diff;
-        }
-        return Math.sqrt(d);
+        return getDistance(new ArrayRealVector(v,false));
     }
 
     /** {@inheritDoc} */
