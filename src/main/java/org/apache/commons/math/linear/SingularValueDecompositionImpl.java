@@ -24,8 +24,8 @@ import org.apache.commons.math.util.MathUtils;
  * Calculates the Singular Value Decomposition of a matrix.
  * <p>The Singular Value Decomposition of matrix A is a set of three matrices:
  * U, &Sigma; and V such that A = U &times; &Sigma; &times; V<sup>T</sup>.
- * Let A be an m &times; n matrix, then U is an m &times; m orthogonal matrix,
- * &Sigma; is a m &times; n diagonal matrix with positive diagonal elements,
+ * Let A be an m &times; n matrix, then U is an m &times; n orthogonal matrix,
+ * &Sigma; is a n &times; n diagonal matrix with positive diagonal elements,
  * and V is an n &times; n orthogonal matrix.</p>
  *
  * @version $Revision$ $Date$
@@ -361,10 +361,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         public double[] solve(final double[] b)
             throws IllegalArgumentException, InvalidMatrixException {
 
-            if (b.length != singularValues.length) {
+            if (b.length != uT.getColumnDimension()) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                        b.length, singularValues.length);
+                        b.length, uT.getColumnDimension());
             }
 
             final double[] w = uT.operate(b);
@@ -390,10 +390,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         public RealVector solve(final RealVector b)
             throws IllegalArgumentException, InvalidMatrixException {
 
-            if (b.getDimension() != singularValues.length) {
+            if (b.getDimension() != uT.getColumnDimension()) {
                 throw MathRuntimeException.createIllegalArgumentException(
                         "vector length mismatch: got {0} but expected {1}",
-                         b.getDimension(), singularValues.length);
+                         b.getDimension(), uT.getColumnDimension());
             }
 
             final RealVector w = uT.operate(b);

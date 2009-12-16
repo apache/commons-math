@@ -24,8 +24,8 @@ package org.apache.commons.math.linear;
  * Singular Value Decomposition of a real matrix.
  * <p>The Singular Value Decomposition of matrix A is a set of three matrices:
  * U, &Sigma; and V such that A = U &times; &Sigma; &times; V<sup>T</sup>.
- * Let A be an m &times; n matrix, then U is an m &times; m orthogonal matrix,
- * &Sigma; is a m &times; n diagonal matrix with positive diagonal elements,
+ * Let A be an m &times; n matrix, then U is an m &times; n orthogonal matrix,
+ * &Sigma; is a n &times; n diagonal matrix with positive diagonal elements,
  * and V is an n &times; n orthogonal matrix.</p>
  * <p>This interface is similar to the class with similar name from the
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
