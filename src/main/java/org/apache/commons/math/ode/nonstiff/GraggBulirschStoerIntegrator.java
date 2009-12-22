@@ -746,7 +746,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                     // estimate if there is a chance convergence will
                     // be reached on next iteration, using the
                     // asymptotic evolution of error
-                    final double ratio = ((double) sequence [k] * sequence[k+1]) /
+                    final double ratio = ((double) sequence [targetIter] * sequence[targetIter + 1]) /
                                          (sequence[0] * sequence[0]);
                     if (error > ratio * ratio) {
                       // we don't expect to converge on next iteration
