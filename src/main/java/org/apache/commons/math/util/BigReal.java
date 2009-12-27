@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
@@ -43,10 +44,16 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     public static final BigReal ONE = new BigReal(BigDecimal.ONE);
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 7887631840434052850L;
+    private static final long serialVersionUID = 4984534880991310382L;
 
     /** Underlying BigDecimal. */
     private final BigDecimal d;
+
+    /** Rounding mode for divisions. **/
+    private RoundingMode roundingMode = RoundingMode.HALF_UP;
+    
+    /*** BigDecimal scale ***/
+    private int scale = 64;
 
     /** Build an instance from a BigDecimal.
      * @param val value of the instance
@@ -181,6 +188,40 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         d = new BigDecimal(val, mc);
     }
 
+    /***
+     * Gets the rounding mode for division operations
+     * The default is {@code RoundingMode.HALF_UP}
+     * @return the rounding mode.
+     */ 
+    public RoundingMode getRoundingMode() {
+        return roundingMode;
+    }
+    
+    /***
+     * Sets the rounding mode for decimal divisions.
+     * @param roundingMode rounding mode for decimal divisions
+     */
+    public void setRoundingMode(RoundingMode roundingMode) {
+        this.roundingMode = roundingMode;
+    }
+    
+    /***
+     * Sets the scale for division operations.
+     * The default is 64
+     * @return the scale
+     */
+    public int getScale() {
+        return scale;
+    }
+    
+    /***
+     * Sets the scale for division operations.
+     * @param scale scale for division operations
+     */
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+    
     /** {@inheritDoc} */
     public BigReal add(BigReal a) {
         return new BigReal(d.add(a.d));
