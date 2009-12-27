@@ -234,7 +234,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
 
     /** {@inheritDoc} */
     public BigReal divide(BigReal a) throws ArithmeticException {
-        return new BigReal(d.divide(a.d));
+        return new BigReal(d.divide(a.d, scale, roundingMode));
     }
 
     /** {@inheritDoc} */
