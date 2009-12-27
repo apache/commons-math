@@ -41,11 +41,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     /** Dimension of the vector. */
     private final int virtualSize;
 
-    /** Negative tolerance for having a value considered zero. */
-    private double minusEpsilon;
-
-    /** Positive tolerance for having a value considered zero. */
-    private double plusEpsilon;
+    /** Tolerance for having a value considered zero. */
+    private double epsilon;
 
     /**
      * Build a 0-length vector.
@@ -57,7 +54,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * into this vector.</p>
      */
     public OpenMapRealVector() {
-        this(0, DEFAULT_ZERO_TOLERANCE, 0);
+        this(0, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
@@ -65,7 +62,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * @param dimension size of the vector
      */
     public OpenMapRealVector(int dimension) {
-        this(dimension, DEFAULT_ZERO_TOLERANCE, 0);
+        this(dimension, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
@@ -74,10 +71,10 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * @param epsilon The tolerance for having a value considered zero
      * @param defaultValue value for non-specified entries
      */
-    public OpenMapRealVector(int dimension, double epsilon, double defaultValue) {
+    public OpenMapRealVector(int dimension, double epsilon) {
         virtualSize = dimension;
-        entries = new OpenIntToDoubleHashMap(defaultValue);
-        setDefault(defaultValue, epsilon);
+        entries = new OpenIntToDoubleHashMap(0.0);
+        this.epsilon = epsilon;
     }
 
     /**
@@ -88,8 +85,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     protected OpenMapRealVector(OpenMapRealVector v, int resize) {
         virtualSize = v.getDimension() + resize;
         entries = new OpenIntToDoubleHashMap(v.entries);
-        minusEpsilon = v.minusEpsilon;
-        plusEpsilon = v.plusEpsilon;
+        epsilon = v.epsilon;
     }
 
     /**
@@ -106,12 +102,11 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * @param dimension The size of the vector
      * @param expectedSize The expected number of non-zero entries
      * @param epsilon The tolerance for having a value considered zero
-     * @param defaultValue value for non-specified entries
      */
-    public OpenMapRealVector(int dimension, int expectedSize, double epsilon, double defaultValue) {
+    public OpenMapRealVector(int dimension, int expectedSize, double epsilon) {
         virtualSize = dimension;
-        entries = new OpenIntToDoubleHashMap(expectedSize, defaultValue);
-        setDefault(defaultValue, epsilon);
+        entries = new OpenIntToDoubleHashMap(expectedSize, 0.0);
+        this.epsilon = epsilon;
     }
 
     /**
@@ -132,7 +127,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     public OpenMapRealVector(double[] values, double epsilon) {
         virtualSize = values.length;
         entries = new OpenIntToDoubleHashMap(0.0);
-        setDefault(0, epsilon);
+        this.epsilon = epsilon;
         for (int key = 0; key < values.length; key++) {
             double value = values[key];
             if (!isDefaultValue(value)) {
@@ -147,7 +142,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * @param values The set of values to create from
      */
     public OpenMapRealVector(Double[] values) {
-        this(values, DEFAULT_ZERO_TOLERANCE, 0);
+        this(values, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
@@ -155,12 +150,11 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * Only non-zero entries will be stored
      * @param values The set of values to create from
      * @param epsilon The tolerance for having a value considered zero
-     * @param defaultValue value for non-specified entries
      */
-    public OpenMapRealVector(Double[] values, double epsilon, double defaultValue) {
+    public OpenMapRealVector(Double[] values, double epsilon) {
         virtualSize = values.length;
-        entries = new OpenIntToDoubleHashMap(defaultValue);
-        setDefault(defaultValue, epsilon);
+        entries = new OpenIntToDoubleHashMap(0.0);
+        this.epsilon = epsilon;
         for (int key = 0; key < values.length; key++) {
             double value = values[key].doubleValue();
             if (!isDefaultValue(value)) {
@@ -176,8 +170,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     public OpenMapRealVector(OpenMapRealVector v) {
         virtualSize = v.getDimension();
         entries = new OpenIntToDoubleHashMap(v.getEntries());
-        plusEpsilon = v.plusEpsilon;
-        minusEpsilon = v.minusEpsilon;
+        epsilon = v.epsilon;
     }
 
     /**
@@ -187,25 +180,13 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     public OpenMapRealVector(RealVector v) {
         virtualSize = v.getDimension();
         entries = new OpenIntToDoubleHashMap(0.0);
-        setDefault(0, DEFAULT_ZERO_TOLERANCE);
+        epsilon = DEFAULT_ZERO_TOLERANCE;
         for (int key = 0; key < virtualSize; key++) {
             double value = v.getEntry(key);
             if (!isDefaultValue(value)) {
                 entries.put(key, value);
             }
         }
-    }
-
-    /** Set defaults.
-     * @param defaultValue value for non-specified entries
-     * @param epsilon tolerance to check for equality with default value
-     */
-    private void setDefault(double defaultValue, double epsilon) {
-      if (epsilon < 0) {
-        throw new IllegalArgumentException("default tolerance must be > 0 :" + epsilon);
-      }
-      plusEpsilon  = defaultValue + epsilon;
-      minusEpsilon = defaultValue - epsilon;
     }
 
     /**
@@ -217,12 +198,12 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * Determine if this value is within epsilon of the defaultValue (currently always zero).
+     * Determine if this value is within epsilon of zero.
      * @param value The value to test
-     * @return <code>true</code> if this value is within epsilon to the defaultValue, <code>false</code> otherwise
+     * @return <code>true</code> if this value is within epsilon to zero, <code>false</code> otherwise
      */
     protected boolean isDefaultValue(double value) {
-        return value < plusEpsilon && value > minusEpsilon;
+        return Math.abs(value) < epsilon;
     }
 
     /** {@inheritDoc} */
@@ -785,7 +766,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         final int prime = 31;
         int result = 1;
         long temp;
-        temp = Double.doubleToLongBits(plusEpsilon) + Double.doubleToLongBits(minusEpsilon);
+        temp = Double.doubleToLongBits(epsilon);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + virtualSize;
         Iterator iter = entries.iterator();
@@ -818,12 +799,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         if (virtualSize != other.virtualSize) {
             return false;
         }
-        if (Double.doubleToLongBits(minusEpsilon) !=
-            Double.doubleToLongBits(other.minusEpsilon)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(plusEpsilon) !=
-            Double.doubleToLongBits(other.plusEpsilon)) {
+        if (Double.doubleToLongBits(epsilon) !=
+            Double.doubleToLongBits(other.epsilon)) {
             return false;
         }
         Iterator iter = entries.iterator();
