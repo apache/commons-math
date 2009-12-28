@@ -51,7 +51,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
 
     /** Rounding mode for divisions. **/
     private RoundingMode roundingMode = RoundingMode.HALF_UP;
-    
+
     /*** BigDecimal scale ***/
     private int scale = 64;
 
@@ -192,11 +192,11 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      * Gets the rounding mode for division operations
      * The default is {@code RoundingMode.HALF_UP}
      * @return the rounding mode.
-     */ 
+     */
     public RoundingMode getRoundingMode() {
         return roundingMode;
     }
-    
+
     /***
      * Sets the rounding mode for decimal divisions.
      * @param roundingMode rounding mode for decimal divisions
@@ -204,7 +204,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     public void setRoundingMode(RoundingMode roundingMode) {
         this.roundingMode = roundingMode;
     }
-    
+
     /***
      * Sets the scale for division operations.
      * The default is 64
@@ -213,7 +213,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     public int getScale() {
         return scale;
     }
-    
+
     /***
      * Sets the scale for division operations.
      * @param scale scale for division operations
@@ -221,7 +221,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     public void setScale(int scale) {
         this.scale = scale;
     }
-    
+
     /** {@inheritDoc} */
     public BigReal add(BigReal a) {
         return new BigReal(d.add(a.d));

@@ -383,7 +383,7 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapExp() {
         return copy().mapExpToSelf();
@@ -397,12 +397,12 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapExpm1() {
         return copy().mapExpm1ToSelf();
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapExpm1ToSelf() {
         try {
@@ -411,12 +411,12 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapFloor() {
         return copy().mapFloorToSelf();
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapFloorToSelf() {
         try {
@@ -425,12 +425,12 @@ public abstract class AbstractRealVector implements RealVector {
             throw new IllegalArgumentException(e);
         }
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapInv() {
         return copy().mapInvToSelf();
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapInvToSelf() {
         try {
@@ -486,7 +486,7 @@ public abstract class AbstractRealVector implements RealVector {
     public RealVector mapMultiply(double d) {
         return copy().mapMultiplyToSelf(d);
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapMultiplyToSelf(double d){
         try {
@@ -500,7 +500,7 @@ public abstract class AbstractRealVector implements RealVector {
     public RealVector mapPow(double d) {
         return copy().mapPowToSelf(d);
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapPowToSelf(double d){
         try {
@@ -584,7 +584,7 @@ public abstract class AbstractRealVector implements RealVector {
     public RealVector mapSubtract(double d) {
         return copy().mapSubtractToSelf(d);
     }
-    
+
     /** {@inheritDoc} */
     public RealVector mapSubtractToSelf(double d){
         return mapAddToSelf(-d);

@@ -69,7 +69,6 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * Construct a (dimension)-length vector of zeros, specifying zero tolerance.
      * @param dimension Size of the vector
      * @param epsilon The tolerance for having a value considered zero
-     * @param defaultValue value for non-specified entries
      */
     public OpenMapRealVector(int dimension, double epsilon) {
         virtualSize = dimension;
@@ -303,7 +302,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         }
         return d;
     }
-    
+
     /** {@inheritDoc} */
     public double dotProduct(RealVector v) throws IllegalArgumentException {
         if(v instanceof OpenMapRealVector) {
@@ -608,7 +607,6 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return false;
     }
 
- 
     /** {@inheritDoc} */
     public OpenMapRealVector mapAdd(double d) {
         return copy().mapAddToSelf(d);

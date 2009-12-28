@@ -74,7 +74,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
             return 1/d;
         }
     };
-    
+
     /** The {@code Math.sin} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction SIN = new ComposableFunction() {
         /** {@inheritDoc} */
@@ -186,7 +186,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
             return Math.log10(d);
         }
     };
-    
+
     /** The {@code Math.log1p} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction LOG1P = new ComposableFunction () {
         public double value(double d){
