@@ -195,10 +195,42 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @param v1 first vector (will be put in front of the new vector)
      * @param v2 second vector (will be put at back of the new vector)
      */
+    public ArrayRealVector(ArrayRealVector v1, RealVector v2) {
+        final int l1 = v1.data.length;
+        final int l2 = v2.getDimension();
+        data = new double[l1 + l2];
+        System.arraycopy(v1.data, 0, data, 0, l1);
+        for (int i = 0; i < l2; ++i) {
+            data[l1 + i] = v2.getEntry(i);
+        }
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     */
+    public ArrayRealVector(RealVector v1, ArrayRealVector v2) {
+        final int l1 = v1.getDimension();
+        final int l2 = v2.data.length;
+        data = new double[l1 + l2];
+        for (int i = 0; i < l1; ++i) {
+            data[i] = v1.getEntry(i);
+        }
+        System.arraycopy(v2.data, 0, data, l1, l2);
+    }
+
+    /**
+     * Construct a vector by appending one vector to another vector.
+     * @param v1 first vector (will be put in front of the new vector)
+     * @param v2 second vector (will be put at back of the new vector)
+     */
     public ArrayRealVector(ArrayRealVector v1, double[] v2) {
-        data = new double[v1.data.length + v2.length];
-        System.arraycopy(v1.data, 0, data, 0, v1.data.length);
-        System.arraycopy(v2, 0, data, v1.data.length, v2.length);
+        final int l1 = v1.getDimension();
+        final int l2 = v2.length;
+        data = new double[l1 + l2];
+        System.arraycopy(v1.data, 0, data, 0, l1);
+        System.arraycopy(v2, 0, data, l1, l2);
     }
 
     /**
@@ -207,9 +239,11 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @param v2 second vector (will be put at back of the new vector)
      */
     public ArrayRealVector(double[] v1, ArrayRealVector v2) {
-        data = new double[v1.length + v2.data.length];
-        System.arraycopy(v1, 0, data, 0, v1.length);
-        System.arraycopy(v2.data, 0, data, v1.length, v2.data.length);
+        final int l1 = v1.length;
+        final int l2 = v2.getDimension();
+        data = new double[l1 + l2];
+        System.arraycopy(v1, 0, data, 0, l1);
+        System.arraycopy(v2.data, 0, data, l1, l2);
     }
 
     /**
@@ -218,9 +252,11 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @param v2 second vector (will be put at back of the new vector)
      */
     public ArrayRealVector(double[] v1, double[] v2) {
-        data = new double[v1.length + v2.length];
-        System.arraycopy(v1, 0, data, 0, v1.length);
-        System.arraycopy(v2, 0, data, v1.length, v2.length);
+        final int l1 = v1.length;
+        final int l2 = v2.length;
+        data = new double[l1 + l2];
+        System.arraycopy(v1, 0, data, 0, l1);
+        System.arraycopy(v2, 0, data, l1, l2);
     }
 
     /** {@inheritDoc} */
@@ -230,30 +266,30 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /** {@inheritDoc} */
     public RealVector add(RealVector v)
-    throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        throws IllegalArgumentException {
+        if (v instanceof ArrayRealVector) {
             return add((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
             Iterator<Entry> it = v.sparseIterator();
             Entry e;
-            while(it.hasNext() && (e = it.next()) != null) {
+            while (it.hasNext() && (e = it.next()) != null) {
                 out[e.getIndex()] += e.getValue();
             }
-            return new ArrayRealVector(out);
+            return new ArrayRealVector(out, false);
         }
     }
 
     /** {@inheritDoc} */
     public RealVector add(double[] v)
-    throws IllegalArgumentException {
+        throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         double[] out = data.clone();
         for (int i = 0; i < data.length; i++) {
             out[i] += v[i];
         }
-        return new ArrayRealVector(out);
+        return new ArrayRealVector(out, false);
     }
 
     /**
@@ -269,8 +305,8 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /** {@inheritDoc} */
     public RealVector subtract(RealVector v)
-    throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        throws IllegalArgumentException {
+        if (v instanceof ArrayRealVector) {
             return subtract((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -280,19 +316,19 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
             while(it.hasNext() && (e = it.next()) != null) {
                 out[e.getIndex()] -= e.getValue();
             }
-            return new ArrayRealVector(out);
+            return new ArrayRealVector(out, false);
         }
     }
 
     /** {@inheritDoc} */
     public RealVector subtract(double[] v)
-    throws IllegalArgumentException {
+        throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         double[] out = data.clone();
         for (int i = 0; i < data.length; i++) {
             out[i] -= v[i];
         }
-        return new ArrayRealVector(out);
+        return new ArrayRealVector(out, false);
     }
 
     /**
@@ -533,7 +569,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealVector ebeMultiply(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return ebeMultiply((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -570,7 +606,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealVector ebeDivide(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return ebeDivide((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -621,7 +657,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public double dotProduct(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return dotProduct((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -687,7 +723,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public double getDistance(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return getDistance((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -733,7 +769,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public double getL1Distance(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return getL1Distance((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -779,7 +815,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public double getLInfDistance(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return getLInfDistance((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -862,7 +898,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealMatrix outerProduct(RealVector v)
         throws IllegalArgumentException {
-        if(v instanceof ArrayRealVector) {
+        if (v instanceof ArrayRealVector) {
             return outerProduct((ArrayRealVector) v);
         } else {
             checkVectorDimensions(v);
@@ -915,9 +951,9 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealVector append(RealVector v) {
         try {
-            return append((ArrayRealVector) v);
+            return new ArrayRealVector(this, (ArrayRealVector) v);
         } catch (ClassCastException cce) {
-            return new ArrayRealVector(this,new ArrayRealVector(v));
+            return new ArrayRealVector(this, v);
         }
     }
 
@@ -935,7 +971,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         final double[] out = new double[data.length + 1];
         System.arraycopy(data, 0, out, 0, data.length);
         out[data.length] = in;
-        return new ArrayRealVector(out);
+        return new ArrayRealVector(out, false);
     }
 
     /** {@inheritDoc} */
