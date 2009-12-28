@@ -522,6 +522,18 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData len", 3, v3.getDimension());
         assertEquals("testData is 2.0 ", 2.0, v3.getEntry(1));
 
+        ArrayRealVector v3_bis = new ArrayRealVector(vec1, true);
+        assertEquals("testData len", 3, v3_bis.getDimension());
+        assertEquals("testData is 2.0 ", 2.0, v3_bis.getEntry(1));
+        assertNotSame(v3_bis.getDataRef(), vec1);
+        assertNotSame(v3_bis.getData(), vec1);
+
+        ArrayRealVector v3_ter = new ArrayRealVector(vec1, false);
+        assertEquals("testData len", 3, v3_ter.getDimension());
+        assertEquals("testData is 2.0 ", 2.0, v3_ter.getEntry(1));
+        assertSame(v3_ter.getDataRef(), vec1);
+        assertNotSame(v3_ter.getData(), vec1);
+
         ArrayRealVector v4 = new ArrayRealVector(vec4, 3, 2);
         assertEquals("testData len", 2, v4.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v4.getEntry(0));
@@ -578,7 +590,50 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData len", 10, v9.getDimension());
         assertEquals("testData is 1.0 ", 1.0, v9.getEntry(7));
 
-    }
+        ArrayRealVector v10 = new ArrayRealVector(v2, new RealVectorTestImpl(vec3));
+        assertEquals("testData len", 8, v10.getDimension());
+        assertEquals("testData is 1.23 ", 1.23, v10.getEntry(4));
+        assertEquals("testData is 7.0 ", 7.0, v10.getEntry(5));
+
+        ArrayRealVector v11 = new ArrayRealVector(new RealVectorTestImpl(vec3), v2);
+        assertEquals("testData len", 8, v11.getDimension());
+        assertEquals("testData is 9.0 ", 9.0, v11.getEntry(2));
+        assertEquals("testData is 1.23 ", 1.23, v11.getEntry(3));
+
+        ArrayRealVector v12 = new ArrayRealVector(v2, vec3);
+        assertEquals("testData len", 8, v12.getDimension());
+        assertEquals("testData is 1.23 ", 1.23, v12.getEntry(4));
+        assertEquals("testData is 7.0 ", 7.0, v12.getEntry(5));
+
+        ArrayRealVector v13 = new ArrayRealVector(vec3, v2);
+        assertEquals("testData len", 8, v13.getDimension());
+        assertEquals("testData is 9.0 ", 9.0, v13.getEntry(2));
+        assertEquals("testData is 1.23 ", 1.23, v13.getEntry(3));
+
+        ArrayRealVector v14 = new ArrayRealVector(vec3, vec4);
+        assertEquals("testData len", 12, v14.getDimension());
+        assertEquals("testData is 9.0 ", 9.0, v14.getEntry(2));
+        assertEquals("testData is 1.0 ", 1.0, v14.getEntry(3));
+
+        try {
+            new ArrayRealVector((double[]) null, false);
+            fail("expected exception");
+        } catch (NullPointerException npe) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+
+        try {
+            new ArrayRealVector(new double[0], false);
+            fail("expected exception");
+        } catch (IllegalArgumentException iae) {
+            // expected
+        } catch (Exception e) {
+            fail("wrong exception caught");
+        }
+
+   }
 
     public void testDataInOut() {
 
@@ -602,6 +657,10 @@ public class ArrayRealVectorTest extends TestCase {
         RealVector v_append_4 = v1.append(v2_t);
         assertEquals("testData len", 6, v_append_4.getDimension());
         assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3));
+
+        RealVector v_append_5 = v1.append((RealVector) v2);
+        assertEquals("testData len", 6, v_append_5.getDimension());
+        assertEquals("testData is 4.0 ", 4.0, v_append_5.getEntry(3));
 
         RealVector v_copy = v1.copy();
         assertEquals("testData len", 3, v_copy.getDimension());
@@ -1042,6 +1101,10 @@ public class ArrayRealVectorTest extends TestCase {
         double dist_2 = v1.getDistance(v2_t);
         assertEquals("compare values  ", v1.subtract(v2).getNorm(),dist_2 );
 
+        //octave =  sqrt(sumsq(v1-v2))
+        double dist_3 = v1.getDistance((RealVector) v2);
+        assertEquals("compare values  ", v1.subtract(v2).getNorm(),dist_3 );
+
         //octave =  ???
         double d_getL1Distance = v1. getL1Distance(v2);
         assertEquals("compare values  ",9d, d_getL1Distance );
@@ -1049,12 +1112,18 @@ public class ArrayRealVectorTest extends TestCase {
         double d_getL1Distance_2 = v1. getL1Distance(v2_t);
         assertEquals("compare values  ",9d, d_getL1Distance_2 );
 
+        double d_getL1Distance_3 = v1. getL1Distance((RealVector) v2);
+        assertEquals("compare values  ",9d, d_getL1Distance_3 );
+
         //octave =  ???
         double d_getLInfDistance = v1. getLInfDistance(v2);
         assertEquals("compare values  ",3d, d_getLInfDistance );
 
         double d_getLInfDistance_2 = v1. getLInfDistance(v2_t);
         assertEquals("compare values  ",3d, d_getLInfDistance_2 );
+
+        double d_getLInfDistance_3 = v1. getLInfDistance((RealVector) v2);
+        assertEquals("compare values  ",3d, d_getLInfDistance_3 );
 
         //octave =  v1 + v2
         ArrayRealVector v_add = v1.add(v2);
@@ -1084,6 +1153,10 @@ public class ArrayRealVectorTest extends TestCase {
         double[] result_ebeMultiply_2 = {4d, 10d, 18d};
         assertClose("compare vect" ,v_ebeMultiply_2.getData(),result_ebeMultiply_2,normTolerance);
 
+        RealVector  v_ebeMultiply_3 = v1.ebeMultiply((RealVector) v2);
+        double[] result_ebeMultiply_3 = {4d, 10d, 18d};
+        assertClose("compare vect" ,v_ebeMultiply_3.getData(),result_ebeMultiply_3,normTolerance);
+
         // octave v1 ./ v2
         ArrayRealVector  v_ebeDivide = v1.ebeDivide(v2);
         double[] result_ebeDivide = {0.25d, 0.4d, 0.5d};
@@ -1092,6 +1165,10 @@ public class ArrayRealVectorTest extends TestCase {
         RealVector  v_ebeDivide_2 = v1.ebeDivide(v2_t);
         double[] result_ebeDivide_2 = {0.25d, 0.4d, 0.5d};
         assertClose("compare vect" ,v_ebeDivide_2.getData(),result_ebeDivide_2,normTolerance);
+
+        RealVector  v_ebeDivide_3 = v1.ebeDivide((RealVector) v2);
+        double[] result_ebeDivide_3 = {0.25d, 0.4d, 0.5d};
+        assertClose("compare vect" ,v_ebeDivide_3.getData(),result_ebeDivide_3,normTolerance);
 
         // octave  dot(v1,v2)
         double dot =  v1.dotProduct(v2);
@@ -1106,6 +1183,9 @@ public class ArrayRealVectorTest extends TestCase {
 
         RealMatrix m_outerProduct_2 = v1.outerProduct(v2_t);
         assertEquals("compare val ",4d, m_outerProduct_2.getEntry(0,0));
+
+        RealMatrix m_outerProduct_3 = v1.outerProduct((RealVector) v2);
+        assertEquals("compare val ",4d, m_outerProduct_3.getEntry(0,0));
 
         RealVector v_unitVector = v1.unitVector();
         RealVector v_unitVector_2 = v1.mapDivide(v1.getNorm());
@@ -1139,6 +1219,10 @@ public class ArrayRealVectorTest extends TestCase {
         RealVector v_projection_2 = v1.projection(v2_t);
         double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection_2.getData(), result_projection_2, normTolerance);
+
+        RealVector v_projection_3 = v1.projection(v2.getData());
+        double[] result_projection_3 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
+        assertClose("compare vect", v_projection_3.getData(), result_projection_3, normTolerance);
 
     }
 
@@ -1196,6 +1280,8 @@ public class ArrayRealVectorTest extends TestCase {
         assertFalse(v.isInfinite());
         v.setEntry(1, 1);
         assertTrue(v.isInfinite());
+        v.setEntry(0, 1);
+        assertFalse(v.isInfinite());
 
         v.setEntry(0, 0);
         assertEquals(v, new ArrayRealVector(new double[] { 0, 1, 2 }));
@@ -1207,6 +1293,13 @@ public class ArrayRealVectorTest extends TestCase {
 
         assertTrue(new ArrayRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
                    new ArrayRealVector(new double[] { 0, 1, 2 }).hashCode());
+
+        assertTrue(v.equals(v));
+        assertTrue(v.equals(v.copy()));
+        assertFalse(v.equals(null));
+        assertFalse(v.equals(v.getDataRef()));
+        assertFalse(v.equals(v.getSubVector(0, v.getDimension() - 1)));
+        assertTrue(v.equals(v.getSubVector(0, v.getDimension())));
 
     }
 
