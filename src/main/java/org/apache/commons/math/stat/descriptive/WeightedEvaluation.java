@@ -30,7 +30,7 @@ public interface WeightedEvaluation {
      *
      * @param values input array
      * @param weights array of weights
-     * @return the value of the statistic applied to the input array
+     * @return the value of the weighted statistic applied to the input array
      */
     double evaluate(double[] values, double[] weights);
 
@@ -42,7 +42,7 @@ public interface WeightedEvaluation {
      * @param weights array of weights
      * @param begin the index of the first element to include
      * @param length the number of elements to include
-     * @return the value of the statistic applied to the included array entries
+     * @return the value of the weighted statistic applied to the included array entries
      */
     double evaluate(double[] values, double[] weights, int begin, int length);
 
