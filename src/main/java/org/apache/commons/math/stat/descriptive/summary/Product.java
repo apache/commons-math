@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.summary;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 
 /**
  * Returns the product of the available values.
@@ -33,7 +34,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  *
  * @version $Revision$ $Date$
  */
-public class Product extends AbstractStorelessUnivariateStatistic implements Serializable {
+public class Product extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 2824226005990582538L;
@@ -165,6 +166,33 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         }
         return product;
     }
+    
+    /**
+     * <p>Returns the weighted product of the entries in the input array.</p>
+     *
+     * <p>Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     * </ul></p>
+     *
+     * <p>Uses the formula, <pre>
+     *    weighted product = &prod;values[i]<sup>weights[i]</sup>
+     * </pre>
+     * that is, the weights are applied as exponents when computing the weighted product.</p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @return the product of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights) {
+        return evaluate(values, weights, 0, values.length);
+    }
+
 
     /**
      * {@inheritDoc}

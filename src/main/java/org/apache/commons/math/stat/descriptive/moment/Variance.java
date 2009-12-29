@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 
 /**
@@ -63,7 +64,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
  *
  * @version $Revision$ $Date$
  */
-public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable {
+public class Variance extends AbstractStorelessUnivariateStatistic implements Serializable, WeightedEvaluation {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -9111962718267217978L;
@@ -293,7 +294,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param weights the weights array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the variance of the values or Double.NaN if length = 0
+     * @return the weighted variance of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the parameters are not valid
      */
     public double evaluate(final double[] values, final double[] weights,
@@ -312,6 +313,47 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             }
         }
         return var;
+    }
+    
+    /**
+     * <p>
+     * Returns the weighted variance of the entries in the the input array.</p>
+     * <p>
+     * Uses the formula <pre>
+     *   &Sigma;(weights[i]*(values[i] - weightedMean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
+     * </pre>
+     * where weightedMean is the weighted mean</p>
+     * <p>
+     * This formula will not return the same result as the unweighted variance when all
+     * weights are equal, unless all weights are equal to 1. The formula assumes that
+     * weights are to be treated as "expansion values," as will be the case if for example
+     * the weights represent frequency counts. To normalize weights so that the denominator
+     * in the variance computation equals the length of the input vector minus one, use <pre>
+     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length)); </code>
+     * </pre>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     * </ul></p>
+     * <p>
+     * Does not change the internal state of the statistic.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @return the weighted variance of the values
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights) {
+        return evaluate(values, weights, 0, values.length);
     }
 
     /**
@@ -367,6 +409,35 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         }
         return var;
     }
+    
+    /**
+     * Returns the variance of the entries in the input array, using the
+     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
+     * is empty.
+     * <p>
+     * See {@link Variance} for details on the computing algorithm.</p>
+     * <p>
+     * If <code>isBiasCorrected</code> is <code>true</code> the formula used
+     * assumes that the supplied mean value is the arithmetic mean of the
+     * sample data, not a known population parameter.  If the mean is a known
+     * population parameter, or if the "population" version of the variance is
+     * desired, set <code>isBiasCorrected</code> to <code>false</code> before
+     * invoking this method.</p>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * <p>
+     * Does not change the internal state of the statistic.</p>
+     *
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @return the variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public double evaluate(final double[] values, final double mean) {
+        return evaluate(values, mean, 0, values.length);
+    }
 
     /**
      * Returns the weighted variance of the entries in the specified portion of
@@ -387,7 +458,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * weights are to be treated as "expansion values," as will be the case if for example
      * the weights represent frequency counts. To normalize weights so that the denominator
      * in the variance computation equals the length of the input vector minus one, use <pre>
-     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length)); </code>
+     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length), mean); </code>
      * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
@@ -442,34 +513,49 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         }
         return var;
     }
-
+    
     /**
-     * Returns the variance of the entries in the input array, using the
-     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
-     * is empty.
+     * <p>Returns the weighted variance of the values in the input array, using
+     * the precomputed weighted mean value.</p>
      * <p>
-     * See {@link Variance} for details on the computing algorithm.</p>
+     * Uses the formula <pre>
+     *   &Sigma;(weights[i]*(values[i] - mean)<sup>2</sup>)/(&Sigma;(weights[i]) - 1)
+     * </pre></p>
      * <p>
-     * If <code>isBiasCorrected</code> is <code>true</code> the formula used
-     * assumes that the supplied mean value is the arithmetic mean of the
-     * sample data, not a known population parameter.  If the mean is a known
-     * population parameter, or if the "population" version of the variance is
-     * desired, set <code>isBiasCorrected</code> to <code>false</code> before
-     * invoking this method.</p>
+     * The formula used assumes that the supplied mean value is the weighted arithmetic
+     * mean of the sample data, not a known population parameter. This method
+     * is supplied only to save computation when the mean has already been
+     * computed.</p>
+     * <p>
+     * This formula will not return the same result as the unweighted variance when all
+     * weights are equal, unless all weights are equal to 1. The formula assumes that
+     * weights are to be treated as "expansion values," as will be the case if for example
+     * the weights represent frequency counts. To normalize weights so that the denominator
+     * in the variance computation equals the length of the input vector minus one, use <pre>
+     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length), mean); </code>
+     * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     * </ul></p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
      * @param values the input array
-     * @param mean the precomputed mean value
-     * @return the variance of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @param weights the weights array
+     * @param mean the precomputed weighted mean value
+     * @return the variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
      */
-    public double evaluate(final double[] values, final double mean) {
-        return evaluate(values, mean, 0, values.length);
+    public double evaluate(final double[] values, final double[] weights, final double mean) {
+        return evaluate(values, weights, mean, 0, values.length);
     }
 
     /**

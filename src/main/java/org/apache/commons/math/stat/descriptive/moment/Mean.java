@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 
 /**
@@ -56,7 +57,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
  * @version $Revision$ $Date$
  */
 public class Mean extends AbstractStorelessUnivariateStatistic
-    implements Serializable {
+    implements Serializable, WeightedEvaluation {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1296043746617791564L;
@@ -213,6 +214,33 @@ public class Mean extends AbstractStorelessUnivariateStatistic
             return xbarw + (correction/sumw);
         }
         return Double.NaN;
+    }
+    
+    /**
+     * Returns the weighted arithmetic mean of the entries in the input array.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     * <p>
+     * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
+     * described above is used here, with weights applied in computing both the original
+     * estimate and the correction factor.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @return the mean of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights) {
+        return evaluate(values, weights, 0, values.length);
     }
 
     /**

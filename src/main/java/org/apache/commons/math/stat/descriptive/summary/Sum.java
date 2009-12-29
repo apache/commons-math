@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.summary;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
+
 
 /**
   * Returns the sum of the available values.
@@ -163,6 +165,31 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
             }
         }
         return sum;
+    }
+    
+    /**
+     * The weighted sum of the entries in the the input array.
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     * </ul></p>
+     * <p>
+     * Uses the formula, <pre>
+     *    weighted sum = &Sigma;(values[i] * weights[i])
+     * </pre></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @return the sum of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the parameters are not valid
+     */
+    public double evaluate(final double[] values, final double[] weights) {
+        return evaluate(values, weights, 0, values.length);
     }
 
     /**

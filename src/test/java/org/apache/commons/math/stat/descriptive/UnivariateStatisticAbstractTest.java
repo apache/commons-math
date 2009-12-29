@@ -126,12 +126,8 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
         // See if this statistic computes weighted statistics
         // If not, skip this test
         UnivariateStatistic statistic = getUnivariateStatistic();
-        Method evaluateMethod = null;
-        try {
-            evaluateMethod = statistic.getClass().getDeclaredMethod("evaluate",
-                double[].class, double[].class, int.class, int.class);
-        } catch (NoSuchMethodException ex) {
-            return;  // skip test
+        if (!(statistic instanceof WeightedEvaluation)) {
+            return;
         }
 
         // Create arrays of values and corresponding integral weights
@@ -171,10 +167,14 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
         // Compare result of weighted statistic computation with direct computation
         // on array of repeated values
-        double weightedResult = (Double) evaluateMethod.invoke(
-                statistic, values, weights, 0, values.length);
-        TestUtils.assertRelativelyEquals(
-                statistic.evaluate(repeatedValues), weightedResult, 10E-14);
+        WeightedEvaluation weightedStatistic = (WeightedEvaluation) statistic;
+        TestUtils.assertRelativelyEquals(statistic.evaluate(repeatedValues),
+                weightedStatistic.evaluate(values, weights, 0, values.length),
+                10E-14);
+        
+        // Check consistency of weighted evaluation methods
+        assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
+                weightedStatistic.evaluate(values, weights), Double.MIN_VALUE);       
 
     }
 
