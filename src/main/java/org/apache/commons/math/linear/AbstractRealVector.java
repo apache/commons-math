@@ -206,6 +206,40 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
+    public double getNorm() {
+        double sum = 0;
+        Iterator<Entry> it = sparseIterator();
+        Entry e;
+        while (it.hasNext() && (e = it.next()) != null) {
+            final double value = e.getValue();
+            sum += value * value;
+        }
+        return Math.sqrt(sum);
+    }
+
+    /** {@inheritDoc} */
+    public double getL1Norm() {
+        double norm = 0;
+        Iterator<Entry> it = sparseIterator();
+        Entry e;
+        while (it.hasNext() && (e = it.next()) != null) {
+            norm += Math.abs(e.getValue());
+        }
+        return norm;
+    }
+
+    /** {@inheritDoc} */
+    public double getLInfNorm() {
+        double norm = 0;
+        Iterator<Entry> it = sparseIterator();
+        Entry e;
+        while (it.hasNext() && (e = it.next()) != null) {
+            norm = Math.max(norm, Math.abs(e.getValue()));
+        }
+        return norm;
+    }
+
+    /** {@inheritDoc} */
     public double getDistance(double[] v) throws IllegalArgumentException {
         return getDistance(new ArrayRealVector(v,false));
     }

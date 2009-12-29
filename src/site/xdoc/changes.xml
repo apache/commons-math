@@ -39,6 +39,9 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-326" due-to="Jake Mannix">
+        Fixed a wrong implementation of the Linf norm in vectors.
+      </action>
       <action dev="luc" type="fix" issue="MATH-324" due-to="Vincent Morand">
         Fixed a convergence discrepancy with respect to theory in Gragg-Bulirsch-Stoer
         integrator.

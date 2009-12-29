@@ -40,6 +40,7 @@ public class ArrayRealVectorTest extends TestCase {
     protected double[] vec2 = {4d, 5d, 6d};
     protected double[] vec3 = {7d, 8d, 9d};
     protected double[] vec4 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
+    protected double[] vec5 = { -4d, 0d, 3d, 1d, -6d, 3d};
     protected double[] vec_null = {0d, 0d, 0d};
     protected Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
     protected double[][] mat1 = {{1d, 2d, 3d}, {4d, 5d, 6d},{ 7d, 8d, 9d}};
@@ -1079,19 +1080,23 @@ public class ArrayRealVectorTest extends TestCase {
     public void testBasicFunctions() {
         ArrayRealVector v1 = new ArrayRealVector(vec1);
         ArrayRealVector v2 = new ArrayRealVector(vec2);
+        ArrayRealVector v5 = new ArrayRealVector(vec5);
         ArrayRealVector v_null = new ArrayRealVector(vec_null);
 
         RealVectorTestImpl v2_t = new RealVectorTestImpl(vec2);
 
-        //octave =  sqrt(sumsq(v1))
-        double d_getNorm = v1.getNorm();
-        assertEquals("compare values  ", 3.7416573867739413,d_getNorm);
+        // emacs calc: [-4, 0, 3, 1, -6, 3] A --> 8.4261497731763586307
+        double d_getNorm = v5.getNorm();
+        assertEquals("compare values  ", 8.4261497731763586307, d_getNorm);
 
-        double d_getL1Norm = v1.getL1Norm();
-        assertEquals("compare values  ",6.0, d_getL1Norm);
+        // emacs calc: [-4, 0, 3, 1, -6, 3] vN --> 17
+        double d_getL1Norm = v5.getL1Norm();
+        assertEquals("compare values  ", 17.0, d_getL1Norm);
 
-        double d_getLInfNorm = v1.getLInfNorm();
-        assertEquals("compare values  ",6.0, d_getLInfNorm);
+        // emacs calc: [-4, 0, 3, 1, -6, 3] vn --> 6
+        double d_getLInfNorm = v5.getLInfNorm();
+        assertEquals("compare values  ", 6.0, d_getLInfNorm);
+
 
         //octave =  sqrt(sumsq(v1-v2))
         double dist = v1.getDistance(v2);
