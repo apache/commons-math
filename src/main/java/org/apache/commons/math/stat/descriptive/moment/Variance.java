@@ -494,9 +494,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             } else if (length > 1) {
                 double accum = 0.0;
                 double dev = 0.0;
+                double accum2 = 0.0;
                 for (int i = begin; i < begin + length; i++) {
                     dev = values[i] - mean;
                     accum += weights[i] * (dev * dev);
+                    accum2 += weights[i] * dev;
                 }
 
                 double sumWts = 0;
@@ -505,9 +507,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 }
 
                 if (isBiasCorrected) {
-                    var = accum / (sumWts - 1);
+                    var = (accum - (accum2 * accum2 / sumWts)) / (sumWts - 1.0);
                 } else {
-                    var = accum / sumWts;
+                    var = (accum - (accum2 * accum2 / sumWts)) / sumWts;
                 }
             }
         }
