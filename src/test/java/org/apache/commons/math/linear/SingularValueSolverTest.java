@@ -17,18 +17,10 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Assert;
+import org.junit.Test;
 
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
-
-public class SingularValueSolverTest extends TestCase {
+public class SingularValueSolverTest {
 
     private double[][] testSquare = {
             { 24.0 / 25.0, 43.0 / 25.0 },
@@ -37,91 +29,68 @@ public class SingularValueSolverTest extends TestCase {
 
     private static final double normTolerance = 10e-14;
 
-    public SingularValueSolverTest(String name) {
-        super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SingularValueSolverTest.class);
-        suite.setName("SingularValueSolver Tests");
-        return suite;
-    }
-
     /** test solve dimension errors */
+    @Test
     public void testSolveDimensionErrors() {
         DecompositionSolver solver =
             new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
-            fail("wrong exception caught");
+            Assert.fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
-            fail("wrong exception caught");
+            Assert.fail("wrong exception caught");
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
         } catch (Exception e) {
-            fail("wrong exception caught");
+            Assert.fail("wrong exception caught");
         }
     }
 
-    /** test solve singularity errors */
-    public void testSolveSingularityErrors() {
+    /** test least square solve */
+    @Test
+    public void testLeastSquareSolve() {
         RealMatrix m =
             MatrixUtils.createRealMatrix(new double[][] {
                                    { 1.0, 0.0 },
                                    { 0.0, 0.0 }
                                });
         DecompositionSolver solver = new SingularValueDecompositionImpl(m).getSolver();
-        RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
-        try {
-            solver.solve(b);
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(b.getColumn(0));
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(b.getColumnVector(0));
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
-            fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
-            // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+        RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
+            { 11, 12 }, { 21, 22 } 
+        });
+        RealMatrix xMatrix = solver.solve(b);
+        Assert.assertEquals(11, xMatrix.getEntry(0, 0), 1.0e-15);
+        Assert.assertEquals(12, xMatrix.getEntry(0, 1), 1.0e-15);
+        Assert.assertEquals(0, xMatrix.getEntry(1, 0), 1.0e-15);
+        Assert.assertEquals(0, xMatrix.getEntry(1, 1), 1.0e-15);
+        double[] xCol = solver.solve(b.getColumn(0));
+        Assert.assertEquals(11, xCol[0], 1.0e-15);
+        Assert.assertEquals(0, xCol[1], 1.0e-15);
+        RealVector xColVec = solver.solve(b.getColumnVector(0));
+        Assert.assertEquals(11, xColVec.getEntry(0), 1.0e-15);
+        Assert.assertEquals(0, xColVec.getEntry(1), 1.0e-15);
+        RealVector xColOtherVec = solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
+        Assert.assertEquals(11, xColOtherVec.getEntry(0), 1.0e-15);
+        Assert.assertEquals(0, xColOtherVec.getEntry(1), 1.0e-15);
     }
 
     /** test solve */
+    @Test
     public void testSolve() {
         DecompositionSolver solver =
             new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getSolver();
@@ -134,18 +103,18 @@ public class SingularValueSolverTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), normTolerance);
+        Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), normTolerance);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
         // using Array2DRowRealMatrix
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
@@ -154,7 +123,7 @@ public class SingularValueSolverTest extends TestCase {
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             ArrayRealVectorTest.RealVectorTestImpl v =
                 new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
-            assertEquals(0,
+            Assert.assertEquals(0,
                          solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
@@ -162,10 +131,82 @@ public class SingularValueSolverTest extends TestCase {
     }
 
     /** test condition number */
+    @Test
     public void testConditionNumber() {
         SingularValueDecompositionImpl svd =
             new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
-        assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
+        Assert.assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
+    }
+
+    @Test
+    public void testMath320A() {
+        RealMatrix rm = new Array2DRowRealMatrix(new double[][] {
+            { 1.0, 2.0, 3.0 }, { 2.0, 3.0, 4.0 }, { 3.0, 5.0, 7.0 }
+        });
+        double s439  = Math.sqrt(439.0);
+        double[] reference = new double[] {
+            Math.sqrt(3.0 * (21.0 + s439)), Math.sqrt(3.0 * (21.0 - s439))
+        };
+        SingularValueDecomposition svd =
+            new SingularValueDecompositionImpl(rm);
+        double[] singularValues = svd.getSingularValues();
+        for (int i = 0; i < reference.length; ++i) {
+            Assert.assertEquals(reference[i], singularValues[i], 4.0e-13);
+        }
+        regularElements(svd.getU());
+        regularElements(svd.getVT());
+//        double[] b = new double[] { 5.0, 6.0, 7.0 };
+//        double[] resSVD = svd.getSolver().solve(b);
+//        Assert.assertEquals(rm.getColumnDimension(), resSVD.length);
+//        System.out.println("resSVD = " + resSVD[0] + " " + resSVD[1] + " " + resSVD[2]);
+//        double minResidual = Double.POSITIVE_INFINITY;
+//        double d0Min = Double.NaN;
+//        double d1Min = Double.NaN;
+//        double d2Min = Double.NaN;
+//        double h = 0.01;
+//        int    k = 100;
+//        for (double d0 = -k * h; d0 <= k * h; d0 += h) {
+//            for (double d1 = -k * h ; d1 <= k * h; d1 += h) {
+//                for (double d2 = -k * h; d2 <= k * h; d2 += h) {
+//                    double[] f = rm.operate(new double[] { resSVD[0] + d0, resSVD[1] + d1, resSVD[2] + d2 });
+//                    double residual = Math.sqrt((f[0] - b[0]) * (f[0] - b[0]) +
+//                                                (f[1] - b[1]) * (f[1] - b[1]) +
+//                                                (f[2] - b[2]) * (f[2] - b[2]));
+//                    if (residual < minResidual) {
+//                        d0Min = d0;
+//                        d1Min = d1;
+//                        d2Min = d2;
+//                        minResidual = residual;
+//                    }
+//                }
+//            }
+//        }
+//        System.out.println(d0Min + " " + d1Min + " " + d2Min + " -> " + minResidual);
+//        Assert.assertEquals(0, d0Min, 1.0e-15);
+//        Assert.assertEquals(0, d1Min, 1.0e-15);
+//        Assert.assertEquals(0, d2Min, 1.0e-15);
+    }
+
+
+    @Test
+    public void testMath320B() {
+        RealMatrix rm = new Array2DRowRealMatrix(new double[][] {
+            { 1.0, 2.0 }, { 1.0, 2.0 }
+        });
+        SingularValueDecomposition svd =
+            new SingularValueDecompositionImpl(rm);
+        regularElements(svd.getU());
+        regularElements(svd.getVT());
+    }
+
+    private void regularElements(RealMatrix m) {
+        for (int i = 0; i < m.getRowDimension(); ++i) {
+            for (int j = 0; j < m.getColumnDimension(); ++j) {
+                double mij = m.getEntry(i, j);
+                Assert.assertFalse(Double.isInfinite(mij));
+                Assert.assertFalse(Double.isNaN(mij));
+            }
+        }
     }
 
 }

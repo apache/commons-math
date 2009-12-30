@@ -21,12 +21,24 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * Calculates the Singular Value Decomposition of a matrix.
+ * Calculates the compact or truncated Singular Value Decomposition of a matrix.
  * <p>The Singular Value Decomposition of matrix A is a set of three matrices:
  * U, &Sigma; and V such that A = U &times; &Sigma; &times; V<sup>T</sup>.
- * Let A be an m &times; n matrix, then U is an m &times; n orthogonal matrix,
- * &Sigma; is a n &times; n diagonal matrix with positive diagonal elements,
- * and V is an n &times; n orthogonal matrix.</p>
+ * Let A be a m &times; n matrix, then U is a m &times; p orthogonal matrix,
+ * &Sigma; is a p &times; p diagonal matrix with positive diagonal elements,
+ * V is a n &times; p orthogonal matrix (hence V<sup>T</sup> is a p &times; n
+ * orthogonal matrix). The size p depends on the chosen algorithm:
+ * <ul>
+ *   <li>for full SVD, p would be n, but this is not supported by this implementation,</li>
+ *   <li>for compact SVD, p is the rank r of the matrix
+ *       (i. e. the number of positive singular values),</li>
+ *   <li>for truncated SVD p is min(r, t) where t is user-specified.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Note that since this class computes only the compact or truncated SVD and not
+ * the full SVD, the singular values computed are always positive.
+ * </p>
  *
  * @version $Revision$ $Date$
  * @since 2.0
@@ -76,12 +88,24 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private RealMatrix cachedVt;
 
     /**
-     * Calculates the Singular Value Decomposition of the given matrix.
+     * Calculates the compact Singular Value Decomposition of the given matrix.
      * @param matrix The matrix to decompose.
      * @exception InvalidMatrixException (wrapping a {@link
      * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
      */
-    public SingularValueDecompositionImpl(RealMatrix matrix)
+    public SingularValueDecompositionImpl(final RealMatrix matrix)
+        throws InvalidMatrixException {
+        this(matrix, Math.min(matrix.getRowDimension(), matrix.getColumnDimension()));
+    }
+
+    /**
+     * Calculates the Singular Value Decomposition of the given matrix.
+     * @param matrix The matrix to decompose.
+     * @param max maximal number of singular values to compute
+     * @exception InvalidMatrixException (wrapping a {@link
+     * org.apache.commons.math.ConvergenceException} if algorithm fails to converge
+     */
+    public SingularValueDecompositionImpl(final RealMatrix matrix, final int max)
         throws InvalidMatrixException {
 
         m = matrix.getRowDimension();
@@ -113,10 +137,14 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         eigenDecomposition =
             new EigenDecompositionImpl(mainTridiagonal, secondaryTridiagonal,
                                        MathUtils.SAFE_MIN);
-        singularValues = eigenDecomposition.getRealEigenvalues();
-        for (int i = 0; i < singularValues.length; ++i) {
-            final double si = singularValues[i];
-            singularValues[i] = (si < 0) ? 0.0 : Math.sqrt(si);
+        final double[] eigenValues = eigenDecomposition.getRealEigenvalues();
+        int p = Math.min(max, eigenValues.length);
+        while ((p > 0) && (eigenValues[p - 1] <= 0)) {
+            --p;
+        }
+        singularValues = new double[p];
+        for (int i = 0; i < p; ++i) {
+            singularValues[i] = Math.sqrt(eigenValues[i]);
         }
 
     }
@@ -127,37 +155,41 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         if (cachedU == null) {
 
+            final int p = singularValues.length;
             if (m >= n) {
                 // the tridiagonal matrix is Bt.B, where B is upper bidiagonal
-                final double[][] eData = eigenDecomposition.getV().getData();
-                final double[][] iData = new double[m][];
+                final RealMatrix e =
+                    eigenDecomposition.getV().getSubMatrix(0, p - 1, 0, p - 1);
+                final double[][] eData = e.getData();
+                final double[][] wData = new double[m][p];
                 double[] ei1 = eData[0];
-                iData[0] = ei1;
-                for (int i = 0; i < n - 1; ++i) {
-                    // compute B.E.S^(-1) where E is the eigenvectors matrix
-                    // we reuse the array from matrix E to store the result
+                for (int i = 0; i < p - 1; ++i) {
+                    // compute W = B.E.S^(-1) where E is the eigenvectors matrix
                     final double mi = mainBidiagonal[i];
                     final double si = secondaryBidiagonal[i];
                     final double[] ei0 = ei1;
+                    final double[] wi  = wData[i];
                     ei1 = eData[i + 1];
-                    iData[i + 1] = ei1;
-                    for (int j = 0; j < n; ++j) {
-                        ei0[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
+                    for (int j = 0; j < p; ++j) {
+                        wi[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
                     }
                 }
                 // last row
-                final double lastMain = mainBidiagonal[n - 1];
-                for (int j = 0; j < n; ++j) {
-                    ei1[j] *= lastMain / singularValues[j];
+                final double lastMain = mainBidiagonal[p - 1];
+                final double[] wr1  = wData[p - 1];
+                for (int j = 0; j < p; ++j) {
+                    wr1[j] = ei1[j] * lastMain / singularValues[j];
                 }
-                for (int i = n; i < m; ++i) {
-                    iData[i] = new double[n];
+                for (int i = p; i < m; ++i) {
+                    wData[i] = new double[p];
                 }
                 cachedU =
-                    transformer.getU().multiply(MatrixUtils.createRealMatrix(iData));
+                    transformer.getU().multiply(MatrixUtils.createRealMatrix(wData));
             } else {
                 // the tridiagonal matrix is B.Bt, where B is lower bidiagonal
-                cachedU = transformer.getU().multiply(eigenDecomposition.getV());
+                final RealMatrix e =
+                    eigenDecomposition.getV().getSubMatrix(0, m - 1, 0, p - 1);
+                cachedU = transformer.getU().multiply(e);
             }
 
         }
@@ -205,37 +237,41 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         if (cachedV == null) {
 
+            final int p = singularValues.length;
             if (m >= n) {
                 // the tridiagonal matrix is Bt.B, where B is upper bidiagonal
-                cachedV = transformer.getV().multiply(eigenDecomposition.getV());
+                final RealMatrix e =
+                    eigenDecomposition.getV().getSubMatrix(0, n - 1, 0, p - 1);
+                cachedV = transformer.getV().multiply(e);
             } else {
                 // the tridiagonal matrix is B.Bt, where B is lower bidiagonal
-                final double[][] eData = eigenDecomposition.getV().getData();
-                final double[][] iData = new double[n][];
+                // compute W = Bt.E.S^(-1) where E is the eigenvectors matrix
+                final RealMatrix e =
+                    eigenDecomposition.getV().getSubMatrix(0, p - 1, 0, p - 1);
+                final double[][] eData = e.getData();
+                final double[][] wData = new double[n][p];
                 double[] ei1 = eData[0];
-                iData[0] = ei1;
-                for (int i = 0; i < m - 1; ++i) {
-                    // compute Bt.E.S^(-1) where E is the eigenvectors matrix
-                    // we reuse the array from matrix E to store the result
+                for (int i = 0; i < p - 1; ++i) {
                     final double mi = mainBidiagonal[i];
                     final double si = secondaryBidiagonal[i];
                     final double[] ei0 = ei1;
+                    final double[] wi  = wData[i];
                     ei1 = eData[i + 1];
-                    iData[i + 1] = ei1;
-                    for (int j = 0; j < m; ++j) {
-                        ei0[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
+                    for (int j = 0; j < p; ++j) {
+                        wi[j] = (mi * ei0[j] + si * ei1[j]) / singularValues[j];
                     }
                 }
                 // last row
-                final double lastMain = mainBidiagonal[m - 1];
-                for (int j = 0; j < m; ++j) {
-                    ei1[j] *= lastMain / singularValues[j];
+                final double lastMain = mainBidiagonal[p - 1];
+                final double[] wr1  = wData[p - 1];
+                for (int j = 0; j < p; ++j) {
+                    wr1[j] = ei1[j] * lastMain / singularValues[j];
                 }
-                for (int i = m; i < n; ++i) {
-                    iData[i] = new double[m];
+                for (int i = p; i < n; ++i) {
+                    wData[i] = new double[p];
                 }
                 cachedV =
-                    transformer.getV().multiply(MatrixUtils.createRealMatrix(iData));
+                    transformer.getV().multiply(MatrixUtils.createRealMatrix(wData));
             }
 
         }
@@ -262,8 +298,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     public RealMatrix getCovariance(final double minSingularValue) {
 
         // get the number of singular values to consider
+        final int p = singularValues.length;
         int dimension = 0;
-        while ((dimension < n) && (singularValues[dimension] >= minSingularValue)) {
+        while ((dimension < p) && (singularValues[dimension] >= minSingularValue)) {
             ++dimension;
         }
 
@@ -273,14 +310,14 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                   minSingularValue, singularValues[0]);
         }
 
-        final double[][] data = new double[dimension][n];
+        final double[][] data = new double[dimension][p];
         getVT().walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
             /** {@inheritDoc} */
             @Override
             public void visit(final int row, final int column, final double value) {
                 data[row][column] = value / singularValues[row];
             }
-        }, 0, dimension - 1, 0, n - 1);
+        }, 0, dimension - 1, 0, p - 1);
 
         RealMatrix jv = new Array2DRowRealMatrix(data, false);
         return jv.transpose().multiply(jv);
@@ -317,20 +354,14 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
         return new Solver(singularValues, getUT(), getV(),
-                          getRank() == singularValues.length);
+                          getRank() == Math.max(m, n));
     }
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
 
-        /** Singular values. */
-        private final double[] singularValues;
-
-        /** U<sup>T</sup> matrix of the decomposition. */
-        private final RealMatrix uT;
-
-        /** V matrix of the decomposition. */
-        private final RealMatrix v;
+        /** Pseudo-inverse of the initial matrix. */
+        private final RealMatrix pseudoInverse;
 
         /** Singularity indicator. */
         private boolean nonSingular;
@@ -344,10 +375,16 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          */
         private Solver(final double[] singularValues, final RealMatrix uT, final RealMatrix v,
                        final boolean nonSingular) {
-            this.singularValues = singularValues;
-            this.uT             = uT;
-            this.v              = v;
-            this.nonSingular    = nonSingular;
+            double[][] suT      = uT.getData();
+            for (int i = 0; i < singularValues.length; ++i) {
+                final double a      = 1.0 / singularValues[i];
+                final double[] suTi = suT[i];
+                for (int j = 0; j < suTi.length; ++j) {
+                    suTi[j] *= a;
+                }
+            }
+            pseudoInverse    = v.multiply(new Array2DRowRealMatrix(suT, false));
+            this.nonSingular = nonSingular;
         }
 
         /** Solve the linear equation A &times; X = B in least square sense.
@@ -356,27 +393,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X that minimizes the two norm of A &times; X - B
          * @exception IllegalArgumentException if matrices dimensions don't match
-         * @exception InvalidMatrixException if decomposed matrix is singular
          */
         public double[] solve(final double[] b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
-            if (b.length != uT.getColumnDimension()) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        "vector length mismatch: got {0} but expected {1}",
-                        b.length, uT.getColumnDimension());
-            }
-
-            final double[] w = uT.operate(b);
-            for (int i = 0; i < singularValues.length; ++i) {
-                final double si = singularValues[i];
-                if (si == 0) {
-                    throw new SingularMatrixException();
-                }
-                w[i] /= si;
-            }
-            return v.operate(w);
-
+            throws IllegalArgumentException {
+            return pseudoInverse.operate(b);
         }
 
         /** Solve the linear equation A &times; X = B in least square sense.
@@ -385,27 +405,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X that minimizes the two norm of A &times; X - B
          * @exception IllegalArgumentException if matrices dimensions don't match
-         * @exception InvalidMatrixException if decomposed matrix is singular
          */
         public RealVector solve(final RealVector b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
-            if (b.getDimension() != uT.getColumnDimension()) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        "vector length mismatch: got {0} but expected {1}",
-                         b.getDimension(), uT.getColumnDimension());
-            }
-
-            final RealVector w = uT.operate(b);
-            for (int i = 0; i < singularValues.length; ++i) {
-                final double si = singularValues[i];
-                if (si == 0) {
-                    throw new SingularMatrixException();
-                }
-                w.setEntry(i, w.getEntry(i) / si);
-            }
-            return v.operate(w);
-
+            throws IllegalArgumentException {
+            return pseudoInverse.operate(b);
         }
 
         /** Solve the linear equation A &times; X = B in least square sense.
@@ -414,31 +417,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @param b right-hand side of the equation A &times; X = B
          * @return a matrix X that minimizes the two norm of A &times; X - B
          * @exception IllegalArgumentException if matrices dimensions don't match
-         * @exception InvalidMatrixException if decomposed matrix is singular
          */
         public RealMatrix solve(final RealMatrix b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
-            if (b.getRowDimension() != singularValues.length) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
-                        b.getRowDimension(), b.getColumnDimension(),
-                        singularValues.length, "n");
-            }
-
-            final RealMatrix w = uT.multiply(b);
-            for (int i = 0; i < singularValues.length; ++i) {
-                final double si  = singularValues[i];
-                if (si == 0) {
-                    throw new SingularMatrixException();
-                }
-                final double inv = 1.0 / si;
-                for (int j = 0; j < b.getColumnDimension(); ++j) {
-                    w.multiplyEntry(i, j, inv);
-                }
-            }
-            return v.multiply(w);
-
+            throws IllegalArgumentException {
+            return pseudoInverse.multiply(b);
         }
 
         /**
@@ -451,17 +433,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         /** Get the pseudo-inverse of the decomposed matrix.
          * @return inverse matrix
-         * @throws InvalidMatrixException if decomposed matrix is singular
          */
-        public RealMatrix getInverse()
-            throws InvalidMatrixException {
-
-            if (!isNonSingular()) {
-                throw new SingularMatrixException();
-            }
-
-            return solve(MatrixUtils.createRealIdentityMatrix(singularValues.length));
-
+        public RealMatrix getInverse() {
+            return pseudoInverse;
         }
 
     }
