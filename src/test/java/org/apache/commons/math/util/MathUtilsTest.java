@@ -490,6 +490,81 @@ public final class MathUtilsTest extends TestCase {
         }
     }
 
+    public void  testGcdLong(){
+        long a = 30;
+        long b = 50;
+        long c = 77;
+
+        assertEquals(0, MathUtils.gcd(0L, 0));
+
+        assertEquals(b, MathUtils.gcd(0, b));
+        assertEquals(a, MathUtils.gcd(a, 0));
+        assertEquals(b, MathUtils.gcd(0, -b));
+        assertEquals(a, MathUtils.gcd(-a, 0));
+
+        assertEquals(10, MathUtils.gcd(a, b));
+        assertEquals(10, MathUtils.gcd(-a, b));
+        assertEquals(10, MathUtils.gcd(a, -b));
+        assertEquals(10, MathUtils.gcd(-a, -b));
+
+        assertEquals(1, MathUtils.gcd(a, c));
+        assertEquals(1, MathUtils.gcd(-a, c));
+        assertEquals(1, MathUtils.gcd(a, -c));
+        assertEquals(1, MathUtils.gcd(-a, -c));
+
+        assertEquals(3L * (1L<<45), MathUtils.gcd(3L * (1L<<50), 9L * (1L<<45)));
+
+        assertEquals(1L<<45, MathUtils.gcd(1L<<45, Long.MIN_VALUE));
+
+        assertEquals(Long.MAX_VALUE, MathUtils.gcd(Long.MAX_VALUE, 0L));
+        assertEquals(Long.MAX_VALUE, MathUtils.gcd(-Long.MAX_VALUE, 0L));
+        assertEquals(1, MathUtils.gcd(60247241209L, 153092023L));
+        try {
+            // gcd(Long.MIN_VALUE, 0) > Long.MAX_VALUE
+            MathUtils.gcd(Long.MIN_VALUE, 0);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+        try {
+            // gcd(0, Long.MIN_VALUE) > Long.MAX_VALUE
+            MathUtils.gcd(0, Long.MIN_VALUE);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+        try {
+            // gcd(Long.MIN_VALUE, Long.MIN_VALUE) > Long.MAX_VALUE
+            MathUtils.gcd(Long.MIN_VALUE, Long.MIN_VALUE);
+            fail("expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+    }
+    
+    public void testGcdConsistency() {
+        int[] primeList = {19, 23, 53, 67, 73, 79, 101, 103, 111, 131};
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        for (int i = 0; i < primeList.length; i++) {
+            primes.add(Integer.valueOf(primeList[i]));
+        }
+        RandomDataImpl randomData = new RandomDataImpl();
+        for (int i = 0; i < 20; i++) {
+            Object[] sample = randomData.nextSample(primes, 4);
+            int p1 = ((Integer) sample[0]).intValue();
+            int p2 = ((Integer) sample[1]).intValue();
+            int p3 = ((Integer) sample[2]).intValue();
+            int p4 = ((Integer) sample[3]).intValue();
+            int i1 = p1 * p2 * p3;
+            int i2 = p1 * p2 * p4;
+            int gcd = p1 * p2;
+            assertEquals(gcd, MathUtils.gcd(i1, i2));
+            long l1 = i1;
+            long l2 = i2;
+            assertEquals(gcd, MathUtils.gcd(l1, l2));
+        }
+    }
+
     public void testHash() {
         double[] testArray = {
             Double.NaN,
@@ -624,7 +699,7 @@ public final class MathUtilsTest extends TestCase {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Integer.MIN_VALUE, 1);
             fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+        } catch (ArithmeticException expected) {
             // expected
         }
 
@@ -632,14 +707,64 @@ public final class MathUtilsTest extends TestCase {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Integer.MIN_VALUE, 1<<20);
             fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+        } catch (ArithmeticException expected) {
             // expected
         }
 
         try {
             MathUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
             fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+    }
+
+    public void testLcmLong() {
+        long a = 30;
+        long b = 50;
+        long c = 77;
+
+        assertEquals(0, MathUtils.lcm(0, b));
+        assertEquals(0, MathUtils.lcm(a, 0));
+        assertEquals(b, MathUtils.lcm(1, b));
+        assertEquals(a, MathUtils.lcm(a, 1));
+        assertEquals(150, MathUtils.lcm(a, b));
+        assertEquals(150, MathUtils.lcm(-a, b));
+        assertEquals(150, MathUtils.lcm(a, -b));
+        assertEquals(150, MathUtils.lcm(-a, -b));
+        assertEquals(2310, MathUtils.lcm(a, c));
+
+        assertEquals(Long.MAX_VALUE, MathUtils.lcm(60247241209L, 153092023L));
+
+        // Assert that no intermediate value overflows:
+        // The naive implementation of lcm(a,b) would be (a*b)/gcd(a,b)
+        assertEquals((1L<<50)*15, MathUtils.lcm((1L<<45)*3, (1L<<50)*5));
+
+        // Special case
+        assertEquals(0L, MathUtils.lcm(0L, 0L));
+
+        try {
+            // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
+            MathUtils.lcm(Long.MIN_VALUE, 1);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+        
+        try {
+            // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
+            MathUtils.lcm(Long.MIN_VALUE, 1<<20);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
+            // expected
+        }
+
+        assertEquals((long) Integer.MAX_VALUE * (Integer.MAX_VALUE - 1),
+            MathUtils.lcm((long)Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
+        try {
+            MathUtils.lcm(Long.MAX_VALUE, Long.MAX_VALUE - 1);
+            fail("Expecting ArithmeticException");
+        } catch (ArithmeticException expected) {
             // expected
         }
     }

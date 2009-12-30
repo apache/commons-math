@@ -606,9 +606,8 @@ public final class MathUtils {
      * @param p any number
      * @param q any number
      * @return the greatest common divisor, never negative
-     * @throws ArithmeticException
-     *             if the result cannot be represented as a nonnegative int
-     *             value
+     * @throws ArithmeticException if the result cannot be represented as a
+     * nonnegative int value
      * @since 1.1
      */
     public static int gcd(final int p, final int q) {
@@ -669,6 +668,95 @@ public final class MathUtils {
             // |v| larger: t negative (replace v)
         } while (t != 0);
         return -u * (1 << k); // gcd is u*2^k
+    }
+
+    /**
+     * <p>
+     * Gets the greatest common divisor of the absolute value of two numbers,
+     * using the "binary gcd" method which avoids division and modulo
+     * operations. See Knuth 4.5.2 algorithm B. This algorithm is due to Josef
+     * Stein (1961).
+     * </p>
+     * Special cases:
+     * <ul>
+     * <li>The invocations
+     * <code>gcd(Long.MIN_VALUE, Long.MIN_VALUE)</code>,
+     * <code>gcd(Long.MIN_VALUE, 0L)</code> and
+     * <code>gcd(0L, Long.MIN_VALUE)</code> throw an
+     * <code>ArithmeticException</code>, because the result would be 2^63, which
+     * is too large for a long value.</li>
+     * <li>The result of <code>gcd(x, x)</code>, <code>gcd(0L, x)</code> and
+     * <code>gcd(x, 0L)</code> is the absolute value of <code>x</code>, except
+     * for the special cases above.
+     * <li>The invocation <code>gcd(0L, 0L)</code> is the only one which returns
+     * <code>0L</code>.</li>
+     * </ul>
+     * 
+     * @param u any number
+     * @param v any number
+     * @return the greatest common divisor, never negative
+     * @throws ArithmeticException if the result cannot be represented as a nonnegative long
+     * value
+     * @since 2.1
+     */
+    public static long gcd(final long p, final long q) {
+        long u = p;
+        long v = q;
+        if ((u == 0) || (v == 0)) {
+            if ((u == Long.MIN_VALUE) || (v == Long.MIN_VALUE)){
+                throw MathRuntimeException.createArithmeticException(
+                        "overflow: gcd({0}, {1}) is 2^63",
+                        p, q);
+            }
+            return (Math.abs(u) + Math.abs(v));
+        }
+        // keep u and v negative, as negative integers range down to
+        // -2^63, while positive numbers can only be as large as 2^63-1
+        // (i.e. we can't necessarily negate a negative number without
+        // overflow)
+        /* assert u!=0 && v!=0; */
+        if (u > 0) {
+            u = -u;
+        } // make u negative
+        if (v > 0) {
+            v = -v;
+        } // make v negative
+        // B1. [Find power of 2]
+        int k = 0;
+        while ((u & 1) == 0 && (v & 1) == 0 && k < 63) { // while u and v are
+                                                            // both even...
+            u /= 2;
+            v /= 2;
+            k++; // cast out twos.
+        }
+        if (k == 63) {
+            throw MathRuntimeException.createArithmeticException(
+                    "overflow: gcd({0}, {1}) is 2^63",
+                    p, q);
+        }
+        // B2. Initialize: u and v have been divided by 2^k and at least
+        // one is odd.
+        long t = ((u & 1) == 1) ? v : -(u / 2)/* B3 */;
+        // t negative: u was odd, v may be even (t replaces v)
+        // t positive: u was even, v is odd (t replaces u)
+        do {
+            /* assert u<0 && v<0; */
+            // B4/B3: cast out twos from t.
+            while ((t & 1) == 0) { // while t is even..
+                t /= 2; // cast out twos
+            }
+            // B5 [reset max(u,v)]
+            if (t > 0) {
+                u = -t;
+            } else {
+                v = t;
+            }
+            // B6/B3. at this point both u and v should be odd.
+            t = (v - u) / 2;
+            // |u| larger: t positive (replace u)
+            // |v| larger: t negative (replace v)
+        } while (t != 0);
+        return -u * (1L << k); // gcd is u*2^k
     }
 
     /**
@@ -791,8 +879,45 @@ public final class MathUtils {
             return 0;
         }
         int lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
-        if (lcm == Integer.MIN_VALUE){
-            throw new ArithmeticException("overflow: lcm is 2^31");
+        if (lcm == Integer.MIN_VALUE) {
+            throw MathRuntimeException.createArithmeticException(
+                "overflow: lcm({0}, {1}) is 2^31",
+                a, b);
+        }
+        return lcm;
+    }
+
+    /**
+     * <p>
+     * Returns the least common multiple of the absolute value of two numbers,
+     * using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+     * </p>
+     * Special cases:
+     * <ul>
+     * <li>The invocations <code>lcm(Long.MIN_VALUE, n)</code> and
+     * <code>lcm(n, Long.MIN_VALUE)</code>, where <code>abs(n)</code> is a
+     * power of 2, throw an <code>ArithmeticException</code>, because the result
+     * would be 2^63, which is too large for an int value.</li>
+     * <li>The result of <code>lcm(0L, x)</code> and <code>lcm(x, 0L)</code> is
+     * <code>0L</code> for any <code>x</code>.
+     * </ul>
+     * 
+     * @param a any number
+     * @param b any number
+     * @return the least common multiple, never negative
+     * @throws ArithmeticException if the result cannot be represented as a nonnegative long
+     * value
+     * @since 2.1
+     */
+    public static long lcm(long a, long b) {
+        if (a==0 || b==0){
+            return 0;
+        }
+        long lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
+        if (lcm == Long.MIN_VALUE){
+            throw MathRuntimeException.createArithmeticException(
+                "overflow: lcm({0}, {1}) is 2^63",
+                a, b);
         }
         return lcm;
     }
