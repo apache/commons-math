@@ -130,6 +130,7 @@ public abstract class AbstractUnivariateStatistic
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @since 2.1
      */
     protected boolean test(
         final double[] values,

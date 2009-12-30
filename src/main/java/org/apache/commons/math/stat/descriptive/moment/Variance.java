@@ -296,6 +296,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param length the number of elements to include
      * @return the weighted variance of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the parameters are not valid
+     * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
                            final int begin, final int length) {
@@ -351,6 +352,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param weights the weights array
      * @return the weighted variance of the values
      * @throws IllegalArgumentException if the parameters are not valid
+     * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights) {
         return evaluate(values, weights, 0, values.length);
@@ -482,6 +484,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param length the number of elements to include
      * @return the variance of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the parameters are not valid
+     * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
                            final double mean, final int begin, final int length) {
@@ -555,6 +558,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param mean the precomputed weighted mean value
      * @return the variance of the values or Double.NaN if length = 0
      * @throws IllegalArgumentException if the parameters are not valid
+     * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights, final double mean) {
         return evaluate(values, weights, mean, 0, values.length);
