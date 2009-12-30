@@ -162,6 +162,7 @@ public class Frequency implements Serializable {
      * Adds 1 to the frequency count for v.
      *
      * @param v the value to add.
+     * @deprecated to be removed in math 3.0
      */
     public void addValue(Integer v) {
         addValue(Long.valueOf(v.longValue()));
