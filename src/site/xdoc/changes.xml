@@ -39,10 +39,18 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-321" >
+        Singular Value Decomposition now computes either the compact SVD (using only
+        positive singular values) or truncated SVD (using a user-specified maximal
+        number of singular values).
+      </action>
+      <action dev="luc" type="fix" issue="MATH-320" >
+        Fixed Singular Value Decomposition solving of singular systems.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-239" due-to="Christian Semrau">
         Added MathUtils methods to compute gcd and lcm for long arguments.
-      </actions>
-      <action dev="psteitz" tyoe="update" issue="MATH-287" due-to="Matthew Rowles">
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-287" due-to="Matthew Rowles">
         Added support for weighted univariate statistics.
       </action>
       <action dev="luc" type="fix" issue="MATH-326" due-to="Jake Mannix">
