@@ -144,6 +144,8 @@ public final class FrequencyTest extends TestCase {
         assertEquals("one pct",0.25,f.getPct(1),tolerance);
         assertEquals("two pct",0.25,f.getPct(Long.valueOf(2)),tolerance);
         assertEquals("three pct",0.5,f.getPct(threeL),tolerance);
+        // MATH-329
+        assertEquals("three (Object) pct",0.5,f.getPct((Object) (Integer.valueOf(3))),tolerance);
         assertEquals("five pct",0,f.getPct(5),tolerance);
         assertEquals("foo pct",0,f.getPct("foo"),tolerance);
         assertEquals("one cum pct",0.25,f.getCumPct(1),tolerance);

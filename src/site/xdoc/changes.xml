@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-329">
+        Fixed regression in Frequency.getPct(Object) introduced in 2.0. Cumulative
+        percent was being returned for Object arguments in place of percent.
+      </action>
       <action dev="luc" type="add" issue="MATH-321" >
         Singular Value Decomposition now computes either the compact SVD (using only
         positive singular values) or truncated SVD (using a user-specified maximal
