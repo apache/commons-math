@@ -21,7 +21,7 @@ package org.apache.commons.math.ode.events;
  * during ODE integration.
  *
  * <p>Some events can be triggered at discrete times as an ODE problem
- * is solved. These occurs for example when the integration process
+ * is solved. This occurs for example when the integration process
  * should be stopped as some state is reached (G-stop facility) when the
  * precise date is unknown a priori, or when the derivatives have
  * discontinuities, or simply when the user wants to monitor some
@@ -101,10 +101,10 @@ public interface EventHandler  {
   /** Handle an event and choose what to do next.
 
    * <p>This method is called when the integrator has accepted a step
-   * ending exactly on a sign change of the function, just before the
-   * step handler itself is called. It allows the user to update his
-   * internal data to acknowledge the fact the event has been handled
-   * (for example setting a flag in the {@link
+   * ending exactly on a sign change of the function, just <em>before</em>
+   * the step handler itself is called (see below for scheduling). It
+   * allows the user to update his internal data to acknowledge the fact
+   * the event has been handled (for example setting a flag in the {@link
    * org.apache.commons.math.ode.FirstOrderDifferentialEquations
    * differential equations} to switch the derivatives computation in
    * case of discontinuity), or to direct the integrator to either stop
@@ -125,6 +125,30 @@ public interface EventHandler  {
    *   be taken (apart from having called this method) and integration
    *   will continue.</li>
    * </ul>
+
+   * <p>The scheduling between this method and the {@link
+   * org.apache.commons.math.ode.sampling.StepHandler StepHandler} method {@link
+   * org.apache.commons.math.ode.sampling.StepNormalizerStepHandler#handleStep(
+   * org.apache.commons.math.ode.sampling.StepInterpolator, boolean)
+   * handleStep(interpolator, isLast)} is to call this method first and
+   * <code>handleStep</code> afterwards. This scheduling allows the integrator to
+   * pass <code>true</code> as the <code>isLast</code> parameter to the step
+   * handler to make it aware the step will be the last one if this method
+   * returns {@link #STOP}. As the interpolator may be used to navigate back
+   * throughout the last step (as {@link
+   * org.apache.commons.math.ode.sampling.StepNormalizerStepNormalizer
+   * StepNormalizer} does for example), user code called by this method and user
+   * code called by step handlers may experience apparently out of order values
+   * of the independent time variable. As an example, if the same user object
+   * implements both this {@link EventHandler EventHandler} interface and the
+   * {@link org.apache.commons.math.ode.sampling.FixedStepHandler FixedStepHandler}
+   * interface, a <em>forward</em> integration may call its
+   * <code>eventOccurred</code> method with t = 10 first and call its
+   * <code>handleStep</code> method with t = 9 afterwards. Such out of order
+   * calls are limited to the size of the integration step for {@link
+   * org.apache.commons.math.ode.sampling.StepHandler variable step handlers} and
+   * to the size of the fixed step for {@link
+   * org.apache.commons.math.ode.sampling.FixedStepHandler fixed step handlers}.</p>
 
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
