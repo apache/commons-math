@@ -136,8 +136,8 @@ public interface EventHandler  {
    * handler to make it aware the step will be the last one if this method
    * returns {@link #STOP}. As the interpolator may be used to navigate back
    * throughout the last step (as {@link
-   * org.apache.commons.math.ode.sampling.StepNormalizerStepNormalizer
-   * StepNormalizer} does for example), user code called by this method and user
+   * org.apache.commons.math.ode.sampling.StepNormalizer StepNormalizer}
+   * does for example), user code called by this method and user
    * code called by step handlers may experience apparently out of order values
    * of the independent time variable. As an example, if the same user object
    * implements both this {@link EventHandler EventHandler} interface and the
