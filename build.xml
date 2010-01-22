@@ -188,8 +188,12 @@
                <formatter usefile="false" type="plain"/>
                <classpath refid="test.classpath"/>
                <batchtest>
-                  <fileset dir="${test.home}" includes="**/*Test.java" 
-                  excludes="**/*AbstractTest.java"/>
+                   <fileset dir="${test.home}">
+                      <include name="**/*Test.java"/> 
+                      <include name="**/*TestBinary.java"/> 
+                      <include name="**/*TestPermutations.java"/> 
+                      <exclude name="**/*AbstractTest.java"/>
+                   </fileset>
                </batchtest>
        </junit>
        <fail message="There were test failures.">
