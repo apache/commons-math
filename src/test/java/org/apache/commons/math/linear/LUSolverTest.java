@@ -17,16 +17,7 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
 
 public class LUSolverTest extends TestCase {
     private double[][] testData = {
@@ -54,12 +45,6 @@ public class LUSolverTest extends TestCase {
 
     public LUSolverTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(LUSolverTest.class);
-        suite.setName("LUSolver Tests");
-        return suite;
     }
 
     /** test threshold impact */

@@ -66,10 +66,6 @@ public class WeightedMeasurementTest
 
   }
 
-  public static Test suite() {
-    return new TestSuite(WeightedMeasurementTest.class);
-  }
-
   @Override
   public void setUp() {
     p1 = new EstimatedParameter("p1", 1.0);

@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 
@@ -31,12 +29,6 @@ public class AbstractUnivariateStatisticTest extends TestCase {
 
     public AbstractUnivariateStatisticTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(AbstractUnivariateStatisticTest.class);
-        suite.setName("AbstractUnivariateStatistic Tests");
-        return suite;
     }
 
     protected double[] testArray = {0, 1, 2, 3, 4, 5};

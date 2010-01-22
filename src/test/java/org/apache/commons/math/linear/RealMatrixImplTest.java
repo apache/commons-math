@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 
@@ -92,12 +90,6 @@ public final class RealMatrixImplTest extends TestCase {
 
     public RealMatrixImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(RealMatrixImplTest.class);
-        suite.setName("RealMatrixImpl Tests");
-        return suite;
     }
 
     /** test dimensions */

@@ -21,9 +21,7 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
@@ -492,10 +490,6 @@ extends TestCase {
             };
         }
 
-    }
-
-    public static Test suite() {
-        return new TestSuite(NonLinearConjugateGradientOptimizerTest.class);
     }
 
 }

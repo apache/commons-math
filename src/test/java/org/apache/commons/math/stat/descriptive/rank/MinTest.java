@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.rank;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -35,12 +32,6 @@ public class MinTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public MinTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MinTest.class);
-        suite.setName("Min  Tests");
-        return suite;
     }
 
     /**

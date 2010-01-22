@@ -19,18 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math.linear.DefaultRealMatrixPreservingVisitor;
-import org.apache.commons.math.linear.BlockRealMatrix;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.MatrixVisitorException;
-import org.apache.commons.math.linear.QRDecomposition;
-import org.apache.commons.math.linear.QRDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class QRDecompositionImplTest extends TestCase {
     double[][] testData3x3NonSingular = {
@@ -60,12 +49,6 @@ public class QRDecompositionImplTest extends TestCase {
 
     public QRDecompositionImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(QRDecompositionImplTest.class);
-        suite.setName("QRDecompositionImpl Tests");
-        return suite;
     }
 
     /** test dimensions */

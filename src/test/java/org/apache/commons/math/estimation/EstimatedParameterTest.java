@@ -66,10 +66,6 @@ public class EstimatedParameterTest
 
   }
 
-  public static Test suite() {
-    return new TestSuite(EstimatedParameterTest.class);
-  }
-
   private void checkValue(double value, double expected) {
     assertTrue(Math.abs(value - expected) < 1.0e-10);
   }

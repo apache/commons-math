@@ -17,12 +17,10 @@
 
 package org.apache.commons.math.stat.descriptive.moment;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.TestUtils;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class VectorialMeanTest
 extends TestCase {
@@ -92,10 +90,6 @@ extends TestCase {
     @Override
     public void tearDown() {
         points = null;
-    }
-
-    public static Test suite() {
-        return new TestSuite(VectorialMeanTest.class);
     }
 
     private double [][] points;

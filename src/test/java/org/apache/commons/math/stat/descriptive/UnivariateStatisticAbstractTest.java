@@ -16,7 +16,6 @@ s * Unless required by applicable law or agreed to in writing, software
  */
 package org.apache.commons.math.stat.descriptive;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

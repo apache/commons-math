@@ -358,8 +358,4 @@ public class DormandPrince54IntegratorTest
     private double  maxStep;
   }
 
-  public static Test suite() {
-    return new TestSuite(DormandPrince54IntegratorTest.class);
-  }
-
 }

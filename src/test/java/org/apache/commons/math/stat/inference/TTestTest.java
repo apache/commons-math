@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
@@ -44,12 +42,6 @@ public class TTestTest extends TestCase {
     public void setUp() {
         tooShortStats = new SummaryStatistics();
         tooShortStats.addValue(0d);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(TTestTest.class);
-        suite.setName("TestStatistic Tests");
-        return suite;
     }
 
     public void testOneSampleT() throws Exception {

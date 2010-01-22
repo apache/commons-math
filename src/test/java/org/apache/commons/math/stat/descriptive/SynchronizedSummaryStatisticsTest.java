@@ -13,9 +13,6 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * Test cases for the {@link SynchronizedSummaryStatisticsTest} class.
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
@@ -25,12 +22,6 @@ public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsTe
 
     public SynchronizedSummaryStatisticsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SynchronizedSummaryStatisticsTest.class);
-        suite.setName("SynchronizedSummaryStatistics Tests");
-        return suite;
     }
 
     @Override

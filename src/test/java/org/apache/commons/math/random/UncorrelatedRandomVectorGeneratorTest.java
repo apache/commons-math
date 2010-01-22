@@ -77,10 +77,6 @@ extends TestCase {
         generator = null;
     }
 
-    public static Test suite() {
-        return new TestSuite(UncorrelatedRandomVectorGeneratorTest.class);
-    }
-
     private double[] mean;
     private double[] standardDeviation;
     private UncorrelatedRandomVectorGenerator generator;

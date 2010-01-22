@@ -16,12 +16,10 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 /**
  * Test cases for the OneWayAnovaImpl class.
@@ -44,12 +42,6 @@ public class OneWayAnovaTest extends TestCase {
 
     public OneWayAnovaTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(OneWayAnovaTest.class);
-        suite.setName("TestStatistic Tests");
-        return suite;
     }
 
     public void testAnovaFValue() throws Exception {

@@ -40,8 +40,4 @@ extends TestCase {
         assertEquals(1.0, StatUtils.variance(sample), 0.01);
     }
 
-    public static Test suite() {
-        return new TestSuite(GaussianRandomGeneratorTest.class);
-    }
-
 }

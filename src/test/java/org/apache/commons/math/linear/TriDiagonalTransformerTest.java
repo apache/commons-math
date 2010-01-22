@@ -19,14 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.TriDiagonalTransformer;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class TriDiagonalTransformerTest extends TestCase {
 
@@ -177,10 +170,6 @@ public class TriDiagonalTransformerTest extends TestCase {
         assertTrue(q == transformer.getQ());
         assertTrue(t == transformer.getT());
 
-    }
-
-    public static Test suite() {
-        return new TestSuite(TriDiagonalTransformerTest.class);
     }
 
 }

@@ -110,8 +110,4 @@ extends TestCase {
         return yb * b - ya * a;
     }
 
-    public static Test suite() {
-        return new TestSuite(LegendreGaussIntegratorTest.class);
-    }
-
 }

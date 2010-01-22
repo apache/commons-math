@@ -16,15 +16,13 @@
  */
 package org.apache.commons.math.stat;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import junit.framework.TestCase;
+
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Certified data test cases.
@@ -42,15 +40,6 @@ public class CertifiedDataTest extends TestCase  {
      */
     public CertifiedDataTest(String name) {
         super(name);
-    }
-
-    /**
-     * @return The test suite
-     */
-    public static Test suite() {
-        TestSuite suite = new TestSuite(CertifiedDataTest.class);
-        suite.setName("Certified Tests");
-        return suite;
     }
 
     /**

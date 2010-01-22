@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -35,12 +32,6 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public KurtosisTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(KurtosisTest.class);
-        suite.setName("Kurtosis  Tests");
-        return suite;
     }
 
     /**

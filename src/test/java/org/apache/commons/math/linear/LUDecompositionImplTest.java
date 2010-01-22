@@ -17,15 +17,7 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.LUDecomposition;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class LUDecompositionImplTest extends TestCase {
     private double[][] testData = {
@@ -62,12 +54,6 @@ public class LUDecompositionImplTest extends TestCase {
 
     public LUDecompositionImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(LUDecompositionImplTest.class);
-        suite.setName("LUDecompositionImpl Tests");
-        return suite;
     }
 
     /** test dimensions */

@@ -15,9 +15,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.util.Locale;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.util.MathUtils;
@@ -32,12 +30,6 @@ public class DescriptiveStatisticsTest extends TestCase {
 
     public DescriptiveStatisticsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(DescriptiveStatisticsTest.class);
-        suite.setName("DescriptiveStatistics Tests");
-        return suite;
     }
 
     protected DescriptiveStatistics createDescriptiveStatistics() {

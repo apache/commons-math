@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the ChiSquareTestImpl class.
@@ -32,12 +30,6 @@ public class ChiSquareTestTest extends TestCase {
 
     public ChiSquareTestTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ChiSquareTestTest.class);
-        suite.setName("TestStatistic Tests");
-        return suite;
     }
 
     public void testChiSquare() throws Exception {

@@ -23,9 +23,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -71,12 +68,6 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             dataArray[i] = data.doubleValue();
             i++;
         }
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(EmpiricalDistributionTest.class);
-        suite.setName("EmpiricalDistribution Tests");
-        return suite;
     }
 
     /**

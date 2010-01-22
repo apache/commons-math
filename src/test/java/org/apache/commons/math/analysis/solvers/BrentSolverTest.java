@@ -16,15 +16,13 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.MonitoredFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Testcase for UnivariateRealSolver.
@@ -41,12 +39,6 @@ public final class BrentSolverTest extends TestCase {
 
     public BrentSolverTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(BrentSolverTest.class);
-        suite.setName("UnivariateRealSolver Tests");
-        return suite;
     }
 
     @Deprecated

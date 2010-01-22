@@ -20,12 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the MathUtils class.
@@ -36,12 +34,6 @@ public final class MathUtilsTest extends TestCase {
 
     public MathUtilsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MathUtilsTest.class);
-        suite.setName("MathUtils Tests");
-        return suite;
     }
 
     /** cached binomial coefficients */

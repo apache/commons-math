@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 
@@ -92,12 +90,6 @@ public final class Array2DRowRealMatrixTest extends TestCase {
 
     public Array2DRowRealMatrixTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(Array2DRowRealMatrixTest.class);
-        suite.setName("Array2DRowRealMatrix Tests");
-        return suite;
     }
 
     /** test dimensions */

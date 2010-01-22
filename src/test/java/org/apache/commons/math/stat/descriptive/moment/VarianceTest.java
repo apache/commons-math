@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.util.MathUtils;
@@ -45,12 +42,6 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
     @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new Variance();
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(VarianceTest.class);
-        suite.setName("Variance Tests");
-        return suite;
     }
 
     /**

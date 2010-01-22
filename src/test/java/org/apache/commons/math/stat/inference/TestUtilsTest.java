@@ -19,9 +19,8 @@ package org.apache.commons.math.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
  * Test cases for the TestUtils class.
@@ -33,12 +32,6 @@ public class TestUtilsTest extends TestCase {
 
     public TestUtilsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(TestUtilsTest.class);
-        suite.setName("TestUtils Tests");
-        return suite;
     }
 
     public void testChiSquare() throws Exception {

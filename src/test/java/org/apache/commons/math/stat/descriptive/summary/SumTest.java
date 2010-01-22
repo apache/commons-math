@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.summary;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -35,12 +32,6 @@ public class SumTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public SumTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SumTest.class);
-        suite.setName("Sum Tests");
-        return suite;
     }
 
     /**

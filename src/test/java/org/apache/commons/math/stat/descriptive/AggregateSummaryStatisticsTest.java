@@ -17,16 +17,14 @@
 
 package org.apache.commons.math.stat.descriptive;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 
+import junit.framework.TestCase;
+
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
-import org.apache.commons.math.TestUtils;
 
 
 /**
@@ -34,18 +32,6 @@ import org.apache.commons.math.TestUtils;
  *
  */
 public class AggregateSummaryStatisticsTest extends TestCase {
-
-    /**
-     * Creates and returns a {@code Test} representing all the test cases in this
-     * class
-     *
-     * @return a {@code Test} representing all the test cases in this class
-     */
-    public static Test suite() {
-        TestSuite suite = new TestSuite(AggregateSummaryStatisticsTest.class);
-        suite.setName("AggregateSummaryStatistics tests");
-        return suite;
-    }
 
     /**
      * Tests the standard aggregation behavior

@@ -19,9 +19,7 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 import java.util.Random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
@@ -154,12 +152,6 @@ public final class BlockFieldMatrixTest extends TestCase {
 
     public BlockFieldMatrixTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(BlockFieldMatrixTest.class);
-        suite.setName("BlockFieldMatrix<Fraction> Tests");
-        return suite;
     }
 
     /** test dimensions */

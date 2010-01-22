@@ -20,9 +20,7 @@ package org.apache.commons.math.estimation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -729,10 +727,6 @@ public class GaussNewtonEstimatorTest
     private EstimatedParameter cy;
     private ArrayList<PointModel> points;
 
-  }
-
-  public static Test suite() {
-    return new TestSuite(GaussNewtonEstimatorTest.class);
   }
 
 }

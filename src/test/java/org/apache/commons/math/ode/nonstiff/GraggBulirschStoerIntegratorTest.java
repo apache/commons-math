@@ -360,8 +360,5 @@ public class GraggBulirschStoerIntegratorTest
     private double  minStep;
     private double  maxStep;
   }
-  public static Test suite() {
-    return new TestSuite(GraggBulirschStoerIntegratorTest.class);
-  }
 
 }

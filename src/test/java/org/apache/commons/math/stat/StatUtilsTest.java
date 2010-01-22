@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.stat;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 
@@ -43,12 +41,6 @@ public final class StatUtilsTest extends TestCase {
 
     public StatUtilsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(StatUtilsTest.class);
-        suite.setName("StatUtil Tests");
-        return suite;
     }
 
     /** test stats */

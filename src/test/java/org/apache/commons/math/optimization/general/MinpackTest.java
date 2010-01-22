@@ -20,9 +20,7 @@ package org.apache.commons.math.optimization.general;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
@@ -1529,10 +1527,6 @@ public class MinpackTest extends TestCase {
       0.428, 0.292, 0.162, 0.098, 0.054
     };
 
-  }
-
-  public static Test suite() {
-    return new TestSuite(MinpackTest.class);
   }
 
 }

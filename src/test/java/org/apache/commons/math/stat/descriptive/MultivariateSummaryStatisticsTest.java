@@ -19,9 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.util.Locale;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.TestUtils;
@@ -37,12 +35,6 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
 
     public MultivariateSummaryStatisticsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MultivariateSummaryStatisticsTest.class);
-        suite.setName("MultivariateSummaryStatistics tests");
-        return suite;
     }
 
     protected MultivariateSummaryStatistics createMultivariateSummaryStatistics(int k, boolean isCovarianceBiasCorrected) {

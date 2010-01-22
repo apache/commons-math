@@ -499,8 +499,4 @@ public class RotationTest
     assertEquals(0, Rotation.distance(r, new Rotation(q0, q1, q2, q3, false)), 1.0e-12);
   }
 
-  public static Test suite() {
-    return new TestSuite(RotationTest.class);
-  }
-
 }

@@ -20,11 +20,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.util.NumberTransformer;
 import org.apache.commons.math.util.TransformerMap;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
@@ -57,12 +56,6 @@ public final class MixedListUnivariateImplTest extends TestCase {
 
         transformers.putTransformer(Bar.class, new BarTransformer());
 
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MixedListUnivariateImplTest.class);
-        suite.setName("Mixed List Tests");
-        return suite;
     }
 
     /** test stats */

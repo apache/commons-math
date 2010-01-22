@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 package org.apache.commons.math.random;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.stat.Frequency;
 
@@ -34,12 +32,6 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
     public AbstractRandomGeneratorTest(String name) {
         super(name);
         randomData = new RandomDataImpl(testGenerator);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(AbstractRandomGeneratorTest.class);
-        suite.setName("AbstractRandomGenerator Tests");
-        return suite;
     }
 
     @Override

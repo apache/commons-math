@@ -16,15 +16,13 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Test the SplineInterpolator.
@@ -44,12 +42,6 @@ public class SplineInterpolatorTest extends TestCase {
 
     public SplineInterpolatorTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SplineInterpolatorTest.class);
-        suite.setName("UnivariateRealInterpolator Tests");
-        return suite;
     }
 
     public void testInterpolateLinearDegenerateTwoSegment()

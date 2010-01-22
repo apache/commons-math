@@ -228,8 +228,4 @@ public class Vector3DTest
       assertEquals(z, v.getZ(), 1.0e-12);
   }
 
-  public static Test suite() {
-    return new TestSuite(Vector3DTest.class);
-  }
-
 }

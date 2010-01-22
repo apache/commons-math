@@ -17,9 +17,8 @@
 package org.apache.commons.math.linear;
 
 import java.math.BigDecimal;
-import junit.framework.Test;
+
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
@@ -66,12 +65,6 @@ public final class MatrixUtilsTest extends TestCase {
         super(name);
     }
 
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MatrixUtilsTest.class);
-        suite.setName("MatrixUtils Tests");
-        return suite;
-    }
 
     public void testCreateRealMatrix() {
         assertEquals(new BlockRealMatrix(testData),

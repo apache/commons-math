@@ -1534,8 +1534,4 @@ public class MinpackTest
 
   }
 
-  public static Test suite() {
-    return new TestSuite(MinpackTest.class);
-  }
-
 }

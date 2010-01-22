@@ -22,9 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
@@ -582,10 +580,6 @@ extends TestCase {
             };
         }
 
-    }
-
-    public static Test suite() {
-        return new TestSuite(GaussNewtonOptimizerTest.class);
     }
 
 }

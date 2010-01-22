@@ -71,10 +71,6 @@ public class FirstOrderConverterTest
     assertTrue(Math.abs(error) > 0.1);
   }
 
-  public static Test suite() {
-    return new TestSuite(FirstOrderConverterTest.class);
-  }
-
   private static class Equations
     implements SecondOrderDifferentialEquations {
 

@@ -17,16 +17,9 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.linear.CholeskyDecompositionImpl;
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
 
 public class CholeskySolverTest extends TestCase {
 
@@ -40,12 +33,6 @@ public class CholeskySolverTest extends TestCase {
 
     public CholeskySolverTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(CholeskySolverTest.class);
-        suite.setName("LUSolver Tests");
-        return suite;
     }
 
     /** test solve dimension errors */

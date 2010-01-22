@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 
@@ -106,12 +104,6 @@ public final class SparseRealMatrixTest extends TestCase {
 
     public SparseRealMatrixTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SparseRealMatrixTest.class);
-        suite.setName("SparseRealMatrix Tests");
-        return suite;
     }
 
     /** test dimensions */

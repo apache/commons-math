@@ -366,8 +366,4 @@ public class DormandPrince853IntegratorTest
     }
   }
 
-  public static Test suite() {
-    return new TestSuite(DormandPrince853IntegratorTest.class);
-  }
-
 }

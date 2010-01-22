@@ -17,9 +17,7 @@
 
 package org.apache.commons.math.random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -140,10 +138,6 @@ extends TestCase {
         mean       = null;
         covariance = null;
         generator  = null;
-    }
-
-    public static Test suite() {
-        return new TestSuite(CorrelatedRandomVectorGeneratorTest.class);
     }
 
     private double[] mean;

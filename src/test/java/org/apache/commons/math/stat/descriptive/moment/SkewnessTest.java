@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -44,12 +41,6 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
     @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new Skewness();
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SkewnessTest.class);
-        suite.setName("Skewness Tests");
-        return suite;
     }
 
     /**

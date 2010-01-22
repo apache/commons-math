@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
@@ -667,10 +665,6 @@ public class LevenbergMarquardtOptimizerTest
             };
         }
 
-    }
-
-    public static Test suite() {
-        return new TestSuite(LevenbergMarquardtOptimizerTest.class);
     }
 
 }

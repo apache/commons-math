@@ -17,9 +17,7 @@
 package org.apache.commons.math.stat.descriptive;
 
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 /**
@@ -33,12 +31,6 @@ public final class StatisticalSummaryValuesTest extends TestCase {
 
     public StatisticalSummaryValuesTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(StatisticalSummaryValuesTest.class);
-        suite.setName("StatisticalSummaryValues Tests");
-        return suite;
     }
 
     public void testSerialization() {

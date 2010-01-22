@@ -17,13 +17,11 @@
 
 package org.apache.commons.math.stat.descriptive.moment;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.RealMatrix;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class VectorialCovarianceTest
 extends TestCase {
@@ -98,10 +96,6 @@ extends TestCase {
     @Override
     public void tearDown() {
         points = null;
-    }
-
-    public static Test suite() {
-        return new TestSuite(VectorialCovarianceTest.class);
     }
 
     private double [][] points;

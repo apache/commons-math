@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import java.io.EOFException;
 import java.net.URL;
 
@@ -49,13 +46,6 @@ public final class ValueServerTest extends RetryTestCase {
             fail("malformed test URL");
         }
     }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ValueServerTest.class);
-        suite.setName("ValueServer Tests");
-        return suite;
-    }
-
 
     /**
       * Generate 1000 random values and make sure they look OK.<br>

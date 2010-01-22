@@ -19,9 +19,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
@@ -473,12 +471,6 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SparseRealVectorTest.class);
-        suite.setName("SparseRealVector Tests");
-        return suite;
     }
 
     public void testConstructors() {

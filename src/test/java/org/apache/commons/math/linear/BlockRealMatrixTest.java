@@ -19,9 +19,7 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 import java.util.Random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 
@@ -95,12 +93,6 @@ public final class BlockRealMatrixTest extends TestCase {
 
     public BlockRealMatrixTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(BlockRealMatrixTest.class);
-        suite.setName("BlockRealMatrix Tests");
-        return suite;
     }
 
     /** test dimensions */

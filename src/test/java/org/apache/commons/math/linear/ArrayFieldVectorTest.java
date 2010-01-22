@@ -19,9 +19,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
@@ -252,12 +250,6 @@ public class ArrayFieldVectorTest extends TestCase {
             throw unsupported();
         }
 
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ArrayFieldVectorTest.class);
-        suite.setName("ArrayFieldVector<Fraction> Tests");
-        return suite;
     }
 
     public void testConstructors() {

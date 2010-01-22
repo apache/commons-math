@@ -16,22 +16,20 @@
  */
 package org.apache.commons.math.random;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import junit.framework.AssertionFailedError;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.apache.commons.math.distribution.PoissonDistributionImpl;
 import org.apache.commons.math.stat.Frequency;
-import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
-import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.stat.inference.ChiSquareTest;
+import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 
 /**
  * Test cases for the RandomData class.
@@ -54,12 +52,6 @@ public class RandomDataTest extends RetryTestCase {
             "a", "b", "c", "d", "e", "f" };
     protected RandomDataImpl randomData = null;
     protected ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(RandomDataTest.class);
-        suite.setName("RandomData Tests");
-        return suite;
-    }
 
     public void testNextIntExtremeValues() {
         int x = randomData.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);

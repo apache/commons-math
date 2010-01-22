@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.rank;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest;
 
@@ -35,12 +32,6 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
      */
     public MedianTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(MedianTest.class);
-        suite.setName("Median  Tests");
-        return suite;
     }
 
     /**

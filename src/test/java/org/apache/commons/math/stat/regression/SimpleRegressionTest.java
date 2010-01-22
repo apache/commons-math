@@ -18,9 +18,8 @@ package org.apache.commons.math.stat.regression;
 
 import java.util.Random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
 /**
  * Test cases for the TestStatistic class.
  *
@@ -80,12 +79,6 @@ public final class SimpleRegressionTest extends TestCase {
 
     public SimpleRegressionTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SimpleRegressionTest.class);
-        suite.setName("BivariateRegression Tests");
-        return suite;
     }
 
     public void testNorris() {

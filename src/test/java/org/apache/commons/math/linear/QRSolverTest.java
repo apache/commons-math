@@ -19,21 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math.linear.BlockRealMatrix;
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.MatrixVisitorException;
-import org.apache.commons.math.linear.QRDecomposition;
-import org.apache.commons.math.linear.QRDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.ArrayRealVector;
 
 public class QRSolverTest extends TestCase {
     double[][] testData3x3NonSingular = {
@@ -63,12 +49,6 @@ public class QRSolverTest extends TestCase {
 
     public QRSolverTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(QRSolverTest.class);
-        suite.setName("QRSolver Tests");
-        return suite;
     }
 
     /** test rank */

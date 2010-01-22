@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -44,12 +41,6 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
     @Override
     public UnivariateStatistic getUnivariateStatistic() {
         return new StandardDeviation();
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(StandardDeviationTest.class);
-        suite.setName("StandardDeviation Tests");
-        return suite;
     }
 
     /**

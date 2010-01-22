@@ -13,8 +13,6 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link SynchronizedDescriptiveStatisticsTest} class.
@@ -25,12 +23,6 @@ public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStat
 
     public SynchronizedDescriptiveStatisticsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SynchronizedDescriptiveStatisticsTest.class);
-        suite.setName("SynchronizedDescriptiveStatistics Tests");
-        return suite;
     }
 
     @Override

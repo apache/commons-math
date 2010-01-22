@@ -13,8 +13,6 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link SynchronizedMultivariateSummaryStatisticsTest} class.
@@ -25,12 +23,6 @@ public final class SynchronizedMultivariateSummaryStatisticsTest extends Multiva
 
     public SynchronizedMultivariateSummaryStatisticsTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SynchronizedMultivariateSummaryStatisticsTest.class);
-        suite.setName("SynchronizedMultivariateSummaryStatistics Tests");
-        return suite;
     }
 
     @Override

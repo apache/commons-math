@@ -19,14 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.SingularValueDecomposition;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class SingularValueDecompositionImplTest extends TestCase {
 
@@ -46,12 +39,6 @@ public class SingularValueDecompositionImplTest extends TestCase {
 
     public SingularValueDecompositionImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SingularValueDecompositionImplTest.class);
-        suite.setName("SingularValueDecompositionImpl Tests");
-        return suite;
     }
 
     public void testMoreRows() {

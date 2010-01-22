@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.moment;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -35,12 +32,6 @@ public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
      */
     public GeometricMeanTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(GeometricMeanTest.class);
-        suite.setName("Mean  Tests");
-        return suite;
     }
 
     /**

@@ -20,17 +20,9 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.commons.math.linear.EigenDecomposition;
-import org.apache.commons.math.linear.EigenDecompositionImpl;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.TriDiagonalTransformer;
-import org.apache.commons.math.util.MathUtils;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.apache.commons.math.util.MathUtils;
 
 public class EigenDecompositionImplTest extends TestCase {
 
@@ -39,12 +31,6 @@ public class EigenDecompositionImplTest extends TestCase {
 
     public EigenDecompositionImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(EigenDecompositionImplTest.class);
-        suite.setName("EigenDecompositionImpl Tests");
-        return suite;
     }
 
     public void testDimension1() {

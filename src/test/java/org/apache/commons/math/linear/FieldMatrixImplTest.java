@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
@@ -94,12 +92,6 @@ public final class FieldMatrixImplTest extends TestCase {
 
     public FieldMatrixImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(FieldMatrixImplTest.class);
-        suite.setName("Array2DRowFieldMatrix<Fraction> Tests");
-        return suite;
     }
 
     /** test dimensions */

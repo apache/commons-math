@@ -16,14 +16,12 @@
  */
 package org.apache.commons.math.linear;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.math.Field;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the {@link SparseFieldMatrix} class.
@@ -125,12 +123,6 @@ public class SparseFieldMatrixTest extends TestCase {
         }
 
 
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(SparseFieldMatrixTest.class);
-        suite.setName("SparseFieldMatrix<Fraction> Tests");
-        return suite;
     }
 
     /** test dimensions */

@@ -21,11 +21,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 
-import org.apache.commons.math.TestUtils;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link Frequency} class.
@@ -50,12 +48,6 @@ public final class FrequencyTest extends TestCase {
     @Override
     public void setUp() {
         f = new Frequency();
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(FrequencyTest.class);
-        suite.setName("Frequency Tests");
-        return suite;
     }
 
     /** test freq counts */

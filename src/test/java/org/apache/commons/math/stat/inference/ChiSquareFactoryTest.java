@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 package org.apache.commons.math.stat.inference;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the ChiSquareTestFactory.
@@ -36,9 +34,4 @@ public class ChiSquareFactoryTest extends ChiSquareTestTest {
         testStatistic = TestUtils.getUnknownDistributionChiSquareTest();
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ChiSquareFactoryTest.class);
-        suite.setName("ChiSquareTestFactory Tests");
-        return suite;
-    }
 }

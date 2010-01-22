@@ -96,10 +96,6 @@ public class StepNormalizerTest
     this.lastSeen = lastSeen;
   }
 
-  public static Test suite() {
-    return new TestSuite(StepNormalizerTest.class);
-  }
-
   @Override
   public void setUp() {
     pb = new TestProblem3(0.9);

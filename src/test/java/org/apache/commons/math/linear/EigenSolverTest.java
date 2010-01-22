@@ -19,16 +19,8 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.EigenDecompositionImpl;
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.util.MathUtils;
 
 public class EigenSolverTest extends TestCase {
@@ -38,12 +30,6 @@ public class EigenSolverTest extends TestCase {
 
     public EigenSolverTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(EigenSolverTest.class);
-        suite.setName("EigenSolver Tests");
-        return suite;
     }
 
     /** test non invertible matrix */

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 package org.apache.commons.math.random;
-import junit.framework.Test;
-import junit.framework.TestSuite;
+
 import java.util.Random;
 
 /**
@@ -29,12 +28,6 @@ public class RandomAdaptorTest extends RandomDataTest {
 
     public RandomAdaptorTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(RandomAdaptorTest.class);
-        suite.setName("RandomAdaptor Tests");
-        return suite;
     }
 
     public void testAdaptor() {

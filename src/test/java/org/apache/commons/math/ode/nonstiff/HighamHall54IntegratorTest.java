@@ -17,9 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.ode.DerivativeException;
@@ -33,7 +31,6 @@ import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.nonstiff.HighamHall54Integrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -397,10 +394,6 @@ public class HighamHall54IntegratorTest
     private TestProblem3 pb;
     private int nbSteps;
     private double maxError;
-  }
-
-  public static Test suite() {
-    return new TestSuite(HighamHall54IntegratorTest.class);
   }
 
 }

@@ -17,18 +17,11 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
-import org.apache.commons.math.linear.FieldLUDecomposition;
-import org.apache.commons.math.linear.FieldLUDecompositionImpl;
-import org.apache.commons.math.linear.FieldMatrix;
-import org.apache.commons.math.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math.linear.InvalidMatrixException;
 
 public class FieldLUDecompositionImplTest extends TestCase {
     private Fraction[][] testData = {
@@ -61,12 +54,6 @@ public class FieldLUDecompositionImplTest extends TestCase {
 
     public FieldLUDecompositionImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(FieldLUDecompositionImplTest.class);
-        suite.setName("FieldLUDecompositionImpl Tests");
-        return suite;
     }
 
     /** test dimensions */

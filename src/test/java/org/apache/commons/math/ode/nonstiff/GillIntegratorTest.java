@@ -234,8 +234,4 @@ public class GillIntegratorTest
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
   }
 
-  public static Test suite() {
-    return new TestSuite(GillIntegratorTest.class);
-  }
-
 }

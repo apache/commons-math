@@ -177,10 +177,6 @@ public class ContinuousOutputModelTest
     assertTrue(Math.abs(value - reference) < 1.0e-10);
   }
 
-  public static Test suite() {
-    return new TestSuite(ContinuousOutputModelTest.class);
-  }
-
   @Override
   public void setUp() {
     pb = new TestProblem3(0.9);

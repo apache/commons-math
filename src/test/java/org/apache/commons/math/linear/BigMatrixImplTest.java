@@ -16,11 +16,9 @@
  */
 package org.apache.commons.math.linear;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.math.BigDecimal;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -96,12 +94,6 @@ public final class BigMatrixImplTest extends TestCase {
 
     public BigMatrixImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(BigMatrixImplTest.class);
-        suite.setName("BigMatrixImpl Tests");
-        return suite;
     }
 
     public static final double[] asDouble(BigDecimal[] data) {

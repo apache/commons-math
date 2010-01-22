@@ -19,11 +19,9 @@ package org.apache.commons.math.stat.descriptive;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.TestUtils;
-
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.apache.commons.math.TestUtils;
 
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
@@ -49,12 +47,6 @@ public final class ListUnivariateImplTest extends TestCase {
 
     public ListUnivariateImplTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(ListUnivariateImplTest.class);
-        suite.setName("Frequency Tests");
-        return suite;
     }
 
     /** test stats */

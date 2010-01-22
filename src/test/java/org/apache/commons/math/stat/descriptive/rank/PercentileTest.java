@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.stat.descriptive.rank;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest;
 
@@ -35,12 +32,6 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      */
     public PercentileTest(String name) {
         super(name);
-    }
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite(PercentileTest.class);
-        suite.setName("Percentile Tests");
-        return suite;
     }
 
     /**

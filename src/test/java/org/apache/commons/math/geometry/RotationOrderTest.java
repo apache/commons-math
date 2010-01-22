@@ -59,8 +59,4 @@ public class RotationOrderTest
     return "unknown";
   }
 
-  public static Test suite() {
-    return new TestSuite(RotationOrderTest.class);
-  }
-
 }

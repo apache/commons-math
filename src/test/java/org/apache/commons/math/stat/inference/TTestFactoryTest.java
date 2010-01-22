@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 package org.apache.commons.math.stat.inference;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Test cases for the TTestTestFactory.
@@ -36,9 +34,4 @@ public class TTestFactoryTest extends TTestTest {
         testStatistic = TestUtils.getTTest();
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(TTestFactoryTest.class);
-        suite.setName("TTestFactory Tests");
-        return suite;
-    }
 }
