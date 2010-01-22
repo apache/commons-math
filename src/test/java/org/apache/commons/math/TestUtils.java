@@ -255,9 +255,7 @@ public class TestUtils {
     public static void assertEquals(String msg, RealMatrix expected, RealMatrix observed,
         double tolerance) {
 
-        if (observed == null) {
-            Assert.fail(msg + "\nObserved is null");
-        }
+        Assert.assertNotNull(msg + "\nObserved should not be null",observed);
 
         if (expected.getColumnDimension() != observed.getColumnDimension() ||
                 expected.getRowDimension() != observed.getRowDimension()) {
@@ -284,9 +282,7 @@ public class TestUtils {
     public static void assertEquals(FieldMatrix<? extends FieldElement<?>> expected,
                                     FieldMatrix<? extends FieldElement<?>> observed) {
 
-        if (observed == null) {
-            Assert.fail("Observed is null");
-        }
+        Assert.assertNotNull("Observed should not be null",observed);
 
         if (expected.getColumnDimension() != observed.getColumnDimension() ||
                 expected.getRowDimension() != observed.getRowDimension()) {
