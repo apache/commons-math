@@ -34,16 +34,19 @@ public class AbstractRealVectorTest extends TestCase {
             return new UnsupportedOperationException("Test implementation only supports methods necessary for testing");
         }
 
+        @Override
         public RealVector add(RealVector v) throws IllegalArgumentException {
             RealVector result = new ArrayRealVector(v);
             return result.add(this);
         }
 
+        @Override
         public RealVector subtract(RealVector v) throws IllegalArgumentException {
             RealVector result = new ArrayRealVector(v);
             return result.subtract(this).mapMultiplyToSelf(-1);
         }
 
+        @Override
         public RealVector mapAddToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] += d;
@@ -51,6 +54,7 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
+        @Override
         public RealVector mapSubtractToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] -= d;
@@ -58,6 +62,7 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
+        @Override
         public RealVector mapMultiplyToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] *= d;
@@ -65,6 +70,7 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
+        @Override
         public RealVector mapDivideToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] /= d;
@@ -72,6 +78,7 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
+        @Override
         public RealVector mapPowToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] = Math.pow(values[i], d);
@@ -79,6 +86,7 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
+        @Override
         public RealVector mapInvToSelf() {
             for(int i=0; i<values.length; i++) {
                 values[i] = 1/values[i];
@@ -94,18 +102,22 @@ public class AbstractRealVectorTest extends TestCase {
             throw unsupported();
         }
 
+        @Override
         public double dotProduct(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getNorm() {
             throw unsupported();
         }
 
+        @Override
         public double getL1Norm() {
             throw unsupported();
         }
 
+        @Override
         public double getLInfNorm() {
             throw unsupported();
         }

@@ -164,6 +164,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      * @deprecated to be removed in math 3.0
      */
+    @Deprecated
     public void addValue(Integer v) {
         addValue(Long.valueOf(v.longValue()));
     }

@@ -260,11 +260,13 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public AbstractRealVector copy() {
         return new ArrayRealVector(this, true);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector add(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -282,6 +284,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector add(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -304,6 +307,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector subtract(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -321,6 +325,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector subtract(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -343,6 +348,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapAddToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] + d;
@@ -351,6 +357,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapSubtractToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] - d;
@@ -359,6 +366,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapMultiplyToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] * d;
@@ -367,6 +375,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapDivideToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] / d;
@@ -375,6 +384,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapPowToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.pow(data[i], d);
@@ -383,6 +393,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapExpToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.exp(data[i]);
@@ -391,6 +402,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapExpm1ToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.expm1(data[i]);
@@ -399,6 +411,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapLogToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.log(data[i]);
@@ -407,6 +420,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapLog10ToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.log10(data[i]);
@@ -415,6 +429,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapLog1pToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.log1p(data[i]);
@@ -423,6 +438,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapCoshToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.cosh(data[i]);
@@ -431,6 +447,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapSinhToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.sinh(data[i]);
@@ -439,6 +456,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapTanhToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.tanh(data[i]);
@@ -447,6 +465,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapCosToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.cos(data[i]);
@@ -455,6 +474,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapSinToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.sin(data[i]);
@@ -463,6 +483,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapTanToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.tan(data[i]);
@@ -471,6 +492,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapAcosToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.acos(data[i]);
@@ -479,6 +501,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapAsinToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.asin(data[i]);
@@ -487,6 +510,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapAtanToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.atan(data[i]);
@@ -495,6 +519,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapInvToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = 1.0 / data[i];
@@ -503,6 +528,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapAbsToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.abs(data[i]);
@@ -511,6 +537,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapSqrtToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.sqrt(data[i]);
@@ -519,6 +546,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapCbrtToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.cbrt(data[i]);
@@ -527,6 +555,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapCeilToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.ceil(data[i]);
@@ -535,6 +564,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapFloorToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.floor(data[i]);
@@ -543,6 +573,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapRintToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.rint(data[i]);
@@ -551,6 +582,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapSignumToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.signum(data[i]);
@@ -559,6 +591,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapUlpToSelf() {
         for (int i = 0; i < data.length; i++) {
             data[i] = Math.ulp(data[i]);
@@ -582,6 +615,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector ebeMultiply(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -619,6 +653,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector ebeDivide(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -641,6 +676,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] getData() {
         return data.clone();
     }
@@ -655,6 +691,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double dotProduct(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -672,6 +709,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double dotProduct(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -724,6 +762,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getDistance(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -740,6 +779,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getDistance(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -770,6 +810,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getL1Distance(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -786,6 +827,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getL1Distance(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -816,6 +858,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getLInfDistance(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -832,6 +875,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getLInfDistance(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -862,6 +906,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector unitVector() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
@@ -871,6 +916,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void unitize() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
@@ -885,6 +931,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector projection(double[] v) {
         return projection(new ArrayRealVector(v, false));
     }
@@ -899,6 +946,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix outerProduct(RealVector v)
         throws IllegalArgumentException {
         if (v instanceof ArrayRealVector) {
@@ -928,6 +976,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix outerProduct(double[] v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.length);
@@ -1004,6 +1053,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubVector(int index, RealVector v) {
         try {
             try {
@@ -1020,6 +1070,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubVector(int index, double[] v) {
         try {
             System.arraycopy(v, 0, data, index, v.length);
@@ -1043,11 +1094,13 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
+    @Override
     public void set(double value) {
         Arrays.fill(data, value);
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] toArray(){
         return data.clone();
     }
@@ -1064,6 +1117,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @exception IllegalArgumentException if the vectors do not
      * have the same dimension
      */
+    @Override
     protected void checkVectorDimensions(RealVector v)
         throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
@@ -1076,6 +1130,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @exception IllegalArgumentException if the dimension is
      * inconsistent with vector size
      */
+    @Override
     protected void checkVectorDimensions(int n)
         throws IllegalArgumentException {
         if (data.length != n) {

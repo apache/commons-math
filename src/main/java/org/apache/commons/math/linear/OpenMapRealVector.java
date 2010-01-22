@@ -206,6 +206,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector add(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
@@ -279,6 +280,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector copy() {
         return new OpenMapRealVector(this);
     }
@@ -304,6 +306,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double dotProduct(RealVector v) throws IllegalArgumentException {
         if(v instanceof OpenMapRealVector) {
             return dotProduct((OpenMapRealVector)v);
@@ -325,6 +328,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector ebeDivide(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -349,6 +353,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector ebeMultiply(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -378,6 +383,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] getData() {
         double[] res = new double[virtualSize];
         Iterator iter = entries.iterator();
@@ -422,6 +428,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getDistance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
@@ -431,6 +438,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getDistance(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         double res = 0;
@@ -476,6 +484,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getL1Distance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
@@ -485,6 +494,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getL1Distance(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         double max = 0;
@@ -524,6 +534,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getLInfDistance(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
@@ -533,6 +544,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getLInfDistance(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         double max = 0;
@@ -575,11 +587,13 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector mapAdd(double d) {
         return copy().mapAddToSelf(d);
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector mapAddToSelf(double d) {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, getEntry(i) + d);
@@ -588,6 +602,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
      /** {@inheritDoc} */
+    @Override
     public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         RealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
@@ -610,6 +625,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector projection(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         return (OpenMapRealVector) projection(new OpenMapRealVector(v));
@@ -626,6 +642,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubVector(int index, RealVector v) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
@@ -633,6 +650,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setSubVector(int index, double[] v) throws MatrixIndexException {
         checkIndex(index);
         checkIndex(index + v.length - 1);
@@ -642,6 +660,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public void set(double value) {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, value);
@@ -671,6 +690,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector subtract(RealVector v) throws IllegalArgumentException {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
@@ -680,6 +700,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector subtract(double[] v) throws IllegalArgumentException {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -695,6 +716,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector unitVector() {
         OpenMapRealVector res = copy();
         res.unitize();
@@ -702,6 +724,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public void unitize() {
         double norm = getNorm();
         if (isDefaultValue(norm)) {
@@ -717,6 +740,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
 
     /** {@inheritDoc} */
+    @Override
     public double[] toArray() {
         return getData();
     }
@@ -796,6 +820,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
+    @Override
     public java.util.Iterator<Entry> sparseIterator() {
         return new OpenMapSparseIterator();
     }

@@ -30,6 +30,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The constant function always returning 0. */
     public static final ComposableFunction ZERO = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return 0;
         }
@@ -38,6 +39,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The constant function always returning 1. */
     public static final ComposableFunction ONE = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return 1;
         }
@@ -46,6 +48,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The identity function. */
     public static final ComposableFunction IDENTITY = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return d;
         }
@@ -54,6 +57,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.abs} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction ABS = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.abs(d);
         }
@@ -62,6 +66,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The - operator wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction NEGATE = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return -d;
         }
@@ -70,6 +75,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The invert operator wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction INVERT = new ComposableFunction () {
         /** {@inheritDoc} */
+        @Override
         public double value(double d){
             return 1/d;
         }
@@ -78,6 +84,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.sin} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction SIN = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.sin(d);
         }
@@ -86,6 +93,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.sqrt} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction SQRT = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.sqrt(d);
         }
@@ -94,6 +102,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.sinh} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction SINH = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.sinh(d);
         }
@@ -102,6 +111,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.exp} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction EXP = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.exp(d);
         }
@@ -110,6 +120,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.expm1} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction EXPM1 = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.expm1(d);
         }
@@ -118,6 +129,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.asin} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction ASIN = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.asin(d);
         }
@@ -126,6 +138,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.atan} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction ATAN = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.atan(d);
         }
@@ -134,6 +147,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.tan} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction TAN = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.tan(d);
         }
@@ -142,6 +156,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.tanh} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction TANH = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.tanh(d);
         }
@@ -150,6 +165,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.cbrt} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction CBRT = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.cbrt(d);
         }
@@ -158,6 +174,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.ceil} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction CEIL = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.ceil(d);
         }
@@ -166,6 +183,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.floor} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction FLOOR = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.floor(d);
         }
@@ -174,6 +192,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.log} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction LOG = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.log(d);
         }
@@ -182,6 +201,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.log10} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction LOG10 = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.log10(d);
         }
@@ -189,6 +209,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
 
     /** The {@code Math.log1p} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction LOG1P = new ComposableFunction () {
+        @Override
         public double value(double d){
             return Math.log1p(d);
         }
@@ -197,6 +218,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.cos} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction COS = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.cos(d);
         }
@@ -205,6 +227,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.abs} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction ACOS = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.acos(d);
         }
@@ -213,6 +236,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.cosh} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction COSH = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.cosh(d);
         }
@@ -221,6 +245,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.rint} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction RINT = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.rint(d);
         }
@@ -229,6 +254,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.signum} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction SIGNUM = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.signum(d);
         }
@@ -237,6 +263,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     /** The {@code Math.ulp} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction ULP = new ComposableFunction() {
         /** {@inheritDoc} */
+        @Override
         public double value(double d) {
             return Math.ulp(d);
         }

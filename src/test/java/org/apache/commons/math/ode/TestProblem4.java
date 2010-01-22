@@ -69,7 +69,8 @@ public class TestProblem4
   }
 
   /** {@inheritDoc} */
-  public TestProblem4 copy() {
+  @Override
+public TestProblem4 copy() {
     return new TestProblem4(this);
   }
 

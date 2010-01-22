@@ -82,9 +82,11 @@ public class ArrayRealVectorTest extends TestCase {
                 public Entry next() {
                     final int j = i++;
                     Entry e = new Entry() {
+                        @Override
                         public double getValue() {
                             return data[j];
                         }
+                        @Override
                         public void setValue(double newValue) {
                             data[j] = newValue;
                         }

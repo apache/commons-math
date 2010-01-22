@@ -63,54 +63,67 @@ public class SparseRealVectorTest extends TestCase {
             return new UnsupportedOperationException("Not supported, unneeded for test purposes");
         }
 
+        @Override
         public RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException {
             throw unsupported();
         }
 
+        @Override
         public Iterator<Entry> iterator() {
             throw unsupported();
         }
 
+        @Override
         public AbstractRealVector copy() {
             return new SparseRealVectorTestImpl(data);
         }
 
+        @Override
         public RealVector add(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealVector add(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealVector subtract(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealVector subtract(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAdd(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAddToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSubtract(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSubtractToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapMultiply(double d) {
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
@@ -119,206 +132,257 @@ public class SparseRealVectorTest extends TestCase {
             return new OpenMapRealVector(out);
         }
 
+        @Override
         public RealVector mapMultiplyToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapDivide(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapDivideToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapPow(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapPowToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapExp() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapExpToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapExpm1() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapExpm1ToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLog() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLogToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLog10() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLog10ToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLog1p() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapLog1pToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCosh() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCoshToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSinh() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSinhToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapTanh() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapTanhToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCos() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCosToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSin() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSinToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapTan() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapTanToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAcos() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAcosToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAsin() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAsinToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAtan() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAtanToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapInv() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapInvToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAbs() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAbsToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSqrt() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSqrtToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCbrt() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCbrtToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCeil() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapCeilToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapFloor() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapFloorToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapRint() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapRintToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSignum() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSignumToSelf() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapUlp() {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapUlpToSelf() {
             throw unsupported();
         }
@@ -327,6 +391,7 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
@@ -335,14 +400,17 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double[] getData() {
             return data.clone();
         }
 
+        @Override
         public double dotProduct(RealVector v) throws IllegalArgumentException {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
@@ -351,6 +419,7 @@ public class SparseRealVectorTest extends TestCase {
             return dot;
         }
 
+        @Override
         public double dotProduct(double[] v) throws IllegalArgumentException {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
@@ -359,46 +428,57 @@ public class SparseRealVectorTest extends TestCase {
             return dot;
         }
 
+        @Override
         public double getNorm() {
             throw unsupported();
         }
 
+        @Override
         public double getL1Norm() {
             throw unsupported();
         }
 
+        @Override
         public double getLInfNorm() {
             throw unsupported();
         }
 
+        @Override
         public double getDistance(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getDistance(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getL1Distance(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getL1Distance(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getLInfDistance(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public double getLInfDistance(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealVector unitVector() {
             throw unsupported();
         }
 
+        @Override
         public void unitize() {
             throw unsupported();
         }
@@ -407,14 +487,17 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
+        @Override
         public RealVector projection(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealMatrix outerProduct(RealVector v) throws IllegalArgumentException {
             throw unsupported();
         }
 
+        @Override
         public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
             throw unsupported();
         }
@@ -447,18 +530,22 @@ public class SparseRealVectorTest extends TestCase {
             data[index] = value;
         }
 
+        @Override
         public void setSubVector(int index, RealVector v) throws MatrixIndexException {
             throw unsupported();
         }
 
+        @Override
         public void setSubVector(int index, double[] v) throws MatrixIndexException {
             throw unsupported();
         }
 
+        @Override
         public void set(double value) {
             throw unsupported();
         }
 
+        @Override
         public double[] toArray() {
             throw unsupported();
         }

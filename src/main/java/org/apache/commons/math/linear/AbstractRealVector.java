@@ -793,11 +793,13 @@ public abstract class AbstractRealVector implements RealVector {
         }
 
         /** {@inheritDoc} */
+        @Override
         public double getValue() {
             return getEntry(getIndex());
         }
 
         /** {@inheritDoc} */
+        @Override
         public void setValue(double newValue) {
             setEntry(getIndex(), newValue);
         }
