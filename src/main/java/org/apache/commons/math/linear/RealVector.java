@@ -110,7 +110,7 @@ public interface RealVector {
      * Specialized implementations may choose to not iterate over all dimensions, either because those values are
      * unset, or are equal to defaultValue(), or are small enough to be ignored for the purposes of iteration.
      * No guarantees are made about order of iteration.
-     * In dense implementations, this method will often delegate to {@see #iterator() }
+     * In dense implementations, this method will often delegate to {@link #iterator()}
      * @return a sparse iterator
      */
     Iterator<Entry> sparseIterator();

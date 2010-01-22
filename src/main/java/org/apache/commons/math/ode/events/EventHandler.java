@@ -128,7 +128,7 @@ public interface EventHandler  {
 
    * <p>The scheduling between this method and the {@link
    * org.apache.commons.math.ode.sampling.StepHandler StepHandler} method {@link
-   * org.apache.commons.math.ode.sampling.StepNormalizerStepHandler#handleStep(
+   * org.apache.commons.math.ode.sampling.StepHandler#handleStep(
    * org.apache.commons.math.ode.sampling.StepInterpolator, boolean)
    * handleStep(interpolator, isLast)} is to call this method first and
    * <code>handleStep</code> afterwards. This scheduling allows the integrator to
