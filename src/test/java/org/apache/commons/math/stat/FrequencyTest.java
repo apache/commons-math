@@ -51,6 +51,7 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test freq counts */
+    @SuppressWarnings("deprecation")
     public void testCounts() {
         assertEquals("total count",0,f.getSumFreq());
         f.addValue(oneL);
@@ -124,6 +125,7 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test pcts */
+    @SuppressWarnings("deprecation")
     public void testPcts() {
         f.addValue(oneL);
         f.addValue(twoL);
@@ -150,6 +152,7 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test adding incomparable values */
+    @SuppressWarnings("deprecation")
     public void testAdd() {
         char aChar = 'a';
         char bChar = 'b';
@@ -242,6 +245,7 @@ public final class FrequencyTest extends TestCase {
             fail(ex.getMessage());
         }
     }
+    @SuppressWarnings("deprecation")
     public void testIntegerValues() {
         Comparable<?> obj1 = null;
         obj1 = Integer.valueOf(1);
