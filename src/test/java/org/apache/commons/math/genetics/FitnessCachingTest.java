@@ -36,7 +36,7 @@ public class FitnessCachingTest {
     private static final double ELITISM_RATE = 0.2;
 
     // how many times was the fitness computed
-    public static int fitnessCalls = 0;
+    private static int fitnessCalls = 0;
 
 
     @Test
