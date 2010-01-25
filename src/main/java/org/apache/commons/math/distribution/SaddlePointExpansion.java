@@ -45,7 +45,7 @@ import org.apache.commons.math.util.MathUtils;
 final class SaddlePointExpansion {
 
     /** 1/2 * log(2 &#960;). */
-    private static double HALF_LOG_2_PI = 0.5 * Math.log(MathUtils.TWO_PI);
+    private static final double HALF_LOG_2_PI = 0.5 * Math.log(MathUtils.TWO_PI);
 
     /** exact Stirling expansion error for certain values. */
     private static final double[] EXACT_STIRLING_ERRORS = { 0.0, /* 0.0 */
