@@ -23,7 +23,7 @@ package org.apache.commons.math.ode;
 public class TestProblemFactory {
 
   /** Problems pool. */
-  private static TestProblemAbstract[] pool = {
+  private static final TestProblemAbstract[] pool = {
     new TestProblem1(),
     new TestProblem2(),
     new TestProblem3(),

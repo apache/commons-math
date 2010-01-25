@@ -41,7 +41,7 @@ public class GeneticAlgorithmTestPermutations {
     private static final int TOURNAMENT_ARITY = 2;
 
     // numbers from 0 to N-1
-    private static List<Integer> sequence = new ArrayList<Integer>();
+    private static final List<Integer> sequence = new ArrayList<Integer>();
     static {
         for (int i=0; i<DIMENSION; i++) {
             sequence.add(i);
