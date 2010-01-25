@@ -34,6 +34,7 @@ public class GeneticAlgorithm {
      * Use {@link #setRandomGenerator(RandomGenerator)} to supply an alternative
      * to the default JDK-provided PRNG.
      */
+    //@GuardedBy("this")
     private static RandomGenerator randomGenerator = new JDKRandomGenerator();
 
     /** the crossover policy used by the algorithm. */
