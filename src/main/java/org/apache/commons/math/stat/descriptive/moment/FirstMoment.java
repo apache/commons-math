@@ -154,6 +154,6 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
         dest.n = source.n;
         dest.m1 = source.m1;
         dest.dev = source.dev;
-        dest.nDev = dest.nDev;
+        dest.nDev = source.nDev;
     }
 }
