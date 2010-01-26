@@ -119,7 +119,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="luc" tyoe="fix" issue="MATH-296" due-to="Eugene Kirpichov">
         Fixed wrong results on Loess interpolation, also added a way to set weights
-        for smoothing
+        for smoothing and to ignore zero weights for coefficients computation
       </action>
       <action dev="luc" type="fix" issue="MATH-293" due-to="Benjamin McCann">
         Fixed a OutOfBoundException in simplex solver when some constraints are tight.

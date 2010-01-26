@@ -198,7 +198,7 @@ public class LoessInterpolator
             throw new MathException(
                     "Loess expects the abscissa and ordinate arrays " +
                     "to be of the same size, " +
-                    "but got {0} abscisssae and {1} ordinatae",
+                    "but got {0} abscissae and {1} ordinatae",
                     xval.length, yval.length);
         }
 
@@ -254,7 +254,7 @@ public class LoessInterpolator
                 // Find out the interval of source points on which
                 // a regression is to be made.
                 if (i > 0) {
-                    updateBandwidthInterval(xval, i, bandwidthInterval);
+                    updateBandwidthInterval(xval, weights, i, bandwidthInterval);
                 }
 
                 final int ileft = bandwidthInterval[0];
@@ -361,21 +361,27 @@ public class LoessInterpolator
      */
     public final double[] smooth(final double[] xval, final double[] yval)
             throws MathException {
+        if (xval.length != yval.length) {
+            throw new MathException(
+                    "Loess expects the abscissa and ordinate arrays " +
+                    "to be of the same size, " +
+                    "but got {0} abscissae and {1} ordinatae",
+                    xval.length, yval.length);
+        }
 
         final double[] unitWeights = new double[xval.length];
         Arrays.fill(unitWeights, 1.0);
 
         return smooth(xval, yval, unitWeights);
-
     }
-
 
     /**
      * Given an index interval into xval that embraces a certain number of
      * points closest to xval[i-1], update the interval so that it embraces
-     * the same number of points closest to xval[i]
+     * the same number of points closest to xval[i], ignoring zero weights.
      *
      * @param xval arguments array
+     * @param xval weights array
      * @param i the index around which the new interval should be computed
      * @param bandwidthInterval a two-element array {left, right} such that: <p/>
      * <tt>(left==0 or xval[i] - xval[left-1] > xval[right] - xval[i])</tt>
@@ -383,18 +389,34 @@ public class LoessInterpolator
      * <tt>(right==xval.length-1 or xval[right+1] - xval[i] > xval[i] - xval[left])</tt>.
      * The array will be updated.
      */
-    private static void updateBandwidthInterval(final double[] xval, final int i,
+    private static void updateBandwidthInterval(final double[] xval, final double[] weights,
+                                                final int i,
                                                 final int[] bandwidthInterval) {
         final int left = bandwidthInterval[0];
         final int right = bandwidthInterval[1];
 
         // The right edge should be adjusted if the next point to the right
         // is closer to xval[i] than the leftmost point of the current interval
-        if (right < xval.length - 1 &&
-           xval[right+1] - xval[i] < xval[i] - xval[left]) {
-            bandwidthInterval[0]++;
-            bandwidthInterval[1]++;
+        int nextRight = nextNonzero(weights, right);
+        if (nextRight < xval.length && xval[nextRight] - xval[i] < xval[i] - xval[left]) {
+            int nextLeft = nextNonzero(weights, bandwidthInterval[0]);
+            bandwidthInterval[0] = nextLeft;
+            bandwidthInterval[1] = nextRight;
         }
+    }
+
+    /**
+     * Returns the smallest index j such that j > i && (j==weights.length || weights[j] != 0)
+     * @param weights weights array
+     * @param i the index from which to start search; must be < weights.length
+     * @return the smallest index j such that j > i && (j==weights.length || weights[j] != 0) 
+     */
+    private static int nextNonzero(final double[] weights, final int i) {
+        int j = i + 1;
+        while(j < weights.length && weights[j] == 0) {
+            j++;
+        }
+        return j;
     }
 
     /**

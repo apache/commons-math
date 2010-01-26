@@ -190,7 +190,7 @@ public class MessagesResources_fr
     { "the number of robustness iterations must be non-negative, but got {0}",
       "le nombre d''it\u00e9rations robuste ne peut \u00eatre n\u00e9gatif, alors qu''il est de {0}" },
     { "Loess expects the abscissa and ordinate arrays to be of the same size, " +
-      "but got {0} abscisssae and {1} ordinatae",
+      "but got {0} abscissae and {1} ordinatae",
       "la r\u00e9gression Loess n\u00e9cessite autant d''abscisses que d''ordonn\u00e9es, " +
       "mais {0} abscisses et {1} ordonn\u00e9es ont \u00e9t\u00e9 fournies" },
     { "Loess expects at least 1 point",

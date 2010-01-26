@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.junit.Assert;
 
 import org.apache.commons.math.MathException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -49,7 +50,7 @@ public class LoessInterpolatorTest {
     public void testOnStraightLine() throws MathException {
         double[] xval = {1,2,3,4,5};
         double[] yval = {2,4,6,8,10};
-        LoessInterpolator li = new LoessInterpolator(0.6, 2);
+        LoessInterpolator li = new LoessInterpolator(0.6, 2, 1e-12);
         double[] res = li.smooth(xval, yval);
         Assert.assertEquals(5, res.length);
         for(int i = 0; i < 5; ++i) {
@@ -67,7 +68,7 @@ public class LoessInterpolatorTest {
 
         generateSineData(xval, yval, xnoise, ynoise);
 
-        LoessInterpolator li = new LoessInterpolator(0.3, 4);
+        LoessInterpolator li = new LoessInterpolator(0.3, 4, 1e-12);
 
         double[] res = li.smooth(xval, yval);
 
@@ -106,7 +107,7 @@ public class LoessInterpolatorTest {
         for (int i = 0; i < bandwidths.length; i++) {
             double bw = bandwidths[i];
 
-            LoessInterpolator li = new LoessInterpolator(bw, 4);
+            LoessInterpolator li = new LoessInterpolator(bw, 4, 1e-12);
 
             double[] res = li.smooth(xval, yval);
 
@@ -139,7 +140,7 @@ public class LoessInterpolatorTest {
 
         double[] variances = new double[4];
         for (int i = 0; i < 4; i++) {
-            LoessInterpolator li = new LoessInterpolator(0.3, i);
+            LoessInterpolator li = new LoessInterpolator(0.3, i, 1e-12);
 
             double[] res = li.smooth(xval, yval);
 
@@ -205,18 +206,18 @@ public class LoessInterpolatorTest {
 
     @Test(expected=MathException.class)
     public void testInsufficientBandwidth() throws MathException {
-        LoessInterpolator li = new LoessInterpolator(0.1, 3);
+        LoessInterpolator li = new LoessInterpolator(0.1, 3, 1e-12);
         li.smooth(new double[] {1,2,3,4,5,6,7,8,9,10,11,12}, new double[] {1,2,3,4,5,6,7,8,9,10,11,12});
     }
 
     @Test(expected=MathException.class)
     public void testCompletelyIncorrectBandwidth1() throws MathException {
-        new LoessInterpolator(-0.2, 3);
+        new LoessInterpolator(-0.2, 3, 1e-12);
     }
 
     @Test(expected=MathException.class)
     public void testCompletelyIncorrectBandwidth2() throws MathException {
-        new LoessInterpolator(1.1, 3);
+        new LoessInterpolator(1.1, 3, 1e-12);
     }
 
     @Test
@@ -239,31 +240,6 @@ public class LoessInterpolatorTest {
         Assert.assertEquals(xval.length, res.length);
         for(int i = 0; i < res.length; ++i) {
             Assert.assertEquals(yref[i], res[i], 0.02);
-        }
-    }
-
-    @Test
-    public void testMath296withWeights() throws MathException {
-        double[] xval = {
-                0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
-                 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0};
-        double[] yval = {
-                0.47, 0.48, 0.55, 0.56, -0.08, -0.04, -0.07, -0.07,
-                -0.56, -0.46, -0.56, -0.52, -3.03, -3.08, -3.09,
-                -3.04, 3.54, 3.46, 3.36, 3.35};
-        double[] weights = {
-                1,1,1,1,1,1,1,1,1,1,
-                1,1,0,0,1,1,0,0,1,1};
-        // Output from R, rounded to .001
-        double[] yref = {
-                0.478, 0.492, 0.484, 0.320, 0.179, -0.003, -0.088, -0.209,
-                -0.327, -0.455, -0.518, -0.537, -1.492, -2.115, -3.09, -3.04,
-                -3.0, 0.155, 1.752, 3.35};
-        LoessInterpolator li = new LoessInterpolator(0.3, 4, 1e-12);
-        double[] res = li.smooth(xval, yval,weights);
-        Assert.assertEquals(xval.length, res.length);
-        for(int i = 0; i < res.length; ++i) {
-            Assert.assertEquals(yref[i], res[i], 0.05);
         }
     }
 
