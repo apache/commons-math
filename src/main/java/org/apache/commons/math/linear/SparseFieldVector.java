@@ -584,7 +584,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * @param length size of the array to build
      * @return a new array
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // field is type T
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getZero().getClass(), length);
     }
@@ -608,7 +608,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
 
     /** {@inheritDoc} */
-    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
 
@@ -620,10 +619,12 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             return false;
         }
 
-        if (!(obj instanceof SparseFieldVector)) {
+        if (!(obj instanceof SparseFieldVector<?>)) {
             return false;
         }
 
+        @SuppressWarnings("unchecked") // OK, because "else if" check below ensures that
+                                       // other must be the same type as this
         SparseFieldVector<T> other = (SparseFieldVector<T>) obj;
         if (field == null) {
             if (other.field != null) {
