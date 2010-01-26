@@ -622,7 +622,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
      * @param length size of the array to build
      * @return a new array
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // field is of type T
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getZero().getClass(), length);
     }
