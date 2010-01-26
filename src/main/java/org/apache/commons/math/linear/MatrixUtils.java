@@ -156,11 +156,11 @@ public class MatrixUtils {
      * @throws IllegalArgumentException if dimension is not positive
      * @since 2.0
      */
-    @SuppressWarnings("unchecked")
     public static <T extends FieldElement<T>> FieldMatrix<T>
         createFieldIdentityMatrix(final Field<T> field, final int dimension) {
         final T zero = field.getZero();
         final T one  = field.getOne();
+        @SuppressWarnings("unchecked") // zero is type T
         final T[][] d = (T[][]) Array.newInstance(zero.getClass(), new int[] { dimension, dimension });
         for (int row = 0; row < dimension; row++) {
             final T[] dRow = d[row];

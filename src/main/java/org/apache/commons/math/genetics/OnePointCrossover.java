@@ -66,9 +66,9 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
      * @param second second parent (p2)
      * @return pair of two children (c1,c2)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // OK because of instanceof checks
     public ChromosomePair crossover(Chromosome first, Chromosome second) {
-        if (! (first instanceof AbstractListChromosome && second instanceof AbstractListChromosome)) {
+        if (! (first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
             throw new IllegalArgumentException("One point crossover works on FixedLengthChromosomes only.");
         }
         return crossover((AbstractListChromosome<T>) first, (AbstractListChromosome<T>) second);

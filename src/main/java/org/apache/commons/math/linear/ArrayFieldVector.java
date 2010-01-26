@@ -223,7 +223,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param length size of the array to build
      * @return a new array
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // field is of type T
     private T[] buildArray(final int length) {
         return (T[]) Array.newInstance(field.getZero().getClass(), length);
     }
@@ -739,7 +739,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      *         not equal to this Vector3D instance
      *
      */
-    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object other) {
 
@@ -752,7 +751,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
       }
 
       try {
-
+          @SuppressWarnings("unchecked") // May fail, but we ignore ClassCastException
           FieldVector<T> rhs = (FieldVector<T>) other;
           if (data.length != rhs.getDimension()) {
               return false;

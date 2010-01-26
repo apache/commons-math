@@ -146,9 +146,9 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
      * @param length of the array
      * @return a new array
      */
-    @SuppressWarnings("unchecked")
     protected static <T extends FieldElement<T>> T[] buildArray(final Field<T> field,
                                                                 final int length) {
+        @SuppressWarnings("unchecked") // OK because field must be correct class
         T[] array = (T[]) Array.newInstance(field.getZero().getClass(), length);
         Arrays.fill(array, field.getZero());
         return array;
@@ -970,16 +970,15 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
      * @param object the object to test equality against.
      * @return true if object equals this
      */
-    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(final Object object) {
         if (object == this ) {
             return true;
         }
-        if (object instanceof FieldMatrix == false) {
+        if (object instanceof FieldMatrix<?> == false) {
             return false;
         }
-        FieldMatrix<T> m = (FieldMatrix<T>) object;
+        FieldMatrix<?> m = (FieldMatrix<?>) object;
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (m.getColumnDimension() != nCols || m.getRowDimension() != nRows) {
