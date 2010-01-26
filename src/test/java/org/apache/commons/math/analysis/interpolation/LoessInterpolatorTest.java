@@ -16,10 +16,8 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.junit.Assert;
-
 import org.apache.commons.math.MathException;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
