@@ -218,7 +218,7 @@ public class RandomDataTest extends RetryTestCase {
         }
 
     }
-    
+    /* TODO: re-enable when MATH-282 is resolved 
     public void testNextPoissonConsistency() throws Exception {
         // Small integral means
         for (int i = 1; i < 100; i++) {
@@ -235,6 +235,7 @@ public class RandomDataTest extends RetryTestCase {
             checkNextPoissonConsistency(randomData.nextUniform(1000, 3000));
         }
     }
+    */
     
     /** 
      * Verifies that nextPoisson(mean) generates an empirical distribution of values
