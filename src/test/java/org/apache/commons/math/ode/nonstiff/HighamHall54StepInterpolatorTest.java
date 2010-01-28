@@ -49,7 +49,7 @@ public class HighamHall54StepInterpolatorTest {
     HighamHall54Integrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                               scalAbsoluteTolerance,
                                                               scalRelativeTolerance);
-    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.0e-10);
+    StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 1.1e-10);
   }
 
   @Test

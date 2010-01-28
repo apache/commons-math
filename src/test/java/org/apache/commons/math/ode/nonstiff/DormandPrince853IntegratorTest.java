@@ -147,8 +147,8 @@ public class DormandPrince853IntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 8.0e-8);
-      assertTrue(handler.getMaximalValueError() < 2.0e-7);
+      assertTrue(handler.getLastError() < 8.1e-8);
+      assertTrue(handler.getMaximalValueError() < 1.1e-7);
       assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
       assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
   }

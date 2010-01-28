@@ -387,7 +387,7 @@ public class HighamHall54IntegratorTest
         maxError = error;
       }
       if (isLast) {
-        assertTrue(maxError < 4e-11);
+        assertTrue(maxError < 4.2e-11);
         assertTrue(nbSteps < 670);
       }
     }

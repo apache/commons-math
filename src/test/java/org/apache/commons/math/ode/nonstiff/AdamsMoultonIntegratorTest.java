@@ -145,9 +145,9 @@ public class AdamsMoultonIntegratorTest {
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
             if (nSteps < 4) {
-                assertTrue(integ.getEvaluations() > 150);
+                assertTrue(integ.getEvaluations() > 140);
             } else {
-                assertTrue(integ.getEvaluations() < 100);
+                assertTrue(integ.getEvaluations() < 90);
             }
         }
 
