@@ -1308,6 +1308,30 @@ public class ArrayRealVectorTest extends TestCase {
     }
 
 
+    public void testMinMax()  {
+        ArrayRealVector v1 = new ArrayRealVector(new double[] { 0, -6, 4, 12, 7 });
+        assertEquals(1,  v1.getMinIndex());
+        assertEquals(-6, v1.getMinValue(), 1.0e-12);
+        assertEquals(3,  v1.getMaxIndex());
+        assertEquals(12, v1.getMaxValue(), 1.0e-12);
+        ArrayRealVector v2 = new ArrayRealVector(new double[] { Double.NaN, 3, Double.NaN, -2 });
+        assertEquals(3,  v2.getMinIndex());
+        assertEquals(-2, v2.getMinValue(), 1.0e-12);
+        assertEquals(1,  v2.getMaxIndex());
+        assertEquals(3, v2.getMaxValue(), 1.0e-12);
+        ArrayRealVector v3 = new ArrayRealVector(new double[] { Double.NaN, Double.NaN });
+        assertEquals(-1,  v3.getMinIndex());
+        assertTrue(Double.isNaN(v3.getMinValue()));
+        assertEquals(-1,  v3.getMaxIndex());
+        assertTrue(Double.isNaN(v3.getMaxValue()));
+        ArrayRealVector v4 = new ArrayRealVector(new double[0]);
+        assertEquals(-1,  v4.getMinIndex());
+        assertTrue(Double.isNaN(v4.getMinValue()));
+        assertEquals(-1,  v4.getMaxIndex());
+        assertTrue(Double.isNaN(v4.getMaxValue()));
+    }
+
+
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {

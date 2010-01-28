@@ -292,6 +292,58 @@ public abstract class AbstractRealVector implements RealVector {
         return d;
     }
 
+    /** Get the index of the minimum entry.
+     * @return index of the minimum entry or -1 if vector length is 0
+     * or all entries are NaN
+     */
+    public int getMinIndex() {
+        int minIndex    = -1;
+        double minValue = Double.POSITIVE_INFINITY;
+        Iterator<Entry> iterator = iterator();
+        while (iterator.hasNext()) {
+            final Entry entry = iterator.next();
+            if (entry.getValue() <= minValue) {
+                minIndex = entry.getIndex();
+                minValue = entry.getValue();
+            }
+        }
+        return minIndex;
+    }
+
+    /** Get the value of the minimum entry.
+     * @return value of the minimum entry or NaN if all entries are NaN
+     */
+    public double getMinValue() {
+        final int minIndex = getMinIndex();
+        return minIndex < 0 ? Double.NaN : getEntry(minIndex);
+    }
+
+    /** Get the index of the maximum entry.
+     * @return index of the maximum entry or -1 if vector length is 0
+     * or all entries are NaN
+     */
+    public int getMaxIndex() {
+        int maxIndex    = -1;
+        double maxValue = Double.NEGATIVE_INFINITY;
+        Iterator<Entry> iterator = iterator();
+        while (iterator.hasNext()) {
+            final Entry entry = iterator.next();
+            if (entry.getValue() >= maxValue) {
+                maxIndex = entry.getIndex();
+                maxValue = entry.getValue();
+            }
+        }
+        return maxIndex;
+    }
+
+    /** Get the value of the maximum entry.
+     * @return value of the maximum entry or NaN if all entries are NaN
+     */
+    public double getMaxValue() {
+        final int maxIndex = getMaxIndex();
+        return maxIndex < 0 ? Double.NaN : getEntry(maxIndex);
+    }
+
     /** {@inheritDoc} */
     public RealVector mapAbs() {
         return copy().mapAbsToSelf();

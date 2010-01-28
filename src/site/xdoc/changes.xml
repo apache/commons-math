@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-334" >
+        Added min/max getters for real vectors (not yet in the RealVector interface for
+        compatibility purposes, but in the AbstractRealVector abstract class).
+      </action>
       <action dev="luc" type="fix" issue="MATH-338" due-to="Vincent Morand">
         Fixed automatic step initialization in embedded Runge-Kutta integrators.
         The relative tolerance setting was never used, only the absolute tolerance
