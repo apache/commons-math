@@ -771,23 +771,33 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         // solve cubic equation
         final double b2       = b * b;
+        final double beta     = b / 3;
         final double q        = (3 * c - b2) / 9;
         final double r        = ((9 * c - 2 * b2) * b - 27 * d) / 54;
         final double delta    = q * q * q + r * r;
-        if (delta >= 0) {
-            // in fact, there are solutions to the equation, but in the context
-            // of symmetric realEigenvalues problem, there should be three distinct
-            // real roots, so we throw an error if this condition is not met
+        double z0;
+        double z1;
+        double z2;
+        if (delta > 0) {
+            // there are two complex solutions, we cannot handle this
             throw new InvalidMatrixException("cannot solve degree {0} equation", 3);
+        } else if (delta < 0) {
+            // three different real roots
+            final double sqrtMq = Math.sqrt(-q);
+            final double theta  = Math.acos(r / (-q * sqrtMq));
+            final double alpha  = 2 * sqrtMq;
+            z0 = alpha * Math.cos(theta / 3) - beta;
+            z1 = alpha * Math.cos((theta + 2 * Math.PI) / 3) - beta;
+            z2 = alpha * Math.cos((theta + 4 * Math.PI) / 3) - beta;
+        } else {
+            // three real roots, two of which are equal
+            final double cbrtR = Math.cbrt(r);
+            z0 = 2 * cbrtR - beta;
+            z1 = -cbrtR - beta;
+            z2 = z1;
         }
-        final double sqrtMq = Math.sqrt(-q);
-        final double theta  = Math.acos(r / (-q * sqrtMq));
-        final double alpha  = 2 * sqrtMq;
-        final double beta   = b / 3;
 
-        double z0 = alpha * Math.cos(theta / 3) - beta;
-        double z1 = alpha * Math.cos((theta + 2 * Math.PI) / 3) - beta;
-        double z2 = alpha * Math.cos((theta + 4 * Math.PI) / 3) - beta;
+        // sort the eigenvalues
         if (z0 < z1) {
             final double t = z0;
             z0 = z1;
@@ -803,6 +813,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             z0 = z1;
             z1 = t;
         }
+
         realEigenvalues[index]     = z0;
         realEigenvalues[index + 1] = z1;
         realEigenvalues[index + 2] = z2;

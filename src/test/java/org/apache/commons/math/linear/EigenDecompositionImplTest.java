@@ -64,6 +64,19 @@ public class EigenDecompositionImplTest extends TestCase {
         assertEquals( 3125.0, ed.getRealEigenvalue(2), 3.0e-11);
     }
 
+    public void testDimension3MultipleRoot() {
+        RealMatrix matrix =
+            MatrixUtils.createRealMatrix(new double[][] {
+                    {  5,   10,   15 },
+                    { 10,   20,   30 },
+                    { 15,   30,   45 }
+            });
+        EigenDecomposition ed = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN);
+        assertEquals(70.0, ed.getRealEigenvalue(0), 3.0e-11);
+        assertEquals(0.0,  ed.getRealEigenvalue(1), 3.0e-11);
+        assertEquals(0.0,  ed.getRealEigenvalue(2), 3.0e-11);
+    }
+
     public void testDimension4WithSplit() {
         RealMatrix matrix =
             MatrixUtils.createRealMatrix(new double[][] {
