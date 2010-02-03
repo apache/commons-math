@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-340" >
+        Fixed an error in BigFraction multiplication for large numerators that don't
+        fit in a primitive int.
+      </action>
       <action dev="luc" type="fix" >
         Fixed a spurious exception in EigenDecompositionImpl when a 3x3 block
         had two identical eigenvalues.

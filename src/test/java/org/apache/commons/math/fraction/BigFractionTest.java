@@ -551,6 +551,15 @@ public class BigFractionTest extends TestCase {
         assertEquals(new BigFraction(1594323, 8192), new BigFraction(2, 3).pow(BigInteger.valueOf(-13l)));
     }
 
+    public void testMath340() {
+        BigFraction fractionA = new BigFraction(0.00131);
+        BigFraction fractionB = new BigFraction(.37).reciprocal();
+        BigFraction errorResult = fractionA.multiply(fractionB);
+        BigFraction correctResult = new BigFraction(fractionA.getNumerator().multiply(fractionB.getNumerator()),
+                                                    fractionA.getDenominator().multiply(fractionB.getDenominator()));
+        assertEquals(correctResult, errorResult);
+    }
+
     public void testSerial() throws FractionConversionException {
         BigFraction[] fractions = {
             new BigFraction(3, 4), BigFraction.ONE, BigFraction.ZERO,

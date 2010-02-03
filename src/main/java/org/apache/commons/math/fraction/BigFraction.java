@@ -900,13 +900,12 @@ public class BigFraction
      *             if the fraction is <code>null</code>.
      */
     public BigFraction multiply(final BigFraction fraction) {
-        BigFraction ret = ZERO;
-
-        if (getNumeratorAsInt() != 0 && fraction.getNumeratorAsInt() != 0) {
-            ret = new BigFraction(numerator.multiply(fraction.numerator), denominator.multiply(fraction.denominator));
+        if (numerator.equals(BigInteger.ZERO) ||
+            fraction.numerator.equals(BigInteger.ZERO)) {
+            return ZERO;
         }
-
-        return ret;
+        return new BigFraction(numerator.multiply(fraction.numerator),
+                               denominator.multiply(fraction.denominator));
     }
 
     /**
