@@ -133,6 +133,9 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * Returns a copy of the coefficients array.
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
+     * <p>
+     * Note that coefficients computation can be ill-conditioned. Use with caution
+     * and only when it is necessary.</p>
      *
      * @return a fresh copy of the coefficients array
      */

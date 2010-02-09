@@ -39,6 +39,11 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-341" >
+        Added a warning in the getCoefficients method documentation for
+        PolynomialFunctionLagrangeForm. Computation may be ill-conditioned
+        so this method should be used with care.
+      </action>
       <action dev="luc" type="add" issue="MATH-340" >
         Fixed an error in BigFraction multiplication for large numerators that don't
         fit in a primitive int.
