@@ -315,7 +315,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         }
         return var;
     }
-    
+
     /**
      * <p>
      * Returns the weighted variance of the entries in the the input array.</p>
@@ -411,7 +411,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         }
         return var;
     }
-    
+
     /**
      * Returns the variance of the entries in the input array, using the
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
@@ -518,7 +518,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         }
         return var;
     }
-    
+
     /**
      * <p>Returns the weighted variance of the values in the input array, using
      * the precomputed weighted mean value.</p>

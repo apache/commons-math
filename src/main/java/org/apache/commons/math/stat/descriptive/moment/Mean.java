@@ -216,7 +216,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
         }
         return Double.NaN;
     }
-    
+
     /**
      * Returns the weighted arithmetic mean of the entries in the input array.
      * <p>
