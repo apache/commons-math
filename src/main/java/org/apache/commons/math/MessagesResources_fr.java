@@ -649,6 +649,7 @@ public class MessagesResources_fr
      "valeur de quantile {0} hors bornes, doit \u00eatre dans l''intervalle ]0, 100]" },
 
    // org.apache.commons.math.stat.descriptive.moment.Variance
+   // org.apache.commons.math.stat.descriptive.moment.SemiVariance
    // org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic
    // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic
    { "input values array is null",
