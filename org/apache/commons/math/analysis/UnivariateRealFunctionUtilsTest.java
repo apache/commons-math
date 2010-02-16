@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.analysis;
 
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+
 import junit.framework.TestCase;
 
 /**
