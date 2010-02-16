@@ -139,78 +139,6 @@ public class SingularValueSolverTest {
         Assert.assertEquals(3.0, svd.getConditionNumber(), 1.5e-15);
     }
 
-    // Forget about this test, SVD is no longer truncated!
-    // @Test
-    public void testTruncated() {
-
-        RealMatrix rm = new Array2DRowRealMatrix(new double[][] {
-            { 1.0, 2.0, 3.0 }, { 2.0, 3.0, 4.0 }, { 3.0, 5.0, 7.0 }
-        });
-        double s439  = Math.sqrt(439.0);
-        double[] reference = new double[] {
-            Math.sqrt(3.0 * (21.0 + s439))
-        };
-        SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(rm, 1);
-
-        // check we get the expected theoretical singular values
-        double[] singularValues = svd.getSingularValues();
-        Assert.assertEquals(reference.length, singularValues.length);
-        for (int i = 0; i < reference.length; ++i) {
-            Assert.assertEquals(reference[i], singularValues[i], 4.0e-13);
-        }
-
-        // check the truncated decomposition DON'T allows to recover the original matrix
-        RealMatrix recomposed = svd.getU().multiply(svd.getS()).multiply(svd.getVT());
-        Assert.assertTrue(recomposed.subtract(rm).getNorm() > 1.4);
-
-    }
-
-    // Forget about this test, SVD is no longer truncated!
-    //@Test
-    public void testMath320A() {
-        RealMatrix rm = new Array2DRowRealMatrix(new double[][] {
-            { 1.0, 2.0, 3.0 }, { 2.0, 3.0, 4.0 }, { 3.0, 5.0, 7.0 }
-        });
-        double s439  = Math.sqrt(439.0);
-        double[] reference = new double[] {
-            Math.sqrt(3.0 * (21.0 + s439)), Math.sqrt(3.0 * (21.0 - s439))
-        };
-        SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(rm);
-
-        // check we get the expected theoretical singular values
-        double[] singularValues = svd.getSingularValues();
-        Assert.assertEquals(reference.length, singularValues.length);
-        for (int i = 0; i < reference.length; ++i) {
-            Assert.assertEquals(reference[i], singularValues[i], 4.0e-13);
-        }
-
-        // check the decomposition allows to recover the original matrix
-        RealMatrix recomposed = svd.getU().multiply(svd.getS()).multiply(svd.getVT());
-        Assert.assertEquals(0.0, recomposed.subtract(rm).getNorm(), 5.0e-13);
-
-        // check we can solve a singular system
-        double[] b = new double[] { 5.0, 6.0, 7.0 };
-        double[] resSVD = svd.getSolver().solve(b);
-        Assert.assertEquals(rm.getColumnDimension(), resSVD.length);
-
-        // check the solution really minimizes the residuals
-        double svdMinResidual = residual(rm, resSVD, b);
-        double epsilon = 2 * Math.ulp(svdMinResidual);
-        double h = 0.1;
-        int    k = 3;
-        for (double d0 = -k * h; d0 <= k * h; d0 += h) {
-            for (double d1 = -k * h ; d1 <= k * h; d1 += h) {
-                for (double d2 = -k * h; d2 <= k * h; d2 += h) {
-                    double[] x = new double[] { resSVD[0] + d0, resSVD[1] + d1, resSVD[2] + d2 };
-                    Assert.assertTrue((residual(rm, x, b) - svdMinResidual) > -epsilon);
-                }
-            }
-        }
-
-    }
-
     @Test
     public void testMath320B() {
         RealMatrix rm = new Array2DRowRealMatrix(new double[][] {
@@ -220,15 +148,6 @@ public class SingularValueSolverTest {
             new SingularValueDecompositionImpl(rm);
         RealMatrix recomposed = svd.getU().multiply(svd.getS()).multiply(svd.getVT());
         Assert.assertEquals(0.0, recomposed.subtract(rm).getNorm(), 2.0e-15);
-    }
-
-    private double residual(RealMatrix a, double[] x, double[] b) {
-        double[] ax = a.operate(x);
-        double sum = 0;
-        for (int i = 0; i < ax.length; ++i) {
-            sum += (ax[i] - b[i]) * (ax[i] - b[i]);
-        }
-        return Math.sqrt(sum);
     }
 
 }
