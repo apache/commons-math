@@ -39,6 +39,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="dimpbx" type="fix" issue="MATH-333">
+        A EigenDecompositionImpl simplified makes it possible to compute
+        the SVD of a singular matrix (with the right number of elements in
+        the diagonal matrix) or a matrix with singular value(s) of multiplicity
+        greater than 1. 
+      </action>
       <action dev="psteitz" type="add" issue="MATH-323" due-to="Larry Diamond">
         Added SemiVariance statistic.
       </action>

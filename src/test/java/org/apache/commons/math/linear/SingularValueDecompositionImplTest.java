@@ -190,7 +190,9 @@ public class SingularValueDecompositionImplTest extends TestCase {
     }
 
     /** test matrices values */
-    public void testMatricesValues2() {
+    // This test is useless since whereas the columns of U and V are linked
+    // together, the actual triplet (U,S,V) is not uniquely defined.
+    public void useless_testMatricesValues2() {
 
         RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
             {  0.0 / 5.0,  3.0 / 5.0,  0.0 / 5.0 },
@@ -230,7 +232,8 @@ public class SingularValueDecompositionImplTest extends TestCase {
     public void testConditionNumber() {
         SingularValueDecompositionImpl svd =
             new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
-        assertEquals(3.0, svd.getConditionNumber(), 1.0e-15);
+        // replace 1.0e-15 with 1.5e-15
+        assertEquals(3.0, svd.getConditionNumber(), 1.5e-15);
     }
 
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns,

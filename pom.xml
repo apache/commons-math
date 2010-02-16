@@ -88,6 +88,11 @@
       <email>j3322ptm at yahoo dot de</email>
     </developer>
     <developer>
+      <name>Dimitri Pourbaix</name>
+      <id>dimpbx</id>
+      <email>dimpbx at apache dot org</email>
+    </developer>
+    <developer>
       <name>Phil Steitz</name>
       <id>psteitz</id>
       <email>psteitz at apache dot org</email>
@@ -180,9 +185,6 @@
     </contributor>
     <contributor>
       <name>Todd C. Parnell</name>
-    </contributor>
-    <contributor>
-      <name>Dimitri Pourbaix</name>
     </contributor>
     <contributor>
       <name>Andreas Rieger</name>
