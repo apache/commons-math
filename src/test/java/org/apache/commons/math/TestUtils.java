@@ -345,5 +345,21 @@ public class TestUtils {
             Assert.assertEquals(m[i],n[i]);
         }
     }
+    
+    /**
+     * Computes the sum of squared deviations of <values> from <target>
+     * @param values array of deviates
+     * @param target value to compute deviations from
+     * 
+     * @return sum of squared deviations
+     */
+    public static double sumSquareDev(double[] values, double target) {
+        double sumsq = 0d;
+        for (int i = 0; i < values.length; i++) {
+            final double dev = values[i] - target;
+            sumsq += (dev * dev);
+        }
+        return sumsq;
+    }
 
 }
