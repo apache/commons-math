@@ -88,11 +88,12 @@ public class SingularValueDecompositionImpl implements
         // create A^T*A
         //
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+            for (int j = i; j < n; j++) {
                 matATA[i][j] = 0.0;
                 for (int k = 0; k < m; k++) {
                     matATA[i][j] += localcopy[k][i] * localcopy[k][j];
                 }
+                matATA[j][i]=matATA[i][j];
             }
         }
 
@@ -101,11 +102,12 @@ public class SingularValueDecompositionImpl implements
         // create A*A^T
         //
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < m; j++) {
+            for (int j = i; j < m; j++) {
                 matAAT[i][j] = 0.0;
                 for (int k = 0; k < n; k++) {
                     matAAT[i][j] += localcopy[i][k] * localcopy[j][k];
                 }
+                matAAT[j][i]=matAAT[i][j];
             }
         }
         int p;

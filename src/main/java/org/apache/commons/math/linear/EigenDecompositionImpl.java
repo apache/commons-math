@@ -479,6 +479,29 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
         realEigenvalues[n - 1] = main[n - 1];
         e[n - 1] = 0.0;
+
+        // Determine the largest main and secondary value in absolute term.
+        double maxAbsoluteValue=0.0;
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(realEigenvalues[i])>maxAbsoluteValue) {
+                maxAbsoluteValue=Math.abs(realEigenvalues[i]);
+            }
+            if (Math.abs(e[i])>maxAbsoluteValue) {
+                maxAbsoluteValue=Math.abs(e[i]);
+            }
+        }
+        // Make null any main and secondary value too small to be significant
+        if (maxAbsoluteValue!=0.0) {
+            for (int i=0; i < n; i++) {
+                if (Math.abs(realEigenvalues[i])<=MathUtils.EPSILON*maxAbsoluteValue) {
+                    realEigenvalues[i]=0.0;
+                }
+                if (Math.abs(e[i])<=MathUtils.EPSILON*maxAbsoluteValue) {
+                    e[i]=0.0;
+                }
+            }
+        }
+
         for (int j = 0; j < n; j++) {
             int its = 0;
             int m;
@@ -568,7 +591,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
         }
 
         // Determine the largest eigen value in absolute term.
-        double maxAbsoluteValue=0.0;
+        maxAbsoluteValue=0.0;
         for (int i = 0; i < n; i++) {
             if (Math.abs(realEigenvalues[i])>maxAbsoluteValue) {
                 maxAbsoluteValue=Math.abs(realEigenvalues[i]);
