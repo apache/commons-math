@@ -32,6 +32,11 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
 
+    /** Error message for non-bracketing interval. */
+    private static final String NON_BRACKETING_MESSAGE =
+        "function values at endpoints do not have different signs.  " +
+        "Endpoints: [{0}, {1}], Values: [{2}, {3}]";
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 7694577816772532779L;
 
@@ -128,6 +133,11 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
         }
 
+        if (yMin * yMax > 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+        }
+
         // full Brent algorithm starting with provided initial guess
         return solve(f, min, yMin, max, yMax, initial, yInitial);
 
@@ -176,9 +186,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             } else {
                 // neither value is close to zero and min and max do not bracket root.
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "function values at endpoints do not have different signs.  " +
-                        "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
-                        min, max, yMin, yMax);
+                        NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess

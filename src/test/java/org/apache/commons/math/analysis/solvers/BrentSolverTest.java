@@ -329,6 +329,12 @@ public final class BrentSolverTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+        try {  // no bracket
+            solver.solve(f, 1, 1.5, 1.2);
+            fail("Expecting IllegalArgumentException - non-bracketing");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
     }
 
     public void testInitialGuess() throws MathException {
