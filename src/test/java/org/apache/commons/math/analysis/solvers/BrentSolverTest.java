@@ -308,10 +308,17 @@ public final class BrentSolverTest extends TestCase {
 
         // endpoint is root
         double result = solver.solve(f, Math.PI, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 3, Math.PI);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(f, Math.PI, 4, 3.5);
+        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+
+        result = solver.solve(f, 3, Math.PI, 3.07);
+        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+
     }
 
     public void testBadEndpoints() throws Exception {

@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-344" >
+        Fixed wrong return values when enpoints are roots in Brent solver with
+        a user provided initial guess
+      </action>
       <action dev="luc" type="fix" issue="MATH-343" >
         Fixed a missing bracketing check of initial interval in Brent solver.
       </action>

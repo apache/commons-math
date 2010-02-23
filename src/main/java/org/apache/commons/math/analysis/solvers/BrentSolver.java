@@ -112,7 +112,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         // return the first endpoint if it is good enough
         double yMin = f.value(min);
         if (Math.abs(yMin) <= functionValueAccuracy) {
-            setResult(yMin, 0);
+            setResult(min, 0);
             return result;
         }
 
@@ -124,7 +124,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         // return the second endpoint if it is good enough
         double yMax = f.value(max);
         if (Math.abs(yMax) <= functionValueAccuracy) {
-            setResult(yMax, 0);
+            setResult(max, 0);
             return result;
         }
 
