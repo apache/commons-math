@@ -122,7 +122,7 @@ public class EigenSolverTest extends TestCase {
 
         // using RealMatrix
         RealMatrix solution=es.solve(b);
-        assertEquals(0, es.solve(b).subtract(xRef).getNorm(), 2.5e-12);
+        assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
