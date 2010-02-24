@@ -133,13 +133,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
         }
 
-        if (yMin * yMax > 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
-        }
-
-        // full Brent algorithm starting with provided initial guess
-        return solve(f, min, yMin, max, yMax, initial, yInitial);
+        throw MathRuntimeException.createIllegalArgumentException(
+        		NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
 
     }
 
