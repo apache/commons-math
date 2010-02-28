@@ -708,7 +708,7 @@ public final class MathUtils {
                         "overflow: gcd({0}, {1}) is 2^63",
                         p, q);
             }
-            return (Math.abs(u) + Math.abs(v));
+            return Math.abs(u) + Math.abs(v);
         }
         // keep u and v negative, as negative integers range down to
         // -2^63, while positive numbers can only be as large as 2^63-1
