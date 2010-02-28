@@ -231,6 +231,34 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals(p2, TestUtils.serializeAndRecover(p2));
     }
 
+    /**
+     * tests the firstDerivative function by comparison
+     *
+     * <p>This will test the functions
+     * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
+     * and <tt>h(x) = 6x - 4</tt>
+     */
+    public void testMath341() throws MathException {
+        double[] f_coeff = { 3.0, 6.0, -2.0, 1.0 };
+        double[] g_coeff = { 6.0, -4.0, 3.0 };
+        double[] h_coeff = { -4.0, 6.0 };
+
+        PolynomialFunction f = new PolynomialFunction( f_coeff );
+        PolynomialFunction g = new PolynomialFunction( g_coeff );
+        PolynomialFunction h = new PolynomialFunction( h_coeff );
+
+        // compare f' = g
+        assertEquals( f.derivative().value(0.0), g.value(0.0), tolerance );
+        assertEquals( f.derivative().value(1.0), g.value(1.0), tolerance );
+        assertEquals( f.derivative().value(100.0), g.value(100.0), tolerance );
+        assertEquals( f.derivative().value(4.1), g.value(4.1), tolerance );
+        assertEquals( f.derivative().value(-3.25), g.value(-3.25), tolerance );
+
+        // compare g' = h
+        assertEquals( g.derivative().value(Math.PI), h.value(Math.PI), tolerance );
+        assertEquals( g.derivative().value(Math.E),  h.value(Math.E),  tolerance );
+    }
+
     public void checkPolynomial(PolynomialFunction p, String reference) {
         assertEquals(reference, p.toString());
     }
