@@ -52,6 +52,18 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
 
 public class SemiVariance extends AbstractUnivariateStatistic implements Serializable {
 
+    /**
+     * The UPSIDE Direction is used to specify that the observations above the
+     * cutoff point will be used to calculate SemiVariance.
+     */
+    public static final Direction UPSIDE_VARIANCE = Direction.UPSIDE;
+
+    /**
+     * The DOWNSIDE Direction is used to specify that the observations below
+     * the cutoff point will be used to calculate SemiVariance
+     */
+    public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -2653430366886024994L;
 
@@ -65,18 +77,6 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * Determines whether to calculate downside or upside SemiVariance.
      */
     private Direction varianceDirection = Direction.DOWNSIDE;
-
-    /**
-     * The UPSIDE Direction is used to specify that the observations above the
-     * cutoff point will be used to calculate SemiVariance.
-     */
-    public static final Direction UPSIDE_VARIANCE = Direction.UPSIDE;
-
-    /**
-     * The DOWNSIDE Direction is used to specify that the observations below
-     * the cutoff point will be used to calculate SemiVariance
-     */
-    public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
 
     /**
      * Constructs a SemiVariance with default (true) <code>biasCorrected</code>
