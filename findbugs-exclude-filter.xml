@@ -53,7 +53,7 @@
   </Match>
   <Match>
     <Class name="org.apache.commons.math.linear.EigenDecompositionImpl" />
-    <Method name="computeShiftIncrement" params="int,int,int" returns="void" />
+    <Method name="findEigenVectors" params="double[][]" returns="void" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
