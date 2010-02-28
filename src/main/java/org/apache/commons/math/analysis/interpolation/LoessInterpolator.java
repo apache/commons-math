@@ -381,7 +381,7 @@ public class LoessInterpolator
      * the same number of points closest to xval[i], ignoring zero weights.
      *
      * @param xval arguments array
-     * @param xval weights array
+     * @param weights weights array
      * @param i the index around which the new interval should be computed
      * @param bandwidthInterval a two-element array {left, right} such that: <p/>
      * <tt>(left==0 or xval[i] - xval[left-1] > xval[right] - xval[i])</tt>
@@ -409,7 +409,7 @@ public class LoessInterpolator
      * Returns the smallest index j such that j > i && (j==weights.length || weights[j] != 0)
      * @param weights weights array
      * @param i the index from which to start search; must be < weights.length
-     * @return the smallest index j such that j > i && (j==weights.length || weights[j] != 0) 
+     * @return the smallest index j such that j > i && (j==weights.length || weights[j] != 0)
      */
     private static int nextNonzero(final double[] weights, final int i) {
         int j = i + 1;
