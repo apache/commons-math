@@ -691,7 +691,7 @@ public final class MathUtils {
      * <li>The invocation <code>gcd(0L, 0L)</code> is the only one which returns
      * <code>0L</code>.</li>
      * </ul>
-     * 
+     *
      * @param p any number
      * @param q any number
      * @return the greatest common divisor, never negative
@@ -901,7 +901,7 @@ public final class MathUtils {
      * <li>The result of <code>lcm(0L, x)</code> and <code>lcm(x, 0L)</code> is
      * <code>0L</code> for any <code>x</code>.
      * </ul>
-     * 
+     *
      * @param a any number
      * @param b any number
      * @return the least common multiple, never negative
