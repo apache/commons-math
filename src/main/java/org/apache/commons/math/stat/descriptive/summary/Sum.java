@@ -166,7 +166,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
         }
         return sum;
     }
-    
+
     /**
      * The weighted sum of the entries in the the input array.
      * <p>

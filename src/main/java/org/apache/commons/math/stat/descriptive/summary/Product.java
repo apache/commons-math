@@ -167,7 +167,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         }
         return product;
     }
-    
+
     /**
      * <p>Returns the weighted product of the entries in the input array.</p>
      *
