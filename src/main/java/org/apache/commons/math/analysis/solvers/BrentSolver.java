@@ -134,7 +134,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         }
 
         throw MathRuntimeException.createIllegalArgumentException(
-        		NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+              NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
 
     }
 
