@@ -39,6 +39,14 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added a way to compute both the final state in an Initial Value Problem (IVP)
+        for Ordinary Differential Equations (ODE) and its derivatives with respect to
+        initial state and with respect to some problem parameters. This allows wrapping
+        ODE solvers into optimization or root finding algorithms, which in turn can be
+        used to solve Boundary Value Problems (BVP). There are no implementations (yet)
+        of BVP solvers in the library.
+      </action>
       <action dev="luc" type="fix" issue="MATH-344" >
         Fixed wrong return values when enpoints are roots in Brent solver with
         a user provided initial guess
