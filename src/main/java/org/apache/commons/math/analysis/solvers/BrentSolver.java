@@ -100,7 +100,11 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         throws MaxIterationsExceededException, FunctionEvaluationException {
 
         clearResult();
-        verifySequence(min, initial, max);
+        if ((initial < min) || (initial > max)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+                  min, initial, max);
+        }
 
         // return the initial guess if it is good enough
         double yInitial = f.value(initial);

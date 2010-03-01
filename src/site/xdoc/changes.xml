@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-347" >
+        Fixed too stringent interval check in Brent solver: initial guess is now
+        allowed to be at either interval end
+      </action>
       <action dev="luc" type="add" >
         Added a way to compute both the final state in an Initial Value Problem (IVP)
         for Ordinary Differential Equations (ODE) and its derivatives with respect to
