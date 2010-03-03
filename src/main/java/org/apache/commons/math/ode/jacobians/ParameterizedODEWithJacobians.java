@@ -15,20 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.jacobians;
+
+import org.apache.commons.math.ode.DerivativeException;
 
 
-/** This interface represents {@link ParameterizedFirstOrderDifferentialEquations
+/** This interface represents {@link ParameterizedODE
  * first order differential equations} with parameters and partial derivatives.
  *
- * @see EnhancedFirstOrderIntegrator
+ * @see FirstOrderIntegratorWithJacobians
  *
  * @version $Revision$ $Date$
  * @since 2.1
  */
 
-public interface ParameterizedFirstOrderDifferentialEquationsWithPartials
-    extends ParameterizedFirstOrderDifferentialEquations {
+public interface ParameterizedODEWithJacobians
+    extends ParameterizedODE {
 
     /** Compute the partial derivatives of ODE with respect to state.
      * @param t current value of the independent <I>time</I> variable

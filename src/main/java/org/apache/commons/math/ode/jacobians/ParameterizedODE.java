@@ -15,19 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.jacobians;
+
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 
 
 /** This interface represents {@link FirstOrderDifferentialEquations
  * first order differential equations} with parameters.
  *
- * @see EnhancedFirstOrderIntegrator
+ * @see FirstOrderIntegratorWithJacobians
  *
  * @version $Revision$ $Date$
  * @since 2.1
  */
 
-public interface ParameterizedFirstOrderDifferentialEquations
+public interface ParameterizedODE
     extends FirstOrderDifferentialEquations {
 
     /** Get the number of parameters.

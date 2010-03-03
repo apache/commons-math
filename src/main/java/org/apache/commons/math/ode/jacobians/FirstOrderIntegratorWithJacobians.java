@@ -15,11 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.jacobians;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.FirstOrderIntegrator;
+import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /** This class enhances a first order integrator for differential equations to
  * compute also partial derivatives of the solution with respect to initial state
@@ -29,35 +40,35 @@ import org.apache.commons.math.MathRuntimeException;
  * added to form a new compound problem of higher dimension. If the original ODE
  * problem has dimension n and there are p parameters, the compound problem will
  * have dimension n &times; (1 + n + k).</p>
- * @see ParameterizedFirstOrderDifferentialEquations
- * @see ParameterizedFirstOrderDifferentialEquationsWithPartials
+ * @see ParameterizedODE
+ * @see ParameterizedODEWithJacobians
  * @version $Revision$ $Date$
  * @since 2.1
  */
-public class EnhancedFirstOrderIntegrator {
+public class FirstOrderIntegratorWithJacobians {
 
     /** Underlying integrator for compound problem. */
     private final FirstOrderIntegrator integrator;
 
     /** Raw equations to integrate. */
-    private final ParameterizedFirstOrderDifferentialEquationsWithPartials ode;
+    private final ParameterizedODEWithJacobians ode;
 
     /** Build an enhanced integrator using internal differentiation to compute jacobians.
      * @param integrator underlying integrator to solve the compound problem
      * @param ode original problem (f in the equation y' = f(t, y))
      * @param p parameters array (may be null if {@link
-     * ParameterizedFirstOrderDifferentialEquations#getParametersDimension()
+     * ParameterizedODE#getParametersDimension()
      * getParametersDimension()} from original problem is zero)
      * @param hY step sizes to use for computing the jacobian df/dy, must have the
      * same dimension as the original problem
      * @param hP step sizes to use for computing the jacobian df/dp, must have the
      * same dimension as the original problem parameters dimension
      * @see #EnhancedFirstOrderIntegrator(FirstOrderIntegrator,
-     * ParameterizedFirstOrderDifferentialEquationsWithPartials)
+     * ParameterizedODEWithJacobians)
      */
-    public EnhancedFirstOrderIntegrator(final FirstOrderIntegrator integrator,
-                                        final ParameterizedFirstOrderDifferentialEquations ode,
-                                        final double[] p, final double[] hY, final double[] hP) {
+    public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
+                                             final ParameterizedODE ode,
+                                             final double[] p, final double[] hY, final double[] hP) {
         checkDimension(ode.getDimension(), hY);
         checkDimension(ode.getParametersDimension(), p);
         checkDimension(ode.getParametersDimension(), hP);
@@ -69,12 +80,63 @@ public class EnhancedFirstOrderIntegrator {
      * @param integrator underlying integrator to solve the compound problem
      * @param ode original problem, which can compute the jacobians by itself
      * @see #EnhancedFirstOrderIntegrator(FirstOrderIntegrator,
-     * ParameterizedFirstOrderDifferentialEquations, double[], double[], double[])
+     * ParameterizedODE, double[], double[], double[])
      */
-    public EnhancedFirstOrderIntegrator(final FirstOrderIntegrator integrator,
-                                        final ParameterizedFirstOrderDifferentialEquationsWithPartials ode) {
+    public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
+                                             final ParameterizedODEWithJacobians ode) {
         this.integrator = integrator;
         this.ode = ode;
+    }
+
+    /** Add a step handler to this integrator.
+     * <p>The handler will be called by the integrator for each accepted
+     * step.</p>
+     * @param handler handler for the accepted steps
+     * @see #getStepHandlers()
+     * @see #clearStepHandlers()
+     */
+    public void addStepHandler(StepHandlerWithJacobians handler) {
+        integrator.addStepHandler(new StepHandlerWrapper(handler));
+    }
+
+    /** Get all the step handlers that have been added to the integrator.
+     * @return an unmodifiable collection of the added events handlers
+     * @see #addStepHandler(StepHandlerWithJacobians)
+     * @see #clearStepHandlers()
+     */
+    public Collection<StepHandlerWithJacobians> getStepHandlers() {
+        final Collection<StepHandlerWithJacobians> handlers =
+            new ArrayList<StepHandlerWithJacobians>();
+        for (final StepHandler handler : integrator.getStepHandlers()) {
+            if (handler instanceof StepHandlerWrapper) {
+                handlers.add(((StepHandlerWrapper) handler).getHandler());
+            }
+        }
+        return handlers;
+    }
+
+    /** Remove all the step handlers that have been added to the integrator.
+     * @see #addStepHandler(StepHandlerWithJacobians)
+     * @see #getStepHandlers()
+     */
+    public void clearStepHandlers() {
+
+        // preserve the handlers we did not add ourselves
+        final Collection<StepHandler> otherHandlers = new ArrayList<StepHandler>();
+        for (final StepHandler handler : integrator.getStepHandlers()) {
+            if (!(handler instanceof StepHandlerWrapper)) {
+                otherHandlers.add(handler);
+            }
+        }
+
+        // clear all handlers
+        integrator.clearStepHandlers();
+
+        // put back the preserved handlers
+        for (final StepHandler handler : otherHandlers) {
+            integrator.addStepHandler(handler);
+        }
+
     }
 
     /** Integrate the differential equations and the variational equations up to the given time.
@@ -237,10 +299,10 @@ public class EnhancedFirstOrderIntegrator {
 
     /** Wrapper class to compute jacobians by finite differences for ODE which do not compute them themselves. */
     private static class FiniteDifferencesWrapper
-        implements ParameterizedFirstOrderDifferentialEquationsWithPartials {
+        implements ParameterizedODEWithJacobians {
 
         /** Raw ODE without jacobians computation. */
-        private final ParameterizedFirstOrderDifferentialEquations ode;
+        private final ParameterizedODE ode;
 
         /** Parameters array (may be null if parameters dimension from original problem is zero) */
         private final double[] p;
@@ -260,7 +322,7 @@ public class EnhancedFirstOrderIntegrator {
          * @param hY step sizes to use for computing the jacobian df/dy
          * @param hP step sizes to use for computing the jacobian df/dp
          */
-        public FiniteDifferencesWrapper(final ParameterizedFirstOrderDifferentialEquations ode,
+        public FiniteDifferencesWrapper(final ParameterizedODE ode,
                                         final double[] p, final double[] hY, final double[] hP) {
             this.ode = ode;
             this.p  = p.clone();
@@ -322,4 +384,225 @@ public class EnhancedFirstOrderIntegrator {
 
     }
 
+    /** Wrapper for step handlers. */
+    private class StepHandlerWrapper implements StepHandler {
+
+        /** Underlying step handler with jacobians. */
+        private final StepHandlerWithJacobians handler;
+
+        /** Simple constructor.
+         * @param handler underlying step handler with jacobians
+         */
+        public StepHandlerWrapper(final StepHandlerWithJacobians handler) {
+            this.handler = handler;
+        }
+
+        /** Get the underlying step handler with jacobians.
+         * @return underlying step handler with jacobians
+         */
+        public StepHandlerWithJacobians getHandler() {
+            return handler;
+        }
+
+        /** {@inheritDoc} */
+        public void handleStep(StepInterpolator interpolator, boolean isLast)
+            throws DerivativeException {
+            handler.handleStep(new StepInterpolatorWrapper(interpolator,
+                                                           ode.getDimension(),
+                                                           ode.getParametersDimension()),
+                               isLast);
+        }
+
+        /** {@inheritDoc} */
+        public boolean requiresDenseOutput() {
+            return handler.requiresDenseOutput();
+        }
+
+        /** {@inheritDoc} */
+        public void reset() {
+            handler.reset();
+        }
+
+    }
+
+    /** Wrapper for step interpolators. */
+    private static class StepInterpolatorWrapper
+        implements StepInterpolatorWithJacobians {
+
+        /** Wrapped interpolator. */
+        private StepInterpolator interpolator;
+
+        /** State array. */
+        private double[] y;
+
+        /** State derivative array. */
+        private double[] yDot;
+
+        /** Jacobian with respect to initial state dy/dy0. */
+        private double[][] dydy0;
+
+        /** Jacobian with respect to parameters dy/dp. */
+        private double[][] dydp;
+
+        /** Simple constructor.
+         * @param interpolator wrapped interpolator
+         * @param n dimension of the original ODE
+         * @param k number of parameters
+         */
+        public StepInterpolatorWrapper(final StepInterpolator interpolator,
+                                       final int n, final int k) {
+            this.interpolator = interpolator;
+            y     = new double[n];
+            yDot  = new double[n];
+            dydy0 = new double[n][n];
+            dydp  = new double[n][k];
+        }
+
+        /** {@inheritDoc} */
+        public void setInterpolatedTime(double time) {
+            interpolator.setInterpolatedTime(time);
+        }
+
+        /** {@inheritDoc} */
+        public boolean isForward() {
+            return interpolator.isForward();
+        }
+
+        /** {@inheritDoc} */
+        public double getPreviousTime() {
+            return interpolator.getPreviousTime();
+        }
+
+        /** {@inheritDoc} */
+        public double getInterpolatedTime() {
+            return interpolator.getInterpolatedTime();
+        }
+
+        /** {@inheritDoc} */
+        public double[] getInterpolatedY() throws DerivativeException {
+            double[] extendedState = interpolator.getInterpolatedState();
+            System.arraycopy(extendedState, 0, y, 0, y.length);
+            return y;
+        }
+
+        /** {@inheritDoc} */
+        public double[][] getInterpolatedDyDy0() throws DerivativeException {
+            double[] extendedState = interpolator.getInterpolatedState();
+            final int n = y.length;
+            int start = n;
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(extendedState, start, dydy0[i], 0, n);
+                start += n;
+            }
+            return dydy0;
+        }
+
+        /** {@inheritDoc} */
+        public double[][] getInterpolatedDyDp() throws DerivativeException {
+            double[] extendedState = interpolator.getInterpolatedState();
+            final int n = y.length;
+            final int k = dydp[0].length;
+            int start = n * (n + 1);
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(extendedState, start, dydp[i], 0, k);
+                start += k;
+            }
+            return dydp;
+        }
+
+        /** {@inheritDoc} */
+        public double[] getInterpolatedYDot() throws DerivativeException {
+            double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
+            System.arraycopy(extendedDerivatives, 0, yDot, 0, yDot.length);
+            return yDot;
+        }
+
+        /** {@inheritDoc} */
+        public double[][] getInterpolatedDyDy0Dot() throws DerivativeException {
+            double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
+            final int n = y.length;
+            int start = n;
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(extendedDerivatives, start, dydy0[i], 0, n);
+                start += n;
+            }
+            return dydy0;
+        }
+
+        /** {@inheritDoc} */
+        public double[][] getInterpolatedDyDpDot() throws DerivativeException {
+            double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
+            final int n = y.length;
+            final int k = dydp[0].length;
+            int start = n * (n + 1);
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(extendedDerivatives, start, dydp[i], 0, k);
+                start += k;
+            }
+            return dydp;
+        }
+
+        /** {@inheritDoc} */
+        public double getCurrentTime() {
+            return interpolator.getCurrentTime();
+        }
+
+        /** {@inheritDoc} */
+        public StepInterpolatorWithJacobians copy() throws DerivativeException {
+            return new StepInterpolatorWrapper(interpolator.copy(),
+                                               y.length, dydy0[0].length);
+        }
+
+        /** {@inheritDoc} */
+        public void writeExternal(ObjectOutput out) throws IOException {
+            out.writeObject(interpolator);
+            final int n = y.length;
+            final int k = dydp[0].length;
+            out.writeInt(n);
+            out.writeInt(k);
+            for (int i = 0; i < n; ++i) {
+                out.writeDouble(y[i]);
+            }
+            for (int i = 0; i < n; ++i) {
+                out.writeDouble(yDot[i]);
+            }
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    out.writeDouble(dydy0[i][j]);
+                }
+            }
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < k; ++j) {
+                    out.writeDouble(dydp[i][j]);
+                }
+            }
+        }
+
+        /** {@inheritDoc} */
+        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+            interpolator = (StepInterpolator) in.readObject();
+            final int n = in.readInt();
+            final int k = in.readInt();
+            y = new double[n];
+            dydy0 = new double[n][n];
+            dydp = new double[n][k];
+            for (int i = 0; i < n; ++i) {
+                y[i] = in.readDouble();
+            }
+            for (int i = 0; i < n; ++i) {
+                yDot[i] = in.readDouble();
+            }
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    dydy0[i][j] = in.readDouble();
+                }
+            }
+            for (int i = 0; i < n; ++i) {
+                for (int j = 0; j < k; ++j) {
+                    dydp[i][j] = in.readDouble();
+                }
+            }
+        }
+
+    }
 }

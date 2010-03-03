@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.ode;
+package org.apache.commons.math.ode.jacobians;
 
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderIntegrator;
+import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.jacobians.FirstOrderIntegratorWithJacobians;
+import org.apache.commons.math.ode.jacobians.ParameterizedODEWithJacobians;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class EnhancedFirstOrderIntegratorTest {
+public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testLowAccuracyExternalDifferentiation()
@@ -91,8 +96,8 @@ public class EnhancedFirstOrderIntegratorTest {
             double[][] dZdZ0 = new double[2][2];
             double[][] dZdP  = new double[2][1];
             double hY = 1.0e-12;
-            EnhancedFirstOrderIntegrator extInt =
-                new EnhancedFirstOrderIntegrator(integ, brusselator, new double[] { b },
+            FirstOrderIntegratorWithJacobians extInt =
+                new FirstOrderIntegratorWithJacobians(integ, brusselator, new double[] { b },
                                                  new double[] { hY, hY }, new double[] { hP });
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
             residuals0.addValue(dZdP[0][0] - brusselator.dYdP0());
@@ -117,8 +122,8 @@ public class EnhancedFirstOrderIntegratorTest {
             double[] z = { 1.3, b };
             double[][] dZdZ0 = new double[2][2];
             double[][] dZdP  = new double[2][1];
-            EnhancedFirstOrderIntegrator extInt =
-                new EnhancedFirstOrderIntegrator(integ, brusselator);
+            FirstOrderIntegratorWithJacobians extInt =
+                new FirstOrderIntegratorWithJacobians(integ, brusselator);
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
             residuals0.addValue(dZdP[0][0] - brusselator.dYdP0());
             residuals1.addValue(dZdP[1][0] - brusselator.dYdP1());
@@ -129,7 +134,7 @@ public class EnhancedFirstOrderIntegratorTest {
         Assert.assertTrue(residuals1.getStandardDeviation() < 0.001);
     }
 
-    private static class Brusselator implements ParameterizedFirstOrderDifferentialEquationsWithPartials {
+    private static class Brusselator implements ParameterizedODEWithJacobians {
 
         private double b;
 
