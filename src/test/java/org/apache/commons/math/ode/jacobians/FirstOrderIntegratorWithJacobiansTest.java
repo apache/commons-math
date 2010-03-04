@@ -32,12 +32,12 @@ public class FirstOrderIntegratorWithJacobiansTest {
     public void testLowAccuracyExternalDifferentiation()
         throws IntegratorException, DerivativeException {
         // this test does not really test FirstOrderIntegratorWithJacobians,
-        // it only shows the WITHOUT this class, attempting to recover
+        // it only shows that WITHOUT this class, attempting to recover
         // the jacobians from external differentiation on simple integration
         // results with loo accuracy gives very poor results. In fact,
         // the curves dy/dp = g(b) when b varies from 2.88 to 3.08 are
         // essentially noise.
-        // This test is taken from Heirer, Norsett and Wanner book
+        // This test is taken from Hairer, Norsett and Wanner book
         // Solving Ordinary Differential Equations I (Nonstiff problems),
         // the curves dy/dp = g(b) are in figure 6.5
         FirstOrderIntegrator integ =
