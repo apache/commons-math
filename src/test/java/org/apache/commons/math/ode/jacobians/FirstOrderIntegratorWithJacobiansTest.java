@@ -20,9 +20,8 @@ package org.apache.commons.math.ode.jacobians;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.jacobians.FirstOrderIntegratorWithJacobians;
-import org.apache.commons.math.ode.jacobians.ParameterizedODEWithJacobians;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,8 +34,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-4, 1.0e-4);
         double hP = 1.0e-12;
-        SummaryStatistics residuals0 = new SummaryStatistics();
-        SummaryStatistics residuals1 = new SummaryStatistics();
+        SummaryStatistics residualsP0 = new SummaryStatistics();
+        SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
             Brusselator brusselator = new Brusselator(b);
             double[] y = { 1.3, b };
@@ -44,13 +43,13 @@ public class FirstOrderIntegratorWithJacobiansTest {
             double[] yP = { 1.3, b + hP };
             brusselator.setParameter(0, b + hP);
             integ.integrate(brusselator, 0, yP, 20.0, yP);
-            residuals0.addValue((yP[0] - y[0]) / hP - brusselator.dYdP0());
-            residuals1.addValue((yP[1] - y[1]) / hP - brusselator.dYdP1());
+            residualsP0.addValue((yP[0] - y[0]) / hP - brusselator.dYdP0());
+            residualsP1.addValue((yP[1] - y[1]) / hP - brusselator.dYdP1());
         }
-        Assert.assertTrue((residuals0.getMax() - residuals0.getMin()) > 600);
-        Assert.assertTrue(residuals0.getStandardDeviation() > 30);
-        Assert.assertTrue((residuals1.getMax() - residuals1.getMin()) > 800);
-        Assert.assertTrue(residuals1.getStandardDeviation() > 50);
+        Assert.assertTrue((residualsP0.getMax() - residualsP0.getMin()) > 600);
+        Assert.assertTrue(residualsP0.getStandardDeviation() > 30);
+        Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) > 800);
+        Assert.assertTrue(residualsP1.getStandardDeviation() > 50);
     }
 
     @Test
@@ -59,8 +58,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
         double hP = 1.0e-12;
-        SummaryStatistics residuals0 = new SummaryStatistics();
-        SummaryStatistics residuals1 = new SummaryStatistics();
+        SummaryStatistics residualsP0 = new SummaryStatistics();
+        SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
             Brusselator brusselator = new Brusselator(b);
             double[] y = { 1.3, b };
@@ -68,17 +67,17 @@ public class FirstOrderIntegratorWithJacobiansTest {
             double[] yP = { 1.3, b + hP };
             brusselator.setParameter(0, b + hP);
             integ.integrate(brusselator, 0, yP, 20.0, yP);
-            residuals0.addValue((yP[0] - y[0]) / hP - brusselator.dYdP0());
-            residuals1.addValue((yP[1] - y[1]) / hP - brusselator.dYdP1());
+            residualsP0.addValue((yP[0] - y[0]) / hP - brusselator.dYdP0());
+            residualsP1.addValue((yP[1] - y[1]) / hP - brusselator.dYdP1());
         }
-        Assert.assertTrue((residuals0.getMax() - residuals0.getMin()) > 0.02);
-        Assert.assertTrue((residuals0.getMax() - residuals0.getMin()) < 0.03);
-        Assert.assertTrue(residuals0.getStandardDeviation() > 0.003);
-        Assert.assertTrue(residuals0.getStandardDeviation() < 0.004);
-        Assert.assertTrue((residuals1.getMax() - residuals1.getMin()) > 0.04);
-        Assert.assertTrue((residuals1.getMax() - residuals1.getMin()) < 0.05);
-        Assert.assertTrue(residuals1.getStandardDeviation() > 0.006);
-        Assert.assertTrue(residuals1.getStandardDeviation() < 0.007);
+        Assert.assertTrue((residualsP0.getMax() - residualsP0.getMin()) > 0.02);
+        Assert.assertTrue((residualsP0.getMax() - residualsP0.getMin()) < 0.03);
+        Assert.assertTrue(residualsP0.getStandardDeviation() > 0.003);
+        Assert.assertTrue(residualsP0.getStandardDeviation() < 0.004);
+        Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) > 0.04);
+        Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) < 0.05);
+        Assert.assertTrue(residualsP1.getStandardDeviation() > 0.006);
+        Assert.assertTrue(residualsP1.getStandardDeviation() < 0.007);
     }
 
     @Test
@@ -87,8 +86,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-4, 1.0e-4);
         double hP = 1.0e-12;
-        SummaryStatistics residuals0 = new SummaryStatistics();
-        SummaryStatistics residuals1 = new SummaryStatistics();
+        SummaryStatistics residualsP0 = new SummaryStatistics();
+        SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
             Brusselator brusselator = new Brusselator(b);
             brusselator.setParameter(0, b);
@@ -100,22 +99,22 @@ public class FirstOrderIntegratorWithJacobiansTest {
                 new FirstOrderIntegratorWithJacobians(integ, brusselator, new double[] { b },
                                                  new double[] { hY, hY }, new double[] { hP });
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
-            residuals0.addValue(dZdP[0][0] - brusselator.dYdP0());
-            residuals1.addValue(dZdP[1][0] - brusselator.dYdP1());
+            residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
+            residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());
         }
-        Assert.assertTrue((residuals0.getMax() - residuals0.getMin()) < 0.006);
-        Assert.assertTrue(residuals0.getStandardDeviation() < 0.0009);
-        Assert.assertTrue((residuals1.getMax() - residuals1.getMin()) < 0.006);
-        Assert.assertTrue(residuals1.getStandardDeviation() < 0.0012);
+        Assert.assertTrue((residualsP0.getMax() - residualsP0.getMin()) < 0.006);
+        Assert.assertTrue(residualsP0.getStandardDeviation() < 0.0009);
+        Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) < 0.009);
+        Assert.assertTrue(residualsP1.getStandardDeviation() < 0.0014);
     }
 
     @Test
     public void testAnalyticalDifferentiation()
-        throws IntegratorException, DerivativeException {
+        throws IntegratorException, DerivativeException, OptimizationException {
         FirstOrderIntegrator integ =
-            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-4, 1.0e-4);
-        SummaryStatistics residuals0 = new SummaryStatistics();
-        SummaryStatistics residuals1 = new SummaryStatistics();
+            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+        SummaryStatistics residualsP0 = new SummaryStatistics();
+        SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
             Brusselator brusselator = new Brusselator(b);
             brusselator.setParameter(0, b);
@@ -125,13 +124,13 @@ public class FirstOrderIntegratorWithJacobiansTest {
             FirstOrderIntegratorWithJacobians extInt =
                 new FirstOrderIntegratorWithJacobians(integ, brusselator);
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
-            residuals0.addValue(dZdP[0][0] - brusselator.dYdP0());
-            residuals1.addValue(dZdP[1][0] - brusselator.dYdP1());
-       }
-        Assert.assertTrue((residuals0.getMax() - residuals0.getMin()) < 0.004);
-        Assert.assertTrue(residuals0.getStandardDeviation() < 0.001);
-        Assert.assertTrue((residuals1.getMax() - residuals1.getMin()) < 0.005);
-        Assert.assertTrue(residuals1.getStandardDeviation() < 0.001);
+            residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
+            residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());
+        }
+        Assert.assertTrue((residualsP0.getMax() - residualsP0.getMin()) < 0.004);
+        Assert.assertTrue(residualsP0.getStandardDeviation() < 0.0008);
+        Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) < 0.005);
+        Assert.assertTrue(residualsP1.getStandardDeviation() < 0.0010);
     }
 
     private static class Brusselator implements ParameterizedODEWithJacobians {
@@ -172,11 +171,11 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double dYdP0() {
-            return -1087.8787631970476 + (1050.4387741821572 + (-338.90621620263096 + 36.51793006801084 * b) * b) * b;
+            return -1088.232716447743 + (1050.775747149553 + (-339.012934631828 + 36.52917025056327 * b) * b) * b;
         }
 
         public double dYdP1() {
-            return 1499.0904666097015 + (-1434.9574631810726 + (459.71079478756945 - 49.29949940968588 * b) * b) * b;
+            return 1502.824469929139 + (-1438.6974831849952 + (460.959476642384 - 49.43847385647082 * b) * b) * b;
         }
 
     };

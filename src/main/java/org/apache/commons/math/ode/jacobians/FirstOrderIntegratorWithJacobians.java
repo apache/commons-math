@@ -242,27 +242,29 @@ public class FirstOrderIntegratorWithJacobians {
                     final double[] dFdYi = dFdY[i];
                     for (int j = 0; j < n; ++j) {
                         double s = 0;
-                        int zIndex = n + j;
+                        final int startIndex = n + j;
+                        int zIndex = startIndex;
                         for (int l = 0; l < n; ++l) {
                             s += dFdYi[l] * z[zIndex];
-                            zIndex += l;
+                            zIndex += n;
                         }
-                        zDot[n + i * n + j] = s;
+                        zDot[startIndex + i * n] = s;
                     }
                 }
 
-                // variational equations: d[dy/dt]/dy0 and d[dy/dt]/dp to d[dy/dp]/dt
+                // variational equations: from d[dy/dt]/dy0 and d[dy/dt]/dp to d[dy/dp]/dt
                 for (int i = 0; i < n; ++i) {
                     final double[] dFdYi = dFdY[i];
                     final double[] dFdPi = dFdP[i];
                     for (int j = 0; j < k; ++j) {
                         double s = dFdPi[j];
-                        int zIndex = n * (n + 1)+ j;
+                        final int startIndex = n * (n + 1) + j;
+                        int zIndex = startIndex;
                         for (int l = 0; l < n; ++l) {
                             s += dFdYi[l] * z[zIndex];
                             zIndex += k;
                         }
-                        zDot[n * (n + 1) + i * k + j] = s;
+                        zDot[startIndex + i * k] = s;
                     }
                 }
 
@@ -549,8 +551,19 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** {@inheritDoc} */
         public StepInterpolatorWithJacobians copy() throws DerivativeException {
-            return new StepInterpolatorWrapper(interpolator.copy(),
-                                               y.length, dydy0[0].length);
+            final int n = y.length;
+            final int k = dydp[0].length;
+            StepInterpolatorWrapper copied =
+                new StepInterpolatorWrapper(interpolator.copy(), n, k);
+            System.arraycopy(y,    0, copied.y,    0, n);
+            System.arraycopy(yDot, 0, copied.yDot, 0, n);
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(dydy0[i], 0, copied.dydy0[i], 0, n);
+            }
+            for (int i = 0; i < n; ++i) {
+                System.arraycopy(dydp[i], 0, copied.dydp[i], 0, k);
+            }
+            return copied;
         }
 
         /** {@inheritDoc} */
