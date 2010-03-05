@@ -122,7 +122,7 @@ class GraggBulirschStoerStepInterpolator
    * @param y1 reference to the integrator array holding the state at
    * the end of the step
    * @param y1Dot reference to the integrator array holding the slope
-   * at theend of the step
+   * at the end of the step
    * @param yMidDots reference to the integrator array holding the
    * derivatives at the middle point of the step
    * @param forward integration direction indicator

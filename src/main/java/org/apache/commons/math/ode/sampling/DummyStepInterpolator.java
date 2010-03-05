@@ -40,8 +40,11 @@ import org.apache.commons.math.ode.DerivativeException;
 public class DummyStepInterpolator
   extends AbstractStepInterpolator {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 1708010296707839488L;
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 1708010296707839488L;
+
+  /** Current derivative. */
+  private double[] currentDerivative;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
@@ -55,15 +58,19 @@ public class DummyStepInterpolator
    */
   public DummyStepInterpolator() {
     super();
+    currentDerivative = null;
   }
 
   /** Simple constructor.
    * @param y reference to the integrator array holding the state at
    * the end of the step
+   * @param yDot reference to the integrator array holding the state
+   * derivative at some arbitrary point within the step
    * @param forward integration direction indicator
    */
-  public DummyStepInterpolator(final double[] y, final boolean forward) {
+  public DummyStepInterpolator(final double[] y, final double[] yDot, final boolean forward) {
     super(y, forward);
+    currentDerivative = yDot;
   }
 
   /** Copy constructor.
@@ -73,6 +80,7 @@ public class DummyStepInterpolator
    */
   public DummyStepInterpolator(final DummyStepInterpolator interpolator) {
     super(interpolator);
+    currentDerivative = interpolator.currentDerivative.clone();
   }
 
   /** Really copy the finalized instance.
@@ -96,7 +104,8 @@ public class DummyStepInterpolator
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH)
     throws DerivativeException {
-      System.arraycopy(currentState, 0, interpolatedState, 0, currentState.length);
+      System.arraycopy(currentState,      0, interpolatedState,       0, currentState.length);
+      System.arraycopy(currentDerivative, 0, interpolatedDerivatives, 0, currentDerivative.length);
   }
 
   /** Write the instance to an output channel.
@@ -106,8 +115,16 @@ public class DummyStepInterpolator
   @Override
   public void writeExternal(final ObjectOutput out)
     throws IOException {
-    // save the state of the base class
+
+      // save the state of the base class
     writeBaseExternal(out);
+
+    if (currentDerivative != null) {
+        for (int i = 0; i < currentDerivative.length; ++i) {
+            out.writeDouble(currentDerivative[i]);
+        }
+    }
+
   }
 
   /** Read the instance from an input channel.
@@ -120,6 +137,15 @@ public class DummyStepInterpolator
 
     // read the base class
     final double t = readBaseExternal(in);
+
+    if (currentState == null) {
+        currentDerivative = null;
+    } else {
+        currentDerivative  = new double[currentState.length];
+        for (int i = 0; i < currentDerivative.length; ++i) {
+            currentDerivative[i] = in.readDouble();
+        }
+    }
 
     // we can now set the interpolated time and state
     setInterpolatedTime(t);

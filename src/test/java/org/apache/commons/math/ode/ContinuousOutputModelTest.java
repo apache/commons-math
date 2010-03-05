@@ -166,7 +166,7 @@ public class ContinuousOutputModelTest
   }
 
   private StepInterpolator buildInterpolator(double t0, double[] y0, double t1) {
-      DummyStepInterpolator interpolator  = new DummyStepInterpolator(y0, t1 >= t0);
+      DummyStepInterpolator interpolator  = new DummyStepInterpolator(y0, new double[y0.length], t1 >= t0);
       interpolator.storeTime(t0);
       interpolator.shift();
       interpolator.storeTime(t1);

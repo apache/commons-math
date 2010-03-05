@@ -38,7 +38,7 @@ public class DummyStepInterpolatorTest {
   public void testNoReset() throws DerivativeException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
-    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
+    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -55,7 +55,7 @@ public class DummyStepInterpolatorTest {
     throws DerivativeException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
-    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
+    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -79,7 +79,7 @@ public class DummyStepInterpolatorTest {
   throws DerivativeException, IOException, ClassNotFoundException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
-    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, true);
+    DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -132,7 +132,7 @@ public class DummyStepInterpolatorTest {
       public BadStepInterpolator() {
       }
       public BadStepInterpolator(double[] y, boolean forward) {
-          super(y, forward);
+          super(y, new double[y.length], forward);
       }
       @Override
       protected void doFinalize()

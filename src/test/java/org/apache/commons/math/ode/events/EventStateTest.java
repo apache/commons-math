@@ -52,7 +52,7 @@ public class EventStateTest {
         double t0 = r1 - 0.5 * gap;
         es.reinitializeBegin(t0, new double[0]);
         AbstractStepInterpolator interpolator =
-            new DummyStepInterpolator(new double[0], true);
+            new DummyStepInterpolator(new double[0], new double[0], true);
         interpolator.storeTime(t0);
 
         interpolator.shift();

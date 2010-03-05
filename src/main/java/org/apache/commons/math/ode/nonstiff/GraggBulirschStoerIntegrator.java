@@ -624,7 +624,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                                                             y1, yDot1,
                                                             yMidDots, forward);
     } else {
-      interpolator = new DummyStepInterpolator(y, forward);
+      interpolator = new DummyStepInterpolator(y, yDot1, forward);
     }
     interpolator.storeTime(t0);
 

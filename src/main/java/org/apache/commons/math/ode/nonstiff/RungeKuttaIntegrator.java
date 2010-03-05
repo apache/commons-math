@@ -120,7 +120,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
       rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
     } else {
-      interpolator = new DummyStepInterpolator(yTmp, forward);
+      interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
     }
     interpolator.storeTime(t0);
 
