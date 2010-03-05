@@ -437,14 +437,20 @@ public class FirstOrderIntegratorWithJacobians {
         /** State array. */
         private double[] y;
 
-        /** State derivative array. */
-        private double[] yDot;
-
         /** Jacobian with respect to initial state dy/dy0. */
         private double[][] dydy0;
 
         /** Jacobian with respect to parameters dy/dp. */
         private double[][] dydp;
+
+        /** Time derivative of the state array. */
+        private double[] yDot;
+
+        /** Time derivative of the sacobian with respect to initial state dy/dy0. */
+        private double[][] dydy0Dot;
+
+        /** Time derivative of the jacobian with respect to parameters dy/dp. */
+        private double[][] dydpDot;
 
         /** Simple constructor.
          * @param interpolator wrapped interpolator
@@ -454,10 +460,12 @@ public class FirstOrderIntegratorWithJacobians {
         public StepInterpolatorWrapper(final StepInterpolator interpolator,
                                        final int n, final int k) {
             this.interpolator = interpolator;
-            y     = new double[n];
-            yDot  = new double[n];
-            dydy0 = new double[n][n];
-            dydp  = new double[n][k];
+            y        = new double[n];
+            dydy0    = new double[n][n];
+            dydp     = new double[n][k];
+            yDot     = new double[n];
+            dydy0Dot = new double[n][n];
+            dydpDot  = new double[n][k];
         }
 
         /** {@inheritDoc} */
@@ -525,23 +533,23 @@ public class FirstOrderIntegratorWithJacobians {
             final int n = y.length;
             int start = n;
             for (int i = 0; i < n; ++i) {
-                System.arraycopy(extendedDerivatives, start, dydy0[i], 0, n);
+                System.arraycopy(extendedDerivatives, start, dydy0Dot[i], 0, n);
                 start += n;
             }
-            return dydy0;
+            return dydy0Dot;
         }
 
         /** {@inheritDoc} */
         public double[][] getInterpolatedDyDpDot() throws DerivativeException {
             double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
             final int n = y.length;
-            final int k = dydp[0].length;
+            final int k = dydpDot[0].length;
             int start = n * (n + 1);
             for (int i = 0; i < n; ++i) {
-                System.arraycopy(extendedDerivatives, start, dydp[i], 0, k);
+                System.arraycopy(extendedDerivatives, start, dydpDot[i], 0, k);
                 start += k;
             }
-            return dydp;
+            return dydpDot;
         }
 
         /** {@inheritDoc} */
@@ -555,40 +563,26 @@ public class FirstOrderIntegratorWithJacobians {
             final int k = dydp[0].length;
             StepInterpolatorWrapper copied =
                 new StepInterpolatorWrapper(interpolator.copy(), n, k);
-            System.arraycopy(y,    0, copied.y,    0, n);
-            System.arraycopy(yDot, 0, copied.yDot, 0, n);
-            for (int i = 0; i < n; ++i) {
-                System.arraycopy(dydy0[i], 0, copied.dydy0[i], 0, n);
-            }
-            for (int i = 0; i < n; ++i) {
-                System.arraycopy(dydp[i], 0, copied.dydp[i], 0, k);
-            }
+            copyArray(y,        copied.y);
+            copyArray(dydy0,    copied.dydy0);
+            copyArray(dydp,     copied.dydp);
+            copyArray(yDot,     copied.yDot);
+            copyArray(dydy0Dot, copied.dydy0Dot);
+            copyArray(dydpDot,  copied.dydpDot);
             return copied;
         }
 
         /** {@inheritDoc} */
         public void writeExternal(ObjectOutput out) throws IOException {
             out.writeObject(interpolator);
-            final int n = y.length;
-            final int k = dydp[0].length;
-            out.writeInt(n);
-            out.writeInt(k);
-            for (int i = 0; i < n; ++i) {
-                out.writeDouble(y[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                out.writeDouble(yDot[i]);
-            }
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    out.writeDouble(dydy0[i][j]);
-                }
-            }
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < k; ++j) {
-                    out.writeDouble(dydp[i][j]);
-                }
-            }
+            out.writeInt(y.length);
+            out.writeInt(dydp[0].length);
+            writeArray(out, y);
+            writeArray(out, dydy0);
+            writeArray(out, dydp);
+            writeArray(out, yDot);
+            writeArray(out, dydy0Dot);
+            writeArray(out, dydpDot);
         }
 
         /** {@inheritDoc} */
@@ -596,24 +590,83 @@ public class FirstOrderIntegratorWithJacobians {
             interpolator = (StepInterpolator) in.readObject();
             final int n = in.readInt();
             final int k = in.readInt();
-            y = new double[n];
-            dydy0 = new double[n][n];
-            dydp = new double[n][k];
-            for (int i = 0; i < n; ++i) {
-                y[i] = in.readDouble();
+            y        = new double[n];
+            dydy0    = new double[n][n];
+            dydp     = new double[n][k];
+            yDot     = new double[n];
+            dydy0Dot = new double[n][n];
+            dydpDot  = new double[n][k];
+            readArray(in, y);
+            readArray(in, dydy0);
+            readArray(in, dydp);
+            readArray(in, yDot);
+            readArray(in, dydy0Dot);
+            readArray(in, dydpDot);
+        }
+
+        /** Copy an array.
+         * @param src source array
+         * @param dest destination array
+         */
+        private static void copyArray(final double[] src, final double[] dest) {
+            System.arraycopy(src, 0, dest, 0, src.length);
+        }
+
+        /** Copy an array.
+         * @param src source array
+         * @param dest destination array
+         */
+        private static void copyArray(final double[][] src, final double[][] dest) {
+            for (int i = 0; i < src.length; ++i) {
+                copyArray(src[i], dest[i]);
             }
-            for (int i = 0; i < n; ++i) {
-                yDot[i] = in.readDouble();
+        }
+
+        /** Write an array.
+         * @param out output stream
+         * @param array array to write
+         * @exception IOException if array cannot be read
+         */
+        private static void writeArray(final ObjectOutput out, final double[] array)
+            throws IOException {
+            for (int i = 0; i < array.length; ++i) {
+                out.writeDouble(array[i]);
             }
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < n; ++j) {
-                    dydy0[i][j] = in.readDouble();
-                }
+        }
+
+        /** Write an array.
+         * @param out output stream
+         * @param array array to write
+         * @exception IOException if array cannot be read
+         */
+        private static void writeArray(final ObjectOutput out, final double[][] array)
+            throws IOException {
+            for (int i = 0; i < array.length; ++i) {
+                writeArray(out, array[i]);
             }
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < k; ++j) {
-                    dydp[i][j] = in.readDouble();
-                }
+        }
+
+        /** Read an array.
+         * @param in input stream
+         * @param array array to read
+         * @exception IOException if array cannot be read
+         */
+        private static void readArray(final ObjectInput in, final double[] array)
+            throws IOException {
+            for (int i = 0; i < array.length; ++i) {
+                array[i] = in.readDouble();
+            }
+        }
+
+        /** Read an array.
+         * @param in input stream
+         * @param array array to read
+         * @exception IOException if array cannot be read
+         */
+        private static void readArray(final ObjectInput in, final double[][] array)
+            throws IOException {
+            for (int i = 0; i < array.length; ++i) {
+                readArray(in, array[i]);
             }
         }
 
