@@ -21,7 +21,6 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         // this test does not really test FirstOrderIntegratorWithJacobians,
         // it only shows that WITHOUT this class, attempting to recover
         // the jacobians from external differentiation on simple integration
-        // results with loo accuracy gives very poor results. In fact,
+        // results with low accuracy gives very poor results. In fact,
         // the curves dy/dp = g(b) when b varies from 2.88 to 3.08 are
         // essentially noise.
         // This test is taken from Hairer, Norsett and Wanner book
@@ -106,7 +105,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             double hY = 1.0e-12;
             FirstOrderIntegratorWithJacobians extInt =
                 new FirstOrderIntegratorWithJacobians(integ, brusselator, new double[] { b },
-                                                 new double[] { hY, hY }, new double[] { hP });
+                                                      new double[] { hY, hY }, new double[] { hP });
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
             residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
             residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());
@@ -119,7 +118,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testAnalyticalDifferentiation()
-        throws IntegratorException, DerivativeException, OptimizationException {
+        throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
         SummaryStatistics residualsP0 = new SummaryStatistics();
@@ -140,6 +139,95 @@ public class FirstOrderIntegratorWithJacobiansTest {
         Assert.assertTrue(residualsP0.getStandardDeviation() < 0.0008);
         Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) < 0.005);
         Assert.assertTrue(residualsP1.getStandardDeviation() < 0.0010);
+    }
+
+    @Test
+    public void testFinalResult() throws IntegratorException, DerivativeException {
+        FirstOrderIntegrator integ =
+            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+        double[] y = new double[] { 0.0, 1.0 };
+        Circle circle = new Circle(y, 1.0, 1.0, 0.1);
+        double[][] dydy0 = new double[2][2];
+        double[][] dydp  = new double[2][3];
+        double t = 18 * Math.PI;
+        FirstOrderIntegratorWithJacobians extInt =
+            new FirstOrderIntegratorWithJacobians(integ, circle);
+        extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
+        for (int i = 0; i < y.length; ++i) {
+            Assert.assertEquals(circle.exactY(t)[i], y[i], 1.0e-10);
+        }
+        for (int i = 0; i < dydy0.length; ++i) {
+            for (int j = 0; j < dydy0[i].length; ++j) {
+                Assert.assertEquals(circle.exactDyDy0(t)[i][j], dydy0[i][j], 1.0e-10);
+            }
+        }
+        for (int i = 0; i < dydp.length; ++i) {
+            for (int j = 0; j < dydp[i].length; ++j) {
+                Assert.assertEquals(circle.exactDyDp(t)[i][j], dydp[i][j], 1.0e-8);
+            }
+        }
+    }
+
+    @Test
+    public void testStepHandlerResult() throws IntegratorException, DerivativeException {
+        FirstOrderIntegrator integ =
+            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+        double[] y = new double[] { 0.0, 1.0 };
+        final Circle circle = new Circle(y, 1.0, 1.0, 0.1);
+        double[][] dydy0 = new double[2][2];
+        double[][] dydp  = new double[2][3];
+        double t = 18 * Math.PI;
+        FirstOrderIntegratorWithJacobians extInt =
+            new FirstOrderIntegratorWithJacobians(integ, circle);
+        extInt.addStepHandler(new StepHandlerWithJacobians() {
+            
+            public void reset() {
+            }
+            
+            public boolean requiresDenseOutput() {
+                return false;
+            }
+            
+            public void handleStep(StepInterpolatorWithJacobians interpolator, boolean isLast)
+                throws DerivativeException {
+                double     t     = interpolator.getCurrentTime();
+                double[]   y     = interpolator.getInterpolatedY();
+                double[][] dydy0 = interpolator.getInterpolatedDyDy0();
+                double[][] dydp  = interpolator.getInterpolatedDyDp();
+                for (int i = 0; i < y.length; ++i) {
+                    Assert.assertEquals(circle.exactY(t)[i], y[i], 1.0e-10);
+                }
+                for (int i = 0; i < dydy0.length; ++i) {
+                    for (int j = 0; j < dydy0[i].length; ++j) {
+                        Assert.assertEquals(circle.exactDyDy0(t)[i][j], dydy0[i][j], 1.0e-10);
+                    }
+                }
+                for (int i = 0; i < dydp.length; ++i) {
+                    for (int j = 0; j < dydp[i].length; ++j) {
+                        Assert.assertEquals(circle.exactDyDp(t)[i][j], dydp[i][j], 1.0e-8);
+                    }
+                }
+
+                double[]   yDot     = interpolator.getInterpolatedYDot();
+                double[][] dydy0Dot = interpolator.getInterpolatedDyDy0Dot();
+                double[][] dydpDot  = interpolator.getInterpolatedDyDpDot();
+
+                for (int i = 0; i < yDot.length; ++i) {
+                    Assert.assertEquals(circle.exactYDot(t)[i], yDot[i], 1.0e-11);
+                }
+                for (int i = 0; i < dydy0Dot.length; ++i) {
+                    for (int j = 0; j < dydy0Dot[i].length; ++j) {
+                        Assert.assertEquals(circle.exactDyDy0Dot(t)[i][j], dydy0Dot[i][j], 1.0e-11);
+                    }
+                }
+                for (int i = 0; i < dydpDot.length; ++i) {
+                    for (int j = 0; j < dydpDot[i].length; ++j) {
+                        Assert.assertEquals(circle.exactDyDpDot(t)[i][j], dydpDot[i][j], 1.0e-9);
+                    }
+                }
+            }
+        });
+        extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
     }
 
     private static class Brusselator implements ParameterizedODEWithJacobians {
@@ -185,6 +273,126 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
         public double dYdP1() {
             return 1502.824469929139 + (-1438.6974831849952 + (460.959476642384 - 49.43847385647082 * b) * b) * b;
+        }
+
+    };
+
+    /** ODE representing a point moving on a circle with provided center and angular rate. */
+    private static class Circle implements ParameterizedODEWithJacobians {
+
+        private final double[] y0;
+        private double cx;
+        private double cy;
+        private double omega;
+
+        public Circle(double[] y0, double cx, double cy, double omega) {
+            this.y0    = y0.clone();
+            this.cx    = cx;
+            this.cy    = cy;
+            this.omega = omega;
+        }
+
+        public int getDimension() {
+            return 2;
+        }
+
+        public void setParameter(int i, double p) {
+            if (i == 0) {
+                cx = p;
+            } else if (i == 1) {
+                cy = p;
+            } else {
+                omega = p;
+            }
+        }
+
+        public int getParametersDimension() {
+            return 3;
+        }
+
+        public void computeDerivatives(double t, double[] y, double[] yDot) {
+            yDot[0] = omega * (cy - y[1]);
+            yDot[1] = omega * (y[0] - cx);
+        }
+
+        public void computeJacobians(double t, double[] y, double[] yDot, double[][] dFdY, double[][] dFdP) {
+
+            dFdY[0][0] = 0;
+            dFdY[0][1] = -omega;
+            dFdY[1][0] = omega;
+            dFdY[1][1] = 0;
+
+            dFdP[0][0] = 0;
+            dFdP[0][1] = omega;
+            dFdP[0][2] = cy - y[1];
+            dFdP[1][0] = -omega;
+            dFdP[1][1] = 0;
+            dFdP[1][2] = y[0] - cx;
+ 
+        }
+
+        public double[] exactY(double t) {
+            double cos = Math.cos(omega * t);
+            double sin = Math.sin(omega * t);
+            double dx0 = y0[0] - cx;
+            double dy0 = y0[1] - cy;
+            return new double[] {
+                cx + cos * dx0 - sin * dy0,
+                cy + sin * dx0 + cos * dy0
+            };
+        }
+
+        public double[][] exactDyDy0(double t) {
+            double cos = Math.cos(omega * t);
+            double sin = Math.sin(omega * t);
+            return new double[][] {
+                { cos, -sin },
+                { sin,  cos }
+            };
+        }
+
+        public double[][] exactDyDp(double t) {
+            double cos = Math.cos(omega * t);
+            double sin = Math.sin(omega * t);
+            double dx0 = y0[0] - cx;
+            double dy0 = y0[1] - cy;
+            return new double[][] {
+                { 1 - cos, sin,    -t * (sin * dx0 + cos * dy0) },
+                { -sin,    1 - cos, t * (cos * dx0 - sin * dy0) }
+            };
+        }
+
+        public double[] exactYDot(double t) {
+            double oCos = omega * Math.cos(omega * t);
+            double oSin = omega * Math.sin(omega * t);
+            double dx0 = y0[0] - cx;
+            double dy0 = y0[1] - cy;
+            return new double[] {
+                -oSin * dx0 - oCos * dy0,
+                 oCos * dx0 - oSin * dy0
+            };
+        }
+
+        public double[][] exactDyDy0Dot(double t) {
+            double oCos = omega * Math.cos(omega * t);
+            double oSin = omega * Math.sin(omega * t);
+            return new double[][] {
+                { -oSin, -oCos },
+                {  oCos, -oSin }
+            };
+        }
+
+        public double[][] exactDyDpDot(double t) {
+            double cos  = Math.cos(omega * t);
+            double sin  = Math.sin(omega * t);
+            double oCos = omega * cos;
+            double oSin = omega * sin;
+            double dx0  = y0[0] - cx;
+            double dy0  = y0[1] - cy;
+            return new double[][] {
+                {  oSin, oCos, -sin * dx0 - cos * dy0 - t * ( oCos * dx0 - oSin * dy0) },
+                { -oCos, oSin,  cos * dx0 - sin * dy0 + t * (-oSin * dx0 - oCos * dy0)}
+            };
         }
 
     };
