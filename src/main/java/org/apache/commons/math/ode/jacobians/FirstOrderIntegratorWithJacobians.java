@@ -597,6 +597,12 @@ public class FirstOrderIntegratorWithJacobians {
         private double[][] dydpDot;
 
         /** Simple constructor.
+         * <p>This constructor is used only for externalization. It does nothing.</p>
+         */
+        public StepInterpolatorWrapper() {
+        }
+
+        /** Simple constructor.
          * @param interpolator wrapped interpolator
          * @param n dimension of the original ODE
          * @param k number of parameters

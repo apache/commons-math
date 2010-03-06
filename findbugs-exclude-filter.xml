@@ -109,6 +109,11 @@
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math.ode.sampling.DummyStepInterpolator"/>
+    <Method name="&lt;init>" params="double[],double[],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.ode.sampling.AbstractStepInterpolator"/>
     <Or>
       <Method name="getInterpolatedState" params="" returns="double[]" />
