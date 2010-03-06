@@ -242,6 +242,39 @@ public class FirstOrderIntegratorWithJacobiansTest {
         extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
     }
 
+    @Test
+    public void testEventHandler() throws IntegratorException, DerivativeException {
+        FirstOrderIntegrator integ =
+            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+        double[] y = new double[] { 0.0, 1.0 };
+        final Circle circle = new Circle(y, 1.0, 1.0, 0.1);
+        double[][] dydy0 = new double[2][2];
+        double[][] dydp  = new double[2][3];
+        double t = 18 * Math.PI;
+        final FirstOrderIntegratorWithJacobians extInt =
+            new FirstOrderIntegratorWithJacobians(integ, circle);
+        extInt.addEventHandler(new EventHandlerWithJacobians() {
+
+            public int eventOccurred(double t, double[] y, double[][] dydy0,
+                                     double[][] dydp, boolean increasing) {
+                Assert.assertEquals(0.1, y[1], 1.0e-11);
+                Assert.assertTrue(!increasing);
+                return STOP;
+            }
+
+            public double g(double t, double[] y, double[][] dydy0,
+                            double[][] dydp) {
+                return y[1] - 0.1;
+            }
+
+            public void resetState(double t, double[] y, double[][] dydy0,
+                                   double[][] dydp) {
+            }
+        }, 10.0, 1.0e-10, 1000);
+        double stopTime = extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
+        Assert.assertTrue(stopTime < 5.0 * Math.PI);
+    }
+
     private static class Brusselator implements ParameterizedODEWithJacobians {
 
         private double b;

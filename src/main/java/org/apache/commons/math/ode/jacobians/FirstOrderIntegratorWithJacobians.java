@@ -30,6 +30,8 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.events.EventException;
+import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -129,23 +131,50 @@ public class FirstOrderIntegratorWithJacobians {
      * @see #getStepHandlers()
      */
     public void clearStepHandlers() {
+        integrator.clearStepHandlers();
+    }
 
-        // preserve the handlers we did not add ourselves
-        final Collection<StepHandler> otherHandlers = new ArrayList<StepHandler>();
-        for (final StepHandler handler : integrator.getStepHandlers()) {
-            if (!(handler instanceof StepHandlerWrapper)) {
-                otherHandlers.add(handler);
+    /** Add an event handler to the integrator.
+     * @param handler event handler
+     * @param maxCheckInterval maximal time interval between switching
+     * function checks (this interval prevents missing sign changes in
+     * case the integration steps becomes very large)
+     * @param convergence convergence threshold in the event time search
+     * @param maxIterationCount upper limit of the iteration count in
+     * the event time search
+     * @see #getEventHandlers()
+     * @see #clearEventHandlers()
+     */
+    public void addEventHandler(EventHandlerWithJacobians handler,
+                                double maxCheckInterval,
+                                double convergence,
+                                int maxIterationCount) {
+        integrator.addEventHandler(new EventHandlerWrapper(handler),
+                                   maxCheckInterval, convergence, maxIterationCount);
+    }
+
+    /** Get all the event handlers that have been added to the integrator.
+     * @return an unmodifiable collection of the added events handlers
+     * @see #addEventHandler(EventHandlerWithJacobians, double, double, int)
+     * @see #clearEventHandlers()
+     */
+    public Collection<EventHandlerWithJacobians> getEventHandlers() {
+        final Collection<EventHandlerWithJacobians> handlers =
+            new ArrayList<EventHandlerWithJacobians>();
+        for (final EventHandler handler : integrator.getEventHandlers()) {
+            if (handler instanceof EventHandlerWrapper) {
+                handlers.add(((EventHandlerWrapper) handler).getHandler());
             }
         }
+        return handlers;
+    }
 
-        // clear all handlers
-        integrator.clearStepHandlers();
-
-        // put back the preserved handlers
-        for (final StepHandler handler : otherHandlers) {
-            integrator.addStepHandler(handler);
-        }
-
+    /** Remove all the event handlers that have been added to the integrator.
+     * @see #addEventHandler(EventHandlerWithJacobians, double, double, int)
+     * @see #getEventHandlers()
+     */
+    public void clearEventHandlers() {
+        integrator.clearEventHandlers();
     }
 
     /** Integrate the differential equations and the variational equations up to the given time.
@@ -217,15 +246,36 @@ public class FirstOrderIntegratorWithJacobians {
         final double stopTime = integrator.integrate(new MappingWrapper(), t0, z, t, z);
 
         // dispatch the final compound state into the state and partial derivatives arrays
-        System.arraycopy(z, 0, y, 0, n);
-        for (int i = 0; i < n; ++i) {
-            System.arraycopy(z, n * (i + 1), dYdY0[i], 0, n);
-        }
-        for (int i = 0; i < n; ++i) {
-            System.arraycopy(z, n * (n + 1) + i * k, dYdP[i], 0, k);
-        }
+        dispatchCompoundState(z, y, dYdY0, dYdP);
 
         return stopTime;
+
+    }
+
+    /** Dispatch a compound state array into state and jacobians arrays.
+     * @param z compound state
+     * @param y raw state array to fill
+     * @param dydy0 jacobian array to fill
+     * @param dydp jacobian array to fill
+     */
+    private static void dispatchCompoundState(final double[] z, final double[] y,
+                                              final double[][] dydy0, final double[][] dydp) {
+
+        final int n = y.length;
+        final int k = dydp[0].length;
+
+        // state
+        System.arraycopy(z, 0, y, 0, n);
+
+        // jacobian with respect to initial state
+        for (int i = 0; i < n; ++i) {
+            System.arraycopy(z, n * (i + 1), dydy0[i], 0, n);
+        }
+
+        // jacobian with respect to parameters
+        for (int i = 0; i < n; ++i) {
+            System.arraycopy(z, n * (n + 1) + i * k, dydp[i], 0, k);
+        }
 
     }
 
@@ -766,4 +816,62 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
     }
+
+    /** Wrapper for event handlers. */
+    private class EventHandlerWrapper implements EventHandler {
+
+        /** Underlying event handler with jacobians. */
+        private final EventHandlerWithJacobians handler;
+
+        /** State array. */
+        private double[] y;
+
+        /** Jacobian with respect to initial state dy/dy0. */
+        private double[][] dydy0;
+
+        /** Jacobian with respect to parameters dy/dp. */
+        private double[][] dydp;
+
+        /** Simple constructor.
+         * @param handler underlying event handler with jacobians
+         */
+        public EventHandlerWrapper(final EventHandlerWithJacobians handler) {
+            this.handler = handler;
+            final int n = ode.getDimension();
+            final int k = ode.getParametersDimension();
+            y        = new double[n];
+            dydy0    = new double[n][n];
+            dydp     = new double[n][k];
+        }
+
+        /** Get the underlying event handler with jacobians.
+         * @return underlying event handler with jacobians
+         */
+        public EventHandlerWithJacobians getHandler() {
+            return handler;
+        }
+
+        /** {@inheritDoc} */
+        public int eventOccurred(double t, double[] z, boolean increasing)
+            throws EventException {
+            dispatchCompoundState(z, y, dydy0, dydp);
+            return handler.eventOccurred(t, y, dydy0, dydp, increasing);
+        }
+
+        /** {@inheritDoc} */
+        public double g(double t, double[] z)
+            throws EventException {
+            dispatchCompoundState(z, y, dydy0, dydp);
+            return handler.g(t, y, dydy0, dydp);
+        }
+
+        /** {@inheritDoc} */
+        public void resetState(double t, double[] z)
+            throws EventException {
+            dispatchCompoundState(z, y, dydy0, dydp);
+            handler.resetState(t, y, dydy0, dydp);
+        }
+
+    }
+
 }
