@@ -599,6 +599,7 @@ public class FirstOrderIntegratorWithJacobians {
         /** Simple constructor.
          * <p>This constructor is used only for externalization. It does nothing.</p>
          */
+        @SuppressWarnings("unused")
         public StepInterpolatorWrapper() {
         }
 
