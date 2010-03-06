@@ -391,7 +391,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             double dy0  = y0[1] - cy;
             return new double[][] {
                 {  oSin, oCos, -sin * dx0 - cos * dy0 - t * ( oCos * dx0 - oSin * dy0) },
-                { -oCos, oSin,  cos * dx0 - sin * dy0 + t * (-oSin * dx0 - oCos * dy0)}
+                { -oCos, oSin,  cos * dx0 - sin * dy0 + t * (-oSin * dx0 - oCos * dy0) }
             };
         }
 

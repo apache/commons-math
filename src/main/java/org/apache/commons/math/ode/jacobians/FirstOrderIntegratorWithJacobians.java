@@ -185,15 +185,13 @@ public class FirstOrderIntegratorWithJacobians {
             checkDimension(k, dYdP[0]);
         }
 
+        // set up initial state, including partial derivatives
         // the compound state z contains the raw state y and its derivatives
         // with respect to initial state y0 and to parameters p
         //    y[i]         is stored in z[i]
         //    dy[i]/dy0[j] is stored in z[n + i * n + j]
         //    dy[i]/dp[j]  is stored in z[n * (n + 1) + i * k + j]
-        final int q = n * (1 + n + k);
-
-        // set up initial state, including partial derivatives
-        final double[] z = new double[q];
+        final double[] z = new double[n * (1 + n + k)];
         System.arraycopy(y0, 0, z, 0, n);
         for (int i = 0; i < n; ++i) {
 
@@ -206,71 +204,7 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         // integrate the compound state variational equations
-        final double stopTime = integrator.integrate(new FirstOrderDifferentialEquations() {
-
-            /** Current state. */
-            private final double[]   y    = new double[n];
-
-            /** Time derivative of the current state. */
-            private final double[]   yDot = new double[n];
-
-            /** Derivatives of yDot with respect to state. */
-            private final double[][] dFdY = new double[n][n];
-
-            /** Derivatives of yDot with respect to parameters. */
-            private final double[][] dFdP = new double[n][k];
-
-            /** {@inheritDoc} */
-            public int getDimension() {
-                return q;
-            }
-
-            /** {@inheritDoc} */
-            public void computeDerivatives(final double t, final double[] z, final double[] zDot)
-                throws DerivativeException {
-
-                // compute raw ODE and its jacobians: dy/dt, d[dy/dt]/dy0 and d[dy/dt]/dp
-                System.arraycopy(z,    0, y,    0, n);
-                ode.computeDerivatives(t, y, yDot);
-                ode.computeJacobians(t, y, yDot, dFdY, dFdP);
-
-                // state part of the compound equations
-                System.arraycopy(yDot, 0, zDot, 0, n);
-
-                // variational equations: from d[dy/dt]/dy0 to d[dy/dy0]/dt
-                for (int i = 0; i < n; ++i) {
-                    final double[] dFdYi = dFdY[i];
-                    for (int j = 0; j < n; ++j) {
-                        double s = 0;
-                        final int startIndex = n + j;
-                        int zIndex = startIndex;
-                        for (int l = 0; l < n; ++l) {
-                            s += dFdYi[l] * z[zIndex];
-                            zIndex += n;
-                        }
-                        zDot[startIndex + i * n] = s;
-                    }
-                }
-
-                // variational equations: from d[dy/dt]/dy0 and d[dy/dt]/dp to d[dy/dp]/dt
-                for (int i = 0; i < n; ++i) {
-                    final double[] dFdYi = dFdY[i];
-                    final double[] dFdPi = dFdP[i];
-                    for (int j = 0; j < k; ++j) {
-                        double s = dFdPi[j];
-                        final int startIndex = n * (n + 1) + j;
-                        int zIndex = startIndex;
-                        for (int l = 0; l < n; ++l) {
-                            s += dFdYi[l] * z[zIndex];
-                            zIndex += k;
-                        }
-                        zDot[startIndex + i * k] = s;
-                    }
-                }
-
-            }
-
-        }, t0, z, t, z);
+        final double stopTime = integrator.integrate(new MappingWrapper(ode), t0, z, t, z);
 
         // dispatch the final compound state into the state and partial derivatives arrays
         System.arraycopy(z, 0, y, 0, n);
@@ -297,6 +231,97 @@ public class FirstOrderIntegratorWithJacobians {
             throw MathRuntimeException.createIllegalArgumentException(
                   "dimension mismatch {0} != {1}", arrayDimension, expected);
         }
+    }
+
+    /** Wrapper class used to map state and jacobians into compound state. */
+    private static class MappingWrapper implements  FirstOrderDifferentialEquations {
+
+        /** Underlying ODE with jacobians. */
+        private final ParameterizedODEWithJacobians ode;
+
+        /** Current state. */
+        private final double[]   y;
+
+        /** Time derivative of the current state. */
+        private final double[]   yDot;
+
+        /** Derivatives of yDot with respect to state. */
+        private final double[][] dFdY;
+
+        /** Derivatives of yDot with respect to parameters. */
+        private final double[][] dFdP;
+
+        /** Simple constructor.
+         * @param ode underlying ODE with jacobians
+         */
+        public MappingWrapper(final ParameterizedODEWithJacobians ode) {
+
+            this.ode = ode;
+
+            final int n = ode.getDimension();
+            final int k = ode.getParametersDimension();
+            y    = new double[n];
+            yDot = new double[n];
+            dFdY = new double[n][n];
+            dFdP = new double[n][k];
+
+        }
+
+        /** {@inheritDoc} */
+        public int getDimension() {
+            final int n = y.length;
+            final int k = dFdP[0].length;
+            return n * (1 + n + k);
+        }
+
+        /** {@inheritDoc} */
+        public void computeDerivatives(final double t, final double[] z, final double[] zDot)
+            throws DerivativeException {
+
+            final int n = y.length;
+            final int k = dFdP[0].length;
+
+            // compute raw ODE and its jacobians: dy/dt, d[dy/dt]/dy0 and d[dy/dt]/dp
+            System.arraycopy(z,    0, y,    0, n);
+            ode.computeDerivatives(t, y, yDot);
+            ode.computeJacobians(t, y, yDot, dFdY, dFdP);
+
+            // state part of the compound equations
+            System.arraycopy(yDot, 0, zDot, 0, n);
+
+            // variational equations: from d[dy/dt]/dy0 to d[dy/dy0]/dt
+            for (int i = 0; i < n; ++i) {
+                final double[] dFdYi = dFdY[i];
+                for (int j = 0; j < n; ++j) {
+                    double s = 0;
+                    final int startIndex = n + j;
+                    int zIndex = startIndex;
+                    for (int l = 0; l < n; ++l) {
+                        s += dFdYi[l] * z[zIndex];
+                        zIndex += n;
+                    }
+                    zDot[startIndex + i * n] = s;
+                }
+            }
+
+            // variational equations: from d[dy/dt]/dy0 and d[dy/dt]/dp to d[dy/dp]/dt
+            for (int i = 0; i < n; ++i) {
+                final double[] dFdYi = dFdY[i];
+                final double[] dFdPi = dFdP[i];
+                for (int j = 0; j < k; ++j) {
+                    double s = dFdPi[j];
+                    final int startIndex = n * (n + 1) + j;
+                    int zIndex = startIndex;
+                    for (int l = 0; l < n; ++l) {
+                        s += dFdYi[l] * z[zIndex];
+                        zIndex += k;
+                    }
+                    zDot[startIndex + i * k] = s;
+                }
+            }
+
+        }
+
     }
 
     /** Wrapper class to compute jacobians by finite differences for ODE which do not compute them themselves. */
