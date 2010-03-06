@@ -72,7 +72,7 @@ public class FirstOrderIntegratorWithJacobians {
      * same dimension as the original problem
      * @param hP step sizes to use for computing the jacobian df/dp, must have the
      * same dimension as the original problem parameters dimension
-     * @see #EnhancedFirstOrderIntegrator(FirstOrderIntegrator,
+     * @see #FirstOrderIntegratorWithJacobians(FirstOrderIntegrator,
      * ParameterizedODEWithJacobians)
      */
     public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
@@ -89,7 +89,7 @@ public class FirstOrderIntegratorWithJacobians {
     /** Build an enhanced integrator using ODE builtin jacobian computation features.
      * @param integrator underlying integrator to solve the compound problem
      * @param ode original problem, which can compute the jacobians by itself
-     * @see #EnhancedFirstOrderIntegrator(FirstOrderIntegrator,
+     * @see #FirstOrderIntegratorWithJacobians(FirstOrderIntegrator,
      * ParameterizedODE, double[], double[], double[])
      */
     public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
@@ -184,7 +184,6 @@ public class FirstOrderIntegratorWithJacobians {
      * <p>Since this method stores some internal state variables made
      * available in its public interface during integration ({@link
      * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
-     * @param equations differential equations to integrate
      * @param t0 initial time
      * @param y0 initial value of the state vector at t0
      * @param dY0dP initial value of the state vector derivative with respect to the
