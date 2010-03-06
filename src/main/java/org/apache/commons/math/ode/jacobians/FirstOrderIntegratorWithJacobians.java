@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -53,6 +54,12 @@ public class FirstOrderIntegratorWithJacobians {
     /** Raw equations to integrate. */
     private final ParameterizedODEWithJacobians ode;
 
+    /** Maximal number of evaluations allowed. */
+    private int maxEvaluations;
+
+    /** Number of evaluations already performed. */
+    private int evaluations;
+
     /** Build an enhanced integrator using internal differentiation to compute jacobians.
      * @param integrator underlying integrator to solve the compound problem
      * @param ode original problem (f in the equation y' = f(t, y))
@@ -74,6 +81,7 @@ public class FirstOrderIntegratorWithJacobians {
         checkDimension(ode.getParametersDimension(), hP);
         this.integrator = integrator;
         this.ode = new FiniteDifferencesWrapper(ode, p, hY, hP);
+        setMaxEvaluations(-1);
     }
 
     /** Build an enhanced integrator using ODE builtin jacobian computation features.
@@ -86,6 +94,7 @@ public class FirstOrderIntegratorWithJacobians {
                                              final ParameterizedODEWithJacobians ode) {
         this.integrator = integrator;
         this.ode = ode;
+        setMaxEvaluations(-1);
     }
 
     /** Add a step handler to this integrator.
@@ -204,7 +213,8 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         // integrate the compound state variational equations
-        final double stopTime = integrator.integrate(new MappingWrapper(ode), t0, z, t, z);
+        evaluations = 0;
+        final double stopTime = integrator.integrate(new MappingWrapper(), t0, z, t, z);
 
         // dispatch the final compound state into the state and partial derivatives arrays
         System.arraycopy(z, 0, y, 0, n);
@@ -217,6 +227,62 @@ public class FirstOrderIntegratorWithJacobians {
 
         return stopTime;
 
+    }
+
+    /** Get the current value of the step start time t<sub>i</sub>.
+     * <p>This method can be called during integration (typically by
+     * the object implementing the {@link FirstOrderDifferentialEquations
+     * differential equations} problem) if the value of the current step that
+     * is attempted is needed.</p>
+     * <p>The result is undefined if the method is called outside of
+     * calls to <code>integrate</code>.</p>
+     * @return current value of the step start time t<sub>i</sub>
+     */
+    public double getCurrentStepStart() {
+        return integrator.getCurrentStepStart();
+    }
+
+    /** Get the current signed value of the integration stepsize.
+     * <p>This method can be called during integration (typically by
+     * the object implementing the {@link FirstOrderDifferentialEquations
+     * differential equations} problem) if the signed value of the current stepsize
+     * that is tried is needed.</p>
+     * <p>The result is undefined if the method is called outside of
+     * calls to <code>integrate</code>.</p>
+     * @return current signed value of the stepsize
+     */
+    public double getCurrentSignedStepsize() {
+        return integrator.getCurrentSignedStepsize();
+    }
+
+    /** Set the maximal number of differential equations function evaluations.
+     * <p>The purpose of this method is to avoid infinite loops which can occur
+     * for example when stringent error constraints are set or when lots of
+     * discrete events are triggered, thus leading to many rejected steps.</p>
+     * @param maxEvaluations maximal number of function evaluations (negative
+     * values are silently converted to maximal integer value, thus representing
+     * almost unlimited evaluations)
+     */
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = (maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations;
+    }
+
+    /** Get the maximal number of functions evaluations.
+     * @return maximal number of functions evaluations
+     */
+    public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    /** Get the number of evaluations of the differential equations function.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * <code>integrate</code> method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the differential equations function
+     */
+    public int getEvaluations() {
+        return evaluations;
     }
 
     /** Check array dimensions.
@@ -234,10 +300,7 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper class used to map state and jacobians into compound state. */
-    private static class MappingWrapper implements  FirstOrderDifferentialEquations {
-
-        /** Underlying ODE with jacobians. */
-        private final ParameterizedODEWithJacobians ode;
+    private class MappingWrapper implements  FirstOrderDifferentialEquations {
 
         /** Current state. */
         private final double[]   y;
@@ -252,11 +315,8 @@ public class FirstOrderIntegratorWithJacobians {
         private final double[][] dFdP;
 
         /** Simple constructor.
-         * @param ode underlying ODE with jacobians
          */
-        public MappingWrapper(final ParameterizedODEWithJacobians ode) {
-
-            this.ode = ode;
+        public MappingWrapper() {
 
             final int n = ode.getDimension();
             final int k = ode.getParametersDimension();
@@ -283,6 +343,9 @@ public class FirstOrderIntegratorWithJacobians {
 
             // compute raw ODE and its jacobians: dy/dt, d[dy/dt]/dy0 and d[dy/dt]/dp
             System.arraycopy(z,    0, y,    0, n);
+            if (++evaluations > maxEvaluations) {
+                throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
+            }
             ode.computeDerivatives(t, y, yDot);
             ode.computeJacobians(t, y, yDot, dFdY, dFdP);
 
@@ -325,7 +388,7 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper class to compute jacobians by finite differences for ODE which do not compute them themselves. */
-    private static class FiniteDifferencesWrapper
+    private class FiniteDifferencesWrapper
         implements ParameterizedODEWithJacobians {
 
         /** Raw ODE without jacobians computation. */
@@ -365,6 +428,8 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** {@inheritDoc} */
         public void computeDerivatives(double t, double[] y, double[] yDot) throws DerivativeException {
+            // this call to computeDerivatives has already been counted,
+            // we must not increment the counter again
             ode.computeDerivatives(t, y, yDot);
         }
 
@@ -385,6 +450,11 @@ public class FirstOrderIntegratorWithJacobians {
 
             final int n = ode.getDimension();
             final int k = ode.getParametersDimension();
+
+            evaluations += n + k;
+            if (evaluations > maxEvaluations) {
+                throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
+            }
 
             // compute df/dy where f is the ODE and y is the state array
             for (int j = 0; j < n; ++j) {

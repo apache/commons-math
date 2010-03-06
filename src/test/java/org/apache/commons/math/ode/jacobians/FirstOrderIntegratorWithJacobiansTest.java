@@ -106,7 +106,12 @@ public class FirstOrderIntegratorWithJacobiansTest {
             FirstOrderIntegratorWithJacobians extInt =
                 new FirstOrderIntegratorWithJacobians(integ, brusselator, new double[] { b },
                                                       new double[] { hY, hY }, new double[] { hP });
+            extInt.setMaxEvaluations(5000);
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
+            Assert.assertEquals(5000, extInt.getMaxEvaluations());
+            Assert.assertTrue(extInt.getEvaluations() > 2000);
+            Assert.assertTrue(extInt.getEvaluations() < 2500);
+            Assert.assertEquals(4 * integ.getEvaluations(), extInt.getEvaluations());
             residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
             residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());
         }
@@ -120,7 +125,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
     public void testAnalyticalDifferentiation()
         throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
-            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+            new DormandPrince54Integrator(1.0e-8, 100.0, 1.0e-4, 1.0e-4);
         SummaryStatistics residualsP0 = new SummaryStatistics();
         SummaryStatistics residualsP1 = new SummaryStatistics();
         for (double b = 2.88; b < 3.08; b += 0.001) {
@@ -131,7 +136,12 @@ public class FirstOrderIntegratorWithJacobiansTest {
             double[][] dZdP  = new double[2][1];
             FirstOrderIntegratorWithJacobians extInt =
                 new FirstOrderIntegratorWithJacobians(integ, brusselator);
+            extInt.setMaxEvaluations(5000);
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
+            Assert.assertEquals(5000, extInt.getMaxEvaluations());
+            Assert.assertTrue(extInt.getEvaluations() > 510);
+            Assert.assertTrue(extInt.getEvaluations() < 610);
+            Assert.assertEquals(integ.getEvaluations(), extInt.getEvaluations());
             residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
             residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());
         }
@@ -177,7 +187,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         double[][] dydy0 = new double[2][2];
         double[][] dydp  = new double[2][3];
         double t = 18 * Math.PI;
-        FirstOrderIntegratorWithJacobians extInt =
+        final FirstOrderIntegratorWithJacobians extInt =
             new FirstOrderIntegratorWithJacobians(integ, circle);
         extInt.addStepHandler(new StepHandlerWithJacobians() {
             
@@ -194,6 +204,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
                 double[]   y     = interpolator.getInterpolatedY();
                 double[][] dydy0 = interpolator.getInterpolatedDyDy0();
                 double[][] dydp  = interpolator.getInterpolatedDyDp();
+                Assert.assertEquals(interpolator.getPreviousTime(), extInt.getCurrentStepStart(), 1.0e-10);
+                Assert.assertTrue(extInt.getCurrentSignedStepsize() < 0.5);
                 for (int i = 0; i < y.length; ++i) {
                     Assert.assertEquals(circle.exactY(t)[i], y[i], 1.0e-10);
                 }
