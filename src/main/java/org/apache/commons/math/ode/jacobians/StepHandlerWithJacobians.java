@@ -32,6 +32,27 @@ import org.apache.commons.math.ode.DerivativeException;
  * last one, store the points in an ephemeris, or forward them to
  * specialized processing or output methods.</p>
  *
+ * <p>Note that is is possible to register a {@link
+ * org.apache.commons.math.ode.sampling.StepHandler classical step handler}
+ * in the low level integrator used to build a {@link FirstOrderIntegratorWithJacobians}
+ * rather than implementing this class. The step handlers registered at low level
+ * will see the big compound state whether the step handlers defined by this interface
+ * see the original state, and its jacobians in separate arrays.</p>
+ *
+ * <p>The compound state is guaranteed to contain the original state in the first
+ * elements, followed by the jacobian with respect to initial state (in row order),
+ * followed by the jacobian with respect to parameters (in row order). If for example
+ * the original state dimension is 6 and there are 3 parameters, the compound state will
+ * be a 60 elements array. The first 6 elements will be the original state, the next 36
+ * elements will be the jacobian with respect to initial state, and the remaining 18 elements
+ * will be the jacobian with respect to parameters.</p>
+ *
+ * <p>Dealing with low level step handlers is cumbersome if one really needs the jacobians
+ * in these methods, but it also prevents many data being copied back and forth between
+ * state and jacobians on one side and compound state on the other side. So for performance
+ * reasons, it is recommended to use this interface <em>only</em> if jacobians are really
+ * needed and to use lower level handlers if only state is needed.</p>
+ *
  * @see FirstOrderIntegratorWithJacobians
  * @see StepInterpolatorWithJacobians
  * @version $Revision$ $Date$

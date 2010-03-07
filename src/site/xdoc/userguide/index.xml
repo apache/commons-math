@@ -128,9 +128,10 @@
         <li><a href="ode.html">13. Ordinary Differential Equations Integration</a>
                 <ul>
                 <li><a href="ode.html#a13.1_Overview">13.1 Overview</a></li>
-                <li><a href="ode.html#a13.2_Discrete_Events_Handling">13.2 Discrete Events Handling</a></li>
-                <li><a href="ode.html#a13.3_ODE_Problems">13.3 ODE Problems</a></li>
-                <li><a href="ode.html#a13.4_Integrators">13.4 Integrators</a></li>
+                <li><a href="ode.html#a13.2_Continuous_Output">13.2 Continuous Output</a></li>
+                <li><a href="ode.html#a13.3_Discrete_Events_Handling">13.3 Discrete Events Handling</a></li>
+                <li><a href="ode.html#a13.4_Available_Integrators">13.4 Available Integrators</a></li>
+                <li><a href="ode.html#a13.5_Derivatives">13.5 Derivatives</a></li>
                 </ul></li>
         <li><a href="genetics.html">14. Genetic Algorithms</a>   
                 <ul>

@@ -67,21 +67,79 @@
           <a href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
           interface. Then he should pass it to the integrator he prefers among all the classes that implement
           the <a href="../apidocs/org/apache/commons/math/ode/FirstOrderIntegrator.html">FirstOrderIntegrator</a>
-          interface.
+          interface. The following example shows how to implement the simple two-dimensional problem:
+          <ul>
+            <li>y'<sub>0</sub>(t) = &#x3c9; &#xD7; (c<sub>1</sub> - y<sub>1</sub>(t))</li>
+            <li>y'<sub>1</sub>(t) = &#x3c9; &#xD7; (y<sub>0</sub>(t) - c<sub>0</sub>)</li>
+          </ul>
+          with some initial state y(t<sub>0</sub>) = (y<sub>0</sub>(t<sub>0</sub>), y<sub>1</sub>(t<sub>0</sub>)).
+          In fact, the exact solution of this problem is that y(t<sub>0</sub>) moves along a circle
+          centered at c = (c<sub>0</sub>, c<sub>1</sub>) with constant angular rate &#x3c9;.
         </p>
+        <source>
+private static class CircleODE implements FirstOrderDifferentialEquations {
+
+    private double[] c;
+    private double omega;
+
+    public CircleODE(double[] c, double omega) {
+        this.c     = c;
+        this.omega = omega;
+    }
+
+    public int getDimension() {
+        return 2;
+    }
+
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
+        yDot[0] = omega * (c[1] - y[1]);
+        yDot[1] = omega * (y[0] - c[0]);
+    }
+
+}
+        </source>
+        <p>
+          Computing the state y(16.0) starting from y(0.0) = (0.0, 1.0) and integrating the ODE
+          is done as follows (using Dormand-Prince 8(5,3) integrator as an example):
+        </p>
+        <source>
+FirstOrderIntegrator dp853 = new DormandPrince853Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+FirstOrderDifferentialEquations ode = new CircleODE(new double[] { 1.0, 1.0 }, 0.1);
+double[] y = new double[] { 0.0, 1.0 }; // initial state
+dp853.integrate(ode, 0.0, y, 16.0, y); // now y contains final state at time t=16.0
+        </source>
+      </subsection>
+      <subsection name="13.2 Continuous Output" href="continuous">
         <p>
           The solution of the integration problem is provided by two means. The first one is aimed towards
           simple use: the state vector at the end of the integration process is copied in the y array of the
-          <code>FirstOrderIntegrator.integrate</code> method. The second one should be used when more in-depth
-          information is needed throughout the integration process. The user can register an object implementing
-          the <a href="../apidocs/org/apache/commons/math/ode/sampling/StepHandler.html">StepHandler</a> interface or a
+          <code>FirstOrderIntegrator.integrate</code> method, as shown by previous example. The second one
+          should be used when more in-depth information is needed throughout the integration process. The user
+          can register an object implementing the
+          <a href="../apidocs/org/apache/commons/math/ode/sampling/StepHandler.html">StepHandler</a> interface or a
           <a href="../apidocs/org/apache/commons/math/ode/sampling/StepNormalizer.html">StepNormalizer</a> object wrapping
           a user-specified object implementing the
           <a href="../apidocs/org/apache/commons/math/ode/sampling/FixedStepHandler.html">FixedStepHandler</a> interface
           into the integrator before calling the <code>FirstOrderIntegrator.integrate</code> method. The user object
           will be called appropriately during the integration process, allowing the user to process intermediate
-          results. The default step handler does nothing.
+          results. The default step handler does nothing. Considering again the previous example, we want to print the
+          trajectory of the point to check it really is a circle arc. We simply add the following before the call
+          to integrator.integrate:
         </p>
+        <source>
+StepHandler stepHandler = new StepHandler() {
+    public void reset() {}
+            
+    public boolean requiresDenseOutput() { return false; }
+            
+    public void handleStep(StepInterpolator interpolator, boolean isLast) throws DerivativeException {
+        double   t = interpolator.getCurrentTime();
+        double[] y = interpolator.getInterpolatedY();
+        System.out.println(t + " " + y[0] + " " + y[1]);
+    }
+};
+integrator.addStepHandler(stepHandler);
+        </source>
         <p>
           <a href="../apidocs/org/apache/commons/math/ode/ContinuousOutputModel.html">ContinuousOutputModel</a>
           is a special-purpose step handler that is able to store all steps and to provide transparent access to
@@ -114,7 +172,13 @@
           automatic guess is wrong.
         </p>
       </subsection>
-      <subsection name="13.2 Discrete Events Handling" href="events">
+      <subsection name="13.3 Discrete Events Handling" href="events">
+        <p>
+          ODE problems are continuous ones. However, sometimes discrete events must be
+          taken into account. The most frequent case is the stop condition of the integrator
+          is not defined by the time t but by a target condition on state y (say y[0] = 1.0
+          for example).
+        </p>
         <p>
           Discrete events detection is based on switching functions. The user provides
           a simple <a href="../apidocs/org/apache/commons/math/ode/events/EventHandler.html">g(t, y)</a>
@@ -125,7 +189,6 @@
           root finding. The steps are shortened as needed to ensure the events occur
           at step boundaries (even if the integrator is a fixed-step integrator).
         </p>
-
         <p>
           When an event is triggered, the event time, current state and an indicator
           whether the switching function was increasing or decreasing at event time
@@ -158,7 +221,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
          The second case, change state vector or derivatives is encountered when dealing
          with discontinuous dynamical models. A typical case would be the motion of a
          spacecraft when thrusters are fired for orbital maneuvers. The acceleration is
-         smooth as long as no maneuver are performed, depending only on gravity, drag,
+         smooth as long as no maneuvers are performed, depending only on gravity, drag,
          third body attraction, radiation pressure. Firing a thruster introduces a
          discontinuity that must be handled appropriately by the integrator. In such a case,
          we would use a switching function setting similar to this:
@@ -187,27 +250,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
 }
         </source>
       </subsection>
-      <subsection name="13.3 ODE Problems" href="problems">
-        <p>
-          First order ODE problems are defined by implementing the
-          <a href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
-          interface before they can be handled by the integrators <code>FirstOrderIntegrator.integrate</code>
-          method.
-        </p>
-        <p>
-          A first order differential equations problem, as seen by an integrator is the time
-          derivative <code>dY/dt</code> of a state vector <code>Y</code>, both being one
-          dimensional arrays. From the integrator point of view, this derivative depends
-          only on the current time <code>t</code> and on the state vector <code>Y</code>.
-        </p>
-        <p>
-          For real world problems, the derivative depends also on parameters that do not
-          belong to the state vector (dynamical model constants for example). These
-          constants are completely outside of the scope of this interface, the classes
-          that implement it are allowed to handle them as they want.
-        </p>
-      </subsection>
-      <subsection name="13.4 Integrators" href="integrators">
+      <subsection name="13.4 Available Integrators" href="integrators">
         <p>
           The tables below show the various integrators available for non-stiff problems. Note that the
           implementations of Adams-Bashforth and Adams-Moulton are adaptive stepsize, not fixed stepsize
@@ -237,6 +280,155 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           <tr><td><a href="../apidocs/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.html">Adams-Moulton</a></td><td>variable</td><td>variable</td></tr>
           </table>
         </p>
+      </subsection>
+      <subsection name="13.5 Derivatives" href="derivatives">
+        <p>
+          If in addition to state y(t) the user needs to compute the sensitivity of the state to
+          the initial state or some parameter of the ODE, he will use the classes and interfaces
+          from the <a
+          href="../apidocs/org/apache/commons/math/ode/jacobians/package-summary.html">org.apache.commons.ode.jacobians</a>
+          package instead of the top level ode package. These classes compute the jacobians
+          dy(t)/dy<sub>0</sub> and dy(t<sub>0</sub>)/dp where y<sub>0</sub> is the initial state
+          and p is some ODE parameter.
+        </p>
+        <p>
+          The classes and interfaces in this package mimic the behavior of the classes and
+          interfaces of the top level ode package, only adding parameters arrays for the jacobians.
+          The behavior of these classes is to create a compound state vector z containing both
+          the state y(t) and its derivatives dy(t)/dy<sub>0</sub> and dy(t<sub>0</sub>)/dp and
+          to set up an extended problem by adding the equations for the jacobians automatically.
+          These extended state and problems are then provided to a classical underlying integrator
+          chosen by user.
+        </p>
+        <p>
+          This behavior imply there will be a top level integrator knowing about state and jacobians
+          and a low level integrator knowing only about compound state (which may be big). If the user
+          wants to deal with the top level only, he will use the specialized step handler and event
+          handler classes registered at top level. He can also register classical step handlers and
+          event handlers, but in this case will see the big compound state. This state is guaranteed
+          to contain the original state in the first elements, followed by the jacobian with respect
+          to initial state (in row order), followed by the jacobian with respect to parameters (in
+          row order). If for example the original state dimension is 6 and there are 3 parameters,
+          the compound state will be a 60 elements array. The first 6 elements will be the original
+          state, the next 36 elements will be the jacobian with respect to initial state, and the
+          remaining 18 will be the jacobian with respect to parameters. Dealing with low level
+          step handlers and event handlers is cumbersome if one really needs the jacobians in these
+          methods, but it also prevents many data being copied back and forth between state and
+          jacobians on one side and compound state on the other side.
+        </p>
+        <p>
+          In order to compute dy(t)/dy<sub>0</sub> and dy(t<sub>0</sub>)/dp for any t, the algorithm
+          needs not only the ODE function f such that y'=f(t,y) but also its local jacobians
+          df(t, y, p)/dy and df(t, y, p)/dp.
+        </p>
+        <p>
+          If the function f is too complex, the user can simply rely on internal differentiation
+          using finite differences to compute these local jacobians. So rather than the <a
+          href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
+          interface he will implement the <a
+          href="../apidocs/org/apache/commons/math/ode/jacobians/ParameterizedODE.html">ParameterizedODE</a>
+          interface. Considering again our example where only &#x3c9; is considered a parameter, we get:
+        </p>
+        <source>
+public class BasicCircleODE implements ParameterizedODE {
+
+    private double[] c;
+    private double omega;
+
+    public BasicCircleODE(double[] c, double omega) {
+        this.c     = c;
+        this.omega = omega;
+    }
+
+    public int getDimension() {
+        return 2;
+    }
+
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
+        yDot[0] = omega * (c[1] - y[1]);
+        yDot[1] = omega * (y[0] - c[0]);
+    }
+
+    public int getParametersDimension() {
+        // we are only interested in the omega parameter
+        return 1;
+    }
+
+    public void setParameter(int i, double value) {
+        omega = value;
+    }
+
+}
+        </source>
+        <p>
+          This ODE is provided to the specialized integrator with two arrays specifying the
+          step sizes to use for finite differences (one array for derivation with respect to
+          state y, one array for derivation with respect to parameters p):
+        </p>
+        <source>
+double[] hY = new double[] { 0.001, 0.001 };
+double[] hP = new double[] { 1.0e-6 };
+FirstOrderIntegratorWithJacobians integrator = new FirstOrderIntegratorWithJacobians(dp853, ode, hY, hP);
+integrator.integrate(t0, y0, dy0dp, t, y, dydy0, dydp);
+        </source>
+        <p>
+          If the function f is simple, the user can simply provide the local jacobians
+          by himself. So rather than the <a
+          href="../apidocs/org/apache/commons/math/ode/FirstOrderDifferentialEquations.html">FirstOrderDifferentialEquations</a>
+          interface he will implement the <a
+          href="../apidocs/org/apache/commons/math/ode/jacobians/ODEWithJacobians.html">ODEWithJacobians</a>
+          interface. Considering again our example where only &#x3c9; is considered a parameter, we get:
+        </p>
+        <source>
+public class EnhancedCircleODE implements ODEWithJacobians {
+
+    private double[] c;
+    private double omega;
+
+    public EnhancedCircleODE(double[] c, double omega) {
+        this.c     = c;
+        this.omega = omega;
+    }
+
+    public int getDimension() {
+        return 2;
+    }
+
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
+        yDot[0] = omega * (c[1] - y[1]);
+        yDot[1] = omega * (y[0] - c[0]);
+    }
+
+    public int getParametersDimension() {
+        // we are only interested in the omega parameter
+        return 1;
+    }
+
+    public void computeJacobians(double t, double[] y, double[] yDot, double[][] dFdY, double[][] dFdP) {
+
+        dFdY[0][0] = 0;
+        dFdY[0][1] = -omega;
+        dFdY[1][0] = omega;
+        dFdY[1][1] = 0;
+
+        dFdP[0][0] = 0;
+        dFdP[0][1] = omega;
+        dFdP[0][2] = c[1] - y[1];
+        dFdP[1][0] = -omega;
+        dFdP[1][1] = 0;
+        dFdP[1][2] = y[0] - c[0];
+ 
+    }
+
+}
+        </source>
+        <p>
+          This ODE is provided to the specialized integrator as is:
+        </p>
+        <source>
+FirstOrderIntegratorWithJacobians integrator = new FirstOrderIntegratorWithJacobians(dp853, ode);
+integrator.integrate(t0, y0, dy0dp, t, y, dydy0, dydp);
+        </source>
       </subsection>
      </section>
   </body>

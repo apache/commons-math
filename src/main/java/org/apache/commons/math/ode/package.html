@@ -27,6 +27,13 @@ This package solves Initial Value Problems of the form
 <code>y(t<sub>0</sub>)=y<sub>0</sub></code> known. The provided
 integrators compute an estimate of <code>y(t)</code> from
 <code>t=t<sub>0</sub></code> to <code>t=t<sub>1</sub></code>.
+If in addition to <code>y(t)</code> users need to get the
+derivatives with respect to the initial state
+<code>dy(t)/dy(t<sub>0</sub>)</code> or the derivatives with
+respect to some ODE parameters <code>dy(t)/dp</code>, then the
+classes from the <a href="./jacobians/package-summary.html">
+org.apache.commons.math.ode.jacobians</a> package must be used
+instead of the classes in this package.
 </p>
 
 <p>
@@ -144,7 +151,16 @@ automatic guess is wrong.
 <tr><td>{@link org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator Dormand-Prince 5(4)}</td><td>5</td><td>4</td></tr>
 <tr><td>{@link org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator Dormand-Prince 8(5,3)}</td><td>8</td><td>5 and 3</td></tr>
 <tr><td>{@link org.apache.commons.math.ode.nonstiff.GraggBulirschStoerIntegrator Gragg-Bulirsch-Stoer}</td><td>variable (up to 18 by default)</td><td>variable</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator Adams-Bashforth}</td><td>variable</td><td>variable</td></tr>
+<tr><td>{@link org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator Adams-Moulton}</td><td>variable</td><td>variable</td></tr>
 </table>
+</p>
+
+<p>
+In the table above, the {@link org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator
+Adams-Bashforth} and {@link org.apache.commons.math.ode.nonstiff.AdamsMoultonIntegrator
+Adams-Moulton} integrators appear as variable-step ones. This is an experimental extension
+to the classical algorithms using the Nordsieck vector representation.
 </p>
 
 </body>
