@@ -73,7 +73,7 @@
             <li>y'<sub>1</sub>(t) = &#x3c9; &#xD7; (y<sub>0</sub>(t) - c<sub>0</sub>)</li>
           </ul>
           with some initial state y(t<sub>0</sub>) = (y<sub>0</sub>(t<sub>0</sub>), y<sub>1</sub>(t<sub>0</sub>)).
-          In fact, the exact solution of this problem is that y(t<sub>0</sub>) moves along a circle
+          In fact, the exact solution of this problem is that y(t) moves along a circle
           centered at c = (c<sub>0</sub>, c<sub>1</sub>) with constant angular rate &#x3c9;.
         </p>
         <source>
