@@ -44,7 +44,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * problem has dimension n and there are p parameters, the compound problem will
  * have dimension n &times; (1 + n + k).</p>
  * @see ParameterizedODE
- * @see ParameterizedODEWithJacobians
+ * @see ODEWithJacobians
  * @version $Revision$ $Date$
  * @since 2.1
  */
@@ -54,7 +54,7 @@ public class FirstOrderIntegratorWithJacobians {
     private final FirstOrderIntegrator integrator;
 
     /** Raw equations to integrate. */
-    private final ParameterizedODEWithJacobians ode;
+    private final ODEWithJacobians ode;
 
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
@@ -73,7 +73,7 @@ public class FirstOrderIntegratorWithJacobians {
      * @param hP step sizes to use for computing the jacobian df/dp, must have the
      * same dimension as the original problem parameters dimension
      * @see #FirstOrderIntegratorWithJacobians(FirstOrderIntegrator,
-     * ParameterizedODEWithJacobians)
+     * ODEWithJacobians)
      */
     public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
                                              final ParameterizedODE ode,
@@ -93,7 +93,7 @@ public class FirstOrderIntegratorWithJacobians {
      * ParameterizedODE, double[], double[], double[])
      */
     public FirstOrderIntegratorWithJacobians(final FirstOrderIntegrator integrator,
-                                             final ParameterizedODEWithJacobians ode) {
+                                             final ODEWithJacobians ode) {
         this.integrator = integrator;
         this.ode = ode;
         setMaxEvaluations(-1);
@@ -107,7 +107,9 @@ public class FirstOrderIntegratorWithJacobians {
      * @see #clearStepHandlers()
      */
     public void addStepHandler(StepHandlerWithJacobians handler) {
-        integrator.addStepHandler(new StepHandlerWrapper(handler));
+        final int n = ode.getDimension();
+        final int k = ode.getParametersDimension();
+        integrator.addStepHandler(new StepHandlerWrapper(handler, n, k));
     }
 
     /** Get all the step handlers that have been added to the integrator.
@@ -149,7 +151,9 @@ public class FirstOrderIntegratorWithJacobians {
                                 double maxCheckInterval,
                                 double convergence,
                                 int maxIterationCount) {
-        integrator.addEventHandler(new EventHandlerWrapper(handler),
+        final int n = ode.getDimension();
+        final int k = ode.getParametersDimension();
+        integrator.addEventHandler(new EventHandlerWrapper(handler, n, k),
                                    maxCheckInterval, convergence, maxIterationCount);
     }
 
@@ -438,7 +442,7 @@ public class FirstOrderIntegratorWithJacobians {
 
     /** Wrapper class to compute jacobians by finite differences for ODE which do not compute them themselves. */
     private class FiniteDifferencesWrapper
-        implements ParameterizedODEWithJacobians {
+        implements ODEWithJacobians {
 
         /** Raw ODE without jacobians computation. */
         private final ParameterizedODE ode;
@@ -488,17 +492,12 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public void setParameter(int i, double value) {
-            ode.setParameter(i, value);
-        }
-
-        /** {@inheritDoc} */
         public void computeJacobians(double t, double[] y, double[] yDot,
                                      double[][] dFdY, double[][] dFdP)
             throws DerivativeException {
 
-            final int n = ode.getDimension();
-            final int k = ode.getParametersDimension();
+            final int n = hY.length;
+            final int k = hP.length;
 
             evaluations += n + k;
             if (evaluations > maxEvaluations) {
@@ -531,16 +530,27 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper for step handlers. */
-    private class StepHandlerWrapper implements StepHandler {
+    private static class StepHandlerWrapper implements StepHandler {
 
         /** Underlying step handler with jacobians. */
         private final StepHandlerWithJacobians handler;
 
+        /** Dimension of the original ODE. */
+        private final int n;
+
+        /** Number of parameters. */
+        private final int k;
+
         /** Simple constructor.
          * @param handler underlying step handler with jacobians
+         * @param n dimension of the original ODE
+         * @param k number of parameters
          */
-        public StepHandlerWrapper(final StepHandlerWithJacobians handler) {
+        public StepHandlerWrapper(final StepHandlerWithJacobians handler,
+                                  final int n, final int k) {
             this.handler = handler;
+            this.n       = n;
+            this.k       = k;
         }
 
         /** Get the underlying step handler with jacobians.
@@ -553,10 +563,7 @@ public class FirstOrderIntegratorWithJacobians {
         /** {@inheritDoc} */
         public void handleStep(StepInterpolator interpolator, boolean isLast)
             throws DerivativeException {
-            handler.handleStep(new StepInterpolatorWrapper(interpolator,
-                                                           ode.getDimension(),
-                                                           ode.getParametersDimension()),
-                               isLast);
+            handler.handleStep(new StepInterpolatorWrapper(interpolator, n, k), isLast);
         }
 
         /** {@inheritDoc} */
@@ -824,7 +831,7 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper for event handlers. */
-    private class EventHandlerWrapper implements EventHandler {
+    private static class EventHandlerWrapper implements EventHandler {
 
         /** Underlying event handler with jacobians. */
         private final EventHandlerWithJacobians handler;
@@ -840,11 +847,12 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** Simple constructor.
          * @param handler underlying event handler with jacobians
+         * @param n dimension of the original ODE
+         * @param k number of parameters
          */
-        public EventHandlerWrapper(final EventHandlerWithJacobians handler) {
+        public EventHandlerWrapper(final EventHandlerWithJacobians handler,
+                                   final int n, final int k) {
             this.handler = handler;
-            final int n = ode.getDimension();
-            final int k = ode.getParametersDimension();
             y        = new double[n];
             dydy0    = new double[n][n];
             dydp     = new double[n][k];

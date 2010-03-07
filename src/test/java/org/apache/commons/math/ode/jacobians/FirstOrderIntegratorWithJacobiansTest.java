@@ -275,7 +275,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         Assert.assertTrue(stopTime < 5.0 * Math.PI);
     }
 
-    private static class Brusselator implements ParameterizedODEWithJacobians {
+    private static class Brusselator implements ParameterizedODE, ODEWithJacobians {
 
         private double b;
 
@@ -323,7 +323,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
     };
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
-    private static class Circle implements ParameterizedODEWithJacobians {
+    private static class Circle implements ODEWithJacobians {
 
         private final double[] y0;
         private double cx;
@@ -339,16 +339,6 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
         public int getDimension() {
             return 2;
-        }
-
-        public void setParameter(int i, double p) {
-            if (i == 0) {
-                cx = p;
-            } else if (i == 1) {
-                cy = p;
-            } else {
-                omega = p;
-            }
         }
 
         public int getParametersDimension() {

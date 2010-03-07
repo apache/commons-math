@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode.jacobians;
 
 import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 
 
 /** This interface represents {@link ParameterizedODE
@@ -29,8 +30,12 @@ import org.apache.commons.math.ode.DerivativeException;
  * @since 2.1
  */
 
-public interface ParameterizedODEWithJacobians
-    extends ParameterizedODE {
+public interface ODEWithJacobians extends FirstOrderDifferentialEquations {
+
+    /** Get the number of parameters.
+     * @return number of parameters
+     */
+    int getParametersDimension();
 
     /** Compute the partial derivatives of ODE with respect to state.
      * @param t current value of the independent <I>time</I> variable

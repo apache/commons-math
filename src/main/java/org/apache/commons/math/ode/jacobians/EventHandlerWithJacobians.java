@@ -112,7 +112,7 @@ public interface EventHandlerWithJacobians  {
      * the step handler itself is called (see below for scheduling). It
      * allows the user to update his internal data to acknowledge the fact
      * the event has been handled (for example setting a flag in the {@link
-     * org.apache.commons.math.ode.jacobians.ParameterizedODEWithJacobians
+     * org.apache.commons.math.ode.jacobians.ODEWithJacobians
      * differential equations} to switch the derivatives computation in
      * case of discontinuity), or to direct the integrator to either stop
      * or continue integration, possibly with a reset state or derivatives.</p>
