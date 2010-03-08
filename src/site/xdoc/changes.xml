@@ -39,6 +39,10 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-282">
+        Resolved multiple problems leading to inaccuracy and/or failure to compute Normal,
+        ChiSquare and  Poisson probabilities, Erf and Gamma functions.
+      </action>
       <action dev="luc" type="fix" issue="MATH-347" >
         Fixed too stringent interval check in Brent solver: initial guess is now
         allowed to be at either interval end

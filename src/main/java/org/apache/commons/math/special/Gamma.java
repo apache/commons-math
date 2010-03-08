@@ -166,7 +166,7 @@ public class Gamma {
             ret = Double.NaN;
         } else if (x == 0.0) {
             ret = 0.0;
-        } else if (a >= 1.0 && x > a) {
+        } else if (x >= a + 1) {
             // use regularizedGammaQ because it should converge faster in this
             // case.
             ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);
@@ -175,7 +175,7 @@ public class Gamma {
             double n = 0.0; // current element index
             double an = 1.0 / a; // n-th element in the series
             double sum = an; // partial sum
-            while (Math.abs(an) > epsilon && n < maxIterations) {
+            while (Math.abs(an/sum) > epsilon && n < maxIterations && sum < Double.POSITIVE_INFINITY) {
                 // compute next element in the series
                 n = n + 1.0;
                 an = an * (x / (a + n));
@@ -185,6 +185,8 @@ public class Gamma {
             }
             if (n >= maxIterations) {
                 throw new MaxIterationsExceededException(maxIterations);
+            } else if (Double.isInfinite(sum)) {
+                ret = 1.0;
             } else {
                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
             }
@@ -216,7 +218,7 @@ public class Gamma {
      * <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
      * Regularized Gamma Function</a>, equation (1).</li>
      * <li>
-     * <a href="    http://functions.wolfram.com/GammaBetaErf/GammaRegularized/10/0003/">
+     * <a href="http://functions.wolfram.com/GammaBetaErf/GammaRegularized/10/0003/">
      * Regularized incomplete gamma function: Continued fraction representations  (formula 06.08.10.0003)</a></li>
      * </ul>
      *
@@ -241,7 +243,7 @@ public class Gamma {
             ret = Double.NaN;
         } else if (x == 0.0) {
             ret = 1.0;
-        } else if (x < a || a < 1.0) {
+        } else if (x < a + 1.0) {
             // use regularizedGammaP because it should converge faster in this
             // case.
             ret = 1.0 - regularizedGammaP(a, x, epsilon, maxIterations);

@@ -75,4 +75,15 @@ public class ErfTest extends TestCase {
         expected = -expected;
         assertEquals(expected, actual, 1.0e-5);
     }
+    
+    /**
+     * MATH-301
+     */
+    public void testLargeValues() throws Exception {
+        for (int i = 1; i < 200; i++) {
+            double result = Erf.erf(i);
+            assertFalse(Double.isNaN(result));
+            assertTrue(result > 0 && result <= 1);  
+        }
+    }
 }

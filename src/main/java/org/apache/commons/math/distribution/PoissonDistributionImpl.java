@@ -31,6 +31,16 @@ import org.apache.commons.math.util.MathUtils;
 public class PoissonDistributionImpl extends AbstractIntegerDistribution
         implements PoissonDistribution, Serializable {
 
+    /**
+     * Default maximum number of iterations for cumulative probability calculations.
+     */
+    public static final int DEFAULT_MAX_ITERATIONS = 10000000;
+
+    /**
+     * Default convergence criterion
+     */
+    public static final double DEFAULT_EPSILON = 1E-12;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -3349935121172596109L;
 
@@ -43,6 +53,19 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     private double mean;
 
     /**
+     * Maximum number of iterations for cumulative probability.
+     *
+     * Cumulative probabilities are estimated using either Lanczos series approximation of
+     * Gamma#regularizedGammaP or continued fraction approximation of Gamma#regularizedGammaQ.
+     */
+    private int maxIterations = DEFAULT_MAX_ITERATIONS;
+
+    /**
+     * Convergence criterion for cumulative probability.
+     */
+    private double epsilon = DEFAULT_EPSILON;
+
+    /**
      * Create a new Poisson distribution with the given the mean. The mean value
      * must be positive; otherwise an <code>IllegalArgument</code> is thrown.
      *
@@ -52,6 +75,43 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     public PoissonDistributionImpl(double p) {
         this(p, new NormalDistributionImpl());
     }
+
+    /**
+     * Create a new Poisson distribution with the given mean, convergence criterion
+     * and maximum number of iterations.
+     *
+     * @param p the Poisson mean
+     * @param epsilon the convergence criteria for cumulative probabilites
+     * @param maxIterations the maximum number of iterations for cumulative probabilites
+     */
+    public PoissonDistributionImpl(double p, double epsilon, int maxIterations) {
+        setMean(p);
+        this.epsilon = epsilon;
+        this.maxIterations = maxIterations;
+    }
+
+    /**
+     * Create a new Poisson distribution with the given mean and convergence criterion.
+     *
+     * @param p the Poisson mean
+     * @param epsilon the convergence criteria for cumulative probabilites
+     */
+    public PoissonDistributionImpl(double p, double epsilon) {
+        setMean(p);
+        this.epsilon = epsilon;
+    }
+
+    /**
+     * Create a new Poisson distribution with the given mean and maximum number of iterations.
+     *
+     * @param p the Poisson mean
+     * @param maxIterations the maximum number of iterations for cumulative probabilites
+     */
+    public PoissonDistributionImpl(double p, int maxIterations) {
+        setMean(p);
+        this.maxIterations = maxIterations;
+    }
+
 
     /**
      * Create a new Poisson distribution with the given the mean. The mean value
@@ -132,8 +192,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         if (x == Integer.MAX_VALUE) {
             return 1;
         }
-        return Gamma.regularizedGammaQ((double) x + 1, mean, 1E-12,
-                Integer.MAX_VALUE);
+        return Gamma.regularizedGammaQ((double) x + 1, mean, epsilon, maxIterations);
     }
 
     /**

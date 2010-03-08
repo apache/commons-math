@@ -33,6 +33,9 @@ import org.apache.commons.math.special.Erf;
 public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
 
+    /** Default inverse cumulative probability accuracy */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
@@ -45,15 +48,31 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /** The standard deviation of this distribution. */
     private double standardDeviation = 1;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
     /**
      * Create a normal distribution using the given mean and standard deviation.
      * @param mean mean for this distribution
      * @param sd standard deviation for this distribution
      */
     public NormalDistributionImpl(double mean, double sd){
+        this(mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Create a normal distribution using the given mean, standard deviation and
+     * inverse cumulative distribution accuracy.
+     *
+     * @param mean mean for this distribution
+     * @param sd standard deviation for this distribution
+     * @param inverseCumAccuracy inverse cumulative probability accuracy
+     */
+    public NormalDistributionImpl(double mean, double sd, double inverseCumAccuracy) {
         super();
-        setMean(mean);
-        setStandardDeviation(sd);
+        this.mean = mean;
+        this.standardDeviation = sd;
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -134,6 +153,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
                 throw ex;
             }
         }
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 
     /**

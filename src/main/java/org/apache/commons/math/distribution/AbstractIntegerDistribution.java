@@ -18,6 +18,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 
@@ -173,7 +174,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
         double pm;
         while (x0 < x1) {
             int xm = x0 + (x1 - x0) / 2;
-            pm = cumulativeProbability(xm);
+            pm = checkedCumulativeProbability(xm);
             if (pm > p) {
                 // update x1
                 if (xm == x1) {
@@ -198,13 +199,37 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
         }
 
         // insure x0 is the correct critical point
-        pm = cumulativeProbability(x0);
+        pm = checkedCumulativeProbability(x0);
         while (pm > p) {
             --x0;
-            pm = cumulativeProbability(x0);
+            pm = checkedCumulativeProbability(x0);
         }
 
         return x0;
+    }
+
+    /**
+     * Computes the cumulative probablity function and checks for NaN values returned.
+     * Throws MathException if the value is NaN. Wraps and rethrows any MathException encountered
+     * evaluating the cumulative probability function in a FunctionEvaluationException. Throws
+     * FunctionEvaluationException of the cumulative probability function returns NaN.
+     *
+     * @param argument input value
+     * @return cumulative probability
+     * @throws FunctionEvaluationException if a MathException occurs computing the cumulative probability
+     */
+    private double checkedCumulativeProbability(int argument) throws FunctionEvaluationException {
+        double result = Double.NaN;
+        try {
+            result = cumulativeProbability(argument);
+        } catch (MathException ex) {
+            throw new FunctionEvaluationException(ex, argument, ex.getPattern(), ex.getArguments());
+        }
+        if (Double.isNaN(result)) {
+            throw new FunctionEvaluationException(argument,
+                "Discrete cumulative probability function returned NaN for argument {0}", argument);
+        }
+        return result;
     }
 
     /**

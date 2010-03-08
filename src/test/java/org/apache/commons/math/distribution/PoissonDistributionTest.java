@@ -174,10 +174,8 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     
     /**
      * JIRA: MATH-282
-     * TODO: activate this test when MATH-282 is resolved
      */
     public void testCumulativeProbabilitySpecial() throws Exception {
-        /*
         PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         dist.setMean(9120);
         checkProbability(dist, 9075);
@@ -186,7 +184,6 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         checkProbability(dist, 5044);
         dist.setMean(6986);
         checkProbability(dist, 6950);
-        */
     }
     
     private void checkProbability(PoissonDistribution dist, double x) throws Exception {
@@ -197,23 +194,25 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 dist.getMean() + " x = " + x, p > 0);
     }
 
-    public void testLargeMeanInverseCumulativeProbability() {
+    public void testLargeMeanInverseCumulativeProbability() throws Exception {
         PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
-        while (mean <= 10000000.0) {
+        while (mean <= 100000.0) { // Extended test value: 1E7.  Reduced to limit run time.
             dist.setMean(mean);
-
             double p = 0.1;
             double dp = p;
-            while (p < 1.0) {
+            while (p < .99) { 
+                double ret = Double.NaN;
                 try {
-                    dist.inverseCumulativeProbability(p);
+                    ret = dist.inverseCumulativeProbability(p);
+                    // Verify that returned value satisties definition
+                    assertTrue(p >= dist.cumulativeProbability(ret));
+                    assertTrue(p < dist.cumulativeProbability(ret + 1));
                 } catch (MathException ex) {
                     fail("mean of " + mean + " and p of " + p + " caused " + ex.getMessage());
                 }
                 p += dp;
             }
-
             mean *= 10.0;
         }
     }

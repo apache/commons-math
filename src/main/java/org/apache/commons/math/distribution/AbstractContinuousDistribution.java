@@ -23,6 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 
 /**
@@ -38,6 +39,9 @@ public abstract class AbstractContinuousDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
+
+    /** Solver absolute accuracy for inverse cum computation */
+    private double solverAbsoluteAccuracy = BrentSolver.DEFAULT_ABSOLUTE_ACCURACY;
 
     /**
      * Default constructor.
@@ -69,11 +73,17 @@ public abstract class AbstractContinuousDistribution
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
             public double value(double x) throws FunctionEvaluationException {
+                double ret = Double.NaN;
                 try {
-                    return cumulativeProbability(x) - p;
+                    ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
                     throw new FunctionEvaluationException(ex, x, ex.getPattern(), ex.getArguments());
                 }
+                if (Double.isNaN(ret)) {
+                    throw new FunctionEvaluationException(x,
+                        "Cumulative probability function returned NaN for argument {0} p = {1}", x, p);
+                }
+                return ret;
             }
         };
 
@@ -90,9 +100,6 @@ public abstract class AbstractContinuousDistribution
              * Check domain endpoints to see if one gives value that is within
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the
              * case if density has bounded support and p is 0 or 1).
-             *
-             * TODO: expose the default solver, defaultAbsoluteAccuracy as
-             * a constant.
              */
             if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
                 return lowerBound;
@@ -106,7 +113,9 @@ public abstract class AbstractContinuousDistribution
 
         // find root
         double root = UnivariateRealSolverUtils.solve(rootFindingFunction,
-                bracket[0],bracket[1]);
+                // override getSolverAbsoluteAccuracy() to use a Brent solver with
+                // absolute accuracy different from BrentSolver default
+                bracket[0],bracket[1], getSolverAbsoluteAccuracy());
         return root;
     }
 
@@ -141,4 +150,13 @@ public abstract class AbstractContinuousDistribution
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
     protected abstract double getDomainUpperBound(double p);
+
+    /**
+     * Returns the solver absolute accuracy for inverse cum computation.
+     *
+     * @return the maximum absolute error in inverse cumulative probability estimates
+     */
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
+    }
 }

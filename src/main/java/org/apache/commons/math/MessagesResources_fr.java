@@ -215,6 +215,8 @@ public class MessagesResources_fr
       "Divergence de fraction continue \u00e0 l''infini pour la valeur {0}" },
     { "Continued fraction convergents failed to converge for value {0}",
       "\u00c9chec de convergence de fraction continue pour la valeur {0}" },
+    { "Continued fraction diverged to NaN for value {0}",
+      "Divergence de fraction continue \u00e0 NaN pour la valeur {0}"},
 
     // org.apache.commons.math.util.DefaultTransformer
     { "Conversion Exception in Transformation, Object is null",
@@ -734,6 +736,15 @@ public class MessagesResources_fr
    { "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
      "la borne inf\u00e9rieure ({0}) devrait \u00eatre inf\u00e9rieure " +
      "ou \u00e9gale \u00e0 la borne sup\u00e9rieure ({1})" },
+
+   // org.apache.commons.math.distribution.AbstractContinuousDistribution
+   { "Cumulative probability function returned NaN for argument {0} p = {1}",
+     "Fonction de probabilit\u00e9 cumulative retourn\u00e9 NaN \u00e0 l''argument de {0} p = {1}" },
+
+   // org.apache.commons.math.distribution.AbstractIntegerDistribution
+   { "Discrete cumulative probability function returned NaN for argument {0}",
+     "Discr\u00e8tes fonction de probabilit\u00e9 cumulative retourn\u00e9 NaN \u00e0 l''argument de {0}" },
+
 
    // org.apache.commons.math.distribution.BinomialDistributionImpl
    { "number of trials must be non-negative ({0})",

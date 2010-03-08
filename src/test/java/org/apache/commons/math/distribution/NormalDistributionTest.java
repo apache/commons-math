@@ -48,8 +48,8 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     @Override
     public double[] makeCumulativeTestPoints() {
         // quantiles computed using R
-        return new double[] {-2.226325d, -1.156887d, -0.6439496d, -0.2027951d, 0.3058278d,
-                6.426325d, 5.356887d, 4.84395d, 4.402795d, 3.894172d};
+        return new double[] {-2.226325228634938d, -1.156887023657177d, -0.643949578356075d, -0.2027950777320613d, 0.305827808237559d,
+                6.42632522863494d, 5.35688702365718d, 4.843949578356074d, 4.40279507773206d, 3.89417219176244d};
     }
 
     /** Creates the default cumulative probability density test expected values */
@@ -60,10 +60,11 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     // --------------------- Override tolerance  --------------
+    protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(1E-6);
+        setTolerance(defaultTolerance);
     }
 
     //---------------------------- Additional test cases -------------------------
@@ -73,11 +74,11 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         double mu = distribution.getMean();
         double sigma = distribution.getStandardDeviation();
         setCumulativeTestPoints( new double[] {mu - 2 *sigma, mu - sigma,
-                mu, mu + sigma, mu +2 * sigma,  mu +3 * sigma, mu + 4 * sigma,
+                mu, mu + sigma, mu + 2 * sigma,  mu + 3 * sigma, mu + 4 * sigma,
                 mu + 5 * sigma});
         // Quantiles computed using R (same as Mathematica)
-        setCumulativeTestValues(new double[] {0.02275013, 0.1586553, 0.5, 0.8413447,
-                0.9772499, 0.9986501, 0.9999683,  0.9999997});
+        setCumulativeTestValues(new double[] {0.02275013194817921, 0.158655253931457, 0.5, 0.841344746068543,
+                0.977249868051821, 0.99865010196837, 0.999968328758167,  0.999999713348428});
         verifyCumulativeProbabilities();
     }
 
@@ -166,8 +167,14 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
 
     public void testMath280() throws MathException {
         NormalDistribution normal = new NormalDistributionImpl(0,1);
-        double result = normal.inverseCumulativeProbability(0.9772498680518209);
-        assertEquals(2.0, result, 1.0e-12);
+        double result = normal.inverseCumulativeProbability(0.9986501019683698);
+        assertEquals(3.0, result, defaultTolerance);
+        result = normal.inverseCumulativeProbability(0.841344746068543);
+        assertEquals(1.0, result, defaultTolerance);
+        result = normal.inverseCumulativeProbability(0.9999683287581673);
+        assertEquals(4.0, result, defaultTolerance);
+        result = normal.inverseCumulativeProbability(0.9772498680518209);
+        assertEquals(2.0, result, defaultTolerance);
     }
 
 }

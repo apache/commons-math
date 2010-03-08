@@ -32,6 +32,12 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
 
+    /** Default absolute accuracy */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1E-6;
+
+    /** Default maximum number of iterations */
+    public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
+
     /** Error message for non-bracketing interval. */
     private static final String NON_BRACKETING_MESSAGE =
         "function values at endpoints do not have different signs.  " +
@@ -51,14 +57,33 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      */
     @Deprecated
     public BrentSolver(UnivariateRealFunction f) {
-        super(f, 100, 1E-6);
+        super(f, DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
     }
 
     /**
-     * Construct a solver.
+     * Construct a solver with default properties.
      */
     public BrentSolver() {
-        super(100, 1E-6);
+        super(DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Construct a solver with the given absolute accuracy.
+     *
+     * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
+     */
+    public BrentSolver(double absoluteAccuracy) {
+        super(DEFAULT_MAXIMUM_ITERATIONS, absoluteAccuracy);
+    }
+
+    /**
+     * Contstruct a solver with the given maximum iterations and absolute accuracy.
+     *
+     * @param maximumIterations maximum number of iterations
+     * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
+     */
+    public BrentSolver(int maximumIterations, double absoluteAccuracy) {
+        super(maximumIterations, absoluteAccuracy);
     }
 
     /** {@inheritDoc} */
