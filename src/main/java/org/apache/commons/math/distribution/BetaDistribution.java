@@ -27,10 +27,12 @@ import org.apache.commons.math.MathException;
  */
 public interface BetaDistribution extends ContinuousDistribution, HasDensity<Double> {
     /**
-      * Modify the shape parameter, alpha.
-      * @param alpha the new shape parameter.
-      */
-     void setAlpha(double alpha);
+     * Modify the shape parameter, alpha.
+     * @param alpha the new shape parameter.
+     * @deprecated as of 2.1
+     */
+    @Deprecated
+    void setAlpha(double alpha);
 
      /**
       * Access the shape parameter, alpha
@@ -41,7 +43,9 @@ public interface BetaDistribution extends ContinuousDistribution, HasDensity<Dou
      /**
       * Modify the shape parameter, beta.
       * @param beta the new scale parameter.
+      * @deprecated as of 2.1
       */
+     @Deprecated
      void setBeta(double beta);
 
      /**

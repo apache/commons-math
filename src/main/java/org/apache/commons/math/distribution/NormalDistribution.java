@@ -39,7 +39,9 @@ public interface NormalDistribution extends ContinuousDistribution, HasDensity<D
     /**
      * Modify the mean.
      * @param mean for this distribution
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setMean(double mean);
     /**
      * Access the standard deviation.
@@ -49,7 +51,9 @@ public interface NormalDistribution extends ContinuousDistribution, HasDensity<D
     /**
      * Modify the standard deviation.
      * @param sd standard deviation for this distribution
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setStandardDeviation(double sd);
 
     /**

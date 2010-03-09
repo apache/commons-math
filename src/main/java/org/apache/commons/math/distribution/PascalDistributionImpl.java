@@ -48,8 +48,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      */
     public PascalDistributionImpl(int r, double p) {
         super();
-        setNumberOfSuccesses(r);
-        setProbabilityOfSuccess(p);
+        setNumberOfSuccessesInternal(r);
+        setProbabilityOfSuccessInternal(p);
     }
 
     /**
@@ -73,8 +73,19 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * @param successes the new number of successes
      * @throws IllegalArgumentException if <code>successes</code> is not
      *         positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setNumberOfSuccesses(int successes) {
+        setNumberOfSuccessesInternal(successes);
+    }
+    /**
+     * Change the number of successes for this distribution.
+     * @param successes the new number of successes
+     * @throws IllegalArgumentException if <code>successes</code> is not
+     *         positive.
+     */
+    private void setNumberOfSuccessesInternal(int successes) {
         if (successes < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "number of successes must be non-negative ({0})",
@@ -88,8 +99,19 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      * @param p the new probability of success
      * @throws IllegalArgumentException if <code>p</code> is not a valid
      *         probability.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setProbabilityOfSuccess(double p) {
+        setProbabilityOfSuccessInternal(p);
+    }
+    /**
+     * Change the probability of success for this distribution.
+     * @param p the new probability of success
+     * @throws IllegalArgumentException if <code>p</code> is not a valid
+     *         probability.
+     */
+    private void setProbabilityOfSuccessInternal(double p) {
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
@@ -135,8 +157,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = Beta.regularizedBeta(getProbabilityOfSuccess(),
-                getNumberOfSuccesses(), x + 1);
+            ret = Beta.regularizedBeta(probabilityOfSuccess,
+                numberOfSuccesses, x + 1);
         }
         return ret;
     }
@@ -152,9 +174,9 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
             ret = 0.0;
         } else {
             ret = MathUtils.binomialCoefficientDouble(x +
-                  getNumberOfSuccesses() - 1, getNumberOfSuccesses() - 1) *
-                  Math.pow(getProbabilityOfSuccess(), getNumberOfSuccesses()) *
-                  Math.pow(1.0 - getProbabilityOfSuccess(), x);
+                  numberOfSuccesses - 1, numberOfSuccesses - 1) *
+                  Math.pow(probabilityOfSuccess, numberOfSuccesses) *
+                  Math.pow(1.0 - probabilityOfSuccess, x);
         }
         return ret;
     }

@@ -60,7 +60,10 @@ public class BetaDistributionImpl
         z = Double.NaN;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
+     */
+    @Deprecated
     public void setAlpha(double alpha) {
         this.alpha = alpha;
         z = Double.NaN;
@@ -71,7 +74,10 @@ public class BetaDistributionImpl
         return alpha;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
+     */
+    @Deprecated
     public void setBeta(double beta) {
         this.beta = beta;
         z = Double.NaN;

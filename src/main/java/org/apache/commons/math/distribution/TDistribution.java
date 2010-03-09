@@ -33,7 +33,9 @@ public interface TDistribution extends ContinuousDistribution {
     /**
      * Modify the degrees of freedom.
      * @param degreesOfFreedom the new degrees of freedom.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setDegreesOfFreedom(double degreesOfFreedom);
 
     /**

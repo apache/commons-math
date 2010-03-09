@@ -33,7 +33,9 @@ public interface ExponentialDistribution extends ContinuousDistribution, HasDens
     /**
      * Modify the mean.
      * @param mean the new mean.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setMean(double mean);
 
     /**

@@ -49,8 +49,8 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      */
     public ZipfDistributionImpl(final int numberOfElements, final double exponent)
         throws IllegalArgumentException {
-        setNumberOfElements(numberOfElements);
-        setExponent(exponent);
+        setNumberOfElementsInternal(numberOfElements);
+        setExponentInternal(exponent);
     }
 
     /**
@@ -69,8 +69,21 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      *
      * @param n the number of elements
      * @exception IllegalArgumentException if n &le; 0
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
-    public void setNumberOfElements(final int n)
+    @Deprecated
+    public void setNumberOfElements(final int n) {
+        setNumberOfElementsInternal(n);
+    }
+    /**
+     * Set the number of elements (e.g. corpus size) for the distribution.
+     * The parameter value must be positive; otherwise an
+     * <code>IllegalArgumentException</code> is thrown.
+     *
+     * @param n the number of elements
+     * @exception IllegalArgumentException if n &le; 0
+     */
+    private void setNumberOfElementsInternal(final int n)
         throws IllegalArgumentException {
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -96,8 +109,21 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      *
      * @param s the exponent
      * @exception IllegalArgumentException if s &le; 0.0
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
-    public void setExponent(final double s)
+    @Deprecated
+    public void setExponent(final double s) {
+        setExponentInternal(s);
+    }
+    /**
+     * Set the exponent characterising the distribution.
+     * The parameter value must be positive; otherwise an
+     * <code>IllegalArgumentException</code> is thrown.
+     *
+     * @param s the exponent
+     * @exception IllegalArgumentException if s &le; 0.0
+     */
+    private void setExponentInternal(final double s)
         throws IllegalArgumentException {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -114,7 +140,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      * @return the value of the probability mass function at x
      */
     public double probability(final int x) {
-        if (x <= 0 || x > getNumberOfElements()) {
+        if (x <= 0 || x > numberOfElements) {
             return 0.0;
         }
 
@@ -132,7 +158,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     public double cumulativeProbability(final int x) {
         if (x <= 0) {
             return 0.0;
-        } else if (x >= getNumberOfElements()) {
+        } else if (x >= numberOfElements) {
             return 1.0;
         }
 

@@ -65,9 +65,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
                             "sample size ({0}) must be less than or equal to population size ({1})",
                             sampleSize, populationSize);
         }
-        setPopulationSize(populationSize);
-        setSampleSize(sampleSize);
-        setNumberOfSuccesses(numberOfSuccesses);
+
+        setPopulationSizeInternal(populationSize);
+        setSampleSizeInternal(sampleSize);
+        setNumberOfSuccessesInternal(numberOfSuccesses);
     }
 
     /**
@@ -80,17 +81,14 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     public double cumulativeProbability(int x) {
         double ret;
 
-        int n = getPopulationSize();
-        int m = getNumberOfSuccesses();
-        int k = getSampleSize();
-
-        int[] domain = getDomain(n, m, k);
+        int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
         if (x < domain[0]) {
             ret = 0.0;
         } else if (x >= domain[1]) {
             ret = 1.0;
         } else {
-            ret = innerCumulativeProbability(domain[0], x, 1, n, m, k);
+            ret = innerCumulativeProbability(domain[0], x, 1, populationSize,
+                                             numberOfSuccesses, sampleSize);
         }
 
         return ret;
@@ -119,8 +117,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     @Override
     protected int getDomainLowerBound(double p) {
-        return getLowerDomain(getPopulationSize(), getNumberOfSuccesses(),
-                getSampleSize());
+        return getLowerDomain(populationSize, numberOfSuccesses, sampleSize);
     }
 
     /**
@@ -133,7 +130,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     @Override
     protected int getDomainUpperBound(double p) {
-        return getUpperDomain(getSampleSize(), getNumberOfSuccesses());
+        return getUpperDomain(sampleSize, numberOfSuccesses);
     }
 
     /**
@@ -197,23 +194,19 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     public double probability(int x) {
         double ret;
 
-        int m = getPopulationSize();
-        int s = getNumberOfSuccesses();
-        int f = m - s;
-        int k = getSampleSize();
-
-        int[] domain = getDomain(m, s, k);
+        int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
         if (x < domain[0] || x > domain[1]) {
             ret = 0.0;
         } else {
-            double p = (double) sampleSize / (double) m;
-            double q = (double) (m - sampleSize) / (double) m;
+            double p = (double) sampleSize / (double) populationSize;
+            double q = (double) (populationSize - sampleSize) / (double) populationSize;
             double p1 = SaddlePointExpansion.logBinomialProbability(x,
                     numberOfSuccesses, p, q);
             double p2 =
-                SaddlePointExpansion.logBinomialProbability(sampleSize - x, f, p, q);
+                SaddlePointExpansion.logBinomialProbability(sampleSize - x,
+                    populationSize - numberOfSuccesses, p, q);
             double p3 =
-                SaddlePointExpansion.logBinomialProbability(sampleSize, m, p, q);
+                SaddlePointExpansion.logBinomialProbability(sampleSize, populationSize, p, q);
             ret = Math.exp(p1 + p2 - p3);
         }
 
@@ -241,8 +234,19 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      *
      * @param num the new number of successes.
      * @throws IllegalArgumentException if <code>num</code> is negative.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setNumberOfSuccesses(int num) {
+        setNumberOfSuccessesInternal(num);
+    }
+    /**
+     * Modify the number of successes.
+     *
+     * @param num the new number of successes.
+     * @throws IllegalArgumentException if <code>num</code> is negative.
+     */
+    private void setNumberOfSuccessesInternal(int num) {
         if (num < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "number of successes must be non-negative ({0})", num);
@@ -255,8 +259,19 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      *
      * @param size the new population size.
      * @throws IllegalArgumentException if <code>size</code> is not positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setPopulationSize(int size) {
+        setPopulationSizeInternal(size);
+    }
+    /**
+     * Modify the population size.
+     *
+     * @param size the new population size.
+     * @throws IllegalArgumentException if <code>size</code> is not positive.
+     */
+    private void setPopulationSizeInternal(int size) {
         if (size <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "population size must be positive ({0})", size);
@@ -269,8 +284,19 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      *
      * @param size the new sample size.
      * @throws IllegalArgumentException if <code>size</code> is negative.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setSampleSize(int size) {
+        setSampleSizeInternal(size);
+    }
+    /**
+     * Modify the sample size.
+     *
+     * @param size the new sample size.
+     * @throws IllegalArgumentException if <code>size</code> is negative.
+     */
+    private void setSampleSizeInternal(int size) {
         if (size < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
                     "sample size must be positive ({0})", size);
@@ -288,17 +314,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     public double upperCumulativeProbability(int x) {
         double ret;
 
-        int n = getPopulationSize();
-        int m = getNumberOfSuccesses();
-        int k = getSampleSize();
-
-        int[] domain = getDomain(n, m, k);
+        final int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
         if (x < domain[0]) {
             ret = 1.0;
         } else if (x > domain[1]) {
             ret = 0.0;
         } else {
-            ret = innerCumulativeProbability(domain[1], x, -1, n, m, k);
+            ret = innerCumulativeProbability(domain[1], x, -1, populationSize, numberOfSuccesses, sampleSize);
         }
 
         return ret;

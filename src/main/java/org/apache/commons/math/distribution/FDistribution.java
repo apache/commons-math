@@ -33,7 +33,9 @@ public interface FDistribution extends ContinuousDistribution {
     /**
      * Modify the numerator degrees of freedom.
      * @param degreesOfFreedom the new numerator degrees of freedom.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setNumeratorDegreesOfFreedom(double degreesOfFreedom);
 
     /**
@@ -45,7 +47,9 @@ public interface FDistribution extends ContinuousDistribution {
     /**
      * Modify the denominator degrees of freedom.
      * @param degreesOfFreedom the new denominator degrees of freedom.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setDenominatorDegreesOfFreedom(double degreesOfFreedom);
 
     /**

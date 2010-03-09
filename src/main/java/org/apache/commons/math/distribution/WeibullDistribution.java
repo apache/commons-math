@@ -51,12 +51,16 @@ public interface WeibullDistribution extends ContinuousDistribution {
     /**
      * Modify the shape parameter.
      * @param alpha The new shape parameter value.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setShape(double alpha);
 
     /**
      * Modify the scale parameter.
      * @param beta The new scale parameter value.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setScale(double beta);
 }

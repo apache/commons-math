@@ -33,7 +33,9 @@ public interface GammaDistribution extends ContinuousDistribution, HasDensity<Do
     /**
      * Modify the shape parameter, alpha.
      * @param alpha the new shape parameter.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setAlpha(double alpha);
 
     /**
@@ -45,7 +47,9 @@ public interface GammaDistribution extends ContinuousDistribution, HasDensity<Do
     /**
      * Modify the scale parameter, beta.
      * @param beta the new scale parameter.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setBeta(double beta);
 
     /**

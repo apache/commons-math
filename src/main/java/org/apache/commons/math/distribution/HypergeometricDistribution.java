@@ -53,19 +53,24 @@ public interface HypergeometricDistribution extends IntegerDistribution {
     /**
      * Modify the number of successes.
      * @param num the new number of successes.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setNumberOfSuccesses(int num);
 
     /**
      * Modify the population size.
      * @param size the new population size.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setPopulationSize(int size);
 
     /**
      * Modify the sample size.
      * @param size the new sample size.
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setSampleSize(int size);
-
 }

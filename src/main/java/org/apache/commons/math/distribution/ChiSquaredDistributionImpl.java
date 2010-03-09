@@ -48,19 +48,31 @@ public class ChiSquaredDistributionImpl
      * @param df degrees of freedom.
      * @param g the underlying gamma distribution used to compute probabilities.
      * @since 1.2
+     * @deprecated as of 2.1 (to avoid possibly inconsistent state, the
+     * "GammaDistribution" will be instantiated internally)
      */
+    @Deprecated
     public ChiSquaredDistributionImpl(double df, GammaDistribution g) {
         super();
-        setGamma(g);
-        setDegreesOfFreedom(df);
+        setGammaInternal(g);
+        setDegreesOfFreedomInternal(df);
     }
 
     /**
      * Modify the degrees of freedom.
      * @param degreesOfFreedom the new degrees of freedom.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
-        getGamma().setAlpha(degreesOfFreedom / 2.0);
+        setDegreesOfFreedomInternal(degreesOfFreedom);
+    }
+    /**
+     * Modify the degrees of freedom.
+     * @param degreesOfFreedom the new degrees of freedom.
+     */
+    private void setDegreesOfFreedomInternal(double degreesOfFreedom) {
+        gamma.setAlpha(degreesOfFreedom / 2.0);
     }
 
     /**
@@ -68,7 +80,7 @@ public class ChiSquaredDistributionImpl
      * @return the degrees of freedom.
      */
     public double getDegreesOfFreedom() {
-        return getGamma().getAlpha() * 2.0;
+        return gamma.getAlpha() * 2.0;
     }
 
     /**
@@ -89,7 +101,7 @@ public class ChiSquaredDistributionImpl
      *            computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
-        return getGamma().cumulativeProbability(x);
+        return gamma.cumulativeProbability(x);
     }
 
     /**
@@ -128,7 +140,7 @@ public class ChiSquaredDistributionImpl
      */
     @Override
     protected double getDomainLowerBound(double p) {
-        return Double.MIN_VALUE * getGamma().getBeta();
+        return Double.MIN_VALUE * gamma.getBeta();
     }
 
     /**
@@ -189,8 +201,19 @@ public class ChiSquaredDistributionImpl
      * insuring the gamma distribution has the proper parameter settings.
      * @param g the new distribution.
      * @since 1.2 made public
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setGamma(GammaDistribution g) {
+        setGammaInternal(g);
+    }
+    /**
+     * Modify the underlying gamma distribution.  The caller is responsible for
+     * insuring the gamma distribution has the proper parameter settings.
+     * @param g the new distribution.
+     * @since 1.2 made public
+     */
+    private void setGammaInternal(GammaDistribution g) {
         this.gamma = g;
 
     }

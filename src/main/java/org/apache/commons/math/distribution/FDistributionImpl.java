@@ -51,10 +51,10 @@ public class FDistributionImpl
      * @param denominatorDegreesOfFreedom the denominator degrees of freedom.
      */
     public FDistributionImpl(double numeratorDegreesOfFreedom,
-            double denominatorDegreesOfFreedom) {
+                             double denominatorDegreesOfFreedom) {
         super();
-        setNumeratorDegreesOfFreedom(numeratorDegreesOfFreedom);
-        setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
+        setNumeratorDegreesOfFreedomInternal(numeratorDegreesOfFreedom);
+        setDenominatorDegreesOfFreedomInternal(denominatorDegreesOfFreedom);
     }
 
     /**
@@ -77,8 +77,8 @@ public class FDistributionImpl
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            double n = getNumeratorDegreesOfFreedom();
-            double m = getDenominatorDegreesOfFreedom();
+            double n = numeratorDegreesOfFreedom;
+            double m = denominatorDegreesOfFreedom;
 
             ret = Beta.regularizedBeta((n * x) / (m + n * x),
                 0.5 * n,
@@ -151,7 +151,7 @@ public class FDistributionImpl
     @Override
     protected double getInitialDomain(double p) {
         double ret = 1.0;
-        double d = getDenominatorDegreesOfFreedom();
+        double d = denominatorDegreesOfFreedom;
         if (d > 2.0) {
             // use mean
             ret = d / (d - 2.0);
@@ -164,8 +164,20 @@ public class FDistributionImpl
      * @param degreesOfFreedom the new numerator degrees of freedom.
      * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
      *         positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
+        setNumeratorDegreesOfFreedomInternal(degreesOfFreedom);
+    }
+
+    /**
+     * Modify the numerator degrees of freedom.
+     * @param degreesOfFreedom the new numerator degrees of freedom.
+     * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
+     *         positive.
+     */
+    private void setNumeratorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
@@ -186,8 +198,20 @@ public class FDistributionImpl
      * @param degreesOfFreedom the new denominator degrees of freedom.
      * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
      *         positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
+        setDenominatorDegreesOfFreedomInternal(degreesOfFreedom);
+    }
+
+    /**
+     * Modify the denominator degrees of freedom.
+     * @param degreesOfFreedom the new denominator degrees of freedom.
+     * @throws IllegalArgumentException if <code>degreesOfFreedom</code> is not
+     *         positive.
+     */
+    private void setDenominatorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);

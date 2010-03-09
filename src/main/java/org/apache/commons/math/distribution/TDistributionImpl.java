@@ -44,14 +44,23 @@ public class TDistributionImpl
      */
     public TDistributionImpl(double degreesOfFreedom) {
         super();
-        setDegreesOfFreedom(degreesOfFreedom);
+        setDegreesOfFreedomInternal(degreesOfFreedom);
     }
 
     /**
      * Modify the degrees of freedom.
      * @param degreesOfFreedom the new degrees of freedom.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
+        setDegreesOfFreedomInternal(degreesOfFreedom);
+    }
+    /**
+     * Modify the degrees of freedom.
+     * @param degreesOfFreedom the new degrees of freedom.
+     */
+    private void setDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "degrees of freedom must be positive ({0})",
@@ -82,8 +91,8 @@ public class TDistributionImpl
         } else {
             double t =
                 Beta.regularizedBeta(
-                    getDegreesOfFreedom() / (getDegreesOfFreedom() + (x * x)),
-                    0.5 * getDegreesOfFreedom(),
+                    degreesOfFreedom / (degreesOfFreedom + (x * x)),
+                    0.5 * degreesOfFreedom,
                     0.5);
             if (x < 0.0) {
                 ret = 0.5 * t;

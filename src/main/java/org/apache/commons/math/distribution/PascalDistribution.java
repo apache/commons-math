@@ -57,13 +57,17 @@ public interface PascalDistribution extends IntegerDistribution {
      * Change the number of successes for this distribution.
      *
      * @param successes the new number of successes
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setNumberOfSuccesses(int successes);
 
     /**
      * Change the probability of success for this distribution.
      *
      * @param p the new probability of success
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setProbabilityOfSuccess(double p);
 }

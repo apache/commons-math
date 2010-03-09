@@ -47,7 +47,9 @@ public interface PoissonDistribution extends IntegerDistribution {
      *
      * @param p the mean
      * @throws IllegalArgumentException if p &le; 0
+     * @deprecated as of v2.1
      */
+    @Deprecated
     void setMean(double p);
 
     /**

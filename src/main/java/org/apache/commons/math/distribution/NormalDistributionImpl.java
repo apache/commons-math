@@ -70,8 +70,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      */
     public NormalDistributionImpl(double mean, double sd, double inverseCumAccuracy) {
         super();
-        this.mean = mean;
-        this.standardDeviation = sd;
+        setMeanInternal(mean);
+        setStandardDeviationInternal(sd);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -94,8 +94,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * Modify the mean.
      * @param mean for this distribution
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setMean(double mean) {
+        setMeanInternal(mean);
+    }
+    /**
+     * Modify the mean.
+     * @param mean for this distribution
+     */
+    private void setMeanInternal(double mean) {
         this.mean = mean;
     }
 
@@ -111,8 +120,18 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * Modify the standard deviation.
      * @param sd standard deviation for this distribution
      * @throws IllegalArgumentException if <code>sd</code> is not positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setStandardDeviation(double sd) {
+        setStandardDeviationInternal(sd);
+    }
+    /**
+     * Modify the standard deviation.
+     * @param sd standard deviation for this distribution
+     * @throws IllegalArgumentException if <code>sd</code> is not positive.
+     */
+    private void setStandardDeviationInternal(double sd) {
         if (sd <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "standard deviation must be positive ({0})",
@@ -128,8 +147,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      */
     public double density(Double x) {
-        double x0 = x - getMean();
-        return Math.exp(-x0 * x0 / (2 * getStandardDeviation() * getStandardDeviation())) / (getStandardDeviation() * SQRT2PI);
+        double x0 = x - mean;
+        return Math.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
     }
 
     /**
@@ -208,7 +227,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         if (p < .5) {
             ret = -Double.MAX_VALUE;
         } else {
-            ret = getMean();
+            ret = mean;
         }
 
         return ret;
@@ -228,7 +247,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         double ret;
 
         if (p < .5) {
-            ret = getMean();
+            ret = mean;
         } else {
             ret = Double.MAX_VALUE;
         }
@@ -249,11 +268,11 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         double ret;
 
         if (p < .5) {
-            ret = getMean() - getStandardDeviation();
+            ret = mean - standardDeviation;
         } else if (p > .5) {
-            ret = getMean() + getStandardDeviation();
+            ret = mean + standardDeviation;
         } else {
-            ret = getMean();
+            ret = mean;
         }
 
         return ret;

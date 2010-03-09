@@ -46,8 +46,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     public GammaDistributionImpl(double alpha, double beta) {
         super();
-        setAlpha(alpha);
-        setBeta(beta);
+        setAlphaInternal(alpha);
+        setBetaInternal(beta);
     }
 
     /**
@@ -73,7 +73,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = Gamma.regularizedGammaP(getAlpha(), x / getBeta());
+            ret = Gamma.regularizedGammaP(alpha, x / beta);
         }
 
         return ret;
@@ -108,8 +108,19 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * Modify the shape parameter, alpha.
      * @param alpha the new shape parameter.
      * @throws IllegalArgumentException if <code>alpha</code> is not positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setAlpha(double alpha) {
+        setAlphaInternal(alpha);
+    }
+
+    /**
+     * Modify the shape parameter, alpha.
+     * @param alpha the new shape parameter.
+     * @throws IllegalArgumentException if <code>alpha</code> is not positive.
+     */
+    private void setAlphaInternal(double alpha) {
         if (alpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "alpha must be positive ({0})",
@@ -130,8 +141,19 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * Modify the scale parameter, beta.
      * @param beta the new scale parameter.
      * @throws IllegalArgumentException if <code>beta</code> is not positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setBeta(double beta) {
+        setBetaInternal(beta);
+    }
+
+    /**
+     * Modify the scale parameter, beta.
+     * @param beta the new scale parameter.
+     * @throws IllegalArgumentException if <code>beta</code> is not positive.
+     */
+    private void setBetaInternal(double beta) {
         if (beta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "beta must be positive ({0})",
@@ -156,7 +178,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     public double density(Double x) {
         if (x < 0) return 0;
-        return Math.pow(x / getBeta(), getAlpha() - 1) / getBeta() * Math.exp(-x / getBeta()) / Math.exp(Gamma.logGamma(getAlpha()));
+        return Math.pow(x / beta, alpha - 1) / beta * Math.exp(-x / beta) / Math.exp(Gamma.logGamma(alpha));
     }
 
     /**
@@ -193,7 +215,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
         if (p < .5) {
             // use mean
-            ret = getAlpha() * getBeta();
+            ret = alpha * beta;
         } else {
             // use max value
             ret = Double.MAX_VALUE;
@@ -219,10 +241,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
         if (p < .5) {
             // use 1/2 mean
-            ret = getAlpha() * getBeta() * .5;
+            ret = alpha * beta * .5;
         } else {
             // use mean
-            ret = getAlpha() * getBeta();
+            ret = alpha * beta;
         }
 
         return ret;

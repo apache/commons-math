@@ -55,8 +55,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      */
     public CauchyDistributionImpl(double median, double s){
         super();
-        setMedian(median);
-        setScale(s);
+        setMedianInternal(median);
+        setScaleInternal(s);
     }
 
     /**
@@ -115,8 +115,17 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * Modify the median.
      * @param median for this distribution
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setMedian(double median) {
+        setMedianInternal(median);
+    }
+    /**
+     * Modify the median.
+     * @param median for this distribution
+     */
+    private void setMedianInternal(double median) {
         this.median = median;
     }
 
@@ -124,8 +133,18 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * Modify the scale parameter.
      * @param s scale parameter for this distribution
      * @throws IllegalArgumentException if <code>sd</code> is not positive.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setScale(double s) {
+        setScaleInternal(s);
+    }
+    /**
+     * Modify the scale parameter.
+     * @param s scale parameter for this distribution
+     * @throws IllegalArgumentException if <code>sd</code> is not positive.
+     */
+    private void setScaleInternal(double s) {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "scale must be positive ({0})", s);
@@ -149,7 +168,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         if (p < .5) {
             ret = -Double.MAX_VALUE;
         } else {
-            ret = getMedian();
+            ret = median;
         }
 
         return ret;
@@ -169,7 +188,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         double ret;
 
         if (p < .5) {
-            ret = getMedian();
+            ret = median;
         } else {
             ret = Double.MAX_VALUE;
         }
@@ -190,11 +209,11 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         double ret;
 
         if (p < .5) {
-            ret = getMedian() - getScale();
+            ret = median - scale;
         } else if (p > .5) {
-            ret = getMedian() + getScale();
+            ret = median + scale;
         } else {
-            ret = getMedian();
+            ret = median;
         }
 
         return ret;

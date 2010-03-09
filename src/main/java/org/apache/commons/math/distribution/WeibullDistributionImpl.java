@@ -48,8 +48,8 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     public WeibullDistributionImpl(double alpha, double beta){
         super();
-        setShape(alpha);
-        setScale(beta);
+        setShapeInternal(alpha);
+        setScaleInternal(beta);
     }
 
     /**
@@ -62,7 +62,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - Math.exp(-Math.pow(x / getScale(), getShape()));
+            ret = 1.0 - Math.exp(-Math.pow(x / scale, shape));
         }
         return ret;
     }
@@ -106,7 +106,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = getScale() * Math.pow(-Math.log(1.0 - p), 1.0 / getShape());
+            ret = scale * Math.pow(-Math.log(1.0 - p), 1.0 / shape);
         }
         return ret;
     }
@@ -114,8 +114,17 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * Modify the shape parameter.
      * @param alpha the new shape parameter value.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setShape(double alpha) {
+        setShapeInternal(alpha);
+    }
+    /**
+     * Modify the shape parameter.
+     * @param alpha the new shape parameter value.
+     */
+    private void setShapeInternal(double alpha) {
         if (alpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "shape must be positive ({0})",
@@ -127,8 +136,17 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * Modify the scale parameter.
      * @param beta the new scale parameter value.
+     * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
+    @Deprecated
     public void setScale(double beta) {
+        setScaleInternal(beta);
+    }
+    /**
+     * Modify the scale parameter.
+     * @param beta the new scale parameter value.
+     */
+    private void setScaleInternal(double beta) {
         if (beta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "scale must be positive ({0})",
@@ -176,6 +194,6 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getInitialDomain(double p) {
         // use median
-        return Math.pow(getScale() * Math.log(2.0), 1.0 / getShape());
+        return Math.pow(scale * Math.log(2.0), 1.0 / shape);
     }
 }
