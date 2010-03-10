@@ -32,6 +32,14 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     public PascalDistributionTest(String name) {
         super(name);
     }
+    
+    // --------------------- Override tolerance  --------------
+    protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        setTolerance(defaultTolerance);
+    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -50,8 +58,9 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default probability density test expected values */
     @Override
     public double[] makeDensityTestValues() {
-      return new double[] {0d, 0.02824d, 0.08474d, 0.13982d,
-          0.16779d, 0.16359d, 0.1374d, 0.10306d, 0.070673d, 0.04505d, 0.02703d, 0.01540d, 0.0084};
+      return new double[] {0, 0.0282475249, 0.0847425747, 0.139825248255, 0.167790297906, 0.163595540458,
+              0.137420253985, 0.103065190489, 0.070673273478, 0.0450542118422, 0.0270325271053,
+              0.0154085404500, 0.0084046584273};
     }
 
     /** Creates the default cumulative probability density test input values */
@@ -63,8 +72,9 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-      return new double[] {0d, 0.02824d, 0.11299d, 0.25281d, 0.42060d, 0.58420d,
-          0.72162d, 0.82468d, 0.89535d, 0.94041d, 0.967446d, 0.98285, 0.99125d};
+      return new double[] {0, 0.0282475249, 0.1129900996, 0.252815347855, 0.420605645761, 0.584201186219,
+              0.721621440204, 0.824686630693, 0.895359904171, 0.940414116013, 0.967446643119,
+              0.982855183569, 0.991259841996};
         }
 
     /** Creates the default inverse cumulative probability test input values */
