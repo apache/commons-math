@@ -33,6 +33,8 @@ source("normalTestCases")
 source("poissonTestCases")
 source("hypergeometricTestCases")
 source("exponentialTestCases")
+source("cauchyTestCases.R")
+source("pascalTestCases")
 
 # regression
 source("regressionTestCases")
