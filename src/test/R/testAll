@@ -35,6 +35,7 @@ source("hypergeometricTestCases")
 source("exponentialTestCases")
 source("cauchyTestCases.R")
 source("pascalTestCases")
+source("TDistributionTestCases.R")
 
 # regression
 source("regressionTestCases")
