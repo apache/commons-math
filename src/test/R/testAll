@@ -36,6 +36,10 @@ source("exponentialTestCases")
 source("cauchyTestCases.R")
 source("pascalTestCases")
 source("TDistributionTestCases.R")
+source("FDistributionTestCases.R")
+source("GammaDistributionTestCases.R")
+source("WeibullDistributionTestCases.R")
+source("ChiSquareDistributionTestCases.R")
 
 # regression
 source("regressionTestCases")
