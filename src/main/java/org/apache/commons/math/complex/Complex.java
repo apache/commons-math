@@ -253,27 +253,18 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      */
     @Override
     public boolean equals(Object other) {
-        boolean ret;
-
         if (this == other) {
-            ret = true;
-        } else if (other == null) {
-            ret = false;
-        } else  {
-            try {
-                Complex rhs = (Complex)other;
-                if (rhs.isNaN()) {
-                    ret = this.isNaN();
-                } else {
-                    ret = (real == rhs.real) && (imaginary == rhs.imaginary);
-                }
-            } catch (ClassCastException ex) {
-                // ignore exception
-                ret = false;
+            return true;
+        }
+        if (other instanceof Complex){
+            Complex rhs = (Complex)other;
+            if (rhs.isNaN()) {
+                return this.isNaN();
+            } else {
+                return (real == rhs.real) && (imaginary == rhs.imaginary);
             }
         }
-
-        return ret;
+        return false;
     }
 
     /**

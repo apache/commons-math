@@ -538,12 +538,7 @@ class SimplexTableau implements Serializable {
         return true;
       }
 
-      if (other == null) {
-        return false;
-      }
-
-      try {
-
+      if (other instanceof SimplexTableau) {
           SimplexTableau rhs = (SimplexTableau) other;
           return (restrictToNonNegative  == rhs.restrictToNonNegative) &&
                  (numDecisionVariables   == rhs.numDecisionVariables) &&
@@ -553,12 +548,8 @@ class SimplexTableau implements Serializable {
                  f.equals(rhs.f) &&
                  constraints.equals(rhs.constraints) &&
                  tableau.equals(rhs.tableau);
-
-      } catch (ClassCastException ex) {
-          // ignore exception
-          return false;
       }
-
+      return false;
     }
 
     /** {@inheritDoc} */

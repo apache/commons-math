@@ -415,24 +415,15 @@ public class Vector3D
       return true;
     }
 
-    if (other == null) {
-      return false;
-    }
-
-    try {
-
+    if (other instanceof Vector3D) {
       final Vector3D rhs = (Vector3D)other;
       if (rhs.isNaN()) {
           return this.isNaN();
       }
 
       return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
-
-    } catch (ClassCastException ex) {
-        // ignore exception
-        return false;
     }
-
+    return false;
   }
 
   /**

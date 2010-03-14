@@ -338,26 +338,17 @@ public class Fraction
      */
     @Override
     public boolean equals(Object other) {
-        boolean ret;
-
         if (this == other) {
-            ret = true;
-        } else if (other == null) {
-            ret = false;
-        } else {
-            try {
-                // since fractions are always in lowest terms, numerators and
-                // denominators can be compared directly for equality.
-                Fraction rhs = (Fraction)other;
-                ret = (numerator == rhs.numerator) &&
-                    (denominator == rhs.denominator);
-            } catch (ClassCastException ex) {
-                // ignore exception
-                ret = false;
-            }
+            return true;
         }
-
-        return ret;
+        if (other instanceof Fraction) {
+            // since fractions are always in lowest terms, numerators and
+            // denominators can be compared directly for equality.
+            Fraction rhs = (Fraction)other;
+            return (numerator == rhs.numerator) &&
+                (denominator == rhs.denominator);
+        }
+        return false;
     }
 
     /**

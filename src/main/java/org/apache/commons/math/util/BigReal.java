@@ -264,14 +264,14 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
-        try {
-            if (other == null) {
-                return false;
-            }
-            return d.equals(((BigReal) other).d);
-        } catch (ClassCastException cce) {
-            return false;
+        if (this == other){
+            return true;
         }
+ 
+        if (other instanceof BigReal){
+            return d.equals(((BigReal) other).d);            
+        }
+        return false;
     }
 
     /** {@inheritDoc} */

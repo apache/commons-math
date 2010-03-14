@@ -192,22 +192,13 @@ public class LinearConstraint implements Serializable {
         return true;
       }
 
-      if (other == null) {
-        return false;
-      }
-
-      try {
-
+      if (other instanceof LinearConstraint) {
           LinearConstraint rhs = (LinearConstraint) other;
           return (relationship == rhs.relationship) &&
                  (value        == rhs.value) &&
                  coefficients.equals(rhs.coefficients);
-
-      } catch (ClassCastException ex) {
-          // ignore exception
-          return false;
       }
-
+      return false;
     }
 
     /** {@inheritDoc} */

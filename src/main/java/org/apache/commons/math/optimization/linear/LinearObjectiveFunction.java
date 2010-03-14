@@ -109,20 +109,12 @@ public class LinearObjectiveFunction implements Serializable {
         return true;
       }
 
-      if (other == null) {
-        return false;
-      }
-
-      try {
-
+      if (other instanceof LinearObjectiveFunction) {
           LinearObjectiveFunction rhs = (LinearObjectiveFunction) other;
           return (constantTerm == rhs.constantTerm) && coefficients.equals(rhs.coefficients);
-
-      } catch (ClassCastException ex) {
-          // ignore exception
-          return false;
       }
 
+      return false;
     }
 
     /** {@inheritDoc} */

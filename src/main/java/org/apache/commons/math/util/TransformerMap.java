@@ -158,10 +158,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
         if (this == other) {
             return true;
         }
-        if (other == null) {
-            return false;
-        }
-        try {
+        if (other instanceof TransformerMap) {
             TransformerMap rhs = (TransformerMap) other;
             if (! defaultTransformer.equals(rhs.defaultTransformer)) {
                 return false;
@@ -175,9 +172,8 @@ public class TransformerMap implements NumberTransformer, Serializable {
                 }
             }
             return true;
-        } catch (ClassCastException cce) {
-            return false;
         }
+        return false;
     }
 
     /** {@inheritDoc} */
