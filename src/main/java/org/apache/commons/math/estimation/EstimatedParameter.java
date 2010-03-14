@@ -44,7 +44,7 @@ public class EstimatedParameter
     protected double  estimate;
 
     /** Name of the parameter */
-    private   String  name;
+    private final String  name;
 
     /** Indicator for bound parameters
      * (ie parameters that should not be estimated)
