@@ -341,8 +341,6 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (!(obj instanceof PolynomialFunction))
             return false;
         PolynomialFunction other = (PolynomialFunction) obj;

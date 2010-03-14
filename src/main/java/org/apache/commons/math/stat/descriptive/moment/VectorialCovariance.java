@@ -135,8 +135,6 @@ public class VectorialCovariance implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (!(obj instanceof VectorialCovariance))
             return false;
         VectorialCovariance other = (VectorialCovariance) obj;

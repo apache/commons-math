@@ -615,10 +615,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             return true;
         }
 
-        if (obj == null) {
-            return false;
-        }
-
         if (!(obj instanceof SparseFieldVector<?>)) {
             return false;
         }

@@ -778,9 +778,6 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
         if (!(obj instanceof OpenMapRealVector)) {
             return false;
         }
