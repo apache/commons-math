@@ -65,7 +65,7 @@ public class Frequency implements Serializable {
      *
      * @param comparator Comparator used to order values
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // TODO is the cast OK?
     public Frequency(Comparator<?> comparator) {
         freqTable = new TreeMap<Comparable<?>, Long>((Comparator<? super Comparable<?>>) comparator);
     }
@@ -378,14 +378,14 @@ public class Frequency implements Serializable {
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */
-    @SuppressWarnings("unchecked")
-        public long getCumFreq(Comparable<?> v) {
+    public long getCumFreq(Comparable<?> v) {
         if (getSumFreq() == 0) {
             return 0;
         }
         if (v instanceof Integer) {
             return getCumFreq(((Integer) v).longValue());
         }
+        @SuppressWarnings("unchecked") // OK, freqTable is Comparable<?>
         Comparator<Comparable<?>> c = (Comparator<Comparable<?>>) freqTable.comparator();
         if (c == null) {
             c = new NaturalComparator();
@@ -557,7 +557,7 @@ public class Frequency implements Serializable {
          * @throws ClassCastException when <i>o1</i> is not a {@link Comparable Comparable},
          *         or when <code>((Comparable)o1).compareTo(o2)</code> does
          */
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") // cast to (T) may throw ClassCastException, see Javadoc
         public int compare(Comparable<T> o1, Comparable<T> o2) {
             return o1.compareTo((T) o2);
         }
@@ -578,8 +578,6 @@ public class Frequency implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
         if (!(obj instanceof Frequency))
             return false;
         Frequency other = (Frequency) obj;
