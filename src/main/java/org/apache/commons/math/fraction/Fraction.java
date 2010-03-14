@@ -383,7 +383,7 @@ public class Fraction
      */
     @Override
     public int hashCode() {
-        return 37 * (37 * 17 + getNumerator()) + getDenominator();
+        return 37 * (37 * 17 + numerator) + denominator;
     }
 
     /**
