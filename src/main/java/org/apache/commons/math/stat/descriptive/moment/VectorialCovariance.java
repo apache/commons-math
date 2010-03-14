@@ -34,13 +34,13 @@ public class VectorialCovariance implements Serializable {
     private static final long serialVersionUID = 4118372414238930270L;
 
     /** Sums for each component. */
-    private double[] sums;
+    private final double[] sums;
 
     /** Sums of products for each component. */
-    private double[] productsSums;
+    private final double[] productsSums;
 
     /** Indicator for bias correction. */
-    private boolean isBiasCorrected;
+    private final boolean isBiasCorrected;
 
     /** Number of vectors in the sample. */
     private long n;

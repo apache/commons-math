@@ -32,7 +32,7 @@ public class VectorialMean implements Serializable {
     private static final long serialVersionUID = 8223009086481006892L;
 
     /** Means for each component. */
-    private Mean[] means;
+    private final Mean[] means;
 
     /** Constructs a VectorialMean.
      * @param dimension vectors dimension
