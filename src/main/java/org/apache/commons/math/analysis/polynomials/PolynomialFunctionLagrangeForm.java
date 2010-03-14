@@ -45,12 +45,12 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     /**
      * Interpolating points (abscissas).
      */
-    private double x[];
+    private final double x[];
 
     /**
      * Function values at interpolating points.
      */
-    private double y[];
+    private final double y[];
 
     /**
      * Whether the polynomial coefficients are available.

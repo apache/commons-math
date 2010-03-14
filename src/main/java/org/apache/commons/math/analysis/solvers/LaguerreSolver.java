@@ -50,7 +50,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @deprecated as of 2.0 the function is not stored anymore in the instance
      */
     @Deprecated
-    private PolynomialFunction p;
+    private final PolynomialFunction p;
 
     /**
      * Construct a solver for the given function.
@@ -78,6 +78,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      */
     public LaguerreSolver() {
         super(100, 1E-6);
+        p = null;
     }
 
     /**

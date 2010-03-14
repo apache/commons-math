@@ -45,13 +45,13 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
     /**
      * Centers of the Newton polynomial.
      */
-    private double c[];
+    private final double c[];
 
     /**
      * When all c[i] = 0, a[] becomes normal polynomial coefficients,
      * i.e. a[i] = coefficients[i].
      */
-    private double a[];
+    private final double a[];
 
     /**
      * Whether the polynomial coefficients are available.
