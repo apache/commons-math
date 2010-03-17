@@ -24,6 +24,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Base class for {@link BivariateRealFunction} that can be composed with other functions.
  *
+ * @since 2.1
  * @version $Revision$ $Date$
  */
 public abstract class BinaryFunction implements BivariateRealFunction {
