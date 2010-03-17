@@ -93,10 +93,10 @@ public class KMeansPlusPlusClustererTest {
         assertTrue(cluster3Found);
 
     }
-    
+
     /**
      * JIRA: MATH-305
-     * 
+     *
      * Two points, one cluster, one iteration
      */
     @Test
@@ -114,6 +114,6 @@ public class KMeansPlusPlusClustererTest {
         assertTrue(clusters.get(0).getPoints().contains(pt1));
         assertTrue(clusters.get(0).getPoints().contains(pt2));
 
-    } 
+    }
 
 }

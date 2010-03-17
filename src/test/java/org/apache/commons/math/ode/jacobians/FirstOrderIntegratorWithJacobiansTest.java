@@ -190,14 +190,14 @@ public class FirstOrderIntegratorWithJacobiansTest {
         final FirstOrderIntegratorWithJacobians extInt =
             new FirstOrderIntegratorWithJacobians(integ, circle);
         extInt.addStepHandler(new StepHandlerWithJacobians() {
-            
+
             public void reset() {
             }
-            
+
             public boolean requiresDenseOutput() {
                 return false;
             }
-            
+
             public void handleStep(StepInterpolatorWithJacobians interpolator, boolean isLast)
                 throws DerivativeException {
                 double     t     = interpolator.getCurrentTime();
@@ -363,7 +363,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             dFdP[1][0] = -omega;
             dFdP[1][1] = 0;
             dFdP[1][2] = y[0] - cx;
- 
+
         }
 
         public double[] exactY(double t) {

@@ -164,9 +164,9 @@ before the call to integrate does the trick:
 <code><pre>
     StpeHandlerWithJacobians stepHandler = new StpeHandlerWithJacobians() {
             public void reset() {}
-            
+
             public boolean requiresDenseOutput() { return false; }
-            
+
             public void handleStep(StepInterpolatorWithJacobians interpolator, boolean isLast)
                 throws DerivativeException {
                 double   t = interpolator.getCurrentTime();
@@ -221,7 +221,7 @@ public class EnhancedCircleODE implements ODEWithJacobians {
         dFdP[1][0] = -omega;
         dFdP[1][1] = 0;
         dFdP[1][2] = y[0] - c[0];
- 
+
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * 
+ *
  */
 public class AbstractRealVectorTest extends TestCase {
     private double[] vec1 = { 1d, 2d, 3d, 4d, 5d };
@@ -23,7 +23,7 @@ public class AbstractRealVectorTest extends TestCase {
 
         @Override
         public double[] getData() { return values; }
-        
+
         @Override
         public AbstractRealVector copy() {
             return new TestVectorImpl(values.clone());

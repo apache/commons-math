@@ -216,7 +216,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             fail("wrong exception caught");
         }
     }
-    
+
     /**
      * MATH-298
      */
@@ -228,7 +228,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         double[] expectedGeneratorUpperBounds = {4d/13d, 7d/13d, 9d/13d, 11d/13d, 1};
         double tol = 10E-12;
         TestUtils.assertEquals(expectedBinUpperBounds, dist.getUpperBounds(), tol);
-        TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);  
+        TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
     }
 
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {

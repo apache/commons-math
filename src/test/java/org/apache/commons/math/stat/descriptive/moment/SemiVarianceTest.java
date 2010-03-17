@@ -70,7 +70,7 @@ public class SemiVarianceTest extends TestCase {
         final double upsideSemiVariance = sv.evaluate(values);
         assertEquals(TestUtils.sumSquareDev(new double[] {22d, 11d, 14d}, mean) / (length - 1),
                 upsideSemiVariance, 1E-14);
-        
+
         // Verify that upper + lower semivariance against the mean sum to variance
         assertEquals(StatUtils.variance(values), downsideSemiVariance + upsideSemiVariance, 10e-12);
     }
@@ -131,12 +131,12 @@ public class SemiVarianceTest extends TestCase {
         double upper = sv.evaluate(values, target);
         assertEquals(totalSumOfSquares / (values.length - 1), lower + upper, 10e-12);
     }
-    
+
     public void testNoVariance() {
         final double[] values = {100d, 100d, 100d, 100d};
         SemiVariance sv = new SemiVariance();
         assertEquals(0, sv.evaluate(values), 10E-12);
         assertEquals(0, sv.evaluate(values, 100d), 10E-12);
-        assertEquals(0, sv.evaluate(values, 100d, SemiVariance.UPSIDE_VARIANCE, false, 0, values.length), 10E-12); 
+        assertEquals(0, sv.evaluate(values, 100d, SemiVariance.UPSIDE_VARIANCE, false, 0, values.length), 10E-12);
     }
 }

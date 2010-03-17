@@ -16,7 +16,7 @@ package org.apache.commons.math.distribution;
 /**
  * Test cases for BinomialDistribution. Extends IntegerDistributionAbstractTest.
  * See class javadoc for IntegerDistributionAbstractTest for details.
- * 
+ *
  * @version $Revision$ $Date: 2009-09-05 12:36:48 -0500 (Sat, 05 Sep
  *          2009) $
  */
@@ -24,7 +24,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Constructor for BinomialDistributionTest.
-     * 
+     *
      * @param name
      */
     public BinomialDistributionTest(String name) {

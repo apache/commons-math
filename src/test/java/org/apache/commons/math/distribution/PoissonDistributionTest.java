@@ -167,11 +167,11 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 }
                 x -= dx;
             }
- 
+
             mean *= 10.0;
         }
     }
-    
+
     /**
      * JIRA: MATH-282
      */
@@ -185,7 +185,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         dist.setMean(6986);
         checkProbability(dist, 6950);
     }
-    
+
     private void checkProbability(PoissonDistribution dist, double x) throws Exception {
         double p = dist.cumulativeProbability(x);
         assertFalse("NaN cumulative probability returned for mean = " +
@@ -201,7 +201,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             dist.setMean(mean);
             double p = 0.1;
             double dp = p;
-            while (p < .99) { 
+            while (p < .99) {
                 double ret = Double.NaN;
                 try {
                     ret = dist.inverseCumulativeProbability(p);

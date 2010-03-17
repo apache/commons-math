@@ -144,14 +144,14 @@ public class ComplexTest extends TestCase {
         assertEquals(39.0 / 61.0, z.getReal(), 1.0e-5);
         assertEquals(2.0 / 61.0, z.getImaginary(), 1.0e-5);
     }
-    
+
     public void testDivideReal() {
         Complex x = new Complex(2d, 3d);
         Complex y = new Complex(2d, 0d);
         assertEquals(new Complex(1d, 1.5), x.divide(y));
-        
+
     }
-    
+
     public void testDivideImaginary() {
         Complex x = new Complex(2d, 3d);
         Complex y = new Complex(0d, 2d);
@@ -177,7 +177,7 @@ public class ComplexTest extends TestCase {
         assertTrue(Double.isNaN(z.getReal()));
         assertTrue(Double.isNaN(z.getImaginary()));
     }
-    
+
     public void testDivideZero() {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.divide(Complex.ZERO);

@@ -84,7 +84,7 @@ public class CurveFitterTest {
             if (doubles.length >= 2) {
                 gradientVector[1] = 1;
             }
-            return gradientVector; 
+            return gradientVector;
         }
     }
 

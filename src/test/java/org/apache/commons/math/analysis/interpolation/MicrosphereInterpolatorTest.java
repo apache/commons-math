@@ -23,8 +23,8 @@ import org.junit.Test;
 
 /**
  * Testcase for the "microsphere projection" interpolator.
- * 
- * @version $Revision$ $Date$ 
+ *
+ * @version $Revision$ $Date$
  */
 public final class MicrosphereInterpolatorTest {
     /**

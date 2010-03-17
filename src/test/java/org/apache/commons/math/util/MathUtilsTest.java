@@ -533,7 +533,7 @@ public final class MathUtilsTest extends TestCase {
             // expected
         }
     }
-    
+
     public void testGcdConsistency() {
         int[] primeList = {19, 23, 53, 67, 73, 79, 101, 103, 111, 131};
         ArrayList<Integer> primes = new ArrayList<Integer>();
@@ -742,7 +742,7 @@ public final class MathUtilsTest extends TestCase {
         } catch (ArithmeticException expected) {
             // expected
         }
-        
+
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Long.MIN_VALUE, 1<<20);

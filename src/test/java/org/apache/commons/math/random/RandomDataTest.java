@@ -218,7 +218,7 @@ public class RandomDataTest extends RetryTestCase {
         }
 
     }
-    /* TODO: re-enable when MATH-282 is resolved 
+    /* TODO: re-enable when MATH-282 is resolved
     public void testNextPoissonConsistency() throws Exception {
         // Small integral means
         for (int i = 1; i < 100; i++) {
@@ -229,15 +229,15 @@ public class RandomDataTest extends RetryTestCase {
         for (int i = 1; i < 10; i++) {
             checkNextPoissonConsistency(randomData.nextUniform(1, 1000));
         }
-        // large means 
+        // large means
         // TODO: When MATH-282 is resolved, s/3000/10000 below
         for (int i = 1; i < 10; i++) {
             checkNextPoissonConsistency(randomData.nextUniform(1000, 3000));
         }
     }
     */
-    
-    /** 
+
+    /**
      * Verifies that nextPoisson(mean) generates an empirical distribution of values
      * consistent with PoissonDistributionImpl by generating 1000 values, computing a
      * grouped frequency distribution of the observed values and comparing this distribution
@@ -249,9 +249,9 @@ public class RandomDataTest extends RetryTestCase {
     public void checkNextPoissonConsistency(double mean) throws Exception {
         // Generate sample values
         int sampleSize = 1000;        // Number of deviates to generate
-        int minExpectedCount = 7;     // Minimum size of expected bin count 
-        long maxObservedValue = 0;   
-        double alpha = 0.001;         // Probability of false failure         
+        int minExpectedCount = 7;     // Minimum size of expected bin count
+        long maxObservedValue = 0;
+        double alpha = 0.001;         // Probability of false failure
         Frequency frequency = new Frequency();
         for (int i = 0; i < sampleSize; i++) {
             long value = randomData.nextPoisson(mean);
@@ -260,9 +260,9 @@ public class RandomDataTest extends RetryTestCase {
             }
             frequency.addValue(value);
         }
-        
+
         /*
-         *  Set up bins for chi-square test.  
+         *  Set up bins for chi-square test.
          *  Ensure expected counts are all at least minExpectedCount.
          *  Start with upper and lower tail bins.
          *  Lower bin = [0, lower); Upper bin = [upper, +inf).
@@ -276,7 +276,7 @@ public class RandomDataTest extends RetryTestCase {
         while ((1 - poissonDistribution.cumulativeProbability(upper - 1)) * sampleSize < minExpectedCount) {
             upper--;
         }
-        
+
         // Set bin width for interior bins.  For poisson, only need to look at end bins.
         int binWidth = 1;
         boolean widthSufficient = false;
@@ -288,12 +288,12 @@ public class RandomDataTest extends RetryTestCase {
             widthSufficient = Math.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
             binWidth++;
         }
-       
+
         /*
          *  Determine interior bin bounds.  Bins are
-         *  [1, lower = binBounds[0]), [lower, binBounds[1]), [binBounds[1], binBounds[2]), ... , 
+         *  [1, lower = binBounds[0]), [lower, binBounds[1]), [binBounds[1], binBounds[2]), ... ,
          *    [binBounds[binCount - 2], upper = binBounds[binCount - 1]), [upper, +inf)
-         *  
+         *
          */
         List<Integer> binBounds = new ArrayList<Integer>();
         binBounds.add(lower);
@@ -304,26 +304,26 @@ public class RandomDataTest extends RetryTestCase {
         }
         binBounds.add(bound);
         binBounds.add(upper);
-        
+
         // Compute observed and expected bin counts
-        final int binCount = binBounds.size() + 1; 
+        final int binCount = binBounds.size() + 1;
         long[] observed = new long[binCount];
         double[] expected = new double[binCount];
-        
+
         // Bottom bin
         observed[0] = 0;
         for (int i = 0; i < lower; i++) {
             observed[0] += frequency.getCount(i);
         }
         expected[0] = poissonDistribution.cumulativeProbability(lower - 1) * sampleSize;
-        
+
         // Top bin
         observed[binCount - 1] = 0;
         for (int i = upper; i <= maxObservedValue; i++) {
             observed[binCount - 1] += frequency.getCount(i);
         }
         expected[binCount - 1] = (1 - poissonDistribution.cumulativeProbability(upper - 1)) * sampleSize;
-        
+
         // Interior bins
         for (int i = 1; i < binCount - 1; i++) {
             observed[i] = 0;
@@ -333,7 +333,7 @@ public class RandomDataTest extends RetryTestCase {
             expected[i] = (poissonDistribution.cumulativeProbability(binBounds.get(i) - 1) -
                 poissonDistribution.cumulativeProbability(binBounds.get(i - 1) -1)) * sampleSize;
         }
-        
+
         // Use chisquare test to verify that generated values are poisson(mean)-distributed
         ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
         try {
@@ -366,7 +366,7 @@ public class RandomDataTest extends RetryTestCase {
             msgBuffer.append(alpha);
             msgBuffer.append(".");
             fail(msgBuffer.toString());
-        }  
+        }
     }
 
     /** test dispersion and failute modes for nextHex() */
@@ -754,12 +754,12 @@ public class RandomDataTest extends RetryTestCase {
 
         }
     }
-    
+
     // Disable until we have equals
     //public void testSerial() {
     //    assertEquals(randomData, TestUtils.serializeAndRecover(randomData));
     //}
-    
+
     private int findPerm(int[][] p, int[] samp) {
         for (int i = 0; i < p.length; i++) {
             boolean good = true;

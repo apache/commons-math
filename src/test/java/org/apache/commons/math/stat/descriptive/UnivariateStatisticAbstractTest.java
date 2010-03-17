@@ -170,10 +170,10 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
         TestUtils.assertRelativelyEquals(statistic.evaluate(repeatedValues),
                 weightedStatistic.evaluate(values, weights, 0, values.length),
                 10E-14);
-        
+
         // Check consistency of weighted evaluation methods
         assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
-                weightedStatistic.evaluate(values, weights), Double.MIN_VALUE);       
+                weightedStatistic.evaluate(values, weights), Double.MIN_VALUE);
 
     }
 

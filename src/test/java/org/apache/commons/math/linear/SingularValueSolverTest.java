@@ -71,7 +71,7 @@ public class SingularValueSolverTest {
                                });
         DecompositionSolver solver = new SingularValueDecompositionImpl(m).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
-            { 11, 12 }, { 21, 22 } 
+            { 11, 12 }, { 21, 22 }
         });
         RealMatrix xMatrix = solver.solve(b);
         Assert.assertEquals(11, xMatrix.getEntry(0, 0), 1.0e-15);
