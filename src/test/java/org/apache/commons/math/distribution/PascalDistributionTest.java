@@ -32,7 +32,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     public PascalDistributionTest(String name) {
         super(name);
     }
-    
+
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
