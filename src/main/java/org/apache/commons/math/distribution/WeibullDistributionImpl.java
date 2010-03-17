@@ -31,6 +31,9 @@ import org.apache.commons.math.MathRuntimeException;
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
         implements WeibullDistribution, Serializable {
 
+    /** Default inverse cumulative probability accuracy */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
@@ -40,6 +43,9 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /** The scale parameter. */
     private double scale;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
     /**
      * Creates weibull distribution with the given shape and scale and a
      * location equal to zero.
@@ -47,9 +53,22 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      * @param beta the scale parameter.
      */
     public WeibullDistributionImpl(double alpha, double beta){
+        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates weibull distribution with the given shape, scale and inverse
+     * cumulative probability accuracy and a location equal to zero.
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     */
+    public WeibullDistributionImpl(double alpha, double beta, double inverseCumAccuracy){
         super();
         setShapeInternal(alpha);
         setScaleInternal(beta);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -81,6 +100,31 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     public double getScale() {
         return scale;
+    }
+
+    /**
+     * Returns the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    @Override
+    public double density(double x) {
+        if (x < 0) {
+            return 0;
+        }
+
+        final double xscale = x / scale;
+        final double xscalepow = Math.pow(xscale, shape - 1);
+
+        /*
+         * Math.pow(x / scale, shape) =
+         * Math.pow(xscale, shape) =
+         * Math.pow(xscale, shape - 1) * xscale
+         */
+        final double xscalepowshape = xscalepow * xscale;
+
+        return (shape / scale) * xscalepow * Math.exp(-xscalepowshape);
     }
 
     /**
@@ -195,5 +239,16 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     protected double getInitialDomain(double p) {
         // use median
         return Math.pow(scale * Math.log(2.0), 1.0 / shape);
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

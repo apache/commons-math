@@ -19,7 +19,14 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.MathException;
 
 /**
- * Base interface for continuous distributions.
+ * <p>Base interface for continuous distributions.</p>
+ *
+ * <p>Note: this interface will be extended in version 3.0 to include
+ * <br/><code>public double density(double x)</code><br/>
+ * that is, from version 3.0 forward, continuous distributions <strong>must</strong>
+ * include implementations of probability density functions. As of version
+ * 2.1, all continuous distribution implementations included in commons-math
+ * provide implementations of this method.</p>
  *
  * @version $Revision$ $Date$
  */

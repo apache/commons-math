@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.special.Gamma;
 
 /**
  * Default implementation of
@@ -32,19 +33,38 @@ public class TDistributionImpl
     extends AbstractContinuousDistribution
     implements TDistribution, Serializable  {
 
+    /** Default inverse cumulative probability accuracy */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -5852615386664158222L;
 
     /** The degrees of freedom*/
     private double degreesOfFreedom;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
+    /**
+     * Create a t distribution using the given degrees of freedom and the
+     * specified inverse cumulative probability absolute accuracy.
+     *
+     * @param degreesOfFreedom the degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     */
+    public TDistributionImpl(double degreesOfFreedom, double inverseCumAccuracy) {
+        super();
+        setDegreesOfFreedomInternal(degreesOfFreedom);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
     /**
      * Create a t distribution using the given degrees of freedom.
      * @param degreesOfFreedom the degrees of freedom.
      */
     public TDistributionImpl(double degreesOfFreedom) {
-        super();
-        setDegreesOfFreedomInternal(degreesOfFreedom);
+        this(degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -58,15 +78,15 @@ public class TDistributionImpl
     }
     /**
      * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
+     * @param newDegreesOfFreedom the new degrees of freedom.
      */
-    private void setDegreesOfFreedomInternal(double degreesOfFreedom) {
-        if (degreesOfFreedom <= 0.0) {
+    private void setDegreesOfFreedomInternal(double newDegreesOfFreedom) {
+        if (newDegreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "degrees of freedom must be positive ({0})",
-                  degreesOfFreedom);
+                  newDegreesOfFreedom);
         }
-        this.degreesOfFreedom = degreesOfFreedom;
+        this.degreesOfFreedom = newDegreesOfFreedom;
     }
 
     /**
@@ -75,6 +95,20 @@ public class TDistributionImpl
      */
     public double getDegreesOfFreedom() {
         return degreesOfFreedom;
+    }
+
+    /**
+     * Returns the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    @Override
+    public double density(double x) {
+        final double n = degreesOfFreedom;
+        final double nPlus1Over2 = (n + 1) / 2;
+        return Math.exp(Gamma.logGamma(nPlus1Over2) - 0.5 * (Math.log(Math.PI) + Math.log(n)) -
+                Gamma.logGamma(n/2) - nPlus1Over2 * Math.log(1 + x * x /n));
     }
 
     /**
@@ -169,5 +203,16 @@ public class TDistributionImpl
     @Override
     protected double getInitialDomain(double p) {
         return 0.0;
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

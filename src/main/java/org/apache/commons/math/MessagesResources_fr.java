@@ -740,6 +740,8 @@ public class MessagesResources_fr
    // org.apache.commons.math.distribution.AbstractContinuousDistribution
    { "Cumulative probability function returned NaN for argument {0} p = {1}",
      "Fonction de probabilit\u00e9 cumulative retourn\u00e9 NaN \u00e0 l''argument de {0} p = {1}" },
+   { "This distribution does not have a density function implemented",
+     "La fonction de densit\u00e9 pour cette distribution n'a pas \u00e9t\u00e9 mis en oeuvre" },
 
    // org.apache.commons.math.distribution.AbstractIntegerDistribution
    { "Discrete cumulative probability function returned NaN for argument {0}",

@@ -34,6 +34,7 @@ import org.apache.commons.math.TestUtils;
  * <p>
  * makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
  * makeCumulativeTestValues() -- expected cumulative probabilites
+ * makeDensityTestValues() -- expected density values at cumulativeTestPoints
  * makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf
  * makeInverseCumulativeTestValues() -- expected inverse cdf values
  * <p>
@@ -74,6 +75,9 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /** Values used to test inverse cumulative probability density calculations */
     private double[] inverseCumulativeTestValues;
 
+    /** Values used to test density calculations */
+    private double[] densityTestValues;
+
     //-------------------------------------------------------------------------
 
     /**
@@ -89,11 +93,14 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /** Creates the default continuous distribution instance to use in tests. */
     public abstract ContinuousDistribution makeDistribution();
 
-    /** Creates the default cumulative probability density test input values */
+    /** Creates the default cumulative probability test input values */
     public abstract double[] makeCumulativeTestPoints();
 
-    /** Creates the default cumulative probability density test expected values */
+    /** Creates the default cumulative probability test expected values */
     public abstract double[] makeCumulativeTestValues();
+
+    /** Creates the default density test expected values */
+    public abstract double[] makeDensityTestValues();
 
     //---- Default implementations of inverse test data generation methods ----
 
@@ -120,6 +127,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
         cumulativeTestValues = makeCumulativeTestValues();
         inverseCumulativeTestPoints = makeInverseCumulativeTestPoints();
         inverseCumulativeTestValues = makeInverseCumulativeTestValues();
+        densityTestValues = makeDensityTestValues();
     }
 
     /**
@@ -133,6 +141,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
         cumulativeTestValues = null;
         inverseCumulativeTestPoints = null;
         inverseCumulativeTestValues = null;
+        densityTestValues = null;
     }
 
     //-------------------- Verification methods -------------------------------
@@ -163,6 +172,19 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
         }
     }
 
+    /**
+     * Verifies that density calculations match expected values
+     */
+    protected void verifyDensities() throws Exception {
+        for (int i = 0; i < cumulativeTestPoints.length; i++) {
+            TestUtils.assertEquals("Incorrect probability density value returned for "
+                + cumulativeTestPoints[i], densityTestValues[i],
+                 //TODO: remove cast when density(double) is added to ContinuousDistribution
+                 ((AbstractContinuousDistribution) distribution).density(cumulativeTestPoints[i]),
+                 getTolerance());
+        }
+    }
+
     //------------------------ Default test cases -----------------------------
 
     /**
@@ -179,6 +201,14 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
      */
     public void testInverseCumulativeProbabilities() throws Exception {
         verifyInverseCumulativeProbabilities();
+    }
+
+    /**
+     * Verifies that density calculations return expected values
+     * for default test instance data
+     */
+    public void testDensities() throws Exception {
+        verifyDensities();
     }
 
     /**
@@ -256,6 +286,14 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
         this.cumulativeTestValues = cumulativeTestValues;
     }
 
+    protected double[] getDensityTestValues() {
+        return densityTestValues;
+    }
+
+    protected void setDensityTestValues(double[] densityTestValues) {
+        this.densityTestValues = densityTestValues;
+    }
+
     /**
      * @return Returns the distribution.
      */
@@ -266,7 +304,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * @param distribution The distribution to set.
      */
-    protected void setDistribution(ContinuousDistribution distribution) {
+    protected void setDistribution(AbstractContinuousDistribution distribution) {
         this.distribution = distribution;
     }
 

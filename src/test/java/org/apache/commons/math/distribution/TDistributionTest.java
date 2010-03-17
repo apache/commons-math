@@ -37,31 +37,37 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public TDistribution makeDistribution() {
         return new TDistributionImpl(5.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
-        // quantiles computed using R version 1.8.1 (linux version)
-        return new double[] {-5.89343,-3.36493, -2.570582, -2.015048,
-            -1.475884, 0.0, 5.89343, 3.36493, 2.570582,
-            2.015048, 1.475884};
+        // quantiles computed using R version 2.9.2
+        return new double[] {-5.89342953136, -3.36492999891, -2.57058183564, -2.01504837333, -1.47588404882,
+                5.89342953136, 3.36492999891, 2.57058183564, 2.01504837333, 1.47588404882};
     }
 
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.5d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d};
+        return new double[] {0.001, 0.01, 0.025, 0.05, 0.1, 0.999,
+                0.990, 0.975, 0.950, 0.900};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {0.000756494565517, 0.0109109752919, 0.0303377878006, 0.0637967988952, 0.128289492005,
+                0.000756494565517, 0.0109109752919, 0.0303377878006, 0.0637967988952, 0.128289492005};
     }
 
     // --------------------- Override tolerance  --------------
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(1E-6);
+        setTolerance(1E-9);
     }
 
     //---------------------------- Additional test cases -------------------------
@@ -77,14 +83,17 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testSmallDf() throws Exception {
         setDistribution(new TDistributionImpl(1d));
-        setTolerance(1E-4);
-        // quantiles computed using R version 1.8.1 (linux version)
-        setCumulativeTestPoints(new double[] {-318.3088, -31.82052, -12.70620, -6.313752,
-            -3.077684, 0.0, 318.3088, 31.82052, 12.70620,
-            6.313752, 3.077684});
+        // quantiles computed using R version 2.9.2
+        setCumulativeTestPoints(new double[] {-318.308838986, -31.8205159538, -12.7062047362,
+                -6.31375151468, -3.07768353718, 318.308838986, 31.8205159538, 12.7062047362,
+                 6.31375151468, 3.07768353718});
+        setDensityTestValues(new double[] {3.14158231817e-06, 0.000314055924703, 0.00195946145194,
+                0.00778959736375, 0.0303958893917, 3.14158231817e-06, 0.000314055924703,
+                0.00195946145194, 0.00778959736375, 0.0303958893917});
         setInverseCumulativeTestValues(getCumulativeTestPoints());
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        verifyDensities();
     }
 
     public void testInverseCumulativeProbabilityExtremes() throws Exception {

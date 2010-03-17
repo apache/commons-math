@@ -85,6 +85,18 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
+     * Returns the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    @Override
+    public double density(double x) {
+        final double dev = x - median;
+        return (1 / Math.PI) * (scale / (dev * dev + scale * scale));
+    }
+
+    /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      * <p>
@@ -123,10 +135,10 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     }
     /**
      * Modify the median.
-     * @param median for this distribution
+     * @param newMedian for this distribution
      */
-    private void setMedianInternal(double median) {
-        this.median = median;
+    private void setMedianInternal(double newMedian) {
+        this.median = newMedian;
     }
 
     /**

@@ -51,6 +51,17 @@ public abstract class AbstractContinuousDistribution
     }
 
     /**
+     * Return the probability density for a particular point.
+     * @param x  The point at which the density should be computed.
+     * @return  The pdf at point x.
+     * @throws MathRuntimeException if the specialized class hasn't implemented this function
+     */
+    public double density(double x) throws MathRuntimeException {
+        throw new MathRuntimeException(new UnsupportedOperationException(),
+                "This distribution does not have a density function implemented");
+    }
+
+    /**
      * For this distribution, X, this method returns the critical point x, such
      * that P(X &lt; x) = <code>p</code>.
      *
@@ -101,10 +112,10 @@ public abstract class AbstractContinuousDistribution
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the
              * case if density has bounded support and p is 0 or 1).
              */
-            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+            if (Math.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
                 return lowerBound;
             }
-            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+            if (Math.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
                 return upperBound;
             }
             // Failed bracket convergence was not because of corner solution

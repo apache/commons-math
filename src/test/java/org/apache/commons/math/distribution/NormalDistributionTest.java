@@ -40,7 +40,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public NormalDistribution makeDistribution() {
         return new NormalDistributionImpl(2.1, 1.4);
     }
 
@@ -57,6 +57,13 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     public double[] makeCumulativeTestValues() {
         return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
                 0.990d, 0.975d, 0.950d, 0.900d};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {0.00240506434076, 0.0190372444310, 0.0417464784322, 0.0736683145538, 0.125355951380,
+                0.00240506434076, 0.0190372444310, 0.0417464784322, 0.0736683145538, 0.125355951380};
     }
 
     // --------------------- Override tolerance  --------------
@@ -83,11 +90,22 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     public void testQuantiles() throws Exception {
+        setDensityTestValues(new double[] {0.0385649760808, 0.172836231799, 0.284958771715, 0.172836231799, 0.0385649760808,
+                0.00316560600853, 9.55930184035e-05, 1.06194251052e-06});
         verifyQuantiles();
+        verifyDensities();
+
         setDistribution(new NormalDistributionImpl(0, 1));
+        setDensityTestValues(new double[] {0.0539909665132, 0.241970724519, 0.398942280401, 0.241970724519, 0.0539909665132,
+                0.00443184841194, 0.000133830225765, 1.48671951473e-06});
         verifyQuantiles();
+        verifyDensities();
+
         setDistribution(new NormalDistributionImpl(0, 0.1));
+        setDensityTestValues(new double[] {0.539909665132, 2.41970724519, 3.98942280401, 2.41970724519,
+                0.539909665132, 0.0443184841194, 0.00133830225765, 1.48671951473e-05});
         verifyQuantiles();
+        verifyDensities();
     }
 
     public void testInverseCumulativeProbabilityExtremes() throws Exception {

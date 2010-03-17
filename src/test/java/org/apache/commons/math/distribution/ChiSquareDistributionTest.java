@@ -38,23 +38,22 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public ChiSquaredDistribution makeDistribution() {
         return new ChiSquaredDistributionImpl(5.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
-        // quantiles computed using R version 1.8.1 (linux version)
-        return new double[] {0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d,
-                20.51501d, 15.08627d, 12.83250d, 11.07050d, 9.236357d};
+        // quantiles computed using R version 2.9.2
+        return new double[] {0.210212602629, 0.554298076728, 0.831211613487, 1.14547622606, 1.61030798696,
+                20.5150056524, 15.0862724694, 12.8325019940, 11.0704976935, 9.23635689978};
     }
 
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d};
+        return new double[] {0.001, 0.01, 0.025, 0.05, 0.1, 0.999, 0.990, 0.975, 0.950, 0.900};
     }
 
     /** Creates the default inverse cumulative probability test input values */
@@ -67,16 +66,23 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     /** Creates the default inverse cumulative probability density test expected values */
     @Override
     public double[] makeInverseCumulativeTestValues() {
-        return new double[] {0, 0.210216d, 0.5542981d, 0.8312116d, 1.145476d, 1.610308d,
-                20.51501d, 15.08627d, 12.83250d, 11.07050d, 9.236357d,
+        return new double[] {0, 0.210212602629, 0.554298076728, 0.831211613487, 1.14547622606, 1.61030798696,
+                20.5150056524, 15.0862724694, 12.8325019940, 11.0704976935, 9.23635689978,
                 Double.POSITIVE_INFINITY};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {0.0115379817652, 0.0415948507811, 0.0665060119842, 0.0919455953114, 0.121472591024,
+                0.000433630076361, 0.00412780610309, 0.00999340341045, 0.0193246438937, 0.0368460089216};
     }
 
  // --------------------- Override tolerance  --------------
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(5e-6);
+        setTolerance(1e-9);
     }
 
  //---------------------------- Additional test cases -------------------------

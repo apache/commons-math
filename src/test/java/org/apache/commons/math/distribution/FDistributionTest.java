@@ -38,31 +38,36 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public FDistribution makeDistribution() {
         return new FDistributionImpl(5.0, 6.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
-        // quantiles computed using R version 1.8.1 (linux version)
-        return new double[] {0.03468084d ,0.09370091d, 0.1433137d,
-            0.2020084d, 0.2937283d, 20.80266d, 8.745895d, 5.987565d,
-            4.387374d, 3.107512d};
+        // quantiles computed using R version 2.9.2
+        return new double[] {0.0346808448626, 0.0937009113303, 0.143313661184, 0.202008445998, 0.293728320107,
+                20.8026639595, 8.74589525602, 5.98756512605, 4.38737418741, 3.10751166664};
     }
 
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d};
+        return new double[] {0.001, 0.01, 0.025, 0.05, 0.1, 0.999, 0.990, 0.975, 0.950, 0.900};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {0.0689156576706, 0.236735653193, 0.364074131941, 0.481570789649, 0.595880479994,
+                0.000133443915657, 0.00286681303403, 0.00969192007502, 0.0242883861471, 0.0605491314658};
     }
 
     // --------------------- Override tolerance  --------------
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(4e-6);
+        setTolerance(1e-9);
     }
 
     //---------------------------- Additional test cases -------------------------

@@ -39,6 +39,12 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
   <body>
     <release version="2.1" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-332" due-to="Mikkel Meyer Andersen">
+        Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
+        As of Math 2.1, all continuous distributions implement density functions.  The HasDensity
+        interface has been deprecated and in version 3.0, density(double) will be added to the
+        ContinuousDistribution interface.
+      </action>
       <action dev="sebb" type="update" issue="MATH-337">
         Changed equals() methods to use instanceof check rather than catching ClassCastException;
         this also allows some null checks to be omitted.
@@ -52,7 +58,8 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-282">
         Resolved multiple problems leading to inaccuracy and/or failure to compute Normal,
-        ChiSquare and  Poisson probabilities, Erf and Gamma functions.
+        ChiSquare and  Poisson probabilities, Erf and Gamma functions.  Made Brent solver 
+        absolute accuracy configurable for all continuous distributions.
       </action>
       <action dev="luc" type="fix" issue="MATH-347" >
         Fixed too stringent interval check in Brent solver: initial guess is now

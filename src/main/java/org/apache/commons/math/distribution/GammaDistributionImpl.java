@@ -30,6 +30,9 @@ import org.apache.commons.math.special.Gamma;
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
 
+    /** Default inverse cumulative probability accuracy */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -3239549463135430361L;
 
@@ -39,15 +42,30 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /** The scale parameter. */
     private double beta;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
     /**
      * Create a new gamma distribution with the given alpha and beta values.
      * @param alpha the shape parameter.
      * @param beta the scale parameter.
      */
     public GammaDistributionImpl(double alpha, double beta) {
+        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Create a new gamma distribution with the given alpha and beta values.
+     * @param alpha the shape parameter.
+     * @param beta the scale parameter.
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     */
+    public GammaDistributionImpl(double alpha, double beta, double inverseCumAccuracy) {
         super();
         setAlphaInternal(alpha);
         setBetaInternal(beta);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -117,16 +135,16 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * Modify the shape parameter, alpha.
-     * @param alpha the new shape parameter.
-     * @throws IllegalArgumentException if <code>alpha</code> is not positive.
+     * @param newAlpha the new shape parameter.
+     * @throws IllegalArgumentException if <code>newAlpha</code> is not positive.
      */
-    private void setAlphaInternal(double alpha) {
-        if (alpha <= 0.0) {
+    private void setAlphaInternal(double newAlpha) {
+        if (newAlpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "alpha must be positive ({0})",
-                  alpha);
+                  newAlpha);
         }
-        this.alpha = alpha;
+        this.alpha = newAlpha;
     }
 
     /**
@@ -139,27 +157,27 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * Modify the scale parameter, beta.
-     * @param beta the new scale parameter.
-     * @throws IllegalArgumentException if <code>beta</code> is not positive.
+     * @param newBeta the new scale parameter.
+     * @throws IllegalArgumentException if <code>newBeta</code> is not positive.
      * @deprecated as of 2.1 (class will become immutable in 3.0)
      */
     @Deprecated
-    public void setBeta(double beta) {
-        setBetaInternal(beta);
+    public void setBeta(double newBeta) {
+        setBetaInternal(newBeta);
     }
 
     /**
      * Modify the scale parameter, beta.
-     * @param beta the new scale parameter.
-     * @throws IllegalArgumentException if <code>beta</code> is not positive.
+     * @param newBeta the new scale parameter.
+     * @throws IllegalArgumentException if <code>newBeta</code> is not positive.
      */
-    private void setBetaInternal(double beta) {
-        if (beta <= 0.0) {
+    private void setBetaInternal(double newBeta) {
+        if (newBeta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
                   "beta must be positive ({0})",
-                  beta);
+                  newBeta);
         }
-        this.beta = beta;
+        this.beta = newBeta;
     }
 
     /**
@@ -171,14 +189,26 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Return the probability density for a particular point.
+     * Returns the probability density for a particular point.
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
      */
-    public double density(Double x) {
+    @Override
+    public double density(double x) {
         if (x < 0) return 0;
         return Math.pow(x / beta, alpha - 1) / beta * Math.exp(-x / beta) / Math.exp(Gamma.logGamma(alpha));
+    }
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     * @deprecated
+     */
+    public double density(Double x) {
+        return density(x.doubleValue());
     }
 
     /**
@@ -248,5 +278,16 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

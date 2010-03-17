@@ -29,11 +29,17 @@ public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
     implements ChiSquaredDistribution, Serializable  {
 
+    /** Default inverse cumulative probability accuracy */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -8352658048349159782L;
 
     /** Internal Gamma distribution. */
     private GammaDistribution gamma;
+
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
 
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom.
@@ -56,6 +62,21 @@ public class ChiSquaredDistributionImpl
         super();
         setGammaInternal(g);
         setDegreesOfFreedomInternal(df);
+        solverAbsoluteAccuracy = DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
+    }
+
+    /**
+     * Create a Chi-Squared distribution with the given degrees of freedom and
+     * inverse cumulative probability accuracy.
+     * @param df degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     */
+    public ChiSquaredDistributionImpl(double df, double inverseCumAccuracy) {
+        super();
+        gamma = new GammaDistributionImpl(df / 2.0, 2.0);
+        setDegreesOfFreedomInternal(df);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -88,8 +109,20 @@ public class ChiSquaredDistributionImpl
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @deprecated
      */
     public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    @Override
+    public double density(double x) {
         return gamma.density(x);
     }
 
@@ -218,11 +251,15 @@ public class ChiSquaredDistributionImpl
 
     }
 
+
     /**
-     * Access the Gamma distribution.
-     * @return the internal Gamma distribution.
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
      */
-    private GammaDistribution getGamma() {
-        return gamma;
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

@@ -102,10 +102,10 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
     /**
      * Modify the mean.
-     * @param mean for this distribution
+     * @param newMean for this distribution
      */
-    private void setMeanInternal(double mean) {
-        this.mean = mean;
+    private void setMeanInternal(double newMean) {
+        this.mean = newMean;
     }
 
     /**
@@ -145,8 +145,19 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @deprecated
      */
     public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    /**
+     * Returns the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(double x) {
         double x0 = x - mean;
         return Math.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
     }

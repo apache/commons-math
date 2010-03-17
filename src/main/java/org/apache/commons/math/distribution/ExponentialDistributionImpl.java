@@ -56,15 +56,15 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
     /**
      * Modify the mean.
-     * @param mean the new mean.
-     * @throws IllegalArgumentException if <code>mean</code> is not positive.
+     * @param newMean the new mean.
+     * @throws IllegalArgumentException if <code>newMean</code> is not positive.
      */
-    private void setMeanInternal(double mean) {
-        if (mean <= 0.0) {
+    private void setMeanInternal(double newMean) {
+        if (newMean <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "mean must be positive ({0})", mean);
+                  "mean must be positive ({0})", newMean);
         }
-        this.mean = mean;
+        this.mean = newMean;
     }
 
     /**
@@ -80,8 +80,20 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @deprecated - use density(double)
      */
     public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    @Override
+    public double density(double x) {
         if (x < 0) {
             return 0;
         }

@@ -34,28 +34,42 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
         super(arg0);
     }
 
+    // --------------------- Override tolerance  --------------
+    protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        setTolerance(defaultTolerance);
+    }
+
     //-------------- Implementations for abstract methods -----------------------
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public CauchyDistribution makeDistribution() {
         return new CauchyDistributionImpl(1.2, 2.1);
     }
 
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
-        // quantiles computed using Mathematica
-        return new double[] {-667.2485619d, -65.6230835d, -25.48302995d,
-                -12.05887818d, -5.263135428d, 7.663135428d, 14.45887818d,
-                27.88302995d, 68.0230835d, 669.6485619d};
+        // quantiles computed using R 2.9.2
+        return new double[] {-667.24856187, -65.6230835029, -25.4830299460, -12.0588781808,
+                -5.26313542807, 669.64856187, 68.0230835029, 27.8830299460, 14.4588781808, 7.66313542807};
     }
 
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.900d, 0.950d,
-                0.975d, 0.990d, 0.999d};
+        return new double[] {0.001, 0.01, 0.025, 0.05, 0.1, 0.999,
+                0.990, 0.975, 0.950, 0.900};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {1.49599158008e-06, 0.000149550440335, 0.000933076881878, 0.00370933207799, 0.0144742330437,
+                1.49599158008e-06, 0.000149550440335, 0.000933076881878, 0.00370933207799, 0.0144742330437};
     }
 
     //---------------------------- Additional test cases -------------------------

@@ -17,6 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.special.Beta;
 
@@ -97,19 +98,37 @@ public class BetaDistributionImpl
         }
     }
 
-    /** {@inheritDoc} */
-    public double density(Double x) throws MathException {
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     * @deprecated
+     */
+    public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    /**
+     * Return the probability density for a particular point.
+     *
+     * @param x The point at which the density should be computed.
+     * @return The pdf at point x.
+     */
+    public double density(double x) {
         recomputeZ();
         if (x < 0 || x > 1) {
             return 0;
         } else if (x == 0) {
             if (alpha < 1) {
-                throw new MathException("Cannot compute beta density at 0 when alpha = {0,number}", alpha);
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "Cannot compute beta density at 0 when alpha = {0,number}", alpha);
             }
             return 0;
         } else if (x == 1) {
             if (beta < 1) {
-                throw new MathException("Cannot compute beta density at 1 when beta = %.3g", beta);
+                throw MathRuntimeException.createIllegalArgumentException(
+                        "Cannot compute beta density at 1 when beta = %.3g", beta);
             }
             return 0;
         } else {

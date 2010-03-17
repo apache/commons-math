@@ -38,31 +38,36 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
-    public ContinuousDistribution makeDistribution() {
+    public GammaDistribution makeDistribution() {
         return new GammaDistributionImpl(4d, 2d);
     }
 
     /** Creates the default cumulative probability distribution test input values */
     @Override
     public double[] makeCumulativeTestPoints() {
-        // quantiles computed using R version 1.8.1 (linux version)
-        return new double[] {0.8571048, 1.646497, 2.179731, 2.732637,
-            3.489539, 26.12448, 20.09024, 17.53455,
-            15.50731, 13.36157};
+        // quantiles computed using R version 2.9.2
+        return new double[] {0.857104827257, 1.64649737269, 2.17973074725, 2.7326367935, 3.48953912565,
+                26.1244815584, 20.0902350297, 17.5345461395, 15.5073130559, 13.3615661365};
     }
 
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {0.001d, 0.01d, 0.025d, 0.05d, 0.1d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d};
+        return new double[] {0.001, 0.01, 0.025, 0.05, 0.1, 0.999, 0.990, 0.975, 0.950, 0.900};
+    }
+
+    /** Creates the default probability density test expected values */
+    @Override
+    public double[] makeDensityTestValues() {
+        return new double[] {0.00427280075546, 0.0204117166709, 0.0362756163658, 0.0542113174239, 0.0773195272491,
+                0.000394468852816, 0.00366559696761, 0.00874649473311, 0.0166712508128, 0.0311798227954};
     }
 
     // --------------------- Override tolerance  --------------
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setTolerance(6e-6);
+        setTolerance(1e-9);
     }
 
     //---------------------------- Additional test cases -------------------------
