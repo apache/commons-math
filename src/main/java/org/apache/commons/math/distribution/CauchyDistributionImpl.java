@@ -89,6 +89,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @since 2.1
      */
     @Override
     public double density(double x) {

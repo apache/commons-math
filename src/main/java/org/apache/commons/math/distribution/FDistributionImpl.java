@@ -32,7 +32,10 @@ public class FDistributionImpl
     extends AbstractContinuousDistribution
     implements FDistribution, Serializable  {
 
-    /** Default inverse cumulative probability accuracy */
+    /**
+     * Default inverse cumulative probability accurac
+     * @since 2.1
+     */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Message for non positive degrees of freddom. */
@@ -67,6 +70,7 @@ public class FDistributionImpl
      * @param denominatorDegreesOfFreedom the denominator degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     * @since 2.1
      */
     public FDistributionImpl(double numeratorDegreesOfFreedom, double denominatorDegreesOfFreedom,
             double inverseCumAccuracy) {
@@ -81,6 +85,7 @@ public class FDistributionImpl
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @since 2.1
      */
     @Override
     public double density(double x) {
@@ -269,6 +274,7 @@ public class FDistributionImpl
      * inverse cumulative probabilities.
      *
      * @return the solver absolute accuracy
+     * @since 2.1
      */
     @Override
     protected double getSolverAbsoluteAccuracy() {

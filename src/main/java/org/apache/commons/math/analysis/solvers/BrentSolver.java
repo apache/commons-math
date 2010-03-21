@@ -32,10 +32,15 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public class BrentSolver extends UnivariateRealSolverImpl {
 
-    /** Default absolute accuracy */
+    /**
+     * Default absolute accuracy
+     * @since 2.1
+     */
     public static final double DEFAULT_ABSOLUTE_ACCURACY = 1E-6;
 
-    /** Default maximum number of iterations */
+    /** Default maximum number of iterations
+     * @since 2.1
+     */
     public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
 
     /** Error message for non-bracketing interval. */
@@ -71,6 +76,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * Construct a solver with the given absolute accuracy.
      *
      * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
+     * @since 2.1
      */
     public BrentSolver(double absoluteAccuracy) {
         super(DEFAULT_MAXIMUM_ITERATIONS, absoluteAccuracy);
@@ -81,6 +87,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      *
      * @param maximumIterations maximum number of iterations
      * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
+     * @since 2.1
      */
     public BrentSolver(int maximumIterations, double absoluteAccuracy) {
         super(maximumIterations, absoluteAccuracy);

@@ -99,7 +99,10 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
         return hashCode;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @since 2.1
+     */
     @Override
     public String toString() {
         final StringBuffer buff = new StringBuffer("(");

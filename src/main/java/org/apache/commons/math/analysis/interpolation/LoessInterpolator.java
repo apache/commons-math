@@ -47,7 +47,7 @@ public class LoessInterpolator
     /** Default value of the number of robustness iterations. */
     public static final int DEFAULT_ROBUSTNESS_ITERS = 2;
 
-    /** 
+    /**
      * Default value for accuracy.
      * @since 2.1
      */

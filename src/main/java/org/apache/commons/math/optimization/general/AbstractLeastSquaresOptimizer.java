@@ -63,10 +63,16 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /** Number of rows of the jacobian matrix. */
     protected int rows;
 
-    /** Target value for the objective functions at optimum. */
+    /**
+     * Target value for the objective functions at optimum.
+     * @since 2.1
+     */
     protected double[] targetValues;
 
-    /** Weight for the least squares cost computation. */
+    /**
+     * Weight for the least squares cost computation.
+     * @since 2.1
+     */
     protected double[] residualsWeights;
 
     /** Current point. */

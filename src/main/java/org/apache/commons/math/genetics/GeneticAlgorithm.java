@@ -219,6 +219,7 @@ public class GeneticAlgorithm {
      * reach {@link StoppingCondition} in the last run.
      *
      * @return number of generations evolved
+     * @since 2.1
      */
     public int getGenerationsEvolved() {
         return generationsEvolved;

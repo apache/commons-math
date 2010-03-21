@@ -33,7 +33,10 @@ import org.apache.commons.math.special.Erf;
 public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
 
-    /** Default inverse cumulative probability accuracy */
+    /**
+     * Default inverse cumulative probability accuracy
+     * @since 2.1
+     */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Serializable version identifier */
@@ -67,6 +70,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * @param mean mean for this distribution
      * @param sd standard deviation for this distribution
      * @param inverseCumAccuracy inverse cumulative probability accuracy
+     * @since 2.1
      */
     public NormalDistributionImpl(double mean, double sd, double inverseCumAccuracy) {
         super();
@@ -156,6 +160,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @since 2.1
      */
     public double density(double x) {
         double x0 = x - mean;
@@ -190,6 +195,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * inverse cumulative probabilities.
      *
      * @return the solver absolute accuracy
+     * @since 2.1
      */
     @Override
     protected double getSolverAbsoluteAccuracy() {

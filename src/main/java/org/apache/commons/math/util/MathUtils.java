@@ -38,7 +38,10 @@ public final class MathUtils {
      */
     public static final double SAFE_MIN = 0x1.0p-1022;
 
-    /** 2 &pi;. */
+    /**
+     * 2 &pi;.
+     * @since 2.1
+     */
     public static final double TWO_PI = 2 * Math.PI;
 
     /** -1.0 cast as a byte. */
@@ -1141,6 +1144,7 @@ public final class MathUtils {
       * @return normalized array
       * @throws ArithmeticException if the input array contains infinite elements or sums to zero
       * @throws IllegalArgumentException if the target sum is infinite or NaN
+      * @since 2.1
       */
      public static double[] normalizeArray(double[] values, double normalizedSum)
        throws ArithmeticException, IllegalArgumentException {

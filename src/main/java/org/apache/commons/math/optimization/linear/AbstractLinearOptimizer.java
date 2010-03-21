@@ -37,16 +37,28 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     /** Default maximal number of iterations allowed. */
     public static final int DEFAULT_MAX_ITERATIONS = 100;
 
-    /** Linear objective function. */
+    /**
+     * Linear objective function.
+     * @since 2.1
+     */
     protected LinearObjectiveFunction function;
 
-    /** Linear constraints. */
+    /**
+     * Linear constraints.
+     * @since 2.1
+     */
     protected Collection<LinearConstraint> linearConstraints;
 
-    /** Type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}. */
+    /**
+     * Type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
+     * @since 2.1
+     */
     protected GoalType goal;
 
-    /** Whether to restrict the variables to non-negative values. */
+    /**
+     * Whether to restrict the variables to non-negative values.
+     * @since 2.1
+     */
     protected boolean nonNegative;
 
     /** Maximal number of iterations allowed. */

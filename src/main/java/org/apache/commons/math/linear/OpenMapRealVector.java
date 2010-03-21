@@ -200,6 +200,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
      * Determine if this value is within epsilon of zero.
      * @param value The value to test
      * @return <code>true</code> if this value is within epsilon to zero, <code>false</code> otherwise
+     * @since 2.1
      */
     protected boolean isDefaultValue(double value) {
         return Math.abs(value) < epsilon;
@@ -279,7 +280,10 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return res;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @since 2.1
+     */
     @Override
     public OpenMapRealVector copy() {
         return new OpenMapRealVector(this);

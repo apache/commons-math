@@ -29,7 +29,10 @@ public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
     implements ChiSquaredDistribution, Serializable  {
 
-    /** Default inverse cumulative probability accuracy */
+    /**
+     * Default inverse cumulative probability accuracy
+     * @since 2.1
+     */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Serializable version identifier */
@@ -71,6 +74,7 @@ public class ChiSquaredDistributionImpl
      * @param df degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     * @since 2.1
      */
     public ChiSquaredDistributionImpl(double df, double inverseCumAccuracy) {
         super();
@@ -120,6 +124,7 @@ public class ChiSquaredDistributionImpl
      *
      * @param x The point at which the density should be computed.
      * @return The pdf at point x.
+     * @since 2.1
      */
     @Override
     public double density(double x) {
@@ -257,6 +262,7 @@ public class ChiSquaredDistributionImpl
      * inverse cumulative probabilities.
      *
      * @return the solver absolute accuracy
+     * @since 2.1
      */
     @Override
     protected double getSolverAbsoluteAccuracy() {

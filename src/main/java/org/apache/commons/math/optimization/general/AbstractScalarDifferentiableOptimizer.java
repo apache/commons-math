@@ -45,7 +45,10 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** Convergence checker. */
     protected RealConvergenceChecker checker;
 
-    /** Type of optimization. */
+    /**
+     * Type of optimization.
+     * @since 2.1
+     */
     protected GoalType goal;
 
     /** Current point set. */

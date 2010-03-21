@@ -21,6 +21,7 @@ package org.apache.commons.math.random;
 /**
  * Generate random vectors isotropically located on the surface of a sphere.
  *
+ * @since 2.1
  * @version $Revision$ $Date$
  */
 

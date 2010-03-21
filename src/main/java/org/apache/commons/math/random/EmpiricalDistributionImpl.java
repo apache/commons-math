@@ -436,6 +436,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * bounds now returned by {@link #getGeneratorUpperBounds()}.</p>
      *
      * @return array of bin upper bounds
+     * @since 2.1
      */
     public double[] getUpperBounds() {
         double[] binUpperBounds = new double[binCount];
