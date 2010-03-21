@@ -29,19 +29,40 @@ import org.apache.commons.math.MathRuntimeException;
 public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {
 
+    /**
+     * Default inverse cumulative probability accuracy
+     * @since 2.1
+     */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 2401296428283614780L;
 
     /** The mean of this distribution. */
     private double mean;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
     /**
      * Create a exponential distribution with the given mean.
      * @param mean mean of this distribution.
      */
     public ExponentialDistributionImpl(double mean) {
+        this(mean, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Create a exponential distribution with the given mean.
+     * @param mean mean of this distribution.
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     * @since 2.1
+     */
+    public ExponentialDistributionImpl(double mean, double inverseCumAccuracy) {
         super();
         setMeanInternal(mean);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -209,5 +230,17 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
             // use mean
             return mean;
         }
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     * @since 2.1
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

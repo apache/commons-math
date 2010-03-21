@@ -31,6 +31,12 @@ import org.apache.commons.math.MathRuntimeException;
 public class CauchyDistributionImpl extends AbstractContinuousDistribution
         implements CauchyDistribution, Serializable {
 
+    /**
+     * Default inverse cumulative probability accuracy
+     * @since 2.1
+     */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
 
@@ -39,6 +45,9 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 
     /** The scale of this distribution. */
     private double scale = 1;
+
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
 
     /**
      * Creates cauchy distribution with the medain equal to zero and scale
@@ -54,9 +63,22 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * @param s scale parameter for this distribution
      */
     public CauchyDistributionImpl(double median, double s){
+        this(median, s, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Create a cauchy distribution using the given median and scale.
+     * @param median median for this distribution
+     * @param s scale parameter for this distribution
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     * @since 2.1
+     */
+    public CauchyDistributionImpl(double median, double s, double inverseCumAccuracy) {
         super();
         setMedianInternal(median);
         setScaleInternal(s);
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
@@ -230,5 +252,17 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     * @since 2.1
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }

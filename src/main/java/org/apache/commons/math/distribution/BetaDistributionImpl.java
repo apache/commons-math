@@ -36,6 +36,12 @@ import org.apache.commons.math.special.Beta;
 public class BetaDistributionImpl
     extends AbstractContinuousDistribution implements BetaDistribution {
 
+    /**
+     * Default inverse cumulative probability accurac
+     * @since 2.1
+     */
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1221965979403477668L;
 
@@ -50,15 +56,31 @@ public class BetaDistributionImpl
      */
     private double z;
 
+    /** Inverse cumulative probability accuracy */
+    private final double solverAbsoluteAccuracy;
+
+    /**
+     * Build a new instance.
+     * @param alpha first shape parameter (must be positive)
+     * @param beta second shape parameter (must be positive)
+     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     * @since 2.1
+     */
+    public BetaDistributionImpl(double alpha, double beta, double inverseCumAccuracy) {
+        this.alpha = alpha;
+        this.beta = beta;
+        z = Double.NaN;
+        solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
     /**
      * Build a new instance.
      * @param alpha first shape parameter (must be positive)
      * @param beta second shape parameter (must be positive)
      */
     public BetaDistributionImpl(double alpha, double beta) {
-        this.alpha = alpha;
-        this.beta = beta;
-        z = Double.NaN;
+        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /** {@inheritDoc}
@@ -184,5 +206,17 @@ public class BetaDistributionImpl
     @Override
     public double cumulativeProbability(double x0, double x1) throws MathException {
         return cumulativeProbability(x1) - cumulativeProbability(x0);
+    }
+
+    /**
+     * Return the absolute accuracy setting of the solver used to estimate
+     * inverse cumulative probabilities.
+     *
+     * @return the solver absolute accuracy
+     * @since 2.1
+     */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
     }
 }
