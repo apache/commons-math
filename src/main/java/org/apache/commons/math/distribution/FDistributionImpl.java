@@ -33,7 +33,7 @@ public class FDistributionImpl
     implements FDistribution, Serializable  {
 
     /**
-     * Default inverse cumulative probability accurac
+     * Default inverse cumulative probability accuracy
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
