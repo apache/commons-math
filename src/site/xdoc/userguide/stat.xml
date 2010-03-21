@@ -263,22 +263,23 @@ double totalSampleSum = aggregate.getSum();
           aggregate</a> method is available, as shown in the following example.
         This method should be used when aggregation needs to be done across threads.
         <source>
-// Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
-// and AggregatingSummaryStatistics for the subsamples
-AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
-SummaryStatistics setOneStats = aggregate.createContributingStatistics();
-SummaryStatistics setTwoStats = aggregate.createContributingStatistics();
-// Add values to the subsample aggregates
+// Create SummaryStatistics instances for the subsample data
+SummaryStatistics setOneStats = new SummaryStatistics();
+SummaryStatistics setTwoStats = new SummaryStatistics();
+// Add values to the subsample SummaryStatistics instances
 setOneStats.addValue(2);
 setOneStats.addValue(3);
 setTwoStats.addValue(2);
 setTwoStats.addValue(4);
 ...
-// Get a <code>StatisticalSummary</code> describing the full set of data
+// Aggregate the subsample statistics
 Collection&lt;SummaryStatistics&gt; aggregate = new ArrayList&lt;SummaryStatistics&gt;();
 aggregate.add(setOneStats);
 aggregate.add(setTwoStats);
 StatisticalSummary aggregatedStats = AggregateSummaryStatistics.aggregate(aggregate);
+
+// Full sample data is reported by aggregatedStats
+double totalSampleSum = aggregatedStats.getSum();
         </source>
         </dd>
         </dl>
