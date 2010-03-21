@@ -45,8 +45,7 @@
           and a domain value, <code>x</code>,  <code>cumulativeProbability</code> computes
           <code>P(X &lt;= x)</code> (i.e. the lower tail probability of <code>X</code>).
         </p>
-        <source>DistributionFactory factory = DistributionFactory.newInstance();
-TDistribution t = factory.createTDistribution(29);
+<source>TDistribution t = new TDistributionImpl(29);
 double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
 double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</source>
         <p>

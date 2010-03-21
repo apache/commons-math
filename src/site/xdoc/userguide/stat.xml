@@ -153,8 +153,8 @@
           <dd>Using the <code>DescriptiveStatistics</code> aggregate
           (values are stored in memory):
         <source>
-// Get a DescriptiveStatistics instance using factory method
-DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
+// Get a DescriptiveStatistics instance
+DescriptiveStatistics stats = new DescriptiveStatistics();
 
 // Add the data from the array
 for( int i = 0; i &lt; inputArray.length; i++) {
@@ -170,8 +170,8 @@ double median = stats.getMedian();
         <dd>Using the <code>SummaryStatistics</code> aggregate (values are
         <strong>not</strong> stored in memory):
        <source>
-// Get a SummaryStatistics instance using factory method
-SummaryStatistics stats = SummaryStatistics.newInstance();
+// Get a SummaryStatistics instance
+SummaryStatistics stats = new SummaryStatistics();
 
 // Read data from an input stream,
 // adding values and updating sums, counters, etc.
@@ -206,7 +206,7 @@ mean = StatUtils.mean(values, 0, 3);
         window size set to 100
         <source>
 // Create a DescriptiveStats instance and set the window size to 100
-DescriptiveStatistics stats = DescriptiveStatistics.newInstance();
+DescriptiveStatistics stats = new DescriptiveStatistics();
 stats.setWindowSize(100);
 
 // Read data from an input stream,
@@ -230,7 +230,7 @@ in.close();
         <source>
 // Create a SynchronizedDescriptiveStatistics instance and
 // use as any other DescriptiveStatistics instance
-DescriptiveStatistics stats = DescriptiveStatistics.newInstance(SynchronizedDescriptiveStatistics.class);
+DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
         </source>
         </dd>
         <dt>Compute statistics for multiple samples and overall statistics concurrently</dt>
@@ -842,8 +842,7 @@ System.out.println(TestUtils.t(mu, observed));
           <source>
 double[] observed ={1d, 2d, 3d};
 double mu = 2.5d;
-SummaryStatistics sampleStats = null;
-sampleStats = SummaryStatistics.newInstance();
+SummaryStatistics sampleStats = new SummaryStatistics();
 for (int i = 0; i &lt; observed.length; i++) {
     sampleStats.addValue(observed[i]);
 }
