@@ -90,6 +90,11 @@ The <action> type attribute can be add,update,fix,remove.
         used to solve Boundary Value Problems (BVP). There are no implementations (yet)
         of BVP solvers in the library.
       </action>
+      <action dev="luc" type="fix" issue="MATH-358" >
+        Fixed an error in events handling in ODE solvers. In some rare cases, events
+        occurring close to a step start were handled without truncating the step, making
+        them appear as is they occurred close to the step end
+      </action>
       <action dev="luc" type="fix" >
         Fixed a problem with getInterpolatedDerivatives returning zero derivatives when
         an ODE step handler is configured to not use interpolation. It now returns a
