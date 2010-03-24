@@ -307,6 +307,34 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           It has been described in William Dudziak's <a
           href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
         </p>
+        <p>
+          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BivariateRealGridInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.BivariateRealGridInterpolator</a>
+          is used to find a bivariate real-valued function <code>f</code> which
+          for a given set of tuples
+          (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>ij</sub></code>)
+          yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=z<sub>ij</sub></code> to the best accuracy
+          possible. The result is provided as an object implementing the
+          <a href="../apidocs/org/apache/commons/math/analysis/BivariateRealFunction.html">
+          org.apache.commons.math.analysis.BivariateRealFunction</a> interface. It can therefore
+          be evaluated at any point, including a point not belonging to the original set.
+          The array <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be sorted in
+          increasing order in order to define a two-dimensional regular grid.
+        </p>
+        <p>
+          In <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
+          bicubic interpolation</a>, the interpolation function is a 3rd-degree polynomial of two
+          variables. The coefficients are computed from the function values sampled on a regular grid,
+          as well as the values of the partial derivatives of the function at those grid points.
+        </p>
+        <p>
+          From two-dimensional data sampled on a regular grid, the
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/SmoothingBicubicSplineInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.SmoothingBicubicSplineInterpolator</a>
+          computes a <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
+          bicubic interpolating function</a>. The data is first smoothed, along each grid dimension,
+          using one-dimensional splines.
+        </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">
         <p>

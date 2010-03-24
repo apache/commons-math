@@ -182,7 +182,13 @@ public class MessagesResources_fr
 
     // org.apache.commons.math.analysis.interpolation.SplineInterpolator
     { "points {0} and {1} are not strictly increasing ({2} >= {3})",
-      "les points {0} et {1} ne sont pas strictements croissants ({2} >= {3})" },
+      "les points {0} et {1} ne sont pas strictement croissants ({2} >= {3})" },
+    { "points {0} and {1} are not strictly decreasing ({2} <= {3})",
+      "les points {0} et {1} ne sont pas strictement d\u00e9croissants ({2} <= {3})" },
+    { "points {0} and {1} are not increasing ({2} > {3})",
+      "les points {0} et {1} ne sont pas croissants ({2} > {3})" },
+    { "points {0} and {1} are not decreasing ({2} < {3})",
+      "les points {0} et {1} ne sont pas d\u00e9croissants ({2} < {3})" },
 
     // org.apache.commons.math.analysis.interpolation.LoessInterpolator
     { "bandwidth must be in the interval [0,1], but got {0}",

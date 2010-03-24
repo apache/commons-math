@@ -1788,5 +1788,45 @@ public final class MathUtils {
         return max;
     }
 
+    /**
+     * Checks that the given array is sorted.
+     *
+     * @param val Values
+     * @param dir Order direction (-1 for decreasing, 1 for increasing)
+     * @param strict Whether the order should be strict
+     * @throws IllegalArgumentException if the array is not sorted.
+     */
+    public static void checkOrder(double[] val, int dir, boolean strict) {
+        double previous = val[0];
 
+        for (int i = 1, max = val.length; i < max; i++) {
+            if (dir > 0) {
+                if (strict) {
+                    if (val[i] <= previous) {
+                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not strictly increasing ({2} >= {3})",
+                                                                                  i - 1, i, previous, val[i]);
+                    }
+                } else {
+                    if (val[i] < previous) {
+                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not increasing ({2} > {3})",
+                                                                                  i - 1, i, previous, val[i]);
+                    }
+                }
+            } else {
+                if (strict) {
+                    if (val[i] >= previous) {
+                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not strictly decreasing ({2} <= {3})",
+                                                                                  i - 1, i, previous, val[i]);
+                    }
+                } else {
+                    if (val[i] > previous) {
+                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not decreasing ({2} < {3})",
+                                                                                  i - 1, i, previous, val[i]);
+                    }
+                }
+            }
+
+            previous = val[i];
+        }
+    }
 }

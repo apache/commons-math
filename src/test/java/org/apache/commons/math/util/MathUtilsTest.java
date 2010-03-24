@@ -1381,4 +1381,35 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(4, MathUtils.distanceInf(p1, p2));
     }
 
+    public void testCheckOrder() {
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 15}, 1, true);
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 2}, 1, false);
+        MathUtils.checkOrder(new double[] {3, -5.5, -11, -27.5}, -1, true);
+        MathUtils.checkOrder(new double[] {3, 0, 0, -5.5, -11, -27.5}, -1, false);
+
+        try {
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15}, 1, true);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2}, 1, false);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5}, -1, true);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5}, -1, false);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+    }
 }

@@ -51,6 +51,12 @@ The <action> type attribute can be add,update,fix,remove.
        protected fields have been removed from AbstractLeastSquaresOptimizer, AbstractScalarDifferentiableOptimizer
        and AbstractLinearOptimizer; and the isOptimal(SimplexTableau) method has been removed from
        SimplexSolver. ">
+      <action dev="erans" type="update" issue="MATH-356">
+        Added method to clear the list of observations.
+      </action>
+      <action dev="erans" type="add" issue="MATH-357">
+        Implementation of bicubic interpolation.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-332" due-to="Mikkel Meyer Andersen">
         Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
         As of Math 2.1, all continuous distributions implement density functions.  The HasDensity

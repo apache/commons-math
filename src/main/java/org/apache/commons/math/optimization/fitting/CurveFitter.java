@@ -103,6 +103,13 @@ public class CurveFitter {
         return observations.toArray(new WeightedObservedPoint[observations.size()]);
     }
 
+    /**
+     * Remove all observations.
+     */
+    public void clearObservations() {
+        observations.clear();
+    }
+
     /** Fit a curve.
      * <p>This method compute the coefficients of the curve that best
      * fit the sample of observed points previously given through calls
