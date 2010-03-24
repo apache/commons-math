@@ -38,7 +38,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="2.1" date="TBD" description="TBD">
+    <release version="2.1" date="TBD" description="This is a maintenance release including numerous bug fixes and enhancements.">
       <action dev="psteitz" type="update" issue="MATH-332" due-to="Mikkel Meyer Andersen">
         Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
         As of Math 2.1, all continuous distributions implement density functions.  The HasDensity

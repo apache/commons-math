@@ -1,448 +1,120 @@
+                        
 
-                        Apache Commons Math Version 2.0
-                                   RELEASE NOTES
+              commons-math-2.1 RELEASE NOTES
 
+This is a maintenance release including numerous bug fixes and enhancements.
 
-This is a major release. It combines bug fixes, new features and
-changes to existing features. Most notable among the new features are:
-  - decomposition algorithms in the linear algebra package (LU, QR, Cholesky,
-    SVD, eigen decomposition) which are based on the popular JAMA API (but
-    much faster),
-  - support for sparse matrices and vectors,
-  - support for any field-based matrix (Complex, Fraction ...),
-  - support for genetic algorithms
-  - several new optimization algorithms (Dantzig's simplex for linear
-    constrained problems, conjugate gradient, Brent)
-  - support for curve fitting with special cases for harmonic and polynomial
-    functions
-  - support for state derivative in ODE step handlers
-  - new multistep integrators (Adams-Bashforth and Adams-Moulton) with
-    variable stepsize
-  - regression algorithms
-  - rank transformations
-  - Mersenne twister pseudo random number generator
-
-This release is NOT source and binary compatible with earlier versions
-of Commons Math. Starting with version 2.0 of the library, the minimal
-version of the Java platform required to compile and use commons-math
-is Java 5.  Users are encouraged to upgrade to this version, as in addition
-to new features, this release includes numerous bug fixes.  Users of 
-Commons Math 1.0-1.2 should recompile their code against the 2.0 jar. 
-Most of the compilation errors users will encounter after the switch
-will be due to classes moved due to package reorganization.  These errors
-are simply solved by adjusting the import statements in users code.
-Users can ask for help with migration or any other problem related
-to commons math by sending a message to the apache commons users
-mailing list: user@commons.apache.org.
-
-
-                             SUMMARY OF CHANGES
+Changes in this version include:
 
 New features:
-
-o Added curve fitting with a general case and two specific cases
-  (polynomial and harmonic).
-
-o Added a way to limit the number of functions evaluations in
-  optimizers (the number of iterations could already be limited)
-  Thanks to Gilles Sadowski.
-
-o Added support for rank transformations.
-
-o Added an implementation of the Mersenne twister pseudo random number
-  generator from Makoto Matsumoto and Takuji Nishimura
-
-o Added support for any type of field in linear algebra (FielxMatrix,
-  FieldVector, FieldLUDecomposition)
-
-o The RealMatrixImpl implementation classes has been renamed
-  Array2DRowRealMatrix to reflect its specificities and for
-  consistency with the new implementations. The previous name is still
-  available but is deprecated
-
-o Added a block-based storage type for dense matrices improving speed
-  for large dimensions
-
-o Added AggregateSummaryStatistics class to support aggregation of
-  SummaryStatistics. Thanks to John Bollinger.
-
-o Added general Field and FieldElement interfaces to allow generic
-  algorithms to operate on fields. The library already provides
-  several implementations: Complex, Fraction, BigFraction and BigReal
-
-o Added a SparseRealVector class that implements a sparse vector for
-  the RealVector interface.
-
-o Added a getCovariance method to singular value decomposition Thanks
-  to Dimitri Pourbaix.
-
-o Added method to walk matrix entries with or without changing them in
-  the visitor design pattern sense. Three different orders can be
-  used, row by row, column by column or optimized order according to
-  internal storage. Optimized order should be preferred when no
-  specific order is needed, because it will be more cache efficient.
-
-o Added an int/double hash map (OpenIntToDoubleHashMap) with much
-  smaller memory overhead than standard java.util.Map (open addressing
-  and no boxing). Thanks to Ismael Juma.
-
-o Support for one dimensional vectors has been added to the linear
-  algebra package with a RealVector interface, a RealVectorImpl
-  default implementation using a single double array to store elements
-  and a RealVectorFormat for input/output. Thanks to Andreas Rieger.
-
-o New ODE integrators have been added: the explicit Adams-Bashforth
-  and implicit Adams-Moulton multistep methods. As the implementations
-  of these methods are based on Nordsieck vector rather than a
-  traditional array of previous steps, they both have been improved to
-  handle adaptive stepsize. These methods provide the same rich
-  features has the existing ones: continuous output, step handlers,
-  discrete events, G-stop ...
-
-o All ODE integrators now support setting a maximal number of
-  evaluations of differential equations function. If this number is
-  exceeded, an exception will be thrown during integration. This can
-  be used to prevent infinite loops if for example error control or
-  discrete events create a really large number of extremely small
-  steps.
-
-o All step interpolators for ODE integrators now provide interpolation
-  for both the state and its time derivatives. The interpolated
-  derivatives are the exact derivatives of the interpolated state,
-  thus preserving consistency.  The general step handlers hence do not
-  need to call the derivation function anymore. The fixed step
-  handlers also get the time derivative of the state as an additional
-  argument along with the state when they are called.
-
-o Switching functions can now throw dedicated SwitchException from all
-  their method. At upper call level, the various ODE integrators
-  handle these new exceptions and wrap them into IntegratorException
-  instances, hence the integrators methods signature did not change.
-
-o Added factory methods to create Chebyshev, Hermite, Laguerre and
-  Legendre polynomials.
-
-o Added add, subtract, negate, multiply and toString methods to
-  PolynomialFunction.
-
-o Added a Legendre-Gauss integrator.
-
-o Added add/subtract/multiply/divide functions with integer parameters
-  to Fraction
-
-o Added some utility functions to compute powers with integral types
-  (int, long, BigInteger).
-
-o Added a scalb method in MathUtils. This method is similar to the
-  method with same name added in java.lang.Math as of Java 6.
-
-o Added several convenience methods and constants for Vector3D and
-  Rotation.
-
-o MATH-114: Added PearsonsCorrelation class to compute correlation
-  matrices, standard errors and p-values for correlation
-  coefficients. Thanks to John Gant.
-
-o MATH-114: Added Covariance class to compute variance-covariance
-  matrices in new correlation package.
-
-o MATH-136: Added Spearman's rank correlation
-  (SpearmansCorrelation). Thanks to John Gant.
-
-o MATH-152: Added support for multi-dimensional Fourier
-  transform. Thanks to Remi Arntzen.
-
-o MATH-177: Added a new univariate sub-package below the optimization
-  package. Thanks to Gilles Sadowski.
-
-o MATH-178: Added support for the Zipf distribution. Thanks to Paul
-  Cowan.
-
-o MATH-202: Added the getSwitchingFunctions and
-  clearSwitchingFunctions to the FirstOrderIntegrator interface and
-  all its implementations
-
-o MATH-203: Added Mauro's patch to support multiple regression. Thanks
-  to Mauro Talevi.
-
-o MATH-212: Added support for copying statistics. Changes to stats
-  classes include copy constructor, static copy(-,-) and instance
-  copy() methods. Added copy() to UnivariateStatistic and
-  StorelessUnivariateStatistic interfaces. Thanks to Jason
-  C. HandUber.
-
-o MATH-215: Added Fast Hadamard Transform. Thanks to Bernhard
-  Grünewaldt.
-
-o MATH-219: Added removeData methods for the SimpleRegression
-  class. This allows to support regression calculations across a
-  sliding window of (time-based) observations without having to
-  recalculate for the entire window every time. Thanks to Andrew
-  Berry.
-
-o MATH-220: Added JAMA-like interfaces for eigen/singular
-  problems. The implementation are based on the very quick dqd/dqds
-  algorithms and some parts of the MRRR algorithm. This leads to very
-  fast and accurate solutions.
-
-o MATH-220: Added JAMA-like interfaces for decomposition
-  algorithms. These interfaces decompose a matrix as a product of
-  several other matrices with predefined properties and shapes
-  depending on the algorithm. These algorithms allow to solve the
-  equation A * X = B, either for an exact linear solution
-  (LU-decomposition, Cholesky decomposition) or an exact or
-  least-squares solution (QR-decomposition).
-
-o MATH-222: Added beta distribution. Thanks to Ted Dunning.
-
-o MATH-222: Added probability density functions computation for
-  distributions for which it is feasible. Thanks to Ted Dunning.
-
-o MATH-229: Added a removal feature for observations in descriptive
-  statistics. Thanks to Cyril Briquet.
-
-o MATH-230: Added support for sparse matrix. Thanks to Sujit Pal and
-  Ismael Juma.
-
-o MATH-231: Added an abstract matrix implementation simplifying
-  extension by users.
-
-o MATH-232: Added Frobenius matrix norm.
-
-o MATH-234: Added setter methods for rows and columns in matrices.
-
-o MATH-236: Added nth root computation for complex numbers. Thanks to
-  Bernhard Grünewaldt.
-
-o MATH-246: Added an optimizer for constrained linear problems based
-  on 2-phases standard simplex. Thanks to Benjamin McCann.
-
-o MATH-247: Added a MathUtils method to check equality given some
-  error bounds. Thanks to Benjamin McCann.
-
-o MATH-251: Added a BigFraction class that does not overflow when big
-  numerators or denominators are used. Thanks to Benjamin Croizet.
-
-o MATH-256:  Added  Fraction.toString()
-
-o MATH-266: Added a clustering package with an implementation of the
-  k-means++ algorithm Thanks to Benjamin McCann.
-
-o MATH-267:  Added digamma function. Thanks to Ted Dunning.
-
-o MATH-277: Added a scalar multiply to the Complex class Thanks to
-  Mark Anderson.
-
-o MATH-278: Added robust locally weighted regression (Loess). Thanks
-  to Eugene Kirpichov.
-
-o MATH-279: Added a check for too few rows with respect to the number
-  of predictors in linear regression Thanks to Michael Bjorkegren.
+o Added a way to compute both the final state in an Initial Value Problem (IVP)
+        for Ordinary Differential Equations (ODE) and its derivatives with respect to
+        initial state and with respect to some problem parameters. This allows wrapping
+        ODE solvers into optimization or root finding algorithms, which in turn can be
+        used to solve Boundary Value Problems (BVP). There are no implementations (yet)
+        of BVP solvers in the library. 
+o MATH-323:  Added SemiVariance statistic. Thanks to Larry Diamond. 
+o MATH-341:  Added a warning in the getCoefficients method documentation for
+        PolynomialFunctionLagrangeForm. Computation may be ill-conditioned
+        so this method should be used with care. 
+o MATH-340:  Fixed an error in BigFraction multiplication for large numerators that don't
+        fit in a primitive int. 
+o MATH-334:  Added min/max getters for real vectors (not yet in the RealVector interface for
+        compatibility purposes, but in the AbstractRealVector abstract class). 
+o MATH-321:  Singular Value Decomposition now computes either the compact SVD (using only
+        positive singular values) or truncated SVD (using a user-specified maximal
+        number of singular values). 
+o MATH-300:  Added support for multidimensional interpolation using the robust microsphere algorithm. Thanks to Gilles Sadowski. 
+o MATH-287:  Added support for weighted descriptive statistics. Thanks to Matthew Rowles. 
+o Added normalizeArray method to MathUtils. 
 
 Fixed Bugs:
-
-o Fixed an infinite loop encountered in some backward integration
-  cases for ODE solvers. Thanks to Pascal Parraud.
-
-o Fixed inconsistencies in the naming scheme for static fields in
-  Vector3D and Rotation with respect to the overall library.
-
-o MATH-177: Redesigned the optimization framework for a simpler yet
-  more powerful API.  Added non-linear conjugate gradient optimizer.
-
-o MATH-193: Javadoc and style fixes. Thanks to Michael Heuer and Sebb.
-
-o MATH-198: Added an error detection for missing imaginary character
-  while parsing complex string Thanks to Frederick Salardi.
-
-o MATH-199: Detect numerical problems in Q.R decomposition for
-  Levenberg-Marquardt estimator and report them appropriately Thanks
-  to Mick.
-
-o MATH-200: Fixed several crashes in getCovariances() and
-  guessParametersErrors() in AbstractEstimator when some parameters
-  are bound. The methods now explicitly give result only about unbound
-  parameters. Thanks to Plamen Petrov.
-
-o MATH-201: Fixed truncation error in t-test classes for large t
-  values. Thanks to Peter Wyngaard.
-
-o MATH-204: Added root checks for the endpoints. Thanks to Mick.
-
-o MATH-205: Fixed formula in fast cosine transformer javadoc
-  comments. Thanks to Roman Werpachowski.
-
-o MATH-207: Added Genetic Algorithm implementation. Thanks to David
-  Stefka.
-
-o MATH-209: Fixed dimension error on output vector for the operate
-  method in RealMatrixImpl and BigMatrixImpl classes. Thanks to Thomas
-  Chust.
-
-o MATH-210: Changed return type for
-  FirstOrderIntegrator.getSwitchingFunctions() to a collection of
-  SwitchingFunction instances. This better suits the intended use of
-  the method and fixes a visibility error since the previous return
-  type referenced the package private SwitchState class.
-
-o MATH-213: Changed return type for FirstOrderIntegrator.integrate()
-  to double in order to retrieve exact stop time. This allows to
-  handle properly integration interruption due to an EventHandler
-  instance asking to stop the integration when its associated event is
-  triggered. The state was already set to the current state at
-  interruption time, but it was difficult to get the corresponding
-  time (it involved setting a step handler monitoring the last step
-  specially).
-
-o MATH-214: Replaced size adjustment of all steps of fixed steps
-  Runge-Kutta integrators by a truncation of the last step only.
-
-o MATH-216: Improved fast Fourier transform efficiency. Thanks to
-  Cyril Briquet.
-
-o MATH-221: Changed the Complex.equals() method so that it considers
-  +0 and -0 are equal, as required by IEEE-754 standard. Thanks to
-  Dieter Roth.
-
-o MATH-223: Greatly improved QR-decomposition speed using transposed
-  matrices internally. Thanks to John Mulcahy.
-
-o MATH-226: Fixed an error in CorrelatedRandomVectorGenerator leading
-  to a component of the generated vector being constant. Thanks to
-  Stuart Siegel.
-
-o MATH-227: Fixed F distribution inverse CDF computation for small
-  denominator degrees of freedom. Thanks to Joerg Henning.
-
-o MATH-238: Fixed an error in gcd computation for large values. Thanks
-  to Christian Semrau.
-
-o MATH-240: Fixed error in factorial computation for 17 <= n <= 20.
-  Thanks to Christian Semrau.
-
-o MATH-241: Fixed error in binomial coefficient computation. Thanks to
-  Christian Semrau.
-
-o MATH-243: Fixed an error in computing gcd and lcm for some extreme
-  values at integer range boundaries. Thanks to Christian Semrau.
-
-o MATH-248: Greatly improved multiplication speed for sparse matrices
-
-o MATH-252: Fixed a comparison error when two different fractions
-  evaluate to the same double due to limited precision.
-
-o MATH-253: Fixed threading issues with MathException and
-  MathRuntimeException Thanks to Sebb.
-
-o MATH-254: Fixed threading issues with UnivariateRealSolverUtils
-  factory Thanks to Sebb.
-
-o MATH-255: Reduced visibility of MessagesResources_fr.contents field
-  to private Thanks to Sebb.
-
-o MATH-257: Fixed inconsistent access to multidimensional array in
-  FastFourierTransformer Thanks to Sebb.
-
-o MATH-263: Added getNorm1, getNormInf, distance1 and distanceInf to
-  the Vector3D class
-
-o MATH-264: Added an utility equality method between double numbers
-  using tolerance in ulps (Units in Last Position) Thanks to Gilles
-  Sadowski.
-
-o MATH-265: Added distance1, distance and distanceInf utility methods
-  for double and int arrays in MathUtils Thanks to Benjamin McCann.
-
-o MATH-272: Fixed a problem when setting some variables (several
-  variables were set instead of only one) Thanks to Benjamin McCann.
-
-o MATH-273: Fixed a wrong check for basic variables Thanks to Benjamin
-  McCann.
-
-o MATH-274: Fixed detection of not positive definite matrices in
-  Cholesky decomposition
-
-o MATH-280: The behavior of the bracket method in
-  UnivariateRealSolverUtils has been changed to return successfully
-  when a tentative bracketing interval has a root exactly at one of
-  its end points. Previously, such intervals triggered an exception.
-
-o MATH-281: Fixed an error in RealMatrix javadoc
+o MATH-335:  Fraction.hashCode() implementation was not fully consistent with Fraction.equals().
+        Changed hashCode() to use fields directly to agree with equals(). 
+o MATH-282:  Resolved multiple problems leading to inaccuracy and/or failure to compute Normal,
+        ChiSquare and  Poisson probabilities, Erf and Gamma functions.  Made Brent solver 
+        absolute accuracy configurable for all continuous distributions. 
+o MATH-347:  Fixed too stringent interval check in Brent solver: initial guess is now
+        allowed to be at either interval end 
+o Fixed a problem with getInterpolatedDerivatives returning zero derivatives when
+        an ODE step handler is configured to not use interpolation. It now returns a
+        constant but non-zero value consistent with at least one point inside the step 
+o MATH-344:  Fixed wrong return values when enpoints are roots in Brent solver with
+        a user provided initial guess 
+o MATH-343:  Fixed a missing bracketing check of initial interval in Brent solver. 
+o MATH-342:  In SVD, the matrices passed to EigenDecomposition are now symmetric
+        by construction (rather than simply by definition).  In EigenDecomposition,
+        once the tridiagonal form is obtained, the non-significant elements are
+        set to 0. 
+o MATH-333:  A EigenDecompositionImpl simplified makes it possible to compute
+        the SVD of a singular matrix (with the right number of elements in
+        the diagonal matrix) or a matrix with singular value(s) of multiplicity
+        greater than 1. 
+o Fixed a spurious exception in EigenDecompositionImpl when a 3x3 block
+        had two identical eigenvalues. 
+o MATH-338:  Fixed automatic step initialization in embedded Runge-Kutta integrators.
+        The relative tolerance setting was never used, only the absolute tolerance
+        was used. Thanks to Vincent Morand. 
+o MATH-329:  Fixed regression in Frequency.getPct(Object) introduced in 2.0. Cumulative
+        percent was being returned for Object arguments in place of percent. 
+o MATH-320:  Fixed Singular Value Decomposition solving of singular systems. 
+o MATH-326:  Fixed a wrong implementation of the Linf norm in vectors. Thanks to Jake Mannix. 
+o MATH-324:  Fixed a convergence discrepancy with respect to theory in Gragg-Bulirsch-Stoer
+        integrator. Thanks to Vincent Morand. 
+o Fixed a wrong dimension check in SVD solver. Thanks to Dimitri Pourbaix. 
+o MATH-313:  Added composition features for real functions. Thanks to Jake Mannix. 
+o MATH-312:  Added mapping and iteration methods to vectors. Provided a default implementation
+        for the numerous simple methods in the RealVectorInterface. Thanks to Jake Mannix. 
+o MATH-322:  Fixed an error in handling very close events in ODE integration. 
+o MATH-305:  Fixed an overflow error in MathUtils.distance that was causing KMeansPlusPlusClusterer
+        to fail with a NullPointerException when component distances between points
+        exceeded Integer.MAXVALUE. Thanks to Erik van Ingen. 
+o MATH-318:  Fixed an index computation error in eigen decomposition. Once again, kudos to Dimitri
+        for debugging this. Thanks to Dimitri Pourbaix. 
+o MATH-308:  Fixed an ArrayIndexOutOfBoundsException in eigen decomposition. Kudos to Dimitri
+        for debugging this, it was really difficult. Thanks to Dimitri Pourbaix. 
+o MATH-309:  Fixed parameter test in RandomDataImpl#nextExponential. The method now throws
+        IllegalArgumentException for mean = 0. Thanks to Mikkel Meyer Andersen. 
+o MATH-306:  Removed dead code from Complex#divide. Thanks to Joerg Huber. 
+o MATH-294:  Fixed implementation of RandomDataImpl#nextPoisson by implementing an alternative
+        algorithm for large means. 
+o MATH-298:  Fixed implementation of EmpiricalDistributionImpl#getUpperBounds to match
+        interface contract.  Added getGeneratorUpperBounds method to
+        EmpiricalDistributionImpl providing previous behavior. 
+o MATH-296:  Fixed wrong results on Loess interpolation, also added a way to set weights
+        for smoothing and to ignore zero weights for coefficients computation Thanks to Eugene Kirpichov. 
+o MATH-293:  Fixed a OutOfBoundException in simplex solver when some constraints are tight. Thanks to Benjamin McCann. 
+o MATH-291:  Fixed misleading number formats in error messages for adaptive
+        stepsize integrators. Thanks to Sebb. 
+o MATH-290:  Fixed a NullPointerException in simplex solver when no solution is possible
+        and some constraints are negative. Thanks to Benjamin McCann. 
+o MATH-289:  Removed an unused argument in a private method in simplex solver. 
+o MATH-288:  Fixed an error induced by entries set to 0 in simplex solver. Thanks to Benjamin McCann. 
+o MATH-286:  Fixed an error leading the simplex solver to compute the right solution
+        but return another one. Thanks to Benjamin McCann. 
+o MATH-283:  Prevent infinite loops in multi-directional direct optimization method when
+        the start point is exactly at the optimal point. Thanks to Michael Nischt. 
+o MATH-297:  Prevent possible zero divides on eigenvectors of indefinite matrices Thanks to Axel Kramer. 
 
 Changes:
+o MATH-332:  Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
+        As of Math 2.1, all continuous distributions implement density functions.  The HasDensity
+        interface has been deprecated and in version 3.0, density(double) will be added to the
+        ContinuousDistribution interface. Thanks to Mikkel Meyer Andersen. 
+o MATH-337:  Changed equals() methods to use instanceof check rather than catching ClassCastException;
+        this also allows some null checks to be omitted. 
+o MATH-336:  Removed unnecessary null checks in equals methods. 
+o MATH-239:  Added MathUtils methods to compute gcd and lcm for long arguments. Thanks to Christian Semrau. 
+o MATH-287:  Added support for weighted univariate statistics. Thanks to Matthew Rowles. 
+o MATH-315:  Added generationsEvolved property to GeneticAlgorithm to track the number of generations
+        evolved by the evolve() method before reaching the StoppingCondition. Thanks to Mikkel Meyer Andersen. 
+o MATH-311:  Changed probability calculations for Binomial, Poisson, and Hypergeometric
+        distributions to use Catherine Loader's saddle point approximations. Thanks to Nipun Jawalkar. 
 
-o Changed the return type of the various interpolation algorithms to
-  the specific implementation of UnivariateRealFunction each one uses
-  Thanks to Gilles Sadowski.
-
-o Completed internationalization of all error messages
-
-o Integration algorithms now can have both relative and absolute
-  accuracy settings.
-
-o The analysis package has been reorganized with several sub-packages.
-
-o The ODE integrators now support several step handlers at once,
-  instead of just one.  This is more consistent with event handlers
-  management.  The setStepHandler method has therefore been replaced
-  by addStephandler, the getStepHandler method has been replaced by
-  getStepHandlers which returns a Collection and a clearStepHandlers
-  method has been added.
-
-o Events handlers in the ODE package now also provide the switching
-  function variation (increasing/decreasing) when an event occurs
-
-o Clarified the ODE package by breaking in into several sub-packages
-  and renaming classes (SwitchingFunctions/EventHandler,
-  SwitchingFunctionsHandler/CombinedEventsManager)
-
-o The FirstOrderDifferentialEquations, FirstOrderIntegrator and
-  FixedStepHandler interfaces now extends Serializable, allowing
-  integrators, problems and handlers to be embedded into users
-  Serializable classes.
-
-o Replaced public no argument constructors with IDENTITY or ZERO
-  static instances for immutable classes Vector3D and Rotation.
-
-o Greatly improved RealMatrixImpl and BigMatrixImpl performances, both
-  in terms of speed and in terms of temporary memory footprint.
-
-o Starting with version 2.0 of the library, the minimal version of the
-  Java platform required to compile and use commons-math is Java 5.
-  This version is widely deployed now on many systems. It brings
-  new important features for specific mathematical developments, for
-  example new functions (log10, cbrt, ulp, signum, cosh, sinh, tanh,
-  hypot, expm1, log1p), autoboxing, MathContext or RoundingMode. It
-  also brings important features for general development, for example
-  enums, generics or annotations.
-
-o Removed deprecated features. This includes the following
-  changes. Factory-based instantiation replaced by setter injection in
-  1.2 in several classes have been removed. Protected fields in
-  matrices implementations have been declared final and
-  private. Identity factory methods moved to MatrixUtils class have
-  been removed. Complex utilities methods that have been superseded by
-  Complex instance methods have been removed.
-
-o MATH-189: Changed FractionFormat to extend NumberFormat.
-
-o MATH-217: Changed OLS regression implementation added in MATH-203 to
-  use QR decomposition to solve the normal equations.
-
-o MATH-218: The root solvers and the integrators now take the function
-  to solve as a parameter to the solve/integrate methods, thus
-  allowing to reuse the same solver/integrator for different
-  functions.
-
-o MATH-242: Forced symmetry in binomialCoefficientLog and added test
-  cases for MathUtils. Thanks to Christian Semrau.
-
-o MATH-276: Optimized Complex isNaN(), isInfinite() by moving
-  computation to constructor. Thanks to Mark Anderson.
-
-
-For complete information on commons-math, including instructions on
-how to submit bug reports, patches, or suggestions for improvement,
-see the commons-math website:
+ 
+For complete information on commons-math, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the commons-math website:
 
 http://commons.apache.org/math/
+
+
