@@ -4,6 +4,21 @@
 
 This is a maintenance release including numerous bug fixes and enhancements.
 
+Users of version 2.0 are encouraged to upgrade to 2.1, as this release includes some important bug fixes.
+ 
+This release contains some minor API compatibility breaks with version 2.0:
+--------------------------------------------------------------------------
+- the return type of RealVector.copy() has been changed to AbstractRealVector
+- the no-argument constructor of MatrixUtils() has been made private
+- the mapXxxToSelf methods of OpenMapRealVector have been removed and 
+  some method return types have been changed in this class
+- new methods have been added to the RealVector interface
+- several fields in AdaptiveStepSizeIntegrator have been made final
+- DummyStepInterpolator requires an additional argument for one of its constructors
+- some protected fields have been removed from AbstractLeastSquaresOptimizer,
+  AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer
+- the isOptimal(SimplexTableau) method has been removed from SimplexSolver 
+
 Changes in this version include:
 
 New features:
