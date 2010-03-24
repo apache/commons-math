@@ -38,7 +38,19 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="2.1" date="TBD" description="This is a maintenance release including numerous bug fixes and enhancements.">
+    <release version="2.1" date="TBD" description="This is primarily a maintenance release, but
+       it also includes new features and enhancements.  Users of version 2.0 are encouraged to
+       upgrade to 2.1, as this release includes some important bug fixes.  See the detailed list
+       of changes below for full description of all bug fixes and enhancements.
+       This release contains some minor API compatibility breaks with version 2.0:
+       the return type of RealVector.copy() has been changed to AbstractRealVector; the no-argument
+       constructor of MatrixUtils() has been made private; the mapXxxToSelf methods of OpenMapRealVector
+       have been removed and some method return types have been changed in this class; new methods
+       have been added to the RealVector interface; several fields in AdaptiveStepSizeIntegrator have
+       been made final; DummyStepInterpolator requires an additional argument for one of its constructors; some
+       protected fields have been removed from AbstractLeastSquaresOptimizer, AbstractScalarDifferentiableOptimizer
+       and AbstractLinearOptimizer; and the isOptimal(SimplexTableau) method has been removed from
+       SimplexSolver. ">
       <action dev="psteitz" type="update" issue="MATH-332" due-to="Mikkel Meyer Andersen">
         Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
         As of Math 2.1, all continuous distributions implement density functions.  The HasDensity
