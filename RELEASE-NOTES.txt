@@ -1,27 +1,29 @@
                         
 
-              commons-math-2.1 RELEASE NOTES
+              Apache Commons Math 2.1 RELEASE NOTES
 
-This is a maintenance release including numerous bug fixes and enhancements.
+This is primarily a maintenance release, but it also includes new features and enhancements.
+Users of version 2.0 are encouraged to upgrade to 2.1, as this release includes some important
+bug fixes.  See the detailed list of changes below for full description of all bug fixes and
+enhancements. 
 
-Users of version 2.0 are encouraged to upgrade to 2.1, as this release includes some important bug fixes.
- 
 This release contains some minor API compatibility breaks with version 2.0:
---------------------------------------------------------------------------
-- the return type of RealVector.copy() has been changed to AbstractRealVector
-- the no-argument constructor of MatrixUtils() has been made private
-- the mapXxxToSelf methods of OpenMapRealVector have been removed and 
-  some method return types have been changed in this class
-- new methods have been added to the RealVector interface
-- several fields in AdaptiveStepSizeIntegrator have been made final
-- DummyStepInterpolator requires an additional argument for one of its constructors
-- some protected fields have been removed from AbstractLeastSquaresOptimizer,
-  AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer
-- the isOptimal(SimplexTableau) method has been removed from SimplexSolver 
+ --------------------------------------------------------------------------
+ - the return type of RealVector.copy() has been changed to AbstractRealVector
+ - the no-argument constructor of MatrixUtils() has been made private
+ - the mapXxxToSelf methods of OpenMapRealVector have been removed and
+   some method return types have been changed in this class
+ - new methods have been added to the RealVector interface
+ - several fields in AdaptiveStepSizeIntegrator have been made final
+ - DummyStepInterpolator requires an additional argument for one of its constructors
+ - some protected fields have been removed from AbstractLeastSquaresOptimizer,
+   AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer
+ - the isOptimal(SimplexTableau) method has been removed from SimplexSolver 
 
 Changes in this version include:
 
 New features:
+o MATH-357:  Implementation of bicubic interpolation. 
 o Added a way to compute both the final state in an Initial Value Problem (IVP)
         for Ordinary Differential Equations (ODE) and its derivatives with respect to
         initial state and with respect to some problem parameters. This allows wrapping
@@ -51,6 +53,9 @@ o MATH-282:  Resolved multiple problems leading to inaccuracy and/or failure to 
         absolute accuracy configurable for all continuous distributions. 
 o MATH-347:  Fixed too stringent interval check in Brent solver: initial guess is now
         allowed to be at either interval end 
+o MATH-358:  Fixed an error in events handling in ODE solvers. In some rare cases, events
+        occurring close to a step start were handled without truncating the step, making
+        them appear as is they occurred close to the step end 
 o Fixed a problem with getInterpolatedDerivatives returning zero derivatives when
         an ODE step handler is configured to not use interpolation. It now returns a
         constant but non-zero value consistent with at least one point inside the step 
@@ -112,6 +117,7 @@ o MATH-283:  Prevent infinite loops in multi-directional direct optimization met
 o MATH-297:  Prevent possible zero divides on eigenvectors of indefinite matrices Thanks to Axel Kramer. 
 
 Changes:
+o MATH-356:  Added method to clear the list of observations. 
 o MATH-332:  Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
         As of Math 2.1, all continuous distributions implement density functions.  The HasDensity
         interface has been deprecated and in version 3.0, density(double) will be added to the
