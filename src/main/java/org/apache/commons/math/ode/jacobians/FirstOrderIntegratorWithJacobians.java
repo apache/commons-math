@@ -42,7 +42,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * is extended with jacobians of the raw ODE and the variational equations are
  * added to form a new compound problem of higher dimension. If the original ODE
  * problem has dimension n and there are p parameters, the compound problem will
- * have dimension n &times; (1 + n + k).</p>
+ * have dimension n &times; (1 + n + p).</p>
  * @see ParameterizedODE
  * @see ODEWithJacobians
  * @version $Revision$ $Date$
