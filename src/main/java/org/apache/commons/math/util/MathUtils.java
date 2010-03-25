@@ -1799,7 +1799,8 @@ public final class MathUtils {
     public static void checkOrder(double[] val, int dir, boolean strict) {
         double previous = val[0];
 
-        for (int i = 1, max = val.length; i < max; i++) {
+        int max = val.length;
+        for (int i = 1; i < max; i++) {
             if (dir > 0) {
                 if (strict) {
                     if (val[i] <= previous) {

@@ -28,6 +28,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
  * bicubic spline interpolation</a>.
  *
  * @version $Revision$ $Date$
+ * @since 2.1
  */
 public class BicubicSplineInterpolatingFunction
     implements BivariateRealFunction {
@@ -35,7 +36,7 @@ public class BicubicSplineInterpolatingFunction
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
      */
-    private final static double[][] aInv = {
+    private static final double[][] AINV = {
         { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
         { 0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0 },
         { -3,3,0,0,-2,-1,0,0,0,0,0,0,0,0,0,0 },
@@ -82,7 +83,7 @@ public class BicubicSplineInterpolatingFunction
                                               double[][] dZdX,
                                               double[][] dZdY,
                                               double[][] dZdXdY)
-        throws MathException {
+        throws DimensionMismatchException {
         final int xLen = x.length;
         final int yLen = y.length;
 
@@ -173,7 +174,8 @@ public class BicubicSplineInterpolatingFunction
             return -1;
         }
 
-        for (int i = 1, max = val.length; i < max; i++) {
+        int max = val.length;
+        for (int i = 1; i < max; i++) {
             if (c <= val[i]) {
                 return i - 1;
             }
@@ -213,7 +215,7 @@ public class BicubicSplineInterpolatingFunction
 
         for (int i = 0; i < 16; i++) {
             double result = 0;
-            final double[] row = aInv[i];
+            final double[] row = AINV[i];
             for (int j = 0; j < 16; j++) {
                 result += row[j] * beta[j];
             }
@@ -226,6 +228,8 @@ public class BicubicSplineInterpolatingFunction
 
 /**
  * 2D-spline function.
+ * 
+ * @version $Revision$ $Date$
  */
 class BicubicSplineFunction
     implements BivariateRealFunction {
@@ -278,9 +282,9 @@ class BicubicSplineFunction
         final double y2 = y * y;
         final double y3 = y2 * y;
 
-        return a00 + a01 * y + a02 * y2 + a03 * y3
-            + a10 * x + a11 * x * y + a12 * x * y2 + a13 * x * y3
-            + a20 * x2 + a21 * x2 * y + a22 * x2 * y2 + a23 * x2 * y3
-            + a30 * x3 + a31 * x3 * y + a32 * x3 * y2 + a33 * x3 * y3;
+        return a00 + a01 * y + a02 * y2 + a03 * y3 +
+            a10 * x + a11 * x * y + a12 * x * y2 + a13 * x * y3 +
+            a20 * x2 + a21 * x2 * y + a22 * x2 * y2 + a23 * x2 * y3 +
+            a30 * x3 + a31 * x3 * y + a32 * x3 * y2 + a33 * x3 * y3;
     }
 }

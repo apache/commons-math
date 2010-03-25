@@ -32,6 +32,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
  * chapter 2.
  *
  * @version $Revision$ $Date$
+ * @since 2.1
  */
 public class SmoothingBicubicSplineInterpolator
     implements BivariateRealGridInterpolator {
@@ -132,9 +133,9 @@ public class SmoothingBicubicSplineInterpolator
             for (int j = 0; j < yLen; j++) {
                 final int nJ = nextIndex(j, yLen);
                 final int pJ = previousIndex(j);
-                dZdXdY[i][j] =  (zY_2[nI][nJ] - zY_2[nI][pJ]
-                                 - zY_2[pI][nJ] + zY_2[pI][pJ])
-                    / ((xval[nI] - xval[pI]) * (yval[nJ] - yval[pJ])) ;
+                dZdXdY[i][j] =  (zY_2[nI][nJ] - zY_2[nI][pJ] -
+                                 zY_2[pI][nJ] + zY_2[pI][pJ]) /
+                    ((xval[nI] - xval[pI]) * (yval[nJ] - yval[pJ])) ;
             }
         }
 
@@ -160,7 +161,6 @@ public class SmoothingBicubicSplineInterpolator
      * It is assumed (but not checked) that {@code i} is smaller than the size of the array.
      *
      * @param i Index
-     * @param max Upper limit of the array
      * @return the previous index
      */
     private int previousIndex(int i) {
