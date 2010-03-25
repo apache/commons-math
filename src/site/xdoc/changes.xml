@@ -51,7 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
        and AbstractLinearOptimizer; and the isOptimal(SimplexTableau) method has been removed from
        SimplexSolver. ">
       <action dev="erans" type="update" issue="MATH-356">
-        Added method to clear the list of observations.
+        Added method to clear the list of observations in CurveFitter.
       </action>
       <action dev="erans" type="add" issue="MATH-357">
         Implementation of bicubic interpolation.

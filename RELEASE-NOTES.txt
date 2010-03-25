@@ -117,7 +117,7 @@ o MATH-283:  Prevent infinite loops in multi-directional direct optimization met
 o MATH-297:  Prevent possible zero divides on eigenvectors of indefinite matrices Thanks to Axel Kramer. 
 
 Changes:
-o MATH-356:  Added method to clear the list of observations. 
+o MATH-356:  Added method to clear the list of observations in CurveFitter. 
 o MATH-332:  Added density functions to remaining continuous distributions (F, T, Weibull, Cauchy).
         As of Math 2.1, all continuous distributions implement density functions.  The HasDensity
         interface has been deprecated and in version 3.0, density(double) will be added to the
