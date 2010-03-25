@@ -20,7 +20,7 @@
 
 ## Hack to improve layout: replace all pairs of spaces with a single new-line
 $release.description.replaceAll("  ", "
-"))
+")
 
 #if ($release.getActions().size() == 0)
 No changes defined in this version.
