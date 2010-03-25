@@ -113,9 +113,9 @@ o${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $du
 ## End of main loop
 #end
  
-For complete information on commons-math, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the commons-math website:
+For complete information on ${project.name}, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache ${project.name} website:
 
-http://commons.apache.org/math/
+${project.url}
 
 
