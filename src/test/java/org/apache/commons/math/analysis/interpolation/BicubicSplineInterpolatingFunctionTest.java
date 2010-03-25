@@ -37,6 +37,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
 
+        @SuppressWarnings("unused")
         BivariateRealFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                            zval, zval, zval);
         

@@ -39,6 +39,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
 
         BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
         
+        @SuppressWarnings("unused")
         BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
         
         double[] wxval = new double[] {3, 2, 5, 6.5};
