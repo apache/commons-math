@@ -104,7 +104,7 @@ public class BicubicSplineInterpolatingFunction
 
         MathUtils.checkOrder(x, 1, true);
         MathUtils.checkOrder(y, 1, true);
-        
+
         xval = x.clone();
         yval = y.clone();
 
@@ -210,7 +210,7 @@ public class BicubicSplineInterpolatingFunction
      */
     private double[] computeSplineCoefficients(double[] beta) {
         final double[] a = new double[16];
-        
+
         for (int i = 0; i < 16; i++) {
             double result = 0;
             final double[] row = aInv[i];
@@ -272,12 +272,12 @@ class BicubicSplineFunction
             throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
                                                                       y, 0, 1);
         }
-        
+
         final double x2 = x * x;
         final double x3 = x2 * x;
         final double y2 = y * y;
         final double y3 = y2 * y;
-        
+
         return a00 + a01 * y + a02 * y2 + a03 * y3
             + a10 * x + a11 * x * y + a12 * x * y2 + a13 * x * y3
             + a20 * x2 + a21 * x2 * y + a22 * x2 * y2 + a23 * x2 * y3

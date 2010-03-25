@@ -51,7 +51,7 @@ public class SmoothingBicubicSplineInterpolator
 
         MathUtils.checkOrder(xval, 1, true);
         MathUtils.checkOrder(yval, 1, true);
-        
+
         final int xLen = xval.length;
         final int yLen = yval.length;
 
