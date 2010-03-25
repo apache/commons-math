@@ -16,7 +16,7 @@
 ## under the License.
                         
 
-              ${finalName} RELEASE NOTES
+              Apache ${project.name} ${version} RELEASE NOTES
 
 ${release.description}
 
