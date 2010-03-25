@@ -60,7 +60,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
 
         double[][] wzval = new double[xval.length][yval.length + 1];
         try {
-            p = interpolator.interpolate(xval, wyval, zval);
+            p = interpolator.interpolate(xval, wyval, wzval);
             Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException e) {
             // Expected
