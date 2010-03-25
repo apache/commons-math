@@ -320,7 +320,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             return 1502.824469929139 + (-1438.6974831849952 + (460.959476642384 - 49.43847385647082 * b) * b) * b;
         }
 
-    };
+    }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
     private static class Circle implements ODEWithJacobians {
@@ -430,6 +430,6 @@ public class FirstOrderIntegratorWithJacobiansTest {
             };
         }
 
-    };
+    }
 
 }
