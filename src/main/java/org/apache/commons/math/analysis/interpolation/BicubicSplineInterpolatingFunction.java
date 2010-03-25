@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.DimensionMismatchException;
