@@ -300,7 +300,9 @@
         <version>2.1</version>
         <configuration>
           <xmlPath>${basedir}/src/site/xdoc/changes.xml</xmlPath>
-          <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
+          <issueLinkTemplatePerSystem>
+            <default>%URL%/%ISSUE%</default>
+          </issueLinkTemplatePerSystem>
           <template>math-release-notes.vm</template>
           <templateDirectory>templates</templateDirectory>
         </configuration>
