@@ -44,26 +44,29 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <!-- The description is formatted so as to make it easy to paste into the generated release notes -->
+    <!-- NOTE: 
+    The description below is specially formatted so as to improve the layout of the generated release notes:
+    The parsing process removes all line feeds, replacing them with a single space.
+    The Velocity template in resources/templates has been enhanced to replace pairs of adjacent spaces
+    with a new-line in the release notes. (These spaces are ignored when displaying HTML).
+    If the output is not quite correct, check for invisible trailing spaces!
+     -->
     <release version="2.1" date="TBD" description="
 This is primarily a maintenance release, but it also includes new features and enhancements.
 
-Users of version 2.0 are encouraged to upgrade to 2.1, as this release includes some important bug fixes.
+  Users of version 2.0 are encouraged to upgrade to 2.1, as this release includes some important bug fixes.
 
-See the detailed list of changes below for full description of all bug fixes and enhancements.
+  See the detailed list of changes below for full description of all bug fixes and enhancements.
 
-This release contains some minor API compatibility breaks with version 2.0:
-
- the return type of RealVector.copy() has been changed to AbstractRealVector;
- the no-argument constructor of MatrixUtils() has been made private;
- the mapXxxToSelf methods of OpenMapRealVector have been removed and
-     some method return types have been changed in this class;
- new methods have been added to the RealVector interface;
- several fields in AdaptiveStepSizeIntegrator have been made final;
- DummyStepInterpolator requires an additional argument for one of its constructors;
- some protected fields have been removed from AbstractLeastSquaresOptimizer, 
-     AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer;
- and the isOptimal(SimplexTableau) method has been removed from SimplexSolver. ">
+  This release contains some minor API compatibility breaks with version 2.0:
+  the return type of RealVector.copy() has been changed to AbstractRealVector;
+  the no-argument constructor of MatrixUtils() has been made private;
+  the mapXxxToSelf methods of OpenMapRealVector have been removed and some method return types have been changed in this class;
+  new methods have been added to the RealVector interface;
+  several fields in AdaptiveStepSizeIntegrator have been made final;
+  DummyStepInterpolator requires an additional argument for one of its constructors;
+  some protected fields have been removed from AbstractLeastSquaresOptimizer, AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer;
+  and the isOptimal(SimplexTableau) method has been removed from SimplexSolver. ">
       <action dev="erans" type="update" issue="MATH-356">
         Added method to clear the list of observations in CurveFitter.
       </action>
