@@ -928,29 +928,29 @@ are simply solved by adjusting the import statements in users code.">
        equals to make all instances with real or imaginary part NaN equal.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-12" due-to="Keith McDonald">
-		Fixed bin index overflow problem in EmpiricalDistributionImpl.
-	  </action>
-	  <action dev="brentworden" type="fix" issue="MATH-108" due-to="Xiaogang Zhang">
+        Fixed bin index overflow problem in EmpiricalDistributionImpl.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-108" due-to="Xiaogang Zhang">
         Added protection against numerical overflow and underflow in the
         isBracketing method.
-	  </action>
-	  <action dev="brentworden" type="fix" issue="MATH-47" due-to="Nikhil Gupte">
-		Fixed division by zero error in rounding methods.
-	  </action>
-	  <action dev="brentworden" type="fix" issue="MATH-100" due-to="Mike Hu">
-		Added upper tail cumulative probability method to HypergeometricDistributionImpl.
-	  </action>
-	  <action dev="brentworden" type="fix" issue="MATH-22" due-to="Xiaogang Zhang">
-		Added better handling of numerical overflow and division by zero in
-		Complex calculations.
-	  </action>
-	  <action dev="brentworden" type="fix" issue="MATH-92" due-to="Mikael Weigelt">
-		Changed ContinuedFraction to better handle infinite convergents that
-		resulted in divergent continued fraction evaluations.
-	  </action>
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-47" due-to="Nikhil Gupte">
+        Fixed division by zero error in rounding methods.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-100" due-to="Mike Hu">
+        Added upper tail cumulative probability method to HypergeometricDistributionImpl.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-22" due-to="Xiaogang Zhang">
+        Added better handling of numerical overflow and division by zero in
+        Complex calculations.
+      </action>
+      <action dev="brentworden" type="fix" issue="MATH-92" due-to="Mikael Weigelt">
+        Changed ContinuedFraction to better handle infinite convergents that
+        resulted in divergent continued fraction evaluations.
+      </action>
       <action dev="brentworden" type="fix" issue="MATH-32"  due-to="Srinivas Vemury">
         Changed rounding methods to not rely on BigDecimal conversions which
-		was causing numerical error.
+        was causing numerical error.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-3"  due-to="Jörg Weimar">
         Changed Fraction(double) to correctly handle near-integral arguments.
