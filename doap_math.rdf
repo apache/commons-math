@@ -38,6 +38,16 @@
     <release>
       <Version>
         <name>commons-math</name>
+        <created>TBA</created>
+        <revision>2.1</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2009-08-03</created>
+        <revision>2.0</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
         <created>2008-02-24</created>
         <revision>1.2</revision>
       </Version>
@@ -45,6 +55,11 @@
         <name>commons-math</name>
         <created>2005-12-19</created>
         <revision>1.1</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2004-12-06</created>
+        <revision>1.0</revision>
       </Version>
     </release>
     <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
