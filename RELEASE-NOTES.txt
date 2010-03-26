@@ -11,14 +11,14 @@ This release contains some minor API compatibility breaks with version 2.0:
  --------------------------------------------------------------------------
  - the return type of RealVector.copy() has been changed to AbstractRealVector
  - the no-argument constructor of MatrixUtils() has been made private
- - the mapXxxToSelf methods of OpenMapRealVector have been removed and
-   some method return types have been changed in this class
+ - the mapXxxToSelf methods of OpenMapRealVector have been removed and some method return types
+   have been changed in this class
  - new methods have been added to the RealVector interface
  - several fields in AdaptiveStepSizeIntegrator have been made final
  - DummyStepInterpolator requires an additional argument for one of its constructors
  - some protected fields have been removed from AbstractLeastSquaresOptimizer,
    AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer
- - the isOptimal(SimplexTableau) method has been removed from SimplexSolver 
+ - the isOptimal(SimplexTableau) method has been removed from SimplexSolver
 
 Changes in this version include:
 
@@ -46,6 +46,7 @@ o MATH-287:  Added support for weighted descriptive statistics. Thanks to Matthe
 o Added normalizeArray method to MathUtils. 
 
 Fixed Bugs:
+o MATH-360:  Fix use of wrong variable in SmoothingBicubicSplineInterpolatorTest.testPreconditions() 
 o MATH-335:  Fraction.hashCode() implementation was not fully consistent with Fraction.equals().
         Changed hashCode() to use fields directly to agree with equals(). 
 o MATH-282:  Resolved multiple problems leading to inaccuracy and/or failure to compute Normal,
@@ -133,8 +134,8 @@ o MATH-311:  Changed probability calculations for Binomial, Poisson, and Hyperge
         distributions to use Catherine Loader's saddle point approximations. Thanks to Nipun Jawalkar. 
 
  
-For complete information on commons-math, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the commons-math website:
+For complete information on Commons Math, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons Math website:
 
 http://commons.apache.org/math/
 
