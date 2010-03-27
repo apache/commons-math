@@ -164,6 +164,11 @@
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume HideUtilityClassConstructor"/>
     <property name="checkFormat"      value="HideUtilityClassConstructor"/>
   </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop MultipleVariableDeclarations"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume MultipleVariableDeclarations"/>
+    <property name="checkFormat"      value="MultipleVariableDeclarations"/>
+  </module>
 
 </module>
 
