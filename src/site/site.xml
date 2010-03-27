@@ -35,9 +35,10 @@
          href="http://commons.apache.org/math/api-1.1/index.html"/>
       <item name="Javadoc (1.0 release)"
          href="http://commons.apache.org/math/api-1.0/index.html"/>
+      <item name="Issue Tracking" href="/issue-tracking.html"/>
       <item name="Source Repository (current)" 
          href="http://svn.apache.org/viewvc/commons/proper/math/trunk"/>
-      <item name="Issue Tracking" href="/issue-tracking.html"/>
+      <item name="Downloads" href="http://commons.apache.org/math/download_math.cgi"/>
       <item name="Wiki"  
             href="http://wiki.apache.org/commons/Math"/>
     </menu>
