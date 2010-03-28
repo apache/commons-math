@@ -295,7 +295,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           The classes and interfaces in this package mimic the behavior of the classes and
           interfaces of the top level ode package, only adding parameters arrays for the jacobians.
           The behavior of these classes is to create a compound state vector z containing both
-          the state y(t) and its derivatives dy(t)/dy<sub>0</sub> and dy(t<sub>0</sub>)/dp and
+          the state y(t) and its derivatives dy(t)/dy<sub>0</sub> and dy(t)/dp and
           to set up an extended problem by adding the equations for the jacobians automatically.
           These extended state and problems are then provided to a classical underlying integrator
           chosen by user.
@@ -317,7 +317,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           jacobians on one side and compound state on the other side.
         </p>
         <p>
-          In order to compute dy(t)/dy<sub>0</sub> and dy(t<sub>0</sub>)/dp for any t, the algorithm
+          In order to compute dy(t)/dy<sub>0</sub> and dy(t/dp for any t, the algorithm
           needs not only the ODE function f such that y'=f(t,y) but also its local jacobians
           df(t, y, p)/dy and df(t, y, p)/dp.
         </p>
