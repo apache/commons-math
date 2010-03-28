@@ -224,20 +224,21 @@ public class BicubicSplineInterpolatingFunction
         return a;
     }
 }
-
 /**
  * 2D-spline function.
- * 
+ *
  * @version $Revision$ $Date$
  */
 class BicubicSplineFunction
     implements BivariateRealFunction {
+//CHECKSTYLE: stop MultipleVariableDeclarations
     /** Coefficients */
     private final double
         a00, a01, a02, a03,
         a10, a11, a12, a13,
         a20, a21, a22, a23,
         a30, a31, a32, a33;
+//CHECKSTYLE: resume MultipleVariableDeclarations
 
     /**
      * @param a Spline coefficients
