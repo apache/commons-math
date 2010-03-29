@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!--
+ Stripped down nav for just the commons-math user guide.
+ TODO: get this generated somehow from the "real" site.xml
+ so it does not have to be maintained separately.
+-->
+<project name="Math">
+  <skin>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-skin</artifactId>
+    <version>2</version>
+  </skin>
+  <publishDate position="none"/>
+  <body>
+    <menu name="User Guide">
+      <item name="Contents"                href="/userguide/index.html"/>
+      <item name="Overview"                href="/userguide/overview.html"/>
+      <item name="Statistics"              href="/userguide/stat.html"/>
+      <item name="Data Generation"         href="/userguide/random.html"/>
+      <item name="Linear Algebra"          href="/userguide/linear.html"/>
+      <item name="Numerical Analysis"      href="/userguide/analysis.html"/>
+      <item name="Special Functions"       href="/userguide/special.html"/>
+      <item name="Utilities"               href="/userguide/utilities.html"/>
+      <item name="Complex Numbers"         href="/userguide/complex.html"/>
+      <item name="Distributions"           href="/userguide/distribution.html"/>
+      <item name="Fractions"               href="/userguide/fraction.html"/>
+      <item name="Transform Methods"       href="/userguide/transform.html"/>
+      <item name="3D Geometry"             href="/userguide/geometry.html"/>
+      <item name="Optimization"            href="/userguide/optimization.html"/>
+      <item name="Ordinary Differential Equations" href="/userguide/ode.html"/>
+      <item name="Genetic Algorithms"      href="/userguide/genetics.html"/>
+    </menu>
+
+  </body>
+</project>

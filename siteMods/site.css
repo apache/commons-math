@@ -1,0 +1,109 @@
+body {
+ color: #000;
+ background-color: #fff;
+ font-size: 13px;
+}
+
+p {
+ margin-left: 4px;
+ margin-top: 8px;
+ margin-bottom: 4px;
+}
+ul, ol {
+ margin-top: 4px;
+ margin-bottom: 4px;
+}
+
+h2 {
+ color: #fff;
+ border: none;
+ margin-top: 8px;
+ margin-bottom: 4px;
+ padding: 4px 4px 4px 6px;
+ background-color: #036;
+ font-weight: 900;
+ font-size: 13px;
+ background-image: url(../images/nw_maj_rond.gif);
+ background-repeat: no-repeat;
+}
+
+h3 {
+ color: #fff;
+ background-color: #888;
+ margin-top: 12px;
+ margin-bottom: 4px;
+ padding: 4px 4px 4px 6px;
+ border: none;
+ font-weight: 900;
+ font-size: 13px;
+ background-image: url(../images/nw_maj_rond.gif);
+ background-repeat: no-repeat;
+}
+
+div#bodyColumn {
+ margin-top: 0px;
+ margin-left: 158px;
+}
+
+div#bodyColumn a {
+ text-decoration: underline;
+}
+div#bodyColumn a:link {
+ color: #00f;
+}
+div#bodyColumn a:visited  {
+ color: #00f;
+}
+a:active, a:hover {
+ color: #f30 !important;
+}
+
+div.source {
+ background-color: #eee;
+ color: #000;
+ margin-right: 0px;
+ margin-left: 4px;
+ margin-top: 1em;
+}
+
+div#leftColumn {
+ color: #000;
+ background-color: #eee;
+ margin-left: 0px;
+ margin-top: 0px;
+ border-right: 1px solid #aaa;
+ border-bottom: 1px solid #aaa;
+ border-top: none;
+ border-left: none;
+}
+
+#navcolumn {
+ margin-top: 0px;
+
+ color: #000;
+ border: none;
+ padding: 6px 4px 0 8px;
+}
+
+#navcolumn li {
+  padding-left: 8px;
+}
+
+#navcolumn h5 {
+  padding-top: 3px;
+}
+
+#banner, #banner td { 
+ background-color: #fff;
+ color: #000;
+}
+
+#banner td { 
+ height: 100%;
+ vertical-align: middle;
+}
+
+#menuCommons a.externalLink, #menuCommons a.externalLink:link, #menuCommons a.externalLink:visited, #menuCommons a.externalLink:active, #menuCommons a.externalLink:hover {
+  background-image: none;
+  padding-right: 0px;
+}
