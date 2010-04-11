@@ -32,12 +32,12 @@ import org.apache.commons.math.MathRuntimeException;
  * user can build a rotation from any of these representations, and
  * any of these representations can be retrieved from a
  * <code>Rotation</code> instance (see the various constructors and
- * getters). In addition, a rotation can also be built implicitely
+ * getters). In addition, a rotation can also be built implicitly
  * from a set of vectors and their image.</p>
  * <p>This implies that this class can be used to convert from one
  * representation to another one. For example, converting a rotation
  * matrix into a set of Cardan angles from can be done using the
- * followong single line of code:</p>
+ * following single line of code:</p>
  * <pre>
  * double[] angles = new Rotation(matrix, 1.0e-10).getAngles(RotationOrder.XYZ);
  * </pre>
@@ -49,20 +49,22 @@ import org.apache.commons.math.MathRuntimeException;
  * meaning of these vectors may vary and the semantics of the rotation also.</p>
  * <p>For example in an spacecraft attitude simulation tool, users will often
  * consider the vectors are fixed (say the Earth direction for example) and the
- * rotation transforms the coordinates coordinates of this vector in inertial
+ * frames change. The rotation transforms the coordinates of the vector in inertial
  * frame into the coordinates of the same vector in satellite frame. In this
- * case, the rotation implicitely defines the relation between the two frames.
- * Another example could be a telescope control application, where the rotation
+ * case, the rotation implicitly defines the relation between the two frames.</p>
+ * <p>Another example could be a telescope control application, where the rotation
  * would transform the sighting direction at rest into the desired observing
  * direction when the telescope is pointed towards an object of interest. In this
- * case the rotation transforms the directionf at rest in a topocentric frame
- * into the sighting direction in the same topocentric frame. In many case, both
- * approaches will be combined, in our telescope example, we will probably also
- * need to transform the observing direction in the topocentric frame into the
- * observing direction in inertial frame taking into account the observatory
- * location and the Earth rotation.</p>
+ * case the rotation transforms the direction at rest in a topocentric frame
+ * into the sighting direction in the same topocentric frame. This implies in this
+ * case the frame is fixed and the vector moves.</p>
+ * <p>In many case, both approaches will be combined. In our telescope example,
+ * we will probably also need to transform the observing direction in the topocentric
+ * frame into the observing direction in inertial frame taking into account the observatory
+ * location and the Earth rotation, which would essentially be an application of the
+ * first approach.</p>
  *
- * <p>These examples show that a rotation is what the user wants it to be, so this
+ * <p>These examples show that a rotation is what the user wants it to be. This
  * class does not push the user towards one specific definition and hence does not
  * provide methods like <code>projectVectorIntoDestinationFrame</code> or
  * <code>computeTransformedDirection</code>. It provides simpler and more generic
@@ -114,6 +116,10 @@ public class Rotation implements Serializable {
    * q<sub>1</sub><sup>2</sup> + q<sub>2</sub><sup>2</sup> +
    * q<sub>3</sub><sup>2</sup> = 1. If the quaternion is not normalized,
    * the constructor can normalize it in a preprocessing step.</p>
+   * <p>Note that some conventions put the scalar part of the quaternion
+   * as the 4<sup>th</sup> component and the vector part as the first three
+   * components. This is <em>not</em> our convention. We put the scalar part
+   * as the first component.</p>
    * @param q0 scalar part of the quaternion
    * @param q1 first coordinate of the vectorial part of the quaternion
    * @param q2 second coordinate of the vectorial part of the quaternion
@@ -145,9 +151,19 @@ public class Rotation implements Serializable {
    * <p>We use the convention that angles are oriented according to
    * the effect of the rotation on vectors around the axis. That means
    * that if (i, j, k) is a direct frame and if we first provide +k as
-   * the axis and PI/2 as the angle to this constructor, and then
+   * the axis and &pi;/2 as the angle to this constructor, and then
    * {@link #applyTo(Vector3D) apply} the instance to +i, we will get
    * +j.</p>
+   * <p>Another way to represent our convention is to say that a rotation
+   * of angle &theta; about the unit vector (x, y, z) is the same as the
+   * rotation build from quaternion components { cos(-&theta;/2),
+   * x * sin(-&theta;/2), y * sin(-&theta;/2), z * sin(-&theta;/2) }.
+   * Note the minus sign on the angle!</p>
+   * <p>On the one hand this convention is consistent with a vectorial
+   * perspective (moving vectors in fixed frames), on the other hand it
+   * is different from conventions with a frame perspective (fixed vectors
+   * viewed from different frames) like the ones used for example in spacecraft
+   * attitude community or in the graphics community.</p>
    * @param axis axis around which to rotate
    * @param angle rotation angle.
    * @exception ArithmeticException if the axis norm is zero
@@ -528,6 +544,7 @@ public class Rotation implements Serializable {
 
   /** Get the normalized axis of the rotation.
    * @return normalized axis of the rotation
+   * @see #Rotation(Vector3D, double)
    */
   public Vector3D getAxis() {
     double squaredSine = q1 * q1 + q2 * q2 + q3 * q3;
@@ -543,6 +560,7 @@ public class Rotation implements Serializable {
 
   /** Get the angle of the rotation.
    * @return angle of the rotation (between 0 and &pi;)
+   * @see #Rotation(Vector3D, double)
    */
   public double getAngle() {
     if ((q0 < -0.1) || (q0 > 0.1)) {
