@@ -25,8 +25,8 @@ import org.junit.Test;
 /**
  * Testcase for the bicubic interpolator.
  * 
- * @version $Revision: 821626 $ $Date: 2009-10-04 23:57:30 +0200 (Sun, 04 Oct 2009) $ 
- * @deprecated To be removed in  math 3.0 (when the class for which it is a test will also be removed).
+ * @version $Revision$ $Date$ 
+ * @deprecated To be removed in math 3.0 (when the class for which it is a test will also be removed).
  */
 public final class SmoothingBicubicSplineInterpolatorTest {
     /**
