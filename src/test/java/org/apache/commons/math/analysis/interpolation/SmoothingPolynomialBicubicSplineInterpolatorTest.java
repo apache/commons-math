@@ -23,12 +23,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for the bicubic interpolator.
+ * Testcase for the smoothing bicubic interpolator.
  * 
- * @version $Revision: 821626 $ $Date: 2009-10-04 23:57:30 +0200 (Sun, 04 Oct 2009) $ 
- * @deprecated To be removed in  math 3.0 (when the class for which it is a test will also be removed).
+ * @version $Revision$ $Date$
  */
-public final class SmoothingBicubicSplineInterpolatorTest {
+public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
     /**
      * Test preconditions.
      */
@@ -38,7 +37,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
         
         @SuppressWarnings("unused")
         BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
@@ -91,11 +90,12 @@ public final class SmoothingBicubicSplineInterpolatorTest {
     public void testPlane() throws MathException {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
-                    return 2 * x - 3 * y + 5;
+                    return 2 * x - 3 * y + 5
+                        + ((int) (Math.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(1);
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -114,19 +114,19 @@ public final class SmoothingBicubicSplineInterpolatorTest {
         y = -3;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("On sample point", expected, result, 1e-15);
+        Assert.assertEquals("On sample point", expected, result, 2);
 
         x = 4.5;
         y = -1.5;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("half-way between sample points (middle of the patch)", expected, result, 0.3);
+        Assert.assertEquals("half-way between sample points (middle of the patch)", expected, result, 2);
 
         x = 3.5;
         y = -3.5;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("half-way between sample points (border of the patch)", expected, result, 0.3);
+        Assert.assertEquals("half-way between sample points (border of the patch)", expected, result, 2);
     }
 
     /**
@@ -138,11 +138,12 @@ public final class SmoothingBicubicSplineInterpolatorTest {
     public void testParaboloid() throws MathException {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
-                    return 2 * x * x - 3 * y * y + 4 * x * y - 5;
+                    return 2 * x * x - 3 * y * y + 4 * x * y - 5
+                        + ((int) (Math.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(4);
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -2, -1, 0.5, 2.5};
@@ -156,23 +157,23 @@ public final class SmoothingBicubicSplineInterpolatorTest {
         BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
-        
+
         x = 5;
         y = 0.5;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("On sample point", expected, result, 1e-13);
+        Assert.assertEquals("On sample point", expected, result, 2);
 
         x = 4.5;
         y = -1.5;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("half-way between sample points (middle of the patch)", expected, result, 0.2);
+        Assert.assertEquals("half-way between sample points (middle of the patch)", expected, result, 2);
 
         x = 3.5;
         y = -3.5;
         expected = f.value(x, y);
         result = p.value(x, y);
-        Assert.assertEquals("half-way between sample points (border of the patch)", expected, result, 0.2);
+        Assert.assertEquals("half-way between sample points (border of the patch)", expected, result, 2);
     }
 }

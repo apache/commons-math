@@ -26,20 +26,19 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public interface BivariateRealGridInterpolator {
-
     /**
      * Computes an interpolating function for the data set.
      *
-     * @param xval all the x-coordinates of the interpolation points, sorted
+     * @param xval All the x-coordinates of the interpolation points, sorted
      * in increasing order.
-     * @param yval all the y-coordinates of the interpolation points, sorted
+     * @param yval All the y-coordinates of the interpolation points, sorted
      * in increasing order.
-     * @param zval the values of the interpolation points on all the grid knots:
-     * {@code zval[i][j] = f(xval[i], yval[j])}
-     * @return a function which interpolates the data set
+     * @param fval The values of the interpolation points on all the grid knots:
+     * {@code fval[i][j] = f(xval[i], yval[j])}.
+     * @return a function which interpolates the data set.
      * @throws MathException if arguments violate assumptions made by the
-     *         interpolation algorithm
+     *         interpolation algorithm.
      */
-    BivariateRealFunction interpolate(double[] xval, double[] yval, double[][] zval)
+    BivariateRealFunction interpolate(double[] xval, double[] yval, double[][] fval)
         throws MathException;
 }

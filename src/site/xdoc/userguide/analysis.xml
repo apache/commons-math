@@ -329,11 +329,15 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
         </p>
         <p>
           From two-dimensional data sampled on a regular grid, the
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/SmoothingBicubicSplineInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.SmoothingBicubicSplineInterpolator</a>
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.BicubicSplineInterpolator</a>
           computes a <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
-          bicubic interpolating function</a>. The data is first smoothed, along each grid dimension,
-          using one-dimensional splines.
+          bicubic interpolating function</a>.
+          Prior to computing an interpolating function, the
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.SmoothingPolynomialBicubicSplineInterpolator</a> class performs
+          smoothing of the data by computing the polynomial that best fits each of the one-dimensional curves along each
+          of the coordinate axes.
         </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">

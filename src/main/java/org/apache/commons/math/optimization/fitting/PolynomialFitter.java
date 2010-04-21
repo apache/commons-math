@@ -60,6 +60,13 @@ public class PolynomialFitter {
         fitter.addObservedPoint(weight, x, y);
     }
 
+    /**
+     * Remove all observations.
+     */
+    public void clearObservations() {
+        fitter.clearObservations();
+    }
+
     /** Get the polynomial fitting the weighted (x, y) points.
      * @return polynomial function best fitting the observed points
      * @exception OptimizationException if the algorithm failed to converge

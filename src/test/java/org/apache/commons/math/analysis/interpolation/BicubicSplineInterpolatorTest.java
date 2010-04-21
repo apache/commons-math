@@ -26,9 +26,8 @@ import org.junit.Test;
  * Testcase for the bicubic interpolator.
  * 
  * @version $Revision: 821626 $ $Date: 2009-10-04 23:57:30 +0200 (Sun, 04 Oct 2009) $ 
- * @deprecated To be removed in  math 3.0 (when the class for which it is a test will also be removed).
  */
-public final class SmoothingBicubicSplineInterpolatorTest {
+public final class BicubicSplineInterpolatorTest {
     /**
      * Test preconditions.
      */
@@ -38,7 +37,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
         
         @SuppressWarnings("unused")
         BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
@@ -73,13 +72,6 @@ public final class SmoothingBicubicSplineInterpolatorTest {
         } catch (DimensionMismatchException e) {
             // Expected
         }
-        wzval = new double[xval.length][yval.length - 1];
-        try {
-            p = interpolator.interpolate(xval, yval, wzval);
-            Assert.fail("an exception should have been thrown");
-        } catch (DimensionMismatchException e) {
-            // Expected
-        }
     }
 
     /**
@@ -95,7 +87,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -142,7 +134,7 @@ public final class SmoothingBicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingBicubicSplineInterpolator();
+        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -2, -1, 0.5, 2.5};
