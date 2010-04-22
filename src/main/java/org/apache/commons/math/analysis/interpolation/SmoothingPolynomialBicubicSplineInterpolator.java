@@ -40,7 +40,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
     private final PolynomialFitter yFitter;
 
     /**
-     * Default constructor. The degree of the fitting polynomials are set to 3.
+     * Default constructor. The degree of the fitting polynomials is set to 3.
      */
     public SmoothingPolynomialBicubicSplineInterpolator() {
         this(3);

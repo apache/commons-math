@@ -312,13 +312,13 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           org.apache.commons.math.analysis.interpolation.BivariateRealGridInterpolator</a>
           is used to find a bivariate real-valued function <code>f</code> which
           for a given set of tuples
-          (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>ij</sub></code>)
-          yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=z<sub>ij</sub></code> to the best accuracy
+          (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>f<sub>ij</sub></code>)
+          yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=f<sub>ij</sub></code> to the best accuracy
           possible. The result is provided as an object implementing the
           <a href="../apidocs/org/apache/commons/math/analysis/BivariateRealFunction.html">
           org.apache.commons.math.analysis.BivariateRealFunction</a> interface. It can therefore
           be evaluated at any point, including a point not belonging to the original set.
-          The array <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be sorted in
+          The arrays <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be sorted in
           increasing order in order to define a two-dimensional regular grid.
         </p>
         <p>
@@ -338,6 +338,35 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           org.apache.commons.math.analysis.interpolation.SmoothingPolynomialBicubicSplineInterpolator</a> class performs
           smoothing of the data by computing the polynomial that best fits each of the one-dimensional curves along each
           of the coordinate axes.
+        </p>
+        <p>
+          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TrivariateRealGridInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.TrivariateRealGridInterpolator</a>
+          is used to find a bivariate real-valued function <code>f</code> which
+          for a given set of tuples
+          (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>k</sub></code>,
+          <code>f<sub>ijk</sub></code>)
+          yields <code>f(x<sub>i</sub>,y<sub>j</sub>,z<sub>k</sub>)=f<sub>ijk</sub></code> to the
+          best accuracy possible. The result is provided as an object implementing the
+          <a href="../apidocs/org/apache/commons/math/analysis/TrivariateRealFunction.html">
+          org.apache.commons.math.analysis.TrivariateRealFunction</a> interface. It can therefore
+          be evaluated at any point, including a point not belonging to the original set.
+          The arrays <code>x<sub>i</sub></code>, <code>y<sub>j</sub></code> and
+          <code>z<sub>k</sub></code> must be sorted in increasing order in order to define a
+          three-dimensional regular grid.
+        </p>
+        <p>
+          In <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
+          tricubic interpolation</a>, the interpolation function is a 3rd-degree polynomial of two
+          variables. The coefficients are computed from the function values sampled on a regular grid,
+          as well as the values of the partial derivatives of the function at those grid points.
+        </p>
+        <p>
+          From three-dimensional data sampled on a regular grid, the
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolator.html">
+          org.apache.commons.math.analysis.interpolation.TricubicSplineInterpolator</a>
+          computes a <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
+          tricubic interpolating function</a>.
         </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">

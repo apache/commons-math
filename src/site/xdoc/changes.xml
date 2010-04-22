@@ -69,6 +69,9 @@ This is primarily a maintenance release, but it also includes new features and e
   DummyStepInterpolator requires an additional argument for one of its constructors;
   some protected fields have been removed from AbstractLeastSquaresOptimizer, AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer;
   and the isOptimal(SimplexTableau) method has been removed from SimplexSolver. ">
+      <action dev="erans" type="add" issue="MATH-366">
+        Implementation of tricubic interpolation.
+      </action>
       <action dev="erans" type="update" issue="MATH-365">
         Deprecated SmoothingBicubicSplineInterpolator and SmoothingBicubicSplineInterpolatorTest.
         Added BicubicSplineInterpolator and BicubicSplineInterpolatorTest.
