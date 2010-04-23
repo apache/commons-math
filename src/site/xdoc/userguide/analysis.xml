@@ -47,8 +47,8 @@
       <subsection name="4.2 Root-finding" href="rootfinding">
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
-          org.apache.commons.math.analysis.solvers.UnivariateRealSolver.</a>
-          provides the means to find roots of <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
+          UnivariateRealSolver</a> provides the means to find roots of
+          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
           A root is the value where the function takes the value 0.  Commons-Math
           includes implementations of the following root-finding algorithms: <ul>
           <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/BisectionSolver.html">
@@ -93,11 +93,13 @@
         <p>
           In order to use the root-finding features, first a solver object must
           be created.  It is encouraged that all solver object creation occurs
-          via the <code>org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory</code>
-          class.  <code>UnivariateRealSolverFactory</code> is a simple factory
-          used to create all of the solver objects supported by Commons-Math.  
-          The typical usage of <code>UnivariateRealSolverFactory</code>
-          to create a solver object would be:</p>
+          via the <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolverFactory.html">
+          UnivariateRealSolverFactory</a> class. <code>UnivariateRealSolverFactory</code>
+          is a simple factory used to create all of the solver objects supported by
+          Commons-Math.  
+          The typical usage of <code>UnivariateRealSolverFactory</code> to create a
+          solver object would be:
+        </p>
         <source>UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
 UnivariateRealSolver solver = factory.newDefaultSolver();</source>
         <p>
@@ -105,13 +107,22 @@ UnivariateRealSolver solver = factory.newDefaultSolver();</source>
           <code>UnivariateRealSolverFactory</code> are detailed below:
           <table>
             <tr><th>Solver</th><th>Factory Method</th><th>Notes on Use</th></tr>
-            <tr><td>Bisection</td><td>newBisectionSolver</td><td><div>Root must be bracketted.</div><div>Linear, guaranteed convergence</div></td></tr>
-            <tr><td>Brent</td><td>newBrentSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, guaranteed convergence</div></td></tr>
-            <tr><td>Newton</td><td>newNewtonSolver</td><td><div>Uses single value for initialization.</div><div>Super-linear, non-guaranteed convergence</div><div>Function must be differentiable</div></td></tr>
-            <tr><td>Secant</td><td>newSecantSolver</td><td><div>Root must be bracketted.</div><div>Super-linear, non-guaranteed convergence</div></td></tr>
-            <tr><td>Muller</td><td>newMullerSolver</td><td><div>Root must be bracketted.</div><div>We restrict ourselves to real valued functions, not complex ones</div></td></tr>
-            <tr><td>Laguerre</td><td>newLaguerreSolver</td><td><div>Root must be bracketted.</div><div>Function must be a polynomial</div></td></tr>
-            <tr><td>Ridder</td><td>newRidderSolver</td><td><div>Root must be bracketted.</div><div></div></td></tr>
+            <tr><td>Bisection</td><td>newBisectionSolver</td><td><div>Root must be
+                  bracketted.</div><div>Linear, guaranteed convergence</div></td></tr>
+            <tr><td>Brent</td><td>newBrentSolver</td><td><div>Root must be bracketted.</div>
+                <div>Super-linear, guaranteed convergence</div></td></tr>
+            <tr><td>Newton</td><td>newNewtonSolver</td><td><div>Uses single value for
+                  initialization.</div><div>Super-linear, non-guaranteed convergence</div>
+                <div>Function must be differentiable</div></td></tr>
+            <tr><td>Secant</td><td>newSecantSolver</td><td><div>Root must be bracketted.</div>
+                <div>Super-linear, non-guaranteed convergence</div></td></tr>
+            <tr><td>Muller</td><td>newMullerSolver</td><td><div>Root must be bracketted.</div>
+                <div>We restrict ourselves to real valued functions, not complex ones</div>
+            </td></tr>
+            <tr><td>Laguerre</td><td>newLaguerreSolver</td><td><div>Root must be bracketted.</div>
+                <div>Function must be a polynomial</div></td></tr>
+            <tr><td>Ridder</td><td>newRidderSolver</td><td><div>Root must be bracketted.</div>
+                <div></div></td></tr>
           </table>
         </p>
         <p>
@@ -247,15 +258,14 @@ double c = solver.solve(function, 1.0, 5.0);</source>
       <subsection name="4.3 Interpolation" href="interpolation">
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/UnivariateRealInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.UnivariateRealInterpolator</a>
-          is used to find a univariate real-valued function <code>f</code> which
-          for a given set of ordered pairs 
+          UnivariateRealInterpolator</a> is used to find a univariate real-valued
+          function <code>f</code> which for a given set of ordered pairs 
           (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
           <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. The result
           is provided as an object implementing the <a
           href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">
-          org.apache.commons.math.analysis.UnivariateRealFunction</a> interface. It can therefore
-          be evaluated at any point, including point not belonging to the original set.
+          UnivariateRealFunction</a> interface. It can therefore be evaluated at any point,
+          including point not belonging to the original set.
           Currently, only an interpolator for generating natural cubic splines and a polynomial
           interpolator are available.  There is no interpolator factory, mainly because the
           interpolation algorithm is more determined by the kind of the interpolated function
@@ -309,71 +319,66 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
         </p>
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BivariateRealGridInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.BivariateRealGridInterpolator</a>
-          is used to find a bivariate real-valued function <code>f</code> which
-          for a given set of tuples
+          BivariateRealGridInterpolator</a> is used to find a bivariate real-valued
+          function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>f<sub>ij</sub></code>)
           yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=f<sub>ij</sub></code> to the best accuracy
           possible. The result is provided as an object implementing the
           <a href="../apidocs/org/apache/commons/math/analysis/BivariateRealFunction.html">
-          org.apache.commons.math.analysis.BivariateRealFunction</a> interface. It can therefore
-          be evaluated at any point, including a point not belonging to the original set.
-          The arrays <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be sorted in
-          increasing order in order to define a two-dimensional regular grid.
+          BivariateRealFunction</a> interface. It can therefore be evaluated at any point,
+          including a point not belonging to the original set.
+          The arrays <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be
+          sorted in increasing order in order to define a two-dimensional grid.
         </p>
         <p>
-          In <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
-          bicubic interpolation</a>, the interpolation function is a 3rd-degree polynomial of two
-          variables. The coefficients are computed from the function values sampled on a regular grid,
-          as well as the values of the partial derivatives of the function at those grid points.
-        </p>
-        <p>
-          From two-dimensional data sampled on a regular grid, the
+          In <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">bicubic interpolation</a>,
+          the interpolation function is a 3rd-degree polynomial of two variables. The coefficients
+          are computed from the function values sampled on a grid, as well as the values of the
+          partial derivatives of the function at those grid points.
+          From two-dimensional data sampled on a grid, the
           <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.BicubicSplineInterpolator</a>
-          computes a <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
+          BicubicSplineInterpolator</a> computes a
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
           bicubic interpolating function</a>.
           Prior to computing an interpolating function, the
           <a href="../apidocs/org/apache/commons/math/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.SmoothingPolynomialBicubicSplineInterpolator</a> class performs
-          smoothing of the data by computing the polynomial that best fits each of the one-dimensional curves along each
-          of the coordinate axes.
+          SmoothingPolynomialBicubicSplineInterpolator</a> class performs smoothing of
+          the data by computing the polynomial that best fits each of the one-dimensional
+          curves along each of the coordinate axes.
         </p>
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TrivariateRealGridInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.TrivariateRealGridInterpolator</a>
-          is used to find a bivariate real-valued function <code>f</code> which
-          for a given set of tuples
+          TrivariateRealGridInterpolator</a> is used to find a trivariate real-valued
+          function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>k</sub></code>,
           <code>f<sub>ijk</sub></code>)
-          yields <code>f(x<sub>i</sub>,y<sub>j</sub>,z<sub>k</sub>)=f<sub>ijk</sub></code> to the
-          best accuracy possible. The result is provided as an object implementing the
+          yields <code>f(x<sub>i</sub>,y<sub>j</sub>,z<sub>k</sub>)=f<sub>ijk</sub></code>
+          to the best accuracy possible. The result is provided as an object implementing the
           <a href="../apidocs/org/apache/commons/math/analysis/TrivariateRealFunction.html">
-          org.apache.commons.math.analysis.TrivariateRealFunction</a> interface. It can therefore
-          be evaluated at any point, including a point not belonging to the original set.
+          TrivariateRealFunction</a> interface. It can therefore be evaluated at any point,
+          including a point not belonging to the original set.
           The arrays <code>x<sub>i</sub></code>, <code>y<sub>j</sub></code> and
-          <code>z<sub>k</sub></code> must be sorted in increasing order in order to define a
-          three-dimensional regular grid.
+          <code>z<sub>k</sub></code> must be sorted in increasing order in order to define
+          a three-dimensional grid.
         </p>
         <p>
-          In <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
-          tricubic interpolation</a>, the interpolation function is a 3rd-degree polynomial of two
-          variables. The coefficients are computed from the function values sampled on a regular grid,
-          as well as the values of the partial derivatives of the function at those grid points.
-        </p>
-        <p>
-          From three-dimensional data sampled on a regular grid, the
+          In <a href="http://en.wikipedia.org/wiki/Tricubic_interpolation">tricubic interpolation</a>,
+          the interpolation function is a 3rd-degree polynomial of three variables. The coefficients
+          are computed from the function values sampled on a grid, as well as the values of the
+          partial derivatives of the function at those grid points.
+          From three-dimensional data sampled on a grid, the
           <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolator.html">
-          org.apache.commons.math.analysis.interpolation.TricubicSplineInterpolator</a>
-          computes a <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
+          TricubicSplineInterpolator</a> computes a
+          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
           tricubic interpolating function</a>.
         </p>
       </subsection>
       <subsection name="4.4 Integration" href="integration">
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.html">
-          org.apache.commons.math.analysis.integration.UnivariateRealIntegrator.</a>
-          provides the means to numerically integrate <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
+          UnivariateRealIntegrator</a> provides the means to numerically integrate
+          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">
+          univariate real-valued functions</a>.
           Commons-Math includes implementations of the following integration algorithms: <ul>
           <li><a href="../apidocs/org/apache/commons/math/analysis/integration/RombergIntegrator.html">
           Romberg's method</a></li>
@@ -389,17 +394,18 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
       <subsection name="4.5 Polynomials" href="polynomials">
         <p>
           The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package-summary.html">
-          org.apache.commons.math.analysis.polynomials</a> package provides real coefficients
-          polynomials.
+          org.apache.commons.math.analysis.polynomials</a> package provides real
+          coefficients polynomials.
         </p>
         <p>
           The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">
-          org.apache.commons.math.analysis.polynomials.PolynomialFunction</a> class is the most general
-          one, using traditional coefficients arrays. The <a
-          href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.html">
-          org.apache.commons.math.analysis.polynomials.PolynomialsUtils</a> utility class provides static
-          factory methods to build Chebyshev, Hermite, Lagrange and Legendre polynomials. Coefficients
-          are computed using exact fractions so these factory methods can build polynomials up to any degree.
+          PolynomialFunction</a> class is the most general one, using traditional
+          coefficients arrays. The
+          <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.html">
+          PolynomialsUtils</a> utility class provides static factory methods to build
+          Chebyshev, Hermite, Lagrange and Legendre polynomials. Coefficients are
+          computed using exact fractions so these factory methods can build polynomials
+          up to any degree.
         </p>
       </subsection>
     </section>
