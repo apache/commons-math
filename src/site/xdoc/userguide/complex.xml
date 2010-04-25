@@ -35,9 +35,8 @@
       <subsection name="7.2 Complex Numbers" href="complex">
         <p>
           <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
-          org.apache.commons.math.complex.Complex</a> provides a complex number
-          type that forms the basis for the complex functionality found in 
-          commons-math.
+          Complex</a> provides a complex number type that forms the basis for
+          the complex functionality found in commons-math.
          </p>  
          <p>
            Complex functions and arithmetic operations are implemented in
@@ -80,14 +79,14 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
           <a href="../apidocs/org/apache/commons/math/complex/Complex.html">
-          org.apache.commons.math.complex.Complex</a> also provides
-          implementations of serveral transcendental functions involving complex
-          number arguments.  Prior to version 1.2, these functions were provided
+          Complex</a> also provides implementations of serveral transcendental
+          functions involving complex number arguments.
+          Prior to version 1.2, these functions were provided
           by <a href="../apidocs/org/apache/commons/math/complex/ComplexUtils.html">
-          org.apache.commons.math.complex.ComplexUtils</a> in a way similar to the real
-          number functions found in <code>java.lang.Math</code>, but this has been
-          deprecated.  These operations provide the means to compute the log, sine,
-          tangent, and other complex values :
+          ComplexUtils</a> in a way similar to the real number functions found in
+          <code>java.lang.Math</code>, but this has been deprecated.
+          These operations provide the means to compute the log, sine, tangent,
+          and other complex values :
           <source>Complex first  = new Complex(1.0, 3.0);
 Complex second = new Complex(2.0, 5.0);
 
@@ -100,7 +99,7 @@ Complex answer = first.log();        // natural logarithm.
         <p>
           <code>Complex</code> instances can be converted to and from strings
           using the<a href="../apidocs/org/apache/commons/math/complex/ComplexFormat.html">
-          org.apache.commons.math.complex.ComplexFormat</a> class.
+          ComplexFormat</a> class.
           <code>ComplexFormat</code> is a <code>java.text.Format</code>
           extension and, as such, is used like other formatting objects (e.g.
           <code>java.text.SimpleDateFormat</code>):

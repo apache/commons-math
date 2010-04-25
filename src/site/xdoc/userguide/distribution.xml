@@ -19,9 +19,9 @@
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <!-- $Revision$ $Date$ -->
-<document url="stat.html">
+<document url="distribution.html">
   <properties>
-    <title>The Commons Math User Guide - Statistics</title>
+    <title>The Commons Math User Guide - Distributions</title>
   </properties>
   <body>
     <section name="8 Probability Distributions">
@@ -41,9 +41,10 @@
         </p>
         <p>
           Using a distribution object, PDF and CDF probabilities are easily computed
-          using the <code>cumulativeProbability</code> methods.  For a distribution <code>X</code>,
-          and a domain value, <code>x</code>,  <code>cumulativeProbability</code> computes
-          <code>P(X &lt;= x)</code> (i.e. the lower tail probability of <code>X</code>).
+          using the <code>cumulativeProbability</code> methods.  For a distribution
+          <code>X</code>, and a domain value, <code>x</code>,
+          <code>cumulativeProbability</code> computes <code>P(X &lt;= x)</code>
+          (i.e. the lower tail probability of <code>X</code>).
         </p>
 <source>TDistribution t = new TDistributionImpl(29);
 double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
@@ -66,19 +67,27 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
       </subsection>
       <subsection name="8.3 User Defined Distributions" href="userdefined">
         <p>
-        Since there are numerous distributions and Commons-Math only directly supports a handful,
-        it may be necessary to extend the distribution framework to satisfy individual needs.  It
-        is recommended that the <code>Distribution</code>, <code>ContinuousDistribution</code>,
-        <code>DiscreteDistribution</code>, and <code>IntegerDistribution</code> interfaces serve as
-        base types for any extension.  These serve as the basis for all the distributions directly
-        supported by Commons-Math and using those interfaces for implementation purposes will
-        insure any extension is compatible with the remainder of Commons-Math.  To aid in
-        implementing a distribution extension, the <code>AbstractDistribution</code>,
-        <code>AbstractContinuousDistribution</code>, and <code>AbstractIntegerDistribution</code>
-        provide implementation building blocks and offer a lot of default distribution
-        functionality.  By extending these abstract classes directly, a good portion of the
-        repetitive distribution implementation is already developed and should save time and effort
-        in developing user defined distributions.
+        Since there are numerous distributions and Commons-Math only directly
+        supports a handful, it may be necessary to extend the distribution
+        framework to satisfy individual needs.  It is recommended that the
+        <a href="../apidocs/org/apache/commons/math/distribution/Distribution.html">Distribution</a>,
+        <a href="../apidocs/org/apache/commons/math/distribution/ContinuousDistribution.html">
+        ContinuousDistribution</a>,
+        <a href="../apidocs/org/apache/commons/math/distribution/DiscreteDistribution.html">
+        DiscreteDistribution</a>, and <a href="../apidocs/org/apache/commons/math/distribution/IntegerDistribution.html">
+        IntegerDistribution</a> interfaces serve as
+        base types for any extension.  These serve as the basis for all the
+        distributions directly supported by Commons-Math and using those interfaces
+        for implementation purposes will ensure any extension is compatible with the
+        remainder of Commons-Math.  To aid in implementing a distribution extension,
+        the <a href="../apidocs/org/apache/commons/math/distribution/AbstractDistribution.html">
+        AbstractDistribution</a>, <a href="../apidocs/org/apache/commons/math/distribution/AbstractContinuousDistribution.html">
+        AbstractContinuousDistribution</a>, and <a href="../apidocs/org/apache/commons/math/distribution/AbstractIntegerDistribution.html">
+        AbstractIntegerDistribution</a> provide implementation building blocks and
+        offer basic distribution functionality.  By extending these abstract classes
+        directly, much of the repetitive distribution implementation is already
+        developed and should save time and effor in developing user-defined
+        distributions.
         </p>
       </subsection>
     </section>

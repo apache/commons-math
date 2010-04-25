@@ -35,7 +35,8 @@
       </subsection>
       <subsection name="5.2 Erf functions" href="erf">
         <p>
-          <code>org.apache.commons.math.special.Erf</code> contains several useful functions involving the Error Function, Erf.
+          <a href="../apidocs/org/apache/commons/math/special/Erf.html">Erf</a> contains
+          several useful functions involving the Error Function, Erf.
           <table>
             <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
             <tr><td>Error Function</td><td>erf</td><td>See <a href="http://mathworld.wolfram.com/Erf.html">Erf</a> from MathWorld</td></tr>
@@ -44,7 +45,8 @@
       </subsection>
       <subsection name="5.3 Gamma functions" href="gamma">
         <p>
-          <code>org.apache.commons.math.special.Gamma</code> contains several useful functions involving the Gamma Function.
+          <a href="../apidocs/org/apache/commons/math/special/Gamma.html">Gamma</a>
+          contains several useful functions involving the Gamma Function.
           <table>
             <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
             <tr><td>Log Gamma</td><td>logGamma</td><td>See <a href="http://mathworld.wolfram.com/GammaFunction.html">Gamma Function</a> from MathWorld</td></tr>
@@ -54,7 +56,8 @@
       </subsection>
       <subsection name="5.4 Beta funtions" href="beta">
         <p>
-          <code>org.apache.commons.math.special.Beta</code> contains several useful functions involving the Beta Function.
+          <a href="../apidocs/org/apache/commons/math/special/Beta.html">Beta</a>
+          contains several useful functions involving the Beta Function.
           <table>
             <tr><th>Function</th><th>Method</th><th>Reference</th></tr>
             <tr><td>Log Beta</td><td>logBeta</td><td>See <a href="http://mathworld.wolfram.com/BetaFunction.html">Beta Function</a> from MathWorld</td></tr>

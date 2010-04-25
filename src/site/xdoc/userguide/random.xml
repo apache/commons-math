@@ -66,9 +66,8 @@
 <subsection name="2.2 Random numbers" href="deviates">
     <p>
     The <a href="../apidocs/org/apache/commons/math/random/RandomData.html">
-    org.apache.commons.math.RandomData</a> interface defines methods for
-    generating random sequences of numbers. The API contracts of these methods
-    use the following concepts:
+    RandomData</a> interface defines methods for generating random sequences
+    of numbers. The API contracts of these methods use the following concepts:
     <dl>
     <dt>Random sequence of numbers from a probability distribution</dt>
     <dd>There is no such thing as a single "random number."  What can be
@@ -173,15 +172,14 @@ for (int i = 0; i &lt; 1000; i++) {
     components of these vectors are uncorrelated, they may be generated simply
     one at a time and packed together in the vector. The <a
     href="../apidocs/org/apache/commons/math/random/UncorrelatedRandomVectorGenerator.html">
-    org.apache.commons.math.UncorrelatedRandomVectorGenerator</a> class
-    does however simplify this process by setting the mean and deviation of each
-    component once and generating complete vectors. When the components are correlated
-    however, generating them is much more difficult. The <a
-    href="../apidocs/org/apache/commons/math/random/CorrelatedRandomVectorGenerator.html">
-    org.apache.commons.math.CorrelatedRandomVectorGenerator</a> class
-    provides this service. In this case, the user must set up a complete covariance matrix
-    instead of a simple standard deviations vector. This matrix gathers both the variance
-    and the correlation information of the probability law.
+    UncorrelatedRandomVectorGenerator</a> class does however simplify this
+    process by setting the mean and deviation of each component once and
+    generating complete vectors. When the components are correlated however,
+    generating them is much more difficult. The <a href="../apidocs/org/apache/commons/math/random/CorrelatedRandomVectorGenerator.html">
+    CorrelatedRandomVectorGenerator</a> class provides this service. In this
+    case, the user must set up a complete covariance matrix instead of a simple
+    standard deviations vector. This matrix gathers both the variance and the
+    correlation information of the probability law.
     </p>
     <p>
     The main use for correlated random vector generation is for Monte-Carlo
@@ -310,19 +308,18 @@ for (int i = 0; i &lt; 1000; i++) {
       <code>java.util.Random</code> in applications, a random generator 
       adaptor framework has been added to commons-math.  The
       <a href="../apidocs/org/apache/commons/math/random/RandomGenerator.html">
-      org.apache.commons.math.RandomGenerator</a> interface abstracts the public
-      interface of <code>java.util.Random</code> and any implementation of this
+      RandomGenerator</a> interface abstracts the public interface of
+      <code>java.util.Random</code> and any implementation of this
       interface can be used as the source of random data for the commons-math 
       data generation classes.  An abstract base class, 
       <a href="../apidocs/org/apache/commons/math/random/AbstractRandomGenerator.html">
-      org.apache.commons.math.AbstractRandomGenerator</a> is provided to make
-      implementation easier.  This class provides default implementations of
-      "derived" data generation methods based on the primitive, 
-      <code>nextDouble().</code>  To support generic replacement of 
-      <code>java.util.Random</code>,  the 
+      AbstractRandomGenerator</a> is provided to make implementation easier.
+      This class provides default implementations of "derived" data generation
+      methods based on the primitive,  <code>nextDouble()</code>.
+      To support generic replacement of <code>java.util.Random</code>, the 
       <a href="../apidocs/org/apache/commons/math/random/RandomAdaptor.html">
-      org.apache.commons.math.RandomAdaptor</a> class is provided,  which
-      extends <code>java.util.Random</code> and wraps and delegates calls to
+      RandomAdaptor</a> class is provided, which extends
+      <code>java.util.Random</code> and wraps and delegates calls to
       a <code>RandomGenerator</code> instance.   
   </p>
   <p>

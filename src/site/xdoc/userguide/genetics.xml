@@ -34,22 +34,21 @@
       <subsection name="14.2 GA Framework">
       <p>
       <a href="../apidocs/org/apache/commons/math/genetics/GeneticAlgorithm.html">
-          org.apache.commons.math.genetic.GeneticAlgorithm</a> provides an
-          execution framework for Genetic Algorithms (GA).  
-          <a href="../apidocs/org/apache/commons/math/genetics/Population.html">Populations,</a> consisting
-          of <a href="../apidocs/org/apache/commons/math/genetics/Chromosome.html">
-          Chromosomes</a> are evolved by the <code>GeneticAlgorithm</code> until a 
-          <a href="../apidocs/org/apache/commons/math/genetics/StoppingCondition.html">StoppingCondition</a>
-          is reached. Evolution is determined by
-          <a href="../apidocs/org/apache/commons/math/genetics/SelectionPolicy.html">SelectionPolicies</a>,
-          <a href="../apidocs/org/apache/commons/math/genetics/MutationPolicy.html"> MutationPolicies</a>
-          and <a href="../apidocs/org/apache/commons/math/genetics/Fitness.html">Fitness</a>.
+      GeneticAlgorithm</a> provides an execution framework for Genetic Algorithms (GA).  
+      <a href="../apidocs/org/apache/commons/math/genetics/Population.html">
+      Populations,</a> consisting of <a href="../apidocs/org/apache/commons/math/genetics/Chromosome.html">
+      Chromosomes</a> are evolved by the <code>GeneticAlgorithm</code> until a 
+      <a href="../apidocs/org/apache/commons/math/genetics/StoppingCondition.html">
+      StoppingCondition</a> is reached. Evolution is determined by <a href="../apidocs/org/apache/commons/math/genetics/SelectionPolicy.html">
+      SelectionPolicy</a>, <a href="../apidocs/org/apache/commons/math/genetics/MutationPolicy.html">
+      MutationPolicy</a> and <a href="../apidocs/org/apache/commons/math/genetics/Fitness.html">
+      Fitness</a>.
       </p>
       <p>
-          The GA itself is implemented by the <code>evolve</code> method of the <code>GeneticAlgorithm</code> class,
-          which looks like this:
-          <source>
-public Population evolve(Population initial, StoppingCondition condition) {
+      The GA itself is implemented by the <code>evolve</code> method of the
+      <code>GeneticAlgorithm</code> class,
+      which looks like this:
+      <source>public Population evolve(Population initial, StoppingCondition condition) {
     Population current = initial;
     while (!condition.isSatisfied(current)) {
         current = nextGeneration(current);

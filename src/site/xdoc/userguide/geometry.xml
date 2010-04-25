@@ -36,8 +36,8 @@
       <subsection name="11.2 Vectors" href="vectors">
         <p>
           <a href="../apidocs/org/apache/commons/math/geometry/Vector3D.html">
-          org.apache.commons.math.geometry.Vector3D</a> provides a simple vector
-          type. One important feature is that instances of this class are guaranteed
+          Vector3D</a> provides a simple vector type. One important feature is
+          that instances of this class are guaranteed
           to be immutable, this greatly simplifies modelling dynamical systems
           with changing states: once a vector has been computed, a reference to it
           is known to preserve its state as long as the reference itself is preserved.
@@ -58,14 +58,14 @@
         </p>
         <p>
           <a href="../apidocs/org/apache/commons/math/geometry/Vector3DFormat.html">
-          org.apache.commons.math.geometry.Vector3DFormat</a> is a specialized format
-          for formatting output or parsing input with text representation of 3D vectors.
+          Vector3DFormat</a> is a specialized format for formatting output or parsing
+          input with text representation of 3D vectors.
         </p>
       </subsection>
       <subsection name="11.3 Rotations" href="rotations">
         <p>
           <a href="../apidocs/org/apache/commons/math/geometry/Rotation.html">
-          org.apache.commons.math.geometry.Rotation</a> represents 3D rotations.
+          Rotation</a> represents 3D rotations.
           Rotation instances are also immutable objects, as Vector3D instances.
         </p>
         <p>

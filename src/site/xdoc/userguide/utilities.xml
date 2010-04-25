@@ -45,17 +45,17 @@
     <code>util</code> package.  The core functionality provided is described in
     the documentation for the interface, 
     <a href="../apidocs/org/apache/commons/math/util/DoubleArray.html">
-    org.apache.commons.math.util.DoubleArray.</a>  This interface adds one
-    method, <code>addElementRolling(double)</code> to basic list accessors. 
+    DoubleArray</a>.  This interface adds one method,
+    <code>addElementRolling(double)</code> to basic list accessors. 
     The <code>addElementRolling</code> method adds an element 
     (the actual parameter) to the end of the list and removes the first element
      in the list.
     </p>
     <p>
     The <a href="../apidocs/org/apache/commons/math/util/ResizableDoubleArray.html">
-    org.apache.commons.math.util.ResizableDoubleArray</a> class provides a
-    configurable, array-backed implementation of the <code>DoubleArray</code> 
-    interface.  When <code>addElementRolling</code> is invoked, the underlying
+    ResizableDoubleArray</a> class provides a configurable, array-backed
+    implementation of the <code>DoubleArray</code> interface.
+    When <code>addElementRolling</code> is invoked, the underlying
     array is expanded if necessary, the new element is added to the end of the
     array and the "usable window" of the array is moved forward, so that
     the first element is effectively discarded, what was the second becomes the
@@ -75,8 +75,8 @@
 <subsection name="6.3 int/double hash map" href="int_double_hash_map">
     <p>
     The <a href="../apidocs/org/apache/commons/math/util/OpenIntToDoubleHashMap.html">
-    org.apache.commons.math.util.OpenIntToDoubleHashMap</a> class provides a specialized
-    hash map implementation for int/double. This implementation has a much smaller memory
+    OpenIntToDoubleHashMap</a> class provides a specialized hash map
+    implementation for int/double. This implementation has a much smaller memory
     overhead than standard <code>java.util.HashMap</code> class. It uses open addressing
     and primitive arrays, which greatly reduces the number of intermediate objects and
     improve data locality.
@@ -86,19 +86,17 @@
 <subsection name="6.4 Continued Fractions" href="continued_fractions">
   <p>
     The <a href="../apidocs/org/apache/commons/math/util/ContinuedFraction.html">
-    org.apache.commons.math.util.ContinuedFraction</a> class provides a generic
-    way to create and evaluate continued fractions.  The easiest way to create a
-    continued fraction is to subclass <code>ContinuedFraction</code> and
-    override the <code>getA</code> and <code>getB</code> methods which return
+    ContinuedFraction</a> class provides a generic way to create and evaluate
+    continued fractions.  The easiest way to create a continued fraction is
+    to subclass <code>ContinuedFraction</code> and override the
+    <code>getA</code> and <code>getB</code> methods which return
     the continued fraction terms.  The precise definition of these terms is
     explained in <a href="http://mathworld.wolfram.com/ContinuedFraction.html">
     Continued Fraction, equation (1)</a> from MathWorld.
   </p>
   <p>
-    As an example, the constant Pi could be computed using the continued fraction
-    defined at <a href="http://functions.wolfram.com/Constants/Pi/10/0002/">
-    http://functions.wolfram.com/Constants/Pi/10/0002/</a>.  The following
-    anonymous class provides the implementation:
+    As an example, the constant Pi can be computed using a <a href="http://functions.wolfram.com/Constants/Pi/10/0002/">continued fraction</a>.  The following anonymous class
+    provides the implementation:
     <source>ContinuedFraction c = new ContinuedFraction() {
     public double getA(int n, double x) {
         switch(n) {
@@ -119,11 +117,8 @@
     constant).
   </p>
   <p>
-    For a more practical use of continued fractions, consider the exponential
-    function with the continued fraction definition of
-    <a href="http://functions.wolfram.com/ElementaryFunctions/Exp/10/">
-    http://functions.wolfram.com/ElementaryFunctions/Exp/10/</a>.  The
-    following anonymous class provides its implementation:
+    For a more practical use of continued fractions, consider the <a href="http://functions.wolfram.com/ElementaryFunctions/Exp/10/">exponential function</a>.
+    The following anonymous class provides its implementation:
     <source>ContinuedFraction c = new ContinuedFraction() {
     public double getA(int n, double x) {
         if (n % 2 == 0) {

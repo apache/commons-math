@@ -64,7 +64,7 @@
         <p>
           The top level interface is
           <a href="../apidocs/org/apache/commons/math/stat/descriptive/UnivariateStatistic.html">
-          org.apache.commons.math.stat.descriptive.UnivariateStatistic.</a>
+          UnivariateStatistic</a>.
           This interface, implemented by all statistics, consists of
           <code>evaluate()</code> methods that take double[] arrays as arguments
           and return the value of the statistic.   This interface is extended by
@@ -121,29 +121,34 @@
         <p>
           <code>SummaryStatistics</code> can be aggregated using 
           <a href="../apidocs/org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.html">
-          AggregateSummaryStatistics.</a>  This class can be used to concurrently gather statistics for multiple
-          datasets as well as for a combined sample including all of the data.
+          AggregateSummaryStatistics.</a>  This class can be used to concurrently
+          gather statistics for multiple datasets as well as for a combined sample
+          including all of the data.
        </p>
         <p>
-           <code>MultivariateSummaryStatistics</code> is similar to <code>SummaryStatistics</code>
-           but handles n-tuple values instead of scalar values. It can also compute the
-           full covariance matrix for the input data.
+           <code>MultivariateSummaryStatistics</code> is similar to
+           <code>SummaryStatistics</code> but handles n-tuple values instead of
+           scalar values. It can also compute the full covariance matrix for the
+           input data.
         </p>
         <p>
-           Neither <code>DescriptiveStatistics</code> nor <code>SummaryStatistics</code> is
-           thread-safe. <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedDescriptiveStatistics.html">
+           Neither <code>DescriptiveStatistics</code> nor <code>SummaryStatistics</code>
+           is thread-safe.
+           <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedDescriptiveStatistics.html">
            SynchronizedDescriptiveStatistics</a> and
            <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedSummaryStatistics.html"> 
-           SynchronizedSummaryStatistics</a>, respectively, provide thread-safe versions for applications that
-           require concurrent access to statistical aggregates by multiple threads.
+           SynchronizedSummaryStatistics</a>, respectively, provide thread-safe
+           versions for applications that require concurrent access to statistical
+           aggregates by multiple threads.
            <a href="../apidocs/org/apache/commons/math/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html"> 
-           SynchronizedMultivariateSummaryStatistics</a> provides threadsafe <code>MultivariateSummaryStatistics.</code>
+           SynchronizedMultivariateSummaryStatistics</a> provides thread-safe
+           <code>MultivariateSummaryStatistics.</code>
         </p>
         <p>
           There is also a utility class,
           <a href="../apidocs/org/apache/commons/math/stat/StatUtils.html">
-           StatUtils</a>, that provides static methods for computing statistics
-           directly from double[] arrays.
+          StatUtils</a>, that provides static methods for computing statistics
+          directly from double[] arrays.
         </p>
         <p>
           Here are some examples showing how to compute Descriptive statistics.
@@ -236,10 +241,11 @@ DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
         <dt>Compute statistics for multiple samples and overall statistics concurrently</dt>
         <br/>
         <dd>There are two ways to do this using <code>AggregateSummaryStatistics.</code> 
-        The first is to use an <code>AggregateSummaryStatistics</code> instance to accumulate
-        overall statistics contributed by <code>SummaryStatistics</code> instances created using
+        The first is to use an <code>AggregateSummaryStatistics</code> instance
+        to accumulate overall statistics contributed by <code>SummaryStatistics</code>
+        instances created using
         <a href="../apidocs/org/apache/commons/math/stat/descriptive/AggregateSummaryStatistics.html#createContributingStatistics()">
-          AggregateSummaryStatistics.createContributingStatistics()</a>:
+        AggregateSummaryStatistics.createContributingStatistics()</a>:
         <source>
 // Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
 // and AggregatingSummaryStatistics for the subsamples
@@ -288,7 +294,7 @@ double totalSampleSum = aggregatedStats.getSum();
       <subsection name="1.3 Frequency distributions">
         <p>
           <a href="../apidocs/org/apache/commons/math/stat/Frequency.html">
-          org.apache.commons.math.stat.descriptive.Frequency</a>
+          Frequency</a>
           provides a simple interface for maintaining counts and percentages of discrete
           values.
         </p>
@@ -352,9 +358,8 @@ System.out.println(f.getCumPct("z"));  // displays 1
       <subsection name="1.4 Simple regression">
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/regression/SimpleRegression.html">
-          org.apache.commons.math.stat.regression.SimpleRegression</a>
-          provides ordinary least squares regression with one independent variable,
-          estimating the linear model:
+          SimpleRegression</a> provides ordinary least squares regression with
+         one independent variable estimating the linear model:
          </p>
          <p>
            <code> y = intercept + slope * x  </code>
@@ -469,9 +474,9 @@ System.out.println(regression.getSlopeStdErr());
       <subsection name="1.5 Multiple linear regression">
         <p>
          <a href="../apidocs/org/apache/commons/math/stat/regression/MultipleLinearRegression.html">
-          org.apache.commons.math.stat.regression.MultipleLinearRegression</a>
-          provides ordinary least squares regression with a generic multiple variable linear model, which
-          in matrix notation can be expressed as:
+         MultipleLinearRegression</a> provides ordinary least squares regression
+         with a generic multiple variable linear model, which in matrix notation
+         can be expressed as:
          </p>
          <p>
            <code> y=X*b+u </code>
@@ -484,9 +489,9 @@ System.out.println(regression.getSlopeStdErr());
          </p>
          <p>
           Two implementations are provided: <a href="../apidocs/org/apache/commons/math/stat/regression/OLSMultipleLinearRegression.html">
-          org.apache.commons.math.stat.regression.OLSMultipleLinearRegression</a> and 
+          OLSMultipleLinearRegression</a> and 
           <a href="../apidocs/org/apache/commons/math/stat/regression/GLSMultipleLinearRegression.html">
-          org.apache.commons.math.stat.regression.GLSMultipleLinearRegression</a>
+          GLSMultipleLinearRegression</a>
          </p>
          <p>
            Observations (x,y and covariance data matrices) can be added to the model via the <code>addData(double[] y, double[][] x, double[][] covariance)</code> method.
@@ -775,15 +780,12 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           ChiSquareTestImpl</a> and
           <a href="../apidocs/org/apache/commons/math/stat/inference/OneWayAnovaImpl.html">
           OneWayAnovaImpl</a>, respectively.
-          The
-          <a href="../apidocs/org/apache/commons/math/stat/inference/TestUtils.html">
+          The <a href="../apidocs/org/apache/commons/math/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
           static methods in <code>TestUtils</code> to execute tests.  To get
-          test object instances, either use e.g.,
-          <code>TestUtils.getTTest()</code> or use the implementation constructors
-          directly, e.g.,
-          <code>new TTestImpl()</code>.
+          test object instances, either use e.g., <code>TestUtils.getTTest()</code>
+          or use the implementation constructors directly, e.g. <code>new TTestImpl()</code>.
         </p>
         <p>
           <strong>Implementation Notes</strong>
@@ -839,7 +841,7 @@ System.out.println(TestUtils.t(mu, observed));
           </dd>
           <dd>To compare the mean of a dataset described by a
           <a href="../apidocs/org/apache/commons/math/stat/descriptive/StatisticalSummary.html">
-          org.apache.commons.math.stat.descriptive.StatisticalSummary</a>  to a fixed value:
+          StatisticalSummary</a>  to a fixed value:
           <source>
 double[] observed ={1d, 2d, 3d};
 double mu = 2.5d;
