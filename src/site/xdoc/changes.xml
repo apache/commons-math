@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-369" due-to="Sasun Pundev">
+        Fix NullPointerException in BisectionSolver.solve(f, min, max, initial)
+      </action>
     </release>
     <release version="2.1" date="2010-04-02" description="
 This is primarily a maintenance release, but it also includes new features and enhancements.
