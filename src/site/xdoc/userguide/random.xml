@@ -124,7 +124,7 @@
     initializes the appropriate generator.  If you do not explicitly seed the
     generator, it is by default seeded with the current time in milliseconds.
     Therefore, to generate sequences of random data values, you should always
-    instantiate <strong>one</strong> <code>RandomDataImpl</code> and use it
+    instantiate <strong>one</strong> <code> RandomDataImpl</code> and use it
     repeatedly instead of creating new instances for subsequent values in the
     sequence.  For example, the following will generate a random sequence of 50
     long integers between 1 and 1,000,000, using the current time in
@@ -168,11 +168,11 @@ for (int i = 0; i &lt; 1000; i++) {
 
 <subsection name="2.3 Random Vectors" href="vectors">
     <p>
-    Some algorithm requires random vectors instead of random scalars. When the
+    Some algorithms require random vectors instead of random scalars. When the
     components of these vectors are uncorrelated, they may be generated simply
     one at a time and packed together in the vector. The <a
     href="../apidocs/org/apache/commons/math/random/UncorrelatedRandomVectorGenerator.html">
-    UncorrelatedRandomVectorGenerator</a> class does however simplify this
+    UncorrelatedRandomVectorGenerator</a> class simplifies this
     process by setting the mean and deviation of each component once and
     generating complete vectors. When the components are correlated however,
     generating them is much more difficult. The <a href="../apidocs/org/apache/commons/math/random/CorrelatedRandomVectorGenerator.html">
