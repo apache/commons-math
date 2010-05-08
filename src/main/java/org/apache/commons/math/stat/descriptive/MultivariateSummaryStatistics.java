@@ -355,7 +355,7 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Returns true iff <code>object</code> is a <code>SummaryStatistics</code>
+     * Returns true iff <code>object</code> is a <code>MultivariateSummaryStatistics</code>
      * instance and all statistics have the same values as this.
      * @param object the object to test equality against.
      * @return true if object equals this
