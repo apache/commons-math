@@ -815,8 +815,18 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     /**
      *
      * @return the percentage of none zero elements as a decimal percent.
+     * @deprecated Use the correctly spelled {@link #getSparsity()}
      */
+    @Deprecated
     public double getSparcity() {
+        return getSparsity();
+    }
+    
+    /**
+    *
+    * @return the percentage of none zero elements as a decimal percent.
+    */
+   public double getSparsity() {
         return (double)entries.size()/(double)getDimension();
     }
 
