@@ -209,6 +209,12 @@ public class AbstractRealVectorTest extends TestCase {
         for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; i++) {
             assertEquals(nonDefaultV2[i], e.getValue());
         }
+        double [] onlyOne = {0d, 1.0, 0d};
+        v = new TestVectorImpl(onlyOne);
+        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; ) {
+            assertEquals(onlyOne[1], e.getValue());
+        }
+        
     }
 
     public void testClone() throws Exception {
