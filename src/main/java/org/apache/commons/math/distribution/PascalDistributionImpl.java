@@ -41,7 +41,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     private double probabilityOfSuccess;
 
     /**
-     * Create a binomial distribution with the given number of trials and
+     * Create a Pascal distribution with the given number of trials and
      * probability of success.
      * @param r the number of successes
      * @param p the probability of success
