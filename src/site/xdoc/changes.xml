@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-371" due-to="Kevin Childs">
+        Fixed loss of significance error in PersonsCorrelation p-value computation causing p-values
+        smaller than the machine epsilon (~1E-16) to be reported as 0.
+      </action>
       <action dev="luc" type="fix" issue="MATH-369" due-to="Sasun Pundev">
         Fix NullPointerException in BisectionSolver.solve(f, min, max, initial)
       </action>
