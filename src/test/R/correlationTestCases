@@ -85,8 +85,7 @@ verifyPValues <- function(matrix, pValues, name) {
 #--------------------------------------------------------------------------
 cat("Correlation test cases\n")
 
-# Longley
-
+# Longley -----------------------------------------------------------------
 longley <- matrix(c(60323,83.0,234289,2356,1590,107608,1947,
                     61122,88.5,259426,2325,1456,108632,1948,
                     60171,88.2,258054,3682,1616,109773,1949,
@@ -146,8 +145,7 @@ expectedCorrelation <- matrix(c(
           nrow = 7, ncol = 7, byrow = TRUE)
  verifySpearmansCorrelation(longley, expectedCorrelation, "longley")
   
- # Swiss Fertility
- 
+ # Swiss Fertility ---------------------------------------------------------
  fertility <- matrix(c(80.2,17.0,15,12,9.96,
   83.1,45.1,6,9,84.84,
   92.5,39.7,5,5,93.40,
@@ -196,6 +194,8 @@ expectedCorrelation <- matrix(c(
   44.7,46.6,16,29,50.43,
   42.8,27.7,22,29,58.33),
   nrow = 47, ncol = 5, byrow = TRUE)
+  
+# Pearson's
   expectedCorrelation <- matrix(c(
           1, 0.3530791836199747, -0.6458827064572875, -0.663788857035069, 0.463684700651794,
           0.3530791836199747, 1, -0.6865422086171366, -0.63952251894832, 0.4010950530487398,
