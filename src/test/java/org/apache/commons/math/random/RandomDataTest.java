@@ -368,7 +368,7 @@ public class RandomDataTest extends RetryTestCase {
         }
     }
 
-    /** test dispersion and failute modes for nextHex() */
+    /** test dispersion and failure modes for nextHex() */
     public void testNextHex() {
         try {
             randomData.nextHexString(-1);
@@ -423,7 +423,7 @@ public class RandomDataTest extends RetryTestCase {
                 testStatistic.chiSquare(expected, observed) < 37.70);
     }
 
-    /** test dispersion and failute modes for nextHex() */
+    /** test dispersion and failure modes for nextHex() */
     public void testNextSecureHex() {
         try {
             randomData.nextSecureHexString(-1);
