@@ -34,8 +34,9 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  *
  * <p>The resolution engine is a simple translation of the MINPACK <a
  * href="http://www.netlib.org/minpack/lmder.f">lmder</a> routine with minor
- * changes. The changes include the over-determined resolution and the Q.R.
- * decomposition which has been rewritten following the algorithm described in the
+ * changes. The changes include the over-determined resolution, the use of
+ * inherited convergence checker and the Q.R. decomposition which has been
+ * rewritten following the algorithm described in the
  * P. Lascaux and R. Theodor book <i>Analyse num&eacute;rique matricielle
  * appliqu&eacute;e &agrave; l'art de l'ing&eacute;nieur</i>, Masson 1986.</p>
  * <p>The authors of the original fortran version are:
@@ -143,6 +144,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * Build an optimizer for least squares problems.
      * <p>The default values for the algorithm settings are:
      *   <ul>
+     *    <li>{@link #setConvergenceChecker vectorial convergence checker}: null</li>
      *    <li>{@link #setInitialStepBoundFactor initial step bound factor}: 100.0</li>
      *    <li>{@link #setMaxIterations maximal iterations}: 1000</li>
      *    <li>{@link #setCostRelativeTolerance cost relative tolerance}: 1.0e-10</li>
@@ -150,6 +152,10 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      *    <li>{@link #setOrthoTolerance orthogonality tolerance}: 1.0e-10</li>
      *   </ul>
      * </p>
+     * <p>These default values may be overridden after construction. If the {@link
+     * #setConvergenceChecker vectorial convergence checker} is set to a non-null value, it
+     * will be used instead of the {@link #setCostRelativeTolerance cost relative tolerance}
+     * and {@link #setParRelativeTolerance parameters relative tolerance} settings.
      */
     public LevenbergMarquardtOptimizer() {
 
@@ -157,6 +163,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         setMaxIterations(1000);
 
         // default values for the tuning parameters
+        setConvergenceChecker(null);
         setInitialStepBoundFactor(100.0);
         setCostRelativeTolerance(1.0e-10);
         setParRelativeTolerance(1.0e-10);
@@ -179,7 +186,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /**
      * Set the desired relative error in the sum of squares.
-     *
+     * <p>This setting is used only if the {@link #setConvergenceChecker vectorial
+     * convergence checker} is set to null.</p>
      * @param costRelativeTolerance desired relative error in the sum of squares
      */
     public void setCostRelativeTolerance(double costRelativeTolerance) {
@@ -188,7 +196,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /**
      * Set the desired relative error in the approximate solution parameters.
-     *
+     * <p>This setting is used only if the {@link #setConvergenceChecker vectorial
+     * convergence checker} is set to null.</p>
      * @param parRelativeTolerance desired relative error
      * in the approximate solution parameters
      */
@@ -198,7 +207,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /**
      * Set the desired max cosine on the orthogonality.
-     *
+     * <p>This setting is always used, regardless of the {@link #setConvergenceChecker
+     * vectorial convergence checker} being null or non-null.</p>
      * @param orthoTolerance desired max cosine on the orthogonality
      * between the function vector and the columns of the jacobian
      */
@@ -235,11 +245,13 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         // outer loop
         lmPar = 0;
         boolean firstIteration = true;
+        VectorialPointValuePair current = new VectorialPointValuePair(point, objective);
         while (true) {
 
             incrementIterationsCounter();
 
             // compute the Q.R. decomposition of the jacobian matrix
+            VectorialPointValuePair previous = current;
             updateJacobian();
             qrDecomposition();
 
@@ -291,7 +303,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
             if (maxCosine <= orthoTolerance) {
                 // convergence has been reached
-                return new VectorialPointValuePair(point, objective);
+                return current;
             }
 
             // rescale if necessary
@@ -333,6 +345,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
                 // evaluate the function at x + p and calculate its norm
                 updateResidualsAndCost();
+                current = new VectorialPointValuePair(point, objective);
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;
@@ -401,11 +414,19 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 }
 
                 // tests for convergence.
-                if (((Math.abs(actRed) <= costRelativeTolerance) &&
-                        (preRed <= costRelativeTolerance) &&
-                        (ratio <= 2.0)) ||
+                if (checker != null) {
+                    // we use the vectorial convergence checker
+                    if (checker.converged(getIterations(), previous, current)) {
+                        return current;                        
+                    }
+                } else {
+                    // we use the Levenberg-Marquardt specific convergence parameters
+                    if (((Math.abs(actRed) <= costRelativeTolerance) &&
+                         (preRed <= costRelativeTolerance) &&
+                         (ratio <= 2.0)) ||
                         (delta <= parRelativeTolerance * xNorm)) {
-                    return new VectorialPointValuePair(point, objective);
+                        return current;
+                    }
                 }
 
                 // tests for termination and stringent tolerances

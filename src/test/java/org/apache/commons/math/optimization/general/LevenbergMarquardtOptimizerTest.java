@@ -485,7 +485,7 @@ public class LevenbergMarquardtOptimizerTest
             circle.addPoint(points[i][0], points[i][1]);
         }
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-10, 1.0e-10));
+        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-8, 1.0e-8));
         VectorialPointValuePair optimum =
             optimizer.optimize(circle, target, weights, new double[] { -12, -12 });
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);

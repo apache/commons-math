@@ -152,14 +152,14 @@ public class MinpackTest extends TestCase {
     minpackTest(new FreudensteinRothFunction(new double[] { 5.0, -20.0 },
                                              12432.833948863, 6.9988751744895,
                                              new double[] {
-                                               11.4130046614746,
-                                               -0.896796038685958
+                                               11.4121122022341,
+                                               -0.8968550851268697
                                              }), false);
     minpackTest(new FreudensteinRothFunction(new double[] { 50.0, -200.0 },
                                              11426454.595762, 6.99887517242903,
                                              new double[] {
-                                               11.4127817857886,
-                                               -0.89680510749204
+                                               11.412069435091231,
+                                               -0.8968582807605691
                                              }), false);
   }
 
@@ -325,7 +325,7 @@ public class MinpackTest extends TestCase {
     minpackTest(new JennrichSampsonFunction(10, new double[] { 0.3, 0.4 },
                                             64.5856498144943, 11.1517793413499,
                                             new double[] {
-                                             0.257819926636811, 0.257829976764542
+                                             0.2578330049, 0.257829976764542
                                             }), false);
   }
 
@@ -499,8 +499,8 @@ public class MinpackTest extends TestCase {
                                  function.getTarget(), function.getWeight(),
                                  function.getStartPoint());
           assertFalse(exceptionExpected);
-          assertTrue(function.checkTheoreticalMinCost(optimizer.getRMS()));
-          assertTrue(function.checkTheoreticalMinParams(optimum));
+          function.checkTheoreticalMinCost(optimizer.getRMS());
+          function.checkTheoreticalMinParams(optimum);
       } catch (OptimizationException lsse) {
           assertTrue(exceptionExpected);
       } catch (FunctionEvaluationException fe) {
@@ -561,23 +561,20 @@ public class MinpackTest extends TestCase {
           return startParams.length;
       }
 
-      public boolean checkTheoreticalMinCost(double rms) {
+      public void checkTheoreticalMinCost(double rms) {
           double threshold = costAccuracy * (1.0 + theoreticalMinCost);
-          return Math.abs(Math.sqrt(m) * rms - theoreticalMinCost) <= threshold;
+          assertEquals(theoreticalMinCost, Math.sqrt(m) * rms, threshold);
       }
 
-      public boolean checkTheoreticalMinParams(VectorialPointValuePair optimum) {
+      public void checkTheoreticalMinParams(VectorialPointValuePair optimum) {
           double[] params = optimum.getPointRef();
           if (theoreticalMinParams != null) {
               for (int i = 0; i < theoreticalMinParams.length; ++i) {
                   double mi = theoreticalMinParams[i];
                   double vi = params[i];
-                  if (Math.abs(mi - vi) > (paramsAccuracy * (1.0 + Math.abs(mi)))) {
-                      return false;
-                  }
+                  assertEquals(mi, vi, paramsAccuracy * (1.0 + Math.abs(mi)));
               }
           }
-          return true;
       }
 
       public MultivariateMatrixFunction jacobian() {
