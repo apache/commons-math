@@ -487,7 +487,7 @@ class BicubicSplineFunction
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double[] pX = {0, 1, x, x2};
-                    
+
                     final double y2 = y * y;
                     final double y3 = y2 * y;
                     final double[] pY = {1, y, y2, y3};
@@ -500,7 +500,7 @@ class BicubicSplineFunction
                     final double x2 = x * x;
                     final double x3 = x2 * x;
                     final double[] pX = {1, x, x2, x3};
-                    
+
                     final double y2 = y * y;
                     final double[] pY = {0, 1, y, y2};
 
@@ -510,7 +510,7 @@ class BicubicSplineFunction
         partialDerivativeXX = new BivariateRealFunction() {
                 public double value(double x, double y)  {
                     final double[] pX = {0, 0, 1, x};
-                    
+
                     final double y2 = y * y;
                     final double y3 = y2 * y;
                     final double[] pY = {1, y, y2, y3};
@@ -523,7 +523,7 @@ class BicubicSplineFunction
                     final double x2 = x * x;
                     final double x3 = x2 * x;
                     final double[] pX = {1, x, x2, x3};
-                    
+
                     final double[] pY = {0, 0, 1, y};
 
                     return apply(pX, pY, aYY);
@@ -533,7 +533,7 @@ class BicubicSplineFunction
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double[] pX = {0, 1, x, x2};
-                    
+
                     final double y2 = y * y;
                     final double[] pY = {0, 1, y, y2};
 

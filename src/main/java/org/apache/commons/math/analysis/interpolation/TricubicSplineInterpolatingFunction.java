@@ -273,7 +273,7 @@ public class TricubicSplineInterpolatingFunction
                         dFdZ[i][jp1][k], dFdZ[ip1][jp1][k],
                         dFdZ[i][j][kp1], dFdZ[ip1][j][kp1],
                         dFdZ[i][jp1][kp1], dFdZ[ip1][jp1][kp1],
-                        
+
                         d2FdXdY[i][j][k], d2FdXdY[ip1][j][k],
                         d2FdXdY[i][jp1][k], d2FdXdY[ip1][jp1][k],
                         d2FdXdY[i][j][kp1], d2FdXdY[ip1][j][kp1],

@@ -66,7 +66,7 @@ public class TricubicSplineInterpolator
                 if (fval[i][j].length != zLen) {
                     throw new DimensionMismatchException(fval[i][j].length, zLen);
                 }
-                
+
                 for (int k = 0; k < zLen; k++) {
                     final double v = fval[i][j][k];
                     fvalXY[k][i][j] = v;
@@ -154,7 +154,7 @@ public class TricubicSplineInterpolator
                 for (int k = 0; k < zLen; k++) {
                     final int nK = nextIndex(k, zLen);
                     final int pK = previousIndex(k);
-                    
+
                     // XXX Not sure about this formula
                     d3FdXdYdZ[i][j][k] = (fval[nI][nJ][nK] - fval[nI][pJ][nK] -
                                           fval[pI][nJ][nK] + fval[pI][pJ][nK] -

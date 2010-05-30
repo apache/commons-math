@@ -417,7 +417,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 if (checker != null) {
                     // we use the vectorial convergence checker
                     if (checker.converged(getIterations(), previous, current)) {
-                        return current;                        
+                        return current;
                     }
                 } else {
                     // we use the Levenberg-Marquardt specific convergence parameters
