@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
@@ -30,6 +31,8 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.stat.inference.ChiSquareTest;
+import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 
 /**
  * @version $Revision$ $Date$
@@ -360,6 +363,79 @@ public class TestUtils {
             sumsq += (dev * dev);
         }
         return sumsq;
+    }
+    
+    /**
+     * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
+     * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
+     * 
+     * @param valueLabels
+     * @param expected expected counts
+     * @param observed observed counts
+     * @param alpha significance level of the test
+     */
+    public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) throws Exception {
+        ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
+        try {
+            // Fail if we can reject null hypothesis that distributions are the same
+            Assert.assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
+        } catch (AssertionFailedError ex) {
+            StringBuffer msgBuffer = new StringBuffer();
+            DecimalFormat df = new DecimalFormat("#.##");
+            msgBuffer.append("Chisquare test failed");
+            msgBuffer.append(" p-value = ");
+            msgBuffer.append(chiSquareTest.chiSquareTest(expected, observed));
+            msgBuffer.append(" chisquare statistic = ");
+            msgBuffer.append(chiSquareTest.chiSquare(expected, observed));
+            msgBuffer.append(". \n");
+            msgBuffer.append("value\texpected\tobserved\n");
+            for (int i = 0; i < expected.length; i++) {
+                msgBuffer.append(valueLabels[i]);
+                msgBuffer.append("\t");
+                msgBuffer.append(df.format(expected[i]));
+                msgBuffer.append("\t\t");
+                msgBuffer.append(observed[i]);
+                msgBuffer.append("\n");
+            }
+            msgBuffer.append("This test can fail randomly due to sampling error with probability ");
+            msgBuffer.append(alpha);
+            msgBuffer.append(".");
+            Assert.fail(msgBuffer.toString());
+        }   
+    }
+    
+    /**
+     * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
+     * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
+     * 
+     * @param values
+     * @param expected expected counts
+     * @param observed observed counts
+     * @param alpha significance level of the test
+     */
+    public static void assertChiSquareAccept(int[] values, double[] expected, long[] observed, double alpha) throws Exception {
+        String[] labels = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            labels[i] = Integer.toString(values[i]);
+        }
+        assertChiSquareAccept(labels, expected, observed, alpha);
+    }
+    
+    /**
+     * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
+     * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
+     * 
+     * @param values
+     * @param expected expected counts
+     * @param observed observed counts
+     * @param alpha significance level of the test
+     */
+    public static void assertChiSquareAccept(double[] values, double[] expected, long[] observed, double alpha) throws Exception {
+        String[] labels = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            labels[i] = Double.toString(values[i]);
+        }
+        assertChiSquareAccept(labels, expected, observed, alpha);
     }
 
 }
