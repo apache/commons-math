@@ -63,8 +63,8 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * P(X &le; x) <= p.
      * <p>
      * Note that this definition implies: <ul>
-     * <li> If there is a minimum value, <code>m</code>, with postive
-     * probablility under (the density of) X, then <code>m - 1</code> is
+     * <li> If there is a minimum value, <code>m</code>, with positive
+     * probability under (the density of) X, then <code>m - 1</code> is
      * returned by <code>inverseCumulativeProbability(0).</code>  If there is
      * no such value <code>m,  Integer.MIN_VALUE</code> is
      * returned.</li>
