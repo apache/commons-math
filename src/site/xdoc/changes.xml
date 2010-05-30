@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-310">
+        Added random data generation methods to RandomDataImpl for the remaining distributions in the
+        distributions package. Added a generic nextInversionDeviate method that takes a discrete
+        or continuous distribution as argument and generates a random deviate from the distribution.
+      </action>
       <action dev="luc" type="fix" issue="MATH-362" >
         Fixed Levenberg-Marquardt optimizer that did not use the vectorial convergence checker.
         Now this optimizer can use either the general vectorial convergence checker or its own

@@ -83,20 +83,13 @@
     probability distribution</a> basically amounts to asserting that different
     ranges in the set  of possible values of a random variable have
     different probabilities of containing the value.  Commons Math supports
-    generating random sequences from the following probability distributions.
+    generating random sequences from each of the distributions in the
+    <a href="../apidocs/org/apache/commons/math/distribution/package-summary.html">
+    distributions</a> package.
     The javadoc for the <code>nextXxx</code> methods in 
-    <code>RandomDataImpl</code> describes the algorithms used to generate
-    random deviates from each of these distributions. 
-    <ul>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
-     uniform distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3667.htm">
-     exponential distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366j.htm">
-    poisson distribution</a></li>
-    <li><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3661.htm">
-    Gaussian distribution</a></li>
-    </ul>        
+    <a href="../apidocs/org/apache/commons/math/random/RandomDataImpl.html">
+    RandomDataImpl</a> describes the algorithms used to generate
+    random deviates.   
     </dd>
     <dt>Cryptographically secure random sequences</dt>
     <dd>It is possible for a sequence of numbers to appear random, but

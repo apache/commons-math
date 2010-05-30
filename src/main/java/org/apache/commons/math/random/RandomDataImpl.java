@@ -24,7 +24,21 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Collection;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.distribution.BetaDistributionImpl;
+import org.apache.commons.math.distribution.BinomialDistributionImpl;
+import org.apache.commons.math.distribution.CauchyDistributionImpl;
+import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math.distribution.ContinuousDistribution;
+import org.apache.commons.math.distribution.FDistributionImpl;
+import org.apache.commons.math.distribution.GammaDistributionImpl;
+import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
+import org.apache.commons.math.distribution.IntegerDistribution;
+import org.apache.commons.math.distribution.PascalDistributionImpl;
+import org.apache.commons.math.distribution.TDistributionImpl;
+import org.apache.commons.math.distribution.WeibullDistributionImpl;
+import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -62,7 +76,7 @@ import org.apache.commons.math.util.MathUtils;
  * it any easier to predict subsequent values.</li>
  * <li>
  * When a new <code>RandomDataImpl</code> is created, the underlying random
- * number generators are <strong>not</strong> intialized. If you do not
+ * number generators are <strong>not</strong> initialized. If you do not
  * explicitly seed the default non-secure generator, it is seeded with the
  * current time in milliseconds on first use. The same holds for the secure
  * generator. If you provide a <code>RandomGenerator</code> to the constructor,
@@ -507,6 +521,159 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
+     * Generates a random value from the {@link BetaDistributionImpl Beta Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param alpha first distribution shape parameter
+     * @param beta second distribution shape parameter
+     * @return random value sampled from the beta(alpha, beta) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextBeta(double alpha, double beta) throws MathException {
+        return nextInversionDeviate(new BetaDistributionImpl(alpha, beta));
+    }
+
+    /**
+     * Generates a random value from the {@link BinomialDistributionImpl Binomial Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param numberOfTrials number of trials of the Binomial distribution
+     * @param probabilityOfSuccess probability of success of the Binomial distribution
+     * @return random value sampled from the Binomial(numberOfTrials, probabilityOfSuccess) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public int nextBinomial(int numberOfTrials, double probabilityOfSuccess) throws MathException {
+        return nextInversionDeviate(new BinomialDistributionImpl(numberOfTrials, probabilityOfSuccess));
+    }
+
+    /**
+     * Generates a random value from the {@link CauchyDistributionImpl Cauchy Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param median the median of the Cauchy distribution
+     * @param scale the scale parameter of the Cauchy distribution
+     * @return random value sampled from the Cauchy(median, scale) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextCauchy(double median, double scale) throws MathException {
+        return nextInversionDeviate(new CauchyDistributionImpl(median, scale));
+    }
+
+    /**
+     * Generates a random value from the {@link ChiSquaredDistributionImpl ChiSquare Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param df the degrees of freedom of the ChiSquare distribution
+     * @return random value sampled from the ChiSquare(df) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextChiSquare(double df) throws MathException {
+        return nextInversionDeviate(new ChiSquaredDistributionImpl(df));
+    }
+
+    /**
+     * Generates a random value from the {@link FDistributionImpl F Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param numeratorDf the numerator degrees of freedom of the F distribution
+     * @param denominatorDf the denominator degrees of freedom of the F distribution
+     * @return random value sampled from the F(numeratorDf, denominatorDf) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextF(double numeratorDf, double denominatorDf) throws MathException {
+        return nextInversionDeviate(new FDistributionImpl(numeratorDf, denominatorDf));
+    }
+
+    /**
+     * Generates a random value from the {@link GammaDistributionImpl Gamma Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param shape the median of the Gamma distribution
+     * @param scale the scale parameter of the Gamma distribution
+     * @return random value sampled from the Gamma(shape, scale) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextGamma(double shape, double scale) throws MathException {
+        return nextInversionDeviate(new GammaDistributionImpl(shape, scale));
+    }
+
+    /**
+     * Generates a random value from the {@link HypergeometricDistributionImpl Hypergeometric Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
+     * to generate random values.
+     *
+     * @param populationSize the population size of the Hypergeometric distribution
+     * @param numberOfSuccesses number of successes in the population of the Hypergeometric distribution
+     * @param sampleSize the sample size of the Hypergeometric distribution
+     * @return random value sampled from the Hypergeometric(numberOfSuccesses, sampleSize) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) throws MathException {
+        return nextInversionDeviate(new HypergeometricDistributionImpl(populationSize, numberOfSuccesses, sampleSize));
+    }
+
+    /**
+     * Generates a random value from the {@link PascalDistributionImpl Pascal Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
+     * to generate random values.
+     *
+     * @param r the number of successes of the Pascal distribution
+     * @param p the probability of success of the Pascal distribution
+     * @return random value sampled from the Pascal(r, p) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public int nextPascal(int r, double p) throws MathException {
+        return nextInversionDeviate(new PascalDistributionImpl(r, p));
+    }
+
+    /**
+     * Generates a random value from the {@link TDistributionImpl T Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param df the degrees of freedom of the T distribution
+     * @return random value from the T(df) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextT(double df) throws MathException {
+        return nextInversionDeviate(new TDistributionImpl(df));
+    }
+
+    /**
+     * Generates a random value from the {@link WeibullDistributionImpl Weibull Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * to generate random values.
+     *
+     * @param shape the shape parameter of the Weibull distribution
+     * @param scale the scale parameter of the Weibull distribution
+     * @return random value sampled from the Weibull(shape, size) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double nextWeibull(double shape, double scale) throws MathException {
+        return nextInversionDeviate(new WeibullDistributionImpl(shape, scale));
+    }
+
+    /**
+     * Generates a random value from the {@link ZipfDistributionImpl Zipf Distribution}.
+     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
+     * to generate random values.
+     *
+     * @param numberOfElements the number of elements of the ZipfDistribution
+     * @param exponent the exponent of the ZipfDistribution
+     * @return random value sampled from the Zipf(numberOfElements, exponent) distribution
+     * @throws MathException if an error occurs generating the random value
+     */
+    public int nextZipf(int numberOfElements, double exponent) throws MathException {
+        return nextInversionDeviate(new ZipfDistributionImpl(numberOfElements, exponent));
+    }
+
+    /**
      * Returns the RandomGenerator used to generate non-secure random data.
      * <p>
      * Creates and initializes a default generator if null.
@@ -703,6 +870,37 @@ public class RandomDataImpl implements RandomData, Serializable {
             result[i] = objects[index[i]];
         }
         return result;
+    }
+
+    /**
+     * Generate a random deviate from the given distribution using the
+     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling"> inversion method.</a>
+     *
+     * @param distribution Continuous distribution to generate a random value from
+     * @return a random value sampled from the given distribution
+     * @throws MathException if an error occurs computing the inverse cumulative distribution function
+     */
+    public double nextInversionDeviate(ContinuousDistribution distribution) throws MathException {
+        return distribution.inverseCumulativeProbability(nextUniform(0, 1));
+
+    }
+
+    /**
+     * Generate a random deviate from the given distribution using the
+     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling"> inversion method.</a>
+     *
+     * @param distribution Integer distribution to generate a random value from
+     * @return a random value sampled from the given distribution
+     * @throws MathException if an error occurs computing the inverse cumulative distribution function
+     */
+    public int nextInversionDeviate(IntegerDistribution distribution) throws MathException {
+        final double target = nextUniform(0, 1);
+        final int glb = distribution.inverseCumulativeProbability(target);
+        if (distribution.cumulativeProbability(glb) == 1.0d) { // No mass above
+            return glb;
+        } else {
+            return glb + 1;
+        }
     }
 
     // ------------------------Private methods----------------------------------
