@@ -231,7 +231,7 @@ public abstract class UnivariateRealSolverImpl
 
     /**
      * Verifies that the endpoints specify an interval and the function takes
-     * opposite signs at the enpoints, throws IllegalArgumentException if not
+     * opposite signs at the endpoints, throws IllegalArgumentException if not
      *
      * @param lower  lower endpoint
      * @param upper upper endpoint
