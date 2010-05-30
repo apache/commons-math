@@ -196,7 +196,7 @@ public class RandomDataTest extends RetryTestCase {
 
     /**
      * Make sure that empirical distribution of random Poisson(4)'s has P(X <=
-     * 5) close to actual cumulative Poisson probablity and that nextPoisson
+     * 5) close to actual cumulative Poisson probability and that nextPoisson
      * fails when mean is non-positive TODO: replace with statistical test,
      * adding test stat to TestStatistic
      */
@@ -260,14 +260,15 @@ public class RandomDataTest extends RetryTestCase {
      * to the corresponding expected distribution computed using PoissonDistributionImpl.
      * Uses ChiSquare test of goodness of fit to evaluate the null hypothesis that the
      * distributions are the same. If the null hypothesis can be rejected with confidence
-     * 1 - alpha, the check fails.  This check will fail randomly with probability alpha.
+     * 1 - alpha, the check fails.
      */
     public void checkNextPoissonConsistency(double mean) throws Exception {
         // Generate sample values
-        int sampleSize = 1000;        // Number of deviates to generate
-        int minExpectedCount = 7;     // Minimum size of expected bin count
+        final int sampleSize = 1000;        // Number of deviates to generate
+        final int minExpectedCount = 7;     // Minimum size of expected bin count
         long maxObservedValue = 0;
-        double alpha = 0.001;         // Probability of false failure
+        final double alpha = 0.001;         // Probability of false failure
+        randomData.reSeed(1000);            // Reseed randomGenerator to get fixed sequence
         Frequency frequency = new Frequency();
         for (int i = 0; i < sampleSize; i++) {
             long value = randomData.nextPoisson(mean);
