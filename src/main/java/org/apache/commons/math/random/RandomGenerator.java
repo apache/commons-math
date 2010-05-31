@@ -27,7 +27,7 @@ package org.apache.commons.math.random;
 public interface RandomGenerator {
 
     /**
-     * Sets the seed of the underyling random number generator using an
+     * Sets the seed of the underlying random number generator using an
      * <code>int</code> seed.
      * <p>Sequences of values generated starting with the same seeds
      * should be identical.
@@ -37,7 +37,7 @@ public interface RandomGenerator {
     void setSeed(int seed);
 
     /**
-     * Sets the seed of the underyling random number generator using an
+     * Sets the seed of the underlying random number generator using an
      * <code>int</code> array seed.
      * <p>Sequences of values generated starting with the same seeds
      * should be identical.
@@ -47,7 +47,7 @@ public interface RandomGenerator {
     void setSeed(int[] seed);
 
     /**
-     * Sets the seed of the underyling random number generator using a
+     * Sets the seed of the underlying random number generator using a
      * <code>long</code> seed.
      * <p>Sequences of values generated starting with the same seeds
      * should be identical.
