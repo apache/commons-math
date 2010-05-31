@@ -75,6 +75,15 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="billbarker" type="fix" issue="MATH-367" due-to="Albert Huang">
        Fix problem with the default sparseIterator when a RealVector has exactly one non-zero entry
       </action>
+      <action dev="erans" type="add" issue="MATH-366">
+        Implementation of tricubic interpolation.
+      </action>
+      <action dev="erans" type="update" issue="MATH-365">
+        Deprecated SmoothingBicubicSplineInterpolator and SmoothingBicubicSplineInterpolatorTest.
+        Added BicubicSplineInterpolator and BicubicSplineInterpolatorTest.
+        Added SmoothingPolynomialBicubicSplineInterpolator and SmoothingPolynomialBicubicSplineInterpolatorTest.
+        Added method to clear the list of observations in PolynomialFitter.
+      </action>
     </release>
     <release version="2.1" date="2010-04-02" description="
 This is primarily a maintenance release, but it also includes new features and enhancements.
@@ -92,15 +101,6 @@ This is primarily a maintenance release, but it also includes new features and e
   DummyStepInterpolator requires an additional argument for one of its constructors;
   some protected fields have been removed from AbstractLeastSquaresOptimizer, AbstractScalarDifferentiableOptimizer and AbstractLinearOptimizer;
   and the isOptimal(SimplexTableau) method has been removed from SimplexSolver. ">
-      <action dev="erans" type="add" issue="MATH-366">
-        Implementation of tricubic interpolation.
-      </action>
-      <action dev="erans" type="update" issue="MATH-365">
-        Deprecated SmoothingBicubicSplineInterpolator and SmoothingBicubicSplineInterpolatorTest.
-        Added BicubicSplineInterpolator and BicubicSplineInterpolatorTest.
-        Added SmoothingPolynomialBicubicSplineInterpolator and SmoothingPolynomialBicubicSplineInterpolatorTest.
-        Added method to clear the list of observations in PolynomialFitter.
-      </action>
       <action dev="sebb" type="fix" issue="MATH-360">
         Fix use of wrong variable in SmoothingBicubicSplineInterpolatorTest.testPreconditions()
       </action>
