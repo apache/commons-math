@@ -238,6 +238,28 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
+     * Generates a random value sampled from this distribution.
+     *
+     * <p><strong>Algorithm Description</strong>:
+     * <ul><li> For small means, uses simulation of a Poisson process
+     * using Uniform deviates, as described
+     * <a href="http://irmi.epfl.ch/cmos/Pmmi/interactive/rng7.htm"> here.</a>
+     * The Poisson process (and hence value returned) is bounded by 1000 * mean.</li><
+     *
+     * <li> For large means, uses the rejection algorithm described in <br/>
+     * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
+     * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
+     *
+     * @return random value
+     * @since 2.2
+     * @throws MathException if an error occurs generating the random value
+     */
+    @Override
+    public int sample() throws MathException {
+        return (int) Math.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
+    }
+
+    /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root. This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.

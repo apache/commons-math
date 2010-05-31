@@ -25,6 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Base class for continuous distributions.  Default implementations are
@@ -39,6 +40,12 @@ public abstract class AbstractContinuousDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
+    
+    /**
+     * RandomData instance used to generate samples from the distribution
+     * @since 2.2
+     */
+    protected final RandomDataImpl randomData = new RandomDataImpl();
 
     /**
      * Solver absolute accuracy for inverse cum computation
@@ -102,7 +109,7 @@ public abstract class AbstractContinuousDistribution
             }
         };
 
-        // Try to bracket root, test domain endoints if this fails
+        // Try to bracket root, test domain endpoints if this fails
         double lowerBound = getDomainLowerBound(p);
         double upperBound = getDomainUpperBound(p);
         double[] bracket = null;
@@ -132,6 +139,50 @@ public abstract class AbstractContinuousDistribution
                 // absolute accuracy different from BrentSolver default
                 bracket[0],bracket[1], getSolverAbsoluteAccuracy());
         return root;
+    }
+
+    /**
+     * Reseeds the random generator used to generate samples.
+     *
+     * @param seed the new seed
+     * @since 2.2
+     */
+    public void reseedRandomGenerator(long seed) {
+        randomData.reSeed(seed);
+    }
+
+    /**
+     * Generates a random value sampled from this distribution. The default
+     * implementation uses the
+     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling"> inversion method.</a>
+     *
+     * @return random value
+     * @since 2.2
+     * @throws MathException if an error occurs generating the random value
+     */
+    public double sample() throws MathException {
+        return randomData.nextInversionDeviate(this);
+    }
+
+    /**
+     * Generates a random sample from the distribution.  The default implementation
+     * generates the sample by calling {@link #sample()} in a loop.
+     *
+     * @param sampleSize number of random values to generate
+     * @since 2.2
+     * @return an array representing the random sample
+     * @throws MathException if an error occurs generating the sample
+     * @throws IllegalArgumentException if sampleSize is not positive
+     */
+    public double[] sample(int sampleSize) throws MathException {
+        if (sampleSize <= 0) {
+            MathRuntimeException.createIllegalArgumentException("Sample size must be positive");
+        }
+        double[] out = new double[sampleSize];
+        for (int i = 0; i < sampleSize; i++) {
+            out[i] = sample();
+        }
+        return out;
     }
 
     /**
@@ -175,4 +226,5 @@ public abstract class AbstractContinuousDistribution
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
+
 }

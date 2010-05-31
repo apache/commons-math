@@ -56,6 +56,7 @@ The <action> type attribute can be add,update,fix,remove.
         Added random data generation methods to RandomDataImpl for the remaining distributions in the
         distributions package. Added a generic nextInversionDeviate method that takes a discrete
         or continuous distribution as argument and generates a random deviate from the distribution.
+        Also added sampling methods based on the implementations in RandomDataImpl to distributions.
       </action>
       <action dev="luc" type="fix" issue="MATH-362" >
         Fixed Levenberg-Marquardt optimizer that did not use the vectorial convergence checker.

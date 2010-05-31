@@ -815,108 +815,80 @@ public class RandomDataTest extends RetryTestCase {
     }
     
     public void testNextBeta() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new BetaDistributionImpl(2,5));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistributionImpl(2,5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextBeta(2, 5);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextCauchy() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new CauchyDistributionImpl(1.2, 2.1));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistributionImpl(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextCauchy(1.2, 2.1);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextChiSquare() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new ChiSquaredDistributionImpl(12));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new ChiSquaredDistributionImpl(12));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextChiSquare(12);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextF() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new FDistributionImpl(12, 5));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new FDistributionImpl(12, 5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextF(12, 5);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextGamma() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new GammaDistributionImpl(4, 2));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextGamma(4, 2);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextT() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new TDistributionImpl(10));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new TDistributionImpl(10));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextT(10);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextWeibull() throws Exception {
-        double[] quartiles = getDistributionQuartiles(new WeibullDistributionImpl(1.2, 2.1));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistributionImpl(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextWeibull(1.2, 2.1);
-            updateCounts(value, counts, quartiles);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        TestUtils.assertChiSquareAccept(quartiles, expected, counts, 0.001);
-    }
-    
-    /**
-     * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
-     * these values in an array.
-     */
-    private double[] getDistributionQuartiles(ContinuousDistribution distribution) throws Exception {
-        double[] quantiles = new double[3];
-        quantiles[0] = distribution.inverseCumulativeProbability(0.25d);
-        quantiles[1] = distribution.inverseCumulativeProbability(0.5d);
-        quantiles[2] = distribution.inverseCumulativeProbability(0.75d);
-        return quantiles;
-    }
-    
-    /**
-     * Updates observed counts of values in quartiles.
-     * counts[0] <-> 1st quartile ... counts[3] <-> top quartile
-     */
-    private void updateCounts(double value, long[] counts, double[] quantiles) {
-        if (value < quantiles[0]) {
-            counts[0]++;
-        } else if (value > quantiles[2]) {
-            counts[3]++;
-        } else if (value > quantiles[1]) {
-            counts[2]++;
-        } else {
-            counts[1]++;
-        }  
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
     public void testNextBinomial() throws Exception {
@@ -924,7 +896,7 @@ public class RandomDataTest extends RetryTestCase {
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
-        int length = eliminateZeroMassPoints(densityPoints, densityValues);
+        int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
         BinomialDistributionImpl distribution = (BinomialDistributionImpl) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
@@ -949,7 +921,7 @@ public class RandomDataTest extends RetryTestCase {
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
-        int length = eliminateZeroMassPoints(densityPoints, densityValues);
+        int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
         HypergeometricDistributionImpl distribution = (HypergeometricDistributionImpl) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
@@ -974,7 +946,7 @@ public class RandomDataTest extends RetryTestCase {
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
-        int length = eliminateZeroMassPoints(densityPoints, densityValues);
+        int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
         PascalDistributionImpl distribution = (PascalDistributionImpl) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
@@ -998,7 +970,7 @@ public class RandomDataTest extends RetryTestCase {
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
-        int length = eliminateZeroMassPoints(densityPoints, densityValues);
+        int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
         ZipfDistributionImpl distribution = (ZipfDistributionImpl) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
@@ -1016,35 +988,5 @@ public class RandomDataTest extends RetryTestCase {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
-    /**
-     * Eliminates points with zero mass from densityPoints and densityValues parallel
-     * arrays.  Returns the number of positive mass points and collapses the arrays so
-     * that the first <returned value> elements of the input arrays represent the positive
-     * mass points.
-     */
-    private int eliminateZeroMassPoints(int[] densityPoints, double[] densityValues) {
-        int positiveMassCount = 0;
-        for (int i = 0; i < densityValues.length; i++) {
-            if (densityValues[i] > 0) {
-                positiveMassCount++;
-            }
-        }
-        if (positiveMassCount < densityValues.length) {
-            int[] newPoints = new int[positiveMassCount];
-            double[] newValues = new double[positiveMassCount];
-            int j = 0;
-            for (int i = 0; i < densityValues.length; i++) {
-                if (densityValues[i] > 0) {
-                    newPoints[j] = densityPoints[i];
-                    newValues[j] = densityValues[i];
-                    j++;
-                }
-            }
-            System.arraycopy(newPoints,0,densityPoints,0,positiveMassCount);
-            System.arraycopy(newValues,0,densityValues,0,positiveMassCount);
-        }
-        return positiveMassCount;
-    } 
     
 }

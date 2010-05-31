@@ -256,6 +256,23 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
             // expected
         }
     }
+    
+    /**
+     * Test sampling
+     */
+    public void testSampling() throws Exception {
+        AbstractContinuousDistribution dist = (AbstractContinuousDistribution) makeDistribution();
+        final int sampleSize = 1000;
+        double[] sample = dist.sample(sampleSize);
+        double[] quartiles = TestUtils.getDistributionQuartiles(dist);
+        double[] expected = {250, 250, 250, 250};
+        long[] counts = new long[4];
+        dist.reseedRandomGenerator(1000);  // Use fixed seed
+        for (int i = 0; i < sampleSize; i++) {
+            TestUtils.updateCounts(sample[i], counts, quartiles);
+        }
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
+    }
 
     //------------------ Getters / Setters for test instance data -----------
     /**

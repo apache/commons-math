@@ -753,6 +753,10 @@ public class MessagesResources_fr
    { "Discrete cumulative probability function returned NaN for argument {0}",
      "Discr\u00e8tes fonction de probabilit\u00e9 cumulative retourn\u00e9 NaN \u00e0 l''argument de {0}" },
 
+   // org.apache.commons.math.distribution.AbstractIntegerDistribution
+   // org.apache.commons.math.distribution.AbstractContinuousDistribution
+   { "Sample size must be positive",
+     "Taille de l'\u00e9chantillon doit \u00eatre positif" },
 
    // org.apache.commons.math.distribution.BinomialDistributionImpl
    { "number of trials must be non-negative ({0})",

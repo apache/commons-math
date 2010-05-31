@@ -29,6 +29,7 @@ import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
+import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
@@ -437,5 +438,78 @@ public class TestUtils {
         }
         assertChiSquareAccept(labels, expected, observed, alpha);
     }
-
+    
+    /**
+     * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
+     * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
+     * 
+     * @param expected expected counts
+     * @param observed observed counts
+     * @param alpha significance level of the test
+     */
+    public static void assertChiSquareAccept(double[] expected, long[] observed, double alpha) throws Exception {
+        String[] labels = new String[expected.length];
+        for (int i = 0; i < labels.length; i++) {
+            labels[i] = Integer.toString(i + 1);
+        }
+        assertChiSquareAccept(labels, expected, observed, alpha);
+    }
+    
+    /**
+     * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
+     * these values in an array.
+     */
+    public static double[] getDistributionQuartiles(ContinuousDistribution distribution) throws Exception {
+        double[] quantiles = new double[3];
+        quantiles[0] = distribution.inverseCumulativeProbability(0.25d);
+        quantiles[1] = distribution.inverseCumulativeProbability(0.5d);
+        quantiles[2] = distribution.inverseCumulativeProbability(0.75d);
+        return quantiles;
+    }
+    
+    /**
+     * Updates observed counts of values in quartiles.
+     * counts[0] <-> 1st quartile ... counts[3] <-> top quartile
+     */
+    public static void updateCounts(double value, long[] counts, double[] quartiles) {
+        if (value < quartiles[0]) {
+            counts[0]++;
+        } else if (value > quartiles[2]) {
+            counts[3]++;
+        } else if (value > quartiles[1]) {
+            counts[2]++;
+        } else {
+            counts[1]++;
+        }  
+    }
+    
+    /**
+     * Eliminates points with zero mass from densityPoints and densityValues parallel
+     * arrays.  Returns the number of positive mass points and collapses the arrays so
+     * that the first <returned value> elements of the input arrays represent the positive
+     * mass points.
+     */
+    public static int eliminateZeroMassPoints(int[] densityPoints, double[] densityValues) {
+        int positiveMassCount = 0;
+        for (int i = 0; i < densityValues.length; i++) {
+            if (densityValues[i] > 0) {
+                positiveMassCount++;
+            }
+        }
+        if (positiveMassCount < densityValues.length) {
+            int[] newPoints = new int[positiveMassCount];
+            double[] newValues = new double[positiveMassCount];
+            int j = 0;
+            for (int i = 0; i < densityValues.length; i++) {
+                if (densityValues[i] > 0) {
+                    newPoints[j] = densityPoints[i];
+                    newValues[j] = densityValues[i];
+                    j++;
+                }
+            }
+            System.arraycopy(newPoints,0,densityPoints,0,positiveMassCount);
+            System.arraycopy(newValues,0,densityValues,0,positiveMassCount);
+        }
+        return positiveMassCount;
+    } 
 }

@@ -229,6 +229,18 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
+     * Generates a random value sampled from this distribution.
+     *
+     * @return random value
+     * @since 2.2
+     * @throws MathException if an error occurs generating the random value
+     */
+    @Override
+    public double sample() throws MathException {
+        return randomData.nextGaussian(mean, standardDeviation);
+    }
+
+    /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.

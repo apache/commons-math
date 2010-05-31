@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.random.RandomDataImpl;
 
 
 /**
@@ -43,6 +44,12 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1146319659338487221L;
+
+    /**
+     * RandomData instance used to generate samples from the distribution
+     * @since 2.2
+     */
+    protected final RandomDataImpl randomData = new RandomDataImpl();
 
     /**
      * Default constructor.
@@ -209,7 +216,51 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     }
 
     /**
-     * Computes the cumulative probablity function and checks for NaN values returned.
+     * Reseeds the random generator used to generate samples.
+     *
+     * @param seed the new seed
+     * @since 2.2
+     */
+    public void reseedRandomGenerator(long seed) {
+        randomData.reSeed(seed);
+    }
+
+    /**
+     * Generates a random value sampled from this distribution. The default
+     * implementation uses the
+     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling"> inversion method.</a>
+     *
+     * @return random value
+     * @since 2.2
+     * @throws MathException if an error occurs generating the random value
+     */
+    public int sample() throws MathException {
+        return randomData.nextInversionDeviate(this);
+    }
+
+    /**
+     * Generates a random sample from the distribution.  The default implementation
+     * generates the sample by calling {@link #sample()} in a loop.
+     *
+     * @param sampleSize number of random values to generate
+     * @since 2.2
+     * @return an array representing the random sample
+     * @throws MathException if an error occurs generating the sample
+     * @throws IllegalArgumentException if sampleSize is not positive
+     */
+    public int[] sample(int sampleSize) throws MathException {
+        if (sampleSize <= 0) {
+            MathRuntimeException.createIllegalArgumentException("Sample size must be positive");
+        }
+        int[] out = new int[sampleSize];
+        for (int i = 0; i < sampleSize; i++) {
+            out[i] = sample();
+        }
+        return out;
+    }
+
+    /**
+     * Computes the cumulative probability function and checks for NaN values returned.
      * Throws MathException if the value is NaN. Wraps and rethrows any MathException encountered
      * evaluating the cumulative probability function in a FunctionEvaluationException. Throws
      * FunctionEvaluationException of the cumulative probability function returns NaN.

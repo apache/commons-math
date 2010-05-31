@@ -176,6 +176,23 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
+     * Generates a random value sampled from this distribution.
+     *
+     * <p><strong>Algorithm Description</strong>: Uses the <a
+     * href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> Inversion
+     * Method</a> to generate exponentially distributed random values from
+     * uniform deviates. </p>
+     *
+     * @return random value
+     * @since 2.2
+     * @throws MathException if an error occurs generating the random value
+     */
+    @Override
+    public double sample() throws MathException {
+        return randomData.nextExponential(mean);
+    }
+
+    /**
      * Access the domain value lower bound, based on <code>p</code>, used to
      * bracket a CDF root.
      *

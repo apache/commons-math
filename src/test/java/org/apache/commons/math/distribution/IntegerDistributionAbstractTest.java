@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.TestUtils;
+
 import junit.framework.TestCase;
 
 /**
@@ -268,6 +270,32 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    
+    /**
+     * Test sampling
+     */
+    public void testSampling() throws Exception {
+        int[] densityPoints = makeDensityTestPoints();
+        double[] densityValues = makeDensityTestValues();
+        int sampleSize = 1000;
+        int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
+        AbstractIntegerDistribution distribution = (AbstractIntegerDistribution) makeDistribution();
+        double[] expectedCounts = new double[length];
+        long[] observedCounts = new long[length];
+        for (int i = 0; i < length; i++) {
+            expectedCounts[i] = sampleSize * densityValues[i];
+        }
+        distribution.reseedRandomGenerator(1000); // Use fixed seed
+        int[] sample = distribution.sample(sampleSize);
+        for (int i = 0; i < sampleSize; i++) {
+          for (int j = 0; j < length; j++) {
+              if (sample[i] == densityPoints[j]) {
+                  observedCounts[j]++;
+              }
+          }
+        }
+        TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
 
     //------------------ Getters / Setters for test instance data -----------
