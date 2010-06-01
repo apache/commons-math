@@ -805,7 +805,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     ak2        = norm2;
                 }
             }
-            if (ak2 < 1.0e-66) {
+            if (ak2 == 0) {
                 rank = k;
                 return;
             }
