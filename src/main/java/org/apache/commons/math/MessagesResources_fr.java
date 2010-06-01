@@ -756,7 +756,7 @@ public class MessagesResources_fr
    // org.apache.commons.math.distribution.AbstractIntegerDistribution
    // org.apache.commons.math.distribution.AbstractContinuousDistribution
    { "Sample size must be positive",
-     "Taille de l'\u00e9chantillon doit \u00eatre positif" },
+     "La taille de l'\u00e9chantillon doit \u00eatre positive" },
 
    // org.apache.commons.math.distribution.BinomialDistributionImpl
    { "number of trials must be non-negative ({0})",
