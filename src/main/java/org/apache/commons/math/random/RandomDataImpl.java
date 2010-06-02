@@ -529,6 +529,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param beta second distribution shape parameter
      * @return random value sampled from the beta(alpha, beta) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextBeta(double alpha, double beta) throws MathException {
         return nextInversionDeviate(new BetaDistributionImpl(alpha, beta));
@@ -543,6 +544,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param probabilityOfSuccess probability of success of the Binomial distribution
      * @return random value sampled from the Binomial(numberOfTrials, probabilityOfSuccess) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public int nextBinomial(int numberOfTrials, double probabilityOfSuccess) throws MathException {
         return nextInversionDeviate(new BinomialDistributionImpl(numberOfTrials, probabilityOfSuccess));
@@ -557,6 +559,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param scale the scale parameter of the Cauchy distribution
      * @return random value sampled from the Cauchy(median, scale) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextCauchy(double median, double scale) throws MathException {
         return nextInversionDeviate(new CauchyDistributionImpl(median, scale));
@@ -570,6 +573,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param df the degrees of freedom of the ChiSquare distribution
      * @return random value sampled from the ChiSquare(df) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextChiSquare(double df) throws MathException {
         return nextInversionDeviate(new ChiSquaredDistributionImpl(df));
@@ -584,6 +588,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param denominatorDf the denominator degrees of freedom of the F distribution
      * @return random value sampled from the F(numeratorDf, denominatorDf) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextF(double numeratorDf, double denominatorDf) throws MathException {
         return nextInversionDeviate(new FDistributionImpl(numeratorDf, denominatorDf));
@@ -598,6 +603,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param scale the scale parameter of the Gamma distribution
      * @return random value sampled from the Gamma(shape, scale) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextGamma(double shape, double scale) throws MathException {
         return nextInversionDeviate(new GammaDistributionImpl(shape, scale));
@@ -613,6 +619,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param sampleSize the sample size of the Hypergeometric distribution
      * @return random value sampled from the Hypergeometric(numberOfSuccesses, sampleSize) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) throws MathException {
         return nextInversionDeviate(new HypergeometricDistributionImpl(populationSize, numberOfSuccesses, sampleSize));
@@ -627,6 +634,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param p the probability of success of the Pascal distribution
      * @return random value sampled from the Pascal(r, p) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public int nextPascal(int r, double p) throws MathException {
         return nextInversionDeviate(new PascalDistributionImpl(r, p));
@@ -640,6 +648,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param df the degrees of freedom of the T distribution
      * @return random value from the T(df) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextT(double df) throws MathException {
         return nextInversionDeviate(new TDistributionImpl(df));
@@ -654,6 +663,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param scale the scale parameter of the Weibull distribution
      * @return random value sampled from the Weibull(shape, size) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public double nextWeibull(double shape, double scale) throws MathException {
         return nextInversionDeviate(new WeibullDistributionImpl(shape, scale));
@@ -668,6 +678,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param exponent the exponent of the ZipfDistribution
      * @return random value sampled from the Zipf(numberOfElements, exponent) distribution
      * @throws MathException if an error occurs generating the random value
+     * @since 2.2
      */
     public int nextZipf(int numberOfElements, double exponent) throws MathException {
         return nextInversionDeviate(new ZipfDistributionImpl(numberOfElements, exponent));
@@ -879,6 +890,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param distribution Continuous distribution to generate a random value from
      * @return a random value sampled from the given distribution
      * @throws MathException if an error occurs computing the inverse cumulative distribution function
+     * @since 2.2
      */
     public double nextInversionDeviate(ContinuousDistribution distribution) throws MathException {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));
@@ -892,6 +904,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param distribution Integer distribution to generate a random value from
      * @return a random value sampled from the given distribution
      * @throws MathException if an error occurs computing the inverse cumulative distribution function
+     * @since 2.2
      */
     public int nextInversionDeviate(IntegerDistribution distribution) throws MathException {
         final double target = nextUniform(0, 1);
