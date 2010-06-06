@@ -72,6 +72,70 @@ public class CurveFitterTest {
 
     }
 
+    @Test
+    public void testMath372()
+    throws OptimizationException, FunctionEvaluationException {
+        LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
+        CurveFitter curveFitter = new CurveFitter(optimizer);
+
+        curveFitter.addObservedPoint( 15,  4443);
+        curveFitter.addObservedPoint( 31,  8493);
+        curveFitter.addObservedPoint( 62, 17586);
+        curveFitter.addObservedPoint(125, 30582);
+        curveFitter.addObservedPoint(250, 45087);
+        curveFitter.addObservedPoint(500, 50683);
+
+        ParametricRealFunction f = new ParametricRealFunction() {
+
+            public double value(double x, double[] parameters) {
+
+                double a = parameters[0];
+                double b = parameters[1];
+                double c = parameters[2];
+                double d = parameters[3];
+
+                return d + ((a - d) / (1 + Math.pow(x / c, b)));
+            }
+
+            public double[] gradient(double x, double[] parameters) {
+
+                double a = parameters[0];
+                double b = parameters[1];
+                double c = parameters[2];
+                double d = parameters[3];
+
+                double[] gradients = new double[4];
+                double den = 1 + Math.pow(x / c, b);
+
+                // derivative with respect to a
+                gradients[0] = 1 / den;
+
+                // derivative with respect to b
+                // in the reported (invalid) issue, there was a sign error here
+                gradients[1] = -((a - d) * Math.pow(x / c, b) * Math.log(x / c)) / (den * den);
+
+                // derivative with respect to c
+                gradients[2] = (b * Math.pow(x / c, b - 1) * (x / (c * c)) * (a - d)) / (den * den);
+
+                // derivative with respect to d
+                gradients[3] = 1 - (1 / den);
+
+                return gradients;
+
+            }
+        };
+
+        double[] initialGuess = new double[] { 1500, 0.95, 65, 35000 };
+        double[] estimatedParameters = curveFitter.fit(f, initialGuess);
+
+        Assert.assertEquals( 2411.00, estimatedParameters[0], 500.00);
+        Assert.assertEquals(    1.62, estimatedParameters[1],   0.04);
+        Assert.assertEquals(  111.22, estimatedParameters[2],   0.30);
+        Assert.assertEquals(55347.47, estimatedParameters[3], 300.00);
+        Assert.assertTrue(optimizer.getRMS() < 600.0);
+
+    }
+
     private static class SimpleInverseFunction implements ParametricRealFunction {
 
         public double value(double x, double[] parameters) {
