@@ -21,6 +21,7 @@ import java.util.Arrays;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.MathUtils;
 
 
 /**
@@ -140,16 +141,20 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * and the columns of the jacobian. */
     private double orthoTolerance;
 
+    /** Threshold for QR ranking. */
+    private double qrRankingThreshold;
+
     /**
      * Build an optimizer for least squares problems.
      * <p>The default values for the algorithm settings are:
      *   <ul>
-     *    <li>{@link #setConvergenceChecker vectorial convergence checker}: null</li>
-     *    <li>{@link #setInitialStepBoundFactor initial step bound factor}: 100.0</li>
-     *    <li>{@link #setMaxIterations maximal iterations}: 1000</li>
-     *    <li>{@link #setCostRelativeTolerance cost relative tolerance}: 1.0e-10</li>
-     *    <li>{@link #setParRelativeTolerance parameters relative tolerance}: 1.0e-10</li>
-     *    <li>{@link #setOrthoTolerance orthogonality tolerance}: 1.0e-10</li>
+     *    <li>{@link #setConvergenceChecker(VectorialConvergenceChecker) vectorial convergence checker}: null</li>
+     *    <li>{@link #setInitialStepBoundFactor(double) initial step bound factor}: 100.0</li>
+     *    <li>{@link #setMaxIterations(int) maximal iterations}: 1000</li>
+     *    <li>{@link #setCostRelativeTolerance(double) cost relative tolerance}: 1.0e-10</li>
+     *    <li>{@link #setParRelativeTolerance(double) parameters relative tolerance}: 1.0e-10</li>
+     *    <li>{@link #setOrthoTolerance(double) orthogonality tolerance}: 1.0e-10</li>
+     *    <li>{@link #setQRRankingThreshold(double) QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
      *   </ul>
      * </p>
      * <p>These default values may be overridden after construction. If the {@link
@@ -168,6 +173,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         setCostRelativeTolerance(1.0e-10);
         setParRelativeTolerance(1.0e-10);
         setOrthoTolerance(1.0e-10);
+        setQRRankingThreshold(MathUtils.SAFE_MIN);
 
     }
 
@@ -214,6 +220,19 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      */
     public void setOrthoTolerance(double orthoTolerance) {
         this.orthoTolerance = orthoTolerance;
+    }
+
+    /**
+     * Set the desired threshold for QR ranking.
+     * <p>
+     * If the squared norm of a column vector is smaller or equal to this threshold
+     * during QR decomposition, it is considered to be a zero vector and hence the
+     * rank of the matrix is reduced.
+     * </p>
+     * @param qrRankingThreshold threshold for QR ranking
+     */
+    public void setQRRankingThreshold(final double qrRankingThreshold) {
+        this.qrRankingThreshold = qrRankingThreshold;
     }
 
     /** {@inheritDoc} */
@@ -805,7 +824,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     ak2        = norm2;
                 }
             }
-            if (ak2 == 0) {
+            if (ak2 <= qrRankingThreshold) {
                 rank = k;
                 return;
             }

@@ -505,10 +505,12 @@ public class LevenbergMarquardtOptimizerTest
             problem.addPoint (2, -2.1488478161387325);
             problem.addPoint (3, -1.9122489313410047);
             problem.addPoint (4, 1.7785661310051026);
-            new LevenbergMarquardtOptimizer().optimize(problem,
-                                                       new double[] { 0, 0, 0, 0, 0 },
-                                                       new double[] { 0.0, 4.4e-323, 1.0, 4.4e-323, 0.0 },
-                                                       new double[] { 0, 0, 0 });
+            LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
+            optimizer.setQRRankingThreshold(0);
+            optimizer.optimize(problem,
+                               new double[] { 0, 0, 0, 0, 0 },
+                               new double[] { 0.0, 4.4e-323, 1.0, 4.4e-323, 0.0 },
+                               new double[] { 0, 0, 0 });
             fail("an exception should have been thrown");
         } catch (OptimizationException ee) {
             // expected behavior

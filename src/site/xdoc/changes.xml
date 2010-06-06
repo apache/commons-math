@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-352" >
+        Added a setQRRankingThreshold method to Levenberg-Marquardt optimizer to improve robustness
+        of rank determination.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-310">
         Added random data generation methods to RandomDataImpl for the remaining distributions in the
         distributions package. Added a generic nextInversionDeviate method that takes a discrete
