@@ -360,14 +360,14 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return MathUtils.equals(stat.getGeometricMean(), getGeometricMean()) &&
-               MathUtils.equals(stat.getMax(),           getMax())           &&
-               MathUtils.equals(stat.getMean(),          getMean())          &&
-               MathUtils.equals(stat.getMin(),           getMin())           &&
-               MathUtils.equals(stat.getN(),             getN())             &&
-               MathUtils.equals(stat.getSum(),           getSum())           &&
-               MathUtils.equals(stat.getSumsq(),         getSumsq())         &&
-               MathUtils.equals(stat.getVariance(),      getVariance());
+        return MathUtils.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
+               MathUtils.equalsIncludingNaN(stat.getMax(),           getMax())           &&
+               MathUtils.equalsIncludingNaN(stat.getMean(),          getMean())          &&
+               MathUtils.equalsIncludingNaN(stat.getMin(),           getMin())           &&
+               MathUtils.equalsIncludingNaN(stat.getN(),             getN())             &&
+               MathUtils.equalsIncludingNaN(stat.getSum(),           getSum())           &&
+               MathUtils.equalsIncludingNaN(stat.getSumsq(),         getSumsq())         &&
+               MathUtils.equalsIncludingNaN(stat.getVariance(),      getVariance());
     }
 
     /**

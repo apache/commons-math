@@ -314,7 +314,7 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(Double.isNaN(MathUtils.cosh(Double.NaN)));
     }
 
-    public void testEquals() {
+    public void testEqualsIncludingNaN() {
         double[] testArray = {
             Double.NaN,
             Double.POSITIVE_INFINITY,
@@ -324,11 +324,11 @@ public final class MathUtilsTest extends TestCase {
         for (int i = 0; i < testArray.length; i++) {
             for (int j = 0; j < testArray.length; j++) {
                 if (i == j) {
-                    assertTrue(MathUtils.equals(testArray[i], testArray[j]));
-                    assertTrue(MathUtils.equals(testArray[j], testArray[i]));
+                    assertTrue(MathUtils.equalsIncludingNaN(testArray[i], testArray[j]));
+                    assertTrue(MathUtils.equalsIncludingNaN(testArray[j], testArray[i]));
                 } else {
-                    assertTrue(!MathUtils.equals(testArray[i], testArray[j]));
-                    assertTrue(!MathUtils.equals(testArray[j], testArray[i]));
+                    assertTrue(!MathUtils.equalsIncludingNaN(testArray[i], testArray[j]));
+                    assertTrue(!MathUtils.equalsIncludingNaN(testArray[j], testArray[i]));
                 }
             }
         }
@@ -338,7 +338,7 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(153.0000, 153.0000, .0625));
         assertTrue(MathUtils.equals(153.0000, 153.0625, .0625));
         assertTrue(MathUtils.equals(152.9375, 153.0000, .0625));
-        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1.0));
+        assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1.0));
         assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
         assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
@@ -346,18 +346,44 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(152.9374, 153.0000, .0625));
     }
 
-    public void testEqualsWithAllowedUlps() {
-        assertTrue(MathUtils.equals(153, 153, 1));
+    public void testEqualsIncludingNaNWithAllowedDelta() {
+        assertTrue(MathUtils.equalsIncludingNaN(153.0000, 153.0000, .0625));
+        assertTrue(MathUtils.equalsIncludingNaN(153.0000, 153.0625, .0625));
+        assertTrue(MathUtils.equalsIncludingNaN(152.9375, 153.0000, .0625));
+        assertTrue(MathUtils.equalsIncludingNaN(Double.NaN, Double.NaN, 1.0));
+        assertTrue(MathUtils.equalsIncludingNaN(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
+        assertTrue(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
+        assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
+        assertFalse(MathUtils.equalsIncludingNaN(153.0000, 153.0625, .0624));
+        assertFalse(MathUtils.equalsIncludingNaN(152.9374, 153.0000, .0625));
+    }
 
-        assertTrue(MathUtils.equals(153, 153.00000000000003, 1));
-        assertFalse(MathUtils.equals(153, 153.00000000000006, 1));
-        assertTrue(MathUtils.equals(153, 152.99999999999997, 1));
+    public void testEqualsWithAllowedUlps() {
+        assertTrue(MathUtils.equals(0.0, -0.0, 1));
+
+        assertTrue(MathUtils.equals(1.0, 1 + Math.ulp(1d), 1));
+        assertFalse(MathUtils.equals(1.0, 1 + 2 * Math.ulp(1d), 1));
+
+        final double nUp1 = Math.nextUp(1d);
+        final double nnUp1 = Math.nextUp(nUp1);
+        assertTrue(MathUtils.equals(1.0, nUp1, 1));
+        assertTrue(MathUtils.equals(nUp1, nnUp1, 1));
+        assertFalse(MathUtils.equals(1.0, nnUp1, 1));
+
+        assertTrue(MathUtils.equals(0.0, Math.ulp(0d), 1));
+        assertTrue(MathUtils.equals(0.0, -Math.ulp(0d), 1));
+
+        assertTrue(MathUtils.equals(153.0, 153.0, 1));
+
+        assertTrue(MathUtils.equals(153.0, 153.00000000000003, 1));
+        assertFalse(MathUtils.equals(153.0, 153.00000000000006, 1));
+        assertTrue(MathUtils.equals(153.0, 152.99999999999997, 1));
         assertFalse(MathUtils.equals(153, 152.99999999999994, 1));
 
-        assertTrue(MathUtils.equals(-128, -127.99999999999999, 1));
-        assertFalse(MathUtils.equals(-128, -127.99999999999997, 1));
-        assertTrue(MathUtils.equals(-128, -128.00000000000003, 1));
-        assertFalse(MathUtils.equals(-128, -128.00000000000006, 1));
+        assertTrue(MathUtils.equals(-128.0, -127.99999999999999, 1));
+        assertFalse(MathUtils.equals(-128.0, -127.99999999999997, 1));
+        assertTrue(MathUtils.equals(-128.0, -128.00000000000003, 1));
+        assertFalse(MathUtils.equals(-128.0, -128.00000000000006, 1));
 
         assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
         assertTrue(MathUtils.equals(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
@@ -365,12 +391,53 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
         assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
 
-
-        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1));
+        assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1));
 
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
 
+    public void testEqualsIncludingNaNWithAllowedUlps() {
+        assertTrue(MathUtils.equalsIncludingNaN(0.0, -0.0, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(1.0, 1 + Math.ulp(1d), 1));
+        assertFalse(MathUtils.equalsIncludingNaN(1.0, 1 + 2 * Math.ulp(1d), 1));
+
+        final double nUp1 = Math.nextUp(1d);
+        final double nnUp1 = Math.nextUp(nUp1);
+        assertTrue(MathUtils.equalsIncludingNaN(1.0, nUp1, 1));
+        assertTrue(MathUtils.equalsIncludingNaN(nUp1, nnUp1, 1));
+        assertFalse(MathUtils.equalsIncludingNaN(1.0, nnUp1, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(0.0, Math.ulp(0d), 1));
+        assertTrue(MathUtils.equalsIncludingNaN(0.0, -Math.ulp(0d), 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(153.0, 153.0, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(153.0, 153.00000000000003, 1));
+        assertFalse(MathUtils.equalsIncludingNaN(153.0, 153.00000000000006, 1));
+        assertTrue(MathUtils.equalsIncludingNaN(153.0, 152.99999999999997, 1));
+        assertFalse(MathUtils.equalsIncludingNaN(153, 152.99999999999994, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(-128.0, -127.99999999999999, 1));
+        assertFalse(MathUtils.equalsIncludingNaN(-128.0, -127.99999999999997, 1));
+        assertTrue(MathUtils.equalsIncludingNaN(-128.0, -128.00000000000003, 1));
+        assertFalse(MathUtils.equalsIncludingNaN(-128.0, -128.00000000000006, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
+        assertTrue(MathUtils.equalsIncludingNaN(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
+        assertTrue(MathUtils.equalsIncludingNaN(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
+
+        assertTrue(MathUtils.equalsIncludingNaN(Double.NaN, Double.NaN, 1));
+
+        assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
+    }
+
+    /**
+     * @deprecated To be removed in release 3.0 (replaced by {@link
+     * #testArrayEqualsIncludingNaN()}.
+     */
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));
         assertFalse(MathUtils.equals(null, new double[] { 1d }));
@@ -390,6 +457,26 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(new double[] { 1d },
                                      new double[] { MathUtils.nextAfter(1d, 2d) }));
 
+    }
+
+    public void testArrayEqualsIncludingNaN() {
+        assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d }, null));
+        assertFalse(MathUtils.equalsIncludingNaN(null, new double[] { 1d }));
+        assertTrue(MathUtils.equalsIncludingNaN((double[]) null, (double[]) null));
+
+        assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d }, new double[0]));
+        assertTrue(MathUtils.equalsIncludingNaN(new double[] { 1d }, new double[] { 1d }));
+        assertTrue(MathUtils.equalsIncludingNaN(new double[] {
+                    Double.NaN, Double.POSITIVE_INFINITY,
+                    Double.NEGATIVE_INFINITY, 1d, 0d
+                }, new double[] {
+                    Double.NaN, Double.POSITIVE_INFINITY,
+                    Double.NEGATIVE_INFINITY, 1d, 0d
+                }));
+        assertFalse(MathUtils.equalsIncludingNaN(new double[] { Double.POSITIVE_INFINITY },
+                                                 new double[] { Double.NEGATIVE_INFINITY }));
+        assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d },
+                                                 new double[] { MathUtils.nextAfter(MathUtils.nextAfter(1d, 2d), 2d) }));
     }
 
     public void testFactorial() {

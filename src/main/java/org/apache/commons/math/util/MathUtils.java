@@ -403,36 +403,68 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff both arguments are NaN or neither is NaN and they are
-     * equal
+     * Returns true iff they are equal as defined by
+     * {@link #equals(double,double,int) this method}.
      *
      * @param x first value
      * @param y second value
-     * @return true if the values are equal or both are NaN
+     * @return {@code true} if the values are equal.
+     * @deprecated This method considers that {@code NaN == NaN}. In release
+     * 3.0, the semantics will change in order to comply with IEEE754 where it
+     * is specified that {@code NaN != NaN}.
+     * New methods have been added for those cases wher the old semantics is
+     * useful (see e.g. {@link equalsIncludingNaN(double,double)
+     * equalsIncludingNaN}.
      */
     public static boolean equals(double x, double y) {
         return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
     }
 
     /**
-     * Returns true iff both arguments are equal or within the range of allowed
-     * error (inclusive).
-     * <p>
-     * Two NaNs are considered equals, as are two infinities with same sign.
-     * </p>
+     * Returns true if both arguments are NaN or neither is NaN and they are
+     * equal as defined by {@link #equals(double,double) this method}.
      *
      * @param x first value
      * @param y second value
-     * @param eps the amount of absolute error to allow
-     * @return true if the values are equal or within range of each other
+     * @return {@code true} if the values are equal or both are NaN.
      */
-    public static boolean equals(double x, double y, double eps) {
-      return equals(x, y) || (Math.abs(y - x) <= eps);
+    public static boolean equalsIncludingNaN(double x, double y) {
+        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
     }
 
     /**
-     * Returns true iff both arguments are equal or within the range of allowed
+     * Returns true if both arguments are equal or within the range of allowed
      * error (inclusive).
+     *
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow.
+     * @return {@code true} if the values are equal or within range of each other.
+     */
+    public static boolean equals(double x, double y, double eps) {
+        return equals(x, y, 1) || Math.abs(y - x) <= eps;
+    }
+
+    /**
+     * Returns true if both arguments are NaN or are equal or within the range
+     * of allowed error (inclusive).
+     *
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow.
+     * @return {@code true} if the values are equal or within range of each other,
+     * or both are NaN.
+     */
+    public static boolean equalsIncludingNaN(double x, double y, double eps) {
+        return equalsIncludingNaN(x, y) || (Math.abs(y - x) <= eps);
+    }
+
+    /**
+     * Returns true if both arguments are equal or within the range of allowed
+     * error (inclusive).
+     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
+     * (or less) floating point numbers between them (i.e. two adjacent floating
+     * point numbers are considered equal.
      * Adapted from <a
      * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
      * Bruce Dawson</a>
@@ -442,11 +474,11 @@ public final class MathUtils {
      * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
      * values between {@code x} and {@code y}.
      * @return {@code true} if there are less than {@code maxUlps} floating
-     * point values between {@code x} and {@code y}
+     * point values between {@code x} and {@code y}.
      */
     public static boolean equals(double x, double y, int maxUlps) {
-        // Check that "maxUlps" is non-negative and small enough so that the
-        // default NAN won't compare as equal to anything.
+        // Check that "maxUlps" is non-negative and small enough so that
+        // NaN won't compare as equal to anything (except another NaN).
         assert maxUlps > 0 && maxUlps < NAN_GAP;
 
         long xInt = Double.doubleToLongBits(x);
@@ -460,18 +492,41 @@ public final class MathUtils {
             yInt = SGN_MASK - yInt;
         }
 
-        return Math.abs(xInt - yInt) <= maxUlps;
+        final boolean isEqual = (Math.abs(xInt - yInt) <= maxUlps);
+
+        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
     }
 
     /**
-     * Returns true iff both arguments are null or have same dimensions
-     * and all their elements are {@link #equals(double,double) equals}
+     * Returns true if both arguments are NaN or if they are equal as defined
+     * by {@link #equals(double,double,int) this method}.
+     *
+     * @param x first value
+     * @param y second value
+     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
+     * values between {@code x} and {@code y}.
+     * @return {@code true} if both arguments are NaN or if there are less than
+     * {@code maxUlps} floating point values between {@code x} and {@code y}.
+     */
+    public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {
+        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, maxUlps);
+    }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link #equals(double,double) this method}.
      *
      * @param x first array
      * @param y second array
      * @return true if the values are both null or have same dimension
-     * and equal elements
-     * @since 1.2
+     * and equal elements.
+     * @deprecated This method considers that {@code NaN == NaN}. In release
+     * 3.0, the semantics will change in order to comply with IEEE754 where it
+     * is specified that {@code NaN != NaN}.
+     * New methods have been added for those cases wher the old semantics is
+     * useful (see e.g. {@link equalsIncludingNaN(double[],double[])
+     * equalsIncludingNaN}.
      */
     public static boolean equals(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
@@ -482,6 +537,31 @@ public final class MathUtils {
         }
         for (int i = 0; i < x.length; ++i) {
             if (!equals(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link #equalsIncludingNaN(double,double) this method}.
+     *
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension and
+     * equal elements
+     */
+    public static boolean equalsIncludingNaN(double[] x, double[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!equalsIncludingNaN(x[i], y[i])) {
                 return false;
             }
         }

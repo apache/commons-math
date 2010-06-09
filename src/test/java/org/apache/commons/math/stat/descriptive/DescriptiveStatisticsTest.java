@@ -210,11 +210,11 @@ public class DescriptiveStatisticsTest extends TestCase {
             dstat.addValue(i);
         }
 
-        assertTrue(MathUtils.equals(mean1, dstat.getMean()));
+        assertTrue(MathUtils.equalsIncludingNaN(mean1, dstat.getMean()));
         dstat.replaceMostRecentValue(0);
-        assertTrue(MathUtils.equals(mean2, dstat.getMean()));
+        assertTrue(MathUtils.equalsIncludingNaN(mean2, dstat.getMean()));
         dstat.removeMostRecentValue();
-        assertTrue(MathUtils.equals(mean3, dstat.getMean()));
+        assertTrue(MathUtils.equalsIncludingNaN(mean3, dstat.getMean()));
 
     }
 
