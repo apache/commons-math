@@ -19,6 +19,7 @@ package org.apache.commons.math.transform;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
@@ -160,7 +161,7 @@ public class FastHadamardTransformer implements RealTransformer {
         // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} is not a power of 2",
+                    LocalizedFormats.NOT_POWER_OF_TWO,
                     n);
         }
 
@@ -211,7 +212,7 @@ public class FastHadamardTransformer implements RealTransformer {
         // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} is not a power of 2",
+                    LocalizedFormats.NOT_POWER_OF_TWO,
                     n);
         }
 

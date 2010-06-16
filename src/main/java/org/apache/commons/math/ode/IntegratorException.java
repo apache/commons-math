@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * This exception is made available to users to report
@@ -31,14 +32,25 @@ public class IntegratorException
   /** Serializable version identifier */
     private static final long serialVersionUID = -1607588949778036796L;
 
-  /** Simple constructor.
-   * Build an exception by translating and formating a message
-   * @param specifier format specifier (to be translated)
-   * @param parts to insert in the format (no translation)
-   */
-  public IntegratorException(final String specifier, final Object ... parts) {
-    super(specifier, parts);
-  }
+    /** Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     * @deprecated as of 2.2 replaced by {@link #IntegratorException(Localizable, Object...)}
+     */
+    @Deprecated
+    public IntegratorException(final String specifier, final Object ... parts) {
+      super(specifier, parts);
+    }
+
+    /** Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     */
+    public IntegratorException(final Localizable specifier, final Object ... parts) {
+      super(specifier, parts);
+    }
 
   /**
    * Create an exception with a given root cause.

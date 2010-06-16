@@ -22,6 +22,7 @@ import java.math.BigInteger;
 
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -80,10 +81,6 @@ public class BigFraction
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5630213147331578515L;
 
-    /** Message for zero denominator. */
-    private static final String FORBIDDEN_ZERO_DENOMINATOR =
-        "denominator must be different from 0";
-
     /** <code>BigInteger</code> representation of 100. */
     private static final BigInteger ONE_HUNDRED_DOUBLE = BigInteger.valueOf(100);
 
@@ -123,13 +120,13 @@ public class BigFraction
      */
     public BigFraction(BigInteger num, BigInteger den) {
         if (num == null) {
-            throw MathRuntimeException.createNullPointerException("numerator is null");
+            throw MathRuntimeException.createNullPointerException(LocalizedFormats.NULL_NUMERATOR);
         }
         if (den == null) {
-            throw MathRuntimeException.createNullPointerException("denominator is null");
+            throw MathRuntimeException.createNullPointerException(LocalizedFormats.NULL_DENOMINATOR);
         }
         if (BigInteger.ZERO.equals(den)) {
-            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
         if (BigInteger.ZERO.equals(num)) {
             numerator   = BigInteger.ZERO;
@@ -179,10 +176,10 @@ public class BigFraction
      */
     public BigFraction(final double value) throws IllegalArgumentException {
         if (Double.isNaN(value)) {
-            throw MathRuntimeException.createIllegalArgumentException("cannot convert NaN value");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NAN_VALUE_CONVERSION);
         }
         if (Double.isInfinite(value)) {
-            throw MathRuntimeException.createIllegalArgumentException("cannot convert infinite value");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INFINITE_VALUE_CONVERSION);
         }
 
         // compute m and k such that value = m * 2^k
@@ -619,7 +616,7 @@ public class BigFraction
      */
     public BigFraction divide(final BigInteger bg) {
         if (BigInteger.ZERO.equals(bg)) {
-            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
         return new BigFraction(numerator, denominator.multiply(bg));
     }
@@ -672,7 +669,7 @@ public class BigFraction
      */
     public BigFraction divide(final BigFraction fraction) {
         if (BigInteger.ZERO.equals(fraction.numerator)) {
-            throw MathRuntimeException.createArithmeticException(FORBIDDEN_ZERO_DENOMINATOR);
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
 
         return multiply(fraction.reciprocal());

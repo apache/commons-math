@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * The default implementation of {@link GammaDistribution}.
@@ -145,7 +146,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     private void setAlphaInternal(double newAlpha) {
         if (newAlpha <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "alpha must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_ALPHA,
                   newAlpha);
         }
         this.alpha = newAlpha;
@@ -178,7 +179,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     private void setBetaInternal(double newBeta) {
         if (newBeta <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "beta must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_BETA,
                   newBeta);
         }
         this.beta = newBeta;

@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -209,11 +210,11 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
 
         if (a.length < 1 || c.length < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "empty polynomials coefficients array");
+                  LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         if (a.length != c.length + 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "array sizes should have difference 1 ({0} != {1} + 1)",
+                  LocalizedFormats.ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1,
                   a.length, c.length);
         }
     }

@@ -34,6 +34,7 @@ import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class enhances a first order integrator for differential equations to
  * compute also partial derivatives of the solution with respect to initial state
@@ -348,7 +349,7 @@ public class FirstOrderIntegratorWithJacobians {
         int arrayDimension = (array == null) ? 0 : Array.getLength(array);
         if (arrayDimension != expected) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "dimension mismatch {0} != {1}", arrayDimension, expected);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, arrayDimension, expected);
         }
     }
 

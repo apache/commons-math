@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class implements a curve fitting specialized for sinusoids.
  * <p>Harmonic fitting is a very simple case of curve fitting. The
@@ -82,7 +83,7 @@ public class HarmonicFitter {
             if (parameters == null) {
                 final WeightedObservedPoint[] observations = fitter.getObservations();
                 if (observations.length < 4) {
-                    throw new OptimizationException("sample contains {0} observed points, at least {1} are required",
+                    throw new OptimizationException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
                                                     observations.length, 4);
                 }
 

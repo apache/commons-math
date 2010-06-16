@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Abstract base class for all implementations of the
@@ -77,22 +78,22 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
         }
 
         if (begin < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "start position cannot be negative ({0})", begin);
+                  LocalizedFormats.NEGATIVE_START_POSITION, begin);
         }
 
         if (length < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "length cannot be negative ({0})", length);
+                  LocalizedFormats.NEGATIVE_LENGTH, length);
         }
 
         if (begin + length > values.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "subarray ends after array end");
+                  LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
         }
 
         if (length == 0) {

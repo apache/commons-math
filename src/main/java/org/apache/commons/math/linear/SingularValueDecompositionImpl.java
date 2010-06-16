@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.
@@ -219,7 +220,7 @@ public class SingularValueDecompositionImpl implements
 
         if (dimension == 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "cutoff singular value is {0}, should be at most {1}",
+                    LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
                     minSingularValue, singularValues[0]);
         }
 

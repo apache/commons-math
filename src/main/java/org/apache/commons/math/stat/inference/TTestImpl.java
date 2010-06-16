@@ -22,6 +22,7 @@ import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
@@ -32,10 +33,6 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * @version $Revision$ $Date$
  */
 public class TTestImpl implements TTest  {
-
-    /** Message for insufficient data. */
-    private static final String INSUFFICIENT_DATA_MESSAGE =
-        "insufficient data for t statistic, needs at least 2, got {0}";
 
     /** Distribution used to compute inference statistics. */
     private TDistribution distribution;
@@ -1030,7 +1027,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                   alpha, 0.0, 0.5);
         }
     }
@@ -1043,7 +1040,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((data == null) || (data.length < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  INSUFFICIENT_DATA_MESSAGE,
+                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                   (data == null) ? 0 : data.length);
         }
     }
@@ -1056,7 +1053,7 @@ public class TTestImpl implements TTest  {
         throws IllegalArgumentException {
         if ((stat == null) || (stat.getN() < 2)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  INSUFFICIENT_DATA_MESSAGE,
+                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
                   (stat == null) ? 0 : stat.getN());
         }
     }

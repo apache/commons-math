@@ -59,7 +59,7 @@ public class TestBean {
      *
      */
     public Double getZ() {
-        throw new MathRuntimeException("?");
+        throw new MathRuntimeException(LocalizedFormats.SIMPLE_MESSAGE, "?");
     }
 
     /**

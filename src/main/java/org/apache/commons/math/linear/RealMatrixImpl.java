@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implementation of RealMatrix using a double[][] array to store entries and
@@ -122,16 +123,16 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
             final int nRows = d.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "some rows have length {0} while others have length {1}",
+                            LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                             nCols, d[r].length);
                 }
             }
@@ -316,28 +317,28 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         if (data == null) {
             if (row > 0) {
                 throw MathRuntimeException.createIllegalStateException(
-                        "first {0} rows are not initialized yet",
+                        LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET,
                         row);
             }
             if (column > 0) {
                 throw MathRuntimeException.createIllegalStateException(
-                        "first {0} columns are not initialized yet",
+                        LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET,
                         column);
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one row");
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
-                throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
             }
             data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "some rows have length {0} while others have length {1}",
+                            LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                             nCols, subMatrix[i].length);
                 }
                 System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
@@ -356,7 +357,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -369,7 +370,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             data[row][column] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -382,7 +383,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             data[row][column] += increment;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -395,7 +396,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             data[row][column] *= factor;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -420,7 +421,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     v.length, nCols);
         }
         final double[] out = new double[nRows];
@@ -444,7 +445,7 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     v.length, nRows);
         }
 

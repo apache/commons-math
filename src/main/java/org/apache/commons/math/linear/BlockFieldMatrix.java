@@ -22,6 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Cache-friendly implementation of FieldMatrix using a flat arrays to store
@@ -218,7 +219,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             final int length = rawData[i].length;
             if (length != columns) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some rows have length {0} while others have length {1}",
+                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                         columns, length);
             }
         }
@@ -809,7 +810,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         // safety checks
         final int refLength = subMatrix[0].length;
         if (refLength < 1) {
-            throw MathRuntimeException.createIllegalArgumentException("matrix must have at least one column");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
@@ -817,7 +818,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         for (final T[] subRow : subMatrix) {
             if (subRow.length != refLength) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "some rows have length {0} while others have length {1}",
+                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                         refLength, subRow.length);
             }
         }
@@ -917,7 +918,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
             throw new InvalidMatrixException(
-                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                     matrix.getRowDimension(), matrix.getColumnDimension(),
                     1, nCols);
         }
@@ -1006,7 +1007,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
             throw new InvalidMatrixException(
-                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                     matrix.getRowDimension(), matrix.getColumnDimension(),
                     nRows, 1);
         }
@@ -1134,7 +1135,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
             throw new InvalidMatrixException(
-                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                     1, array.length, 1, nCols);
         }
 
@@ -1185,7 +1186,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         final int nRows = getRowDimension();
         if (array.length != nRows) {
             throw new InvalidMatrixException(
-                    "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                     array.length, 1, nRows, 1);
         }
 
@@ -1216,7 +1217,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             return blocks[iBlock * blockColumns + jBlock][k];
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -1233,7 +1234,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             blocks[iBlock * blockColumns + jBlock][k] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -1251,7 +1252,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             blockIJ[k] = blockIJ[k].add(increment);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -1269,7 +1270,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             blockIJ[k] = blockIJ[k].multiply(factor);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                    "no entry at indices ({0}, {1}) in a {2}x{3} matrix",
+                    LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
                     row, column, getRowDimension(), getColumnDimension());
         }
     }
@@ -1334,7 +1335,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
         if (v.length != columns) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     v.length, columns);
         }
         final T[] out = buildArray(getField(), rows);
@@ -1380,7 +1381,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
         if (v.length != rows) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     v.length, rows);
         }
         final T[] out = buildArray(getField(), columns);

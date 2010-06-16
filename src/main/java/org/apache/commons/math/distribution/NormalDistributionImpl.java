@@ -23,6 +23,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.special.Erf;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Default implementation of
@@ -138,7 +139,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     private void setStandardDeviationInternal(double sd) {
         if (sd <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "standard deviation must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION,
                   sd);
         }
         standardDeviation = sd;

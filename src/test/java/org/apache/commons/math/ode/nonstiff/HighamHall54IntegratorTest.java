@@ -33,6 +33,7 @@ import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 public class HighamHall54IntegratorTest
   extends TestCase {
@@ -51,7 +52,7 @@ public class HighamHall54IntegratorTest
             public void computeDerivatives(double t, double[] y, double[] dot)
             throws DerivativeException {
             if (t < -0.5) {
-                throw new DerivativeException("{0}", "oops");
+                throw new DerivativeException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
             } else {
                 throw new DerivativeException(new RuntimeException("oops"));
            }
@@ -217,7 +218,7 @@ public class HighamHall54IntegratorTest
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new EventException("Evaluation failed for argument = {0}", t);
+            throw new EventException(LocalizedFormats.EVALUATION_FAILED, t);
           }
           return offset;
         }

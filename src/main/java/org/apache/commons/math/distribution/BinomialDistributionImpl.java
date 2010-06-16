@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * The default implementation of {@link BinomialDistribution}.
@@ -92,7 +93,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     private void setNumberOfTrialsInternal(int trials) {
         if (trials < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "number of trials must be non-negative ({0})", trials);
+                    LocalizedFormats.NEGATIVE_NUMBER_OF_TRIALS, trials);
         }
         numberOfTrials = trials;
     }
@@ -119,7 +120,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     private void setProbabilityOfSuccessInternal(double p) {
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                    LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         }
         probabilityOfSuccess = p;
     }

@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a Fraction number in proper format or improper format.  The number
@@ -180,12 +181,12 @@ public class FractionFormat extends AbstractFormat {
                              toAppendTo, pos);
             } catch (ConvergenceException ex) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                    "cannot convert given object to a fraction number: {0}",
+                    LocalizedFormats.CANNOT_CONVERT_OBJECT_TO_FRACTION,
                     ex.getLocalizedMessage());
             }
         } else {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot format given object as a fraction number");
+                LocalizedFormats.CANNOT_FORMAT_OBJECT_TO_FRACTION);
         }
 
         return ret;

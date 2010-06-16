@@ -31,6 +31,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class implements simplex-based direct search optimization
@@ -86,14 +87,6 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @since 1.2
  */
 public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer {
-
-    /** Message for equal vertices. */
-    private static final String EQUAL_VERTICES_MESSAGE =
-        "equal vertices {0} and {1} in simplex configuration";
-
-    /** Message for dimension mismatch. */
-    private static final String DIMENSION_MISMATCH_MESSAGE =
-        "dimension mismatch {0} != {1}";
 
     /** Simplex. */
     protected RealPointValuePair[] simplex;
@@ -154,7 +147,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
             for (int j = 0; j < i + 1; ++j) {
                 if (steps[j] == 0.0) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                          EQUAL_VERTICES_MESSAGE, j, j + 1);
+                          LocalizedFormats.EQUAL_VERTICES_IN_SIMPLEX, j, j + 1);
                 }
                 System.arraycopy(steps, 0, vertexI, 0, j + 1);
             }
@@ -178,7 +171,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
         final int n = referenceSimplex.length - 1;
         if (n < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "simplex must contain at least one point");
+                    LocalizedFormats.SIMPLEX_NEED_ONE_POINT);
         }
         startConfiguration = new double[n][n];
         final double[] ref0 = referenceSimplex[0];
@@ -191,7 +184,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
             // safety checks
             if (refI.length != n) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      DIMENSION_MISMATCH_MESSAGE, refI.length, n);
+                      LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, refI.length, n);
             }
             for (int j = 0; j < i; ++j) {
                 final double[] refJ = referenceSimplex[j];
@@ -204,7 +197,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
                 }
                 if (allEquals) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                          EQUAL_VERTICES_MESSAGE, i, j);
+                          LocalizedFormats.EQUAL_VERTICES_IN_SIMPLEX, i, j);
                 }
             }
 
@@ -366,7 +359,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
         final int n = startPoint.length;
         if (n != startConfiguration.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  DIMENSION_MISMATCH_MESSAGE, n, startConfiguration.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, startConfiguration.length);
         }
 
         // set first vertex

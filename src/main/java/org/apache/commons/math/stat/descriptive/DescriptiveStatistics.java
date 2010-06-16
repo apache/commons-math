@@ -31,6 +31,7 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.ResizableDoubleArray;
 
 
@@ -67,14 +68,6 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
     /** Name of the setQuantile method. */
     private static final String SET_QUANTILE_METHOD_NAME = "setQuantile";
-
-    /** Message for unsupported setQuantile. */
-    private static final String UNSUPPORTED_METHOD_MESSAGE =
-        "percentile implementation {0} does not support {1}";
-
-    /** Message for illegal accesson setquantile. */
-    private static final String ILLEGAL_ACCESS_MESSAGE =
-        "cannot access {0} method in percentile implementation {1}";
 
     /** hold the window size **/
     protected int windowSize = INFINITE_WINDOW;
@@ -314,7 +307,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         if (windowSize < 1) {
             if (windowSize != INFINITE_WINDOW) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      "window size must be positive ({0})", windowSize);
+                      LocalizedFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
             }
         }
 
@@ -393,11 +386,11 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                                 new Object[] {Double.valueOf(p)});
             } catch (NoSuchMethodException e1) { // Setter guard should prevent
                 throw MathRuntimeException.createIllegalArgumentException(
-                      UNSUPPORTED_METHOD_MESSAGE,
+                      LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,
                       percentileImpl.getClass().getName(), SET_QUANTILE_METHOD_NAME);
             } catch (IllegalAccessException e2) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      ILLEGAL_ACCESS_MESSAGE,
+                      LocalizedFormats.PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD,
                       SET_QUANTILE_METHOD_NAME, percentileImpl.getClass().getName());
             } catch (InvocationTargetException e3) {
                 throw MathRuntimeException.createIllegalArgumentException(e3.getCause());
@@ -580,7 +573,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                   percentileImpl.getClass().getName());
         } catch (IllegalAccessException e2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  ILLEGAL_ACCESS_MESSAGE,
+                  LocalizedFormats.PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD,
                   SET_QUANTILE_METHOD_NAME, percentileImpl.getClass().getName());
         } catch (InvocationTargetException e3) {
             throw MathRuntimeException.createIllegalArgumentException(e3.getCause());

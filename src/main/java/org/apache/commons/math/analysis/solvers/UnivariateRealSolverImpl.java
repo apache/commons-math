@@ -21,6 +21,7 @@ import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -73,7 +74,7 @@ public abstract class UnivariateRealSolverImpl
                                        final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function to solve cannot be null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
         }
         this.f = f;
         this.defaultFunctionValueAccuracy = 1.0e-15;
@@ -100,7 +101,7 @@ public abstract class UnivariateRealSolverImpl
      */
     protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException("no result available");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
         }
     }
 
@@ -224,7 +225,7 @@ public abstract class UnivariateRealSolverImpl
     protected void verifySequence(final double lower, final double initial, final double upper) {
         if (!isSequence(lower, initial, upper)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+                    LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS,
                     lower, initial, upper);
         }
     }
@@ -247,8 +248,7 @@ public abstract class UnivariateRealSolverImpl
         verifyInterval(lower, upper);
         if (!isBracketing(lower, upper, function)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "function values at endpoints do not have different signs.  " +
-                    "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+                    LocalizedFormats.SAME_SIGN_AT_ENDPOINTS,
                     lower, upper, function.value(lower), function.value(upper));
         }
     }

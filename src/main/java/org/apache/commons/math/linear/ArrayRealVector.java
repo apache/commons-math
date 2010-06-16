@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -29,10 +30,6 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public class ArrayRealVector extends AbstractRealVector implements Serializable {
-
-    /** Message for non fitting position and size. */
-    private static final String NON_FITTING_POSITION_AND_SIZE_MESSAGE =
-        "position {0} and size {1} don't fit to the size of the input array {2}";
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
@@ -103,7 +100,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
             throw new NullPointerException();
         }
         if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("vector must have at least one element");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
         data = copyArray ? d.clone() :  d;
     }
@@ -117,7 +114,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public ArrayRealVector(double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_FITTING_POSITION_AND_SIZE_MESSAGE, pos, size, d.length);
+                  LocalizedFormats.POSITION_SIZE_MISMATCH_INPUT_ARRAY, pos, size, d.length);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -143,7 +140,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public ArrayRealVector(Double[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_FITTING_POSITION_AND_SIZE_MESSAGE, pos, size, d.length);
+                  LocalizedFormats.POSITION_SIZE_MISMATCH_INPUT_ARRAY, pos, size, d.length);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {
@@ -910,7 +907,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public RealVector unitVector() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException("zero norm");
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
         }
         return mapDivide(norm);
     }
@@ -920,7 +917,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public void unitize() throws ArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
         }
         mapDivideToSelf(norm);
     }
@@ -1135,7 +1132,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         throws IllegalArgumentException {
         if (data.length != n) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     data.length, n);
         }
     }

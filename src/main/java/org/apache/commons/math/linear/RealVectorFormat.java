@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a vector in components list format "{v0; v1; ...; vk-1}".
@@ -246,7 +247,7 @@ public class RealVectorFormat extends CompositeFormat {
         }
 
         throw MathRuntimeException.createIllegalArgumentException(
-              "cannot format a {0} instance as a real vector",
+              LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_REAL_VECTOR,
               obj.getClass().getName());
 
     }

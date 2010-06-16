@@ -18,6 +18,9 @@
 package org.apache.commons.math;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Error thrown when a numerical computation exceeds its allowed
@@ -35,12 +38,11 @@ public class MaxIterationsExceededException extends ConvergenceException {
     private final int maxIterations;
 
     /**
-     * Constructs an exception with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * Constructs an exception with a default detail message.
      * @param maxIterations maximal number of iterations allowed
      */
     public MaxIterationsExceededException(final int maxIterations) {
-        super("Maximal number of iterations ({0}) exceeded", maxIterations);
+        super(LocalizedFormats.MAX_ITERATIONS_EXCEEDED, maxIterations);
         this.maxIterations = maxIterations;
     }
 
@@ -50,9 +52,24 @@ public class MaxIterationsExceededException extends ConvergenceException {
      * @param maxIterations the exceeded maximal number of iterations
      * @param pattern format specifier
      * @param arguments format arguments
+     * @deprecated as of 2.2 replaced by {@link #MaxIterationsExceededException(int, Localizable, Object...)}
      */
+    @Deprecated
     public MaxIterationsExceededException(final int maxIterations,
                                           final String pattern, final Object ... arguments) {
+        this(maxIterations, new DummyLocalizable(pattern), arguments);
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param maxIterations the exceeded maximal number of iterations
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.2
+     */
+    public MaxIterationsExceededException(final int maxIterations,
+                                           final Localizable pattern, final Object ... arguments) {
         super(pattern, arguments);
         this.maxIterations = maxIterations;
     }

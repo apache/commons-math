@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implementation of RealMatrix using a double[][] array to store entries and
@@ -53,26 +54,6 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1067294169172445528L;
-
-    /** Message for at least one row. */
-    private static final String AT_LEAST_ONE_ROW_MESSAGE =
-        "matrix must have at least one row";
-
-    /** Message for at least one column. */
-    private static final String AT_LEAST_ONE_COLUMN_MESSAGE =
-        "matrix must have at least one column";
-
-    /** Message for different rows lengths. */
-    private static final String DIFFERENT_ROWS_LENGTHS_MESSAGE =
-        "some rows have length {0} while others have length {1}";
-
-    /** Message for no entry at selected indices. */
-    private static final String NO_ENTRY_MESSAGE =
-        "no entry at indices ({0}, {1}) in a {2}x{3} matrix";
-
-    /** Message for vector lengths mismatch. */
-    private static final String VECTOR_LENGTHS_MISMATCH =
-        "vector length mismatch: got {0} but expected {1}";
 
     /** Entries of the matrix */
     protected double data[][];
@@ -141,17 +122,17 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             final int nRows = d.length;
             if (nRows == 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      AT_LEAST_ONE_ROW_MESSAGE);
+                      LocalizedFormats.AT_LEAST_ONE_ROW);
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      AT_LEAST_ONE_COLUMN_MESSAGE);
+                      LocalizedFormats.AT_LEAST_ONE_COLUMN);
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                          DIFFERENT_ROWS_LENGTHS_MESSAGE, nCols, d[r].length);
+                          LocalizedFormats.DIFFERENT_ROWS_LENGTHS, nCols, d[r].length);
                 }
             }
             data = d;
@@ -335,28 +316,28 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         if (data == null) {
             if (row > 0) {
                 throw MathRuntimeException.createIllegalStateException(
-                      "first {0} rows are not initialized yet", row);
+                      LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET, row);
             }
             if (column > 0) {
                 throw MathRuntimeException.createIllegalStateException(
-                      "first {0} columns are not initialized yet", column);
+                      LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET, column);
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      AT_LEAST_ONE_ROW_MESSAGE);
+                      LocalizedFormats.AT_LEAST_ONE_ROW);
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      AT_LEAST_ONE_COLUMN_MESSAGE);
+                      LocalizedFormats.AT_LEAST_ONE_COLUMN);
             }
             data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                          DIFFERENT_ROWS_LENGTHS_MESSAGE, nCols, subMatrix[i].length);
+                          LocalizedFormats.DIFFERENT_ROWS_LENGTHS, nCols, subMatrix[i].length);
                 }
                 System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);
             }
@@ -374,7 +355,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                      NO_ENTRY_MESSAGE, row, column, getRowDimension(), getColumnDimension());
+                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -386,7 +367,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             data[row][column] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                      NO_ENTRY_MESSAGE, row, column, getRowDimension(), getColumnDimension());
+                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -398,7 +379,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             data[row][column] += increment;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                      NO_ENTRY_MESSAGE, row, column, getRowDimension(), getColumnDimension());
+                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -410,7 +391,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             data[row][column] *= factor;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new MatrixIndexException(
-                      NO_ENTRY_MESSAGE, row, column, getRowDimension(), getColumnDimension());
+                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
         }
     }
 
@@ -434,7 +415,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  VECTOR_LENGTHS_MISMATCH, v.length, nCols);
+                  LocalizedFormats.VECTOR_LENGTH_MISMATCH, v.length, nCols);
         }
         final double[] out = new double[nRows];
         for (int row = 0; row < nRows; row++) {
@@ -457,7 +438,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  VECTOR_LENGTHS_MISMATCH, v.length, nRows);
+                  LocalizedFormats.VECTOR_LENGTH_MISMATCH, v.length, nRows);
         }
 
         final double[] out = new double[nCols];

@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implementation for the {@link ZipfDistribution}.
@@ -87,8 +88,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         throws IllegalArgumentException {
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid number of elements {0} (must be positive)",
-                    n);
+                    LocalizedFormats.INSUFFICIENT_DIMENSION, n, 0);
         }
         this.numberOfElements = n;
     }
@@ -127,7 +127,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         throws IllegalArgumentException {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid exponent {0} (must be positive)",
+                    LocalizedFormats.NOT_POSITIVE_EXPONENT,
                     s);
         }
         this.exponent = s;

@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Interpolator that implements the algorithm described in
@@ -100,7 +101,7 @@ public class MicrosphereInterpolator
     public void setBrightnessExponent(final int brightnessExponent) {
         if (brightnessExponent < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "brightness exponent should be positive or null, but got {0}",
+                LocalizedFormats.NEGATIVE_BRIGHTNESS_EXPONENT,
                 brightnessExponent);
         }
         this.brightnessExponent = brightnessExponent;
@@ -114,7 +115,7 @@ public class MicrosphereInterpolator
     public void setMicropshereElements(final int elements) {
         if (microsphereElements < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "number of microsphere elements must be positive, but got {0}",
+                LocalizedFormats.NON_POSITIVE_MICROSPHERE_ELEMENTS,
                 microsphereElements);
         }
         this.microsphereElements = elements;

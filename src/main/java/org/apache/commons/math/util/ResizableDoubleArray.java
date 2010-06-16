@@ -321,7 +321,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public synchronized double substituteMostRecentElement(double value) {
         if (numElements < 1) {
             throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    "cannot substitute an element from an empty array");
+                    LocalizedFormats.CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY);
         }
 
         double discarded = internalArray[startIndex + (numElements - 1)];
@@ -362,7 +362,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
         if (expansion <= 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "expansion factor smaller than one ({0})",
+                    LocalizedFormats.EXPANSION_FACTOR_SMALLER_THAN_ONE,
                     expansion);
         }
     }
@@ -449,11 +449,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     private synchronized void discardExtremeElements(int i,boolean front) {
         if (i > numElements) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "cannot discard {0} elements from a {1} elements array",
+                    LocalizedFormats.TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY,
                     i, numElements);
        } else if (i < 0) {
            throw MathRuntimeException.createIllegalArgumentException(
-                   "cannot discard a negative number of elements ({0})",
+                   LocalizedFormats.CANNOT_DISCARD_NEGATIVE_NUMBER_OF_ELEMENTS,
                    i);
         } else {
             // "Subtract" this number of discarded from numElements
@@ -533,13 +533,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public synchronized double getElement(int index) {
         if (index >= numElements) {
             throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    "the index specified: {0} is larger than the current maximal index {1}",
+                    LocalizedFormats.INDEX_LARGER_THAN_MAX,
                     index, numElements - 1);
         } else if (index >= 0) {
             return internalArray[startIndex + index];
         } else {
             throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    "elements cannot be retrieved from a negative array index {0}",
+                    LocalizedFormats.CANNOT_RETRIEVE_AT_NEGATIVE_INDEX,
                     index);
         }
     }
@@ -668,7 +668,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
             throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    "cannot set an element at a negative index {0}",
+                    LocalizedFormats.CANNOT_SET_AT_NEGATIVE_INDEX,
                     index);
         }
         if (index + 1 > numElements) {
@@ -710,7 +710,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         if (expansionMode != MULTIPLICATIVE_MODE &&
                 expansionMode != ADDITIVE_MODE) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "unsupported expansion mode {0}, supported modes are {1} ({2}) and {3} ({4})",
+                    LocalizedFormats.UNSUPPORTED_EXPANSION_MODE,
                     expansionMode, MULTIPLICATIVE_MODE, "MULTIPLICATIVE_MODE",
                     ADDITIVE_MODE, "ADDITIVE_MODE");
         }
@@ -733,7 +733,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             }
         } else {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "initial capacity ({0}) is not positive",
+                    LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
                     initialCapacity);
         }
     }
@@ -751,7 +751,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         // If index is negative thrown an error
         if (i < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "index ({0}) is not positive",
+                    LocalizedFormats.INDEX_NOT_POSITIVE,
                     i);
         }
 

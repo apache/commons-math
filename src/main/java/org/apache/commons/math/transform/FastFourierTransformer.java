@@ -23,6 +23,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/FastFourierTransform.html">
@@ -47,18 +48,6 @@ public class FastFourierTransformer implements Serializable {
 
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
-
-    /** Message for not power of 2. */
-    private static final String NOT_POWER_OF_TWO_MESSAGE =
-        "{0} is not a power of 2, consider padding for fix";
-
-    /** Message for dimension mismatch. */
-    private static final String DIMENSION_MISMATCH_MESSAGE =
-        "some dimensions don't match: {0} != {1}";
-
-    /** Message for not computed roots of unity. */
-    private static final String MISSING_ROOTS_OF_UNITY_MESSAGE =
-        "roots of unity have not been computed yet";
 
     /** Message for out of range root index. */
     private static final String OUT_OF_RANGE_ROOT_INDEX_MESSAGE =
@@ -448,7 +437,7 @@ public class FastFourierTransformer implements Serializable {
 
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "number of sample is not positive: {0}",
+                    LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
                     n);
         }
         verifyInterval(min, max);
@@ -510,7 +499,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(double d[]) throws IllegalArgumentException {
         if (!isPowerOf2(d.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    NOT_POWER_OF_TWO_MESSAGE, d.length);
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, d.length);
         }
     }
 
@@ -523,7 +512,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(Object o[]) throws IllegalArgumentException {
         if (!isPowerOf2(o.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    NOT_POWER_OF_TWO_MESSAGE, o.length);
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, o.length);
         }
     }
 
@@ -677,13 +666,13 @@ public class FastFourierTransformer implements Serializable {
             if (vector == null) {
                 if (dimensionSize.length > 0) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            DIMENSION_MISMATCH_MESSAGE, 0, dimensionSize.length);
+                            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        DIMENSION_MISMATCH_MESSAGE, vector.length, dimensionSize.length);
+                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length, dimensionSize.length);
             }
 
             Object lastDimension = multiDimensionalComplexArray;
@@ -706,13 +695,13 @@ public class FastFourierTransformer implements Serializable {
             if (vector == null) {
                 if (dimensionSize.length > 0) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            DIMENSION_MISMATCH_MESSAGE, 0, dimensionSize.length);
+                            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        DIMENSION_MISMATCH_MESSAGE, vector.length,dimensionSize.length);
+                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length,dimensionSize.length);
             }
 
             Object[] lastDimension = (Object[]) multiDimensionalComplexArray;
@@ -827,8 +816,7 @@ public class FastFourierTransformer implements Serializable {
       public synchronized boolean isForward() throws IllegalStateException {
 
         if (omegaCount == 0) {
-          throw MathRuntimeException.createIllegalStateException(
-                  MISSING_ROOTS_OF_UNITY_MESSAGE);
+          throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
         return isForward;
 
@@ -847,7 +835,7 @@ public class FastFourierTransformer implements Serializable {
 
         if (n == 0) {
           throw MathRuntimeException.createIllegalArgumentException(
-                  "cannot compute 0-th root of unity, indefinite result");
+                  LocalizedFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
         }
 
         isForward = n > 0;
@@ -891,8 +879,7 @@ public class FastFourierTransformer implements Serializable {
         throws IllegalStateException, IllegalArgumentException {
 
         if (omegaCount == 0) {
-            throw MathRuntimeException.createIllegalStateException(
-                    MISSING_ROOTS_OF_UNITY_MESSAGE);
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
         if ((k < 0) || (k >= omegaCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -914,8 +901,7 @@ public class FastFourierTransformer implements Serializable {
         throws IllegalStateException, IllegalArgumentException {
 
         if (omegaCount == 0) {
-            throw MathRuntimeException.createIllegalStateException(
-                    MISSING_ROOTS_OF_UNITY_MESSAGE);
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
         if ((k < 0) || (k >= omegaCount)) {
           throw MathRuntimeException.createIllegalArgumentException(

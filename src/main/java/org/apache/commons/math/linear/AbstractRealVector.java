@@ -25,6 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class provides default basic implementations for many methods in the
@@ -56,8 +57,7 @@ public abstract class AbstractRealVector implements RealVector {
         double d = getDimension();
         if (d != n) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "vector length mismatch: got {0} but expected {1}",
-                  d, n);
+                  LocalizedFormats.VECTOR_LENGTH_MISMATCH, d, n);
         }
     }
 

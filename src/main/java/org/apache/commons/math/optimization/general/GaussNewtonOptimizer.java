@@ -26,6 +26,7 @@ import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Gauss-Newton least-squares solver.
@@ -116,7 +117,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 }
 
             } catch(InvalidMatrixException e) {
-                throw new OptimizationException("unable to solve: singular problem");
+                throw new OptimizationException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
             }
 
             // check convergence

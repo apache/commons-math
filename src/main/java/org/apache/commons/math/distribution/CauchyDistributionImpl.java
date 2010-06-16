@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Default implementation of
@@ -136,7 +137,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         double ret;
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         } else if (p == 0) {
             ret = Double.NEGATIVE_INFINITY;
         } else  if (p == 1) {
@@ -182,7 +183,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     private void setScaleInternal(double s) {
         if (s <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "scale must be positive ({0})", s);
+                  LocalizedFormats.NOT_POSITIVE_SCALE, s);
         }
         scale = s;
     }

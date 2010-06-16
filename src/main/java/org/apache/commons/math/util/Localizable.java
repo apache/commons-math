@@ -14,32 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math.util;
 
-package org.apache.commons.math.geometry;
+import java.io.Serializable;
+import java.util.Locale;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.LocalizedFormats;
-
-/** This class represents exceptions thrown while extractiong Cardan
- * or Euler angles from a rotation.
-
+/**
+ * Interface for localizable strings.
+ *
  * @version $Revision$ $Date$
- * @since 1.2
+ * @since 2.2
  */
-public class CardanEulerSingularityException
-  extends MathException {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -1360952845582206770L;
+public interface Localizable extends Serializable {
 
     /**
-     * Simple constructor.
-     * build an exception with a default message.
-     * @param isCardan if true, the rotation is related to Cardan angles,
-     * if false it is related to EulerAngles
+     * Get the source (non-localized) string.
+     * @return source string
      */
-    public CardanEulerSingularityException(boolean isCardan) {
-        super(isCardan ? LocalizedFormats.CARDAN_ANGLES_SINGULARITY : LocalizedFormats.EULER_ANGLES_SINGULARITY);
-    }
+    String getSourceString();
+
+    /**
+     * Get the localized string.
+     * @param locale locale into which to get the string
+     * @return localized string or the source string if no localized version is available
+     */
+    String getLocalizedString(Locale locale);
 
 }

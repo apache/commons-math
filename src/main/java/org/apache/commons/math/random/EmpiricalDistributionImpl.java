@@ -30,6 +30,7 @@ import java.util.List;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -138,7 +139,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
             if (sampleStats.getN() == 0) {
-                throw MathRuntimeException.createEOFException("URL {0} contains no data",
+                throw MathRuntimeException.createEOFException(LocalizedFormats.URL_CONTAINS_NO_DATA,
                                                               url);
             }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -370,7 +371,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public double getNextValue() throws IllegalStateException {
 
         if (!loaded) {
-            throw MathRuntimeException.createIllegalStateException("distribution not loaded");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
 
         // Start with a uniformly distributed random number in (0,1)
@@ -390,7 +391,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                }
            }
         }
-        throw new MathRuntimeException("no bin selected");
+        throw new MathRuntimeException(LocalizedFormats.NO_BIN_SELECTED);
     }
 
     /**

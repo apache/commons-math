@@ -22,6 +22,7 @@ import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.RankingAlgorithm;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * <p>Spearman's rank correlation. This implementation performs a rank
@@ -145,14 +146,15 @@ public class SpearmansCorrelation {
      */
     public double correlation(final double[] xArray, final double[] yArray)
     throws IllegalArgumentException {
-        if (xArray.length == yArray.length && xArray.length > 1) {
+        if (xArray.length != yArray.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, xArray.length, yArray.length);
+        } else if (xArray.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
+        } else {
             return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
                     rankingAlgorithm.rank(yArray));
-        }
-        else {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid array dimensions. xArray has size {0}; yArray has {1} elements",
-                    xArray.length, yArray.length);
         }
     }
 

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 /**
  * Error thrown when two dimensions differ.
  *
@@ -39,7 +41,7 @@ public class DimensionMismatchException extends MathException {
      * @param dimension2 second dimension
      */
     public DimensionMismatchException(final int dimension1, final int dimension2) {
-        super("dimension mismatch {0} != {1}", dimension1, dimension2);
+        super(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, dimension1, dimension2);
         this.dimension1 = dimension1;
         this.dimension2 = dimension2;
     }

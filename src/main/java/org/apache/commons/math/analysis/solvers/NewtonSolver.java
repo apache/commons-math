@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -129,7 +130,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
             throw new MaxIterationsExceededException(maximalIterationCount);
         } catch (ClassCastException cce) {
-            throw MathRuntimeException.createIllegalArgumentException("function is not differentiable");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_DIFFERENTIABLE);
         }
     }
 

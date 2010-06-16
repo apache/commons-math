@@ -19,6 +19,8 @@ package org.apache.commons.math;
 
 import java.util.Locale;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 import junit.framework.TestCase;
 
 /**
@@ -38,7 +40,7 @@ public class MaxIterationsExceededExceptionTest extends TestCase {
     public void testComplexConstructor(){
         MaxIterationsExceededException ex =
             new MaxIterationsExceededException(1000000,
-                "Continued fraction convergents failed to converge for value {0}",
+                LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,
                 1234567);
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());

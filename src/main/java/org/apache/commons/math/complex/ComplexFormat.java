@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -192,7 +193,7 @@ public class ComplexFormat extends CompositeFormat {
                 toAppendTo, pos);
         } else {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "cannot format a {0} instance as a complex number",
+                  LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
                   obj.getClass().getName());
         }
 
@@ -349,7 +350,7 @@ public class ComplexFormat extends CompositeFormat {
     public void setImaginaryCharacter(String imaginaryCharacter) {
         if (imaginaryCharacter == null || imaginaryCharacter.length() == 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "empty string for imaginary character");
+                  LocalizedFormats.EMPTY_STRING_FOR_IMAGINARY_CHARACTER);
         }
         this.imaginaryCharacter = imaginaryCharacter;
     }
@@ -363,7 +364,7 @@ public class ComplexFormat extends CompositeFormat {
     public void setImaginaryFormat(NumberFormat imaginaryFormat) {
         if (imaginaryFormat == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "null imaginary format");
+                  LocalizedFormats.NULL_IMAGINARY_FORMAT);
         }
         this.imaginaryFormat = imaginaryFormat;
     }
@@ -377,7 +378,7 @@ public class ComplexFormat extends CompositeFormat {
     public void setRealFormat(NumberFormat realFormat) {
         if (realFormat == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "null real format");
+                  LocalizedFormats.NULL_REAL_FORMAT);
         }
         this.realFormat = realFormat;
     }

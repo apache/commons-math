@@ -24,6 +24,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class stores all information provided by an ODE integrator
@@ -134,13 +135,13 @@ public class ContinuousOutputModel
 
       if (getInterpolatedState().length != model.getInterpolatedState().length) {
           throw MathRuntimeException.createIllegalArgumentException(
-                "dimension mismatch {0} != {1}",
+                LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                 getInterpolatedState().length, model.getInterpolatedState().length);
       }
 
       if (forward ^ model.forward) {
           throw MathRuntimeException.createIllegalArgumentException(
-                "propagation direction mismatch");
+                LocalizedFormats.PROPAGATION_DIRECTION_MISMATCH);
       }
 
       final StepInterpolator lastInterpolator = steps.get(index);
@@ -150,7 +151,7 @@ public class ContinuousOutputModel
       final double gap = model.getInitialTime() - current;
       if (Math.abs(gap) > 1.0e-3 * Math.abs(step)) {
         throw MathRuntimeException.createIllegalArgumentException(
-              "{0} wide hole between models time ranges", Math.abs(gap));
+              LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES, Math.abs(gap));
       }
 
     }

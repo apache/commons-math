@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Computes a natural (also known as "free", "unclamped") cubic spline interpolation for the data set.
@@ -58,12 +59,12 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
     public PolynomialSplineFunction interpolate(double x[], double y[]) {
         if (x.length != y.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "dimension mismatch {0} != {1}", x.length, y.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, x.length, y.length);
         }
 
         if (x.length < 3) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} points are required, got only {1}", 3, x.length);
+                  LocalizedFormats.WRONG_NUMBER_OF_POINTS, 3, x.length);
         }
 
         // Number of intervals.  The number of data points is n + 1.
@@ -72,7 +73,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
         for (int i = 0; i < n; i++) {
             if (x[i]  >= x[i + 1]) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      "points {0} and {1} are not strictly increasing ({2} >= {3})",
+                      LocalizedFormats.NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS,
                       i, i+1, x[i], x[i+1]);
             }
         }

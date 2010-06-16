@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
@@ -39,7 +40,7 @@ public class BicubicSplineInterpolator
                                                           final double[][] fval)
         throws MathException, IllegalArgumentException {
         if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
         }
         if (xval.length != fval.length) {
             throw new DimensionMismatchException(xval.length, fval.length);

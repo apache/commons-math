@@ -362,12 +362,12 @@ public final class MathUtils {
         throws IllegalArgumentException {
         if (n < k) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "must have n >= k for binomial coefficient (n,k), got n = {0}, k = {1}",
+                LocalizedFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
                 n, k);
         }
         if (n < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "must have n >= 0 for binomial coefficient (n,k), got n = {0}",
+                  LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER,
                   n);
         }
     }
@@ -593,7 +593,7 @@ public final class MathUtils {
     public static long factorial(final int n) {
         if (n < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "must have n >= 0 for n!, got n = {0}",
+                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                   n);
         }
         if (n > 20) {
@@ -626,7 +626,7 @@ public final class MathUtils {
     public static double factorialDouble(final int n) {
         if (n < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "must have n >= 0 for n!, got n = {0}",
+                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                   n);
         }
         if (n < 21) {
@@ -651,7 +651,7 @@ public final class MathUtils {
     public static double factorialLog(final int n) {
         if (n < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "must have n >= 0 for n!, got n = {0}",
+                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                   n);
         }
         if (n < 21) {
@@ -699,7 +699,7 @@ public final class MathUtils {
         if ((u == 0) || (v == 0)) {
             if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
                 throw MathRuntimeException.createArithmeticException(
-                        "overflow: gcd({0}, {1}) is 2^31",
+                        LocalizedFormats.GCD_OVERFLOW_32_BITS,
                         p, q);
             }
             return Math.abs(u) + Math.abs(v);
@@ -725,7 +725,7 @@ public final class MathUtils {
         }
         if (k == 31) {
             throw MathRuntimeException.createArithmeticException(
-                    "overflow: gcd({0}, {1}) is 2^31",
+                    LocalizedFormats.GCD_OVERFLOW_32_BITS,
                     p, q);
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
@@ -788,7 +788,7 @@ public final class MathUtils {
         if ((u == 0) || (v == 0)) {
             if ((u == Long.MIN_VALUE) || (v == Long.MIN_VALUE)){
                 throw MathRuntimeException.createArithmeticException(
-                        "overflow: gcd({0}, {1}) is 2^63",
+                        LocalizedFormats.GCD_OVERFLOW_64_BITS,
                         p, q);
             }
             return Math.abs(u) + Math.abs(v);
@@ -814,7 +814,7 @@ public final class MathUtils {
         }
         if (k == 63) {
             throw MathRuntimeException.createArithmeticException(
-                    "overflow: gcd({0}, {1}) is 2^63",
+                    LocalizedFormats.GCD_OVERFLOW_64_BITS,
                     p, q);
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
@@ -964,7 +964,7 @@ public final class MathUtils {
         int lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Integer.MIN_VALUE) {
             throw MathRuntimeException.createArithmeticException(
-                "overflow: lcm({0}, {1}) is 2^31",
+                LocalizedFormats.LCM_OVERFLOW_32_BITS,
                 a, b);
         }
         return lcm;
@@ -999,7 +999,7 @@ public final class MathUtils {
         long lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Long.MIN_VALUE){
             throw MathRuntimeException.createArithmeticException(
-                "overflow: lcm({0}, {1}) is 2^63",
+                LocalizedFormats.LCM_OVERFLOW_64_BITS,
                 a, b);
         }
         return lcm;
@@ -1230,11 +1230,11 @@ public final class MathUtils {
        throws ArithmeticException, IllegalArgumentException {
          if (Double.isInfinite(normalizedSum)) {
              throw MathRuntimeException.createIllegalArgumentException(
-                     "Cannot normalize to an infinite value");
+                     LocalizedFormats.NORMALIZE_INFINITE);
          }
          if (Double.isNaN(normalizedSum)) {
              throw MathRuntimeException.createIllegalArgumentException(
-                     "Cannot normalize to NaN");
+                     LocalizedFormats.NORMALIZE_NAN);
          }
          double sum = 0d;
          final int len = values.length;
@@ -1242,7 +1242,7 @@ public final class MathUtils {
          for (int i = 0; i < len; i++) {
              if (Double.isInfinite(values[i])) {
                  throw MathRuntimeException.createArithmeticException(
-                         "Array contains an infinite element, {0} at index {1}", values[i], i);
+                         LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
              }
              if (!Double.isNaN(values[i])) {
                  sum += values[i];
@@ -1588,7 +1588,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1618,7 +1618,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1648,7 +1648,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1678,7 +1678,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1708,7 +1708,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1728,7 +1728,7 @@ public final class MathUtils {
 
         if (e < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1758,7 +1758,7 @@ public final class MathUtils {
 
         if (e.compareTo(BigInteger.ZERO) < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot raise an integral value to a negative power ({0}^{1})",
+                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
                 k, e);
         }
 
@@ -1884,24 +1884,24 @@ public final class MathUtils {
             if (dir > 0) {
                 if (strict) {
                     if (val[i] <= previous) {
-                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not strictly increasing ({2} >= {3})",
+                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS,
                                                                                   i - 1, i, previous, val[i]);
                     }
                 } else {
                     if (val[i] < previous) {
-                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not increasing ({2} > {3})",
+                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_INCREASING_NUMBER_OF_POINTS,
                                                                                   i - 1, i, previous, val[i]);
                     }
                 }
             } else {
                 if (strict) {
                     if (val[i] >= previous) {
-                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not strictly decreasing ({2} <= {3})",
+                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_STRICTLY_DECREASING_NUMBER_OF_POINTS,
                                                                                   i - 1, i, previous, val[i]);
                     }
                 } else {
                     if (val[i] > previous) {
-                        throw MathRuntimeException.createIllegalArgumentException("points {0} and {1} are not decreasing ({2} < {3})",
+                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_DECREASING_NUMBER_OF_POINTS,
                                                                                   i - 1, i, previous, val[i]);
                     }
                 }

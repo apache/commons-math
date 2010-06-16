@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 
 import java.util.Locale;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 /**
  * @version $Revision$ $Date$
  */
@@ -34,11 +36,11 @@ public class MathConfigurationExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArguments(){
-        String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
+        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathConfigurationException ex = new MathConfigurationException(pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -55,13 +57,13 @@ public class MathConfigurationExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArgumentsCause(){
-        String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
+        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathConfigurationException ex = new MathConfigurationException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);

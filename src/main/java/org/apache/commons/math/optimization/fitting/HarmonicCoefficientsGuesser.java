@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class guesses harmonic coefficients from a sample.
 
@@ -238,7 +239,7 @@ public class HarmonicCoefficientsGuesser {
         double c2 = sxy * sxz - sx2 * syz;
         double c3 = sx2 * sy2 - sxy * sxy;
         if ((c1 / c2 < 0.0) || (c2 / c3 < 0.0)) {
-            throw new OptimizationException("unable to first guess the harmonic coefficients");
+            throw new OptimizationException(LocalizedFormats.UNABLE_TO_FIRST_GUESS_HARMONIC_COEFFICIENTS);
         }
         a     = Math.sqrt(c1 / c2);
         omega = Math.sqrt(c2 / c3);

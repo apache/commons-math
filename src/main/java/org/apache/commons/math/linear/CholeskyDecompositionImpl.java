@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 
 /**
@@ -212,7 +213,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             final int m = lTData.length;
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "vector length mismatch: got {0} but expected {1}",
+                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                         b.length, m);
             }
 
@@ -251,7 +252,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 final int m = lTData.length;
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "vector length mismatch: got {0} but expected {1}",
+                            LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                             b.getDimension(), m);
                 }
 
@@ -300,7 +301,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             final int m = lTData.length;
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                         b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
 

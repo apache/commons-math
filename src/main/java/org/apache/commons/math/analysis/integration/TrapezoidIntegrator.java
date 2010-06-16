@@ -20,6 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
@@ -135,7 +136,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
         // at most 64 bisection refinements
         if (maximalIterationCount > 64) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid iteration limits: min={0}, max={1}",
+                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
                     0, 64);
         }
     }

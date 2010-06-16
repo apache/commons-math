@@ -20,6 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
@@ -27,10 +28,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtils {
-
-    /** Message for null function.*/
-    private static final String NULL_FUNCTION_MESSAGE =
-        "function is null";
 
     /**
      * Default constructor.
@@ -173,15 +170,15 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {
 
         if (function == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
         }
         if (maximumIterations <= 0)  {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "bad value for maximum iterations number: {0}", maximumIterations);
+                  LocalizedFormats.INVALID_MAX_ITERATIONS, maximumIterations);
         }
         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
+                  LocalizedFormats.INVALID_BRACKETING_PARAMETERS,
                   lowerBound, initial, upperBound);
         }
         double a = initial;
@@ -202,9 +199,7 @@ public class UnivariateRealSolverUtils {
 
         if (fa * fb > 0.0 ) {
             throw new ConvergenceException(
-                      "number of iterations={0}, maximum iterations={1}, " +
-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
-                      "final b value={6}, f(a)={7}, f(b)={8}",
+                      LocalizedFormats.FAILED_BRACKETING,
                       numIterations, maximumIterations, initial,
                       lowerBound, upperBound, a, b, fa, fb);
         }
@@ -230,7 +225,7 @@ public class UnivariateRealSolverUtils {
      */
     private static void setup(UnivariateRealFunction f) {
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException(NULL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
         }
     }
 

@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a 3D vector in components list format "{x; y; z}".
@@ -241,7 +242,7 @@ public class Vector3DFormat extends CompositeFormat {
             return format( (Vector3D)obj, toAppendTo, pos);
         }
 
-        throw MathRuntimeException.createIllegalArgumentException("cannot format a {0} instance as a 3D vector",
+        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_3D_VECTOR,
                                                                   obj.getClass().getName());
 
     }

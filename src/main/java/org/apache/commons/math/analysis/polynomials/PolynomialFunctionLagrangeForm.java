@@ -20,6 +20,7 @@ import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -90,7 +91,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
         try {
             return evaluate(x, y, z);
         } catch (DuplicateSampleAbscissaException e) {
-            throw new FunctionEvaluationException(e, z, e.getPattern(), e.getArguments());
+            throw new FunctionEvaluationException(e, z, e.getLocalizablePattern(), e.getArguments());
         }
     }
 
@@ -297,12 +298,12 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
 
         if (x.length != y.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "dimension mismatch {0} != {1}", x.length, y.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, x.length, y.length);
         }
 
         if (x.length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} points are required, got only {1}", 2, x.length);
+                  LocalizedFormats.WRONG_NUMBER_OF_POINTS, 2, x.length);
         }
 
     }

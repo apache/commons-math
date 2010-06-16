@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -941,7 +942,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "cannot compute nth root for null or negative n: {0}",
+                    LocalizedFormats.CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N,
                     n);
         }
 

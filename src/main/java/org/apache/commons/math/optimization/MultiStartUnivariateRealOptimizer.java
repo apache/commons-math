@@ -22,6 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.random.RandomGenerator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Special implementation of the {@link UnivariateRealOptimizer} interface adding
@@ -190,7 +191,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
      */
     public double[] getOptima() throws IllegalStateException {
         if (optima == null) {
-            throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
         return optima.clone();
     }
@@ -216,7 +217,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
      */
     public double[] getOptimaValues() throws IllegalStateException {
         if (optimaValues == null) {
-            throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
         return optimaValues.clone();
     }
@@ -299,7 +300,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
 
         if (Double.isNaN(optima[0])) {
             throw new OptimizationException(
-                    "none of the {0} start points lead to convergence",
+                    LocalizedFormats.NO_CONVERGENCE_WITH_ANY_START_POINT,
                     starts);
         }
 

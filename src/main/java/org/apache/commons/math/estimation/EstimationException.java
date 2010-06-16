@@ -18,6 +18,8 @@
 package org.apache.commons.math.estimation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * This class represents exceptions thrown by the estimation solvers.
@@ -42,6 +44,16 @@ extends MathException {
      * @param parts to insert in the format (no translation)
      */
     public EstimationException(String specifier, Object ... parts) {
+        this(new DummyLocalizable(specifier), parts);
+    }
+
+    /**
+     * Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     */
+    public EstimationException(Localizable specifier, Object ... parts) {
         super(specifier, parts);
     }
 

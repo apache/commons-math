@@ -26,6 +26,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a BigFraction number in proper format or improper format.
@@ -174,7 +175,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
                          toAppendTo, pos);
         } else {
             throw MathRuntimeException.createIllegalArgumentException(
-                "cannot format given object as a fraction number");
+                LocalizedFormats.CANNOT_FORMAT_OBJECT_TO_FRACTION);
         }
 
         return ret;

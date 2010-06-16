@@ -23,6 +23,7 @@ import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class for implementing estimators.
@@ -150,7 +151,7 @@ public abstract class AbstractEstimator implements Estimator {
     throws EstimationException {
 
         if (++costEvaluations > maxCostEval) {
-            throw new EstimationException("maximal number of evaluations exceeded ({0})",
+            throw new EstimationException(LocalizedFormats.MAX_EVALUATIONS_EXCEEDED,
                                           maxCostEval);
         }
 
@@ -237,7 +238,7 @@ public abstract class AbstractEstimator implements Estimator {
                 new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
             return inverse.getData();
         } catch (InvalidMatrixException ime) {
-            throw new EstimationException("unable to compute covariances: singular problem");
+            throw new EstimationException(LocalizedFormats.UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM);
         }
 
     }
@@ -257,7 +258,7 @@ public abstract class AbstractEstimator implements Estimator {
         int p = problem.getUnboundParameters().length;
         if (m <= p) {
             throw new EstimationException(
-                    "no degrees of freedom ({0} measurements, {1} parameters)",
+                    LocalizedFormats.NO_DEGREES_OF_FREEDOM,
                     m, p);
         }
         double[] errors = new double[problem.getUnboundParameters().length];

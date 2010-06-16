@@ -21,6 +21,8 @@ import java.util.Arrays;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math.util.Localizable;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
@@ -145,14 +147,12 @@ public class LoessInterpolator
      */
     public LoessInterpolator(double bandwidth, int robustnessIters, double accuracy) throws MathException {
         if (bandwidth < 0 || bandwidth > 1) {
-            throw new MathException("bandwidth must be in the interval [0,1], but got {0}",
+            throw new MathException(LocalizedFormats.BANDWIDTH_OUT_OF_INTERVAL,
                                     bandwidth);
         }
         this.bandwidth = bandwidth;
         if (robustnessIters < 0) {
-            throw new MathException("the number of robustness iterations must " +
-                                    "be non-negative, but got {0}",
-                                    robustnessIters);
+            throw new MathException(LocalizedFormats.NEGATIVE_ROBUSTNESS_ITERATIONS, robustnessIters);
         }
         this.robustnessIters = robustnessIters;
         this.accuracy = accuracy;
@@ -198,22 +198,19 @@ public class LoessInterpolator
     public final double[] smooth(final double[] xval, final double[] yval, final double[] weights)
             throws MathException {
         if (xval.length != yval.length) {
-            throw new MathException(
-                    "Loess expects the abscissa and ordinate arrays " +
-                    "to be of the same size, " +
-                    "but got {0} abscissae and {1} ordinatae",
-                    xval.length, yval.length);
+            throw new MathException(LocalizedFormats.MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS,
+                                    xval.length, yval.length);
         }
 
         final int n = xval.length;
 
         if (n == 0) {
-            throw new MathException("Loess expects at least 1 point");
+            throw new MathException(LocalizedFormats.LOESS_EXPECTS_AT_LEAST_ONE_POINT);
         }
 
-        checkAllFiniteReal(xval, "all abscissae must be finite real numbers, but {0}-th is {1}");
-        checkAllFiniteReal(yval, "all ordinatae must be finite real numbers, but {0}-th is {1}");
-        checkAllFiniteReal(weights, "all weights must be finite real numbers, but {0}-th is {1}");
+        checkAllFiniteReal(xval, LocalizedFormats.NON_REAL_FINITE_ABSCISSA);
+        checkAllFiniteReal(yval, LocalizedFormats.NON_REAL_FINITE_ORDINATE);
+        checkAllFiniteReal(weights, LocalizedFormats.NON_REAL_FINITE_WEIGHT);
 
         checkStrictlyIncreasing(xval);
 
@@ -228,12 +225,8 @@ public class LoessInterpolator
         int bandwidthInPoints = (int) (bandwidth * n);
 
         if (bandwidthInPoints < 2) {
-            throw new MathException(
-                    "the bandwidth must be large enough to " +
-                    "accomodate at least 2 points. There are {0} " +
-                    " data points, and bandwidth must be at least {1} " +
-                    " but it is only {2}",
-                    n, 2.0 / n, bandwidth);
+            throw new MathException(LocalizedFormats.TOO_SMALL_BANDWIDTH,
+                                    n, 2.0 / n, bandwidth);
         }
 
         final double[] res = new double[n];
@@ -365,11 +358,8 @@ public class LoessInterpolator
     public final double[] smooth(final double[] xval, final double[] yval)
             throws MathException {
         if (xval.length != yval.length) {
-            throw new MathException(
-                    "Loess expects the abscissa and ordinate arrays " +
-                    "to be of the same size, " +
-                    "but got {0} abscissae and {1} ordinatae",
-                    xval.length, yval.length);
+            throw new MathException(LocalizedFormats.MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS,
+                                    xval.length, yval.length);
         }
 
         final double[] unitWeights = new double[xval.length];
@@ -442,7 +432,7 @@ public class LoessInterpolator
      * @param pattern pattern of the error message
      * @throws MathException if one of the values is not a finite real number
      */
-    private static void checkAllFiniteReal(final double[] values, final String pattern)
+    private static void checkAllFiniteReal(final double[] values, final Localizable pattern)
         throws MathException {
         for (int i = 0; i < values.length; i++) {
             final double x = values[i];
@@ -464,11 +454,8 @@ public class LoessInterpolator
         throws MathException {
         for (int i = 0; i < xval.length; ++i) {
             if (i >= 1 && xval[i - 1] >= xval[i]) {
-                throw new MathException(
-                        "the abscissae array must be sorted in a strictly " +
-                        "increasing order, but the {0}-th element is {1} " +
-                        "whereas {2}-th is {3}",
-                        i - 1, xval[i - 1], i, xval[i]);
+                throw new MathException(LocalizedFormats.OUT_OF_ORDER_ABSCISSA_ARRAY,
+                                        i - 1, xval[i - 1], i, xval[i]);
             }
         }
     }

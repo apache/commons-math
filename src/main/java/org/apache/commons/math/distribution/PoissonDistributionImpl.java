@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -168,7 +169,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
                                           double p) {
         if (p <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "the Poisson mean must be positive ({0})", p);
+                    LocalizedFormats.NOT_POSITIVE_POISSON_MEAN, p);
         }
         mean = p;
         normal = z;

@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class represents exceptions thrown when a matrix expected to
@@ -36,7 +37,7 @@ public class NotSymmetricMatrixException extends MathException {
      * build an exception with a default message.
      */
     public NotSymmetricMatrixException() {
-        super("not symmetric matrix");
+        super(LocalizedFormats.NOT_SYMMETRIC_MATRIX);
     }
 
 }

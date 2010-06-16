@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Default implementation of
@@ -87,7 +88,7 @@ public class TDistributionImpl
     private void setDegreesOfFreedomInternal(double newDegreesOfFreedom) {
         if (newDegreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "degrees of freedom must be positive ({0})",
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM,
                   newDegreesOfFreedom);
         }
         this.degreesOfFreedom = newDegreesOfFreedom;

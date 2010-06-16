@@ -28,6 +28,7 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -628,7 +629,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     private void checkEmpty() {
         if (n > 0) {
             throw MathRuntimeException.createIllegalStateException(
-                    "{0} values have been added before statistic is configured",
+                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
                     n);
         }
     }

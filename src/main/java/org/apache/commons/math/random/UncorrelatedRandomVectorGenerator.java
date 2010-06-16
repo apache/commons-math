@@ -20,6 +20,7 @@ package org.apache.commons.math.random;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated
@@ -55,7 +56,7 @@ public class UncorrelatedRandomVectorGenerator
                                            NormalizedRandomGenerator generator) {
     if (mean.length != standardDeviation.length) {
       throw MathRuntimeException.createIllegalArgumentException(
-            "dimension mismatch {0} != {1}",
+            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
             mean.length, standardDeviation.length);
     }
     this.mean              = mean.clone();

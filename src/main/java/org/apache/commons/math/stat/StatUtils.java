@@ -28,6 +28,7 @@ import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * StatUtils provides static methods for computing statistics based on data
@@ -564,10 +565,13 @@ public final class StatUtils {
     public static double sumDifference(final double[] sample1, final double[] sample2)
         throws IllegalArgumentException {
         int n = sample1.length;
-        if ((n  != sample2.length) || (n < 1)) {
+        if (n  != sample2.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "input arrays must have the same positive length ({0} and {1})",
-                  n, sample2.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
+        }
+        if (n < 1) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, sample2.length, 1);
         }
         double result = 0;
         for (int i = 0; i < n; i++) {
@@ -609,10 +613,13 @@ public final class StatUtils {
         double sum2 = 0d;
         double diff = 0d;
         int n = sample1.length;
-        if (n < 2 || n != sample2.length) {
+        if (n != sample2.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "input arrays must have the same length and at least two elements ({0} and {1})",
-                  n, sample2.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
+        }
+        if (n < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, n, 2);
         }
         for (int i = 0; i < n; i++) {
             diff = sample1[i] - sample2[i];

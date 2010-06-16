@@ -24,6 +24,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Special implementation of the {@link MultivariateRealOptimizer} interface adding
@@ -112,7 +113,7 @@ public class MultiStartMultivariateRealOptimizer
      */
     public RealPointValuePair[] getOptima() throws IllegalStateException {
         if (optima == null) {
-            throw MathRuntimeException.createIllegalStateException("no optimum computed yet");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
         return optima.clone();
     }
@@ -203,7 +204,7 @@ public class MultiStartMultivariateRealOptimizer
 
         if (optima[0] == null) {
             throw new OptimizationException(
-                    "none of the {0} start points lead to convergence",
+                    LocalizedFormats.NO_CONVERGENCE_WITH_ANY_START_POINT,
                     starts);
         }
 

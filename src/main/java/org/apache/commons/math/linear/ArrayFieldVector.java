@@ -23,6 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class implements the {@link FieldVector} interface with a {@link FieldElement} array.
@@ -88,7 +89,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             data = d.clone();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw MathRuntimeException.createIllegalArgumentException(
-                      "vector must have at least one element");
+                      LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
     }
 
@@ -113,7 +114,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             data = copyArray ? d.clone() :  d;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw MathRuntimeException.createIllegalArgumentException(
-                      "vector must have at least one element");
+                      LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
     }
 
@@ -126,7 +127,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     public ArrayFieldVector(T[] d, int pos, int size) {
         if (d.length < pos + size) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "position {0} and size {1} don't fit to the size of the input array {2}",
+                    LocalizedFormats.POSITION_SIZE_MISMATCH_INPUT_ARRAY,
                     pos, size, d.length);
         }
         field = d[0].getField();
@@ -215,7 +216,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             field = data[0].getField();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw MathRuntimeException.createIllegalArgumentException(
-                      "vector must have at least one element");
+                      LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
         }
     }
 
@@ -715,7 +716,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         throws IllegalArgumentException {
         if (data.length != n) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     data.length, n);
         }
     }

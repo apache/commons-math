@@ -20,6 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
@@ -223,7 +224,7 @@ public class FastCosineTransformer implements RealTransformer {
         final int n = f.length - 1;
         if (!FastFourierTransformer.isPowerOf2(n)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} is not a power of 2 plus one",
+                    LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE,
                     f.length);
         }
         if (n == 1) {       // trivial case

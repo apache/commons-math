@@ -24,6 +24,7 @@ import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -113,7 +114,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
         if (nSteps <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} method needs at least one previous point",
+                  LocalizedFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_ONE_PREVIOUS_POINT,
                   name);
         }
 

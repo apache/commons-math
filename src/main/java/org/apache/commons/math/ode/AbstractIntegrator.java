@@ -26,6 +26,7 @@ import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class managing common boilerplate for all integrators.
@@ -197,21 +198,17 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
         if (ode.getDimension() != y0.length) {
             throw new IntegratorException(
-                    "dimensions mismatch: ODE problem has dimension {0}," +
-                    " initial state vector has dimension {1}",
-                    ode.getDimension(), y0.length);
+                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y0.length);
         }
 
         if (ode.getDimension() != y.length) {
             throw new IntegratorException(
-                    "dimensions mismatch: ODE problem has dimension {0}," +
-                    " final state vector has dimension {1}",
-                    ode.getDimension(), y.length);
+                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y.length);
         }
 
         if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
             throw new IntegratorException(
-                    "too small integration interval: length = {0}",
+                    LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                     Math.abs(t - t0));
         }
 

@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a BigFraction number in proper format.  The number format for each of
@@ -233,7 +234,7 @@ public class ProperBigFractionFormat extends BigFractionFormat {
     public void setWholeFormat(final NumberFormat format) {
         if (format == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "whole format can not be null");
+                LocalizedFormats.NULL_WHOLE_FORMAT);
         }
         this.wholeFormat = format;
     }

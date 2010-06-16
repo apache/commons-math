@@ -17,6 +17,7 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /** Base class for random number generators that generates bits streams.
 
@@ -123,7 +124,7 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
 
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound must be positive ({0})", n);
+                  LocalizedFormats.NOT_POSITIVE_UPPER_BOUND, n);
         }
 
         // find bit mask for n

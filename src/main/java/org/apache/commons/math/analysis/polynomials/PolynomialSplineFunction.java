@@ -22,6 +22,7 @@ import org.apache.commons.math.ArgumentOutsideDomainException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Represents a polynomial spline function.
@@ -97,17 +98,17 @@ public class PolynomialSplineFunction
     public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[]) {
         if (knots.length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "spline partition must have at least {0} points, got {1}",
+                  LocalizedFormats.NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION,
                   2, knots.length);
         }
         if (knots.length - 1 != polynomials.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "number of polynomial interpolants must match the number of segments ({0} != {1} - 1)",
+                  LocalizedFormats.POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS,
                   polynomials.length, knots.length);
         }
         if (!isStrictlyIncreasing(knots)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "knot values must be strictly increasing");
+                  LocalizedFormats.NOT_STRICTLY_INCREASING_KNOT_VALUES);
         }
 
         this.n = knots.length -1;

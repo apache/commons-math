@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -226,7 +227,7 @@ public class ProperFractionFormat extends FractionFormat {
     public void setWholeFormat(NumberFormat format) {
         if (format == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "whole format can not be null");
+                LocalizedFormats.NULL_WHOLE_FORMAT);
         }
         this.wholeFormat = format;
     }

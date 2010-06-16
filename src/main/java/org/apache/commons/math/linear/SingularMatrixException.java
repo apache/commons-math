@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 
 /**
  * Thrown when a matrix is singular.
@@ -32,7 +34,7 @@ public class SingularMatrixException extends InvalidMatrixException {
      * Construct an exception with a default message.
      */
     public SingularMatrixException() {
-        super("matrix is singular");
+        super(LocalizedFormats.SINGULAR_MATRIX);
     }
 
 }

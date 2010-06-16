@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
@@ -194,7 +195,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     private void checkEmpty() {
         if (getN() > 0) {
             throw MathRuntimeException.createIllegalStateException(
-                    "{0} values have been added before statistic is configured",
+                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
                     getN());
         }
     }

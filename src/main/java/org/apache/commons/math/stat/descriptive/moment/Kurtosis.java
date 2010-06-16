@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.LocalizedFormats;
 
 
 /**
@@ -95,7 +96,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
             moment.increment(d);
         }  else  {
             throw MathRuntimeException.createIllegalStateException(
-                    "statistics constructed from external moments cannot be incremented");
+                    LocalizedFormats.CANNOT_INCREMENT_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 
@@ -129,7 +130,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
             moment.clear();
         } else  {
             throw MathRuntimeException.createIllegalStateException(
-                    "statistics constructed from external moments cannot be cleared");
+                    LocalizedFormats.CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 

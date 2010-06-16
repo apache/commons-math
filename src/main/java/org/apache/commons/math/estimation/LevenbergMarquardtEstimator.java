@@ -19,6 +19,8 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 
 /**
  * This class solves a least squares problem.
@@ -821,7 +823,7 @@ public class LevenbergMarquardtEstimator extends AbstractEstimator implements Se
         }
         if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
             throw new EstimationException(
-                    "unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
+                    LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,
                     rows, cols);
         }
         if (norm2 > ak2) {

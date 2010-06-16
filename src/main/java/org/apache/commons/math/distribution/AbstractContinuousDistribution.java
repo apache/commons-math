@@ -26,6 +26,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class for continuous distributions.  Default implementations are
@@ -69,7 +70,7 @@ public abstract class AbstractContinuousDistribution
      */
     public double density(double x) throws MathRuntimeException {
         throw new MathRuntimeException(new UnsupportedOperationException(),
-                "This distribution does not have a density function implemented");
+                LocalizedFormats.NO_DENSITY_FOR_THIS_DISTRIBUTION);
     }
 
     /**
@@ -87,7 +88,7 @@ public abstract class AbstractContinuousDistribution
         throws MathException {
         if (p < 0.0 || p > 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
         }
 
         // by default, do simple root finding using bracketing and default solver.
@@ -99,11 +100,11 @@ public abstract class AbstractContinuousDistribution
                 try {
                     ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new FunctionEvaluationException(ex, x, ex.getPattern(), ex.getArguments());
+                    throw new FunctionEvaluationException(ex, x, ex.getLocalizablePattern(), ex.getArguments());
                 }
                 if (Double.isNaN(ret)) {
                     throw new FunctionEvaluationException(x,
-                        "Cumulative probability function returned NaN for argument {0} p = {1}", x, p);
+                        LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);
                 }
                 return ret;
             }
@@ -176,7 +177,7 @@ public abstract class AbstractContinuousDistribution
      */
     public double[] sample(int sampleSize) throws MathException {
         if (sampleSize <= 0) {
-            MathRuntimeException.createIllegalArgumentException("Sample size must be positive");
+            MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, sampleSize);
         }
         double[] out = new double[sampleSize];
         for (int i = 0; i < sampleSize; i++) {

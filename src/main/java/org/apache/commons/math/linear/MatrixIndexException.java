@@ -18,6 +18,8 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * Thrown when an operation addresses a matrix coordinate (row, col)
@@ -27,7 +29,7 @@ import org.apache.commons.math.MathRuntimeException;
 public class MatrixIndexException extends MathRuntimeException {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -2382324504109300625L;
+    private static final long serialVersionUID = 8120540015829487660L;
 
     /**
      * Constructs a new instance with specified formatted detail message.
@@ -35,6 +37,16 @@ public class MatrixIndexException extends MathRuntimeException {
      * @param arguments format arguments
      */
     public MatrixIndexException(final String pattern, final Object ... arguments) {
+      this(new DummyLocalizable(pattern), arguments);
+    }
+
+    /**
+     * Constructs a new instance with specified formatted detail message.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.0
+     */
+    public MatrixIndexException(final Localizable pattern, final Object ... arguments) {
       super(pattern, arguments);
     }
 

@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 
 /**
@@ -127,9 +128,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         // Verify bracketing
         if (y0 * y1 >= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "function values at endpoints do not have different signs, " +
-                  "endpoints: [{0}, {1}], values: [{2}, {3}]",
-                  min, max, y0, y1);
+                  LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, y0, y1);
         }
 
         double x2 = x0;

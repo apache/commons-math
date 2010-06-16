@@ -20,6 +20,7 @@ package org.apache.commons.math.geometry;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -283,7 +284,7 @@ public class Vector3D
   public Vector3D normalize() {
     double s = getNorm();
     if (s == 0) {
-      throw MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
+      throw MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
     }
     return scalarMultiply(1 / s);
   }
@@ -307,7 +308,7 @@ public class Vector3D
 
     double threshold = 0.6 * getNorm();
     if (threshold == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm");
+      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
     }
 
     if ((x >= -threshold) && (x <= threshold)) {
@@ -337,7 +338,7 @@ public class Vector3D
 
     double normProduct = v1.getNorm() * v2.getNorm();
     if (normProduct == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm");
+      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
     }
 
     double dot = dotProduct(v1, v2);

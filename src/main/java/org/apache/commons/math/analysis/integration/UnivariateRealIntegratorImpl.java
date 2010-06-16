@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.integration;
 import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Provide a default implementation for several generic functions.
@@ -66,7 +67,7 @@ public abstract class UnivariateRealIntegratorImpl
         throws IllegalArgumentException {
         super(defaultMaximalIterationCount, 1.0e-15);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException("function is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
         }
 
         this.f = f;
@@ -108,7 +109,7 @@ public abstract class UnivariateRealIntegratorImpl
         if (resultComputed) {
             return result;
         } else {
-            throw MathRuntimeException.createIllegalStateException("no result available");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
         }
     }
 
@@ -171,7 +172,7 @@ public abstract class UnivariateRealIntegratorImpl
     protected void verifyIterationCount() throws IllegalArgumentException {
         if ((minimalIterationCount <= 0) || (maximalIterationCount <= minimalIterationCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid iteration limits: min={0}, max={1}",
+                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
                     minimalIterationCount, maximalIterationCount);
         }
     }

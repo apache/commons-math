@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.linear;
 
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class represents exceptions thrown by optimizers when a solution
@@ -34,7 +35,7 @@ public class UnboundedSolutionException extends OptimizationException {
      * Simple constructor using a default message.
      */
     public UnboundedSolutionException() {
-        super("unbounded solution");
+        super(LocalizedFormats.UNBOUNDED_SOLUTION);
     }
 
 }

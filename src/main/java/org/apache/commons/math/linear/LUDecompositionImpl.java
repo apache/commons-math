@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -35,10 +36,6 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /** Default bound to determine effective singularity in LU decomposition */
     private static final double DEFAULT_TOO_SMALL = 10E-12;
-
-    /** Message for vector length mismatch. */
-    private static final String VECTOR_LENGTH_MISMATCH_MESSAGE =
-        "vector length mismatch: got {0} but expected {1}";
 
     /** Entries of LU decomposition. */
     private double lu[][];
@@ -266,7 +263,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int m = pivot.length;
             if (b.length != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        VECTOR_LENGTH_MISMATCH_MESSAGE, b.length, m);
+                        LocalizedFormats.VECTOR_LENGTH_MISMATCH, b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -310,7 +307,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 final int m = pivot.length;
                 if (b.getDimension() != m) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            VECTOR_LENGTH_MISMATCH_MESSAGE, b.getDimension(), m);
+                            LocalizedFormats.VECTOR_LENGTH_MISMATCH, b.getDimension(), m);
                 }
                 if (singular) {
                     throw new SingularMatrixException();
@@ -364,7 +361,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             final int m = pivot.length;
             if (b.getRowDimension() != m) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "dimensions mismatch: got {0}x{1} but expected {2}x{3}",
+                        LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
                         b.getRowDimension(), b.getColumnDimension(), m, "n");
             }
             if (singular) {

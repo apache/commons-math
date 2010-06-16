@@ -23,6 +23,7 @@ import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.stat.regression.SimpleRegression;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Computes Pearson's product-moment correlation coefficients for pairs of arrays
@@ -91,7 +92,7 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(Covariance covariance) {
         RealMatrix covarianceMatrix = covariance.getCovarianceMatrix();
         if (covarianceMatrix == null) {
-            throw MathRuntimeException.createIllegalArgumentException("covariance matrix is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_COVARIANCE_MATRIX);
         }
         nObs = covariance.getN();
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
@@ -223,16 +224,17 @@ public class PearsonsCorrelation {
      */
     public double correlation(final double[] xArray, final double[] yArray) throws IllegalArgumentException {
         SimpleRegression regression = new SimpleRegression();
-        if(xArray.length == yArray.length && xArray.length > 1) {
+        if (xArray.length != yArray.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, xArray.length, yArray.length);
+        } else if (xArray.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
+        } else {
             for(int i=0; i<xArray.length; i++) {
                 regression.addData(xArray[i], yArray[i]);
             }
             return regression.getR();
-        }
-        else {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    "invalid array dimensions. xArray has size {0}; yArray has {1} elements",
-                    xArray.length, yArray.length);
         }
     }
 
@@ -274,7 +276,7 @@ public class PearsonsCorrelation {
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "insufficient data: only {0} rows and {1} columns.",
+                    LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
                     nRows, nCols);
         }
     }

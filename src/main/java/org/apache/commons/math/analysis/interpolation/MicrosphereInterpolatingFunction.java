@@ -27,6 +27,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Interpolating function that implements the
@@ -150,7 +151,7 @@ public class MicrosphereInterpolatingFunction
                                             UnitSphereRandomVectorGenerator rand)
         throws DimensionMismatchException, IllegalArgumentException {
         if (xval.length == 0 || xval[0] == null) {
-            throw MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
         }
 
         if (xval.length != yval.length) {

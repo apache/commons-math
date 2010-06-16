@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -69,7 +70,7 @@ public abstract class AbstractUnivariateRealOptimizer
      */
     protected void checkResultComputed() throws IllegalStateException {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException("no result available");
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
         }
     }
 

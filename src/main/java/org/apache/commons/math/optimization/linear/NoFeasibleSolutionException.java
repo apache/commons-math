@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.linear;
 
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class represents exceptions thrown by optimizers when no solution
@@ -34,7 +35,7 @@ public class NoFeasibleSolutionException extends OptimizationException {
      * Simple constructor using a default message.
      */
     public NoFeasibleSolutionException() {
-        super("no feasible solution");
+        super(LocalizedFormats.NO_FEASIBLE_SOLUTION);
     }
 
 }

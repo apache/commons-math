@@ -20,6 +20,7 @@ package org.apache.commons.math.geometry;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class implements rotations in a three-dimensional space.
@@ -172,7 +173,7 @@ public class Rotation implements Serializable {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw MathRuntimeException.createArithmeticException("zero norm for rotation axis");
+      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_AXIS);
     }
 
     double halfAngle = -0.5 * angle;
@@ -222,7 +223,7 @@ public class Rotation implements Serializable {
     if ((m.length != 3) || (m[0].length != 3) ||
         (m[1].length != 3) || (m[2].length != 3)) {
       throw new NotARotationMatrixException(
-              "a {0}x{1} matrix cannot be a rotation matrix",
+              LocalizedFormats.ROTATION_MATRIX_DIMENSIONS,
               m.length, m[0].length);
     }
 
@@ -235,7 +236,7 @@ public class Rotation implements Serializable {
                  ort[2][0] * (ort[0][1] * ort[1][2] - ort[1][1] * ort[0][2]);
     if (det < 0.0) {
       throw new NotARotationMatrixException(
-              "the closest orthogonal matrix has a negative determinant {0}",
+              LocalizedFormats.CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT,
               det);
     }
 
@@ -316,7 +317,7 @@ public class Rotation implements Serializable {
   double v1v1 = Vector3D.dotProduct(v1, v1);
   double v2v2 = Vector3D.dotProduct(v2, v2);
   if ((u1u1 == 0) || (u2u2 == 0) || (v1v1 == 0) || (v2v2 == 0)) {
-    throw MathRuntimeException.createIllegalArgumentException("zero norm for rotation defining vector");
+    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
   }
 
   double u1x = u1.getX();
@@ -447,7 +448,7 @@ public class Rotation implements Serializable {
 
     double normProduct = u.getNorm() * v.getNorm();
     if (normProduct == 0) {
-        throw MathRuntimeException.createIllegalArgumentException("zero norm for rotation defining vector");
+        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
     }
 
     double dot = Vector3D.dotProduct(u, v);
@@ -1035,7 +1036,7 @@ public class Rotation implements Serializable {
 
     // the algorithm did not converge after 10 iterations
     throw new NotARotationMatrixException(
-            "unable to orthogonalize matrix in {0} iterations",
+            LocalizedFormats.UNABLE_TO_ORTHOGONOLIZE_MATRIX,
             i - 1);
   }
 

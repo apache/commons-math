@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
@@ -42,11 +43,6 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @since 2.1
      */
     public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
-
-    /** Error message for non-bracketing interval. */
-    private static final String NON_BRACKETING_MESSAGE =
-        "function values at endpoints do not have different signs.  " +
-        "Endpoints: [{0}, {1}], Values: [{2}, {3}]";
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 7694577816772532779L;
@@ -134,7 +130,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         clearResult();
         if ((initial < min) || (initial > max)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+                  LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS,
                   min, initial, max);
         }
 
@@ -170,7 +166,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         }
 
         throw MathRuntimeException.createIllegalArgumentException(
-              NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+              LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, yMin, yMax);
 
     }
 
@@ -217,7 +213,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             } else {
                 // neither value is close to zero and min and max do not bracket root.
                 throw MathRuntimeException.createIllegalArgumentException(
-                        NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+                        LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, yMin, yMax);
             }
         } else if (sign < 0){
             // solve using only the first endpoint as initial guess

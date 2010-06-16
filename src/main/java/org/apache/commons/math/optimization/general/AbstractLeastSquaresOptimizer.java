@@ -31,6 +31,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class for implementing least squares optimizers.
@@ -183,7 +184,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         ++jacobianEvaluations;
         jacobian = jF.value(point);
         if (jacobian.length != rows) {
-            throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
+            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                                   jacobian.length, rows);
         }
         for (int i = 0; i < rows; i++) {
@@ -210,7 +211,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
         objective = function.value(point);
         if (objective.length != rows) {
-            throw new FunctionEvaluationException(point, "dimension mismatch {0} != {1}",
+            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                                   objective.length, rows);
         }
         cost = 0;
@@ -290,7 +291,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
                 new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
             return inverse.getData();
         } catch (InvalidMatrixException ime) {
-            throw new OptimizationException("unable to compute covariances: singular problem");
+            throw new OptimizationException(LocalizedFormats.UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM);
         }
 
     }
@@ -308,7 +309,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         throws FunctionEvaluationException, OptimizationException {
         if (rows <= cols) {
             throw new OptimizationException(
-                    "no degrees of freedom ({0} measurements, {1} parameters)",
+                    LocalizedFormats.NO_DEGREES_OF_FREEDOM,
                     rows, cols);
         }
         double[] errors = new double[cols];
@@ -327,7 +328,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         if (target.length != weights.length) {
-            throw new OptimizationException("dimension mismatch {0} != {1}",
+            throw new OptimizationException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                             target.length, weights.length);
         }
 

@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
@@ -48,7 +49,7 @@ public class SmoothingBicubicSplineInterpolator
                                                           final double[][] zval)
         throws MathException, IllegalArgumentException {
         if (xval.length == 0 || yval.length == 0 || zval.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
         }
         if (xval.length != zval.length) {
             throw new DimensionMismatchException(xval.length, zval.length);

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.DimensionMismatchException;
@@ -156,7 +157,7 @@ public class TricubicSplineInterpolatingFunction
 
         if (xLen == 0 || yLen == 0 || z.length == 0
             || f.length == 0 || f[0].length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
         }
         if (xLen != f.length) {
             throw new DimensionMismatchException(xLen, f.length);
@@ -307,18 +308,21 @@ public class TricubicSplineInterpolatingFunction
     public double value(double x, double y, double z) {
         final int i = searchIndex(x, xval);
         if (i == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
-                                                                      x, xval[0], xval[xval.length - 1]);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                  x, xval[0], xval[xval.length - 1]);
         }
         final int j = searchIndex(y, yval);
         if (j == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
-                                                                      y, yval[0], yval[yval.length - 1]);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                  y, yval[0], yval[yval.length - 1]);
         }
         final int k = searchIndex(z, zval);
         if (k == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
-                                                                      z, zval[0], zval[zval.length - 1]);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                  z, zval[0], zval[zval.length - 1]);
         }
 
         final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
@@ -449,15 +453,15 @@ class TricubicSplineFunction
      */
     public double value(double x, double y, double z) {
         if (x < 0 || x > 1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       x, 0, 1);
         }
         if (y < 0 || y > 1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       y, 0, 1);
         }
         if (z < 0 || z > 1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       z, 0, 1);
         }
 

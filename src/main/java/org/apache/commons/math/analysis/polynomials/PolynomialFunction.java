@@ -22,6 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.
@@ -32,10 +33,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
-
-    /** Message for empty coefficients array. */
-    private static final String EMPTY_ARRAY_MESSAGE =
-        "empty polynomials coefficients array";
 
     /**
      * Serialization identifier
@@ -66,7 +63,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     public PolynomialFunction(double c[]) {
         super();
         if (c.length < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         int l = c.length;
         while ((l > 1) && (c[l - 1] == 0)) {
@@ -126,7 +123,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     protected static double evaluate(double[] coefficients, double argument) {
         int n = coefficients.length;
         if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         double result = coefficients[n - 1];
         for (int j = n -2; j >=0; j--) {
@@ -235,7 +232,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     protected static double[] differentiate(double[] coefficients) {
         int n = coefficients.length;
         if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(EMPTY_ARRAY_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         if (n == 1) {
             return new double[]{0};

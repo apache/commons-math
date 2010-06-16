@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-361">
+        Improved localization of error messages.
+      </action>      
       <action dev="erans" type="fix" issue="MATH-376">
         Allow multiple optimizations with a default simplex.
       </action>      

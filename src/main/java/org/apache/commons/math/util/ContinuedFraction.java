@@ -151,7 +151,7 @@ public abstract class ContinuedFraction {
                 final double scale = Math.max(a,b);
                 if (scale <= 0) {  // Can't scale
                     throw new ConvergenceException(
-                            "Continued fraction convergents diverged to +/- infinity for value {0}",
+                            LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
                              x);
                 }
                 infinite = true;
@@ -175,7 +175,7 @@ public abstract class ContinuedFraction {
             if (infinite) {
                // Scaling failed
                throw new ConvergenceException(
-                 "Continued fraction convergents diverged to +/- infinity for value {0}",
+                 LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
                   x);
             }
 
@@ -183,7 +183,7 @@ public abstract class ContinuedFraction {
 
             if (Double.isNaN(r)) {
                 throw new ConvergenceException(
-                  "Continued fraction diverged to NaN for value {0}",
+                  LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
                   x);
             }
             relativeError = Math.abs(r / c - 1.0);
@@ -198,7 +198,7 @@ public abstract class ContinuedFraction {
 
         if (n >= maxIterations) {
             throw new MaxIterationsExceededException(maxIterations,
-                "Continued fraction convergents failed to converge for value {0}",
+                LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,
                 x);
         }
 

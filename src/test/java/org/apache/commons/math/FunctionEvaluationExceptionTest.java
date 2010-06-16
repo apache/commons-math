@@ -19,6 +19,8 @@ package org.apache.commons.math;
 
 import java.util.Locale;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 import junit.framework.TestCase;
 
 /**
@@ -46,11 +48,11 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArguments(){
-        String pattern = "evaluation failed for argument = {0}";
+        LocalizedFormats pattern = LocalizedFormats.EVALUATION_FAILED;
         Object[] arguments = { Double.valueOf(0.0) };
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -60,12 +62,12 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     }
 
     public void testConstructorArrayPatternArguments(){
-        String pattern = "evaluation failed for argument = {0}";
+        LocalizedFormats pattern = LocalizedFormats.EVALUATION_FAILED;
         Object[] arguments = { Double.valueOf(0.0) };
         FunctionEvaluationException ex =
             new FunctionEvaluationException(new double[] { 0, 1, 2 }, pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -78,13 +80,13 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArgumentsCause(){
-        String pattern = "evaluation failed for argument = {0}";
+        LocalizedFormats pattern = LocalizedFormats.EVALUATION_FAILED;
         Object[] arguments = { Double.valueOf(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         FunctionEvaluationException ex = new FunctionEvaluationException(cause, 0.0, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -94,14 +96,14 @@ public class FunctionEvaluationExceptionTest extends TestCase {
     }
 
     public void testConstructorArrayPatternArgumentsCause(){
-        String pattern = "evaluation failed for argument = {0}";
+        LocalizedFormats pattern = LocalizedFormats.EVALUATION_FAILED;
         Object[] arguments = { Double.valueOf(0.0) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         FunctionEvaluationException ex =
             new FunctionEvaluationException(cause, new double[] { 0, 1, 2 }, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);

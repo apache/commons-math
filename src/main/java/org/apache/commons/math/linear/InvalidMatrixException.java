@@ -18,6 +18,8 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * Thrown when a system attempts an operation on a matrix, and
@@ -28,7 +30,7 @@ import org.apache.commons.math.MathRuntimeException;
 public class InvalidMatrixException extends MathRuntimeException {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 1135533765052675495L;
+    private static final long serialVersionUID = -2068020346562029801L;
 
     /**
      * Construct an exception with the given message.
@@ -37,6 +39,16 @@ public class InvalidMatrixException extends MathRuntimeException {
      * @since 2.0
      */
     public InvalidMatrixException(final String pattern, final Object ... arguments) {
+        this(new DummyLocalizable(pattern), arguments);
+    }
+
+    /**
+     * Construct an exception with the given message.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.2
+     */
+    public InvalidMatrixException(final Localizable pattern, final Object ... arguments) {
         super(pattern, arguments);
     }
 

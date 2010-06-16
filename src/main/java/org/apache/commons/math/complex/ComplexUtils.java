@@ -18,6 +18,7 @@
 package org.apache.commons.math.complex;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Static implementations of common
@@ -62,7 +63,7 @@ public class ComplexUtils {
     public static Complex polar2Complex(double r, double theta) {
         if (r < 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "negative complex module {0}", r);
+                  LocalizedFormats.NEGATIVE_COMPLEX_MODULE, r);
         }
         return new Complex(r * Math.cos(theta), r * Math.sin(theta));
     }

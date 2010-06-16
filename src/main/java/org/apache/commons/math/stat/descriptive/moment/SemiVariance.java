@@ -20,6 +20,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.
@@ -175,7 +176,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
          }
         return evaluate(values, 0, values.length);
     }

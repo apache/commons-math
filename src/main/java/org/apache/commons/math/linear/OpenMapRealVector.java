@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 
@@ -732,7 +733,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     public void unitize() {
         double norm = getNorm();
         if (isDefaultValue(norm)) {
-            throw  MathRuntimeException.createArithmeticException("cannot normalize a zero norm vector");
+            throw  MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
         }
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {

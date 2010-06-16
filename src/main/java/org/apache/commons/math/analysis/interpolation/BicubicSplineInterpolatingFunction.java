@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -98,7 +99,7 @@ public class BicubicSplineInterpolatingFunction
         final int yLen = y.length;
 
         if (xLen == 0 || yLen == 0 || f.length == 0 || f[0].length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException("no data");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
         }
         if (xLen != f.length) {
             throw new DimensionMismatchException(xLen, f.length);
@@ -157,13 +158,15 @@ public class BicubicSplineInterpolatingFunction
     public double value(double x, double y) {
         final int i = searchIndex(x, xval);
         if (i == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
-                                                                      x, xval[0], xval[xval.length - 1]);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                  x, xval[0], xval[xval.length - 1]);
         }
         final int j = searchIndex(y, yval);
         if (j == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
-                                                                      y, yval[0], yval[yval.length - 1]);
+            throw MathRuntimeException.createIllegalArgumentException(
+                  LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                  y, yval[0], yval[yval.length - 1]);
         }
 
         final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
@@ -230,12 +233,12 @@ public class BicubicSplineInterpolatingFunction
 
         final int i = searchIndex(x, xval);
         if (i == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       x, xval[0], xval[xval.length - 1]);
         }
         final int j = searchIndex(y, yval);
         if (j == -1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       y, yval[0], yval[yval.length - 1]);
         }
 
@@ -373,11 +376,11 @@ class BicubicSplineFunction
      */
     public double value(double x, double y) {
         if (x < 0 || x > 1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       x, 0, 1);
         }
         if (y < 0 || y > 1) {
-            throw MathRuntimeException.createIllegalArgumentException("{0} out of [{1}, {2}] range",
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
                                                                       y, 0, 1);
         }
 

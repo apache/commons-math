@@ -21,6 +21,7 @@ import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -172,16 +173,12 @@ public abstract class AdaptiveStepsizeIntegrator
 
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
           throw new IntegratorException(
-                  "dimensions mismatch: state vector has dimension {0}," +
-                  " absolute tolerance vector has dimension {1}",
-                  y0.length, vecAbsoluteTolerance.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, y0.length, vecAbsoluteTolerance.length);
       }
 
       if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
           throw new IntegratorException(
-                  "dimensions mismatch: state vector has dimension {0}," +
-                  " relative tolerance vector has dimension {1}",
-                  y0.length, vecRelativeTolerance.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, y0.length, vecRelativeTolerance.length);
       }
 
   }
@@ -283,7 +280,7 @@ public abstract class AdaptiveStepsizeIntegrator
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new IntegratorException(
-                      "minimal step size ({0,number,0.00E00}) reached, integration needs {1,number,0.00E00}",
+                      LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
                       minStep, Math.abs(h));
           }
       }

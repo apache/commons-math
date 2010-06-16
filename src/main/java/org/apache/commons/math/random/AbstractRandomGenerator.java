@@ -17,6 +17,7 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Abstract class implementing the {@link  RandomGenerator} interface.
@@ -155,7 +156,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
     public int nextInt(int n) {
         if (n <= 0 ) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound must be positive ({0})", n);
+                  LocalizedFormats.NOT_POSITIVE_UPPER_BOUND, n);
         }
         int result = (int) (nextDouble() * n);
         return result < n ? result : n - 1;

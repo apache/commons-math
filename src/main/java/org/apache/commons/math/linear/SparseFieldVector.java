@@ -22,6 +22,7 @@ import java.lang.reflect.Array;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.OpenIntToFieldHashMap;
 
 /**
@@ -565,7 +566,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     protected void checkVectorDimensions(int n) throws IllegalArgumentException {
         if (getDimension() != n) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "vector length mismatch: got {0} but expected {1}",
+                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
                     getDimension(), n);
         }
     }

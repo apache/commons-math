@@ -24,6 +24,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Common part shared by both {@link FractionFormat} and {@link BigFractionFormat}.
@@ -119,7 +120,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     public void setDenominatorFormat(final NumberFormat format) {
         if (format == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "denominator format can not be null");
+                LocalizedFormats.NULL_DENOMINATOR_FORMAT);
         }
         this.denominatorFormat = format;
     }
@@ -133,7 +134,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     public void setNumeratorFormat(final NumberFormat format) {
         if (format == null) {
             throw MathRuntimeException.createIllegalArgumentException(
-                "numerator format can not be null");
+                LocalizedFormats.NULL_NUMERATOR_FORMAT);
         }
         this.numeratorFormat = format;
     }

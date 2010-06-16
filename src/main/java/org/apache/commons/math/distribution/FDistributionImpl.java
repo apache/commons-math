@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Default implementation of
@@ -37,10 +38,6 @@ public class FDistributionImpl
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
-    /** Message for non positive degrees of freddom. */
-    private static final String NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE =
-        "degrees of freedom must be positive ({0})";
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -8516354193418641566L;
@@ -222,7 +219,7 @@ public class FDistributionImpl
     private void setNumeratorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM, degreesOfFreedom);
         }
         this.numeratorDegreesOfFreedom = degreesOfFreedom;
     }
@@ -256,7 +253,7 @@ public class FDistributionImpl
     private void setDenominatorDegreesOfFreedomInternal(double degreesOfFreedom) {
         if (degreesOfFreedom <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREES_OF_FREEDOM_MESSAGE, degreesOfFreedom);
+                  LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM, degreesOfFreedom);
         }
         this.denominatorDegreesOfFreedom = degreesOfFreedom;
     }

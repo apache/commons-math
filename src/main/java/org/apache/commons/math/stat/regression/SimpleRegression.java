@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -548,7 +549,7 @@ public class SimpleRegression implements Serializable {
         throws MathException {
         if (alpha >= 1 || alpha <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "out of bounds significance level {0}, must be between {1} and {2}",
+                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                   alpha, 0.0, 1.0);
         }
         return getSlopeStdErr() *

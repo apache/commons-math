@@ -21,6 +21,7 @@ import java.util.Arrays;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 
@@ -451,18 +452,13 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 // tests for termination and stringent tolerances
                 // (2.2204e-16 is the machine epsilon for IEEE754)
                 if ((Math.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
-                    throw new OptimizationException("cost relative tolerance is too small ({0})," +
-                            " no further reduction in the" +
-                            " sum of squares is possible",
+                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
                             costRelativeTolerance);
                 } else if (delta <= 2.2204e-16 * xNorm) {
-                    throw new OptimizationException("parameters relative tolerance is too small" +
-                            " ({0}), no further improvement in" +
-                            " the approximate solution is possible",
+                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,
                             parRelativeTolerance);
                 } else if (maxCosine <= 2.2204e-16)  {
-                    throw new OptimizationException("orthogonality tolerance is too small ({0})," +
-                            " solution is orthogonal to the jacobian",
+                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,
                             orthoTolerance);
                 }
 
@@ -815,8 +811,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     norm2 += aki * aki;
                 }
                 if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
-                    throw new OptimizationException(
-                            "unable to perform Q.R decomposition on the {0}x{1} jacobian matrix",
+                    throw new OptimizationException(LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,
                             rows, cols);
                 }
                 if (norm2 > ak2) {

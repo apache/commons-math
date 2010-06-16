@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Computes the variance of the available values.  By default, the unbiased
@@ -213,7 +214,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException("input values array is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
         }
         return evaluate(values, 0, values.length);
     }

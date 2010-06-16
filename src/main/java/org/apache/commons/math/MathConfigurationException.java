@@ -18,6 +18,9 @@ package org.apache.commons.math;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
+
 /**
  * Signals a configuration problem with any of the factory methods.
  * @version $Revision$ $Date$
@@ -42,6 +45,17 @@ public class MathConfigurationException extends MathException implements Seriali
      * @since 1.2
      */
     public MathConfigurationException(String pattern, Object ... arguments) {
+        this(new DummyLocalizable(pattern), arguments);
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.2
+     */
+    public MathConfigurationException(Localizable pattern, Object ... arguments) {
         super(pattern, arguments);
     }
 
@@ -62,6 +76,18 @@ public class MathConfigurationException extends MathException implements Seriali
      * @since 1.2
      */
     public MathConfigurationException(Throwable cause, String pattern, Object ... arguments) {
+        this(cause, new DummyLocalizable(pattern), arguments);
+    }
+
+    /**
+     * Constructs an exception with specified formatted detail message and root cause.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param cause  the exception or error that caused this exception to be thrown
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @since 2.2
+     */
+    public MathConfigurationException(Throwable cause, Localizable pattern, Object ... arguments) {
         super(cause, pattern, arguments);
     }
 

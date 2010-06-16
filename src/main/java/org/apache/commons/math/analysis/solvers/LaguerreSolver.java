@@ -23,6 +23,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -37,14 +38,6 @@ import org.apache.commons.math.complex.Complex;
  * @since 1.2
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {
-
-    /** Message for non-polynomial function. */
-    private static final String NON_POLYNOMIAL_FUNCTION_MESSAGE =
-        "function is not polynomial";
-
-    /** Message for non-positive degree. */
-    private static final String NON_POSITIVE_DEGREE_MESSAGE =
-        "polynomial degree must be positive: degree={0}";
 
     /** polynomial function to solve.
      * @deprecated as of 2.0 the function is not stored anymore in the instance
@@ -69,7 +62,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         if (f instanceof PolynomialFunction) {
             p = (PolynomialFunction) f;
         } else {
-            throw MathRuntimeException.createIllegalArgumentException(NON_POLYNOMIAL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL);
         }
     }
 
@@ -172,7 +165,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
         // check function type
         if (!(f instanceof PolynomialFunction)) {
-            throw MathRuntimeException.createIllegalArgumentException(NON_POLYNOMIAL_FUNCTION_MESSAGE);
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL);
         }
 
         // check for zeros before verifying bracketing
@@ -265,7 +258,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         int iterationCount = 0;
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREE_MESSAGE, n);
+                  LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, n);
         }
         Complex c[] = new Complex[n+1];    // coefficients for deflated polynomial
         for (int i = 0; i <= n; i++) {
@@ -313,7 +306,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
         int n = coefficients.length - 1;
         if (n < 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  NON_POSITIVE_DEGREE_MESSAGE, n);
+                  LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, n);
         }
         Complex N  = new Complex(n,     0.0);
         Complex N1 = new Complex(n - 1, 0.0);

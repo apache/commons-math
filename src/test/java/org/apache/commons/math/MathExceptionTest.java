@@ -24,6 +24,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Locale;
 
+import org.apache.commons.math.util.DummyLocalizable;
+import org.apache.commons.math.util.Localizable;
+import org.apache.commons.math.util.LocalizedFormats;
+
 /**
  * @version $Revision$ $Date$
  */
@@ -37,11 +41,11 @@ public class MathExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArguments(){
-        String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
+        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathException ex = new MathException(pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -58,13 +62,13 @@ public class MathExceptionTest extends TestCase {
     }
 
     public void testConstructorPatternArgumentsCause(){
-        String pattern = "a {0}x{1} matrix cannot be a rotation matrix";
+        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getPattern());
+        assertEquals(pattern, ex.getLocalizablePattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -77,8 +81,8 @@ public class MathExceptionTest extends TestCase {
      * Tests the printStackTrace() operation.
      */
     public void testPrintStackTrace() {
-        String outMsg = "outer message";
-        String inMsg = "inner message";
+        Localizable outMsg = new DummyLocalizable("outer message");
+        Localizable inMsg = new DummyLocalizable("inner message");
         MathException cause = new MathConfigurationException(inMsg);
         MathException ex = new MathException(cause, outMsg);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -102,8 +106,8 @@ public class MathExceptionTest extends TestCase {
      * Test serialization
      */
     public void testSerialization() {
-        String outMsg = "outer message";
-        String inMsg = "inner message";
+        Localizable outMsg = new DummyLocalizable("outer message");
+        Localizable inMsg = new DummyLocalizable("inner message");
         MathException cause = new MathConfigurationException(inMsg);
         MathException ex = new MathException(cause, outMsg);
         MathException image = (MathException) TestUtils.serializeAndRecover(ex);
@@ -131,7 +135,7 @@ public class MathExceptionTest extends TestCase {
         if (jdkSupportsNesting) {
             assertEquals(stack, stack2);
         } else {
-            assertTrue(stack2.indexOf(inMsg) != -1);
+            assertTrue(stack2.indexOf(inMsg.getSourceString()) != -1);
             assertTrue(stack2.indexOf("MathConfigurationException") != -1);
         }
     }

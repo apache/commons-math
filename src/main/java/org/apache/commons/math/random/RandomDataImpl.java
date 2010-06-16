@@ -39,6 +39,7 @@ import org.apache.commons.math.distribution.PascalDistributionImpl;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.distribution.WeibullDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -148,7 +149,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public String nextHexString(int len) {
         if (len <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "length must be positive ({0})", len);
+                  LocalizedFormats.NOT_POSITIVE_LENGTH, len);
         }
 
         // Get a random number generator
@@ -194,7 +195,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "upper bound ({0}) must be greater than lower bound ({1})",
+                    LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                     upper, lower);
         }
         double r = getRan().nextDouble();
@@ -214,7 +215,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                   upper, lower);
         }
         double r = getRan().nextDouble();
@@ -244,7 +245,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public String nextSecureHexString(int len) {
         if (len <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "length must be positive ({0})", len);
+                  LocalizedFormats.NOT_POSITIVE_LENGTH, len);
         }
 
         // Get SecureRandom and setup Digest provider
@@ -305,7 +306,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public int nextSecureInt(int lower, int upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                   upper, lower);
         }
         SecureRandom sec = getSecRan();
@@ -326,7 +327,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                   upper, lower);
         }
         SecureRandom sec = getSecRan();
@@ -352,7 +353,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public long nextPoisson(double mean) {
         if (mean <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "the Poisson mean must be positive ({0})", mean);
+                  LocalizedFormats.NOT_POSITIVE_POISSON_MEAN, mean);
         }
 
         final RandomGenerator generator = getRan();
@@ -456,7 +457,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "standard deviation must be positive ({0})", sigma);
+                  LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION, sigma);
         }
         return sigma * getRan().nextGaussian() + mu;
     }
@@ -477,7 +478,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public double nextExponential(double mean) {
         if (mean <= 0.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "mean must be positive ({0})", mean);
+                  LocalizedFormats.NOT_POSITIVE_MEAN, mean);
         }
         final RandomGenerator generator = getRan();
         double unif = generator.nextDouble();
@@ -506,7 +507,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "upper bound ({0}) must be greater than lower bound ({1})",
+                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                   upper, lower);
         }
         final RandomGenerator generator = getRan();
@@ -830,11 +831,11 @@ public class RandomDataImpl implements RandomData, Serializable {
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "permutation k ({0}) exceeds n ({1})", k, n);
+                  LocalizedFormats.PERMUTATION_EXCEEDS_N, k, n);
         }
         if (k == 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "permutation k ({0}) must be positive", k);
+                  LocalizedFormats.NOT_POSITIVE_PERMUTATION, k);
         }
 
         int[] index = getNatural(n);
@@ -867,11 +868,11 @@ public class RandomDataImpl implements RandomData, Serializable {
         int len = c.size();
         if (k > len) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "sample size ({0}) exceeds collection size ({1})");
+                  LocalizedFormats.SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE);
         }
         if (k <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "sample size must be positive ({0})", k);
+                  LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, k);
         }
 
         Object[] objects = c.toArray();

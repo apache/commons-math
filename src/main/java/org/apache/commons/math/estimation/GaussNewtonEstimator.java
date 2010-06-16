@@ -25,6 +25,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class implements a solver for estimation problems.
@@ -213,7 +214,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
                 }
 
             } catch(InvalidMatrixException e) {
-                throw new EstimationException("unable to solve: singular problem");
+                throw new EstimationException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
             }
 
 

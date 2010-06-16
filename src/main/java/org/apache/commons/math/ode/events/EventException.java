@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * This exception is made available to users to report
@@ -34,8 +35,20 @@ public class EventException extends MathException {
      * Build an exception by translating and formating a message
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
+     * @deprecated as of 2.2 replaced by {@link #EventException(Localizable, Object...)}
      */
+     @Deprecated
     public EventException(final String specifier, final Object ... parts) {
+        super(specifier, parts);
+    }
+
+    /** Simple constructor.
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     * @since 2.2
+     */
+    public EventException(final Localizable specifier, final Object ... parts) {
         super(specifier, parts);
     }
 

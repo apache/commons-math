@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class for probability distributions.
@@ -60,7 +61,7 @@ public abstract class AbstractDistribution
         throws MathException {
         if (x0 > x1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "lower endpoint ({0}) must be less than or equal to upper endpoint ({1})",
+                  LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                   x0, x1);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0);

@@ -21,6 +21,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -88,12 +89,12 @@ public abstract class AbstractMultipleLinearRegression implements
     protected void validateSampleData(double[][] x, double[] y) {
         if ((x == null) || (y == null) || (x.length != y.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "dimension mismatch {0} != {1}",
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                   (x == null) ? 0 : x.length,
                   (y == null) ? 0 : y.length);
         } else if ((x.length > 0) && (x[0].length > x.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "not enough data ({0} rows) for this many predictors ({1} predictors)",
+                  LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
                   x.length, x[0].length);
         }
     }
@@ -109,11 +110,11 @@ public abstract class AbstractMultipleLinearRegression implements
     protected void validateCovarianceData(double[][] x, double[][] covariance) {
         if (x.length != covariance.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                 "dimension mismatch {0} != {1}", x.length, covariance.length);
+                 LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, x.length, covariance.length);
         }
         if (covariance.length > 0 && covariance.length != covariance[0].length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "a {0}x{1} matrix was provided instead of a square matrix",
+                  LocalizedFormats.NON_SQUARE_MATRIX,
                   covariance.length, covariance[0].length);
         }
     }

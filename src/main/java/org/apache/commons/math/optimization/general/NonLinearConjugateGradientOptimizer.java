@@ -26,6 +26,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Non-linear conjugate gradient optimizer.
@@ -233,7 +234,7 @@ public class NonLinearConjugateGradientOptimizer
                 return b;
             }
         }
-        throw new OptimizationException("unable to bracket optimum in line search");
+        throw new OptimizationException(LocalizedFormats.UNABLE_TO_BRACKET_OPTIMUM_IN_LINE_SEARCH);
     }
 
     /** Default identity preconditioner. */
