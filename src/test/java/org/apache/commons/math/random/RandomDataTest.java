@@ -237,12 +237,15 @@ public class RandomDataTest extends RetryTestCase {
     }
 
     public void testNextPoissonConsistency() throws Exception {
+        
+        // Reseed randomGenerator to get fixed sequence
+        randomData.reSeed(1000);  
+        
         // Small integral means
         for (int i = 1; i < 100; i++) {
             checkNextPoissonConsistency(i);
         }
         // non-integer means
-        RandomData randomData = new RandomDataImpl();
         for (int i = 1; i < 10; i++) {
             checkNextPoissonConsistency(randomData.nextUniform(1, 1000));
         }
@@ -268,7 +271,6 @@ public class RandomDataTest extends RetryTestCase {
         final int minExpectedCount = 7;     // Minimum size of expected bin count
         long maxObservedValue = 0;
         final double alpha = 0.001;         // Probability of false failure
-        randomData.reSeed(1000);            // Reseed randomGenerator to get fixed sequence
         Frequency frequency = new Frequency();
         for (int i = 0; i < sampleSize; i++) {
             long value = randomData.nextPoisson(mean);
