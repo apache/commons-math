@@ -61,10 +61,10 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * configuration from a unit hypercube. Each call to {@link
  * #optimize(MultivariateRealFunction, GoalType, double[]) optimize} will reuse
  * the current start configuration and move it such that its first vertex
- * is at the provided start point of the optimization. If the same optimizer
- * is used to solve different problems and the number of parameters change,
- * the start configuration <em>must</em> be reset or a dimension mismatch
- * will occur.</p>
+ * is at the provided start point of the optimization. If the {@code optimize}
+ * method is called to solve a different problem and the number of parameters
+ * change, the start configuration will be reset to a default one with the
+ * appropriate dimensions.</p>
  *
  * <p>If {@link #setConvergenceChecker(RealConvergenceChecker)} is not called,
  * a default {@link SimpleScalarValueChecker} is used.</p>
@@ -267,7 +267,8 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
         throws FunctionEvaluationException, OptimizationException,
         IllegalArgumentException {
 
-        if (startConfiguration == null) {
+        if (startConfiguration == null
+            || startConfiguration.length != startPoint.length) {
             // no initial configuration has been set up for simplex
             // build a default one from a unit hypercube
             final double[] unit = new double[startPoint.length];
