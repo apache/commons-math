@@ -260,7 +260,7 @@ public class Vector3DFormat extends CompositeFormat {
         if (parsePosition.getIndex() == 0) {
             throw MathRuntimeException.createParseException(
                     parsePosition.getErrorIndex(),
-                    "unparseable 3D vector: \"{0}\"", source);
+                    LocalizedFormats.UNPARSEABLE_3D_VECTOR, source);
         }
         return result;
     }

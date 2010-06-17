@@ -346,17 +346,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
         if (contraction < expansion) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "contraction criteria ({0}) smaller than the expansion factor ({1}).  This would " +
-                    "lead to a never ending loop of expansion and contraction as a newly expanded " +
-                    "internal storage array would immediately satisfy the criteria for contraction",
+                    LocalizedFormats.CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR,
                     contraction, expansion);
         }
 
         if (contraction <= 1.0) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "contraction criteria smaller than one ({0}).  This would lead to a never ending " +
-                    "loop of expansion and contraction as an internal storage array length equal " +
-                    "to the number of elements would satisfy the contraction criteria.",
+                    LocalizedFormats.CONTRACTION_CRITERIA_SMALLER_THAN_ONE,
                     contraction);
         }
 

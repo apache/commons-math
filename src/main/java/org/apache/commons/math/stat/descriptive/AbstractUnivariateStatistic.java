@@ -140,27 +140,27 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (weights == null) {
-            throw MathRuntimeException.createIllegalArgumentException("input weights array is null");
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
         }
 
         if (weights.length !=  values.length) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "Different number of weights and values");
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, weights.length, values.length);
         }
 
         boolean containsPositiveWeight = false;
         for (int i = begin; i < begin + length; i++) {
             if (Double.isNaN(weights[i])) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "NaN weight at index {0}", i);
+                        LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
             }
             if (Double.isInfinite(weights[i])) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "Infinite weight at index {0}", i);
+                        LocalizedFormats.INFINITE_ARRAY_ELEMENT, weights[i], i);
             }
             if (weights[i] < 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      "negative weight {0} at index {1} ", weights[i], i);
+                      LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
             }
             if (!containsPositiveWeight && weights[i] > 0.0) {
                 containsPositiveWeight = true;
@@ -169,7 +169,7 @@ public abstract class AbstractUnivariateStatistic
 
         if (!containsPositiveWeight) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "weight array must contain at least one non-zero value");
+                    LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
         return test(values, begin, length);

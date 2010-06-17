@@ -256,8 +256,9 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
                 // This happens only when two abscissas are identical.
                 for (int k = 0; k < n; ++k) {
                     if ((i != k) && (x[i] == x[k])) {
-                        throw MathRuntimeException.createArithmeticException("identical abscissas x[{0}] == x[{1}] == {2} cause division by zero",
-                                                                             i, k, x[i]);
+                        throw MathRuntimeException.createArithmeticException(
+                              LocalizedFormats.IDENTICAL_ABSCISSAS_DIVISION_BY_ZERO,
+                              i, k, x[i]);
                     }
                 }
             }

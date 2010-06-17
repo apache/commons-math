@@ -49,10 +49,6 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
-    /** Message for out of range root index. */
-    private static final String OUT_OF_RANGE_ROOT_INDEX_MESSAGE =
-        "out of range root of unity index {0} (must be in [{1};{2}])";
-
     /** roots of unity */
     private RootsOfUnity roots = new RootsOfUnity();
 
@@ -528,7 +524,7 @@ public class FastFourierTransformer implements Serializable {
 
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "endpoints do not specify an interval: [{0}, {1}]",
+                    LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
                     lower, upper);
         }
     }
@@ -883,7 +879,7 @@ public class FastFourierTransformer implements Serializable {
         }
         if ((k < 0) || (k >= omegaCount)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    OUT_OF_RANGE_ROOT_INDEX_MESSAGE, k, 0, omegaCount - 1);
+                    LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, k, 0, omegaCount - 1);
         }
 
         return omegaReal[k];
@@ -905,7 +901,7 @@ public class FastFourierTransformer implements Serializable {
         }
         if ((k < 0) || (k >= omegaCount)) {
           throw MathRuntimeException.createIllegalArgumentException(
-                  OUT_OF_RANGE_ROOT_INDEX_MESSAGE, k, 0, omegaCount - 1);
+                  LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, k, 0, omegaCount - 1);
         }
 
         return isForward ? omegaImaginaryForward[k] : omegaImaginaryInverse[k];

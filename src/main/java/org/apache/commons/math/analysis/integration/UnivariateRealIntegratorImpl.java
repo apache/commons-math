@@ -159,7 +159,7 @@ public abstract class UnivariateRealIntegratorImpl
         IllegalArgumentException {
         if (lower >= upper) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "endpoints do not specify an interval: [{0}, {1}]",
+                    LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
                     lower, upper);
         }
     }

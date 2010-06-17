@@ -206,7 +206,7 @@ public class FractionFormat extends AbstractFormat {
         if (parsePosition.getIndex() == 0) {
             throw MathRuntimeException.createParseException(
                     parsePosition.getErrorIndex(),
-                    "unparseable fraction number: \"{0}\"", source);
+                    LocalizedFormats.UNPARSEABLE_FRACTION_NUMBER, source);
         }
         return result;
     }

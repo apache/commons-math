@@ -256,7 +256,7 @@ public class ComplexFormat extends CompositeFormat {
         if (parsePosition.getIndex() == 0) {
             throw MathRuntimeException.createParseException(
                     parsePosition.getErrorIndex(),
-                    "unparseable complex number: \"{0}\"", source);
+                    LocalizedFormats.UNPARSEABLE_COMPLEX_NUMBER, source);
         }
         return result;
     }

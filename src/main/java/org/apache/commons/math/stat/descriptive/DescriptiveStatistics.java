@@ -569,8 +569,8 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
                             new Object[] {Double.valueOf(50.0d)});
         } catch (NoSuchMethodException e1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  "percentile implementation {0} does not support setQuantile",
-                  percentileImpl.getClass().getName());
+                  LocalizedFormats.PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD,
+                  percentileImpl.getClass().getName(), SET_QUANTILE_METHOD_NAME);
         } catch (IllegalAccessException e2) {
             throw MathRuntimeException.createIllegalArgumentException(
                   LocalizedFormats.PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD,

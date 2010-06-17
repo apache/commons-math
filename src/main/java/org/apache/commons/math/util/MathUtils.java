@@ -1249,8 +1249,7 @@ public final class MathUtils {
              }
          }
          if (sum == 0) {
-             throw MathRuntimeException.createArithmeticException(
-                     "Array sums to zero");
+             throw MathRuntimeException.createArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
          }
          for (int i = 0; i < len; i++) {
              if (Double.isNaN(values[i])) {
@@ -1412,8 +1411,7 @@ public final class MathUtils {
             break;
         default :
             throw MathRuntimeException.createIllegalArgumentException(
-                  "invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4})," +
-                  " {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})",
+                  LocalizedFormats.INVALID_ROUNDING_METHOD,
                   roundingMethod,
                   "ROUND_CEILING",     BigDecimal.ROUND_CEILING,
                   "ROUND_DOWN",        BigDecimal.ROUND_DOWN,

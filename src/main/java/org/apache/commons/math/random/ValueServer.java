@@ -120,8 +120,7 @@ public class ValueServer {
             case GAUSSIAN_MODE: return getNextGaussian();
             case CONSTANT_MODE: return mu;
             default: throw MathRuntimeException.createIllegalStateException(
-                    "unknown mode {0}, known modes: " +
-                    "{1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})",
+                    LocalizedFormats.UNKNOWN_MODE,
                     mode,
                     "DIGEST_MODE",   DIGEST_MODE,   "REPLAY_MODE",      REPLAY_MODE,
                     "UNIFORM_MODE",  UNIFORM_MODE,  "EXPONENTIAL_MODE", EXPONENTIAL_MODE,

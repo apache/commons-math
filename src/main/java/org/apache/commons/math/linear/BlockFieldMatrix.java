@@ -171,7 +171,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++index) {
                 if (blockData[index].length != iHeight * blockWidth(jBlock)) {
                     throw MathRuntimeException.createIllegalArgumentException(
-                            "wrong array shape (block length = {0}, expected {1})",
+                            LocalizedFormats.WRONG_BLOCK_LENGTH,
                             blockData[index].length, iHeight * blockWidth(jBlock));
                 }
                 if (copyArray) {

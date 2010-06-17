@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the Beta distribution.
@@ -145,13 +146,13 @@ public class BetaDistributionImpl
         } else if (x == 0) {
             if (alpha < 1) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "Cannot compute beta density at 0 when alpha = {0,number}", alpha);
+                        LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha);
             }
             return 0;
         } else if (x == 1) {
             if (beta < 1) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        "Cannot compute beta density at 1 when beta = %.3g", beta);
+                        LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta);
             }
             return 0;
         } else {

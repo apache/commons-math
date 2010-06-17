@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Mutation operator for {@link RandomKey}s. Changes a randomly chosen element
@@ -39,7 +40,7 @@ public class RandomKeyMutation implements MutationPolicy {
     public Chromosome mutate(Chromosome original) {
         if (!(original instanceof RandomKey<?>)) {
             throw MathRuntimeException.createIllegalArgumentException(
-                    "RandomKeyMutation works only with RandomKeys, got " +
+                    LocalizedFormats.RANDOMKEY_MUTATION_WRONG_CLASS,
                     original.getClass().getSimpleName());
         }
 

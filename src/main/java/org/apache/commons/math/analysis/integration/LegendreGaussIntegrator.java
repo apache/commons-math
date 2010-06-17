@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Legendre-GaussQuadrature.html">
@@ -145,8 +146,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             break;
         default :
             throw MathRuntimeException.createIllegalArgumentException(
-                    "{0} points Legendre-Gauss integrator not supported, " +
-                    "number of points must be in the {1}-{2} range",
+                    LocalizedFormats.N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED,
                     n, 2, 5);
         }
 
