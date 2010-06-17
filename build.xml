@@ -139,6 +139,10 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/test-classes"/>
+    <mkdir dir="${build.home}/classes/META-INF"/>
+    <copy todir="${build.home}/classes/META-INF">
+       <fileset dir="src/main/resources/META-INF" />
+    </copy>
   </target>
 
 <!-- ========== Compile Targets =========================================== -->
@@ -234,7 +238,6 @@
 
   <target name="jar" depends="test" description="Create jar file">
 
-    <mkdir dir="${build.home}/classes/META-INF"/>
     <copy file="LICENSE.txt" tofile="${build.home}/classes/META-INF/LICENSE.txt"/>
     <copy file="NOTICE.txt"  tofile="${build.home}/classes/META-INF/NOTICE.txt"/>
 
