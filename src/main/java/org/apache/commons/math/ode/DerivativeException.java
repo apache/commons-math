@@ -49,6 +49,7 @@ public class DerivativeException
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
+   * @since 2.2
    */
   public DerivativeException(final Localizable specifier, final Object ... parts) {
     super(specifier, parts);

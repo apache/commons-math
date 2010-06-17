@@ -217,7 +217,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createArithmeticException(Localizable, Object...)}
      */
+    @Deprecated
     public static ArithmeticException createArithmeticException(final String pattern,
                                                                 final Object ... arguments) {
         return createArithmeticException(new DummyLocalizable(pattern), arguments);
@@ -259,7 +261,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createArrayIndexOutOfBoundsException(Localizable, Object...)}
      */
+    @Deprecated
     public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
                                                                                       final Object ... arguments) {
         return createArrayIndexOutOfBoundsException(new DummyLocalizable(pattern), arguments);
@@ -301,7 +305,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createEOFException(Localizable, Object...)}
      */
+    @Deprecated
     public static EOFException createEOFException(final String pattern,
                                                   final Object ... arguments) {
         return createEOFException(new DummyLocalizable(pattern), arguments);
@@ -313,6 +319,7 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @since 2.2
      */
     public static EOFException createEOFException(final Localizable pattern,
                                                   final Object ... arguments) {
@@ -359,7 +366,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createIllegalArgumentException(Localizable, Object...)}
      */
+    @Deprecated
     public static IllegalArgumentException createIllegalArgumentException(final String pattern,
                                                                           final Object ... arguments) {
         return createIllegalArgumentException(new DummyLocalizable(pattern), arguments);
@@ -414,7 +423,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createIllegalStateException(Localizable, Object...)}
      */
+    @Deprecated
     public static IllegalStateException createIllegalStateException(final String pattern,
                                                                     final Object ... arguments) {
         return createIllegalStateException(new DummyLocalizable(pattern), arguments);
@@ -456,7 +467,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createConcurrentModificationException(Localizable, Object...)}
      */
+    @Deprecated
     public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
                                                                                         final Object ... arguments) {
         return createConcurrentModificationException(new DummyLocalizable(pattern), arguments);
@@ -498,7 +511,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createNoSuchElementException(Localizable, Object...)}
      */
+    @Deprecated
     public static NoSuchElementException createNoSuchElementException(final String pattern,
                                                                       final Object ... arguments) {
         return createNoSuchElementException(new DummyLocalizable(pattern), arguments);
@@ -540,7 +555,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createNullPointerException(Localizable, Object...)}
      */
+    @Deprecated
     public static NullPointerException createNullPointerException(final String pattern,
                                                                   final Object ... arguments) {
         return createNullPointerException(new DummyLocalizable(pattern), arguments);
@@ -584,7 +601,9 @@ public class MathRuntimeException extends RuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
+     * @deprecated as of 2.2 replaced by {@link #createParseException(int, Localizable, Object...)}
      */
+    @Deprecated
     public static ParseException createParseException(final int offset,
                                                       final String pattern,
                                                       final Object ... arguments) {

@@ -78,6 +78,7 @@ public class MathException extends Exception {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @since 2.2
      */
     public MathException(Localizable pattern, Object ... arguments) {
       this.pattern   = pattern;
@@ -121,7 +122,7 @@ public class MathException extends Exception {
      * to be thrown.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @since 1.2
+     * @since 2.2
      */
     public MathException(Throwable rootCause, Localizable pattern, Object ... arguments) {
       super(rootCause);
