@@ -71,7 +71,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
         int n = x.length - 1;
 
         for (int i = 0; i < n; i++) {
-            if (x[i]  >= x[i + 1]) {
+            if (x[i] >= x[i + 1]) {
                 throw MathRuntimeException.createIllegalArgumentException(
                       LocalizedFormats.NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS,
                       i, i+1, x[i], x[i+1]);

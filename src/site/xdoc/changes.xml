@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-378" due-to="Matthew Rowles">
+        Implementation of linear interpolation.
+      </action>
       <action dev="luc" type="fix" issue="MATH-361">
         Improved localization of error messages.
       </action>      
