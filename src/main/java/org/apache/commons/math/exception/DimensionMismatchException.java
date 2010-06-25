@@ -24,37 +24,26 @@ import org.apache.commons.math.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class DimensionMismatchException extends MathIllegalArgumentException {
-    /** First dimension. */
-    private final int dimension1;
-
-    /** Second dimension. */
-    private final int dimension2;
+public class DimensionMismatchException extends MathIllegalNumberException {
+    /** Correct dimension. */
+    private final int dimension;
 
     /**
      * Construct an exception from the mismatched dimensions.
      *
-     * @param dimension1 First dimension.
-     * @param dimension2 Second dimension.
+     * @param wrong Wrong dimension.
+     * @param expected Expected dimension.
      */
-    public DimensionMismatchException(int dimension1,
-                                      int dimension2) {
-        super(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, dimension1, dimension2);
-
-        this.dimension1 = dimension1;
-        this.dimension2 = dimension2;
+    public DimensionMismatchException(int wrong,
+                                      int expected) {
+        super(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, wrong, expected);
+        dimension = expected;
     }
 
     /**
-     * @return the first dimension.
+     * @return the expected dimension.
      */
-    public int getDimension1() {
-        return dimension1;
-    }
-    /**
-     * @return the second dimension.
-     */
-    public int getDimension2() {
-        return dimension2;
+    public int getDimension() {
+        return dimension;
     }
 }

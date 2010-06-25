@@ -19,41 +19,18 @@ package org.apache.commons.math.exception;
 import org.apache.commons.math.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when some argument is out of range.
+ * Exception to be thrown when the argument is negative.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class OutOfRangeException extends MathIllegalNumberException {
-    /** Lower bound. */
-    private final Number lo;
-    /** Higher bound. */
-    private final Number hi;
-
+public class NotPositiveException extends MathIllegalNumberException {
     /**
-     * Construct an exception from the mismatched dimensions.
+     * Construct the exception.
      *
-     * @param wrong Requested value.
-     * @param lo Lower bound.
-     * @param hi Higher bound.
+     * @param value Argument.
      */
-    public OutOfRangeException(Number wrong,
-                               Number lo,
-                               Number hi) {
-        super(LocalizedFormats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
-        this.lo = lo;
-        this.hi = hi;
-    }
-    /**
-     * @return the lower bound.
-     */
-    public Number getLo() {
-        return lo;
-    }
-    /**
-     * @return the higher bound.
-     */
-    public Number getHi() {
-        return hi;
+    public NotPositiveException(Number value) {
+        super(LocalizedFormats.NOT_POSITIVE, value);
     }
 }

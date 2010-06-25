@@ -80,7 +80,7 @@ public enum LocalizedFormats implements Localizable {
     DIFFERENT_ROWS_LENGTHS("some rows have length {0} while others have length {1}"),
     DIGEST_NOT_INITIALIZED("digest not initialized"),
     DIMENSIONS_MISMATCH_2x2("dimensions mismatch: got {0}x{1} but expected {2}x{3}"),
-    DIMENSIONS_MISMATCH_SIMPLE("dimensions mismatch {0} != {1}"),
+    DIMENSIONS_MISMATCH_SIMPLE("dimensions mismatch {0} != {1}"), /* keep */
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
     DUPLICATED_ABSCISSA("Abscissa {0} is duplicated at both indices {1} and {2}"),
@@ -164,6 +164,8 @@ public enum LocalizedFormats implements Localizable {
     NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION("spline partition must have at least {0} points, got {1}"),
     NOT_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not increasing ({2} > {3})"),
     NOT_MULTIPLICATION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not multiplication compatible"),
+    NOT_STRICTLY_POSITIVE("{0} is not strictly positive"), /* keep */
+    NOT_POSITIVE("{0} is not positive"), /* keep */
     NOT_POSITIVE_ALPHA("alpha must be positive ({0})"),
     NOT_POSITIVE_BETA("beta must be positive ({0})"),
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
@@ -222,7 +224,7 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
-    OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"),
+    OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),

@@ -16,35 +16,39 @@
  */
 package org.apache.commons.math.exception;
 
-import java.text.MessageFormat;
-import java.util.Locale;
 import org.apache.commons.math.util.Localizable;
 
 /**
- * Class for constructing localized messages.
+ * Base class for exceptions raised by a wrong number.
+ * This class is not intended to be instantiated directly: it should serve
+ * as a base class to create all the exceptions that are raised because some
+ * precondition is violated by a number argument.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MessageFactory {
-    /**
-     * Class contains only static methods.
-     */
-    private MessageFactory() {}
+public class MathIllegalNumberException extends MathIllegalArgumentException {
+    /** Requested. */
+    private final Number argument;
 
     /**
-     * Builds a message string by from a pattern and its arguments.
+     * Construct an exception.
      *
-     * @param locale Locale in which the message should be translated.
-     * @param pattern Format specifier.
-     * @param arguments Format arguments.
-     * @return a message string.
-     * @since 2.2
+     * @param Localizable pattern.
+     * @param arguments Arguments. The first element must be the requested
+     * value that raised the exception.
      */
-    public static String buildMessage(Locale locale,
-                                      Localizable pattern,
-                                      Object ... arguments) {
-        final String locPattern = pattern.getLocalizedString(locale);
-        return (new MessageFormat(locPattern, locale)).format(arguments);
+    protected MathIllegalNumberException(Localizable pattern,
+                                         Number wrong,
+                                         Object ... arguments) {
+        super(pattern, wrong, arguments);
+        argument = wrong;
+    }
+
+    /**
+     * @return the requested value.
+     */
+    public Number getArgument() {
+        return argument;
     }
 }
