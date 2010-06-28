@@ -152,7 +152,7 @@
     <a href="../apidocs/org/apache/commons/math/util/MathUtils.html">MathUtils</a>
     utility class.  MathUtils currently includes methods to compute the following: <ul>
     <li>
-    Binomial coeffiecients -- "n choose k" available as an (exact) long value,  
+    Binomial coefficients -- "n choose k" available as an (exact) long value,  
     <code>binomialCoefficient(int, int)</code> for small n, k; as a double,
     <code>binomialCoefficientDouble(int, int)</code> for larger values; and in
     a "super-sized" version, <code>binomialCoefficientLog(int, int)</code> 
@@ -180,6 +180,13 @@
     </li>
     </ul>
     </p>
+</subsection>
+
+<subsection name="6.7 Miscellaneous" href="math_utils">
+  The <a href="../apidocs/org/apache/commons/math/util/MultidimensionalCounter.html">
+    MultidimensionalCounter</a> is a utility class that converts a set of indices
+  (identifying points in a multidimensional space) to a single index (e.g. identifying
+  a location in a one-dimensional array.
 </subsection>
 
 </section>

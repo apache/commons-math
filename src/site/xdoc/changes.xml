@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-379">
+        Created "MultidimensionalCounter" class.
+      </action>
       <action dev="erans" type="add" issue="MATH-361">
         Created package "exception" to contain the new exceptions hierarchy.
       </action>
