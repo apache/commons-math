@@ -72,11 +72,13 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      */
     private List<Object> flatten(Object[] array) {
         final List<Object> list = new ArrayList<Object>();
-        for (Object o : array) {
-            if (o instanceof Object[]) {
-                list.addAll(flatten((Object[]) o));
-            } else {
-                list.add(o);
+        if (array != null) {
+            for (Object o : array) {
+                if (o instanceof Object[]) {
+                    list.addAll(flatten((Object[]) o));
+                } else {
+                    list.add(o);
+                }
             }
         }
         return list;
