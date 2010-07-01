@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.TrivariateRealFunction;
  * sample points must be specified on a regular grid.
  *
  * @version $Revision$ $Date$
+ * @since 2.2
  */
 public interface TrivariateRealGridInterpolator {
     /**
@@ -37,7 +38,9 @@ public interface TrivariateRealGridInterpolator {
      * in increasing order.
      * @param fval the values of the interpolation points on all the grid knots:
      * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
-     * @return a function which interpolates the data set.
+     * @return a function that interpolates the data set.
+     * @throws NoDataException if any of the arrays has zero length.
+     * @throws DimensionMismatchException if the array lengths are inconsistent.
      * @throws MathException if arguments violate assumptions made by the
      *         interpolation algorithm.
      */

@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
@@ -413,7 +414,7 @@ public final class MathUtils {
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
      * New methods have been added for those cases wher the old semantics is
-     * useful (see e.g. {@link equalsIncludingNaN(double,double)
+     * useful (see e.g. {@link #equalsIncludingNaN(double,double)
      * equalsIncludingNaN}.
      */
     public static boolean equals(double x, double y) {
@@ -525,7 +526,7 @@ public final class MathUtils {
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
      * New methods have been added for those cases wher the old semantics is
-     * useful (see e.g. {@link equalsIncludingNaN(double[],double[])
+     * useful (see e.g. {@link #equalsIncludingNaN(double[],double[])
      * equalsIncludingNaN}.
      */
     public static boolean equals(double[] x, double[] y) {
@@ -1866,46 +1867,87 @@ public final class MathUtils {
         return max;
     }
 
+    public static class Order {
+        public static enum Direction {
+                INCREASING,
+                DECREASING
+        };
+    }
+
+    /**
+     * Checks that the given array is sorted.
+     *
+     * @param val Values.
+     * @param dir Order direction.
+     * @param strict Whether the order should be strict.
+     * @throws NonMonotonousSequenceException if the array is not sorted.
+     */
+    public static void checkOrder(double[] val, Order.Direction dir, boolean strict) {
+        double previous = val[0];
+        boolean ok = true;
+
+        int max = val.length;
+        for (int i = 1; i < max; i++) {
+            switch (dir) {
+            case INCREASING:
+                if (strict) {
+                    if (val[i] <= previous) {
+                        ok = false;
+                    }
+                } else {
+                    if (val[i] < previous) {
+                        ok = false;
+                    }
+                }
+                break;
+            case DECREASING:
+                if (strict) {
+                    if (val[i] >= previous) {
+                        ok = false;
+                    }
+                } else {
+                    if (val[i] > previous) {
+                        ok = false;
+                    }
+                }
+                break;
+            default:
+                // Should never happen.
+                throw new IllegalArgumentException();
+            }
+
+            if (!ok) {
+                throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
+            }
+            previous = val[i];
+        }
+    }
+
+    /**
+     * Checks that the given array is sorted in strictly increasing order.
+     *
+     * @param val Values.
+     * @throws NonMonotonousSequenceException if the array is not sorted.
+     */
+    public static void checkOrder(double[] val) {
+        checkOrder(val, Order.Direction.INCREASING, true);
+    }
+
     /**
      * Checks that the given array is sorted.
      *
      * @param val Values
      * @param dir Order direction (-1 for decreasing, 1 for increasing)
      * @param strict Whether the order should be strict
-     * @throws IllegalArgumentException if the array is not sorted.
+     * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @deprecated as of 2.2 (please use the new {@link #checkOrder(double[],Order.Direction,boolean)
+     * checkOrder} method). To be removed in 3.0.
      */
     public static void checkOrder(double[] val, int dir, boolean strict) {
-        double previous = val[0];
-
-        int max = val.length;
-        for (int i = 1; i < max; i++) {
-            if (dir > 0) {
-                if (strict) {
-                    if (val[i] <= previous) {
-                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS,
-                                                                                  i - 1, i, previous, val[i]);
-                    }
-                } else {
-                    if (val[i] < previous) {
-                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_INCREASING_NUMBER_OF_POINTS,
-                                                                                  i - 1, i, previous, val[i]);
-                    }
-                }
-            } else {
-                if (strict) {
-                    if (val[i] >= previous) {
-                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_STRICTLY_DECREASING_NUMBER_OF_POINTS,
-                                                                                  i - 1, i, previous, val[i]);
-                    }
-                } else {
-                    if (val[i] > previous) {
-                        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_DECREASING_NUMBER_OF_POINTS,
-                                                                                  i - 1, i, previous, val[i]);
-                    }
-                }
-            }
-
-            previous = val[i];
+        if (dir > 0) {
+            checkOrder(val, Order.Direction.INCREASING, strict);
+        } else {
+            checkOrder(val, Order.Direction.DECREASING, strict);
         }
     }
 }

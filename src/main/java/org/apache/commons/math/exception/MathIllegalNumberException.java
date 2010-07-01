@@ -34,7 +34,7 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
     /**
      * Construct an exception.
      *
-     * @param Localizable pattern.
+     * @param pattern Localizable pattern.
      * @param arguments Arguments. The first element must be the requested
      * value that raised the exception.
      */

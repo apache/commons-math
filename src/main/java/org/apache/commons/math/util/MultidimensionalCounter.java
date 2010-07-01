@@ -206,7 +206,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * Convert to multidimensional counter.
      *
      * @param index Index in unidimensional counter.
-     * @returns the multidimensional counts.
+     * @return the multidimensional counts.
      * @throws {@link OutOfRangeException} if {@code index} is not between
      * {@code 0} and the value returned by {@link #getSize()} (excluded).
      */

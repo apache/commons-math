@@ -46,8 +46,8 @@ public class BicubicSplineInterpolator
             throw new DimensionMismatchException(xval.length, fval.length);
         }
 
-        MathUtils.checkOrder(xval, 1, true);
-        MathUtils.checkOrder(yval, 1, true);
+        MathUtils.checkOrder(xval);
+        MathUtils.checkOrder(yval);
 
         final int xLen = xval.length;
         final int yLen = yval.length;

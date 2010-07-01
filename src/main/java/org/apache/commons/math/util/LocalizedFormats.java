@@ -160,9 +160,11 @@ public enum LocalizedFormats implements Localizable {
     NORMALIZE_NAN("Cannot normalize to NaN"),
     NOT_ADDITION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not addition compatible"),
     NOT_DECREASING_NUMBER_OF_POINTS("points {0} and {1} are not decreasing ({2} < {3})"),
+    NOT_DECREASING_SEQUENCE("points {3} and {2} are not decreasing ({1} < {0})"), /* keep */
     NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS("not enough data ({0} rows) for this many predictors ({1} predictors)"),
     NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION("spline partition must have at least {0} points, got {1}"),
     NOT_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not increasing ({2} > {3})"),
+    NOT_INCREASING_SEQUENCE("points {3} and {2} are not increasing ({1} > {0})"), /* keep */
     NOT_MULTIPLICATION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not multiplication compatible"),
     NOT_STRICTLY_POSITIVE("{0} is not strictly positive"), /* keep */
     NOT_POSITIVE("{0} is not positive"), /* keep */
@@ -190,13 +192,15 @@ public enum LocalizedFormats implements Localizable {
     NOT_POWER_OF_TWO_CONSIDER_PADDING("{0} is not a power of 2, consider padding for fix"),
     NOT_POWER_OF_TWO_PLUS_ONE("{0} is not a power of 2 plus one"),
     NOT_STRICTLY_DECREASING_NUMBER_OF_POINTS("points {0} and {1} are not strictly decreasing ({2} <= {3})"),
+    NOT_STRICTLY_DECREASING_SEQUENCE("points {3} and {2} are not strictly decreasing ({1} <= {0})"), /* keep */
     NOT_STRICTLY_INCREASING_KNOT_VALUES("knot values must be strictly increasing"),
     NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not strictly increasing ({2} >= {3})"),
+    NOT_STRICTLY_INCREASING_SEQUENCE("points {3} and {2} are not strictly increasing ({1} >= {0})"), /* keep */
     NOT_SUBTRACTION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not subtraction compatible"),
     NOT_SYMMETRIC_MATRIX("not symmetric matrix"),
     NO_BIN_SELECTED("no bin selected"),
     NO_CONVERGENCE_WITH_ANY_START_POINT("none of the {0} start points lead to convergence"),
-    NO_DATA("no data"),
+    NO_DATA("no data"), /* keep */
     NO_DEGREES_OF_FREEDOM("no degrees of freedom ({0} measurements, {1} parameters)"),
     NO_DENSITY_FOR_THIS_DISTRIBUTION("This distribution does not have a density function implemented"),
     NO_FEASIBLE_SOLUTION("no feasible solution"),

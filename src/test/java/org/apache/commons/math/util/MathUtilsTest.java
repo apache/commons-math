@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
 
 /**
  * Test cases for the MathUtils class.
@@ -1469,33 +1470,41 @@ public final class MathUtilsTest extends TestCase {
     }
 
     public void testCheckOrder() {
-        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 15}, 1, true);
-        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 2}, 1, false);
-        MathUtils.checkOrder(new double[] {3, -5.5, -11, -27.5}, -1, true);
-        MathUtils.checkOrder(new double[] {3, 0, 0, -5.5, -11, -27.5}, -1, false);
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 15},
+                             MathUtils.Order.Direction.INCREASING, true);
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 2},
+                             MathUtils.Order.Direction.INCREASING, false);
+        MathUtils.checkOrder(new double[] {3, -5.5, -11, -27.5},
+                             MathUtils.Order.Direction.DECREASING, true);
+        MathUtils.checkOrder(new double[] {3, 0, 0, -5.5, -11, -27.5},
+                             MathUtils.Order.Direction.DECREASING, false);
 
         try {
-            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15}, 1, true);
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15},
+                                 MathUtils.Order.Direction.INCREASING, true);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
-            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2}, 1, false);
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2},
+                                 MathUtils.Order.Direction.INCREASING, false);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
-            MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5}, -1, true);
+            MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5},
+                                 MathUtils.Order.Direction.DECREASING, true);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
-            MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5}, -1, false);
+            MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5},
+                                 MathUtils.Order.Direction.DECREASING, false);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (NonMonotonousSequenceException e) {
             // Expected
         }
     }

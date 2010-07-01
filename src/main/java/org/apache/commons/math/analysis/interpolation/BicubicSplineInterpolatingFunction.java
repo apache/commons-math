@@ -114,8 +114,8 @@ public class BicubicSplineInterpolatingFunction
             throw new DimensionMismatchException(xLen, d2FdXdY.length);
         }
 
-        MathUtils.checkOrder(x, 1, true);
-        MathUtils.checkOrder(y, 1, true);
+        MathUtils.checkOrder(x);
+        MathUtils.checkOrder(y);
 
         xval = x.clone();
         yval = y.clone();
