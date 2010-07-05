@@ -166,8 +166,6 @@ public enum LocalizedFormats implements Localizable {
     NOT_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not increasing ({2} > {3})"),
     NOT_INCREASING_SEQUENCE("points {3} and {2} are not increasing ({1} > {0})"), /* keep */
     NOT_MULTIPLICATION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not multiplication compatible"),
-    NOT_STRICTLY_POSITIVE("{0} is not strictly positive"), /* keep */
-    NOT_POSITIVE("{0} is not positive"), /* keep */
     NOT_POSITIVE_ALPHA("alpha must be positive ({0})"),
     NOT_POSITIVE_BETA("beta must be positive ({0})"),
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
@@ -219,6 +217,10 @@ public enum LocalizedFormats implements Localizable {
     NULL_OBJECT_TRANSFORMATION("Conversion Exception in Transformation, Object is null"),
     NULL_REAL_FORMAT("null real format"),
     NULL_WHOLE_FORMAT("whole format can not be null"),
+    NUMBER_TOO_LARGE("{0} is larger than the maximum ({1})"), /* keep */
+    NUMBER_TOO_SMALL("{0} is smaller than the minimum ({1})"), /* keep */
+    NUMBER_TOO_LARGE_BOUND_EXCLUDED("{0} is larger than, or equal to, the maximum ({1})"), /* keep */
+    NUMBER_TOO_SMALL_BOUND_EXCLUDED("{0} is smaller than, or equal to, the minimum ({1})"), /* keep */
     NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE("number of successes ({0}) must be less than or equal to population size ({1})"),
     NUMERATOR_OVERFLOW_AFTER_MULTIPLY("overflow, numerator too large after multiply: {0}"),
     N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED("{0} points Legendre-Gauss integrator not supported, number of points must be in the {1}-{2} range"),

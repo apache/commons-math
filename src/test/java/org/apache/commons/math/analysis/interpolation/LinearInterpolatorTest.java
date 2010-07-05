@@ -17,6 +17,9 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
@@ -109,7 +112,7 @@ public class LinearInterpolatorTest {
             double yval[] = { 0.0, 1.0, 2.0 };
             i.interpolate(xval, yval);
             Assert.fail("Failed to detect data set array with different sizes.");
-        } catch (IllegalArgumentException iae) {
+        } catch (DimensionMismatchException iae) {
             // Expected.
         }
         // X values not sorted.
@@ -118,7 +121,16 @@ public class LinearInterpolatorTest {
             double yval[] = { 0.0, 1.0, 2.0 };
             i.interpolate(xval, yval);
             Assert.fail("Failed to detect unsorted arguments.");
-        } catch (IllegalArgumentException iae) {
+        } catch (NonMonotonousSequenceException iae) {
+            // Expected.
+        }
+        // Not enough data to interpolate.
+        try {
+            double xval[] = { 0.0 };
+            double yval[] = { 0.0 };
+            i.interpolate(xval, yval);
+            Assert.fail("Failed to detect unsorted arguments.");
+        } catch (NumberIsTooSmallException iae) {
             // Expected.
         }
     }

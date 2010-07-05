@@ -17,7 +17,8 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math.util.LocalizedFormats;
@@ -25,7 +26,7 @@ import org.apache.commons.math.util.LocalizedFormats;
 /**
  * Interpolator that implements the algorithm described in
  * <em>William Dudziak</em>'s
- * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>
+ * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
  * @since 2.1
  *
  * @version $Revision$ $Date$
@@ -59,18 +60,17 @@ public class MicrosphereInterpolator
      * #MicrosphereInterpolator(int, int)
      * MicrosphereInterpolator(MicrosphereInterpolator.DEFAULT_MICROSPHERE_ELEMENTS,
      * MicrosphereInterpolator.DEFAULT_BRIGHTNESS_EXPONENT)}.</p>
-     * weights of the sample data
      */
     public MicrosphereInterpolator() {
         this(DEFAULT_MICROSPHERE_ELEMENTS, DEFAULT_BRIGHTNESS_EXPONENT);
     }
 
     /** Create a microsphere interpolator.
-     * @param microsphereElements number of surface elements of the microsphere
+     * @param microsphereElements number of surface elements of the microsphere.
      * @param brightnessExponent exponent used in the power law that computes the
-     * weights of the sample data
-     * @throws IllegalArgumentException if {@code microsphereElements <= 0}
-     * or {@code brightnessExponent < 0}
+     * weights of the sample data.
+     * @throws NotPositiveException if {@code microsphereElements <= 0}
+     * or {@code brightnessExponent < 0}.
      */
     public MicrosphereInterpolator(final int microsphereElements,
                                    final int brightnessExponent) {
@@ -94,31 +94,26 @@ public class MicrosphereInterpolator
 
     /**
      * Set the brightness exponent.
-     * @param brightnessExponent Exponent for computing the distance dimming
+     * @param exponent Exponent for computing the distance dimming
      * factor.
-     * @throws IllegalArgumentException if {@code brightnessExponent < 0}.
+     * @throws NotPositiveException if {@code exponent < 0}.
      */
-    public void setBrightnessExponent(final int brightnessExponent) {
-        if (brightnessExponent < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.NEGATIVE_BRIGHTNESS_EXPONENT,
-                brightnessExponent);
+    public void setBrightnessExponent(final int exponent) {
+        if (exponent < 0) {
+            throw new NotPositiveException(exponent);
         }
-        this.brightnessExponent = brightnessExponent;
+        brightnessExponent = exponent;
     }
 
     /**
      * Set the number of microsphere elements.
      * @param elements Number of surface elements of the microsphere.
-     * @throws IllegalArgumentException if {@code microsphereElements <= 0}.
+     * @throws NotStrictlyPositiveException if {@code elements <= 0}.
      */
     public void setMicropshereElements(final int elements) {
-        if (microsphereElements < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.NON_POSITIVE_MICROSPHERE_ELEMENTS,
-                microsphereElements);
+        if (elements <= 0) {
+            throw new NotStrictlyPositiveException(elements);
         }
-        this.microsphereElements = elements;
+        microsphereElements = elements;
     }
-
 }

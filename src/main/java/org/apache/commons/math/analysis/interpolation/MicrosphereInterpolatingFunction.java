@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math.DimensionMismatchException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
@@ -142,7 +142,7 @@ public class MicrosphereInterpolatingFunction
      * {@code xval} (equal to {@code n}, the number of interpolation points)
      * do not match, or the the arrays {@code xval[0]} ... {@code xval[n]},
      * have lengths different from {@code dimension}.
-     * @throws IllegalArgumentException if there are no data (xval null or zero length)
+     * @throws NoDataException if there are no data (xval null or zero length)
      */
     public MicrosphereInterpolatingFunction(double[][] xval,
                                             double[] yval,
@@ -151,7 +151,7 @@ public class MicrosphereInterpolatingFunction
                                             UnitSphereRandomVectorGenerator rand)
         throws DimensionMismatchException, IllegalArgumentException {
         if (xval.length == 0 || xval[0] == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NO_DATA);
+            throw new NoDataException();
         }
 
         if (xval.length != yval.length) {

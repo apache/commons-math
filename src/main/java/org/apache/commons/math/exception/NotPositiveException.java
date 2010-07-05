@@ -24,13 +24,13 @@ import org.apache.commons.math.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class NotPositiveException extends MathIllegalNumberException {
+public class NotPositiveException extends NumberIsTooSmallException {
     /**
      * Construct the exception.
      *
      * @param value Argument.
      */
     public NotPositiveException(Number value) {
-        super(LocalizedFormats.NOT_POSITIVE, value);
+        super(value, 0, true);
     }
 }

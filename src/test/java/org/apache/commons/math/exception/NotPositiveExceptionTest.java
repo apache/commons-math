@@ -29,5 +29,7 @@ public class NotPositiveExceptionTest {
     public void testAccessors() {
         final NotPositiveException e = new NotPositiveException(-1);
         Assert.assertEquals(-1, e.getArgument());
+        Assert.assertEquals(0, e.getMin());
+        Assert.assertTrue(e.getBoundIsAllowed());
     }
 }

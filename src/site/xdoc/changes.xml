@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-382">
+        Fixed bug in precondition check (method "setMicrosphereElements").
+      </action>
       <action dev="erans" type="add" issue="MATH-379">
         Created "MultidimensionalCounter" class.
       </action>

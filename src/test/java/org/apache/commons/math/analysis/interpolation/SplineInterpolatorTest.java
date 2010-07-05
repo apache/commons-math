@@ -16,20 +16,23 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test the SplineInterpolator.
  *
  * @version $Revision$ $Date$
  */
-public class SplineInterpolatorTest extends TestCase {
+public class SplineInterpolatorTest {
 
     /** error tolerance for spline interpolator value at knot points */
     protected double knotTolerance = 1E-12;
@@ -40,10 +43,7 @@ public class SplineInterpolatorTest extends TestCase {
     /** error tolerance for interpolated values -- high value is from sin test */
     protected double interpolationTolerance = 1E-2;
 
-    public SplineInterpolatorTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testInterpolateLinearDegenerateTwoSegment()
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
@@ -61,11 +61,12 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
 
         // Check interpolation
-        assertEquals(0.0,f.value(0.0), interpolationTolerance);
-        assertEquals(0.4,f.value(0.4), interpolationTolerance);
-        assertEquals(1.0,f.value(1.0), interpolationTolerance);
+        Assert.assertEquals(0.0,f.value(0.0), interpolationTolerance);
+        Assert.assertEquals(0.4,f.value(0.4), interpolationTolerance);
+        Assert.assertEquals(1.0,f.value(1.0), interpolationTolerance);
     }
 
+    @Test
     public void testInterpolateLinearDegenerateThreeSegment()
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
@@ -84,11 +85,12 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[2].getCoefficients(), target, coefficientTolerance);
 
         // Check interpolation
-        assertEquals(0,f.value(0), interpolationTolerance);
-        assertEquals(1.4,f.value(1.4), interpolationTolerance);
-        assertEquals(1.5,f.value(1.5), interpolationTolerance);
+        Assert.assertEquals(0,f.value(0), interpolationTolerance);
+        Assert.assertEquals(1.4,f.value(1.4), interpolationTolerance);
+        Assert.assertEquals(1.5,f.value(1.5), interpolationTolerance);
     }
 
+    @Test
     public void testInterpolateLinear() throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 0.0 };
@@ -105,6 +107,7 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
     }
 
+    @Test
     public void testInterpolateSin() throws Exception {
         double x[] =
             {
@@ -151,11 +154,11 @@ public class SplineInterpolatorTest extends TestCase {
         TestUtils.assertEquals(polynomials[7].getCoefficients(), target, coefficientTolerance);
 
         //Check interpolation
-        assertEquals(Math.sqrt(2d) / 2d,f.value(Math.PI/4d),interpolationTolerance);
-        assertEquals(Math.sqrt(2d) / 2d,f.value(3d*Math.PI/4d),interpolationTolerance);
+        Assert.assertEquals(Math.sqrt(2d) / 2d,f.value(Math.PI/4d),interpolationTolerance);
+        Assert.assertEquals(Math.sqrt(2d) / 2d,f.value(3d*Math.PI/4d),interpolationTolerance);
     }
 
-
+    @Test
     public void testIllegalArguments() throws MathException {
         // Data set arrays of different size.
         UnivariateRealInterpolator i = new SplineInterpolator();
@@ -163,16 +166,27 @@ public class SplineInterpolatorTest extends TestCase {
             double xval[] = { 0.0, 1.0 };
             double yval[] = { 0.0, 1.0, 2.0 };
             i.interpolate(xval, yval);
-            fail("Failed to detect data set array with different sizes.");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Failed to detect data set array with different sizes.");
+        } catch (DimensionMismatchException iae) {
+            // Expected.
         }
         // X values not sorted.
         try {
             double xval[] = { 0.0, 1.0, 0.5 };
             double yval[] = { 0.0, 1.0, 2.0 };
             i.interpolate(xval, yval);
-            fail("Failed to detect unsorted arguments.");
-        } catch (IllegalArgumentException iae) {
+            Assert.fail("Failed to detect unsorted arguments.");
+        } catch (NonMonotonousSequenceException iae) {
+            // Expected.
+        }
+        // Not enough data to interpolate.
+        try {
+            double xval[] = { 0.0, 1.0 };
+            double yval[] = { 0.0, 1.0 };
+            i.interpolate(xval, yval);
+            Assert.fail("Failed to detect unsorted arguments.");
+        } catch (NumberIsTooSmallException iae) {
+            // Expected.
         }
     }
 
@@ -182,7 +196,7 @@ public class SplineInterpolatorTest extends TestCase {
     protected void verifyInterpolation(UnivariateRealFunction f, double x[], double y[])
         throws Exception{
         for (int i = 0; i < x.length; i++) {
-            assertEquals(f.value(x[i]), y[i], knotTolerance);
+            Assert.assertEquals(f.value(x[i]), y[i], knotTolerance);
         }
     }
 
@@ -195,11 +209,11 @@ public class SplineInterpolatorTest extends TestCase {
         PolynomialFunction polynomials[] = f.getPolynomials();
         for (int i = 1; i < x.length - 2; i++) {
             // evaluate polynomials and derivatives at x[i + 1]
-            assertEquals(polynomials[i].value(x[i +1] - x[i]), polynomials[i + 1].value(0), 0.1);
-            assertEquals(polynomials[i].derivative().value(x[i +1] - x[i]),
-                    polynomials[i + 1].derivative().value(0), 0.5);
-            assertEquals(polynomials[i].polynomialDerivative().derivative().value(x[i +1] - x[i]),
-                    polynomials[i + 1].polynomialDerivative().derivative().value(0), 0.5);
+            Assert.assertEquals(polynomials[i].value(x[i +1] - x[i]), polynomials[i + 1].value(0), 0.1);
+            Assert.assertEquals(polynomials[i].derivative().value(x[i +1] - x[i]),
+                                polynomials[i + 1].derivative().value(0), 0.5);
+            Assert.assertEquals(polynomials[i].polynomialDerivative().derivative().value(x[i +1] - x[i]),
+                                polynomials[i + 1].polynomialDerivative().derivative().value(0), 0.5);
         }
     }
 

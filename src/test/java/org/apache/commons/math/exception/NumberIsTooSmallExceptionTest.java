@@ -16,21 +16,20 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.LocalizedFormats;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Exception to be thrown when the argument is negative.
- *
- * @since 2.2
- * @version $Revision$ $Date$
+ * Test for {@link NumberIsTooSmallException}.
+ * 
+ * @version $Revision$ $Date$ 
  */
-public class NotStrictlyPositiveException extends NumberIsTooSmallException {
-    /**
-     * Construct the exception.
-     *
-     * @param value Argument.
-     */
-    public NotStrictlyPositiveException(Number value) {
-        super(value, 0, false);
+public class NumberIsTooSmallExceptionTest {
+    @Test
+    public void testAccessors() {
+        final NumberIsTooSmallException e = new NumberIsTooSmallException(0, 0, false);
+        Assert.assertEquals(0, e.getArgument());
+        Assert.assertEquals(0, e.getMin());
+        Assert.assertFalse(e.getBoundIsAllowed());
     }
 }
