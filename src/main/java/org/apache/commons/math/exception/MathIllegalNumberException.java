@@ -34,14 +34,30 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
     /**
      * Construct an exception.
      *
-     * @param pattern Localizable pattern.
+     * @param specific Localizable pattern.
+     * @param general Localizable pattern.
      * @param arguments Arguments. The first element must be the requested
      * value that raised the exception.
      */
-    protected MathIllegalNumberException(Localizable pattern,
+    protected MathIllegalNumberException(Localizable specific,
+                                         Localizable general,
                                          Number wrong,
                                          Object ... arguments) {
-        super(pattern, wrong, arguments);
+        super(specific, general, wrong, arguments);
+        argument = wrong;
+    }
+
+    /**
+     * Construct an exception.
+     *
+     * @param general Localizable pattern.
+     * @param arguments Arguments. The first element must be the requested
+     * value that raised the exception.
+     */
+    protected MathIllegalNumberException(Localizable general,
+                                         Number wrong,
+                                         Object ... arguments) {
+        super(general, wrong, arguments);
         argument = wrong;
     }
 

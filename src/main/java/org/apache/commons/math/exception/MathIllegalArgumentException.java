@@ -33,34 +33,66 @@ import org.apache.commons.math.util.Localizable;
  */
 public class MathIllegalArgumentException extends IllegalArgumentException {
     /**
-     * Pattern used to build the message.
+     * Pattern used to build the message (specific context).
      */
-    private final Localizable pattern;
+    private final Localizable specific;
+    /**
+     * Pattern used to build the message (general problem description).
+     */
+    private final Localizable general;
     /**
      * Arguments used to build the message.
      */
     private final Object[] arguments;
     
     /**
-     * @param pattern Message pattern.
+     * @param specific Message pattern providing the specific context of
+     * the error.
+     * @param general Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    protected MathIllegalArgumentException(Localizable pattern,
+    protected MathIllegalArgumentException(Localizable specific,
+                                           Localizable general,
                                            Object ... args) {
-        this.pattern = pattern;
+        this.specific = specific;
+        this.general = general;
         arguments = flatten(args).toArray();
+    }
+    /**
+     * @param general Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    protected MathIllegalArgumentException(Localizable general,
+                                           Object ... args) {
+        this(null, general, args);
     }
 
     /** {@inheritDoc} */
     @Override
     public String getMessage() {
-        return MessageFactory.buildMessage(Locale.US, pattern, arguments);
+        final StringBuilder sb = new StringBuilder();
+
+        if (specific != null) {
+            sb.append(MessageFactory.buildMessage(Locale.US, specific, arguments));
+            sb.append(": ");
+        }
+        sb.append(MessageFactory.buildMessage(Locale.US, general, arguments));
+
+        return sb.toString();
     }
     
     /** {@inheritDoc} */
     @Override
     public String getLocalizedMessage() {
-        return MessageFactory.buildMessage(Locale.getDefault(), pattern, arguments);
+        final StringBuilder sb = new StringBuilder();
+
+        if (specific != null) {
+            sb.append(MessageFactory.buildMessage(Locale.getDefault(), specific, arguments));
+            sb.append(": ");
+        }
+        sb.append(MessageFactory.buildMessage(Locale.getDefault(), general, arguments));
+
+        return sb.toString();
     }
 
     /**

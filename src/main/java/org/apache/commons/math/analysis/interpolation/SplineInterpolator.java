@@ -21,6 +21,7 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Computes a natural (also known as "free", "unclamped") cubic spline interpolation for the data set.
@@ -69,7 +70,8 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
         }
 
         if (x.length < 3) {
-            throw new NumberIsTooSmallException(x.length, 3, true);
+            throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS,
+                                                x.length, 3, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.

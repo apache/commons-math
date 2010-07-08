@@ -21,6 +21,7 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.
@@ -44,7 +45,8 @@ public class LinearInterpolator implements UnivariateRealInterpolator {
         }
 
         if (x.length < 2) {
-            throw new NumberIsTooSmallException(x.length, 2, true);
+            throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS,
+                                                x.length, 2, true);
         }
 
         // Number of intervals.  The number of data points is n + 1.
@@ -68,5 +70,4 @@ public class LinearInterpolator implements UnivariateRealInterpolator {
 
         return new PolynomialSplineFunction(x, polynomials);
     }
-
 }
