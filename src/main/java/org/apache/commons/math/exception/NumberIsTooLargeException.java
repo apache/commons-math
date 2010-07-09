@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.exception;
 
+import org.apache.commons.math.util.Localizable;
 import org.apache.commons.math.util.LocalizedFormats;
 
 /**
@@ -43,7 +44,21 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
     public NumberIsTooLargeException(Number wrong,
                                      Number max,
                                      boolean boundIsAllowed) {
-        super((boundIsAllowed ?
+        this(null, wrong, max, boundIsAllowed);
+    }
+    /**
+     * Construct the exception with a specific context.
+     *
+     * @param specific Specific contexte pattern .
+     * @param wrong Value that is larger than the maximum.
+     * @param max maximum.
+     */
+    public NumberIsTooLargeException(Localizable specific,
+                                     Number wrong,
+                                     Number max,
+                                     boolean boundIsAllowed) {
+        super(specific,
+              (boundIsAllowed ?
                LocalizedFormats.NUMBER_TOO_LARGE :
                LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED),
               wrong, max);

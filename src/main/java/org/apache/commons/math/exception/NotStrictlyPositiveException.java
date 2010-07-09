@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.util.Localizable;
 
 /**
  * Exception to be thrown when the argument is negative.
@@ -32,5 +32,15 @@ public class NotStrictlyPositiveException extends NumberIsTooSmallException {
      */
     public NotStrictlyPositiveException(Number value) {
         super(value, 0, false);
+    }
+    /**
+     * Construct the exception with a specific context.
+     *
+     * @param specific Specific context where the error occurred.
+     * @param value Argument.
+     */
+    public NotStrictlyPositiveException(Localizable specific,
+                                        Number value) {
+        super(specific, value, 0, false);
     }
 }

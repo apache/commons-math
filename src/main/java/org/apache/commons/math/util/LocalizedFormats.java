@@ -84,7 +84,7 @@ public enum LocalizedFormats implements Localizable {
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
     DUPLICATED_ABSCISSA("Abscissa {0} is duplicated at both indices {1} and {2}"),
-    EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY("empty polynomials coefficients array"),
+    EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY("empty polynomials coefficients array"), /* keep */
     EMPTY_SELECTED_COLUMN_INDEX_ARRAY("empty selected column index array"),
     EMPTY_SELECTED_ROW_INDEX_ARRAY("empty selected row index array"),
     EMPTY_STRING_FOR_IMAGINARY_CHARACTER("empty string for imaginary character"),
@@ -131,7 +131,7 @@ public enum LocalizedFormats implements Localizable {
     LCM_OVERFLOW_32_BITS("overflow: lcm({0}, {1}) is 2^31"),
     LCM_OVERFLOW_64_BITS("overflow: lcm({0}, {1}) is 2^63"),
     LOESS_EXPECTS_AT_LEAST_ONE_POINT("Loess expects at least 1 point"),
-    LOWER_BOUND_NOT_BELOW_UPPER_BOUND("upper bound ({0}) must be greater than lower bound ({1})"),
+    LOWER_BOUND_NOT_BELOW_UPPER_BOUND("lower bound ({0}) must be strictly less than upper bound ({1})"), /* keep */
     LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT("lower endpoint ({0}) must be less than or equal to upper endpoint ({1})"),
     MAP_MODIFIED_WHILE_ITERATING("map has been modified while iterating"),
     MAX_EVALUATIONS_EXCEEDED("maximal number of evaluations ({0}) exceeded"),
@@ -174,9 +174,13 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
     NOT_POSITIVE_EXPONENT("invalid exponent {0} (must be positive)"),
     NOT_POSITIVE_LENGTH("length must be positive ({0})"),
+    LENGTH("length ({0})"), /* keep */
     NOT_POSITIVE_MEAN("mean must be positive ({0})"),
+    MEAN("mean ({0})"), /* keep */
     NOT_POSITIVE_NUMBER_OF_SAMPLES("number of sample is not positive: {0}"),
+    NUMBER_OF_SAMPLES("number of samples ({0})"), /* keep */
     NOT_POSITIVE_PERMUTATION("permutation k ({0}) must be positive"),
+    PERMUTATION_SIZE("permutation size ({0}"), /* keep */
     NOT_POSITIVE_POISSON_MEAN("the Poisson mean must be positive ({0})"),
     NOT_POSITIVE_POPULATION_SIZE("population size must be positive ({0})"),
     NOT_POSITIVE_ROW_DIMENSION("invalid row dimension: {0} (must be positive)"),
@@ -184,6 +188,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_SCALE("scale must be positive ({0})"),
     NOT_POSITIVE_SHAPE("shape must be positive ({0})"),
     NOT_POSITIVE_STANDARD_DEVIATION("standard deviation must be positive ({0})"),
+    STANDARD_DEVIATION("standard deviation ({0})"), /* keep */
     NOT_POSITIVE_UPPER_BOUND("upper bound must be positive ({0})"),
     NOT_POSITIVE_WINDOW_SIZE("window size must be positive ({0})"),
     NOT_POWER_OF_TWO("{0} is not a power of 2"),
@@ -234,7 +239,7 @@ public enum LocalizedFormats implements Localizable {
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),
-    PERMUTATION_EXCEEDS_N("permutation k ({0}) exceeds n ({1})"),
+    PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permuation domain ({1})"), /* keep */
     POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS("number of polynomial interpolants must match the number of segments ({0} != {1} - 1)"),
     POSITION_SIZE_MISMATCH_INPUT_ARRAY("position {0} and size {1} don't fit to the size of the input array {2}"),
     POWER_NEGATIVE_PARAMETERS("cannot raise an integral value to a negative power ({0}^{1})"),
@@ -244,7 +249,7 @@ public enum LocalizedFormats implements Localizable {
     ROTATION_MATRIX_DIMENSIONS("a {0}x{1} matrix cannot be a rotation matrix"),
     ROW_INDEX_OUT_OF_RANGE("row index {0} out of allowed range [{1}, {2}]"),
     SAME_SIGN_AT_ENDPOINTS("function values at endpoints do not have different signs, endpoints: [{0}, {1}], values: [{2}, {3}]"),
-    SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE("sample size ({0}) exceeds collection size ({1})"),
+    SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE("sample size ({0}) exceeds collection size ({1})"), /* keep */
     SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE("sample size ({0}) must be less than or equal to population size ({1})"),
     SIMPLEX_NEED_ONE_POINT("simplex must contain at least one point"),
     SIMPLE_MESSAGE("{0}"),

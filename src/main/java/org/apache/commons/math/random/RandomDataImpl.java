@@ -26,6 +26,8 @@ import java.util.Collection;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.distribution.BetaDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
@@ -145,11 +147,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param len
      *            the desired string length.
      * @return the random string.
+     * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
     public String nextHexString(int len) {
         if (len <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_LENGTH, len);
+            throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
 
         // Get a random number generator
@@ -191,12 +193,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param upper
      *            the upper bound.
      * @return the random integer.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public int nextInt(int lower, int upper) {
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                    upper, lower);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
         double r = getRan().nextDouble();
         return (int) ((r * upper) + ((1.0 - r) * lower) + r);
@@ -211,12 +213,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param upper
      *            the upper bound.
      * @return the random integer.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                  upper, lower);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
         double r = getRan().nextDouble();
         return (long) ((r * upper) + ((1.0 - r) * lower) + r);
@@ -241,11 +243,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param len
      *            the length of the generated string
      * @return the random string
+     * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
     public String nextSecureHexString(int len) {
         if (len <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_LENGTH, len);
+            throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
 
         // Get SecureRandom and setup Digest provider
@@ -302,12 +304,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param upper
      *            the upper bound.
      * @return the random integer.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public int nextSecureInt(int lower, int upper) {
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                  upper, lower);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
         SecureRandom sec = getSecRan();
         return lower + (int) (sec.nextDouble() * (upper - lower + 1));
@@ -323,12 +325,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param upper
      *            the upper bound.
      * @return the random integer.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public long nextSecureLong(long lower, long upper) {
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                  upper, lower);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
         SecureRandom sec = getSecRan();
         return lower + (long) (sec.nextDouble() * (upper - lower + 1));
@@ -349,11 +351,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param mean mean of the Poisson distribution.
      * @return the random Poisson value.
+     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public long nextPoisson(double mean) {
         if (mean <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_POISSON_MEAN, mean);
+            throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
 
         final RandomGenerator generator = getRan();
@@ -453,11 +455,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param sigma
      *            the standard deviation of the distribution
      * @return the random Normal value
+     * @throws NotStrictlyPositiveException if {@code sigma <= 0}.
      */
     public double nextGaussian(double mu, double sigma) {
         if (sigma <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION, sigma);
+            throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sigma);
         }
         return sigma * getRan().nextGaussian() + mu;
     }
@@ -474,11 +476,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param mean the mean of the distribution
      * @return the random Exponential value
+     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
     public double nextExponential(double mean) {
         if (mean <= 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_MEAN, mean);
+            throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
         final RandomGenerator generator = getRan();
         double unif = generator.nextDouble();
@@ -503,12 +505,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      *            the upper bound.
      * @return a uniformly distributed random value from the interval (lower,
      *         upper)
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public double nextUniform(double lower, double upper) {
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                  upper, lower);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
         final RandomGenerator generator = getRan();
 
@@ -827,15 +829,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param k
      *            size of the permutation (must satisfy 0 < k <= n).
      * @return the random permutation as an int array
+     * @throws NumberIsTooLargException if {@code k > n}.
+     * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.PERMUTATION_EXCEEDS_N, k, n);
+            throw new NumberIsTooLargeException(LocalizedFormats.PERMUTATION_EXCEEDS_N,
+                                                k, n, true);
         }
         if (k == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_PERMUTATION, k);
+            throw new NotStrictlyPositiveException(LocalizedFormats.PERMUTATION_SIZE,
+                                                   k);
         }
 
         int[] index = getNatural(n);
@@ -863,16 +867,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param k
      *            sample size.
      * @return the random sample.
+     * @throws NumberIsTooLargeException if {@code k > c.size()}.
+     * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public Object[] nextSample(Collection<?> c, int k) {
         int len = c.size();
         if (k > len) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE);
+            throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE,
+                                                k, len, true);
         }
         if (k <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, k);
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, k);
         }
 
         Object[] objects = c.toArray();

@@ -19,8 +19,7 @@ package org.apache.commons.math.random;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated
@@ -55,9 +54,7 @@ public class UncorrelatedRandomVectorGenerator
                                            double[] standardDeviation,
                                            NormalizedRandomGenerator generator) {
     if (mean.length != standardDeviation.length) {
-      throw MathRuntimeException.createIllegalArgumentException(
-            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-            mean.length, standardDeviation.length);
+        throw new DimensionMismatchException(mean.length, standardDeviation.length);
     }
     this.mean              = mean.clone();
     this.standardDeviation = standardDeviation.clone();

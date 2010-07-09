@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.LocalizedFormats;
@@ -58,12 +58,13 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      *
      * @param c polynomial coefficients
      * @throws NullPointerException if c is null
-     * @throws IllegalArgumentException if c is empty
+     * @throws NotStrictlyPositiveException if c is empty
      */
     public PolynomialFunction(double c[]) {
         super();
         if (c.length < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw new NotStrictlyPositiveException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY,
+                                                   c.length);
         }
         int l = c.length;
         while ((l > 1) && (c[l - 1] == 0)) {
@@ -117,13 +118,14 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @param coefficients  the coefficients of the polynomial to evaluate
      * @param argument  the input value
      * @return  the value of the polynomial
-     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NotStrictlyPositiveException if coefficients is empty
      * @throws NullPointerException if coefficients is null
      */
     protected static double evaluate(double[] coefficients, double argument) {
         int n = coefficients.length;
         if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw new NotStrictlyPositiveException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY,
+                                                   n);
         }
         double result = coefficients[n - 1];
         for (int j = n -2; j >=0; j--) {
@@ -226,13 +228,14 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      *
      * @param coefficients  the coefficients of the polynomial to differentiate
      * @return the coefficients of the derivative or null if coefficients has length 1.
-     * @throws IllegalArgumentException if coefficients is empty
+     * @throws NotStrictlyPositiveException if coefficients is empty
      * @throws NullPointerException if coefficients is null
      */
     protected static double[] differentiate(double[] coefficients) {
         int n = coefficients.length;
         if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+            throw new NotStrictlyPositiveException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY,
+                                                   n);
         }
         if (n == 1) {
             return new double[]{0};
