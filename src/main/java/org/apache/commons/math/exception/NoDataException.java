@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.exception;
 
+import org.apache.commons.math.util.Localizable;
 import org.apache.commons.math.util.LocalizedFormats;
 
 /**
@@ -29,6 +30,14 @@ public class NoDataException extends MathIllegalArgumentException {
      * Construct the exception.
      */
     public NoDataException() {
-        super(LocalizedFormats.NO_DATA, null);
+        this(null);
+    }
+    /**
+     * Construct the exception with a specific context.
+     *
+     * @param specific Contextual information on what caused the exception.
+     */
+    public NoDataException(Localizable specific) {
+        super(specific, LocalizedFormats.NO_DATA, null);
     }
 }
