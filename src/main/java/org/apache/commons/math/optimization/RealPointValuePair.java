@@ -29,7 +29,6 @@ import java.io.Serializable;
  * @since 2.0
  */
 public class RealPointValuePair implements Serializable {
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1003888396256744753L;
 
@@ -45,7 +44,7 @@ public class RealPointValuePair implements Serializable {
      * @param value value of an objective function at the point
      */
     public RealPointValuePair(final double[] point, final double value) {
-        this.point = point.clone();
+        this.point = (point == null ? null : point.clone());
         this.value  = value;
     }
 
@@ -57,8 +56,10 @@ public class RealPointValuePair implements Serializable {
      * it will be referenced
      */
     public RealPointValuePair(final double[] point, final double value,
-                                final boolean copyArray) {
-        this.point = copyArray ? point.clone() : point;
+                              final boolean copyArray) {
+        this.point = (copyArray ?
+                      (point == null ? null : point.clone()) :
+                      point);
         this.value  = value;
     }
 
@@ -66,7 +67,7 @@ public class RealPointValuePair implements Serializable {
      * @return a copy of the stored point
      */
     public double[] getPoint() {
-        return point.clone();
+        return (point == null ? null : point.clone());
     }
 
     /** Get a reference to the point.
@@ -84,5 +85,4 @@ public class RealPointValuePair implements Serializable {
     public double getValue() {
         return value;
     }
-
 }

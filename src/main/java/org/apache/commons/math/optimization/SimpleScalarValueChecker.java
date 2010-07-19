@@ -62,7 +62,7 @@ public class SimpleScalarValueChecker implements RealConvergenceChecker {
      * @param absoluteThreshold absolute tolerance threshold
      */
     public SimpleScalarValueChecker(final double relativeThreshold,
-                                 final double absoluteThreshold) {
+                                    final double absoluteThreshold) {
         this.relativeThreshold = relativeThreshold;
         this.absoluteThreshold = absoluteThreshold;
     }
@@ -77,5 +77,4 @@ public class SimpleScalarValueChecker implements RealConvergenceChecker {
         final double size       = Math.max(Math.abs(p), Math.abs(c));
         return (difference <= (size * relativeThreshold)) || (difference <= absoluteThreshold);
     }
-
 }
