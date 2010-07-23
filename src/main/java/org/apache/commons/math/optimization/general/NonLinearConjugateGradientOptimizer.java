@@ -42,20 +42,17 @@ import org.apache.commons.math.util.LocalizedFormats;
  */
 
 public class NonLinearConjugateGradientOptimizer
-    extends AbstractScalarDifferentiableOptimizer
-    implements DifferentiableMultivariateRealOptimizer {
-
+    extends AbstractScalarDifferentiableOptimizer {
     /** Update formula for the beta parameter. */
     private final ConjugateGradientFormula updateFormula;
-
     /** Preconditioner (may be null). */
     private Preconditioner preconditioner;
-
     /** solver to use in the line search (may be null). */
     private UnivariateRealSolver solver;
-
     /** Initial step used to bracket the optimum in line search. */
     private double initialStep;
+    /** Current point. */
+    private double[] point;
 
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link
@@ -115,7 +112,6 @@ public class NonLinearConjugateGradientOptimizer
     protected RealPointValuePair doOptimize()
         throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
         try {
-
             // initialization
             if (preconditioner == null) {
                 preconditioner = new IdentityPreconditioner();
@@ -123,6 +119,8 @@ public class NonLinearConjugateGradientOptimizer
             if (solver == null) {
                 solver = new BrentSolver();
             }
+            point = getStartPoint();
+            final GoalType goal = getGoalType();
             final int n = point.length;
             double[] r = computeObjectiveGradient(point);
             if (goal == GoalType.MINIMIZE) {
@@ -147,7 +145,7 @@ public class NonLinearConjugateGradientOptimizer
                 RealPointValuePair previous = current;
                 current = new RealPointValuePair(point, objective);
                 if (previous != null) {
-                    if (checker.converged(getIterations(), previous, current)) {
+                    if (getConvergenceChecker().converged(getIterations(), previous, current)) {
                         // we have found an optimum
                         return current;
                     }
