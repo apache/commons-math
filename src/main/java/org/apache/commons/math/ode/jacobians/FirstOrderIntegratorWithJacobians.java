@@ -27,6 +27,7 @@ import java.util.Collection;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -354,7 +355,7 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper class used to map state and jacobians into compound state. */
-    private class MappingWrapper implements  FirstOrderDifferentialEquations {
+    private class MappingWrapper implements  ExtendedFirstOrderDifferentialEquations {
 
         /** Current state. */
         private final double[]   y;
@@ -386,6 +387,11 @@ public class FirstOrderIntegratorWithJacobians {
             final int n = y.length;
             final int k = dFdP[0].length;
             return n * (1 + n + k);
+        }
+
+        /** {@inheritDoc} */
+        public int getMainSetDimension() {
+            return ode.getDimension();
         }
 
         /** {@inheritDoc} */
@@ -442,8 +448,7 @@ public class FirstOrderIntegratorWithJacobians {
     }
 
     /** Wrapper class to compute jacobians by finite differences for ODE which do not compute them themselves. */
-    private class FiniteDifferencesWrapper
-        implements ODEWithJacobians {
+    private class FiniteDifferencesWrapper implements ODEWithJacobians {
 
         /** Raw ODE without jacobians computation. */
         private final ParameterizedODE ode;

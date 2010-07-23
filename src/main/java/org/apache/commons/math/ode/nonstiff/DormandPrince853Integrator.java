@@ -249,7 +249,7 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
     double error1 = 0;
     double error2 = 0;
 
-    for (int j = 0; j < y0.length; ++j) {
+    for (int j = 0; j < mainSetDimension; ++j) {
       final double errSum1 = E1_01 * yDotK[0][j]  + E1_06 * yDotK[5][j] +
                              E1_07 * yDotK[6][j]  + E1_08 * yDotK[7][j] +
                              E1_09 * yDotK[8][j]  + E1_10 * yDotK[9][j] +
@@ -274,7 +274,7 @@ public class DormandPrince853Integrator extends EmbeddedRungeKuttaIntegrator {
       den = 1.0;
     }
 
-    return Math.abs(h) * error1 / Math.sqrt(y0.length * den);
+    return Math.abs(h) * error1 / Math.sqrt(mainSetDimension * den);
 
   }
 

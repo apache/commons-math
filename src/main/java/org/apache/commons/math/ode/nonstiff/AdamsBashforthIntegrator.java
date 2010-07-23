@@ -235,7 +235,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
                 // evaluate error using the last term of the Taylor expansion
                 error = 0;
-                for (int i = 0; i < y0.length; ++i) {
+                for (int i = 0; i < mainSetDimension; ++i) {
                     final double yScale = Math.abs(y[i]);
                     final double tol = (vecAbsoluteTolerance == null) ?
                                        (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
@@ -243,7 +243,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                     final double ratio  = nordsieck.getEntry(lastRow, i) / tol;
                     error += ratio * ratio;
                 }
-                error = Math.sqrt(error / y0.length);
+                error = Math.sqrt(error / mainSetDimension);
 
                 if (error <= 1.0) {
 

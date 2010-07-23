@@ -29,8 +29,7 @@ import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
  * @since 2.1
  */
 
-public interface ParameterizedODE
-    extends FirstOrderDifferentialEquations {
+public interface ParameterizedODE extends FirstOrderDifferentialEquations {
 
     /** Get the number of parameters.
      * @return number of parameters

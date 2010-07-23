@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-388">
+        Added a feature allowing error estimation to be computed only on a subset of
+        Ordinary Differential Equations, considered as the main set, the remaining equations
+        being considered only as an extension set that should not influence the ODE integration
+        algorithm 
+      </action>
       <action dev="erans" type="fix" issue="MATH-382">
         Fixed bug in precondition check (method "setMicrosphereElements").
       </action>

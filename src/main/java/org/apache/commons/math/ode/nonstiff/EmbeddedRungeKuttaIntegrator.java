@@ -242,7 +242,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
         }
 
         if (firstTime) {
-          final double[] scale = new double[y0.length];
+          final double[] scale = new double[mainSetDimension];
           if (vecAbsoluteTolerance == null) {
               for (int i = 0; i < scale.length; ++i) {
                 scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * Math.abs(y[i]);

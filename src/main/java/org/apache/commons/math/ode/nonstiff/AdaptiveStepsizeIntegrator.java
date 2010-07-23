@@ -19,6 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.util.LocalizedFormats;
@@ -36,14 +37,22 @@ import org.apache.commons.math.util.LocalizedFormats;
  * where absTol_i is the absolute tolerance for component i of the
  * state vector and relTol_i is the relative tolerance for the same
  * component. The user can also use only two scalar values absTol and
- * relTol which will be used for all components.</p>
+ * relTol which will be used for all components.
+ * </p>
+ *
+ * <p>If the Ordinary Differential Equations is an {@link ExtendedFirstOrderDifferentialEquations
+ * extended ODE} rather than a {@link FirstOrderDifferentialEquations basic ODE},
+ * then <em>only</em> the {@link ExtendedFirstOrderDifferentialEquations#getMainSetDimension()
+ * main set} part of the state vector is used for stepsize control, not the complete
+ * state vector.
+ * </p>
  *
  * <p>If the estimated error for ym+1 is such that
  * <pre>
  * sqrt((sum (errEst_i / threshold_i)^2 ) / n) < 1
  * </pre>
  *
- * (where n is the state vector dimension) then the step is accepted,
+ * (where n is the main set dimension) then the step is accepted,
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
  *
@@ -75,6 +84,9 @@ public abstract class AdaptiveStepsizeIntegrator
 
     /** Maximal step. */
     private final double maxStep;
+
+    /** Main set dimension. */
+    protected int mainSetDimension;
 
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.
@@ -171,14 +183,20 @@ public abstract class AdaptiveStepsizeIntegrator
 
       super.sanityChecks(equations, t0, y0, t, y);
 
-      if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != y0.length)) {
-          throw new IntegratorException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, y0.length, vecAbsoluteTolerance.length);
+      if (equations instanceof ExtendedFirstOrderDifferentialEquations) {
+          mainSetDimension = ((ExtendedFirstOrderDifferentialEquations) equations).getMainSetDimension();
+      } else {
+          mainSetDimension = equations.getDimension();
       }
 
-      if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != y0.length)) {
+      if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != mainSetDimension)) {
           throw new IntegratorException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, y0.length, vecRelativeTolerance.length);
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, mainSetDimension, vecAbsoluteTolerance.length);
+      }
+
+      if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != mainSetDimension)) {
+          throw new IntegratorException(
+                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, mainSetDimension, vecRelativeTolerance.length);
       }
 
   }
@@ -187,7 +205,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param equations differential equations set
    * @param forward forward integration indicator
    * @param order order of the method
-   * @param scale scaling vector for the state vector
+   * @param scale scaling vector for the state vector (can be shorter than state vector)
    * @param t0 start time
    * @param y0 state vector at t0
    * @param yDot0 first time derivative of y0
@@ -213,7 +231,7 @@ public abstract class AdaptiveStepsizeIntegrator
     double ratio;
     double yOnScale2 = 0;
     double yDotOnScale2 = 0;
-    for (int j = 0; j < y0.length; ++j) {
+    for (int j = 0; j < scale.length; ++j) {
       ratio         = y0[j] / scale[j];
       yOnScale2    += ratio * ratio;
       ratio         = yDot0[j] / scale[j];
@@ -234,7 +252,7 @@ public abstract class AdaptiveStepsizeIntegrator
 
     // estimate the second derivative of the solution
     double yDDotOnScale = 0;
-    for (int j = 0; j < y0.length; ++j) {
+    for (int j = 0; j < scale.length; ++j) {
       ratio         = (yDot1[j] - yDot0[j]) / scale[j];
       yDDotOnScale += ratio * ratio;
     }

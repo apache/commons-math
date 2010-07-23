@@ -429,7 +429,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   /** Update scaling array.
    * @param y1 first state vector to use for scaling
    * @param y2 second state vector to use for scaling
-   * @param scale scaling array to update
+   * @param scale scaling array to update (can be shorter than state)
    */
   private void rescale(final double[] y1, final double[] y2, final double[] scale) {
     if (vecAbsoluteTolerance == null) {
@@ -451,7 +451,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * @param y0 initial value of the state vector at t0
    * @param step global step
    * @param k iteration number (from 0 to sequence.length - 1)
-   * @param scale scaling array
+   * @param scale scaling array (can be shorter than state)
    * @param f placeholder where to put the state vector derivatives at each substep
    *          (element 0 already contains initial derivative)
    * @param yMiddle placeholder where to put the state vector at the middle of the step
@@ -500,12 +500,12 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       // stability check
       if (performTest && (j <= maxChecks) && (k < maxIter)) {
         double initialNorm = 0.0;
-        for (int l = 0; l < y0.length; ++l) {
+        for (int l = 0; l < scale.length; ++l) {
           final double ratio = f[0][l] / scale[l];
           initialNorm += ratio * ratio;
         }
         double deltaNorm = 0.0;
-        for (int l = 0; l < y0.length; ++l) {
+        for (int l = 0; l < scale.length; ++l) {
           final double ratio = (f[j+1][l] - f[0][l]) / scale[l];
           deltaNorm += ratio * ratio;
         }
@@ -607,7 +607,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     // initial scaling
-    final double[] scale = new double[y0.length];
+    final double[] scale = new double[mainSetDimension];
     rescale(y, y, scale);
 
     // initial order selection
@@ -709,11 +709,11 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
             // estimate the error at the end of the step.
             error = 0;
-            for (int j = 0; j < y0.length; ++j) {
+            for (int j = 0; j < mainSetDimension; ++j) {
               final double e = Math.abs(y1[j] - y1Diag[0][j]) / scale[j];
               error += e * e;
             }
-            error = Math.sqrt(error / y0.length);
+            error = Math.sqrt(error / mainSetDimension);
 
             if ((error > 1.0e15) || ((k > 1) && (error > maxError))) {
               // error is too big, we reduce the global step

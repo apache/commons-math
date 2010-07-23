@@ -297,11 +297,11 @@ class GraggBulirschStoerStepInterpolator
   public double estimateError(final double[] scale) {
     double error = 0;
     if (currentDegree >= 5) {
-      for (int i = 0; i < currentState.length; ++i) {
+      for (int i = 0; i < scale.length; ++i) {
         final double e = polynoms[currentDegree][i] / scale[i];
         error += e * e;
       }
-      error = Math.sqrt(error / currentState.length) * errfac[currentDegree-5];
+      error = Math.sqrt(error / scale.length) * errfac[currentDegree - 5];
     }
     return error;
   }

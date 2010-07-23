@@ -419,7 +419,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         }
 
         /**
-         * End visiting te Nordsieck vector.
+         * End visiting the Nordsieck vector.
          * <p>The correction is used to control stepsize. So its amplitude is
          * considered to be an error, which must be normalized according to
          * error control settings. If the normalized value is greater than 1,
@@ -432,15 +432,17 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
             double error = 0;
             for (int i = 0; i < after.length; ++i) {
                 after[i] += previous[i] + scaled[i];
-                final double yScale = Math.max(Math.abs(previous[i]), Math.abs(after[i]));
-                final double tol = (vecAbsoluteTolerance == null) ?
-                                   (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
-                                   (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
-                final double ratio  = (after[i] - before[i]) / tol;
-                error += ratio * ratio;
+                if (i < mainSetDimension) {
+                    final double yScale = Math.max(Math.abs(previous[i]), Math.abs(after[i]));
+                    final double tol = (vecAbsoluteTolerance == null) ?
+                                       (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
+                                       (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
+                    final double ratio  = (after[i] - before[i]) / tol;
+                    error += ratio * ratio;
+                }
             }
 
-            return Math.sqrt(error / after.length);
+            return Math.sqrt(error / mainSetDimension);
 
         }
     }

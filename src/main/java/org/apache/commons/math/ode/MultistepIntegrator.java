@@ -378,7 +378,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     /** Wrapper for differential equations, ensuring start evaluations are counted. */
-    private class CountingDifferentialEquations implements FirstOrderDifferentialEquations {
+    private class CountingDifferentialEquations implements ExtendedFirstOrderDifferentialEquations {
 
         /** Dimension of the problem. */
         private final int dimension;
@@ -399,6 +399,11 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         /** {@inheritDoc} */
         public int getDimension() {
             return dimension;
+        }
+
+        /** {@inheritDoc} */
+        public int getMainSetDimension() {
+            return mainSetDimension;
         }
     }
 

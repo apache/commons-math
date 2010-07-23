@@ -108,7 +108,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     double error = 0;
 
-    for (int j = 0; j < y0.length; ++j) {
+    for (int j = 0; j < mainSetDimension; ++j) {
       double errSum = STATIC_E[0] * yDotK[0][j];
       for (int l = 1; l < STATIC_E.length; ++l) {
         errSum += STATIC_E[l] * yDotK[l][j];
@@ -123,7 +123,7 @@ public class HighamHall54Integrator extends EmbeddedRungeKuttaIntegrator {
 
     }
 
-    return Math.sqrt(error / y0.length);
+    return Math.sqrt(error / mainSetDimension);
 
   }
 
