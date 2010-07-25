@@ -83,8 +83,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         }
 
         assertEquals(-0.27195612846834, minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2), 1.0e-13);
-        assertEquals(-0.27194301946870, minimizer.getResult(), 1.0e-13);
-        assertEquals(-0.04433426940878, minimizer.getFunctionValue(), 1.0e-13);
+        assertEquals(-0.27195612846834, minimizer.getResult(), 1.0e-13);
+        assertEquals(-0.04433426954946, minimizer.getFunctionValue(), 1.0e-13);
 
         double[] optima = minimizer.getOptima();
         double[] optimaValues = minimizer.getOptimaValues();

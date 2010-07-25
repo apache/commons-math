@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-393">
+        Fixed inconsistency in return values in "MultiStartUnivariateRealOptimizer".
+      </action>
       <action dev="erans" type="update" issue="MATH-389">
         Refactoring of some classes in package "optimization.general" to remove
         code duplication and to allow the implementation of optimization algorithms
