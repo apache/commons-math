@@ -48,7 +48,7 @@ public abstract class AbstractScalarOptimizer
      */
     protected AbstractScalarOptimizer() {}
     /**
-     * @param convergenceChecker Convergence checker.
+     * @param checker Convergence checker.
      * @param maxIterations Maximum number of iterations.
      * @param maxEvaluations Maximum number of evaluations.
      */

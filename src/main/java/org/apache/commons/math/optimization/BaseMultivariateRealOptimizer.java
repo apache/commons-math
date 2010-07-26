@@ -64,9 +64,9 @@ public interface BaseMultivariateRealOptimizer<T extends MultivariateRealFunctio
 
     /**
      * Get the number of iterations realized by the algorithm.
-     * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
-     * method. It is 0 if the method has not been called yet.
+     * The number of iterations corresponds to the last call to the
+     * {@code optimize} method. It is 0 if the method has not been
+     * called yet.
      *
      * @return the number of iterations.
      */
@@ -74,10 +74,9 @@ public interface BaseMultivariateRealOptimizer<T extends MultivariateRealFunctio
 
     /**
      * Get the number of evaluations of the objective function.
-     *
      * The number of evaluations corresponds to the last call to the
-     * {@link #optimize(T, GoalType, double[]) optimize}
-     * method. It is 0 if the method has not been called yet.
+     * {@code optimize} method. It is 0 if the method has not been
+     * called yet.
      *
      * @return the number of evaluations of the objective function.
      */

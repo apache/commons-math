@@ -78,7 +78,7 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
              DEFAULT_MAX_EVALUATIONS);
     }
     /**
-     * @param convergenceChecker Convergence checker.
+     * @param checker Convergence checker.
      * @param maxIterations Maximum number of iterations.
      * @param maxEvaluations Maximum number of evaluations.
      */
