@@ -5,6 +5,14 @@ This product includes software developed by
 The Apache Software Foundation (http://www.apache.org/).
 
 ===============================================================================
+
+The BracketFinder (package org.apache.commons.math.optimization.univariate)
+and PowellOptimizer (package org.apache.commons.math.optimization.general)
+classes are based on the Python code in module "optimize.py" (version 0.5)
+developed by Travis E. Oliphant for the SciPy library (http://www.scipy.org/)
+Copyright © 2003-2009 SciPy Developers.
+===============================================================================
+
 The LinearConstraint, LinearObjectiveFunction, LinearOptimizer,
 RelationShip, SimplexSolver and SimplexTableau classes in package
 org.apache.commons.math.optimization.linear include software developed by
