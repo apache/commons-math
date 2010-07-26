@@ -48,8 +48,8 @@ public class MultiStartUnivariateRealOptimizerTest {
             assertEquals(-1.0, f.value(optima[i]), 1.0e-10);
             assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }
-        assertTrue(minimizer.getEvaluations() > 2900);
-        assertTrue(minimizer.getEvaluations() < 3100);
+        assertTrue(minimizer.getEvaluations() > 1500);
+        assertTrue(minimizer.getEvaluations() < 1700);
     }
 
     @Test
@@ -58,8 +58,9 @@ public class MultiStartUnivariateRealOptimizerTest {
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer();
+        underlying.setRelativeAccuracy(1e-15);
         JDKRandomGenerator g = new JDKRandomGenerator();
-        g.setSeed(4312000053l);
+        g.setSeed(4312000053L);
         MultiStartUnivariateRealOptimizer minimizer =
             new MultiStartUnivariateRealOptimizer(underlying, 5, g);
         minimizer.setAbsoluteAccuracy(10 * minimizer.getAbsoluteAccuracy());
@@ -82,9 +83,10 @@ public class MultiStartUnivariateRealOptimizerTest {
             fail("wrong exception caught");
         }
 
-        assertEquals(-0.27195612846834, minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2), 1.0e-13);
-        assertEquals(-0.27195612846834, minimizer.getResult(), 1.0e-13);
-        assertEquals(-0.04433426954946, minimizer.getFunctionValue(), 1.0e-13);
+        double result = minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+        assertEquals(-0.27195612525275803, result, 1.0e-13);
+        assertEquals(-0.27195612525275803, minimizer.getResult(), 1.0e-13);
+        assertEquals(-0.04433426954946637, minimizer.getFunctionValue(), 1.0e-13);
 
         double[] optima = minimizer.getOptima();
         double[] optimaValues = minimizer.getOptimaValues();
@@ -92,11 +94,9 @@ public class MultiStartUnivariateRealOptimizerTest {
             assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }
 
-        assertTrue(minimizer.getEvaluations()    >= 510);
-        assertTrue(minimizer.getEvaluations()    <= 530);
-        assertTrue(minimizer.getIterationCount() >= 150);
-        assertTrue(minimizer.getIterationCount() <= 170);
-
+        assertTrue(minimizer.getEvaluations()    >= 300);
+        assertTrue(minimizer.getEvaluations()    <= 420);
+        assertTrue(minimizer.getIterationCount() >= 100);
+        assertTrue(minimizer.getIterationCount() <= 140);
     }
-
 }

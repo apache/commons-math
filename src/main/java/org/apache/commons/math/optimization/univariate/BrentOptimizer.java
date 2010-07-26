@@ -18,19 +18,20 @@ package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 
 /**
  * Implements Richard Brent's algorithm (from his book "Algorithms for
  * Minimization without Derivatives", p. 79) for finding minima of real
- * univariate functions.
+ * univariate functions. This implementation is an adaptation partly
+ * based on the Python code from SciPy (module "optimize.py" v0.5).
  *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
-
     /**
      * Golden section.
      */
@@ -47,15 +48,16 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max, final double startValue)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        return optimize(f, goalType, min, max);
+        clearResult();
+        return localMin(f, goalType, min, startValue, max,
+                        getRelativeAccuracy(), getAbsoluteAccuracy());
     }
 
     /** {@inheritDoc} */
     public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        clearResult();
-        return localMin(f, goalType, min, max, relativeAccuracy, absoluteAccuracy);
+        return optimize(f, goalType, min, max, min + GOLDEN_SECTION * (max - min));
     }
 
     /**
@@ -69,23 +71,41 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      * {@code eps} should be no smaller than <em>2 macheps</em> and preferable not
      * much less than <em>sqrt(macheps)</em>, where <em>macheps</em> is the relative
      * machine precision. {@code t} should be positive.
-     * @param f the function to solve
+     * @param f the function to solve.
      * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
-     * or {@link GoalType#MINIMIZE}
-     * @param a Lower bound of the interval
-     * @param b Higher bound of the interval
-     * @param eps Relative accuracy
-     * @param t Absolute accuracy
-     * @return the point at which the function is minimal.
+     * or {@link GoalType#MINIMIZE}.
+     * @param lo Lower bound of the interval.
+     * @param mid Point inside the interval {@code [lo, hi]}.
+     * @param hi Higher bound of the interval.
+     * @param eps Relative accuracy.
+     * @param t Absolute accuracy.
+     * @return the optimum point.
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function.
      */
-    private double localMin(final UnivariateRealFunction f, final GoalType goalType,
-                            double a, double b, final double eps, final double t)
+    private double localMin(UnivariateRealFunction f,
+                            GoalType goalType,
+                            double lo, double mid, double hi,
+                            double eps, double t)
         throws MaxIterationsExceededException, FunctionEvaluationException {
-        double x = a + GOLDEN_SECTION * (b - a);
+        if (eps <= 0) {
+            throw new NotStrictlyPositiveException(eps);
+        }
+        if (t <= 0) {
+            throw new NotStrictlyPositiveException(t);
+        }
+        double a, b;
+        if (lo < hi) {
+            a = lo;
+            b = hi;
+        } else {
+            a = hi;
+            b = lo;
+        }
+
+        double x = mid;
         double v = x;
         double w = x;
         double e = 0;
@@ -99,18 +119,18 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         int count = 0;
         while (count < maximalIterationCount) {
             double m = 0.5 * (a + b);
-            double tol = eps * Math.abs(x) + t;
-            double t2 = 2 * tol;
+            final double tol1 = eps * Math.abs(x) + t;
+            final double tol2 = 2 * tol1;
 
             // Check stopping criterion.
-            if (Math.abs(x - m) > t2 - 0.5 * (b - a)) {
+            if (Math.abs(x - m) > tol2 - 0.5 * (b - a)) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
                 double d = 0;
                 double u = 0;
 
-                if (Math.abs(e) > tol) { // Fit parabola.
+                if (Math.abs(e) > tol1) { // Fit parabola.
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
                     p = (x - v) * q - (x - w) * r;
@@ -124,24 +144,53 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
                     r = e;
                     e = d;
-                }
 
-                if (Math.abs(p) < Math.abs(0.5 * q * r) &&
-                    (p < q * (a - x)) && (p < q * (b - x))) { // Parabolic interpolation step.
-                    d = p / q;
-                    u = x + d;
+                    if (p > q * (a - x)
+                        && p < q * (b - x)
+                        && Math.abs(p) < Math.abs(0.5 * q * r)) {
+                        // Parabolic interpolation step.
+                        d = p / q;
+                        u = x + d;
 
-                    // f must not be evaluated too close to a or b.
-                    if (((u - a) < t2) || ((b - u) < t2)) {
-                        d = (x < m) ? tol : -tol;
+                        // f must not be evaluated too close to a or b.
+                        if (u - a < tol2
+                            || b - u < tol2) {
+                            if (x <= m) {
+                                d = tol1;
+                            } else {
+                                d = -tol1;
+                            }
+                        }
+                    } else {
+                        // Golden section step.
+                        if (x < m) {
+                            e = b - x;
+                        } else {
+                            e = a - x;
+                        }
+                        d = GOLDEN_SECTION * e;
                     }
-                } else { // Golden section step.
-                    e = ((x < m) ? b : a) - x;
+                } else {
+                    // Golden section step.
+                    if (x < m) {
+                        e = b - x;
+                    } else {
+                        e = a - x;
+                    }
                     d = GOLDEN_SECTION * e;
                 }
 
-                // f must not be evaluated too close to a or b.
-                u = x + ((Math.abs(d) > tol) ? d : ((d > 0) ? tol : -tol));
+                // Update by at least "tol1".
+                if (Math.abs(d) < tol1) {
+                    if (d >= 0) {
+                        u = x + tol1;
+                    } else {
+                        u = x - tol1;
+                    }
+                } else {
+                    u = x + d;
+                }
+
                 double fu = computeObjectiveValue(f, u);
                 if (goalType == GoalType.MAXIMIZE) {
                     fu = -fu;
@@ -166,12 +215,15 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                     } else {
                         b = u;
                     }
-                    if ((fu <= fw) || (w == x)) {
+                    if (fu <= fw
+                        || w == x) {
                         v = w;
                         fv = fw;
                         w = u;
                         fw = fu;
-                    } else if ((fu <= fv) || (v == x) || (v == w)) {
+                    } else if (fu <= fv
+                               || v == x
+                               || v == w) {
                         v = u;
                         fv = fu;
                     }
@@ -180,12 +232,8 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                 setResult(x, (goalType == GoalType.MAXIMIZE) ? -fx : fx, count);
                 return x;
             }
-
             ++count;
         }
-
         throw new MaxIterationsExceededException(maximalIterationCount);
-
     }
-
 }
