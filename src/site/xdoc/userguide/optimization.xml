@@ -212,6 +212,10 @@
           or to change the line-search algorithm of the inner loop if desired (the default one is a Brent
           solver).
         </p>
+        <p>
+          The <a href="../apidocs/org/apache/commons/math/optimization/general/PowellOptimizer.html">
+          PowellOptimizer</a> provides an optimization method for non-differentiable functions.
+        </p>
       </subsection>
       <subsection name="12.6 Curve Fitting" href="fitting">
         <p>

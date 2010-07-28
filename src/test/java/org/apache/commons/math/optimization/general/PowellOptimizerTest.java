@@ -39,7 +39,7 @@ public class PowellOptimizerTest {
     public void testSumSinc() throws MathException {
         final MultivariateRealFunction func = new SumSincFunction(-1);
 
-        int dim = 1;
+        int dim = 10;
         final double[] minPoint = new double[dim];
         for (int i = 0; i < dim; i++) {
             minPoint[i] = 0;
@@ -51,13 +51,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i];
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-15, 1e-8);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
-            init[i] = minPoint[i] + 4;
+            init[i] = minPoint[i] + 3;
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-15, 1e-8);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
     }
 
     @Test
@@ -83,13 +83,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i];
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-15, 1e-8);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i] - 20;
         }
-        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-15, 1e-8);
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-8);
     }
 
     @Test
@@ -115,13 +115,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = maxPoint[i];
         }
-        doTest(func, maxPoint, init,  GoalType.MAXIMIZE, 1e-15, 1e-8);
+        doTest(func, maxPoint, init,  GoalType.MAXIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = maxPoint[i] - 20;
         }
-        doTest(func, maxPoint, init, GoalType.MAXIMIZE, 1e-15, 1e-8);
+        doTest(func, maxPoint, init, GoalType.MAXIMIZE, 1e-9, 1e-8);
     }
 
     /**
@@ -140,11 +140,16 @@ public class PowellOptimizerTest {
                         double pointTol)
         throws MathException {
         final MultivariateRealOptimizer optim = new PowellOptimizer();
-        final double relTol = 1e-10;
         optim.setConvergenceChecker(new SimpleScalarValueChecker(objTol, -1));
 
         final RealPointValuePair result = optim.optimize(func, goal, init);
         final double[] found = result.getPoint();
+
+        System.out.println("Function value at initial guess: " + func.value(init));
+        System.out.println("Function value at optimum: " + result.getValue());
+        System.out.println("Iterations: " + optim.getIterations());
+        System.out.println("Function evaluations: " + optim.getEvaluations());
+        System.out.println(Arrays.toString(found));
 
         for (int i = 0, dim = optimum.length; i < dim; i++) {
             Assert.assertEquals(optimum[i], found[i], pointTol);
