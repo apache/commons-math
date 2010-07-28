@@ -19,11 +19,13 @@ package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.optimization.GoalType;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -34,21 +36,26 @@ import org.apache.commons.math.util.LocalizedFormats;
  */
 public abstract class AbstractUnivariateRealOptimizer
     extends ConvergingAlgorithmImpl implements UnivariateRealOptimizer {
-
     /** Indicates where a root has been computed. */
-    protected boolean resultComputed;
-
+    private boolean resultComputed;
     /** The last computed root. */
-    protected double result;
-
+    private double result;
     /** Value of the function at the last computed result. */
-    protected double functionValue;
-
+    private double functionValue;
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
-
     /** Number of evaluations already performed. */
     private int evaluations;
+    /** Optimization type */
+    private GoalType goal;
+    /** Lower end of search interval. */
+    private double min;
+    /** Higher end of search interval. */
+    private double max;
+    /** Initial guess . */
+    private double startValue;
+    /** Function to optimize. */
+    private UnivariateRealFunction function;
 
     /**
      * Construct a solver with given iteration count and accuracy.
@@ -57,6 +64,9 @@ public abstract class AbstractUnivariateRealOptimizer
      * @param defaultMaximalIterationCount maximum number of iterations
      * @throws IllegalArgumentException if f is null or the
      * defaultAbsoluteAccuracy is not valid
+     * @deprecated in 2.2. Please use the "setter" methods to assign meaningful
+     * values to the maximum numbers of iterations and evaluations, and to the
+     * absolute and relative accuracy thresholds.
      */
     protected AbstractUnivariateRealOptimizer(final int defaultMaximalIterationCount,
                                               final double defaultAbsoluteAccuracy) {
@@ -65,24 +75,41 @@ public abstract class AbstractUnivariateRealOptimizer
         setMaxEvaluations(Integer.MAX_VALUE);
     }
 
-    /** Check if a result has been computed.
-     * @exception IllegalStateException if no result has been computed
+    /**
+     * Default constructor.
+     * To be removed once the single non-default one has been removed.
      */
-    protected void checkResultComputed() throws IllegalStateException {
+    protected AbstractUnivariateRealOptimizer() {}
+
+    /**
+     * Check whether a result has been computed.
+     * @throws NoDataException if no result has been computed
+     * @deprecated in 2.2 (no alternative).
+     */
+    protected void checkResultComputed() {
         if (!resultComputed) {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
+            throw new NoDataException();
         }
     }
 
     /** {@inheritDoc} */
     public double getResult() {
-        checkResultComputed();
+        if (!resultComputed) {
+            throw new NoDataException();
+        }
         return result;
     }
 
     /** {@inheritDoc} */
     public double getFunctionValue() {
-        checkResultComputed();
+        if (functionValue == Double.NaN) {
+            final double opt = getResult();
+            try {
+                functionValue = function.value(opt);
+            } catch (FunctionEvaluationException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return functionValue;
     }
 
@@ -92,6 +119,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * @param x the result to set
      * @param fx the result to set
      * @param iterationCount the iteration count to set
+     * @deprecated in 2.2 (no alternative).
      */
     protected final void setResult(final double x, final double fx,
                                    final int iterationCount) {
@@ -103,6 +131,7 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /**
      * Convenience function for implementations.
+     * @deprecated in 2.2 (no alternative).
      */
     protected final void clearResult() {
         this.resultComputed = false;
@@ -124,12 +153,39 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /**
+     * @return the optimization type.
+     */
+    public GoalType getGoalType() {
+        return goal;
+    }
+    /**
+     * @return the lower of the search interval.
+     */
+    public double getMin() {
+        return min;
+    }
+    /**
+     * @return the higher of the search interval.
+     */
+    public double getMax() {
+        return max;
+    }
+    /**
+     * @return the initial guess.
+     */
+    public double getStartValue() {
+        return startValue;
+    }
+
+    /**
      * Compute the objective function value.
      * @param f objective function
      * @param point point at which the objective function must be evaluated
      * @return objective function value at specified point
      * @exception FunctionEvaluationException if the function cannot be evaluated
      * or the maximal number of iterations is exceeded
+     * @deprecated in 2.2. Use this {@link #computeObjectiveValue(double)
+     * replacement} instead.
      */
     protected double computeObjectiveValue(final UnivariateRealFunction f,
                                            final double point)
@@ -141,4 +197,68 @@ public abstract class AbstractUnivariateRealOptimizer
         return f.value(point);
     }
 
+    /**
+     * Compute the objective function value.
+     *
+     * @param point Point at which the objective function must be evaluated.
+     * @return the objective function value at specified point.
+     * @exception FunctionEvaluationException if the function cannot be evaluated
+     * or the maximal number of iterations is exceeded.
+     */
+    protected double computeObjectiveValue(double point)
+        throws FunctionEvaluationException {
+        if (++evaluations > maxEvaluations) {
+            resultComputed = false;
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
+                                                  point);
+        }
+        return function.value(point);
+    }
+
+    /** {@inheritDoc} */
+    public double optimize(UnivariateRealFunction function, GoalType goal,
+                           double min, double max, double startValue)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        // Initialize.
+        this.min = min;
+        this.max = max;
+        this.startValue = startValue;
+        this.goal = goal;
+        this.function = function;
+
+        // Reset.
+        functionValue = Double.NaN;
+        evaluations = 0;
+        resetIterationsCounter();
+
+        // Perform computation.
+        result = doOptimize();
+        resultComputed = true;
+
+        return result;
+    }
+
+    /**
+     * Set the value at the optimum.
+     *
+     * @param functionValue Value of the objective function at the optimum.
+     */
+    protected void setFunctionValue(double functionValue) {
+        this.functionValue = functionValue;
+    }
+
+    /** {@inheritDoc} */
+    public double optimize(UnivariateRealFunction f, GoalType goal,
+                           double min, double max)
+        throws MaxIterationsExceededException, FunctionEvaluationException {
+        return optimize(f, goal, min, max, min + 0.5 * (max - min));
+    }
+
+    /**
+     * Method for implementing actual optimization algorithms in derived
+     * classes.
+     *
+     * @return the optimum.
+     */
+    protected abstract double doOptimize();
 }

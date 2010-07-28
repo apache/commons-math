@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -44,7 +45,7 @@ public final class BrentOptimizerTest {
         try {
             minimizer.getResult();
             fail("an exception should have been thrown");
-        } catch (IllegalStateException ise) {
+        } catch (NoDataException ise) {
             // expected
         } catch (Exception e) {
             fail("wrong exception caught");

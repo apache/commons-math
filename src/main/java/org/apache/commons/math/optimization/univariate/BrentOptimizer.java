@@ -236,4 +236,9 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
     }
+
+    /** Temporary workaround. */
+    protected double doOptimize() {
+        throw new UnsupportedOperationException();
+    }
 }
