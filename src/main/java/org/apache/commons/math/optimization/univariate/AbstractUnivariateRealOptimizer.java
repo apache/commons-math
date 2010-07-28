@@ -260,5 +260,6 @@ public abstract class AbstractUnivariateRealOptimizer
      *
      * @return the optimum.
      */
-    protected abstract double doOptimize();
+    protected abstract double doOptimize()
+        throws MaxIterationsExceededException, FunctionEvaluationException;
 }

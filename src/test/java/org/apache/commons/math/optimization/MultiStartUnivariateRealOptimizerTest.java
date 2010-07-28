@@ -48,8 +48,8 @@ public class MultiStartUnivariateRealOptimizerTest {
             assertEquals(-1.0, f.value(optima[i]), 1.0e-10);
             assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }
-        assertTrue(minimizer.getEvaluations() > 1500);
-        assertTrue(minimizer.getEvaluations() < 1700);
+        assertTrue(minimizer.getEvaluations() > 150);
+        assertTrue(minimizer.getEvaluations() < 250);
     }
 
     @Test
@@ -84,8 +84,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         }
 
         double result = minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
-        assertEquals(-0.27195612525275803, result, 1.0e-13);
-        assertEquals(-0.27195612525275803, minimizer.getResult(), 1.0e-13);
+        assertEquals(-0.2719561270319131, result, 1.0e-13);
+        assertEquals(-0.2719561270319131, minimizer.getResult(), 1.0e-13);
         assertEquals(-0.04433426954946637, minimizer.getFunctionValue(), 1.0e-13);
 
         double[] optima = minimizer.getOptima();
@@ -93,10 +93,9 @@ public class MultiStartUnivariateRealOptimizerTest {
         for (int i = 0; i < optima.length; ++i) {
             assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }
-
-        assertTrue(minimizer.getEvaluations()    >= 300);
-        assertTrue(minimizer.getEvaluations()    <= 420);
-        assertTrue(minimizer.getIterationCount() >= 100);
-        assertTrue(minimizer.getIterationCount() <= 140);
+        assertTrue(minimizer.getEvaluations()    >= 120);
+        assertTrue(minimizer.getEvaluations()    <= 170);
+        assertTrue(minimizer.getIterationCount() >= 120);
+        assertTrue(minimizer.getIterationCount() <= 170);
     }
 }
