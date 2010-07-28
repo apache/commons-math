@@ -365,8 +365,8 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(1.0, 1 + Math.ulp(1d), 1));
         assertFalse(MathUtils.equals(1.0, 1 + 2 * Math.ulp(1d), 1));
 
-        final double nUp1 = Math.nextUp(1d);
-        final double nnUp1 = Math.nextUp(nUp1);
+        final double nUp1 = MathUtils.nextAfter(1d, Double.POSITIVE_INFINITY);
+        final double nnUp1 = MathUtils.nextAfter(nUp1, Double.POSITIVE_INFINITY);
         assertTrue(MathUtils.equals(1.0, nUp1, 1));
         assertTrue(MathUtils.equals(nUp1, nnUp1, 1));
         assertFalse(MathUtils.equals(1.0, nnUp1, 1));
@@ -403,8 +403,8 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equalsIncludingNaN(1.0, 1 + Math.ulp(1d), 1));
         assertFalse(MathUtils.equalsIncludingNaN(1.0, 1 + 2 * Math.ulp(1d), 1));
 
-        final double nUp1 = Math.nextUp(1d);
-        final double nnUp1 = Math.nextUp(nUp1);
+        final double nUp1 = MathUtils.nextAfter(1d, Double.POSITIVE_INFINITY);
+        final double nnUp1 = Math.nextAfter(nUp1, Double.POSITIVE_INFINITY);
         assertTrue(MathUtils.equalsIncludingNaN(1.0, nUp1, 1));
         assertTrue(MathUtils.equalsIncludingNaN(nUp1, nnUp1, 1));
         assertFalse(MathUtils.equalsIncludingNaN(1.0, nnUp1, 1));
