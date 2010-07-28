@@ -145,12 +145,6 @@ public class PowellOptimizerTest {
         final RealPointValuePair result = optim.optimize(func, goal, init);
         final double[] found = result.getPoint();
 
-        System.out.println("Function value at initial guess: " + func.value(init));
-        System.out.println("Function value at optimum: " + result.getValue());
-        System.out.println("Iterations: " + optim.getIterations());
-        System.out.println("Function evaluations: " + optim.getEvaluations());
-        System.out.println(Arrays.toString(found));
-
         for (int i = 0, dim = optimum.length; i < dim; i++) {
             Assert.assertEquals(optimum[i], found[i], pointTol);
         }
