@@ -151,7 +151,7 @@ public interface RealVector {
     /**
      * Compute this minus v.
      * @param v vector to be subtracted
-     * @return this + v
+     * @return this - v
      * @throws IllegalArgumentException if v is not the same size as this
      */
     RealVector subtract(double[] v)
