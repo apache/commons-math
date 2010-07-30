@@ -150,6 +150,11 @@
 
   <!-- Setup special comments to suppress specific checks from source files -->
   <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop JavadocVariable"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume JavadocVariable"/>
+    <property name="checkFormat"      value="JavadocVariable"/>
+  </module>
+  <module name="SuppressionCommentFilter">
     <property name="offCommentFormat" value="CHECKSTYLE\: stop JavadocMethodCheck"/>
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume JavadocMethodCheck"/>
     <property name="checkFormat"      value="JavadocMethodCheck"/>

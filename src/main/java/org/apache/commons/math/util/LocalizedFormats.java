@@ -40,6 +40,7 @@ import java.util.ResourceBundle;
 public enum LocalizedFormats implements Localizable {
 
     // CHECKSTYLE: stop MultipleVariableDeclarations
+    // CHECKSTYLE: stop JavadocVariable
 
     ARGUMENT_OUTSIDE_DOMAIN("Argument {0} outside domain [{1} ; {2}]"),
     ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1("array sizes should have difference 1 ({0} != {1} + 1)"),
@@ -290,8 +291,10 @@ public enum LocalizedFormats implements Localizable {
     ZERO_FRACTION_TO_DIVIDE_BY("the fraction to divide by must not be zero: {0}/{1}"),
     ZERO_NORM("zero norm"),
     ZERO_NORM_FOR_ROTATION_AXIS("zero norm for rotation axis"),
-    ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR("zero norm for rotation defining vector");
+    ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR("zero norm for rotation defining vector"),
+    ZERO_NOT_ALLOWED("zero not allowed here");
 
+    // CHECKSTYLE: resume JavadocVariable
     // CHECKSTYLE: resume MultipleVariableDeclarations
 
 

@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-400" due-to="J. Lewis Muir">
+        Added support for Gaussian curve fitting.
+      </action>
       <action dev="erans" type="update" issue="MATH-397">
         Modified "AbstractUnivariateRealOptimizer" to make it more similar to
         "BaseAbstractScalarOptimizer".
