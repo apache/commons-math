@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math.DimensionMismatchException;
-import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Interpolating function that implements the

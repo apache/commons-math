@@ -16,13 +16,13 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.util.LocalizedFormats;
-import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Function that implements the

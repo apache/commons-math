@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.univariate;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 
 /**

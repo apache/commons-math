@@ -16,17 +16,14 @@
  */
 package org.apache.commons.math.optimization.general;
 
-import java.util.Arrays;
-
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.SumSincFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
-
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -17,11 +17,10 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Interpolator that implements the algorithm described in

@@ -17,17 +17,9 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxEvaluationsExceededException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.RealConvergenceChecker;
-import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /**

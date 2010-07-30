@@ -21,11 +21,10 @@ import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.optimization.UnivariateRealOptimizer;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 
 /**
  * Provide a default implementation for several functions useful to generic

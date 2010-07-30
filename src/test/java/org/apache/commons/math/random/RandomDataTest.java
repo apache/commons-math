@@ -30,7 +30,6 @@ import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
-import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.distribution.GammaDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
