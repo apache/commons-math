@@ -32,6 +32,10 @@ import org.apache.commons.math.util.Localizable;
  * @version $Revision$ $Date$
  */
 public class MathIllegalArgumentException extends IllegalArgumentException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -6024911025449780478L;
+
     /**
      * Pattern used to build the message (specific context).
      */

@@ -28,6 +28,10 @@ import org.apache.commons.math.util.Localizable;
  * @version $Revision$ $Date$
  */
 public class MathIllegalNumberException extends MathIllegalArgumentException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -7447085893598031110L;
+
     /** Requested. */
     private final Number argument;
 

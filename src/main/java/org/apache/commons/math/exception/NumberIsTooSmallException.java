@@ -26,6 +26,10 @@ import org.apache.commons.math.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NumberIsTooSmallException extends MathIllegalNumberException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -6100997100383932834L;
+
     /**
      * Higher bound.
      */

@@ -27,6 +27,10 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  */
 public class NonMonotonousSequenceException extends MathIllegalNumberException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = 3596849179428944575L;
+
     /**
      * Direction (positive for increasing, negative for decreasing).
      */

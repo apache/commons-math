@@ -26,6 +26,10 @@ import org.apache.commons.math.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NumberIsTooLargeException extends MathIllegalNumberException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = 4330003017885151975L;
+
     /**
      * Higher bound.
      */

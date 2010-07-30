@@ -25,6 +25,10 @@ import org.apache.commons.math.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class DimensionMismatchException extends MathIllegalNumberException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -8415396756375798143L;
+
     /** Correct dimension. */
     private final int dimension;
 
