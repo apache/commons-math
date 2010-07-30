@@ -230,10 +230,10 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * during QR decomposition, it is considered to be a zero vector and hence the
      * rank of the matrix is reduced.
      * </p>
-     * @param qrRankingThreshold threshold for QR ranking
+     * @param threshold threshold for QR ranking
      */
-    public void setQRRankingThreshold(final double qrRankingThreshold) {
-        this.qrRankingThreshold = qrRankingThreshold;
+    public void setQRRankingThreshold(final double threshold) {
+        this.qrRankingThreshold = threshold;
     }
 
     /** {@inheritDoc} */

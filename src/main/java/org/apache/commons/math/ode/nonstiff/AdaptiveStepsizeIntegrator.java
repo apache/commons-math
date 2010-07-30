@@ -76,6 +76,9 @@ public abstract class AdaptiveStepsizeIntegrator
     /** Allowed relative vectorial error. */
     protected final double[] vecRelativeTolerance;
 
+    /** Main set dimension. */
+    protected int mainSetDimension;
+
     /** User supplied initial step. */
     private double initialStep;
 
@@ -84,9 +87,6 @@ public abstract class AdaptiveStepsizeIntegrator
 
     /** Maximal step. */
     private final double maxStep;
-
-    /** Main set dimension. */
-    protected int mainSetDimension;
 
   /** Build an integrator with the given stepsize bounds.
    * The default step handler does nothing.

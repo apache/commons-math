@@ -20,7 +20,6 @@ import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.util.MathUtils;
 
@@ -86,8 +85,8 @@ public class BicubicSplineInterpolatingFunction
      * every grid point.
      * @throws DimensionMismatchException if the various arrays do not contain
      * the expected number of elements.
-     * @throws NonMonotonousSequenceException if {@code x} or {@code y} are not strictly
-     * increasing.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} or {@code y} are not strictly increasing.
      * @throws NoDataException if any of the arrays has zero length.
      */
     public BicubicSplineInterpolatingFunction(double[] x,
@@ -346,23 +345,37 @@ public class BicubicSplineInterpolatingFunction
  */
 class BicubicSplineFunction
     implements BivariateRealFunction {
+
+    /** Number of points. */
     private static final short N = 4;
+
     /** Coefficients */
-    private final double[][] a = new double[N][N];
-    /** Partial derivatives */
-    BivariateRealFunction partialDerivativeX = null;
-    BivariateRealFunction partialDerivativeY = null;
-    BivariateRealFunction partialDerivativeXX = null;
-    BivariateRealFunction partialDerivativeYY = null;
-    BivariateRealFunction partialDerivativeXY = null;
+    private final double[][] a;
+
+    /** First partial derivative along x. */
+    private BivariateRealFunction partialDerivativeX;
+
+    /** First partial derivative along y. */
+    private BivariateRealFunction partialDerivativeY;
+
+    /** Second partial derivative along x. */
+    private BivariateRealFunction partialDerivativeXX;
+
+    /** Second partial derivative along y. */
+    private BivariateRealFunction partialDerivativeYY;
+
+    /** Second crossed partial derivative. */
+    private BivariateRealFunction partialDerivativeXY;
 
     /**
+     * Simple constructor.
      * @param a Spline coefficients
      */
-    public BicubicSplineFunction(double[] aV) {
+    public BicubicSplineFunction(double[] a) {
+        this.a = new double[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                a[i][j] = aV[i + N * j];
+                this.a[i][j] = a[i + N * j];
             }
         }
     }

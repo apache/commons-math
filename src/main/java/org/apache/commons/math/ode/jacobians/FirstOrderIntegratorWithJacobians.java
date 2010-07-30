@@ -28,7 +28,6 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.EventException;
@@ -286,7 +285,7 @@ public class FirstOrderIntegratorWithJacobians {
 
     /** Get the current value of the step start time t<sub>i</sub>.
      * <p>This method can be called during integration (typically by
-     * the object implementing the {@link FirstOrderDifferentialEquations
+     * the object implementing the {@link org.apache.commons.math.ode.FirstOrderDifferentialEquations
      * differential equations} problem) if the value of the current step that
      * is attempted is needed.</p>
      * <p>The result is undefined if the method is called outside of
@@ -299,7 +298,7 @@ public class FirstOrderIntegratorWithJacobians {
 
     /** Get the current signed value of the integration stepsize.
      * <p>This method can be called during integration (typically by
-     * the object implementing the {@link FirstOrderDifferentialEquations
+     * the object implementing the {@link org.apache.commons.math.ode.FirstOrderDifferentialEquations
      * differential equations} problem) if the signed value of the current stepsize
      * that is tried is needed.</p>
      * <p>The result is undefined if the method is called outside of

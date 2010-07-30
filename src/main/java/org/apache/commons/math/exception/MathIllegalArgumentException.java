@@ -48,7 +48,7 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      * Arguments used to build the message.
      */
     private final Object[] arguments;
-    
+
     /**
      * @param specific Message pattern providing the specific context of
      * the error.
@@ -84,7 +84,7 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
 
         return sb.toString();
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public String getLocalizedMessage() {

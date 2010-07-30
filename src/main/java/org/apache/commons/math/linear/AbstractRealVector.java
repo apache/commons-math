@@ -887,8 +887,8 @@ public abstract class AbstractRealVector implements RealVector {
             dim = getDimension();
             current = new EntryImpl();
             next = new EntryImpl();
-            if(next.getValue() == 0){
-            	advance(next);
+            if (next.getValue() == 0) {
+                advance(next);
             }
         }
 
@@ -914,13 +914,13 @@ public abstract class AbstractRealVector implements RealVector {
 
         /** {@inheritDoc} */
         public Entry next() {
-        	int index = next.getIndex();
-        	if(index < 0){
-        		throw new NoSuchElementException();
-        	}
-        	current.setIndex(index);
-        	advance(next);
-        	return current;
+            int index = next.getIndex();
+            if (index < 0) {
+                throw new NoSuchElementException();
+            }
+            current.setIndex(index);
+            advance(next);
+            return current;
         }
 
         /** {@inheritDoc} */

@@ -40,6 +40,8 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  *  <li>...</li>
  *  <li>(1, 3, 2) corresponds to 23</li>
  * </ul>
+ * @version $Revision$ $Date$
+ * @since 2.2
  */
 public class MultidimensionalCounter implements Iterable<Integer> {
     /**
@@ -77,7 +79,8 @@ public class MultidimensionalCounter implements Iterable<Integer> {
         private int count = -1;
 
         /**
-         * Create an iterator (see {@link MultidimensionalCounter#iterator()}.
+         * Create an iterator
+         * @see #iterator()
          */
         Iterator() {
             counter[last] = -1;
@@ -108,7 +111,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
                     break;
                 }
             }
-            
+
             return ++count;
         }
 
@@ -137,7 +140,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          * of the iterator.
          * @throws IndexOutOfBoundsException if {@code index} is not in the
          * correct interval (as defined by the length of the argument in the
-         * {@link MultidimensionalCounter#MultidimensionalCounter(int[])
+         * {@link #MultidimensionalCounter(int[])
          * constructor of the enclosing class}).
          */
         public int getCount(int dim) {
@@ -215,9 +218,9 @@ public class MultidimensionalCounter implements Iterable<Integer> {
             || index >= totalSize) {
             throw new OutOfRangeException(index, 0, totalSize);
         }
-        
+
         final int[] indices = new int[dimension];
-        
+
         int count = 0;
         for (int i = 0; i < last; i++) {
             int idx = 0;

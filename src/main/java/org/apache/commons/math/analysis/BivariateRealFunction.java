@@ -34,7 +34,7 @@ public interface BivariateRealFunction {
      * @return the value.
      * @throws FunctionEvaluationException if the function evaluation fails.
      */
-    public double value(double x, double y)
+    double value(double x, double y)
         throws FunctionEvaluationException;
 
 }

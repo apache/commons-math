@@ -44,8 +44,8 @@ public class VectorialPointValuePair implements Serializable {
      * @param value value of an objective function at the point
      */
     public VectorialPointValuePair(final double[] point, final double[] value) {
-        this.point = (point == null ? null : point.clone());
-        this.value = (value == null ? null : value.clone());
+        this.point = (point == null) ? null : point.clone();
+        this.value = (value == null) ? null : value.clone();
     }
 
     /** Build a point/objective function value pair.
@@ -57,19 +57,19 @@ public class VectorialPointValuePair implements Serializable {
      */
     public VectorialPointValuePair(final double[] point, final double[] value,
                                    final boolean copyArray) {
-        this.point = (copyArray ?
-                      (point == null ? null : point.clone()) :
-                      point);
-        this.value = (copyArray ?
-                      (value == null ? null : value.clone()) :
-                      value);
+        this.point = copyArray ?
+                      ((point == null) ? null : point.clone()) :
+                      point;
+        this.value = copyArray ?
+                      ((value == null) ? null : value.clone()) :
+                      value;
     }
 
     /** Get the point.
      * @return a copy of the stored point
      */
     public double[] getPoint() {
-        return (point == null ? null : point.clone());
+        return (point == null) ? null : point.clone();
     }
 
     /** Get a reference to the point.
@@ -85,7 +85,7 @@ public class VectorialPointValuePair implements Serializable {
      * @return a copy of the stored value of the objective function
      */
     public double[] getValue() {
-        return (value == null ? null : value.clone());
+        return (value == null) ? null : value.clone();
     }
 
     /** Get a reference to the value of the objective function.

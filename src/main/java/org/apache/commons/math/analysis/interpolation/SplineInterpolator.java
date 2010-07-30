@@ -59,8 +59,8 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
      * @return a function which interpolates the data set
      * @throws DimensionMismatchException if {@code x} and {@code y}
      * have different sizes.
-     * @throws NonMonotonousSequenceException if {@code x} is not sorted in
-     * strict increasing order.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strict increasing order.
      * @throws NumberIsTooSmallException if the size of {@code x} is smaller
      * than 3.
      */

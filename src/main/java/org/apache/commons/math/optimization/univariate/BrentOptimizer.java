@@ -46,11 +46,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         setRelativeAccuracy(1e-9);
     }
 
-    /**
-     * Perform the optimization.
-     *
-     * @return the optimum.
-     */
+    /** {@inheritDoc} */
     protected double doOptimize()
         throws MaxIterationsExceededException, FunctionEvaluationException {
         return localMin(getGoalType() == GoalType.MINIMIZE,
@@ -92,7 +88,8 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         if (t <= 0) {
             throw new NotStrictlyPositiveException(t);
         }
-        double a, b;
+        double a;
+        double b;
         if (lo < hi) {
             a = lo;
             b = hi;
@@ -140,16 +137,15 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                     r = e;
                     e = d;
 
-                    if (p > q * (a - x)
-                        && p < q * (b - x)
-                        && Math.abs(p) < Math.abs(0.5 * q * r)) {
+                    if (p > q * (a - x) &&
+                        p < q * (b - x) &&
+                        Math.abs(p) < Math.abs(0.5 * q * r)) {
                         // Parabolic interpolation step.
                         d = p / q;
                         u = x + d;
 
                         // f must not be evaluated too close to a or b.
-                        if (u - a < tol2
-                            || b - u < tol2) {
+                        if (u - a < tol2 || b - u < tol2) {
                             if (x <= m) {
                                 d = tol1;
                             } else {
@@ -210,15 +206,12 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                     } else {
                         b = u;
                     }
-                    if (fu <= fw
-                        || w == x) {
+                    if (fu <= fw || w == x) {
                         v = w;
                         fv = fw;
                         w = u;
                         fw = fu;
-                    } else if (fu <= fv
-                               || v == x
-                               || v == w) {
+                    } else if (fu <= fv || v == x || v == w) {
                         v = u;
                         fv = fu;
                     }

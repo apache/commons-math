@@ -126,6 +126,8 @@ public class TricubicSplineInterpolatingFunction
      * to x on every grid point.
      * @param dFdY Values of the partial derivative of function with respect
      * to y on every grid point.
+     * @param dFdZ Values of the partial derivative of function with respect
+     * to z on every grid point.
      * @param d2FdXdY Values of the cross partial derivative of function on
      * every grid point.
      * @param d2FdXdZ Values of the cross partial derivative of function on
@@ -155,8 +157,7 @@ public class TricubicSplineInterpolatingFunction
         final int yLen = y.length;
         final int zLen = z.length;
 
-        if (xLen == 0 || yLen == 0 || z.length == 0
-            || f.length == 0 || f[0].length == 0) {
+        if (xLen == 0 || yLen == 0 || z.length == 0 || f.length == 0 || f[0].length == 0) {
             throw new NoDataException();
         }
         if (xLen != f.length) {
@@ -421,8 +422,8 @@ public class TricubicSplineInterpolatingFunction
  */
 class TricubicSplineFunction
     implements TrivariateRealFunction {
+    /** Number of points. */
     private static final short N = 4;
-    private static final short N2 = N * N;
     /** Coefficients */
     private final double[][][] a = new double[N][N][N];
 
@@ -433,7 +434,7 @@ class TricubicSplineFunction
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < N; k++) {
-                    a[i][j][k] = aV[i + N * j + N2 * k];
+                    a[i][j][k] = aV[i + N * (j + N * k)];
                 }
             }
         }

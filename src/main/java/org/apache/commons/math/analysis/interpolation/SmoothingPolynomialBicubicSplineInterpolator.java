@@ -34,7 +34,11 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
  */
 public class SmoothingPolynomialBicubicSplineInterpolator
     extends BicubicSplineInterpolator {
+
+    /** Fitter for x. */
     private final PolynomialFitter xFitter;
+
+    /** Fitter for y. */
     private final PolynomialFitter yFitter;
 
     /**

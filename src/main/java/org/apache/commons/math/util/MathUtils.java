@@ -493,7 +493,7 @@ public final class MathUtils {
             yInt = SGN_MASK - yInt;
         }
 
-        final boolean isEqual = (Math.abs(xInt - yInt) <= maxUlps);
+        final boolean isEqual = Math.abs(xInt - yInt) <= maxUlps;
 
         return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
     }

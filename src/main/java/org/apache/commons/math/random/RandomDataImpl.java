@@ -829,7 +829,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param k
      *            size of the permutation (must satisfy 0 < k <= n).
      * @return the random permutation as an int array
-     * @throws NumberIsTooLargException if {@code k > n}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public int[] nextPermutation(int n, int k) {

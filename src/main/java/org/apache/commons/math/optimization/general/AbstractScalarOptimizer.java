@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.general;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealConvergenceChecker;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /**
  * Base class for implementing optimizers for multivariate (not necessarily
@@ -34,7 +33,7 @@ public abstract class AbstractScalarOptimizer
     implements MultivariateRealOptimizer {
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleScalarValueChecker},
+     * The convergence check is set to a {@link org.apache.commons.math.optimization.SimpleScalarValueChecker},
      * the allowed number of iterations and evaluations are set to their
      * default values.
      */

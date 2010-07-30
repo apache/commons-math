@@ -41,7 +41,7 @@ public abstract class AbstractContinuousDistribution
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
-    
+
     /**
      * RandomData instance used to generate samples from the distribution
      * @since 2.2

@@ -26,8 +26,11 @@ import org.apache.commons.math.optimization.GoalType;
  * Provide an interval that brackets a local optimum of a function.
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
+ * @version $Revision$ $Date$
+ * @since 2.2
  */
 public class BracketFinder {
+    /** Tolerance to avoid division by zero. */
     private static final double EPS_MIN = 1e-21;
     /**
      * Golden section.
@@ -109,6 +112,10 @@ public class BracketFinder {
      * @param goal {@link GoalType Goal type}.
      * @param xA Initial point.
      * @param xB Initial point.
+     * @throws MaxIterationsExceededException if the maximum iteration count
+     * is exceeded.
+     * @throws FunctionEvaluationException if an error occurs evaluating
+     * the function.
      */
     public void search(UnivariateRealFunction func,
                        GoalType goal,
@@ -117,7 +124,7 @@ public class BracketFinder {
         throws MaxIterationsExceededException,
                FunctionEvaluationException {
         reset();
-        final boolean isMinim = (goal == GoalType.MINIMIZE);
+        final boolean isMinim = goal == GoalType.MINIMIZE;
 
         double fA = eval(func, xA);
         double fB = eval(func, xB);
@@ -140,7 +147,7 @@ public class BracketFinder {
             if (++iterations > maxIterations) {
                 throw new MaxIterationsExceededException(maxIterations);
             }
-            
+
             double tmp1 = (xB - xA) * (fB - fC);
             double tmp2 = (xB - xC) * (fB - fA);
 
@@ -239,9 +246,10 @@ public class BracketFinder {
     }
 
     /**
-     * @param func Function.
+     * @param f Function.
      * @param x Argument.
      * @return {@code f(x)}
+     * @throws FunctionEvaluationException if function cannot be evaluated at x
      */
     private double eval(UnivariateRealFunction f,
                         double x)

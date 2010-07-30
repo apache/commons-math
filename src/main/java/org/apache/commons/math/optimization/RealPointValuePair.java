@@ -44,7 +44,7 @@ public class RealPointValuePair implements Serializable {
      * @param value value of an objective function at the point
      */
     public RealPointValuePair(final double[] point, final double value) {
-        this.point = (point == null ? null : point.clone());
+        this.point = (point == null) ? null : point.clone();
         this.value  = value;
     }
 
@@ -57,9 +57,9 @@ public class RealPointValuePair implements Serializable {
      */
     public RealPointValuePair(final double[] point, final double value,
                               final boolean copyArray) {
-        this.point = (copyArray ?
-                      (point == null ? null : point.clone()) :
-                      point);
+        this.point = copyArray ?
+                     ((point == null) ? null : point.clone()) :
+                     point;
         this.value  = value;
     }
 
@@ -67,7 +67,7 @@ public class RealPointValuePair implements Serializable {
      * @return a copy of the stored point
      */
     public double[] getPoint() {
-        return (point == null ? null : point.clone());
+        return (point == null) ? null : point.clone();
     }
 
     /** Get a reference to the point.

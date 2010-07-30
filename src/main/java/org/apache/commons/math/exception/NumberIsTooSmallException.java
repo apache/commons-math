@@ -65,9 +65,9 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
                                      Number min,
                                      boolean boundIsAllowed) {
         super(specific,
-              (boundIsAllowed ?
-               LocalizedFormats.NUMBER_TOO_SMALL :
-               LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED),
+              boundIsAllowed ?
+              LocalizedFormats.NUMBER_TOO_SMALL :
+              LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
               wrong, min);
 
         this.min = min;

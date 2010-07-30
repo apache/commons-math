@@ -25,7 +25,6 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /**
  * Base class for implementing optimizers for multivariate scalar
@@ -38,10 +37,6 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 public abstract class AbstractScalarDifferentiableOptimizer
     extends BaseAbstractScalarOptimizer<DifferentiableMultivariateRealFunction>
     implements DifferentiableMultivariateRealOptimizer {
-    /** Number of gradient evaluations. */
-    private int gradientEvaluations;
-    /** Objective function gradient. */
-    private MultivariateVectorialFunction gradient;
 
     /** Convergence checker.
      * @deprecated in 2.2 (to be removed in 3.0). Please use the accessor
@@ -60,9 +55,15 @@ public abstract class AbstractScalarDifferentiableOptimizer
      */
     protected double[] point;
 
+    /** Number of gradient evaluations. */
+    private int gradientEvaluations;
+
+    /** Objective function gradient. */
+    private MultivariateVectorialFunction gradient;
+
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleScalarValueChecker},
+     * The convergence check is set to a {@link org.apache.commons.math.optimization.SimpleScalarValueChecker},
      * the allowed number of iterations and evaluations are set to their
      * default values.
      */

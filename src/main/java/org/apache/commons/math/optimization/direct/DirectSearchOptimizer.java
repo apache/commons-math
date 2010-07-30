@@ -260,8 +260,8 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
         throws FunctionEvaluationException, OptimizationException,
         IllegalArgumentException {
 
-        if (startConfiguration == null
-            || startConfiguration.length != startPoint.length) {
+        if ((startConfiguration == null) ||
+            (startConfiguration.length != startPoint.length)) {
             // no initial configuration has been set up for simplex
             // build a default one from a unit hypercube
             final double[] unit = new double[startPoint.length];

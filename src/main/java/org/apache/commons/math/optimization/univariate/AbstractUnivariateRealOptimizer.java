@@ -258,6 +258,10 @@ public abstract class AbstractUnivariateRealOptimizer
      * classes.
      *
      * @return the optimum.
+     * @throws MaxIterationsExceededException if the maximum iteration count
+     * is exceeded.
+     * @throws FunctionEvaluationException if an error occurs evaluating
+     * the function.
      */
     protected abstract double doOptimize()
         throws MaxIterationsExceededException, FunctionEvaluationException;

@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -61,7 +62,7 @@ public class PowellOptimizer
     public PowellOptimizer(double lineSearchTolerance) {
         line = new LineSearch(lineSearchTolerance);
     }
-    
+
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
@@ -70,35 +71,35 @@ public class PowellOptimizer
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
-        
+
         final double[][] direc = new double[n][n];
         for (int i = 0; i < n; i++) {
             direc[i][i] = 1;
         }
-        
+
         double[] x = guess;
         double fVal = computeObjectiveValue(x);
         double[] x1 = x.clone();
         while (true) {
             incrementIterationsCounter();
-            
+
             double fX = fVal;
             double fX2 = 0;
             double delta = 0;
             int bigInd = 0;
             double alphaMin = 0;
-            
+
             double[] direc1 = new double[n];
             for (int i = 0; i < n; i++) {
                 direc1 = direc[i];
-            
+
                 fX2 = fVal;
-            
+
                 line.search(x, direc1);
                 fVal = line.getValueAtOptimum();
                 alphaMin = line.getOptimum();
                 setNewPointAndDirection(x, direc1, alphaMin);
-       
+
                 if ((fX2 - fVal) > delta) {
                     delta = fX2 - fVal;
                     bigInd = i;
@@ -108,14 +109,13 @@ public class PowellOptimizer
             final RealPointValuePair previous = new RealPointValuePair(x1, fX);
             final RealPointValuePair current = new RealPointValuePair(x, fVal);
             if (getConvergenceChecker().converged(getIterations(), previous, current)) {
-                switch (goal) {
-                case MINIMIZE:
-                    return (fVal < fX ? current : previous);
-                case MAXIMIZE:
-                    return (fVal > fX ? current : previous);
+                if (goal == GoalType.MINIMIZE) {
+                    return (fVal < fX) ? current : previous;
+                } else {
+                    return (fVal > fX) ? current : previous;
                 }
             }
-            
+
             double[] x2 = new double[n];
             for (int i = 0; i < n; i++) {
                 direc1[i] = x[i] - x1[i];
@@ -137,7 +137,7 @@ public class PowellOptimizer
                     fVal = line.getValueAtOptimum();
                     alphaMin = line.getOptimum();
                     setNewPointAndDirection(x, direc1, alphaMin);
-                    
+
                     final int lastInd = n - 1;
                     direc[bigInd] = direc[lastInd];
                     direc[lastInd] = direc1;
@@ -200,6 +200,8 @@ public class PowellOptimizer
          *
          * @param p Starting point.
          * @param d Search direction.
+         * @throws OptimizationException if function cannot be evaluated at some test point
+         * or algorithm fails to converge
          */
         public void search(final double[] p,
                            final double[] d)
@@ -225,7 +227,9 @@ public class PowellOptimizer
                                          bracket.getHi(),
                                          bracket.getMid());
                 valueAtOptimum = f.value(optimum);
-            } catch (Exception e) {
+            } catch (FunctionEvaluationException e) {
+                throw new OptimizationException(e);
+            } catch (MaxIterationsExceededException e) {
                 throw new OptimizationException(e);
             }
         }

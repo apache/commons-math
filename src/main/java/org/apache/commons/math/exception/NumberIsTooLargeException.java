@@ -44,6 +44,7 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
      *
      * @param wrong Value that is larger than the maximum.
      * @param max maximum.
+     * @param boundIsAllowed if true the maximum is included in the allowed range.
      */
     public NumberIsTooLargeException(Number wrong,
                                      Number max,
@@ -56,15 +57,16 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
      * @param specific Specific contexte pattern .
      * @param wrong Value that is larger than the maximum.
      * @param max maximum.
+     * @param boundIsAllowed if true the maximum is included in the allowed range.
      */
     public NumberIsTooLargeException(Localizable specific,
                                      Number wrong,
                                      Number max,
                                      boolean boundIsAllowed) {
         super(specific,
-              (boundIsAllowed ?
-               LocalizedFormats.NUMBER_TOO_LARGE :
-               LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED),
+              boundIsAllowed ?
+              LocalizedFormats.NUMBER_TOO_LARGE :
+              LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
               wrong, max);
 
         this.max = max;

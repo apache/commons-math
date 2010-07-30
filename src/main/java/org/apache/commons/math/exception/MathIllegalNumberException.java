@@ -40,8 +40,8 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
      *
      * @param specific Localizable pattern.
      * @param general Localizable pattern.
-     * @param arguments Arguments. The first element must be the requested
-     * value that raised the exception.
+     * @param wrong wrong number
+     * @param arguments Arguments.
      */
     protected MathIllegalNumberException(Localizable specific,
                                          Localizable general,
@@ -55,8 +55,8 @@ public class MathIllegalNumberException extends MathIllegalArgumentException {
      * Construct an exception.
      *
      * @param general Localizable pattern.
-     * @param arguments Arguments. The first element must be the requested
-     * value that raised the exception.
+     * @param wrong wrong number
+     * @param arguments Arguments.
      */
     protected MathIllegalNumberException(Localizable general,
                                          Number wrong,

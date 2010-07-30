@@ -27,6 +27,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * Commons-Math. Users of the API are advised to base their code on
  * {@link MultivariateRealOptimizer} or on
  * {@link DifferentiableMultivariateRealOptimizer}.
+ * @param <T> the type of the objective function to be optimized
  *
  * @see MultivariateRealOptimizer
  * @see DifferentiableMultivariateRealOptimizer
@@ -98,7 +99,7 @@ public interface BaseMultivariateRealOptimizer<T extends MultivariateRealFunctio
 
     /**
      * Optimize an objective function.
-     *     
+     *
      * @param f Objective function.
      * @param goalType Type of optimization goal: either {@link GoalType#MAXIMIZE}
      * or {@link GoalType#MINIMIZE}.

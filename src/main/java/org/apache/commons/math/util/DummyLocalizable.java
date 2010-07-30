@@ -32,7 +32,9 @@ public class DummyLocalizable implements Localizable {
     /** Source string. */
     private final String source;
 
-    /** Simple constructor. */
+    /** Simple constructor.
+     * @param source source text
+     */
     public DummyLocalizable(final String source) {
         this.source = source;
     }

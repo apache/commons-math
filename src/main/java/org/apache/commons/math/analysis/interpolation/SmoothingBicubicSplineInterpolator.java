@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathUtils.Order;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 
@@ -55,8 +56,8 @@ public class SmoothingBicubicSplineInterpolator
             throw new DimensionMismatchException(xval.length, zval.length);
         }
 
-        MathUtils.checkOrder(xval, 1, true);
-        MathUtils.checkOrder(yval, 1, true);
+        MathUtils.checkOrder(xval, Order.Direction.INCREASING, true);
+        MathUtils.checkOrder(yval, Order.Direction.INCREASING, true);
 
         final int xLen = xval.length;
         final int yLen = yval.length;

@@ -270,7 +270,6 @@ public final class BicubicSplineInterpolatingFunctionTest {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                final int index = i + N * j;
                 coeff[i + N * j] = (i + 1) * (j + 2);
             }
         }

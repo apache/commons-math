@@ -35,6 +35,6 @@ public interface TrivariateRealFunction {
      * @return the value.
      * @throws FunctionEvaluationException if the function evaluation fails.
      */
-    public double value(double x, double y, double z)
+    double value(double x, double y, double z)
         throws FunctionEvaluationException;
 }
