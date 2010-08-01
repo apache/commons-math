@@ -18,14 +18,13 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.random.RandomDataImpl;
 
 /**
  * Test cases for the MathUtils class.
