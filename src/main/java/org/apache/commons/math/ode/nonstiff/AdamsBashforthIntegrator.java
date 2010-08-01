@@ -140,6 +140,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
+    /** Integrator method name. */
+    private static final String METHOD_NAME = "Adams-Bashforth";
+
     /**
      * Build an Adams-Bashforth integrator with the given order and step control parameters.
      * @param nSteps number of steps of the method excluding the one being computed
@@ -156,7 +159,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                                     final double scalAbsoluteTolerance,
                                     final double scalRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", nSteps, nSteps, minStep, maxStep,
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
@@ -176,7 +179,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                                     final double[] vecAbsoluteTolerance,
                                     final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Bashforth", nSteps, nSteps, minStep, maxStep,
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
 

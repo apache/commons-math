@@ -157,6 +157,9 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  */
 public class AdamsMoultonIntegrator extends AdamsIntegrator {
 
+    /** Integrator method name. */
+    private static final String METHOD_NAME = "Adams-Moulton";
+
     /**
      * Build an Adams-Moulton integrator with the given order and error control parameters.
      * @param nSteps number of steps of the method excluding the one being computed
@@ -173,7 +176,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                                   final double scalAbsoluteTolerance,
                                   final double scalRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Moulton", nSteps, nSteps + 1, minStep, maxStep,
+        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
 
@@ -193,7 +196,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                                   final double[] vecAbsoluteTolerance,
                                   final double[] vecRelativeTolerance)
         throws IllegalArgumentException {
-        super("Adams-Moulton", nSteps, nSteps + 1, minStep, maxStep,
+        super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
               vecAbsoluteTolerance, vecRelativeTolerance);
     }
 
