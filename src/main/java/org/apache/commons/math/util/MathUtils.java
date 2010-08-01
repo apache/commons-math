@@ -1868,10 +1868,18 @@ public final class MathUtils {
     }
 
     public static class Order {
+
+        /** Enumerate type for increasing/decreasing directions. */
         public static enum Direction {
-                INCREASING,
-                DECREASING
+
+            /** Constant for increasing direction. */
+            INCREASING,
+
+            /** Constant for decreasing direction. */
+            DECREASING
+
         };
+
     }
 
     /**

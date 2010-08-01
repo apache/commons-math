@@ -37,6 +37,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * A class that implements an optimization algorithm should inherit from
  * {@link AbstractScalarOptimizer} or from
  * {@link AbstractScalarDifferentiableOptimizer}.
+ * @param <T> the type of the objective function to be optimized
  *
  * @version $Revision$ $Date$
  * @since 2.2
@@ -120,8 +121,8 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(RealConvergenceChecker checker) {
-        this.checker = checker;
+    public void setConvergenceChecker(RealConvergenceChecker convergenceChecker) {
+        this.checker = convergenceChecker;
     }
 
     /** {@inheritDoc} */

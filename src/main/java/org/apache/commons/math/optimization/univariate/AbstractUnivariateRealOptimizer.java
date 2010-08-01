@@ -46,13 +46,13 @@ public abstract class AbstractUnivariateRealOptimizer
     /** Number of evaluations already performed. */
     private int evaluations;
     /** Optimization type */
-    private GoalType goal;
+    private GoalType optimizationGoal;
     /** Lower end of search interval. */
-    private double min;
+    private double searchMin;
     /** Higher end of search interval. */
-    private double max;
+    private double searchMax;
     /** Initial guess . */
-    private double startValue;
+    private double searchStart;
     /** Function to optimize. */
     private UnivariateRealFunction function;
 
@@ -155,25 +155,25 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the optimization type.
      */
     public GoalType getGoalType() {
-        return goal;
+        return optimizationGoal;
     }
     /**
      * @return the lower of the search interval.
      */
     public double getMin() {
-        return min;
+        return searchMin;
     }
     /**
      * @return the higher of the search interval.
      */
     public double getMax() {
-        return max;
+        return searchMax;
     }
     /**
      * @return the initial guess.
      */
     public double getStartValue() {
-        return startValue;
+        return searchStart;
     }
 
     /**
@@ -215,15 +215,15 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public double optimize(UnivariateRealFunction function, GoalType goal,
+    public double optimize(UnivariateRealFunction f, GoalType goal,
                            double min, double max, double startValue)
         throws MaxIterationsExceededException, FunctionEvaluationException {
         // Initialize.
-        this.min = min;
-        this.max = max;
-        this.startValue = startValue;
-        this.goal = goal;
-        this.function = function;
+        this.searchMin = min;
+        this.searchMax = max;
+        this.searchStart = startValue;
+        this.optimizationGoal = goal;
+        this.function = f;
 
         // Reset.
         functionValue = Double.NaN;

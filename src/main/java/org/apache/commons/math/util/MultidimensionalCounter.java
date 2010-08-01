@@ -140,7 +140,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          * of the iterator.
          * @throws IndexOutOfBoundsException if {@code index} is not in the
          * correct interval (as defined by the length of the argument in the
-         * {@link #MultidimensionalCounter(int[])
+         * {@link MultidimensionalCounter#MultidimensionalCounter(int[])
          * constructor of the enclosing class}).
          */
         public int getCount(int dim) {
@@ -159,7 +159,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * Create a counter.
      *
      * @param size Counter sizes (number of slots in each dimension).
-     * @throws {@link NotStrictlyPositiveException} if one of the sizes is
+     * @throws NotStrictlyPositiveException if one of the sizes is
      * negative or zero.
      */
     public MultidimensionalCounter(int ... size) {
@@ -210,12 +210,12 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      *
      * @param index Index in unidimensional counter.
      * @return the multidimensional counts.
-     * @throws {@link OutOfRangeException} if {@code index} is not between
+     * @throws OutOfRangeException if {@code index} is not between
      * {@code 0} and the value returned by {@link #getSize()} (excluded).
      */
     public int[] getCounts(int index) {
-        if (index < 0
-            || index >= totalSize) {
+        if (index < 0 ||
+            index >= totalSize) {
             throw new OutOfRangeException(index, 0, totalSize);
         }
 
@@ -250,21 +250,21 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      *
      * @param c Indices in multidimensional counter.
      * @return the index within the unidimensionl counter.
-     * @throws {@link DimensionMismatchException} if the size of {@code c}
-     * does not match the size of the array given in the contructor.
-     * @throws {@link OutOfRangeException} if a value of {@code c} is not in
+     * @throws DimensionMismatchException if the size of {@code c}
+     * does not match the size of the array given in the constructor.
+     * @throws OutOfRangeException if a value of {@code c} is not in
      * the range of the corresponding dimension, as defined in the
-     * {@link #MultidimensionalCounter(int[]) constructor}.
+     * {@link MultidimensionalCounter#MultidimensionalCounter(int...) constructor}.
      */
-    public int getCount(int ... c) {
+    public int getCount(int ... c) throws OutOfRangeException {
         if (c.length != dimension) {
             throw new DimensionMismatchException(c.length, dimension);
         }
         int count = 0;
         for (int i = 0; i < dimension; i++) {
             final int index = c[i];
-            if (index < 0
-                || index >= size[i]) {
+            if (index < 0 ||
+                index >= size[i]) {
                 throw new OutOfRangeException(index, 0, size[i] - 1);
             }
             count += uniCounterOffset[i] * c[i];

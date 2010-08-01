@@ -148,7 +148,7 @@ public class MicrosphereInterpolatingFunction
                                             int brightnessExponent,
                                             int microsphereElements,
                                             UnitSphereRandomVectorGenerator rand)
-        throws DimensionMismatchException, IllegalArgumentException {
+        throws DimensionMismatchException, NoDataException {
         if (xval.length == 0 || xval[0] == null) {
             throw new NoDataException();
         }

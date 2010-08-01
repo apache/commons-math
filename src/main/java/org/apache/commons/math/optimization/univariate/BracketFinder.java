@@ -228,21 +228,50 @@ public class BracketFinder {
 
     /**
      * @return the lower bound of the bracket.
+     * @see #getFLow()
      */
     public double getLo() {
         return lo;
     }
+
+    /**
+     * Get function value at {@link #getLo()}.
+     * @return function value at {@link #getLo()}
+     */
+    public double getFLow() {
+        return fLo;
+    }
+
     /**
      * @return the higher bound of the bracket.
+     * @see #getFHi()
      */
     public double getHi() {
         return hi;
     }
+
+    /**
+     * Get function value at {@link #getHi()}.
+     * @return function value at {@link #getHi()}
+     */
+    public double getFHi() {
+        return fHi;
+    }
+
     /**
      * @return a point in the middle of the bracket.
+     * @see #getFMid()
      */
     public double getMid() {
         return mid;
+    }
+
+    /**
+     * Get function value at {@link #getMid()}.
+     * @return function value at {@link #getMid()}
+     */
+    public double getFMid() {
+        return fMid;
     }
 
     /**
