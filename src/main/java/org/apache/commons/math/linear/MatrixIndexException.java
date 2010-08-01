@@ -35,7 +35,9 @@ public class MatrixIndexException extends MathRuntimeException {
      * Constructs a new instance with specified formatted detail message.
      * @param pattern format specifier
      * @param arguments format arguments
+     * @deprecated as of 2.2 replaced by {@link #MatrixIndexException(Localizable, Object...)}
      */
+    @Deprecated
     public MatrixIndexException(final String pattern, final Object ... arguments) {
       this(new DummyLocalizable(pattern), arguments);
     }

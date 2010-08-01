@@ -529,7 +529,7 @@ public class MatrixUtils {
      */
     public static void checkRowIndex(final AnyMatrix m, final int row) {
         if (row < 0 || row >= m.getRowDimension()) {
-            throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
+            throw new MatrixIndexException(LocalizedFormats.ROW_INDEX_OUT_OF_RANGE,
                                            row, 0, m.getRowDimension() - 1);
         }
     }
@@ -543,7 +543,7 @@ public class MatrixUtils {
     public static void checkColumnIndex(final AnyMatrix m, final int column)
         throws MatrixIndexException {
         if (column < 0 || column >= m.getColumnDimension()) {
-            throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
+            throw new MatrixIndexException(LocalizedFormats.COLUMN_INDEX_OUT_OF_RANGE,
                                            column, 0, m.getColumnDimension() - 1);
         }
     }

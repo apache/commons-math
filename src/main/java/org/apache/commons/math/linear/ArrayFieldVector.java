@@ -794,9 +794,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     private void checkIndex(final int index)
         throws MatrixIndexException {
         if (index < 0 || index >= getDimension()) {
-            throw new MatrixIndexException(
-                    "index {0} out of allowed range [{1}, {2}]",
-                    index, 0, getDimension() - 1);
+            throw new MatrixIndexException(LocalizedFormats.INDEX_OUT_OF_RANGE,
+                                           index, 0, getDimension() - 1);
         }
     }
 

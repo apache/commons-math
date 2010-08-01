@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.util.LocalizedFormats;
+
 import junit.framework.TestCase;
 
 /**
@@ -27,9 +29,10 @@ public class MatrixIndexExceptionTest extends TestCase {
     /**
      *
      */
-    public void testConstructorMessage(){
-        String msg = "message";
-        MatrixIndexException ex = new MatrixIndexException(msg);
-        assertEquals(msg, ex.getMessage());
+    public void testParameter(){
+        MatrixIndexException ex = new MatrixIndexException(LocalizedFormats.INDEX_OUT_OF_RANGE, 12, 0, 5);
+        assertEquals(12, ex.getArguments()[0]);
+        assertEquals(0,  ex.getArguments()[1]);
+        assertEquals(5,  ex.getArguments()[2]);
     }
 }

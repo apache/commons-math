@@ -1020,7 +1020,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
      */
     protected void checkRowIndex(final int row) {
         if (row < 0 || row >= getRowDimension()) {
-            throw new MatrixIndexException("row index {0} out of allowed range [{1}, {2}]",
+            throw new MatrixIndexException(LocalizedFormats.ROW_INDEX_OUT_OF_RANGE,
                                            row, 0, getRowDimension() - 1);
         }
     }
@@ -1033,7 +1033,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     protected void checkColumnIndex(final int column)
         throws MatrixIndexException {
         if (column < 0 || column >= getColumnDimension()) {
-            throw new MatrixIndexException("column index {0} out of allowed range [{1}, {2}]",
+            throw new MatrixIndexException(LocalizedFormats.COLUMN_INDEX_OUT_OF_RANGE,
                                            column, 0, getColumnDimension() - 1);
         }
     }
