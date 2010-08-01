@@ -304,17 +304,19 @@ public class MultivariateSummaryStatistics
      */
     @Override
     public String toString() {
+        final String separator = ", ";
+        final String suffix = System.getProperty("line.separator");
         StringBuffer outBuffer = new StringBuffer();
-        outBuffer.append("MultivariateSummaryStatistics:\n");
-        outBuffer.append("n: " + getN() + "\n");
-        append(outBuffer, getMin(), "min: ", ", ", "\n");
-        append(outBuffer, getMax(), "max: ", ", ", "\n");
-        append(outBuffer, getMean(), "mean: ", ", ", "\n");
-        append(outBuffer, getGeometricMean(), "geometric mean: ", ", ", "\n");
-        append(outBuffer, getSumSq(), "sum of squares: ", ", ", "\n");
-        append(outBuffer, getSumLog(), "sum of logarithms: ", ", ", "\n");
-        append(outBuffer, getStandardDeviation(), "standard deviation: ", ", ", "\n");
-        outBuffer.append("covariance: " + getCovariance().toString() + "\n");
+        outBuffer.append("MultivariateSummaryStatistics:" + suffix);
+        outBuffer.append("n: " + getN() + suffix);
+        append(outBuffer, getMin(), "min: ", separator, suffix);
+        append(outBuffer, getMax(), "max: ", separator, suffix);
+        append(outBuffer, getMean(), "mean: ", separator, suffix);
+        append(outBuffer, getGeometricMean(), "geometric mean: ", separator, suffix);
+        append(outBuffer, getSumSq(), "sum of squares: ", separator, suffix);
+        append(outBuffer, getSumLog(), "sum of logarithms: ", separator, suffix);
+        append(outBuffer, getStandardDeviation(), "standard deviation: ", separator, suffix);
+        outBuffer.append("covariance: " + getCovariance().toString() + suffix);
         return outBuffer.toString();
     }
 
