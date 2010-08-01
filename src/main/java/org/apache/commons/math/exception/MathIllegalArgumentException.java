@@ -71,32 +71,35 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
         this(null, general, args);
     }
 
-    /** {@inheritDoc} */
+    /** Gets the message in a specified locale.
+    *
+    * @param locale Locale in which the message should be translated
+    *
+    * @return localized message
+    * @since 2.2
+    */
+   public String getMessage(final Locale locale) {
+       final StringBuilder sb = new StringBuilder();
+
+       if (specific != null) {
+           sb.append(MessageFactory.buildMessage(locale, specific, arguments));
+           sb.append(": ");
+       }
+       sb.append(MessageFactory.buildMessage(locale, general, arguments));
+
+       return sb.toString();
+   }
+
+   /** {@inheritDoc} */
     @Override
     public String getMessage() {
-        final StringBuilder sb = new StringBuilder();
-
-        if (specific != null) {
-            sb.append(MessageFactory.buildMessage(Locale.US, specific, arguments));
-            sb.append(": ");
-        }
-        sb.append(MessageFactory.buildMessage(Locale.US, general, arguments));
-
-        return sb.toString();
+        return getMessage(Locale.US);
     }
 
     /** {@inheritDoc} */
     @Override
     public String getLocalizedMessage() {
-        final StringBuilder sb = new StringBuilder();
-
-        if (specific != null) {
-            sb.append(MessageFactory.buildMessage(Locale.getDefault(), specific, arguments));
-            sb.append(": ");
-        }
-        sb.append(MessageFactory.buildMessage(Locale.getDefault(), general, arguments));
-
-        return sb.toString();
+        return getMessage(Locale.getDefault());
     }
 
     /**
