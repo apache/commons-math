@@ -23,8 +23,8 @@ import java.util.NoSuchElementException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.BinaryFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.LocalizedFormats;
 
 /**
@@ -816,7 +816,7 @@ public abstract class AbstractRealVector implements RealVector {
 
             /** {@inheritDoc} */
             public void remove() {
-                throw new UnsupportedOperationException("Not supported");
+                throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.UNSUPPORTED_OPERATION);
             }
         };
     }
@@ -924,7 +924,7 @@ public abstract class AbstractRealVector implements RealVector {
 
         /** {@inheritDoc} */
         public void remove() {
-            throw new UnsupportedOperationException("Not supported");
+            throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.UNSUPPORTED_OPERATION);
         }
     }
 

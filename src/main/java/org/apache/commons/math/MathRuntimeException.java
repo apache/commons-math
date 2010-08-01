@@ -550,6 +550,36 @@ public class MathRuntimeException extends RuntimeException {
     }
 
     /**
+     * Constructs a new <code>UnsupportedOperationException</code> with specified formatted detail message.
+     * Message formatting is delegated to {@link java.text.MessageFormat}.
+     * @param pattern format specifier
+     * @param arguments format arguments
+     * @return built exception
+     * @since 2.2
+     */
+    public static UnsupportedOperationException createUnsupportedOperationException(final Localizable pattern,
+                                                                                    final Object ... arguments) {
+        return new UnsupportedOperationException() {
+
+            /** Serializable version identifier. */
+            private static final long serialVersionUID = -4284649691002411505L;
+
+            /** {@inheritDoc} */
+            @Override
+            public String getMessage() {
+                return buildMessage(Locale.US, pattern, arguments);
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public String getLocalizedMessage() {
+                return buildMessage(Locale.getDefault(), pattern, arguments);
+            }
+
+        };
+    }
+
+    /**
      * Constructs a new <code>NullPointerException</code> with specified formatted detail message.
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
