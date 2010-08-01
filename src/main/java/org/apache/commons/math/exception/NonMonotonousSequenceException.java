@@ -34,7 +34,7 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
     /**
      * Direction (positive for increasing, negative for decreasing).
      */
-    private final MathUtils.Order.Direction direction;
+    private final MathUtils.OrderDirection direction;
     /**
      * Whether the sequence must be strictly increasing or decreasing.
      */
@@ -60,7 +60,7 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
     public NonMonotonousSequenceException(Number wrong,
                                           Number previous,
                                           int index) {
-        this(wrong, previous, index, MathUtils.Order.Direction.INCREASING, true);
+        this(wrong, previous, index, MathUtils.OrderDirection.INCREASING, true);
     }
 
     /**
@@ -77,9 +77,9 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
     public NonMonotonousSequenceException(Number wrong,
                                           Number previous,
                                           int index,
-                                          MathUtils.Order.Direction direction,
+                                          MathUtils.OrderDirection direction,
                                           boolean strict) {
-        super(direction == MathUtils.Order.Direction.INCREASING ?
+        super(direction == MathUtils.OrderDirection.INCREASING ?
               (strict ?
                LocalizedFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
                LocalizedFormats.NOT_INCREASING_SEQUENCE) :
@@ -97,7 +97,7 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
     /**
      * @return the order direction.
      **/
-    public MathUtils.Order.Direction getDirection() {
+    public MathUtils.OrderDirection getDirection() {
         return direction;
     }
     /**

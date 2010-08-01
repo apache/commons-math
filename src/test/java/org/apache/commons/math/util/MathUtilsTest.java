@@ -1471,38 +1471,38 @@ public final class MathUtilsTest extends TestCase {
 
     public void testCheckOrder() {
         MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 15},
-                             MathUtils.Order.Direction.INCREASING, true);
+                             MathUtils.OrderDirection.INCREASING, true);
         MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 2},
-                             MathUtils.Order.Direction.INCREASING, false);
+                             MathUtils.OrderDirection.INCREASING, false);
         MathUtils.checkOrder(new double[] {3, -5.5, -11, -27.5},
-                             MathUtils.Order.Direction.DECREASING, true);
+                             MathUtils.OrderDirection.DECREASING, true);
         MathUtils.checkOrder(new double[] {3, 0, 0, -5.5, -11, -27.5},
-                             MathUtils.Order.Direction.DECREASING, false);
+                             MathUtils.OrderDirection.DECREASING, false);
 
         try {
             MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15},
-                                 MathUtils.Order.Direction.INCREASING, true);
+                                 MathUtils.OrderDirection.INCREASING, true);
             fail("an exception should have been thrown");
         } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2},
-                                 MathUtils.Order.Direction.INCREASING, false);
+                                 MathUtils.OrderDirection.INCREASING, false);
             fail("an exception should have been thrown");
         } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5},
-                                 MathUtils.Order.Direction.DECREASING, true);
+                                 MathUtils.OrderDirection.DECREASING, true);
             fail("an exception should have been thrown");
         } catch (NonMonotonousSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5},
-                                 MathUtils.Order.Direction.DECREASING, false);
+                                 MathUtils.OrderDirection.DECREASING, false);
             fail("an exception should have been thrown");
         } catch (NonMonotonousSequenceException e) {
             // Expected

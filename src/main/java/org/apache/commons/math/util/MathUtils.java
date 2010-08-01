@@ -1867,30 +1867,25 @@ public final class MathUtils {
         return max;
     }
 
-    public static class Order {
-
-        /** Enumerate type for increasing/decreasing directions. */
-        public static enum Direction {
-
-            /** Constant for increasing direction. */
-            INCREASING,
-
-            /** Constant for decreasing direction. */
-            DECREASING
-
-        };
-
+    /**
+     * Specification of ordering direction.
+     */
+    public static enum OrderDirection {
+        /** Constant for increasing direction. */
+        INCREASING,
+        /** Constant for decreasing direction. */
+        DECREASING
     }
 
     /**
      * Checks that the given array is sorted.
      *
      * @param val Values.
-     * @param dir Order direction.
+     * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
      * @throws NonMonotonousSequenceException if the array is not sorted.
      */
-    public static void checkOrder(double[] val, Order.Direction dir, boolean strict) {
+    public static void checkOrder(double[] val, OrderDirection dir, boolean strict) {
         double previous = val[0];
         boolean ok = true;
 
@@ -1938,7 +1933,7 @@ public final class MathUtils {
      * @throws NonMonotonousSequenceException if the array is not sorted.
      */
     public static void checkOrder(double[] val) {
-        checkOrder(val, Order.Direction.INCREASING, true);
+        checkOrder(val, OrderDirection.INCREASING, true);
     }
 
     /**
@@ -1948,14 +1943,14 @@ public final class MathUtils {
      * @param dir Order direction (-1 for decreasing, 1 for increasing)
      * @param strict Whether the order should be strict
      * @throws NonMonotonousSequenceException if the array is not sorted.
-     * @deprecated as of 2.2 (please use the new {@link #checkOrder(double[],Order.Direction,boolean)
+     * @deprecated as of 2.2 (please use the new {@link #checkOrder(double[],OrderDirection,boolean)
      * checkOrder} method). To be removed in 3.0.
      */
-    public static void checkOrder(double[] val, int dir, boolean strict) {
+public static void checkOrder(double[] val, int dir, boolean strict) {
         if (dir > 0) {
-            checkOrder(val, Order.Direction.INCREASING, strict);
+            checkOrder(val, OrderDirection.INCREASING, strict);
         } else {
-            checkOrder(val, Order.Direction.DECREASING, strict);
+            checkOrder(val, OrderDirection.DECREASING, strict);
         }
     }
 }

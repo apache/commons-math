@@ -30,18 +30,18 @@ public class NonMonotonousSequenceExceptionTest {
     @Test
     public void testAccessors() {
         NonMonotonousSequenceException e
-            = new NonMonotonousSequenceException(0, -1, 1, MathUtils.Order.Direction.DECREASING, false);
+            = new NonMonotonousSequenceException(0, -1, 1, MathUtils.OrderDirection.DECREASING, false);
         Assert.assertEquals(0, e.getArgument());
         Assert.assertEquals(-1, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());
-        Assert.assertTrue(e.getDirection() == MathUtils.Order.Direction.DECREASING);
+        Assert.assertTrue(e.getDirection() == MathUtils.OrderDirection.DECREASING);
         Assert.assertFalse(e.getStrict());
 
         e = new NonMonotonousSequenceException(-1, 0, 1);
         Assert.assertEquals(-1, e.getArgument());
         Assert.assertEquals(0, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());
-        Assert.assertTrue(e.getDirection() == MathUtils.Order.Direction.INCREASING);
+        Assert.assertTrue(e.getDirection() == MathUtils.OrderDirection.INCREASING);
         Assert.assertTrue(e.getStrict());
     }
 }
