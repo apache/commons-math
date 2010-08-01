@@ -18,6 +18,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -1328,7 +1329,7 @@ public final class MathUtilsTest extends TestCase {
             MathUtils.subAndCheck(big, -1);
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
-            assertEquals("overflow: subtract", ex.getMessage());
+            assertTrue(ex.getMessage().length() > 1);
         }
     }
 

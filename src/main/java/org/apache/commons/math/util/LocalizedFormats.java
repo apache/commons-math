@@ -131,6 +131,7 @@ public enum LocalizedFormats implements Localizable {
     ITERATOR_EXHAUSTED("iterator exhausted"),
     LCM_OVERFLOW_32_BITS("overflow: lcm({0}, {1}) is 2^31"),
     LCM_OVERFLOW_64_BITS("overflow: lcm({0}, {1}) is 2^63"),
+    LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE("list of chromosomes bigger than maxPopulationSize"),
     LOESS_EXPECTS_AT_LEAST_ONE_POINT("Loess expects at least 1 point"),
     LOWER_BOUND_NOT_BELOW_UPPER_BOUND("lower bound ({0}) must be strictly less than upper bound ({1})"), /* keep */
     LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT("lower endpoint ({0}) must be less than or equal to upper endpoint ({1})"),
@@ -238,10 +239,13 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
+    OVERFLOW_IN_ADDITION("overflow in addition: {0} + {1}"),
+    OVERFLOW_IN_SUBTRACTION("overflow in subtraction: {0} - {1}"),
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),
     PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permuation domain ({1})"), /* keep */
     POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS("number of polynomial interpolants must match the number of segments ({0} != {1} - 1)"),
+    POPULATION_LIMIT_NOT_POSITIVE("population limit has to be positive"),
     POSITION_SIZE_MISMATCH_INPUT_ARRAY("position {0} and size {1} don't fit to the size of the input array {2}"),
     POWER_NEGATIVE_PARAMETERS("cannot raise an integral value to a negative power ({0}^{1})"),
     PROPAGATION_DIRECTION_MISMATCH("propagation direction mismatch"),

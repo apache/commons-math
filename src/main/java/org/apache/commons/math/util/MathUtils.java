@@ -99,7 +99,7 @@ public final class MathUtils {
     public static int addAndCheck(int x, int y) {
         long s = (long)x + (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
-            throw new ArithmeticException("overflow: add");
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, x, y);
         }
         return (int)s;
     }
@@ -115,7 +115,7 @@ public final class MathUtils {
      * @since 1.2
      */
     public static long addAndCheck(long a, long b) {
-        return addAndCheck(a, b, "overflow: add");
+        return addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
     }
 
     /**
@@ -123,17 +123,17 @@ public final class MathUtils {
      *
      * @param a an addend
      * @param b an addend
-     * @param msg the message to use for any thrown exception.
+     * @param pattern the pattern to use for any thrown exception.
      * @return the sum <code>a+b</code>
      * @throws ArithmeticException if the result can not be represented as an
      *         long
      * @since 1.2
      */
-    private static long addAndCheck(long a, long b, String msg) {
+    private static long addAndCheck(long a, long b, Localizable pattern) {
         long ret;
         if (a > b) {
             // use symmetry to reduce boundary cases
-            ret = addAndCheck(b, a, msg);
+            ret = addAndCheck(b, a, pattern);
         } else {
             // assert a <= b
 
@@ -143,7 +143,7 @@ public final class MathUtils {
                     if (Long.MIN_VALUE - b <= a) {
                         ret = a + b;
                     } else {
-                        throw new ArithmeticException(msg);
+                        throw MathRuntimeException.createArithmeticException(pattern, a, b);
                     }
                 } else {
                     // opposite sign addition is always safe
@@ -157,7 +157,7 @@ public final class MathUtils {
                 if (a <= Long.MAX_VALUE - b) {
                     ret = a + b;
                 } else {
-                    throw new ArithmeticException(msg);
+                    throw MathRuntimeException.createArithmeticException(pattern, a, b);
                 }
             }
         }
@@ -1544,7 +1544,7 @@ public final class MathUtils {
     public static int subAndCheck(int x, int y) {
         long s = (long)x - (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
-            throw new ArithmeticException("overflow: subtract");
+            throw MathRuntimeException.createArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, x, y);
         }
         return (int)s;
     }
@@ -1570,7 +1570,7 @@ public final class MathUtils {
             }
         } else {
             // use additive inverse
-            ret = addAndCheck(a, -b, msg);
+            ret = addAndCheck(a, -b, LocalizedFormats.OVERFLOW_IN_ADDITION);
         }
         return ret;
     }
