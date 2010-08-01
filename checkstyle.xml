@@ -132,11 +132,10 @@
     <module name="MultipleVariableDeclarations" />
 
     <!-- String literals more than one character long should not be repeated several times -->
-    <!--
+    <!-- the "unchecked" string is also accepted to allow @SuppressWarnings("unchecked") -->
     <module name="MultipleStringLiterals" >
-      <property name="ignoreStringsRegexp" value='^(("")|("."))$'/>
+      <property name="ignoreStringsRegexp" value='^(("")|(".")|("unchecked"))$'/>
     </module>
-    -->
 
     <!-- <module name="TodoComment" /> -->
 
