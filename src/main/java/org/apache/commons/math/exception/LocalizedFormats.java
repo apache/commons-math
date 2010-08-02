@@ -21,8 +21,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Enumeration for localized messages formats used for exemple
- * in exceptions messages.
+ * Enumeration for localized messages formats used in exceptions messages.
  * <p>
  * The constants in this enumeration represent the available
  * formats as localized strings. These formats are intended to be
