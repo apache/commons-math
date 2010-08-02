@@ -20,6 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -33,7 +34,6 @@ import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
-import org.apache.commons.math.util.LocalizedFormats;
 
 public class HighamHall54IntegratorTest
   extends TestCase {

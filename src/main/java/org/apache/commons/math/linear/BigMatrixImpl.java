@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Implementation of {@link BigMatrix} using a BigDecimal[][] array to store entries

@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.Localizable;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Exception to be thrown when zero is provided where it is not allowed.

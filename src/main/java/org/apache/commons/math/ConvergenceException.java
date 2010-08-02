@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.util.DummyLocalizable;
-import org.apache.commons.math.util.Localizable;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.DummyLocalizable;
+import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Error thrown when a numerical computation can not be performed because the

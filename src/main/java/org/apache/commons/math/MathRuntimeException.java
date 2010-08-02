@@ -26,9 +26,9 @@ import java.util.ConcurrentModificationException;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math.util.DummyLocalizable;
-import org.apache.commons.math.util.Localizable;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.DummyLocalizable;
+import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
 * Base class for commons-math unchecked exceptions.

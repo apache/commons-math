@@ -18,11 +18,11 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.RankingAlgorithm;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * <p>Spearman's rank correlation. This implementation performs a rank

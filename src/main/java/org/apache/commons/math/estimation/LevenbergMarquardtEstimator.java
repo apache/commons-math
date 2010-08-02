@@ -19,7 +19,7 @@ package org.apache.commons.math.estimation;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 
 /**

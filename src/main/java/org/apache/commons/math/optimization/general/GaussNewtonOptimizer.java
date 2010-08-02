@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.InvalidMatrixException;
@@ -26,7 +27,6 @@ import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Gauss-Newton least-squares solver.

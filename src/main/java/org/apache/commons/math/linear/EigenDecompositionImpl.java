@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**

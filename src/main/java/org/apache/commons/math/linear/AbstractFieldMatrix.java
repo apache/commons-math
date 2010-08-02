@@ -23,7 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Basic implementation of {@link FieldMatrix} methods regardless of the underlying storage.

@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization.fitting;
 
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class guesses harmonic coefficients from a sample.
 

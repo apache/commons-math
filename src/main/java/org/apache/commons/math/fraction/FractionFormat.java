@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Formats a Fraction number in proper format or improper format.  The number

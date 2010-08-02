@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.distribution.BetaDistributionImpl;
@@ -41,7 +42,6 @@ import org.apache.commons.math.distribution.PascalDistributionImpl;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.distribution.WeibullDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
-import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**

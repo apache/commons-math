@@ -17,11 +17,11 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * <p>

@@ -19,10 +19,10 @@ package org.apache.commons.math.analysis.polynomials;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.

@@ -20,6 +20,7 @@ package org.apache.commons.math.util;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This

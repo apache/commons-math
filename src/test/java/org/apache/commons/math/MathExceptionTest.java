@@ -24,9 +24,9 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Locale;
 
-import org.apache.commons.math.util.DummyLocalizable;
-import org.apache.commons.math.util.Localizable;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.DummyLocalizable;
+import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * @version $Revision$ $Date$

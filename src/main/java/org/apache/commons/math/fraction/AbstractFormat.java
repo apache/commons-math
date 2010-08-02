@@ -24,7 +24,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Common part shared by both {@link FractionFormat} and {@link BigFractionFormat}.

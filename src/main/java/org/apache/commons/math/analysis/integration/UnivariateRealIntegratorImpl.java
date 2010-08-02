@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.integration;
 import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Provide a default implementation for several generic functions.

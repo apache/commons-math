@@ -19,9 +19,9 @@ package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class implements a curve fitting specialized for sinusoids.
  * <p>Harmonic fitting is a very simple case of curve fitting. The

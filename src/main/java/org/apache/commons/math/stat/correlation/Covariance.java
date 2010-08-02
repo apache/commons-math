@@ -17,11 +17,11 @@
 package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Computes covariances for pairs of arrays or columns of a matrix.

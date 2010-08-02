@@ -18,7 +18,7 @@
 package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.Localizable;
+import org.apache.commons.math.exception.Localizable;
 
 /**
  * This exception is made available to users to report

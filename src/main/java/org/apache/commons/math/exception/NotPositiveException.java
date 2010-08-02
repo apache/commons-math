@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.Localizable;
 
 /**
  * Exception to be thrown when the argument is negative.

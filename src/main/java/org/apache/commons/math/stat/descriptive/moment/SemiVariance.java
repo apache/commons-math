@@ -19,8 +19,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.

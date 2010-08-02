@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * This class represents exceptions thrown when a matrix expected to

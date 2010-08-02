@@ -22,11 +22,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.StepHandler;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Base class managing common boilerplate for all integrators.

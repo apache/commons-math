@@ -19,7 +19,6 @@ package org.apache.commons.math.exception;
 import java.util.Locale;
 import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.math.util.Localizable;
 
 /**
  * Base class for all preconditions violation exceptions.

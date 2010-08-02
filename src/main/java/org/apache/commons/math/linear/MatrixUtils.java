@@ -27,9 +27,9 @@ import java.util.Arrays;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * A collection of static methods that operate on or return matrices.

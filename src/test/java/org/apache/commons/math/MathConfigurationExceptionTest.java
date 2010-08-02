@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 
 import java.util.Locale;
 
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * @version $Revision$ $Date$

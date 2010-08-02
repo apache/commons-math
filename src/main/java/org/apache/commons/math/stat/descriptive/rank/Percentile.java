@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Provides percentile computation.

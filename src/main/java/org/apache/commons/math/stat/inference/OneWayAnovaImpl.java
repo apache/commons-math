@@ -22,9 +22,9 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math.util.LocalizedFormats;
 
 
 /**

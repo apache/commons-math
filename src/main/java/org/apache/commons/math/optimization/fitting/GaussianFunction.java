@@ -24,8 +24,8 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroNotAllowedException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * A Gaussian function.  Specifically:

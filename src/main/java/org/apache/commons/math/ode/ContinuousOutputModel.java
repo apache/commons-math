@@ -22,9 +22,9 @@ import java.util.List;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This class stores all information provided by an ODE integrator

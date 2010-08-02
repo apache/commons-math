@@ -28,9 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation

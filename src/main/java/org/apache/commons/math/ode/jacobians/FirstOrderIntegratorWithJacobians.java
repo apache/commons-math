@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -34,7 +35,6 @@ import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /** This class enhances a first order integrator for differential equations to
  * compute also partial derivatives of the solution with respect to initial state

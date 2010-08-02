@@ -24,8 +24,8 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Formats a 3D vector in components list format "{x; y; z}".

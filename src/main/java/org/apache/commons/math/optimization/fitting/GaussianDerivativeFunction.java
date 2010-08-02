@@ -23,8 +23,8 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroNotAllowedException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * The derivative of {@link GaussianFunction}.  Specifically:

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.util;
+package org.apache.commons.math.exception;
 
 import java.util.Locale;
 import java.util.MissingResourceException;

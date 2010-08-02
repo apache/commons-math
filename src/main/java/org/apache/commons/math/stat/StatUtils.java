@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -28,7 +29,6 @@ import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * StatUtils provides static methods for computing statistics based on data

@@ -18,6 +18,7 @@
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * @version $Revision$ $Date$

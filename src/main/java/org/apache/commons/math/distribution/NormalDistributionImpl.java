@@ -22,8 +22,8 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Default implementation of

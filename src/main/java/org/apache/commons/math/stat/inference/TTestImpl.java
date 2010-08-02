@@ -20,9 +20,9 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.

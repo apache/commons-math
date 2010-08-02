@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -31,7 +32,6 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math.util.LocalizedFormats;
 import org.apache.commons.math.util.ResizableDoubleArray;
 
 

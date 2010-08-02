@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Implementation of RealMatrix using a double[][] array to store entries and

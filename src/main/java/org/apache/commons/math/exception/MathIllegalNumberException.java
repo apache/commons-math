@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.Localizable;
 
 /**
  * Base class for exceptions raised by a wrong number.

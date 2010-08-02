@@ -14,30 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.util;
+package org.apache.commons.math.exception;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Interface for localizable strings.
+ * Dummy implementation of the {@link Localizable} interface, without localization.
  *
  * @version $Revision$ $Date$
  * @since 2.2
  */
-public interface Localizable extends Serializable {
+public class DummyLocalizable implements Localizable {
 
-    /**
-     * Get the source (non-localized) string.
-     * @return source string
-     */
-    String getSourceString();
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 8843275624471387299L;
 
-    /**
-     * Get the localized string.
-     * @param locale locale into which to get the string
-     * @return localized string or the source string if no localized version is available
+    /** Source string. */
+    private final String source;
+
+    /** Simple constructor.
+     * @param source source text
      */
-    String getLocalizedString(Locale locale);
+    public DummyLocalizable(final String source) {
+        this.source = source;
+    }
+
+    /** {@inheritDoc} */
+    public String getSourceString() {
+        return source;
+    }
+
+    /** {@inheritDoc} */
+    public String getLocalizedString(Locale locale) {
+        return source;
+    }
+
+    /** {@inheritDoc} */
+    public String toString() {
+        return source;
+    }
 
 }

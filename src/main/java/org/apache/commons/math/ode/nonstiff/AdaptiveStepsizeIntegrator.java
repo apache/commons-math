@@ -17,12 +17,12 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * This abstract class holds the common part of all adaptive

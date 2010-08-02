@@ -18,7 +18,7 @@
 package org.apache.commons.math.geometry;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /** This class represents exceptions thrown while extractiong Cardan
  * or Euler angles from a rotation.

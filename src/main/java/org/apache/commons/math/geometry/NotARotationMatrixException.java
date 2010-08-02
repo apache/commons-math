@@ -18,7 +18,7 @@
 package org.apache.commons.math.geometry;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.Localizable;
+import org.apache.commons.math.exception.Localizable;
 
 /**
  * This class represents exceptions thrown while building rotations

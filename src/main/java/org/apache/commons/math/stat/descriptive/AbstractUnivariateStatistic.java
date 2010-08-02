@@ -17,7 +17,7 @@
 package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * Abstract base class for all implementations of the

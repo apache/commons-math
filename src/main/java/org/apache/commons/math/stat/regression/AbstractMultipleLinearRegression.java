@@ -17,11 +17,11 @@
 package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.

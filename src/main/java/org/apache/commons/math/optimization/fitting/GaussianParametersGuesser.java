@@ -21,10 +21,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroNotAllowedException;
-import org.apache.commons.math.util.LocalizedFormats;
 
 /**
  * Guesses the parameters (<tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and <tt>d</tt>)

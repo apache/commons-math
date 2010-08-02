@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.util.LocalizedFormats;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 
 /**
