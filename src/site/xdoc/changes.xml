@@ -94,6 +94,8 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="erans" type="add" issue="MATH-361">
         Created package "exception" to contain the new exceptions hierarchy.
+        Created package "exception.util": utilities for the exception classes
+        (e.g. managing the localization of error messages).
       </action>
       <action dev="erans" type="add" issue="MATH-378" due-to="Matthew Rowles">
         Implementation of linear interpolation.

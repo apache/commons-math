@@ -115,16 +115,8 @@ public class BigFraction
      *            the denominator, must not be <code>null</code>.
      * @throws ArithmeticException
      *             if the denominator is <code>zero</code>.
-     * @throws NullPointerException
-     *             if the numerator or the denominator is <code>zero</code>.
      */
     public BigFraction(BigInteger num, BigInteger den) {
-        if (num == null) {
-            throw MathRuntimeException.createNullPointerException(LocalizedFormats.NULL_NUMERATOR);
-        }
-        if (den == null) {
-            throw MathRuntimeException.createNullPointerException(LocalizedFormats.NULL_DENOMINATOR);
-        }
         if (BigInteger.ZERO.equals(den)) {
             throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }

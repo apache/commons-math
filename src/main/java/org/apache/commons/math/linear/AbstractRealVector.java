@@ -21,7 +21,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -29,7 +30,7 @@ import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
  * This class provides default basic implementations for many methods in the
- * {@link RealVector} interface with.
+ * {@link RealVector} interface.
  * @version $Revision$ $Date$
  * @since 2.1
  */
@@ -53,11 +54,10 @@ public abstract class AbstractRealVector implements RealVector {
      * inconsistent with vector size
      */
     protected void checkVectorDimensions(int n)
-        throws IllegalArgumentException {
-        double d = getDimension();
+        throws DimensionMismatchException {
+        int d = getDimension();
         if (d != n) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.VECTOR_LENGTH_MISMATCH, d, n);
+            throw new DimensionMismatchException(d, n);
         }
     }
 
@@ -816,7 +816,7 @@ public abstract class AbstractRealVector implements RealVector {
 
             /** {@inheritDoc} */
             public void remove() {
-                throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.UNSUPPORTED_OPERATION);
+                throw new MathUnsupportedOperationException();
             }
         };
     }
@@ -924,7 +924,7 @@ public abstract class AbstractRealVector implements RealVector {
 
         /** {@inheritDoc} */
         public void remove() {
-            throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.UNSUPPORTED_OPERATION);
+            throw new MathUnsupportedOperationException();
         }
     }
 

@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.exception;
+package org.apache.commons.math.exception.util;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+
+import org.apache.commons.math.exception.Localizable;
 
 /**
  * Class for constructing localized messages.
@@ -37,13 +39,40 @@ public class MessageFactory {
      * @param locale Locale in which the message should be translated.
      * @param pattern Format specifier.
      * @param arguments Format arguments.
-     * @return a message string.
-     * @since 2.2
+     * @return a localized message string.
      */
     public static String buildMessage(Locale locale,
                                       Localizable pattern,
                                       Object ... arguments) {
-        final String locPattern = pattern.getLocalizedString(locale);
-        return (new MessageFormat(locPattern, locale)).format(arguments);
+        return buildMessage(locale, null, pattern, arguments);
+    }
+
+    /**
+     * Builds a message string by from two patterns (specific and general) and
+     * an argument list.
+     *
+     * @param locale Locale in which the message should be translated.
+     * @param specific Format specifier.
+     * @param general Format specifier.
+     * @param arguments Format arguments. They will be substituted first in
+     * the {@code specific} format specifier, then the remaining arguments
+     * will be substituted in the {@code general} format specifier.
+     * @return a localized message string.
+     */
+    public static String buildMessage(Locale locale,
+                                      Localizable specific,
+                                      Localizable general,
+                                      Object ... arguments) {
+        final StringBuilder sb = new StringBuilder();
+        MessageFormat fmt = null;
+        if (specific != null) {
+            fmt = new MessageFormat(specific.getLocalizedString(locale), locale);
+            sb.append(fmt.format(arguments));
+            sb.append(": ");
+        }
+        fmt = new MessageFormat(general.getLocalizedString(locale), locale);
+        sb.append(fmt.format(arguments));
+        
+        return sb.toString();
     }
 }

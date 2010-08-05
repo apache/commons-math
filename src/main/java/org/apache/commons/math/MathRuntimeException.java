@@ -556,6 +556,8 @@ public class MathRuntimeException extends RuntimeException {
      * @param arguments format arguments
      * @return built exception
      * @since 2.2
+     * @deprecated in 2.2. Please use {@link org.apache.commons.math.exception.MathUnsupportedOperationException}
+     * instead.
      */
     public static UnsupportedOperationException createUnsupportedOperationException(final Localizable pattern,
                                                                                     final Object ... arguments) {
@@ -600,6 +602,7 @@ public class MathRuntimeException extends RuntimeException {
      * @param arguments format arguments
      * @return built exception
      * @since 2.2
+     * @deprecated in 2.2. Checks for "null" must not be performed in Commons-Math.
      */
     public static NullPointerException createNullPointerException(final Localizable pattern,
                                                                   final Object ... arguments) {

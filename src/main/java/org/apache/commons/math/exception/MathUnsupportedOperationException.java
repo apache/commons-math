@@ -20,18 +20,18 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.MessageFactory;
+import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
- * Base class for all preconditions violation exceptions.
- * This class is not intended to be instantiated directly: it should serve
- * as a base class to create all the exceptions that share the semantics of
- * the standard {@link IllegalArgumentException}, but must also provide a
- * localized message.
+ * Base class for all unsupported features.
+ * It is used for all the exceptions that share the semantics of the standard
+ * {@link UnsupportedOperationException}, but must also provide a localized
+ * message.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalArgumentException extends IllegalArgumentException {
+public class MathUnsupportedOperationException extends UnsupportedOperationException {
 
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
@@ -41,34 +41,25 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      */
     private final Localizable specific;
     /**
-     * Pattern used to build the message (general problem description).
-     */
-    private final Localizable general;
-    /**
      * Arguments used to build the message.
      */
     private final Object[] arguments;
 
     /**
-     * @param specific Message pattern providing the specific context of
-     * the error.
-     * @param general Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    protected MathIllegalArgumentException(Localizable specific,
-                                           Localizable general,
-                                           Object ... args) {
-        this.specific = specific;
-        this.general = general;
-        arguments = ArgUtils.flatten(args);
+    public MathUnsupportedOperationException(Object ... args) {
+        this(null, args);
     }
     /**
-     * @param general Message pattern explaining the cause of the error.
+     * @param specific Message pattern providing the specific context of
+     * the error.
      * @param args Arguments.
      */
-    protected MathIllegalArgumentException(Localizable general,
-                                           Object ... args) {
-        this(null, general, args);
+    public MathUnsupportedOperationException(Localizable specific,
+                                             Object ... args) {
+        this.specific = specific;
+        arguments = ArgUtils.flatten(args);
     }
 
     /**
@@ -79,7 +70,10 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      * @return the localized message.
      */
     public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale, specific, general, arguments);
+        return MessageFactory.buildMessage(locale,
+                                           specific,
+                                           LocalizedFormats.UNSUPPORTED_OPERATION,
+                                           arguments);
     }
 
    /** {@inheritDoc} */
