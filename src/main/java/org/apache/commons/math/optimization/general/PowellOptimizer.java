@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.optimization.general;
 
+import java.util.Arrays;
+
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -39,28 +41,49 @@ import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 public class PowellOptimizer
     extends AbstractScalarOptimizer {
     /**
-     * Defautl line search tolerance ({@value}).
+     * Default relative tolerance for line search ({@value}).
      */
-    public static final double DEFAULT_LINE_SEARCH_TOLERANCE = 1e-7;
+    public static final double DEFAULT_LS_RELATIVE_TOLERANCE = 1e-7;
+    /**
+     * Default absolute tolerance for line search ({@value}).
+     */
+    public static final double DEFAULT_LS_ABSOLUTE_TOLERANCE = 1e-11;
     /**
      * Line search.
      */
     private final LineSearch line;
 
     /**
-     * Constructor using the default line search tolerance (see the
-     * {@link #PowellOptimizer(double) other constructor}).
+     * Constructor with default line search tolerances (see the
+     * {@link #PowellOptimizer(double,double) other constructor}).
      */
     public PowellOptimizer() {
-        this(DEFAULT_LINE_SEARCH_TOLERANCE);
+        this(DEFAULT_LS_RELATIVE_TOLERANCE,
+             DEFAULT_LS_ABSOLUTE_TOLERANCE);
     }
 
     /**
-     * @param lineSearchTolerance Relative error tolerance for the line search
-     * algorithm ({@link BrentOptimizer}).
+     * Constructor with default absolute line search tolerances (see
+     * the {@link #PowellOptimizer(double,double) other constructor}).
+     *
+     * @param lsRelativeTolerance Relative error tolerance for
+     * the line search algorithm ({@link BrentOptimizer}).
      */
-    public PowellOptimizer(double lineSearchTolerance) {
-        line = new LineSearch(lineSearchTolerance);
+    public PowellOptimizer(double lsRelativeTolerance) {
+        this(lsRelativeTolerance,
+             DEFAULT_LS_ABSOLUTE_TOLERANCE);
+    }
+
+    /**
+     * @param lsRelativeTolerance Relative error tolerance for
+     * the line search algorithm ({@link BrentOptimizer}).
+     * @param lsAbsoluteTolerance Relative error tolerance for
+     * the line search algorithm ({@link BrentOptimizer}).
+     */
+    public PowellOptimizer(double lsRelativeTolerance,
+                           double lsAbsoluteTolerance) {
+        line = new LineSearch(lsRelativeTolerance,
+                              lsAbsoluteTolerance);
     }
 
     /** {@inheritDoc} */
@@ -89,9 +112,9 @@ public class PowellOptimizer
             int bigInd = 0;
             double alphaMin = 0;
 
-            double[] direc1 = new double[n];
+            double[] direc1 = null;
             for (int i = 0; i < n; i++) {
-                direc1 = direc[i];
+                direc1 = Arrays.copyOf(direc[i], n);
 
                 fX2 = fVal;
 
@@ -188,11 +211,13 @@ public class PowellOptimizer
         private double valueAtOptimum = Double.NaN;
 
         /**
-         * @param tolerance Relative tolerance.
+         * @param relativeTolerance Relative tolerance.
+         * @param absoluteTolerance Absolute tolerance.
          */
-        public LineSearch(double tolerance) {
-            optim.setRelativeAccuracy(tolerance);
-            optim.setAbsoluteAccuracy(Math.ulp(1d));
+        public LineSearch(double relativeTolerance,
+                          double absoluteTolerance) {
+            optim.setRelativeAccuracy(relativeTolerance);
+            optim.setAbsoluteAccuracy(absoluteTolerance);
         }
 
         /**
@@ -206,6 +231,11 @@ public class PowellOptimizer
         public void search(final double[] p,
                            final double[] d)
             throws OptimizationException {
+
+            // Reset.
+            optimum = Double.NaN;
+            valueAtOptimum = Double.NaN;
+
             try {
                 final int n = p.length;
                 final UnivariateRealFunction f = new UnivariateRealFunction() {
@@ -216,7 +246,8 @@ public class PowellOptimizer
                             for (int i = 0; i < n; i++) {
                                 x[i] = p[i] + alpha * d[i];
                             }
-                            return computeObjectiveValue(x);
+                            final double obj = computeObjectiveValue(x);
+                            return obj;
                         }
                     };
 
@@ -226,7 +257,7 @@ public class PowellOptimizer
                                          bracket.getLo(),
                                          bracket.getHi(),
                                          bracket.getMid());
-                valueAtOptimum = f.value(optimum);
+                valueAtOptimum = optim.getFunctionValue();
             } catch (FunctionEvaluationException e) {
                 throw new OptimizationException(e);
             } catch (MaxIterationsExceededException e) {
