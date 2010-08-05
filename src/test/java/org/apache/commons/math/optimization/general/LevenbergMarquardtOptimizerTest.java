@@ -439,8 +439,8 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(cov[0][1], cov[1][0], 1.0e-14);
         assertEquals(0.0016, cov[1][1], 0.001);
         errors = optimizer.guessParametersErrors();
-        assertEquals(0.002, errors[0], 0.001);
-        assertEquals(0.002, errors[1], 0.001);
+        assertEquals(0.004, errors[0], 0.001);
+        assertEquals(0.004, errors[1], 0.001);
 
     }
 

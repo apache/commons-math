@@ -108,7 +108,7 @@ public class SingularValueDecompositionImpl implements
                 for (int k = 0; k < n; k++) {
                     matAAT[i][j] += localcopy[i][k] * localcopy[j][k];
                 }
-                matAAT[j][i]=matAAT[i][j];
+                 matAAT[j][i]=matAAT[i][j];
             }
         }
         int p;
@@ -119,7 +119,6 @@ public class SingularValueDecompositionImpl implements
                     new Array2DRowRealMatrix(matATA),1.0);
             singularValues = eigenDecomposition.getRealEigenvalues();
             cachedV = eigenDecomposition.getV();
-
             // compute eigen decomposition of A*A^T
             eigenDecomposition = new EigenDecompositionImpl(
                     new Array2DRowRealMatrix(matAAT),1.0);
@@ -141,7 +140,7 @@ public class SingularValueDecompositionImpl implements
             singularValues[i] = Math.sqrt(Math.abs(singularValues[i]));
         }
         // Up to this point, U and V are computed independently of each other.
-        // There still an sign indetermination of each column of, say, U.
+        // There still a sign indetermination of each column of, say, U.
         // The sign is set such that A.V_i=sigma_i.U_i (i<=p)
         // The right sign corresponds to a positive dot product of A.V_i and U_i
         for (int i = 0; i < p; i++) {
