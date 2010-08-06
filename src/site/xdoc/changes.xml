@@ -96,6 +96,8 @@ The <action> type attribute can be add,update,fix,remove.
         Created package "exception" to contain the new exceptions hierarchy.
         Created package "exception.util": utilities for the exception classes
         (e.g. managing the localization of error messages).
+        Default policy for dealing with invalid null references: raise a
+        "NullArgumentException" (subclass of "IllegalArgumentException").
       </action>
       <action dev="erans" type="add" issue="MATH-378" due-to="Matthew Rowles">
         Implementation of linear interpolation.

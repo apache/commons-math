@@ -26,6 +26,7 @@ import java.util.Locale;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -358,13 +359,11 @@ public class ComplexFormat extends CompositeFormat {
     /**
      * Modify the imaginaryFormat.
      * @param imaginaryFormat The new imaginaryFormat value.
-     * @throws IllegalArgumentException if <code>imaginaryFormat</code> is
-     *         <code>null</code>.
+     * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
      */
     public void setImaginaryFormat(NumberFormat imaginaryFormat) {
         if (imaginaryFormat == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NULL_IMAGINARY_FORMAT);
+            throw new NullArgumentException(LocalizedFormats.IMAGINARY_FORMAT);
         }
         this.imaginaryFormat = imaginaryFormat;
     }
@@ -372,13 +371,11 @@ public class ComplexFormat extends CompositeFormat {
     /**
      * Modify the realFormat.
      * @param realFormat The new realFormat value.
-     * @throws IllegalArgumentException if <code>realFormat</code> is
-     *         <code>null</code>.
+     * @throws NullArgumentException if {@code realFormat} is {@code null}.
      */
     public void setRealFormat(NumberFormat realFormat) {
         if (realFormat == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NULL_REAL_FORMAT);
+            throw new NullArgumentException(LocalizedFormats.REAL_FORMAT);
         }
         this.realFormat = realFormat;
     }

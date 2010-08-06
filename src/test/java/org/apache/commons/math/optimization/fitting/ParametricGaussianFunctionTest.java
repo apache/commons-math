@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.exception.ZeroNotAllowedException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
 import org.apache.commons.math.optimization.general.
@@ -133,7 +133,7 @@ public class ParametricGaussianFunctionTest {
      *
      * @throws FunctionEvaluationException in the event of a test case error
      */
-    @Test(expected=ZeroNotAllowedException.class)
+    @Test(expected=ZeroException.class)
     public void testValue03() throws FunctionEvaluationException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, new double[] {0.0, 1.0, 1.0, 0.0});

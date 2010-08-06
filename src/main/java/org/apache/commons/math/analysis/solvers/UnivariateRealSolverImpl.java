@@ -22,6 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -74,7 +75,7 @@ public abstract class UnivariateRealSolverImpl
                                        final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         this.f = f;
         this.defaultFunctionValueAccuracy = 1.0e-15;

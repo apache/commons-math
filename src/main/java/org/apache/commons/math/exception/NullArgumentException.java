@@ -16,32 +16,32 @@
  */
 package org.apache.commons.math.exception;
 
-
 /**
- * Exception to be thrown when zero is provided where it is not allowed.
+ * All conditions checks that fail due to a {@code null} argument must throw
+ * this exception.
+ * This class is meant to signal a precondition violation ("null is an illegal
+ * argument") and so does not extend the standard {@code NullPointerException}.
+ * Proagation of {@code NullPointerException} from within Commons-Math is
+ * construed to be a bug.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class ZeroNotAllowedException extends MathIllegalNumberException {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -1960874856936000015L;
-
-    /**
-     * Construct the exception.
-     */
-    public ZeroNotAllowedException() {
-        this(null);
-    }
+public class NullArgumentException extends MathIllegalArgumentException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -6024911025449780478L;
 
     /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific contexte pattern .
+     * Default constructor.
      */
-    public ZeroNotAllowedException(Localizable specific) {
-        super(specific, LocalizedFormats.ZERO_NOT_ALLOWED, 0);
+    public NullArgumentException() {
+        super(LocalizedFormats.NULL_NOT_ALLOWED);
     }
-
+    /**
+     * @param specific Message pattern providing the specific context of
+     * the error.
+     */
+    public NullArgumentException(Localizable specific) {
+        super(specific, LocalizedFormats.NULL_NOT_ALLOWED);
+    }
 }

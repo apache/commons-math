@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -56,7 +56,7 @@ public abstract class AbstractStorelessUnivariateStatistic
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         return evaluate(values, 0, values.length);
     }
@@ -124,7 +124,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      */
     public void incrementAll(double[] values) {
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         incrementAll(values, 0, values.length);
     }

@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -214,7 +214,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     @Override
     public double evaluate(final double[] values) {
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         return evaluate(values, 0, values.length);
     }
@@ -589,7 +589,6 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
         return result;
     }
 
-
     /**
      * Copies source to dest.
      * <p>Neither source nor dest can be null.</p>
@@ -599,9 +598,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Variance source, Variance dest) {
+        if (source == null ||
+            dest == null) {
+            throw new NullArgumentException();
+        }
         dest.moment = source.moment.copy();
         dest.isBiasCorrected = source.isBiasCorrected;
         dest.incMoment = source.incMoment;
     }
-
 }

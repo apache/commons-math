@@ -21,6 +21,7 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
@@ -170,7 +171,7 @@ public class UnivariateRealSolverUtils {
             FunctionEvaluationException {
 
         if (function == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         if (maximumIterations <= 0)  {
             throw MathRuntimeException.createIllegalArgumentException(
@@ -225,7 +226,7 @@ public class UnivariateRealSolverUtils {
      */
     private static void setup(UnivariateRealFunction f) {
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
     }
 

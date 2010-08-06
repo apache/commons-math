@@ -23,7 +23,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.LocalizedFormats;
 
 /**
@@ -114,13 +114,11 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Modify the denominator format.
      * @param format the new denominator format value.
-     * @throws IllegalArgumentException if <code>format</code> is
-     *         <code>null</code>.
+     * @throws NullArgumentException if {@code format} is {@code null}.
      */
     public void setDenominatorFormat(final NumberFormat format) {
         if (format == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.NULL_DENOMINATOR_FORMAT);
+            throw new NullArgumentException(LocalizedFormats.DENOMINATOR_FORMAT);
         }
         this.denominatorFormat = format;
     }
@@ -128,13 +126,11 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Modify the numerator format.
      * @param format the new numerator format value.
-     * @throws IllegalArgumentException if <code>format</code> is
-     *         <code>null</code>.
+     * @throws NullArgumentException if {@code format} is {@code null}.
      */
     public void setNumeratorFormat(final NumberFormat format) {
         if (format == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.NULL_NUMERATOR_FORMAT);
+            throw new NullArgumentException(LocalizedFormats.NUMERATOR_FORMAT);
         }
         this.numeratorFormat = format;
     }

@@ -24,7 +24,8 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.LocalizedFormats;
-import org.apache.commons.math.exception.ZeroNotAllowedException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * The derivative of {@link GaussianFunction}.  Specifically:
@@ -65,7 +66,7 @@ public class GaussianDerivativeFunction implements UnivariateRealFunction, Seria
      */
     public GaussianDerivativeFunction(double b, double c, double d) {
         if (d == 0.0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         this.b = b;
         this.c = c;
@@ -83,13 +84,13 @@ public class GaussianDerivativeFunction implements UnivariateRealFunction, Seria
      */
     public GaussianDerivativeFunction(double[] parameters) {
         if (parameters == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         if (parameters.length != 3) {
             throw new DimensionMismatchException(3, parameters.length);
         }
         if (parameters[2] == 0.0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         this.b = parameters[0];
         this.c = parameters[1];

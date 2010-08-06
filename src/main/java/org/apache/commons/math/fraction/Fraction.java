@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -473,7 +474,7 @@ public class Fraction
      */
     private Fraction addSub(Fraction fraction, boolean isAdd) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         // zero is identity for addition.
         if (numerator == 0) {
@@ -530,7 +531,7 @@ public class Fraction
      */
     public Fraction multiply(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         if (numerator == 0 || fraction.numerator == 0) {
             return ZERO;
@@ -565,7 +566,7 @@ public class Fraction
      */
     public Fraction divide(Fraction fraction) {
         if (fraction == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FRACTION);
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         if (fraction.numerator == 0) {
             throw MathRuntimeException.createArithmeticException(

@@ -20,8 +20,8 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -221,13 +221,11 @@ public class ProperFractionFormat extends FractionFormat {
     /**
      * Modify the whole format.
      * @param format The new whole format value.
-     * @throws IllegalArgumentException if <code>format</code> is
-     *         <code>null</code>.
+     * @throws NullArgumentException if {@code format} is {@code null}.
      */
     public void setWholeFormat(NumberFormat format) {
         if (format == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.NULL_WHOLE_FORMAT);
+            throw new NullArgumentException(LocalizedFormats.WHOLE_FORMAT);
         }
         this.wholeFormat = format;
     }

@@ -21,6 +21,8 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.stat.regression.SimpleRegression;
@@ -92,7 +94,7 @@ public class PearsonsCorrelation {
     public PearsonsCorrelation(Covariance covariance) {
         RealMatrix covarianceMatrix = covariance.getCovarianceMatrix();
         if (covarianceMatrix == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_COVARIANCE_MATRIX);
+            throw new NullArgumentException(LocalizedFormats.COVARIANCE_MATRIX);
         }
         nObs = covariance.getN();
         correlationMatrix = covarianceToCorrelation(covarianceMatrix);
@@ -225,8 +227,7 @@ public class PearsonsCorrelation {
     public double correlation(final double[] xArray, final double[] yArray) throws IllegalArgumentException {
         SimpleRegression regression = new SimpleRegression();
         if (xArray.length != yArray.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, xArray.length, yArray.length);
+            throw new DimensionMismatchException(xArray.length, yArray.length);
         } else if (xArray.length < 2) {
             throw MathRuntimeException.createIllegalArgumentException(
                   LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);

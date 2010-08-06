@@ -20,10 +20,10 @@ package org.apache.commons.math.optimization.fitting;
 import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.LocalizedFormats;
-import org.apache.commons.math.exception.ZeroNotAllowedException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.fitting.ParametricRealFunction;
 
 /**
@@ -153,13 +153,13 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
      */
     private void validateParameters(double[] parameters) throws FunctionEvaluationException {
         if (parameters == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         if (parameters.length != 4) {
             throw new DimensionMismatchException(4, parameters.length);
         }
         if (parameters[3] == 0.0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
     }
 

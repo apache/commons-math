@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * @version $Revision$ $Date$
@@ -41,12 +42,12 @@ public class DefaultTransformerTest extends TestCase {
     /**
      *
      */
-    public void testTransformNull(){
+    public void testTransformNull() throws Exception {
         DefaultTransformer t = new DefaultTransformer();
         try {
             t.transform(null);
-            fail("Expection MathException");
-        } catch (MathException e) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException e) {
             // expected
         }
     }

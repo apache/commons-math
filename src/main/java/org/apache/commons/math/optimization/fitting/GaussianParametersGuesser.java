@@ -20,14 +20,14 @@ package org.apache.commons.math.optimization.fitting;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.ZeroNotAllowedException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
- * Guesses the parameters (<tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and <tt>d</tt>)
+ * Guesses the parameters ({@code a}, {@code b}, {@code c}, and {@code d})
  * of a {@link ParametricGaussianFunction} based on the specified observed
  * points.
  *
@@ -49,7 +49,7 @@ public class GaussianParametersGuesser {
      */
     public GaussianParametersGuesser(WeightedObservedPoint[] observations) {
         if (observations == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         if (observations.length < 3) {
             throw new NumberIsTooSmallException(observations.length, 3, true);
@@ -154,7 +154,7 @@ public class GaussianParametersGuesser {
     private double interpolateXAtY(WeightedObservedPoint[] points,
                                    int startIdx, int idxStep, double y) throws OutOfRangeException {
         if (idxStep == 0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
         WeightedObservedPoint pointA = twoPoints[0];
@@ -190,7 +190,7 @@ public class GaussianParametersGuesser {
                                                                int startIdx, int idxStep, double y)
         throws OutOfRangeException {
         if (idxStep == 0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         for (int i = startIdx;
              (idxStep < 0) ? (i + idxStep >= 0) : (i + idxStep < points.length);

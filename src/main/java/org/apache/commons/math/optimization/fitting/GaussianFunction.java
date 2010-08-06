@@ -25,7 +25,8 @@ import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.LocalizedFormats;
-import org.apache.commons.math.exception.ZeroNotAllowedException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * A Gaussian function.  Specifically:
@@ -77,7 +78,7 @@ public class GaussianFunction implements DifferentiableUnivariateRealFunction, S
      */
     public GaussianFunction(double a, double b, double c, double d) {
         if (d == 0.0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         this.a = a;
         this.b = b;
@@ -97,13 +98,13 @@ public class GaussianFunction implements DifferentiableUnivariateRealFunction, S
      */
     public GaussianFunction(double[] parameters) {
         if (parameters == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         if (parameters.length != 4) {
             throw new DimensionMismatchException(4, parameters.length);
         }
         if (parameters[3] == 0.0) {
-            throw new ZeroNotAllowedException();
+            throw new ZeroException();
         }
         this.a = parameters[0];
         this.b = parameters[1];

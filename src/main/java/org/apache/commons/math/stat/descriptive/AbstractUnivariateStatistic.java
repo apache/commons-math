@@ -18,6 +18,9 @@ package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
  * Abstract base class for all implementations of the
@@ -78,17 +81,15 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (values == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 
         if (begin < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NEGATIVE_START_POSITION, begin);
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
         }
 
         if (length < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NEGATIVE_LENGTH, length);
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
         }
 
         if (begin + length > values.length) {
@@ -140,12 +141,11 @@ public abstract class AbstractUnivariateStatistic
         final int length) {
 
         if (weights == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_INPUT_ARRAY);
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 
-        if (weights.length !=  values.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, weights.length, values.length);
+        if (weights.length != values.length) {
+            throw new DimensionMismatchException(weights.length, values.length);
         }
 
         boolean containsPositiveWeight = false;

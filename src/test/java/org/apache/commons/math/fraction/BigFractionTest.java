@@ -21,6 +21,7 @@ import java.math.BigInteger;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.NullArgumentException;
 
 import junit.framework.TestCase;
 
@@ -64,12 +65,12 @@ public class BigFractionTest extends TestCase {
         assertFraction(1055531162664967l, 70368744177664l, new BigFraction(15.0000000000001));
         try {
             new BigFraction(null, BigInteger.ONE);
-        } catch (NullPointerException npe) {
+        } catch (NullArgumentException npe) {
             // expected
         }
         try {
             new BigFraction(BigInteger.ONE, null);
-        } catch (NullPointerException npe) {
+        } catch (NullArgumentException npe) {
             // expected
         }
         try {
@@ -326,8 +327,8 @@ public class BigFractionTest extends TestCase {
 
         try {
             f.add((BigFraction) null);
-            fail("expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
         }
 
         // if this fraction is added naively, it will overflow.
@@ -414,8 +415,8 @@ public class BigFractionTest extends TestCase {
 
         try {
             f.divide((BigFraction) null);
-            fail("expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
         }
 
         f1 = new BigFraction(Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -460,8 +461,8 @@ public class BigFractionTest extends TestCase {
 
         try {
             f.multiply((BigFraction) null);
-            fail("expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
         }
 
     }
@@ -478,8 +479,8 @@ public class BigFractionTest extends TestCase {
         BigFraction f = new BigFraction(1, 1);
         try {
             f.subtract((BigFraction) null);
-            fail("expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
         }
 
         // if this fraction is subtracted naively, it will overflow.

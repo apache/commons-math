@@ -145,11 +145,10 @@ public enum LocalizedFormats implements Localizable {
     NEGATIVE_COMPLEX_MODULE("negative complex module {0}"),
     NEGATIVE_ELEMENT_AT_2D_INDEX("element ({0}, {1}) is negative: {2}"),
     NEGATIVE_ELEMENT_AT_INDEX("element {0} is negative: {1}"),
-    NEGATIVE_LENGTH("length cannot be negative ({0})"),
     NEGATIVE_NUMBER_OF_SUCCESSES("number of successes must be non-negative ({0})"),
     NEGATIVE_NUMBER_OF_TRIALS("number of trials must be non-negative ({0})"),
     NEGATIVE_ROBUSTNESS_ITERATIONS("the number of robustness iterations must be non-negative, but got {0}"),
-    NEGATIVE_START_POSITION("start position cannot be negative ({0})"),
+    START_POSITION("start position ({0})"), /* keep */
     NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge for value {0}"),
     NON_POSITIVE_MICROSPHERE_ELEMENTS("number of microsphere elements must be positive, but got {0}"),
     NON_POSITIVE_POLYNOMIAL_DEGREE("polynomial degree must be positive: degree={0}"),
@@ -211,18 +210,19 @@ public enum LocalizedFormats implements Localizable {
     NO_OPTIMUM_COMPUTED_YET("no optimum computed yet"),
     NO_RESULT_AVAILABLE("no result available"),
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
-    NULL_COVARIANCE_MATRIX("covariance matrix is null"),
-    NULL_DENOMINATOR("denominator is null"),
-    NULL_DENOMINATOR_FORMAT("denominator format can not be null"),
-    NULL_FRACTION("null fraction"),
-    NULL_FUNCTION("function is null"),
-    NULL_IMAGINARY_FORMAT("null imaginary format"),
-    NULL_INPUT_ARRAY("input array is null"),
-    NULL_NUMERATOR("numerator is null"),
-    NULL_NUMERATOR_FORMAT("numerator format can not be null"),
-    NULL_OBJECT_TRANSFORMATION("Conversion Exception in Transformation, Object is null"),
-    NULL_REAL_FORMAT("null real format"),
-    NULL_WHOLE_FORMAT("whole format can not be null"),
+    NULL_NOT_ALLOWED("null is not allowed"), /* keep */
+    COVARIANCE_MATRIX("covariance matrix"), /* keep */
+    DENOMINATOR("denominator"), /* keep */
+    DENOMINATOR_FORMAT("denominator format"), /* keep */
+    FRACTION("fraction"), /* keep */
+    FUNCTION("function"), /* keep */
+    IMAGINARY_FORMAT("imaginary format"), /* keep */
+    INPUT_ARRAY("input array"), /* keep */
+    NUMERATOR("numerator"), /* keep */
+    NUMERATOR_FORMAT("numerator format"), /* keep */
+    OBJECT_TRANSFORMATION("conversion exception in transformation"), /* keep */
+    REAL_FORMAT("real format"), /* keep */
+    WHOLE_FORMAT("whole format"), /* keep */
     NUMBER_TOO_LARGE("{0} is larger than the maximum ({1})"), /* keep */
     NUMBER_TOO_SMALL("{0} is smaller than the minimum ({1})"), /* keep */
     NUMBER_TOO_LARGE_BOUND_EXCLUDED("{0} is larger than, or equal to, the maximum ({1})"), /* keep */

@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This
@@ -38,14 +39,13 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
     /**
      * @param o  the object that gets transformed.
      * @return a double primitive representation of the Object o.
-     * @throws org.apache.commons.math.MathException If it cannot successfully
-     * be transformed or is null.
+     * @throws MathException if it cannot successfully be transformed.
+     * @throws NullArgumentException if is {@code null}.
      * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html"/>
      */
-    public double transform(Object o) throws MathException{
-
+    public double transform(Object o) throws MathException {
         if (o == null) {
-            throw new MathException(LocalizedFormats.NULL_OBJECT_TRANSFORMATION);
+            throw new NullArgumentException(LocalizedFormats.OBJECT_TRANSFORMATION);
         }
 
         if (o instanceof Number) {

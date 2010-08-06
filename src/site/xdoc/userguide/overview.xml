@@ -93,7 +93,7 @@
 </subsection>
 
 <subsection name="0.4 How interface contracts are specified in commons-math javadoc" href="contracts">
-    <p>
+  <p>
     You should always read the javadoc class and method comments carefully when using 
     Commons Math components in your programs.  The javadoc provides references to the algorithms
     that are used, usage notes about limitations, performance, etc. as well as interface contracts.
@@ -101,16 +101,27 @@
     for the method to return valid results), special values returned (e.g. Double.NaN) 
     or exceptions that may be thrown if the preconditions are not met, and definitions for returned
     values/objects or state changes.</p>
-    <p>
-     When the actual parameters provided to a method or the internal state of an object 
-     make a computation meaningless, an IllegalArgumentException or IllegalStateException may
-     be thrown. Exact conditions under which runtime exceptions (and any other exceptions) are 
-     thrown are specified in the javadoc method comments.  In some cases, to be consistent with 
-     the <a href="http://grouper.ieee.org/groups/754/">IEEE 754 standard</a> for floating point 
-     arithmetic and with java.lang.Math, Commons Math methods return Double.NaN values.
-     Conditions under which Double.NaN or other special values are returned are fully specified
-     in the javadoc method comments.
-    </p>
+  <p>
+    When the actual parameters provided to a method or the internal state of an object 
+    make a computation meaningless, an IllegalArgumentException or IllegalStateException may
+    be thrown. Exact conditions under which runtime exceptions (and any other exceptions) are 
+    thrown are specified in the javadoc method comments.  In some cases, to be consistent with 
+    the <a href="http://grouper.ieee.org/groups/754/">IEEE 754 standard</a> for floating point 
+    arithmetic and with java.lang.Math, Commons Math methods return Double.NaN values.
+    Conditions under which Double.NaN or other special values are returned are fully specified
+    in the javadoc method comments.
+  </p>
+  <p>
+    As of version 2.2, the policy for dealing with null references is as
+    follows: When an argument is unexpectedly null, a
+    <a href="../apidocs/org/apache/commons/math/exception/NullArgumentException.html">
+      NullArgumentException</a> is raised for signalling the
+    illegal argument. Note that this class does not inherit from the
+    standard <code>NullPointerException</code> but is a subclass of
+    <code>IllegalArgumentException</code>.
+    No <code>NullPointerException</code> should be propagated from within
+    Commons-Math.
+  </p>
 </subsection>
 
 <subsection name="0.5 Dependencies" href="dependencies">

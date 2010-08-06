@@ -20,6 +20,7 @@ import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Provide a default implementation for several generic functions.
@@ -67,7 +68,7 @@ public abstract class UnivariateRealIntegratorImpl
         throws IllegalArgumentException {
         super(defaultMaximalIterationCount, 1.0e-15);
         if (f == null) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NULL_FUNCTION);
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
 
         this.f = f;
