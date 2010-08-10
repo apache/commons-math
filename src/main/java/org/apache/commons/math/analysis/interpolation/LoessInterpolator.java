@@ -21,8 +21,8 @@ import java.util.Arrays;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
-import org.apache.commons.math.exception.Localizable;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.exception;
 
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
 /**
  * All conditions checks that fail due to a {@code null} argument must throw
  * this exception.

@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.fitting.ParametricRealFunction;

@@ -20,7 +20,8 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.MessageFactory;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Base class for all unsupported features.

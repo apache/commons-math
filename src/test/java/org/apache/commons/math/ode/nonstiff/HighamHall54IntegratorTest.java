@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;

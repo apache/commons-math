@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
 
 /**

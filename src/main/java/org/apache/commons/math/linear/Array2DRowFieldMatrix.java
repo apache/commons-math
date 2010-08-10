@@ -22,7 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Implementation of FieldMatrix<T> using a {@link FieldElement}[][] array to store entries.

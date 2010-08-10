@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**

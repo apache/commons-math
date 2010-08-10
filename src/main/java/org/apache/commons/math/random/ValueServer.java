@@ -23,7 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Generates values for use in simulation applications.

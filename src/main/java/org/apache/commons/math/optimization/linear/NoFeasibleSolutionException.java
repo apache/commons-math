@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.linear;
 
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.OptimizationException;
 
 /**

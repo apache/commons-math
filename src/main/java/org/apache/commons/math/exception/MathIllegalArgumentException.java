@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.MessageFactory;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Base class for all preconditions violation exceptions.

@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Thrown when a visitor encounters an error while processing a matrix entry.

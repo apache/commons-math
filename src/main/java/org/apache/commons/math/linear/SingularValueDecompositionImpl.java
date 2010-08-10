@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.

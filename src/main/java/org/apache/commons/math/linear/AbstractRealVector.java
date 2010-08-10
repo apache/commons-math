@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * This class provides default basic implementations for many methods in the

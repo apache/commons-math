@@ -19,7 +19,7 @@ package org.apache.commons.math.util;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply

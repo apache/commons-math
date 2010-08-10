@@ -20,7 +20,7 @@ package org.apache.commons.math.util;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
 
 /**

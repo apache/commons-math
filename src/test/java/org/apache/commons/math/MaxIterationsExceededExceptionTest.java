@@ -19,7 +19,7 @@ package org.apache.commons.math;
 
 import java.util.Locale;
 
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 import junit.framework.TestCase;
 

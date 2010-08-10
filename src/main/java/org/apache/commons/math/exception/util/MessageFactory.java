@@ -19,8 +19,6 @@ package org.apache.commons.math.exception.util;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import org.apache.commons.math.exception.Localizable;
-
 /**
  * Class for constructing localized messages.
  *

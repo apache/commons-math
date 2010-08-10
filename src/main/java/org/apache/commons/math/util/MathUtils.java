@@ -22,8 +22,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.Localizable;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 
 /**

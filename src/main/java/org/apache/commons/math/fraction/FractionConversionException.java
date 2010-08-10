@@ -18,7 +18,7 @@
 package org.apache.commons.math.fraction;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Error thrown when a double value cannot be converted to a fraction

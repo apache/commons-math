@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.exception;
 
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Exception to be thrown when the required data is missing.

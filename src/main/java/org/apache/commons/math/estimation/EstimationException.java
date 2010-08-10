@@ -18,8 +18,8 @@
 package org.apache.commons.math.estimation;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.DummyLocalizable;
-import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * This class represents exceptions thrown by the estimation solvers.

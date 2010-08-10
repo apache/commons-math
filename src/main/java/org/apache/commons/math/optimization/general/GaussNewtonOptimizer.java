@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.InvalidMatrixException;

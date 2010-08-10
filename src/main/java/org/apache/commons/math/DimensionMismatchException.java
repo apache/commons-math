@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Error thrown when two dimensions differ.

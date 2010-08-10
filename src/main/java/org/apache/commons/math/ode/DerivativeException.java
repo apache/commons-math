@@ -18,8 +18,8 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.DummyLocalizable;
-import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * This exception is made available to users to report

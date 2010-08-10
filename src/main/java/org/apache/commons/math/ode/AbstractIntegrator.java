@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.commons.math.MaxEvaluationsExceededException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;

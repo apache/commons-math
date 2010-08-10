@@ -18,8 +18,8 @@ package org.apache.commons.math;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.exception.DummyLocalizable;
-import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Signals a configuration problem with any of the factory methods.

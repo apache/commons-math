@@ -18,8 +18,8 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.DummyLocalizable;
-import org.apache.commons.math.exception.Localizable;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Thrown when an operation addresses a matrix coordinate (row, col)

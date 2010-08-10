@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math.stat.descriptive.moment.Mean;

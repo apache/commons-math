@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.special.Beta;
 

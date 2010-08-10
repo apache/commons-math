@@ -22,7 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Cache-friendly implementation of FieldMatrix using a flat arrays to store

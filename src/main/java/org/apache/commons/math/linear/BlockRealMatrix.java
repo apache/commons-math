@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Cache-friendly implementation of RealMatrix using a flat arrays to store

@@ -23,7 +23,7 @@ import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.MathUtils.OrderDirection;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Generates a bicubic interpolation function.

@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.exception.DummyLocalizable;
-import org.apache.commons.math.exception.Localizable;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.ArrayRealVector;
 
 /**

@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.TreeMap;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.LocalizedFormats;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Maintains a frequency distribution.
