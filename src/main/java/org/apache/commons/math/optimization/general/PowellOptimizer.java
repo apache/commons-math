@@ -112,16 +112,16 @@ public class PowellOptimizer
             int bigInd = 0;
             double alphaMin = 0;
 
-            double[] direc1 = null;
             for (int i = 0; i < n; i++) {
-                direc1 = Arrays.copyOf(direc[i], n);
+                final double[] d = Arrays.copyOf(direc[i], n);
 
                 fX2 = fVal;
 
-                line.search(x, direc1);
+                line.search(x, d);
                 fVal = line.getValueAtOptimum();
                 alphaMin = line.getOptimum();
-                setNewPointAndDirection(x, direc1, alphaMin);
+                final double[][] result = newPointAndDirection(x, d, alphaMin);
+                x = result[0];
 
                 if ((fX2 - fVal) > delta) {
                     delta = fX2 - fVal;
@@ -139,9 +139,10 @@ public class PowellOptimizer
                 }
             }
 
-            double[] x2 = new double[n];
+            final double[] d = new double[n];
+            final double[] x2 = new double[n];
             for (int i = 0; i < n; i++) {
-                direc1[i] = x[i] - x1[i];
+                d[i] = x[i] - x1[i];
                 x2[i] = 2 * x[i] - x1[i];
             }
 
@@ -156,14 +157,15 @@ public class PowellOptimizer
                 t -= delta * temp * temp;
 
                 if (t < 0.0) {
-                    line.search(x, direc1);
+                    line.search(x, d);
                     fVal = line.getValueAtOptimum();
                     alphaMin = line.getOptimum();
-                    setNewPointAndDirection(x, direc1, alphaMin);
+                    final double[][] result = newPointAndDirection(x, d, alphaMin);
+                    x = result[0];
 
                     final int lastInd = n - 1;
                     direc[bigInd] = direc[lastInd];
-                    direc[lastInd] = direc1;
+                    direc[lastInd] = result[1];
                 }
             }
         }
@@ -177,15 +179,21 @@ public class PowellOptimizer
      * @param p Point used in the line search.
      * @param d Direction used in the line search.
      * @param optimum Optimum found by the line search.
+     * @return a 2-element array containing the new point (at index 0) and
+     * the new direction (at index 1).
      */
-    private void setNewPointAndDirection(double[] p,
-                                         double[] d,
-                                         double optimum) {
+    private double[][] newPointAndDirection(double[] p,
+                                            double[] d,
+                                            double optimum) {
         final int n = p.length;
+        final double[][] result = new double[2][n];
+        final double[] nP = result[0];
+        final double[] nD = result[1];
         for (int i = 0; i < n; i++) {
-            d[i] *= optimum;
-            p[i] += d[i];
+            nD[i] = d[i] * optimum;
+            nP[i] = p[i] + nD[i];
         }
+        return result;
     }
 
     /**
