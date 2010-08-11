@@ -255,6 +255,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         double[] diag    = new double[cols];
         double[] oldX    = new double[cols];
         double[] oldRes  = new double[rows];
+        double[] oldObj  = new double[rows];
+        double[] qtf     = new double[rows];
         double[] work1   = new double[cols];
         double[] work2   = new double[cols];
         double[] work3   = new double[cols];
@@ -267,7 +269,9 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         boolean firstIteration = true;
         VectorialPointValuePair current = new VectorialPointValuePair(point, objective);
         while (true) {
-
+            for (int i=0;i<rows;i++) {
+                qtf[i]=residuals[i];
+            }
             incrementIterationsCounter();
 
             // compute the Q.R. decomposition of the jacobian matrix
@@ -276,8 +280,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             qrDecomposition();
 
             // compute Qt.res
-            qTy(residuals);
-
+            qTy(qtf);
             // now we don't need Q anymore,
             // so let jacobian contain the R matrix with its diagonal elements
             for (int k = 0; k < solvedCols; ++k) {
@@ -315,7 +318,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     if (s != 0) {
                         double sum = 0;
                         for (int i = 0; i <= j; ++i) {
-                            sum += jacobian[i][pj] * residuals[i];
+                            sum += jacobian[i][pj] * qtf[i];
                         }
                         maxCosine = Math.max(maxCosine, Math.abs(sum) / (s * cost));
                     }
@@ -323,6 +326,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
             if (maxCosine <= orthoTolerance) {
                 // convergence has been reached
+            	updateResidualsAndCost();
+            	current = new VectorialPointValuePair(point, objective);
                 return current;
             }
 
@@ -343,9 +348,12 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 double[] tmpVec = residuals;
                 residuals = oldRes;
                 oldRes    = tmpVec;
+                tmpVec    = objective;
+                objective = oldObj;
+                oldObj    = tmpVec;
 
                 // determine the Levenberg-Marquardt parameter
-                determineLMParameter(oldRes, delta, diag, work1, work2, work3);
+                determineLMParameter(qtf, delta, diag, work1, work2, work3);
 
                 // compute the new point and the norm of the evolution direction
                 double lmNorm = 0;
@@ -357,7 +365,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     lmNorm  += s * s;
                 }
                 lmNorm = Math.sqrt(lmNorm);
-
                 // on the first iteration, adjust the initial step bound.
                 if (firstIteration) {
                     delta = Math.min(delta, lmNorm);
@@ -365,7 +372,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
                 // evaluate the function at x + p and calculate its norm
                 updateResidualsAndCost();
-                current = new VectorialPointValuePair(point, objective);
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;
@@ -421,6 +427,15 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                         xNorm    += xK * xK;
                     }
                     xNorm = Math.sqrt(xNorm);
+                    current = new VectorialPointValuePair(point, objective);
+
+                    // tests for convergence.
+                    if (checker != null) {
+                    // we use the vectorial convergence checker
+                    	if (checker.converged(getIterations(), previous, current)) {
+                    		return current;
+                    	}
+                    }
                 } else {
                     // failed iteration, reset the previous values
                     cost = previousCost;
@@ -431,24 +446,18 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     tmpVec    = residuals;
                     residuals = oldRes;
                     oldRes    = tmpVec;
+                    tmpVec    = objective;
+                    objective = oldObj;
+                    oldObj    = tmpVec;
                 }
-
-                // tests for convergence.
-                if (checker != null) {
-                    // we use the vectorial convergence checker
-                    if (checker.converged(getIterations(), previous, current)) {
-                        return current;
-                    }
-                } else {
-                    // we use the Levenberg-Marquardt specific convergence parameters
-                    if (((Math.abs(actRed) <= costRelativeTolerance) &&
-                         (preRed <= costRelativeTolerance) &&
-                         (ratio <= 2.0)) ||
-                        (delta <= parRelativeTolerance * xNorm)) {
-                        return current;
-                    }
+                if (checker==null) {
+                	if (((Math.abs(actRed) <= costRelativeTolerance) &&
+                        (preRed <= costRelativeTolerance) &&
+                        (ratio <= 2.0)) ||
+                       (delta <= parRelativeTolerance * xNorm)) {
+                       return current;
+                   }
                 }
-
                 // tests for termination and stringent tolerances
                 // (2.2204e-16 is the machine epsilon for IEEE754)
                 if ((Math.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
