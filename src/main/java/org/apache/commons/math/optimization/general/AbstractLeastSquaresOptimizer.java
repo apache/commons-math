@@ -84,6 +84,12 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Current residuals. */
     protected double[] residuals;
+    
+    /** Weighted Jacobian */
+    protected double[][] wjacobian;
+    
+    /** Weighted residuals */
+    protected double[] wresiduals;
 
     /** Cost value (square root of the sum of the residuals). */
     protected double cost;
@@ -189,9 +195,10 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = jacobian[i];
-            final double factor = -Math.sqrt(residualsWeights[i]);
+            double wi = Math.sqrt(residualsWeights[i]);
             for (int j = 0; j < cols; ++j) {
-                ji[j] *= factor;
+                ji[j] *=  -1.0;
+                wjacobian[i][j] = ji[j]*wi;
             }
         }
     }
@@ -219,6 +226,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
             residuals[i] = residual;
+            wresiduals[i]= residual*Math.sqrt(residualsWeights[i]);
             cost += residualsWeights[i] * residual * residual;
             index += cols;
         }
@@ -270,7 +278,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
             for (int j = i; j < cols; ++j) {
                 double sum = 0;
                 for (int k = 0; k < rows; ++k) {
-                    sum += jacobian[k][i] * jacobian[k][j];
+                    sum += wjacobian[k][i] * wjacobian[k][j];
                 }
                 jTj[i][j] = sum;
                 jTj[j][i] = sum;
@@ -342,6 +350,9 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         cols      = point.length;
         jacobian  = new double[rows][cols];
 
+        wjacobian = new double[rows][cols];
+        wresiduals = new double[rows];
+        
         cost = Double.POSITIVE_INFINITY;
 
         return doOptimize();

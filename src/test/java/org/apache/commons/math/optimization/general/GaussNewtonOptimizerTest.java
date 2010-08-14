@@ -472,8 +472,8 @@ extends TestCase {
 
         VectorialPointValuePair optimum =
             optimizer.optimize(circle, target, weights, new double[] { 0, 0 });
-        assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-8);
-        assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-8);
+        assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-6);
+        assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-6);
         assertEquals(0.04268731682389561, optimizer.getRMS(),       1.0e-8);
 
     }
