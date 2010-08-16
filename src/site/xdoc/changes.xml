@@ -52,8 +52,14 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="dimpbx" type="fix" issue="MATH-406">
+        Bug fixed in Levenberg-Marquardt (handling of weights).
+      </action>
+      <action dev="dimpbx" type="fix" issue="MATH-405">
+        Bug fixed in Levenberg-Marquardt (consistency of current).
+      </action>
       <action dev="dimpbx" type="fix" issue="MATH-377">
-        Fixed bug in chi-square computation in AbstractLeastSquaresOptimizer.
+        Bug fixed in chi-square computation in AbstractLeastSquaresOptimizer.
       </action>
       <action dev="luc" type="add" issue="MATH-400" due-to="J. Lewis Muir">
         Added support for Gaussian curve fitting.

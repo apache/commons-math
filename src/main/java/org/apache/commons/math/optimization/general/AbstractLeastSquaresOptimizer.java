@@ -50,13 +50,13 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     protected VectorialConvergenceChecker checker;
 
     /**
-     * Jacobian matrix.
+     * Jacobian matrix of the weighted residuals.
      * <p>This matrix is in canonical form just after the calls to
      * {@link #updateJacobian()}, but may be modified by the solver
      * in the derived class (the {@link LevenbergMarquardtOptimizer
      * Levenberg-Marquardt optimizer} does this).</p>
      */
-    protected double[][] jacobian;
+    protected double[][] weightedResidualJacobian;
 
     /** Number of columns of the jacobian matrix. */
     protected int cols;
@@ -81,15 +81,9 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Current objective function value. */
     protected double[] objective;
-
-    /** Current residuals. */
-    protected double[] residuals;
-    
-    /** Weighted Jacobian */
-    protected double[][] wjacobian;
     
     /** Weighted residuals */
-    protected double[] wresiduals;
+    protected double[] weightedResiduals;
 
     /** Cost value (square root of the sum of the residuals). */
     protected double cost;
@@ -188,17 +182,17 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
      */
     protected void updateJacobian() throws FunctionEvaluationException {
         ++jacobianEvaluations;
-        jacobian = jF.value(point);
-        if (jacobian.length != rows) {
+        weightedResidualJacobian = jF.value(point);
+        if (weightedResidualJacobian.length != rows) {
             throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  jacobian.length, rows);
+                                                  weightedResidualJacobian.length, rows);
         }
         for (int i = 0; i < rows; i++) {
-            final double[] ji = jacobian[i];
+            final double[] ji = weightedResidualJacobian[i];
             double wi = Math.sqrt(residualsWeights[i]);
             for (int j = 0; j < cols; ++j) {
-                ji[j] *=  -1.0;
-                wjacobian[i][j] = ji[j]*wi;
+                //ji[j] *=  -1.0;
+                weightedResidualJacobian[i][j] = -ji[j]*wi;
             }
         }
     }
@@ -225,8 +219,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         int index = 0;
         for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
-            residuals[i] = residual;
-            wresiduals[i]= residual*Math.sqrt(residualsWeights[i]);
+            weightedResiduals[i]= residual*Math.sqrt(residualsWeights[i]);
             cost += residualsWeights[i] * residual * residual;
             index += cols;
         }
@@ -278,7 +271,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
             for (int j = i; j < cols; ++j) {
                 double sum = 0;
                 for (int k = 0; k < rows; ++k) {
-                    sum += wjacobian[k][i] * wjacobian[k][j];
+                    sum += weightedResidualJacobian[k][i] * weightedResidualJacobian[k][j];
                 }
                 jTj[i][j] = sum;
                 jTj[j][i] = sum;
@@ -343,15 +336,13 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         targetValues     = target.clone();
         residualsWeights = weights.clone();
         this.point       = startPoint.clone();
-        this.residuals   = new double[target.length];
 
         // arrays shared with the other private methods
         rows      = target.length;
         cols      = point.length;
-        jacobian  = new double[rows][cols];
 
-        wjacobian = new double[rows][cols];
-        wresiduals = new double[rows];
+        weightedResidualJacobian = new double[rows][cols];
+        this.weightedResiduals = new double[rows];
         
         cost = Double.POSITIVE_INFINITY;
 

@@ -81,7 +81,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             final double[][] a = new double[cols][cols];
             for (int i = 0; i < rows; ++i) {
 
-                final double[] grad   = jacobian[i];
+                final double[] grad   = weightedResidualJacobian[i];
                 final double weight   = residualsWeights[i];
                 final double residual = objective[i] - targetValues[i];
 
