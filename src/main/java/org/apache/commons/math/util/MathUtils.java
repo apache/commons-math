@@ -1956,66 +1956,66 @@ public static void checkOrder(double[] val, int dir, boolean strict) {
         }
     }
 
-	/**
-	 * Returns the Cartesian norm (2-norm), handling both overflow and underflow.
-	 * Translation of the minpack enorm subroutine.
-	 *
-	 * The redistribution policy for MINPACK is available <a
-	 * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
-	 * is reproduced below.</p>
-	 *
-	 * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
-	 * <tr><td>
-	 *    Minpack Copyright Notice (1999) University of Chicago.
-	 *    All rights reserved
-	 * </td></tr>
-	 * <tr><td>
-	 * Redistribution and use in source and binary forms, with or without
-	 * modification, are permitted provided that the following conditions
-	 * are met:
-	 * <ol>
-	 *  <li>Redistributions of source code must retain the above copyright
-	 *      notice, this list of conditions and the following disclaimer.</li>
-	 * <li>Redistributions in binary form must reproduce the above
-	 *     copyright notice, this list of conditions and the following
-	 *     disclaimer in the documentation and/or other materials provided
-	 *     with the distribution.</li>
-	 * <li>The end-user documentation included with the redistribution, if any,
-	 *     must include the following acknowledgment:
-	 *     <code>This product includes software developed by the University of
-	 *           Chicago, as Operator of Argonne National Laboratory.</code>
-	 *     Alternately, this acknowledgment may appear in the software itself,
-	 *     if and wherever such third-party acknowledgments normally appear.</li>
-	 * <li><strong>WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"
-	 *     WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE
-	 *     UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
-	 *     THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR
-	 *     IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
-	 *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
-	 *     OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY
-	 *     OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR
-	 *     USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF
-	 *     THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)
-	 *     DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
-	 *     UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL
-	 *     BE CORRECTED.</strong></li>
-	 * <li><strong>LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT
-	 *     HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
-	 *     ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,
-	 *     INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF
-	 *     ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF
-	 *     PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER
-	 *     SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
-	 *     (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
-	 *     EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
-	 *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
-	 * <ol></td></tr>
-	 * </table>
-	 *
-	 * @param v vector of doubles
-	 * @return the 2-norm of the vector
-	 */
-	public static double safeNorm(double[] v) {
+    /**
+     * Returns the Cartesian norm (2-norm), handling both overflow and underflow.
+     * Translation of the minpack enorm subroutine.
+     *
+     * The redistribution policy for MINPACK is available <a
+     * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
+     * is reproduced below.</p>
+     *
+     * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
+     * <tr><td>
+     *    Minpack Copyright Notice (1999) University of Chicago.
+     *    All rights reserved
+     * </td></tr>
+     * <tr><td>
+     * Redistribution and use in source and binary forms, with or without
+     * modification, are permitted provided that the following conditions
+     * are met:
+     * <ol>
+     *  <li>Redistributions of source code must retain the above copyright
+     *      notice, this list of conditions and the following disclaimer.</li>
+     * <li>Redistributions in binary form must reproduce the above
+     *     copyright notice, this list of conditions and the following
+     *     disclaimer in the documentation and/or other materials provided
+     *     with the distribution.</li>
+     * <li>The end-user documentation included with the redistribution, if any,
+     *     must include the following acknowledgment:
+     *     <code>This product includes software developed by the University of
+     *           Chicago, as Operator of Argonne National Laboratory.</code>
+     *     Alternately, this acknowledgment may appear in the software itself,
+     *     if and wherever such third-party acknowledgments normally appear.</li>
+     * <li><strong>WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"
+     *     WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE
+     *     UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
+     *     THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR
+     *     IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
+     *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
+     *     OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY
+     *     OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR
+     *     USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF
+     *     THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)
+     *     DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
+     *     UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL
+     *     BE CORRECTED.</strong></li>
+     * <li><strong>LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT
+     *     HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
+     *     ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,
+     *     INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF
+     *     ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF
+     *     PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER
+     *     SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
+     *     (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
+     *     EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
+     *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
+     * <ol></td></tr>
+     * </table>
+     *
+     * @param v vector of doubles
+     * @return the 2-norm of the vector
+     */
+    public static double safeNorm(double[] v) {
     double rdwarf = 3.834e-20;
     double rgiant = 1.304e+19;
     double s1=0.0;
@@ -2050,7 +2050,7 @@ public static void checkOrder(double[] val, int dir, boolean strict) {
                 }
             }
         } else {
-         s2+=xabs*xabs;   
+         s2+=xabs*xabs;
         }
     }
     double norm;
@@ -2069,5 +2069,5 @@ public static void checkOrder(double[] val, int dir, boolean strict) {
     }
     return norm;
 }
-	
+    
 }

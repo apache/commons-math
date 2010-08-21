@@ -326,8 +326,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
             if (maxCosine <= orthoTolerance) {
                 // convergence has been reached
-            	updateResidualsAndCost();
-            	current = new VectorialPointValuePair(point, objective);
+                updateResidualsAndCost();
+                current = new VectorialPointValuePair(point, objective);
                 return current;
             }
 
@@ -432,9 +432,9 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     // tests for convergence.
                     if (checker != null) {
                     // we use the vectorial convergence checker
-                    	if (checker.converged(getIterations(), previous, current)) {
-                    		return current;
-                    	}
+                        if (checker.converged(getIterations(), previous, current)) {
+                            return current;
+                        }
                     }
                 } else {
                     // failed iteration, reset the previous values
@@ -451,7 +451,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     oldObj    = tmpVec;
                 }
                 if (checker==null) {
-                	if (((Math.abs(actRed) <= costRelativeTolerance) &&
+                    if (((Math.abs(actRed) <= costRelativeTolerance) &&
                         (preRed <= costRelativeTolerance) &&
                         (ratio <= 2.0)) ||
                        (delta <= parRelativeTolerance * xNorm)) {
