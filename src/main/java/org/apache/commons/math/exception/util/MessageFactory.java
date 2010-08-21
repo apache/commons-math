@@ -70,7 +70,7 @@ public class MessageFactory {
         }
         fmt = new MessageFormat(general.getLocalizedString(locale), locale);
         sb.append(fmt.format(arguments));
-        
+
         return sb.toString();
     }
 }
