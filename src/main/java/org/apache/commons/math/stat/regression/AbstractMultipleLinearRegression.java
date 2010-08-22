@@ -149,7 +149,6 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     public double[] estimateRegressionParametersStandardErrors() {
         double[][] betaVariance = estimateRegressionParametersVariance();
-        RealVector residuals = calculateResiduals();
         double sigma = calculateErrorVariance();
         int length = betaVariance[0].length;
         double[] result = new double[length];
