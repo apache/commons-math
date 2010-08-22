@@ -22,6 +22,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.stat.descriptive.moment.Variance;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -148,7 +149,8 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     public double[] estimateRegressionParametersStandardErrors() {
         double[][] betaVariance = estimateRegressionParametersVariance();
-        double sigma = calculateYVariance();
+        RealVector residuals = calculateResiduals();
+        double sigma = calculateErrorVariance();
         int length = betaVariance[0].length;
         double[] result = new double[length];
         for (int i = 0; i < length; i++) {
@@ -162,6 +164,25 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     public double estimateRegressandVariance() {
         return calculateYVariance();
+    }
+
+    /**
+     * Estimates the variance of the error.
+     *
+     * @return estimate of the error variance
+     */
+    public double estimateErrorVariance() {
+        return calculateErrorVariance();
+
+    }
+
+    /**
+     * Estimates the standard error of the regression.
+     *
+     * @return regression standard error
+     */
+    public double estimateRegressionStandardError() {
+        return Math.sqrt(estimateErrorVariance());
     }
 
     /**
@@ -179,12 +200,31 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     protected abstract RealMatrix calculateBetaVariance();
 
+
     /**
-     * Calculates the Y variance of multiple linear regression.
+     * Calculates the variance of the y values.
      *
      * @return Y variance
      */
-    protected abstract double calculateYVariance();
+    protected double calculateYVariance() {
+        return new Variance().evaluate(Y.getData());
+    }
+
+    /**
+     * <p>Calculates the variance of the error term.</p>
+     * Uses the formula <pre>
+     * var(u) = u &middot; u / (n - k)
+     * </pre>
+     * where n and k are the row and column dimensions of the design
+     * matrix X.
+     *
+     * @return error variance estimate
+     */
+    protected double calculateErrorVariance() {
+        RealVector residuals = calculateResiduals();
+        return residuals.dotProduct(residuals) /
+               (X.getRowDimension() - X.getColumnDimension());
+    }
 
     /**
      * Calculates the residuals of multiple linear regression in matrix

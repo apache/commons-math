@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.regression;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.stat.StatUtils;
 
 public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbstractTest {
 
@@ -121,4 +123,16 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         return y.length;
     }
 
+    /**
+     * test calculateYVariance
+     */
+    @Test
+    public void testYVariance() {
+
+        // assumes: y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
+
+        GLSMultipleLinearRegression model = new GLSMultipleLinearRegression();
+        model.newSampleData(y, x, omega);
+        TestUtils.assertEquals(model.calculateYVariance(), 3.5, 0);
+    }
 }

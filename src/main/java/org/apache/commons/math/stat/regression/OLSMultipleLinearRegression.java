@@ -49,7 +49,7 @@ import org.apache.commons.math.linear.RealVector;
  * (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> R b = (R<sup>T</sup>)<sup>-1</sup> R<sup>T</sup> Q<sup>T</sup> y <br/>
  * R b = Q<sup>T</sup> y
  * </p>
- * Given Q and R, the last equation is solved by back-subsitution.</p>
+ * Given Q and R, the last equation is solved by back-substitution.</p>
  *
  * @version $Revision$ $Date$
  * @since 2.0
@@ -159,21 +159,6 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix Raug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
         RealMatrix Rinv = new LUDecompositionImpl(Raug).getSolver().getInverse();
         return Rinv.multiply(Rinv.transpose());
-    }
-
-
-    /**
-     * <p>Calculates the variance on the Y by OLS.
-     * </p>
-     * <p> Var(y) = Tr(u<sup>T</sup>u)/(n - k)
-     * </p>
-     * @return The Y variance
-     */
-    @Override
-    protected double calculateYVariance() {
-        RealVector residuals = calculateResiduals();
-        return residuals.dotProduct(residuals) /
-               (X.getRowDimension() - X.getColumnDimension());
     }
 
 }

@@ -32,10 +32,11 @@ options(digits=16)	          # override number of digits displayed
 # function to verify OLS computations
 
 verifyRegression <- function(model, expectedBeta, expectedResiduals,
-  expectedErrors, modelName) {
+  expectedErrors, expectedStdError, modelName) {
     betaHat <- as.vector(coefficients(model))
     residuals <- as.vector(residuals(model))
     errors <-  as.vector(as.matrix(coefficients(summary(model)))[,2])
+    stdError <- summary(model)$sigma
     output <- c("Parameter test dataset = ", modelName)
     if (assertEquals(expectedBeta,betaHat,tol,"Parameters")) {
         displayPadded(output, SUCCEEDED, WIDTH)
@@ -53,7 +54,13 @@ verifyRegression <- function(model, expectedBeta, expectedResiduals,
         displayPadded(output, SUCCEEDED, WIDTH)
     } else {
         displayPadded(output, FAILED, WIDTH)
-    }           
+    }
+    output <- c("Standard Error test dataset = ", modelName)
+    if (assertEquals(expectedStdError,stdError,tol,"Regression Standard Error")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -70,7 +77,8 @@ model <- lm(y ~ x1 + x2 + x3 + x4 + x5)
 expectedBeta <- c(11.0,0.5,0.666666666666667,0.75,0.8,0.8333333333333333)
 expectedResiduals <- c(0,0,0,0,0,0)
 expectedErrors <- c(NaN,NaN,NaN,NaN,NaN,NaN)
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+expectedStdError <- NaN
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
  "perfect fit") 
 
 # Longly
@@ -125,8 +133,9 @@ expectedResiduals <- c( 267.340029759711,-94.0139423988359,46.28716775752924,
  -13.18035686637081,14.30477260005235,455.394094551857,-17.26892711483297,
  -39.0550425226967,-155.5499735953195,-85.6713080421283,341.9315139607727,
  -206.7578251937366)
+expectedStdError <- 304.8540735619638
 
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
  "Longly") 
 
 # Swiss Fertility (R dataset named "swiss")
@@ -215,7 +224,9 @@ expectedResiduals <- c(7.1044267859730512,1.6580347433531366,
   15.0147574652763112,4.8625103516321015,-7.1597256413907706,
   -0.4515205619767598,-10.2916870903837587,-15.7812984571900063)
 
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+expectedStdError <- 7.73642194433223
+
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
  "Swiss Fertility") 
 
 

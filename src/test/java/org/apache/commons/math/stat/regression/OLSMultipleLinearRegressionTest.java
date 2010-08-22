@@ -24,6 +24,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.stat.StatUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,7 +83,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test
-    public void testPerfectFit() {
+    public void testPerfectFit() throws Exception {
         double[] betaHat = regression.estimateRegressionParameters();
         TestUtils.assertEquals(betaHat,
                                new double[]{ 11.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0, 4.0 / 5.0, 5.0 / 6.0 },
@@ -108,6 +109,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
        assertEquals(0.0,
                      errors.subtract(referenceVariance).getNorm(),
                      5.0e-16 * referenceVariance.getNorm());
+       
     }
 
 
@@ -122,7 +124,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
     @Test
-    public void testLongly() {
+    public void testLongly() throws Exception {
         // Y values are first, then independent vars
         // Each row is one observation
         double[] design = new double[] {
@@ -180,6 +182,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                        0.214274163161675,
                        0.226073200069370,
                        455.478499142212}, errors, 1E-6);
+        
+        // Check regression standard error against R
+        assertEquals(304.8540735619638, model.estimateRegressionStandardError(), 1E-10);
+        
+        checkVarianceConsistency(model);
     }
 
     /**
@@ -187,7 +194,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * Data Source: R datasets package
      */
     @Test
-    public void testSwissFertility() {
+    public void testSwissFertility() throws Exception {
         double[] design = new double[] {
             80.2,17.0,15,12,9.96,
             83.1,45.1,6,9,84.84,
@@ -283,6 +290,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 0.27410957467466,
                 0.19454551679325,
                 0.03726654773803}, errors, 1E-10);
+        
+        // Check regression standard error against R
+        assertEquals(7.73642194433223, model.estimateRegressionStandardError(), 1E-12);
+        
+        checkVarianceConsistency(model);
     }
 
     /**
@@ -353,5 +365,35 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealMatrix I = MatrixUtils.createRealIdentityMatrix(10);
         double[] hatResiduals = I.subtract(hat).operate(model.Y).getData();
         TestUtils.assertEquals(residuals, hatResiduals, 10e-12);
+    }
+
+    /**
+     * test calculateYVariance
+     */
+    @Test
+    public void testYVariance() {
+
+        // assumes: y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
+
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.newSampleData(y, x);
+        TestUtils.assertEquals(model.calculateYVariance(), 3.5, 0);
+    }
+    
+    /**
+     * Verifies that calculateYVariance and calculateResidualVariance return consistent
+     * values with direct variance computation from Y, residuals, respectively.
+     */
+    protected void checkVarianceConsistency(OLSMultipleLinearRegression model) throws Exception {
+        // Check Y variance consistency
+        TestUtils.assertEquals(StatUtils.variance(model.Y.getData()), model.calculateYVariance(), 0);
+        
+        // Check residual variance consistency
+        double[] residuals = model.calculateResiduals().getData();
+        RealMatrix X = model.X;
+        TestUtils.assertEquals(
+                StatUtils.variance(model.calculateResiduals().getData()) * (residuals.length - 1),
+                model.calculateErrorVariance() * (X.getRowDimension() - X.getColumnDimension()), 1E-20);
+        
     }
 }
