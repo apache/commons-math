@@ -1948,7 +1948,7 @@ public final class MathUtils {
      * @deprecated as of 2.2 (please use the new {@link #checkOrder(double[],OrderDirection,boolean)
      * checkOrder} method). To be removed in 3.0.
      */
-public static void checkOrder(double[] val, int dir, boolean strict) {
+    public static void checkOrder(double[] val, int dir, boolean strict) {
         if (dir > 0) {
             checkOrder(val, OrderDirection.INCREASING, strict);
         } else {
