@@ -109,7 +109,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
        assertEquals(0.0,
                      errors.subtract(referenceVariance).getNorm(),
                      5.0e-16 * referenceVariance.getNorm());
-       
+       assertEquals(1, ((OLSMultipleLinearRegression) regression).calculateRSquared(), 1E-12);
     }
 
 
@@ -185,6 +185,10 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         
         // Check regression standard error against R
         assertEquals(304.8540735619638, model.estimateRegressionStandardError(), 1E-10);
+        
+        // Check R-Square statistics against R
+        assertEquals(0.995479004577296, model.calculateRSquared(), 1E-12);
+        assertEquals(0.992465007628826, model.calculateAdjustedRSquared(), 1E-12);
         
         checkVarianceConsistency(model);
     }
@@ -293,6 +297,10 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         
         // Check regression standard error against R
         assertEquals(7.73642194433223, model.estimateRegressionStandardError(), 1E-12);
+        
+        // Check R-Square statistics against R
+        assertEquals(0.649789742860228, model.calculateRSquared(), 1E-12);
+        assertEquals(0.6164363850373927, model.calculateAdjustedRSquared(), 1E-12);
         
         checkVarianceConsistency(model);
     }

@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-386">
+        Added R-squared and adjusted R-squared statistics to OLSMultipleLinearRegression.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-392" due-to="Mark Devaney">
         Corrected the formula used for Y variance returned by calculateYVariance and associated
         methods in multiple regression classes (AbstractMultipleLinearRegression,

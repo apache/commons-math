@@ -22,6 +22,7 @@ import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
+import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
 
 /**
  * <p>Implements ordinary least squares (OLS) to estimate the parameters of a
@@ -119,6 +120,55 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
 
         // Compute and return Hat matrix
         return Q.multiply(augI).multiply(Q.transpose());
+    }
+
+    /**
+     * Returns the sum of squared deviations of Y from its mean.
+     *
+     * @return total sum of squares
+     */
+    public double calculateTotalSumOfSquares() {
+        return new SecondMoment().evaluate(Y.getData());
+    }
+
+    /**
+     * Returns the sum of square residuals.
+     *
+     * @return residual sum of squares
+     */
+    public double calculateResidualSumOfSquares() {
+        final RealVector residuals = calculateResiduals();
+        return residuals.dotProduct(residuals);
+    }
+
+    /**
+     * Returns the R-Squared statistic, defined by the formula <pre>
+     * R<sup>2</sup> = 1 - SSR / SSTO
+     * </pre>
+     * where SSR is the {@link #calculateResidualSumOfSquares() sum of squared residuals}
+     * and SSTO is the {@link #calculateTotalSumOfSquares() total sum of squares}
+     *
+     * @return R-square statistic
+     */
+    public double calculateRSquared() {
+        return 1 - calculateResidualSumOfSquares() / calculateTotalSumOfSquares();
+    }
+
+    /**
+     * Returns the adjusted R-squared statistic, defined by the formula <pre>
+     * R<sup>2</sup><sub>adj</sub> = 1 - [SSR (n - 1)] / [SSTO (n - p)]
+     * </pre>
+     * where SSR is the {@link #calculateResidualSumOfSquares() sum of squared residuals},
+     * SSTO is the {@link #calculateTotalSumOfSquares() total sum of squares}, n is the number
+     * of observations and p is the number of parameters estimated (including the intercept).
+     *
+     * @return adjusted R-Squared statistic
+     */
+    public double calculateAdjustedRSquared() {
+        final double n = X.getRowDimension();
+        return 1 - (calculateResidualSumOfSquares() * (n - 1)) /
+            (calculateTotalSumOfSquares() * (n - X.getColumnDimension()));
+       // return 1 - ((1 - calculateRSquare()) * (n - 1) / (n - X.getColumnDimension() - 1));
     }
 
     /**

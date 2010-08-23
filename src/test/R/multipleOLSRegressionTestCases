@@ -32,11 +32,13 @@ options(digits=16)	          # override number of digits displayed
 # function to verify OLS computations
 
 verifyRegression <- function(model, expectedBeta, expectedResiduals,
-  expectedErrors, expectedStdError, modelName) {
+  expectedErrors, expectedStdError, expectedRSquare, expecteAdjRSquare, modelName) {
     betaHat <- as.vector(coefficients(model))
     residuals <- as.vector(residuals(model))
     errors <-  as.vector(as.matrix(coefficients(summary(model)))[,2])
     stdError <- summary(model)$sigma
+    rSquare <- summary(model)$r.squared
+    adjRSquare <- summary(model)$adj.r.squared
     output <- c("Parameter test dataset = ", modelName)
     if (assertEquals(expectedBeta,betaHat,tol,"Parameters")) {
         displayPadded(output, SUCCEEDED, WIDTH)
@@ -61,6 +63,18 @@ verifyRegression <- function(model, expectedBeta, expectedResiduals,
     } else {
         displayPadded(output, FAILED, WIDTH)
     }
+    output <- c("RSquared test dataset = ", modelName)
+    if (assertEquals(expectedRSquare,rSquare,tol,"RSquared")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }
+    output <- c("Adjusted RSquared test dataset = ", modelName)
+    if (assertEquals(expecteAdjRSquare,adjRSquare,tol,"Adjusted RSquared")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }
 }
 
 #--------------------------------------------------------------------------
@@ -78,8 +92,10 @@ expectedBeta <- c(11.0,0.5,0.666666666666667,0.75,0.8,0.8333333333333333)
 expectedResiduals <- c(0,0,0,0,0,0)
 expectedErrors <- c(NaN,NaN,NaN,NaN,NaN,NaN)
 expectedStdError <- NaN
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
- "perfect fit") 
+expectedRSquare <- 1
+expectedAdjRSquare <- NaN
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+ expectedStdError, expectedRSquare, expectedAdjRSquare, "perfect fit") 
 
 # Longly
 #
@@ -134,9 +150,11 @@ expectedResiduals <- c( 267.340029759711,-94.0139423988359,46.28716775752924,
  -39.0550425226967,-155.5499735953195,-85.6713080421283,341.9315139607727,
  -206.7578251937366)
 expectedStdError <- 304.8540735619638
+expectedRSquare <- 0.995479004577296
+expectedAdjRSquare <- 0.992465007628826
 
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
- "Longly") 
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Longly") 
 
 # Swiss Fertility (R dataset named "swiss")
 
@@ -225,9 +243,11 @@ expectedResiduals <- c(7.1044267859730512,1.6580347433531366,
   -0.4515205619767598,-10.2916870903837587,-15.7812984571900063)
 
 expectedStdError <- 7.73642194433223
+expectedRSquare <- 0.649789742860228
+expectedAdjRSquare <- 0.6164363850373927
 
-verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors, expectedStdError,
- "Swiss Fertility") 
+verifyRegression(model, expectedBeta, expectedResiduals, expectedErrors,
+expectedStdError, expectedRSquare, expectedAdjRSquare, "Swiss Fertility") 
 
 
 displayDashes(WIDTH)
