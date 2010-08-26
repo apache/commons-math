@@ -70,7 +70,7 @@ public class FunctionEvaluationException extends MathException  {
      */
     public FunctionEvaluationException(double argument,
                                        String pattern, Object ... arguments) {
-        this(argument, new DummyLocalizable(pattern), argument);
+        this(argument, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -97,7 +97,7 @@ public class FunctionEvaluationException extends MathException  {
      */
     public FunctionEvaluationException(double[] argument,
                                        String pattern, Object ... arguments) {
-        this(argument, new DummyLocalizable(pattern), argument);
+        this(argument, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -150,7 +150,7 @@ public class FunctionEvaluationException extends MathException  {
     public FunctionEvaluationException(Throwable cause,
                                        double argument, String pattern,
                                        Object ... arguments) {
-        this(cause, argument, new DummyLocalizable(pattern), argument);
+        this(cause, argument, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -181,7 +181,7 @@ public class FunctionEvaluationException extends MathException  {
     public FunctionEvaluationException(Throwable cause,
                                        double[] argument, String pattern,
                                        Object ... arguments) {
-        this(cause, argument, new DummyLocalizable(pattern), argument);
+        this(cause, argument, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -208,5 +208,4 @@ public class FunctionEvaluationException extends MathException  {
     public double[] getArgument() {
         return argument.clone();
     }
-
 }
