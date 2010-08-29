@@ -26,6 +26,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Non-linear conjugate gradient optimizer.
@@ -224,7 +225,7 @@ public class NonLinearConjugateGradientOptimizer
         throws FunctionEvaluationException, OptimizationException {
         final double yA = f.value(a);
         double yB = yA;
-        for (double step = h; step < Double.MAX_VALUE; step *= Math.max(2, yA / yB)) {
+        for (double step = h; step < Double.MAX_VALUE; step *= FastMath.max(2, yA / yB)) {
             final double b = a + step;
             yB = f.value(b);
             if (yA * yB <= 0) {

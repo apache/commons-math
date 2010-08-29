@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
@@ -112,14 +113,14 @@ public class SplineInterpolatorTest {
         double x[] =
             {
                 0.0,
-                Math.PI / 6d,
-                Math.PI / 2d,
-                5d * Math.PI / 6d,
-                Math.PI,
-                7d * Math.PI / 6d,
-                3d * Math.PI / 2d,
-                11d * Math.PI / 6d,
-                2.d * Math.PI };
+                FastMath.PI / 6d,
+                FastMath.PI / 2d,
+                5d * FastMath.PI / 6d,
+                FastMath.PI,
+                7d * FastMath.PI / 6d,
+                3d * FastMath.PI / 2d,
+                11d * FastMath.PI / 6d,
+                2.d * FastMath.PI };
         double y[] = { 0d, 0.5d, 1d, 0.5d, 0d, -0.5d, -1d, -0.5d, 0d };
         UnivariateRealInterpolator i = new SplineInterpolator();
         UnivariateRealFunction f = i.interpolate(x, y);
@@ -154,8 +155,8 @@ public class SplineInterpolatorTest {
         TestUtils.assertEquals(polynomials[7].getCoefficients(), target, coefficientTolerance);
 
         //Check interpolation
-        Assert.assertEquals(Math.sqrt(2d) / 2d,f.value(Math.PI/4d),interpolationTolerance);
-        Assert.assertEquals(Math.sqrt(2d) / 2d,f.value(3d*Math.PI/4d),interpolationTolerance);
+        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(FastMath.PI/4d),interpolationTolerance);
+        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(3d*FastMath.PI/4d),interpolationTolerance);
     }
 
     @Test

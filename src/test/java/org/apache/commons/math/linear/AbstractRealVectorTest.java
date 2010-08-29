@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.linear.RealVector.Entry;
+import org.apache.commons.math.util.FastMath;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -98,7 +99,7 @@ public class AbstractRealVectorTest extends TestCase {
         @Override
         public RealVector mapPowToSelf(double d) {
             for(int i=0; i<values.length; i++) {
-                values[i] = Math.pow(values[i], d);
+                values[i] = FastMath.pow(values[i], d);
             }
             return this;
         }

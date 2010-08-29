@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * This class is used in the junit tests for the ODE integrators.
 
@@ -53,7 +55,7 @@ public class TestProblem3
   public TestProblem3(double e) {
     super();
     this.e = e;
-    double[] y0 = { 1 - e, 0, 0, Math.sqrt((1+e)/(1-e)) };
+    double[] y0 = { 1 - e, 0, 0, FastMath.sqrt((1+e)/(1-e)) };
     setInitialConditions(0.0, y0);
     setFinalConditions(20.0);
     double[] errorScale = { 1.0, 1.0, 1.0, 1.0 };
@@ -89,7 +91,7 @@ public TestProblem3 copy() {
 
     // current radius
     double r2 = y[0] * y[0] + y[1] * y[1];
-    double invR3 = 1 / (r2 * Math.sqrt(r2));
+    double invR3 = 1 / (r2 * FastMath.sqrt(r2));
 
     // compute the derivatives
     yDot[0] = y[2];
@@ -106,23 +108,23 @@ public TestProblem3 copy() {
     double E = t;
     double d = 0;
     double corr = 999.0;
-    for (int i = 0; (i < 50) && (Math.abs(corr) > 1.0e-12); ++i) {
-      double f2  = e * Math.sin(E);
+    for (int i = 0; (i < 50) && (FastMath.abs(corr) > 1.0e-12); ++i) {
+      double f2  = e * FastMath.sin(E);
       double f0  = d - f2;
-      double f1  = 1 - e * Math.cos(E);
+      double f1  = 1 - e * FastMath.cos(E);
       double f12 = f1 + f1;
       corr  = f0 * f12 / (f1 * f12 - f0 * f2);
       d -= corr;
       E = t + d;
     }
 
-    double cosE = Math.cos(E);
-    double sinE = Math.sin(E);
+    double cosE = FastMath.cos(E);
+    double sinE = FastMath.sin(E);
 
     y[0] = cosE - e;
-    y[1] = Math.sqrt(1 - e * e) * sinE;
+    y[1] = FastMath.sqrt(1 - e * e) * sinE;
     y[2] = -sinE / (1 - e * cosE);
-    y[3] = Math.sqrt(1 - e * e) * cosE / (1 - e * cosE);
+    y[3] = FastMath.sqrt(1 - e * e) * cosE / (1 - e * cosE);
 
     return y;
   }

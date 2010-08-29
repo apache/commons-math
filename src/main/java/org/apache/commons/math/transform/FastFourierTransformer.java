@@ -24,6 +24,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/FastFourierTransform.html">
@@ -125,7 +126,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform2(double f[])
         throws IllegalArgumentException {
 
-        double scaling_coefficient = 1.0 / Math.sqrt(f.length);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
         return scaleArray(fft(f, false), scaling_coefficient);
     }
 
@@ -149,7 +150,7 @@ public class FastFourierTransformer implements Serializable {
         throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
-        double scaling_coefficient = 1.0 / Math.sqrt(n);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(n);
         return scaleArray(fft(data, false), scaling_coefficient);
     }
 
@@ -167,7 +168,7 @@ public class FastFourierTransformer implements Serializable {
         throws IllegalArgumentException {
 
         roots.computeOmega(f.length);
-        double scaling_coefficient = 1.0 / Math.sqrt(f.length);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
         return scaleArray(fft(f), scaling_coefficient);
     }
 
@@ -243,7 +244,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] inversetransform2(double f[])
         throws IllegalArgumentException {
 
-        double scaling_coefficient = 1.0 / Math.sqrt(f.length);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
         return scaleArray(fft(f, true), scaling_coefficient);
     }
 
@@ -267,7 +268,7 @@ public class FastFourierTransformer implements Serializable {
         throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
-        double scaling_coefficient = 1.0 / Math.sqrt(n);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(n);
         return scaleArray(fft(data, true), scaling_coefficient);
     }
 
@@ -285,7 +286,7 @@ public class FastFourierTransformer implements Serializable {
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
-        double scaling_coefficient = 1.0 / Math.sqrt(f.length);
+        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
         return scaleArray(fft(f), scaling_coefficient);
     }
 
@@ -837,16 +838,16 @@ public class FastFourierTransformer implements Serializable {
         isForward = n > 0;
 
         // avoid repetitive calculations
-        final int absN = Math.abs(n);
+        final int absN = FastMath.abs(n);
 
         if (absN == omegaCount) {
             return;
         }
 
         // calculate everything from scratch, for both forward and inverse versions
-        final double t    = 2.0 * Math.PI / absN;
-        final double cosT = Math.cos(t);
-        final double sinT = Math.sin(t);
+        final double t    = 2.0 * FastMath.PI / absN;
+        final double cosT = FastMath.cos(t);
+        final double sinT = FastMath.sin(t);
         omegaReal             = new double[absN];
         omegaImaginaryForward = new double[absN];
         omegaImaginaryInverse = new double[absN];

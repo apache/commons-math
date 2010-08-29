@@ -19,6 +19,8 @@ package org.apache.commons.math.linear;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 public class TriDiagonalTransformerTest extends TestCase {
@@ -129,7 +131,7 @@ public class TriDiagonalTransformerTest extends TestCase {
                                 { 0.0, -0.2581988897471611,  0.6364346693566009,  -0.027289660803112598, -0.7263191580755246 }
                             },
                             new double[] { 1, 4.4, 1.433099579242636, -0.89537362758743, 2.062274048344794 },
-                            new double[] { -Math.sqrt(15), -3.0832882879592476, 0.6082710842351517, 1.1786086405912128 });
+                            new double[] { -FastMath.sqrt(15), -3.0832882879592476, 0.6082710842351517, 1.1786086405912128 });
     }
 
     public void testMatricesValues3() {

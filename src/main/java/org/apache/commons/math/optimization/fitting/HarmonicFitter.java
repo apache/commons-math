@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.FastMath;
 
 /** This class implements a curve fitting specialized for sinusoids.
  * <p>Harmonic fitting is a very simple case of curve fitting. The
@@ -114,7 +115,7 @@ public class HarmonicFitter {
             final double a     = parameters[0];
             final double omega = parameters[1];
             final double phi   = parameters[2];
-            return a * Math.cos(omega * x + phi);
+            return a * FastMath.cos(omega * x + phi);
         }
 
         /** {@inheritDoc} */
@@ -123,8 +124,8 @@ public class HarmonicFitter {
             final double omega = parameters[1];
             final double phi   = parameters[2];
             final double alpha = omega * x + phi;
-            final double cosAlpha = Math.cos(alpha);
-            final double sinAlpha = Math.sin(alpha);
+            final double cosAlpha = FastMath.cos(alpha);
+            final double sinAlpha = FastMath.sin(alpha);
             return new double[] { cosAlpha, -a * x * sinAlpha, -a * sinAlpha };
         }
 

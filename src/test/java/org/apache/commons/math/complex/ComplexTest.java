@@ -18,6 +18,7 @@
 package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ComplexTest extends TestCase {
     private double inf = Double.POSITIVE_INFINITY;
     private double neginf = Double.NEGATIVE_INFINITY;
     private double nan = Double.NaN;
-    private double pi = Math.PI;
+    private double pi = FastMath.PI;
     private Complex oneInf = new Complex(1, inf);
     private Complex oneNegInf = new Complex(1, neginf);
     private Complex infOne = new Complex(inf, 1);
@@ -347,7 +348,7 @@ public class ComplexTest extends TestCase {
         Complex z = new Complex(3, 4);
         Complex expected = new Complex(0.936812, -2.30551);
         TestUtils.assertEquals(expected, z.acos(), 1.0e-5);
-        TestUtils.assertEquals(new Complex(Math.acos(0), 0),
+        TestUtils.assertEquals(new Complex(FastMath.acos(0), 0),
                 Complex.ZERO.acos(), 1.0e-12);
     }
 
@@ -656,7 +657,7 @@ public class ComplexTest extends TestCase {
             for (int j =0; j < 11; j++) {
                 theta += pi /12;
                 Complex z = ComplexUtils.polar2Complex(r, theta);
-                Complex sqrtz = ComplexUtils.polar2Complex(Math.sqrt(r), theta / 2);
+                Complex sqrtz = ComplexUtils.polar2Complex(FastMath.sqrt(r), theta / 2);
                 TestUtils.assertEquals(sqrtz, z.sqrt(), 10e-12);
             }
         }
@@ -903,25 +904,25 @@ public class ComplexTest extends TestCase {
         assertEquals(0.0, z.getArgument(), 1.0e-12);
 
         z = new Complex(1, 1);
-        assertEquals(Math.PI/4, z.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI/4, z.getArgument(), 1.0e-12);
 
         z = new Complex(0, 1);
-        assertEquals(Math.PI/2, z.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI/2, z.getArgument(), 1.0e-12);
 
         z = new Complex(-1, 1);
-        assertEquals(3 * Math.PI/4, z.getArgument(), 1.0e-12);
+        assertEquals(3 * FastMath.PI/4, z.getArgument(), 1.0e-12);
 
         z = new Complex(-1, 0);
-        assertEquals(Math.PI, z.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI, z.getArgument(), 1.0e-12);
 
         z = new Complex(-1, -1);
-        assertEquals(-3 * Math.PI/4, z.getArgument(), 1.0e-12);
+        assertEquals(-3 * FastMath.PI/4, z.getArgument(), 1.0e-12);
 
         z = new Complex(0, -1);
-        assertEquals(-Math.PI/2, z.getArgument(), 1.0e-12);
+        assertEquals(-FastMath.PI/2, z.getArgument(), 1.0e-12);
 
         z = new Complex(1, -1);
-        assertEquals(-Math.PI/4, z.getArgument(), 1.0e-12);
+        assertEquals(-FastMath.PI/4, z.getArgument(), 1.0e-12);
 
     }
 
@@ -929,14 +930,14 @@ public class ComplexTest extends TestCase {
      * Verify atan2-style handling of infinite parts
      */
     public void testGetArgumentInf() {
-        assertEquals(Math.PI/4, infInf.getArgument(), 1.0e-12);
-        assertEquals(Math.PI/2, oneInf.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI/4, infInf.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI/2, oneInf.getArgument(), 1.0e-12);
         assertEquals(0.0, infOne.getArgument(), 1.0e-12);
-        assertEquals(Math.PI/2, zeroInf.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI/2, zeroInf.getArgument(), 1.0e-12);
         assertEquals(0.0, infZero.getArgument(), 1.0e-12);
-        assertEquals(Math.PI, negInfOne.getArgument(), 1.0e-12);
-        assertEquals(-3.0*Math.PI/4, negInfNegInf.getArgument(), 1.0e-12);
-        assertEquals(-Math.PI/2, oneNegInf.getArgument(), 1.0e-12);
+        assertEquals(FastMath.PI, negInfOne.getArgument(), 1.0e-12);
+        assertEquals(-3.0*FastMath.PI/4, negInfNegInf.getArgument(), 1.0e-12);
+        assertEquals(-FastMath.PI/2, oneNegInf.getArgument(), 1.0e-12);
     }
 
     /**

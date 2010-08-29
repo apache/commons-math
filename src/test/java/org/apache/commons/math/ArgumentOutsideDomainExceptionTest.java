@@ -19,6 +19,8 @@ package org.apache.commons.math;
 
 import java.util.Locale;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 /**
@@ -27,11 +29,11 @@ import junit.framework.TestCase;
 public class ArgumentOutsideDomainExceptionTest extends TestCase {
 
     public void testConstructor(){
-        ArgumentOutsideDomainException ex = new ArgumentOutsideDomainException(Math.PI, 10.0, 20.0);
+        ArgumentOutsideDomainException ex = new ArgumentOutsideDomainException(FastMath.PI, 10.0, 20.0);
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
         assertTrue(ex.getMessage().indexOf("3.14") > 0);
-        assertEquals(Math.PI, ex.getArgument()[0], 0);
+        assertEquals(FastMath.PI, ex.getArgument()[0], 0);
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 

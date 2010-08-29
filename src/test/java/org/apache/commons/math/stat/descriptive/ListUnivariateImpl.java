@@ -24,6 +24,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.DefaultTransformer;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
@@ -83,7 +84,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         if (windowSize != DescriptiveStatistics.INFINITE_WINDOW &&
             windowSize < list.size())
         {
-            length = list.size() - Math.max(0, list.size() - windowSize);
+            length = list.size() - FastMath.max(0, list.size() - windowSize);
         }
 
         // Create an array to hold all values

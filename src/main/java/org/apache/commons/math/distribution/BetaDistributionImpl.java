@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the Beta distribution.
@@ -156,9 +157,9 @@ public class BetaDistributionImpl
             }
             return 0;
         } else {
-            double logX = Math.log(x);
-            double log1mX = Math.log1p(-x);
-            return Math.exp((alpha - 1) * logX + (beta - 1) * log1mX - z);
+            double logX = FastMath.log(x);
+            double log1mX = FastMath.log1p(-x);
+            return FastMath.exp((alpha - 1) * logX + (beta - 1) * log1mX - z);
         }
     }
 

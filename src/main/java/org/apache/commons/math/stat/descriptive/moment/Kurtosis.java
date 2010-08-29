@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -170,15 +171,15 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
             Variance variance = new Variance();
             variance.incrementAll(values, begin, length);
             double mean = variance.moment.m1;
-            double stdDev = Math.sqrt(variance.getResult());
+            double stdDev = FastMath.sqrt(variance.getResult());
 
             // Sum the ^4 of the distance from the mean divided by the
             // standard deviation
             double accum3 = 0.0;
             for (int i = begin; i < begin + length; i++) {
-                accum3 += Math.pow(values[i] - mean, 4.0);
+                accum3 += FastMath.pow(values[i] - mean, 4.0);
             }
-            accum3 /= Math.pow(stdDev, 4.0d);
+            accum3 /= FastMath.pow(stdDev, 4.0d);
 
             // Get N
             double n0 = length;
@@ -186,7 +187,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
             double coefficientOne =
                 (n0 * (n0 + 1)) / ((n0 - 1) * (n0 - 2) * (n0 - 3));
             double termTwo =
-                (3 * Math.pow(n0 - 1, 2.0)) / ((n0 - 2) * (n0 - 3));
+                (3 * FastMath.pow(n0 - 1, 2.0)) / ((n0 - 2) * (n0 - 3));
 
             // Calculate kurtosis
             kurt = (coefficientOne * accum3) - termTwo;

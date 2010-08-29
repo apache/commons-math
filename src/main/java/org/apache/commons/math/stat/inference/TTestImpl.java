@@ -23,6 +23,7 @@ import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
@@ -905,7 +906,7 @@ public class TTestImpl implements TTest  {
      * @return t test statistic
      */
     protected double t(double m, double mu, double v, double n) {
-        return (m - mu) / Math.sqrt(v / n);
+        return (m - mu) / FastMath.sqrt(v / n);
     }
 
     /**
@@ -923,7 +924,7 @@ public class TTestImpl implements TTest  {
      */
     protected double t(double m1, double m2,  double v1, double v2, double n1,
             double n2)  {
-            return (m1 - m2) / Math.sqrt((v1 / n1) + (v2 / n2));
+            return (m1 - m2) / FastMath.sqrt((v1 / n1) + (v2 / n2));
     }
 
     /**
@@ -941,7 +942,7 @@ public class TTestImpl implements TTest  {
     protected double homoscedasticT(double m1, double m2,  double v1,
             double v2, double n1, double n2)  {
             double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2);
-            return (m1 - m2) / Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+            return (m1 - m2) / FastMath.sqrt(pooledVariance * (1d / n1 + 1d / n2));
     }
 
     /**
@@ -956,7 +957,7 @@ public class TTestImpl implements TTest  {
      */
     protected double tTest(double m, double mu, double v, double n)
     throws MathException {
-        double t = Math.abs(t(m, mu, v, n));
+        double t = FastMath.abs(t(m, mu, v, n));
         distribution.setDegreesOfFreedom(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
@@ -979,7 +980,7 @@ public class TTestImpl implements TTest  {
     protected double tTest(double m1, double m2, double v1, double v2,
             double n1, double n2)
     throws MathException {
-        double t = Math.abs(t(m1, m2, v1, v2, n1, n2));
+        double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
         degreesOfFreedom = df(v1, v2, n1, n2);
         distribution.setDegreesOfFreedom(degreesOfFreedom);
@@ -1004,7 +1005,7 @@ public class TTestImpl implements TTest  {
     protected double homoscedasticTTest(double m1, double m2, double v1,
             double v2, double n1, double n2)
     throws MathException {
-        double t = Math.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
+        double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = n1 + n2 - 2;
         distribution.setDegreesOfFreedom(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);

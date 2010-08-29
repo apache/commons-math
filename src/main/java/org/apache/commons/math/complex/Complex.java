@@ -25,6 +25,7 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Representation of a Complex number - a number which has both a
@@ -113,18 +114,18 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Double.POSITIVE_INFINITY;
         }
 
-        if (Math.abs(real) < Math.abs(imaginary)) {
+        if (FastMath.abs(real) < FastMath.abs(imaginary)) {
             if (imaginary == 0.0) {
-                return Math.abs(real);
+                return FastMath.abs(real);
             }
             double q = real / imaginary;
-            return Math.abs(imaginary) * Math.sqrt(1 + q * q);
+            return FastMath.abs(imaginary) * FastMath.sqrt(1 + q * q);
         } else {
             if (real == 0.0) {
-                return Math.abs(imaginary);
+                return FastMath.abs(imaginary);
             }
             double q = imaginary / real;
-            return Math.abs(real) * Math.sqrt(1 + q * q);
+            return FastMath.abs(real) * FastMath.sqrt(1 + q * q);
         }
     }
 
@@ -221,7 +222,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return ZERO;
         }
 
-        if (Math.abs(c) < Math.abs(d)) {
+        if (FastMath.abs(c) < FastMath.abs(d)) {
             double q = c / d;
             double denominator = c * q + d;
             return createComplex((real * q + imaginary) / denominator,
@@ -547,8 +548,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        return createComplex(Math.cos(real) * MathUtils.cosh(imaginary),
-            -Math.sin(real) * MathUtils.sinh(imaginary));
+        return createComplex(FastMath.cos(real) * MathUtils.cosh(imaginary),
+            -FastMath.sin(real) * MathUtils.sinh(imaginary));
     }
 
     /**
@@ -581,8 +582,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        return createComplex(MathUtils.cosh(real) * Math.cos(imaginary),
-            MathUtils.sinh(real) * Math.sin(imaginary));
+        return createComplex(MathUtils.cosh(real) * FastMath.cos(imaginary),
+            MathUtils.sinh(real) * FastMath.sin(imaginary));
     }
 
     /**
@@ -616,8 +617,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        double expReal = Math.exp(real);
-        return createComplex(expReal *  Math.cos(imaginary), expReal * Math.sin(imaginary));
+        double expReal = FastMath.exp(real);
+        return createComplex(expReal *  FastMath.cos(imaginary), expReal * FastMath.sin(imaginary));
     }
 
     /**
@@ -654,8 +655,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        return createComplex(Math.log(abs()),
-            Math.atan2(imaginary, real));
+        return createComplex(FastMath.log(abs()),
+            FastMath.atan2(imaginary, real));
     }
 
     /**
@@ -713,8 +714,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        return createComplex(Math.sin(real) * MathUtils.cosh(imaginary),
-            Math.cos(real) * MathUtils.sinh(imaginary));
+        return createComplex(FastMath.sin(real) * MathUtils.cosh(imaginary),
+            FastMath.cos(real) * MathUtils.sinh(imaginary));
     }
 
     /**
@@ -747,8 +748,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return Complex.NaN;
         }
 
-        return createComplex(MathUtils.sinh(real) * Math.cos(imaginary),
-            MathUtils.cosh(real) * Math.sin(imaginary));
+        return createComplex(MathUtils.sinh(real) * FastMath.cos(imaginary),
+            MathUtils.cosh(real) * FastMath.sin(imaginary));
     }
 
     /**
@@ -793,11 +794,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return createComplex(0.0, 0.0);
         }
 
-        double t = Math.sqrt((Math.abs(real) + abs()) / 2.0);
+        double t = FastMath.sqrt((FastMath.abs(real) + abs()) / 2.0);
         if (real >= 0.0) {
             return createComplex(t, imaginary / (2.0 * t));
         } else {
-            return createComplex(Math.abs(imaginary) / (2.0 * t),
+            return createComplex(FastMath.abs(imaginary) / (2.0 * t),
                 MathUtils.indicator(imaginary) * t);
         }
     }
@@ -857,9 +858,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         double real2 = 2.0 * real;
         double imaginary2 = 2.0 * imaginary;
-        double d = Math.cos(real2) + MathUtils.cosh(imaginary2);
+        double d = FastMath.cos(real2) + MathUtils.cosh(imaginary2);
 
-        return createComplex(Math.sin(real2) / d, MathUtils.sinh(imaginary2) / d);
+        return createComplex(FastMath.sin(real2) / d, MathUtils.sinh(imaginary2) / d);
     }
 
     /**
@@ -895,9 +896,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         double real2 = 2.0 * real;
         double imaginary2 = 2.0 * imaginary;
-        double d = MathUtils.cosh(real2) + Math.cos(imaginary2);
+        double d = MathUtils.cosh(real2) + FastMath.cos(imaginary2);
 
-        return createComplex(MathUtils.sinh(real2) / d, Math.sin(imaginary2) / d);
+        return createComplex(MathUtils.sinh(real2) / d, FastMath.sin(imaginary2) / d);
     }
 
 
@@ -917,7 +918,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return the argument of this complex number
      */
     public double getArgument() {
-        return Math.atan2(getImaginary(), getReal());
+        return FastMath.atan2(getImaginary(), getReal());
     }
 
     /**
@@ -959,16 +960,16 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         }
 
         // nth root of abs -- faster / more accurate to use a solver here?
-        final double nthRootOfAbs = Math.pow(abs(), 1.0 / n);
+        final double nthRootOfAbs = FastMath.pow(abs(), 1.0 / n);
 
         // Compute nth roots of complex number with k = 0, 1, ... n-1
         final double nthPhi = getArgument()/n;
-        final double slice = 2 * Math.PI / n;
+        final double slice = 2 * FastMath.PI / n;
         double innerPart = nthPhi;
         for (int k = 0; k < n ; k++) {
             // inner part
-            final double realPart      = nthRootOfAbs *  Math.cos(innerPart);
-            final double imaginaryPart = nthRootOfAbs *  Math.sin(innerPart);
+            final double realPart      = nthRootOfAbs *  FastMath.cos(innerPart);
+            final double imaginaryPart = nthRootOfAbs *  FastMath.sin(innerPart);
             result.add(createComplex(realPart, imaginaryPart));
             innerPart += slice;
         }

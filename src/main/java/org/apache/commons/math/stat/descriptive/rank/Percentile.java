@@ -22,6 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Provides percentile computation.
@@ -210,7 +211,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         }
         double n = length;
         double pos = p * (n + 1) / 100;
-        double fpos = Math.floor(pos);
+        double fpos = FastMath.floor(pos);
         int intPos = (int) fpos;
         double dif = pos - fpos;
         double[] sorted = new double[length];

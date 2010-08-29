@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblemAbstract;
+import org.apache.commons.math.util.FastMath;
 
 public class StepInterpolatorTestUtils {
 
@@ -41,7 +42,7 @@ public class StepInterpolatorTestUtils {
                 final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
                 final double t = interpolator.getCurrentTime() - 300 * h;
 
-                if (Math.abs(h) < 10 * Math.ulp(t)) {
+                if (FastMath.abs(h) < 10 * FastMath.ulp(t)) {
                     return;
                 }
 

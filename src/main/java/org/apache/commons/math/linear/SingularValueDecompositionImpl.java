@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.
@@ -137,7 +138,7 @@ public class SingularValueDecompositionImpl implements
             cachedV = eigenDecomposition.getV().getSubMatrix(0,n-1,0,p-1);
         }
         for (int i = 0; i < p; i++) {
-            singularValues[i] = Math.sqrt(Math.abs(singularValues[i]));
+            singularValues[i] = FastMath.sqrt(FastMath.abs(singularValues[i]));
         }
         // Up to this point, U and V are computed independently of each other.
         // There still a sign indetermination of each column of, say, U.
@@ -251,7 +252,7 @@ public class SingularValueDecompositionImpl implements
     /** {@inheritDoc} */
     public int getRank() throws IllegalStateException {
 
-        final double threshold = Math.max(m, n) * Math.ulp(singularValues[0]);
+        final double threshold = FastMath.max(m, n) * FastMath.ulp(singularValues[0]);
 
         for (int i = singularValues.length - 1; i >= 0; --i) {
             if (singularValues[i] > threshold) {

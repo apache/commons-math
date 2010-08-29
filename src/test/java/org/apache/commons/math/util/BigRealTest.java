@@ -117,7 +117,7 @@ public class BigRealTest {
     public void testSerial() {
         BigReal[] Reals = {
             new BigReal(3.0), BigReal.ONE, BigReal.ZERO,
-            new BigReal(17), new BigReal(Math.PI),
+            new BigReal(17), new BigReal(FastMath.PI),
             new BigReal(-2.5)
         };
         for (BigReal Real : Reals) {

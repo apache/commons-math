@@ -21,6 +21,7 @@ import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with
@@ -243,7 +244,7 @@ public class CorrelatedRandomVectorGenerator
             } else {
 
                 // transform the matrix
-                double sqrt = Math.sqrt(c[ir][ir]);
+                double sqrt = FastMath.sqrt(c[ir][ir]);
                 b[rank][rank] = sqrt;
                 double inverse = 1 / sqrt;
                 for (int i = rank + 1; i < order; ++i) {

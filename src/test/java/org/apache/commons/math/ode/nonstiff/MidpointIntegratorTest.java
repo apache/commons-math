@@ -32,6 +32,7 @@ import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.nonstiff.MidpointIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 public class MidpointIntegratorTest
   extends TestCase {
@@ -64,7 +65,7 @@ public class MidpointIntegratorTest
 
         TestProblemAbstract pb = problems[k].copy();
         double step = (pb.getFinalTime() - pb.getInitialTime())
-          * Math.pow(2.0, -i);
+          * FastMath.pow(2.0, -i);
         FirstOrderIntegrator integ = new MidpointIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
         integ.addStepHandler(handler);
@@ -82,7 +83,7 @@ public class MidpointIntegratorTest
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < Math.abs(previousError));
+          assertTrue(error < FastMath.abs(previousError));
         }
         previousError = error;
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
@@ -136,7 +137,7 @@ public class MidpointIntegratorTest
       throws DerivativeException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
-      double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+      double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
       FirstOrderIntegrator integ = new MidpointIntegrator(step);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);

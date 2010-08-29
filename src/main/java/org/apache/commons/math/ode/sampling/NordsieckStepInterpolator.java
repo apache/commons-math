@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -197,7 +198,7 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
         for (int i = nData.length - 1; i >= 0; --i) {
             final int order = i + 2;
             final double[] nDataI = nData[i];
-            final double power = Math.pow(normalizedAbscissa, order);
+            final double power = FastMath.pow(normalizedAbscissa, order);
             for (int j = 0; j < nDataI.length; ++j) {
                 final double d = nDataI[j] * power;
                 stateVariation[j]          += d;

@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Computes the sample standard deviation.  The standard deviation
@@ -122,7 +123,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double getResult() {
-        return Math.sqrt(variance.getResult());
+        return FastMath.sqrt(variance.getResult());
     }
 
     /**
@@ -149,7 +150,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values)  {
-        return Math.sqrt(variance.evaluate(values));
+        return FastMath.sqrt(variance.evaluate(values));
     }
 
     /**
@@ -172,7 +173,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length)  {
-       return Math.sqrt(variance.evaluate(values, begin, length));
+       return FastMath.sqrt(variance.evaluate(values, begin, length));
     }
 
     /**
@@ -201,7 +202,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      */
     public double evaluate(final double[] values, final double mean,
             final int begin, final int length)  {
-        return Math.sqrt(variance.evaluate(values, mean, begin, length));
+        return FastMath.sqrt(variance.evaluate(values, mean, begin, length));
     }
 
     /**
@@ -226,7 +227,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws IllegalArgumentException if the array is null
      */
     public double evaluate(final double[] values, final double mean)  {
-        return Math.sqrt(variance.evaluate(values, mean));
+        return FastMath.sqrt(variance.evaluate(values, mean));
     }
 
     /**

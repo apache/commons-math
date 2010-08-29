@@ -20,6 +20,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements Richard Brent's algorithm (from his book "Algorithms for
@@ -34,7 +35,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     /**
      * Golden section.
      */
-    private static final double GOLDEN_SECTION = 0.5 * (3 - Math.sqrt(5));
+    private static final double GOLDEN_SECTION = 0.5 * (3 - FastMath.sqrt(5));
 
     /**
      * Construct a solver.
@@ -112,17 +113,17 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
         while (true) {
             double m = 0.5 * (a + b);
-            final double tol1 = eps * Math.abs(x) + t;
+            final double tol1 = eps * FastMath.abs(x) + t;
             final double tol2 = 2 * tol1;
 
             // Check stopping criterion.
-            if (Math.abs(x - m) > tol2 - 0.5 * (b - a)) {
+            if (FastMath.abs(x - m) > tol2 - 0.5 * (b - a)) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
                 double u = 0;
 
-                if (Math.abs(e) > tol1) { // Fit parabola.
+                if (FastMath.abs(e) > tol1) { // Fit parabola.
                     r = (x - w) * (fx - fv);
                     q = (x - v) * (fx - fw);
                     p = (x - v) * q - (x - w) * r;
@@ -139,7 +140,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
                     if (p > q * (a - x) &&
                         p < q * (b - x) &&
-                        Math.abs(p) < Math.abs(0.5 * q * r)) {
+                        FastMath.abs(p) < FastMath.abs(0.5 * q * r)) {
                         // Parabolic interpolation step.
                         d = p / q;
                         u = x + d;
@@ -172,7 +173,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                 }
 
                 // Update by at least "tol1".
-                if (Math.abs(d) < tol1) {
+                if (FastMath.abs(d) < tol1) {
                     if (d >= 0) {
                         u = x + tol1;
                     } else {

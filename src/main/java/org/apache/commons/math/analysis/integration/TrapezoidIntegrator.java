@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
@@ -116,9 +117,9 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
         for (int i = 1; i <= maximalIterationCount; ++i) {
             final double t = stage(f, min, max, i);
             if (i >= minimalIterationCount) {
-                final double delta = Math.abs(t - oldt);
+                final double delta = FastMath.abs(t - oldt);
                 final double rLimit =
-                    relativeAccuracy * (Math.abs(oldt) + Math.abs(t)) * 0.5;
+                    relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(t, i);
                     return result;

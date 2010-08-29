@@ -33,6 +33,7 @@ import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.ResizableDoubleArray;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -207,7 +208,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         double stdDev = Double.NaN;
         if (getN() > 0) {
             if (getN() > 1) {
-                stdDev = Math.sqrt(getVariance());
+                stdDev = FastMath.sqrt(getVariance());
             } else {
                 stdDev = 0.0;
             }

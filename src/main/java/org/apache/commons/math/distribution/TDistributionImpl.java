@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
@@ -113,8 +114,8 @@ public class TDistributionImpl
     public double density(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        return Math.exp(Gamma.logGamma(nPlus1Over2) - 0.5 * (Math.log(Math.PI) + Math.log(n)) -
-                Gamma.logGamma(n/2) - nPlus1Over2 * Math.log(1 + x * x /n));
+        return FastMath.exp(Gamma.logGamma(nPlus1Over2) - 0.5 * (FastMath.log(FastMath.PI) + FastMath.log(n)) -
+                Gamma.logGamma(n/2) - nPlus1Over2 * FastMath.log(1 + x * x /n));
     }
 
     /**

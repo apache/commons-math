@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -92,7 +93,7 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         for (int i = 0; i < v.length; i++) {
             sum += (v[i] - mean) * (v[i] - mean);
         }
-        return Math.sqrt(sum / v.length);
+        return FastMath.sqrt(sum / v.length);
     }
 
 }

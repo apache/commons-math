@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -299,7 +300,7 @@ public class SimpleRegression implements Serializable {
         if (n < 2) {
             return Double.NaN; //not enough data
         }
-        if (Math.abs(sumXX) < 10 * Double.MIN_VALUE) {
+        if (FastMath.abs(sumXX) < 10 * Double.MIN_VALUE) {
             return Double.NaN; //not enough variation in x
         }
         return sumXY / sumXX;
@@ -335,7 +336,7 @@ public class SimpleRegression implements Serializable {
      * @return sum of squared errors associated with the regression model
      */
     public double getSumSquaredErrors() {
-        return Math.max(0d, sumYY - sumXY * sumXY / sumXX);
+        return FastMath.max(0d, sumYY - sumXY * sumXY / sumXX);
     }
 
     /**
@@ -431,7 +432,7 @@ public class SimpleRegression implements Serializable {
      */
     public double getR() {
         double b1 = getSlope();
-        double result = Math.sqrt(getRSquare());
+        double result = FastMath.sqrt(getRSquare());
         if (b1 < 0) {
             result = -result;
         }
@@ -469,7 +470,7 @@ public class SimpleRegression implements Serializable {
      * @return standard error associated with intercept estimate
      */
     public double getInterceptStdErr() {
-        return Math.sqrt(
+        return FastMath.sqrt(
             getMeanSquareError() * ((1d / (double) n) + (xbar * xbar) / sumXX));
     }
 
@@ -485,7 +486,7 @@ public class SimpleRegression implements Serializable {
      * @return standard error associated with slope estimate
      */
     public double getSlopeStdErr() {
-        return Math.sqrt(getMeanSquareError() / sumXX);
+        return FastMath.sqrt(getMeanSquareError() / sumXX);
     }
 
     /**
@@ -579,7 +580,7 @@ public class SimpleRegression implements Serializable {
      */
     public double getSignificance() throws MathException {
         return 2d * (1.0 - distribution.cumulativeProbability(
-                    Math.abs(getSlope()) / getSlopeStdErr()));
+                    FastMath.abs(getSlope()) / getSlopeStdErr()));
     }
 
     // ---------------------Private methods-----------------------------------

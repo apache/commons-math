@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 // commons-math
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 // junit
 import junit.framework.TestCase;
 
@@ -155,8 +156,8 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( f.derivative().value(-3.25), g.value(-3.25), tolerance );
 
         // compare g' = h
-        assertEquals( g.derivative().value(Math.PI), h.value(Math.PI), tolerance );
-        assertEquals( g.derivative().value(Math.E),  h.value(Math.E),  tolerance );
+        assertEquals( g.derivative().value(FastMath.PI), h.value(FastMath.PI), tolerance );
+        assertEquals( g.derivative().value(FastMath.E),  h.value(FastMath.E),  tolerance );
 
     }
 
@@ -255,8 +256,8 @@ public final class PolynomialFunctionTest extends TestCase {
         assertEquals( f.derivative().value(-3.25), g.value(-3.25), tolerance );
 
         // compare g' = h
-        assertEquals( g.derivative().value(Math.PI), h.value(Math.PI), tolerance );
-        assertEquals( g.derivative().value(Math.E),  h.value(Math.E),  tolerance );
+        assertEquals( g.derivative().value(FastMath.PI), h.value(FastMath.PI), tolerance );
+        assertEquals( g.derivative().value(FastMath.E),  h.value(FastMath.E),  tolerance );
     }
 
     public void checkPolynomial(PolynomialFunction p, String reference) {

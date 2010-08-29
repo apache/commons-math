@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link MultivariateSummaryStatistics} class.
@@ -202,8 +203,8 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         assertEquals( 2.9129506302439405217, u.getGeometricMean()[1], 1.0e-10);
         assertEquals( 2, u.getMean()[0], 1.0e-10);
         assertEquals( 3, u.getMean()[1], 1.0e-10);
-        assertEquals(Math.sqrt(2.0 / 3.0), u.getStandardDeviation()[0], 1.0e-10);
-        assertEquals(Math.sqrt(2.0 / 3.0), u.getStandardDeviation()[1], 1.0e-10);
+        assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[0], 1.0e-10);
+        assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[1], 1.0e-10);
         assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 0), 1.0e-10);
         assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 1), 1.0e-10);
         assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 0), 1.0e-10);

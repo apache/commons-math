@@ -24,6 +24,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
@@ -44,7 +45,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     private static final long serialVersionUID = 8589540077390120676L;
 
     /** &sqrt;(2 &pi;) */
-    private static final double SQRT2PI = Math.sqrt(2 * Math.PI);
+    private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
 
     /** The mean of this distribution. */
     private double mean = 0;
@@ -165,7 +166,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      */
     public double density(double x) {
         double x0 = x - mean;
-        return Math.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
+        return FastMath.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
     }
 
     /**
@@ -179,7 +180,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     public double cumulativeProbability(double x) throws MathException {
         try {
             return 0.5 * (1.0 + Erf.erf((x - mean) /
-                    (standardDeviation * Math.sqrt(2.0))));
+                    (standardDeviation * FastMath.sqrt(2.0))));
         } catch (MaxIterationsExceededException ex) {
             if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
                 return 0.0d;

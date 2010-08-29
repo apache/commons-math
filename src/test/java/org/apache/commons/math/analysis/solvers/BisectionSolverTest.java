@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -35,10 +36,10 @@ public final class BisectionSolverTest extends TestCase {
 
         UnivariateRealSolver solver = new BisectionSolver(f);
         result = solver.solve(3, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(1, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
     }
 
     public void testSinZero() throws MathException {
@@ -47,10 +48,10 @@ public final class BisectionSolverTest extends TestCase {
 
         UnivariateRealSolver solver = new BisectionSolver();
         result = solver.solve(f, 3, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 1, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
     }
 
    public void testQuinticZero() throws MathException {
@@ -98,7 +99,7 @@ public final class BisectionSolverTest extends TestCase {
     public void testMath369() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new BisectionSolver();
-        assertEquals(Math.PI, solver.solve(f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
+        assertEquals(FastMath.PI, solver.solve(f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
     }
 
     /**

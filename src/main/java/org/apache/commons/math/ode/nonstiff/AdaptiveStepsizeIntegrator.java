@@ -23,6 +23,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -105,8 +106,8 @@ public abstract class AdaptiveStepsizeIntegrator
 
     super(name);
 
-    this.minStep     = Math.abs(minStep);
-    this.maxStep     = Math.abs(maxStep);
+    this.minStep     = FastMath.abs(minStep);
+    this.maxStep     = FastMath.abs(maxStep);
     this.initialStep = -1.0;
 
     this.scalAbsoluteTolerance = scalAbsoluteTolerance;
@@ -239,7 +240,7 @@ public abstract class AdaptiveStepsizeIntegrator
     }
 
     double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?
-               1.0e-6 : (0.01 * Math.sqrt(yOnScale2 / yDotOnScale2));
+               1.0e-6 : (0.01 * FastMath.sqrt(yOnScale2 / yDotOnScale2));
     if (! forward) {
       h = -h;
     }
@@ -256,16 +257,16 @@ public abstract class AdaptiveStepsizeIntegrator
       ratio         = (yDot1[j] - yDot0[j]) / scale[j];
       yDDotOnScale += ratio * ratio;
     }
-    yDDotOnScale = Math.sqrt(yDDotOnScale) / h;
+    yDDotOnScale = FastMath.sqrt(yDDotOnScale) / h;
 
     // step size is computed such that
     // h^order * max (||y'/tol||, ||y''/tol||) = 0.01
-    final double maxInv2 = Math.max(Math.sqrt(yDotOnScale2), yDDotOnScale);
+    final double maxInv2 = FastMath.max(FastMath.sqrt(yDotOnScale2), yDDotOnScale);
     final double h1 = (maxInv2 < 1.0e-15) ?
-                      Math.max(1.0e-6, 0.001 * Math.abs(h)) :
-                      Math.pow(0.01 / maxInv2, 1.0 / order);
-    h = Math.min(100.0 * Math.abs(h), h1);
-    h = Math.max(h, 1.0e-12 * Math.abs(t0));  // avoids cancellation when computing t1 - t0
+                      FastMath.max(1.0e-6, 0.001 * FastMath.abs(h)) :
+                      FastMath.pow(0.01 / maxInv2, 1.0 / order);
+    h = FastMath.min(100.0 * FastMath.abs(h), h1);
+    h = FastMath.max(h, 1.0e-12 * FastMath.abs(t0));  // avoids cancellation when computing t1 - t0
     if (h < getMinStep()) {
       h = getMinStep();
     }
@@ -293,13 +294,13 @@ public abstract class AdaptiveStepsizeIntegrator
     throws IntegratorException {
 
       double filteredH = h;
-      if (Math.abs(h) < minStep) {
+      if (FastMath.abs(h) < minStep) {
           if (acceptSmall) {
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new IntegratorException(
                       LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                      minStep, Math.abs(h));
+                      minStep, FastMath.abs(h));
           }
       }
 
@@ -328,7 +329,7 @@ public abstract class AdaptiveStepsizeIntegrator
   /** Reset internal state to dummy values. */
   protected void resetInternalState() {
     stepStart = Double.NaN;
-    stepSize  = Math.sqrt(minStep * maxStep);
+    stepSize  = FastMath.sqrt(minStep * maxStep);
   }
 
   /** Get the minimal step.

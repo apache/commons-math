@@ -30,6 +30,7 @@ import java.io.IOException;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class DummyStepInterpolatorTest {
@@ -45,7 +46,7 @@ public class DummyStepInterpolatorTest {
 
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+      assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -63,13 +64,13 @@ public class DummyStepInterpolatorTest {
     interpolator.setInterpolatedTime(0.1);
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
     interpolator.setInterpolatedTime(0.5);
     result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -98,7 +99,7 @@ public class DummyStepInterpolatorTest {
     dsi.setInterpolatedTime(0.5);
     double[] result = dsi.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(Math.abs(result[i] - y[i]) < 1.0e-10);
+        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }

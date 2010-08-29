@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,7 +70,7 @@ public final class MicrosphereInterpolatorTest {
         c[1] = 0;
         expected = f.value(c);
         result = p.value(c);
-        Assert.assertEquals("On sample point", expected, result, Math.ulp(1d));
+        Assert.assertEquals("On sample point", expected, result, FastMath.ulp(1d));
 
         c[0] = 0 + 1e-5;
         c[1] = 1 - 1e-5;
@@ -121,7 +122,7 @@ public final class MicrosphereInterpolatorTest {
         c[1] = 0;
         expected = f.value(c);
         result = p.value(c);
-        Assert.assertEquals("On sample point", expected, result, Math.ulp(1d));
+        Assert.assertEquals("On sample point", expected, result, FastMath.ulp(1d));
 
         c[0] = 2 + 1e-5;
         c[1] = 2 - 1e-5;

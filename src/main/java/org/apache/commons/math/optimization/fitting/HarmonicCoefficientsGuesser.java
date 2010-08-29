@@ -19,6 +19,7 @@ package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.util.FastMath;
 
 /** This class guesses harmonic coefficients from a sample.
 
@@ -241,8 +242,8 @@ public class HarmonicCoefficientsGuesser {
         if ((c1 / c2 < 0.0) || (c2 / c3 < 0.0)) {
             throw new OptimizationException(LocalizedFormats.UNABLE_TO_FIRST_GUESS_HARMONIC_COEFFICIENTS);
         }
-        a     = Math.sqrt(c1 / c2);
-        omega = Math.sqrt(c2 / c3);
+        a     = FastMath.sqrt(c1 / c2);
+        omega = FastMath.sqrt(c2 / c3);
 
     }
 
@@ -266,14 +267,14 @@ public class HarmonicCoefficientsGuesser {
             final double currentYPrime = (currentY - previousY) / (currentX - previousX);
 
             double   omegaX = omega * currentX;
-            double   cosine = Math.cos(omegaX);
-            double   sine   = Math.sin(omegaX);
+            double   cosine = FastMath.cos(omegaX);
+            double   sine   = FastMath.sin(omegaX);
             fcMean += omega * currentY * cosine - currentYPrime *   sine;
             fsMean += omega * currentY *   sine + currentYPrime * cosine;
 
         }
 
-        phi = Math.atan2(-fsMean, fcMean);
+        phi = FastMath.atan2(-fsMean, fcMean);
 
     }
 

@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Auxillary class for testing solvers.
@@ -34,7 +35,7 @@ public class SinFunction implements DifferentiableUnivariateRealFunction {
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
      */
     public double value(double x) throws FunctionEvaluationException {
-        return Math.sin(x);
+        return FastMath.sin(x);
     }
 
     /* First derivative of sinus function
@@ -42,7 +43,7 @@ public class SinFunction implements DifferentiableUnivariateRealFunction {
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
             public double value(double x) throws FunctionEvaluationException {
-                return Math.cos(x);
+                return FastMath.cos(x);
             }
         };
     }

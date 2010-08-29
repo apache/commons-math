@@ -27,6 +27,7 @@ import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblem6;
 import org.apache.commons.math.ode.TestProblemHandler;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class AdamsMoultonIntegratorTest {
@@ -70,7 +71,7 @@ public class AdamsMoultonIntegratorTest {
             TestProblem1 pb = new TestProblem1();
             double minStep = 0;
             double maxStep = pb.getFinalTime() - pb.getInitialTime();
-            double scalAbsoluteTolerance = Math.pow(10.0, i);
+            double scalAbsoluteTolerance = FastMath.pow(10.0, i);
             double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
             FirstOrderIntegrator integ = new AdamsMoultonIntegrator(4, minStep, maxStep,
@@ -118,7 +119,7 @@ public class AdamsMoultonIntegratorTest {
     public void backward() throws DerivativeException, IntegratorException {
 
         TestProblem5 pb = new TestProblem5();
-        double range = Math.abs(pb.getFinalTime() - pb.getInitialTime());
+        double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
         FirstOrderIntegrator integ = new AdamsMoultonIntegrator(4, 0, range, 1.0e-12, 1.0e-12);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -135,7 +136,7 @@ public class AdamsMoultonIntegratorTest {
     @Test
     public void polynomial() throws DerivativeException, IntegratorException {
         TestProblem6 pb = new TestProblem6();
-        double range = Math.abs(pb.getFinalTime() - pb.getInitialTime());
+        double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
         for (int nSteps = 1; nSteps < 7; ++nSteps) {
             AdamsMoultonIntegrator integ =

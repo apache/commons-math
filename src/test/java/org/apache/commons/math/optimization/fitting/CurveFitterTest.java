@@ -20,6 +20,7 @@ package org.apache.commons.math.optimization.fitting;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -94,7 +95,7 @@ public class CurveFitterTest {
                 double c = parameters[2];
                 double d = parameters[3];
 
-                return d + ((a - d) / (1 + Math.pow(x / c, b)));
+                return d + ((a - d) / (1 + FastMath.pow(x / c, b)));
             }
 
             public double[] gradient(double x, double[] parameters) {
@@ -105,17 +106,17 @@ public class CurveFitterTest {
                 double d = parameters[3];
 
                 double[] gradients = new double[4];
-                double den = 1 + Math.pow(x / c, b);
+                double den = 1 + FastMath.pow(x / c, b);
 
                 // derivative with respect to a
                 gradients[0] = 1 / den;
 
                 // derivative with respect to b
                 // in the reported (invalid) issue, there was a sign error here
-                gradients[1] = -((a - d) * Math.pow(x / c, b) * Math.log(x / c)) / (den * den);
+                gradients[1] = -((a - d) * FastMath.pow(x / c, b) * FastMath.log(x / c)) / (den * den);
 
                 // derivative with respect to c
-                gradients[2] = (b * Math.pow(x / c, b - 1) * (x / (c * c)) * (a - d)) / (den * den);
+                gradients[2] = (b * FastMath.pow(x / c, b - 1) * (x / (c * c)) * (a - d)) / (den * den);
 
                 // derivative with respect to d
                 gradients[3] = 1 - (1 / den);

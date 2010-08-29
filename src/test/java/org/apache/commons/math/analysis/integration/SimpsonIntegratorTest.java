@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -41,13 +42,13 @@ public final class SimpsonIntegratorTest extends TestCase {
         UnivariateRealIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
 
-        min = 0; max = Math.PI; expected = 2;
-        tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
+        min = 0; max = FastMath.PI; expected = 2;
+        tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
-        min = -Math.PI/3; max = 0; expected = -0.5;
-        tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
+        min = -FastMath.PI/3; max = 0; expected = -0.5;
+        tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -61,17 +62,17 @@ public final class SimpsonIntegratorTest extends TestCase {
         double min, max, expected, result, tolerance;
 
         min = 0; max = 1; expected = -1.0/48;
-        tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
-        tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
-        tolerance = Math.abs(expected * integrator.getRelativeAccuracy());
+        tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
     }

@@ -23,6 +23,7 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -337,7 +338,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
 
     public void testFormatNumber() {
         CompositeFormat cf = ComplexFormat.getInstance(getLocale());
-        Double pi = Double.valueOf(Math.PI);
+        Double pi = Double.valueOf(FastMath.PI);
         String text = cf.format(pi);
         assertEquals("3" + getDecimalCharacter() + "14", text);
     }

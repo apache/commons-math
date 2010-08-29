@@ -21,6 +21,7 @@ import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ODEIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class is used to handle steps for the test problems
@@ -75,11 +76,11 @@ public class TestProblemHandler
     throws DerivativeException {
 
     double start = integrator.getCurrentStepStart();
-    if (Math.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {
+    if (FastMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {
         // multistep integrators do not handle the first steps themselves
         // so we have to make sure the integrator we look at has really started its work
         if (!Double.isNaN(expectedStepStart)) {
-            maxTimeError = Math.max(maxTimeError, Math.abs(start - expectedStepStart));
+            maxTimeError = FastMath.max(maxTimeError, FastMath.abs(start - expectedStepStart));
         }
         expectedStepStart = start + integrator.getCurrentSignedStepsize();
     }
@@ -93,8 +94,8 @@ public class TestProblemHandler
       double[] interpolatedY = interpolator.getInterpolatedState();
       double[] theoreticalY  = problem.computeTheoreticalState(cT);
       for (int i = 0; i < interpolatedY.length; ++i) {
-        double error = Math.abs(interpolatedY[i] - theoreticalY[i]);
-        lastError = Math.max(error, lastError);
+        double error = FastMath.abs(interpolatedY[i] - theoreticalY[i]);
+        lastError = FastMath.max(error, lastError);
       }
       lastTime = cT;
     }
@@ -109,8 +110,8 @@ public class TestProblemHandler
 
       // update the errors
       for (int i = 0; i < interpolatedY.length; ++i) {
-        double error = errorScale[i] * Math.abs(interpolatedY[i] - theoreticalY[i]);
-        maxValueError = Math.max(error, maxValueError);
+        double error = errorScale[i] * FastMath.abs(interpolatedY[i] - theoreticalY[i]);
+        maxValueError = FastMath.max(error, maxValueError);
       }
     }
   }

@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
@@ -99,7 +100,7 @@ public class FastCosineTransformer implements RealTransformer {
      */
     public double[] transform2(double f[]) throws IllegalArgumentException {
 
-        double scaling_coefficient = Math.sqrt(2.0 / (f.length-1));
+        double scaling_coefficient = FastMath.sqrt(2.0 / (f.length-1));
         return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
     }
 
@@ -125,7 +126,7 @@ public class FastCosineTransformer implements RealTransformer {
         throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
-        double scaling_coefficient = Math.sqrt(2.0 / (n-1));
+        double scaling_coefficient = FastMath.sqrt(2.0 / (n-1));
         return FastFourierTransformer.scaleArray(fct(data), scaling_coefficient);
     }
 
@@ -240,8 +241,8 @@ public class FastCosineTransformer implements RealTransformer {
         double t1 = 0.5 * (f[0] - f[n]);   // temporary variable for transformed[1]
         for (int i = 1; i < (n >> 1); i++) {
             final double a = 0.5 * (f[i] + f[n-i]);
-            final double b = Math.sin(i * Math.PI / n) * (f[i] - f[n-i]);
-            final double c = Math.cos(i * Math.PI / n) * (f[i] - f[n-i]);
+            final double b = FastMath.sin(i * FastMath.PI / n) * (f[i] - f[n-i]);
+            final double c = FastMath.cos(i * FastMath.PI / n) * (f[i] - f[n-i]);
             x[i] = a - b;
             x[n-i] = a + b;
             t1 += c;

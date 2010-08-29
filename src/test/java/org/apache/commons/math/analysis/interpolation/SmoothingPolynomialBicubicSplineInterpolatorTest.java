@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.junit.Assert;
 import org.junit.Test;
@@ -91,7 +92,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5
-                        + ((int) (Math.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
+                        + ((int) (FastMath.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
                 }
             };
 
@@ -139,7 +140,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5
-                        + ((int) (Math.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
+                        + ((int) (FastMath.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
                 }
             };
 

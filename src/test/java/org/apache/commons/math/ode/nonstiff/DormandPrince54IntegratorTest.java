@@ -31,6 +31,7 @@ import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -86,7 +87,7 @@ public class DormandPrince54IntegratorTest
 
     TestProblemAbstract pb = new TestProblem5();
     double minStep = 1.25;
-    double maxStep = Math.abs(pb.getFinalTime() - pb.getInitialTime());
+    double maxStep = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
     double scalAbsoluteTolerance = 6.0e-4;
     double scalRelativeTolerance = 6.0e-4;
 
@@ -147,7 +148,7 @@ public class DormandPrince54IntegratorTest
       if (isLast) {
         lastSeen = true;
         double h = interpolator.getCurrentTime() - interpolator.getPreviousTime();
-        assertTrue(Math.abs(h) < minStep);
+        assertTrue(FastMath.abs(h) < minStep);
       }
     }
 
@@ -168,7 +169,7 @@ public class DormandPrince54IntegratorTest
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = Math.pow(10.0, i);
+      double scalAbsoluteTolerance = FastMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
       EmbeddedRungeKuttaIntegrator integ =
@@ -333,10 +334,10 @@ public class DormandPrince54IntegratorTest
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 
-      double step = Math.abs(interpolator.getCurrentTime()
+      double step = FastMath.abs(interpolator.getCurrentTime()
                              - interpolator.getPreviousTime());
       if (firstTime) {
-        minStep   = Math.abs(step);
+        minStep   = FastMath.abs(step);
         maxStep   = minStep;
         firstTime = false;
       } else {

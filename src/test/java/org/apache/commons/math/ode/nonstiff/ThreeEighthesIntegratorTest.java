@@ -33,6 +33,7 @@ import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.nonstiff.ThreeEighthesIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 public class ThreeEighthesIntegratorTest
   extends TestCase {
@@ -65,7 +66,7 @@ public class ThreeEighthesIntegratorTest
 
         TestProblemAbstract pb = problems[k].copy();
         double step = (pb.getFinalTime() - pb.getInitialTime())
-          * Math.pow(2.0, -i);
+          * FastMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -83,7 +84,7 @@ public class ThreeEighthesIntegratorTest
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < Math.abs(previousError));
+          assertTrue(error < FastMath.abs(previousError));
         }
         previousError = error;
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
@@ -135,7 +136,7 @@ public class ThreeEighthesIntegratorTest
       throws DerivativeException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
-      double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+      double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
       FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);

@@ -23,6 +23,7 @@ import org.apache.commons.math.analysis.MonitoredFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Testcase for UnivariateRealSolver.
@@ -53,27 +54,27 @@ public final class BrentSolverTest extends TestCase {
         result = solver.solve(3, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 4 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 5);
         // Larger and somewhat less benign interval. The function is grows first.
         result = solver.solve(1, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
         solver = new SecantSolver(f);
         result = solver.solve(3, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 4 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 5);
         result = solver.solve(1, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
         assertEquals(result, solver.getResult(), 0);
@@ -90,27 +91,27 @@ public final class BrentSolverTest extends TestCase {
         result = solver.solve(f, 3, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 4 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 5);
         // Larger and somewhat less benign interval. The function is grows first.
         result = solver.solve(f, 1, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
         solver = new SecantSolver();
         result = solver.solve(f, 3, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 4 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 5);
         result = solver.solve(f, 1, 4);
         //System.out.println(
         //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         // 5 iterations on i586 JDK 1.4.1.
         assertTrue(solver.getIterationCount() <= 6);
         assertEquals(result, solver.getResult(), 0);
@@ -307,17 +308,17 @@ public final class BrentSolverTest extends TestCase {
         UnivariateRealSolver solver = new BrentSolver();
 
         // endpoint is root
-        double result = solver.solve(f, Math.PI, 4);
-        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+        double result = solver.solve(f, FastMath.PI, 4);
+        assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 3, Math.PI);
-        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(f, 3, FastMath.PI);
+        assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, Math.PI, 4, 3.5);
-        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(f, FastMath.PI, 4, 3.5);
+        assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 3, Math.PI, 3.07);
-        assertEquals(Math.PI, result, solver.getAbsoluteAccuracy());
+        result = solver.solve(f, 3, FastMath.PI, 3.07);
+        assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
     }
 

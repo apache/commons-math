@@ -23,6 +23,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 public class BigFractionFormatTest extends TestCase {
@@ -255,13 +257,13 @@ public class BigFractionFormatTest extends TestCase {
             improperFormat.parse("167213075789791382630275400487886041651764456874403" +
                                  " / " +
                                  "53225575123090058458126718248444563466137046489291");
-        assertEquals(Math.PI, f1.doubleValue(), 0.0);
+        assertEquals(FastMath.PI, f1.doubleValue(), 0.0);
         BigFraction f2 =
             properFormat.parse("3 " +
                                "7536350420521207255895245742552351253353317406530" +
                                " / " +
                                "53225575123090058458126718248444563466137046489291");
-        assertEquals(Math.PI, f2.doubleValue(), 0.0);
+        assertEquals(FastMath.PI, f2.doubleValue(), 0.0);
         assertEquals(f1, f2);
         BigDecimal pi =
             new BigDecimal("3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068");

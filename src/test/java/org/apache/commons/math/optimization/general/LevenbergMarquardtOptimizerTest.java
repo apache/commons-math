@@ -33,6 +33,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -211,7 +212,7 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
-        assertTrue(Math.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
+        assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
         try {
             optimizer.getCovariances();
             fail("an exception should have been thrown");
@@ -409,7 +410,7 @@ public class LevenbergMarquardtOptimizerTest
         assertTrue(optimizer.getEvaluations() < 10);
         assertTrue(optimizer.getJacobianEvaluations() < 10);
         double rms = optimizer.getRMS();
-        assertEquals(1.768262623567235,  Math.sqrt(circle.getN()) * rms,  1.0e-10);
+        assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * rms,  1.0e-10);
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         assertEquals(69.96016176931406, circle.getRadius(center), 1.0e-10);
         assertEquals(96.07590211815305, center.x,      1.0e-10);
@@ -425,8 +426,8 @@ public class LevenbergMarquardtOptimizerTest
 
         // add perfect measurements and check errors are reduced
         double  r = circle.getRadius(center);
-        for (double d= 0; d < 2 * Math.PI; d += 0.01) {
-            circle.addPoint(center.x + r * Math.cos(d), center.y + r * Math.sin(d));
+        for (double d= 0; d < 2 * FastMath.PI; d += 0.01) {
+            circle.addPoint(center.x + r * FastMath.cos(d), center.y + r * FastMath.sin(d));
         }
         double[] target = new double[circle.getN()];
         Arrays.fill(target, 0.0);

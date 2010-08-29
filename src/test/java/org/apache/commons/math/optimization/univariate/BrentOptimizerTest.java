@@ -30,6 +30,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 /**
@@ -51,9 +52,9 @@ public final class BrentOptimizerTest {
         } catch (Exception e) {
             fail("wrong exception caught");
         }
-        assertEquals(3 * Math.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 4, 5), 10 * minimizer.getRelativeAccuracy());
+        assertEquals(3 * FastMath.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 4, 5), 10 * minimizer.getRelativeAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
-        assertEquals(3 * Math.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 1, 5), 10 * minimizer.getRelativeAccuracy());
+        assertEquals(3 * FastMath.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 1, 5), 10 * minimizer.getRelativeAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
         assertTrue(minimizer.getEvaluations()    <= 100);
         assertTrue(minimizer.getEvaluations()    >=  15);
@@ -110,8 +111,8 @@ public final class BrentOptimizerTest {
         final double medianIter = stat[1].getPercentile(50);
         final double medianEval = stat[2].getPercentile(50);
         assertTrue(meanOptValue > -0.27195612812 && meanOptValue < -0.27195612811);
-        assertEquals(medianIter, 17, Math.ulp(1d));
-        assertEquals(medianEval, 18, Math.ulp(1d));
+        assertEquals(medianIter, 17, FastMath.ulp(1d));
+        assertEquals(medianEval, 18, FastMath.ulp(1d));
     }
 
     @Test
@@ -140,10 +141,10 @@ public final class BrentOptimizerTest {
         solver.setRelativeAccuracy(1e-8);
 
         // endpoint is minimum
-        double result = solver.optimize(f, GoalType.MINIMIZE, 3 * Math.PI / 2, 5);
-        assertEquals(3 * Math.PI / 2, result, 10 * solver.getRelativeAccuracy());
+        double result = solver.optimize(f, GoalType.MINIMIZE, 3 * FastMath.PI / 2, 5);
+        assertEquals(3 * FastMath.PI / 2, result, 10 * solver.getRelativeAccuracy());
 
-        result = solver.optimize(f, GoalType.MINIMIZE, 4, 3 * Math.PI / 2);
-        assertEquals(3 * Math.PI / 2, result, 10 * solver.getRelativeAccuracy());
+        result = solver.optimize(f, GoalType.MINIMIZE, 4, 3 * FastMath.PI / 2);
+        assertEquals(3 * FastMath.PI / 2, result, 10 * solver.getRelativeAccuracy());
     }
 }

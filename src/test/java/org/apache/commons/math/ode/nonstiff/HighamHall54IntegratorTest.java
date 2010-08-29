@@ -34,6 +34,7 @@ import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 public class HighamHall54IntegratorTest
   extends TestCase {
@@ -114,7 +115,7 @@ public class HighamHall54IntegratorTest
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = Math.pow(10.0, i);
+      double scalAbsoluteTolerance = FastMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
       FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,

@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.util.FastMath;
 
 
 import junit.framework.TestCase;
@@ -36,10 +37,10 @@ public final class NewtonSolverTest extends TestCase {
 
         UnivariateRealSolver solver = new NewtonSolver(f);
         result = solver.solve(3, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(1, 4);
-        assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         assertEquals(result, solver.getResult(), 0);
         assertTrue(solver.getIterationCount() > 0);
@@ -54,10 +55,10 @@ public final class NewtonSolverTest extends TestCase {
 
        UnivariateRealSolver solver = new NewtonSolver();
        result = solver.solve(f, 3, 4);
-       assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+       assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
        result = solver.solve(f, 1, 4);
-       assertEquals(result, Math.PI, solver.getAbsoluteAccuracy());
+       assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
        assertEquals(result, solver.getResult(), 0);
        assertTrue(solver.getIterationCount() > 0);

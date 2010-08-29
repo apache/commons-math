@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -78,25 +79,25 @@ public class ComposableFunctionTest {
 
         ComposableFunction f1 = sqrt.of(abs.of(expm1.of(cbrt.of(tanh).of(id))));
         for (double x = 0.1; x < 0.9; x += 0.01) {
-            Assert.assertEquals(Math.sqrt(Math.abs(Math.expm1(Math.cbrt(Math.tanh(x))))),
+            Assert.assertEquals(FastMath.sqrt(FastMath.abs(FastMath.expm1(FastMath.cbrt(FastMath.tanh(x))))),
                                 f1.value(x), 1.0e-15);
         }
 
         ComposableFunction f2 = cosh.of(sinh.of(tanh.of(ceil.postCompose(log.postCompose(cosh)))));
         for (double x = 0.1; x < 12.9; x += 1.0) {
-            Assert.assertEquals(Math.cosh(Math.sinh(Math.tanh(Math.cosh(Math.log(Math.ceil(x)))))),
+            Assert.assertEquals(FastMath.cosh(FastMath.sinh(FastMath.tanh(FastMath.cosh(FastMath.log(FastMath.ceil(x)))))),
                                 f2.value(x), 1.0e-15);
         }
 
         ComposableFunction f3 = cos.of(sin.of(tan.of(acos.of(asin.of(log10.of(log.of(ulp)))))));
         for (double x = 1.0e16; x < 1.0e17; x += 1.0e16) {
-            Assert.assertEquals(Math.cos(Math.sin(Math.tan(Math.acos(Math.asin(Math.log10(Math.log(Math.ulp(x)))))))),
+            Assert.assertEquals(FastMath.cos(FastMath.sin(FastMath.tan(FastMath.acos(FastMath.asin(FastMath.log10(FastMath.log(FastMath.ulp(x)))))))),
                                 f3.value(x), 1.0e-15);
         }
 
         ComposableFunction f4 = atan.of(exp.of(negate.of(floor)));
         for (double x = 1.1; x < 10.2; x += 1.0) {
-            Assert.assertEquals(Math.atan(Math.exp(-Math.floor(x))),
+            Assert.assertEquals(FastMath.atan(FastMath.exp(-FastMath.floor(x))),
                                 f4.value(x), 1.0e-15);
         }
 
@@ -108,7 +109,7 @@ public class ComposableFunctionTest {
         ComposableFunction f =
             ComposableFunction.COS.combine(ComposableFunction.ASIN, BinaryFunction.POW);
         for (double x = 0.1; x < 0.9; x += 0.01) {
-            Assert.assertEquals(Math.pow(Math.cos(x), Math.asin(x)), f.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.pow(FastMath.cos(x), FastMath.asin(x)), f.value(x), 1.0e-15);
         }
 
     }
@@ -123,12 +124,12 @@ public class ComposableFunctionTest {
         ComposableFunction f5 = ComposableFunction.COS.multiply(5);
         ComposableFunction f6 = ComposableFunction.COS.divide(ComposableFunction.SIN);
         for (double x = 0.1; x < 0.9; x += 0.01) {
-            Assert.assertEquals(Math.cos(x) + 3, f1.value(x), 1.0e-15);
-            Assert.assertEquals(Math.cos(x) + Math.sin(x), f2.value(x), 1.0e-15);
-            Assert.assertEquals(Math.cos(x) - Math.sin(x), f3.value(x), 1.0e-15);
-            Assert.assertEquals(Math.cos(x) * Math.sin(x), f4.value(x), 1.0e-15);
-            Assert.assertEquals(Math.cos(x) * 5, f5.value(x), 1.0e-15);
-            Assert.assertEquals(Math.cos(x) / Math.sin(x), f6.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) + 3, f1.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) + FastMath.sin(x), f2.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) - FastMath.sin(x), f3.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) * FastMath.sin(x), f4.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) * 5, f5.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.cos(x) / FastMath.sin(x), f6.value(x), 1.0e-15);
         }
 
     }

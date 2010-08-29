@@ -23,6 +23,7 @@ import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -119,7 +120,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
             while (i < maximalIterationCount) {
 
                 x1 = x0 - (f.value(x0) / derivative.value(x0));
-                if (Math.abs(x1 - x0) <= absoluteAccuracy) {
+                if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
                     setResult(x1, i);
                     return x1;
                 }

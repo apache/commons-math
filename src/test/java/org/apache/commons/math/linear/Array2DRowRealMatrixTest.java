@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link Array2DRowRealMatrix} class.
@@ -153,8 +154,8 @@ public final class Array2DRowRealMatrixTest extends TestCase {
     public void testFrobeniusNorm() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix m2 = new Array2DRowRealMatrix(testData2);
-        assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
-        assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData Frobenius norm", FastMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData2 Frobenius norm", FastMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
 
      /** test m-n = m + -n */

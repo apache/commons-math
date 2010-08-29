@@ -34,6 +34,7 @@ import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class DormandPrince54StepInterpolatorTest {
@@ -120,13 +121,13 @@ public class DormandPrince54StepInterpolatorTest {
               StepInterpolator cloned = interpolator.copy();
               double tA = cloned.getPreviousTime();
               double tB = cloned.getCurrentTime();
-              double halfStep = Math.abs(tB - tA) / 2;
+              double halfStep = FastMath.abs(tB - tA) / 2;
               assertEquals(interpolator.getPreviousTime(), tA, 1.0e-12);
               assertEquals(interpolator.getCurrentTime(), tB, 1.0e-12);
               for (int i = 0; i < 10; ++i) {
                   double t = (i * tB + (9 - i) * tA) / 9;
                   interpolator.setInterpolatedTime(t);
-                  assertTrue(Math.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
+                  assertTrue(FastMath.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
                   cloned.setInterpolatedTime(t);
                   assertEquals(t, cloned.getInterpolatedTime(), 1.0e-12);
                   double[] referenceState = interpolator.getInterpolatedState();

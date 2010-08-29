@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Returns the product of the available values.
@@ -162,7 +163,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
         if (test(values, weights, begin, length)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
-                product *= Math.pow(values[i], weights[i]);
+                product *= FastMath.pow(values[i], weights[i]);
             }
         }
         return product;

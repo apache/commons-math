@@ -25,6 +25,7 @@ import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -44,15 +45,15 @@ extends TestCase {
         integrator.setMaximalIterationCount(15);
         double min, max, expected, result, tolerance;
 
-        min = 0; max = Math.PI; expected = 2;
-        tolerance = Math.max(integrator.getAbsoluteAccuracy(),
-                             Math.abs(expected * integrator.getRelativeAccuracy()));
+        min = 0; max = FastMath.PI; expected = 2;
+        tolerance = FastMath.max(integrator.getAbsoluteAccuracy(),
+                             FastMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
 
-        min = -Math.PI/3; max = 0; expected = -0.5;
-        tolerance = Math.max(integrator.getAbsoluteAccuracy(),
-                Math.abs(expected * integrator.getRelativeAccuracy()));
+        min = -FastMath.PI/3; max = 0; expected = -0.5;
+        tolerance = FastMath.max(integrator.getAbsoluteAccuracy(),
+                FastMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(f, min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -92,7 +93,7 @@ extends TestCase {
                     PolynomialFunction p = new PolynomialFunction(coeff);
                     double result    = integrator.integrate(p, -5.0, 15.0);
                     double reference = exactIntegration(p, -5.0, 15.0);
-                    assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + Math.abs(reference)));
+                    assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + FastMath.abs(reference)));
                 }
             }
 

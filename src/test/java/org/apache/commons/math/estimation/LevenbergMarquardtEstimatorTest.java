@@ -20,6 +20,8 @@ package org.apache.commons.math.estimation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 /**
@@ -267,7 +269,7 @@ public class LevenbergMarquardtEstimatorTest
     double initialCost = estimator.getRMS(problem);
     estimator.estimate(problem);
     assertTrue(estimator.getRMS(problem) < initialCost);
-    assertTrue(Math.sqrt(m.length) * estimator.getRMS(problem) > 0.6);
+    assertTrue(FastMath.sqrt(m.length) * estimator.getRMS(problem) > 0.6);
     try {
         estimator.getCovariances(problem);
         fail("an exception should have been thrown");
@@ -501,7 +503,7 @@ public class LevenbergMarquardtEstimatorTest
       assertTrue(estimator.getCostEvaluations() < 10);
       assertTrue(estimator.getJacobianEvaluations() < 10);
       double rms = estimator.getRMS(circle);
-      assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
+      assertEquals(1.768262623567235,  FastMath.sqrt(circle.getM()) * rms,  1.0e-10);
       assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
       assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
       assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
@@ -518,8 +520,8 @@ public class LevenbergMarquardtEstimatorTest
       double cx = circle.getX();
       double cy = circle.getY();
       double  r = circle.getRadius();
-      for (double d= 0; d < 2 * Math.PI; d += 0.01) {
-          circle.addPoint(cx + r * Math.cos(d), cy + r * Math.sin(d));
+      for (double d= 0; d < 2 * FastMath.PI; d += 0.01) {
+          circle.addPoint(cx + r * FastMath.cos(d), cy + r * FastMath.sin(d));
       }
       estimator = new LevenbergMarquardtEstimator();
       estimator.estimate(circle);
@@ -745,7 +747,7 @@ public class LevenbergMarquardtEstimatorTest
       public double getCenterDistance() {
         double dx = px - circle.cx.getEstimate();
         double dy = py - circle.cy.getEstimate();
-        return Math.sqrt(dx * dx + dy * dy);
+        return FastMath.sqrt(dx * dx + dy * dy);
       }
 
       public double getPartialDiX() {

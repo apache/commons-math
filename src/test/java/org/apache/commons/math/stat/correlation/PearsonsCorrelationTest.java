@@ -21,6 +21,7 @@ import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -227,7 +228,7 @@ public class PearsonsCorrelationTest extends TestCase {
         RealMatrix stdErrors = corrInstance.getCorrelationStandardErrors();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < i; j++) {
-                double t = Math.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
+                double t = FastMath.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
                 double p = 2 * (1 - tDistribution.cumulativeProbability(t));
                 assertEquals(p, pValues.getEntry(i, j), 10E-15);
             }

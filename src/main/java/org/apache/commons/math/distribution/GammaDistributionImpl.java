@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link GammaDistribution}.
@@ -202,7 +203,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     @Override
     public double density(double x) {
         if (x < 0) return 0;
-        return Math.pow(x / beta, alpha - 1) / beta * Math.exp(-x / beta) / Math.exp(Gamma.logGamma(alpha));
+        return FastMath.pow(x / beta, alpha - 1) / beta * FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
     }
 
     /**

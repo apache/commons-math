@@ -18,6 +18,7 @@
 package org.apache.commons.math.special;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -33,7 +34,7 @@ public class ErfTest extends TestCase {
     }
 
     public void testErf1960() throws MathException {
-        double x = 1.960 / Math.sqrt(2.0);
+        double x = 1.960 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.95;
         assertEquals(expected, actual, 1.0e-5);
@@ -44,7 +45,7 @@ public class ErfTest extends TestCase {
     }
 
     public void testErf2576() throws MathException {
-        double x = 2.576 / Math.sqrt(2.0);
+        double x = 2.576 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.99;
         assertEquals(expected, actual, 1.0e-5);
@@ -55,7 +56,7 @@ public class ErfTest extends TestCase {
     }
 
     public void testErf2807() throws MathException {
-        double x = 2.807 / Math.sqrt(2.0);
+        double x = 2.807 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.995;
         assertEquals(expected, actual, 1.0e-5);
@@ -66,7 +67,7 @@ public class ErfTest extends TestCase {
     }
 
     public void testErf3291() throws MathException {
-        double x = 3.291 / Math.sqrt(2.0);
+        double x = 3.291 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.999;
         assertEquals(expected, actual, 1.0e-5);

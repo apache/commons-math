@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -89,7 +90,7 @@ public class BigFractionTest extends TestCase {
         try {
             // the golden ratio is notoriously a difficult number for continuous
             // fraction
-            new BigFraction((1 + Math.sqrt(5)) / 2, 1.0e-12, 25);
+            new BigFraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
             fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
@@ -564,7 +565,7 @@ public class BigFractionTest extends TestCase {
     public void testSerial() throws FractionConversionException {
         BigFraction[] fractions = {
             new BigFraction(3, 4), BigFraction.ONE, BigFraction.ZERO,
-            new BigFraction(17), new BigFraction(Math.PI, 1000),
+            new BigFraction(17), new BigFraction(FastMath.PI, 1000),
             new BigFraction(-5, 2)
         };
         for (BigFraction fraction : fractions) {

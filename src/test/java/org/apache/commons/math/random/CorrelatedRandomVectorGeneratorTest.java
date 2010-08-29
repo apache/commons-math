@@ -25,6 +25,7 @@ import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
+import org.apache.commons.math.util.FastMath;
 
 public class CorrelatedRandomVectorGeneratorTest
 extends TestCase {
@@ -58,7 +59,7 @@ extends TestCase {
 
         for (int i = 0; i < 10; i++) {
             double[] generated = sg.nextVector();
-            assertTrue(Math.abs(generated[0] - 1) > 0.1);
+            assertTrue(FastMath.abs(generated[0] - 1) > 0.1);
         }
 
     }
@@ -90,7 +91,7 @@ extends TestCase {
             for (int j = 0; j <= i; ++j) {
                 assertEquals(covariance.getEntry(i, j),
                         estimatedCovariance.getEntry(i, j),
-                        0.1 * (1.0 + Math.abs(mean[i])) * (1.0 + Math.abs(mean[j])));
+                        0.1 * (1.0 + FastMath.abs(mean[i])) * (1.0 + FastMath.abs(mean[j])));
             }
         }
 

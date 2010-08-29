@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 /** Harmonic function of the form <code>f (t) = a cos (&omega; t + &phi;)</code>.
  * @version $Revision$ $Date$
@@ -47,12 +48,12 @@ public class HarmonicFunction implements DifferentiableUnivariateRealFunction {
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return a * Math.cos(omega * x + phi);
+        return a * FastMath.cos(omega * x + phi);
     }
 
     /** {@inheritDoc} */
     public HarmonicFunction derivative() {
-        return new HarmonicFunction(a * omega, omega, phi + Math.PI / 2);
+        return new HarmonicFunction(a * omega, omega, phi + FastMath.PI / 2);
     }
 
     /** Get the amplitude a.

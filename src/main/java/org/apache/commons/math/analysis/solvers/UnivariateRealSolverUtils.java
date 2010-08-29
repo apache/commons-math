@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
@@ -189,8 +190,8 @@ public class UnivariateRealSolverUtils {
         int numIterations = 0 ;
 
         do {
-            a = Math.max(a - 1.0, lowerBound);
-            b = Math.min(b + 1.0, upperBound);
+            a = FastMath.max(a - 1.0, lowerBound);
+            b = FastMath.min(b + 1.0, upperBound);
             fa = function.value(a);
 
             fb = function.value(b);

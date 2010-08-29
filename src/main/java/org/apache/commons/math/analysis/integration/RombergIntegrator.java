@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/RombergIntegration.html">
@@ -95,8 +96,8 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
             }
             final double s = currentRow[i];
             if (i >= minimalIterationCount) {
-                final double delta  = Math.abs(s - olds);
-                final double rLimit = relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
+                final double delta  = FastMath.abs(s - olds);
+                final double rLimit = relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;

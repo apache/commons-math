@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implementation for the {@link PoissonDistribution}.
@@ -174,7 +175,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         mean = p;
         normal = z;
         normal.setMean(p);
-        normal.setStandardDeviation(Math.sqrt(p));
+        normal.setStandardDeviation(FastMath.sqrt(p));
     }
 
     /**
@@ -189,11 +190,11 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         if (x < 0 || x == Integer.MAX_VALUE) {
             ret = 0.0;
         } else if (x == 0) {
-            ret = Math.exp(-mean);
+            ret = FastMath.exp(-mean);
         } else {
-            ret = Math.exp(-SaddlePointExpansion.getStirlingError(x) -
+            ret = FastMath.exp(-SaddlePointExpansion.getStirlingError(x) -
                   SaddlePointExpansion.getDeviancePart(x, mean)) /
-                  Math.sqrt(MathUtils.TWO_PI * x);
+                  FastMath.sqrt(MathUtils.TWO_PI * x);
         }
         return ret;
     }
@@ -257,7 +258,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      */
     @Override
     public int sample() throws MathException {
-        return (int) Math.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
+        return (int) FastMath.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
     }
 
     /**

@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * This class is used in the junit tests for the ODE integrators.
 
@@ -81,7 +83,7 @@ public TestProblem2 copy() {
   @Override
   public double[] computeTheoreticalState(double t) {
     double t2 = t * t;
-    double c = t2 + 2 * (Math.exp (-0.5 * t2) - 1);
+    double c = t2 + 2 * (FastMath.exp (-0.5 * t2) - 1);
     for (int i = 0; i < n; ++i) {
       y[i] = c;
     }

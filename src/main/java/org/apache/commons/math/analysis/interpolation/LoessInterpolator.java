@@ -23,6 +23,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
@@ -277,7 +278,7 @@ public class LoessInterpolator
                 double sumXSquared = 0;
                 double sumY = 0;
                 double sumXY = 0;
-                double denom = Math.abs(1.0 / (xval[edge] - x));
+                double denom = FastMath.abs(1.0 / (xval[edge] - x));
                 for (int k = ileft; k <= iright; ++k) {
                     final double xk   = xval[k];
                     final double yk   = yval[k];
@@ -297,7 +298,7 @@ public class LoessInterpolator
                 final double meanXSquared = sumXSquared / sumWeights;
 
                 final double beta;
-                if (Math.sqrt(Math.abs(meanXSquared - meanX * meanX)) < accuracy) {
+                if (FastMath.sqrt(FastMath.abs(meanXSquared - meanX * meanX)) < accuracy) {
                     beta = 0;
                 } else {
                     beta = (meanXY - meanX * meanY) / (meanXSquared - meanX * meanX);
@@ -306,7 +307,7 @@ public class LoessInterpolator
                 final double alpha = meanY - beta * meanX;
 
                 res[i] = beta * x + alpha;
-                residuals[i] = Math.abs(yval[i] - res[i]);
+                residuals[i] = FastMath.abs(yval[i] - res[i]);
             }
 
             // No need to recompute the robustness weights at the last
@@ -324,7 +325,7 @@ public class LoessInterpolator
             Arrays.sort(sortedResiduals);
             final double medianResidual = sortedResiduals[n / 2];
 
-            if (Math.abs(medianResidual) < accuracy) {
+            if (FastMath.abs(medianResidual) < accuracy) {
                 break;
             }
 

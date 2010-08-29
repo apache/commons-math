@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -74,8 +75,8 @@ public class SimpleRealPointChecker implements RealConvergenceChecker {
         final double[] p        = previous.getPoint();
         final double[] c        = current.getPoint();
         for (int i = 0; i < p.length; ++i) {
-            final double difference = Math.abs(p[i] - c[i]);
-            final double size       = Math.max(Math.abs(p[i]), Math.abs(c[i]));
+            final double difference = FastMath.abs(p[i] - c[i]);
+            final double size       = FastMath.max(FastMath.abs(p[i]), FastMath.abs(c[i]));
             if ((difference > (size * relativeThreshold)) && (difference > absoluteThreshold)) {
                 return false;
             }

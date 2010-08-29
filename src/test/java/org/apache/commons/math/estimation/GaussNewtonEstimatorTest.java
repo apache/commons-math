@@ -20,6 +20,8 @@ package org.apache.commons.math.estimation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 /**
@@ -508,7 +510,7 @@ public class GaussNewtonEstimatorTest
       GaussNewtonEstimator estimator = new GaussNewtonEstimator(100, 1.0e-10, 1.0e-10);
       estimator.estimate(circle);
       double rms = estimator.getRMS(circle);
-      assertEquals(1.768262623567235,  Math.sqrt(circle.getM()) * rms,  1.0e-10);
+      assertEquals(1.768262623567235,  FastMath.sqrt(circle.getM()) * rms,  1.0e-10);
       assertEquals(69.96016176931406, circle.getRadius(), 1.0e-10);
       assertEquals(96.07590211815305, circle.getX(),      1.0e-10);
       assertEquals(48.13516790438953, circle.getY(),      1.0e-10);
@@ -700,7 +702,7 @@ public class GaussNewtonEstimatorTest
       public double getCenterDistance() {
         double dx = px - circle.cx.getEstimate();
         double dy = py - circle.cy.getEstimate();
-        return Math.sqrt(dx * dx + dy * dy);
+        return FastMath.sqrt(dx * dx + dy * dy);
       }
 
       public double getPartialDiX() {

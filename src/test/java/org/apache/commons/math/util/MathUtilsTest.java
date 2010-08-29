@@ -164,7 +164,7 @@ public final class MathUtilsTest extends TestCase {
             for (int k = 0; k <= n; k++) {
                 assertEquals(n + " choose " + k, binomialCoefficient(n, k), MathUtils.binomialCoefficient(n, k));
                 assertEquals(n + " choose " + k, binomialCoefficient(n, k), MathUtils.binomialCoefficientDouble(n, k), Double.MIN_VALUE);
-                assertEquals(n + " choose " + k, Math.log(binomialCoefficient(n, k)), MathUtils.binomialCoefficientLog(n, k), 10E-12);
+                assertEquals(n + " choose " + k, FastMath.log(binomialCoefficient(n, k)), MathUtils.binomialCoefficientLog(n, k), 10E-12);
             }
         }
 
@@ -176,7 +176,7 @@ public final class MathUtilsTest extends TestCase {
                 MathUtils.binomialCoefficient(n[i], k[i]));
             assertEquals(n[i] + " choose " + k[i], expected,
                 MathUtils.binomialCoefficientDouble(n[i], k[i]), 0.0);
-            assertEquals("log(" + n[i] + " choose " + k[i] + ")", Math.log(expected),
+            assertEquals("log(" + n[i] + " choose " + k[i] + ")", FastMath.log(expected),
                 MathUtils.binomialCoefficientLog(n[i], k[i]), 0.0);
         }
     }
@@ -211,7 +211,7 @@ public final class MathUtilsTest extends TestCase {
                     assertEquals(n + " choose " + k, 1.,
                         MathUtils.binomialCoefficientDouble(n, k) / exactResult, 1e-10);
                     assertEquals(n + " choose " + k, 1,
-                        MathUtils.binomialCoefficientLog(n, k) / Math.log(exactResult), 1e-10);
+                        MathUtils.binomialCoefficientLog(n, k) / FastMath.log(exactResult), 1e-10);
                 }
             }
         }
@@ -237,7 +237,7 @@ public final class MathUtilsTest extends TestCase {
         exactResult = binomialCoefficient(n, 3);
         assertEquals(exactResult, ourResult);
         assertEquals(1, MathUtils.binomialCoefficientDouble(n, 3) / exactResult, 1e-10);
-        assertEquals(1, MathUtils.binomialCoefficientLog(n, 3) / Math.log(exactResult), 1e-10);
+        assertEquals(1, MathUtils.binomialCoefficientLog(n, 3) / FastMath.log(exactResult), 1e-10);
 
     }
 
@@ -362,17 +362,17 @@ public final class MathUtilsTest extends TestCase {
     public void testEqualsWithAllowedUlps() {
         assertTrue(MathUtils.equals(0.0, -0.0, 1));
 
-        assertTrue(MathUtils.equals(1.0, 1 + Math.ulp(1d), 1));
-        assertFalse(MathUtils.equals(1.0, 1 + 2 * Math.ulp(1d), 1));
+        assertTrue(MathUtils.equals(1.0, 1 + FastMath.ulp(1d), 1));
+        assertFalse(MathUtils.equals(1.0, 1 + 2 * FastMath.ulp(1d), 1));
 
-        final double nUp1 = MathUtils.nextAfter(1d, Double.POSITIVE_INFINITY);
-        final double nnUp1 = MathUtils.nextAfter(nUp1, Double.POSITIVE_INFINITY);
+        final double nUp1 = FastMath.nextAfter(1d, Double.POSITIVE_INFINITY);
+        final double nnUp1 = FastMath.nextAfter(nUp1, Double.POSITIVE_INFINITY);
         assertTrue(MathUtils.equals(1.0, nUp1, 1));
         assertTrue(MathUtils.equals(nUp1, nnUp1, 1));
         assertFalse(MathUtils.equals(1.0, nnUp1, 1));
 
-        assertTrue(MathUtils.equals(0.0, Math.ulp(0d), 1));
-        assertTrue(MathUtils.equals(0.0, -Math.ulp(0d), 1));
+        assertTrue(MathUtils.equals(0.0, FastMath.ulp(0d), 1));
+        assertTrue(MathUtils.equals(0.0, -FastMath.ulp(0d), 1));
 
         assertTrue(MathUtils.equals(153.0, 153.0, 1));
 
@@ -400,17 +400,17 @@ public final class MathUtilsTest extends TestCase {
     public void testEqualsIncludingNaNWithAllowedUlps() {
         assertTrue(MathUtils.equalsIncludingNaN(0.0, -0.0, 1));
 
-        assertTrue(MathUtils.equalsIncludingNaN(1.0, 1 + Math.ulp(1d), 1));
-        assertFalse(MathUtils.equalsIncludingNaN(1.0, 1 + 2 * Math.ulp(1d), 1));
+        assertTrue(MathUtils.equalsIncludingNaN(1.0, 1 + FastMath.ulp(1d), 1));
+        assertFalse(MathUtils.equalsIncludingNaN(1.0, 1 + 2 * FastMath.ulp(1d), 1));
 
-        final double nUp1 = MathUtils.nextAfter(1d, Double.POSITIVE_INFINITY);
-        final double nnUp1 = Math.nextAfter(nUp1, Double.POSITIVE_INFINITY);
+        final double nUp1 = FastMath.nextAfter(1d, Double.POSITIVE_INFINITY);
+        final double nnUp1 = FastMath.nextAfter(nUp1, Double.POSITIVE_INFINITY);
         assertTrue(MathUtils.equalsIncludingNaN(1.0, nUp1, 1));
         assertTrue(MathUtils.equalsIncludingNaN(nUp1, nnUp1, 1));
         assertFalse(MathUtils.equalsIncludingNaN(1.0, nnUp1, 1));
 
-        assertTrue(MathUtils.equalsIncludingNaN(0.0, Math.ulp(0d), 1));
-        assertTrue(MathUtils.equalsIncludingNaN(0.0, -Math.ulp(0d), 1));
+        assertTrue(MathUtils.equalsIncludingNaN(0.0, FastMath.ulp(0d), 1));
+        assertTrue(MathUtils.equalsIncludingNaN(0.0, -FastMath.ulp(0d), 1));
 
         assertTrue(MathUtils.equalsIncludingNaN(153.0, 153.0, 1));
 
@@ -456,7 +456,7 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(new double[] { Double.POSITIVE_INFINITY },
                                      new double[] { Double.NEGATIVE_INFINITY }));
         assertFalse(MathUtils.equals(new double[] { 1d },
-                                     new double[] { MathUtils.nextAfter(1d, 2d) }));
+                                     new double[] { FastMath.nextAfter(1d, 2d) }));
 
     }
 
@@ -477,14 +477,14 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equalsIncludingNaN(new double[] { Double.POSITIVE_INFINITY },
                                                  new double[] { Double.NEGATIVE_INFINITY }));
         assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d },
-                                                 new double[] { MathUtils.nextAfter(MathUtils.nextAfter(1d, 2d), 2d) }));
+                                                 new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
     }
 
     public void testFactorial() {
         for (int i = 1; i < 21; i++) {
             assertEquals(i + "! ", factorial(i), MathUtils.factorial(i));
             assertEquals(i + "! ", factorial(i), MathUtils.factorialDouble(i), Double.MIN_VALUE);
-            assertEquals(i + "! ", Math.log(factorial(i)), MathUtils.factorialLog(i), 10E-12);
+            assertEquals(i + "! ", FastMath.log(factorial(i)), MathUtils.factorialLog(i), 10E-12);
         }
 
         assertEquals("0", 1, MathUtils.factorial(0));
@@ -680,7 +680,7 @@ public final class MathUtilsTest extends TestCase {
                                       Double.NEGATIVE_INFINITY, 1d, 0d
                                     }));
         assertFalse(MathUtils.hash(new double[] { 1d }) ==
-                    MathUtils.hash(new double[] { MathUtils.nextAfter(1d, 2d) }));
+                    MathUtils.hash(new double[] { FastMath.nextAfter(1d, 2d) }));
         assertFalse(MathUtils.hash(new double[] { 1d }) ==
                     MathUtils.hash(new double[] { 1d, 1d }));
     }
@@ -907,84 +907,84 @@ public final class MathUtilsTest extends TestCase {
 
     public void testNextAfter() {
         // 0x402fffffffffffff 0x404123456789abcd -> 4030000000000000
-        assertEquals(16.0, MathUtils.nextAfter(15.999999999999998, 34.27555555555555), 0.0);
+        assertEquals(16.0, FastMath.nextAfter(15.999999999999998, 34.27555555555555), 0.0);
 
         // 0xc02fffffffffffff 0x404123456789abcd -> c02ffffffffffffe
-        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 34.27555555555555), 0.0);
+        assertEquals(-15.999999999999996, FastMath.nextAfter(-15.999999999999998, 34.27555555555555), 0.0);
 
         // 0x402fffffffffffff 0x400123456789abcd -> 402ffffffffffffe
-        assertEquals(15.999999999999996, MathUtils.nextAfter(15.999999999999998, 2.142222222222222), 0.0);
+        assertEquals(15.999999999999996, FastMath.nextAfter(15.999999999999998, 2.142222222222222), 0.0);
 
         // 0xc02fffffffffffff 0x400123456789abcd -> c02ffffffffffffe
-        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 2.142222222222222), 0.0);
+        assertEquals(-15.999999999999996, FastMath.nextAfter(-15.999999999999998, 2.142222222222222), 0.0);
 
         // 0x4020000000000000 0x404123456789abcd -> 4020000000000001
-        assertEquals(8.000000000000002, MathUtils.nextAfter(8.0, 34.27555555555555), 0.0);
+        assertEquals(8.000000000000002, FastMath.nextAfter(8.0, 34.27555555555555), 0.0);
 
         // 0xc020000000000000 0x404123456789abcd -> c01fffffffffffff
-        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 34.27555555555555), 0.0);
+        assertEquals(-7.999999999999999, FastMath.nextAfter(-8.0, 34.27555555555555), 0.0);
 
         // 0x4020000000000000 0x400123456789abcd -> 401fffffffffffff
-        assertEquals(7.999999999999999, MathUtils.nextAfter(8.0, 2.142222222222222), 0.0);
+        assertEquals(7.999999999999999, FastMath.nextAfter(8.0, 2.142222222222222), 0.0);
 
         // 0xc020000000000000 0x400123456789abcd -> c01fffffffffffff
-        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 2.142222222222222), 0.0);
+        assertEquals(-7.999999999999999, FastMath.nextAfter(-8.0, 2.142222222222222), 0.0);
 
         // 0x3f2e43753d36a223 0x3f2e43753d36a224 -> 3f2e43753d36a224
-        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+        assertEquals(2.308922399667661E-4, FastMath.nextAfter(2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
 
         // 0x3f2e43753d36a223 0x3f2e43753d36a223 -> 3f2e43753d36a224
-        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+        assertEquals(2.308922399667661E-4, FastMath.nextAfter(2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
 
         // 0x3f2e43753d36a223 0x3f2e43753d36a222 -> 3f2e43753d36a222
-        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+        assertEquals(2.3089223996676603E-4, FastMath.nextAfter(2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
 
         // 0x3f2e43753d36a223 0xbf2e43753d36a224 -> 3f2e43753d36a222
-        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+        assertEquals(2.3089223996676603E-4, FastMath.nextAfter(2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
 
         // 0x3f2e43753d36a223 0xbf2e43753d36a223 -> 3f2e43753d36a222
-        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+        assertEquals(2.3089223996676603E-4, FastMath.nextAfter(2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
 
         // 0x3f2e43753d36a223 0xbf2e43753d36a222 -> 3f2e43753d36a222
-        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+        assertEquals(2.3089223996676603E-4, FastMath.nextAfter(2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
 
         // 0xbf2e43753d36a223 0x3f2e43753d36a224 -> bf2e43753d36a222
-        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+        assertEquals(-2.3089223996676603E-4, FastMath.nextAfter(-2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
 
         // 0xbf2e43753d36a223 0x3f2e43753d36a223 -> bf2e43753d36a222
-        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+        assertEquals(-2.3089223996676603E-4, FastMath.nextAfter(-2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
 
         // 0xbf2e43753d36a223 0x3f2e43753d36a222 -> bf2e43753d36a222
-        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+        assertEquals(-2.3089223996676603E-4, FastMath.nextAfter(-2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
 
         // 0xbf2e43753d36a223 0xbf2e43753d36a224 -> bf2e43753d36a224
-        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+        assertEquals(-2.308922399667661E-4, FastMath.nextAfter(-2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
 
         // 0xbf2e43753d36a223 0xbf2e43753d36a223 -> bf2e43753d36a224
-        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+        assertEquals(-2.308922399667661E-4, FastMath.nextAfter(-2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
 
         // 0xbf2e43753d36a223 0xbf2e43753d36a222 -> bf2e43753d36a222
-        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+        assertEquals(-2.3089223996676603E-4, FastMath.nextAfter(-2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
 
     }
 
     public void testNextAfterSpecialCases() {
-        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.NEGATIVE_INFINITY, 0)));
-        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.POSITIVE_INFINITY, 0)));
-        assertTrue(Double.isNaN(MathUtils.nextAfter(Double.NaN, 0)));
-        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY)));
-        assertTrue(Double.isInfinite(MathUtils.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY)));
-        assertEquals(Double.MIN_VALUE, MathUtils.nextAfter(0, 1), 0);
-        assertEquals(-Double.MIN_VALUE, MathUtils.nextAfter(0, -1), 0);
-        assertEquals(0, MathUtils.nextAfter(Double.MIN_VALUE, -1), 0);
-        assertEquals(0, MathUtils.nextAfter(-Double.MIN_VALUE, 1), 0);
+        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.NEGATIVE_INFINITY, 0)));
+        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.POSITIVE_INFINITY, 0)));
+        assertTrue(Double.isNaN(FastMath.nextAfter(Double.NaN, 0)));
+        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY)));
+        assertTrue(Double.isInfinite(FastMath.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY)));
+        assertEquals(Double.MIN_VALUE, FastMath.nextAfter(0, 1), 0);
+        assertEquals(-Double.MIN_VALUE, FastMath.nextAfter(0, -1), 0);
+        assertEquals(0, FastMath.nextAfter(Double.MIN_VALUE, -1), 0);
+        assertEquals(0, FastMath.nextAfter(-Double.MIN_VALUE, 1), 0);
     }
 
     public void testScalb() {
         assertEquals( 0.0, MathUtils.scalb(0.0, 5), 1.0e-15);
         assertEquals(32.0, MathUtils.scalb(1.0, 5), 1.0e-15);
         assertEquals(1.0 / 32.0, MathUtils.scalb(1.0,  -5), 1.0e-15);
-        assertEquals(Math.PI, MathUtils.scalb(Math.PI, 0), 1.0e-15);
+        assertEquals(FastMath.PI, MathUtils.scalb(FastMath.PI, 0), 1.0e-15);
         assertTrue(Double.isInfinite(MathUtils.scalb(Double.POSITIVE_INFINITY, 1)));
         assertTrue(Double.isInfinite(MathUtils.scalb(Double.NEGATIVE_INFINITY, 1)));
         assertTrue(Double.isNaN(MathUtils.scalb(Double.NaN, 1)));
@@ -994,10 +994,10 @@ public final class MathUtilsTest extends TestCase {
         for (double a = -15.0; a <= 15.0; a += 0.1) {
             for (double b = -15.0; b <= 15.0; b += 0.2) {
                 double c = MathUtils.normalizeAngle(a, b);
-                assertTrue((b - Math.PI) <= c);
-                assertTrue(c <= (b + Math.PI));
-                double twoK = Math.rint((a - c) / Math.PI);
-                assertEquals(c, a - twoK * Math.PI, 1.0e-14);
+                assertTrue((b - FastMath.PI) <= c);
+                assertTrue(c <= (b + FastMath.PI));
+                double twoK = FastMath.rint((a - c) / FastMath.PI);
+                assertEquals(c, a - twoK * FastMath.PI, 1.0e-14);
             }
         }
     }

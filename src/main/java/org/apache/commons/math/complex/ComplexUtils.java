@@ -19,6 +19,7 @@ package org.apache.commons.math.complex;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Static implementations of common
@@ -65,7 +66,7 @@ public class ComplexUtils {
             throw MathRuntimeException.createIllegalArgumentException(
                   LocalizedFormats.NEGATIVE_COMPLEX_MODULE, r);
         }
-        return new Complex(r * Math.cos(theta), r * Math.sin(theta));
+        return new Complex(r * FastMath.cos(theta), r * FastMath.sin(theta));
     }
 
 }

@@ -24,6 +24,7 @@ import java.util.Random;
 
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 import org.junit.Test;
 
@@ -45,7 +46,7 @@ public class HarmonicFitterTest {
         assertEquals(f.getPhase(),     MathUtils.normalizeAngle(fitted.getPhase(), f.getPhase()), 1.0e-13);
 
         for (double x = -1.0; x < 1.0; x += 0.01) {
-            assertTrue(Math.abs(f.value(x) - fitted.value(x)) < 1.0e-13);
+            assertTrue(FastMath.abs(f.value(x) - fitted.value(x)) < 1.0e-13);
         }
 
     }

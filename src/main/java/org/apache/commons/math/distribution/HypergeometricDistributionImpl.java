@@ -22,6 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link HypergeometricDistribution}.
@@ -144,7 +145,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return the lowest domain value of the hypergeometric distribution.
      */
     private int getLowerDomain(int n, int m, int k) {
-        return Math.max(0, m - (n - k));
+        return FastMath.max(0, m - (n - k));
     }
 
     /**
@@ -183,7 +184,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return the highest domain value of the hypergeometric distribution.
      */
     private int getUpperDomain(int m, int k) {
-        return Math.min(k, m);
+        return FastMath.min(k, m);
     }
 
     /**
@@ -208,7 +209,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
                     populationSize - numberOfSuccesses, p, q);
             double p3 =
                 SaddlePointExpansion.logBinomialProbability(sampleSize, populationSize, p, q);
-            ret = Math.exp(p1 + p2 - p3);
+            ret = FastMath.exp(p1 + p2 - p3);
         }
 
         return ret;
@@ -225,7 +226,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
-        return Math.exp(MathUtils.binomialCoefficientLog(m, x) +
+        return FastMath.exp(MathUtils.binomialCoefficientLog(m, x) +
                MathUtils.binomialCoefficientLog(n - m, k - x) -
                MathUtils.binomialCoefficientLog(n, k));
     }

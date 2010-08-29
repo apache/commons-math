@@ -19,6 +19,7 @@ package org.apache.commons.math.distribution;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Abstract base class for {@link ContinuousDistribution} tests.
@@ -223,8 +224,8 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
 
             // check that P(a < X < b) = P(X < b) - P(X < a)
-            double upper = Math.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
-            double lower = Math.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
+            double upper = FastMath.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
+            double lower = FastMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) -
                 distribution.cumulativeProbability(lower);
             double direct = distribution.cumulativeProbability(lower, upper);

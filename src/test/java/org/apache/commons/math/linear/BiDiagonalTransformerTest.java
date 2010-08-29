@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.linear.BiDiagonalTransformer;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -126,9 +127,9 @@ public class BiDiagonalTransformerTest {
                 { 2.0, 3.0, 4.0 },
                 { 3.0, 5.0, 7.0 }
             }));
-       final double s3  = Math.sqrt(3.0);
-       final double s14 = Math.sqrt(14.0);
-       final double s1553 = Math.sqrt(1553.0);
+       final double s3  = FastMath.sqrt(3.0);
+       final double s14 = FastMath.sqrt(14.0);
+       final double s1553 = FastMath.sqrt(1553.0);
        RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
            {  -1.0 / s14,  5.0 / (s3 * s14),  1.0 / s3 },
            {  -2.0 / s14, -4.0 / (s3 * s14),  1.0 / s3 },
@@ -164,7 +165,7 @@ public class BiDiagonalTransformerTest {
     public void testMatricesValues() {
        BiDiagonalTransformer transformer =
             new BiDiagonalTransformer(MatrixUtils.createRealMatrix(testSquare));
-       final double s17 = Math.sqrt(17.0);
+       final double s17 = FastMath.sqrt(17.0);
         RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 {  -8 / (5 * s17), 19 / (5 * s17) },
                 { -19 / (5 * s17), -8 / (5 * s17) }

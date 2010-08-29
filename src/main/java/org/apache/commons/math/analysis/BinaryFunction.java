@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 
 
 
@@ -65,21 +66,21 @@ public abstract class BinaryFunction implements BivariateRealFunction {
         }
     };
 
-    /** The {@code Math.pow} method wrapped as a {@link BinaryFunction}. */
+    /** The {@code FastMath.pow} method wrapped as a {@link BinaryFunction}. */
     public static final BinaryFunction POW = new BinaryFunction() {
         /** {@inheritDoc} */
         @Override
         public double value(double x, double y) {
-            return Math.pow(x, y);
+            return FastMath.pow(x, y);
         }
     };
 
-    /** The {@code Math.atan2} method wrapped as a {@link BinaryFunction}. */
+    /** The {@code FastMath.atan2} method wrapped as a {@link BinaryFunction}. */
     public static final BinaryFunction ATAN2 = new BinaryFunction() {
         /** {@inheritDoc} */
         @Override
         public double value(double x, double y) {
-            return Math.atan2(x, y);
+            return FastMath.atan2(x, y);
         }
     };
 

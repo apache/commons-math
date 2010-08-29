@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * Test cases for WeibullDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -74,14 +76,14 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
 
     public void testAlpha() {
         WeibullDistribution distribution = (WeibullDistribution) getDistribution();
-        double expected = Math.random();
+        double expected = FastMath.random();
         distribution.setShape(expected);
         assertEquals(expected, distribution.getShape(), 0.0);
     }
 
     public void testBeta() {
         WeibullDistribution distribution = (WeibullDistribution) getDistribution();
-        double expected = Math.random();
+        double expected = FastMath.random();
         distribution.setScale(expected);
         assertEquals(expected, distribution.getScale(), 0.0);
     }

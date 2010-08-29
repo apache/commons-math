@@ -24,6 +24,7 @@ import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -89,7 +90,7 @@ public class StepNormalizerTest
   }
 
   public void checkValue(double value, double reference) {
-    assertTrue(Math.abs(value - reference) < 1.0e-10);
+    assertTrue(FastMath.abs(value - reference) < 1.0e-10);
   }
 
   public void setLastSeen(boolean lastSeen) {

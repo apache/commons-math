@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * Test cases for CauchyDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -83,14 +85,14 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
 
     public void testMedian() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        double expected = Math.random();
+        double expected = FastMath.random();
         distribution.setMedian(expected);
         assertEquals(expected, distribution.getMedian(), 0.0);
     }
 
     public void testScale() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        double expected = Math.random();
+        double expected = FastMath.random();
         distribution.setScale(expected);
         assertEquals(expected, distribution.getScale(), 0.0);
     }

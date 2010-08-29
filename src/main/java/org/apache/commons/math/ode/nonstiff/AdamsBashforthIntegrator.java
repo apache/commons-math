@@ -24,6 +24,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -239,14 +240,14 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                 // evaluate error using the last term of the Taylor expansion
                 error = 0;
                 for (int i = 0; i < mainSetDimension; ++i) {
-                    final double yScale = Math.abs(y[i]);
+                    final double yScale = FastMath.abs(y[i]);
                     final double tol = (vecAbsoluteTolerance == null) ?
                                        (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                        (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
                     final double ratio  = nordsieck.getEntry(lastRow, i) / tol;
                     error += ratio * ratio;
                 }
-                error = Math.sqrt(error / mainSetDimension);
+                error = FastMath.sqrt(error / mainSetDimension);
 
                 if (error <= 1.0) {
 
@@ -273,7 +274,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                     interpolatorTmp.storeTime(stepEnd);
                     if (manager.evaluateStep(interpolatorTmp)) {
                         final double dt = manager.getEventTime() - stepStart;
-                        if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                        if (FastMath.abs(dt) <= FastMath.ulp(stepStart)) {
                             // we cannot simply truncate the step, reject the current computation
                             // and let the loop compute another state with the truncated step.
                             // it is so small (much probably exactly 0 due to limited accuracy)

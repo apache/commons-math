@@ -33,6 +33,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialPointChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -411,7 +412,7 @@ extends TestCase {
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
-        assertEquals(1.768262623567235,  Math.sqrt(circle.getN()) * optimizer.getRMS(),  1.0e-10);
+        assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * optimizer.getRMS(),  1.0e-10);
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         assertEquals(69.96016175359975, circle.getRadius(center), 1.0e-10);
         assertEquals(96.07590209601095, center.x, 1.0e-10);

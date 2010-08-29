@@ -25,6 +25,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Representation of a rational number without any overflow. This class is
@@ -270,14 +271,14 @@ public class BigFraction
         throws FractionConversionException {
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
-        long a0 = (long) Math.floor(r0);
+        long a0 = (long) FastMath.floor(r0);
         if (a0 > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 
         // check for (almost) integer arguments, which should not go
         // to iterations.
-        if (Math.abs(a0 - value) < epsilon) {
+        if (FastMath.abs(a0 - value) < epsilon) {
             numerator = BigInteger.valueOf(a0);
             denominator = BigInteger.ONE;
             return;
@@ -296,7 +297,7 @@ public class BigFraction
         do {
             ++n;
             final double r1 = 1.0 / (r0 - a0);
-            final long a1 = (long) Math.floor(r1);
+            final long a1 = (long) FastMath.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
             if ((p2 > overflow) || (q2 > overflow)) {
@@ -305,7 +306,7 @@ public class BigFraction
 
             final double convergent = (double) p2 / (double) q2;
             if ((n < maxIterations) &&
-                (Math.abs(convergent - value) > epsilon) &&
+                (FastMath.abs(convergent - value) > epsilon) &&
                 (q2 < maxDenominator)) {
                 p0 = p1;
                 p1 = p2;
@@ -994,8 +995,8 @@ public class BigFraction
      * @return <tt>this<sup>exponent</sup></tt>.
      */
     public double pow(final double exponent) {
-        return Math.pow(numerator.doubleValue(),   exponent) /
-               Math.pow(denominator.doubleValue(), exponent);
+        return FastMath.pow(numerator.doubleValue(),   exponent) /
+               FastMath.pow(denominator.doubleValue(), exponent);
     }
 
     /**
