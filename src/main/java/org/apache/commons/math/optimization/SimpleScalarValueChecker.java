@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -73,8 +74,8 @@ public class SimpleScalarValueChecker implements RealConvergenceChecker {
                              final RealPointValuePair current) {
         final double p          = previous.getValue();
         final double c          = current.getValue();
-        final double difference = Math.abs(p - c);
-        final double size       = Math.max(Math.abs(p), Math.abs(c));
+        final double difference = FastMath.abs(p - c);
+        final double size       = FastMath.max(FastMath.abs(p), FastMath.abs(c));
         return (difference <= (size * relativeThreshold)) || (difference <= absoluteThreshold);
     }
 }

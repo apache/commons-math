@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -54,15 +55,15 @@ public class BinaryFunctionTest {
 
     @Test
     public void testAtan2() throws FunctionEvaluationException {
-        Assert.assertEquals(Math.PI / 4, BinaryFunction.ATAN2.value(1, 1), 1.0e-15);
-        Assert.assertEquals(-Math.PI / 4, BinaryFunction.ATAN2.value(-1, 1), 1.0e-15);
+        Assert.assertEquals(FastMath.PI / 4, BinaryFunction.ATAN2.value(1, 1), 1.0e-15);
+        Assert.assertEquals(-FastMath.PI / 4, BinaryFunction.ATAN2.value(-1, 1), 1.0e-15);
     }
 
     @Test
     public void testFix1st() throws FunctionEvaluationException {
         ComposableFunction f = BinaryFunction.POW.fix1stArgument(2);
         for (double x = 0.0; x < 1.0; x += 0.01) {
-            Assert.assertEquals(Math.pow(2.0, x), f.value(x), 1.0e-15);
+            Assert.assertEquals(FastMath.pow(2.0, x), f.value(x), 1.0e-15);
         }
     }
 

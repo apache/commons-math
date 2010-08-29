@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.FirstOrderConverter;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.SecondOrderDifferentialEquations;
 import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -46,11 +47,11 @@ public class FirstOrderConverterTest
     double previousError = Double.NaN;
     for (int i = 0; i < 10; ++i) {
 
-      double step  = Math.pow(2.0, -(i + 1));
+      double step  = FastMath.pow(2.0, -(i + 1));
       double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, step)
-                   - Math.sin(4.0);
+                   - FastMath.sin(4.0);
       if (i > 0) {
-        assertTrue(Math.abs(error) < Math.abs(previousError));
+        assertTrue(FastMath.abs(error) < FastMath.abs(previousError));
       }
       previousError = error;
 
@@ -60,15 +61,15 @@ public class FirstOrderConverterTest
   public void testSmallStep()
     throws DerivativeException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 1.0e-4)
-                   - Math.sin(4.0);
-    assertTrue(Math.abs(error) < 1.0e-10);
+                   - FastMath.sin(4.0);
+    assertTrue(FastMath.abs(error) < 1.0e-10);
   }
 
   public void testBigStep()
     throws DerivativeException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 0.5)
-                   - Math.sin(4.0);
-    assertTrue(Math.abs(error) > 0.1);
+                   - FastMath.sin(4.0);
+    assertTrue(FastMath.abs(error) > 0.1);
   }
 
   private static class Equations
@@ -101,8 +102,8 @@ public class FirstOrderConverterTest
                                             double step)
   throws DerivativeException, IntegratorException {
     double[] y0 = new double[2];
-    y0[0] = Math.sin(omega * t0);
-    y0[1] = omega * Math.cos(omega * t0);
+    y0[0] = FastMath.sin(omega * t0);
+    y0[1] = omega * FastMath.cos(omega * t0);
     ClassicalRungeKuttaIntegrator i = new ClassicalRungeKuttaIntegrator(step);
     double[] y = new double[2];
     i.integrate(new FirstOrderConverter(new Equations(1, omega)), t0, y0, t, y);

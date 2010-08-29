@@ -83,6 +83,13 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
+  <!-- The following equality test is intentional for infinity detection -->
+  <Match>
+    <Class name="org.apache.commons.math.util.FastMath" />
+    <Method name="atan2" params="double,double" returns="double" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>

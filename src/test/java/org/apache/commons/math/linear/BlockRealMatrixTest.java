@@ -22,6 +22,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.
@@ -157,8 +158,8 @@ public final class BlockRealMatrixTest extends TestCase {
     public void testFrobeniusNorm() {
         BlockRealMatrix m = new BlockRealMatrix(testData);
         BlockRealMatrix m2 = new BlockRealMatrix(testData2);
-        assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
-        assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData Frobenius norm", FastMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData2 Frobenius norm", FastMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
 
      /** test m-n = m + -n */

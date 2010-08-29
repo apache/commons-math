@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
@@ -99,7 +100,7 @@ public class FastSineTransformer implements RealTransformer {
      */
     public double[] transform2(double f[]) throws IllegalArgumentException {
 
-        double scaling_coefficient = Math.sqrt(2.0 / f.length);
+        double scaling_coefficient = FastMath.sqrt(2.0 / f.length);
         return FastFourierTransformer.scaleArray(fst(f), scaling_coefficient);
     }
 
@@ -124,7 +125,7 @@ public class FastSineTransformer implements RealTransformer {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         data[0] = 0.0;
-        double scaling_coefficient = Math.sqrt(2.0 / n);
+        double scaling_coefficient = FastMath.sqrt(2.0 / n);
         return FastFourierTransformer.scaleArray(fst(data), scaling_coefficient);
     }
 
@@ -232,7 +233,7 @@ public class FastSineTransformer implements RealTransformer {
         x[0] = 0.0;
         x[n >> 1] = 2.0 * f[n >> 1];
         for (int i = 1; i < (n >> 1); i++) {
-            final double a = Math.sin(i * Math.PI / n) * (f[i] + f[n-i]);
+            final double a = FastMath.sin(i * FastMath.PI / n) * (f[i] + f[n-i]);
             final double b = 0.5 * (f[i] - f[n-i]);
             x[i]     = a + b;
             x[n - i] = a - b;

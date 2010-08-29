@@ -43,6 +43,7 @@ import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.distribution.WeibullDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -362,7 +363,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
         final double pivot = 40.0d;
         if (mean < pivot) {
-            double p = Math.exp(-mean);
+            double p = FastMath.exp(-mean);
             long n = 0;
             double r = 1.0d;
             double rnd = 1.0d;
@@ -378,16 +379,16 @@ public class RandomDataImpl implements RandomData, Serializable {
             }
             return n;
         } else {
-            final double lambda = Math.floor(mean);
+            final double lambda = FastMath.floor(mean);
             final double lambdaFractional = mean - lambda;
-            final double logLambda = Math.log(lambda);
+            final double logLambda = FastMath.log(lambda);
             final double logLambdaFactorial = MathUtils.factorialLog((int) lambda);
             final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
-            final double delta = Math.sqrt(lambda * Math.log(32 * lambda / Math.PI + 1));
+            final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
             final double halfDelta = delta / 2;
             final double twolpd = 2 * lambda + delta;
-            final double a1 = Math.sqrt(Math.PI * twolpd) * Math.exp(1 / 8 * lambda);
-            final double a2 = (twolpd / delta) * Math.exp(-delta * (1 + delta) / twolpd);
+            final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / 8 * lambda);
+            final double a2 = (twolpd / delta) * FastMath.exp(-delta * (1 + delta) / twolpd);
             final double aSum = a1 + a2 + 1;
             final double p1 = a1 / aSum;
             final double p2 = a2 / aSum;
@@ -404,11 +405,11 @@ public class RandomDataImpl implements RandomData, Serializable {
                 final double u = nextUniform(0.0, 1);
                 if (u <= p1) {
                     final double n = nextGaussian(0d, 1d);
-                    x = n * Math.sqrt(lambda + halfDelta) - 0.5d;
+                    x = n * FastMath.sqrt(lambda + halfDelta) - 0.5d;
                     if (x > delta || x < -lambda) {
                         continue;
                     }
-                    y = x < 0 ? Math.floor(x) : Math.ceil(x);
+                    y = x < 0 ? FastMath.floor(x) : FastMath.ceil(x);
                     final double e = nextExponential(1d);
                     v = -e - (n * n / 2) + c1;
                 } else {
@@ -417,7 +418,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                         break;
                     } else {
                         x = delta + (twolpd / delta) * nextExponential(1d);
-                        y = Math.ceil(x);
+                        y = FastMath.ceil(x);
                         v = -nextExponential(1d) - delta * (x + 1) / twolpd;
                     }
                 }
@@ -487,7 +488,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         while (unif == 0.0d) {
             unif = generator.nextDouble();
         }
-        return -mean * Math.log(unif);
+        return -mean * FastMath.log(unif);
     }
 
     /**

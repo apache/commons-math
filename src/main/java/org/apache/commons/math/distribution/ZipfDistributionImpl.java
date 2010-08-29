@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implementation for the {@link ZipfDistribution}.
@@ -144,7 +145,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
             return 0.0;
         }
 
-        return (1.0 / Math.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
+        return (1.0 / FastMath.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
 
     }
 
@@ -205,7 +206,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     private double generalizedHarmonic(final int n, final double m) {
         double value = 0;
         for (int k = n; k > 0; --k) {
-            value += 1.0 / Math.pow(k, m);
+            value += 1.0 / FastMath.pow(k, m);
         }
         return value;
     }

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link OpenMapRealVector} class.
@@ -1187,7 +1188,7 @@ public class SparseRealVectorTest extends TestCase {
 
         v.setEntry(0, 0);
         assertEquals(v, new OpenMapRealVector(new double[] { 0, 1, 2 }));
-        assertNotSame(v, new OpenMapRealVector(new double[] { 0, 1, 2 + Math.ulp(2)}));
+        assertNotSame(v, new OpenMapRealVector(new double[] { 0, 1, 2 + FastMath.ulp(2)}));
         assertNotSame(v, new OpenMapRealVector(new double[] { 0, 1, 2, 3 }));
 
     }

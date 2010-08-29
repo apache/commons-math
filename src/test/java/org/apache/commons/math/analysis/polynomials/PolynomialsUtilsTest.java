@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 /**
@@ -43,7 +45,7 @@ public class PolynomialsUtilsTest extends TestCase {
         for (int k = 0; k < 12; ++k) {
             PolynomialFunction Tk = PolynomialsUtils.createChebyshevPolynomial(k);
             for (double x = -1.0; x <= 1.0; x += 0.02) {
-                assertTrue(k + " " + Tk.value(x), Math.abs(Tk.value(x)) < (1.0 + 1.0e-12));
+                assertTrue(k + " " + Tk.value(x), FastMath.abs(Tk.value(x)) < (1.0 + 1.0e-12));
             }
         }
     }
@@ -191,7 +193,7 @@ public class PolynomialsUtilsTest extends TestCase {
         for (int i = 0; i < l40.length; ++i) {
             if (i % 2 == 0) {
                 double ci = numerators[i / 2] / denominator;
-                assertEquals(ci, l40[i], Math.abs(ci) * 1.0e-15);
+                assertEquals(ci, l40[i], FastMath.abs(ci) * 1.0e-15);
             } else {
                 assertEquals(0.0, l40[i], 0.0);
             }

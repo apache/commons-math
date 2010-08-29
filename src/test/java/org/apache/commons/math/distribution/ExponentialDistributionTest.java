@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * Test cases for ExponentialDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -94,8 +96,8 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
         assertEquals(0.0, d1.density(-1e-9));
         assertEquals(1.0, d1.density(0.0));
         assertEquals(0.0, d1.density(1000.0));
-        assertEquals(Math.exp(-1), d1.density(1.0));
-        assertEquals(Math.exp(-2), d1.density(2.0));
+        assertEquals(FastMath.exp(-1), d1.density(1.0));
+        assertEquals(FastMath.exp(-2), d1.density(2.0));
 
         ExponentialDistribution d2 = new ExponentialDistributionImpl(3);
         assertEquals(1/3.0, d2.density(0.0));

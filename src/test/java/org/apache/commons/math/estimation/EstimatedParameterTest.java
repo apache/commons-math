@@ -18,6 +18,7 @@
 package org.apache.commons.math.estimation;
 
 import org.apache.commons.math.estimation.EstimatedParameter;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -67,7 +68,7 @@ public class EstimatedParameterTest
   }
 
   private void checkValue(double value, double expected) {
-    assertTrue(Math.abs(value - expected) < 1.0e-10);
+    assertTrue(FastMath.abs(value - expected) < 1.0e-10);
   }
 
 }

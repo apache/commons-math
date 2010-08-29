@@ -23,6 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
@@ -106,7 +107,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public double getResult() {
         if (sumOfLogs.getN() > 0) {
-            return Math.exp(sumOfLogs.getResult() / sumOfLogs.getN());
+            return FastMath.exp(sumOfLogs.getResult() / sumOfLogs.getN());
         } else {
             return Double.NaN;
         }
@@ -139,7 +140,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public double evaluate(
         final double[] values, final int begin, final int length) {
-        return Math.exp(
+        return FastMath.exp(
             sumOfLogs.evaluate(values, begin, length) / length);
     }
 

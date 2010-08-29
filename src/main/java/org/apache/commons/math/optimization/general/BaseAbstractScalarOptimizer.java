@@ -33,7 +33,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * This base class handles the boiler-plate methods associated to thresholds
  * settings, iterations and evaluations counting.
  * This class is mainly intended to enforce the internal coherence of
- * Commons-Math.
+ * Commons-FastMath.
  * A class that implements an optimization algorithm should inherit from
  * {@link AbstractScalarOptimizer} or from
  * {@link AbstractScalarDifferentiableOptimizer}.

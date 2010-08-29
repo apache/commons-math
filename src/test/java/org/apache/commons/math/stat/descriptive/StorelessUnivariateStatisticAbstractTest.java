@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for {@link StorelessUnivariateStatistic} classes.
@@ -183,7 +184,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
         StorelessUnivariateStatistic replica = null;
 
         // Randomly select a portion of testArray to load first
-        long index = Math.round((Math.random()) * testArray.length);
+        long index = FastMath.round((FastMath.random()) * testArray.length);
 
         // Put first half in master and copy master to replica
         master.incrementAll(testArray, 0, (int) index);

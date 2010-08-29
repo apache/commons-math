@@ -24,6 +24,7 @@ import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for implementing estimators.
@@ -128,7 +129,7 @@ public abstract class AbstractEstimator implements Estimator {
         int index = 0;
         for (int i = 0; i < rows; i++) {
             WeightedMeasurement wm = measurements[i];
-            double factor = -Math.sqrt(wm.getWeight());
+            double factor = -FastMath.sqrt(wm.getWeight());
             for (int j = 0; j < cols; ++j) {
                 jacobian[index++] = factor * wm.getPartial(parameters[j]);
             }
@@ -160,10 +161,10 @@ public abstract class AbstractEstimator implements Estimator {
         for (int i = 0; i < rows; i++, index += cols) {
             WeightedMeasurement wm = measurements[i];
             double residual = wm.getResidual();
-            residuals[i] = Math.sqrt(wm.getWeight()) * residual;
+            residuals[i] = FastMath.sqrt(wm.getWeight()) * residual;
             cost += wm.getWeight() * residual * residual;
         }
-        cost = Math.sqrt(cost);
+        cost = FastMath.sqrt(cost);
 
     }
 
@@ -185,7 +186,7 @@ public abstract class AbstractEstimator implements Estimator {
             double residual = wm[i].getResidual();
             criterion += wm[i].getWeight() * residual * residual;
         }
-        return Math.sqrt(criterion / wm.length);
+        return FastMath.sqrt(criterion / wm.length);
     }
 
     /**
@@ -262,10 +263,10 @@ public abstract class AbstractEstimator implements Estimator {
                     m, p);
         }
         double[] errors = new double[problem.getUnboundParameters().length];
-        final double c = Math.sqrt(getChiSquare(problem) / (m - p));
+        final double c = FastMath.sqrt(getChiSquare(problem) / (m - p));
         double[][] covar = getCovariances(problem);
         for (int i = 0; i < errors.length; ++i) {
-            errors[i] = Math.sqrt(covar[i][i]) * c;
+            errors[i] = FastMath.sqrt(covar[i][i]) * c;
         }
         return errors;
     }

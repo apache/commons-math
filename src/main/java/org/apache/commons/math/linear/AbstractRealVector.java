@@ -27,6 +27,7 @@ import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class provides default basic implementations for many methods in the
@@ -202,7 +203,7 @@ public abstract class AbstractRealVector implements RealVector {
             final double diff = e.getValue() - v.getEntry(e.getIndex());
             d += diff * diff;
         }
-        return Math.sqrt(d);
+        return FastMath.sqrt(d);
     }
 
     /** {@inheritDoc} */
@@ -214,7 +215,7 @@ public abstract class AbstractRealVector implements RealVector {
             final double value = e.getValue();
             sum += value * value;
         }
-        return Math.sqrt(sum);
+        return FastMath.sqrt(sum);
     }
 
     /** {@inheritDoc} */
@@ -223,7 +224,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            norm += Math.abs(e.getValue());
+            norm += FastMath.abs(e.getValue());
         }
         return norm;
     }
@@ -234,7 +235,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            norm = Math.max(norm, Math.abs(e.getValue()));
+            norm = FastMath.max(norm, FastMath.abs(e.getValue()));
         }
         return norm;
     }
@@ -251,7 +252,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d += Math.abs(e.getValue() - v.getEntry(e.getIndex()));
+            d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
         }
         return d;
     }
@@ -263,7 +264,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d += Math.abs(e.getValue() - v[e.getIndex()]);
+            d += FastMath.abs(e.getValue() - v[e.getIndex()]);
         }
         return d;
     }
@@ -275,7 +276,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d = Math.max(Math.abs(e.getValue() - v.getEntry(e.getIndex())), d);
+            d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
         }
         return d;
     }
@@ -287,7 +288,7 @@ public abstract class AbstractRealVector implements RealVector {
         Iterator<Entry> it = iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
-            d = Math.max(Math.abs(e.getValue() - v[e.getIndex()]), d);
+            d = FastMath.max(FastMath.abs(e.getValue() - v[e.getIndex()]), d);
         }
         return d;
     }

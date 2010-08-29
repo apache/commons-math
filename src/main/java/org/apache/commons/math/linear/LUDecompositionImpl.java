@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -123,14 +124,14 @@ public class LUDecompositionImpl implements LUDecomposition {
                 luRow[col] = sum;
 
                 // maintain best permutation choice
-                if (Math.abs(sum) > largest) {
-                    largest = Math.abs(sum);
+                if (FastMath.abs(sum) > largest) {
+                    largest = FastMath.abs(sum);
                     max = row;
                 }
             }
 
             // Singularity check
-            if (Math.abs(lu[max][col]) < singularityThreshold) {
+            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
                 singular = true;
                 return;
             }

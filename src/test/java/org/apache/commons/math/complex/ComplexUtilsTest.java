@@ -18,6 +18,7 @@
 package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -29,7 +30,7 @@ public class ComplexUtilsTest extends TestCase {
     private double inf = Double.POSITIVE_INFINITY;
     private double negInf = Double.NEGATIVE_INFINITY;
     private double nan = Double.NaN;
-    private double pi = Math.PI;
+    private double pi = FastMath.PI;
 
     private Complex negInfInf = new Complex(negInf, inf);
     private Complex infNegInf = new Complex(inf, negInf);

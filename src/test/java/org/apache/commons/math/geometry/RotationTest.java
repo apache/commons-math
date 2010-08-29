@@ -22,6 +22,7 @@ import org.apache.commons.math.geometry.NotARotationMatrixException;
 import org.apache.commons.math.geometry.Rotation;
 import org.apache.commons.math.geometry.RotationOrder;
 import org.apache.commons.math.geometry.Vector3D;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 import junit.framework.*;
@@ -57,29 +58,29 @@ public class RotationTest
 
   public void testAxisAngle() {
 
-    Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * Math.PI / 3);
+    Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3);
     checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_J);
     checkVector(r.applyTo(Vector3D.PLUS_J), Vector3D.PLUS_K);
     checkVector(r.applyTo(Vector3D.PLUS_K), Vector3D.PLUS_I);
-    double s = 1 / Math.sqrt(3);
+    double s = 1 / FastMath.sqrt(3);
     checkVector(r.getAxis(), new Vector3D(s, s, s));
-    checkAngle(r.getAngle(), 2 * Math.PI / 3);
+    checkAngle(r.getAngle(), 2 * FastMath.PI / 3);
 
     try {
-      new Rotation(new Vector3D(0, 0, 0), 2 * Math.PI / 3);
+      new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3);
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     } catch (Exception e) {
       fail("unexpected exception");
     }
 
-    r = new Rotation(Vector3D.PLUS_K, 1.5 * Math.PI);
+    r = new Rotation(Vector3D.PLUS_K, 1.5 * FastMath.PI);
     checkVector(r.getAxis(), new Vector3D(0, 0, -1));
-    checkAngle(r.getAngle(), 0.5 * Math.PI);
+    checkAngle(r.getAngle(), 0.5 * FastMath.PI);
 
-    r = new Rotation(Vector3D.PLUS_J, Math.PI);
+    r = new Rotation(Vector3D.PLUS_J, FastMath.PI);
     checkVector(r.getAxis(), Vector3D.PLUS_J);
-    checkAngle(r.getAngle(), Math.PI);
+    checkAngle(r.getAngle(), FastMath.PI);
 
     checkVector(Rotation.IDENTITY.getAxis(), Vector3D.PLUS_I);
 
@@ -101,7 +102,7 @@ public class RotationTest
     Rotation r = new Rotation(u, v);
     checkVector(r.applyTo(u.scalarMultiply(v.getNorm())), v.scalarMultiply(u.getNorm()));
 
-    checkAngle(new Rotation(u, u.negate()).getAngle(), Math.PI);
+    checkAngle(new Rotation(u, u.negate()).getAngle(), FastMath.PI);
 
     try {
         new Rotation(u, Vector3D.ZERO);
@@ -131,9 +132,9 @@ public class RotationTest
     } else {
       checkVector(axis, Vector3D.MINUS_K);
     }
-    checkAngle(r.getAngle(), Math.PI);
+    checkAngle(r.getAngle(), FastMath.PI);
 
-    double sqrt = Math.sqrt(2) / 2;
+    double sqrt = FastMath.sqrt(2) / 2;
     r = new Rotation(Vector3D.PLUS_I,  Vector3D.PLUS_J,
                      new Vector3D(0.5, 0.5,  sqrt),
                      new Vector3D(0.5, 0.5, -sqrt));
@@ -245,25 +246,25 @@ public class RotationTest
     double d21 = m2[2][1] - m3[2][1];
     double d22 = m2[2][2] - m3[2][2];
 
-    assertTrue(Math.abs(d00) < 6.0e-6);
-    assertTrue(Math.abs(d01) < 6.0e-6);
-    assertTrue(Math.abs(d02) < 6.0e-6);
-    assertTrue(Math.abs(d10) < 6.0e-6);
-    assertTrue(Math.abs(d11) < 6.0e-6);
-    assertTrue(Math.abs(d12) < 6.0e-6);
-    assertTrue(Math.abs(d20) < 6.0e-6);
-    assertTrue(Math.abs(d21) < 6.0e-6);
-    assertTrue(Math.abs(d22) < 6.0e-6);
+    assertTrue(FastMath.abs(d00) < 6.0e-6);
+    assertTrue(FastMath.abs(d01) < 6.0e-6);
+    assertTrue(FastMath.abs(d02) < 6.0e-6);
+    assertTrue(FastMath.abs(d10) < 6.0e-6);
+    assertTrue(FastMath.abs(d11) < 6.0e-6);
+    assertTrue(FastMath.abs(d12) < 6.0e-6);
+    assertTrue(FastMath.abs(d20) < 6.0e-6);
+    assertTrue(FastMath.abs(d21) < 6.0e-6);
+    assertTrue(FastMath.abs(d22) < 6.0e-6);
 
-    assertTrue(Math.abs(d00) > 4.0e-7);
-    assertTrue(Math.abs(d01) > 4.0e-7);
-    assertTrue(Math.abs(d02) > 4.0e-7);
-    assertTrue(Math.abs(d10) > 4.0e-7);
-    assertTrue(Math.abs(d11) > 4.0e-7);
-    assertTrue(Math.abs(d12) > 4.0e-7);
-    assertTrue(Math.abs(d20) > 4.0e-7);
-    assertTrue(Math.abs(d21) > 4.0e-7);
-    assertTrue(Math.abs(d22) > 4.0e-7);
+    assertTrue(FastMath.abs(d00) > 4.0e-7);
+    assertTrue(FastMath.abs(d01) > 4.0e-7);
+    assertTrue(FastMath.abs(d02) > 4.0e-7);
+    assertTrue(FastMath.abs(d10) > 4.0e-7);
+    assertTrue(FastMath.abs(d11) > 4.0e-7);
+    assertTrue(FastMath.abs(d12) > 4.0e-7);
+    assertTrue(FastMath.abs(d20) > 4.0e-7);
+    assertTrue(FastMath.abs(d21) > 4.0e-7);
+    assertTrue(FastMath.abs(d22) > 4.0e-7);
 
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
@@ -271,9 +272,9 @@ public class RotationTest
                      + m3[i][1] * m3[j][1]
                      + m3[i][2] * m3[j][2];
         if (i == j) {
-          assertTrue(Math.abs(m3tm3 - 1.0) < 1.0e-10);
+          assertTrue(FastMath.abs(m3tm3 - 1.0) < 1.0e-10);
         } else {
-          assertTrue(Math.abs(m3tm3) < 1.0e-10);
+          assertTrue(FastMath.abs(m3tm3) < 1.0e-10);
         }
       }
     }
@@ -289,7 +290,7 @@ public class RotationTest
                       { 0.0, -1.0,  0.0 },
                       { 0.0,  0.0, -1.0 } };
     r = new Rotation(m4, 1.0e-7);
-    checkAngle(r.getAngle(), Math.PI);
+    checkAngle(r.getAngle(), FastMath.PI);
 
     try {
       double[][] m5 = { { 0.0, 0.0, 1.0 },
@@ -356,7 +357,7 @@ public class RotationTest
       RotationOrder.YZX, RotationOrder.ZXY, RotationOrder.ZYX
     };
 
-    double[] singularCardanAngle = { Math.PI / 2, -Math.PI / 2 };
+    double[] singularCardanAngle = { FastMath.PI / 2, -FastMath.PI / 2 };
     for (int i = 0; i < CardanOrders.length; ++i) {
       for (int j = 0; j < singularCardanAngle.length; ++j) {
         Rotation r = new Rotation(CardanOrders[i], 0.1, singularCardanAngle[j], 0.3);
@@ -376,7 +377,7 @@ public class RotationTest
             RotationOrder.YZY, RotationOrder.ZXZ, RotationOrder.ZYZ
           };
 
-    double[] singularEulerAngle = { 0, Math.PI };
+    double[] singularEulerAngle = { 0, FastMath.PI };
     for (int i = 0; i < EulerOrders.length; ++i) {
       for (int j = 0; j < singularEulerAngle.length; ++j) {
         Rotation r = new Rotation(EulerOrders[i], 0.1, singularEulerAngle[j], 0.3);
@@ -454,9 +455,9 @@ public class RotationTest
     Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Vector3D u = new Vector3D(Math.cos(lambda) * Math.cos(phi),
-                                    Math.sin(lambda) * Math.cos(phi),
-                                    Math.sin(phi));
+          Vector3D u = new Vector3D(FastMath.cos(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(phi));
           r.applyInverseTo(r.applyTo(u));
           checkVector(u, r.applyInverseTo(r.applyTo(u)));
           checkVector(u, r.applyTo(r.applyInverseTo(u)));
@@ -466,20 +467,20 @@ public class RotationTest
     r = Rotation.IDENTITY;
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Vector3D u = new Vector3D(Math.cos(lambda) * Math.cos(phi),
-                                    Math.sin(lambda) * Math.cos(phi),
-                                    Math.sin(phi));
+          Vector3D u = new Vector3D(FastMath.cos(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(phi));
           checkVector(u, r.applyInverseTo(r.applyTo(u)));
           checkVector(u, r.applyTo(r.applyInverseTo(u)));
       }
     }
 
-    r = new Rotation(Vector3D.PLUS_K, Math.PI);
+    r = new Rotation(Vector3D.PLUS_K, FastMath.PI);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
       for (double phi = -1.55; phi < 1.55; phi += 0.2) {
-          Vector3D u = new Vector3D(Math.cos(lambda) * Math.cos(phi),
-                                    Math.sin(lambda) * Math.cos(phi),
-                                    Math.sin(phi));
+          Vector3D u = new Vector3D(FastMath.cos(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(lambda) * FastMath.cos(phi),
+                                    FastMath.sin(phi));
           checkVector(u, r.applyInverseTo(r.applyTo(u)));
           checkVector(u, r.applyTo(r.applyInverseTo(u)));
       }

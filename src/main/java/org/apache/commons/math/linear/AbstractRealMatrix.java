@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Basic implementation of RealMatrix methods regardless of the underlying storage.
@@ -213,9 +214,9 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
             /** {@inheritDoc} */
             public void visit(final int row, final int column, final double value) {
-                columnSum += Math.abs(value);
+                columnSum += FastMath.abs(value);
                 if (row == endRow) {
-                    maxColSum = Math.max(maxColSum, columnSum);
+                    maxColSum = FastMath.max(maxColSum, columnSum);
                     columnSum = 0;
                 }
             }
@@ -249,7 +250,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
             /** {@inheritDoc} */
             public double end() {
-                return Math.sqrt(sum);
+                return FastMath.sqrt(sum);
             }
 
         });

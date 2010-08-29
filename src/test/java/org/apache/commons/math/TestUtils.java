@@ -34,6 +34,7 @@ import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * @version $Revision$ $Date$
@@ -173,7 +174,7 @@ public class TestUtils {
         } else if (expected == 0.0) {
             Assert.assertEquals(msg, actual, expected, relativeError);
         } else {
-            double absError = Math.abs(expected) * relativeError;
+            double absError = FastMath.abs(expected) * relativeError;
             Assert.assertEquals(msg, expected, actual, absError);
         }
     }

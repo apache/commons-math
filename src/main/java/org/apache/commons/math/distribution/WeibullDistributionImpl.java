@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
@@ -86,7 +87,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - Math.exp(-Math.pow(x / scale, shape));
+            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
         }
         return ret;
     }
@@ -121,16 +122,16 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         }
 
         final double xscale = x / scale;
-        final double xscalepow = Math.pow(xscale, shape - 1);
+        final double xscalepow = FastMath.pow(xscale, shape - 1);
 
         /*
-         * Math.pow(x / scale, shape) =
-         * Math.pow(xscale, shape) =
-         * Math.pow(xscale, shape - 1) * xscale
+         * FastMath.pow(x / scale, shape) =
+         * FastMath.pow(xscale, shape) =
+         * FastMath.pow(xscale, shape - 1) * xscale
          */
         final double xscalepowshape = xscalepow * xscale;
 
-        return (shape / scale) * xscalepow * Math.exp(-xscalepowshape);
+        return (shape / scale) * xscalepow * FastMath.exp(-xscalepowshape);
     }
 
     /**
@@ -156,7 +157,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = scale * Math.pow(-Math.log(1.0 - p), 1.0 / shape);
+            ret = scale * FastMath.pow(-FastMath.log(1.0 - p), 1.0 / shape);
         }
         return ret;
     }
@@ -244,7 +245,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getInitialDomain(double p) {
         // use median
-        return Math.pow(scale * Math.log(2.0), 1.0 / shape);
+        return FastMath.pow(scale * FastMath.log(2.0), 1.0 / shape);
     }
 
     /**

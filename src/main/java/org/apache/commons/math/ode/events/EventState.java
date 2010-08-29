@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 /** This class handles the state for one {@link EventHandler
  * event handler} during integration steps.
@@ -95,7 +96,7 @@ public class EventState {
                       final double convergence, final int maxIterationCount) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
-        this.convergence       = Math.abs(convergence);
+        this.convergence       = FastMath.abs(convergence);
         this.maxIterationCount = maxIterationCount;
 
         // some dummy values ...
@@ -171,7 +172,7 @@ public class EventState {
 
             forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
-            final int    n  = Math.max(1, (int) Math.ceil(Math.abs(t1 - t0) / maxCheckInterval));
+            final int    n  = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(t1 - t0) / maxCheckInterval));
             final double h  = (t1 - t0) / n;
 
             double ta = t0;
@@ -227,15 +228,15 @@ public class EventState {
                     solver.setAbsoluteAccuracy(convergence);
                     solver.setMaximalIterationCount(maxIterationCount);
                     final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
-                    if ((Math.abs(root - ta) <= convergence) &&
-                         (Math.abs(root - previousEventTime) <= convergence)) {
+                    if ((FastMath.abs(root - ta) <= convergence) &&
+                         (FastMath.abs(root - previousEventTime) <= convergence)) {
                         // we have either found nothing or found (again ?) a past event, we simply ignore it
                         ta = tb;
                         ga = gb;
                     } else if (Double.isNaN(previousEventTime) ||
-                               (Math.abs(previousEventTime - root) > convergence)) {
+                               (FastMath.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
-                        if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
+                        if (pendingEvent && (FastMath.abs(t1 - pendingEventTime) <= convergence)) {
                             // we were already waiting for this event which was
                             // found during a previous call for a step that was
                             // rejected, this step must now be accepted since it

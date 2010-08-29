@@ -31,6 +31,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -356,8 +357,8 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @return the index of the bin containing the value
      */
     private int findBin(double value) {
-        return Math.min(
-                Math.max((int) Math.ceil((value- min) / delta) - 1, 0),
+        return FastMath.min(
+                FastMath.max((int) FastMath.ceil((value- min) / delta) - 1, 0),
                 binCount - 1);
         }
 
@@ -374,7 +375,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
 
         // Start with a uniformly distributed random number in (0,1)
-        double x = Math.random();
+        double x = FastMath.random();
 
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {

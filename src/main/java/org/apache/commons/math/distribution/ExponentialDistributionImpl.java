@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link ExponentialDistribution}.
@@ -120,7 +121,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
         if (x < 0) {
             return 0;
         }
-        return Math.exp(-x / mean) / mean;
+        return FastMath.exp(-x / mean) / mean;
     }
 
     /**
@@ -143,7 +144,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
         if (x <= 0.0) {
             ret = 0.0;
         } else {
-            ret = 1.0 - Math.exp(-x / mean);
+            ret = 1.0 - FastMath.exp(-x / mean);
         }
         return ret;
     }
@@ -170,7 +171,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
         } else if (p == 1.0) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = -mean * Math.log(1.0 - p);
+            ret = -mean * FastMath.log(1.0 - p);
         }
 
         return ret;

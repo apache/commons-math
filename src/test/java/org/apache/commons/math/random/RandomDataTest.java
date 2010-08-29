@@ -46,6 +46,7 @@ import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the RandomData class.
@@ -303,7 +304,7 @@ public class RandomDataTest extends RetryTestCase {
         while (!widthSufficient) {
             lowerBinMass = poissonDistribution.cumulativeProbability(lower, lower + binWidth - 1);
             upperBinMass = poissonDistribution.cumulativeProbability(upper - binWidth + 1, upper);
-            widthSufficient = Math.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
+            widthSufficient = FastMath.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
             binWidth++;
         }
 
@@ -563,7 +564,7 @@ public class RandomDataTest extends RetryTestCase {
          * t-test at .001-level TODO: replace with externalized t-test, with
          * test statistic defined in TestStatistic
          */
-        assertTrue(Math.abs(xbar) / (s / Math.sqrt(n)) < 3.29);
+        assertTrue(FastMath.abs(xbar) / (s / FastMath.sqrt(n)) < 3.29);
     }
 
     /** test failure modes and distribution of nextExponential() */

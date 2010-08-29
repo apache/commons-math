@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -118,8 +119,8 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 final double lIJ = lI[j];
                 final double lJI = lJ[i];
                 final double maxDelta =
-                    relativeSymmetryThreshold * Math.max(Math.abs(lIJ), Math.abs(lJI));
-                if (Math.abs(lIJ - lJI) > maxDelta) {
+                    relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
+                if (FastMath.abs(lIJ - lJI) > maxDelta) {
                     throw new NotSymmetricMatrixException();
                 }
                 lJ[i] = 0;
@@ -136,7 +137,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 throw new NotPositiveDefiniteMatrixException();
             }
 
-            ltI[i] = Math.sqrt(ltI[i]);
+            ltI[i] = FastMath.sqrt(ltI[i]);
             final double inverse = 1.0 / ltI[i];
 
             for (int q = order - 1; q > i; --q) {

@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-375" due-to="Bill Rossi">
+        Added faster and more accurate version of traditional mathematical functions in a FastMath
+        class intended to be a drop-in replacement for java.util.Math at source-level. Some functions
+        still directly delegates to Math but this will improve with time. Some functions like exp
+        may be twice as fast (even 3 times faster on some processors). Sine, cosine or power functions
+        show typical speedups of 1.5 times faster or more. 
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-386">
         Added R-squared and adjusted R-squared statistics to OLSMultipleLinearRegression.
       </action>

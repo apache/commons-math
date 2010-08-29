@@ -149,7 +149,7 @@ public abstract class ContinuedFraction {
                 double scaleFactor = 1d;
                 double lastScaleFactor = 1d;
                 final int maxPower = 5;
-                final double scale = Math.max(a,b);
+                final double scale = FastMath.max(a,b);
                 if (scale <= 0) {  // Can't scale
                     throw new ConvergenceException(
                             LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
@@ -187,7 +187,7 @@ public abstract class ContinuedFraction {
                   LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
                   x);
             }
-            relativeError = Math.abs(r / c - 1.0);
+            relativeError = FastMath.abs(r / c - 1.0);
 
             // prepare for next iteration
             c = p2 / q2;

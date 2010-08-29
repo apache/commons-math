@@ -21,6 +21,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 public class FractionFormatTest extends TestCase {
@@ -296,6 +298,6 @@ public class FractionFormatTest extends TestCase {
     }
 
     public void testDoubleFormat() {
-        assertEquals("355 / 113", improperFormat.format(Math.PI));
+        assertEquals("355 / 113", improperFormat.format(FastMath.PI));
     }
 }

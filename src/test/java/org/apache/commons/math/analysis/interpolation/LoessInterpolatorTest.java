@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -77,12 +78,12 @@ public class LoessInterpolatorTest {
         double fitResidualSum = 0;
 
         for(int i = 0; i < numPoints; ++i) {
-            double expected = Math.sin(xval[i]);
+            double expected = FastMath.sin(xval[i]);
             double noisy = yval[i];
             double fit = res[i];
 
-            noisyResidualSum += Math.pow(noisy - expected, 2);
-            fitResidualSum += Math.pow(fit - expected, 2);
+            noisyResidualSum += FastMath.pow(noisy - expected, 2);
+            fitResidualSum += FastMath.pow(fit - expected, 2);
         }
 
         Assert.assertTrue(fitResidualSum < noisyResidualSum);
@@ -110,7 +111,7 @@ public class LoessInterpolatorTest {
             double[] res = li.smooth(xval, yval);
 
             for (int j = 1; j < res.length; ++j) {
-                variances[i] += Math.pow(res[j] - res[j-1], 2);
+                variances[i] += FastMath.pow(res[j] - res[j-1], 2);
             }
         }
 
@@ -143,7 +144,7 @@ public class LoessInterpolatorTest {
             double[] res = li.smooth(xval, yval);
 
             for (int j = 1; j < res.length; ++j) {
-                variances[i] += Math.abs(res[j] - res[j-1]);
+                variances[i] += FastMath.abs(res[j] - res[j-1]);
             }
         }
 
@@ -242,12 +243,12 @@ public class LoessInterpolatorTest {
     }
 
     private void generateSineData(double[] xval, double[] yval, double xnoise, double ynoise) {
-        double dx = 2 * Math.PI / xval.length;
+        double dx = 2 * FastMath.PI / xval.length;
         double x = 0;
         for(int i = 0; i < xval.length; ++i) {
             xval[i] = x;
-            yval[i] = Math.sin(x) + (2 * Math.random() - 1) * ynoise;
-            x += dx * (1 + (2 * Math.random() - 1) * xnoise);
+            yval[i] = FastMath.sin(x) + (2 * FastMath.random() - 1) * ynoise;
+            x += dx * (1 + (2 * FastMath.random() - 1) * xnoise);
         }
     }
 

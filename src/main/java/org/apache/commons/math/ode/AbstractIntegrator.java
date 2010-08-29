@@ -27,6 +27,7 @@ import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class managing common boilerplate for all integrators.
@@ -206,10 +207,10 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                     LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y.length);
         }
 
-        if (Math.abs(t - t0) <= 1.0e-12 * Math.max(Math.abs(t0), Math.abs(t))) {
+        if (FastMath.abs(t - t0) <= 1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t))) {
             throw new IntegratorException(
                     LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
-                    Math.abs(t - t0));
+                    FastMath.abs(t - t0));
         }
 
     }
@@ -236,7 +237,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         }
         newManager.addEventHandler(new EndTimeChecker(endTime),
                                    Double.POSITIVE_INFINITY,
-                                   Math.ulp(Math.max(Math.abs(startTime), Math.abs(endTime))),
+                                   FastMath.ulp(FastMath.max(FastMath.abs(startTime), FastMath.abs(endTime))),
                                    100);
         return newManager;
     }

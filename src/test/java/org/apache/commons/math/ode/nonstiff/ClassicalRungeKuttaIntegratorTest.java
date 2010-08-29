@@ -33,6 +33,7 @@ import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 public class ClassicalRungeKuttaIntegratorTest
   extends TestCase {
@@ -69,7 +70,7 @@ public class ClassicalRungeKuttaIntegratorTest
       double finalT = integrator.integrate(ode, t0, y0, tEvent, y);
       Assert.assertEquals(tEvent, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * Math.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * FastMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
       integrator.addEventHandler(new EventHandler() {
@@ -89,7 +90,7 @@ public class ClassicalRungeKuttaIntegratorTest
       finalT = integrator.integrate(ode, t0, y0, tEvent + 120, y);
       Assert.assertEquals(tEvent + 120, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * Math.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * FastMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
   }
@@ -137,7 +138,7 @@ public class ClassicalRungeKuttaIntegratorTest
       for (int i = 4; i < 10; ++i) {
 
         TestProblemAbstract pb = problems[k].copy();
-        double step = (pb.getFinalTime() - pb.getInitialTime()) * Math.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * FastMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -156,7 +157,7 @@ public class ClassicalRungeKuttaIntegratorTest
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < Math.abs(previousError));
+          assertTrue(error < FastMath.abs(previousError));
         }
         previousError = error;
         assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
@@ -208,7 +209,7 @@ public class ClassicalRungeKuttaIntegratorTest
     throws DerivativeException, IntegratorException {
 
     TestProblem5 pb = new TestProblem5();
-    double step = Math.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
+    double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
 
     FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
     TestProblemHandler handler = new TestProblemHandler(pb, integ);

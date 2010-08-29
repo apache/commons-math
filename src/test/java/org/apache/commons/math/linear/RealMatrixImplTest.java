@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link RealMatrixImpl} class.
@@ -153,8 +154,8 @@ public final class RealMatrixImplTest extends TestCase {
     public void testFrobeniusNorm() {
         RealMatrixImpl m = new RealMatrixImpl(testData);
         RealMatrixImpl m2 = new RealMatrixImpl(testData2);
-        assertEquals("testData Frobenius norm", Math.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
-        assertEquals("testData2 Frobenius norm", Math.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData Frobenius norm", FastMath.sqrt(117.0), m.getFrobeniusNorm(), entryTolerance);
+        assertEquals("testData2 Frobenius norm", FastMath.sqrt(52.0), m2.getFrobeniusNorm(), entryTolerance);
     }
 
      /** test m-n = m + -n */

@@ -18,6 +18,7 @@
 package org.apache.commons.math.geometry;
 
 import org.apache.commons.math.geometry.Vector3D;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -29,9 +30,9 @@ public class Vector3DTest
   }
 
   public void testConstructors() {
-      double r = Math.sqrt(2) /2;
-      checkVector(new Vector3D(2, new Vector3D(Math.PI / 3, -Math.PI / 4)),
-                  r, r * Math.sqrt(3), -2 * r);
+      double r = FastMath.sqrt(2) /2;
+      checkVector(new Vector3D(2, new Vector3D(FastMath.PI / 3, -FastMath.PI / 4)),
+                  r, r * FastMath.sqrt(3), -2 * r);
       checkVector(new Vector3D(2, Vector3D.PLUS_I,
                               -3, Vector3D.MINUS_K),
                   2, 0, 3);
@@ -48,9 +49,9 @@ public class Vector3DTest
 
   public void testCoordinates() {
     Vector3D v = new Vector3D(1, 2, 3);
-    assertTrue(Math.abs(v.getX() - 1) < 1.0e-12);
-    assertTrue(Math.abs(v.getY() - 2) < 1.0e-12);
-    assertTrue(Math.abs(v.getZ() - 3) < 1.0e-12);
+    assertTrue(FastMath.abs(v.getX() - 1) < 1.0e-12);
+    assertTrue(FastMath.abs(v.getY() - 2) < 1.0e-12);
+    assertTrue(FastMath.abs(v.getZ() - 3) < 1.0e-12);
   }
 
   public void testNorm1() {
@@ -60,7 +61,7 @@ public class Vector3DTest
 
   public void testNorm() {
       assertEquals(0.0, Vector3D.ZERO.getNorm());
-      assertEquals(Math.sqrt(14), new Vector3D(1, 2, 3).getNorm(), 1.0e-12);
+      assertEquals(FastMath.sqrt(14), new Vector3D(1, 2, 3).getNorm(), 1.0e-12);
     }
 
   public void testNormInf() {
@@ -80,7 +81,7 @@ public class Vector3DTest
       Vector3D v1 = new Vector3D(1, -2, 3);
       Vector3D v2 = new Vector3D(-4, 2, 0);
       assertEquals(0.0, Vector3D.distance(Vector3D.MINUS_I, Vector3D.MINUS_I), 0);
-      assertEquals(Math.sqrt(50), Vector3D.distance(v1, v2), 1.0e-12);
+      assertEquals(FastMath.sqrt(50), Vector3D.distance(v1, v2), 1.0e-12);
       assertEquals(v1.subtract(v2).getNorm(), Vector3D.distance(v1, v2), 1.0e-12);
   }
 
@@ -137,13 +138,13 @@ public class Vector3DTest
     Vector3D v1 = new Vector3D(2, 1, -4);
     Vector3D v2 = new Vector3D(3, 1, -1);
 
-    assertTrue(Math.abs(Vector3D.dotProduct(v1, v2) - 11) < 1.0e-12);
+    assertTrue(FastMath.abs(Vector3D.dotProduct(v1, v2) - 11) < 1.0e-12);
 
     Vector3D v3 = Vector3D.crossProduct(v1, v2);
     checkVector(v3, 3, -10, -1);
 
-    assertTrue(Math.abs(Vector3D.dotProduct(v1, v3)) < 1.0e-12);
-    assertTrue(Math.abs(Vector3D.dotProduct(v2, v3)) < 1.0e-12);
+    assertTrue(FastMath.abs(Vector3D.dotProduct(v1, v3)) < 1.0e-12);
+    assertTrue(FastMath.abs(Vector3D.dotProduct(v2, v3)) < 1.0e-12);
 
   }
 
@@ -151,14 +152,14 @@ public class Vector3DTest
 
     assertEquals(0,           Vector3D.PLUS_I.getAlpha(), 1.0e-10);
     assertEquals(0,           Vector3D.PLUS_I.getDelta(), 1.0e-10);
-    assertEquals(Math.PI / 2, Vector3D.PLUS_J.getAlpha(), 1.0e-10);
+    assertEquals(FastMath.PI / 2, Vector3D.PLUS_J.getAlpha(), 1.0e-10);
     assertEquals(0,           Vector3D.PLUS_J.getDelta(), 1.0e-10);
     assertEquals(0,           Vector3D.PLUS_K.getAlpha(), 1.0e-10);
-    assertEquals(Math.PI / 2, Vector3D.PLUS_K.getDelta(), 1.0e-10);
+    assertEquals(FastMath.PI / 2, Vector3D.PLUS_K.getDelta(), 1.0e-10);
 
     Vector3D u = new Vector3D(-1, 1, -1);
-    assertEquals(3 * Math.PI /4, u.getAlpha(), 1.0e-10);
-    assertEquals(-1.0 / Math.sqrt(3), Math.sin(u.getDelta()), 1.0e-10);
+    assertEquals(3 * FastMath.PI /4, u.getAlpha(), 1.0e-10);
+    assertEquals(-1.0 / FastMath.sqrt(3), FastMath.sin(u.getDelta()), 1.0e-10);
 
   }
 
@@ -167,9 +168,9 @@ public class Vector3DTest
 
     Vector3D  k = v1.normalize();
     Vector3D  i = k.orthogonal();
-    Vector3D v2 = k.scalarMultiply(Math.cos(1.2)).add(i.scalarMultiply(Math.sin(1.2)));
+    Vector3D v2 = k.scalarMultiply(FastMath.cos(1.2)).add(i.scalarMultiply(FastMath.sin(1.2)));
 
-    assertTrue(Math.abs(Vector3D.angle(v1, v2) - 1.2) < 1.0e-12);
+    assertTrue(FastMath.abs(Vector3D.angle(v1, v2) - 1.2) < 1.0e-12);
 
   }
 

@@ -17,6 +17,7 @@
 package org.apache.commons.math.transform;
 
 import org.apache.commons.math.analysis.*;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
@@ -52,7 +53,7 @@ public final class FastCosineTransformerTest extends TestCase {
             assertEquals(x[i], result[i], tolerance);
         }
 
-        FastFourierTransformer.scaleArray(x, Math.sqrt(0.5 * (x.length-1)));
+        FastFourierTransformer.scaleArray(x, FastMath.sqrt(0.5 * (x.length-1)));
 
         result = transformer.transform2(y);
         for (int i = 0; i < result.length; i++) {
@@ -76,13 +77,13 @@ public final class FastCosineTransformerTest extends TestCase {
         double expected[] = { 0.0, 3.26197262739567, 0.0,
                              -2.17958042710327, 0.0, -0.648846697642915,
                               0.0, -0.433545502649478, 0.0 };
-        min = 0.0; max = 2.0 * Math.PI * N / (N-1);
+        min = 0.0; max = 2.0 * FastMath.PI * N / (N-1);
         result = transformer.transform(f, min, max, N);
         for (int i = 0; i < N; i++) {
             assertEquals(expected[i], result[i], tolerance);
         }
 
-        min = -Math.PI; max = Math.PI * (N+1) / (N-1);
+        min = -FastMath.PI; max = FastMath.PI * (N+1) / (N-1);
         result = transformer.transform(f, min, max, N);
         for (int i = 0; i < N; i++) {
             assertEquals(-expected[i], result[i], tolerance);

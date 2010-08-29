@@ -24,6 +24,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -84,7 +85,7 @@ public class MultiDirectionalTest {
           public double value(double[] variables) throws FunctionEvaluationException {
               final double x = variables[0];
               final double y = variables[1];
-              return ((x == 0) || (y == 0)) ? 0 : (Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y));
+              return ((x == 0) || (y == 0)) ? 0 : (FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y));
           }
       };
 
@@ -238,7 +239,7 @@ public class MultiDirectionalTest {
       public double value(double[] point) {
           final double x = point[0], y = point[1];
           final double twoS2 = 2.0 * std * std;
-          return 1.0 / (twoS2 * Math.PI) * Math.exp(-(x * x + y * y) / twoS2);
+          return 1.0 / (twoS2 * FastMath.PI) * FastMath.exp(-(x * x + y * y) / twoS2);
       }
   }
 

@@ -18,6 +18,7 @@ package org.apache.commons.math.transform;
 
 import org.apache.commons.math.analysis.*;
 import org.apache.commons.math.complex.*;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
@@ -62,7 +63,7 @@ public final class FastFourierTransformerTest extends TestCase {
         }
 
         double x2[] = {10.4, 21.6, 40.8, 13.6, 23.2, 32.8, 13.6, 19.2};
-        FastFourierTransformer.scaleArray(x2, 1.0 / Math.sqrt(x2.length));
+        FastFourierTransformer.scaleArray(x2, 1.0 / FastMath.sqrt(x2.length));
         Complex y2[] = y;
 
         result = transformer.transform2(y2);
@@ -119,7 +120,7 @@ public final class FastFourierTransformerTest extends TestCase {
         Complex result[]; int N = 1 << 8;
         double min, max, tolerance = 1E-12;
 
-        min = 0.0; max = 2.0 * Math.PI;
+        min = 0.0; max = 2.0 * FastMath.PI;
         result = transformer.transform(f, min, max, N);
         assertEquals(0.0, result[1].getReal(), tolerance);
         assertEquals(-(N >> 1), result[1].getImaginary(), tolerance);
@@ -130,7 +131,7 @@ public final class FastFourierTransformerTest extends TestCase {
             assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
 
-        min = -Math.PI; max = Math.PI;
+        min = -FastMath.PI; max = FastMath.PI;
         result = transformer.inversetransform(f, min, max, N);
         assertEquals(0.0, result[1].getReal(), tolerance);
         assertEquals(-0.5, result[1].getImaginary(), tolerance);

@@ -18,6 +18,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for NormalDistribution.
@@ -121,7 +122,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     public void testSetMean() throws Exception {
-        double mu = Math.random();
+        double mu = FastMath.random();
         NormalDistribution distribution = (NormalDistribution) getDistribution();
         distribution.setMean(mu);
         verifyQuantiles();
@@ -133,7 +134,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     public void testSetStandardDeviation() throws Exception {
-        double sigma = 0.1d + Math.random();
+        double sigma = 0.1d + FastMath.random();
         NormalDistribution distribution = (NormalDistribution) getDistribution();
         distribution.setStandardDeviation(sigma);
         assertEquals(sigma, distribution.getStandardDeviation(), 0);

@@ -23,6 +23,7 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Abstract base class for implementations of MultipleLinearRegression.
@@ -153,7 +154,7 @@ public abstract class AbstractMultipleLinearRegression implements
         int length = betaVariance[0].length;
         double[] result = new double[length];
         for (int i = 0; i < length; i++) {
-            result[i] = Math.sqrt(sigma * betaVariance[i][i]);
+            result[i] = FastMath.sqrt(sigma * betaVariance[i][i]);
         }
         return result;
     }

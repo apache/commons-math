@@ -23,6 +23,7 @@ import java.util.Iterator;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements the {@link RealVector} interface with a double array.
@@ -384,7 +385,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapPowToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.pow(data[i], d);
+            data[i] = FastMath.pow(data[i], d);
         }
         return this;
     }
@@ -393,7 +394,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapExpToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.exp(data[i]);
+            data[i] = FastMath.exp(data[i]);
         }
         return this;
     }
@@ -402,7 +403,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapExpm1ToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.expm1(data[i]);
+            data[i] = FastMath.expm1(data[i]);
         }
         return this;
     }
@@ -411,7 +412,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapLogToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.log(data[i]);
+            data[i] = FastMath.log(data[i]);
         }
         return this;
     }
@@ -420,7 +421,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapLog10ToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.log10(data[i]);
+            data[i] = FastMath.log10(data[i]);
         }
         return this;
     }
@@ -429,7 +430,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapLog1pToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.log1p(data[i]);
+            data[i] = FastMath.log1p(data[i]);
         }
         return this;
     }
@@ -438,7 +439,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapCoshToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.cosh(data[i]);
+            data[i] = FastMath.cosh(data[i]);
         }
         return this;
     }
@@ -447,7 +448,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapSinhToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.sinh(data[i]);
+            data[i] = FastMath.sinh(data[i]);
         }
         return this;
     }
@@ -456,7 +457,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapTanhToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.tanh(data[i]);
+            data[i] = FastMath.tanh(data[i]);
         }
         return this;
     }
@@ -465,7 +466,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapCosToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.cos(data[i]);
+            data[i] = FastMath.cos(data[i]);
         }
         return this;
     }
@@ -474,7 +475,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapSinToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.sin(data[i]);
+            data[i] = FastMath.sin(data[i]);
         }
         return this;
     }
@@ -483,7 +484,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapTanToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.tan(data[i]);
+            data[i] = FastMath.tan(data[i]);
         }
         return this;
     }
@@ -492,7 +493,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapAcosToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.acos(data[i]);
+            data[i] = FastMath.acos(data[i]);
         }
         return this;
     }
@@ -501,7 +502,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapAsinToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.asin(data[i]);
+            data[i] = FastMath.asin(data[i]);
         }
         return this;
     }
@@ -510,7 +511,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapAtanToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.atan(data[i]);
+            data[i] = FastMath.atan(data[i]);
         }
         return this;
     }
@@ -528,7 +529,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapAbsToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.abs(data[i]);
+            data[i] = FastMath.abs(data[i]);
         }
         return this;
     }
@@ -537,7 +538,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapSqrtToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.sqrt(data[i]);
+            data[i] = FastMath.sqrt(data[i]);
         }
         return this;
     }
@@ -546,7 +547,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapCbrtToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.cbrt(data[i]);
+            data[i] = FastMath.cbrt(data[i]);
         }
         return this;
     }
@@ -555,7 +556,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapCeilToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.ceil(data[i]);
+            data[i] = FastMath.ceil(data[i]);
         }
         return this;
     }
@@ -564,7 +565,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapFloorToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.floor(data[i]);
+            data[i] = FastMath.floor(data[i]);
         }
         return this;
     }
@@ -573,7 +574,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapRintToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.rint(data[i]);
+            data[i] = FastMath.rint(data[i]);
         }
         return this;
     }
@@ -582,7 +583,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapSignumToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.signum(data[i]);
+            data[i] = FastMath.signum(data[i]);
         }
         return this;
     }
@@ -591,7 +592,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector mapUlpToSelf() {
         for (int i = 0; i < data.length; i++) {
-            data[i] = Math.ulp(data[i]);
+            data[i] = FastMath.ulp(data[i]);
         }
         return this;
     }
@@ -735,7 +736,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         for (double a : data) {
             sum += a * a;
         }
-        return Math.sqrt(sum);
+        return FastMath.sqrt(sum);
     }
 
     /** {@inheritDoc} */
@@ -743,7 +744,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public double getL1Norm() {
         double sum = 0;
         for (double a : data) {
-            sum += Math.abs(a);
+            sum += FastMath.abs(a);
         }
         return sum;
     }
@@ -753,7 +754,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public double getLInfNorm() {
         double max = 0;
         for (double a : data) {
-            max = Math.max(max, Math.abs(a));
+            max = FastMath.max(max, FastMath.abs(a));
         }
         return max;
     }
@@ -771,7 +772,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
                 final double delta = data[i] - v.getEntry(i);
                 sum += delta * delta;
             }
-            return Math.sqrt(sum);
+            return FastMath.sqrt(sum);
         }
     }
 
@@ -785,7 +786,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
             final double delta = data[i] - v[i];
             sum += delta * delta;
         }
-        return Math.sqrt(sum);
+        return FastMath.sqrt(sum);
     }
 
    /**
@@ -817,7 +818,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
             double sum = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                sum += Math.abs(delta);
+                sum += FastMath.abs(delta);
             }
             return sum;
         }
@@ -831,7 +832,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         double sum = 0;
         for (int i = 0; i < data.length; ++i) {
             final double delta = data[i] - v[i];
-            sum += Math.abs(delta);
+            sum += FastMath.abs(delta);
         }
         return sum;
     }
@@ -865,7 +866,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
             double max = 0;
             for (int i = 0; i < data.length; ++i) {
                 final double delta = data[i] - v.getEntry(i);
-                max = Math.max(max, Math.abs(delta));
+                max = FastMath.max(max, FastMath.abs(delta));
             }
             return max;
         }
@@ -879,7 +880,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         double max = 0;
         for (int i = 0; i < data.length; ++i) {
             final double delta = data[i] - v[i];
-            max = Math.max(max, Math.abs(delta));
+            max = FastMath.max(max, FastMath.abs(delta));
         }
         return max;
     }

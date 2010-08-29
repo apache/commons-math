@@ -22,6 +22,7 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 public class EigenDecompositionImplTest extends TestCase {
@@ -377,11 +378,11 @@ public class EigenDecompositionImplTest extends TestCase {
         });
         EigenDecomposition ed = new EigenDecompositionImpl(indefinite, MathUtils.SAFE_MIN);
         checkEigenValues((new double[] {2, 1, -1}), ed, 1E-12);
-        double isqrt3 = 1/Math.sqrt(3.0);
+        double isqrt3 = 1/FastMath.sqrt(3.0);
         checkEigenVector((new double[] {isqrt3,isqrt3,-isqrt3}), ed, 1E-12);
-        double isqrt2 = 1/Math.sqrt(2.0);
+        double isqrt2 = 1/FastMath.sqrt(2.0);
         checkEigenVector((new double[] {0.0,-isqrt2,-isqrt2}), ed, 1E-12);
-        double isqrt6 = 1/Math.sqrt(6.0);
+        double isqrt6 = 1/FastMath.sqrt(6.0);
         checkEigenVector((new double[] {2*isqrt6,-isqrt6,isqrt6}), ed, 1E-12);
     }
     /**
@@ -408,7 +409,7 @@ public class EigenDecompositionImplTest extends TestCase {
        boolean found = false;
        int i = 0;
        while (!found && i < searchArray.length) {
-           if (Math.abs(value - searchArray[i]) < tolerance) {
+           if (FastMath.abs(value - searchArray[i]) < tolerance) {
                found = true;
            }
            i++;
@@ -441,11 +442,11 @@ public class EigenDecompositionImplTest extends TestCase {
             while (matching && j < searchMatrix.getRowDimension()) {
                 double colEntry = searchMatrix.getEntry(j, i);
                 // Use the first entry where both are non-zero as scalar
-                if (Math.abs(multiplier - 1.0) <= Math.ulp(1.0) && Math.abs(colEntry) > 1E-14
-                        && Math.abs(column[j]) > 1e-14) {
+                if (FastMath.abs(multiplier - 1.0) <= FastMath.ulp(1.0) && FastMath.abs(colEntry) > 1E-14
+                        && FastMath.abs(column[j]) > 1e-14) {
                     multiplier = colEntry / column[j];
                 }
-                if (Math.abs(column[j] * multiplier - colEntry) > tolerance) {
+                if (FastMath.abs(column[j] * multiplier - colEntry) > tolerance) {
                     matching = false;
                 }
                 j++;
@@ -508,7 +509,7 @@ public class EigenDecompositionImplTest extends TestCase {
                 for (final double dataIJ : dataI) {
                     norm2 += dataIJ * dataIJ;
                 }
-                final double inv = 1.0 / Math.sqrt(norm2);
+                final double inv = 1.0 / FastMath.sqrt(norm2);
                 for (int j = 0; j < size; ++j) {
                     dataI[j] *= inv;
                 }
@@ -523,7 +524,7 @@ public class EigenDecompositionImplTest extends TestCase {
     public static RealMatrix createDiagonalMatrix(final double[] diagonal,
                                                   final int rows, final int columns) {
         final double[][] dData = new double[rows][columns];
-        for (int i = 0; i < Math.min(rows, columns); ++i) {
+        for (int i = 0; i < FastMath.min(rows, columns); ++i) {
             dData[i][i] = diagonal[i];
         }
         return MatrixUtils.createRealMatrix(dData);

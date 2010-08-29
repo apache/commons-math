@@ -24,6 +24,7 @@ import java.io.ObjectOutput;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements an interpolator for the Gragg-Bulirsch-Stoer
@@ -211,7 +212,7 @@ class GraggBulirschStoerStepInterpolator
         for (int i = 0; i < errfac.length; ++i) {
           final int ip5 = i + 5;
           errfac[i] = 1.0 / (ip5 * ip5);
-          final double e = 0.5 * Math.sqrt (((double) (i + 1)) / ip5);
+          final double e = 0.5 * FastMath.sqrt (((double) (i + 1)) / ip5);
           for (int j = 0; j <= i; ++j) {
             errfac[i] *= e / (j + 1);
           }
@@ -301,7 +302,7 @@ class GraggBulirschStoerStepInterpolator
         final double e = polynoms[currentDegree][i] / scale[i];
         error += e * e;
       }
-      error = Math.sqrt(error / scale.length) * errfac[currentDegree - 5];
+      error = FastMath.sqrt(error / scale.length) * errfac[currentDegree - 5];
     }
     return error;
   }

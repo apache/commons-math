@@ -20,6 +20,7 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -145,23 +146,23 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
             // calculate the new root approximation
             final double x3 = 0.5 * (x1 + x2);
             final double y3 = f.value(x3);
-            if (Math.abs(y3) <= functionValueAccuracy) {
+            if (FastMath.abs(y3) <= functionValueAccuracy) {
                 setResult(x3, i);
                 return result;
             }
             final double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
             final double correction = (MathUtils.sign(y2) * MathUtils.sign(y3)) *
-                                      (x3 - x1) / Math.sqrt(delta);
+                                      (x3 - x1) / FastMath.sqrt(delta);
             final double x = x3 - correction;                // correction != 0
             final double y = f.value(x);
 
             // check for convergence
-            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
-            if (Math.abs(x - oldx) <= tolerance) {
+            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
+            if (FastMath.abs(x - oldx) <= tolerance) {
                 setResult(x, i);
                 return result;
             }
-            if (Math.abs(y) <= functionValueAccuracy) {
+            if (FastMath.abs(y) <= functionValueAccuracy) {
                 setResult(x, i);
                 return result;
             }

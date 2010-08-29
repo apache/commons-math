@@ -45,7 +45,7 @@ public final class MathUtils {
      * 2 &pi;.
      * @since 2.1
      */
-    public static final double TWO_PI = 2 * Math.PI;
+    public static final double TWO_PI = 2 * FastMath.PI;
 
     /** -1.0 cast as a byte. */
     private static final byte  NB = (byte)-1;
@@ -287,7 +287,7 @@ public final class MathUtils {
              result *= (double)(n - k + i) / (double)i;
         }
 
-        return Math.floor(result + 0.5);
+        return FastMath.floor(result + 0.5);
     }
 
     /**
@@ -314,7 +314,7 @@ public final class MathUtils {
             return 0;
         }
         if ((k == 1) || (k == n - 1)) {
-            return Math.log(n);
+            return FastMath.log(n);
         }
 
         /*
@@ -322,7 +322,7 @@ public final class MathUtils {
          * return the log of the exact value
          */
         if (n < 67) {
-            return Math.log(binomialCoefficient(n,k));
+            return FastMath.log(binomialCoefficient(n,k));
         }
 
         /*
@@ -330,7 +330,7 @@ public final class MathUtils {
          * overflow binomialCoefficientDouble
          */
         if (n < 1030) {
-            return Math.log(binomialCoefficientDouble(n, k));
+            return FastMath.log(binomialCoefficientDouble(n, k));
         }
 
         if (k > n / 2) {
@@ -344,12 +344,12 @@ public final class MathUtils {
 
         // n!/(n-k)!
         for (int i = n - k + 1; i <= n; i++) {
-            logSum += Math.log(i);
+            logSum += FastMath.log(i);
         }
 
         // divide by k!
         for (int i = 2; i <= k; i++) {
-            logSum -= Math.log(i);
+            logSum -= FastMath.log(i);
         }
 
         return logSum;
@@ -402,7 +402,7 @@ public final class MathUtils {
      * @return hyperbolic cosine of x
      */
     public static double cosh(double x) {
-        return (Math.exp(x) + Math.exp(-x)) / 2.0;
+        return (FastMath.exp(x) + FastMath.exp(-x)) / 2.0;
     }
 
     /**
@@ -445,7 +445,7 @@ public final class MathUtils {
      * @return {@code true} if the values are equal or within range of each other.
      */
     public static boolean equals(double x, double y, double eps) {
-        return equals(x, y, 1) || Math.abs(y - x) <= eps;
+        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
     }
 
     /**
@@ -459,7 +459,7 @@ public final class MathUtils {
      * or both are NaN.
      */
     public static boolean equalsIncludingNaN(double x, double y, double eps) {
-        return equalsIncludingNaN(x, y) || (Math.abs(y - x) <= eps);
+        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
     }
 
     /**
@@ -495,7 +495,7 @@ public final class MathUtils {
             yInt = SGN_MASK - yInt;
         }
 
-        final boolean isEqual = Math.abs(xInt - yInt) <= maxUlps;
+        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
 
         return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
     }
@@ -635,7 +635,7 @@ public final class MathUtils {
         if (n < 21) {
             return factorial(n);
         }
-        return Math.floor(Math.exp(factorialLog(n)) + 0.5);
+        return FastMath.floor(FastMath.exp(factorialLog(n)) + 0.5);
     }
 
     /**
@@ -658,11 +658,11 @@ public final class MathUtils {
                   n);
         }
         if (n < 21) {
-            return Math.log(factorial(n));
+            return FastMath.log(factorial(n));
         }
         double logSum = 0;
         for (int i = 2; i <= n; i++) {
-            logSum += Math.log(i);
+            logSum += FastMath.log(i);
         }
         return logSum;
     }
@@ -705,7 +705,7 @@ public final class MathUtils {
                         LocalizedFormats.GCD_OVERFLOW_32_BITS,
                         p, q);
             }
-            return Math.abs(u) + Math.abs(v);
+            return FastMath.abs(u) + FastMath.abs(v);
         }
         // keep u and v negative, as negative integers range down to
         // -2^31, while positive numbers can only be as large as 2^31-1
@@ -794,7 +794,7 @@ public final class MathUtils {
                         LocalizedFormats.GCD_OVERFLOW_64_BITS,
                         p, q);
             }
-            return Math.abs(u) + Math.abs(v);
+            return FastMath.abs(u) + FastMath.abs(v);
         }
         // keep u and v negative, as negative integers range down to
         // -2^63, while positive numbers can only be as large as 2^63-1
@@ -964,7 +964,7 @@ public final class MathUtils {
         if (a==0 || b==0){
             return 0;
         }
-        int lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
+        int lcm = FastMath.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Integer.MIN_VALUE) {
             throw MathRuntimeException.createArithmeticException(
                 LocalizedFormats.LCM_OVERFLOW_32_BITS,
@@ -999,7 +999,7 @@ public final class MathUtils {
         if (a==0 || b==0){
             return 0;
         }
-        long lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
+        long lcm = FastMath.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Long.MIN_VALUE){
             throw MathRuntimeException.createArithmeticException(
                 LocalizedFormats.LCM_OVERFLOW_64_BITS,
@@ -1025,7 +1025,7 @@ public final class MathUtils {
      * @since 1.2
      */
     public static double log(double base, double x) {
-        return Math.log(x)/Math.log(base);
+        return FastMath.log(x)/FastMath.log(base);
     }
 
     /**
@@ -1117,45 +1117,11 @@ public final class MathUtils {
      * direction is greater or smaller than d)
      * @return the next machine representable number in the specified direction
      * @since 1.2
+     * @deprecated as of 2.2, replaced by {@link FastMath#nextAfter(double, double)}
      */
+    @Deprecated
     public static double nextAfter(double d, double direction) {
-
-        // handling of some important special cases
-        if (Double.isNaN(d) || Double.isInfinite(d)) {
-                return d;
-        } else if (d == 0) {
-                return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
-        }
-        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
-        // are handled just as normal numbers
-
-        // split the double in raw components
-        long bits     = Double.doubleToLongBits(d);
-        long sign     = bits & 0x8000000000000000L;
-        long exponent = bits & 0x7ff0000000000000L;
-        long mantissa = bits & 0x000fffffffffffffL;
-
-        if (d * (direction - d) >= 0) {
-                // we should increase the mantissa
-                if (mantissa == 0x000fffffffffffffL) {
-                        return Double.longBitsToDouble(sign |
-                                        (exponent + 0x0010000000000000L));
-                } else {
-                        return Double.longBitsToDouble(sign |
-                                        exponent | (mantissa + 1));
-                }
-        } else {
-                // we should decrease the mantissa
-                if (mantissa == 0L) {
-                        return Double.longBitsToDouble(sign |
-                                        (exponent - 0x0010000000000000L) |
-                                        0x000fffffffffffffL);
-                } else {
-                        return Double.longBitsToDouble(sign |
-                                        exponent | (mantissa - 1));
-                }
-        }
-
+        return FastMath.nextAfter(d, direction);
     }
 
     /**
@@ -1190,7 +1156,7 @@ public final class MathUtils {
      * <p>This method has three main uses:</p>
      * <ul>
      *   <li>normalize an angle between 0 and 2&pi;:<br/>
-     *       <code>a = MathUtils.normalizeAngle(a, Math.PI);</code></li>
+     *       <code>a = MathUtils.normalizeAngle(a, FastMath.PI);</code></li>
      *   <li>normalize an angle between -&pi; and +&pi;<br/>
      *       <code>a = MathUtils.normalizeAngle(a, 0.0);</code></li>
      *   <li>compute the angle between two defining angular positions:<br>
@@ -1205,7 +1171,7 @@ public final class MathUtils {
      * @since 1.2
      */
      public static double normalizeAngle(double a, double center) {
-         return a - TWO_PI * Math.floor((a + Math.PI - center) / TWO_PI);
+         return a - TWO_PI * FastMath.floor((a + FastMath.PI - center) / TWO_PI);
      }
 
      /**
@@ -1331,7 +1297,7 @@ public final class MathUtils {
      */
     public static float round(float x, int scale, int roundingMethod) {
         float sign = indicator(x);
-        float factor = (float)Math.pow(10.0f, scale) * sign;
+        float factor = (float)FastMath.pow(10.0f, scale) * sign;
         return (float)roundUnscaled(x * factor, sign, roundingMethod) / factor;
     }
 
@@ -1352,65 +1318,65 @@ public final class MathUtils {
         switch (roundingMethod) {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {
-                unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             } else {
-                unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_DOWN :
-            unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             break;
         case BigDecimal.ROUND_FLOOR :
             if (sign == -1) {
-                unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
             } else {
-                unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_HALF_DOWN : {
             unscaled = nextAfter(unscaled, Double.NEGATIVE_INFINITY);
-            double fraction = unscaled - Math.floor(unscaled);
+            double fraction = unscaled - FastMath.floor(unscaled);
             if (fraction > 0.5) {
-                unscaled = Math.ceil(unscaled);
+                unscaled = FastMath.ceil(unscaled);
             } else {
-                unscaled = Math.floor(unscaled);
+                unscaled = FastMath.floor(unscaled);
             }
             break;
         }
         case BigDecimal.ROUND_HALF_EVEN : {
-            double fraction = unscaled - Math.floor(unscaled);
+            double fraction = unscaled - FastMath.floor(unscaled);
             if (fraction > 0.5) {
-                unscaled = Math.ceil(unscaled);
+                unscaled = FastMath.ceil(unscaled);
             } else if (fraction < 0.5) {
-                unscaled = Math.floor(unscaled);
+                unscaled = FastMath.floor(unscaled);
             } else {
                 // The following equality test is intentional and needed for rounding purposes
-                if (Math.floor(unscaled) / 2.0 == Math.floor(Math
+                if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math
                     .floor(unscaled) / 2.0)) { // even
-                    unscaled = Math.floor(unscaled);
+                    unscaled = FastMath.floor(unscaled);
                 } else { // odd
-                    unscaled = Math.ceil(unscaled);
+                    unscaled = FastMath.ceil(unscaled);
                 }
             }
             break;
         }
         case BigDecimal.ROUND_HALF_UP : {
             unscaled = nextAfter(unscaled, Double.POSITIVE_INFINITY);
-            double fraction = unscaled - Math.floor(unscaled);
+            double fraction = unscaled - FastMath.floor(unscaled);
             if (fraction >= 0.5) {
-                unscaled = Math.ceil(unscaled);
+                unscaled = FastMath.ceil(unscaled);
             } else {
-                unscaled = Math.floor(unscaled);
+                unscaled = FastMath.floor(unscaled);
             }
             break;
         }
         case BigDecimal.ROUND_UNNECESSARY :
-            if (unscaled != Math.floor(unscaled)) {
+            if (unscaled != FastMath.floor(unscaled)) {
                 throw new ArithmeticException("Inexact result from rounding");
             }
             break;
         case BigDecimal.ROUND_UP :
-            unscaled = Math.ceil(nextAfter(unscaled,  Double.POSITIVE_INFINITY));
+            unscaled = FastMath.ceil(nextAfter(unscaled,  Double.POSITIVE_INFINITY));
             break;
         default :
             throw MathRuntimeException.createIllegalArgumentException(
@@ -1530,7 +1496,7 @@ public final class MathUtils {
      * @return hyperbolic sine of x
      */
     public static double sinh(double x) {
-        return (Math.exp(x) - Math.exp(-x)) / 2.0;
+        return (FastMath.exp(x) - FastMath.exp(-x)) / 2.0;
     }
 
     /**
@@ -1787,7 +1753,7 @@ public final class MathUtils {
     public static double distance1(double[] p1, double[] p2) {
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
-            sum += Math.abs(p1[i] - p2[i]);
+            sum += FastMath.abs(p1[i] - p2[i]);
         }
         return sum;
     }
@@ -1802,7 +1768,7 @@ public final class MathUtils {
     public static int distance1(int[] p1, int[] p2) {
       int sum = 0;
       for (int i = 0; i < p1.length; i++) {
-          sum += Math.abs(p1[i] - p2[i]);
+          sum += FastMath.abs(p1[i] - p2[i]);
       }
       return sum;
     }
@@ -1820,7 +1786,7 @@ public final class MathUtils {
             final double dp = p1[i] - p2[i];
             sum += dp * dp;
         }
-        return Math.sqrt(sum);
+        return FastMath.sqrt(sum);
     }
 
     /**
@@ -1836,7 +1802,7 @@ public final class MathUtils {
           final double dp = p1[i] - p2[i];
           sum += dp * dp;
       }
-      return Math.sqrt(sum);
+      return FastMath.sqrt(sum);
     }
 
     /**
@@ -1849,7 +1815,7 @@ public final class MathUtils {
     public static double distanceInf(double[] p1, double[] p2) {
         double max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = Math.max(max, Math.abs(p1[i] - p2[i]));
+            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -1864,7 +1830,7 @@ public final class MathUtils {
     public static int distanceInf(int[] p1, int[] p2) {
         int max = 0;
         for (int i = 0; i < p1.length; i++) {
-            max = Math.max(max, Math.abs(p1[i] - p2[i]));
+            max = FastMath.max(max, FastMath.abs(p1[i] - p2[i]));
         }
         return max;
     }
@@ -2069,5 +2035,5 @@ public final class MathUtils {
     }
     return norm;
 }
-    
+
 }

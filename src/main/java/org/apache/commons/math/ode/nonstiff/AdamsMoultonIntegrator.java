@@ -28,6 +28,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -291,7 +292,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                     interpolatorTmp.storeTime(stepEnd);
                     if (manager.evaluateStep(interpolatorTmp)) {
                         final double dt = manager.getEventTime() - stepStart;
-                        if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                        if (FastMath.abs(dt) <= FastMath.ulp(stepStart)) {
                             // we cannot simply truncate the step, reject the current computation
                             // and let the loop compute another state with the truncated step.
                             // it is so small (much probably exactly 0 due to limited accuracy)
@@ -436,7 +437,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
             for (int i = 0; i < after.length; ++i) {
                 after[i] += previous[i] + scaled[i];
                 if (i < mainSetDimension) {
-                    final double yScale = Math.max(Math.abs(previous[i]), Math.abs(after[i]));
+                    final double yScale = FastMath.max(FastMath.abs(previous[i]), FastMath.abs(after[i]));
                     final double tol = (vecAbsoluteTolerance == null) ?
                                        (scalAbsoluteTolerance + scalRelativeTolerance * yScale) :
                                        (vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * yScale);
@@ -445,7 +446,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
                 }
             }
 
-            return Math.sqrt(error / mainSetDimension);
+            return FastMath.sqrt(error / mainSetDimension);
 
         }
     }

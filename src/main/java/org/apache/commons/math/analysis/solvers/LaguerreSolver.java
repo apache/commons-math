@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -208,9 +209,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return true iff z is the sought-after real zero
      */
     protected boolean isRootOK(double min, double max, Complex z) {
-        double tolerance = Math.max(relativeAccuracy * z.abs(), absoluteAccuracy);
+        double tolerance = FastMath.max(relativeAccuracy * z.abs(), absoluteAccuracy);
         return (isSequence(min, z.getReal(), max)) &&
-               (Math.abs(z.getImaginary()) <= tolerance ||
+               (FastMath.abs(z.getImaginary()) <= tolerance ||
                 z.abs() <= functionValueAccuracy);
     }
 
@@ -336,7 +337,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
             d2v = d2v.multiply(new Complex(2.0, 0.0));
 
             // check for convergence
-            double tolerance = Math.max(relativeAccuracy * z.abs(),
+            double tolerance = FastMath.max(relativeAccuracy * z.abs(),
                                         absoluteAccuracy);
             if ((z.subtract(oldz)).abs() <= tolerance) {
                 resultComputed = true;

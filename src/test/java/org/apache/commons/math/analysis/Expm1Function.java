@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Auxillary class for testing purposes.
@@ -26,14 +27,14 @@ import org.apache.commons.math.FunctionEvaluationException;
 public class Expm1Function implements DifferentiableUnivariateRealFunction {
 
     public double value(double x) throws FunctionEvaluationException {
-        // Math.expm1() is available in jdk 1.5 but not in jdk 1.4.2.
-        return Math.exp(x) - 1.0;
+        // FastMath.expm1() is available in jdk 1.5 but not in jdk 1.4.2.
+        return FastMath.exp(x) - 1.0;
     }
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
             public double value(double x) throws FunctionEvaluationException {
-                return Math.exp(x);
+                return FastMath.exp(x);
             }
         };
     }

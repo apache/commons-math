@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -35,7 +36,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
     protected double geoMean = 12.070589161633011d;
 
     protected double var = 10.00235930735931d;
-    protected double std = Math.sqrt(var);
+    protected double std = FastMath.sqrt(var);
     protected double skew = 1.437423729196190d;
     protected double kurt = 2.377191264804700d;
 
@@ -56,7 +57,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
 
     protected double weightedMean = 12.366995073891626d;
     protected double weightedVar =   9.974760968886391d;
-    protected double weightedStd = Math.sqrt(weightedVar);
+    protected double weightedStd = FastMath.sqrt(weightedVar);
     protected double weightedProduct = 8517647448765288000000d;
     protected double weightedSum = 251.05d;
 

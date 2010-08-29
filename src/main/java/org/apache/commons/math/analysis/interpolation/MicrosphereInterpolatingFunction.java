@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Interpolating function that implements the
@@ -200,14 +201,14 @@ public class MicrosphereInterpolatingFunction
             final RealVector diff = sd.getKey().subtract(p);
             final double diffNorm = diff.getNorm();
 
-            if (Math.abs(diffNorm) < Math.ulp(1d)) {
+            if (FastMath.abs(diffNorm) < FastMath.ulp(1d)) {
                 // No need to interpolate, as the interpolation point is
                 // actually (very close to) one of the sampled points.
                 return sd.getValue();
             }
 
             for (MicrosphereSurfaceElement md : microsphere) {
-                final double w = Math.pow(diffNorm, -brightnessExponent);
+                final double w = FastMath.pow(diffNorm, -brightnessExponent);
                 md.store(cosAngle(diff, md.normal()) * w, sd);
             }
 

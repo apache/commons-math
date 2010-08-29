@@ -23,6 +23,7 @@ import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Cache-friendly implementation of FieldMatrix using a flat arrays to store
@@ -230,11 +231,11 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
-            final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd    = FastMath.min(pStart + BLOCK_SIZE, rows);
             final int iHeight = pEnd - pStart;
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
 
                 // allocate new block
@@ -282,11 +283,11 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
-            final int pEnd    = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd    = FastMath.min(pStart + BLOCK_SIZE, rows);
             final int iHeight = pEnd - pStart;
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
                 blocks[blockIndex] = buildArray(field, iHeight * jWidth);
                 ++blockIndex;
@@ -342,9 +343,9 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                     final T[] outBlock = out.blocks[blockIndex];
                     final T[] tBlock   = blocks[blockIndex];
                     final int      pStart   = iBlock * BLOCK_SIZE;
-                    final int      pEnd     = Math.min(pStart + BLOCK_SIZE, rows);
+                    final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, rows);
                     final int      qStart   = jBlock * BLOCK_SIZE;
-                    final int      qEnd     = Math.min(qStart + BLOCK_SIZE, columns);
+                    final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, columns);
                     int k = 0;
                     for (int p = pStart; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q) {
@@ -415,9 +416,9 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                     final T[] outBlock = out.blocks[blockIndex];
                     final T[] tBlock   = blocks[blockIndex];
                     final int      pStart   = iBlock * BLOCK_SIZE;
-                    final int      pEnd     = Math.min(pStart + BLOCK_SIZE, rows);
+                    final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, rows);
                     final int      qStart   = jBlock * BLOCK_SIZE;
-                    final int      qEnd     = Math.min(qStart + BLOCK_SIZE, columns);
+                    final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, columns);
                     int k = 0;
                     for (int p = pStart; p < pEnd; ++p) {
                         for (int q = qStart; q < qEnd; ++q) {
@@ -525,12 +526,12 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
 
                 final int pStart = iBlock * BLOCK_SIZE;
-                final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+                final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
 
                 for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
 
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = Math.min(qStart + BLOCK_SIZE, m.getColumnDimension());
+                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, m.getColumnDimension());
 
                     // select current block
                     final T[] outBlock = out.blocks[blockIndex];
@@ -589,7 +590,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
 
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
 
             for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
                 final int jWidth = out.blockWidth(jBlock);
@@ -651,7 +652,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             int regularPos   = 0;
             int lastPos      = 0;
             for (int p = pStart; p < pEnd; ++p) {
@@ -833,14 +834,14 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         for (int iBlock = blockStartRow; iBlock < blockEndRow; ++iBlock) {
             final int iHeight  = blockHeight(iBlock);
             final int firstRow = iBlock * BLOCK_SIZE;
-            final int iStart   = Math.max(row,    firstRow);
-            final int iEnd     = Math.min(endRow + 1, firstRow + iHeight);
+            final int iStart   = FastMath.max(row,    firstRow);
+            final int iEnd     = FastMath.min(endRow + 1, firstRow + iHeight);
 
             for (int jBlock = blockStartColumn; jBlock < blockEndColumn; ++jBlock) {
                 final int jWidth      = blockWidth(jBlock);
                 final int firstColumn = jBlock * BLOCK_SIZE;
-                final int jStart      = Math.max(column,    firstColumn);
-                final int jEnd        = Math.min(endColumn + 1, firstColumn + jWidth);
+                final int jStart      = FastMath.max(column,    firstColumn);
+                final int jEnd        = FastMath.min(endColumn + 1, firstColumn + jWidth);
                 final int jLength     = jEnd - jStart;
 
                 // handle one block, row by row
@@ -1292,9 +1293,9 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                 final T[] outBlock = out.blocks[blockIndex];
                 final T[] tBlock   = blocks[jBlock * blockColumns + iBlock];
                 final int      pStart   = iBlock * BLOCK_SIZE;
-                final int      pEnd     = Math.min(pStart + BLOCK_SIZE, columns);
+                final int      pEnd     = FastMath.min(pStart + BLOCK_SIZE, columns);
                 final int      qStart   = jBlock * BLOCK_SIZE;
-                final int      qEnd     = Math.min(qStart + BLOCK_SIZE, rows);
+                final int      qEnd     = FastMath.min(qStart + BLOCK_SIZE, rows);
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
                     final int lInc = pEnd - pStart;
@@ -1344,11 +1345,11 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         // perform multiplication block-wise, to ensure good cache behavior
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final T[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int      qStart = jBlock * BLOCK_SIZE;
-                final int      qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int      qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
                     T sum = zero;
@@ -1394,11 +1395,11 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             final int jWidth3 = jWidth2 + jWidth;
             final int jWidth4 = jWidth3 + jWidth;
             final int qStart = jBlock * BLOCK_SIZE;
-            final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+            final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
             for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
                 final T[] block  = blocks[iBlock * blockColumns + jBlock];
                 final int      pStart = iBlock * BLOCK_SIZE;
-                final int      pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+                final int      pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
                 for (int q = qStart; q < qEnd; ++q) {
                     int k = q - qStart;
                     T sum = zero;
@@ -1432,12 +1433,12 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                     final T[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - pStart) * jWidth;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1457,12 +1458,12 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int qStart = jBlock * BLOCK_SIZE;
-                    final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                    final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                     final T[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - pStart) * jWidth;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1485,14 +1486,14 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = Math.max(startRow, p0);
-            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = FastMath.max(startRow, p0);
+            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int q0     = jBlock * BLOCK_SIZE;
-                    final int qStart = Math.max(startColumn, q0);
-                    final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final int qStart = FastMath.max(startColumn, q0);
+                    final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                     final T[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - p0) * jWidth + qStart - q0;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1515,14 +1516,14 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = Math.max(startRow, p0);
-            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = FastMath.max(startRow, p0);
+            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int p = pStart; p < pEnd; ++p) {
                 for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                     final int jWidth = blockWidth(jBlock);
                     final int q0     = jBlock * BLOCK_SIZE;
-                    final int qStart = Math.max(startColumn, q0);
-                    final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                    final int qStart = FastMath.max(startColumn, q0);
+                    final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                     final T[] block = blocks[iBlock * blockColumns + jBlock];
                     int k = (p - p0) * jWidth + qStart - q0;
                     for (int q = qStart; q < qEnd; ++q) {
@@ -1543,10 +1544,10 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 final T[] block = blocks[blockIndex];
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
@@ -1569,10 +1570,10 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
-            final int pEnd   = Math.min(pStart + BLOCK_SIZE, rows);
+            final int pEnd   = FastMath.min(pStart + BLOCK_SIZE, rows);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock) {
                 final int qStart = jBlock * BLOCK_SIZE;
-                final int qEnd   = Math.min(qStart + BLOCK_SIZE, columns);
+                final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 final T[] block = blocks[blockIndex];
                 int k = 0;
                 for (int p = pStart; p < pEnd; ++p) {
@@ -1597,13 +1598,13 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = Math.max(startRow, p0);
-            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = FastMath.max(startRow, p0);
+            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                 final int jWidth = blockWidth(jBlock);
                 final int q0     = jBlock * BLOCK_SIZE;
-                final int qStart = Math.max(startColumn, q0);
-                final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final int qStart = FastMath.max(startColumn, q0);
+                final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                 final T[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     int k = (p - p0) * jWidth + qStart - q0;
@@ -1627,13 +1628,13 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
             final int p0     = iBlock * BLOCK_SIZE;
-            final int pStart = Math.max(startRow, p0);
-            final int pEnd   = Math.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
+            final int pStart = FastMath.max(startRow, p0);
+            final int pEnd   = FastMath.min((iBlock + 1) * BLOCK_SIZE, 1 + endRow);
             for (int jBlock = startColumn / BLOCK_SIZE; jBlock < 1 + endColumn / BLOCK_SIZE; ++jBlock) {
                 final int jWidth = blockWidth(jBlock);
                 final int q0     = jBlock * BLOCK_SIZE;
-                final int qStart = Math.max(startColumn, q0);
-                final int qEnd   = Math.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
+                final int qStart = FastMath.max(startColumn, q0);
+                final int qEnd   = FastMath.min((jBlock + 1) * BLOCK_SIZE, 1 + endColumn);
                 final T[] block = blocks[iBlock * blockColumns + jBlock];
                 for (int p = pStart; p < pEnd; ++p) {
                     int k = (p - p0) * jWidth + qStart - q0;

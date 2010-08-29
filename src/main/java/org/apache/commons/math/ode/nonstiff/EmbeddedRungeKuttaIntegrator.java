@@ -24,6 +24,7 @@ import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements the common part of all embedded Runge-Kutta
@@ -245,11 +246,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
           final double[] scale = new double[mainSetDimension];
           if (vecAbsoluteTolerance == null) {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * Math.abs(y[i]);
+                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
               }
             } else {
               for (int i = 0; i < scale.length; ++i) {
-                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * Math.abs(y[i]);
+                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
               }
             }
           hNew = initializeStep(equations, forward, getOrder(), scale,
@@ -291,7 +292,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
           interpolator.storeTime(stepStart + stepSize);
           if (manager.evaluateStep(interpolator)) {
               final double dt = manager.getEventTime() - stepStart;
-              if (Math.abs(dt) <= Math.ulp(stepStart)) {
+              if (FastMath.abs(dt) <= FastMath.ulp(stepStart)) {
                   // we cannot simply truncate the step, reject the current computation
                   // and let the loop compute another state with the truncated step.
                   // it is so small (much probably exactly 0 due to limited accuracy)
@@ -314,8 +315,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
         } else {
           // reject the step and attempt to reduce error by stepsize control
           final double factor =
-              Math.min(maxGrowth,
-                       Math.max(minReduction, safety * Math.pow(error, exp)));
+              FastMath.min(maxGrowth,
+                       FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
 
@@ -352,9 +353,9 @@ public abstract class EmbeddedRungeKuttaIntegrator
           stepSize = filterStep(stepSize, forward, true);
 
         // stepsize control for next step
-        final double factor = Math.min(maxGrowth,
-                                       Math.max(minReduction,
-                                                safety * Math.pow(error, exp)));
+        final double factor = FastMath.min(maxGrowth,
+                                       FastMath.max(minReduction,
+                                                safety * FastMath.pow(error, exp)));
         final double  scaledH    = stepSize * factor;
         final double  nextT      = stepStart + scaledH;
         final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);

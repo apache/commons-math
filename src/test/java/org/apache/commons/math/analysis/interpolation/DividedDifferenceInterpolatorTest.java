@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -51,7 +52,7 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
 
         // 6 interpolating points on interval [0, 2*PI]
         int n = 6;
-        double min = 0.0, max = 2 * Math.PI;
+        double min = 0.0, max = 2 * FastMath.PI;
         x = new double[n];
         y = new double[n];
         for (int i = 0; i < n; i++) {
@@ -61,12 +62,12 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
         double derivativebound = 1.0;
         UnivariateRealFunction p = interpolator.interpolate(x, y);
 
-        z = Math.PI / 4; expected = f.value(z); result = p.value(z);
-        tolerance = Math.abs(derivativebound * partialerror(x, z));
+        z = FastMath.PI / 4; expected = f.value(z); result = p.value(z);
+        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
         assertEquals(expected, result, tolerance);
 
-        z = Math.PI * 1.5; expected = f.value(z); result = p.value(z);
-        tolerance = Math.abs(derivativebound * partialerror(x, z));
+        z = FastMath.PI * 1.5; expected = f.value(z); result = p.value(z);
+        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
         assertEquals(expected, result, tolerance);
     }
 
@@ -89,19 +90,19 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
             x[i] = min + i * (max - min) / n;
             y[i] = f.value(x[i]);
         }
-        double derivativebound = Math.E;
+        double derivativebound = FastMath.E;
         UnivariateRealFunction p = interpolator.interpolate(x, y);
 
         z = 0.0; expected = f.value(z); result = p.value(z);
-        tolerance = Math.abs(derivativebound * partialerror(x, z));
+        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
         assertEquals(expected, result, tolerance);
 
         z = 0.5; expected = f.value(z); result = p.value(z);
-        tolerance = Math.abs(derivativebound * partialerror(x, z));
+        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
         assertEquals(expected, result, tolerance);
 
         z = -0.5; expected = f.value(z); result = p.value(z);
-        tolerance = Math.abs(derivativebound * partialerror(x, z));
+        tolerance = FastMath.abs(derivativebound * partialerror(x, z));
         assertEquals(expected, result, tolerance);
     }
 

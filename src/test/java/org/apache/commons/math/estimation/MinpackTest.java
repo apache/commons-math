@@ -24,6 +24,7 @@ import org.apache.commons.math.estimation.EstimationException;
 import org.apache.commons.math.estimation.EstimationProblem;
 import org.apache.commons.math.estimation.LevenbergMarquardtEstimator;
 import org.apache.commons.math.estimation.WeightedMeasurement;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -118,11 +119,11 @@ public class MinpackTest
 
   public void testMinpackRosenbrok() {
     minpackTest(new RosenbrockFunction(new double[] { -1.2, 1.0 },
-                                       Math.sqrt(24.2)), false);
+                                       FastMath.sqrt(24.2)), false);
     minpackTest(new RosenbrockFunction(new double[] { -12.0, 10.0 },
-                                       Math.sqrt(1795769.0)), false);
+                                       FastMath.sqrt(1795769.0)), false);
     minpackTest(new RosenbrockFunction(new double[] { -120.0, 100.0 },
-                                       11.0 * Math.sqrt(169000121.0)), false);
+                                       11.0 * FastMath.sqrt(169000121.0)), false);
   }
 
   public void testMinpackHelicalValley() {
@@ -490,8 +491,8 @@ public class MinpackTest
   private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
     LevenbergMarquardtEstimator estimator = new LevenbergMarquardtEstimator();
     estimator.setMaxCostEval(100 * (function.getN() + 1));
-    estimator.setCostRelativeTolerance(Math.sqrt(2.22044604926e-16));
-    estimator.setParRelativeTolerance(Math.sqrt(2.22044604926e-16));
+    estimator.setCostRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
+    estimator.setParRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
     estimator.setOrthoTolerance(2.22044604926e-16);
     assertTrue(function.checkTheoreticalStartCost(estimator.getRMS(function)));
     try {
@@ -544,12 +545,12 @@ public class MinpackTest
 
     public boolean checkTheoreticalStartCost(double rms) {
       double threshold = costAccuracy * (1.0 + theoreticalStartCost);
-      return Math.abs(Math.sqrt(m) * rms - theoreticalStartCost) <= threshold;
+      return FastMath.abs(FastMath.sqrt(m) * rms - theoreticalStartCost) <= threshold;
     }
 
     public boolean checkTheoreticalMinCost(double rms) {
       double threshold = costAccuracy * (1.0 + theoreticalMinCost);
-     return Math.abs(Math.sqrt(m) * rms - theoreticalMinCost) <= threshold;
+     return FastMath.abs(FastMath.sqrt(m) * rms - theoreticalMinCost) <= threshold;
     }
 
     public boolean checkTheoreticalMinParams() {
@@ -557,7 +558,7 @@ public class MinpackTest
         for (int i = 0; i < theoreticalMinParams.length; ++i) {
           double mi = theoreticalMinParams[i];
           double vi = parameters[i].getEstimate();
-          if (Math.abs(mi - vi) > (paramsAccuracy * (1.0 + Math.abs(mi)))) {
+          if (FastMath.abs(mi - vi) > (paramsAccuracy * (1.0 + FastMath.abs(mi)))) {
             return false;
           }
         }
@@ -711,8 +712,8 @@ public class MinpackTest
 
     public LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
       super(m, buildArray(n, x0),
-            Math.sqrt(m + (n+1)*(n-2)*(m-2)*(m-1) * ((n+1)*(n-2)*(2*m-3) - 12) / 24.0),
-            Math.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
+            FastMath.sqrt(m + (n+1)*(n-2)*(m-2)*(m-1) * ((n+1)*(n-2)*(2*m-3) - 12) / 24.0),
+            FastMath.sqrt((m * (m + 3) - 6) / (2.0 * (2 * m - 3))),
             null);
     }
 
@@ -787,7 +788,7 @@ public class MinpackTest
       double x2 = parameters[1].getEstimate();
       double tmpSquare = x1 * x1 + x2 * x2;
       double tmp1 = twoPi * tmpSquare;
-      double tmp2 = Math.sqrt(tmpSquare);
+      double tmp2 = FastMath.sqrt(tmpSquare);
       return new double[][] {
         {  100 * x2 / tmp1, -100 * x1 / tmp1, 10 },
         { 10 * x1 / tmp2, 10 * x2 / tmp2, 0 },
@@ -804,12 +805,12 @@ public class MinpackTest
       if (x1 == 0) {
         tmp1 = (x2 >= 0) ? 0.25 : -0.25;
       } else {
-        tmp1 = Math.atan(x2 / x1) / twoPi;
+        tmp1 = FastMath.atan(x2 / x1) / twoPi;
         if (x1 < 0) {
           tmp1 += 0.5;
         }
       }
-      double tmp2 = Math.sqrt(x1 * x1 + x2 * x2);
+      double tmp2 = FastMath.sqrt(x1 * x1 + x2 * x2);
       return new double[] {
         10.0 * (x3 - 10 * tmp1),
         10.0 * (tmp2 - 1),
@@ -817,7 +818,7 @@ public class MinpackTest
       };
     }
 
-    private static final double twoPi = 2.0 * Math.PI;
+    private static final double twoPi = 2.0 * FastMath.PI;
 
   }
 
@@ -856,8 +857,8 @@ public class MinpackTest
       };
     }
 
-    private static final double sqrt5  = Math.sqrt( 5.0);
-    private static final double sqrt10 = Math.sqrt(10.0);
+    private static final double sqrt5  = FastMath.sqrt( 5.0);
+    private static final double sqrt10 = FastMath.sqrt(10.0);
 
   }
 
@@ -1020,7 +1021,7 @@ public class MinpackTest
       for (int i = 0; i < m; ++i) {
         double temp = 5.0 * (i + 1) + 45.0 + x3;
         double tmp1 = x2 / temp;
-        double tmp2 = Math.exp(tmp1);
+        double tmp2 = FastMath.exp(tmp1);
         double tmp3 = x1 * tmp2 / temp;
         jacobian[i] = new double[] { tmp2, tmp3, -tmp1 * tmp3 };
       }
@@ -1034,7 +1035,7 @@ public class MinpackTest
       double x3 = parameters[2].getEstimate();
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
-        f[i] = x1 * Math.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
+        f[i] = x1 * FastMath.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
       }
      return f;
     }
@@ -1138,9 +1139,9 @@ public class MinpackTest
       for (int i = 0; i < m; ++i) {
         double tmp = (i + 1) / 10.0;
         jacobian[i] = new double[] {
-          -tmp * Math.exp(-tmp * x1),
-           tmp * Math.exp(-tmp * x2),
-          Math.exp(-i - 1) - Math.exp(-tmp)
+          -tmp * FastMath.exp(-tmp * x1),
+           tmp * FastMath.exp(-tmp * x2),
+          FastMath.exp(-i - 1) - FastMath.exp(-tmp)
         };
       }
       return jacobian;
@@ -1154,8 +1155,8 @@ public class MinpackTest
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double tmp = (i + 1) / 10.0;
-        f[i] = Math.exp(-tmp * x1) - Math.exp(-tmp * x2)
-             + (Math.exp(-i - 1) - Math.exp(-tmp)) * x3;
+        f[i] = FastMath.exp(-tmp * x1) - FastMath.exp(-tmp * x2)
+             + (FastMath.exp(-i - 1) - FastMath.exp(-tmp)) * x3;
       }
       return f;
     }
@@ -1179,7 +1180,7 @@ public class MinpackTest
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double t = i + 1;
-        jacobian[i] = new double[] { -t * Math.exp(t * x1), -t * Math.exp(t * x2) };
+        jacobian[i] = new double[] { -t * FastMath.exp(t * x1), -t * FastMath.exp(t * x2) };
       }
       return jacobian;
     }
@@ -1191,7 +1192,7 @@ public class MinpackTest
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = i + 1;
-        f[i] = 2 + 2 * temp - Math.exp(temp * x1) - Math.exp(temp * x2);
+        f[i] = 2 + 2 * temp - FastMath.exp(temp * x1) - FastMath.exp(temp * x2);
       }
       return f;
     }
@@ -1218,9 +1219,9 @@ public class MinpackTest
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = (i + 1) / 5.0;
-        double ti   = Math.sin(temp);
-        double tmp1 = x1 + temp * x2 - Math.exp(temp);
-        double tmp2 = x3 + ti   * x4 - Math.cos(temp);
+        double ti   = FastMath.sin(temp);
+        double tmp1 = x1 + temp * x2 - FastMath.exp(temp);
+        double tmp2 = x3 + ti   * x4 - FastMath.cos(temp);
         jacobian[i] = new double[] {
           2 * tmp1, 2 * temp * tmp1, 2 * tmp2, 2 * ti * tmp2
         };
@@ -1237,8 +1238,8 @@ public class MinpackTest
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = (i + 1) / 5.0;
-        double tmp1 = x1 + temp * x2 - Math.exp(temp);
-        double tmp2 = x3 + Math.sin(temp) * x4 - Math.cos(temp);
+        double tmp1 = x1 + temp * x2 - FastMath.exp(temp);
+        double tmp2 = x3 + FastMath.sin(temp) * x4 - FastMath.cos(temp);
         f[i] = tmp1 * tmp1 + tmp2 * tmp2;
       }
       return f;
@@ -1410,8 +1411,8 @@ public class MinpackTest
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = 10.0 * i;
-        double tmp1 = Math.exp(-temp * x4);
-        double tmp2 = Math.exp(-temp * x5);
+        double tmp1 = FastMath.exp(-temp * x4);
+        double tmp2 = FastMath.exp(-temp * x5);
         jacobian[i] = new double[] {
           -1, -tmp1, -tmp2, temp * x2 * tmp1, temp * x3 * tmp2
         };
@@ -1429,8 +1430,8 @@ public class MinpackTest
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = 10.0 * i;
-        double tmp1 = Math.exp(-temp * x4);
-        double tmp2 = Math.exp(-temp * x5);
+        double tmp1 = FastMath.exp(-temp * x4);
+        double tmp2 = FastMath.exp(-temp * x5);
         f[i] = y[i] - (x1 + x2 * tmp1 + x3 * tmp2);
       }
       return f;
@@ -1470,10 +1471,10 @@ public class MinpackTest
       double[][] jacobian = new double[m][];
       for (int i = 0; i < m; ++i) {
         double temp = i / 10.0;
-        double tmp1 = Math.exp(-x05 * temp);
-        double tmp2 = Math.exp(-x06 * (temp - x09) * (temp - x09));
-        double tmp3 = Math.exp(-x07 * (temp - x10) * (temp - x10));
-        double tmp4 = Math.exp(-x08 * (temp - x11) * (temp - x11));
+        double tmp1 = FastMath.exp(-x05 * temp);
+        double tmp2 = FastMath.exp(-x06 * (temp - x09) * (temp - x09));
+        double tmp3 = FastMath.exp(-x07 * (temp - x10) * (temp - x10));
+        double tmp4 = FastMath.exp(-x08 * (temp - x11) * (temp - x11));
         jacobian[i] = new double[] {
           -tmp1,
           -tmp2,
@@ -1507,10 +1508,10 @@ public class MinpackTest
       double[] f = new double[m];
       for (int i = 0; i < m; ++i) {
         double temp = i / 10.0;
-        double tmp1 = Math.exp(-x05 * temp);
-        double tmp2 = Math.exp(-x06 * (temp - x09) * (temp - x09));
-        double tmp3 = Math.exp(-x07 * (temp - x10) * (temp - x10));
-        double tmp4 = Math.exp(-x08 * (temp - x11) * (temp - x11));
+        double tmp1 = FastMath.exp(-x05 * temp);
+        double tmp2 = FastMath.exp(-x06 * (temp - x09) * (temp - x09));
+        double tmp3 = FastMath.exp(-x07 * (temp - x10) * (temp - x10));
+        double tmp4 = FastMath.exp(-x08 * (temp - x11) * (temp - x11));
         f[i] = y[i] - (x01 * tmp1 + x02 * tmp2 + x03 * tmp3 + x04 * tmp4);
       }
       return f;

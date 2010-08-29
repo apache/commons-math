@@ -38,6 +38,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleRealPointChecker;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class NelderMeadTest {
@@ -97,7 +98,7 @@ public class NelderMeadTest {
           public double value(double[] variables) throws FunctionEvaluationException {
               final double x = variables[0];
               final double y = variables[1];
-              return ((x == 0) || (y == 0)) ? 0 : (Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y));
+              return ((x == 0) || (y == 0)) ? 0 : (FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y));
           }
       };
 

@@ -20,6 +20,7 @@ import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -167,20 +168,20 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             final double d012 = (d12 - d01) / (x2 - x0);
             final double c1 = d01 + (x1 - x0) * d012;
             final double delta = c1 * c1 - 4 * y1 * d012;
-            final double xplus = x1 + (-2.0 * y1) / (c1 + Math.sqrt(delta));
-            final double xminus = x1 + (-2.0 * y1) / (c1 - Math.sqrt(delta));
+            final double xplus = x1 + (-2.0 * y1) / (c1 + FastMath.sqrt(delta));
+            final double xminus = x1 + (-2.0 * y1) / (c1 - FastMath.sqrt(delta));
             // xplus and xminus are two roots of parabola and at least
             // one of them should lie in (x0, x2)
             final double x = isSequence(x0, xplus, x2) ? xplus : xminus;
             final double y = f.value(x);
 
             // check for convergence
-            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
-            if (Math.abs(x - oldx) <= tolerance) {
+            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
+            if (FastMath.abs(x - oldx) <= tolerance) {
                 setResult(x, i);
                 return result;
             }
-            if (Math.abs(y) <= functionValueAccuracy) {
+            if (FastMath.abs(y) <= functionValueAccuracy) {
                 setResult(x, i);
                 return result;
             }
@@ -307,12 +308,12 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             final double denominator;
             if (delta >= 0.0) {
                 // choose a denominator larger in magnitude
-                double dplus = b + Math.sqrt(delta);
-                double dminus = b - Math.sqrt(delta);
-                denominator = Math.abs(dplus) > Math.abs(dminus) ? dplus : dminus;
+                double dplus = b + FastMath.sqrt(delta);
+                double dminus = b - FastMath.sqrt(delta);
+                denominator = FastMath.abs(dplus) > FastMath.abs(dminus) ? dplus : dminus;
             } else {
-                // take the modulus of (B +/- Math.sqrt(delta))
-                denominator = Math.sqrt(b * b - delta);
+                // take the modulus of (B +/- FastMath.sqrt(delta))
+                denominator = FastMath.sqrt(b * b - delta);
             }
             if (denominator != 0) {
                 x = x2 - 2.0 * c * (x2 - x1) / denominator;
@@ -323,18 +324,18 @@ public class MullerSolver extends UnivariateRealSolverImpl {
                 }
             } else {
                 // extremely rare case, get a random number to skip it
-                x = min + Math.random() * (max - min);
+                x = min + FastMath.random() * (max - min);
                 oldx = Double.POSITIVE_INFINITY;
             }
             final double y = f.value(x);
 
             // check for convergence
-            final double tolerance = Math.max(relativeAccuracy * Math.abs(x), absoluteAccuracy);
-            if (Math.abs(x - oldx) <= tolerance) {
+            final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
+            if (FastMath.abs(x - oldx) <= tolerance) {
                 setResult(x, i);
                 return result;
             }
-            if (Math.abs(y) <= functionValueAccuracy) {
+            if (FastMath.abs(y) <= functionValueAccuracy) {
                 setResult(x, i);
                 return result;
             }

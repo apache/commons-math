@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -84,8 +85,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         Assert.assertTrue(residualsP0.getStandardDeviation() < 0.004);
         Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) > 0.04);
         Assert.assertTrue((residualsP1.getMax() - residualsP1.getMin()) < 0.05);
-        Assert.assertTrue(residualsP1.getStandardDeviation() > 0.006);
-        Assert.assertTrue(residualsP1.getStandardDeviation() < 0.007);
+        Assert.assertTrue(residualsP1.getStandardDeviation() > 0.007);
+        Assert.assertTrue(residualsP1.getStandardDeviation() < 0.008);
     }
 
     @Test
@@ -159,7 +160,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         Circle circle = new Circle(y, 1.0, 1.0, 0.1);
         double[][] dydy0 = new double[2][2];
         double[][] dydp  = new double[2][3];
-        double t = 18 * Math.PI;
+        double t = 18 * FastMath.PI;
         FirstOrderIntegratorWithJacobians extInt =
             new FirstOrderIntegratorWithJacobians(integ, circle);
         extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
@@ -186,7 +187,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         final Circle circle = new Circle(y, 1.0, 1.0, 0.1);
         double[][] dydy0 = new double[2][2];
         double[][] dydp  = new double[2][3];
-        double t = 18 * Math.PI;
+        double t = 18 * FastMath.PI;
         final FirstOrderIntegratorWithJacobians extInt =
             new FirstOrderIntegratorWithJacobians(integ, circle);
         extInt.addStepHandler(new StepHandlerWithJacobians() {
@@ -250,7 +251,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
         final Circle circle = new Circle(y, 1.0, 1.0, 0.1);
         double[][] dydy0 = new double[2][2];
         double[][] dydp  = new double[2][3];
-        double t = 18 * Math.PI;
+        double t = 18 * FastMath.PI;
         final FirstOrderIntegratorWithJacobians extInt =
             new FirstOrderIntegratorWithJacobians(integ, circle);
         extInt.addEventHandler(new EventHandlerWithJacobians() {
@@ -272,7 +273,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             }
         }, 10.0, 1.0e-10, 1000);
         double stopTime = extInt.integrate(0, y, circle.exactDyDp(0), t, y, dydy0, dydp);
-        Assert.assertTrue(stopTime < 5.0 * Math.PI);
+        Assert.assertTrue(stopTime < 5.0 * FastMath.PI);
     }
 
     private static class Brusselator implements ParameterizedODE, ODEWithJacobians {
@@ -367,8 +368,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[] exactY(double t) {
-            double cos = Math.cos(omega * t);
-            double sin = Math.sin(omega * t);
+            double cos = FastMath.cos(omega * t);
+            double sin = FastMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] {
@@ -378,8 +379,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[][] exactDyDy0(double t) {
-            double cos = Math.cos(omega * t);
-            double sin = Math.sin(omega * t);
+            double cos = FastMath.cos(omega * t);
+            double sin = FastMath.sin(omega * t);
             return new double[][] {
                 { cos, -sin },
                 { sin,  cos }
@@ -387,8 +388,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[][] exactDyDp(double t) {
-            double cos = Math.cos(omega * t);
-            double sin = Math.sin(omega * t);
+            double cos = FastMath.cos(omega * t);
+            double sin = FastMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[][] {
@@ -398,8 +399,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[] exactYDot(double t) {
-            double oCos = omega * Math.cos(omega * t);
-            double oSin = omega * Math.sin(omega * t);
+            double oCos = omega * FastMath.cos(omega * t);
+            double oSin = omega * FastMath.sin(omega * t);
             double dx0 = y0[0] - cx;
             double dy0 = y0[1] - cy;
             return new double[] {
@@ -409,8 +410,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[][] exactDyDy0Dot(double t) {
-            double oCos = omega * Math.cos(omega * t);
-            double oSin = omega * Math.sin(omega * t);
+            double oCos = omega * FastMath.cos(omega * t);
+            double oSin = omega * FastMath.sin(omega * t);
             return new double[][] {
                 { -oSin, -oCos },
                 {  oCos, -oSin }
@@ -418,8 +419,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
         }
 
         public double[][] exactDyDpDot(double t) {
-            double cos  = Math.cos(omega * t);
-            double sin  = Math.sin(omega * t);
+            double cos  = FastMath.cos(omega * t);
+            double sin  = FastMath.sin(omega * t);
             double oCos = omega * cos;
             double oSin = omega * sin;
             double dx0  = y0[0] - cx;

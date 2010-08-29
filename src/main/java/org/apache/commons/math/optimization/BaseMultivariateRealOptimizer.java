@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.
  * This interface is mainly intended to enforce the internal coherence of
- * Commons-Math. Users of the API are advised to base their code on
+ * Commons-FastMath. Users of the API are advised to base their code on
  * {@link MultivariateRealOptimizer} or on
  * {@link DifferentiableMultivariateRealOptimizer}.
  * @param <T> the type of the objective function to be optimized

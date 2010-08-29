@@ -23,6 +23,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -67,7 +68,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
-        return cumulativeProbability((int) Math.floor(x));
+        return cumulativeProbability((int) FastMath.floor(x));
     }
 
     /**
@@ -90,12 +91,12 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
             throw MathRuntimeException.createIllegalArgumentException(
                   LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT, x0, x1);
         }
-        if (Math.floor(x0) < x0) {
-            return cumulativeProbability(((int) Math.floor(x0)) + 1,
-               (int) Math.floor(x1)); // don't want to count mass below x0
+        if (FastMath.floor(x0) < x0) {
+            return cumulativeProbability(((int) FastMath.floor(x0)) + 1,
+               (int) FastMath.floor(x1)); // don't want to count mass below x0
         } else { // x0 is mathematical integer, so use as is
-            return cumulativeProbability((int) Math.floor(x0),
-                (int) Math.floor(x1));
+            return cumulativeProbability((int) FastMath.floor(x0),
+                (int) FastMath.floor(x1));
         }
     }
 
@@ -123,7 +124,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @return the value of the probability density function at x
      */
     public double probability(double x) {
-        double fl = Math.floor(x);
+        double fl = FastMath.floor(x);
         if (fl == x) {
             return this.probability((int) x);
         } else {

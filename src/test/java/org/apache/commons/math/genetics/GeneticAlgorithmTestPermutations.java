@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 /**
@@ -115,7 +116,7 @@ public class GeneticAlgorithmTestPermutations {
                 int value = decoded.get(i);
                 if (value != i) {
                     // bad position found
-                    res += Math.abs(value - i);
+                    res += FastMath.abs(value - i);
                 }
             }
             // the most fitted chromosome is the one with minimal error

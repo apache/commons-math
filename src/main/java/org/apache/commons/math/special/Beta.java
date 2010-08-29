@@ -18,6 +18,7 @@ package org.apache.commons.math.special;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.ContinuedFraction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This is a utility class that provides computation methods related to the
@@ -148,8 +149,8 @@ public class Beta {
                     return 1.0;
                 }
             };
-            ret = Math.exp((a * Math.log(x)) + (b * Math.log(1.0 - x)) -
-                Math.log(a) - logBeta(a, b, epsilon, maxIterations)) *
+            ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log(1.0 - x)) -
+                FastMath.log(a) - logBeta(a, b, epsilon, maxIterations)) *
                 1.0 / fraction.evaluate(x, epsilon, maxIterations);
         }
 

@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
@@ -84,9 +85,9 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
             final double t = qtrap.stage(f, min, max, i);
             final double s = (4 * t - oldt) / 3.0;
             if (i >= minimalIterationCount) {
-                final double delta = Math.abs(s - olds);
+                final double delta = FastMath.abs(s - olds);
                 final double rLimit =
-                    relativeAccuracy * (Math.abs(olds) + Math.abs(s)) * 0.5;
+                    relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
                     setResult(s, i);
                     return result;

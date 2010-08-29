@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class EuclideanIntegerPointTest {
@@ -38,7 +39,7 @@ public class EuclideanIntegerPointTest {
     public void testDistance() {
         EuclideanIntegerPoint e1 = new EuclideanIntegerPoint(new int[] { -3, -2, -1, 0, 1 });
         EuclideanIntegerPoint e2 = new EuclideanIntegerPoint(new int[] {  1,  0, -1, 1, 1 });
-        assertEquals(Math.sqrt(21.0), e1.distanceFrom(e2), 1.0e-15);
+        assertEquals(FastMath.sqrt(21.0), e1.distanceFrom(e2), 1.0e-15);
         assertEquals(0.0, e1.distanceFrom(e1), 1.0e-15);
         assertEquals(0.0, e2.distanceFrom(e2), 1.0e-15);
     }

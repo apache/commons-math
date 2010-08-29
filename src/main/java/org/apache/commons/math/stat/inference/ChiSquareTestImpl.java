@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements Chi-Square test statistics defined in the
@@ -82,7 +83,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         }
         double ratio = 1.0d;
         boolean rescale = false;
-        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
+        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
@@ -256,7 +257,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         // Compare and compute weight only if different
         unequalCounts = countSum1 != countSum2;
         if (unequalCounts) {
-            weight = Math.sqrt((double) countSum1 / (double) countSum2);
+            weight = FastMath.sqrt((double) countSum1 / (double) countSum2);
         }
         // Compute ChiSquare statistic
         double sumSq = 0.0d;

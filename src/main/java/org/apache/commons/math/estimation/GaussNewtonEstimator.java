@@ -26,6 +26,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements a solver for estimation problems.
@@ -97,7 +98,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      * to improve the criterion anymore
      * @param steadyStateThreshold steady state detection threshold, the
      * problem has converged has reached a steady state if
-     * <code>Math.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
+     * <code>FastMath.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
      * J<sub>n</sub> &times convergence</code>, where <code>J<sub>n</sub></code>
      * and <code>J<sub>n-1</sub></code> are the current and preceding criterion
      * values (square sum of the weighted residuals of considered measurements).
@@ -122,7 +123,7 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
      * Set the steady state detection threshold.
      * <p>
      * The problem has converged has reached a steady state if
-     * <code>Math.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
+     * <code>FastMath.abs(J<sub>n</sub> - J<sub>n-1</sub>) &lt;
      * J<sub>n</sub> &times convergence</code>, where <code>J<sub>n</sub></code>
      * and <code>J<sub>n-1</sub></code> are the current and preceding criterion
      * values (square sum of the weighted residuals of considered measurements).
@@ -222,8 +223,8 @@ public class GaussNewtonEstimator extends AbstractEstimator implements Serializa
             updateResidualsAndCost();
 
         } while ((getCostEvaluations() < 2) ||
-                 (Math.abs(previous - cost) > (cost * steadyStateThreshold) &&
-                  (Math.abs(cost) > convergence)));
+                 (FastMath.abs(previous - cost) > (cost * steadyStateThreshold) &&
+                  (FastMath.abs(cost) > convergence)));
 
     }
 

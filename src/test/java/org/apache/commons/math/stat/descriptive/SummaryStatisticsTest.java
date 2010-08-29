@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
+import org.apache.commons.math.util.FastMath;
 /**
  * Test cases for the {@link SummaryStatistics} class.
  *
@@ -37,7 +38,7 @@ public class SummaryStatisticsTest extends TestCase {
     private double sumSq = 18;
     private double sum = 8;
     private double var = 0.666666666666666666667;
-    private double std = Math.sqrt(var);
+    private double std = FastMath.sqrt(var);
     private double n = 4;
     private double min = 1;
     private double max = 3;
@@ -275,7 +276,7 @@ public class SummaryStatisticsTest extends TestCase {
         u.addValue(3);
         assertEquals(4, u.getMean(), 1E-14);
         assertEquals(4, u.getSumOfLogs(), 1E-14);
-        assertEquals(Math.exp(2), u.getGeometricMean(), 1E-14);
+        assertEquals(FastMath.exp(2), u.getGeometricMean(), 1E-14);
         u.clear();
         u.addValue(1);
         u.addValue(2);

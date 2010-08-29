@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
@@ -88,11 +89,11 @@ public class FDistributionImpl
     public double density(double x) {
         final double nhalf = numeratorDegreesOfFreedom / 2;
         final double mhalf = denominatorDegreesOfFreedom / 2;
-        final double logx = Math.log(x);
-        final double logn = Math.log(numeratorDegreesOfFreedom);
-        final double logm = Math.log(denominatorDegreesOfFreedom);
-        final double lognxm = Math.log(numeratorDegreesOfFreedom * x + denominatorDegreesOfFreedom);
-        return Math.exp(nhalf*logn + nhalf*logx - logx + mhalf*logm - nhalf*lognxm -
+        final double logx = FastMath.log(x);
+        final double logn = FastMath.log(numeratorDegreesOfFreedom);
+        final double logm = FastMath.log(denominatorDegreesOfFreedom);
+        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x + denominatorDegreesOfFreedom);
+        return FastMath.exp(nhalf*logn + nhalf*logx - logx + mhalf*logm - nhalf*lognxm -
                mhalf*lognxm - Beta.logBeta(nhalf, mhalf));
     }
 

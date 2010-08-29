@@ -21,6 +21,8 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.util.FastMath;
+
 import junit.framework.TestCase;
 
 /**
@@ -48,8 +50,8 @@ public final class LaguerreSolverTest extends TestCase {
         UnivariateRealSolver solver = new LaguerreSolver(f);
 
         min = 0.0; max = 1.0; expected = 0.25;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -66,8 +68,8 @@ public final class LaguerreSolverTest extends TestCase {
         UnivariateRealSolver solver = new LaguerreSolver();
 
         min = 0.0; max = 1.0; expected = 0.25;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -84,14 +86,14 @@ public final class LaguerreSolverTest extends TestCase {
         UnivariateRealSolver solver = new LaguerreSolver();
 
         min = 0.0; max = 2.0; expected = 0.5;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -4.0; max = -1.0; expected = -3.0;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -108,20 +110,20 @@ public final class LaguerreSolverTest extends TestCase {
         UnivariateRealSolver solver = new LaguerreSolver();
 
         min = -2.0; max = 2.0; expected = -1.0;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = -5.0; max = -2.5; expected = -3.0;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
 
         min = 3.0; max = 6.0; expected = 4.0;
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
         assertEquals(expected, result, tolerance);
     }
@@ -139,28 +141,28 @@ public final class LaguerreSolverTest extends TestCase {
         result = solver.solveAll(coefficients, initial);
 
         expected = new Complex(0.0, -2.0);
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected.abs() * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
 
         expected = new Complex(0.0, 2.0);
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected.abs() * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(0.5, 0.5 * Math.sqrt(3.0));
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected.abs() * solver.getRelativeAccuracy()));
+        expected = new Complex(0.5, 0.5 * FastMath.sqrt(3.0));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
 
         expected = new Complex(-1.0, 0.0);
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected.abs() * solver.getRelativeAccuracy()));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(0.5, -0.5 * Math.sqrt(3.0));
-        tolerance = Math.max(solver.getAbsoluteAccuracy(),
-                    Math.abs(expected.abs() * solver.getRelativeAccuracy()));
+        expected = new Complex(0.5, -0.5 * FastMath.sqrt(3.0));
+        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
         TestUtils.assertContains(result, expected, tolerance);
     }
 

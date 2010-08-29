@@ -19,6 +19,7 @@ package org.apache.commons.math.special;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.util.ContinuedFraction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This is a utility class that provides computation methods related to the
@@ -58,7 +59,7 @@ public class Gamma {
     };
 
     /** Avoid repeated computation of log of 2 PI in logGamma */
-    private static final double HALF_LOG_2_PI = 0.5 * Math.log(2.0 * Math.PI);
+    private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
 
     // limits for switching algorithm in digamma
     /** C limit. */
@@ -106,8 +107,8 @@ public class Gamma {
             sum = sum + LANCZOS[0];
 
             double tmp = x + g + .5;
-            ret = ((x + .5) * Math.log(tmp)) - tmp +
-                HALF_LOG_2_PI + Math.log(sum / x);
+            ret = ((x + .5) * FastMath.log(tmp)) - tmp +
+                HALF_LOG_2_PI + FastMath.log(sum / x);
         }
 
         return ret;
@@ -175,7 +176,7 @@ public class Gamma {
             double n = 0.0; // current element index
             double an = 1.0 / a; // n-th element in the series
             double sum = an; // partial sum
-            while (Math.abs(an/sum) > epsilon && n < maxIterations && sum < Double.POSITIVE_INFINITY) {
+            while (FastMath.abs(an/sum) > epsilon && n < maxIterations && sum < Double.POSITIVE_INFINITY) {
                 // compute next element in the series
                 n = n + 1.0;
                 an = an * (x / (a + n));
@@ -188,7 +189,7 @@ public class Gamma {
             } else if (Double.isInfinite(sum)) {
                 ret = 1.0;
             } else {
-                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+                ret = FastMath.exp(-x + (a * FastMath.log(x)) - logGamma(a)) * sum;
             }
         }
 
@@ -263,7 +264,7 @@ public class Gamma {
             };
 
             ret = 1.0 / cf.evaluate(x, epsilon, maxIterations);
-            ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * ret;
+            ret = FastMath.exp(-x + (a * FastMath.log(x)) - logGamma(a)) * ret;
         }
 
         return ret;
@@ -303,7 +304,7 @@ public class Gamma {
             //            1       1        1         1
             // log(x) -  --- - ------ + ------- - -------
             //           2 x   12 x^2   120 x^4   252 x^6
-            return Math.log(x) - 0.5 / x - inv * ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
+            return FastMath.log(x) - 0.5 / x - inv * ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
         }
 
         return digamma(x + 1) - 1 / x;

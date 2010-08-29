@@ -22,6 +22,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link BinomialDistribution}.
@@ -184,7 +185,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
         if (x < 0 || x > numberOfTrials) {
             ret = 0.0;
         } else {
-            ret = Math.exp(SaddlePointExpansion.logBinomialProbability(x,
+            ret = FastMath.exp(SaddlePointExpansion.logBinomialProbability(x,
                     numberOfTrials, probabilityOfSuccess,
                     1.0 - probabilityOfSuccess));
         }

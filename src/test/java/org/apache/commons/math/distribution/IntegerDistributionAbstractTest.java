@@ -17,6 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -212,8 +213,8 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
                            cumulativeTestPoints[i],
                            cumulativeTestPoints[i + 1]),
                    distribution.cumulativeProbability(arg, arg2), tolerance);
-                arg = arg - Math.random();
-                arg2 = arg2 + Math.random();
+                arg = arg - FastMath.random();
+                arg2 = arg2 + FastMath.random();
                 assertEquals("Inconsistent probability for discrete range " +
                         "[ " + arg + "," + arg2 + " ]",
                    distribution.cumulativeProbability(

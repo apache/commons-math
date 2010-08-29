@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.TrivariateRealFunction;
 import org.junit.Assert;
 import org.junit.Test;
@@ -165,7 +166,7 @@ public final class TricubicSplineInterpolatorTest {
         // Function values
         TrivariateRealFunction f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.cos(omega * z - kx * x - ky * y);
+                    return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }
             };
         

@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 
 /**
@@ -136,7 +137,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         double oldDelta = x2 - x1;
         int i = 0;
         while (i < maximalIterationCount) {
-            if (Math.abs(y2) < Math.abs(y1)) {
+            if (FastMath.abs(y2) < FastMath.abs(y1)) {
                 x0 = x1;
                 x1 = x2;
                 x2 = x0;
@@ -144,17 +145,17 @@ public class SecantSolver extends UnivariateRealSolverImpl {
                 y1 = y2;
                 y2 = y0;
             }
-            if (Math.abs(y1) <= functionValueAccuracy) {
+            if (FastMath.abs(y1) <= functionValueAccuracy) {
                 setResult(x1, i);
                 return result;
             }
-            if (Math.abs(oldDelta) <
-                Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy)) {
+            if (FastMath.abs(oldDelta) <
+                FastMath.max(relativeAccuracy * FastMath.abs(x1), absoluteAccuracy)) {
                 setResult(x1, i);
                 return result;
             }
             double delta;
-            if (Math.abs(y1) > Math.abs(y0)) {
+            if (FastMath.abs(y1) > FastMath.abs(y0)) {
                 // Function value increased in last iteration. Force bisection.
                 delta = 0.5 * oldDelta;
             } else {

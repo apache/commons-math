@@ -32,6 +32,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for implementing least squares optimizers.
@@ -189,7 +190,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = weightedResidualJacobian[i];
-            double wi = Math.sqrt(residualsWeights[i]);
+            double wi = FastMath.sqrt(residualsWeights[i]);
             for (int j = 0; j < cols; ++j) {
                 //ji[j] *=  -1.0;
                 weightedResidualJacobian[i][j] = -ji[j]*wi;
@@ -219,11 +220,11 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
         int index = 0;
         for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
-            weightedResiduals[i]= residual*Math.sqrt(residualsWeights[i]);
+            weightedResiduals[i]= residual*FastMath.sqrt(residualsWeights[i]);
             cost += residualsWeights[i] * residual * residual;
             index += cols;
         }
-        cost = Math.sqrt(cost);
+        cost = FastMath.sqrt(cost);
 
     }
 
@@ -238,7 +239,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
      * @return RMS value
      */
     public double getRMS() {
-        return Math.sqrt(getChiSquare() / rows);
+        return FastMath.sqrt(getChiSquare() / rows);
     }
 
     /**
@@ -306,10 +307,10 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
                     rows, cols);
         }
         double[] errors = new double[cols];
-        final double c = Math.sqrt(getChiSquare() / (rows - cols));
+        final double c = FastMath.sqrt(getChiSquare() / (rows - cols));
         double[][] covar = getCovariances();
         for (int i = 0; i < errors.length; ++i) {
-            errors[i] = Math.sqrt(covar[i][i]) * c;
+            errors[i] = FastMath.sqrt(covar[i][i]) * c;
         }
         return errors;
     }

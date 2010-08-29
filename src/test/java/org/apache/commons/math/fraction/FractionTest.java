@@ -18,6 +18,7 @@ package org.apache.commons.math.fraction;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
 
@@ -68,7 +69,7 @@ public class FractionTest extends TestCase {
     public void testGoldenRatio() {
         try {
             // the golden ratio is notoriously a difficult number for continuous fraction
-            new Fraction((1 + Math.sqrt(5)) / 2, 1.0e-12, 25);
+            new Fraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
             fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
@@ -575,7 +576,7 @@ public class FractionTest extends TestCase {
     public void testSerial() throws FractionConversionException {
         Fraction[] fractions = {
             new Fraction(3, 4), Fraction.ONE, Fraction.ZERO,
-            new Fraction(17), new Fraction(Math.PI, 1000),
+            new Fraction(17), new Fraction(FastMath.PI, 1000),
             new Fraction(-5, 2)
         };
         for (Fraction fraction : fractions) {

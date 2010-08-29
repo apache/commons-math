@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Special implementation of the {@link UnivariateRealOptimizer} interface adding
@@ -242,8 +243,8 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                 final double bound1 = (i == 0) ? min : min + generator.nextDouble() * (max - min);
                 final double bound2 = (i == 0) ? max : min + generator.nextDouble() * (max - min);
                 optima[i]       = optimizer.optimize(f, goalType,
-                                                     Math.min(bound1, bound2),
-                                                     Math.max(bound1, bound2));
+                                                     FastMath.min(bound1, bound2),
+                                                     FastMath.max(bound1, bound2));
                 optimaValues[i] = optimizer.getFunctionValue();
             } catch (FunctionEvaluationException fee) {
                 optima[i]       = Double.NaN;

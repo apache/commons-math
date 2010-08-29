@@ -27,6 +27,7 @@ import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math.random.JDKRandomGenerator;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class MultiStartUnivariateRealOptimizerTest {
@@ -43,8 +44,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         double[] optima = minimizer.getOptima();
         double[] optimaValues = minimizer.getOptimaValues();
         for (int i = 1; i < optima.length; ++i) {
-            double d = (optima[i] - optima[i-1]) / (2 * Math.PI);
-            assertTrue (Math.abs(d - Math.rint(d)) < 1.0e-8);
+            double d = (optima[i] - optima[i-1]) / (2 * FastMath.PI);
+            assertTrue (FastMath.abs(d - FastMath.rint(d)) < 1.0e-8);
             assertEquals(-1.0, f.value(optima[i]), 1.0e-10);
             assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
         }

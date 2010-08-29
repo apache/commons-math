@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -179,7 +180,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
             c[i] = y[i];
             d[i] = y[i];
             // find out the abscissa closest to z
-            final double dist = Math.abs(z - x[i]);
+            final double dist = FastMath.abs(z - x[i]);
             if (dist < min_dist) {
                 nearest = i;
                 min_dist = dist;

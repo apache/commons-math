@@ -22,6 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class implements vectors in a three-dimensional space.
@@ -107,10 +108,10 @@ public class Vector3D
    * @see #getDelta()
    */
   public Vector3D(double alpha, double delta) {
-    double cosDelta = Math.cos(delta);
-    this.x = Math.cos(alpha) * cosDelta;
-    this.y = Math.sin(alpha) * cosDelta;
-    this.z = Math.sin(delta);
+    double cosDelta = FastMath.cos(delta);
+    this.x = FastMath.cos(alpha) * cosDelta;
+    this.y = FastMath.sin(alpha) * cosDelta;
+    this.z = FastMath.sin(delta);
   }
 
   /** Multiplicative constructor
@@ -203,14 +204,14 @@ public class Vector3D
    * @return L<sub>1</sub> norm for the vector
    */
   public double getNorm1() {
-    return Math.abs(x) + Math.abs(y) + Math.abs(z);
+    return FastMath.abs(x) + FastMath.abs(y) + FastMath.abs(z);
   }
 
   /** Get the L<sub>2</sub> norm for the vector.
    * @return euclidian norm for the vector
    */
   public double getNorm() {
-    return Math.sqrt (x * x + y * y + z * z);
+    return FastMath.sqrt (x * x + y * y + z * z);
   }
 
   /** Get the square of the norm for the vector.
@@ -224,7 +225,7 @@ public class Vector3D
    * @return L<sub>&infin;</sub> norm for the vector
    */
   public double getNormInf() {
-    return Math.max(Math.max(Math.abs(x), Math.abs(y)), Math.abs(z));
+    return FastMath.max(FastMath.max(FastMath.abs(x), FastMath.abs(y)), FastMath.abs(z));
   }
 
   /** Get the azimuth of the vector.
@@ -232,7 +233,7 @@ public class Vector3D
    * @see #Vector3D(double, double)
    */
   public double getAlpha() {
-    return Math.atan2(y, x);
+    return FastMath.atan2(y, x);
   }
 
   /** Get the elevation of the vector.
@@ -240,7 +241,7 @@ public class Vector3D
    * @see #Vector3D(double, double)
    */
   public double getDelta() {
-    return Math.asin(z / getNorm());
+    return FastMath.asin(z / getNorm());
   }
 
   /** Add a vector to the instance.
@@ -312,13 +313,13 @@ public class Vector3D
     }
 
     if ((x >= -threshold) && (x <= threshold)) {
-      double inverse  = 1 / Math.sqrt(y * y + z * z);
+      double inverse  = 1 / FastMath.sqrt(y * y + z * z);
       return new Vector3D(0, inverse * z, -inverse * y);
     } else if ((y >= -threshold) && (y <= threshold)) {
-      double inverse  = 1 / Math.sqrt(x * x + z * z);
+      double inverse  = 1 / FastMath.sqrt(x * x + z * z);
       return new Vector3D(-inverse * z, 0, inverse * x);
     }
-    double inverse  = 1 / Math.sqrt(x * x + y * y);
+    double inverse  = 1 / FastMath.sqrt(x * x + y * y);
     return new Vector3D(inverse * y, -inverse * x, 0);
 
   }
@@ -347,13 +348,13 @@ public class Vector3D
       // the vectors are almost aligned, compute using the sine
       Vector3D v3 = crossProduct(v1, v2);
       if (dot >= 0) {
-        return Math.asin(v3.getNorm() / normProduct);
+        return FastMath.asin(v3.getNorm() / normProduct);
       }
-      return Math.PI - Math.asin(v3.getNorm() / normProduct);
+      return FastMath.PI - FastMath.asin(v3.getNorm() / normProduct);
     }
 
     // the vectors are sufficiently separated to use the cosine
-    return Math.acos(dot / normProduct);
+    return FastMath.acos(dot / normProduct);
 
   }
 
@@ -471,9 +472,9 @@ public class Vector3D
    * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
    */
   public static double distance1(Vector3D v1, Vector3D v2) {
-    final double dx = Math.abs(v2.x - v1.x);
-    final double dy = Math.abs(v2.y - v1.y);
-    final double dz = Math.abs(v2.z - v1.z);
+    final double dx = FastMath.abs(v2.x - v1.x);
+    final double dy = FastMath.abs(v2.y - v1.y);
+    final double dz = FastMath.abs(v2.z - v1.z);
     return dx + dy + dz;
   }
 
@@ -489,7 +490,7 @@ public class Vector3D
     final double dx = v2.x - v1.x;
     final double dy = v2.y - v1.y;
     final double dz = v2.z - v1.z;
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    return FastMath.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
   /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
@@ -501,10 +502,10 @@ public class Vector3D
    * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
    */
   public static double distanceInf(Vector3D v1, Vector3D v2) {
-    final double dx = Math.abs(v2.x - v1.x);
-    final double dy = Math.abs(v2.y - v1.y);
-    final double dz = Math.abs(v2.z - v1.z);
-    return Math.max(Math.max(dx, dy), dz);
+    final double dx = FastMath.abs(v2.x - v1.x);
+    final double dy = FastMath.abs(v2.y - v1.y);
+    final double dz = FastMath.abs(v2.z - v1.z);
+    return FastMath.max(FastMath.max(dx, dy), dz);
   }
 
   /** Compute the square of the distance between two vectors.

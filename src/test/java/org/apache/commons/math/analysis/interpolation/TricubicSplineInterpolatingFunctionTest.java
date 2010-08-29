@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.TrivariateRealFunction;
 import org.junit.Assert;
 import org.junit.Test;
@@ -392,7 +393,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         // Function values
         TrivariateRealFunction f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.cos(omega * z - kx * x - ky * y);
+                    return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }
             };
         
@@ -409,7 +410,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] dFdX = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction dFdX_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.sin(omega * z - kx * x - ky * y) * kx;
+                    return a * FastMath.sin(omega * z - kx * x - ky * y) * kx;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -424,7 +425,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] dFdY = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction dFdY_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.sin(omega * z - kx * x - ky * y) * ky;
+                    return a * FastMath.sin(omega * z - kx * x - ky * y) * ky;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -439,7 +440,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] dFdZ = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction dFdZ_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return -a * Math.sin(omega * z - kx * x - ky * y) * omega;
+                    return -a * FastMath.sin(omega * z - kx * x - ky * y) * omega;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -454,7 +455,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] d2FdXdY = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction d2FdXdY_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return -a * Math.cos(omega * z - kx * x - ky * y) * kx * ky;
+                    return -a * FastMath.cos(omega * z - kx * x - ky * y) * kx * ky;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -469,7 +470,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] d2FdXdZ = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction d2FdXdZ_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.cos(omega * z - kx * x - ky * y) * kx * omega;
+                    return a * FastMath.cos(omega * z - kx * x - ky * y) * kx * omega;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -484,7 +485,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] d2FdYdZ = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction d2FdYdZ_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.cos(omega * z - kx * x - ky * y) * ky * omega;
+                    return a * FastMath.cos(omega * z - kx * x - ky * y) * ky * omega;
                 }
             };
         for (int i = 0; i < xval.length; i++) {
@@ -499,7 +500,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         double[][][] d3FdXdYdZ = new double[xval.length][yval.length][zval.length];
         TrivariateRealFunction d3FdXdYdZ_f = new TrivariateRealFunction() {
                 public double value(double x, double y, double z) {
-                    return a * Math.sin(omega * z - kx * x - ky * y) * kx * ky * omega;
+                    return a * FastMath.sin(omega * z - kx * x - ky * y) * kx * ky * omega;
                 }
             };
         for (int i = 0; i < xval.length; i++) {

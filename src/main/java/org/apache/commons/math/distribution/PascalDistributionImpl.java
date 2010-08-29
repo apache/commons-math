@@ -23,6 +23,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link PascalDistribution}.
@@ -176,8 +177,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         } else {
             ret = MathUtils.binomialCoefficientDouble(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
-                  Math.pow(probabilityOfSuccess, numberOfSuccesses) *
-                  Math.pow(1.0 - probabilityOfSuccess, x);
+                  FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
+                  FastMath.pow(1.0 - probabilityOfSuccess, x);
         }
         return ret;
     }

@@ -27,6 +27,7 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialO
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class PolynomialFitterTest {
@@ -46,8 +47,8 @@ public class PolynomialFitterTest {
             PolynomialFunction fitted = fitter.fit();
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
-                double error = Math.abs(p.value(x) - fitted.value(x)) /
-                               (1.0 + Math.abs(p.value(x)));
+                double error = FastMath.abs(p.value(x) - fitted.value(x)) /
+                               (1.0 + FastMath.abs(p.value(x)));
                 assertEquals(0.0, error, 1.0e-6);
             }
 
@@ -72,10 +73,10 @@ public class PolynomialFitterTest {
             PolynomialFunction fitted = fitter.fit();
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
-                double error = Math.abs(p.value(x) - fitted.value(x)) /
-                              (1.0 + Math.abs(p.value(x)));
-                maxError = Math.max(maxError, error);
-                assertTrue(Math.abs(error) < 0.1);
+                double error = FastMath.abs(p.value(x) - fitted.value(x)) /
+                              (1.0 + FastMath.abs(p.value(x)));
+                maxError = FastMath.max(maxError, error);
+                assertTrue(FastMath.abs(error) < 0.1);
             }
         }
         assertTrue(maxError > 0.01);

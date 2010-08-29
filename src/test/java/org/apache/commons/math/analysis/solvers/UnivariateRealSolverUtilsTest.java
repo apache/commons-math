@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * @version $Revision$ $Date$
@@ -54,7 +55,7 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
 
     public void testSolveSin() throws MathException {
         double x = UnivariateRealSolverUtils.solve(sin, 1.0, 4.0);
-        assertEquals(Math.PI, x, 1.0e-4);
+        assertEquals(FastMath.PI, x, 1.0e-4);
     }
 
     public void testSolveAccuracyNull()  throws MathException {
@@ -71,7 +72,7 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
         double accuracy = 1.0e-6;
         double x = UnivariateRealSolverUtils.solve(sin, 1.0,
                 4.0, accuracy);
-        assertEquals(Math.PI, x, accuracy);
+        assertEquals(FastMath.PI, x, accuracy);
     }
 
     public void testSolveNoRoot() throws MathException {

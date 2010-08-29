@@ -27,6 +27,7 @@ import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for continuous distributions.  Default implementations are
@@ -124,10 +125,10 @@ public abstract class AbstractContinuousDistribution
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the
              * case if density has bounded support and p is 0 or 1).
              */
-            if (Math.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
+            if (FastMath.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
                 return lowerBound;
             }
-            if (Math.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
+            if (FastMath.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
                 return upperBound;
             }
             // Failed bracket convergence was not because of corner solution

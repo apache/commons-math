@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.ode.events.EventHandler;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.
@@ -50,7 +51,7 @@ public class TestProblem4
   public TestProblem4() {
     super();
     a = 1.2;
-    double[] y0 = { Math.sin(a), Math.cos(a) };
+    double[] y0 = { FastMath.sin(a), FastMath.cos(a) };
     setInitialConditions(0.0, y0);
     setFinalConditions(15);
     double[] errorScale = { 1.0, 0.0 };
@@ -87,9 +88,9 @@ public TestProblem4 copy() {
 
   @Override
   public double[] computeTheoreticalState(double t) {
-    double sin = Math.sin(t + a);
-    double cos = Math.cos(t + a);
-    y[0] = Math.abs(sin);
+    double sin = FastMath.sin(t + a);
+    double cos = FastMath.cos(t + a);
+    y[0] = FastMath.abs(sin);
     y[1] = (sin >= 0) ? cos : -cos;
     return y;
   }

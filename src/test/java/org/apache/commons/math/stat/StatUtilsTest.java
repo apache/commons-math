@@ -19,6 +19,7 @@ package org.apache.commons.math.stat;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for the {@link StatUtils} class.
@@ -203,13 +204,13 @@ public final class StatUtilsTest extends TestCase {
 
         // test one
         x = new double[] {two};
-        TestUtils.assertEquals(Math.log(two), StatUtils.sumLog(x), tolerance);
-        TestUtils.assertEquals(Math.log(two), StatUtils.sumLog(x, 0, 1), tolerance);
+        TestUtils.assertEquals(FastMath.log(two), StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(FastMath.log(two), StatUtils.sumLog(x, 0, 1), tolerance);
 
         // test many
         x = new double[] {one, two, two, three};
-        TestUtils.assertEquals(Math.log(one) + 2.0 * Math.log(two) + Math.log(three), StatUtils.sumLog(x), tolerance);
-        TestUtils.assertEquals(2.0 * Math.log(two), StatUtils.sumLog(x, 1, 2), tolerance);
+        TestUtils.assertEquals(FastMath.log(one) + 2.0 * FastMath.log(two) + FastMath.log(three), StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(2.0 * FastMath.log(two), StatUtils.sumLog(x, 1, 2), tolerance);
     }
 
     public void testMean() {
@@ -414,9 +415,9 @@ public final class StatUtilsTest extends TestCase {
             // expected
         }
         test = new double[] {2, 4, 6, 8};
-        assertEquals(Math.exp(0.25d * StatUtils.sumLog(test)),
+        assertEquals(FastMath.exp(0.25d * StatUtils.sumLog(test)),
                 StatUtils.geometricMean(test), Double.MIN_VALUE);
-        assertEquals(Math.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
+        assertEquals(FastMath.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
                 StatUtils.geometricMean(test, 0, 2), Double.MIN_VALUE);
     }
 }

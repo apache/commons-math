@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
 public class MersenneTwisterTest {
@@ -43,7 +44,7 @@ public class MersenneTwisterTest {
             sample.addValue(mt.nextDouble());
         }
         assertEquals(0.5, sample.getMean(), 0.02);
-        assertEquals(1.0 / (2.0 * Math.sqrt(3.0)),
+        assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(),
                      0.002);
     }
@@ -56,7 +57,7 @@ public class MersenneTwisterTest {
             sample.addValue(mt.nextFloat());
         }
         assertEquals(0.5, sample.getMean(), 0.01);
-        assertEquals(1.0 / (2.0 * Math.sqrt(3.0)),
+        assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(),
                      0.006);
     }
@@ -95,7 +96,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(Math.abs(walk) < 120);
+        assertTrue(FastMath.abs(walk) < 120);
     }
 
     @Test
@@ -109,7 +110,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(Math.abs(walk) < 50);
+        assertTrue(FastMath.abs(walk) < 50);
     }
 
     @Test
@@ -123,7 +124,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(Math.abs(walk) < 250);
+        assertTrue(FastMath.abs(walk) < 250);
     }
 
     @Test
@@ -140,8 +141,8 @@ public class MersenneTwisterTest {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int c : count) {
-            min = Math.min(min, c);
-            max = Math.max(max, c);
+            min = FastMath.min(min, c);
+            max = FastMath.max(max, c);
         }
         int expected = (100000 * bytes.length) / count.length;
         assertTrue((expected - 200) < min);

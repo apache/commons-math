@@ -32,6 +32,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * <p>Computes summary statistics for a stream of n-tuples added using the
@@ -248,7 +249,7 @@ public class MultivariateSummaryStatistics
         } else {
             RealMatrix matrix = covarianceImpl.getResult();
             for (int i = 0; i < k; ++i) {
-                stdDev[i] = Math.sqrt(matrix.getEntry(i, i));
+                stdDev[i] = FastMath.sqrt(matrix.getEntry(i, i));
             }
         }
         return stdDev;

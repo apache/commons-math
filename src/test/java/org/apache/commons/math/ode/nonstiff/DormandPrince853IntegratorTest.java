@@ -31,6 +31,7 @@ import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.DummyStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
 
@@ -71,7 +72,7 @@ public class DormandPrince853IntegratorTest
       double finalT = integrator.integrate(ode, t0, y0, tEvent, y);
       Assert.assertEquals(tEvent, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * Math.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * FastMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
       integrator.setInitialStepSize(60.0);
@@ -92,7 +93,7 @@ public class DormandPrince853IntegratorTest
       finalT = integrator.integrate(ode, t0, y0, tEvent + 120, y);
       Assert.assertEquals(tEvent + 120, finalT, 5.0e-6);
       for (int i = 0; i < y.length; ++i) {
-          Assert.assertEquals(y0[i] * Math.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
+          Assert.assertEquals(y0[i] * FastMath.exp(k[i] * (finalT - t0)), y[i], 1.0e-9);
       }
 
   }
@@ -160,7 +161,7 @@ public class DormandPrince853IntegratorTest
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
-      double scalAbsoluteTolerance = Math.pow(10.0, i);
+      double scalAbsoluteTolerance = FastMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
 
       FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
@@ -383,10 +384,10 @@ public class DormandPrince853IntegratorTest
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast) {
 
-      double step = Math.abs(interpolator.getCurrentTime()
+      double step = FastMath.abs(interpolator.getCurrentTime()
                              - interpolator.getPreviousTime());
       if (firstTime) {
-        minStep   = Math.abs(step);
+        minStep   = FastMath.abs(step);
         maxStep   = minStep;
         firstTime = false;
       } else {

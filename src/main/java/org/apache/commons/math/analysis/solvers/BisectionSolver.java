@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
@@ -96,7 +97,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
                 max = m;
             }
 
-            if (Math.abs(max - min) <= absoluteAccuracy) {
+            if (FastMath.abs(max - min) <= absoluteAccuracy) {
                 m = UnivariateRealSolverUtils.midpoint(min, max);
                 setResult(m, i);
                 return m;

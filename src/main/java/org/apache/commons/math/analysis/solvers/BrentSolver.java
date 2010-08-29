@@ -22,6 +22,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
@@ -136,14 +137,14 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         // return the initial guess if it is good enough
         double yInitial = f.value(initial);
-        if (Math.abs(yInitial) <= functionValueAccuracy) {
+        if (FastMath.abs(yInitial) <= functionValueAccuracy) {
             setResult(initial, 0);
             return result;
         }
 
         // return the first endpoint if it is good enough
         double yMin = f.value(min);
-        if (Math.abs(yMin) <= functionValueAccuracy) {
+        if (FastMath.abs(yMin) <= functionValueAccuracy) {
             setResult(min, 0);
             return result;
         }
@@ -155,7 +156,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         // return the second endpoint if it is good enough
         double yMax = f.value(max);
-        if (Math.abs(yMax) <= functionValueAccuracy) {
+        if (FastMath.abs(yMax) <= functionValueAccuracy) {
             setResult(max, 0);
             return result;
         }
@@ -204,10 +205,10 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         double sign = yMin * yMax;
         if (sign > 0) {
             // check if either value is close to a zero
-            if (Math.abs(yMin) <= functionValueAccuracy) {
+            if (FastMath.abs(yMin) <= functionValueAccuracy) {
                 setResult(min, 0);
                 ret = min;
-            } else if (Math.abs(yMax) <= functionValueAccuracy) {
+            } else if (FastMath.abs(yMax) <= functionValueAccuracy) {
                 setResult(max, 0);
                 ret = max;
             } else {
@@ -258,7 +259,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
         int i = 0;
         while (i < maximalIterationCount) {
-            if (Math.abs(y2) < Math.abs(y1)) {
+            if (FastMath.abs(y2) < FastMath.abs(y1)) {
                 // use the bracket point if is better than last approximation
                 x0 = x1;
                 x1 = x2;
@@ -267,7 +268,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 y1 = y2;
                 y2 = y0;
             }
-            if (Math.abs(y1) <= functionValueAccuracy) {
+            if (FastMath.abs(y1) <= functionValueAccuracy) {
                 // Avoid division by very small values. Assume
                 // the iteration has converged (the problem may
                 // still be ill conditioned)
@@ -276,13 +277,13 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             }
             double dx = x2 - x1;
             double tolerance =
-                Math.max(relativeAccuracy * Math.abs(x1), absoluteAccuracy);
-            if (Math.abs(dx) <= tolerance) {
+                FastMath.max(relativeAccuracy * FastMath.abs(x1), absoluteAccuracy);
+            if (FastMath.abs(dx) <= tolerance) {
                 setResult(x1, i);
                 return result;
             }
-            if ((Math.abs(oldDelta) < tolerance) ||
-                    (Math.abs(y0) <= Math.abs(y1))) {
+            if ((FastMath.abs(oldDelta) < tolerance) ||
+                    (FastMath.abs(y0) <= FastMath.abs(y1))) {
                 // Force bisection.
                 delta = 0.5 * dx;
                 oldDelta = delta;
@@ -309,8 +310,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
                 } else {
                     p = -p;
                 }
-                if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1) ||
-                        p >= Math.abs(0.5 * oldDelta * p1)) {
+                if (2.0 * p >= 1.5 * dx * p1 - FastMath.abs(tolerance * p1) ||
+                        p >= FastMath.abs(0.5 * oldDelta * p1)) {
                     // Inverse quadratic interpolation gives a value
                     // in the wrong direction, or progress is slow.
                     // Fall back to bisection.
@@ -325,7 +326,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
             x0 = x1;
             y0 = y1;
             // Compute new X1, Y1
-            if (Math.abs(delta) > tolerance) {
+            if (FastMath.abs(delta) > tolerance) {
                 x1 = x1 + delta;
             } else if (dx > 0.0) {
                 x1 = x1 + 0.5 * tolerance;

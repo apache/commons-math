@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Default implementation of
@@ -88,7 +89,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * @return CDF evaluted at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
-        return 0.5 + (Math.atan((x - median) / scale) / Math.PI);
+        return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
     }
 
     /**
@@ -117,7 +118,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Override
     public double density(double x) {
         final double dev = x - median;
-        return (1 / Math.PI) * (scale / (dev * dev + scale * scale));
+        return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));
     }
 
     /**
@@ -143,7 +144,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = median + scale * Math.tan(Math.PI * (p - .5));
+            ret = median + scale * FastMath.tan(FastMath.PI * (p - .5));
         }
         return ret;
     }

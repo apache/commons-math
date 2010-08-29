@@ -17,6 +17,7 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Abstract class implementing the {@link  RandomGenerator} interface.
@@ -263,7 +264,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
             s = v1 * v1 + v2 * v2;
         }
         if (s != 0) {
-            s = Math.sqrt(-2 * Math.log(s) / s);
+            s = FastMath.sqrt(-2 * FastMath.log(s) / s);
         }
         cachedNormalDeviate = v2 * s;
         return v1 * s;

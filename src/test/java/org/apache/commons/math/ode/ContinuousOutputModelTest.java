@@ -28,6 +28,7 @@ import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math.util.FastMath;
 
 public class ContinuousOutputModelTest
   extends TestCase {
@@ -101,7 +102,7 @@ public class ContinuousOutputModelTest
       FirstOrderIntegrator integ1 =
           new DormandPrince853Integrator(0, 1.0, 1.0e-8, 1.0e-8);
       integ1.addStepHandler(cm1);
-      integ1.integrate(problem, Math.PI, new double[] { -1.0, 0.0 },
+      integ1.integrate(problem, FastMath.PI, new double[] { -1.0, 0.0 },
                        0, new double[2]);
 
       // integrate backward from 2&pi; to &pi;
@@ -109,8 +110,8 @@ public class ContinuousOutputModelTest
       FirstOrderIntegrator integ2 =
           new DormandPrince853Integrator(0, 0.1, 1.0e-12, 1.0e-12);
       integ2.addStepHandler(cm2);
-      integ2.integrate(problem, 2.0 * Math.PI, new double[] { 1.0, 0.0 },
-                       Math.PI, new double[2]);
+      integ2.integrate(problem, 2.0 * FastMath.PI, new double[] { 1.0, 0.0 },
+                       FastMath.PI, new double[2]);
 
       // merge the two half circles
       ContinuousOutputModel cm = new ContinuousOutputModel();
@@ -119,14 +120,14 @@ public class ContinuousOutputModelTest
       cm.append(cm1);
 
       // check circle
-      assertEquals(2.0 * Math.PI, cm.getInitialTime(), 1.0e-12);
+      assertEquals(2.0 * FastMath.PI, cm.getInitialTime(), 1.0e-12);
       assertEquals(0, cm.getFinalTime(), 1.0e-12);
       assertEquals(cm.getFinalTime(), cm.getInterpolatedTime(), 1.0e-12);
-      for (double t = 0; t < 2.0 * Math.PI; t += 0.1) {
+      for (double t = 0; t < 2.0 * FastMath.PI; t += 0.1) {
           cm.setInterpolatedTime(t);
           double[] y = cm.getInterpolatedState();
-          assertEquals(Math.cos(t), y[0], 1.0e-7);
-          assertEquals(Math.sin(t), y[1], 1.0e-7);
+          assertEquals(FastMath.cos(t), y[0], 1.0e-7);
+          assertEquals(FastMath.sin(t), y[1], 1.0e-7);
       }
 
   }
@@ -174,7 +175,7 @@ public class ContinuousOutputModelTest
   }
 
   public void checkValue(double value, double reference) {
-    assertTrue(Math.abs(value - reference) < 1.0e-10);
+    assertTrue(FastMath.abs(value - reference) < 1.0e-10);
   }
 
   @Override

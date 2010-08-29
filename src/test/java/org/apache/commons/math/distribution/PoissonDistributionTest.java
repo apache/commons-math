@@ -17,6 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * <code>PoissonDistributionTest</code>
@@ -152,7 +153,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             double x = mean * 2.0;
             double dx = x / 10.0;
             double p = Double.NaN;
-            double sigma = Math.sqrt(mean);
+            double sigma = FastMath.sqrt(mean);
             while (x >= 0) {
                 try {
                     p = dist.cumulativeProbability(x);

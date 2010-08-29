@@ -22,6 +22,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.NumberTransformer;
 import org.apache.commons.math.util.TransformerMap;
 
@@ -40,7 +41,7 @@ public final class MixedListUnivariateImplTest extends TestCase {
     private double sumSq = 18;
     private double sum = 8;
     private double var = 0.666666666666666666667;
-    private double std = Math.sqrt(var);
+    private double std = FastMath.sqrt(var);
     private double n = 4;
     private double min = 1;
     private double max = 3;
