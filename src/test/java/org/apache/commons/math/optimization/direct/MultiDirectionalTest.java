@@ -91,7 +91,7 @@ public class MultiDirectionalTest {
 
       MultiDirectional optimizer = new MultiDirectional();
       optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-11, 1.0e-30));
-      optimizer.setMaxIterations(200);
+      optimizer.setMaxEvaluations(200);
       optimizer.setStartConfiguration(new double[] { 0.2, 0.2 });
       RealPointValuePair optimum;
 
@@ -146,7 +146,7 @@ public class MultiDirectionalTest {
     count = 0;
     MultiDirectional optimizer = new MultiDirectional();
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
-    optimizer.setMaxIterations(100);
+    optimizer.setMaxEvaluations(100);
     optimizer.setStartConfiguration(new double[][] {
             { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
     });
@@ -180,7 +180,7 @@ public class MultiDirectionalTest {
     count = 0;
     MultiDirectional optimizer = new MultiDirectional();
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1.0, 1.0e-3));
-    optimizer.setMaxIterations(1000);
+    optimizer.setMaxEvaluations(1000);
     RealPointValuePair optimum =
       optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
     Assert.assertEquals(count, optimizer.getEvaluations());
@@ -196,7 +196,6 @@ public class MultiDirectionalTest {
       // fails because MultiDirectional.iterateSimplex is looping forever
       // the while(true) should be replaced with a convergence check
       MultiDirectional multiDirectional = new MultiDirectional();
-      multiDirectional.setMaxIterations(100);
       multiDirectional.setMaxEvaluations(1000);
 
       final Gaussian2D function = new Gaussian2D(0.0, 0.0, 1.0);

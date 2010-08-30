@@ -16,9 +16,11 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
+import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -26,6 +28,7 @@ import org.apache.commons.math.optimization.GoalType;
  * Provide an interval that brackets a local optimum of a function.
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
+ *
  * @version $Revision$ $Date$
  * @since 2.2
  */
@@ -41,17 +44,9 @@ public class BracketFinder {
      */
     private final double growLimit;
     /**
-     * Maximum number of iterations.
+     * Counter for function evaluations.
      */
-    private final int maxIterations;
-    /**
-     * Number of iterations.
-     */
-    private int iterations;
-    /**
-     * Number of function evaluations.
-     */
-    private int evaluations;
+    private final Incrementor evaluations = new Incrementor();
     /**
      * Lower bound of the bracket.
      */
@@ -89,20 +84,20 @@ public class BracketFinder {
      * Create a bracketing interval finder.
      *
      * @param growLimit Expanding factor.
-     * @param maxIterations Maximum number of iterations allowed for finding
+     * @param maxEvaluations Maximum number of evaluations allowed for finding
      * a bracketing interval.
      */
     public BracketFinder(double growLimit,
-                         int maxIterations) {
+                         int maxEvaluations) {
         if (growLimit <= 0) {
             throw new NotStrictlyPositiveException(growLimit);
         }
-        if (maxIterations <= 0) {
-            throw new NotStrictlyPositiveException(maxIterations);
+        if (maxEvaluations <= 0) {
+            throw new NotStrictlyPositiveException(maxEvaluations);
         }
 
         this.growLimit = growLimit;
-        this.maxIterations = maxIterations;
+        evaluations.setMaximalCount(maxEvaluations);
     }
 
     /**
@@ -112,7 +107,7 @@ public class BracketFinder {
      * @param goal {@link GoalType Goal type}.
      * @param xA Initial point.
      * @param xB Initial point.
-     * @throws MaxIterationsExceededException if the maximum iteration count
+     * @throws TooManyEvaluationsException if the maximum number of evaluations
      * is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function.
@@ -121,9 +116,8 @@ public class BracketFinder {
                        GoalType goal,
                        double xA,
                        double xB)
-        throws MaxIterationsExceededException,
-               FunctionEvaluationException {
-        reset();
+        throws FunctionEvaluationException {
+        evaluations.resetCount();
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
         double fA = eval(func, xA);
@@ -131,6 +125,7 @@ public class BracketFinder {
         if (isMinim ?
             fA < fB :
             fA > fB) {
+
             double tmp = xA;
             xA = xB;
             xB = tmp;
@@ -144,10 +139,6 @@ public class BracketFinder {
         double fC = eval(func, xC);
 
         while (isMinim ? fC < fB : fC > fB) {
-            if (++iterations > maxIterations) {
-                throw new MaxIterationsExceededException(maxIterations);
-            }
-
             double tmp1 = (xB - xA) * (fB - fC);
             double tmp2 = (xB - xC) * (fB - fA);
 
@@ -187,7 +178,7 @@ public class BracketFinder {
                     fW > fC) {
                     xB = xC;
                     xC = w;
-                    w = xC + GOLD * (xC -xB);
+                    w = xC + GOLD * (xC - xB);
                     fB = fC;
                     fC =fW;
                     fW = eval(func, w);
@@ -198,37 +189,48 @@ public class BracketFinder {
             }
 
             xA = xB;
-            xB = xC;
-            xC = w;
             fA = fB;
+            xB = xC;
             fB = fC;
+            xC = w;
             fC = fW;
         }
 
         lo = xA;
-        mid = xB;
-        hi = xC;
         fLo = fA;
+        mid = xB;
         fMid = fB;
+        hi = xC;
         fHi = fC;
+
+        if (lo > hi) {
+            double tmp = lo;
+            lo = hi;
+            hi = tmp;
+
+            tmp = fLo;
+            fLo = fHi;
+            fHi = tmp;
+        }
     }
 
     /**
-     * @return the number of iterations.
+     * @return the number of evalutations.
      */
-    public int getIterations() {
-        return iterations;
+    public int getMaxEvaluations() {
+        return evaluations.getMaximalCount();
     }
+
     /**
      * @return the number of evalutations.
      */
     public int getEvaluations() {
-        return evaluations;
+        return evaluations.getCount();
     }
 
     /**
      * @return the lower bound of the bracket.
-     * @see #getFLow()
+     * @see #getFLo()
      */
     public double getLo() {
         return lo;
@@ -238,7 +240,7 @@ public class BracketFinder {
      * Get function value at {@link #getLo()}.
      * @return function value at {@link #getLo()}
      */
-    public double getFLow() {
+    public double getFLo() {
         return fLo;
     }
 
@@ -278,21 +280,18 @@ public class BracketFinder {
      * @param f Function.
      * @param x Argument.
      * @return {@code f(x)}
-     * @throws FunctionEvaluationException if function cannot be evaluated at x
+     * @throws FunctionEvaluationException if function cannot be evaluated.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations is
+     * exceeded.
      */
     private double eval(UnivariateRealFunction f,
                         double x)
         throws FunctionEvaluationException {
-
-        ++evaluations;
+        try {
+            evaluations.incrementCount();
+        } catch (MaxCountExceededException e) {
+            throw new TooManyEvaluationsException(e.getMax());
+        }
         return f.value(x);
-    }
-
-    /**
-     * Reset internal state.
-     */
-    private void reset() {
-        iterations = 0;
-        evaluations = 0;
     }
 }

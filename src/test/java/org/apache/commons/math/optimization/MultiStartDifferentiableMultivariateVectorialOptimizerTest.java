@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import java.io.Serializable;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -112,7 +113,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         // no optima before first optimization attempt
@@ -134,14 +135,10 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         }
         assertTrue(optimizer.getEvaluations() > 20);
         assertTrue(optimizer.getEvaluations() < 50);
-        assertTrue(optimizer.getIterations() > 20);
-        assertTrue(optimizer.getIterations() < 50);
-        assertTrue(optimizer.getJacobianEvaluations() > 20);
-        assertTrue(optimizer.getJacobianEvaluations() < 50);
-        assertEquals(100, optimizer.getMaxIterations());
+        assertEquals(100, optimizer.getMaxEvaluations());
     }
 
-    @Test(expected = OptimizationException.class)
+    @Test(expected = ConvergenceException.class)
     public void testNoOptimum() throws FunctionEvaluationException, OptimizationException {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true);
@@ -152,7 +149,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         optimizer.optimize(new DifferentiableMultivariateVectorialFunction() {
                 public MultivariateMatrixFunction jacobian() {

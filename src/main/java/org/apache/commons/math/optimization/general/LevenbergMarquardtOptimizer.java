@@ -19,9 +19,10 @@ package org.apache.commons.math.optimization.general;
 import java.util.Arrays;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
@@ -150,9 +151,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * Build an optimizer for least squares problems.
      * <p>The default values for the algorithm settings are:
      *   <ul>
-     *    <li>{@link #setConvergenceChecker(VectorialConvergenceChecker) vectorial convergence checker}: null</li>
+     *    <li>{@link #setConvergenceChecker(ConvergenceChecker) vectorial convergence checker}: null</li>
      *    <li>{@link #setInitialStepBoundFactor(double) initial step bound factor}: 100.0</li>
-     *    <li>{@link #setMaxIterations(int) maximal iterations}: 1000</li>
      *    <li>{@link #setCostRelativeTolerance(double) cost relative tolerance}: 1.0e-10</li>
      *    <li>{@link #setParRelativeTolerance(double) parameters relative tolerance}: 1.0e-10</li>
      *    <li>{@link #setOrthoTolerance(double) orthogonality tolerance}: 1.0e-10</li>
@@ -165,10 +165,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * and {@link #setParRelativeTolerance parameters relative tolerance} settings.
      */
     public LevenbergMarquardtOptimizer() {
-
-        // set up the superclass with a default  max cost evaluations setting
-        setMaxIterations(1000);
-
         // default values for the tuning parameters
         setConvergenceChecker(null);
         setInitialStepBoundFactor(100.0);
@@ -176,7 +172,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         setParRelativeTolerance(1.0e-10);
         setOrthoTolerance(1.0e-10);
         setQRRankingThreshold(MathUtils.SAFE_MIN);
-
     }
 
     /**
@@ -239,8 +234,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    protected VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+    protected VectorialPointValuePair doOptimize() throws FunctionEvaluationException {
 
         // arrays shared with the other private methods
         solvedCols  = FastMath.min(rows, cols);
@@ -269,11 +263,14 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         lmPar = 0;
         boolean firstIteration = true;
         VectorialPointValuePair current = new VectorialPointValuePair(point, objective);
+        int iter = 0;
+        final ConvergenceChecker<VectorialPointValuePair> checker = getConvergenceChecker();
         while (true) {
+            ++iter;
+
             for (int i=0;i<rows;i++) {
                 qtf[i]=weightedResiduals[i];
             }
-            incrementIterationsCounter();
 
             // compute the Q.R. decomposition of the jacobian matrix
             VectorialPointValuePair previous = current;
@@ -290,7 +287,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
 
             if (firstIteration) {
-
                 // scale the point according to the norms of the columns
                 // of the initial jacobian
                 xNorm = 0;
@@ -307,7 +303,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
                 // initialize the step bound delta
                 delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);
-
             }
 
             // check orthogonality between function vector and jacobian columns
@@ -425,17 +420,17 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     xNorm = 0;
                     for (int k = 0; k < cols; ++k) {
                         double xK = diag[k] * point[k];
-                        xNorm    += xK * xK;
+                        xNorm += xK * xK;
                     }
                     xNorm = FastMath.sqrt(xNorm);
                     current = new VectorialPointValuePair(point, objective);
 
                     // tests for convergence.
                     if (checker != null) {
-                    // we use the vectorial convergence checker
-                        if (checker.converged(getIterations(), previous, current)) {
-                            return current;
-                        }
+                        // we use the vectorial convergence checker
+                    	if (checker.converged(iter, previous, current)) {
+                    		return current;
+                    	}
                     }
                 } else {
                     // failed iteration, reset the previous values
@@ -462,20 +457,17 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 // tests for termination and stringent tolerances
                 // (2.2204e-16 is the machine epsilon for IEEE754)
                 if ((FastMath.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
-                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
+                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
                             costRelativeTolerance);
                 } else if (delta <= 2.2204e-16 * xNorm) {
-                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,
+                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,
                             parRelativeTolerance);
                 } else if (maxCosine <= 2.2204e-16)  {
-                    throw new OptimizationException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,
+                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,
                             orthoTolerance);
                 }
-
             }
-
         }
-
     }
 
     /**
@@ -733,7 +725,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                         lmDiag[i] = -sin * rik + cos * lmDiag[i];
                         weightedResidualJacobian[i][pk] = temp2;
                     }
-
                 }
             }
 
@@ -741,7 +732,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             // the corresponding diagonal element of R
             lmDiag[j] = weightedResidualJacobian[j][permutation[j]];
             weightedResidualJacobian[j][permutation[j]] = lmDir[j];
-
         }
 
         // solve the triangular system for z, if the system is
@@ -770,7 +760,6 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         for (int j = 0; j < lmDir.length; ++j) {
             lmDir[permutation[j]] = work[j];
         }
-
     }
 
     /**
@@ -793,9 +782,9 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * are performed in non-increasing columns norms order thanks to columns
      * pivoting. The diagonal elements of the R matrix are therefore also in
      * non-increasing absolute values order.</p>
-     * @exception OptimizationException if the decomposition cannot be performed
+     * @exception ConvergenceException if the decomposition cannot be performed
      */
-    private void qrDecomposition() throws OptimizationException {
+    private void qrDecomposition() throws ConvergenceException {
 
         // initializations
         for (int k = 0; k < cols; ++k) {
@@ -821,7 +810,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     norm2 += aki * aki;
                 }
                 if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
-                    throw new OptimizationException(LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,
+                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,
                             rows, cols);
                 }
                 if (norm2 > ak2) {
@@ -858,11 +847,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     weightedResidualJacobian[j][permutation[k + dk]] -= gamma * weightedResidualJacobian[j][pk];
                 }
             }
-
         }
-
         rank = solvedCols;
-
     }
 
     /**
@@ -883,5 +869,4 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
         }
     }
-
 }

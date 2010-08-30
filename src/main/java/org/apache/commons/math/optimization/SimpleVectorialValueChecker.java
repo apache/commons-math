@@ -19,72 +19,82 @@ package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
- * Simple implementation of the {@link VectorialConvergenceChecker} interface using
+ * Simple implementation of the {@link ConvergenceChecker} interface using
  * only objective function values.
- * <p>
+ *
  * Convergence is considered to have been reached if either the relative
  * difference between the objective function values is smaller than a
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold for all vectors elements.
- * </p>
+ *
  * @version $Revision$ $Date$
- * @since 2.0
+ * @since 3.0
  */
-public class SimpleVectorialValueChecker implements VectorialConvergenceChecker {
-
-    /** Default relative threshold. */
-    private static final double DEFAULT_RELATIVE_THRESHOLD = 100 * MathUtils.EPSILON;
-
-    /** Default absolute threshold. */
-    private static final double DEFAULT_ABSOLUTE_THRESHOLD = 100 * MathUtils.SAFE_MIN;
-
-    /** Relative tolerance threshold. */
-    private final double relativeThreshold;
-
-    /** Absolute tolerance threshold. */
-    private final double absoluteThreshold;
-
-   /** Build an instance with default threshold.
+public class SimpleVectorialValueChecker
+    extends AbstractConvergenceChecker<VectorialPointValuePair> {
+    /**
+     * Build an instance with default thresholds.
      */
-    public SimpleVectorialValueChecker() {
-        this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;
-        this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;
-    }
+    public SimpleVectorialValueChecker() {}
 
-    /** Build an instance with a specified threshold.
-     * <p>
+    /**
+     * Build an instance with specified thresholds.
+     *
      * In order to perform only relative checks, the absolute tolerance
      * must be set to a negative value. In order to perform only absolute
      * checks, the relative tolerance must be set to a negative value.
-     * </p>
+     *
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
     public SimpleVectorialValueChecker(final double relativeThreshold,
                                        final double absoluteThreshold) {
-        this.relativeThreshold = relativeThreshold;
-        this.absoluteThreshold = absoluteThreshold;
+        super(relativeThreshold, absoluteThreshold);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Check if the optimization algorithm has converged considering the
+     * last two points.
+     * This method may be called several time from the same algorithm
+     * iteration with different points. This can be detected by checking the
+     * iteration number at each call if needed. Each time this method is
+     * called, the previous and current point correspond to points with the
+     * same role at each iteration, so they can be compared. As an example,
+     * simplex-based algorithms call this method for all points of the simplex,
+     * not only for the best or worst ones.
+     *
+     * @param iteration Index of current iteration
+     * @param points Points used for checking convergence. The list must
+     * contain two elements:
+     * <ul>
+     *  <li>the previous best point,</li>
+     *  <li>the current best point.</li>
+     * </ul>
+     * @return {@code true} if the algorithm has converged.
+     * @throws DimensionMismatchException if the length of the {@code points}
+     * list is not equal to 2.
+     */
     public boolean converged(final int iteration,
-                             final VectorialPointValuePair previous,
-                             final VectorialPointValuePair current) {
-        final double[] p        = previous.getValueRef();
-        final double[] c        = current.getValueRef();
+                             final VectorialPointValuePair ... points) {
+        if (points.length != 2) {
+            throw new DimensionMismatchException(points.length, 2);
+        }
+
+        final double[] p = points[0].getValueRef();
+        final double[] c = points[1].getValueRef();
         for (int i = 0; i < p.length; ++i) {
             final double pi         = p[i];
             final double ci         = c[i];
             final double difference = FastMath.abs(pi - ci);
             final double size       = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
-            if ((difference > (size * relativeThreshold)) &&
-                (difference > absoluteThreshold)) {
+            if (difference > size * getRelativeThreshold() &&
+                difference > getAbsoluteThreshold()) {
                 return false;
             }
         }
         return true;
     }
-
 }

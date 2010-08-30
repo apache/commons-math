@@ -20,20 +20,24 @@ package org.apache.commons.math.optimization.general;
 import java.util.Arrays;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math.optimization.univariate.UnivariateRealPointValuePair;
 
 /**
  * Powell algorithm.
  * This code is translated and adapted from the Python version of this
  * algorithm (as implemented in module {@code optimize.py} v0.5 of
  * <em>SciPy</em>).
+ * <br/>
+ * The user is responsible for calling {@link
+ * #setConvergenceChecker(ConvergenceChecker) ConvergenceChecker}
+ * prior to using the optimizer.
  *
  * @version $Revision$ $Date$
  * @since 2.2
@@ -41,56 +45,44 @@ import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 public class PowellOptimizer
     extends AbstractScalarOptimizer {
     /**
-     * Default relative tolerance for line search ({@value}).
-     */
-    public static final double DEFAULT_LS_RELATIVE_TOLERANCE = 1e-7;
-    /**
-     * Default absolute tolerance for line search ({@value}).
-     */
-    public static final double DEFAULT_LS_ABSOLUTE_TOLERANCE = 1e-11;
-    /**
      * Line search.
      */
-    private final LineSearch line;
+    private LineSearch line = new LineSearch();
 
     /**
-     * Constructor with default line search tolerances (see the
-     * {@link #PowellOptimizer(double,double) other constructor}).
-     */
-    public PowellOptimizer() {
-        this(DEFAULT_LS_RELATIVE_TOLERANCE,
-             DEFAULT_LS_ABSOLUTE_TOLERANCE);
-    }
-
-    /**
-     * Constructor with default absolute line search tolerances (see
-     * the {@link #PowellOptimizer(double,double) other constructor}).
+     * Set the convergence checker.
+     * It also indirectly sets the line search tolerances to the square-root
+     * of the correponding tolerances in the checker.
      *
-     * @param lsRelativeTolerance Relative error tolerance for
-     * the line search algorithm ({@link BrentOptimizer}).
+     * @param checker Convergence checker.
      */
-    public PowellOptimizer(double lsRelativeTolerance) {
-        this(lsRelativeTolerance,
-             DEFAULT_LS_ABSOLUTE_TOLERANCE);
+    public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> checker) {
+        super.setConvergenceChecker(checker);
+
+        // Line search tolerances can be much lower than the tolerances
+        // required for the optimizer itself.
+        final double minTol = 1e-4;
+        final double rel = Math.min(Math.sqrt(checker.getRelativeThreshold()), minTol);
+        final double abs = Math.min(Math.sqrt(checker.getAbsoluteThreshold()), minTol);
+        line.setConvergenceChecker(new BrentOptimizer.BrentConvergenceChecker(rel, abs));
     }
 
-    /**
-     * @param lsRelativeTolerance Relative error tolerance for
-     * the line search algorithm ({@link BrentOptimizer}).
-     * @param lsAbsoluteTolerance Relative error tolerance for
-     * the line search algorithm ({@link BrentOptimizer}).
-     */
-    public PowellOptimizer(double lsRelativeTolerance,
-                           double lsAbsoluteTolerance) {
-        line = new LineSearch(lsRelativeTolerance,
-                              lsAbsoluteTolerance);
+    /** {@inheritDoc} */
+    @Override
+    public void setMaxEvaluations(int maxEvaluations) {
+        super.setMaxEvaluations(maxEvaluations);
+
+        // We must allow at least as many iterations to the underlying line
+        // search optimizer. Because the line search inner class will call 
+        // "computeObjectiveValue" in this class, we ensure that this class
+        // will be the first to eventually throw "TooManyEvaluationsException".
+        line.setMaxEvaluations(maxEvaluations);
     }
 
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
-        throws FunctionEvaluationException,
-               OptimizationException {
+        throws FunctionEvaluationException {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -103,8 +95,9 @@ public class PowellOptimizer
         double[] x = guess;
         double fVal = computeObjectiveValue(x);
         double[] x1 = x.clone();
+        int iter = 0;
         while (true) {
-            incrementIterationsCounter();
+            ++iter;
 
             double fX = fVal;
             double fX2 = 0;
@@ -117,9 +110,9 @@ public class PowellOptimizer
 
                 fX2 = fVal;
 
-                line.search(x, d);
-                fVal = line.getValueAtOptimum();
-                alphaMin = line.getOptimum();
+                final UnivariateRealPointValuePair optimum = line.search(x, d);
+                fVal = optimum.getValue();
+                alphaMin = optimum.getPoint();
                 final double[][] result = newPointAndDirection(x, d, alphaMin);
                 x = result[0];
 
@@ -131,7 +124,7 @@ public class PowellOptimizer
 
             final RealPointValuePair previous = new RealPointValuePair(x1, fX);
             final RealPointValuePair current = new RealPointValuePair(x, fVal);
-            if (getConvergenceChecker().converged(getIterations(), previous, current)) {
+            if (getConvergenceChecker().converged(iter, previous, current)) {
                 if (goal == GoalType.MINIMIZE) {
                     return (fVal < fX) ? current : previous;
                 } else {
@@ -157,9 +150,9 @@ public class PowellOptimizer
                 t -= delta * temp * temp;
 
                 if (t < 0.0) {
-                    line.search(x, d);
-                    fVal = line.getValueAtOptimum();
-                    alphaMin = line.getOptimum();
+                    final UnivariateRealPointValuePair optimum = line.search(x, d);
+                    fVal = optimum.getValue();
+                    alphaMin = optimum.getPoint();
                     final double[][] result = newPointAndDirection(x, d, alphaMin);
                     x = result[0];
 
@@ -200,11 +193,7 @@ public class PowellOptimizer
      * Class for finding the minimum of the objective function along a given
      * direction.
      */
-    private class LineSearch {
-        /**
-         * Optimizer.
-         */
-        private final AbstractUnivariateRealOptimizer optim = new BrentOptimizer();
+    private class LineSearch extends BrentOptimizer {
         /**
          * Automatic bracketing.
          */
@@ -212,78 +201,41 @@ public class PowellOptimizer
         /**
          * Value of the optimum.
          */
-        private double optimum = Double.NaN;
-        /**
-         * Value of the objective function at the optimum.
-         */
-        private double valueAtOptimum = Double.NaN;
-
-        /**
-         * @param relativeTolerance Relative tolerance.
-         * @param absoluteTolerance Absolute tolerance.
-         */
-        public LineSearch(double relativeTolerance,
-                          double absoluteTolerance) {
-            optim.setRelativeAccuracy(relativeTolerance);
-            optim.setAbsoluteAccuracy(absoluteTolerance);
-        }
+        private UnivariateRealPointValuePair optimum;
 
         /**
          * Find the minimum of the function {@code f(p + alpha * d)}.
          *
          * @param p Starting point.
          * @param d Search direction.
-         * @throws OptimizationException if function cannot be evaluated at some test point
-         * or algorithm fails to converge
-         */
-        public void search(final double[] p,
-                           final double[] d)
-            throws OptimizationException {
-
-            // Reset.
-            optimum = Double.NaN;
-            valueAtOptimum = Double.NaN;
-
-            try {
-                final int n = p.length;
-                final UnivariateRealFunction f = new UnivariateRealFunction() {
-                        public double value(double alpha)
-                            throws FunctionEvaluationException {
-
-                            final double[] x = new double[n];
-                            for (int i = 0; i < n; i++) {
-                                x[i] = p[i] + alpha * d[i];
-                            }
-                            final double obj = computeObjectiveValue(x);
-                            return obj;
-                        }
-                    };
-
-                final GoalType goal = getGoalType();
-                bracket.search(f, goal, 0, 1);
-                optimum = optim.optimize(f, goal,
-                                         bracket.getLo(),
-                                         bracket.getHi(),
-                                         bracket.getMid());
-                valueAtOptimum = optim.getFunctionValue();
-            } catch (FunctionEvaluationException e) {
-                throw new OptimizationException(e);
-            } catch (MaxIterationsExceededException e) {
-                throw new OptimizationException(e);
-            }
-        }
-
-        /**
          * @return the optimum.
+         * @throws FunctionEvaluationException if the function evaluation
+         * fails.
+         * @throws TooManyEvaluationsException if the number of evaluations is
+         * exceeded.
          */
-        public double getOptimum() {
-            return optimum;
-        }
-        /**
-         * @return the value of the function at the optimum.
-         */
-        public double getValueAtOptimum() {
-            return valueAtOptimum;
+        public UnivariateRealPointValuePair search(final double[] p,
+                                                   final double[] d)
+            throws FunctionEvaluationException {
+
+            final int n = p.length;
+            final UnivariateRealFunction f = new UnivariateRealFunction() {
+                    public double value(double alpha)
+                        throws FunctionEvaluationException {
+                        
+                        final double[] x = new double[n];
+                        for (int i = 0; i < n; i++) {
+                            x[i] = p[i] + alpha * d[i];
+                        }
+                        final double obj = PowellOptimizer.this.computeObjectiveValue(x);
+                        return obj;
+                    }
+                };
+            
+            final GoalType goal = PowellOptimizer.this.getGoalType();
+            bracket.search(f, goal, 0, 1);
+            return optimize(f, goal, bracket.getLo(), bracket.getHi(),
+                            bracket.getMid());
         }
     }
 }

@@ -21,56 +21,54 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.optimization.BaseMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
  * This base class handles the boiler-plate methods associated to thresholds
  * settings, iterations and evaluations counting.
- * This class is mainly intended to enforce the internal coherence of
- * Commons-FastMath.
- * A class that implements an optimization algorithm should inherit from
- * {@link AbstractScalarOptimizer} or from
- * {@link AbstractScalarDifferentiableOptimizer}.
  *
- * @param <T> the type of the objective function to be optimized
+ * @param <FUNC> the type of the objective function to be optimized
  *
  * @version $Revision$ $Date$
- * @since 2.2
+ * @since 3.0
  */
-public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunction>
-    implements BaseMultivariateRealOptimizer<T> {
+public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVectorialFunction>
+    implements BaseMultivariateVectorialOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
     /** Convergence checker. */
-    private ConvergenceChecker<RealPointValuePair> checker;
-    /** Type of optimization. */
-    private GoalType goal;
+    private ConvergenceChecker<VectorialPointValuePair> checker;
+    /** Target value for the objective functions at optimum. */
+    private double[] target;
+    /** Weight for the least squares cost computation. */
+    private double[] weight;
     /** Initial guess. */
     private double[] start;
     /** Objective function. */
-    private MultivariateRealFunction function;
+    private MultivariateVectorialFunction function;
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleScalarValueChecker} and
+     * The convergence check is set to a {@link SimpleVectorialValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
-    protected BaseAbstractScalarOptimizer() {
-        this(new SimpleScalarValueChecker(), Integer.MAX_VALUE);
+    protected BaseAbstractVectorialOptimizer() {
+        this(new SimpleVectorialValueChecker(),  Integer.MAX_VALUE);
     }
     /**
      * @param checker Convergence checker.
      * @param maxEvaluations Maximum number of function evaluations.
      */
-    protected BaseAbstractScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker,
-                                          int maxEvaluations) {
+    protected BaseAbstractVectorialOptimizer(ConvergenceChecker<VectorialPointValuePair> checker,
+                                             int maxEvaluations) {
         this.checker = checker;
         evaluations.setMaximalCount(maxEvaluations);
     }
@@ -91,12 +89,12 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> convergenceChecker) {
+    public void setConvergenceChecker(ConvergenceChecker<VectorialPointValuePair> convergenceChecker) {
         this.checker = convergenceChecker;
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<RealPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {
         return checker;
     }
 
@@ -109,7 +107,7 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
      */
-    protected double computeObjectiveValue(double[] point)
+    protected double[] computeObjectiveValue(double[] point)
         throws FunctionEvaluationException {
         try {
             evaluations.incrementCount();
@@ -120,27 +118,26 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(T f,
-                                       GoalType goalType,
-                                       double[] startPoint)
+    public VectorialPointValuePair optimize(FUNC f,
+                                            double[] target, double[] weight,
+                                            double[] startPoint)
         throws FunctionEvaluationException {
+
+        if (target.length != weight.length) {
+            throw new DimensionMismatchException(target.length, weight.length);
+        }
+
         // Reset.
         evaluations.resetCount();
 
         // Store optimization problem characteristics.
         function = f;
-        goal = goalType;
+        this.target = target.clone();
+        this.weight = weight.clone();
         start = startPoint.clone();
 
         // Perform computation.
         return doOptimize();
-    }
-
-    /**
-     * @return the optimization type.
-     */
-    public GoalType getGoalType() {
-        return goal;
     }
 
     /**
@@ -157,6 +154,19 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
      * @throws FunctionEvaluationException if the objective function throws one during
      * the search
      */
-    protected abstract RealPointValuePair doOptimize()
+    protected abstract VectorialPointValuePair doOptimize()
         throws FunctionEvaluationException;
+
+    /**
+     * @return a reference to the {@link #target array}.
+     */
+    protected double[] getTargetRef() {
+        return target;
+    }
+    /**
+     * @return a reference to the {@link #weight array}.
+     */
+    protected double[] getWeightRef() {
+        return weight;
+    }
 }

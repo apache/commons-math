@@ -25,7 +25,7 @@ import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
@@ -43,17 +43,17 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  */
 
 public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
-
     /** Indicator for using LU decomposition. */
     private final boolean useLU;
 
-    /** Simple constructor with default settings.
-     * <p>The convergence check is set to a {@link
-     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}
-     * and the maximal number of evaluation is set to
-     * {@link AbstractLeastSquaresOptimizer#DEFAULT_MAX_ITERATIONS}.
-     * @param useLU if true, the normal equations will be solved using LU
-     * decomposition, otherwise they will be solved using QR decomposition
+    /**
+     * Simple constructor with default settings.
+     * The convergence check is set to a {@link
+     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}.
+     *
+     * @param useLU if {@code true}, the normal equations will be solved
+     * using LU decomposition, otherwise they will be solved using QR
+     * decomposition.
      */
     public GaussNewtonOptimizer(final boolean useLU) {
         this.useLU = useLU;
@@ -62,19 +62,22 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     public VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException {
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;
+        int iter = 0;
         for (boolean converged = false; !converged;) {
-
-            incrementIterationsCounter();
+            ++iter;
 
             // evaluate the objective function and its jacobian
             VectorialPointValuePair previous = current;
             updateResidualsAndCost();
             updateJacobian();
             current = new VectorialPointValuePair(point, objective);
+
+            final double[] targetValues = getTargetRef();
+            final double[] residualsWeights = getWeightRef();
 
             // build the linear problem
             final double[]   b = new double[cols];
@@ -99,11 +102,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                         ak[l] += wgk * grad[l];
                     }
                 }
-
             }
 
             try {
-
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
                 DecompositionSolver solver = useLU ?
@@ -115,21 +116,16 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 for (int i = 0; i < cols; ++i) {
                     point[i] += dX[i];
                 }
-
-            } catch(InvalidMatrixException e) {
-                throw new OptimizationException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+            } catch (InvalidMatrixException e) {
+                throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
             }
 
             // check convergence
             if (previous != null) {
-                converged = checker.converged(getIterations(), previous, current);
+                converged = getConvergenceChecker().converged(iter, previous, current);
             }
-
         }
-
         // we have converged
         return current;
-
     }
-
 }

@@ -48,13 +48,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i];
         }
-        // doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-5, 1e-9, 1e-7);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i] + 3;
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-5, 1e-9, 1e-7);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
     }
 
     @Test
@@ -80,13 +80,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i];
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-5, 1e-9, 1e-8);
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i] - 20;
         }
-        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-5, 1e-9, 1e-8);
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-8);
     }
 
     @Test
@@ -112,13 +112,13 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = maxPoint[i];
         }
-        doTest(func, maxPoint, init,  GoalType.MAXIMIZE, 1e-5, 1e-9, 1e-8);
+        doTest(func, maxPoint, init,  GoalType.MAXIMIZE, 1e-9, 1e-8);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = maxPoint[i] - 20;
         }
-        doTest(func, maxPoint, init, GoalType.MAXIMIZE, 1e-5, 1e-9, 1e-8);
+        doTest(func, maxPoint, init, GoalType.MAXIMIZE, 1e-9, 1e-8);
     }
 
     /**
@@ -126,8 +126,6 @@ public class PowellOptimizerTest {
      * @param optimum Expected optimum.
      * @param init Starting point.
      * @param goal Minimization or maximization.
-     * @param xTol Tolerance (relative error on the objective function) for
-     * "Brent" line search algorithm used by "Powell".
      * @param fTol Tolerance (relative error on the objective function) for
      * "Powell" algorithm.
      * @param pointTol Tolerance for checking that the optimum is correct.
@@ -136,12 +134,12 @@ public class PowellOptimizerTest {
                         double[] optimum,
                         double[] init,
                         GoalType goal,
-                        double xTol,
                         double fTol,
                         double pointTol)
         throws MathException {
-        final MultivariateRealOptimizer optim = new PowellOptimizer(xTol);
-        optim.setConvergenceChecker(new SimpleScalarValueChecker(fTol, -1));
+        final MultivariateRealOptimizer optim = new PowellOptimizer();
+        optim.setMaxEvaluations(1000);
+        optim.setConvergenceChecker(new SimpleScalarValueChecker(fTol, Math.ulp(1d)));
 
         final RealPointValuePair result = optim.optimize(func, goal, init);
         final double[] found = result.getPoint();

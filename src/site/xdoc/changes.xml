@@ -51,6 +51,17 @@ The <action> type attribute can be add,update,fix,remove.
     with a new-line in the release notes. (These spaces are ignored when displaying HTML).
     If the output is not quite correct, check for invisible trailing spaces!
      -->
+    <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-397">
+        Removed methods referring to the concept of "iteration".
+        Removed interface methods to access the number of evaluations of the
+        gradient and Jacobian.
+        Added new "Incrementor" utility to be used as a bounded counter for
+        objective function evaluations.
+        Removed all references to "OptimizationException" (replaced by
+        "ConvergenceException").
+      </action>
+    </release>
     <release version="2.2" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-375" due-to="Bill Rossi">
         Added faster and more accurate version of traditional mathematical functions in a FastMath

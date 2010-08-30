@@ -14,19 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math.optimization.univariate;
 
-package org.apache.commons.math.optimization;
-
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
- * This interface represents an optimization algorithm for
- * {@link DifferentiableMultivariateVectorialFunction vectorial differentiable
- * objective functions}.
+ * Interface for univariate optimization algorithms.
  *
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public interface DifferentiableMultivariateVectorialOptimizer
-    extends BaseMultivariateVectorialOptimizer<DifferentiableMultivariateVectorialFunction> {}
+public interface UnivariateRealOptimizer 
+    extends BaseUnivariateRealOptimizer<UnivariateRealFunction> {}

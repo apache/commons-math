@@ -17,14 +17,13 @@
 
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxEvaluationsExceededException;
-import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.util.Incrementor;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.UnivariateRealOptimizer;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -34,19 +33,13 @@ import org.apache.commons.math.optimization.UnivariateRealOptimizer;
  * @since 2.0
  */
 public abstract class AbstractUnivariateRealOptimizer
-    extends ConvergingAlgorithmImpl implements UnivariateRealOptimizer {
-    /** Indicates where a root has been computed. */
-    private boolean resultComputed;
-    /** The last computed root. */
-    private double result;
-    /** Value of the function at the last computed result. */
-    private double functionValue;
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
-    /** Number of evaluations already performed. */
-    private int evaluations;
+    implements UnivariateRealOptimizer {
+    /** Convergence checker. */
+    private ConvergenceChecker<UnivariateRealPointValuePair> checker;
+    /** Evaluations counter. */
+    private final Incrementor evaluations = new Incrementor();
     /** Optimization type */
-    private GoalType optimizationGoal;
+    private GoalType goal;
     /** Lower end of search interval. */
     private double searchMin;
     /** Higher end of search interval. */
@@ -56,115 +49,35 @@ public abstract class AbstractUnivariateRealOptimizer
     /** Function to optimize. */
     private UnivariateRealFunction function;
 
-    /**
-     * Construct a solver with given iteration count and accuracy.
-     * FunctionEvaluationExceptionFunctionEvaluationException
-     * @param defaultAbsoluteAccuracy maximum absolute error
-     * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the
-     * defaultAbsoluteAccuracy is not valid
-     * @deprecated in 2.2. Please use the "setter" methods to assign meaningful
-     * values to the maximum numbers of iterations and evaluations, and to the
-     * absolute and relative accuracy thresholds.
-     */
-    protected AbstractUnivariateRealOptimizer(final int defaultMaximalIterationCount,
-                                              final double defaultAbsoluteAccuracy) {
-        super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
-        resultComputed = false;
-        setMaxEvaluations(Integer.MAX_VALUE);
-    }
-
-    /**
-     * Default constructor.
-     * To be removed once the single non-default one has been removed.
-     */
-    protected AbstractUnivariateRealOptimizer() {}
-
-    /**
-     * Check whether a result has been computed.
-     * @throws NoDataException if no result has been computed
-     * @deprecated in 2.2 (no alternative).
-     */
-    protected void checkResultComputed() {
-        if (!resultComputed) {
-            throw new NoDataException();
-        }
-    }
-
-    /** {@inheritDoc} */
-    public double getResult() {
-        if (!resultComputed) {
-            throw new NoDataException();
-        }
-        return result;
-    }
-
-    /** {@inheritDoc} */
-    public double getFunctionValue() {
-        if (functionValue == Double.NaN) {
-            final double opt = getResult();
-            try {
-                functionValue = function.value(opt);
-            } catch (FunctionEvaluationException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return functionValue;
-    }
-
-    /**
-     * Convenience function for implementations.
-     *
-     * @param x the result to set
-     * @param fx the result to set
-     * @param iterationCount the iteration count to set
-     * @deprecated in 2.2 (no alternative).
-     */
-    protected final void setResult(final double x, final double fx,
-                                   final int iterationCount) {
-        this.result         = x;
-        this.functionValue  = fx;
-        this.iterationCount = iterationCount;
-        this.resultComputed = true;
-    }
-
-    /**
-     * Convenience function for implementations.
-     * @deprecated in 2.2 (no alternative).
-     */
-    protected final void clearResult() {
-        this.resultComputed = false;
-    }
-
     /** {@inheritDoc} */
     public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
+        evaluations.setMaximalCount(maxEvaluations);
     }
 
     /** {@inheritDoc} */
     public int getMaxEvaluations() {
-        return maxEvaluations;
+        return evaluations.getMaximalCount();
     }
 
     /** {@inheritDoc} */
     public int getEvaluations() {
-        return evaluations;
+        return evaluations.getCount();
     }
 
     /**
      * @return the optimization type.
      */
     public GoalType getGoalType() {
-        return optimizationGoal;
+        return goal;
     }
     /**
-     * @return the lower of the search interval.
+     * @return the lower end of the search interval.
      */
     public double getMin() {
         return searchMin;
     }
     /**
-     * @return the higher of the search interval.
+     * @return the higher end of the search interval.
      */
     public double getMax() {
         return searchMax;
@@ -178,91 +91,74 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /**
      * Compute the objective function value.
-     * @param f objective function
-     * @param point point at which the objective function must be evaluated
-     * @return objective function value at specified point
-     * @exception FunctionEvaluationException if the function cannot be evaluated
-     * or the maximal number of iterations is exceeded
-     * @deprecated in 2.2. Use this {@link #computeObjectiveValue(double)
-     * replacement} instead.
-     */
-    protected double computeObjectiveValue(final UnivariateRealFunction f,
-                                           final double point)
-        throws FunctionEvaluationException {
-        if (++evaluations > maxEvaluations) {
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  point);
-        }
-        return f.value(point);
-    }
-
-    /**
-     * Compute the objective function value.
      *
      * @param point Point at which the objective function must be evaluated.
      * @return the objective function value at specified point.
-     * @exception FunctionEvaluationException if the function cannot be evaluated
-     * or the maximal number of iterations is exceeded.
+     * @throws FunctionEvaluationException if the function cannot be
+     * evaluated.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
      */
     protected double computeObjectiveValue(double point)
         throws FunctionEvaluationException {
-        if (++evaluations > maxEvaluations) {
-            resultComputed = false;
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  point);
+        try {
+            evaluations.incrementCount();
+        } catch (MaxCountExceededException e) {
+            throw new TooManyEvaluationsException(e.getMax());
         }
         return function.value(point);
     }
 
     /** {@inheritDoc} */
-    public double optimize(UnivariateRealFunction f, GoalType goal,
-                           double min, double max, double startValue)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        // Initialize.
-        this.searchMin = min;
-        this.searchMax = max;
-        this.searchStart = startValue;
-        this.optimizationGoal = goal;
-        this.function = f;
-
+    public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
+                                                 GoalType goalType,
+                                                 double min, double max,
+                                                 double startValue)
+        throws FunctionEvaluationException {
         // Reset.
-        functionValue = Double.NaN;
-        evaluations = 0;
-        resetIterationsCounter();
+        searchMin = min;
+        searchMax = max;
+        searchStart = startValue;
+        goal = goalType;
+        function = f;
+        evaluations.resetCount();
 
         // Perform computation.
-        result = doOptimize();
-        resultComputed = true;
-
-        return result;
-    }
-
-    /**
-     * Set the value at the optimum.
-     *
-     * @param functionValue Value of the objective function at the optimum.
-     */
-    protected void setFunctionValue(double functionValue) {
-        this.functionValue = functionValue;
+        return doOptimize();
     }
 
     /** {@inheritDoc} */
-    public double optimize(UnivariateRealFunction f, GoalType goal,
-                           double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+    public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
+                                                 GoalType goal,
+                                                 double min, double max)
+        throws FunctionEvaluationException {
         return optimize(f, goal, min, max, min + 0.5 * (max - min));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+        this.checker = checker;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public ConvergenceChecker<UnivariateRealPointValuePair> getConvergenceChecker() {
+        return checker;
     }
 
     /**
      * Method for implementing actual optimization algorithms in derived
      * classes.
      *
-     * @return the optimum.
-     * @throws MaxIterationsExceededException if the maximum iteration count
+     * @return the optimum and its corresponding function value.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      * @throws FunctionEvaluationException if an error occurs evaluating
      * the function.
      */
-    protected abstract double doOptimize()
-        throws MaxIterationsExceededException, FunctionEvaluationException;
+    protected abstract UnivariateRealPointValuePair doOptimize()
+        throws FunctionEvaluationException;
 }

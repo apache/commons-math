@@ -23,9 +23,9 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
 
@@ -490,7 +490,7 @@ public class MinpackTest extends TestCase {
 
   private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
       LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-      optimizer.setMaxIterations(100 * (function.getN() + 1));
+      optimizer.setMaxEvaluations(400 * (function.getN() + 1));
       optimizer.setCostRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
       optimizer.setParRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
       optimizer.setOrthoTolerance(2.22044604926e-16);
@@ -503,7 +503,7 @@ public class MinpackTest extends TestCase {
           assertFalse(exceptionExpected);
           function.checkTheoreticalMinCost(optimizer.getRMS());
           function.checkTheoreticalMinParams(optimum);
-      } catch (OptimizationException lsse) {
+      } catch (TooManyEvaluationsException e) {
           assertTrue(exceptionExpected);
       } catch (FunctionEvaluationException fe) {
           assertTrue(exceptionExpected);

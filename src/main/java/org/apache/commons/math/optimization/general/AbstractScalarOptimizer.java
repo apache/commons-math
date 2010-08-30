@@ -19,7 +19,8 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
-import org.apache.commons.math.optimization.RealConvergenceChecker;
+import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.RealPointValuePair;
 
 /**
  * Base class for implementing optimizers for multivariate (not necessarily
@@ -33,19 +34,16 @@ public abstract class AbstractScalarOptimizer
     implements MultivariateRealOptimizer {
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link org.apache.commons.math.optimization.SimpleScalarValueChecker},
-     * the allowed number of iterations and evaluations are set to their
-     * default values.
+     * The convergence check is set to a
+     * {@link org.apache.commons.math.optimization.SimpleScalarValueChecker}.
      */
     protected AbstractScalarOptimizer() {}
     /**
      * @param checker Convergence checker.
-     * @param maxIterations Maximum number of iterations.
-     * @param maxEvaluations Maximum number of evaluations.
+     * @param maxEvaluations Maximum number of function evaluations.
      */
-    protected AbstractScalarOptimizer(RealConvergenceChecker checker,
-                                      int maxIterations,
+    protected AbstractScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker,
                                       int maxEvaluations) {
-        super(checker, maxIterations, maxEvaluations);
+        super(checker, maxEvaluations);
     }
 }

@@ -109,7 +109,7 @@ extends TestCase {
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0 });
@@ -125,7 +125,7 @@ extends TestCase {
 
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0 });
@@ -146,7 +146,7 @@ extends TestCase {
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0, 0, 0, 0 });
@@ -164,7 +164,7 @@ extends TestCase {
         }, new double[] { 1, 1, 1});
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0 });
@@ -187,7 +187,7 @@ extends TestCase {
 
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setPreconditioner(new Preconditioner() {
             public double[] precondition(double[] point, double[] r) {
                 double[] d = r.clone();
@@ -222,7 +222,7 @@ extends TestCase {
         }, new double[] { 1, 1, 1 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
                 optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0 });
@@ -238,7 +238,7 @@ extends TestCase {
         }, new double[] { 32, 23, 33, 31 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-13, 1.0e-13));
         BrentSolver solver = new BrentSolver();
         solver.setAbsoluteAccuracy(1.0e-15);
@@ -277,7 +277,7 @@ extends TestCase {
 
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 7, 6, 5, 4 });
@@ -296,7 +296,7 @@ extends TestCase {
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 2, 2, 2, 2, 2, 2 });
@@ -312,7 +312,7 @@ extends TestCase {
 
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 1, 1 });
@@ -330,7 +330,7 @@ extends TestCase {
 
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 1, 1 });
@@ -347,7 +347,7 @@ extends TestCase {
         circle.addPoint( 45.0,  97.0);
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-30, 1.0e-30));
         BrentSolver solver = new BrentSolver();
         solver.setAbsoluteAccuracy(1.0e-13);

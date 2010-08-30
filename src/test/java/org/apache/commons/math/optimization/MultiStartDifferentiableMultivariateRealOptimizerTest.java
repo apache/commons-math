@@ -39,7 +39,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateRealOptimizerTest {
 
     @Test
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws FunctionEvaluationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -55,14 +55,10 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                                                   new GaussianRandomGenerator(g));
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
-        optimizer.setMaxIterations(100);
-        assertEquals(100, optimizer.getMaxIterations());
         optimizer.setMaxEvaluations(100);
         assertEquals(100, optimizer.getMaxEvaluations());
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         BrentSolver solver = new BrentSolver();
-        solver.setAbsoluteAccuracy(1.0e-13);
-        solver.setRelativeAccuracy(1.0e-15);
         RealPointValuePair optimum =
             optimizer.optimize(circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         RealPointValuePair[] optima = optimizer.getOptima();
@@ -72,12 +68,8 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             assertEquals(96.075902096, center.x, 1.0e-8);
             assertEquals(48.135167894, center.y, 1.0e-8);
         }
-        assertTrue(optimizer.getGradientEvaluations() > 650);
-        assertTrue(optimizer.getGradientEvaluations() < 700);
         assertTrue(optimizer.getEvaluations() > 70);
         assertTrue(optimizer.getEvaluations() < 90);
-        assertTrue(optimizer.getIterations() > 70);
-        assertTrue(optimizer.getIterations() < 90);
         assertEquals(3.1267527, optimum.getValue(), 1.0e-8);
     }
 
@@ -119,7 +111,6 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             dJdY *= 2;
 
             return new double[] { dJdX, dJdY };
-
         }
 
         public double value(double[] variables)
@@ -133,9 +124,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                 double di = point.distance(center) - radius;
                 sum += di * di;
             }
-
             return sum;
-
         }
 
         public MultivariateVectorialFunction gradient() {
@@ -153,7 +142,5 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                 }
             };
         }
-
     }
-
 }

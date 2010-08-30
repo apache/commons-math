@@ -25,11 +25,13 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialPointChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -104,11 +106,11 @@ extends TestCase {
         super(name);
     }
 
-    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
@@ -117,14 +119,14 @@ extends TestCase {
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
+    public void testColumnsPermutation() throws FunctionEvaluationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
                               new double[] { 4.0, 6.0, 1.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
@@ -137,7 +139,7 @@ extends TestCase {
 
     }
 
-    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
+    public void testNoDependency() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -147,7 +149,7 @@ extends TestCase {
                 { 0, 0, 0, 0, 0, 2 }
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
@@ -158,7 +160,7 @@ extends TestCase {
         }
     }
 
-    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
+    public void testOneSet() throws FunctionEvaluationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -166,7 +168,7 @@ extends TestCase {
                 {  0, -1, 1 }
         }, new double[] { 1, 1, 1});
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
@@ -177,7 +179,7 @@ extends TestCase {
 
     }
 
-    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
+    public void testTwoSets() throws FunctionEvaluationException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -189,7 +191,7 @@ extends TestCase {
         }, new double[] { 2, -9, 2, 2, 1 + epsilon * epsilon, 2});
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
@@ -212,19 +214,19 @@ extends TestCase {
                 { -3, 0, -9 }
         }, new double[] { 1, 1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
             fail("an exception should have been caught");
-        } catch (OptimizationException ee) {
+        } catch (ConvergenceException ee) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception type caught");
         }
     }
 
-    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
+    public void testIllConditioned() throws FunctionEvaluationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -232,7 +234,7 @@ extends TestCase {
                 {  7.0, 5.0,  9.0, 10.0 }
         }, new double[] { 32, 23, 33, 31 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum1 =
             optimizer.optimize(problem1, problem1.target, new double[] { 1, 1, 1, 1 },
@@ -269,13 +271,13 @@ extends TestCase {
         }, new double[] { 7.0, 3.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 7, 6, 5, 4 });
             fail("an exception should have been caught");
-        } catch (OptimizationException ee) {
+        } catch (ConvergenceException ee) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception type caught");
@@ -292,20 +294,20 @@ extends TestCase {
                  { 0.0, 0.0,  0.0, -1.0, 1.0,  0.0 }
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 2, 2, 2, 2, 2, 2 });
             fail("an exception should have been caught");
-        } catch (OptimizationException ee) {
+        } catch (ConvergenceException ee) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception type caught");
         }
     }
 
-    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testRedundantEquations() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -313,7 +315,7 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
@@ -324,7 +326,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentEquations() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -332,18 +334,18 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 4.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         assertTrue(optimizer.getRMS() > 0.1);
 
     }
 
-    public void testInconsistentSizes() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentSizes() throws FunctionEvaluationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
@@ -357,7 +359,7 @@ extends TestCase {
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (OptimizationException oe) {
+        } catch (DimensionMismatchException oe) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception caught");
@@ -376,7 +378,7 @@ extends TestCase {
 
     }
 
-    public void testMaxIterations() {
+    public void testMaxEvaluations() {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -384,21 +386,21 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialPointChecker(1.0e-30, 1.0e-30));
         try {
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
             fail("an exception should have been caught");
-        } catch (OptimizationException ee) {
+        } catch (TooManyEvaluationsException ee) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception type caught");
         }
     }
 
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws FunctionEvaluationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -406,7 +408,7 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
         VectorialPointValuePair optimum =
             optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
@@ -419,7 +421,7 @@ extends TestCase {
         assertEquals(48.135167894714,   center.y, 1.0e-10);
     }
 
-    public void testCircleFittingBadInit() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFittingBadInit() throws FunctionEvaluationException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -460,12 +462,12 @@ extends TestCase {
             circle.addPoint(points[i][0], points[i][1]);
         }
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxIterations(100);
+        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(circle, target, weights, new double[] { -12, -12 });
             fail("an exception should have been caught");
-        } catch (OptimizationException ee) {
+        } catch (ConvergenceException ee) {
             // expected behavior
         } catch (Exception e) {
             fail("wrong exception type caught");

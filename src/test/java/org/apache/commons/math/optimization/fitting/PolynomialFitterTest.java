@@ -23,8 +23,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Random;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.util.FastMath;
@@ -33,7 +33,7 @@ import org.junit.Test;
 public class PolynomialFitterTest {
 
     @Test
-    public void testNoError() throws OptimizationException {
+    public void testNoError() {
         Random randomizer = new Random(64925784252l);
         for (int degree = 1; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
@@ -57,7 +57,7 @@ public class PolynomialFitterTest {
     }
 
     @Test
-    public void testSmallError() throws OptimizationException {
+    public void testSmallError() {
         Random randomizer = new Random(53882150042l);
         double maxError = 0;
         for (int degree = 0; degree < 10; ++degree) {
@@ -116,7 +116,7 @@ public class PolynomialFitterTest {
             try {
                 fitter.fit();
                 assertTrue(solvable || (degree == 0));
-            } catch(OptimizationException e) {
+            } catch(ConvergenceException e) {
                 assertTrue((! solvable) && (degree > 0));
             }
 

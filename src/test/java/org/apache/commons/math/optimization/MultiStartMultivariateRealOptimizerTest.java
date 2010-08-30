@@ -48,13 +48,13 @@ public class MultiStartMultivariateRealOptimizerTest {
     MultiStartMultivariateRealOptimizer optimizer =
         new MultiStartMultivariateRealOptimizer(underlying, 10, generator);
     optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
-    optimizer.setMaxIterations(100);
+    optimizer.setMaxEvaluations(1100);
     RealPointValuePair optimum =
         optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
     assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
-    assertTrue(optimizer.getEvaluations() > 20);
-    assertTrue(optimizer.getEvaluations() < 250);
+    assertTrue(optimizer.getEvaluations() > 900);
+    assertTrue(optimizer.getEvaluations() < 1200);
     assertTrue(optimum.getValue() < 8.0e-4);
 
   }

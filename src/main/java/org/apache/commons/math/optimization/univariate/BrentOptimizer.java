@@ -17,16 +17,28 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
+import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.AbstractConvergenceChecker;
+import org.apache.commons.math.optimization.GoalType;
 
 /**
  * Implements Richard Brent's algorithm (from his book "Algorithms for
  * Minimization without Derivatives", p. 79) for finding minima of real
  * univariate functions. This implementation is an adaptation partly
  * based on the Python code from SciPy (module "optimize.py" v0.5).
+ * If the function is defined on some interval {@code (lo, hi)}, then
+ * this method finds an approximation {@code x} to the point at which
+ * the function attains its minimum.
+ * <br/>
+ * The user is responsible for calling {@link
+ * #setConvergenceChecker(ConvergenceChecker) ConvergenceChecker}
+ * prior to using the optimizer.
  *
  * @version $Revision$ $Date$
  * @since 2.0
@@ -38,57 +50,105 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     private static final double GOLDEN_SECTION = 0.5 * (3 - FastMath.sqrt(5));
 
     /**
-     * Construct a solver.
+     * Convergence checker that implements the original stopping criterion
+     * of Brent's algorithm.
+     * {@code abs} and {@code rel} define a tolerance
+     * {@code tol = rel |x| + abs}. {@code rel} should be no smaller than
+     * <em>2 macheps</em> and preferably not much less than <em>sqrt(macheps)</em>,
+     * where <em>macheps</em> is the relative machine precision. {@code abs} must
+     * be positive.
+     *
+     * @since 3.0
      */
-    public BrentOptimizer() {
-        setMaxEvaluations(1000);
-        setMaximalIterationCount(100);
-        setAbsoluteAccuracy(1e-11);
-        setRelativeAccuracy(1e-9);
-    }
+    public static class BrentConvergenceChecker
+        extends AbstractConvergenceChecker<UnivariateRealPointValuePair> {
+        /**
+         * Minimum relative tolerance.
+         */
+        private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
 
-    /** {@inheritDoc} */
-    protected double doOptimize()
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return localMin(getGoalType() == GoalType.MINIMIZE,
-                        getMin(), getStartValue(), getMax(),
-                        getRelativeAccuracy(), getAbsoluteAccuracy());
+        /**
+         * Build an instance with specified thresholds.
+         *
+         * @param rel Relative tolerance threshold
+         * @param abs Absolute tolerance threshold
+         */
+        public BrentConvergenceChecker(final double rel,
+                                       final double abs) {
+            super(rel, abs);
+            
+            if (rel < MIN_RELATIVE_TOLERANCE) {
+                throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
+            }
+            if (abs <= 0) {
+                throw new NotStrictlyPositiveException(abs);
+            }
+        }
+
+        /**
+         * Convergence criterion.
+         *
+         * @param iteration Current iteration.
+         * @param points Points used for checking the stopping criterion. The list
+         * must contain 3 points (in the following order):
+         * <ul>
+         *  <li>the lower end of the current interval</li>
+         *  <li>the current best point</li>
+         *  <li>the higher end of the current interval</li>
+         * </ul>
+         * @return {@code true} if the stopping criterion is satisfied.
+         * @throws DimensionMismatchException if the length of the {@code points}
+         * list is not equal to 3.
+         */
+        public boolean converged(final int iteration,
+                                 final UnivariateRealPointValuePair ... points) {
+            if (points.length != 3) {
+                throw new DimensionMismatchException(points.length, 3);
+            }
+            
+            final double a = points[0].getPoint();
+            final double x = points[1].getPoint();
+            final double b = points[2].getPoint();
+            
+            final double tol1 = getRelativeThreshold() * FastMath.abs(x) + getAbsoluteThreshold();
+            final double tol2 = 2 * tol1;
+            
+            final double m = 0.5 * (a + b);
+            return FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        }
     }
 
     /**
-     * Find the minimum of the function within the interval {@code (lo, hi)}.
+     * Set the convergence checker.
+     * Since this algorithm requires a specific checker, this method will throw
+     * an {@code UnsupportedOperationexception} if the argument type is not
+     * {@link BrentConvergenceChecker}.
      *
-     * If the function is defined on the interval {@code (lo, hi)}, then
-     * this method finds an approximation {@code x} to the point at which
-     * the function attains its minimum.<br/>
-     * {@code t} and {@code eps} define a tolerance {@code tol = eps |x| + t}
-     * and the function is never evaluated at two points closer together than
-     * {@code tol}. {@code eps} should be no smaller than <em>2 macheps</em> and
-     * preferable not much less than <em>sqrt(macheps)</em>, where
-     * <em>macheps</em> is the relative machine precision. {@code t} should be
-     * positive.
-     * @param isMinim {@code true} when minimizing the function.
-     * @param lo Lower bound of the interval.
-     * @param mid Point inside the interval {@code [lo, hi]}.
-     * @param hi Higher bound of the interval.
-     * @param eps Relative accuracy.
-     * @param t Absolute accuracy.
-     * @return the optimum point.
-     * @throws MaxIterationsExceededException if the maximum iteration count
-     * is exceeded.
-     * @throws FunctionEvaluationException if an error occurs evaluating
-     * the function.
+     * @throws MathUnsupportedOperationexception if the checker is not an
+     * instance of {@link BrentConvergenceChecker}.
      */
-    private double localMin(boolean isMinim,
-                            double lo, double mid, double hi,
-                            double eps, double t)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        if (eps <= 0) {
-            throw new NotStrictlyPositiveException(eps);
+    @Override
+    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+        if (checker instanceof BrentConvergenceChecker) {
+            super.setConvergenceChecker(checker);
+        } else {
+            throw new MathUnsupportedOperationException();
         }
-        if (t <= 0) {
-            throw new NotStrictlyPositiveException(t);
-        }
+    }
+
+    /** {@inheritDoc} */
+    protected UnivariateRealPointValuePair doOptimize()
+        throws FunctionEvaluationException {
+        final boolean isMinim = (getGoalType() == GoalType.MINIMIZE);
+        final double lo = getMin();
+        final double mid = getStartValue();
+        final double hi = getMax();
+
+        final ConvergenceChecker<UnivariateRealPointValuePair> checker
+            = getConvergenceChecker();
+        final double eps = checker.getRelativeThreshold();
+        final double t = checker.getAbsoluteThreshold();
+
         double a;
         double b;
         if (lo < hi) {
@@ -111,13 +171,19 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         double fv = fx;
         double fw = fx;
 
+        int iter = 0;
         while (true) {
             double m = 0.5 * (a + b);
             final double tol1 = eps * FastMath.abs(x) + t;
             final double tol2 = 2 * tol1;
 
             // Check stopping criterion.
-            if (FastMath.abs(x - m) > tol2 - 0.5 * (b - a)) {
+            // This test will work only if the "checker" is an instance of
+            // "BrentOptimizer.BrentConvergenceChecker".
+            if (!getConvergenceChecker().converged(iter,
+                                                   new UnivariateRealPointValuePair(a, Double.NaN),
+                                                   new UnivariateRealPointValuePair(x, Double.NaN),
+                                                   new UnivariateRealPointValuePair(b, Double.NaN))) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
@@ -217,11 +283,10 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                         fv = fu;
                     }
                 }
-            } else { // termination
-                setFunctionValue(isMinim ? fx : -fx);
-                return x;
+            } else { // Termination.
+                return new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
             }
-            incrementIterationsCounter();
+            ++iter;
         }
     }
 }

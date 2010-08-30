@@ -18,15 +18,14 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
- * Commons-FastMath. Users of the API are advised to base their code on
+ * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer}</li>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer}</li>
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.
@@ -34,14 +33,17 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunction>
-    extends BaseOptimizer<RealPointValuePair> {
+public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVectorialFunction>
+    extends BaseOptimizer<VectorialPointValuePair> {
     /**
      * Optimize an objective function.
+     * Optimization is considered to be a weighted least-squares minimization.
+     * The cost function to be minimized is
+     * <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>
      *
      * @param f Objective function.
-     * @param goalType Type of optimization goal: either
-     * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
+     * @param target Target value for the objective functions at optimum.
+     * @param weight Weights for the least squares cost computation.
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.
@@ -51,6 +53,7 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
      */
-    RealPointValuePair optimize(FUNC f, GoalType goalType, double[] startPoint)
+    VectorialPointValuePair optimize(FUNC f, double[] target, double[] weight,
+                                     double[] startPoint)
         throws FunctionEvaluationException;
 }

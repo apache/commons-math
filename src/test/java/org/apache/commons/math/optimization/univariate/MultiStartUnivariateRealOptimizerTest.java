@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization;
+package org.apache.commons.math.optimization.univariate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,6 +26,7 @@ import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
@@ -36,21 +37,22 @@ public class MultiStartUnivariateRealOptimizerTest {
     public void testSinMin() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer();
+        underlying.setConvergenceChecker(new BrentOptimizer.BrentConvergenceChecker(1e-10, 1e-14));
+        underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);
-        MultiStartUnivariateRealOptimizer minimizer =
+        MultiStartUnivariateRealOptimizer optimizer =
             new MultiStartUnivariateRealOptimizer(underlying, 10, g);
-        minimizer.optimize(f, GoalType.MINIMIZE, -100.0, 100.0);
-        double[] optima = minimizer.getOptima();
-        double[] optimaValues = minimizer.getOptimaValues();
+        optimizer.optimize(f, GoalType.MINIMIZE, -100.0, 100.0);
+        UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
-            double d = (optima[i] - optima[i-1]) / (2 * FastMath.PI);
+            double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * FastMath.PI);
             assertTrue (FastMath.abs(d - FastMath.rint(d)) < 1.0e-8);
-            assertEquals(-1.0, f.value(optima[i]), 1.0e-10);
-            assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
+            assertEquals(-1.0, f.value(optima[i].getPoint()), 1.0e-10);
+            assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1.0e-10);
         }
-        assertTrue(minimizer.getEvaluations() > 150);
-        assertTrue(minimizer.getEvaluations() < 250);
+        assertTrue(optimizer.getEvaluations() > 150);
+        assertTrue(optimizer.getEvaluations() < 250);
     }
 
     @Test
@@ -59,44 +61,23 @@ public class MultiStartUnivariateRealOptimizerTest {
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer();
-        underlying.setRelativeAccuracy(1e-15);
+        underlying.setConvergenceChecker(new BrentOptimizer.BrentConvergenceChecker(1e-9, 1e-14));
+        underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
-        MultiStartUnivariateRealOptimizer minimizer =
+        MultiStartUnivariateRealOptimizer optimizer =
             new MultiStartUnivariateRealOptimizer(underlying, 5, g);
-        minimizer.setAbsoluteAccuracy(10 * minimizer.getAbsoluteAccuracy());
-        minimizer.setRelativeAccuracy(10 * minimizer.getRelativeAccuracy());
 
-        try {
-            minimizer.getOptima();
-            fail("an exception should have been thrown");
-        } catch (IllegalStateException ise) {
-            // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
-        try {
-            minimizer.getOptimaValues();
-            fail("an exception should have been thrown");
-        } catch (IllegalStateException ise) {
-            // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
-        }
+        UnivariateRealPointValuePair optimum
+            = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+        assertEquals(-0.2719561271, optimum.getPoint(), 1e-9);
+        assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
 
-        double result = minimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
-        assertEquals(-0.2719561270319131, result, 1.0e-13);
-        assertEquals(-0.2719561270319131, minimizer.getResult(), 1.0e-13);
-        assertEquals(-0.04433426954946637, minimizer.getFunctionValue(), 1.0e-13);
-
-        double[] optima = minimizer.getOptima();
-        double[] optimaValues = minimizer.getOptimaValues();
+        UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 0; i < optima.length; ++i) {
-            assertEquals(f.value(optima[i]), optimaValues[i], 1.0e-10);
+            assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1e-9);
         }
-        assertTrue(minimizer.getEvaluations()    >= 120);
-        assertTrue(minimizer.getEvaluations()    <= 170);
-        assertTrue(minimizer.getIterationCount() >= 120);
-        assertTrue(minimizer.getIterationCount() <= 170);
+        assertTrue(optimizer.getEvaluations() >= 110);
+        assertTrue(optimizer.getEvaluations() <= 150);
     }
 }

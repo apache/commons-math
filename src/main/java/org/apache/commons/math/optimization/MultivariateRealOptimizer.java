@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * scalar objective functions}.
  * <p>Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.</p>
+ *
  * @see DifferentiableMultivariateRealOptimizer
  * @see DifferentiableMultivariateVectorialOptimizer
  * @version $Revision$ $Date$

@@ -28,18 +28,9 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
  *
  * @see MultivariateRealOptimizer
  * @see DifferentiableMultivariateVectorialOptimizer
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
 public interface DifferentiableMultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<DifferentiableMultivariateRealFunction> {
-    /**
-     * Get the number of evaluations of the objective function gradient.
-     * The number of evaluations corresponds to the last call to the
-     * {@code optimize} method (see {@link BaseMultivariateRealOptimizer}).
-     * It is 0 if the method has not been called yet.
-     *
-     * @return the number of evaluations of the objective function gradient.
-     */
-    int getGradientEvaluations();
-}
+    extends BaseMultivariateRealOptimizer<DifferentiableMultivariateRealFunction> {}
