@@ -16,33 +16,24 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when zero is provided where it is not allowed.
+ * Exception to be thrown when the maximal number of evaluations is exceeded.
  *
- * @since 2.2
+ * @since 3.0
  * @version $Revision$ $Date$
  */
-public class ZeroException extends MathIllegalNumberException {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -1960874856936000015L;
+public class TooManyEvaluationsException extends MaxCountExceededException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = 4330003017885151975L;
 
     /**
      * Construct the exception.
-     */
-    public ZeroException() {
-        this(null);
-    }
-
-    /**
-     * Construct the exception with a specific context.
      *
-     * @param specific Specific context pattern.
+     * @param max Maximum number of evaluations.
      */
-    public ZeroException(Localizable specific) {
-        super(specific, LocalizedFormats.ZERO_NOT_ALLOWED, 0);
+    public TooManyEvaluationsException(Number max) {
+        super(LocalizedFormats.EVALUATIONS, max);
     }
 }

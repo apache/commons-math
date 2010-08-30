@@ -20,29 +20,42 @@ import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when zero is provided where it is not allowed.
+ * Error thrown when a numerical computation can not be performed because the
+ * numerical result failed to converge to a finite value.
  *
- * @since 2.2
+ * @since 3.0
  * @version $Revision$ $Date$
  */
-public class ZeroException extends MathIllegalNumberException {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -1960874856936000015L;
+public class ConvergenceException extends MathIllegalStateException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = 4330003017885151975L;
 
     /**
      * Construct the exception.
      */
-    public ZeroException() {
+    public ConvergenceException() {
         this(null);
     }
-
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific context pattern.
+     * @param specific Specific contexte pattern.
      */
-    public ZeroException(Localizable specific) {
-        super(specific, LocalizedFormats.ZERO_NOT_ALLOWED, 0);
+    public ConvergenceException(Localizable specific) {
+        this(specific,
+             LocalizedFormats.CONVERGENCE_FAILED,
+             null);
+    }
+    /**
+     * Construct the exception with a specific context and arguments.
+     *
+     * @param specific Specific contexte pattern.
+     * @param args Arguments.
+     */
+    public ConvergenceException(Localizable specific,
+                                Object ... args) {
+        super(specific,
+              LocalizedFormats.CONVERGENCE_FAILED,
+              args);
     }
 }

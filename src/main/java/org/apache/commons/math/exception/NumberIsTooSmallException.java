@@ -43,7 +43,7 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
      * Construct the exception.
      *
      * @param wrong Value that is smaller than the minimum.
-     * @param min minimum.
+     * @param min Minimum.
      * @param boundIsAllowed Whether {@code min} is included in the allowed range.
      */
     public NumberIsTooSmallException(Number wrong,
@@ -55,9 +55,9 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific contexte pattern .
+     * @param specific Specific contexte pattern.
      * @param wrong Value that is smaller than the minimum.
-     * @param min minimum.
+     * @param min Minimum.
      * @param boundIsAllowed Whether {@code min} is included in the allowed range.
      */
     public NumberIsTooSmallException(Localizable specific,
@@ -76,14 +76,14 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
 
     /**
      * @return {@code true} if the minimum is included in the allowed range.
-     **/
+     */
     public boolean getBoundIsAllowed() {
         return boundIsAllowed;
     }
 
     /**
      * @return the minimum.
-     **/
+     */
     public Number getMin() {
         return min;
     }

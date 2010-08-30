@@ -75,7 +75,7 @@ public enum LocalizedFormats implements Localizable {
     CONTINUED_FRACTION_NAN_DIVERGENCE("Continued fraction diverged to NaN for value {0}"),
     CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR("contraction criteria ({0}) smaller than the expansion factor ({1}).  This would lead to a never ending loop of expansion and contraction as a newly expanded internal storage array would immediately satisfy the criteria for contraction."),
     CONTRACTION_CRITERIA_SMALLER_THAN_ONE("contraction criteria smaller than one ({0}).  This would lead to a never ending loop of expansion and contraction as an internal storage array length equal to the number of elements would satisfy the contraction criteria."),
-    CONVERGENCE_FAILED("convergence failed"),
+    CONVERGENCE_FAILED("convergence failed"), /* keep */
     CUMULATIVE_PROBABILITY_RETURNED_NAN("Cumulative probability function returned NaN for argument {0} p = {1}"),
     DIFFERENT_ROWS_LENGTHS("some rows have length {0} while others have length {1}"),
     DIGEST_NOT_INITIALIZED("digest not initialized"),
@@ -135,6 +135,8 @@ public enum LocalizedFormats implements Localizable {
     LOWER_BOUND_NOT_BELOW_UPPER_BOUND("lower bound ({0}) must be strictly less than upper bound ({1})"), /* keep */
     LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT("lower endpoint ({0}) must be less than or equal to upper endpoint ({1})"),
     MAP_MODIFIED_WHILE_ITERATING("map has been modified while iterating"),
+    EVALUATIONS("evaluations"), /* keep */
+    MAX_COUNT_EXCEEDED("maximal count ({0}) exceeded"), /* keep */
     MAX_EVALUATIONS_EXCEEDED("maximal number of evaluations ({0}) exceeded"),
     MAX_ITERATIONS_EXCEEDED("maximal number of iterations ({0}) exceeded"),
     MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION("minimal step size ({0,number,0.00E00}) reached, integration needs {1,number,0.00E00}"),
@@ -202,12 +204,12 @@ public enum LocalizedFormats implements Localizable {
     NOT_SUBTRACTION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not subtraction compatible"),
     NOT_SYMMETRIC_MATRIX("not symmetric matrix"),
     NO_BIN_SELECTED("no bin selected"),
-    NO_CONVERGENCE_WITH_ANY_START_POINT("none of the {0} start points lead to convergence"),
+    NO_CONVERGENCE_WITH_ANY_START_POINT("none of the {0} start points lead to convergence"), /* keep */
     NO_DATA("no data"), /* keep */
     NO_DEGREES_OF_FREEDOM("no degrees of freedom ({0} measurements, {1} parameters)"),
     NO_DENSITY_FOR_THIS_DISTRIBUTION("This distribution does not have a density function implemented"),
     NO_FEASIBLE_SOLUTION("no feasible solution"),
-    NO_OPTIMUM_COMPUTED_YET("no optimum computed yet"),
+    NO_OPTIMUM_COMPUTED_YET("no optimum computed yet"), /* keep */
     NO_RESULT_AVAILABLE("no result available"),
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
     NULL_NOT_ALLOWED("null is not allowed"), /* keep */
