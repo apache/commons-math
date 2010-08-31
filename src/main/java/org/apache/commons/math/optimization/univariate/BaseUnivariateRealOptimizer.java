@@ -19,6 +19,7 @@ package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.BaseOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -80,6 +81,7 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * function.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
+     * @throws NullArgumentException if any argument is {@code null}.
      */
     UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
                                           double min, double max,

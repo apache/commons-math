@@ -22,6 +22,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.optimization.BaseMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -122,7 +123,19 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
                                             double[] target, double[] weight,
                                             double[] startPoint)
         throws FunctionEvaluationException {
-
+        // Checks.
+        if (f == null) {
+            throw new NullArgumentException();
+        }
+        if (target == null) {
+            throw new NullArgumentException();
+        }
+        if (weight == null) {
+            throw new NullArgumentException();
+        }
+        if (startPoint == null) {
+            throw new NullArgumentException();
+        }
         if (target.length != weight.length) {
             throw new DimensionMismatchException(target.length, weight.length);
         }

@@ -21,6 +21,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -124,6 +125,17 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
                                        GoalType goalType,
                                        double[] startPoint)
         throws FunctionEvaluationException {
+        // Checks.
+        if (f == null) {
+            throw new NullArgumentException();
+        }
+        if (goalType == null) {
+            throw new NullArgumentException();
+        }
+        if (startPoint == null) {
+            throw new NullArgumentException();
+        }
+
         // Reset.
         evaluations.resetCount();
 

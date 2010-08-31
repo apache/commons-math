@@ -50,6 +50,7 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * @throws DimensionMismatchException if the start point dimension is wrong.
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
+     * @throws NullArgumentException if any argument is {@code null}.
      */
     RealPointValuePair optimize(FUNC f, GoalType goalType, double[] startPoint)
         throws FunctionEvaluationException;
