@@ -26,6 +26,10 @@ package org.apache.commons.math;
  * @see ConvergenceException
  * @version $Revision$ $Date$
  * @since 2.0
+ * @deprecated in 2.2 (to be removed in 3.0). The concept of "iteration" will
+ * be moved to a new {@code IterativeAlgorithm}. The concept of "accuracy" is
+ * currently is also contained in {@link org.apache.commons.math.optimization.SimpleRealPointChecker}
+ * and similar classes.
  */
 public interface ConvergingAlgorithm {
 
