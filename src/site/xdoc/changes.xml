@@ -52,6 +52,14 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-370">
+        Modified semantics: "equals" methods now consider that NaNs are not
+        equal (compliant with IEEE754).
+        Also, two adjacent floating point numbers are considered equal (this
+        is consistent with the fact that all real numbers between them can be
+        represented by either of the two). One consequence of that is that
+        "equals" is not transitive.
+      </action>
       <action dev="erans" type="update" issue="MATH-397">
         Removed methods referring to the concept of "iteration".
         Removed interface methods to access the number of evaluations of the

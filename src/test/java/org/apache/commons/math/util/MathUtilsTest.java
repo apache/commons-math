@@ -447,16 +447,18 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(new double[] { 1d }, new double[0]));
         assertTrue(MathUtils.equals(new double[] { 1d }, new double[] { 1d }));
         assertTrue(MathUtils.equals(new double[] {
-                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.POSITIVE_INFINITY,
                                       Double.NEGATIVE_INFINITY, 1d, 0d
                                     }, new double[] {
-                                      Double.NaN, Double.POSITIVE_INFINITY,
+                                      Double.POSITIVE_INFINITY,
                                       Double.NEGATIVE_INFINITY, 1d, 0d
                                     }));
+        assertFalse(MathUtils.equals(new double[] { Double.NaN },
+                                     new double[] { Double.NaN }));
         assertFalse(MathUtils.equals(new double[] { Double.POSITIVE_INFINITY },
                                      new double[] { Double.NEGATIVE_INFINITY }));
         assertFalse(MathUtils.equals(new double[] { 1d },
-                                     new double[] { FastMath.nextAfter(1d, 2d) }));
+                                     new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
 
     }
 

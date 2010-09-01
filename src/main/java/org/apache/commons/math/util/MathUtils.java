@@ -407,20 +407,14 @@ public final class MathUtils {
 
     /**
      * Returns true iff they are equal as defined by
-     * {@link #equals(double,double,int) this method}.
+     * {@link #equals(double,double,int) equals(x, y, 1)}.
      *
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
-     * 3.0, the semantics will change in order to comply with IEEE754 where it
-     * is specified that {@code NaN != NaN}.
-     * New methods have been added for those cases wher the old semantics is
-     * useful (see e.g. {@link #equalsIncludingNaN(double,double)
-     * equalsIncludingNaN}.
      */
     public static boolean equals(double x, double y) {
-        return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
+        return equals(x, y, 1);
     }
 
     /**
@@ -524,12 +518,6 @@ public final class MathUtils {
      * @param y second array
      * @return true if the values are both null or have same dimension
      * and equal elements.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
-     * 3.0, the semantics will change in order to comply with IEEE754 where it
-     * is specified that {@code NaN != NaN}.
-     * New methods have been added for those cases wher the old semantics is
-     * useful (see e.g. {@link #equalsIncludingNaN(double[],double[])
-     * equalsIncludingNaN}.
      */
     public static boolean equals(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
@@ -1102,29 +1090,6 @@ public final class MathUtils {
     }
 
     /**
-     * Get the next machine representable number after a number, moving
-     * in the direction of another number.
-     * <p>
-     * If <code>direction</code> is greater than or equal to<code>d</code>,
-     * the smallest machine representable number strictly greater than
-     * <code>d</code> is returned; otherwise the largest representable number
-     * strictly less than <code>d</code> is returned.</p>
-     * <p>
-     * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
-     *
-     * @param d base number
-     * @param direction (the only important thing is whether
-     * direction is greater or smaller than d)
-     * @return the next machine representable number in the specified direction
-     * @since 1.2
-     * @deprecated as of 2.2, replaced by {@link FastMath#nextAfter(double, double)}
-     */
-    @Deprecated
-    public static double nextAfter(double d, double direction) {
-        return FastMath.nextAfter(d, direction);
-    }
-
-    /**
      * Scale a number by 2<sup>scaleFactor</sup>.
      * <p>If <code>d</code> is 0 or NaN or Infinite, it is returned unchanged.</p>
      *
@@ -1318,23 +1283,23 @@ public final class MathUtils {
         switch (roundingMethod) {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {
-                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             } else {
-                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_DOWN :
-            unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+            unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             break;
         case BigDecimal.ROUND_FLOOR :
             if (sign == -1) {
-                unscaled = FastMath.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
+                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
             } else {
-                unscaled = FastMath.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             }
             break;
         case BigDecimal.ROUND_HALF_DOWN : {
-            unscaled = nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
             double fraction = unscaled - FastMath.floor(unscaled);
             if (fraction > 0.5) {
                 unscaled = FastMath.ceil(unscaled);
@@ -1361,7 +1326,7 @@ public final class MathUtils {
             break;
         }
         case BigDecimal.ROUND_HALF_UP : {
-            unscaled = nextAfter(unscaled, Double.POSITIVE_INFINITY);
+            unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
             double fraction = unscaled - FastMath.floor(unscaled);
             if (fraction >= 0.5) {
                 unscaled = FastMath.ceil(unscaled);
@@ -1376,7 +1341,7 @@ public final class MathUtils {
             }
             break;
         case BigDecimal.ROUND_UP :
-            unscaled = FastMath.ceil(nextAfter(unscaled,  Double.POSITIVE_INFINITY));
+            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
             break;
         default :
             throw MathRuntimeException.createIllegalArgumentException(
@@ -1902,24 +1867,6 @@ public final class MathUtils {
      */
     public static void checkOrder(double[] val) {
         checkOrder(val, OrderDirection.INCREASING, true);
-    }
-
-    /**
-     * Checks that the given array is sorted.
-     *
-     * @param val Values
-     * @param dir Order direction (-1 for decreasing, 1 for increasing)
-     * @param strict Whether the order should be strict
-     * @throws NonMonotonousSequenceException if the array is not sorted.
-     * @deprecated as of 2.2 (please use the new {@link #checkOrder(double[],OrderDirection,boolean)
-     * checkOrder} method). To be removed in 3.0.
-     */
-    public static void checkOrder(double[] val, int dir, boolean strict) {
-        if (dir > 0) {
-            checkOrder(val, OrderDirection.INCREASING, strict);
-        } else {
-            checkOrder(val, OrderDirection.DECREASING, strict);
-        }
     }
 
     /**
