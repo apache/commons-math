@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive.summary;
 
+import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -53,7 +54,7 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
     public void testSpecialValues() {
         SumOfLogs sum = new SumOfLogs();
         // empty
-        assertTrue(Double.isNaN(sum.getResult()));
+        assertEquals(0, sum.getResult(), 0);
 
         // finite data
         sum.increment(1d);
@@ -69,7 +70,7 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
 
         // clear
         sum.clear();
-        assertTrue(Double.isNaN(sum.getResult()));
+        assertEquals(0, sum.getResult(), 0);
 
         // positive infinity by itself
         sum.increment(Double.POSITIVE_INFINITY);
@@ -79,5 +80,10 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
         sum.increment(-2d);
         assertTrue(Double.isNaN(sum.getResult()));
     }
+    
+    protected void checkClearValue(StorelessUnivariateStatistic statistic){
+    	assertEquals(0, statistic.getResult(), 0);
+    }
+    
 
 }

@@ -45,6 +45,7 @@ public class AbstractUnivariateStatisticTest extends TestCase {
             }
         }
         assertTrue(testStatistic.test(singletonArray, 0, 1));
+        assertTrue(testStatistic.test(singletonArray, 0, 0, true));
     }
 
     public void testTestNegative() {

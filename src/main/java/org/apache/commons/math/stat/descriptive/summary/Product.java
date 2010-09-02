@@ -25,7 +25,8 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Returns the product of the available values.
  * <p>
- * If there are no values in the dataset, or any of the values are
+ * If there are no values in the dataset, then 1 is returned.
+ *  If any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
@@ -53,7 +54,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     public Product() {
         n = 0;
-        value = Double.NaN;
+        value = 1;
     }
 
     /**
@@ -71,11 +72,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     @Override
     public void increment(final double d) {
-        if (n == 0) {
-            value = d;
-        } else {
-            value *= d;
-        }
+        value *= d;
         n++;
     }
 
@@ -99,7 +96,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      */
     @Override
     public void clear() {
-        value = Double.NaN;
+        value = 1;
         n = 0;
     }
 
@@ -113,14 +110,14 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the product of the values or Double.NaN if length = 0
+     * @return the product of the values or 1 if length = 0
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
     public double evaluate(final double[] values, final int begin, final int length) {
         double product = Double.NaN;
-        if (test(values, begin, length)) {
+        if (test(values, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
                 product *= values[i];
@@ -153,14 +150,14 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @param weights the weights array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the product of the values or Double.NaN if length = 0
+     * @return the product of the values or 1 if length = 0
      * @throws IllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
                            final int begin, final int length) {
         double product = Double.NaN;
-        if (test(values, weights, begin, length)) {
+        if (test(values, weights, begin, length, true)) {
             product = 1.0;
             for (int i = begin; i < begin + length; i++) {
                 product *= FastMath.pow(values[i], weights[i]);

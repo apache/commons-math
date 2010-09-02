@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive.summary;
 
+import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -53,7 +54,7 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
 
     public void testSpecialValues() {
         SumOfSquares sumSq = new SumOfSquares();
-        assertTrue(Double.isNaN(sumSq.getResult()));
+        assertEquals(0, sumSq.getResult(), 0);
         sumSq.increment(2d);
         assertEquals(4d, sumSq.getResult(), 0);
         sumSq.increment(Double.POSITIVE_INFINITY);
@@ -65,5 +66,10 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         sumSq.increment(1);
         assertTrue(Double.isNaN(sumSq.getResult()));
     }
+    
+    protected void checkClearValue(StorelessUnivariateStatistic statistic){
+    	assertEquals(0, statistic.getResult(), 0);
+    }
+    
 
 }

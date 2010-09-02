@@ -131,8 +131,8 @@ public final class StatUtilsTest extends TestCase {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x), tolerance);
-        TestUtils.assertEquals(Double.NaN, StatUtils.sumSq(x, 0, 0), tolerance);
+        TestUtils.assertEquals(0, StatUtils.sumSq(x), tolerance);
+        TestUtils.assertEquals(0, StatUtils.sumSq(x, 0, 0), tolerance);
 
         // test one
         x = new double[] {two};
@@ -165,8 +165,8 @@ public final class StatUtilsTest extends TestCase {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(Double.NaN, StatUtils.product(x), tolerance);
-        TestUtils.assertEquals(Double.NaN, StatUtils.product(x, 0, 0), tolerance);
+        TestUtils.assertEquals(1, StatUtils.product(x), tolerance);
+        TestUtils.assertEquals(1, StatUtils.product(x, 0, 0), tolerance);
 
         // test one
         x = new double[] {two};
@@ -199,8 +199,8 @@ public final class StatUtilsTest extends TestCase {
 
         // test empty
         x = new double[] {};
-        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x), tolerance);
-        TestUtils.assertEquals(Double.NaN, StatUtils.sumLog(x, 0, 0), tolerance);
+        TestUtils.assertEquals(0, StatUtils.sumLog(x), tolerance);
+        TestUtils.assertEquals(0, StatUtils.sumLog(x, 0, 0), tolerance);
 
         // test one
         x = new double[] {two};

@@ -79,29 +79,54 @@ public abstract class AbstractUnivariateStatistic
         final double[] values,
         final int begin,
         final int length) {
+    	return test(values, begin, length, false);
+    }
+    
+    /**
+     * This method is used by <code>evaluate(double[], int, int)</code> methods
+     * to verify that the input parameters designate a subarray of positive length.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * non-negative length</li>
+     * <li>throws <code>IllegalArgumentException</code> if the array is null or
+     * or the indices are invalid</li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @param allowEmpty if <code>true</code> then zero length arrays are allowed
+     * @return true if the parameters are valid
+     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.0
+     */
+    protected boolean test(final double[] values, final int begin, final int length, final boolean allowEmpty){
 
-        if (values == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
+    	if (values == null) {
+    		throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+    	}
 
-        if (begin < 0) {
-            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
-        }
+    	if (begin < 0) {
+    		throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
+    	}
 
-        if (length < 0) {
-            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
-        }
+    	if (length < 0) {
+    		throw new NotPositiveException(LocalizedFormats.LENGTH, length);
+    	}
 
-        if (begin + length > values.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
-        }
+    	if (begin + length > values.length) {
+    		throw MathRuntimeException.createIllegalArgumentException(
+    				LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
+    	}
 
-        if (length == 0) {
-            return false;
-        }
+    	if (length == 0 && !allowEmpty) {
+    		return false;
+    	}
 
-        return true;
+    	return true;
 
     }
 
@@ -139,6 +164,40 @@ public abstract class AbstractUnivariateStatistic
         final double[] weights,
         final int begin,
         final int length) {
+    	return test(values, weights, begin, length, false);
+    }
+    
+    /**
+     * This method is used by <code>evaluate(double[], double[], int, int)</code> methods
+     * to verify that the begin and length parameters designate a subarray of positive length
+     * and the weights are all non-negative, non-NaN, finite, and not all zero.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * non-negative length and the weights array contains legitimate values.</li>
+     * <li>throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     *     <li>the start and length arguments do not determine a valid array</li></ul>
+     * </li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @param allowEmpty if <code>true</code> than allow zero length arrays to pass
+     * @return true if the parameters are valid 
+     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.0
+     */
+    protected boolean test(final double[] values, final double[] weights, final int begin, final int length, final boolean allowEmpty){
 
         if (weights == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
@@ -172,7 +231,7 @@ public abstract class AbstractUnivariateStatistic
                     LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
-        return test(values, begin, length);
+        return test(values, begin, length, allowEmpty);
     }
 }
 

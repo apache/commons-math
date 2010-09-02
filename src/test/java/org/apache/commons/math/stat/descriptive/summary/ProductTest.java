@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.stat.descriptive.summary;
 
+import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
@@ -65,7 +66,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
     public void testSpecialValues() {
         Product product = new Product();
-        assertTrue(Double.isNaN(product.getResult()));
+        assertEquals(1, product.getResult(), 0);
         product.increment(1);
         assertEquals(1, product.getResult(), 0);
         product.increment(Double.POSITIVE_INFINITY);
@@ -83,5 +84,10 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
         assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
+    
+    protected void checkClearValue(StorelessUnivariateStatistic statistic){
+    	assertEquals(1, statistic.getResult(), 0);
+    }
+    
 
 }

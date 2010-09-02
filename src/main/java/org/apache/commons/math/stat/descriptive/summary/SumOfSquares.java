@@ -23,7 +23,8 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
  * Returns the sum of the squares of the available values.
  * <p>
- * If there are no values in the dataset, or any of the values are
+ * If there are no values in the dataset, then 0 is returned.
+ * If any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
@@ -51,7 +52,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      */
     public SumOfSquares() {
         n = 0;
-        value = Double.NaN;
+        value = 0;
     }
 
     /**
@@ -69,11 +70,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      */
     @Override
     public void increment(final double d) {
-        if (n == 0) {
-            value = d * d;
-        } else {
-            value += d * d;
-        }
+        value += d * d;
         n++;
     }
 
@@ -97,7 +94,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      */
     @Override
     public void clear() {
-        value = Double.NaN;
+        value = 0;
         n = 0;
     }
 
@@ -111,14 +108,14 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the sum of the squares of the values or Double.NaN if length = 0
+     * @return the sum of the squares of the values or 0 if length = 0
      * @throws IllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
     public double evaluate(final double[] values,final int begin, final int length) {
         double sumSq = Double.NaN;
-        if (test(values, begin, length)) {
+        if (test(values, begin, length, true)) {
             sumSq = 0.0;
             for (int i = begin; i < begin + length; i++) {
                 sumSq += values[i] * values[i];
