@@ -79,9 +79,9 @@ public abstract class AbstractUnivariateStatistic
         final double[] values,
         final int begin,
         final int length) {
-    	return test(values, begin, length, false);
+        return test(values, begin, length, false);
     }
-    
+
     /**
      * This method is used by <code>evaluate(double[], int, int)</code> methods
      * to verify that the input parameters designate a subarray of positive length.
@@ -105,28 +105,28 @@ public abstract class AbstractUnivariateStatistic
      */
     protected boolean test(final double[] values, final int begin, final int length, final boolean allowEmpty){
 
-    	if (values == null) {
-    		throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-    	}
+        if (values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
 
-    	if (begin < 0) {
-    		throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
-    	}
+        if (begin < 0) {
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
+        }
 
-    	if (length < 0) {
-    		throw new NotPositiveException(LocalizedFormats.LENGTH, length);
-    	}
+        if (length < 0) {
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
+        }
 
-    	if (begin + length > values.length) {
-    		throw MathRuntimeException.createIllegalArgumentException(
-    				LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
-    	}
+        if (begin + length > values.length) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
+        }
 
-    	if (length == 0 && !allowEmpty) {
-    		return false;
-    	}
+        if (length == 0 && !allowEmpty) {
+            return false;
+        }
 
-    	return true;
+        return true;
 
     }
 
@@ -164,9 +164,9 @@ public abstract class AbstractUnivariateStatistic
         final double[] weights,
         final int begin,
         final int length) {
-    	return test(values, weights, begin, length, false);
+        return test(values, weights, begin, length, false);
     }
-    
+
     /**
      * This method is used by <code>evaluate(double[], double[], int, int)</code> methods
      * to verify that the begin and length parameters designate a subarray of positive length
@@ -219,7 +219,7 @@ public abstract class AbstractUnivariateStatistic
             }
             if (weights[i] < 0) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
+                        LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
             }
             if (!containsPositiveWeight && weights[i] > 0.0) {
                 containsPositiveWeight = true;

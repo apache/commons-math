@@ -86,8 +86,8 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
     }
     
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-    	assertEquals(1, statistic.getResult(), 0);
+        assertEquals(1, statistic.getResult(), 0);
     }
-    
+
 
 }

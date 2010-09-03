@@ -68,8 +68,8 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
     }
     
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-    	assertEquals(0, statistic.getResult(), 0);
+        assertEquals(0, statistic.getResult(), 0);
     }
-    
+
 
 }
