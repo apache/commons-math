@@ -71,6 +71,13 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-412" due-to="Bill Rossi">
+        Added the dfp library providing arbitrary precision floating point computation in the spirit of
+        IEEE 854-1987 (not exactly as it uses base 1000 instead of base 10). In addition to finite numbers,
+        infinities and NaNs are available (but there are no subnormals). All IEEE 854-1987 rounding modes and
+        signaling flags are supported. The available operations are +, -, *, / and the available functions
+        are sqrt, sin, cos, tan, asin, acos, atan, exp, log.
+      </action>
       <action dev="luc" type="fix" issue="MATH-375" due-to="Bill Rossi">
         Added faster and more accurate version of traditional mathematical functions in a FastMath
         class intended to be a drop-in replacement for java.util.Math at source-level. Some functions
