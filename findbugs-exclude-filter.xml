@@ -35,7 +35,7 @@
   </Match>
   <Match>
     <Class name="org.apache.commons.math.optimization.univariate.BrentOptimizer" />
-    <Method name="localMin" params="org.apache.commons.math.analysis.UnivariateRealFunction,org.apache.commons.math.optimization.GoalType,double,double,double,double" returns="double" />
+    <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
