@@ -101,7 +101,7 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /** {@inheritDoc} */
     public double getFunctionValue() {
-        if (functionValue == Double.NaN) {
+        if (Double.isNaN(functionValue)) {
             final double opt = getResult();
             try {
                 functionValue = function.value(opt);
