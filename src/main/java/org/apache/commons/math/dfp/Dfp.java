@@ -1968,7 +1968,6 @@ public class Dfp implements FieldElement<Dfp> {
     }
 
     /** Convert an instance to a string using scientific notation.
-     * @param a instance to convert
      * @return string representation of the instance in scientific notation
      */
     protected String dfp2sci() {
@@ -2050,7 +2049,6 @@ public class Dfp implements FieldElement<Dfp> {
     }
 
     /** Convert an instance to a string using normal notation.
-     * @param a instance to convert
      * @return string representation of the instance in normal notation
      */
     protected String dfp2string() {
