@@ -24,9 +24,10 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Returns the sum of the natural logs for this collection of values.
  * <p>
- * Uses {@link org.apache.commons.Math.util.FastMath#log(double)} to compute the logs.  Therefore,
+ * Uses {@link org.apache.commons.math.util.FastMath#log(double)} to compute the logs.
+ * Therefore,
  * <ul>
- * <li>If any of values are < 0, the result is <code>NaN.</code></li>
+ * <li>If any of values are &lt; 0, the result is <code>NaN.</code></li>
  * <li>If all values are non-negative and less than
  * <code>Double.POSITIVE_INFINITY</code>,  but at least one value is 0, the
  * result is <code>Double.NEGATIVE_INFINITY.</code></li>
