@@ -27,9 +27,6 @@ public class DfpDecTest {
     private DfpField field;
     private Dfp pinf;
     private Dfp ninf;
-    private Dfp nan;
-    private Dfp snan;
-    private Dfp qnan;
 
     @Before
     public void setUp() {
@@ -37,9 +34,6 @@ public class DfpDecTest {
         field = new DfpField(20);
         pinf = new DfpDec(field, 1).divide(new DfpDec(field, 0));
         ninf = new DfpDec(field, -1).divide(new DfpDec(field, 0));
-        nan = new DfpDec(field, 0).divide(new DfpDec(field, 0));
-        snan = field.newDfp((byte)1, Dfp.SNAN);
-        qnan = field.newDfp((byte)1, Dfp.QNAN);
         ninf.getField().clearIEEEFlags();
     }
 
@@ -48,9 +42,6 @@ public class DfpDecTest {
         field = null;
         pinf    = null;
         ninf    = null;
-        nan     = null;
-        snan    = null;
-        qnan    = null;
     }
 
     // Generic test function.  Takes params x and y and tests them for 
