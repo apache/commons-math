@@ -833,7 +833,7 @@ public class Dfp implements FieldElement<Dfp> {
      */
     @Override
     public int hashCode() {
-        return 17 + (sign << 8) + (nans << 16) + exp + mant.hashCode();
+        return 17 + (sign << 8) + (nans << 16) + exp + Arrays.hashCode(mant);
     }
 
     /** Check if instance is not equal to x.
