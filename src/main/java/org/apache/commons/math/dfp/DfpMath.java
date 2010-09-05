@@ -321,7 +321,7 @@ public class DfpMath {
         int p2 = 0;
 
         // Check the arguments somewhat here
-        if (a.equals(a.getZero()) || a.lessThan(a.getZero()) || (a.equals(a) == false)) {
+        if (a.equals(a.getZero()) || a.lessThan(a.getZero()) || a.isNaN()) {
             // negative, zero or NaN
             a.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
             return a.dotrap(DfpField.FLAG_INVALID, "ln", a, a.newInstance((byte)1, (byte) Dfp.QNAN));
@@ -524,7 +524,7 @@ public class DfpMath {
         }
 
         if (y.equals(one)) {
-            if (!x.equals(x)) {
+            if (x.isNaN()) {
                 // Test for NaNs
                 x.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
                 return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x);
@@ -532,7 +532,7 @@ public class DfpMath {
             return x;
         }
 
-        if (!x.equals(x) || !y.equals(y)) {
+        if (x.isNaN() || y.isNaN()) {
             // Test for NaNs
             x.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
             return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, (byte) Dfp.QNAN));
