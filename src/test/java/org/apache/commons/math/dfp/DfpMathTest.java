@@ -20,6 +20,7 @@ package org.apache.commons.math.dfp;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 public class DfpMathTest {
 
@@ -27,7 +28,6 @@ public class DfpMathTest {
     private Dfp pinf;
     private Dfp ninf;
     private Dfp nan;
-    private Dfp snan;
     private Dfp qnan;
 
     @Before
@@ -37,7 +37,6 @@ public class DfpMathTest {
         pinf = factory.newDfp("1").divide(factory.newDfp("0"));
         ninf = factory.newDfp("-1").divide(factory.newDfp("0"));
         nan = factory.newDfp("0").divide(factory.newDfp("0"));
-        snan = factory.newDfp((byte)1, Dfp.SNAN);
         qnan = factory.newDfp((byte)1, Dfp.QNAN);
         ninf.getField().clearIEEEFlags();
 
@@ -51,7 +50,6 @@ public class DfpMathTest {
         pinf = null;
         ninf = null;
         nan  = null;
-        snan = null;
         qnan = null;
     }
 
@@ -76,6 +74,7 @@ public class DfpMathTest {
         x.getField().clearIEEEFlags();
     }
 
+    @Test
     public void testPow()  
     {
         // Test special cases  exponent of zero
@@ -472,6 +471,7 @@ public class DfpMathTest {
              DfpField.FLAG_INEXACT, "pow #88");
     }
 
+    @Test
     public void testSin()
     {
         test(DfpMath.sin(pinf),
