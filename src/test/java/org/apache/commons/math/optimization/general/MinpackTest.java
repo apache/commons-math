@@ -489,11 +489,11 @@ public class MinpackTest extends TestCase {
   }
 
   private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
-      LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
+      LevenbergMarquardtOptimizer optimizer
+          = new LevenbergMarquardtOptimizer(FastMath.sqrt(2.22044604926e-16),
+                                            FastMath.sqrt(2.22044604926e-16),
+                                            2.22044604926e-16);
       optimizer.setMaxEvaluations(400 * (function.getN() + 1));
-      optimizer.setCostRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
-      optimizer.setParRelativeTolerance(FastMath.sqrt(2.22044604926e-16));
-      optimizer.setOrthoTolerance(2.22044604926e-16);
 //      assertTrue(function.checkTheoreticalStartCost(optimizer.getRMS()));
       try {
           VectorialPointValuePair optimum =

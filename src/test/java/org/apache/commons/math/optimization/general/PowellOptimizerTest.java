@@ -137,9 +137,8 @@ public class PowellOptimizerTest {
                         double fTol,
                         double pointTol)
         throws MathException {
-        final MultivariateRealOptimizer optim = new PowellOptimizer();
+        final MultivariateRealOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d));
         optim.setMaxEvaluations(1000);
-        optim.setConvergenceChecker(new SimpleScalarValueChecker(fTol, Math.ulp(1d)));
 
         final RealPointValuePair result = optim.optimize(func, goal, init);
         final double[] found = result.getPoint();

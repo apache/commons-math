@@ -22,11 +22,13 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Base class for all convergence checker implementations.
  *
+ * <PAIR> Type of (point, value) pair.
+ *
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public abstract class AbstractConvergenceChecker<T>
-    implements ConvergenceChecker<T> {
+public abstract class AbstractConvergenceChecker<PAIR>
+    implements ConvergenceChecker<PAIR> {
     /**
      * Default relative threshold.
      */
@@ -65,14 +67,14 @@ public abstract class AbstractConvergenceChecker<T>
     }
 
     /**
-     * {@inheritDoc}
+     * @return the relative threshold.
      */
     public double getRelativeThreshold() {
         return relativeThreshold;
     }
 
     /**
-     * {@inheritDoc}
+     * @return the absolute threshold.
      */
     public double getAbsoluteThreshold() {
         return absoluteThreshold;
@@ -81,5 +83,7 @@ public abstract class AbstractConvergenceChecker<T>
     /**
      * {@inheritDoc}
      */
-    public abstract boolean converged(int iteration, T ... points);
+    public abstract boolean converged(int iteration,
+                                      PAIR previous,
+                                      PAIR current);
 }

@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
@@ -66,24 +65,15 @@ public class SimpleScalarValueChecker
      * not only for the best or worst ones.
      *
      * @param iteration Index of current iteration
-     * @param points Points used for checking convergence. The list must
-     * contain two elements:
-     * <ul>
-     *  <li>the previous best point,</li>
-     *  <li>the current best point.</li>
-     * </ul>
+     * @param previous Best point in the previous iteration.
+     * @param current Best point in the current iteration.
      * @return {@code true} if the algorithm has converged.
-     * @throws DimensionMismatchException if the length of the {@code points}
-     * list is not equal to 2.
      */
     public boolean converged(final int iteration,
-                             final RealPointValuePair ... points) {
-        if (points.length != 2) {
-            throw new DimensionMismatchException(points.length, 2);
-        }
-
-        final double p = points[0].getValue();
-        final double c = points[1].getValue();
+                             final RealPointValuePair previous,
+                             final RealPointValuePair current) {
+        final double p = previous.getValue();
+        final double c = current.getValue();
         final double difference = FastMath.abs(p - c);
         final double size = FastMath.max(FastMath.abs(p), FastMath.abs(c));
         return (difference <= size * getRelativeThreshold() ||

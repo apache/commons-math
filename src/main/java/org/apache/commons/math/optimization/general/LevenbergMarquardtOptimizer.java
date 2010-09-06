@@ -106,136 +106,117 @@ import org.apache.commons.math.util.FastMath;
  *
  */
 public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
-
     /** Number of solved point. */
     private int solvedCols;
-
     /** Diagonal elements of the R matrix in the Q.R. decomposition. */
     private double[] diagR;
-
     /** Norms of the columns of the jacobian matrix. */
     private double[] jacNorm;
-
     /** Coefficients of the Householder transforms vectors. */
     private double[] beta;
-
     /** Columns permutation array. */
     private int[] permutation;
-
     /** Rank of the jacobian matrix. */
     private int rank;
-
     /** Levenberg-Marquardt parameter. */
     private double lmPar;
-
     /** Parameters evolution direction associated with lmPar. */
     private double[] lmDir;
-
     /** Positive input variable used in determining the initial step bound. */
-    private double initialStepBoundFactor;
-
+    private final double initialStepBoundFactor;
     /** Desired relative error in the sum of squares. */
-    private double costRelativeTolerance;
-
+    private final double costRelativeTolerance;
     /**  Desired relative error in the approximate solution parameters. */
-    private double parRelativeTolerance;
-
+    private final double parRelativeTolerance;
     /** Desired max cosine on the orthogonality between the function vector
      * and the columns of the jacobian. */
-    private double orthoTolerance;
-
+    private final double orthoTolerance;
     /** Threshold for QR ranking. */
-    private double qrRankingThreshold;
+    private final double qrRankingThreshold;
 
     /**
-     * Build an optimizer for least squares problems.
-     * <p>The default values for the algorithm settings are:
-     *   <ul>
-     *    <li>{@link #setConvergenceChecker(ConvergenceChecker) vectorial convergence checker}: null</li>
-     *    <li>{@link #setInitialStepBoundFactor(double) initial step bound factor}: 100.0</li>
-     *    <li>{@link #setCostRelativeTolerance(double) cost relative tolerance}: 1.0e-10</li>
-     *    <li>{@link #setParRelativeTolerance(double) parameters relative tolerance}: 1.0e-10</li>
-     *    <li>{@link #setOrthoTolerance(double) orthogonality tolerance}: 1.0e-10</li>
-     *    <li>{@link #setQRRankingThreshold(double) QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
-     *   </ul>
-     * </p>
-     * <p>These default values may be overridden after construction. If the {@link
-     * #setConvergenceChecker vectorial convergence checker} is set to a non-null value, it
-     * will be used instead of the {@link #setCostRelativeTolerance cost relative tolerance}
-     * and {@link #setParRelativeTolerance parameters relative tolerance} settings.
+     * Build an optimizer for least squares problems with default values
+     * for all the tuning parameters (see the {@link
+     * #LevenbergMarquardtOptimizer(double,double,double,double,double)
+     * other contructor}.
+     * The default values for the algorithm settings are:
+     * <ul>
+     *  <li>Initial step bound factor}: 100</li>
+     *  <li>Cost relative tolerance}: 1e-10</li>
+     *  <li>Parameters relative tolerance}: 1e-10</li>
+     *  <li>Orthogonality tolerance}: 1e-10</li>
+     *  <li>QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
+     * </ul>
      */
     public LevenbergMarquardtOptimizer() {
-        // default values for the tuning parameters
-        setConvergenceChecker(null);
-        setInitialStepBoundFactor(100.0);
-        setCostRelativeTolerance(1.0e-10);
-        setParRelativeTolerance(1.0e-10);
-        setOrthoTolerance(1.0e-10);
-        setQRRankingThreshold(MathUtils.SAFE_MIN);
+        this(100, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);
     }
 
     /**
-     * Set the positive input variable used in determining the initial step bound.
-     * This bound is set to the product of initialStepBoundFactor and the euclidean
-     * norm of diag*x if nonzero, or else to initialStepBoundFactor itself. In most
-     * cases factor should lie in the interval (0.1, 100.0). 100.0 is a generally
-     * recommended value.
+     * Build an optimizer for least squares problems with default values
+     * for some of the tuning parameters (see the {@link
+     * #LevenbergMarquardtOptimizer(double,double,double,double,double)
+     * other contructor}.
+     * The default values for the algorithm settings are:
+     * <ul>
+     *  <li>Initial step bound factor}: 100</li>
+     *  <li>QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
+     * </ul>
      *
-     * @param initialStepBoundFactor initial step bound factor
+     * @param costRelativeTolerance Desired relative error in the sum of
+     * squares.
+     * @param parRelativeTolerance Desired relative error in the approximate
+     * solution parameters.
+     * @param orthoTolerance Desired max cosine on the orthogonality between
+     * the function vector and the columns of the Jacobian.
      */
-    public void setInitialStepBoundFactor(double initialStepBoundFactor) {
+    public LevenbergMarquardtOptimizer(double costRelativeTolerance,
+                                       double parRelativeTolerance,
+                                       double orthoTolerance) {
+        this(100,
+             costRelativeTolerance, parRelativeTolerance, orthoTolerance,
+             MathUtils.SAFE_MIN);
+    }
+
+    /**
+     * The arguments control the behaviour of the default convergence checking
+     * procedure.
+     * Additional criteria can defined through the setting of a {@link
+     * ConvergenceChecker}.
+     *
+     * @param initialStepBoundFactor Positive input variable used in
+     * determining the initial step bound. This bound is set to the
+     * product of initialStepBoundFactor and the euclidean norm of
+     * {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor}
+     * itself. In most cases factor should lie in the interval
+     * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
+     * @param costRelativeTolerance Desired relative error in the sum of
+     * squares.
+     * @param parRelativeTolerance Desired relative error in the approximate
+     * solution parameters.
+     * @param orthoTolerance Desired max cosine on the orthogonality between
+     * the function vector and the columns of the Jacobian.
+     * @param threshold Desired threshold for QR ranking. If the squared norm
+     * of a column vector is smaller or equal to this threshold during QR
+     * decomposition, it is considered to be a zero vector and hence the rank
+     * of the matrix is reduced.
+     */
+    public LevenbergMarquardtOptimizer(double initialStepBoundFactor,
+                                       double costRelativeTolerance,
+                                       double parRelativeTolerance,
+                                       double orthoTolerance,
+                                       double threshold) {
         this.initialStepBoundFactor = initialStepBoundFactor;
-    }
-
-    /**
-     * Set the desired relative error in the sum of squares.
-     * <p>This setting is used only if the {@link #setConvergenceChecker vectorial
-     * convergence checker} is set to null.</p>
-     * @param costRelativeTolerance desired relative error in the sum of squares
-     */
-    public void setCostRelativeTolerance(double costRelativeTolerance) {
         this.costRelativeTolerance = costRelativeTolerance;
-    }
-
-    /**
-     * Set the desired relative error in the approximate solution parameters.
-     * <p>This setting is used only if the {@link #setConvergenceChecker vectorial
-     * convergence checker} is set to null.</p>
-     * @param parRelativeTolerance desired relative error
-     * in the approximate solution parameters
-     */
-    public void setParRelativeTolerance(double parRelativeTolerance) {
         this.parRelativeTolerance = parRelativeTolerance;
-    }
-
-    /**
-     * Set the desired max cosine on the orthogonality.
-     * <p>This setting is always used, regardless of the {@link #setConvergenceChecker
-     * vectorial convergence checker} being null or non-null.</p>
-     * @param orthoTolerance desired max cosine on the orthogonality
-     * between the function vector and the columns of the jacobian
-     */
-    public void setOrthoTolerance(double orthoTolerance) {
         this.orthoTolerance = orthoTolerance;
-    }
-
-    /**
-     * Set the desired threshold for QR ranking.
-     * <p>
-     * If the squared norm of a column vector is smaller or equal to this threshold
-     * during QR decomposition, it is considered to be a zero vector and hence the
-     * rank of the matrix is reduced.
-     * </p>
-     * @param threshold threshold for QR ranking
-     */
-    public void setQRRankingThreshold(final double threshold) {
         this.qrRankingThreshold = threshold;
     }
 
     /** {@inheritDoc} */
     @Override
-    protected VectorialPointValuePair doOptimize() throws FunctionEvaluationException {
-
+    protected VectorialPointValuePair doOptimize()
+        throws FunctionEvaluationException {
         // arrays shared with the other private methods
         solvedCols  = FastMath.min(rows, cols);
         diagR       = new double[cols];
@@ -446,14 +427,15 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     objective = oldObj;
                     oldObj    = tmpVec;
                 }
-                if (checker==null) {
-                    if (((FastMath.abs(actRed) <= costRelativeTolerance) &&
-                        (preRed <= costRelativeTolerance) &&
-                        (ratio <= 2.0)) ||
-                       (delta <= parRelativeTolerance * xNorm)) {
-                       return current;
-                   }
+
+                // Default convergence criteria.
+                if ((FastMath.abs(actRed) <= costRelativeTolerance &&
+                     preRed <= costRelativeTolerance &&
+                     ratio <= 2.0) ||
+                    delta <= parRelativeTolerance * xNorm) {
+                    return current;
                 }
+
                 // tests for termination and stringent tolerances
                 // (2.2204e-16 is the machine epsilon for IEEE754)
                 if ((FastMath.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {

@@ -35,6 +35,7 @@ import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -140,7 +141,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
         assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
         assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
-
     }
 
     public void testNoDependency() throws FunctionEvaluationException {
@@ -176,7 +176,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
         assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
-
     }
 
     public void testTwoSets() throws FunctionEvaluationException {
@@ -201,7 +200,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
         assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
         assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
-
     }
 
     public void testNonInversible() throws FunctionEvaluationException {
@@ -223,7 +221,6 @@ public class LevenbergMarquardtOptimizerTest
         } catch (Exception e) {
             fail("wrong exception caught");
         }
-
     }
 
     public void testIllConditioned() throws FunctionEvaluationException {
@@ -257,7 +254,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(137.0, optimum2.getPoint()[1], 1.0e-8);
         assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-8);
         assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
-
     }
 
     public void testMoreEstimatedParametersSimple() throws FunctionEvaluationException {
@@ -272,7 +268,6 @@ public class LevenbergMarquardtOptimizerTest
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
                 new double[] { 7, 6, 5, 4 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
-
     }
 
     public void testMoreEstimatedParametersUnsorted() throws FunctionEvaluationException {
@@ -293,7 +288,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(4.0, optimum.getPointRef()[3], 1.0e-10);
         assertEquals(5.0, optimum.getPointRef()[4], 1.0e-10);
         assertEquals(6.0, optimum.getPointRef()[5], 1.0e-10);
-
     }
 
     public void testRedundantEquations() throws FunctionEvaluationException {
@@ -310,7 +304,6 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(2.0, optimum.getPointRef()[0], 1.0e-10);
         assertEquals(1.0, optimum.getPointRef()[1], 1.0e-10);
-
     }
 
     public void testInconsistentEquations() throws FunctionEvaluationException {
@@ -323,7 +316,6 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         assertTrue(optimizer.getRMS() > 0.1);
-
     }
 
     public void testInconsistentSizes() throws FunctionEvaluationException {
@@ -358,7 +350,6 @@ public class LevenbergMarquardtOptimizerTest
         } catch (Exception e) {
             fail("wrong exception caught");
         }
-
     }
 
     public void testControlParameters() {
@@ -380,12 +371,13 @@ public class LevenbergMarquardtOptimizerTest
                                double costRelativeTolerance, double parRelativeTolerance,
                                double orthoTolerance, boolean shouldFail) {
         try {
-            LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-            optimizer.setInitialStepBoundFactor(initialStepBoundFactor);
+            LevenbergMarquardtOptimizer optimizer
+                = new LevenbergMarquardtOptimizer(initialStepBoundFactor,
+                                                  costRelativeTolerance,
+                                                  parRelativeTolerance,
+                                                  orthoTolerance,
+                                                  MathUtils.SAFE_MIN);
             optimizer.setMaxEvaluations(maxCostEval);
-            optimizer.setCostRelativeTolerance(costRelativeTolerance);
-            optimizer.setParRelativeTolerance(parRelativeTolerance);
-            optimizer.setOrthoTolerance(orthoTolerance);
             optimizer.optimize(problem, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
             assertTrue(!shouldFail);
@@ -444,7 +436,6 @@ public class LevenbergMarquardtOptimizerTest
         errors = optimizer.guessParametersErrors();
         assertEquals(0.004, errors[0], 0.001);
         assertEquals(0.004, errors[1], 0.001);
-
     }
 
     public void testCircleFittingBadInit() throws FunctionEvaluationException {
@@ -508,8 +499,8 @@ public class LevenbergMarquardtOptimizerTest
             problem.addPoint (2, -2.1488478161387325);
             problem.addPoint (3, -1.9122489313410047);
             problem.addPoint (4, 1.7785661310051026);
-            LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-            optimizer.setQRRankingThreshold(0);
+            LevenbergMarquardtOptimizer optimizer
+                = new LevenbergMarquardtOptimizer(100, 1e-10, 1e-10, 1e-10, 0);
             optimizer.optimize(problem,
                                new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 0.0, 4.4e-323, 1.0, 4.4e-323, 0.0 },
@@ -518,7 +509,6 @@ public class LevenbergMarquardtOptimizerTest
         } catch (ConvergenceException ee) {
             // expected behavior
         }
-
     }
 
     private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
@@ -543,7 +533,6 @@ public class LevenbergMarquardtOptimizerTest
                 }
             };
         }
-
     }
 
     private static class Circle implements DifferentiableMultivariateVectorialFunction, Serializable {
@@ -598,7 +587,6 @@ public class LevenbergMarquardtOptimizerTest
             }
 
             return jacobian;
-
         }
 
         public double[] value(double[] variables)
@@ -613,7 +601,6 @@ public class LevenbergMarquardtOptimizerTest
             }
 
             return residuals;
-
         }
 
         public MultivariateMatrixFunction jacobian() {
@@ -624,7 +611,6 @@ public class LevenbergMarquardtOptimizerTest
                 }
             };
         }
-
     }
 
     private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
@@ -669,7 +655,5 @@ public class LevenbergMarquardtOptimizerTest
                 }
             };
         }
-
     }
-
 }

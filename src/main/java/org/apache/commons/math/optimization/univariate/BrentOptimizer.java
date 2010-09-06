@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.univariate;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
@@ -48,9 +47,21 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      * Golden section.
      */
     private static final double GOLDEN_SECTION = 0.5 * (3 - FastMath.sqrt(5));
+    /**
+     * Minimum relative tolerance.
+     */
+    private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
+    /**
+     * Relative threshold.
+     */
+    private final double relativeThreshold;
+    /**
+     * Absolute threshold.
+     */
+    private final double absoluteThreshold;
 
     /**
-     * Convergence checker that implements the original stopping criterion
+     * The arguments are used implement the original stopping criterion
      * of Brent's algorithm.
      * {@code abs} and {@code rel} define a tolerance
      * {@code tol = rel |x| + abs}. {@code rel} should be no smaller than
@@ -58,82 +69,21 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      * where <em>macheps</em> is the relative machine precision. {@code abs} must
      * be positive.
      *
-     * @since 3.0
+     * @param rel Relative threshold.
+     * @param abs Absolute threshold.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
      */
-    public static class BrentConvergenceChecker
-        extends AbstractConvergenceChecker<UnivariateRealPointValuePair> {
-        /**
-         * Minimum relative tolerance.
-         */
-        private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
-
-        /**
-         * Build an instance with specified thresholds.
-         *
-         * @param rel Relative tolerance threshold
-         * @param abs Absolute tolerance threshold
-         */
-        public BrentConvergenceChecker(final double rel,
-                                       final double abs) {
-            super(rel, abs);
-            
-            if (rel < MIN_RELATIVE_TOLERANCE) {
-                throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
-            }
-            if (abs <= 0) {
-                throw new NotStrictlyPositiveException(abs);
-            }
+    public BrentOptimizer(double rel,
+                          double abs) {
+        if (rel < MIN_RELATIVE_TOLERANCE) {
+            throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
         }
-
-        /**
-         * Convergence criterion.
-         *
-         * @param iteration Current iteration.
-         * @param points Points used for checking the stopping criterion. The list
-         * must contain 3 points (in the following order):
-         * <ul>
-         *  <li>the lower end of the current interval</li>
-         *  <li>the current best point</li>
-         *  <li>the higher end of the current interval</li>
-         * </ul>
-         * @return {@code true} if the stopping criterion is satisfied.
-         * @throws DimensionMismatchException if the length of the {@code points}
-         * list is not equal to 3.
-         */
-        public boolean converged(final int iteration,
-                                 final UnivariateRealPointValuePair ... points) {
-            if (points.length != 3) {
-                throw new DimensionMismatchException(points.length, 3);
-            }
-            
-            final double a = points[0].getPoint();
-            final double x = points[1].getPoint();
-            final double b = points[2].getPoint();
-            
-            final double tol1 = getRelativeThreshold() * FastMath.abs(x) + getAbsoluteThreshold();
-            final double tol2 = 2 * tol1;
-            
-            final double m = 0.5 * (a + b);
-            return FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+        if (abs <= 0) {
+            throw new NotStrictlyPositiveException(abs);
         }
-    }
-
-    /**
-     * Set the convergence checker.
-     * Since this algorithm requires a specific checker, this method will throw
-     * an {@code UnsupportedOperationexception} if the argument type is not
-     * {@link BrentConvergenceChecker}.
-     *
-     * @throws MathUnsupportedOperationexception if the checker is not an
-     * instance of {@link BrentConvergenceChecker}.
-     */
-    @Override
-    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
-        if (checker instanceof BrentConvergenceChecker) {
-            super.setConvergenceChecker(checker);
-        } else {
-            throw new MathUnsupportedOperationException();
-        }
+        relativeThreshold = rel;
+        absoluteThreshold = abs;
     }
 
     /** {@inheritDoc} */
@@ -144,10 +94,9 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         final double mid = getStartValue();
         final double hi = getMax();
 
+        // Optional additional convergence criteria.
         final ConvergenceChecker<UnivariateRealPointValuePair> checker
             = getConvergenceChecker();
-        final double eps = checker.getRelativeThreshold();
-        final double t = checker.getAbsoluteThreshold();
 
         double a;
         double b;
@@ -171,19 +120,19 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         double fv = fx;
         double fw = fx;
 
+        UnivariateRealPointValuePair previous = null;
+        UnivariateRealPointValuePair current
+            = new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
+
         int iter = 0;
         while (true) {
-            double m = 0.5 * (a + b);
-            final double tol1 = eps * FastMath.abs(x) + t;
+            final double m = 0.5 * (a + b);
+            final double tol1 = relativeThreshold * FastMath.abs(x) + absoluteThreshold;
             final double tol2 = 2 * tol1;
 
-            // Check stopping criterion.
-            // This test will work only if the "checker" is an instance of
-            // "BrentOptimizer.BrentConvergenceChecker".
-            if (!getConvergenceChecker().converged(iter,
-                                                   new UnivariateRealPointValuePair(a, Double.NaN),
-                                                   new UnivariateRealPointValuePair(x, Double.NaN),
-                                                   new UnivariateRealPointValuePair(b, Double.NaN))) {
+            // Default stopping criterion.
+            final boolean stop = FastMath.abs(x - m) <= tol2 - 0.5 * (b - a);
+            if (!stop) {
                 double p = 0;
                 double q = 0;
                 double r = 0;
@@ -283,8 +232,18 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                         fv = fu;
                     }
                 }
-            } else { // Termination.
-                return new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
+
+                previous = current;
+                current = new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
+
+                // User-defined convergence checker.
+                if (checker != null) {
+                    if (checker.converged(iter, previous, current)) {
+                        return current;
+                    }
+                }
+            } else { // Default termination (Brent's criterion).
+                return current;
             }
             ++iter;
         }

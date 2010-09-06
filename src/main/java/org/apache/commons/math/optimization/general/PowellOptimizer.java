@@ -20,7 +20,10 @@ package org.apache.commons.math.optimization.general;
 import java.util.Arrays;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -35,8 +38,10 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * algorithm (as implemented in module {@code optimize.py} v0.5 of
  * <em>SciPy</em>).
  * <br/>
- * The user is responsible for calling {@link
- * #setConvergenceChecker(ConvergenceChecker) ConvergenceChecker}
+ * The default stopping criterion is based on the differences of the
+ * function value between two successive iterations. It is however possible
+ * to define custom convergence criteria by calling a {@link
+ * #setConvergenceChecker(ConvergenceChecker) setConvergenceChecker}
  * prior to using the optimizer.
  *
  * @version $Revision$ $Date$
@@ -45,26 +50,48 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
 public class PowellOptimizer
     extends AbstractScalarOptimizer {
     /**
+     * Minimum relative tolerance.
+     */
+    private static final double MIN_RELATIVE_TOLERANCE = 2 * FastMath.ulp(1d);
+    /**
+     * Relative threshold.
+     */
+    private double relativeThreshold;
+    /**
+     * Absolute threshold.
+     */
+    private double absoluteThreshold;
+    /**
      * Line search.
      */
-    private LineSearch line = new LineSearch();
+    private LineSearch line;
 
     /**
-     * Set the convergence checker.
-     * It also indirectly sets the line search tolerances to the square-root
-     * of the correponding tolerances in the checker.
+     * The arguments control the behaviour of the default convergence
+     * checking procedure.
      *
-     * @param checker Convergence checker.
+     * @param rel Relative threshold.
+     * @param abs Absolute threshold.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
      */
-    public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> checker) {
-        super.setConvergenceChecker(checker);
+    public PowellOptimizer(double rel,
+                           double abs) {
+        if (rel < MIN_RELATIVE_TOLERANCE) {
+            throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
+        }
+        if (abs <= 0) {
+            throw new NotStrictlyPositiveException(abs);
+        }
+        relativeThreshold = rel;
+        absoluteThreshold = abs;
 
         // Line search tolerances can be much lower than the tolerances
         // required for the optimizer itself.
         final double minTol = 1e-4;
-        final double rel = Math.min(Math.sqrt(checker.getRelativeThreshold()), minTol);
-        final double abs = Math.min(Math.sqrt(checker.getAbsoluteThreshold()), minTol);
-        line.setConvergenceChecker(new BrentOptimizer.BrentConvergenceChecker(rel, abs));
+        final double lsRel = Math.min(FastMath.sqrt(relativeThreshold), minTol);
+        final double lsAbs = Math.min(FastMath.sqrt(absoluteThreshold), minTol);
+        line = new LineSearch(lsRel, lsAbs);
     }
 
     /** {@inheritDoc} */
@@ -91,6 +118,9 @@ public class PowellOptimizer
         for (int i = 0; i < n; i++) {
             direc[i][i] = 1;
         }
+
+        final ConvergenceChecker<RealPointValuePair> checker
+            = getConvergenceChecker();
 
         double[] x = guess;
         double fVal = computeObjectiveValue(x);
@@ -122,9 +152,19 @@ public class PowellOptimizer
                 }
             }
 
+            // Default convergence check.
+            boolean stop = 2 * (fX - fVal) <= (relativeThreshold * (FastMath.abs(fX)
+                                                                    + FastMath.abs(fVal))
+                                               + absoluteThreshold);
+
             final RealPointValuePair previous = new RealPointValuePair(x1, fX);
             final RealPointValuePair current = new RealPointValuePair(x, fVal);
-            if (getConvergenceChecker().converged(iter, previous, current)) {
+            if (!stop) { // User-defined stopping criteria.
+                if (checker != null) {
+                    stop = checker.converged(iter, previous, current);
+                }
+            }
+            if (stop) {
                 if (goal == GoalType.MINIMIZE) {
                     return (fVal < fX) ? current : previous;
                 } else {
@@ -202,6 +242,15 @@ public class PowellOptimizer
          * Value of the optimum.
          */
         private UnivariateRealPointValuePair optimum;
+
+        /**
+         * @param rel Relative threshold.
+         * @param rel Absolute threshold.
+         */
+        LineSearch(double rel,
+                   double abs) {
+            super(rel, abs);
+        }
 
         /**
          * Find the minimum of the function {@code f(p + alpha * d)}.
