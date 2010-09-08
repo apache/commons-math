@@ -17,6 +17,7 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -219,12 +220,15 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                     } else {
                         b = u;
                     }
-                    if (fu <= fw || w == x) {
+                    if (fu <= fw ||
+                        MathUtils.equals(w, x)) {
                         v = w;
                         fv = fw;
                         w = u;
                         fw = fu;
-                    } else if (fu <= fv || v == x || v == w) {
+                    } else if (fu <= fv ||
+                               MathUtils.equals(v, x) ||
+                               MathUtils.equals(v, w)) {
                         v = u;
                         fv = fu;
                     }
