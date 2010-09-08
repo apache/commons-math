@@ -237,10 +237,6 @@ public class PowellOptimizer
          * Automatic bracketing.
          */
         private final BracketFinder bracket = new BracketFinder();
-        /**
-         * Value of the optimum.
-         */
-        private UnivariateRealPointValuePair optimum;
 
         /**
          * @param rel Relative threshold.
