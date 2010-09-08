@@ -40,14 +40,47 @@ public abstract class AbstractMultipleLinearRegression implements
     protected RealVector Y;
 
     /**
-     * Loads model x and y sample data from a flat array of data, overriding any previous sample.
-     * Assumes that rows are concatenated with y values first in each row.
+     * <p>Loads model x and y sample data from a flat input array, overriding any previous sample.
+     * </p>
+     * <p>Assumes that rows are concatenated with y values first in each row.  For example, an input
+     * <code>data</code> array containing the sequence of values (1, 2, 3, 4, 5, 6, 7, 8, 9) with
+     * <code>nobs = 3</code> and <code>nvars = 2</code> creates a regression dataset with two
+     * independent variables, as below:
+     * <pre>
+     *   y   x[0]  x[1]
+     *   --------------
+     *   1     2     3
+     *   4     5     6
+     *   7     8     9
+     * </pre>
+     * </p>
+     * <p>Note that there is no need to add an initial unitary column (column of 1's) when
+     * specifying a model including an intercept term.
+     * </p>
+     * <p>Throws IllegalArgumentException if any of the following preconditions fail:
+     * <ul><li><code>data</code> cannot be null</li>
+     * <li><code>data.length = nobs * (nvars + 1)</li>
+     * <li><code>nobs > nvars</code></li></ul>
+     * </p>
      *
      * @param data input data array
      * @param nobs number of observations (rows)
      * @param nvars number of independent variables (columns, not counting y)
+     * @throws IllegalArgumentException if the preconditions are not met
      */
     public void newSampleData(double[] data, int nobs, int nvars) {
+        if (data == null) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+        if (data.length != nobs * (nvars + 1)) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.INVALID_REGRESSION_ARRAY, data.length, nobs, nvars);
+        }
+        if (nobs <= nvars) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS);
+        }
         double[] y = new double[nobs];
         double[][] x = new double[nobs][nvars + 1];
         int pointer = 0;
@@ -63,30 +96,82 @@ public abstract class AbstractMultipleLinearRegression implements
     }
 
     /**
-     * Loads new y sample data, overriding any previous sample
+     * Loads new y sample data, overriding any previous data.
      *
-     * @param y the [n,1] array representing the y sample
+     * @param y the array representing the y sample
+     * @throws IllegalArgumentException if y is null or empty
      */
     protected void newYSampleData(double[] y) {
+        if (y == null) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+        if (y.length == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NO_DATA);
+        }
         this.Y = new ArrayRealVector(y);
     }
 
     /**
-     * Loads new x sample data, overriding any previous sample
-     *
-     * @param x the [n,k] array representing the x sample
+     * <p>Loads new x sample data, overriding any previous data.
+     * </p>
+     * The input <code>x</code> array should have one row for each sample
+     * observation, with columns corresponding to independent variables.
+     * For example, if <pre>
+     * <code> x = new double[][] {{1, 2}, {3, 4}, {5, 6}} </code></pre>
+     * then <code>setXSampleData(x) </code> results in a model with two independent
+     * variables and 3 observations:
+     * <pre>
+     *   x[0]  x[1]
+     *   ----------
+     *     1    2
+     *     3    4
+     *     5    6
+     * </pre>
+     * </p>
+     * <p>Note that there is no need to add an initial unitary column (column of 1's) when
+     * specifying a model including an intercept term.
+     * </p>
+     * @param x the rectangular array representing the x sample
+     * @throws IllegalArgumentException if x is null, empty or not rectangular
      */
     protected void newXSampleData(double[][] x) {
-        this.X = new Array2DRowRealMatrix(x);
+        if (x == null) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NULL_NOT_ALLOWED);
+        }
+        if (x.length == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NO_DATA);
+        }
+        final int nVars = x[0].length;
+        final double[][] xAug = new double[x.length][nVars + 1];
+        for (int i = 0; i < x.length; i++) {
+            if (x[i].length != nVars) {
+                throw MathRuntimeException.createIllegalArgumentException(
+                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
+                        x[i].length, nVars);
+            }
+            xAug[i][0] = 1.0d;
+            System.arraycopy(x[i], 0, xAug[i], 1, nVars);
+        }
+        this.X = new Array2DRowRealMatrix(xAug, false);
     }
 
     /**
-     * Validates sample data.
+     * Validates sample data.  Checks that
+     * <ul><li>Neither x nor y is null or empty;</li>
+     * <li>The length (i.e. number of rows) of x equals the length of y</li>
+     * <li>x has at least one more row than it has columns (i.e. there is
+     * sufficient data to estimate regression coefficients for each of the
+     * columns in x plus an intercept.</li>
+     * </ul>
      *
-     * @param x the [n,k] array representing the x sample
-     * @param y the [n,1] array representing the y sample
-     * @throws IllegalArgumentException if the x and y array data are not
-     *             compatible for the regression
+     * @param x the [n,k] array representing the x data
+     * @param y the [n,1] array representing the y data
+     * @throws IllegalArgumentException if any of the checks fail
+     *
      */
     protected void validateSampleData(double[][] x, double[] y) {
         if ((x == null) || (y == null) || (x.length != y.length)) {
@@ -94,7 +179,12 @@ public abstract class AbstractMultipleLinearRegression implements
                   LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                   (x == null) ? 0 : x.length,
                   (y == null) ? 0 : y.length);
-        } else if ((x.length > 0) && (x[0].length > x.length)) {
+        }
+        if (x.length == 0) {  // Must be no y data either
+            throw MathRuntimeException.createIllegalArgumentException(
+                    LocalizedFormats.NO_DATA);
+        }
+        if (x[0].length + 1 > x.length) {
             throw MathRuntimeException.createIllegalArgumentException(
                   LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
                   x.length, x[0].length);
@@ -102,12 +192,13 @@ public abstract class AbstractMultipleLinearRegression implements
     }
 
     /**
-     * Validates sample data.
+     * Validates that the x data and covariance matrix have the same
+     * number of rows and that the covariance matrix is square.
      *
      * @param x the [n,k] array representing the x sample
      * @param covariance the [n,n] array representing the covariance matrix
-     * @throws IllegalArgumentException if the x sample data or covariance
-     *             matrix are not compatible for the regression
+     * @throws IllegalArgumentException if the number of rows in x is not equal
+     * to the number of rows in covariance or covariance is not square.
      */
     protected void validateCovarianceData(double[][] x, double[][] covariance) {
         if (x.length != covariance.length) {
