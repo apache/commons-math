@@ -64,8 +64,8 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @return the gradient at the specified point.
      * @throws FunctionEvaluationException if the function gradient cannot be
      * evaluated.
-     * @throws TooManyEvaluationsException if the allowed number of evaluations
-     * is exceeded.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the allowed number of evaluations is exceeded.
      */
     protected double[] computeObjectiveGradient(final double[] evaluationPoint)
         throws FunctionEvaluationException {

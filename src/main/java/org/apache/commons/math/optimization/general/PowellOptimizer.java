@@ -27,7 +27,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math.optimization.univariate.UnivariateRealPointValuePair;
@@ -100,7 +99,7 @@ public class PowellOptimizer
         super.setMaxEvaluations(maxEvaluations);
 
         // We must allow at least as many iterations to the underlying line
-        // search optimizer. Because the line search inner class will call 
+        // search optimizer. Because the line search inner class will call
         // "computeObjectiveValue" in this class, we ensure that this class
         // will be the first to eventually throw "TooManyEvaluationsException".
         line.setMaxEvaluations(maxEvaluations);
@@ -153,9 +152,9 @@ public class PowellOptimizer
             }
 
             // Default convergence check.
-            boolean stop = 2 * (fX - fVal) <= (relativeThreshold * (FastMath.abs(fX)
-                                                                    + FastMath.abs(fVal))
-                                               + absoluteThreshold);
+            boolean stop = 2 * (fX - fVal) <=
+                (relativeThreshold * (FastMath.abs(fX) + FastMath.abs(fVal)) +
+                 absoluteThreshold);
 
             final RealPointValuePair previous = new RealPointValuePair(x1, fX);
             final RealPointValuePair current = new RealPointValuePair(x, fVal);
@@ -245,7 +244,7 @@ public class PowellOptimizer
 
         /**
          * @param rel Relative threshold.
-         * @param rel Absolute threshold.
+         * @param abs Absolute threshold.
          */
         LineSearch(double rel,
                    double abs) {
@@ -260,8 +259,8 @@ public class PowellOptimizer
          * @return the optimum.
          * @throws FunctionEvaluationException if the function evaluation
          * fails.
-         * @throws TooManyEvaluationsException if the number of evaluations is
-         * exceeded.
+         * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+         * if the number of evaluations is exceeded.
          */
         public UnivariateRealPointValuePair search(final double[] p,
                                                    final double[] d)
@@ -271,7 +270,6 @@ public class PowellOptimizer
             final UnivariateRealFunction f = new UnivariateRealFunction() {
                     public double value(double alpha)
                         throws FunctionEvaluationException {
-                        
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {
                             x[i] = p[i] + alpha * d[i];
@@ -280,7 +278,7 @@ public class PowellOptimizer
                         return obj;
                     }
                 };
-            
+
             final GoalType goal = PowellOptimizer.this.getGoalType();
             bracket.search(f, goal, 0, 1);
             return optimize(f, goal, bracket.getLo(), bracket.getHi(),

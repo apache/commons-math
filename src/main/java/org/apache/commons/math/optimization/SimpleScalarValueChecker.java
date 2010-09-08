@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -76,7 +75,7 @@ public class SimpleScalarValueChecker
         final double c = current.getValue();
         final double difference = FastMath.abs(p - c);
         final double size = FastMath.max(FastMath.abs(p), FastMath.abs(c));
-        return (difference <= size * getRelativeThreshold() ||
-                difference <= getAbsoluteThreshold());
+        return difference <= size * getRelativeThreshold() ||
+            difference <= getAbsoluteThreshold();
     }
 }

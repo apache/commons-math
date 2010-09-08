@@ -38,10 +38,10 @@ public class Incrementor {
     /**
      * Set the upper limit for the counter.
      *
-     * @param count Upper limit of the counter.
+     * @param max Upper limit of the counter.
      */
-    public void setMaximalCount(int count) {
-        maximalCount = count;
+    public void setMaximalCount(int max) {
+        maximalCount = max;
     }
 
     /**

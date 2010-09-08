@@ -25,8 +25,6 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.optimization.BaseMultivariateVectorialOptimizer;
-import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
@@ -120,24 +118,24 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
 
     /** {@inheritDoc} */
     public VectorialPointValuePair optimize(FUNC f,
-                                            double[] target, double[] weight,
+                                            double[] t, double[] w,
                                             double[] startPoint)
         throws FunctionEvaluationException {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
         }
-        if (target == null) {
+        if (t == null) {
             throw new NullArgumentException();
         }
-        if (weight == null) {
+        if (w == null) {
             throw new NullArgumentException();
         }
         if (startPoint == null) {
             throw new NullArgumentException();
         }
-        if (target.length != weight.length) {
-            throw new DimensionMismatchException(target.length, weight.length);
+        if (t.length != w.length) {
+            throw new DimensionMismatchException(t.length, w.length);
         }
 
         // Reset.
@@ -145,8 +143,8 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
 
         // Store optimization problem characteristics.
         function = f;
-        this.target = target.clone();
-        this.weight = weight.clone();
+        target = t.clone();
+        weight = w.clone();
         start = startPoint.clone();
 
         // Perform computation.

@@ -22,7 +22,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Base class for all convergence checker implementations.
  *
- * <PAIR> Type of (point, value) pair.
+ * @param <PAIR> Type of (point, value) pair.
  *
  * @version $Revision$ $Date$
  * @since 3.0

@@ -110,14 +110,14 @@ public class MultiDirectional extends DirectSearchOptimizer {
      * @param comparator Comparator to use to sort simplex vertices from best
      * to poorest.
      * @return the best point in the transformed simplex.
-     * @exception FunctionEvaluationException if the function cannot be
+     * @throws FunctionEvaluationException if the function cannot be
      * evaluated at some point.
-     * @exception TooManyEvaluationsException if the maximal number of
-     * evaluations is exceeded.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
      */
     private RealPointValuePair evaluateNewSimplex(final RealPointValuePair[] original,
-                                              final double coeff,
-                                              final Comparator<RealPointValuePair> comparator)
+                                                  final double coeff,
+                                                  final Comparator<RealPointValuePair> comparator)
         throws FunctionEvaluationException {
 
         final double[] xSmallest = original[0].getPointRef();

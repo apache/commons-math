@@ -119,8 +119,10 @@ public class CurveFitter {
      * @return fitted parameters
      * @exception FunctionEvaluationException if the objective function throws one during
      * the search
-     * @exception ConvergenceException if the algorithm failed to converge
-     * @exception IllegalArgumentException if the start point dimension is wrong.
+     * @exception org.apache.commons.math.exception.ConvergenceException
+     * if the algorithm failed to converge.
+     * @exception org.apache.commons.math.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
      */
     public double[] fit(final ParametricRealFunction f,
                         final double[] initialGuess)

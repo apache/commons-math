@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStati
 /**
   * Returns the sum of the available values.
  * <p>
- * If there are no values in the dataset, then 0 is returned. 
+ * If there are no values in the dataset, then 0 is returned.
  * If any of the values are
  * <code>NaN</code>, then <code>NaN</code> is returned.</p>
  * <p>

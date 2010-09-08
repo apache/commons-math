@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.BaseOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -49,9 +48,9 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @return a (point, value) pair where the function is optimum.
-     * @throws {@link org.apache.commons.math.exception.TooManyEvaluationsException}
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
-     * @throws {@link org.apache.commons.math.exception.ConvergenceException}
+     * @throws org.apache.commons.math.exception.ConvergenceException
      * if the optimizer detects a convergence problem.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function.
@@ -73,15 +72,16 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
      * @return a (point, value) pair where the function is optimum.
-     * @throws {@link org.apache.commons.math.exception.TooManyEvaluationsException}
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
-     * @throws {@link org.apache.commons.math.exception.ConvergenceException}
-     * if the optimizer detects a convergence problem.
+     * @throws org.apache.commons.math.exception.ConvergenceException if the
+     * optimizer detects a convergence problem.
      * @throws FunctionEvaluationException if an error occurs evaluating the
      * function.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.exception.NullArgumentException if any
+     * argument is {@code null}.
      */
     UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
                                           double min, double max,

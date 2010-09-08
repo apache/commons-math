@@ -146,8 +146,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
 
             try {
                 optima[i] = optimizer.optimize(f, target, weights,
-                                               (i == 0 ? startPoint :
-                                                generator.nextVector()));
+                                               i == 0 ? startPoint : generator.nextVector());
             } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
             } catch (ConvergenceException oe) {

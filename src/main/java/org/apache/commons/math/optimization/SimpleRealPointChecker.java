@@ -17,13 +17,12 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
  * only point coordinates.
- * 
+ *
  * Convergence is considered to have been reached if either the relative
  * difference between each point coordinate are smaller than a threshold
  * or if either the absolute difference between the point coordinates are

@@ -51,7 +51,7 @@ public abstract class AbstractRealVector implements RealVector {
      * Check if instance dimension is equal to some expected value.
      *
      * @param n expected dimension.
-     * @exception IllegalArgumentException if the dimension is
+     * @throws DimensionMismatchException if the dimension is
      * inconsistent with vector size
      */
     protected void checkVectorDimensions(int n)

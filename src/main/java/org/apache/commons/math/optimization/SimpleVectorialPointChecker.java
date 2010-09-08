@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.util.MathUtils;
-
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
  * only point coordinates.

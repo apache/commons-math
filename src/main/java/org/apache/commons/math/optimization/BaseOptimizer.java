@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
-
 /**
  * This interface is mainly intended to enforce the internal coherence of
  * Commons-Math. Users of the API are advised to base their code on

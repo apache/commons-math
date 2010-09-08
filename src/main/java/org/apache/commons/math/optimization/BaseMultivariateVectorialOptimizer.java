@@ -49,10 +49,12 @@ public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVec
      * function.
      * @throws FunctionEvaluationException if the objective function throws one
      * during the search.
-     * @throws DimensionMismatchException if the start point dimension is wrong.
-     * @throws TooManyEvaluationsException if the maximal number of evaluations is
-     * exceeded.
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * any argument is {@code null}.
      */
     VectorialPointValuePair optimize(FUNC f, double[] target, double[] weight,
                                      double[] startPoint)

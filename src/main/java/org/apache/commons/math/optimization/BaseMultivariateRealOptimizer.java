@@ -45,12 +45,14 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws FunctionEvaluationException if the objective function throws one
-     * during the search.
-     * @throws DimensionMismatchException if the start point dimension is wrong.
-     * @throws TooManyEvaluationsException if the maximal number of evaluations is
-     * exceeded.
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.FunctionEvaluationException if the
+     * objective function throws one during the search.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * any argument is {@code null}.
      */
     RealPointValuePair optimize(FUNC f, GoalType goalType, double[] startPoint)
         throws FunctionEvaluationException;

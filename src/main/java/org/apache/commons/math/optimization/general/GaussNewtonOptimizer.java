@@ -27,6 +27,7 @@ import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 
 /**
  * Gauss-Newton least-squares solver.
@@ -63,6 +64,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     @Override
     public VectorialPointValuePair doOptimize()
         throws FunctionEvaluationException {
+
+        final ConvergenceChecker<VectorialPointValuePair> checker
+            = getConvergenceChecker();
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;
@@ -121,8 +125,10 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             }
 
             // check convergence
-            if (previous != null) {
-                converged = getConvergenceChecker().converged(iter, previous, current);
+            if (checker != null) {
+                if (previous != null) {
+                    converged = checker.converged(iter, previous, current);
+                }
             }
         }
         // we have converged

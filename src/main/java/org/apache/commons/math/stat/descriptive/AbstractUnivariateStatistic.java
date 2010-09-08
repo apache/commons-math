@@ -188,13 +188,14 @@ public abstract class AbstractUnivariateStatistic
      * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.
      * </ul></p>
      *
-     * @param values the input array
-     * @param weights the weights array
-     * @param begin index of the first array element to include
-     * @param length the number of elements to include
-     * @param allowEmpty if <code>true</code> than allow zero length arrays to pass
-     * @return true if the parameters are valid 
-     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @param values the input array.
+     * @param weights the weights array.
+     * @param begin index of the first array element to include.
+     * @param length the number of elements to include.
+     * @param allowEmpty if {@code true} than allow zero length arrays to pass.
+     * @return {@code true} if the parameters are valid.
+     * @throws IllegalArgumentException if the indices are invalid or the array
+     * is {@code null}.
      * @since 3.0
      */
     protected boolean test(final double[] values, final double[] weights, final int begin, final int length, final boolean allowEmpty){

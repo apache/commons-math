@@ -25,7 +25,6 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
@@ -107,8 +106,8 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
      * @param point Point at which the objective function must be evaluated.
      * @return the objective function value at the specified point.
      * @throws FunctionEvaluationException if the function cannot be evaluated.
-     * @throws TooManyEvaluationsException if the maximal number of evaluations is
-     * exceeded.
+     * @throws TooManyEvaluationsException if the maximal number of
+     * evaluations is exceeded.
      */
     protected double computeObjectiveValue(double[] point)
         throws FunctionEvaluationException {

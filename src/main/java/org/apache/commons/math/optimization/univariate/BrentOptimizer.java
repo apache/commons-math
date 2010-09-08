@@ -17,13 +17,10 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.AbstractConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 
 /**
@@ -89,7 +86,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     /** {@inheritDoc} */
     protected UnivariateRealPointValuePair doOptimize()
         throws FunctionEvaluationException {
-        final boolean isMinim = (getGoalType() == GoalType.MINIMIZE);
+        final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final double lo = getMin();
         final double mid = getStartValue();
         final double hi = getMax();
@@ -122,7 +119,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
         UnivariateRealPointValuePair previous = null;
         UnivariateRealPointValuePair current
-            = new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
+            = new UnivariateRealPointValuePair(x, isMinim ? fx : -fx);
 
         int iter = 0;
         while (true) {
@@ -234,7 +231,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
                 }
 
                 previous = current;
-                current = new UnivariateRealPointValuePair(x, (isMinim ? fx : -fx));
+                current = new UnivariateRealPointValuePair(x, isMinim ? fx : -fx);
 
                 // User-defined convergence checker.
                 if (checker != null) {

@@ -131,10 +131,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
     }
 
     /**
-     * @param f Function to optimize.
-     * @param goal Goal type ({@link GoalType#MINIMIZE} or
-     * {@link GoalType#MAXIMIZE}).
-     * @param startPoint Start point.
+     * {@inheritDoc}
      */
     public RealPointValuePair optimize(final FUNC f,
                                        final GoalType goal,
@@ -147,8 +144,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
 
             try {
                 optima[i] = optimizer.optimize(f, goal,
-                                               (i == 0 ? startPoint :
-                                                generator.nextVector()));
+                                               i == 0 ? startPoint : generator.nextVector());
             } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
             } catch (ConvergenceException oe) {

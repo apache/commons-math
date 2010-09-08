@@ -138,17 +138,17 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
-                                                 GoalType goal,
+                                                 GoalType goalType,
                                                  double min, double max)
         throws FunctionEvaluationException {
-        return optimize(f, goal, min, max, min + 0.5 * (max - min));
+        return optimize(f, goalType, min, max, min + 0.5 * (max - min));
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
-        this.checker = checker;
+    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> c) {
+        checker = c;
     }
 
     /**
