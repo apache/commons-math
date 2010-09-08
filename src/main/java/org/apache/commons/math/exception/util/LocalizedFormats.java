@@ -126,6 +126,7 @@ public enum LocalizedFormats implements Localizable {
     INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS("invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}"),
     INVALID_ITERATIONS_LIMITS("invalid iteration limits: min={0}, max={1}"),
     INVALID_MAX_ITERATIONS("bad value for maximum iterations number: {0}"),
+    INVALID_REGRESSION_ARRAY("input data array length = {0} does not match the number of observations = {1} and the number of regressors = {2}"),
     INVALID_ROUNDING_METHOD("invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})"),
     ITERATOR_EXHAUSTED("iterator exhausted"),
     LCM_OVERFLOW_32_BITS("overflow: lcm({0}, {1}) is 2^31"),

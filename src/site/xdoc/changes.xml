@@ -71,6 +71,19 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-411">
+        Modified multiple regression newSample methods to ensure that by default in all cases,
+        regression models are estimated with intercept terms.  Prior to the fix for this issue, 
+        newXSampleData(double[][]), newSampleData(double[], double[][]) and
+        newSampleData(double[], double[][], double[][]) all required columns of "1's" to be inserted
+        into the x[][] arrays to create a model with an intercept term; while newSampleData(double[], int, int)
+        created a model including an intercept term without requiring the unitary column.  All methods have
+        been changed to eliminate the need for users to add unitary columns to specify regression models.
+        <!-- uncomment when MATH-409 is resolved (noIntercept option)
+        Users of OLSMultipleLinearRegression or GLSMultipleLinearRegression versions 2.0 or 2.1 should either
+        verify that their code either does not use the first set of data loading methods above or set the noIntercept
+        property on estimated models to get the previous behavior. -->
+      </action>
       <action dev="luc" type="fix" issue="MATH-412" due-to="Bill Rossi">
         Added the dfp library providing arbitrary precision floating point computation in the spirit of
         IEEE 854-1987 (not exactly as it uses base 1000 instead of base 10). In addition to finite numbers,

@@ -24,6 +24,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.stat.StatUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,12 +39,12 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void setUp(){
         y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
         x = new double[6][];
-        x[0] = new double[]{1.0, 0, 0, 0, 0, 0};
-        x[1] = new double[]{1.0, 2.0, 0, 0, 0, 0};
-        x[2] = new double[]{1.0, 0, 3.0, 0, 0, 0};
-        x[3] = new double[]{1.0, 0, 0, 4.0, 0, 0};
-        x[4] = new double[]{1.0, 0, 0, 0, 5.0, 0};
-        x[5] = new double[]{1.0, 0, 0, 0, 0, 6.0};
+        x[0] = new double[]{0, 0, 0, 0, 0};
+        x[1] = new double[]{2.0, 0, 0, 0, 0};
+        x[2] = new double[]{0, 3.0, 0, 0, 0};
+        x[3] = new double[]{0, 0, 4.0, 0, 0};
+        x[4] = new double[]{0, 0, 0, 5.0, 0};
+        x[5] = new double[]{0, 0, 0, 0, 6.0};
         super.setUp();
     }
 
@@ -56,24 +57,14 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
 
     @Override
     protected int getNumberOfRegressors() {
-        return x[0].length;
+        return x[0].length + 1;
     }
 
     @Override
     protected int getSampleSize() {
         return y.length;
     }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotAddXSampleData() {
-        createRegression().newSampleData(new double[]{}, null);
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotAddNullYSampleData() {
-        createRegression().newSampleData(null, new double[][]{});
-    }
-
+    
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddSampleDataWithSizeMismatch() {
         double[] y = new double[]{1.0, 2.0};
@@ -248,17 +239,16 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             44.7,46.6,16,29,50.43,
             42.8,27.7,22,29,58.33
         };
-
-        // Transform to Y and X required by interface
-        int nobs = 47;
-        int nvars = 4;
+        
+        final int nobs = 47;
+        final int nvars = 4;
 
         // Estimate the model
         OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
         model.newSampleData(design, nobs, nvars);
 
         // Check expected beta values from R
-        double[] betaHat = model.estimateRegressionParameters();
+        final double[] betaHat = model.estimateRegressionParameters();
         TestUtils.assertEquals(betaHat,
                 new double[]{91.05542390271397,
                 -0.22064551045715,
@@ -267,7 +257,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                  0.12441843147162}, 1E-12);
 
         // Check expected residuals from R
-        double[] residuals = model.estimateResiduals();
+        final double[] residuals = model.estimateResiduals();
         TestUtils.assertEquals(residuals, new double[]{
                 7.1044267859730512,1.6580347433531366,
                 4.6944952770029644,8.4548022690166160,13.6547432343186212,
@@ -288,7 +278,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 1E-12);
 
         // Check standard errors from R
-        double[] errors = model.estimateRegressionParametersStandardErrors();
+        final double[] errors = model.estimateRegressionParametersStandardErrors();
         TestUtils.assertEquals(new double[] {6.94881329475087,
                 0.07360008972340,
                 0.27410957467466,
@@ -403,5 +393,37 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 StatUtils.variance(model.calculateResiduals().getData()) * (residuals.length - 1),
                 model.calculateErrorVariance() * (X.getRowDimension() - X.getColumnDimension()), 1E-20);
         
+    }
+    
+    /**
+     * Verifies that setting X and Y separately has the same effect as newSample(X,Y).
+     */
+    @Test
+    public void testNewSample2() throws Exception {
+        double[] y = new double[] {1, 2, 3, 4}; 
+        double[][] x = new double[][] {
+          {19, 22, 33},
+          {20, 30, 40},
+          {25, 35, 45},
+          {27, 37, 47}   
+        };
+        OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
+        regression.newSampleData(y, x);
+        RealMatrix combinedX = regression.X.copy();
+        RealVector combinedY = regression.Y.copy();
+        regression.newXSampleData(x);
+        regression.newYSampleData(y);
+        assertEquals(combinedX, regression.X);
+        assertEquals(combinedY, regression.Y);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testNewSampleDataYNull() {
+        createRegression().newSampleData(null, new double[][] {});
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testNewSampleDataXNull() {
+        createRegression().newSampleData(new double[] {}, null);
     }
 }
