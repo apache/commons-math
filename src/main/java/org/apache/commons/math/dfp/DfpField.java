@@ -185,7 +185,7 @@ public class DfpField implements Field<Dfp> {
      * @param computeConstants if true, the transcendental constants for the given precision
      * must be computed (setting this flag to false is RESERVED for the internal recursive call)
      */
-    public DfpField(final int decimalDigits, final boolean computeConstants) {
+    private DfpField(final int decimalDigits, final boolean computeConstants) {
 
         this.radixDigits = (decimalDigits < 13) ? 4 : (decimalDigits + 3) / 4;
         this.rMode       = RoundingMode.ROUND_HALF_EVEN;
