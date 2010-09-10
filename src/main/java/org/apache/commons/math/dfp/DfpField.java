@@ -592,7 +592,7 @@ public class DfpField implements Field<Dfp> {
         }
     }
 
-    /** Compute &pi; by atan(1/&radic;(3)) = &pi;/6.
+    /** Compute &pi; using Jonathan and Peter Borwein quartic formula.
      * @param one constant with value 1 at desired precision
      * @param two constant with value 2 at desired precision
      * @param three constant with value 3 at desired precision
@@ -600,30 +600,38 @@ public class DfpField implements Field<Dfp> {
      */
     private static Dfp computePi(final Dfp one, final Dfp two, final Dfp three) {
 
-        Dfp x = three;
-        x = x.sqrt();
-        x = one.divide(x);
+        Dfp sqrt2   = two.sqrt();
+        Dfp yk      = sqrt2.subtract(one);
+        Dfp four    = two.add(two);
+        Dfp two2kp3 = two;
+        Dfp ak      = two.multiply(three.subtract(two.multiply(sqrt2)));
 
-        Dfp denom = one;
+        // The formula converges quartically. This means the number of correct
+        // digits is multiplied by 4 at each iteration! Five iterations are
+        // sufficient for about 160 digits, eight iterations give about
+        // 10000 digits (this has been checked) and 20 iterations more than
+        // 160 billions of digits (this has NOT been checked).
+        // So the limit here is considered sufficient for most purposes ...
+        for (int i = 1; i < 20; i++) {
+            final Dfp ykM1 = yk;
 
-        Dfp py = new Dfp(x);
-        Dfp y  = new Dfp(x);
+            final Dfp y2         = yk.multiply(yk);
+            final Dfp oneMinusY4 = one.subtract(y2.multiply(y2));
+            final Dfp s          = oneMinusY4.sqrt().sqrt();
+            yk = one.subtract(s).divide(one.add(s));
 
-        for (int i = 1; i < 10000; i++) {
-            x = x.divide(three);
-            denom = denom.add(two);
-            if ((i&1) != 0) {
-                y = y.subtract(x.divide(denom));
-            } else {
-                y = y.add(x.divide(denom));
-            }
-            if (y.equals(py)) {
+            two2kp3 = two2kp3.multiply(four);
+
+            final Dfp p = one.add(yk);
+            final Dfp p2 = p.multiply(p);
+            ak = ak.multiply(p2.multiply(p2)).subtract(two2kp3.multiply(yk).multiply(one.add(yk).add(yk.multiply(yk))));
+
+            if (yk.equals(ykM1)) {
                 break;
             }
-            py = new Dfp(y);
         }
 
-        return y.multiply(new Dfp(one.getField(), 6));
+        return one.divide(ak);
 
     }
 
