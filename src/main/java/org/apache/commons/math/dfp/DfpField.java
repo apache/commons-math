@@ -187,7 +187,7 @@ public class DfpField implements Field<Dfp> {
      */
     public DfpField(final int decimalDigits, final boolean computeConstants) {
 
-        this.radixDigits = (decimalDigits + 3) / 4;
+        this.radixDigits = (decimalDigits < 13) ? 4 : (decimalDigits + 3) / 4;
         this.rMode       = RoundingMode.ROUND_HALF_EVEN;
         this.ieeeFlags   = 0;
         this.zero        = new Dfp(this, 0);
