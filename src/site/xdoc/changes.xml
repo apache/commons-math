@@ -71,6 +71,11 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-415">
+        Fixed lost cause in MathRuntimeException.createInternalError. Note that the message is still the default
+        message for internal errors asking to report a bug to commons-math JIRA tracker. In order to retrieve
+        the message from the root cause, one has to get the cause itself by getCause().
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-411">
         Modified multiple regression newSample methods to ensure that by default in all cases,
         regression models are estimated with intercept terms.  Prior to the fix for this issue, 
