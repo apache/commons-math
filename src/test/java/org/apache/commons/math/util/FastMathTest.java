@@ -742,6 +742,69 @@ public class FastMathTest {
     }
 
     @Test
+    public void testAsinAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble(); 
+
+            double tst = FastMath.asin(x);
+            double ref = DfpMath.asin(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(DfpMath.asin(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
+
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("asin() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
+    @Test
+    public void testAcosAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble(); 
+
+            double tst = FastMath.acos(x);
+            double ref = DfpMath.acos(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(DfpMath.acos(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
+
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("acos() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
+    private Dfp cbrt(Dfp x) {
+      boolean negative=false;
+
+      if (x.lessThan(field.getZero())) {
+          negative = true;
+          x = x.negate();
+      }
+
+      Dfp y = DfpMath.pow(x, field.getOne().divide(3));
+
+      if (negative) {
+          y = y.negate();
+      }
+
+      return y;
+    }
+
+    @Test
     public void testToDegrees() {
         double maxerrulp = 0.0;
         for (int i = 0; i < NUMBER_OF_TRIALS; i++) {
@@ -850,6 +913,20 @@ public class FastMathTest {
             x = 0;
             time = System.currentTimeMillis();
             for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.asin(i / 10000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.asin " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.asin(i / 10000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.asin " + time + "\t" + x);
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
                 x += StrictMath.cos(i / 1000000.0);
             time = System.currentTimeMillis() - time;
             System.out.print("StrictMath.cos " + time + "\t" + x + "\t");
@@ -860,6 +937,19 @@ public class FastMathTest {
                 x += FastMath.cos(i / 1000000.0);
             time = System.currentTimeMillis() - time;
             System.out.println("FastMath.cos " + time + "\t" + x);
+
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.acos(i / 10000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.acos " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.acos(i / 10000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.acos " + time + "\t" + x);
 
             x = 0;
             time = System.currentTimeMillis();
