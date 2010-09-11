@@ -787,6 +787,28 @@ public class FastMathTest {
         Assert.assertTrue("acos() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
     }
 
+    @Test
+    public void testCbrtAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 200.0) - 100.0) * generator.nextDouble(); 
+
+            double tst = FastMath.cbrt(x);
+            double ref = cbrt(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(cbrt(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("cbrt() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
     private Dfp cbrt(Dfp x) {
       boolean negative=false;
 
@@ -938,6 +960,7 @@ public class FastMathTest {
             time = System.currentTimeMillis() - time;
             System.out.println("FastMath.cos " + time + "\t" + x);
 
+            x = 0;
             time = System.currentTimeMillis();
             for (int i = 0; i < numberOfRuns; i++)
                 x += StrictMath.acos(i / 10000000.0);
@@ -980,6 +1003,20 @@ public class FastMathTest {
             System.out.println("FastMath.atan " + time + "\t" + x);
 
             x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.cbrt(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.cbrt " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.cbrt(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.cbrt " + time + "\t" + x);
+
+           x = 0;
             time = System.currentTimeMillis();
             for (int i = 0; i < numberOfRuns; i++)
                 x += StrictMath.expm1(-i / 100000.0);
