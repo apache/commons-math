@@ -684,7 +684,7 @@ public class MathRuntimeException extends RuntimeException {
 
         final String argument = "https://issues.apache.org/jira/browse/MATH";
 
-        return new RuntimeException() {
+        return new RuntimeException(cause) {
 
             /** Serializable version identifier. */
             private static final long serialVersionUID = -201865440834027016L;
