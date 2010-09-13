@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-409">
+        Made intercept / no intercept configurable in multiple regression classes. By default, regression
+        models are estimated with an intercept term.  When the "noIntercept" property is set to
+        true, regression models are estimated without intercepts.
+      </action>
       <action dev="luc" type="fix" issue="MATH-415">
         Fixed lost cause in MathRuntimeException.createInternalError. Note that the message is still the default
         message for internal errors asking to report a bug to commons-math JIRA tracker. In order to retrieve
@@ -65,10 +70,9 @@ The <action> type attribute can be add,update,fix,remove.
         into the x[][] arrays to create a model with an intercept term; while newSampleData(double[], int, int)
         created a model including an intercept term without requiring the unitary column.  All methods have
         been changed to eliminate the need for users to add unitary columns to specify regression models.
-        <!-- uncomment when MATH-409 is resolved (noIntercept option)
         Users of OLSMultipleLinearRegression or GLSMultipleLinearRegression versions 2.0 or 2.1 should either
         verify that their code either does not use the first set of data loading methods above or set the noIntercept
-        property on estimated models to get the previous behavior. -->
+        property to true on estimated models to get the previous behavior.
       </action>
       <action dev="luc" type="fix" issue="MATH-412" due-to="Bill Rossi">
         Added the dfp library providing arbitrary precision floating point computation in the spirit of
