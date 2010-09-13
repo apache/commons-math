@@ -39,6 +39,23 @@ public abstract class AbstractMultipleLinearRegression implements
     /** Y sample data. */
     protected RealVector Y;
 
+    /** Whether or not the regression model includes an intercept.  True means no intercept. */
+    private boolean noIntercept = false;
+
+    /**
+     * @return true if the model has no intercept term; false otherwise
+     */
+    public boolean isNoIntercept() {
+        return noIntercept;
+    }
+
+    /**
+     * @param noIntercept true means the model is to be estimated without an intercept term
+     */
+    public void setNoIntercept(boolean noIntercept) {
+        this.noIntercept = noIntercept;
+    }
+
     /**
      * <p>Loads model x and y sample data from a flat input array, overriding any previous sample.
      * </p>
@@ -55,7 +72,9 @@ public abstract class AbstractMultipleLinearRegression implements
      * </pre>
      * </p>
      * <p>Note that there is no need to add an initial unitary column (column of 1's) when
-     * specifying a model including an intercept term.
+     * specifying a model including an intercept term.  If {@link #isNoIntercept()} is <code>true</code>,
+     * the X matrix will be created without an initial column of "1"s; otherwise this column will
+     * be added.
      * </p>
      * <p>Throws IllegalArgumentException if any of the following preconditions fail:
      * <ul><li><code>data</code> cannot be null</li>
@@ -82,12 +101,15 @@ public abstract class AbstractMultipleLinearRegression implements
                     LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS);
         }
         double[] y = new double[nobs];
-        double[][] x = new double[nobs][nvars + 1];
+        final int cols = noIntercept ? nvars: nvars + 1;
+        double[][] x = new double[nobs][cols];
         int pointer = 0;
         for (int i = 0; i < nobs; i++) {
             y[i] = data[pointer++];
-            x[i][0] = 1.0d;
-            for (int j = 1; j < nvars + 1; j++) {
+            if (!noIntercept) {
+                x[i][0] = 1.0d;
+            }
+            for (int j = noIntercept ? 0 : 1; j < cols; j++) {
                 x[i][j] = data[pointer++];
             }
         }
@@ -145,18 +167,22 @@ public abstract class AbstractMultipleLinearRegression implements
             throw MathRuntimeException.createIllegalArgumentException(
                     LocalizedFormats.NO_DATA);
         }
-        final int nVars = x[0].length;
-        final double[][] xAug = new double[x.length][nVars + 1];
-        for (int i = 0; i < x.length; i++) {
-            if (x[i].length != nVars) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                        x[i].length, nVars);
+        if (noIntercept) {
+            this.X = new Array2DRowRealMatrix(x, true);
+        } else { // Augment design matrix with initial unitary column
+            final int nVars = x[0].length;
+            final double[][] xAug = new double[x.length][nVars + 1];
+            for (int i = 0; i < x.length; i++) {
+                if (x[i].length != nVars) {
+                    throw MathRuntimeException.createIllegalArgumentException(
+                            LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
+                            x[i].length, nVars);
+                }
+                xAug[i][0] = 1.0d;
+                System.arraycopy(x[i], 0, xAug[i], 1, nVars);
             }
-            xAug[i][0] = 1.0d;
-            System.arraycopy(x[i], 0, xAug[i], 1, nVars);
+            this.X = new Array2DRowRealMatrix(xAug, false);
         }
-        this.X = new Array2DRowRealMatrix(xAug, false);
     }
 
     /**

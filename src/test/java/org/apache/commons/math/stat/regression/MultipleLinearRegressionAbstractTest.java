@@ -93,6 +93,16 @@ public abstract class MultipleLinearRegressionAbstractTest {
         regression.newYSampleData(y);
         assertEquals(flatX, regression.X);
         assertEquals(flatY, regression.Y);
+        
+        // No intercept
+        regression.setNoIntercept(true);
+        regression.newSampleData(design, 4, 3);
+        flatX = regression.X.copy();
+        flatY = regression.Y.copy();
+        regression.newXSampleData(x);
+        regression.newYSampleData(y);
+        assertEquals(flatX, regression.X);
+        assertEquals(flatY, regression.Y);
     }
     
     @Test(expected=IllegalArgumentException.class)
