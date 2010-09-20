@@ -473,37 +473,47 @@ System.out.println(regression.getSlopeStdErr());
       </subsection>
       <subsection name="1.5 Multiple linear regression">
         <p>
-         <a href="../apidocs/org/apache/commons/math/stat/regression/MultipleLinearRegression.html">
-         MultipleLinearRegression</a> provides ordinary least squares regression
-         with a generic multiple variable linear model, which in matrix notation
-         can be expressed as:
+         <a href="../apidocs/org/apache/commons/math/stat/regression/OLSMultipleLinearRegression.html">
+         OLSMultipleLinearRegression</a> and
+         <a href="../apidocs/org/apache/commons/math/stat/regression/GLSMultipleLinearRegression.html">
+         GLSMultipleLinearRegression</a> provide least squares regression to fit the linear model:
          </p>
          <p>
-           <code> y=X*b+u </code>
+           <code> Y=X*b+u </code>
          </p>
          <p>
-         where y is an <code>n-vector</code> <b>regressand</b>, X is a <code>[n,k]</code> matrix whose <code>k</code> columns are called
-         <b>regressors</b>, b is <code>k-vector</code> of <b>regression parameters</b> and <code>u</code> is an <code>n-vector</code> 
-         of <b>error terms</b> or <b>residuals</b>.   The notation is quite standard in literature, 
-         cf eg <a href="http://www.econ.queensu.ca/ETM">Davidson and MacKinnon, Econometrics Theory and Methods, 2004</a>.
+         where Y is an n-vector <b>regressand</b>, X is a [n,k] matrix whose k columns are called
+         <b>regressors</b>, b is k-vector of <b>regression parameters</b> and u is an n-vector 
+         of <b>error terms</b> or <b>residuals</b>.
          </p>
          <p>
-          Two implementations are provided: <a href="../apidocs/org/apache/commons/math/stat/regression/OLSMultipleLinearRegression.html">
-          OLSMultipleLinearRegression</a> and 
+          <a href="../apidocs/org/apache/commons/math/stat/regression/OLSMultipleLinearRegression.html">
+          OLSMultipleLinearRegression</a> provides Ordinary Least Squares Regression, and 
           <a href="../apidocs/org/apache/commons/math/stat/regression/GLSMultipleLinearRegression.html">
-          GLSMultipleLinearRegression</a>
+          GLSMultipleLinearRegression</a> implements Generalized Least Squares.  See the javadoc for these
+          classes for details on the algorithms and forumlas used.
          </p>
          <p>
-           Observations (x,y and covariance data matrices) can be added to the model via the <code>addData(double[] y, double[][] x, double[][] covariance)</code> method.
-           The observations are stored in memory until the next time the addData method is invoked.  
+           Data for OLS models can be loaded in a single double[] array, consisting of concatenated rows of data, each containing
+           the regressand (Y) value, followed by regressor values; or using a double[][] array with rows corresponding to
+           observations. GLS models also require a double[][] array representing the covariance matrix of the error terms.  See
+           <a href="../apidocs/org/apache/commons/math/stat/regression/AbstractMultipleLinearRegression.html#newSampleData(double[], int, int)">
+           AbstractMultipleLinearRegression#newSampleData(double[],int,int)</a>,  
+           <a href="../apidocs/org/apache/commons/math/stat/regression/OLSMultipleLinearRegression.html#newSampleData(double[], double[][])">
+           OLSMultipleLinearRegression#newSampleData(double[], double[][])</a> and 
+           <a href="../apidocs/org/apache/commons/math/stat/regression/GLSMultipleLinearRegression.html#newSampleData(double[], double[][], double[][])">
+           GLSMultipleLinearRegression#newSampleData(double[],double[][],double[][])</a> for details.
          </p>
          <p>
            <strong>Usage Notes</strong>: <ul>
-           <li> Data is validated when invoking the <code>addData(double[] y, double[][] x, double[][] covariance)</code> method and
-           <code>IllegalArgumentException</code> is thrown when inappropriate. 
+           <li> Data are validated when invoking any of the newSample, newX, newY or newCovariance methods and
+           <code>IllegalArgumentException</code> is thrown when input data arrays do not have matching dimensions
+           or do not contain sufficient data to estimate the model. 
            </li>
-           <li> Only the GLS regressions require the covariance matrix, so in the OLS regression it is ignored and can be safely
-           inputted as <code>null</code>.</li>
+           <li> By default, regression models are estimated with intercept terms.  In the notation above, this implies that the
+           X matrix contains an initial row identically equal to 1.  X data supplied to the newX or newSample methods should not
+           include this column - the data loading methods will create it automatically.  To estimate a model without an intercept
+           term, set the <code>noIntercept</code> property to <code>true.</code></li>
           </ul>
         </p>
         <p>
@@ -511,44 +521,48 @@ System.out.println(regression.getSlopeStdErr());
         <dl>
          <dt>OLS regression</dt>
           <br></br>
-          <dd>Instantiate an OLS regression object and load dataset
+          <dd>Instantiate an OLS regression object and load a dataset:
           <source>
-MultipleLinearRegression regression = new OLSMultipleLinearRegression();
+OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
 double[] y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
 double[] x = new double[6][];
-x[0] = new double[]{1.0, 0, 0, 0, 0, 0};
-x[1] = new double[]{1.0, 2.0, 0, 0, 0, 0};
-x[2] = new double[]{1.0, 0, 3.0, 0, 0, 0};
-x[3] = new double[]{1.0, 0, 0, 4.0, 0, 0};
-x[4] = new double[]{1.0, 0, 0, 0, 5.0, 0};
-x[5] = new double[]{1.0, 0, 0, 0, 0, 6.0};          
-regression.addData(y, x, null); // we don't need covariance
+x[0] = new double[]{0, 0, 0, 0, 0};
+x[1] = new double[]{2.0, 0, 0, 0, 0};
+x[2] = new double[]{0, 3.0, 0, 0, 0};
+x[3] = new double[]{0, 0, 4.0, 0, 0};
+x[4] = new double[]{0, 0, 0, 5.0, 0};
+x[5] = new double[]{0, 0, 0, 0, 6.0};          
+regression.newSample(y, x);
           </source>
           </dd>
-          <dd>Estimate of regression values honours the <code>MultipleLinearRegression</code> interface:
+          <dd>Get regression parameters and diagnostics:
          <source>
-double[] beta = regression.estimateRegressionParameters();        
+double[] beta = regression.estimateRegressionParameters();       
 
 double[] residuals = regression.estimateResiduals();
 
 double[][] parametersVariance = regression.estimateRegressionParametersVariance();
 
 double regressandVariance = regression.estimateRegressandVariance();
+
+double rSquared = regression.caclulateRSquared();
+
+double sigma = regression.estimateRegressionStandardError();
          </source>
          </dd>
          <dt>GLS regression</dt>
           <br></br>
-          <dd>Instantiate an GLS regression object and load dataset
+          <dd>Instantiate a GLS regression object and load a dataset:
           <source>
-MultipleLinearRegression regression = new GLSMultipleLinearRegression();
+GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
 double[] y = new double[]{11.0, 12.0, 13.0, 14.0, 15.0, 16.0};
 double[] x = new double[6][];
-x[0] = new double[]{1.0, 0, 0, 0, 0, 0};
-x[1] = new double[]{1.0, 2.0, 0, 0, 0, 0};
-x[2] = new double[]{1.0, 0, 3.0, 0, 0, 0};
-x[3] = new double[]{1.0, 0, 0, 4.0, 0, 0};
-x[4] = new double[]{1.0, 0, 0, 0, 5.0, 0};
-x[5] = new double[]{1.0, 0, 0, 0, 0, 6.0};          
+x[0] = new double[]{0, 0, 0, 0, 0};
+x[1] = new double[]{2.0, 0, 0, 0, 0};
+x[2] = new double[]{0, 3.0, 0, 0, 0};
+x[3] = new double[]{0, 0, 4.0, 0, 0};
+x[4] = new double[]{0, 0, 0, 5.0, 0};
+x[5] = new double[]{0, 0, 0, 0, 6.0};          
 double[][] omega = new double[6][];
 omega[0] = new double[]{1.1, 0, 0, 0, 0, 0};
 omega[1] = new double[]{0, 2.2, 0, 0, 0, 0};
@@ -556,12 +570,9 @@ omega[2] = new double[]{0, 0, 3.3, 0, 0, 0};
 omega[3] = new double[]{0, 0, 0, 4.4, 0, 0};
 omega[4] = new double[]{0, 0, 0, 0, 5.5, 0};
 omega[5] = new double[]{0, 0, 0, 0, 0, 6.6};
-regression.addData(y, x, omega); // we do need covariance
+regression.newSampleData(y, x, omega); 
           </source>
           </dd>
-          <dd>Estimate of regression values honours the same <code>MultipleLinearRegression</code> interface as 
-          the OLS regression.
-         </dd>
          </dl>
         </p>
       </subsection>    
