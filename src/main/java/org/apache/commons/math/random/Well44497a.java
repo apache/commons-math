@@ -34,7 +34,7 @@ package org.apache.commons.math.random;
 public class Well44497a extends AbstractWell {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 5154222742730470272L;
+    private static final long serialVersionUID = -3859207588353972099L;
 
     /** Number of bits in the pool. */
     private static final int K = 44497;
@@ -79,46 +79,30 @@ public class Well44497a extends AbstractWell {
     }
 
     /** {@inheritDoc} */
-    protected int t0(final int vi0) {
-        return m3(-24, vi0);
-    }
+    protected int next(final int bits) {
 
-    /** {@inheritDoc} */
-    protected int t1(final int vim1) {
-        return m3(30, vim1);
-    }
+        final int indexRm1 = iRm1[index];
+        final int indexRm2 = iRm2[index];
 
-    /** {@inheritDoc} */
-    protected int t2(final int vim2) {
-        return m3(-10, vim2);
-    }
+        final int v0       = v[index];
+        final int vM1      = v[i1[index]];
+        final int vM2      = v[i2[index]];
+        final int vM3      = v[i3[index]];
 
-    /** {@inheritDoc} */
-    protected int t3(final int vim3) {
-        return m2(-26, vim3);
-    }
+        final int z0       = (0xFFFF8000 & v[indexRm1]) ^ (0x00007FFF & v[indexRm2]);
+        final int z1       = (v0 ^ (v0 << 24))  ^ (vM1 ^ (vM1 >>> 30));
+        final int z2       = (vM2 ^ (vM2 << 10)) ^ (vM3 << 26);
+        final int z3       = z1      ^ z2;
+        final int z2Prime  = ((z2 << 9) ^ (z2 >>> 23)) & 0xfbffffff;
+        final int z2Second = ((z2 & 0x00020000) != 0) ? (z2Prime ^ 0xb729fcec) : z2Prime;
+        final int z4       = z0 ^ (z1 ^ (z1 >>> 20)) ^ z2Second ^ z3;
 
-    /** {@inheritDoc} */
-    protected int t4(final int z0) {
-        return m1(z0);
-    }
+        v[index]     = z3;
+        v[indexRm1]  = z4;
+        v[indexRm2] &= mp;
+        index        = indexRm1;
 
-    /** {@inheritDoc} */
-    protected int t5(final int z1) {
-        return m3(20, z1);
-    }
+        return z4 >>> (32 - bits);
 
-    /** {@inheritDoc} */
-    protected int t6(final int z2) {
-        // table II of the paper specifies t6 to be m6(9, d14, t5, 0xb729fcec, z2)
-        // however, the reference implementation uses m6(9, d26, t17, 0xb729fcec, z2).
-        // Here, we follow the reference implementation
-        return m6(9, (-1) ^ (0x1 << 26), 0x1 << 17, 0xb729fcec, z2);
     }
-
-    /** {@inheritDoc} */
-    protected int t7(final int z3) {
-        return m1(z3);
-    }
-
 }

@@ -34,7 +34,7 @@ package org.apache.commons.math.random;
 public class Well1024a extends AbstractWell {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -5403981908127539981L;
+    private static final long serialVersionUID = 5680173464174485492L;
 
     /** Number of bits in the pool. */
     private static final int K = 1024;
@@ -79,43 +79,28 @@ public class Well1024a extends AbstractWell {
     }
 
     /** {@inheritDoc} */
-    protected int t0(final int vi0) {
-        return m1(vi0);
-    }
+    protected int next(final int bits) {
 
-    /** {@inheritDoc} */
-    protected int t1(final int vim1) {
-        return m3(8, vim1);
-    }
+        final int indexRm1 = iRm1[index];
+        final int indexRm2 = iRm2[index];
 
-    /** {@inheritDoc} */
-    protected int t2(final int vim2) {
-        return m3(-19, vim2);
-    }
+        final int v0       = v[index];
+        final int vM1      = v[i1[index]];
+        final int vM2      = v[i2[index]];
+        final int vM3      = v[i3[index]];
 
-    /** {@inheritDoc} */
-    protected int t3(final int vim3) {
-        return m3(-14, vim3);
-    }
+        final int z0 = v[indexRm1];
+        final int z1 = v0  ^ (vM1 ^ (vM1 >>> 8));
+        final int z2 = (vM2 ^ (vM2 << 19)) ^ (vM3 ^ (vM3 << 14));
+        final int z3 = z1      ^ z2;
+        final int z4 = (z0 ^ (z0 << 11)) ^ (z1 ^ (z1 << 7)) ^ (z2 ^ (z2 << 13));
 
-    /** {@inheritDoc} */
-    protected int t4(final int z0) {
-        return m3(-11, z0);
-    }
+        v[index]     = z3;
+        v[indexRm1]  = z4;
+        v[indexRm2] &= mp;
+        index        = indexRm1;
 
-    /** {@inheritDoc} */
-    protected int t5(final int z1) {
-        return m3(-7, z1);
-    }
+        return z4 >>> (32 - bits);
 
-    /** {@inheritDoc} */
-    protected int t6(final int z2) {
-        return m3(-13, z2);
     }
-
-    /** {@inheritDoc} */
-    protected int t7(final int z3) {
-        return m0(z3);
-    }
-
 }

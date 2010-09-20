@@ -34,7 +34,7 @@ package org.apache.commons.math.random;
 public class Well512a extends AbstractWell {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 8706771840051210473L;
+    private static final long serialVersionUID = -6104179812103820574L;
 
     /** Number of bits in the pool. */
     private static final int K = 512;
@@ -79,46 +79,27 @@ public class Well512a extends AbstractWell {
     }
 
     /** {@inheritDoc} */
-    protected int t0(final int vi0) {
-        return m3(-16, vi0);
-    }
+    protected int next(final int bits) {
 
-    /** {@inheritDoc} */
-    protected int t1(final int vim1) {
-        return m3(-15, vim1);
-    }
+        final int indexRm1 = iRm1[index];
 
-    /** {@inheritDoc} */
-    protected int t2(final int vim2) {
-        return m3(11, vim2);
-    }
+        final int vi = v[index];
+        final int vi1 = v[i1[index]];
+        final int vi2 = v[i2[index]];
+        final int z0 = v[indexRm1];
+        // m3: x ^ ((t >= 0) ? (x >>> t) : (x << -t));
 
-    /** {@inheritDoc} */
-    protected int t3(final int vim3) {
-        return m0(vim3);
-    }
+        final int z1 = (vi ^ (vi << 16))   ^ (vi1 ^ (vi1 << 15));
+        final int z2 = vi2 ^ (vi2 >>> 11);
+        final int z3 = z1 ^ z2;
+        final int z4 = (z0 ^ (z0 << 2)) ^ (z1 ^ (z1 << 18)) ^ (z2 << 28) ^ (z3 ^ ((z3 << 5) & 0xda442d24));
 
-    /** {@inheritDoc} */
-    protected int t4(final int z0) {
-        return m3(-2, z0);
-    }
+        v[index] = z3;
+        v[indexRm1]  = z4;
+        index    = indexRm1;
 
-    /** {@inheritDoc} */
-    protected int t5(final int z1) {
-        return m3(-18, z1);
-    }
+        return z4 >>> (32 - bits);
 
-    /** {@inheritDoc} */
-    protected int t6(final int z2) {
-        // table II of the paper specifies t6 to be m3(-28, z2)
-        // however, the reference implementation uses m2(-28, z2).
-        // Here, we follow the reference implementation
-        return m2(-28, z2);
-    }
-
-    /** {@inheritDoc} */
-    protected int t7(final int z3) {
-        return m5(-5, 0xda442d24, z3);
     }
 
 }
