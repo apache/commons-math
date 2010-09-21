@@ -24,7 +24,8 @@ package org.apache.commons.math.random;
  * Pierre L'Ecuyer and Makoto Matsumoto <a
  * href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved
  * Long-Period Generators Based on Linear Recurrences Modulo 2</a> ACM
- * Transactions on Mathematical Software, 32, 1 (2006).</p>
+ * Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
+ * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
 
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @version $Revision$ $Date$
@@ -82,7 +83,6 @@ public class Well1024a extends AbstractWell {
     protected int next(final int bits) {
 
         final int indexRm1 = iRm1[index];
-        final int indexRm2 = iRm2[index];
 
         final int v0       = v[index];
         final int vM1      = v[i1[index]];
@@ -97,7 +97,6 @@ public class Well1024a extends AbstractWell {
 
         v[index]     = z3;
         v[indexRm1]  = z4;
-        v[indexRm2] &= mp;
         index        = indexRm1;
 
         return z4 >>> (32 - bits);
