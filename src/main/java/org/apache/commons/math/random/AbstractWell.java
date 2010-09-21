@@ -26,7 +26,8 @@ import java.io.Serializable;
  * Pierre L'Ecuyer and Makoto Matsumoto <a
  * href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved
  * Long-Period Generators Based on Linear Recurrences Modulo 2</a> ACM
- * Transactions on Mathematical Software, 32, 1 (2006).</p>
+ * Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
+ * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
 
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @version $Revision$ $Date$
@@ -36,23 +37,27 @@ import java.io.Serializable;
 public abstract class AbstractWell extends BitsStreamGenerator implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -8068371019303673353L;
-
-    /** Bit mask preserving the first w - p bits in a w bits block. */
-    protected final int mp;
-
-    /** Bit mask preserving the last p bits in a w bits block. */
-    protected final int mpTilde;
+    private static final long serialVersionUID = -817701723016583596L;
 
     /** Current index in the bytes pool. */
     protected int index;
 
     /** Bytes pool. */
     protected final int[] v;
+
+    /** Index indirection table giving for each index its predecessor taking table size into account. */
     protected final int[] iRm1;
+
+    /** Index indirection table giving for each index its second predecessor taking table size into account. */
     protected final int[] iRm2;
+
+    /** Index indirection table giving for each index the value index + m1 taking table size into account. */
     protected final int[] i1;
+
+    /** Index indirection table giving for each index the value index + m2 taking table size into account. */
     protected final int[] i2;
+
+    /** Index indirection table giving for each index the value index + m3 taking table size into account. */
     protected final int[] i3;
 
     /** Creates a new random number generator.
@@ -93,15 +98,11 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
         // and p is the number of unused bits in the last block
         final int w = 32;
         final int r = (k + w - 1) / w;
-        final int p = r * w - k;
+        this.v      = new int[r];
+        this.index  = 0;
 
-        // set up  generator parameters
-        this.mp      = (-1) << p;
-        this.mpTilde = ~mp;
-        this.v       = new int[r];
-        this.index   = 0;
-
-        // set up indirection indices
+        // precompute indirection index tables. These tables are used for optimizing access
+        // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
         iRm1 = new int[r];
         iRm2 = new int[r];
         i1   = new int[r];

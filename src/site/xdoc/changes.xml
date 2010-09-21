@@ -71,7 +71,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
-      <action dev="luc" type="add" >
+      <action dev="luc" type="add" issue="MATH-419">
         Added new random number generators from the Well Equidistributed Long-period Linear (WELL).
       </action>
       <action dev="psteitz" type="update" issue="MATH-409">
