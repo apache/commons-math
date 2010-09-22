@@ -21,6 +21,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 
 /**
  * This class implements the Nelder-Mead direct search method.
@@ -29,23 +30,21 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * @see MultiDirectional
  * @since 1.2
  */
-public class NelderMead extends DirectSearchOptimizer {
-
+public class NelderMead extends DirectSearchOptimizer
+    implements MultivariateRealOptimizer {
     /** Reflection coefficient. */
     private final double rho;
-
     /** Expansion coefficient. */
     private final double khi;
-
     /** Contraction coefficient. */
     private final double gamma;
-
     /** Shrinkage coefficient. */
     private final double sigma;
 
-    /** Build a Nelder-Mead optimizer with default coefficients.
-     * <p>The default coefficients are 1.0 for rho, 2.0 for khi and 0.5
-     * for both gamma and sigma.</p>
+    /**
+     * Build a Nelder-Mead optimizer with default coefficients.
+     * The default coefficients are 1.0 for rho, 2.0 for khi and 0.5
+     * for both gamma and sigma.
      */
     public NelderMead() {
         this.rho   = 1.0;
@@ -54,11 +53,13 @@ public class NelderMead extends DirectSearchOptimizer {
         this.sigma = 0.5;
     }
 
-    /** Build a Nelder-Mead optimizer with specified coefficients.
-     * @param rho reflection coefficient
-     * @param khi expansion coefficient
-     * @param gamma contraction coefficient
-     * @param sigma shrinkage coefficient
+    /**
+     * Build a Nelder-Mead optimizer with specified coefficients.
+     *
+     * @param rho Reflection coefficient.
+     * @param khi Expansion coefficient.
+     * @param gamma Contraction coefficient.
+     * @param sigma Shrinkage coefficient.
      */
     public NelderMead(final double rho, final double khi,
                       final double gamma, final double sigma) {

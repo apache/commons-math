@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.optimization.general;
+package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 
 /**
  * This class implements the multi-directional direct search method.
@@ -30,25 +31,27 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * @see NelderMead
  * @since 1.2
  */
-public class MultiDirectional extends DirectSearchOptimizer {
-
+public class MultiDirectional extends DirectSearchOptimizer
+    implements MultivariateRealOptimizer {
     /** Expansion coefficient. */
     private final double khi;
-
     /** Contraction coefficient. */
     private final double gamma;
 
-    /** Build a multi-directional optimizer with default coefficients.
-     * <p>The default values are 2.0 for khi and 0.5 for gamma.</p>
+    /**
+     * Build a multi-directional optimizer with default coefficients.
+     * The default values are 2.0 for khi and 0.5 for gamma.
      */
     public MultiDirectional() {
         this.khi   = 2.0;
         this.gamma = 0.5;
     }
 
-    /** Build a multi-directional optimizer with specified coefficients.
-     * @param khi expansion coefficient
-     * @param gamma contraction coefficient
+    /**
+     * Build a multi-directional optimizer with specified coefficients.
+     *
+     * @param khi Expansion coefficient.
+     * @param gamma Contraction coefficient.
      */
     public MultiDirectional(final double khi, final double gamma) {
         this.khi   = khi;

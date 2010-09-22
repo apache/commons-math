@@ -24,6 +24,7 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimi
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.direct.BaseAbstractScalarOptimizer;
 
 /**
  * Base class for implementing optimizers for multivariate scalar

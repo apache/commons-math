@@ -15,18 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization.general;
+package org.apache.commons.math.optimization.direct;
 
 import java.util.Arrays;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math.optimization.univariate.UnivariateRealPointValuePair;
@@ -47,7 +49,8 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * @since 2.2
  */
 public class PowellOptimizer
-    extends AbstractScalarOptimizer {
+    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    implements MultivariateRealOptimizer {
     /**
      * Minimum relative tolerance.
      */

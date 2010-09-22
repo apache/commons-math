@@ -29,6 +29,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -72,7 +73,8 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleVectorialValueChecker}.
+     * The convergence check is set to a {@link
+     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}.
      */
     protected AbstractLeastSquaresOptimizer() {}
     /**

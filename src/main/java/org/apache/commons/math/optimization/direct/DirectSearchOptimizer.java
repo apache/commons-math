@@ -22,14 +22,13 @@ import java.util.Comparator;
 
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
-import org.apache.commons.math.optimization.general.AbstractScalarOptimizer;
 
 /**
  * This class implements simplex-based direct search optimization
@@ -76,8 +75,6 @@ import org.apache.commons.math.optimization.general.AbstractScalarOptimizer;
  * performed by the derived classes according to the implemented
  * algorithms.</p>
  *
- * implements MultivariateRealOptimizer since 2.0
- *
  * @see MultivariateRealFunction
  * @see NelderMead
  * @see MultiDirectional
@@ -85,8 +82,7 @@ import org.apache.commons.math.optimization.general.AbstractScalarOptimizer;
  * @since 1.2
  */
 public abstract class DirectSearchOptimizer
-    extends AbstractScalarOptimizer
-    implements MultivariateRealOptimizer {
+    extends BaseAbstractScalarOptimizer<MultivariateRealFunction> {
     /** Simplex. */
     protected RealPointValuePair[] simplex;
     /** Start simplex configuration. */
