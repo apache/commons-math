@@ -143,18 +143,22 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
                                                  final GoalType goal,
                                                  final double min, final double max)
         throws FunctionEvaluationException {
+        return optimize(f, goal, min, max, min + 0.5 * (max - min));
+    }
 
+    /** {@inheritDoc} */
+    public UnivariateRealPointValuePair optimize(final FUNC f, final GoalType goal,
+                                                 final double min, final double max,
+                                                 final double startValue)
+        throws FunctionEvaluationException {
         optima = new UnivariateRealPointValuePair[starts];
         totalEvaluations = 0;
 
         // Multi-start loop.
         for (int i = 0; i < starts; ++i) {
             try {
-                final double bound1 = (i == 0) ? min : min + generator.nextDouble() * (max - min);
-                final double bound2 = (i == 0) ? max : min + generator.nextDouble() * (max - min);
-                optima[i] = optimizer.optimize(f, goal,
-                                               FastMath.min(bound1, bound2),
-                                               FastMath.max(bound1, bound2));
+                final double s = (i == 0) ? startValue : min + generator.nextDouble() * (max - min);
+                optima[i] = optimizer.optimize(f, goal, min, max, s);
             } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
             } catch (ConvergenceException ce) {
@@ -175,16 +179,6 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
 
         // Return the point with the best objective function value.
         return optima[0];
-    }
-
-    /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(final FUNC f, final GoalType goalType,
-                                                 final double min, final double max,
-                                                 final double startValue)
-            throws FunctionEvaluationException {
-        // XXX Main code should be here, using "startValue" for the first start.
-        // XXX This method should set "startValue" to min + 0.5 * (max - min)
-        return optimize(f, goalType, min, max);
     }
 
     /**
