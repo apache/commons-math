@@ -28,7 +28,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.util.FastMath;
 
 /**
  * Special implementation of the {@link UnivariateRealOptimizer} interface
