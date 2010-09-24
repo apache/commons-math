@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 
 /**
  * Test cases for the {@link BlockFieldMatrix} class.
@@ -703,8 +704,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setRowMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -764,8 +765,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setColumnMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -825,8 +826,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setRowVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -884,8 +885,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setColumnVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -948,8 +949,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setRow(0, new Fraction[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -1008,8 +1009,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         }
         try {
             m.setColumn(0, new Fraction[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }

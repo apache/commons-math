@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 
 /**
  * Test cases for the {@link RealMatrixImpl} class.
@@ -512,8 +513,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setRowMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -554,8 +555,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setColumnMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -594,8 +595,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setRowVector(0, new ArrayRealVector(5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -634,8 +635,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setColumnVector(0, new ArrayRealVector(5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -679,8 +680,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setRow(0, new double[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -719,8 +720,8 @@ public final class RealMatrixImplTest extends TestCase {
         }
         try {
             m.setColumn(0, new double[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -953,11 +954,13 @@ public final class RealMatrixImplTest extends TestCase {
     //--------------- -----------------Protected methods
 
     /** extracts the l  and u matrices from compact lu representation */
-    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData) throws InvalidMatrixException {
-        if (!lu.isSquare() || lowerData.length != lowerData[0].length || upperData.length != upperData[0].length ||
-                lowerData.length != upperData.length
-                || lowerData.length != lu.getRowDimension()) {
-            throw new InvalidMatrixException("incorrect dimensions");
+    protected void splitLU(RealMatrix lu, double[][] lowerData, double[][] upperData)  {
+        if (!lu.isSquare() ||
+            lowerData.length != lowerData[0].length ||
+            upperData.length != upperData[0].length ||
+            lowerData.length != upperData.length ||
+            lowerData.length != lu.getRowDimension()) {
+            throw new IllegalArgumentException("incorrect dimensions");
         }
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
@@ -1002,6 +1005,5 @@ public final class RealMatrixImplTest extends TestCase {
 //              System.out.println(os);
 //          }
 //    }
-
 }
 

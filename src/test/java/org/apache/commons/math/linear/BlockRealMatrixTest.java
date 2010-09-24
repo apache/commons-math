@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.
@@ -629,8 +630,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setRowMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -688,8 +689,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setColumnMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -747,8 +748,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setRowVector(0, new ArrayRealVector(5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -806,8 +807,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setColumnVector(0, new ArrayRealVector(5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -870,8 +871,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setRow(0, new double[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -930,8 +931,8 @@ public final class BlockRealMatrixTest extends TestCase {
         }
         try {
             m.setColumn(0, new double[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }

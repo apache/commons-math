@@ -23,6 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -445,16 +446,14 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setRowMatrix(final int row, final FieldMatrix<T> matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRowMatrix(final int row, final FieldMatrix<T> matrix) {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(), 1, nCols);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, matrix.getEntry(0, i));
@@ -478,16 +477,14 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setColumnMatrix(final int column, final FieldMatrix<T> matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumnMatrix(final int column, final FieldMatrix<T> matrix) {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(), nRows, 1);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, matrix.getEntry(i, 0));
@@ -502,15 +499,12 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setRowVector(final int row, final FieldVector<T> vector)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRowVector(final int row, final FieldVector<T> vector) {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (vector.getDimension() != nCols) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    1, vector.getDimension(), 1, nCols);
+            throw new MatrixDimensionMismatchException(1, vector.getDimension(),
+                                                       1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, vector.getEntry(i));
@@ -525,15 +519,12 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setColumnVector(final int column, final FieldVector<T> vector)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumnVector(final int column, final FieldVector<T> vector) {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (vector.getDimension() != nRows) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    vector.getDimension(), 1, nRows, 1);
+            throw new MatrixDimensionMismatchException(vector.getDimension(), 1,
+                                                       nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, vector.getEntry(i));
@@ -557,15 +548,11 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setRow(final int row, final T[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRow(final int row, final T[] array) {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    1, array.length, 1, nCols);
+            throw new MatrixDimensionMismatchException(1, array.length, 1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, array[i]);
@@ -589,20 +576,15 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public void setColumn(final int column, final T[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumn(final int column, final T[] array) {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    array.length, 1, nRows, 1);
+            throw new MatrixDimensionMismatchException(array.length, 1, nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, array[i]);
         }
-
     }
 
     /** {@inheritDoc} */
@@ -623,22 +605,18 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
     /** {@inheritDoc} */
     public FieldMatrix<T> transpose() {
-
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         final FieldMatrix<T> out = createMatrix(nCols, nRows);
         walkInOptimizedOrder(new DefaultFieldMatrixPreservingVisitor<T>(field.getZero()) {
-
             /** {@inheritDoc} */
             @Override
             public void visit(final int row, final int column, final T value) {
                 out.setEntry(column, row, value);
             }
-
         });
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -689,7 +667,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -741,7 +718,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -769,7 +745,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
             }
 
             return new ArrayFieldVector<T>(out);
-
         }
     }
 
@@ -958,7 +933,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
 
         res.append("}");
         return res.toString();
-
     }
 
     /**
@@ -1063,8 +1037,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
             throw new MatrixIndexException(LocalizedFormats.INITIAL_COLUMN_AFTER_FINAL_COLUMN,
                                            startColumn, endColumn);
         }
-
-
     }
 
     /**
@@ -1134,5 +1106,4 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
                     m.getRowDimension(), m.getColumnDimension());
         }
     }
-
 }

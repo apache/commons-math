@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-195">
+        Created "MatrixDimensionMismatch" to replace "InvalidMatrixException"
+        (when the latter is used to signal a row or column dimension mismatch).
+      </action>
       <action dev="erans" type="update" issue="MATH-370">
         Modified semantics: "equals" methods now consider that NaNs are not
         equal (compliant with IEEE754).

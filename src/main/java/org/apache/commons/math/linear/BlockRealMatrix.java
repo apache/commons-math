@@ -20,7 +20,9 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -168,16 +170,14 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             final int iHeight = blockHeight(iBlock);
             for (int jBlock = 0; jBlock < blockColumns; ++jBlock, ++index) {
                 if (blockData[index].length != iHeight * blockWidth(jBlock)) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.WRONG_BLOCK_LENGTH,
-                            blockData[index].length, iHeight * blockWidth(jBlock));
+                    throw new DimensionMismatchException(blockData[index].length,
+                                                         iHeight * blockWidth(jBlock));
                 }
                 if (copyArray) {
                     blocks[index] = blockData[index].clone();
                 }
             }
         }
-
     }
 
     /**
@@ -214,9 +214,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         for (int i = 0; i < rawData.length; ++i) {
             final int length = rawData[i].length;
             if (length != columns) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                        columns, length);
+                throw new DimensionMismatchException(columns, length);
             }
         }
 
@@ -249,7 +247,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return blocks;
-
     }
 
     /**
@@ -285,7 +282,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return blocks;
-
     }
 
     /** {@inheritDoc} */
@@ -308,7 +304,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return copied;
-
     }
 
     /** {@inheritDoc} */
@@ -351,7 +346,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             }
 
             return out;
-
         }
     }
 
@@ -381,7 +375,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -424,7 +417,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             }
 
             return out;
-
         }
     }
 
@@ -454,7 +446,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -474,7 +465,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -494,7 +484,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -554,7 +543,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             }
 
             return out;
-
         }
     }
 
@@ -627,7 +615,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -657,7 +644,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return data;
-
     }
 
     /** {@inheritDoc} */
@@ -796,7 +782,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /**
@@ -836,17 +821,15 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
 
         // safety checks
         final int refLength = subMatrix[0].length;
-        if (refLength < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
+        if (refLength == 0) {
+            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
         }
         final int endRow    = row + subMatrix.length - 1;
         final int endColumn = column + refLength - 1;
         MatrixUtils.checkSubMatrixIndex(this, row, endRow, column, endColumn);
         for (final double[] subRow : subMatrix) {
             if (subRow.length != refLength) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                        refLength, subRow.length);
+                throw new DimensionMismatchException(refLength, subRow.length);
             }
         }
 
@@ -912,13 +895,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setRowMatrix(final int row, final RealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
+    public void setRowMatrix(final int row, final RealMatrix matrix) {
         try {
             setRowMatrix(row, (BlockRealMatrix) matrix);
         } catch (ClassCastException cce) {
@@ -934,20 +915,17 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * @param matrix row matrix (must have one row and the same number of columns
      * as the instance)
      * @throws MatrixIndexException if the specified row index is invalid
-     * @throws InvalidMatrixException if the matrix dimensions do not match one
+     * @throws MatrixDimensionMismatchException if the matrix dimensions do not match one
      * instance row
      */
-    public void setRowMatrix(final int row, final BlockRealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRowMatrix(final int row, final BlockRealMatrix matrix) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(),
-                    1, nCols);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       1, nCols);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -970,7 +948,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 mIndex += jWidth;
            }
         }
-
     }
 
     /** {@inheritDoc} */
@@ -1001,13 +978,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setColumnMatrix(final int column, final RealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
+    public void setColumnMatrix(final int column, final RealMatrix matrix) {
         try {
             setColumnMatrix(column, (BlockRealMatrix) matrix);
         } catch (ClassCastException cce) {
@@ -1023,20 +998,17 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * @param matrix column matrix (must have one column and the same number of rows
      * as the instance)
      * @throws MatrixIndexException if the specified column index is invalid
-     * @throws InvalidMatrixException if the matrix dimensions do not match one
+     * @throws MatrixDimensionMismatchException if the matrix dimensions do not match one
      * instance column
      */
-    void setColumnMatrix(final int column, final BlockRealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    void setColumnMatrix(final int column, final BlockRealMatrix matrix) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(),
-                    nRows, 1);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       nRows, 1);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1057,7 +1029,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 block[i * jWidth + jColumn] = mBlock[mIndex++];
             }
         }
-
     }
 
     /** {@inheritDoc} */
@@ -1080,13 +1051,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return new ArrayRealVector(outData, false);
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setRowVector(final int row, final RealVector vector)
-        throws MatrixIndexException, InvalidMatrixException {
+    public void setRowVector(final int row, final RealVector vector) {
         try {
             setRow(row, ((ArrayRealVector) vector).getDataRef());
         } catch (ClassCastException cce) {
@@ -1116,13 +1085,11 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return new ArrayRealVector(outData, false);
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setColumnVector(final int column, final RealVector vector)
-        throws MatrixIndexException, InvalidMatrixException {
+    public void setColumnVector(final int column, final RealVector vector) {
         try {
             setColumn(column, ((ArrayRealVector) vector).getDataRef());
         } catch (ClassCastException cce) {
@@ -1150,20 +1117,15 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setRow(final int row, final double[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRow(final int row, final double[] array) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    1, array.length, 1, nCols);
+            throw new MatrixDimensionMismatchException(1, array.length, 1, nCols);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1176,7 +1138,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
             System.arraycopy(array, outIndex, block, iRow * jWidth, jWidth);
             outIndex += jWidth;
         }
-
     }
 
     /** {@inheritDoc} */
@@ -1201,20 +1162,15 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setColumn(final int column, final double[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumn(final int column, final double[] array) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    array.length, 1, nRows, 1);
+            throw new MatrixDimensionMismatchException(array.length, 1, nRows, 1);
         }
 
         // perform copy block-wise, to ensure good cache behavior
@@ -1229,7 +1185,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
                 block[i * jWidth + jColumn] = array[outIndex++];
             }
         }
-
     }
 
     /** {@inheritDoc} */
@@ -1338,7 +1293,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -1359,9 +1313,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         if (v.length != columns) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                    v.length, columns);
+            throw new DimensionMismatchException(v.length, columns);
         }
         final double[] out = new double[rows];
 
@@ -1394,7 +1346,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -1403,9 +1354,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         throws IllegalArgumentException {
 
         if (v.length != rows) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                    v.length, rows);
+            throw new DimensionMismatchException(v.length, rows);
         }
         final double[] out = new double[columns];
 
@@ -1443,7 +1392,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -1685,5 +1633,4 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     private int blockWidth(final int blockColumn) {
         return (blockColumn == blockColumns - 1) ? columns - blockColumn * BLOCK_SIZE : BLOCK_SIZE;
     }
-
 }

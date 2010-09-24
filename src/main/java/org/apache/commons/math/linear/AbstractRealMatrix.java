@@ -17,7 +17,10 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -51,17 +54,14 @@ public abstract class AbstractRealMatrix implements RealMatrix {
      *
      * @param rowDimension  the number of rows in the new matrix
      * @param columnDimension  the number of columns in the new matrix
-     * @throws IllegalArgumentException if row or column dimension is not positive
+     * @throws NotStrictlyPositiveException if row or column dimension is not positive
      */
-    protected AbstractRealMatrix(final int rowDimension, final int columnDimension)
-        throws IllegalArgumentException {
-        if (rowDimension < 1 ) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INSUFFICIENT_DIMENSION, rowDimension, 1);
+    protected AbstractRealMatrix(final int rowDimension, final int columnDimension) {
+        if (rowDimension < 1) {
+            throw new NotStrictlyPositiveException(rowDimension);
         }
-        if (columnDimension <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INSUFFICIENT_DIMENSION, columnDimension, 1);
+        if (columnDimension < 1) {
+            throw new NotStrictlyPositiveException(columnDimension);
         }
         lu = null;
     }
@@ -89,7 +89,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -108,7 +107,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -124,7 +122,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -140,7 +137,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -165,7 +161,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -187,7 +182,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return data;
-
     }
 
     /** {@inheritDoc} */
@@ -225,7 +219,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             public double end() {
                 return maxColSum;
             }
-
         });
     }
 
@@ -252,7 +245,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             public double end() {
                 return FastMath.sqrt(sum);
             }
-
         });
     }
 
@@ -272,7 +264,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return subMatrix;
-
     }
 
     /** {@inheritDoc} */
@@ -296,7 +287,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         });
 
         return subMatrix;
-
     }
 
     /** {@inheritDoc} */
@@ -310,10 +300,8 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         final int rowsCount    = endRow + 1 - startRow;
         final int columnsCount = endColumn + 1 - startColumn;
         if ((destination.length < rowsCount) || (destination[0].length < columnsCount)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    destination.length, destination[0].length,
-                    rowsCount, columnsCount);
+            throw new MatrixDimensionMismatchException(destination.length, destination[0].length,
+                                                       rowsCount, columnsCount);
         }
 
         // copy entries
@@ -341,21 +329,17 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             }
 
         }, startRow, endRow, startColumn, endColumn);
-
     }
 
     /** {@inheritDoc} */
-    public void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination)
-        throws MatrixIndexException, IllegalArgumentException {
+    public void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination) {
 
         // safety checks
         MatrixUtils.checkSubMatrixIndex(this, selectedRows, selectedColumns);
         if ((destination.length < selectedRows.length) ||
             (destination[0].length < selectedColumns.length)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    destination.length, destination[0].length,
-                    selectedRows.length, selectedColumns.length);
+            throw new MatrixDimensionMismatchException(destination.length, destination[0].length,
+                                                       selectedRows.length, selectedColumns.length);
         }
 
         // copy entries
@@ -365,7 +349,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 destinationI[j] = getEntry(selectedRows[i], selectedColumns[j]);
             }
         }
-
     }
 
     /** {@inheritDoc} */
@@ -374,19 +357,17 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         final int nRows = subMatrix.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
+            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
         }
 
         final int nCols = subMatrix[0].length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
+            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
         }
 
         for (int r = 1; r < nRows; ++r) {
             if (subMatrix[r].length != nCols) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                        nCols, subMatrix[r].length);
+                throw new DimensionMismatchException(nCols, subMatrix[r].length);
             }
         }
 
@@ -402,7 +383,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         lu = null;
-
     }
 
     /** {@inheritDoc} */
@@ -417,25 +397,21 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public void setRowMatrix(final int row, final RealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRowMatrix(final int row, final RealMatrix matrix) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if ((matrix.getRowDimension() != 1) ||
             (matrix.getColumnDimension() != nCols)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(), 1, nCols);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, matrix.getEntry(0, i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -450,25 +426,21 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public void setColumnMatrix(final int column, final RealMatrix matrix)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumnMatrix(final int column, final RealMatrix matrix) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if ((matrix.getRowDimension() != nRows) ||
             (matrix.getColumnDimension() != 1)) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    matrix.getRowDimension(), matrix.getColumnDimension(), nRows, 1);
+            throw new MatrixDimensionMismatchException(matrix.getRowDimension(),
+                                                       matrix.getColumnDimension(),
+                                                       nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, matrix.getEntry(i, 0));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -478,20 +450,16 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public void setRowVector(final int row, final RealVector vector)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRowVector(final int row, final RealVector vector) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if (vector.getDimension() != nCols) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    1, vector.getDimension(), 1, nCols);
+            throw new MatrixDimensionMismatchException(1, vector.getDimension(),
+                                                       1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, vector.getEntry(i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -501,20 +469,16 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public void setColumnVector(final int column, final RealVector vector)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumnVector(final int column, final RealVector vector) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if (vector.getDimension() != nRows) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    vector.getDimension(), 1, nRows, 1);
+            throw new MatrixDimensionMismatchException(vector.getDimension(), 1,
+                                                       nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, vector.getEntry(i));
         }
-
     }
 
     /** {@inheritDoc} */
@@ -529,24 +493,18 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public void setRow(final int row, final double[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setRow(final int row, final double[] array) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         if (array.length != nCols) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    1, array.length, 1, nCols);
+            throw new MatrixDimensionMismatchException(1, array.length, 1, nCols);
         }
         for (int i = 0; i < nCols; ++i) {
             setEntry(row, i, array[i]);
         }
-
     }
 
     /** {@inheritDoc} */
@@ -561,24 +519,18 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public void setColumn(final int column, final double[] array)
-        throws MatrixIndexException, InvalidMatrixException {
-
+    public void setColumn(final int column, final double[] array) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         if (array.length != nRows) {
-            throw new InvalidMatrixException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    array.length, 1, nRows, 1);
+            throw new MatrixDimensionMismatchException(array.length, 1, nRows, 1);
         }
         for (int i = 0; i < nRows; ++i) {
             setEntry(i, column, array[i]);
         }
-
     }
 
     /** {@inheritDoc} */
@@ -614,7 +566,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         });
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -676,9 +627,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nCols) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                    v.length, nCols);
+            throw new DimensionMismatchException(v.length, nCols);
         }
 
         final double[] out = new double[nRows];
@@ -691,7 +640,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -703,9 +651,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nCols) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                        v.getDimension(), nCols);
+                throw new DimensionMismatchException(v.getDimension(), nCols);
             }
 
             final double[] out = new double[nRows];
@@ -728,9 +674,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                    v.length, nRows);
+            throw new DimensionMismatchException(v.length, nRows);
         }
 
         final double[] out = new double[nCols];
@@ -743,7 +687,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -756,9 +699,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nRows) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                        v.getDimension(), nRows);
+                throw new DimensionMismatchException(v.getDimension(), nRows);
             }
 
             final double[] out = new double[nCols];
@@ -771,7 +712,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
             }
 
             return new ArrayRealVector(out);
-
         }
     }
 
@@ -1011,7 +951,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
         res.append("}");
         return res.toString();
-
     }
 
     /**
@@ -1066,5 +1005,4 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         }
         return ret;
     }
-
 }

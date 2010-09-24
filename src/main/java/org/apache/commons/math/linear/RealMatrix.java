@@ -35,7 +35,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param rowDimension  the number of rows in the new matrix
      * @param columnDimension  the number of columns in the new matrix
      * @return a new matrix of the same type as the instance
-     * @throws IllegalArgumentException if row or column dimension is not positive
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if row or column dimension is not positive.
      * @since 2.0
      */
     RealMatrix createMatrix(final int rowDimension, final int columnDimension);
@@ -54,7 +55,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return     this + m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    RealMatrix add(RealMatrix m) throws IllegalArgumentException;
+    RealMatrix add(RealMatrix m);
 
     /**
      * Compute this minus m.
@@ -63,7 +64,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return     this - m
      * @throws  IllegalArgumentException if m is not the same size as this
      */
-    RealMatrix subtract(RealMatrix m) throws IllegalArgumentException;
+    RealMatrix subtract(RealMatrix m);
 
      /**
      * Returns the result of adding d to each entry of this.
@@ -89,7 +90,7 @@ public interface RealMatrix extends AnyMatrix {
      * @throws     IllegalArgumentException
      *             if columnDimension(this) != rowDimension(m)
      */
-    RealMatrix multiply(RealMatrix m) throws IllegalArgumentException;
+    RealMatrix multiply(RealMatrix m);
 
     /**
      * Returns the result premultiplying this by <code>m</code>.
@@ -98,7 +99,7 @@ public interface RealMatrix extends AnyMatrix {
      * @throws     IllegalArgumentException
      *             if rowDimension(this) != columnDimension(m)
      */
-    RealMatrix preMultiply(RealMatrix m) throws IllegalArgumentException;
+    RealMatrix preMultiply(RealMatrix m);
 
     /**
      * Returns matrix entries as a two-dimensional array.
@@ -135,8 +136,7 @@ public interface RealMatrix extends AnyMatrix {
      *         specified rows and columns
      * @exception MatrixIndexException  if the indices are not valid
      */
-   RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn)
-       throws MatrixIndexException;
+    RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn);
 
    /**
     * Gets a submatrix. Rows and columns are indicated
@@ -148,8 +148,7 @@ public interface RealMatrix extends AnyMatrix {
     *         specified rows and columns
     * @exception MatrixIndexException if row or column selections are not valid
     */
-   RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns)
-       throws MatrixIndexException;
+    RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns);
 
    /**
     * Copy a submatrix. Rows and columns are indicated
@@ -165,9 +164,7 @@ public interface RealMatrix extends AnyMatrix {
     * @exception IllegalArgumentException if the destination array is too small
     */
   void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
-                     double[][] destination)
-      throws MatrixIndexException, IllegalArgumentException;
-
+                     double[][] destination);
   /**
    * Copy a submatrix. Rows and columns are indicated
    * counting from 0 to n-1.
@@ -179,8 +176,7 @@ public interface RealMatrix extends AnyMatrix {
    * @exception MatrixIndexException if the indices are not valid
    * @exception IllegalArgumentException if the destination array is too small
    */
-  void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination)
-      throws MatrixIndexException, IllegalArgumentException;
+    void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination);
 
    /**
     * Replace the submatrix starting at <code>row, column</code> using data in
@@ -209,8 +205,7 @@ public interface RealMatrix extends AnyMatrix {
     * @throws NullPointerException if <code>subMatrix</code> is null
     * @since 2.0
     */
-   void setSubMatrix(double[][] subMatrix, int row, int column)
-       throws MatrixIndexException;
+    void setSubMatrix(double[][] subMatrix, int row, int column);
 
    /**
     * Returns the entries in row number <code>row</code>
@@ -220,7 +215,7 @@ public interface RealMatrix extends AnyMatrix {
     * @return row matrix
     * @throws MatrixIndexException if the specified row index is invalid
     */
-   RealMatrix getRowMatrix(int row) throws MatrixIndexException;
+   RealMatrix getRowMatrix(int row);
 
    /**
     * Sets the entries in row number <code>row</code>
@@ -230,11 +225,10 @@ public interface RealMatrix extends AnyMatrix {
     * @param matrix row matrix (must have one row and the same number of columns
     * as the instance)
     * @throws MatrixIndexException if the specified row index is invalid
-    * @throws InvalidMatrixException if the matrix dimensions do not match one
-    * instance row
+    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * if the matrix dimensions do not match one instance row.
     */
-   void setRowMatrix(int row, RealMatrix matrix)
-       throws MatrixIndexException, InvalidMatrixException;
+    void setRowMatrix(int row, RealMatrix matrix);
 
    /**
     * Returns the entries in column number <code>column</code>
@@ -244,7 +238,7 @@ public interface RealMatrix extends AnyMatrix {
     * @return column matrix
     * @throws MatrixIndexException if the specified column index is invalid
     */
-   RealMatrix getColumnMatrix(int column) throws MatrixIndexException;
+   RealMatrix getColumnMatrix(int column);
 
    /**
     * Sets the entries in column number <code>column</code>
@@ -254,11 +248,10 @@ public interface RealMatrix extends AnyMatrix {
     * @param matrix column matrix (must have one column and the same number of rows
     * as the instance)
     * @throws MatrixIndexException if the specified column index is invalid
-    * @throws InvalidMatrixException if the matrix dimensions do not match one
-    * instance column
+    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * if the matrix dimensions do not match one instance column.
     */
-   void setColumnMatrix(int column, RealMatrix matrix)
-       throws MatrixIndexException, InvalidMatrixException;
+    void setColumnMatrix(int column, RealMatrix matrix);
 
    /**
     * Returns the entries in row number <code>row</code>
@@ -268,7 +261,7 @@ public interface RealMatrix extends AnyMatrix {
     * @return row vector
     * @throws MatrixIndexException if the specified row index is invalid
     */
-   RealVector getRowVector(int row) throws MatrixIndexException;
+   RealVector getRowVector(int row);
 
    /**
     * Sets the entries in row number <code>row</code>
@@ -278,11 +271,10 @@ public interface RealMatrix extends AnyMatrix {
     * @param vector row vector (must have the same number of columns
     * as the instance)
     * @throws MatrixIndexException if the specified row index is invalid
-    * @throws InvalidMatrixException if the vector dimension does not match one
-    * instance row
+    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * if the vector dimension does not match one instance row.
     */
-   void setRowVector(int row, RealVector vector)
-       throws MatrixIndexException, InvalidMatrixException;
+    void setRowVector(int row, RealVector vector);
 
    /**
     * Returns the entries in column number <code>column</code>
@@ -292,7 +284,7 @@ public interface RealMatrix extends AnyMatrix {
     * @return column vector
     * @throws MatrixIndexException if the specified column index is invalid
     */
-   RealVector getColumnVector(int column) throws MatrixIndexException;
+   RealVector getColumnVector(int column);
 
    /**
     * Sets the entries in column number <code>column</code>
@@ -301,23 +293,22 @@ public interface RealMatrix extends AnyMatrix {
     * @param column the column to be set
     * @param vector column vector (must have the same number of rows as the instance)
     * @throws MatrixIndexException if the specified column index is invalid
-    * @throws InvalidMatrixException if the vector dimension does not match one
-    * instance column
+    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * if the vector dimension does not match one instance column.
     */
-   void setColumnVector(int column, RealVector vector)
-       throws MatrixIndexException, InvalidMatrixException;
+    void setColumnVector(int column, RealVector vector);
 
     /**
      * Returns the entries in row number <code>row</code> as an array.
      * <p>
      * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= row < rowDimension.</code></p>
+     * unless {@code 0 <= row < rowDimension}.</p>
      *
      * @param row the row to be fetched
      * @return array of entries in the row
      * @throws MatrixIndexException if the specified row index is not valid
      */
-    double[] getRow(int row) throws MatrixIndexException;
+    double[] getRow(int row);
 
     /**
      * Sets the entries in row number <code>row</code>
@@ -326,23 +317,22 @@ public interface RealMatrix extends AnyMatrix {
      * @param row the row to be set
      * @param array row matrix (must have the same number of columns as the instance)
      * @throws MatrixIndexException if the specified row index is invalid
-     * @throws InvalidMatrixException if the array size does not match one
-     * instance row
+     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * if the array size does not match one instance row.
      */
-    void setRow(int row, double[] array)
-        throws MatrixIndexException, InvalidMatrixException;
+    void setRow(int row, double[] array);
 
     /**
      * Returns the entries in column number <code>col</code> as an array.
      * <p>
      * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless <code>0 <= column < columnDimension.</code></p>
+     * unless {@code 0 <= column < columnDimension}.</p>
      *
      * @param column the column to be fetched
      * @return array of entries in the column
      * @throws MatrixIndexException if the specified column index is not valid
      */
-    double[] getColumn(int column) throws MatrixIndexException;
+    double[] getColumn(int column);
 
     /**
      * Sets the entries in column number <code>column</code>
@@ -351,19 +341,18 @@ public interface RealMatrix extends AnyMatrix {
      * @param column the column to be set
      * @param array column array (must have the same number of rows as the instance)
      * @throws MatrixIndexException if the specified column index is invalid
-     * @throws InvalidMatrixException if the array size does not match one
-     * instance column
+     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * if the array size does not match one instance column.
      */
-    void setColumn(int column, double[] array)
-        throws MatrixIndexException, InvalidMatrixException;
+    void setColumn(int column, double[] array);
 
     /**
      * Returns the entry in the specified row and column.
      * <p>
      * Row and column indices start at 0 and must satisfy
      * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
+     * <li>{@code 0 <= row < rowDimension}</li>
+     * <li>{@code 0 <= column < columnDimension}</li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
@@ -372,15 +361,15 @@ public interface RealMatrix extends AnyMatrix {
      * @return matrix entry in row,column
      * @throws MatrixIndexException if the row or column index is not valid
      */
-    double getEntry(int row, int column) throws MatrixIndexException;
+    double getEntry(int row, int column);
 
     /**
      * Set the entry in the specified row and column.
      * <p>
      * Row and column indices start at 0 and must satisfy
      * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
+     * <li>{@code 0 <= row < rowDimension}</li>
+     * <li>{@code 0 <= column < columnDimension}</li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
@@ -390,15 +379,15 @@ public interface RealMatrix extends AnyMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      * @since 2.0
      */
-    void setEntry(int row, int column, double value) throws MatrixIndexException;
+    void setEntry(int row, int column, double value);
 
     /**
      * Change an entry in the specified row and column.
      * <p>
      * Row and column indices start at 0 and must satisfy
      * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
+     * <li>{@code 0 <= row < rowDimension}</li>
+     * <li>{@code 0 <= column < columnDimension}</li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
@@ -408,15 +397,15 @@ public interface RealMatrix extends AnyMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      * @since 2.0
      */
-    void addToEntry(int row, int column, double increment) throws MatrixIndexException;
+    void addToEntry(int row, int column, double increment);
 
     /**
      * Change an entry in the specified row and column.
      * <p>
      * Row and column indices start at 0 and must satisfy
      * <ul>
-     * <li><code>0 <= row < rowDimension</code></li>
-     * <li><code> 0 <= column < columnDimension</code></li>
+     * <li>{@code 0 <= row < rowDimension}</li>
+     * <li>{@code 0 <= column < columnDimension}</li>
      * </ul>
      * otherwise a <code>MatrixIndexException</code> is thrown.</p>
      *
@@ -426,7 +415,7 @@ public interface RealMatrix extends AnyMatrix {
      * @throws MatrixIndexException if the row or column index is not valid
      * @since 2.0
      */
-    void multiplyEntry(int row, int column, double factor) throws MatrixIndexException;
+    void multiplyEntry(int row, int column, double factor);
 
     /**
      * Returns the transpose of this matrix.
@@ -439,7 +428,7 @@ public interface RealMatrix extends AnyMatrix {
      * Returns the inverse of this matrix.
      *
      * @return inverse matrix
-     * @throws InvalidMatrixException if  this is not invertible
+     * @throws InvalidMatrixException if this is not invertible
      * @deprecated as of release 2.0, replaced by <code>
      * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
      * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
@@ -447,7 +436,7 @@ public interface RealMatrix extends AnyMatrix {
      * getInverse()}</code>
      */
     @Deprecated
-    RealMatrix inverse() throws InvalidMatrixException;
+        RealMatrix inverse();
 
     /**
      * Returns the determinant of this matrix.
@@ -480,7 +469,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return trace
      * @throws NonSquareMatrixException if the matrix is not square
      */
-    double getTrace() throws NonSquareMatrixException;
+    double getTrace();
 
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.
@@ -489,7 +478,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return this*v
      * @throws IllegalArgumentException if columnDimension != v.size()
      */
-    double[] operate(double[] v) throws IllegalArgumentException;
+    double[] operate(double[] v);
 
     /**
      * Returns the result of multiplying this by the vector <code>v</code>.
@@ -498,7 +487,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return this*v
      * @throws IllegalArgumentException if columnDimension != v.size()
      */
-    RealVector operate(RealVector v) throws IllegalArgumentException;
+    RealVector operate(RealVector v);
 
     /**
      * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
@@ -507,7 +496,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return v*this
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
-    double[] preMultiply(double[] v) throws IllegalArgumentException;
+    double[] preMultiply(double[] v);
 
     /**
      * Returns the (row) vector result of premultiplying this by the vector <code>v</code>.
@@ -516,7 +505,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return v*this
      * @throws IllegalArgumentException if rowDimension != v.size()
      */
-    RealVector preMultiply(RealVector v) throws IllegalArgumentException;
+    RealVector preMultiply(RealVector v);
 
     /**
      * Visit (and possibly change) all matrix entries in row order.
@@ -539,8 +528,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInRowOrder(RealMatrixChangingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInRowOrder(RealMatrixChangingVisitor visitor);
 
     /**
      * Visit (but don't change) all matrix entries in row order.
@@ -563,8 +551,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInRowOrder(RealMatrixPreservingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInRowOrder(RealMatrixPreservingVisitor visitor);
 
     /**
      * Visit (and possibly change) some matrix entries in row order.
@@ -593,8 +580,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInRowOrder(RealMatrixChangingVisitor visitor,
-                          int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                          int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -623,8 +609,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInRowOrder(RealMatrixPreservingVisitor visitor,
-                          int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                          int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
@@ -647,8 +632,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInColumnOrder(RealMatrixChangingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInColumnOrder(RealMatrixChangingVisitor visitor);
 
     /**
      * Visit (but don't change) all matrix entries in column order.
@@ -671,8 +655,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInColumnOrder(RealMatrixPreservingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInColumnOrder(RealMatrixPreservingVisitor visitor);
 
     /**
      * Visit (and possibly change) some matrix entries in column order.
@@ -701,8 +684,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInColumnOrder(RealMatrixChangingVisitor visitor,
-                             int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                             int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Visit (but don't change) some matrix entries in column order.
@@ -731,8 +713,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInColumnOrder(RealMatrixPreservingVisitor visitor,
-                             int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                             int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Visit (and possibly change) all matrix entries using the fastest possible order.
@@ -754,8 +735,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixChangingVisitor#end()} at the end
      * of the walk
      */
-    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInOptimizedOrder(RealMatrixChangingVisitor visitor);
 
     /**
      * Visit (but don't change) all matrix entries using the fastest possible order.
@@ -777,8 +757,7 @@ public interface RealMatrix extends AnyMatrix {
      * @return the value returned by {@link RealMatrixPreservingVisitor#end()} at the end
      * of the walk
      */
-    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor)
-        throws MatrixVisitorException;
+    double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor);
 
     /**
      * Visit (and possibly change) some matrix entries using the fastest possible order.
@@ -806,8 +785,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInOptimizedOrder(RealMatrixChangingVisitor visitor,
-                                int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                                int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Visit (but don't change) some matrix entries using the fastest possible order.
@@ -835,8 +813,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor,
-                                int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+                                int startRow, int endRow, int startColumn, int endColumn);
 
     /**
      * Returns the solution vector for a linear system with coefficient
@@ -849,7 +826,7 @@ public interface RealMatrix extends AnyMatrix {
      * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(double[])}
      */
     @Deprecated
-    double[] solve(double[] b) throws IllegalArgumentException, InvalidMatrixException;
+    double[] solve(double[] b);
 
     /**
      * Returns a matrix of (column) solution vectors for linear systems with
@@ -864,6 +841,5 @@ public interface RealMatrix extends AnyMatrix {
      * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(RealMatrix)}
      */
     @Deprecated
-    RealMatrix solve(RealMatrix b) throws IllegalArgumentException, InvalidMatrixException;
-
+    RealMatrix solve(RealMatrix b);
 }

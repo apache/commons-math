@@ -79,8 +79,9 @@ public enum LocalizedFormats implements Localizable {
     CUMULATIVE_PROBABILITY_RETURNED_NAN("Cumulative probability function returned NaN for argument {0} p = {1}"),
     DIFFERENT_ROWS_LENGTHS("some rows have length {0} while others have length {1}"),
     DIGEST_NOT_INITIALIZED("digest not initialized"),
-    DIMENSIONS_MISMATCH_2x2("dimensions mismatch: got {0}x{1} but expected {2}x{3}"),
-    DIMENSIONS_MISMATCH_SIMPLE("dimensions mismatch {0} != {1}"), /* keep */
+    DIMENSIONS_MISMATCH_2x2("got {0}x{1} but expected {2}x{3}"), /* keep */
+    DIMENSIONS_MISMATCH_SIMPLE("{0} != {1}"), /* keep */
+    DIMENSIONS_MISMATCH("dimensions mismatch"), /* keep */
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
     DUPLICATED_ABSCISSA("Abscissa {0} is duplicated at both indices {1} and {2}"),

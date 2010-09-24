@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 
 /**
  * Test cases for the {@link Array2DRowFieldMatrix} class.
@@ -498,8 +499,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setRowMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -540,8 +541,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setColumnMatrix(0, m);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -580,8 +581,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setRowVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -620,8 +621,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setColumnVector(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), 5));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -665,8 +666,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setRow(0, new Fraction[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -705,8 +706,8 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         try {
             m.setColumn(0, new Fraction[5]);
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ex) {
+            fail("Expecting MatrixDimensionMismatchException");
+        } catch (MatrixDimensionMismatchException ex) {
             // expected
         }
     }
@@ -958,14 +959,13 @@ public final class FieldMatrixImplTest extends TestCase {
     /** extracts the l  and u matrices from compact lu representation */
     protected void splitLU(FieldMatrix<Fraction> lu,
                            Fraction[][] lowerData,
-                           Fraction[][] upperData)
-        throws InvalidMatrixException {
+                           Fraction[][] upperData) {
         if (!lu.isSquare() ||
             lowerData.length != lowerData[0].length ||
             upperData.length != upperData[0].length ||
             lowerData.length != upperData.length ||
             lowerData.length != lu.getRowDimension()) {
-            throw new InvalidMatrixException("incorrect dimensions");
+            throw new IllegalArgumentException("incorrect dimensions");
         }
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
@@ -999,6 +999,4 @@ public final class FieldMatrixImplTest extends TestCase {
         }
         return new Array2DRowFieldMatrix<Fraction>(out);
     }
-
 }
-

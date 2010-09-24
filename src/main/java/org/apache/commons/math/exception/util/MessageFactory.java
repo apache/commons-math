@@ -63,13 +63,13 @@ public class MessageFactory {
                                       Object ... arguments) {
         final StringBuilder sb = new StringBuilder();
         MessageFormat fmt = null;
-        if (specific != null) {
-            fmt = new MessageFormat(specific.getLocalizedString(locale), locale);
-            sb.append(fmt.format(arguments));
-            sb.append(": ");
-        }
         fmt = new MessageFormat(general.getLocalizedString(locale), locale);
         sb.append(fmt.format(arguments));
+        if (specific != null) {
+            sb.append(": ");
+            fmt = new MessageFormat(specific.getLocalizedString(locale), locale);
+            sb.append(fmt.format(arguments));
+        }
 
         return sb.toString();
     }

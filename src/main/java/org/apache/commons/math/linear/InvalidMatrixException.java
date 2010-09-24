@@ -26,6 +26,8 @@ import org.apache.commons.math.exception.util.Localizable;
  * that matrix does not satisfy the preconditions for the
  * aforementioned operation.
  * @version $Revision$ $Date$
+ * @deprecated since 2.2. Please use the classes in the
+ * {@link org.apache.commons.math.exception} package.
  */
 public class InvalidMatrixException extends MathRuntimeException {
 
