@@ -32,25 +32,12 @@ import org.apache.commons.math.MathException;
  * @version $Revision$ $Date$
  */
 public interface PoissonDistribution extends IntegerDistribution {
-
     /**
      * Get the mean for the distribution.
      *
      * @return the mean for the distribution.
      */
     double getMean();
-
-    /**
-     * Set the mean for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgument</code> is thrown.
-     *
-     * @param p the mean
-     * @throws IllegalArgumentException if p &le; 0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setMean(double p);
 
     /**
      * Calculates the Poisson distribution function using a normal approximation.
@@ -60,5 +47,4 @@ public interface PoissonDistribution extends IntegerDistribution {
      * @throws MathException if an error occurs computing the normal approximation
      */
     double normalApproximateProbability(int x) throws MathException;
-
 }

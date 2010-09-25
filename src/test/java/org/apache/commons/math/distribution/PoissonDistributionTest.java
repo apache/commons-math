@@ -18,6 +18,7 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * <code>PoissonDistributionTest</code>
@@ -116,7 +117,8 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         double result = dist.normalApproximateProbability(110)
                 - dist.normalApproximateProbability(89);
         assertEquals(0.706281887248, result, 1E-10);
-        dist.setMean(10000);
+
+        dist = new PoissonDistributionImpl(10000);
         result = dist.normalApproximateProbability(10200)
         - dist.normalApproximateProbability(9899);
         assertEquals(0.820070051552, result, 1E-10);
@@ -133,22 +135,22 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     public void testMean() {
-        PoissonDistribution dist = new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
+        PoissonDistribution dist;
         try {
-            dist.setMean(-1);
-            fail("negative mean.  IllegalArgumentException expected");
-        } catch(IllegalArgumentException ex) {
+            dist = new PoissonDistributionImpl(-1);
+            fail("negative mean: NotStrictlyPositiveException expected");
+        } catch(NotStrictlyPositiveException ex) {
+            // Expected.
         }
 
-        dist.setMean(10.0);
+        dist = new PoissonDistributionImpl(10.0);
         assertEquals(10.0, dist.getMean(), 0.0);
     }
 
     public void testLargeMeanCumulativeProbability() {
-        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 10000000.0) {
-            dist.setMean(mean);
+            PoissonDistribution dist = new PoissonDistributionImpl(mean);
 
             double x = mean * 2.0;
             double dx = x / 10.0;
@@ -177,13 +179,13 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * JIRA: MATH-282
      */
     public void testCumulativeProbabilitySpecial() throws Exception {
-        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
-        dist.setMean(9120);
+        PoissonDistribution dist;
+        dist = new PoissonDistributionImpl(9120);
         checkProbability(dist, 9075);
         checkProbability(dist, 9102);
-        dist.setMean(5058);
+        dist = new PoissonDistributionImpl(5058);
         checkProbability(dist, 5044);
-        dist.setMean(6986);
+        dist = new PoissonDistributionImpl(6986);
         checkProbability(dist, 6950);
     }
 
@@ -196,10 +198,9 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     public void testLargeMeanInverseCumulativeProbability() throws Exception {
-        PoissonDistribution dist = new PoissonDistributionImpl(1.0);
         double mean = 1.0;
         while (mean <= 100000.0) { // Extended test value: 1E7.  Reduced to limit run time.
-            dist.setMean(mean);
+            PoissonDistribution dist = new PoissonDistributionImpl(mean);
             double p = 0.1;
             double dp = p;
             while (p < .99) {

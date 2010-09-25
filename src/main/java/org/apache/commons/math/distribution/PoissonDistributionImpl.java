@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.MathUtils;
@@ -77,7 +77,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @throws IllegalArgumentException if p &le; 0
      */
     public PoissonDistributionImpl(double p) {
-        this(p, new NormalDistributionImpl());
+        this(p, DEFAULT_EPSILON, DEFAULT_MAX_ITERATIONS);
     }
 
     /**
@@ -90,7 +90,11 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @since 2.1
      */
     public PoissonDistributionImpl(double p, double epsilon, int maxIterations) {
-        setMean(p);
+        if (p <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, p);
+        }
+        mean = p;
+        normal = new NormalDistributionImpl(p, FastMath.sqrt(p));
         this.epsilon = epsilon;
         this.maxIterations = maxIterations;
     }
@@ -103,8 +107,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @since 2.1
      */
     public PoissonDistributionImpl(double p, double epsilon) {
-        setMean(p);
-        this.epsilon = epsilon;
+        this(p, epsilon, DEFAULT_MAX_ITERATIONS);
     }
 
     /**
@@ -115,26 +118,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @since 2.1
      */
     public PoissonDistributionImpl(double p, int maxIterations) {
-        setMean(p);
-        this.maxIterations = maxIterations;
-    }
-
-
-    /**
-     * Create a new Poisson distribution with the given the mean. The mean value
-     * must be positive; otherwise an <code>IllegalArgument</code> is thrown.
-     *
-     * @param p the Poisson mean
-     * @param z a normal distribution used to compute normal approximations.
-     * @throws IllegalArgumentException if p &le; 0
-     * @since 1.2
-     * @deprecated as of 2.1 (to avoid possibly inconsistent state, the
-     * "NormalDistribution" will be instantiated internally)
-     */
-    @Deprecated
-    public PoissonDistributionImpl(double p, NormalDistribution z) {
-        super();
-        setNormalAndMeanInternal(z, p);
+        this(p, DEFAULT_EPSILON, maxIterations);
     }
 
     /**
@@ -144,38 +128,6 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      */
     public double getMean() {
         return mean;
-    }
-
-    /**
-     * Set the Poisson mean for the distribution. The mean value must be
-     * positive; otherwise an <code>IllegalArgument</code> is thrown.
-     *
-     * @param p the Poisson mean value
-     * @throws IllegalArgumentException if p &le; 0
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setMean(double p) {
-        setNormalAndMeanInternal(normal, p);
-    }
-    /**
-     * Set the Poisson mean for the distribution. The mean value must be
-     * positive; otherwise an <code>IllegalArgument</code> is thrown.
-     *
-     * @param z the new distribution
-     * @param p the Poisson mean value
-     * @throws IllegalArgumentException if p &le; 0
-     */
-    private void setNormalAndMeanInternal(NormalDistribution z,
-                                          double p) {
-        if (p <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POSITIVE_POISSON_MEAN, p);
-        }
-        mean = p;
-        normal = z;
-        normal.setMean(p);
-        normal.setStandardDeviation(FastMath.sqrt(p));
     }
 
     /**
@@ -285,19 +237,5 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     @Override
     protected int getDomainUpperBound(double p) {
         return Integer.MAX_VALUE;
-    }
-
-    /**
-     * Modify the normal distribution used to compute normal approximations. The
-     * caller is responsible for insuring the normal distribution has the proper
-     * parameter settings.
-     *
-     * @param value the new distribution
-     * @since 1.2
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setNormal(NormalDistribution value) {
-        setNormalAndMeanInternal(value, mean);
     }
 }
