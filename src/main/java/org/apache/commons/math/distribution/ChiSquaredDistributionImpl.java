@@ -28,70 +28,43 @@ import org.apache.commons.math.MathException;
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
     implements ChiSquaredDistribution, Serializable  {
-
     /**
      * Default inverse cumulative probability accuracy
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier */
     private static final long serialVersionUID = -8352658048349159782L;
-
     /** Internal Gamma distribution. */
     private GammaDistribution gamma;
-
     /** Inverse cumulative probability accuracy */
     private final double solverAbsoluteAccuracy;
 
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom.
-     * @param df degrees of freedom.
+     *
+     * @param degreesOfFreedom Degrees of freedom.
      */
-    public ChiSquaredDistributionImpl(double df) {
-        this(df, new GammaDistributionImpl(df / 2.0, 2.0));
-    }
-
-    /**
-     * Create a Chi-Squared distribution with the given degrees of freedom.
-     * @param df degrees of freedom.
-     * @param g the underlying gamma distribution used to compute probabilities.
-     * @since 1.2
-     * @deprecated as of 2.1 (to avoid possibly inconsistent state, the
-     * "GammaDistribution" will be instantiated internally)
-     */
-    @Deprecated
-    public ChiSquaredDistributionImpl(double df, GammaDistribution g) {
-        super();
-        setGammaInternal(g);
-        setDegreesOfFreedomInternal(df);
-        solverAbsoluteAccuracy = DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
+    public ChiSquaredDistributionImpl(double degreesOfFreedom) {
+        this(degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
      * Create a Chi-Squared distribution with the given degrees of freedom and
      * inverse cumulative probability accuracy.
-     * @param df degrees of freedom.
-     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
-     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     *
+     * @param degreesOfFreedom Degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @since 2.1
      */
-    public ChiSquaredDistributionImpl(double df, double inverseCumAccuracy) {
-        super();
-        gamma = new GammaDistributionImpl(df / 2.0, 2.0);
-        setDegreesOfFreedomInternal(df);
+    public ChiSquaredDistributionImpl(double degreesOfFreedom,
+                                      double inverseCumAccuracy) {
+        gamma = new GammaDistributionImpl(degreesOfFreedom / 2, 2);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
-    /**
-     * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setDegreesOfFreedom(double degreesOfFreedom) {
-        setDegreesOfFreedomInternal(degreesOfFreedom);
-    }
     /**
      * Modify the degrees of freedom.
      * @param degreesOfFreedom the new degrees of freedom.
@@ -106,17 +79,6 @@ public class ChiSquaredDistributionImpl
      */
     public double getDegreesOfFreedom() {
         return gamma.getAlpha() * 2.0;
-    }
-
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     * @deprecated
-     */
-    public double density(Double x) {
-        return density(x.doubleValue());
     }
 
     /**
@@ -233,29 +195,6 @@ public class ChiSquaredDistributionImpl
 
         return ret;
     }
-
-    /**
-     * Modify the underlying gamma distribution.  The caller is responsible for
-     * insuring the gamma distribution has the proper parameter settings.
-     * @param g the new distribution.
-     * @since 1.2 made public
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setGamma(GammaDistribution g) {
-        setGammaInternal(g);
-    }
-    /**
-     * Modify the underlying gamma distribution.  The caller is responsible for
-     * insuring the gamma distribution has the proper parameter settings.
-     * @param g the new distribution.
-     * @since 1.2 made public
-     */
-    private void setGammaInternal(GammaDistribution g) {
-        this.gamma = g;
-
-    }
-
 
     /**
      * Return the absolute accuracy setting of the solver used to estimate

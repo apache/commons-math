@@ -114,7 +114,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquareTest(double[] expected, long[] observed)
         throws IllegalArgumentException, MathException {
-        distribution.setDegreesOfFreedom(expected.length - 1.0);
+        distribution = new ChiSquaredDistributionImpl(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(
             chiSquare(expected, observed));
     }
@@ -189,7 +189,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     throws IllegalArgumentException, MathException {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        distribution.setDegreesOfFreedom(df);
+        distribution = new ChiSquaredDistributionImpl(df);
         return 1 - distribution.cumulativeProbability(chiSquare(counts));
     }
 
@@ -292,7 +292,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
-        distribution.setDegreesOfFreedom((double) observed1.length - 1);
+        distribution = new ChiSquaredDistributionImpl((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
     }

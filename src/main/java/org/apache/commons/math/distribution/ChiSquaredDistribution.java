@@ -29,15 +29,7 @@ package org.apache.commons.math.distribution;
  *
  * @version $Revision$ $Date$
  */
-public interface ChiSquaredDistribution extends ContinuousDistribution, HasDensity<Double> {
-    /**
-     * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setDegreesOfFreedom(double degreesOfFreedom);
-
+public interface ChiSquaredDistribution extends ContinuousDistribution {
     /**
      * Access the degrees of freedom.
      * @return the degrees of freedom.
@@ -49,5 +41,5 @@ public interface ChiSquaredDistribution extends ContinuousDistribution, HasDensi
      * @param x  The point at which the density should be computed.
      * @return  The pdf at point x.
      */
-    double density(Double x);
+    double density(double x);
 }

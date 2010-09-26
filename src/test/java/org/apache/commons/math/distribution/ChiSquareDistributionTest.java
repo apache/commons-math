@@ -103,14 +103,6 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     public void testDfAccessors() {
         ChiSquaredDistribution distribution = (ChiSquaredDistribution) getDistribution();
         assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
-        distribution.setDegreesOfFreedom(4d);
-        assertEquals(4d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
-        try {
-            distribution.setDegreesOfFreedom(0d);
-            fail("Expecting IllegalArgumentException for df = 0");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
     }
 
     public void testDensity() {
