@@ -17,7 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.special.Beta;
@@ -63,10 +63,12 @@ public class BetaDistributionImpl
 
     /**
      * Build a new instance.
-     * @param alpha first shape parameter (must be positive)
-     * @param beta second shape parameter (must be positive)
-     * @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates
-     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
+     *
+     * @param alpha First shape parameter (must be positive).
+     * @param beta Second shape parameter (must be positive).
+     * @param inverseCumAccuracy Maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @since 2.1
      */
     public BetaDistributionImpl(double alpha, double beta, double inverseCumAccuracy) {
@@ -78,34 +80,17 @@ public class BetaDistributionImpl
 
     /**
      * Build a new instance.
-     * @param alpha first shape parameter (must be positive)
-     * @param beta second shape parameter (must be positive)
+     *
+     * @param alpha First shape parameter (must be positive).
+     * @param beta Second shape parameter (must be positive).
      */
     public BetaDistributionImpl(double alpha, double beta) {
         this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setAlpha(double alpha) {
-        this.alpha = alpha;
-        z = Double.NaN;
-    }
-
     /** {@inheritDoc} */
     public double getAlpha() {
         return alpha;
-    }
-
-    /** {@inheritDoc}
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setBeta(double beta) {
-        this.beta = beta;
-        z = Double.NaN;
     }
 
     /** {@inheritDoc} */
@@ -125,19 +110,8 @@ public class BetaDistributionImpl
     /**
      * Return the probability density for a particular point.
      *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     * @deprecated
-     */
-    public double density(Double x) {
-        return density(x.doubleValue());
-    }
-
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
+     * @param x Point at which the density should be computed.
+     * @return the pdf at point x.
      * @since 2.1
      */
     public double density(double x) {
@@ -146,14 +120,12 @@ public class BetaDistributionImpl
             return 0;
         } else if (x == 0) {
             if (alpha < 1) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha);
+                throw new NumberIsTooSmallException(LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha, 1, false);
             }
             return 0;
         } else if (x == 1) {
             if (beta < 1) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta);
+                throw new NumberIsTooSmallException(LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta, 1, false);
             }
             return 0;
         } else {
@@ -214,7 +186,7 @@ public class BetaDistributionImpl
      * Return the absolute accuracy setting of the solver used to estimate
      * inverse cumulative probabilities.
      *
-     * @return the solver absolute accuracy
+     * @return the solver absolute accuracy.
      * @since 2.1
      */
     @Override
