@@ -69,20 +69,15 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the mean.
-     *
-     * @return the mean.
+     * {@inheritDoc}
      */
+    @Override
     public double getMean() {
         return mean;
     }
 
     /**
-     * Return the probability density for a particular point.
-     *
-     * @param x Point at which the density should be computed.
-     * @return the pdf at point {@code x}.
-     * @since 2.1
+     * {@inheritDoc}
      */
     @Override
     public double density(double x) {

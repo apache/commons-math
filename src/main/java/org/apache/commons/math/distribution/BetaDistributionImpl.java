@@ -89,11 +89,13 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getAlpha() {
         return alpha;
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getBeta() {
         return beta;
     }
@@ -108,12 +110,9 @@ public class BetaDistributionImpl
     }
 
     /**
-     * Return the probability density for a particular point.
-     *
-     * @param x Point at which the density should be computed.
-     * @return the pdf at point x.
-     * @since 2.1
+     * {@inheritDoc}
      */
+    @Override
     public double density(double x) {
         recomputeZ();
         if (x < 0 || x > 1) {

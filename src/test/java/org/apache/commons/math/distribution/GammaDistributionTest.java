@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+
 /**
  * Test cases for GammaDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -74,22 +76,21 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     public void testParameterAccessors() {
         GammaDistribution distribution = (GammaDistribution) getDistribution();
         assertEquals(4d, distribution.getAlpha(), 0);
-        distribution.setAlpha(3d);
-        assertEquals(3d, distribution.getAlpha(), 0);
         assertEquals(2d, distribution.getBeta(), 0);
-        distribution.setBeta(4d);
-        assertEquals(4d, distribution.getBeta(), 0);
+    }
+
+    public void testPreconditions() {
         try {
-            distribution.setAlpha(0d);
-            fail("Expecting IllegalArgumentException for alpha = 0");
-        } catch (IllegalArgumentException ex) {
-            // expected
+            GammaDistribution distribution = new GammaDistributionImpl(0, 1);
+            fail("Expecting NotStrictlyPositiveException for alpha = 0");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
         try {
-            distribution.setBeta(0d);
-            fail("Expecting IllegalArgumentException for beta = 0");
-        } catch (IllegalArgumentException ex) {
-            // expected
+            GammaDistribution distribution = new GammaDistributionImpl(1, 0);
+            fail("Expecting NotStrictlyPositiveException for alpha = 0");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
     }
 

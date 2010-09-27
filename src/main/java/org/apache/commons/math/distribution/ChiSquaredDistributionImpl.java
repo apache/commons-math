@@ -27,7 +27,7 @@ import org.apache.commons.math.MathException;
  */
 public class ChiSquaredDistributionImpl
     extends AbstractContinuousDistribution
-    implements ChiSquaredDistribution, Serializable  {
+    implements ChiSquaredDistribution, Serializable {
     /**
      * Default inverse cumulative probability accuracy
      * @since 2.1
@@ -66,16 +66,7 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
-     */
-    private void setDegreesOfFreedomInternal(double degreesOfFreedom) {
-        gamma.setAlpha(degreesOfFreedom / 2.0);
-    }
-
-    /**
-     * Access the degrees of freedom.
-     * @return the degrees of freedom.
+     * {@inheritDoc}
      */
     public double getDegreesOfFreedom() {
         return gamma.getAlpha() * 2.0;
@@ -181,13 +172,13 @@ public class ChiSquaredDistributionImpl
     @Override
     protected double getInitialDomain(double p) {
         // NOTE: chi squared is skewed to the left
-        // NOTE: therefore, P(X < &mu;) > .5
+        // NOTE: therefore, P(X < &mu;) > 0.5
 
         double ret;
 
-        if (p < .5) {
+        if (p < 0.5) {
             // use 1/2 mean
-            ret = getDegreesOfFreedom() * .5;
+            ret = getDegreesOfFreedom() * 0.5;
         } else {
             // use mean
             ret = getDegreesOfFreedom();
@@ -200,7 +191,7 @@ public class ChiSquaredDistributionImpl
      * Return the absolute accuracy setting of the solver used to estimate
      * inverse cumulative probabilities.
      *
-     * @return the solver absolute accuracy
+     * @return the solver absolute accuracy.
      * @since 2.1
      */
     @Override
