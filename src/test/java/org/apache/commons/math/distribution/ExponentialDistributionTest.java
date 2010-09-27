@@ -17,6 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * Test cases for ExponentialDistribution.
@@ -111,14 +112,13 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     public void testMeanAccessors() {
         ExponentialDistribution distribution = (ExponentialDistribution) getDistribution();
         assertEquals(5d, distribution.getMean(), Double.MIN_VALUE);
-        distribution.setMean(2d);
-        assertEquals(2d, distribution.getMean(), Double.MIN_VALUE);
-        try {
-            distribution.setMean(0);
-            fail("Expecting IllegalArgumentException for 0 mean");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
     }
 
+    public void testPreconditions() {
+        try {
+            ExponentialDistribution distribution = new ExponentialDistributionImpl(0);
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
+        }
+    }
 }

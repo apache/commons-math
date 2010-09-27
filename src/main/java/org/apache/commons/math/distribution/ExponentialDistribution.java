@@ -29,25 +29,19 @@ package org.apache.commons.math.distribution;
  *
  * @version $Revision$ $Date$
  */
-public interface ExponentialDistribution extends ContinuousDistribution, HasDensity<Double> {
-    /**
-     * Modify the mean.
-     * @param mean the new mean.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setMean(double mean);
-
+public interface ExponentialDistribution extends ContinuousDistribution {
     /**
      * Access the mean.
+     *
      * @return the mean.
      */
     double getMean();
 
     /**
      * Return the probability density for a particular point.
-     * @param x  The point at which the density should be computed.
-     * @return  The pdf at point x.
+     *
+     * @param x Point at which the density should be computed.
+     * @return the pdf at point {@code x}.
      */
-    double density(Double x);
+    double density(double x);
 }
