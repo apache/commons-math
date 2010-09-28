@@ -146,8 +146,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             for (int j = i + 1; j < columns; ++j) {
                 final double mij = matrix.getEntry(i, j);
                 final double mji = matrix.getEntry(j, i);
-                if (FastMath.abs(mij - mji) > (FastMath.max(FastMath.abs(mij), Math
-                        .abs(mji)) * eps)) {
+                if (FastMath.abs(mij - mji) >
+                    (FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * eps)) {
                     return false;
                 }
             }
