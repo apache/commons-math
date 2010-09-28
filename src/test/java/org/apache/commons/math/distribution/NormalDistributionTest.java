@@ -18,6 +18,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -121,29 +122,16 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         assertEquals(2.1, distribution.getMean(), 0);
     }
 
-    public void testSetMean() throws Exception {
-        double mu = FastMath.random();
-        NormalDistribution distribution = (NormalDistribution) getDistribution();
-        distribution.setMean(mu);
-        verifyQuantiles();
-    }
-
     public void testGetStandardDeviation() {
         NormalDistribution distribution = (NormalDistribution) getDistribution();
         assertEquals(1.4, distribution.getStandardDeviation(), 0);
     }
 
-    public void testSetStandardDeviation() throws Exception {
-        double sigma = 0.1d + FastMath.random();
-        NormalDistribution distribution = (NormalDistribution) getDistribution();
-        distribution.setStandardDeviation(sigma);
-        assertEquals(sigma, distribution.getStandardDeviation(), 0);
-        verifyQuantiles();
+    public void testPreconditions() {
         try {
-            distribution.setStandardDeviation(0);
-            fail("Expecting IllegalArgumentException for sd = 0");
-        } catch (IllegalArgumentException ex) {
-            // Expected
+            NormalDistribution distribution = new NormalDistributionImpl(1, 0);
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
         }
     }
 
@@ -167,9 +155,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
      * Verifies fix for JIRA MATH-167
      */
     public void testExtremeValues() throws Exception {
-        NormalDistribution distribution = (NormalDistribution) getDistribution();
-        distribution.setMean(0);
-        distribution.setStandardDeviation(1);
+        NormalDistribution distribution = new NormalDistributionImpl(0, 1);
         for (int i = 0; i < 100; i+=5) { // make sure no convergence exception
             double lowerTail = distribution.cumulativeProbability(-i);
             double upperTail = distribution.cumulativeProbability(i);

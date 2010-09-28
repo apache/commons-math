@@ -20,7 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
@@ -34,26 +34,20 @@ import org.apache.commons.math.util.FastMath;
  */
 public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
-
     /**
      * Default inverse cumulative probability accuracy
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
-
     /** &sqrt;(2 &pi;) */
     private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
-
-    /** The mean of this distribution. */
+    /** Mean of this distribution. */
     private double mean = 0;
-
-    /** The standard deviation of this distribution. */
+    /** Standard deviation of this distribution. */
     private double standardDeviation = 1;
-
-    /** Inverse cumulative probability accuracy */
+    /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**
@@ -69,113 +63,61 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * Create a normal distribution using the given mean, standard deviation and
      * inverse cumulative distribution accuracy.
      *
-     * @param mean mean for this distribution
-     * @param sd standard deviation for this distribution
-     * @param inverseCumAccuracy inverse cumulative probability accuracy
+     * @param mean Mean for this distribution.
+     * @param sd Standard deviation for this distribution.
+     * @param inverseCumAccuracy inverse cumulative probability accuracy.
+     * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 2.1
      */
     public NormalDistributionImpl(double mean, double sd, double inverseCumAccuracy) {
-        super();
-        setMeanInternal(mean);
-        setStandardDeviationInternal(sd);
+        if (sd <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sd);
+        }
+        
+        this.mean = mean;
+        standardDeviation = sd;
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**
-     * Creates normal distribution with the mean equal to zero and standard
+     * Create a normal distribution with mean equal to zero and standard
      * deviation equal to one.
      */
     public NormalDistributionImpl(){
-        this(0.0, 1.0);
+        this(0, 1);
     }
 
     /**
-     * Access the mean.
-     * @return mean for this distribution
+     * {@inheritDoc}
      */
     public double getMean() {
         return mean;
     }
 
     /**
-     * Modify the mean.
-     * @param mean for this distribution
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setMean(double mean) {
-        setMeanInternal(mean);
-    }
-    /**
-     * Modify the mean.
-     * @param newMean for this distribution
-     */
-    private void setMeanInternal(double newMean) {
-        this.mean = newMean;
-    }
-
-    /**
-     * Access the standard deviation.
-     * @return standard deviation for this distribution
+     * {@inheritDoc}
      */
     public double getStandardDeviation() {
         return standardDeviation;
     }
 
     /**
-     * Modify the standard deviation.
-     * @param sd standard deviation for this distribution
-     * @throws IllegalArgumentException if <code>sd</code> is not positive.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setStandardDeviation(double sd) {
-        setStandardDeviationInternal(sd);
-    }
-    /**
-     * Modify the standard deviation.
-     * @param sd standard deviation for this distribution
-     * @throws IllegalArgumentException if <code>sd</code> is not positive.
-     */
-    private void setStandardDeviationInternal(double sd) {
-        if (sd <= 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION,
-                  sd);
-        }
-        standardDeviation = sd;
-    }
-
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     * @deprecated
-     */
-    public double density(Double x) {
-        return density(x.doubleValue());
-    }
-
-    /**
-     * Returns the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     * @since 2.1
+     * {@inheritDoc}
      */
     public double density(double x) {
-        double x0 = x - mean;
-        return FastMath.exp(-x0 * x0 / (2 * standardDeviation * standardDeviation)) / (standardDeviation * SQRT2PI);
+        final double x0 = x - mean;
+        final double x1 = x0 / standardDeviation;
+        return FastMath.exp(-0.5 * x1 * x1) / (standardDeviation * SQRT2PI);
     }
 
     /**
-     * For this distribution, X, this method returns P(X &lt; <code>x</code>).
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     *
+     * @param x Value at which the CDF is evaluated.
+     * @return CDF evaluted at {@code x}.
      * @throws MathException if the algorithm fails to converge; unless
-     * x is more than 20 standard deviations from the mean, in which case the
-     * convergence exception is caught and 0 or 1 is returned.
+     * {@code x} is more than 20 standard deviations from the mean, in which
+     * case the convergence exception is caught and 0 or 1 is returned.
      */
     public double cumulativeProbability(double x) throws MathException {
         try {
@@ -183,9 +125,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
                     (standardDeviation * FastMath.sqrt(2.0))));
         } catch (MaxIterationsExceededException ex) {
             if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
-                return 0.0d;
+                return 0;
             } else if (x > (mean + 20 * standardDeviation)) {
-                return 1.0d;
+                return 1;
             } else {
                 throw ex;
             }
@@ -205,14 +147,13 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the critical point x, such
-     * that P(X &lt; x) = <code>p</code>.
-     * <p>
-     * Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and
-     * <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
+     * For this distribution, X, this method returns the critical point 
+     * {@code x}, such that {@code P(X < x) = p}.
+     * Returns {@code Double.NEGATIVE_INFINITY} when p = 0 and
+     * {@code Double.POSITIVE_INFINITY} for p = 1.
      *
      * @param p the desired probability
-     * @return x, such that P(X &lt; x) = <code>p</code>
+     * @return {@code x}, such that {@code P(X < x) = p}.
      * @throws MathException if the inverse cumulative probability can not be
      *         computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if <code>p</code> is not a valid
@@ -243,19 +184,18 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
      * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
+     * @return domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected double getDomainLowerBound(double p) {
         double ret;
 
-        if (p < .5) {
+        if (p < 0.5) {
             ret = -Double.MAX_VALUE;
         } else {
             ret = mean;
@@ -265,19 +205,18 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
      * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
+     * @return domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected double getDomainUpperBound(double p) {
         double ret;
 
-        if (p < .5) {
+        if (p < 0.5) {
             ret = mean;
         } else {
             ret = Double.MAX_VALUE;
@@ -287,7 +226,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the initial domain value, based on <code>p</code>, used to
+     * Access the initial domain value, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
@@ -298,9 +237,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     protected double getInitialDomain(double p) {
         double ret;
 
-        if (p < .5) {
+        if (p < 0.5) {
             ret = mean - standardDeviation;
-        } else if (p > .5) {
+        } else if (p > 0.5) {
             ret = mean + standardDeviation;
         } else {
             ret = mean;
