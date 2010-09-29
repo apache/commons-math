@@ -49,11 +49,16 @@ public class EventStateTest {
         final double tolerance = 0.1;
         EventState es = new EventState(closeEventsGenerator, 1.5 * gap, tolerance, 10);
 
-        double t0 = r1 - 0.5 * gap;
-        es.reinitializeBegin(t0, new double[0]);
         AbstractStepInterpolator interpolator =
             new DummyStepInterpolator(new double[0], new double[0], true);
-        interpolator.storeTime(t0);
+        interpolator.storeTime(r1 - 2.5 * gap);
+        interpolator.shift();
+        interpolator.storeTime(r1 - 1.5 * gap);
+        es.reinitializeBegin(interpolator);
+
+        interpolator.shift();
+        interpolator.storeTime(r1 - 0.5 * gap);
+        Assert.assertFalse(es.evaluateStep(interpolator));
 
         interpolator.shift();
         interpolator.storeTime(0.5 * (r1 + r2));

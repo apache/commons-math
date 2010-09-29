@@ -135,11 +135,8 @@ public class CombinedEventsManager {
             if (! initialized) {
 
                 // initialize the events states
-                final double t0 = interpolator.getPreviousTime();
-                interpolator.setInterpolatedTime(t0);
-                final double [] y = interpolator.getInterpolatedState();
                 for (EventState state : states) {
-                    state.reinitializeBegin(t0, y);
+                    state.reinitializeBegin(interpolator);
                 }
 
                 initialized = true;
@@ -170,6 +167,10 @@ public class CombinedEventsManager {
             return first != null;
 
         } catch (EventException se) {
+            final Throwable cause = se.getCause();
+            if ((cause != null) && (cause instanceof DerivativeException)) {
+                throw (DerivativeException) cause;
+            }
             throw new IntegratorException(se);
         } catch (ConvergenceException ce) {
             throw new IntegratorException(ce);
