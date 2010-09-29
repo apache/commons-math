@@ -78,6 +78,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-421">
+        Fixed an error preventing ODE solvers to be restarted after they have been stopped by a discrete event
+      </action>
       <action dev="luc" type="add" issue="MATH-419">
         Added new random number generators from the Well Equidistributed Long-period Linear (WELL).
       </action>

@@ -140,18 +140,49 @@ public class EventState {
     }
 
     /** Reinitialize the beginning of the step.
-     * @param tStart value of the independent <i>time</i> variable at the
-     * beginning of the step
-     * @param yStart array containing the current value of the state vector
-     * at the beginning of the step
+     * @param interpolator valid for the current step
      * @exception EventException if the event handler
      * value cannot be evaluated at the beginning of the step
      */
-    public void reinitializeBegin(final double tStart, final double[] yStart)
+    public void reinitializeBegin(final StepInterpolator interpolator)
         throws EventException {
-        t0 = tStart;
-        g0 = handler.g(tStart, yStart);
-        g0Positive = g0 >= 0;
+        try {
+            // excerpt from MATH-421 issue:
+            // If an ODE solver is setup with an EventHandler that return STOP
+            // when the even is triggered, the integrator stops (which is exactly
+            // the expected behavior). If however the user want to restart the
+            // solver from the final state reached at the event with the same
+            // configuration (expecting the event to be triggered again at a
+            // later time), then the integrator may fail to start. It can get stuck
+            // at the previous event.
+
+            // The use case for the bug MATH-421 is fairly general, so events occurring
+            // less than epsilon after the solver start in the first step should be ignored,
+            // where epsilon is the convergence threshold of the event. The sign of the g
+            // function should be evaluated after this initial ignore zone, not exactly at
+            // beginning (if there are no event at the very beginning g(t0) and g(t0+epsilon)
+            // have the same sign, so this does not hurt ; if there is an event at the very
+            // beginning, g(t0) and g(t0+epsilon) have opposite signs and we want to start
+            // with the second one. Of course, the sign of epsilon depend on the integration
+            // direction (forward or backward). This explains what is done below.
+
+            final double ignoreZone = interpolator.isForward() ? getConvergence() : -getConvergence();
+            t0 = interpolator.getPreviousTime() + ignoreZone;
+            interpolator.setInterpolatedTime(t0);
+            g0 = handler.g(t0, interpolator.getInterpolatedState());
+            if (g0 == 0) {
+                // extremely rare case: there is a zero EXACTLY at end of ignore zone
+                // we will use the opposite of sign at step beginning to force ignoring this zero
+                final double tStart = interpolator.getPreviousTime();
+                interpolator.setInterpolatedTime(tStart);
+                g0Positive = handler.g(tStart, interpolator.getInterpolatedState()) <= 0;
+            } else {
+                g0Positive = g0 >= 0;
+            }
+
+        } catch (DerivativeException de) {
+            throw new EventException(de);
+        }
     }
 
     /** Evaluate the impact of the proposed step on the event handler.

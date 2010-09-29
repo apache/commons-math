@@ -135,11 +135,8 @@ public class CombinedEventsManager {
             if (! initialized) {
 
                 // initialize the events states
-                final double t0 = interpolator.getPreviousTime();
-                interpolator.setInterpolatedTime(t0);
-                final double [] y = interpolator.getInterpolatedState();
                 for (EventState state : states) {
-                    state.reinitializeBegin(t0, y);
+                    state.reinitializeBegin(interpolator);
                 }
 
                 initialized = true;
