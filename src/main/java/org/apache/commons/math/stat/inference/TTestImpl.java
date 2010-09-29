@@ -35,7 +35,9 @@ import org.apache.commons.math.util.FastMath;
  */
 public class TTestImpl implements TTest  {
 
-    /** Distribution used to compute inference statistics. */
+    /** Distribution used to compute inference statistics.
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
     private TDistribution distribution;
 
     /**
@@ -50,6 +52,7 @@ public class TTestImpl implements TTest  {
      * inference statistics.
      * @param t distribution used to compute inference statistics.
      * @since 1.2
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     public TTestImpl(TDistribution t) {
         super();
@@ -1015,6 +1018,7 @@ public class TTestImpl implements TTest  {
      * Modify the distribution used to compute inference statistics.
      * @param value the new distribution
      * @since 1.2
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     public void setDistribution(TDistribution value) {
         distribution = value;

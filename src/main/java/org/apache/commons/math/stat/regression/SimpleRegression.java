@@ -101,10 +101,23 @@ public class SimpleRegression implements Serializable {
      * compute inference statistics.
      * @param t the distribution used to compute inference statistics.
      * @since 1.2
+     * @deprecated in 2.2 (to be removed in 3.0). Please use the {@link
+     * #SimpleRegression(int) other constructor} instead.
      */
     public SimpleRegression(TDistribution t) {
         super();
         setDistribution(t);
+    }
+
+    /**
+     * Create an empty SimpleRegression.
+     *
+     * @param degrees Number of degrees of freedom of the distribution
+     * used to compute inference statistics.
+     * @since 2.2
+     */
+    public SimpleRegression(int degrees) {
+        setDistribution(new TDistributionImpl(degrees));
     }
 
     /**
@@ -611,6 +624,7 @@ public class SimpleRegression implements Serializable {
      * Modify the distribution used to compute inference statistics.
      * @param value the new distribution
      * @since 1.2
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     public void setDistribution(TDistribution value) {
         distribution = value;

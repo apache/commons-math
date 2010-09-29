@@ -2881,8 +2881,8 @@ public class FastMath {
     }
 
     /** Compute the cubic root of a number.
-     * @param a number on which evaluation is done
-     * @return cubic root of a
+     * @param x number on which evaluation is done
+     * @return cubic root of x
      */
     public static double cbrt(double x) {
       /* Convert input double to bits */
