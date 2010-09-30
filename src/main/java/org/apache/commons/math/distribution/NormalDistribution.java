@@ -44,12 +44,4 @@ public interface NormalDistribution extends ContinuousDistribution {
      * @return the standard deviation for this distribution.
      */
     double getStandardDeviation();
-
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x Point at which the density should be computed.
-     * @return the pdf at point {@code x}.
-     */
-    double density(double x);
 }

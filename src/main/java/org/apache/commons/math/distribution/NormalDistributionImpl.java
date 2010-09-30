@@ -52,8 +52,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * Create a normal distribution using the given mean and standard deviation.
-     * @param mean mean for this distribution
-     * @param sd standard deviation for this distribution
+     *
+     * @param mean Mean for this distribution.
+     * @param sd Standard deviation for this distribution.
      */
     public NormalDistributionImpl(double mean, double sd){
         this(mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
@@ -65,7 +66,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @param mean Mean for this distribution.
      * @param sd Standard deviation for this distribution.
-     * @param inverseCumAccuracy inverse cumulative probability accuracy.
+     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 2.1
      */
@@ -73,7 +74,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         if (sd <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sd);
         }
-        
+
         this.mean = mean;
         standardDeviation = sd;
         solverAbsoluteAccuracy = inverseCumAccuracy;
@@ -104,6 +105,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double density(double x) {
         final double x0 = x - mean;
         final double x1 = x0 / standardDeviation;
@@ -138,7 +140,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * Return the absolute accuracy setting of the solver used to estimate
      * inverse cumulative probabilities.
      *
-     * @return the solver absolute accuracy
+     * @return the solver absolute accuracy.
      * @since 2.1
      */
     @Override
@@ -147,17 +149,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the critical point 
+     * For this distribution, X, this method returns the critical point
      * {@code x}, such that {@code P(X < x) = p}.
-     * Returns {@code Double.NEGATIVE_INFINITY} when p = 0 and
+     * It will return {@code Double.NEGATIVE_INFINITY} when p = 0 and
      * {@code Double.POSITIVE_INFINITY} for p = 1.
      *
-     * @param p the desired probability
+     * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability can not be
-     *         computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if <code>p</code> is not a valid
-     *         probability.
+     * @throws MathException if the inverse cumulative probability cannot be
+     * computed due to convergence or other numerical errors.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * {@code p} is not a valid probability.
      */
     @Override
     public double inverseCumulativeProbability(final double p)
@@ -172,11 +174,11 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Generates a random value sampled from this distribution.
+     * Generate a random value sampled from this distribution.
      *
-     * @return random value
+     * @return a random value.
      * @since 2.2
-     * @throws MathException if an error occurs generating the random value
+     * @throws MathException if an error occurs generating the random value.
      */
     @Override
     public double sample() throws MathException {
@@ -188,8 +190,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
+     * @param p Desired probability for the critical value.
+     * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -209,8 +211,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
+     * @param p Desired probability for the critical value.
+     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -230,8 +232,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return initial domain value
+     * @param p Desired probability for the critical value.
+     * @return the initial domain value.
      */
     @Override
     protected double getInitialDomain(double p) {

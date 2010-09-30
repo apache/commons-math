@@ -174,6 +174,7 @@ public enum LocalizedFormats implements Localizable {
     BETA("beta"), /* keep */
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"),
+    DEGREES_OF_FREEDOM("degrees of freedom ({0})"), /* keep */
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
     NOT_POSITIVE_EXPONENT("invalid exponent {0} (must be positive)"),
@@ -190,7 +191,9 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_ROW_DIMENSION("invalid row dimension: {0} (must be positive)"),
     NOT_POSITIVE_SAMPLE_SIZE("sample size must be positive ({0})"),
     NOT_POSITIVE_SCALE("scale must be positive ({0})"),
+    SCALE("scale ({0})"), /* keep */
     NOT_POSITIVE_SHAPE("shape must be positive ({0})"),
+    SHAPE("shape ({0})"), /* keep */
     NOT_POSITIVE_STANDARD_DEVIATION("standard deviation must be positive ({0})"),
     STANDARD_DEVIATION("standard deviation ({0})"), /* keep */
     NOT_POSITIVE_UPPER_BOUND("upper bound must be positive ({0})"),
@@ -238,6 +241,7 @@ public enum LocalizedFormats implements Localizable {
     OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY("observed counts are both zero for entry {0}"),
     OUT_OF_BOUNDS_QUANTILE_VALUE("out of bounds quantile value: {0}, must be in (0, 100]"),
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
+    SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */

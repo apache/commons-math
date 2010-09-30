@@ -37,12 +37,4 @@ public interface BetaDistribution extends ContinuousDistribution {
       * @return beta.
       */
      double getBeta();
-
-     /**
-      * Return the probability density for a particular point.
-      *
-      * @param x  Point at which the density should be computed.
-      * @return the pdf at point {@code x}.
-      */
-     double density(double x);
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+
 /**
  * Test cases for TDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -104,16 +106,16 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     public void testDfAccessors() {
-        TDistribution distribution = (TDistribution) getDistribution();
-        assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
-        distribution.setDegreesOfFreedom(4d);
-        assertEquals(4d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
+        TDistribution dist = (TDistribution) getDistribution();
+        assertEquals(5d, dist.getDegreesOfFreedom(), Double.MIN_VALUE);
+    }
+
+    public void testPreconditions() {
         try {
-            distribution.setDegreesOfFreedom(0d);
-            fail("Expecting IllegalArgumentException for df = 0");
-        } catch (IllegalArgumentException ex) {
+            TDistribution dist = new TDistributionImpl(0);
+            fail("Expecting NotStrictlyPositiveException for df = 0");
+        } catch (NotStrictlyPositiveException ex) {
             // expected
         }
     }
-
 }

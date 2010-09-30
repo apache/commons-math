@@ -73,11 +73,7 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * Return the probability density for a particular point.
-     *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
-     * @since 2.1
+     * {@inheritDoc}
      */
     @Override
     public double density(double x) {
@@ -85,28 +81,29 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * For this distribution, X, this method returns P(X &lt; x).
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     *
      * @param x the value at which the CDF is evaluated.
      * @return CDF for this distribution.
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
+     * @throws MathException if the cumulative probability cannot be
+     * computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException {
         return gamma.cumulativeProbability(x);
     }
 
     /**
-     * For this distribution, X, this method returns the critical point x, such
-     * that P(X &lt; x) = <code>p</code>.
-     * <p>
-     * Returns 0 for p=0 and <code>Double.POSITIVE_INFINITY</code> for p=1.</p>
+     * For this distribution, X, this method returns the critical point
+     * {@code x}, such that {@code P(X < x) = p}.
+     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
+     * when p = 1.
      *
-     * @param p the desired probability
-     * @return x, such that P(X &lt; x) = <code>p</code>
+     * @param p Desired probability.
+     * @return {@code x}, such that {@code P(X < x) = p}.
      * @throws MathException if the inverse cumulative probability can not be
-     *         computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if <code>p</code> is not a valid
-     *         probability.
+     * computed due to convergence or other numerical errors.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * {@code p} is not a valid probability.
      */
     @Override
     public double inverseCumulativeProbability(final double p)
@@ -121,13 +118,12 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
      * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
+     * @return domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected double getDomainLowerBound(double p) {
@@ -135,13 +131,12 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
+     * @param p Desired probability for the critical value.
+     * @return domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected double getDomainUpperBound(double p) {
@@ -162,12 +157,12 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * Access the initial domain value, based on <code>p</code>, used to
+     * Access the initial domain value, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return initial domain value
+     * @param p Desired probability for the critical value.
+     * @return the initial domain value.
      */
     @Override
     protected double getInitialDomain(double p) {

@@ -17,7 +17,9 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -34,28 +36,6 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class TTestImpl implements TTest  {
-
-    /** Distribution used to compute inference statistics. */
-    private TDistribution distribution;
-
-    /**
-     * Default constructor.
-     */
-    public TTestImpl() {
-        this(new TDistributionImpl(1.0));
-    }
-
-    /**
-     * Create a test instance using the given distribution for computing
-     * inference statistics.
-     * @param t distribution used to compute inference statistics.
-     * @since 1.2
-     */
-    public TTestImpl(TDistribution t) {
-        super();
-        setDistribution(t);
-    }
-
     /**
      * Computes a paired, 2-sample t-statistic based on the data in the input
      * arrays.  The t-statistic returned is equivalent to what would be returned by
@@ -82,8 +62,8 @@ public class TTestImpl implements TTest  {
         checkSampleData(sample2);
         double meanDifference = StatUtils.meanDifference(sample1, sample2);
         return t(meanDifference, 0,
-                StatUtils.varianceDifference(sample1, sample2, meanDifference),
-                sample1.length);
+                 StatUtils.varianceDifference(sample1, sample2, meanDifference),
+                 sample1.length);
     }
 
      /**
@@ -873,8 +853,9 @@ public class TTestImpl implements TTest  {
      * @throws MathException if an error occurs performing the test
      */
     public boolean tTest(StatisticalSummary sampleStats1,
-            StatisticalSummary sampleStats2, double alpha)
-    throws IllegalArgumentException, MathException {
+                         StatisticalSummary sampleStats2,
+                         double alpha)
+        throws MathException {
         checkSignificanceLevel(alpha);
         return tTest(sampleStats1, sampleStats2) < alpha;
     }
@@ -956,9 +937,9 @@ public class TTestImpl implements TTest  {
      * @throws MathException if an error occurs computing the p-value
      */
     protected double tTest(double m, double mu, double v, double n)
-    throws MathException {
+        throws MathException {
         double t = FastMath.abs(t(m, mu, v, n));
-        distribution.setDegreesOfFreedom(n - 1);
+        TDistribution distribution = new TDistributionImpl(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 
@@ -977,13 +958,14 @@ public class TTestImpl implements TTest  {
      * @return p-value
      * @throws MathException if an error occurs computing the p-value
      */
-    protected double tTest(double m1, double m2, double v1, double v2,
-            double n1, double n2)
-    throws MathException {
+    protected double tTest(double m1, double m2,
+                           double v1, double v2,
+                           double n1, double n2)
+        throws MathException {
         double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
         degreesOfFreedom = df(v1, v2, n1, n2);
-        distribution.setDegreesOfFreedom(degreesOfFreedom);
+        TDistribution distribution = new TDistributionImpl(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 
@@ -1002,61 +984,60 @@ public class TTestImpl implements TTest  {
      * @return p-value
      * @throws MathException if an error occurs computing the p-value
      */
-    protected double homoscedasticTTest(double m1, double m2, double v1,
-            double v2, double n1, double n2)
-    throws MathException {
+    protected double homoscedasticTTest(double m1, double m2,
+                                        double v1, double v2,
+                                        double n1, double n2)
+        throws MathException {
         double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = n1 + n2 - 2;
-        distribution.setDegreesOfFreedom(degreesOfFreedom);
+        TDistribution distribution = new TDistributionImpl(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 
     /**
-     * Modify the distribution used to compute inference statistics.
-     * @param value the new distribution
-     * @since 1.2
-     */
-    public void setDistribution(TDistribution value) {
-        distribution = value;
-    }
-
-    /** Check significance level.
+     * Check significance level.
+     *
      * @param alpha significance level
-     * @exception IllegalArgumentException if significance level is out of bounds
+     * @throws OutOfRangeException if the significance level is out of bounds.
      */
-    private void checkSignificanceLevel(final double alpha)
-        throws IllegalArgumentException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0.0, 0.5);
+    private void checkSignificanceLevel(final double alpha) {
+        if (alpha <= 0 || alpha > 0.5) {
+            throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
+                                          alpha, 0.0, 0.5);
         }
     }
 
-    /** Check sample data.
-     * @param data sample data
-     * @exception IllegalArgumentException if there is not enough sample data
+    /**
+     * Check sample data.
+     *
+     * @param data Sample data.
+     * @throws NullArgumentException if {@code data} is {@code null}.
+     * @throws NumberIsTooSmallException if there is not enough sample data.
      */
-    private void checkSampleData(final double[] data)
-        throws IllegalArgumentException {
-        if ((data == null) || (data.length < 2)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
-                  (data == null) ? 0 : data.length);
+    private void checkSampleData(final double[] data) {
+        if (data == null) {
+            throw new NullArgumentException();
+        }
+        if (data.length < 2) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
+                                                data.length, 2, true);
         }
     }
 
-    /** Check sample data.
-     * @param stat statistical summary
-     * @exception IllegalArgumentException if there is not enough sample data
+    /**
+     * Check sample data.
+     *
+     * @param stat Statistical summary.
+     * @throws NullArgumentException if {@code data} is {@code null}.
+     * @throws NumberIsTooSmallException if there is not enough sample data.
      */
-    private void checkSampleData(final StatisticalSummary stat)
-        throws IllegalArgumentException {
-        if ((stat == null) || (stat.getN() < 2)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
-                  (stat == null) ? 0 : stat.getN());
+    private void checkSampleData(final StatisticalSummary stat) {
+        if (stat == null) {
+            throw new NullArgumentException();
+        }
+        if (stat.getN() < 2) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_DATA_FOR_T_STATISTIC,
+                                                stat.getN(), 2, true);
         }
     }
-
 }

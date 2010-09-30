@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * Test cases for FDistribution.
@@ -85,48 +86,43 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     public void testDfAccessors() {
-        FDistribution distribution = (FDistribution) getDistribution();
-        assertEquals(5d, distribution.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
-        distribution.setNumeratorDegreesOfFreedom(4d);
-        assertEquals(4d, distribution.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
-        assertEquals(6d, distribution.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
-        distribution.setDenominatorDegreesOfFreedom(4d);
-        assertEquals(4d, distribution.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
+        FDistribution dist = (FDistribution) getDistribution();
+        assertEquals(5d, dist.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
+        assertEquals(6d, dist.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
+    }
+
+    public void testPreconditions() {
+        FDistribution dist;
         try {
-            distribution.setNumeratorDegreesOfFreedom(0d);
-            fail("Expecting IllegalArgumentException for df = 0");
-        } catch (IllegalArgumentException ex) {
-            // expected
+            dist = new FDistributionImpl(0, 1);
+            fail("Expecting NotStrictlyPositiveException for df = 0");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
         try {
-            distribution.setDenominatorDegreesOfFreedom(0d);
-            fail("Expecting IllegalArgumentException for df = 0");
-        } catch (IllegalArgumentException ex) {
-            // expected
+            dist = new FDistributionImpl(1, 0);
+            fail("Expecting NotStrictlyPositiveException for df = 0");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
     }
 
     public void testLargeDegreesOfFreedom() throws Exception {
-        org.apache.commons.math.distribution.FDistributionImpl fd =
-            new org.apache.commons.math.distribution.FDistributionImpl(
-                100000., 100000.);
+        FDistributionImpl fd = new FDistributionImpl(100000, 100000);
         double p = fd.cumulativeProbability(.999);
         double x = fd.inverseCumulativeProbability(p);
         assertEquals(.999, x, 1.0e-5);
     }
 
     public void testSmallDegreesOfFreedom() throws Exception {
-        org.apache.commons.math.distribution.FDistributionImpl fd =
-            new org.apache.commons.math.distribution.FDistributionImpl(
-                1.0, 1.0);
+        FDistributionImpl fd = new FDistributionImpl(1, 1);
         double p = fd.cumulativeProbability(0.975);
         double x = fd.inverseCumulativeProbability(p);
         assertEquals(0.975, x, 1.0e-5);
 
-        fd.setDenominatorDegreesOfFreedom(2.0);
+        fd = new FDistributionImpl(1, 2);
         p = fd.cumulativeProbability(0.975);
         x = fd.inverseCumulativeProbability(p);
         assertEquals(0.975, x, 1.0e-5);
     }
-
 }

@@ -61,9 +61,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * Create a new gamma distribution with the given alpha and beta values.
-     * @param alpha the shape parameter.
-     * @param beta the scale parameter.
-     * @param inverseCumAccuracy the maximum absolute error in inverse
+     *
+     * @param alpha Shape parameter.
+     * @param beta Scale parameter.
+     * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code alpha <= 0} or
@@ -84,21 +85,23 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns P(X &lt; x).
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
      * The implementation of this method is based on:
      * <ul>
-     * <li>
-     * <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
-     * Chi-Squared Distribution</a>, equation (9).</li>
-     * <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
-     * Belmont, CA: Duxbury Press.</li>
+     *  <li>
+     *   <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">
+     *    Chi-Squared Distribution</a>, equation (9).
+     *  </li>
+     *  <li>Casella, G., & Berger, R. (1990). <i>Statistical Inference</i>.
+     *    Belmont, CA: Duxbury Press.
+     *  </li>
      * </ul>
      *
-     * @param x the value at which the CDF is evaluated.
+     * @param x Value at which the CDF is evaluated.
      * @return CDF for this distribution.
      * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
+     * computed due to convergence or other numerical errors.
      */
     public double cumulativeProbability(double x) throws MathException{
         double ret;
@@ -113,16 +116,17 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the critical point x, such
-     * that {@code P(X < x) = p}.
-     * Returns 0 when p = 0 and {@code Double.POSITIVE_INFINITY} when p = 1.
+     * For this distribution, {@code X}, this method returns the critical
+     * point {@code x}, such that {@code P(X < x) = p}.
+     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
+     * when p = 1.
      *
      * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability can not be
+     * @throws MathException if the inverse cumulative probability cannot be
      * computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if {@code p} is not a valid
-     * probability.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * {@code p} is not a valid probability.
      */
     @Override
     public double inverseCumulativeProbability(final double p)
@@ -161,7 +165,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
@@ -175,12 +179,12 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
+     * @param p Desired probability for the critical value.
+     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected double getDomainUpperBound(double p) {

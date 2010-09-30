@@ -18,6 +18,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * Test cases for WeibullDistribution.
@@ -75,50 +76,24 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     }
 
     public void testAlpha() {
-        WeibullDistribution distribution = (WeibullDistribution) getDistribution();
-        double expected = FastMath.random();
-        distribution.setShape(expected);
-        assertEquals(expected, distribution.getShape(), 0.0);
+        WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
+        assertEquals(1, dist.getShape(), 0);
+        try {
+            dist = new WeibullDistributionImpl(0, 2);
+            fail("NotStrictlyPositiveException expected");
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
+        }
     }
 
     public void testBeta() {
-        WeibullDistribution distribution = (WeibullDistribution) getDistribution();
-        double expected = FastMath.random();
-        distribution.setScale(expected);
-        assertEquals(expected, distribution.getScale(), 0.0);
-    }
-
-    public void testSetAlpha() {
-        WeibullDistribution distribution = (WeibullDistribution) getDistribution();
+        WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
+        assertEquals(2, dist.getScale(), 0);
         try {
-            distribution.setShape(0.0);
-            fail("Can not have 0.0 alpha.");
-        } catch (IllegalArgumentException ex) {
-            // success
-        }
-
-        try {
-            distribution.setShape(-1.0);
-            fail("Can not have negative alpha.");
-        } catch (IllegalArgumentException ex) {
-            // success
-        }
-    }
-
-    public void testSetBeta() {
-        WeibullDistribution distribution = (WeibullDistribution) getDistribution();
-        try {
-            distribution.setScale(0.0);
-            fail("Can not have 0.0 beta.");
-        } catch (IllegalArgumentException ex) {
-            // success
-        }
-
-        try {
-            distribution.setScale(-1.0);
-            fail("Can not have negative beta.");
-        } catch (IllegalArgumentException ex) {
-            // success
+            dist = new WeibullDistributionImpl(1, 0);
+            fail("NotStrictlyPositiveException expected");
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
         }
     }
 }

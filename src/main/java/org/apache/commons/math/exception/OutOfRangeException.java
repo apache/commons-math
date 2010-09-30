@@ -17,6 +17,7 @@
 package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Exception to be thrown when some argument is out of range.
@@ -44,10 +45,28 @@ public class OutOfRangeException extends MathIllegalNumberException {
     public OutOfRangeException(Number wrong,
                                Number lo,
                                Number hi) {
-        super(LocalizedFormats.OUT_OF_RANGE_SIMPLE, wrong, lo, hi);
+        this(null, wrong, lo, hi);
+    }
+
+    /**
+     * Construct an exception from the mismatched dimensions with a
+     * specific context information.
+     *
+     * @param specific Context information.
+     * @param wrong Requested value.
+     * @param lo Lower bound.
+     * @param hi Higher bound.
+     */
+    public OutOfRangeException(Localizable specific,
+                               Number wrong,
+                               Number lo,
+                               Number hi) {
+        super(specific, LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+              wrong, lo, hi);
         this.lo = lo;
         this.hi = hi;
     }
+
     /**
      * @return the lower bound.
      */

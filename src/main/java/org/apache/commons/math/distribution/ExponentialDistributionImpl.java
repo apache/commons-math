@@ -53,8 +53,9 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * Create a exponential distribution with the given mean.
-     * @param mean mean of this distribution.
-     * @param inverseCumAccuracy the maximum absolute error in inverse
+     *
+     * @param mean Mean of this distribution.
+     * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code mean <= 0}.
@@ -96,7 +97,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * Exponential Distribution</a>, equation (1).</li>
      * </ul>
      *
-     * @param x the value at which the CDF is evaluated.
+     * @param x Value at which the CDF is evaluated.
      * @return the CDF for this distribution.
      * @throws MathException if the cumulative probability can not be
      * computed due to convergence or other numerical errors.
@@ -114,9 +115,10 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns the critical point x, such
      * that {@code P(X < x) = p}.
-     * Returns 0 when p = 0 and {@code Double.POSITIVE_INFINITY} when p = 1.
+     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
+     * when p = 1.
      *
-     * @param p the desired probability
+     * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
      * @throws MathException if the inverse cumulative probability can not be
      * computed due to convergence or other numerical errors.
@@ -167,7 +169,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a CDF root.
      *
      * @param p Desired probability for the critical value.

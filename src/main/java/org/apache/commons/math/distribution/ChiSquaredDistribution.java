@@ -31,15 +31,9 @@ package org.apache.commons.math.distribution;
  */
 public interface ChiSquaredDistribution extends ContinuousDistribution {
     /**
-     * Access the degrees of freedom.
+     * Access the number of degrees of freedom.
+     *
      * @return the degrees of freedom.
      */
     double getDegreesOfFreedom();
-
-    /**
-     * Return the probability density for a particular point.
-     * @param x  The point at which the density should be computed.
-     * @return  The pdf at point x.
-     */
-    double density(double x);
 }

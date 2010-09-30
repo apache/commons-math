@@ -36,12 +36,4 @@ public interface ExponentialDistribution extends ContinuousDistribution {
      * @return the mean.
      */
     double getMean();
-
-    /**
-     * Return the probability density for a particular point.
-     *
-     * @param x Point at which the density should be computed.
-     * @return the pdf at point {@code x}.
-     */
-    double density(double x);
 }

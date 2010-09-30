@@ -18,6 +18,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * Test cases for CauchyDistribution.
@@ -85,32 +86,27 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
 
     public void testMedian() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        double expected = FastMath.random();
-        distribution.setMedian(expected);
-        assertEquals(expected, distribution.getMedian(), 0.0);
+        assertEquals(1.2, distribution.getMedian(), 0.0);
     }
 
     public void testScale() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        double expected = FastMath.random();
-        distribution.setScale(expected);
-        assertEquals(expected, distribution.getScale(), 0.0);
+        assertEquals(2.1, distribution.getScale(), 0.0);
     }
 
-    public void testSetScale() {
-        CauchyDistribution distribution = (CauchyDistribution) getDistribution();
+    public void testPreconditions() {
+        CauchyDistribution dist;
         try {
-            distribution.setScale(0.0);
-            fail("Can not have 0.0 scale.");
-        } catch (IllegalArgumentException ex) {
-            // success
+            dist = new CauchyDistributionImpl(0, 0);
+            fail("Cannot have zero scale");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
-
         try {
-            distribution.setScale(-1.0);
-            fail("Can not have negative scale.");
-        } catch (IllegalArgumentException ex) {
-            // success
+            dist = new CauchyDistributionImpl(0, -1);
+            fail("Cannot have negative scale");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected.
         }
     }
 }

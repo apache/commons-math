@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.regression;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -93,18 +93,19 @@ public class SimpleRegression implements Serializable {
      * Create an empty SimpleRegression instance
      */
     public SimpleRegression() {
-        this(new TDistributionImpl(1.0));
+        this(1);
     }
 
     /**
      * Create an empty SimpleRegression using the given distribution object to
      * compute inference statistics.
-     * @param t the distribution used to compute inference statistics.
-     * @since 1.2
+     *
+     * @param degrees Number of degrees of freedom of the distribution used
+     * to compute inference statistics.
+     * @since 2.2
      */
-    public SimpleRegression(TDistribution t) {
-        super();
-        setDistribution(t);
+    public SimpleRegression(int degrees) {
+        distribution = new TDistributionImpl(degrees);
     }
 
     /**
@@ -138,7 +139,7 @@ public class SimpleRegression implements Serializable {
         n++;
 
         if (n > 2) {
-            distribution.setDegreesOfFreedom(n - 2);
+            distribution = new TDistributionImpl(n - 2);
         }
     }
 
@@ -170,7 +171,7 @@ public class SimpleRegression implements Serializable {
             n--;
 
             if (n > 2) {
-                distribution.setDegreesOfFreedom(n - 2);
+                distribution = new TDistributionImpl(n - 2);
             }
         }
     }
@@ -549,9 +550,8 @@ public class SimpleRegression implements Serializable {
     public double getSlopeConfidenceInterval(double alpha)
         throws MathException {
         if (alpha >= 1 || alpha <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0.0, 1.0);
+            throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
+                                          alpha, 0, 1);
         }
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);
@@ -605,19 +605,5 @@ public class SimpleRegression implements Serializable {
      */
     private double getRegressionSumSquares(double slope) {
         return slope * slope * sumXX;
-    }
-
-    /**
-     * Modify the distribution used to compute inference statistics.
-     * @param value the new distribution
-     * @since 1.2
-     */
-    public void setDistribution(TDistribution value) {
-        distribution = value;
-
-        // modify degrees of freedom
-        if (n > 2) {
-            distribution.setDegreesOfFreedom(n - 2);
-        }
     }
 }

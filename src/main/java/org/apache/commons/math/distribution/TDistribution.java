@@ -31,15 +31,8 @@ package org.apache.commons.math.distribution;
  */
 public interface TDistribution extends ContinuousDistribution {
     /**
-     * Modify the degrees of freedom.
-     * @param degreesOfFreedom the new degrees of freedom.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setDegreesOfFreedom(double degreesOfFreedom);
-
-    /**
-     * Access the degrees of freedom.
+     * Access the number of degrees of freedom.
+     *
      * @return the degrees of freedom.
      */
     double getDegreesOfFreedom();
