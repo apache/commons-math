@@ -139,7 +139,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getAlpha() {
         return alpha;
     }
@@ -147,7 +146,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getBeta() {
         return beta;
     }

@@ -89,13 +89,11 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
-    @Override
     public double getAlpha() {
         return alpha;
     }
 
     /** {@inheritDoc} */
-    @Override
     public double getBeta() {
         return beta;
     }

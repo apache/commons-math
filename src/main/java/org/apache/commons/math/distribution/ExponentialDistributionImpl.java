@@ -71,7 +71,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getMean() {
         return mean;
     }
