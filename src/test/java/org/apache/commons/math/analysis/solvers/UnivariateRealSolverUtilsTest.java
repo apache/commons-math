@@ -40,13 +40,16 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
         }
     }
 
-    public void testSolveBadParameters() throws MathException {
+    public void testSolveBadEndpoints() throws MathException {
         try { // bad endpoints
             UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+
+    public void testSolveBadAccuracy() throws MathException {
         try { // bad accuracy
             UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0);
             fail("Expecting IllegalArgumentException");
@@ -99,25 +102,34 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
         assertTrue(sin.value(result[1]) > 0);
     }
 
-    public void testBadParameters() throws MathException {
+    public void testNullFunction() throws MathException {
         try { // null function
             UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    
+    public void testBadInitial() throws MathException {
         try { // initial not between endpoints
             UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    
+    public void testBadEndpoints() throws MathException {
         try { // endpoints not valid
             UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
+    }
+    
+    public void testBadMaximumIterations() throws MathException {
         try { // bad maximum iterations
             UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
             fail("Expecting IllegalArgumentException");
