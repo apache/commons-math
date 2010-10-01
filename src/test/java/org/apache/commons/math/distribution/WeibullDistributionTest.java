@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**

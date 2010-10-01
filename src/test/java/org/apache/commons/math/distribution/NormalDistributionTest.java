@@ -19,7 +19,6 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.util.FastMath;
 
 /**
  * Test cases for NormalDistribution.
