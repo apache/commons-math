@@ -50,24 +50,24 @@ public class MatrixDimensionMismatchException extends MultiDimensionMismatchExce
      * @return the expected row dimension.
      */
     public int getWrongRowDimension() {
-        return getWrongDimensions()[0];
+        return getWrongDimension(0);
     }
     /**
      * @return the expected row dimension.
      */
     public int getExpectedRowDimension() {
-        return getExpectedDimensions()[0];
+        return getExpectedDimension(0);
     }
     /**
      * @return the wrong column dimension.
      */
     public int getWrongColumnDimension() {
-        return getWrongDimensions()[1];
+        return getWrongDimension(1);
     }
     /**
      * @return the expected column dimension.
      */
     public int getExpectedColumnDimension() {
-        return getExpectedDimensions()[1];
+        return getExpectedDimension(1);
     }
 }
