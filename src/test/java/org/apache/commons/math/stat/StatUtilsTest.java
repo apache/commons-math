@@ -97,16 +97,16 @@ public final class StatUtilsTest extends TestCase {
 
         try {
             StatUtils.sum(values, 2, 3);
-            assertTrue("Didn't throw exception", false);
-        } catch (Exception e) {
-            assertTrue(true);
+            fail("Expected RuntimeException");
+        } catch (RuntimeException e) {
+            // expected
         }
 
         try {
             StatUtils.sum(values, -1, 2);
-            assertTrue("Didn't throw exception", false);
-        } catch (Exception e) {
-            assertTrue(true);
+            fail("Expected RuntimeException");
+        } catch (RuntimeException e) {
+            // expected
         }
 
     }
