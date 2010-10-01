@@ -344,19 +344,19 @@ public class Dfp implements FieldElement<Dfp> {
         // Check some special cases
         if (s.equals(POS_INFINITY_STRING)) {
             sign = (byte) 1;
-            nans = (byte) INFINITE;
+            nans = INFINITE;
             return;
         }
 
         if (s.equals(NEG_INFINITY_STRING)) {
             sign = (byte) -1;
-            nans = (byte) INFINITE;
+            nans = INFINITE;
             return;
         }
 
         if (s.equals(NAN_STRING)) {
             sign = (byte) 1;
-            nans = (byte) QNAN;
+            nans = QNAN;
             return;
         }
 
@@ -1949,6 +1949,7 @@ public class Dfp implements FieldElement<Dfp> {
     /** Get a string representation of the instance.
      * @return string representation of the instance
      */
+    @Override
     public String toString() {
         if (nans != FINITE) {
             // if non-finite exceptional cases
