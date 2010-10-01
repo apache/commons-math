@@ -38,8 +38,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);
-        MultiStartUnivariateRealOptimizer optimizer =
-            new MultiStartUnivariateRealOptimizer(underlying, 10, g);
+        MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
+            new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 10, g);
         optimizer.optimize(f, GoalType.MINIMIZE, -100.0, 100.0);
         UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
@@ -61,8 +61,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
-        MultiStartUnivariateRealOptimizer optimizer =
-            new MultiStartUnivariateRealOptimizer(underlying, 5, g);
+        MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
+            new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 5, g);
 
         UnivariateRealPointValuePair optimum
             = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
