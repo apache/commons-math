@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.direct.NelderMead;
@@ -34,7 +33,7 @@ public class MultiStartMultivariateRealOptimizerTest {
 
   @Test
   public void testRosenbrock()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws FunctionEvaluationException {
 
     Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead underlying = new NelderMead();

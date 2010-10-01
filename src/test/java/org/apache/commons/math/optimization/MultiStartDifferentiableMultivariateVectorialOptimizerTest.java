@@ -101,7 +101,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
 
     @Test
-    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
@@ -139,7 +139,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
     }
 
     @Test(expected = ConvergenceException.class)
-    public void testNoOptimum() throws FunctionEvaluationException, OptimizationException {
+    public void testNoOptimum() throws FunctionEvaluationException {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true);
         JDKRandomGenerator g = new JDKRandomGenerator();

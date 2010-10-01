@@ -31,7 +31,6 @@ import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
@@ -104,7 +103,7 @@ extends TestCase {
         super(name);
     }
 
-    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer =
@@ -117,7 +116,7 @@ extends TestCase {
         assertEquals(0.0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
+    public void testColumnsPermutation() throws FunctionEvaluationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -135,7 +134,7 @@ extends TestCase {
 
     }
 
-    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
+    public void testNoDependency() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -155,7 +154,7 @@ extends TestCase {
         }
     }
 
-    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
+    public void testOneSet() throws FunctionEvaluationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -174,7 +173,7 @@ extends TestCase {
 
     }
 
-    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
+    public void testTwoSets() throws FunctionEvaluationException {
         final double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -213,7 +212,7 @@ extends TestCase {
 
     }
 
-    public void testNonInversible() throws FunctionEvaluationException, OptimizationException {
+    public void testNonInversible() throws FunctionEvaluationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -229,7 +228,7 @@ extends TestCase {
         assertTrue(optimum.getValue() > 0.5);
     }
 
-    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
+    public void testIllConditioned() throws FunctionEvaluationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -267,7 +266,7 @@ extends TestCase {
     }
 
     public void testMoreEstimatedParametersSimple()
-        throws FunctionEvaluationException, OptimizationException {
+        throws FunctionEvaluationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -286,7 +285,7 @@ extends TestCase {
     }
 
     public void testMoreEstimatedParametersUnsorted()
-        throws FunctionEvaluationException, OptimizationException {
+        throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                  { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -303,7 +302,7 @@ extends TestCase {
         assertEquals(0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testRedundantEquations() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -321,7 +320,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentEquations() throws FunctionEvaluationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -338,7 +337,7 @@ extends TestCase {
 
     }
 
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws FunctionEvaluationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);

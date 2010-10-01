@@ -17,11 +17,9 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.util.FastMath;
@@ -69,7 +67,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testMinimizeMaximize()
-      throws FunctionEvaluationException, ConvergenceException {
+      throws FunctionEvaluationException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;
@@ -130,7 +128,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testRosenbrock()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws FunctionEvaluationException {
 
     MultivariateRealFunction rosenbrock =
       new MultivariateRealFunction() {
@@ -162,7 +160,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testPowell()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws FunctionEvaluationException {
 
     MultivariateRealFunction powell =
       new MultivariateRealFunction() {
@@ -192,7 +190,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testMath283()
-      throws FunctionEvaluationException, OptimizationException {
+      throws FunctionEvaluationException {
       // fails because MultiDirectional.iterateSimplex is looping forever
       // the while(true) should be replaced with a convergence check
       MultiDirectional multiDirectional = new MultiDirectional();

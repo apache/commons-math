@@ -150,7 +150,7 @@ public class BetaDistributionTest extends TestCase {
         }
     }
 
-    public void testDensity() throws MathException {
+    public void testDensity() {
         double[] x = new double[]{1e-6, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
         checkDensity(0.1, 0.1,
                 x, new double[]{
@@ -280,7 +280,7 @@ public class BetaDistributionTest extends TestCase {
 
     }
 
-    private void checkDensity(double alpha, double beta, double[] x, double[] expected) throws MathException {
+    private void checkDensity(double alpha, double beta, double[] x, double[] expected) {
         BetaDistribution d = new BetaDistributionImpl(alpha, beta);
         for (int i = 0; i < x.length; i++) {
             assertEquals(String.format("density at x=%.1f for alpha=%.1f, beta=%.1f", x[i], alpha, beta), expected[i], d.density(x[i]), 1e-5);
