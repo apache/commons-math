@@ -44,7 +44,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     private final int virtualSize;
 
     /** Tolerance for having a value considered zero. */
-    private double epsilon;
+    private final double epsilon;
 
     /**
      * Build a 0-length vector.

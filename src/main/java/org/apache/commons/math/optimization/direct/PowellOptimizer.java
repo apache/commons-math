@@ -58,15 +58,15 @@ public class PowellOptimizer
     /**
      * Relative threshold.
      */
-    private double relativeThreshold;
+    private final double relativeThreshold;
     /**
      * Absolute threshold.
      */
-    private double absoluteThreshold;
+    private final double absoluteThreshold;
     /**
      * Line search.
      */
-    private LineSearch line;
+    private final LineSearch line;
 
     /**
      * The arguments control the behaviour of the default convergence
