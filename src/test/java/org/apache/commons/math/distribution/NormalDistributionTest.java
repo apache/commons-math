@@ -128,7 +128,8 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
 
     public void testPreconditions() {
         try {
-            NormalDistribution distribution = new NormalDistributionImpl(1, 0);
+            new NormalDistributionImpl(1, 0);
+            fail("Should have generated NotStrictlyPositiveException");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }

@@ -116,7 +116,8 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
 
     public void testPreconditions() {
         try {
-            ExponentialDistribution distribution = new ExponentialDistributionImpl(0);
+            new ExponentialDistributionImpl(0);
+            fail("Should have generated NotStrictlyPositiveException");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
