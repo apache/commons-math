@@ -76,8 +76,6 @@ public class LUDecompositionImplTest extends TestCase {
             fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

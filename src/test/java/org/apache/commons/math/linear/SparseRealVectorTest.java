@@ -582,8 +582,6 @@ public class SparseRealVectorTest extends TestCase {
         //    fail("IllegalArgumentException expected");
         //} catch (IllegalArgumentException ex) {
             // expected behavior
-        //} catch (Exception e) {
-        //    fail("wrong exception caught");
         //}
 
         RealVector v5_i = new OpenMapRealVector(dvec1);
@@ -641,8 +639,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         OpenMapRealVector v_set1 = v1.copy();
@@ -653,8 +649,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         OpenMapRealVector v_set2 = v4.copy();
@@ -666,8 +660,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         OpenMapRealVector v_set3 = v1.copy();
@@ -679,8 +671,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         OpenMapRealVector v_set4 = v4.copy();
@@ -692,8 +682,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
 
@@ -1129,8 +1117,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         OpenMapRealVector v_unitize = v1.copy();
@@ -1141,8 +1127,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         RealVector v_projection = v1.projection(v2);
@@ -1165,8 +1149,6 @@ public class SparseRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
 

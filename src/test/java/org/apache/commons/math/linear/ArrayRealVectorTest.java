@@ -538,8 +538,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         RealVector v5_i = new ArrayRealVector(dvec1);
@@ -558,8 +556,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v7 = new ArrayRealVector(v1);
@@ -616,8 +612,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("expected exception");
         } catch (NullPointerException npe) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         try {
@@ -625,8 +619,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("expected exception");
         } catch (IllegalArgumentException iae) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
    }
@@ -680,8 +672,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_set1 = (ArrayRealVector) v1.copy();
@@ -692,8 +682,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_set2 = (ArrayRealVector) v4.copy();
@@ -705,8 +693,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_set3 = (ArrayRealVector) v1.copy();
@@ -718,8 +704,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("ArrayIndexOutOfBoundsException expected");
         } catch (ArrayIndexOutOfBoundsException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_set4 = (ArrayRealVector) v4.copy();
@@ -731,8 +715,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
 
@@ -1196,8 +1178,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_unitize = (ArrayRealVector)v1.copy();
@@ -1208,8 +1188,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("Expecting ArithmeticException");
         } catch (ArithmeticException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayRealVector v_projection = v1.projection(v2);
@@ -1243,8 +1221,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
        try {
@@ -1252,8 +1228,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         try {
@@ -1261,8 +1235,6 @@ public class ArrayRealVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
     }

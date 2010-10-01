@@ -37,8 +37,6 @@ extends TestCase {
         } catch (DimensionMismatchException dme) {
             assertEquals(5, dme.getDimension1());
             assertEquals(8, dme.getDimension2());
-        } catch (Exception e) {
-            fail("wrong exception type caught: " + e.getClass().getName());
         }
     }
 

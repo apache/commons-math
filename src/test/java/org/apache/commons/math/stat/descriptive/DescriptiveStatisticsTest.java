@@ -72,8 +72,6 @@ public class DescriptiveStatisticsTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught: " + e.getMessage());
         }
         assertEquals(300, stats.getWindowSize());
         stats.setWindowSize(50);

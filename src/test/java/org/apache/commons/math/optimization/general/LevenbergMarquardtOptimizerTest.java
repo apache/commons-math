@@ -119,8 +119,6 @@ public class LevenbergMarquardtOptimizerTest
             fail("an exception should have been thrown");
         } catch (ConvergenceException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
@@ -218,8 +216,6 @@ public class LevenbergMarquardtOptimizerTest
             fail("an exception should have been thrown");
         } catch (ConvergenceException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -336,8 +332,6 @@ public class LevenbergMarquardtOptimizerTest
             fail("an exception should have been thrown");
         } catch (DimensionMismatchException oe) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         try {
@@ -347,8 +341,6 @@ public class LevenbergMarquardtOptimizerTest
             fail("an exception should have been thrown");
         } catch (FunctionEvaluationException oe) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -385,8 +377,6 @@ public class LevenbergMarquardtOptimizerTest
             assertTrue(shouldFail);
         } catch (TooManyEvaluationsException ee) {
             assertTrue(shouldFail);
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
     }
 

@@ -135,8 +135,6 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -188,8 +186,6 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             fail("load((double[]) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -200,8 +196,6 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             fail("load((URL) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -212,8 +206,6 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
             fail("load((File) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

@@ -44,8 +44,6 @@ public class EigenSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -71,24 +69,18 @@ public class EigenSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             es.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             es.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

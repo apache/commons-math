@@ -263,8 +263,6 @@ public class GaussNewtonEstimatorTest
       fail("an exception should have been caught");
     } catch (EstimationException ee) {
       // expected behavior
-    } catch (Exception e) {
-      fail("wrong exception type caught");
     }
   }
 
@@ -348,8 +346,6 @@ public class GaussNewtonEstimatorTest
         fail("an exception should have been caught");
     } catch (EstimationException ee) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception type caught");
     }
 
   }
@@ -387,8 +383,6 @@ public class GaussNewtonEstimatorTest
         fail("an exception should have been caught");
     } catch (EstimationException ee) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception type caught");
     }
 
   }
@@ -495,8 +489,6 @@ public class GaussNewtonEstimatorTest
         fail("an exception should have been caught");
       } catch (EstimationException ee) {
         // expected behavior
-      } catch (Exception e) {
-        fail("wrong exception type caught");
       }
     }
 
@@ -558,8 +550,6 @@ public class GaussNewtonEstimatorTest
         fail("an exception should have been caught");
     } catch (EstimationException ee) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception type caught");
     }
 }
 

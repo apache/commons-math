@@ -336,8 +336,6 @@ public abstract class RealVectorFormatAbstractTest extends TestCase {
             fail("Expecting ParseException");
         } catch (ParseException pe) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

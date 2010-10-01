@@ -50,8 +50,6 @@ public class MultiDirectionalTest {
       } catch (FunctionEvaluationException ce) {
           // expected behavior
           Assert.assertNull(ce.getCause());
-      } catch (Exception e) {
-          Assert.fail("wrong exception caught: " + e.getMessage());
       }
       try {
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
@@ -60,8 +58,6 @@ public class MultiDirectionalTest {
       } catch (FunctionEvaluationException ce) {
           // expected behavior
           Assert.assertNotNull(ce.getCause());
-      } catch (Exception e) {
-          Assert.fail("wrong exception caught: " + e.getMessage());
       }
   }
 

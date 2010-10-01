@@ -51,8 +51,6 @@ public final class BrentOptimizerTest {
             fail("an exception should have been thrown");
         } catch (TooManyEvaluationsException fee) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -113,8 +111,6 @@ public final class BrentOptimizerTest {
             fail("an exception should have been thrown");
         } catch (TooManyEvaluationsException miee) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

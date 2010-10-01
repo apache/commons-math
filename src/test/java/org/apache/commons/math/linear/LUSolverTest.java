@@ -79,24 +79,18 @@ public class LUSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -110,32 +104,24 @@ public class LUSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumnVector(0));
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException ime) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

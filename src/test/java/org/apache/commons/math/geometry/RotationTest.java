@@ -70,8 +70,6 @@ public class RotationTest
       new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3);
       fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
-    } catch (Exception e) {
-      fail("unexpected exception");
     }
 
     r = new Rotation(Vector3D.PLUS_K, 1.5 * FastMath.PI);
@@ -107,10 +105,8 @@ public class RotationTest
     try {
         new Rotation(u, Vector3D.ZERO);
         fail("an exception should have been thrown");
-      } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
         // expected behavior
-      } catch (Exception e) {
-        fail("unexpected exception");
     }
 
   }
@@ -150,8 +146,6 @@ public class RotationTest
         fail("an exception should have been thrown");
     } catch (IllegalArgumentException e) {
       // expected behavior
-    } catch (Exception e) {
-        fail("unexpected exception");
     }
 
   }
@@ -167,8 +161,6 @@ public class RotationTest
       fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
-    } catch (Exception e) {
-      fail("wrong exception caught: " + e.getMessage());
     }
 
     try {
@@ -180,8 +172,6 @@ public class RotationTest
       fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
-    } catch (Exception e) {
-      fail("wrong exception caught: " + e.getMessage());
     }
 
     try {
@@ -193,8 +183,6 @@ public class RotationTest
         fail("Expecting NotARotationMatrixException");
       } catch (NotARotationMatrixException nrme) {
         // expected behavior
-      } catch (Exception e) {
-        fail("wrong exception caught: " + e.getMessage());
       }
 
     checkRotation(new Rotation(new double[][] {
@@ -303,8 +291,6 @@ public class RotationTest
       fail("got " + r + ", should have caught an exception");
     } catch (NotARotationMatrixException e) {
       // expected
-    } catch (Exception e) {
-      fail("wrong exception caught");
     }
 
   }
@@ -369,8 +355,6 @@ public class RotationTest
           fail("an exception should have been caught");
         } catch (CardanEulerSingularityException cese) {
           // expected behavior
-        } catch (Exception e) {
-          fail("wrong exception caught: " + e.getMessage());
         }
       }
     }
@@ -389,8 +373,6 @@ public class RotationTest
           fail("an exception should have been caught");
         } catch (CardanEulerSingularityException cese) {
           // expected behavior
-        } catch (Exception e) {
-          fail("wrong exception caught: " + e.getMessage());
         }
       }
     }

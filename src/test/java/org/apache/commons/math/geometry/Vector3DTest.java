@@ -181,8 +181,6 @@ public class Vector3DTest
         fail("an exception should have been thrown");
     } catch (ArithmeticException ae) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception caught: " + e.getMessage());
     }
   }
 
@@ -198,8 +196,6 @@ public class Vector3DTest
           fail("an exception should have been thrown");
       } catch (ArithmeticException ae) {
           // expected behavior
-      } catch (Exception e) {
-          fail("wrong exception caught: " + e.getMessage());
       }
   }
 
@@ -218,8 +214,6 @@ public class Vector3DTest
          fail("an exception should have been thrown");
      } catch (ArithmeticException ae) {
          // expected behavior
-     } catch (Exception e) {
-         fail("wrong exception caught: " + e.getMessage());
      }
   }
 

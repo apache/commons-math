@@ -122,8 +122,6 @@ public class DummyStepInterpolatorTest {
     } catch (IOException ioe) {
         // expected behavior
         assertEquals(0, ioe.getMessage().length());
-    } catch (Exception e) {
-        fail("wrong exception caught");
     }
 
   }
