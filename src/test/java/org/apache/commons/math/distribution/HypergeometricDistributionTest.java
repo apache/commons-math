@@ -131,33 +131,32 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     public void testPreconditions() {
-        HypergeometricDistribution dist;
         try {
-            dist = new HypergeometricDistributionImpl(0, 3, 5);
+            new HypergeometricDistributionImpl(0, 3, 5);
             fail("negative population size. NotStrictlyPositiveException expected");
         } catch(NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            dist = new HypergeometricDistributionImpl(5, -1, 5);
+            new HypergeometricDistributionImpl(5, -1, 5);
             fail("negative number of successes. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
-            dist = new HypergeometricDistributionImpl(5, 3, -1);
+            new HypergeometricDistributionImpl(5, 3, -1);
             fail("negative sample size. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
-            dist = new HypergeometricDistributionImpl(5, 6, 5);
+            new HypergeometricDistributionImpl(5, 6, 5);
             fail("numberOfSuccesses > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.
         }
         try {
-            dist = new HypergeometricDistributionImpl(5, 3, 6);
+            new HypergeometricDistributionImpl(5, 3, 6);
             fail("sampleSize > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.

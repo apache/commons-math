@@ -94,15 +94,14 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     public void testPreconditions() {
-        CauchyDistribution dist;
         try {
-            dist = new CauchyDistributionImpl(0, 0);
+            new CauchyDistributionImpl(0, 0);
             fail("Cannot have zero scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            dist = new CauchyDistributionImpl(0, -1);
+            new CauchyDistributionImpl(0, -1);
             fail("Cannot have negative scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.

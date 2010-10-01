@@ -112,7 +112,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testPreconditions() {
         try {
-            TDistribution dist = new TDistributionImpl(0);
+            new TDistributionImpl(0);
             fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // expected

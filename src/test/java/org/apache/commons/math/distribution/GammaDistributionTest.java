@@ -81,13 +81,13 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testPreconditions() {
         try {
-            GammaDistribution distribution = new GammaDistributionImpl(0, 1);
+            new GammaDistributionImpl(0, 1);
             fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            GammaDistribution distribution = new GammaDistributionImpl(1, 0);
+            new GammaDistributionImpl(1, 0);
             fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.

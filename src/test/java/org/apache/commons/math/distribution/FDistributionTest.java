@@ -92,15 +92,14 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     public void testPreconditions() {
-        FDistribution dist;
         try {
-            dist = new FDistributionImpl(0, 1);
+            new FDistributionImpl(0, 1);
             fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            dist = new FDistributionImpl(1, 0);
+            new FDistributionImpl(1, 0);
             fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.

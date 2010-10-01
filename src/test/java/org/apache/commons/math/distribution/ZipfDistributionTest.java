@@ -32,15 +32,14 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     public void testPreconditions() {
-        ZipfDistribution dist;
         try {
-            dist = new ZipfDistributionImpl(0, 1);
+            new ZipfDistributionImpl(0, 1);
             fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
         try {
-            dist = new ZipfDistributionImpl(1, 0);
+            new ZipfDistributionImpl(1, 0);
             fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
