@@ -106,12 +106,12 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
 
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(FUNC,GoalType,double,double) optimize}.
+     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(FUNC,GoalType,double,double) optimize}
+     * restarts. The {@link #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
      * method returns the best point only. This method returns all the points
      * found at the end of each starts, including the best one already
-     * returned by the {@link #optimize(FUNC,GoalType,double,double) optimize}
+     * returned by the {@link #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
      * method.
      * <br/>
      * The returned array as one element for each start as specified
@@ -121,14 +121,14 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * descending order if maximizing), followed by {@code null} elements
      * corresponding to the runs that did not converge. This means all
      * elements will be {@code null} if the {@link
-     * #optimize(FUNC,GoalType,double,double) optimize} method did throw a
+     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize} method did throw a
      * {@link ConvergenceException}). This also means that if the first
      * element is not {@code null}, it is the best point found across all
      * starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(FUNC,GoalType,double,double) optimize} has not been called.
+     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize} has not been called.
      */
     public UnivariateRealPointValuePair[] getOptima() {
         if (optima == null) {
