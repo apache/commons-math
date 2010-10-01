@@ -32,7 +32,6 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.LeastSquaresConverter;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleRealPointChecker;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.junit.Test;
 
