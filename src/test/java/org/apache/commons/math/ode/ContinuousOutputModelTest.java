@@ -159,6 +159,7 @@ public class ContinuousOutputModelTest
           ContinuousOutputModel otherCm = new ContinuousOutputModel();
           otherCm.handleStep(buildInterpolator(t0, y0, t1), true);
           cm.append(otherCm);
+          fail("Expecting IllegalArgumentException");
       } catch(IllegalArgumentException iae) {
           //expected behavior
           return true;

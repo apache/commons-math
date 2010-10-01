@@ -73,6 +73,7 @@ public class LUDecompositionImplTest extends TestCase {
     public void testNonSquare() {
         try {
             new LUDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
+            fail("Expecting InvalidMatrixException");
         } catch (InvalidMatrixException ime) {
             // expected behavior
         } catch (Exception e) {

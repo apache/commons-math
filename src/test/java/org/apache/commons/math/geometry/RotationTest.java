@@ -164,6 +164,7 @@ public class RotationTest
                      { 0.0, 1.0, 0.0 },
                      { 1.0, 0.0, 0.0 }
                    }, 1.0e-7);
+      fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
     } catch (Exception e) {
@@ -176,6 +177,7 @@ public class RotationTest
                      {  0.821760, -0.184320,  0.539200 },
                      { -0.354816,  0.574912,  0.737280 }
                    }, 1.0e-7);
+      fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
     } catch (Exception e) {
@@ -188,6 +190,7 @@ public class RotationTest
                        { -0.4,  0.6,  0.7 },
                        {  0.8, -0.2,  0.5 }
                      }, 1.0e-15);
+        fail("Expecting NotARotationMatrixException");
       } catch (NotARotationMatrixException nrme) {
         // expected behavior
       } catch (Exception e) {
