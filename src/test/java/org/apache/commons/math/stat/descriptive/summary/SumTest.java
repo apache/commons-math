@@ -75,6 +75,7 @@ public class SumTest extends StorelessUnivariateStatisticAbstractTest{
         assertEquals(expectedValue(), sum.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
     
+    @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         assertEquals(0, statistic.getResult(), 0);
     }

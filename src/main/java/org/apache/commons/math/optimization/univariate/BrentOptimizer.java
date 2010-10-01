@@ -85,6 +85,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected UnivariateRealPointValuePair doOptimize()
         throws FunctionEvaluationException {
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;

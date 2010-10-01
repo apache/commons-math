@@ -80,6 +80,7 @@ public class Well19937c extends AbstractWell {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int next(final int bits) {
 
         final int indexRm1 = iRm1[index];

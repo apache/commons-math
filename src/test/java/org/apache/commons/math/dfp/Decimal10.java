@@ -51,38 +51,47 @@ public class Decimal10 extends DfpDec {
         super(factory, sign, nans);
     }
 
+    @Override
     public Dfp newInstance() {
         return new Decimal10(getField());
     }
 
+    @Override
     public Dfp newInstance(final byte x) {
         return new Decimal10(getField(), x);
     }
 
+    @Override
     public Dfp newInstance(final int x) {
         return new Decimal10(getField(), x);
     }
 
+    @Override
     public Dfp newInstance(final long x) {
         return new Decimal10(getField(), x);
     }
 
+    @Override
     public Dfp newInstance(final double x) {
         return new Decimal10(getField(), x);
     }
 
+    @Override
     public Dfp newInstance(final Dfp d) {
         return new Decimal10(d);
     }
 
+    @Override
     public Dfp newInstance(final String s) {
         return new Decimal10(getField(), s);
     }
 
+    @Override
     public Dfp newInstance(final byte sign, final byte nans) {
         return new Decimal10(getField(), sign, nans);
     }
 
+    @Override
     protected int getDecimalDigits() {
         return 10;
     }

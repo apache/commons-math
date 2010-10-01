@@ -74,6 +74,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealPointValuePair optimize(final DifferentiableMultivariateRealFunction f,
                                        final GoalType goalType,
                                        final double[] startPoint)

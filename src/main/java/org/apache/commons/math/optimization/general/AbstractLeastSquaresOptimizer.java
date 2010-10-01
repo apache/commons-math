@@ -232,6 +232,7 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /** {@inheritDoc} */
+    @Override
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)

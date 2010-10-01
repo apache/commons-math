@@ -68,6 +68,7 @@ public class SimpleScalarValueChecker
      * @param current Best point in the current iteration.
      * @return {@code true} if the algorithm has converged.
      */
+    @Override
     public boolean converged(final int iteration,
                              final RealPointValuePair previous,
                              final RealPointValuePair current) {

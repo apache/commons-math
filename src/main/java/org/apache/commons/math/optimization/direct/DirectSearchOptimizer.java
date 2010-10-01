@@ -191,6 +191,7 @@ public abstract class DirectSearchOptimizer
     }
 
     /** {@inheritDoc} */
+    @Override
     protected RealPointValuePair doOptimize()
         throws FunctionEvaluationException {
 

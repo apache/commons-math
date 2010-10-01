@@ -67,6 +67,7 @@ public class SimpleVectorialPointChecker
      * @param current Best point in the current iteration.
      * @return {@code true} if the algorithm has converged.
      */
+    @Override
     public boolean converged(final int iteration,
                              final VectorialPointValuePair previous,
                              final VectorialPointValuePair current) {

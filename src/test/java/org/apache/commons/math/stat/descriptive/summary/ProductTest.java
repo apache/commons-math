@@ -85,6 +85,7 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
     
+    @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
         assertEquals(1, statistic.getResult(), 0);
     }
