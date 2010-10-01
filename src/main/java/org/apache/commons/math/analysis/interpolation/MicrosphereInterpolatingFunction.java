@@ -240,5 +240,4 @@ public class MicrosphereInterpolatingFunction
     private double cosAngle(final RealVector v, final RealVector w) {
         return v.dotProduct(w) / (v.getNorm() * w.getNorm());
     }
-
 }
