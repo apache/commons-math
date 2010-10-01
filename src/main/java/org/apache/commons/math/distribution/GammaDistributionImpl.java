@@ -31,23 +31,18 @@ import org.apache.commons.math.util.FastMath;
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {
-
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -3239549463135430361L;
-
     /** The shape parameter. */
-    private double alpha;
-
+    private final double alpha;
     /** The scale parameter. */
-    private double beta;
-
-    /** Inverse cumulative probability accuracy */
+    private final double beta;
+    /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**

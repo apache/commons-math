@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -30,115 +30,56 @@ import org.apache.commons.math.util.FastMath;
  */
 public class ZipfDistributionImpl extends AbstractIntegerDistribution
     implements ZipfDistribution, Serializable {
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -140627372283420404L;
-
     /** Number of elements. */
-    private int numberOfElements;
-
+    private final int numberOfElements;
     /** Exponent parameter of the distribution. */
-    private double exponent;
+    private final double exponent;
 
     /**
      * Create a new Zipf distribution with the given number of elements and
-     * exponent. Both values must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
+     * exponent.
      *
-     * @param numberOfElements the number of elements
-     * @param exponent the exponent
-     * @exception IllegalArgumentException if n &le; 0 or s &le; 0.0
+     * @param numberOfElements Number of elements.
+     * @param exponent Exponent.
+     * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
+     * or {@code exponent <= 0}.
      */
-    public ZipfDistributionImpl(final int numberOfElements, final double exponent)
-        throws IllegalArgumentException {
-        setNumberOfElementsInternal(numberOfElements);
-        setExponentInternal(exponent);
+    public ZipfDistributionImpl(final int numberOfElements,
+                                final double exponent) {
+        if (numberOfElements <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.DIMENSION,
+                                                   numberOfElements);
+        }
+        if (exponent <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.EXPONENT,
+                                                   exponent);
+        }
+
+        this.numberOfElements = numberOfElements;
+        this.exponent = exponent;
     }
 
     /**
-     * Get the number of elements (e.g. corpus size) for the distribution.
-     *
-     * @return the number of elements
+     * {@inheritDoc}
      */
     public int getNumberOfElements() {
         return numberOfElements;
     }
 
     /**
-     * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param n the number of elements
-     * @exception IllegalArgumentException if n &le; 0
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setNumberOfElements(final int n) {
-        setNumberOfElementsInternal(n);
-    }
-    /**
-     * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param n the number of elements
-     * @exception IllegalArgumentException if n &le; 0
-     */
-    private void setNumberOfElementsInternal(final int n)
-        throws IllegalArgumentException {
-        if (n <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INSUFFICIENT_DIMENSION, n, 0);
-        }
-        this.numberOfElements = n;
-    }
-
-    /**
-     * Get the exponent characterising the distribution.
-     *
-     * @return the exponent
+     * {@inheritDoc}
      */
     public double getExponent() {
         return exponent;
     }
 
     /**
-     * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
+     * The probability mass function {@code P(X = x)} for a Zipf distribution.
      *
-     * @param s the exponent
-     * @exception IllegalArgumentException if s &le; 0.0
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setExponent(final double s) {
-        setExponentInternal(s);
-    }
-    /**
-     * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param s the exponent
-     * @exception IllegalArgumentException if s &le; 0.0
-     */
-    private void setExponentInternal(final double s)
-        throws IllegalArgumentException {
-        if (s <= 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POSITIVE_EXPONENT,
-                    s);
-        }
-        this.exponent = s;
-    }
-
-    /**
-     * The probability mass function P(X = x) for a Zipf distribution.
-     *
-     * @param x the value at which the probability density function is evaluated.
-     * @return the value of the probability mass function at x
+     * @param x Value at which the probability density function is evaluated.
+     * @return the value of the probability mass function at {@code x}.
      */
     public double probability(final int x) {
         if (x <= 0 || x > numberOfElements) {
@@ -146,14 +87,14 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         }
 
         return (1.0 / FastMath.pow(x, exponent)) / generalizedHarmonic(numberOfElements, exponent);
-
     }
 
     /**
-     * The probability distribution function P(X <= x) for a Zipf distribution.
+     * The probability distribution function {@code P(X <= x)} for a
+     * Zipf distribution.
      *
-     * @param x the value at which the PDF is evaluated.
-     * @return Zipf distribution function evaluated at x
+     * @param x Value at which the PDF is evaluated.
+     * @return Zipf distribution function evaluated at {@code x}.
      */
     @Override
     public double cumulativeProbability(final int x) {
@@ -164,16 +105,14 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         }
 
         return generalizedHarmonic(x, exponent) / generalizedHarmonic(numberOfElements, exponent);
-
     }
 
     /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e.
-     *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
+     * @param p Desired probability for the critical value.
+     * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected int getDomainLowerBound(final double p) {
@@ -181,27 +120,25 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e.
-     *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
+     * @param p Desired probability for the critical value
+     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected int getDomainUpperBound(final double p) {
         return numberOfElements;
     }
 
-
     /**
      * Calculates the Nth generalized harmonic number. See
      * <a href="http://mathworld.wolfram.com/HarmonicSeries.html">Harmonic
      * Series</a>.
      *
-     * @param n the term in the series to calculate (must be &ge; 1)
-     * @param m the exponent; special case m == 1.0 is the harmonic series
-     * @return the nth generalized harmonic number
+     * @param n Term in the series to calculate (must be larger than 1)
+     * @param m Exponent (special case {@code m = 1} is the harmonic series).
+     * @return the n<sup>th</sup> generalized harmonic number.
      */
     private double generalizedHarmonic(final int n, final double m) {
         double value = 0;
@@ -210,5 +147,4 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         }
         return value;
     }
-
 }

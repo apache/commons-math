@@ -36,7 +36,7 @@ public class ChiSquaredDistributionImpl
     /** Serializable version identifier */
     private static final long serialVersionUID = -8352658048349159782L;
     /** Internal Gamma distribution. */
-    private GammaDistribution gamma;
+    private final GammaDistribution gamma;
     /** Inverse cumulative probability accuracy */
     private final double solverAbsoluteAccuracy;
 

@@ -119,6 +119,7 @@ public enum LocalizedFormats implements Localizable {
     INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES("instance of class {0} not comparable to existing values"),
     INSUFFICIENT_DATA_FOR_T_STATISTIC("insufficient data for t statistic, needs at least 2, got {0}"),
     INSUFFICIENT_DIMENSION("insufficient dimension {0}, must be at least {1}"),
+    DIMENSION("dimension ({0})"), /* keep */
     INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE("sample contains {0} observed points, at least {1} are required"),
     INSUFFICIENT_ROWS_AND_COLUMNS("insufficient data: only {0} rows and {1} columns."),
     INTEGRATION_METHOD_NEEDS_AT_LEAST_ONE_PREVIOUS_POINT("{0} method needs at least one previous point"),
@@ -150,7 +151,9 @@ public enum LocalizedFormats implements Localizable {
     NEGATIVE_ELEMENT_AT_2D_INDEX("element ({0}, {1}) is negative: {2}"),
     NEGATIVE_ELEMENT_AT_INDEX("element {0} is negative: {1}"),
     NEGATIVE_NUMBER_OF_SUCCESSES("number of successes must be non-negative ({0})"),
+    NUMBER_OF_SUCCESSES("number of successes ({0})"), /* keep */
     NEGATIVE_NUMBER_OF_TRIALS("number of trials must be non-negative ({0})"),
+    NUMBER_OF_TRIALS("number of trials ({0})"),
     NEGATIVE_ROBUSTNESS_ITERATIONS("the number of robustness iterations must be non-negative, but got {0}"),
     START_POSITION("start position ({0})"), /* keep */
     NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge for value {0}"),
@@ -178,6 +181,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
     NOT_POSITIVE_EXPONENT("invalid exponent {0} (must be positive)"),
+    EXPONENT("exponent ({0})"), /* keep */
     NOT_POSITIVE_LENGTH("length must be positive ({0})"),
     LENGTH("length ({0})"), /* keep */
     NOT_POSITIVE_MEAN("mean must be positive ({0})"),
@@ -188,6 +192,7 @@ public enum LocalizedFormats implements Localizable {
     PERMUTATION_SIZE("permutation size ({0}"), /* keep */
     NOT_POSITIVE_POISSON_MEAN("the Poisson mean must be positive ({0})"),
     NOT_POSITIVE_POPULATION_SIZE("population size must be positive ({0})"),
+    POPULATION_SIZE("population size ({0})"), /* keep */
     NOT_POSITIVE_ROW_DIMENSION("invalid row dimension: {0} (must be positive)"),
     NOT_POSITIVE_SAMPLE_SIZE("sample size must be positive ({0})"),
     NOT_POSITIVE_SCALE("scale must be positive ({0})"),

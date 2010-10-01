@@ -35,17 +35,17 @@ public class FDistributionImpl
     extends AbstractContinuousDistribution
     implements FDistribution, Serializable  {
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -8516354193418641566L;
-    /** The numerator degrees of freedom*/
-    private double numeratorDegreesOfFreedom;
-    /** The numerator degrees of freedom*/
-    private double denominatorDegreesOfFreedom;
-    /** Inverse cumulative probability accuracy */
+    /** The numerator degrees of freedom. */
+    private final double numeratorDegreesOfFreedom;
+    /** The numerator degrees of freedom. */
+    private final double denominatorDegreesOfFreedom;
+    /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**

@@ -25,60 +25,96 @@ import org.apache.commons.math.MathException;
  */
 public interface IntegerDistribution extends DiscreteDistribution {
     /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(X = x). In other words, this
-     * method represents the probability mass function for the distribution.
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(X = x)}. In other
+     * words, this method represents the probability mass function for the
+     * distribution.
      *
-     * @param x the value at which the probability density function is evaluated.
-     * @return the value of the probability density function at x
+     * @param x Value at which the probability density function is evaluated.
+     * @return the value of the probability density function at {@code x}.
      */
     double probability(int x);
 
     /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(X &le; x).  In other words,
-     * this method represents the probability distribution function, or PDF
-     * for the distribution.
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(X < x)}.  In other
+     * words, this method represents the probability distribution function, or
+     * PDF for the distribution.
      *
-     * @param x the value at which the PDF is evaluated.
+     * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
-     * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
+     * @throws MathException if the cumulative probability cannot be
+     * computed due to convergence or other numerical errors.
      */
     double cumulativeProbability(int x) throws MathException;
 
     /**
-     * For this distribution, X, this method returns P(x0 &le; X &le; x1).
+     * For this distribution, {@code X}, this method returns
+     * {@code P(x0 < X < x1)}.
+     *
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability.
      * @throws MathException if the cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if x0 > x1
+     * computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if {@code x0 > x1}.
      */
     double cumulativeProbability(int x0, int x1) throws MathException;
 
     /**
-     * For this distribution, X, this method returns the largest x such that
-     * P(X &le; x) <= p.
-     * <p>
-     * Note that this definition implies: <ul>
-     * <li> If there is a minimum value, <code>m</code>, with positive
-     * probability under (the density of) X, then <code>m - 1</code> is
-     * returned by <code>inverseCumulativeProbability(0).</code>  If there is
-     * no such value <code>m,  Integer.MIN_VALUE</code> is
-     * returned.</li>
-     * <li> If there is a maximum value, <code>M</code>, such that
-     * P(X &le; M) =1, then <code>M</code> is returned by
-     * <code>inverseCumulativeProbability(1).</code>
-     * If there is no such value, <code>M, Integer.MAX_VALUE</code> is
-     * returned.</li></ul></p>
+     * For this distribution, {@code X}, this method returns the largest
+     * {@code x} such that {@code P(X < x) <= p}.
+     * <br/>
+     * Note that this definition implies:
+     * <ul>
+     *  <li> If there is a minimum value, {@code m}, with positive
+     *   probability under (the density of) {@code X}, then {@code m - 1} is
+     *   returned by {@code inverseCumulativeProbability(0).}  If there is
+     *   no such value {@code m},  {@code Integer.MIN_VALUE} is returned.
+     *  </li>
+     *  <li> If there is a maximum value, {@code M}, such that
+     *   {@code P(X < M) = 1}, then {@code M} is returned by
+     *   {@code inverseCumulativeProbability(1)}.
+     *   If there is no such value, {@code M}, {@code Integer.MAX_VALUE} is
+     *   returned.
+     *  </li>
+     * </ul>
      *
-     * @param p the cumulative probability.
-     * @return the largest x such that P(X &le; x) <= p
-     * @throws MathException if the inverse cumulative probability can not be
-     *            computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if p is not between 0 and 1 (inclusive)
+     * @param p Cumulative probability.
+     * @return the largest {@code x} such that {@code P(X < x) <= p}.
+     * @throws MathException if the inverse cumulative probability cannot be
+     * computed due to convergence or other numerical errors.
+     * @throws IllegalArgumentException if {@code p} is not between 0 and 1
+     * (inclusive).
      */
     int inverseCumulativeProbability(double p) throws MathException;
+
+    /**
+     * Reseed the random generator used to generate samples.
+     *
+     * @param seed New seed.
+     * @since 3.0
+     */
+    void reseedRandomGenerator(long seed);
+
+    /**
+     * Generate a random value sampled from this distribution.
+     *
+     * @return a random value.
+     * @throws MathException if an error occurs generating the random value.
+     * @since 3.0
+     */
+    int sample() throws MathException;
+
+    /**
+     * Generate a random sample from the distribution.
+     *
+     * @param sampleSize number of random values to generate.
+     * @return an array representing the random sample.
+     * @throws MathException if an error occurs generating the sample.
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if {@code sampleSize} is not positive.
+     * @since 3.0
+     */
+    int[] sample(int sampleSize) throws MathException;
 }

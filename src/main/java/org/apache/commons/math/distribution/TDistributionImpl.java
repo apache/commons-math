@@ -42,7 +42,7 @@ public class TDistributionImpl
     /** Serializable version identifier */
     private static final long serialVersionUID = -5852615386664158222L;
     /** The degrees of freedom. */
-    private double degreesOfFreedom;
+    private final double degreesOfFreedom;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 

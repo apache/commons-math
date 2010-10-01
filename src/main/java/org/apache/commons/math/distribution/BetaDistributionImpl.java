@@ -37,28 +37,22 @@ import org.apache.commons.math.util.FastMath;
  */
 public class BetaDistributionImpl
     extends AbstractContinuousDistribution implements BetaDistribution {
-
     /**
-     * Default inverse cumulative probability accurac
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1221965979403477668L;
-
     /** First shape parameter. */
-    private double alpha;
-
+    private final double alpha;
     /** Second shape parameter. */
-    private double beta;
-
+    private final double beta;
     /** Normalizing factor used in density computations.
      * updated whenever alpha or beta are changed.
      */
     private double z;
-
-    /** Inverse cumulative probability accuracy */
+    /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**

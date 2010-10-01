@@ -32,18 +32,18 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class CauchyDistributionImpl extends AbstractContinuousDistribution
-        implements CauchyDistribution, Serializable {
+    implements CauchyDistribution, Serializable {
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
     private static final long serialVersionUID = 8589540077390120676L;
     /** The median of this distribution. */
-    private double median = 0;
+    private final double median;
     /** The scale of this distribution. */
-    private double scale = 1;
+    private final double scale;
     /** Inverse cumulative probability accuracy */
     private final double solverAbsoluteAccuracy;
 

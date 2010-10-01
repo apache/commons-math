@@ -32,29 +32,15 @@ package org.apache.commons.math.distribution;
 public interface BinomialDistribution extends IntegerDistribution {
     /**
      * Access the number of trials for this distribution.
+     *
      * @return the number of trials.
      */
     int getNumberOfTrials();
 
     /**
      * Access the probability of success for this distribution.
+     *
      * @return the probability of success.
      */
     double getProbabilityOfSuccess();
-
-    /**
-     * Change the number of trials for this distribution.
-     * @param trials the new number of trials.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumberOfTrials(int trials);
-
-    /**
-     * Change the probability of success for this distribution.
-     * @param p the new probability of success.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setProbabilityOfSuccess(double p);
 }

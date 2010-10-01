@@ -32,18 +32,18 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
-        implements WeibullDistribution, Serializable {
+    implements WeibullDistribution, Serializable {
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
     /** The shape parameter. */
-    private double shape;
+    private final double shape;
     /** The scale parameter. */
-    private double scale;
+    private final double scale;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 

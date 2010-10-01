@@ -19,7 +19,8 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.FastMath;
@@ -31,108 +32,55 @@ import org.apache.commons.math.util.FastMath;
  */
 public class BinomialDistributionImpl extends AbstractIntegerDistribution
         implements BinomialDistribution, Serializable {
-
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = 6751309484392813623L;
-
     /** The number of trials. */
-    private int numberOfTrials;
-
+    private final int numberOfTrials;
     /** The probability of success. */
-    private double probabilityOfSuccess;
+    private final double probabilityOfSuccess;
 
     /**
      * Create a binomial distribution with the given number of trials and
      * probability of success.
      *
-     * @param trials the number of trials.
-     * @param p the probability of success.
+     * @param trials Number of trials.
+     * @param p Probability of success.
+     * @throws NotPositiveException if {@code trials < 0}.
+     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
     public BinomialDistributionImpl(int trials, double p) {
-        super();
-        setNumberOfTrialsInternal(trials);
-        setProbabilityOfSuccessInternal(p);
+        if (trials < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_TRIALS,
+                                           trials);
+        }
+        if (p < 0 || p > 1) {
+            throw new OutOfRangeException(p, 0, 1);
+        }
+
+        probabilityOfSuccess = p;
+        numberOfTrials = trials;
     }
 
     /**
-     * Access the number of trials for this distribution.
-     *
-     * @return the number of trials.
+     * {@inheritDoc}
      */
     public int getNumberOfTrials() {
         return numberOfTrials;
     }
 
     /**
-     * Access the probability of success for this distribution.
-     *
-     * @return the probability of success.
+     * {@inheritDoc}
      */
     public double getProbabilityOfSuccess() {
         return probabilityOfSuccess;
     }
 
     /**
-     * Change the number of trials for this distribution.
-     *
-     * @param trials the new number of trials.
-     * @throws IllegalArgumentException if <code>trials</code> is not a valid
-     *             number of trials.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setNumberOfTrials(int trials) {
-        setNumberOfTrialsInternal(trials);
-    }
-    /**
-     * Change the number of trials for this distribution.
-     *
-     * @param trials the new number of trials.
-     * @throws IllegalArgumentException if <code>trials</code> is not a valid
-     *             number of trials.
-     */
-    private void setNumberOfTrialsInternal(int trials) {
-        if (trials < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NEGATIVE_NUMBER_OF_TRIALS, trials);
-        }
-        numberOfTrials = trials;
-    }
-
-    /**
-     * Change the probability of success for this distribution.
-     *
-     * @param p the new probability of success.
-     * @throws IllegalArgumentException if <code>p</code> is not a valid
-     *             probability.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setProbabilityOfSuccess(double p) {
-        setProbabilityOfSuccessInternal(p);
-    }
-    /**
-     * Change the probability of success for this distribution.
-     *
-     * @param p the new probability of success.
-     * @throws IllegalArgumentException if <code>p</code> is not a valid
-     *             probability.
-     */
-    private void setProbabilityOfSuccessInternal(double p) {
-        if (p < 0.0 || p > 1.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.OUT_OF_RANGE_SIMPLE, p, 0.0, 1.0);
-        }
-        probabilityOfSuccess = p;
-    }
-
-    /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt;
-     *         <code>p</code>
+     * @param p Desired probability for the critical value.
+     * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected int getDomainLowerBound(double p) {
@@ -140,12 +88,11 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt;
-     *         <code>p</code>
+     * @param p Desired probability for the critical value
+     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected int getDomainUpperBound(double p) {
@@ -153,12 +100,12 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, X, this method returns P(X &le; x).
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
-     * @param x the value at which the PDF is evaluated.
+     * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
      * @throws MathException if the cumulative probability can not be computed
-     *             due to convergence or other numerical errors.
+     * due to convergence or other numerical errors.
      */
     @Override
     public double cumulativeProbability(int x) throws MathException {
@@ -175,9 +122,9 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, X, this method returns P(X = x).
+     * For this distribution, {@code X}, this method returns {@code P(X = x)}.
      *
-     * @param x the value at which the PMF is evaluated.
+     * @param x Value at which the PMF is evaluated.
      * @return PMF for this distribution.
      */
     public double probability(int x) {
@@ -193,18 +140,15 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the largest x, such that
-     * P(X &le; x) &le; <code>p</code>.
-     * <p>
-     * Returns <code>-1</code> for p=0 and <code>Integer.MAX_VALUE</code> for
-     * p=1.
-     * </p>
+     * For this distribution, {@code X}, this method returns the largest
+     * {@code x}, such that {@code P(X < x) p}.
+     * It will return -1 when p = 0 and {@code Integer.MAX_VALUE} when p = 1.
      *
-     * @param p the desired probability
-     * @return the largest x such that P(X &le; x) <= p
+     * @param p Desired probability.
+     * @return the largest {@code x} such that {@code P(X < x) <= p}.
      * @throws MathException if the inverse cumulative probability can not be
-     *             computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if p < 0 or p > 1
+     * computed due to convergence or other numerical errors.
+     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
     @Override
     public int inverseCumulativeProbability(final double p)

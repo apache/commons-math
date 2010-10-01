@@ -18,6 +18,9 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 
 /**
  * Test cases for HyperGeometriclDistribution.
@@ -127,16 +130,45 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         verifyInverseCumulativeProbabilities();
     }
 
-    public void testPopulationSize() {
-        HypergeometricDistribution dist = new HypergeometricDistributionImpl(5,3,5);
+    public void testPreconditions() {
+        HypergeometricDistribution dist;
         try {
-            dist.setPopulationSize(-1);
-            fail("negative population size.  IllegalArgumentException expected");
-        } catch(IllegalArgumentException ex) {
+            dist = new HypergeometricDistributionImpl(0, 3, 5);
+            fail("negative population size. NotStrictlyPositiveException expected");
+        } catch(NotStrictlyPositiveException ex) {
+            // Expected.
         }
+        try {
+            dist = new HypergeometricDistributionImpl(5, -1, 5);
+            fail("negative number of successes. NotPositiveException expected");
+        } catch(NotPositiveException ex) {
+            // Expected.
+        }
+        try {
+            dist = new HypergeometricDistributionImpl(5, 3, -1);
+            fail("negative sample size. NotPositiveException expected");
+        } catch(NotPositiveException ex) {
+            // Expected.
+        }
+        try {
+            dist = new HypergeometricDistributionImpl(5, 6, 5);
+            fail("numberOfSuccesses > populationSize. NumberIsTooLargeException expected");
+        } catch(NumberIsTooLargeException ex) {
+            // Expected.
+        }
+        try {
+            dist = new HypergeometricDistributionImpl(5, 3, 6);
+            fail("sampleSize > populationSize. NumberIsTooLargeException expected");
+        } catch(NumberIsTooLargeException ex) {
+            // Expected.
+        }
+    }
 
-        dist.setPopulationSize(10);
-        assertEquals(10, dist.getPopulationSize());
+    public void testAccessors() {
+        HypergeometricDistribution dist = new HypergeometricDistributionImpl(5, 3, 4);
+        assertEquals(5, dist.getPopulationSize());
+        assertEquals(3, dist.getNumberOfSuccesses());
+        assertEquals(4, dist.getSampleSize());
     }
 
     public void testLargeValues() {

@@ -19,7 +19,9 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -30,53 +32,64 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
-        implements HypergeometricDistribution, Serializable {
-
-    /** Serializable version identifier */
+    implements HypergeometricDistribution, Serializable {
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -436928820673516179L;
-
     /** The number of successes in the population. */
-    private int numberOfSuccesses;
-
+    private final int numberOfSuccesses;
     /** The population size. */
-    private int populationSize;
-
+    private final int populationSize;
     /** The sample size. */
-    private int sampleSize;
+    private final int sampleSize;
 
     /**
-     * Construct a new hypergeometric distribution with the given the population
-     * size, the number of successes in the population, and the sample size.
+     * Construct a new hypergeometric distribution with the given the
+     * population size, the number of successes in the population, and
+     * the sample size.
      *
-     * @param populationSize the population size.
-     * @param numberOfSuccesses number of successes in the population.
-     * @param sampleSize the sample size.
+     * @param populationSize Population size.
+     * @param numberOfSuccesses Number of successes in the population.
+     * @param sampleSize Sample size.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
+     * @throws NotStrictlyPositiveException if {@code populationSize <= 0}.
+     * @throws NotPositiveException if {@code populationSize < 0}.
+     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize}.
+     * @throws NumberIsTooLargeException if {@code sampleSize > populationSize}.
      */
     public HypergeometricDistributionImpl(int populationSize,
-            int numberOfSuccesses, int sampleSize) {
-        super();
-        if (numberOfSuccesses > populationSize) {
-            throw MathRuntimeException
-                    .createIllegalArgumentException(
-                            LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
-                            numberOfSuccesses, populationSize);
+                                          int numberOfSuccesses,
+                                          int sampleSize) {
+        if (populationSize <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.POPULATION_SIZE,
+                                                   populationSize);
         }
-        if (sampleSize > populationSize) {
-            throw MathRuntimeException
-                    .createIllegalArgumentException(
-                            LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,
-                            sampleSize, populationSize);
+        if (numberOfSuccesses < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,
+                                           numberOfSuccesses);
+        }
+        if (sampleSize < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+                                           sampleSize);
         }
 
-        setPopulationSizeInternal(populationSize);
-        setSampleSizeInternal(sampleSize);
-        setNumberOfSuccessesInternal(numberOfSuccesses);
+        if (numberOfSuccesses > populationSize) {
+            throw new NumberIsTooLargeException(LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
+                                                numberOfSuccesses, populationSize, true);
+        }
+        if (sampleSize > populationSize) {
+            throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,
+                                                sampleSize, populationSize, true);
+        }
+
+        this.numberOfSuccesses = numberOfSuccesses;
+        this.populationSize = populationSize;
+        this.sampleSize = sampleSize;
     }
 
     /**
-     * For this distribution, X, this method returns P(X &le; x).
+     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
-     * @param x the value at which the PDF is evaluated.
+     * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
      */
     @Override
@@ -99,23 +112,22 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     /**
      * Return the domain for the given hypergeometric distribution parameters.
      *
-     * @param n the population size.
-     * @param m number of successes in the population.
-     * @param k the sample size.
+     * @param n Population size.
+     * @param m Number of successes in the population.
+     * @param k Sample size.
      * @return a two element array containing the lower and upper bounds of the
-     *         hypergeometric distribution.
+     * hypergeometric distribution.
      */
     private int[] getDomain(int n, int m, int k) {
         return new int[] { getLowerDomain(n, m, k), getUpperDomain(m, k) };
     }
 
     /**
-     * Access the domain value lower bound, based on <code>p</code>, used to
+     * Access the domain value lower bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt;
-     *         <code>p</code>
+     * @param p Desired probability for the critical value.
+     * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
      */
     @Override
     protected int getDomainLowerBound(double p) {
@@ -123,12 +135,11 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * Access the domain value upper bound, based on <code>p</code>, used to
+     * Access the domain value upper bound, based on {@code p}, used to
      * bracket a PDF root.
      *
-     * @param p the desired probability for the critical value
-     * @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt;
-     *         <code>p</code>
+     * @param p Desired probability for the critical value
+     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     @Override
     protected int getDomainUpperBound(double p) {
@@ -139,9 +150,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * Return the lowest domain value for the given hypergeometric distribution
      * parameters.
      *
-     * @param n the population size.
-     * @param m number of successes in the population.
-     * @param k the sample size.
+     * @param n Population size.
+     * @param m Number of successes in the population.
+     * @param k Sample size.
      * @return the lowest domain value of the hypergeometric distribution.
      */
     private int getLowerDomain(int n, int m, int k) {
@@ -149,27 +160,21 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * Access the number of successes.
-     *
-     * @return the number of successes.
+     * {@inheritDoc}
      */
     public int getNumberOfSuccesses() {
         return numberOfSuccesses;
     }
 
     /**
-     * Access the population size.
-     *
-     * @return the population size.
+     * {@inheritDoc}
      */
     public int getPopulationSize() {
         return populationSize;
     }
 
     /**
-     * Access the sample size.
-     *
-     * @return the sample size.
+     * {@inheritDoc}
      */
     public int getSampleSize() {
         return sampleSize;
@@ -179,8 +184,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * Return the highest domain value for the given hypergeometric distribution
      * parameters.
      *
-     * @param m number of successes in the population.
-     * @param k the sample size.
+     * @param m Number of successes in the population.
+     * @param k Sample size.
      * @return the highest domain value of the hypergeometric distribution.
      */
     private int getUpperDomain(int m, int k) {
@@ -188,9 +193,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, X, this method returns P(X = x).
+     * For this distribution, {@code X}, this method returns {@code P(X = x)}.
      *
-     * @param x the value at which the PMF is evaluated.
+     * @param x Value at which the PMF is evaluated.
      * @return PMF for this distribution.
      */
     public double probability(int x) {
@@ -216,13 +221,13 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For the distribution, X, defined by the given hypergeometric distribution
-     * parameters, this method returns P(X = x).
+     * For this distribution, {@code X}, defined by the given hypergeometric
+     *  distribution parameters, this method returns {@code P(X = x)}.
      *
+     * @param x Value at which the PMF is evaluated.
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
-     * @param x the value at which the PMF is evaluated.
      * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
@@ -232,85 +237,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * Modify the number of successes.
+     * For this distribution, {@code X}, this method returns {@code P(X >= x)}.
      *
-     * @param num the new number of successes.
-     * @throws IllegalArgumentException if <code>num</code> is negative.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setNumberOfSuccesses(int num) {
-        setNumberOfSuccessesInternal(num);
-    }
-    /**
-     * Modify the number of successes.
-     *
-     * @param num the new number of successes.
-     * @throws IllegalArgumentException if <code>num</code> is negative.
-     */
-    private void setNumberOfSuccessesInternal(int num) {
-        if (num < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NEGATIVE_NUMBER_OF_SUCCESSES, num);
-        }
-        numberOfSuccesses = num;
-    }
-
-    /**
-     * Modify the population size.
-     *
-     * @param size the new population size.
-     * @throws IllegalArgumentException if <code>size</code> is not positive.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setPopulationSize(int size) {
-        setPopulationSizeInternal(size);
-    }
-    /**
-     * Modify the population size.
-     *
-     * @param size the new population size.
-     * @throws IllegalArgumentException if <code>size</code> is not positive.
-     */
-    private void setPopulationSizeInternal(int size) {
-        if (size <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POSITIVE_POPULATION_SIZE, size);
-        }
-        populationSize = size;
-    }
-
-    /**
-     * Modify the sample size.
-     *
-     * @param size the new sample size.
-     * @throws IllegalArgumentException if <code>size</code> is negative.
-     * @deprecated as of 2.1 (class will become immutable in 3.0)
-     */
-    @Deprecated
-    public void setSampleSize(int size) {
-        setSampleSizeInternal(size);
-    }
-    /**
-     * Modify the sample size.
-     *
-     * @param size the new sample size.
-     * @throws IllegalArgumentException if <code>size</code> is negative.
-     */
-    private void setSampleSizeInternal(int size) {
-        if (size < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, size);
-        }
-        sampleSize = size;
-    }
-
-    /**
-     * For this distribution, X, this method returns P(X &ge; x).
-     *
-     * @param x the value at which the CDF is evaluated.
-     * @return upper tail CDF for this distribution.
+     * @param x Value at which the CDF is evaluated.
+     * @return the upper tail CDF for this distribution.
      * @since 1.1
      */
     public double upperCumulativeProbability(int x) {
@@ -322,28 +252,31 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
         } else if (x > domain[1]) {
             ret = 0.0;
         } else {
-            ret = innerCumulativeProbability(domain[1], x, -1, populationSize, numberOfSuccesses, sampleSize);
+            ret = innerCumulativeProbability(domain[1], x, -1, populationSize,
+                                             numberOfSuccesses, sampleSize);
         }
 
         return ret;
     }
 
     /**
-     * For this distribution, X, this method returns P(x0 &le; X &le; x1). This
-     * probability is computed by summing the point probabilities for the values
-     * x0, x0 + 1, x0 + 2, ..., x1, in the order directed by dx.
+     * For this distribution, {@code X}, this method returns
+     * {@code P(x0 <= X <= x1)}.
+     * This probability is computed by summing the point probabilities for the
+     * values {@code x0, x0 + 1, x0 + 2, ..., x1}, in the order directed by
+     * {@code dx}.
      *
-     * @param x0 the inclusive, lower bound
-     * @param x1 the inclusive, upper bound
-     * @param dx the direction of summation. 1 indicates summing from x0 to x1.
-     *            0 indicates summing from x1 to x0.
+     * @param x0 Inclusive lower bound.
+     * @param x1 Inclusive upper bound.
+     * @param dx Direction of summation (1 indicates summing from x0 to x1, and
+     * 0 indicates summing from x1 to x0).
      * @param n the population size.
      * @param m number of successes in the population.
      * @param k the sample size.
-     * @return P(x0 &le; X &le; x1).
+     * @return {@code P(x0 <= X <= x1)}.
      */
-    private double innerCumulativeProbability(int x0, int x1, int dx, int n,
-            int m, int k) {
+    private double innerCumulativeProbability(int x0, int x1, int dx,
+                                              int n, int m, int k) {
         double ret = probability(n, m, k, x0);
         while (x0 != x1) {
             x0 += dx;

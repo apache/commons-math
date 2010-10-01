@@ -32,15 +32,15 @@ import org.apache.commons.math.util.FastMath;
 public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier */
     private static final long serialVersionUID = 2401296428283614780L;
     /** The mean of this distribution. */
-    private double mean;
-    /** Inverse cumulative probability accuracy */
+    private final double mean;
+    /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**

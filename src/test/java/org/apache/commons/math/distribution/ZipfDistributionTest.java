@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+
 /**
  * Test cases for {@link ZipfDistribution}.
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
@@ -27,6 +29,22 @@ package org.apache.commons.math.distribution;
 public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     public ZipfDistributionTest(String name) {
         super(name);
+    }
+
+    public void testPreconditions() {
+        ZipfDistribution dist;
+        try {
+            dist = new ZipfDistributionImpl(0, 1);
+            fail("NotStrictlyPositiveException expected");
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
+        }
+        try {
+            dist = new ZipfDistributionImpl(1, 0);
+            fail("NotStrictlyPositiveException expected");
+        } catch (NotStrictlyPositiveException e) {
+            // Expected.
+        }
     }
 
     //-------------- Implementations for abstract methods -----------------------

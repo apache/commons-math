@@ -30,7 +30,6 @@ package org.apache.commons.math.distribution;
  * @version $Revision$ $Date$
  */
 public interface ZipfDistribution extends IntegerDistribution {
-
     /**
      * Get the number of elements (e.g. corpus size) for the distribution.
      *
@@ -39,33 +38,9 @@ public interface ZipfDistribution extends IntegerDistribution {
     int getNumberOfElements();
 
     /**
-     * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param n the number of elements
-     * @throws IllegalArgumentException if n &le; 0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumberOfElements(int n);
-
-    /**
      * Get the exponent characterising the distribution.
      *
      * @return the exponent
      */
     double getExponent();
-
-    /**
-     * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param s the exponent
-     * @throws IllegalArgumentException if s &le; 0.0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setExponent(double s);
 }

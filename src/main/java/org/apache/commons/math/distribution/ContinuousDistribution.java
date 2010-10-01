@@ -42,4 +42,33 @@ public interface ContinuousDistribution extends Distribution {
      * @return the pdf at point {@code x}.
      */
     double density(double x);
+
+    /**
+     * Reseed the random generator used to generate samples.
+     *
+     * @param seed New seed.
+     * @since 3.0
+     */
+    void reseedRandomGenerator(long seed);
+
+    /**
+     * Generate a random value sampled from this distribution.
+     *
+     * @return a random value.
+     * @throws MathException if an error occurs generating the random value.
+     * @since 3.0
+     */
+    double sample() throws MathException;
+
+    /**
+     * Generate a random sample from the distribution.
+     *
+     * @param sampleSize number of random values to generate.
+     * @return an array representing the random sample.
+     * @throws MathException if an error occurs generating the sample.
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if {@code sampleSize} is not positive.
+     * @since 3.0
+     */
+    double[] sample(int sampleSize) throws MathException;
 }

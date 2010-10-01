@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
 public class NormalDistributionImpl extends AbstractContinuousDistribution
         implements NormalDistribution, Serializable {
     /**
-     * Default inverse cumulative probability accuracy
+     * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
@@ -44,9 +44,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /** &sqrt;(2 &pi;) */
     private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
     /** Mean of this distribution. */
-    private double mean = 0;
+    private final double mean;
     /** Standard deviation of this distribution. */
-    private double standardDeviation = 1;
+    private final double standardDeviation;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
