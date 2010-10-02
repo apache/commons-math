@@ -1171,8 +1171,8 @@ public class DfpTest {
         Assert.assertEquals("toString #1", "Infinity", pinf.toString());
         Assert.assertEquals("toString #2", "-Infinity", ninf.toString());
         Assert.assertEquals("toString #3", "NaN", nan.toString());
-        Assert.assertEquals("toString #4", "NaN", field.newDfp((byte) 1, (byte) Dfp.QNAN).toString());
-        Assert.assertEquals("toString #5", "NaN", field.newDfp((byte) 1, (byte) Dfp.SNAN).toString());
+        Assert.assertEquals("toString #4", "NaN", field.newDfp((byte) 1, Dfp.QNAN).toString());
+        Assert.assertEquals("toString #5", "NaN", field.newDfp((byte) 1, Dfp.SNAN).toString());
         Assert.assertEquals("toString #6", "1.2300000000000000e100", field.newDfp("1.23e100").toString());
         Assert.assertEquals("toString #7", "-1.2300000000000000e100", field.newDfp("-1.23e100").toString());
         Assert.assertEquals("toString #8", "12345678.1234", field.newDfp("12345678.1234").toString());
@@ -1495,11 +1495,11 @@ public class DfpTest {
              pinf,
              0, "Sqrt #8");
 
-        test(field.newDfp((byte) 1, (byte) Dfp.QNAN).sqrt(),
+        test(field.newDfp((byte) 1, Dfp.QNAN).sqrt(),
              nan,
              0, "Sqrt #9");
 
-        test(field.newDfp((byte) 1, (byte) Dfp.SNAN).sqrt(),
+        test(field.newDfp((byte) 1, Dfp.SNAN).sqrt(),
              nan,
              DfpField.FLAG_INVALID, "Sqrt #9");
     }
