@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization.general;
+package org.apache.commons.math.optimization.direct;
 
 import java.util.Arrays;
 
@@ -25,6 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.general.AbstractScalarOptimizer;
 import org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
