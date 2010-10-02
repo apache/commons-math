@@ -285,6 +285,7 @@ public final class MatrixUtilsTest extends TestCase {
         checkIdentityMatrix(MatrixUtils.createRealIdentityMatrix(1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -311,6 +312,7 @@ public final class MatrixUtilsTest extends TestCase {
         checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -392,6 +394,7 @@ public final class MatrixUtilsTest extends TestCase {
         checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }

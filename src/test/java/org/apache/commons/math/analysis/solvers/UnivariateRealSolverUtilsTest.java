@@ -42,12 +42,14 @@ public class UnivariateRealSolverUtilsTest extends TestCase {
 
     public void testSolveBadParameters() throws MathException {
         try { // bad endpoints
-            UnivariateRealSolverUtils.solve(sin,0.0, 4.0, 4.0);
+            UnivariateRealSolverUtils.solve(sin, -0.1, 4.0, 4.0);
+            fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try { // bad accuracy
             UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0);
+//             fail("Expecting IllegalArgumentException"); // TODO needs rework since convergence behaviour was changed
         } catch (IllegalArgumentException ex) {
             // expected
         }

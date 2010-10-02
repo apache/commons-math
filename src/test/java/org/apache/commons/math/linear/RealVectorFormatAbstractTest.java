@@ -333,6 +333,7 @@ public abstract class RealVectorFormatAbstractTest extends TestCase {
     public void testParseNoComponents() {
         try {
             realVectorFormat.parseObject("{ }");
+            fail("Expecting ParseException");
         } catch (ParseException pe) {
             // expected behavior
         } catch (Exception e) {

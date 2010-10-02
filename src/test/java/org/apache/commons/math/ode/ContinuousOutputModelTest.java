@@ -160,10 +160,9 @@ public class ContinuousOutputModelTest
           otherCm.handleStep(buildInterpolator(t0, y0, t1), true);
           cm.append(otherCm);
       } catch(IllegalArgumentException iae) {
-          //expected behavior
-          return true;
+          return true; // there was an allowable error
       }
-      return false;
+      return false; // no allowable error
   }
 
   private StepInterpolator buildInterpolator(double t0, double[] y0, double t1) {

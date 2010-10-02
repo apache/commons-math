@@ -173,6 +173,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
     public void testDimension() {
         try {
             createMultivariateSummaryStatistics(2, true).addValue(new double[3]);
+            fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException dme) {
             // expected behavior
         } catch (Exception e) {

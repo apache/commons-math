@@ -66,21 +66,25 @@ public class BigFractionTest extends TestCase {
         assertFraction(1055531162664967l, 70368744177664l, new BigFraction(15.0000000000001));
         try {
             new BigFraction(null, BigInteger.ONE);
+            fail("Expecting NullArgumentException");
         } catch (NullArgumentException npe) {
             // expected
         }
         try {
             new BigFraction(BigInteger.ONE, null);
+            fail("Expecting NullArgumentException");
         } catch (NullArgumentException npe) {
             // expected
         }
         try {
             new BigFraction(BigInteger.ONE, BigInteger.ZERO);
+            fail("Expecting ArithmeticException");
         } catch (ArithmeticException npe) {
             // expected
         }
         try {
             new BigFraction(2.0 * Integer.MAX_VALUE, 1.0e-5, 100000);
+            fail("Expecting FractionConversionException");
         } catch (FractionConversionException fce) {
             // expected
         }
@@ -232,7 +236,7 @@ public class BigFractionTest extends TestCase {
         for (double v : new double[] { Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY}) {
             try {
                 new BigFraction(v);
-                fail("expected exception");
+                fail("Expecting IllegalArgumentException");
             } catch (IllegalArgumentException iae) {
                 // expected
             }
