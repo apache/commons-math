@@ -80,6 +80,7 @@ public class Well44497b extends AbstractWell {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int next(final int bits) {
 
         // compute raw value given by WELL44497a generator

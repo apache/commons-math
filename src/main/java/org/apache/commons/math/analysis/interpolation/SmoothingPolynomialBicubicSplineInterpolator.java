@@ -70,6 +70,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
     /**
      * {@inheritDoc}
      */
+    @Override
     public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
                                                           final double[] yval,
                                                           final double[][] fval)

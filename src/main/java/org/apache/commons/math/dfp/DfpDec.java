@@ -94,31 +94,37 @@ public class DfpDec extends Dfp {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance() {
         return new DfpDec(getField());
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final byte x) {
         return new DfpDec(getField(), x);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final int x) {
         return new DfpDec(getField(), x);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final long x) {
         return new DfpDec(getField(), x);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final double x) {
         return new DfpDec(getField(), x);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final Dfp d) {
 
         // make sure we don't mix number with different precision
@@ -134,11 +140,13 @@ public class DfpDec extends Dfp {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final String s) {
         return new DfpDec(getField(), s);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp newInstance(final byte sign, final byte nans) {
         return new DfpDec(getField(), sign, nans);
     }
@@ -153,6 +161,7 @@ public class DfpDec extends Dfp {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int round(int in) {
 
         int msb = mant[mant.length-1];
@@ -280,6 +289,7 @@ public class DfpDec extends Dfp {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Dfp nextAfter(Dfp x) {
 
         final String trapName = "nextAfter";

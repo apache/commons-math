@@ -137,6 +137,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      * generator built with the same seed.</p>
      * @param seed the initial seed (32 bits integer)
      */
+    @Override
     public void setSeed(final int seed) {
         setSeed(new int[] { seed });
     }
@@ -147,6 +148,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      * @param seed the initial seed (32 bits integers array), if null
      * the seed of the generator will be related to the current time
      */
+    @Override
     public void setSeed(final int[] seed) {
 
         if (seed == null) {
@@ -172,11 +174,13 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      * generator built with the same seed.</p>
      * @param seed the initial seed (64 bits integer)
      */
+    @Override
     public void setSeed(final long seed) {
         setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
     /** {@inheritDoc} */
+    @Override
     protected abstract int next(final int bits);
 
 }

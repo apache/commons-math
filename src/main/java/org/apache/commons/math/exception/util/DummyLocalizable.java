@@ -50,6 +50,7 @@ public class DummyLocalizable implements Localizable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public String toString() {
         return source;
     }
