@@ -85,7 +85,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
           {25, 35, 45},
           {27, 37, 47}   
         };
-        AbstractMultipleLinearRegression regression = (AbstractMultipleLinearRegression) createRegression();
+        AbstractMultipleLinearRegression regression = createRegression();
         regression.newSampleData(design, 4, 3);
         RealMatrix flatX = regression.X.copy();
         RealVector flatY = regression.Y.copy();
