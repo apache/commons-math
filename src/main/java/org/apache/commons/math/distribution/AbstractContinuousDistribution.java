@@ -50,7 +50,7 @@ public abstract class AbstractContinuousDistribution
     protected final RandomDataImpl randomData = new RandomDataImpl();
 
     /**
-     * Solver absolute accuracy for inverse cum computation
+     * Solver absolute accuracy for inverse cumulative computation
      * @since 2.1
      */
     private double solverAbsoluteAccuracy = BrentSolver.DEFAULT_ABSOLUTE_ACCURACY;
@@ -220,7 +220,7 @@ public abstract class AbstractContinuousDistribution
     protected abstract double getDomainUpperBound(double p);
 
     /**
-     * Returns the solver absolute accuracy for inverse cum computation.
+     * Returns the solver absolute accuracy for inverse cumulative computation.
      *
      * @return the maximum absolute error in inverse cumulative probability estimates
      * @since 2.1
