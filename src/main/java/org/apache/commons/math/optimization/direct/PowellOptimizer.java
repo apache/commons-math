@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import java.util.Arrays;
-
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -114,7 +112,7 @@ public class PowellOptimizer
             double alphaMin = 0;
 
             for (int i = 0; i < n; i++) {
-                final double[] d = Arrays.copyOf(direc[i], n);
+                final double[] d = /* Arrays.*/ copyOf(direc[i], n); // Java 1.5 does not support Arrays.copyOf()
 
                 fX2 = fVal;
 
@@ -287,4 +285,18 @@ public class PowellOptimizer
             return valueAtOptimum;
         }
     }
+
+    /**
+     * Java 1.5 does not support Arrays.copyOf()
+     * 
+     * @param source the array to be copied
+     * @param newLen the length of the copy to be returned
+     * @return the copied array, truncated or padded as necessary.
+     */
+     private double[] copyOf(double[] source, int newLen) {
+         double[] output = new double[newLen];
+         System.arraycopy(source, 0, output, 0, Math.min(source.length, newLen));
+         return output;
+     }
+
 }
