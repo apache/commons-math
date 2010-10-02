@@ -269,7 +269,7 @@ public class DfpMath {
         final int ia = inta.intValue();
         if (ia > 2147483646) {
             // return +Infinity
-            return a.newInstance((byte)1, (byte) Dfp.INFINITE);
+            return a.newInstance((byte)1, Dfp.INFINITE);
         }
 
         if (ia < -2147483646) {
@@ -324,7 +324,7 @@ public class DfpMath {
         if (a.equals(a.getZero()) || a.lessThan(a.getZero()) || a.isNaN()) {
             // negative, zero or NaN
             a.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
-            return a.dotrap(DfpField.FLAG_INVALID, "ln", a, a.newInstance((byte)1, (byte) Dfp.QNAN));
+            return a.dotrap(DfpField.FLAG_INVALID, "ln", a, a.newInstance((byte)1, Dfp.QNAN));
         }
 
         if (a.classify() == Dfp.INFINITE) {
@@ -535,7 +535,7 @@ public class DfpMath {
         if (x.isNaN() || y.isNaN()) {
             // Test for NaNs
             x.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
-            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, (byte) Dfp.QNAN));
+            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, Dfp.QNAN));
         }
 
         // X == 0
@@ -545,7 +545,7 @@ public class DfpMath {
                 if (y.greaterThan(zero)) {
                     return x.newInstance(zero);
                 } else {
-                    return x.newInstance(x.newInstance((byte)1, (byte)Dfp.INFINITE));
+                    return x.newInstance(x.newInstance((byte)1, Dfp.INFINITE));
                 }
             } else {
                 // X == -0
@@ -554,14 +554,14 @@ public class DfpMath {
                     if (y.greaterThan(zero)) {
                         return x.newInstance(zero.negate());
                     } else {
-                        return x.newInstance(x.newInstance((byte)-1, (byte)Dfp.INFINITE));
+                        return x.newInstance(x.newInstance((byte)-1, Dfp.INFINITE));
                     }
                 } else {
                     // Y is not odd integer
                     if (y.greaterThan(zero)) {
                         return x.newInstance(zero);
                     } else {
-                        return x.newInstance(x.newInstance((byte)1, (byte)Dfp.INFINITE));
+                        return x.newInstance(x.newInstance((byte)1, Dfp.INFINITE));
                     }
                 }
             }
@@ -591,7 +591,7 @@ public class DfpMath {
 
         if (x.equals(one) && y.classify() == Dfp.INFINITE) {
             x.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
-            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, (byte) Dfp.QNAN));
+            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, Dfp.QNAN));
         }
 
         if (x.classify() == Dfp.INFINITE) {
@@ -601,14 +601,14 @@ public class DfpMath {
                 if (y.classify() == Dfp.FINITE && y.rint().equals(y) && !y.remainder(two).equals(zero)) {
                     // If y is odd integer
                     if (y.greaterThan(zero)) {
-                        return x.newInstance(x.newInstance((byte)-1, (byte)Dfp.INFINITE));
+                        return x.newInstance(x.newInstance((byte)-1, Dfp.INFINITE));
                     } else {
                         return x.newInstance(zero.negate());
                     }
                 } else {
                     // Y is not odd integer
                     if (y.greaterThan(zero)) {
-                        return x.newInstance(x.newInstance((byte)1, (byte)Dfp.INFINITE));
+                        return x.newInstance(x.newInstance((byte)1, Dfp.INFINITE));
                     } else {
                         return x.newInstance(zero);
                     }
@@ -625,7 +625,7 @@ public class DfpMath {
 
         if (invert && !y.rint().equals(y)) {
             x.getField().setIEEEFlagsBits(DfpField.FLAG_INVALID);
-            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, (byte) Dfp.QNAN));
+            return x.dotrap(DfpField.FLAG_INVALID, POW_TRAP, x, x.newInstance((byte)1, Dfp.QNAN));
         }
 
         // End special cases
