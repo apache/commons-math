@@ -85,12 +85,13 @@ public class ValueServer {
     private BufferedReader filePointer = null;
 
     /** RandomDataImpl to use for random data generation. */
-    private RandomData randomData = new RandomDataImpl();
+    private final RandomData randomData;
 
     // Data generation modes ======================================
 
     /** Creates new ValueServer */
     public ValueServer() {
+        randomData = new RandomDataImpl();
     }
 
     /**

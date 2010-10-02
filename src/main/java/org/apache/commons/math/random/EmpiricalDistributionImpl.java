@@ -66,7 +66,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private static final long serialVersionUID = 5729073523949762654L;
 
     /** List of SummaryStatistics objects characterizing the bins */
-    private List<SummaryStatistics> binStats = null;
+    private final List<SummaryStatistics> binStats;
 
     /** Sample statistics */
     private SummaryStatistics sampleStats = null;
@@ -81,7 +81,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private double delta = 0d;
 
     /** number of bins */
-    private int binCount = 1000;
+    private final int binCount;
 
     /** is the distribution loaded? */
     private boolean loaded = false;
@@ -90,12 +90,13 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private double[] upperBounds = null;
 
     /** RandomData instance to use in repeated calls to getNext() */
-    private RandomData randomData = new RandomDataImpl();
+    private final RandomData randomData = new RandomDataImpl();
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistributionImpl() {
+        binCount = 1000;
         binStats = new ArrayList<SummaryStatistics>();
     }
 

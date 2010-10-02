@@ -31,13 +31,13 @@ public class RandomAdaptor extends Random implements RandomGenerator {
     private static final long serialVersionUID = 2306581345647615033L;
 
     /** Wrapped randomGenerator instance */
-    private RandomGenerator randomGenerator = null;
+    private final RandomGenerator randomGenerator;
 
     /**
      * Prevent instantiation without a generator argument
      */
     @SuppressWarnings("unused")
-    private RandomAdaptor() { }
+    private RandomAdaptor() { randomGenerator = null; }
 
     /**
      * Construct a RandomAdaptor wrapping the supplied RandomGenerator.

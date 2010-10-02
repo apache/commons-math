@@ -34,7 +34,7 @@ public enum Relationship {
     GEQ(">=");
 
     /** Display string for the relationship. */
-    private String stringValue;
+    private final String stringValue;
 
     /** Simple constructor.
      * @param stringValue display string for the relationship

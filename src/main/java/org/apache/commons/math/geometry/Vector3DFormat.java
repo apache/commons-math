@@ -73,7 +73,7 @@ public class Vector3DFormat extends CompositeFormat {
     private final String trimmedSeparator;
 
     /** The format used for components. */
-    private NumberFormat format;
+    private final NumberFormat format;
 
     /**
      * Create an instance with default settings.
