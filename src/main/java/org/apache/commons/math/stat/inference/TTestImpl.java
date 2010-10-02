@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  * <p>
- * Uses commons-math {@link org.apache.commons.math.distribution.TDistribution}
+ * Uses commons-math {@link org.apache.commons.math.distribution.TDistributionImpl}
  * implementation to estimate exact p-values.</p>
  *
  * @version $Revision$ $Date$
