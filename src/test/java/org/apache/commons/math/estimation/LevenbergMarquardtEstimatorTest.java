@@ -110,8 +110,6 @@ public class LevenbergMarquardtEstimatorTest
         fail("an exception should have been thrown");
     } catch (EstimationException ee) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception caught");
     }
     assertEquals(1.5,
                  problem.getUnboundParameters()[0].getEstimate(),
@@ -275,8 +273,6 @@ public class LevenbergMarquardtEstimatorTest
         fail("an exception should have been thrown");
     } catch (EstimationException ee) {
         // expected behavior
-    } catch (Exception e) {
-        fail("wrong exception caught");
     }
    double dJ0 = 2 * (m[0].getResidual() * m[0].getPartial(p[0])
                     + m[1].getResidual() * m[1].getPartial(p[0])
@@ -486,8 +482,6 @@ public class LevenbergMarquardtEstimatorTest
         assertTrue(! shouldFail);
       } catch (EstimationException ee) {
         assertTrue(shouldFail);
-      } catch (Exception e) {
-        fail("wrong exception type caught");
       }
     }
 

@@ -176,8 +176,6 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
             fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException dme) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

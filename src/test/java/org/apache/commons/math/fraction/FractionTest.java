@@ -73,8 +73,6 @@ public class FractionTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -146,8 +144,6 @@ public class FractionTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

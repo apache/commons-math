@@ -204,7 +204,7 @@ extends TestCase {
 
     }
 
-    public void testNonInversible() {
+    public void testNonInversible() throws Exception {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -219,8 +219,6 @@ extends TestCase {
             fail("an exception should have been caught");
         } catch (OptimizationException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
     }
 
@@ -260,7 +258,7 @@ extends TestCase {
 
     }
 
-    public void testMoreEstimatedParametersSimple() {
+    public void testMoreEstimatedParametersSimple() throws Exception {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -277,13 +275,11 @@ extends TestCase {
             fail("an exception should have been caught");
         } catch (OptimizationException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
 
     }
 
-    public void testMoreEstimatedParametersUnsorted() {
+    public void testMoreEstimatedParametersUnsorted() throws Exception {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                  { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -300,8 +296,6 @@ extends TestCase {
             fail("an exception should have been caught");
         } catch (OptimizationException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
     }
 
@@ -359,8 +353,6 @@ extends TestCase {
             fail("an exception should have been thrown");
         } catch (OptimizationException oe) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         try {
@@ -370,13 +362,11 @@ extends TestCase {
             fail("an exception should have been thrown");
         } catch (FunctionEvaluationException oe) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
     }
 
-    public void testMaxIterations() {
+    public void testMaxEvaluations() throws Exception {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -393,8 +383,6 @@ extends TestCase {
             fail("an exception should have been caught");
         } catch (OptimizationException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
     }
 
@@ -467,8 +455,6 @@ extends TestCase {
             fail("an exception should have been caught");
         } catch (OptimizationException ee) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception type caught");
         }
 
         VectorialPointValuePair optimum =

@@ -43,8 +43,7 @@ public class HighamHall54IntegratorTest
     super(name);
   }
 
-  public void testWrongDerivative() {
-    try {
+  public void testWrongDerivative() throws Exception {
       HighamHall54Integrator integrator =
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
@@ -77,9 +76,6 @@ public class HighamHall54IntegratorTest
         // expected behavior
       }
 
-    } catch (Exception e) {
-      fail("wrong exception caught: " + e.getMessage());
-    }
   }
 
   public void testMinStep() {
@@ -197,7 +193,7 @@ public class HighamHall54IntegratorTest
 
   }
 
-  public void testEventsErrors() {
+  public void testEventsErrors() throws Exception {
 
       final TestProblem1 pb = new TestProblem1();
       double minStep = 0;
@@ -235,13 +231,11 @@ public class HighamHall54IntegratorTest
         fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
-      } catch (Exception e) {
-        fail("wrong exception type caught");
       }
 
   }
 
-  public void testEventsNoConvergence() {
+  public void testEventsNoConvergence() throws Exception {
 
     final TestProblem1 pb = new TestProblem1();
     double minStep = 0;
@@ -277,14 +271,11 @@ public class HighamHall54IntegratorTest
     } catch (IntegratorException ie) {
        assertTrue(ie.getCause() != null);
        assertTrue(ie.getCause() instanceof ConvergenceException);
-    } catch (Exception e) {
-      fail("wrong exception type caught");
     }
 
 }
 
-  public void testSanityChecks() {
-    try {
+  public void testSanityChecks() throws Exception {
       final TestProblem3 pb  = new TestProblem3(0.9);
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -339,9 +330,6 @@ public class HighamHall54IntegratorTest
         // expected behavior
       }
 
-    } catch (Exception e) {
-      fail("wrong exception caught: " + e.getMessage());
-    }
   }
 
   public void testKepler()

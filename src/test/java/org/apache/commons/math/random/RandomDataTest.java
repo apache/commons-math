@@ -209,11 +209,7 @@ public class RandomDataTest extends RetryTestCase {
         }
         Frequency f = new Frequency();
         for (int i = 0; i < largeSampleSize; i++) {
-            try {
-                f.addValue(randomData.nextPoisson(4.0d));
-            } catch (Exception ex) {
-                fail(ex.getMessage());
-            }
+            f.addValue(randomData.nextPoisson(4.0d));
         }
         long cumFreq = f.getCount(0) + f.getCount(1) + f.getCount(2)
                 + f.getCount(3) + f.getCount(4) + f.getCount(5);

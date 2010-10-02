@@ -49,8 +49,6 @@ public final class BrentOptimizerTest {
             fail("an exception should have been thrown");
         } catch (NoDataException ise) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         assertEquals(3 * FastMath.PI / 2, minimizer.optimize(f, GoalType.MINIMIZE, 4, 5), 10 * minimizer.getRelativeAccuracy());
         assertTrue(minimizer.getIterationCount() <= 50);
@@ -128,8 +126,6 @@ public final class BrentOptimizerTest {
             fail("an exception should have been thrown");
         } catch (MaxIterationsExceededException miee) {
             // expected
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

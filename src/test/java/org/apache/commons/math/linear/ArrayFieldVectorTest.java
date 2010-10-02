@@ -277,8 +277,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         FieldVector<Fraction> v5_i = new ArrayFieldVector<Fraction>(dvec1);
@@ -297,8 +295,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayFieldVector<Fraction> v7 = new ArrayFieldVector<Fraction>(v1);
@@ -372,8 +368,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayFieldVector<Fraction> v_set1 = (ArrayFieldVector<Fraction>) v1.copy();
@@ -384,8 +378,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayFieldVector<Fraction> v_set2 = (ArrayFieldVector<Fraction>) v4.copy();
@@ -397,8 +389,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayFieldVector<Fraction> v_set3 = (ArrayFieldVector<Fraction>) v1.copy();
@@ -410,8 +400,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("ArrayIndexOutOfBoundsException expected");
         } catch (ArrayIndexOutOfBoundsException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         ArrayFieldVector<Fraction> v_set4 = (ArrayFieldVector<Fraction>) v4.copy();
@@ -423,8 +411,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("MatrixIndexException expected");
         } catch (MatrixIndexException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
 
@@ -581,8 +567,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
        try {
@@ -590,8 +574,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
         try {
@@ -599,8 +581,6 @@ public class ArrayFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
     }

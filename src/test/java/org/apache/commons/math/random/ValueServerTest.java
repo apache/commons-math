@@ -39,12 +39,8 @@ public final class ValueServerTest extends RetryTestCase {
     @Override
     public void setUp() {
         vs.setMode(ValueServer.DIGEST_MODE);
-        try {
-            URL url = getClass().getResource("testData.txt");
-            vs.setValuesFileURL(url);
-        } catch (Exception ex) {
-            fail("malformed test URL");
-        }
+        URL url = getClass().getResource("testData.txt");
+        vs.setValuesFileURL(url);
     }
 
     /**
@@ -92,7 +88,7 @@ public final class ValueServerTest extends RetryTestCase {
         } catch (IllegalStateException ex) {}
     }
 
-    public void testEmptyReplayFile() {
+    public void testEmptyReplayFile() throws Exception {
         try {
             URL url = getClass().getResource("emptyFile.txt");
             vs.setMode(ValueServer.REPLAY_MODE);
@@ -101,12 +97,10 @@ public final class ValueServerTest extends RetryTestCase {
             fail("an exception should have been thrown");
         } catch (EOFException eof) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
-    public void testEmptyDigestFile() {
+    public void testEmptyDigestFile() throws Exception {
         try {
             URL url = getClass().getResource("emptyFile.txt");
             vs.setMode(ValueServer.DIGEST_MODE);
@@ -115,8 +109,6 @@ public final class ValueServerTest extends RetryTestCase {
             fail("an exception should have been thrown");
         } catch (EOFException eof) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

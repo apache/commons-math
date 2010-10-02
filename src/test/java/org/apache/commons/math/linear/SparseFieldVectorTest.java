@@ -178,8 +178,6 @@ public class SparseFieldVectorTest extends TestCase {
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
 
 

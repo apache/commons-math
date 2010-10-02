@@ -44,7 +44,7 @@ import org.junit.Test;
 public class NelderMeadTest {
 
   @Test
-  public void testFunctionEvaluationExceptions() {
+  public void testFunctionEvaluationExceptions() throws OptimizationException {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
@@ -65,8 +65,6 @@ public class NelderMeadTest {
       } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNull(ce.getCause());
-      } catch (Exception e) {
-          fail("wrong exception caught: " + e.getMessage());
       }
       try {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
@@ -75,8 +73,6 @@ public class NelderMeadTest {
       } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNotNull(ce.getCause());
-      } catch (Exception e) {
-          fail("wrong exception caught: " + e.getMessage());
       }
   }
 

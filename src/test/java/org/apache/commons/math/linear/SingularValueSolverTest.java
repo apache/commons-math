@@ -40,24 +40,18 @@ public class SingularValueSolverTest {
             Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            Assert.fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            Assert.fail("wrong exception caught");
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            Assert.fail("wrong exception caught");
         }
     }
 

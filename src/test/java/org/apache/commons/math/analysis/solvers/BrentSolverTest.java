@@ -363,8 +363,6 @@ public final class BrentSolverTest extends TestCase {
           fail("an IllegalArgumentException was expected");
         } catch (IllegalArgumentException iae) {
             // expected behaviour
-        } catch (Exception e) {
-            fail("wrong exception caught: " + e.getMessage());
         }
 
         // bad guess

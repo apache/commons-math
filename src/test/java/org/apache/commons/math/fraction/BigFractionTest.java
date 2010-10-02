@@ -98,8 +98,6 @@ public class BigFractionTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

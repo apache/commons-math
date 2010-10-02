@@ -78,24 +78,18 @@ public class QRSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumnVector(0));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
@@ -109,24 +103,18 @@ public class QRSolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumnVector(0));
             fail("an exception should have been thrown");
         } catch (InvalidMatrixException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 

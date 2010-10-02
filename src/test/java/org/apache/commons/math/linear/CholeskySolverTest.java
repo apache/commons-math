@@ -45,24 +45,18 @@ public class CholeskySolverTest extends TestCase {
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected behavior
-        } catch (Exception e) {
-            fail("wrong exception caught");
         }
     }
 
