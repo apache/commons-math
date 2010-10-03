@@ -82,6 +82,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-391">
+        Fixed an error preventing zero length vectors to be built by some constructors
+      </action>
       <action dev="luc" type="fix" issue="MATH-421">
         Fixed an error preventing ODE solvers to be restarted after they have been stopped by a discrete event
       </action>

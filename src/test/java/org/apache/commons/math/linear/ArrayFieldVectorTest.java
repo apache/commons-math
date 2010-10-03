@@ -590,6 +590,35 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
 
+    public void testZeroVectors() {
+
+        // when the field is not specified, array cannot be empty
+        try {
+            new ArrayFieldVector<Fraction>(new Fraction[0]);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            // expected behavior
+        }
+        try {
+            new ArrayFieldVector<Fraction>(new Fraction[0], true);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            // expected behavior
+        }
+        try {
+            new ArrayFieldVector<Fraction>(new Fraction[0], false);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException ex) {
+            // expected behavior
+        }
+
+        // when the field is specified, array can be empty
+        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0]).getDimension());
+        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], true).getDimension());
+        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], false).getDimension());
+
+    }
+
     /** verifies that two vectors are equals */
     protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
         if (m.length != n.length) {
