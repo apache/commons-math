@@ -80,7 +80,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     /**
      * Construct a vector from an array, copying the input array.
      * <p>
-     * This constructor need a non-empty {@code d} array to retrieve
+     * This constructor needs a non-empty {@code d} array to retrieve
      * the field from its first element. This implies it cannot build
      * 0 length vectors. To build vectors from any size, one should
      * use the {@link #ArrayFieldVector(Field, FieldElement[])} constructor.
@@ -119,7 +119,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * set to <code>false</code. This will prevent the copying and improve
      * performance as no new array will be built and no data will be copied.</p>
      * <p>
-     * This constructor need a non-empty {@code d} array to retrieve
+     * This constructor needs a non-empty {@code d} array to retrieve
      * the field from its first element. This implies it cannot build
      * 0 length vectors. To build vectors from any size, one should
      * use the {@link #ArrayFieldVector(Field, FieldElement[], boolean)} constructor.
@@ -247,7 +247,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     /**
      * Construct a vector by appending one vector to another vector.
      * <p>
-     * This constructor need at least one non-empty array to retrieve
+     * This constructor needs at least one non-empty array to retrieve
      * the field from its first element. This implies it cannot build
      * 0 length vectors. To build vectors from any size, one should
      * use the {@link #ArrayFieldVector(Field, FieldElement[], FieldElement[])} constructor.
