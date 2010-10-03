@@ -91,18 +91,9 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
      * @param d data for new vector
      * @param copyArray if true, the input array will be copied, otherwise
      * it will be referenced
-     * @throws IllegalArgumentException if <code>d</code> is empty
-     * @throws NullPointerException if <code>d</code> is null
      * @see #ArrayRealVector(double[])
      */
-    public ArrayRealVector(double[] d, boolean copyArray)
-        throws NullPointerException, IllegalArgumentException {
-        if (d == null) {
-            throw new NullPointerException();
-        }
-        if (d.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT);
-        }
+    public ArrayRealVector(double[] d, boolean copyArray) {
         data = copyArray ? d.clone() :  d;
     }
 

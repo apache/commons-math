@@ -24,6 +24,8 @@ import junit.framework.TestCase;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -606,20 +608,6 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData len", 12, v14.getDimension());
         assertEquals("testData is 9.0 ", 9.0, v14.getEntry(2));
         assertEquals("testData is 1.0 ", 1.0, v14.getEntry(3));
-
-        try {
-            new ArrayRealVector((double[]) null, false);
-            fail("expected exception");
-        } catch (NullPointerException npe) {
-            // expected
-        }
-
-        try {
-            new ArrayRealVector(new double[0], false);
-            fail("expected exception");
-        } catch (IllegalArgumentException iae) {
-            // expected
-        }
 
    }
 
@@ -1280,6 +1268,11 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals(v,TestUtils.serializeAndRecover(v));
     }
 
+    public void testZeroVectors() {
+        assertEquals(0, new ArrayRealVector(new double[0]).getDimension());
+        assertEquals(0, new ArrayRealVector(new double[0], true).getDimension());
+        assertEquals(0, new ArrayRealVector(new double[0], false).getDimension());
+    }
 
     public void testMinMax()  {
         ArrayRealVector v1 = new ArrayRealVector(new double[] { 0, -6, 4, 12, 7 });
