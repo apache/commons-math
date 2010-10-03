@@ -788,6 +788,84 @@ public class FastMathTest {
         Assert.assertTrue("acos() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
     }
 
+    private Dfp cosh(Dfp x) {
+      return DfpMath.exp(x).add(DfpMath.exp(x.negate())).divide(2);
+    }
+
+    private Dfp sinh(Dfp x) {
+      return DfpMath.exp(x).subtract(DfpMath.exp(x.negate())).divide(2);
+    }
+
+    private Dfp tanh(Dfp x) {
+      return sinh(x).divide(cosh(x));
+    }
+
+    @Test
+    public void testSinhAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+
+            double tst = FastMath.sinh(x);
+            double ref = sinh(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(sinh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("sinh() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
+    @Test
+    public void testCoshAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+
+            double tst = FastMath.cosh(x);
+            double ref = cosh(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(cosh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("cosh() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
+    @Test
+    public void testTanhAccuracy() {
+        double maxerrulp = 0.0;
+
+        for (int i=0; i<10000; i++) {
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+
+            double tst = FastMath.tanh(x);
+            double ref = tanh(field.newDfp(x)).toDouble();
+            double err = (tst - ref) / ref;
+
+            if (err != 0) {
+                double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
+                double errulp = field.newDfp(tst).subtract(tanh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
+            }
+        }
+
+        Assert.assertTrue("tanh() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
     @Test
     public void testCbrtAccuracy() {
         double maxerrulp = 0.0;
@@ -1017,7 +1095,49 @@ public class FastMathTest {
             time = System.currentTimeMillis() - time;
             System.out.println("FastMath.cbrt " + time + "\t" + x);
 
-           x = 0;
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.cosh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.cosh " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.cosh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.cosh " + time + "\t" + x);
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.sinh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.sinh " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.sinh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.sinh " + time + "\t" + x);
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += StrictMath.tanh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.print("StrictMath.tanh " + time + "\t" + x + "\t");
+
+            x = 0;
+            time = System.currentTimeMillis();
+            for (int i = 0; i < numberOfRuns; i++)
+                x += FastMath.tanh(i / 1000000.0);
+            time = System.currentTimeMillis() - time;
+            System.out.println("FastMath.tanh " + time + "\t" + x);
+
+            x = 0;
             time = System.currentTimeMillis();
             for (int i = 0; i < numberOfRuns; i++)
                 x += StrictMath.expm1(-i / 100000.0);
@@ -1037,6 +1157,7 @@ public class FastMathTest {
                 x += FastMath.expm1(-i / 100000.0);
             time = System.currentTimeMillis() - time;
             System.out.println("FastMath.expm1 " + time + "\t" + x);
+
         }
     }
 

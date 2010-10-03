@@ -220,68 +220,286 @@ public class FastMath {
     }
 
     /** Compute the hyperbolic cosine of a number.
-     * @param a number on which evaluation is done
-     * @return hyperbolic cosine of a
+     * @param x number on which evaluation is done
+     * @return hyperbolic cosine of x
      */
-    public static double cosh(final double a) {
-        return 0.5 * (FastMath.exp(a) + FastMath.exp(-a));
+    public static double cosh(double x) {
+      if (x != x) {
+          return x;
+      }
+
+      if (x > 20.0) {
+          return exp(x)/2.0;
+      }
+
+      if (x < -20) {
+          return exp(-x)/2.0;
+      }
+
+      double hiPrec[] = new double[2];
+      if (x < 0.0) {
+          x = -x;
+      }
+      exp(x, 0.0, hiPrec);
+
+      double ya = hiPrec[0] + hiPrec[1];
+      double yb = -(ya - hiPrec[0] - hiPrec[1]);
+
+      double temp = ya * 1073741824.0;
+      double yaa = ya + temp - temp;
+      double yab = ya - yaa;
+
+      // recip = 1/y
+      double recip = 1.0/ya;
+      temp = recip * 1073741824.0;
+      double recipa = recip + temp - temp;
+      double recipb = recip - recipa;
+
+      // Correct for rounding in division
+      recipb += (1.0 - yaa*recipa - yaa*recipb - yab*recipa - yab*recipb) * recip;
+      // Account for yb
+      recipb += -yb * recip * recip;
+
+      // y = y + 1/y
+      temp = ya + recipa;
+      yb += -(temp - ya - recipa);
+      ya = temp;
+      temp = ya + recipb;
+      yb += -(temp - ya - recipb);
+      ya = temp;
+
+      double result = ya + yb;
+      result *= 0.5;
+      return result;
     }
 
     /** Compute the hyperbolic sine of a number.
-     * @param a number on which evaluation is done
-     * @return hyperbolic sine of a
+     * @param x number on which evaluation is done
+     * @return hyperbolic sine of x
      */
-    public static double sinh(double a) {
+    public static double sinh(double x) {
+      boolean negate = false;
+      if (x != x) {
+          return x;
+      }
 
-        boolean negative = false;
-        if (a < 0) {
-            negative = true;
-            a = -a;
-        }
+      if (x > 20.0) {
+          return exp(x)/2.0;
+      }
 
-        double absSinh;
-        if (a > 0.3) {
-            absSinh = 0.5 * (FastMath.exp(a) - FastMath.exp(-a));
-        } else {
-            final double a2 = a * a;
-            if (a > 0.05) {
-                absSinh = a * (1 + a2 * (1 + a2  * (1 + a2 * (1 + a2 * (1 + a2 / 110) / 72) / 42) / 20) / 6);
-            } else {
-                absSinh = a * (1 + a2 * (1 + a2  * (1 + a2 / 42) / 20) / 6);
-            }
-        }
+      if (x < -20) {
+          return -exp(-x)/2.0;
+      }
 
-        return negative ? -absSinh : absSinh;
+      if (x == 0) {
+          return x;
+      }
 
+      if (x < 0.0) {
+          x = -x;
+          negate = true;
+      }
+
+      double result;
+
+      if (x > 0.25) {
+          double hiPrec[] = new double[2];
+          exp(x, 0.0, hiPrec);
+
+          double ya = hiPrec[0] + hiPrec[1];
+          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+
+          double temp = ya * 1073741824.0;
+          double yaa = ya + temp - temp;
+          double yab = ya - yaa;
+
+          // recip = 1/y
+          double recip = 1.0/ya;
+          temp = recip * 1073741824.0;
+          double recipa = recip + temp - temp;
+          double recipb = recip - recipa;
+
+          // Correct for rounding in division
+          recipb += (1.0 - yaa*recipa - yaa*recipb - yab*recipa - yab*recipb) * recip;
+          // Account for yb
+          recipb += -yb * recip * recip;
+
+          recipa = -recipa;
+          recipb = -recipb;
+
+          // y = y + 1/y
+          temp = ya + recipa;
+          yb += -(temp - ya - recipa);
+          ya = temp;
+          temp = ya + recipb;
+          yb += -(temp - ya - recipb);
+          ya = temp;
+
+          result = ya + yb;
+          result *= 0.5;
+      }
+      else {
+          double hiPrec[] = new double[2];
+          expm1(x, hiPrec);
+
+          double ya = hiPrec[0] + hiPrec[1];
+          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+
+          /* Compute expm1(-x) = -expm1(x) / (expm1(x) + 1) */
+          double denom = 1.0+ya;
+          double denomr = 1.0/denom;
+          double denomb = -(denom - 1.0 - ya) + yb;
+          double ratio = ya*denomr;
+          double ra, rb;
+          double temp = ratio * 1073741824.0;
+          ra = ratio + temp - temp;
+          rb = ratio - ra;
+
+          temp = denom * 1073741824.0;
+          double za = denom + temp - temp;
+          double zb = denom - za;
+
+          rb += (ya - za*ra - za*rb - zb*ra - zb*rb) * denomr;
+
+          // Adjust for yb
+          rb += yb*denomr;                        // numerator
+          rb += -ya * denomb * denomr * denomr;   // denominator
+
+          // y = y - 1/y
+          temp = ya + ra;
+          yb += -(temp - ya - ra);
+          ya = temp;
+          temp = ya + rb;
+          yb += -(temp - ya - rb);
+          ya = temp;
+
+          result = ya + yb;
+          result *= 0.5;
+      }
+
+      if (negate) {
+          result = -result;
+      }
+
+      return result;
     }
 
     /** Compute the hyperbolic tangent of a number.
-     * @param a number on which evaluation is done
-     * @return hyperbolic tangent of a
+     * @param x number on which evaluation is done
+     * @return hyperbolic tangent of x
      */
-    public static double tanh(double a) {
+    public static double tanh(double x) {
+      boolean negate = false;
 
-        boolean negative = false;
-        if (a < 0) {
-            negative = true;
-            a = -a;
-        }
+      if (x != x) {
+          return x;
+      }
 
-        double absTanh;
-        if (a > 0.074) {
-            final double twoA = 2 * a;
-            absTanh = FastMath.expm1(twoA) / (FastMath.exp(twoA) + 1);
-        } else {
-            final double a2 = a * a;
-            if (a > 0.016) {
-                absTanh = a * (1 - a2 * (1 - a2 * (2 - a2 * (17 - a2 * (62 - a2 * 1382 / 55 ) / 9) / 21) / 5) / 3);
-            } else {
-                absTanh = a * (1 - a2 * (1 - a2 * (2 - a2 * 17 / 21) / 5) / 3);
-            }
-        }
+      if (x > 20.0) {
+          return 1.0;
+      }
 
-        return negative ? -absTanh : absTanh;
+      if (x < -20) {
+          return -1.0;
+      }
 
+      if (x == 0) {
+          return x;
+      }
+
+      if (x < 0.0) {
+          x = -x;
+          negate = true;
+      }
+
+      double result;
+      if (x >= 0.5) {
+          double hiPrec[] = new double[2];
+          // tanh(x) = (exp(2x) - 1) / (exp(2x) + 1)
+          exp(x*2.0, 0.0, hiPrec);
+
+          double ya = hiPrec[0] + hiPrec[1];
+          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+
+          /* Numerator */
+          double na = -1.0 + ya;
+          double nb = -(na + 1.0 - ya);
+          double temp = na + yb;
+          nb += -(temp - na - yb);
+          na = temp;
+
+          /* Denominator */
+          double da = 1.0 + ya;
+          double db = -(da - 1.0 - ya);
+          temp = da + yb;
+          db += -(temp - da - yb);
+          da = temp;
+
+          temp = da * 1073741824.0;
+          double daa = da + temp - temp;
+          double dab = da - daa;
+
+          // ratio = na/da
+          double ratio = na/da;
+          temp = ratio * 1073741824.0;
+          double ratioa = ratio + temp - temp;
+          double ratiob = ratio - ratioa;
+
+          // Correct for rounding in division
+          ratiob += (na - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
+
+          // Account for nb
+          ratiob += nb / da;
+          // Account for db
+          ratiob += -db * na / da / da;
+
+          result = ratioa + ratiob;
+      }
+      else {
+          double hiPrec[] = new double[2];
+          // tanh(x) = expm1(2x) / (expm1(2x) + 2)
+          expm1(x*2.0, hiPrec);
+
+          double ya = hiPrec[0] + hiPrec[1];
+          double yb = -(ya - hiPrec[0] - hiPrec[1]);
+
+          /* Numerator */
+          double na = ya;
+          double nb = yb;
+
+          /* Denominator */
+          double da = 2.0 + ya;
+          double db = -(da - 2.0 - ya);
+          double temp = da + yb;
+          db += -(temp - da - yb);
+          da = temp;
+
+          temp = da * 1073741824.0;
+          double daa = da + temp - temp;
+          double dab = da - daa;
+
+          // ratio = na/da
+          double ratio = na/da;
+          temp = ratio * 1073741824.0;
+          double ratioa = ratio + temp - temp;
+          double ratiob = ratio - ratioa;
+
+          // Correct for rounding in division
+          ratiob += (na - daa*ratioa - daa*ratiob - dab*ratioa - dab*ratiob) / da;
+
+          // Account for nb
+          ratiob += nb / da;
+          // Account for db
+          ratiob += -db * na / da / da;
+
+          result = ratioa + ratiob;
+      }
+      
+      if (negate) {
+          result = -result;
+      }
+
+      return result;
     }
 
     /** Compute the inverse hyperbolic cosine of a number.
@@ -533,6 +751,15 @@ public class FastMath {
      * @return exp(x) - 1
      */
     public static double expm1(double x) {
+      return expm1(x, null);
+    }
+
+    /** Internal helper method for expm1
+     * @param x number to compute shifted exponential
+     * @param hiPrecOut[] receive high precision result for -1.0 < x < 1.0
+     * @return exp(x) - 1
+     */
+    private static double expm1(double x, double hiPrecOut[]) {
         if (x != x || x == 0.0) { // NaN or zero
             return x;
         }
@@ -665,6 +892,11 @@ public class FastMath {
             ya = -ra;
             yb = -rb;
         }
+
+	if (hiPrecOut != null) {
+	  hiPrecOut[0] = ya;
+	  hiPrecOut[1] = yb;
+	}
 
         return ya + yb;
     }
