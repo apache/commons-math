@@ -25,6 +25,11 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Test cases for the {@link BlockFieldMatrix} class.
@@ -468,14 +473,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         TestUtils.assertEquals(m.getColumn(2), testDataCol3);
         try {
             m.getRow(10);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
         try {
             m.getColumn(-1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
     }
@@ -485,8 +490,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(m.getEntry(0,1),new Fraction(2));
         try {
             m.getEntry(10, 4);
-            fail ("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail ("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -566,9 +571,22 @@ public final class BlockFieldMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockFieldMatrix<Fraction>(reference), sub);
             } else {
-                fail("Expecting MatrixIndexException");
+                fail("Expecting OutOfRangeException or NotStrictlyPositiveException"
+                     + " or NumberIsTooSmallException or NoDataException");
             }
-        } catch (MatrixIndexException e) {
+        } catch (OutOfRangeException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NotStrictlyPositiveException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NumberIsTooSmallException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -582,9 +600,21 @@ public final class BlockFieldMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockFieldMatrix<Fraction>(reference), sub);
             } else {
-                fail("Expecting MatrixIndexException");
+                fail("Expecting OutOfRangeException");
             }
-        } catch (MatrixIndexException e) {
+        } catch (OutOfRangeException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NotStrictlyPositiveException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NumberIsTooSmallException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -628,7 +658,7 @@ public final class BlockFieldMatrixTest extends TestCase {
         checkCopy(m, null, -1, 1, 2, 2);
         checkCopy(m, null,  1, 0, 2, 2);
         checkCopy(m, null,  1, 0, 2, 4);
-        checkCopy(m, null, new int[] {},    new int[] { 0 });
+        checkCopy(m, null, new int[] {}, new int[] { 0 });
         checkCopy(m, null, new int[] { 0 }, new int[] { 4 });
     }
 
@@ -642,9 +672,17 @@ public final class BlockFieldMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
             } else {
-                fail("Expecting MatrixIndexException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
-        } catch (MatrixIndexException e) {
+        } catch (OutOfRangeException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NumberIsTooSmallException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -661,9 +699,17 @@ public final class BlockFieldMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockFieldMatrix<Fraction>(reference), new BlockFieldMatrix<Fraction>(sub));
             } else {
-                fail("Expecting MatrixIndexException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
-        } catch (MatrixIndexException e) {
+        } catch (OutOfRangeException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NumberIsTooSmallException e) {
+            if (reference != null) {
+                throw e;
+            }
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -678,14 +724,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -698,8 +744,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mRow3, m.getRowMatrix(0));
         try {
             m.setRowMatrix(-1, mRow3);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -739,14 +785,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mColumn3, m.getColumnMatrix(3));
         try {
             m.getColumnMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -759,8 +805,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mColumn3, m.getColumnMatrix(1));
         try {
             m.setColumnMatrix(-1, mColumn3);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -800,14 +846,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mRow3, m.getRowVector(3));
         try {
             m.getRowVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -820,8 +866,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mRow3, m.getRowVector(0));
         try {
             m.setRowVector(-1, mRow3);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -859,14 +905,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mColumn3, m.getColumnVector(3));
         try {
             m.getColumnVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -879,8 +925,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         assertEquals(mColumn3, m.getColumnVector(1));
         try {
             m.setColumnVector(-1, mColumn3);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -924,14 +970,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         checkArrays(subRow3[0], m.getRow(3));
         try {
             m.getRow(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRow(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -943,8 +989,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         checkArrays(subRow3[0], m.getRow(0));
         try {
             m.setRow(-1, subRow3[0]);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -983,14 +1029,14 @@ public final class BlockFieldMatrixTest extends TestCase {
         checkArrays(mColumn3, m.getColumn(3));
         try {
             m.getColumn(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumn(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -1003,8 +1049,8 @@ public final class BlockFieldMatrixTest extends TestCase {
         checkArrays(mColumn3, m.getColumn(1));
         try {
             m.setColumn(-1, mColumn3);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
@@ -1107,21 +1153,21 @@ public final class BlockFieldMatrixTest extends TestCase {
         // dimension overflow
         try {
             m.setSubMatrix(testData,1,1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         // dimension underflow
         try {
             m.setSubMatrix(testData,-1,1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         try {
             m.setSubMatrix(testData,1,-1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
 

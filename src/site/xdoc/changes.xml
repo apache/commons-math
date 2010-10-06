@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-425">
+        Replaced old exceptions.
+      </action>
       <action dev="erans" type="update" issue="MATH-310">
         Made "sample" methods part of the "IntegerDistribution" and
         "ContinuousDistribution" interfaces.

@@ -71,6 +71,7 @@ public enum LocalizedFormats implements Localizable {
     CLASS_DOESNT_IMPLEMENT_COMPARABLE("class ({0}) does not implement Comparable"),
     CLOSEST_ORTHOGONAL_MATRIX_HAS_NEGATIVE_DETERMINANT("the closest orthogonal matrix has a negative determinant {0}"),
     COLUMN_INDEX_OUT_OF_RANGE("column index {0} out of allowed range [{1}, {2}]"),
+    COLUMN_INDEX("column index ({0})"), /* keep */
     CONTINUED_FRACTION_INFINITY_DIVERGENCE("Continued fraction convergents diverged to +/- infinity for value {0}"),
     CONTINUED_FRACTION_NAN_DIVERGENCE("Continued fraction diverged to NaN for value {0}"),
     CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR("contraction criteria ({0}) smaller than the expansion factor ({1}).  This would lead to a never ending loop of expansion and contraction as a newly expanded internal storage array would immediately satisfy the criteria for contraction."),
@@ -249,6 +250,7 @@ public enum LocalizedFormats implements Localizable {
     SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
+    OUT_OF_RANGE("out of range"), /* keep */
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
     OVERFLOW_IN_ADDITION("overflow in addition: {0} + {1}"),
@@ -265,6 +267,7 @@ public enum LocalizedFormats implements Localizable {
     ROOTS_OF_UNITY_NOT_COMPUTED_YET("roots of unity have not been computed yet"),
     ROTATION_MATRIX_DIMENSIONS("a {0}x{1} matrix cannot be a rotation matrix"),
     ROW_INDEX_OUT_OF_RANGE("row index {0} out of allowed range [{1}, {2}]"),
+    ROW_INDEX("row index ({0})"), /* keep */
     SAME_SIGN_AT_ENDPOINTS("function values at endpoints do not have different signs, endpoints: [{0}, {1}], values: [{2}, {3}]"),
     SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE("sample size ({0}) exceeds collection size ({1})"), /* keep */
     SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE("sample size ({0}) must be less than or equal to population size ({1})"),

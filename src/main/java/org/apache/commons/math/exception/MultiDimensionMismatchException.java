@@ -37,8 +37,8 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
     /**
      * Construct an exception from the mismatched dimensions.
      *
-     * @param wrong Wrong dimensionq.
-     * @param expected Expected dimensionq.
+     * @param wrong Wrong dimensions.
+     * @param expected Expected dimensions.
      */
     public MultiDimensionMismatchException(Integer[] wrong,
                                            Integer[] expected) {
@@ -82,7 +82,8 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
         return wrong[index];
     }
     /**
-     * @return an the expected dimension stored at {@code index}..
+     * @param index Dimension index.
+     * @return the expected dimension stored at {@code index}.
      */
     public int getExpectedDimension(int index) {
         return expected[index];

@@ -26,10 +26,8 @@ import org.apache.commons.math.exception.util.Localizable;
  * @version $Revision$ $Date$
  */
 public class OutOfRangeException extends MathIllegalNumberException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = 111601815794403609L;
-
     /** Lower bound. */
     private final Number lo;
     /** Higher bound. */

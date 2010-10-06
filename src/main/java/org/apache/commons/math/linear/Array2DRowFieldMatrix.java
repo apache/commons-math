@@ -303,8 +303,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
 
     /** {@inheritDoc} */
     @Override
-    public void setSubMatrix(final T[][] subMatrix, final int row, final int column)
-    throws MatrixIndexException {
+    public void setSubMatrix(final T[][] subMatrix, final int row, final int column) {
         if (data == null) {
             if (row > 0) {
                 throw MathRuntimeException.createIllegalStateException(
@@ -341,50 +340,38 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
 
     /** {@inheritDoc} */
     @Override
-    public T getEntry(final int row, final int column)
-        throws MatrixIndexException {
-        try {
-            return data[row][column];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException(
-                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
-        }
+    public T getEntry(final int row, final int column) {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+
+        return data[row][column];
     }
 
     /** {@inheritDoc} */
     @Override
-    public void setEntry(final int row, final int column, final T value)
-        throws MatrixIndexException {
-        try {
-            data[row][column] = value;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException(
-                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
-        }
+    public void setEntry(final int row, final int column, final T value) {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+
+        data[row][column] = value;
     }
 
     /** {@inheritDoc} */
     @Override
-    public void addToEntry(final int row, final int column, final T increment)
-        throws MatrixIndexException {
-        try {
-            data[row][column] = data[row][column].add(increment);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException(
-                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
-        }
+    public void addToEntry(final int row, final int column, final T increment) {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+
+        data[row][column] = data[row][column].add(increment);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void multiplyEntry(final int row, final int column, final T factor)
-        throws MatrixIndexException {
-        try {
-            data[row][column] = data[row][column].multiply(factor);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MatrixIndexException(
-                      LocalizedFormats.NO_SUCH_MATRIX_ENTRY, row, column, getRowDimension(), getColumnDimension());
-        }
+    public void multiplyEntry(final int row, final int column, final T factor) {
+        checkRowIndex(row);
+        checkColumnIndex(column);
+
+        data[row][column] = data[row][column].multiply(factor);
     }
 
     /** {@inheritDoc} */
@@ -483,7 +470,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor,
                             final int startRow, final int endRow,
                             final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -501,7 +488,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor,
                             final int startRow, final int endRow,
                             final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -550,7 +537,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInColumnOrder(final FieldMatrixChangingVisitor<T> visitor,
                                final int startRow, final int endRow,
                                final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -568,7 +555,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInColumnOrder(final FieldMatrixPreservingVisitor<T> visitor,
                                final int startRow, final int endRow,
                                final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);

@@ -22,6 +22,10 @@ import org.apache.commons.math.Field;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Test cases for the {@link SparseFieldMatrix} class.
@@ -336,14 +340,14 @@ public class SparseFieldMatrixTest extends TestCase {
         assertClose("get col", m.getColumn(2), testDataCol3, entryTolerance);
         try {
             m.getRow(10);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
         try {
             m.getColumn(-1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
     }
@@ -353,8 +357,8 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("get entry", m.getEntry(0, 1).doubleValue(), 2d, entryTolerance);
         try {
             m.getEntry(10, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -420,38 +424,38 @@ public class SparseFieldMatrixTest extends TestCase {
 
         try {
             m.getSubMatrix(1, 0, 2, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(-1, 1, 2, 2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getSubMatrix(1, 0, 2, 2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(1, 0, 2, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(new int[] {}, new int[] { 0 });
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NoDataException");
+        } catch (NoDataException ex) {
             // expected
         }
         try {
             m.getSubMatrix(new int[] { 0 }, new int[] { 4 });
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -464,14 +468,14 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -484,14 +488,14 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("Column3", mColumn3, m.getColumnMatrix(3));
         try {
             m.getColumnMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -504,14 +508,14 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
             m.getRowVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -524,14 +528,14 @@ public class SparseFieldMatrixTest extends TestCase {
         assertEquals("Column3", mColumn3, m.getColumnVector(3));
         try {
             m.getColumnVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -596,29 +600,29 @@ public class SparseFieldMatrixTest extends TestCase {
         // dimension overflow
         try {
             m.setSubMatrix(testData, 1, 1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         // dimension underflow
         try {
             m.setSubMatrix(testData, -1, 1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         try {
             m.setSubMatrix(testData, 1, -1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
 
         // null
         try {
             m.setSubMatrix(null, 1, 1);
-            fail("expecting NullPointerException");
-        } catch (NullPointerException e) {
+            fail("expecting NullArgumentException");
+        } catch (NullArgumentException e) {
             // expected
         }
         try {
