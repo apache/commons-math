@@ -148,17 +148,17 @@ public class FastMath {
         (0xc90fdaa2L << 32) | 0x2168c234L,
         (0xc4c6628bL << 32) | 0x80dc1cd1L };
 
-    /** Eighthes.
+    /** Eighths.
      * This is used by sinQ, because its faster to do a table lookup than
      * a multiply in this time-critical routine
      */
     private static final double EIGHTHES[] = {0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
 
-    /* Table of 2^((n+2)/3) */
+    /** Table of 2^((n+2)/3) */
     private static final double CBRTTWO[] = { 0.6299605249474366,
-                                            0.7937005259840998, 
-                                            1.0, 
-                                            1.2599210498948732, 
+                                            0.7937005259840998,
+                                            1.0,
+                                            1.2599210498948732,
                                             1.5874010519681994 };
 
     // Initialize tables
@@ -346,14 +346,13 @@ public class FastMath {
           double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
           /* Compute expm1(-x) = -expm1(x) / (expm1(x) + 1) */
-          double denom = 1.0+ya;
-          double denomr = 1.0/denom;
+          double denom = 1.0 + ya;
+          double denomr = 1.0 / denom;
           double denomb = -(denom - 1.0 - ya) + yb;
-          double ratio = ya*denomr;
-          double ra, rb;
+          double ratio = ya * denomr;
           double temp = ratio * 1073741824.0;
-          ra = ratio + temp - temp;
-          rb = ratio - ra;
+          double ra = ratio + temp - temp;
+          double rb = ratio - ra;
 
           temp = denom * 1073741824.0;
           double za = denom + temp - temp;
@@ -494,7 +493,7 @@ public class FastMath {
 
           result = ratioa + ratiob;
       }
-      
+
       if (negate) {
           result = -result;
       }
@@ -756,7 +755,7 @@ public class FastMath {
 
     /** Internal helper method for expm1
      * @param x number to compute shifted exponential
-     * @param hiPrecOut[] receive high precision result for -1.0 < x < 1.0
+     * @param hiPrecOut receive high precision result for -1.0 < x < 1.0
      * @return exp(x) - 1
      */
     private static double expm1(double x, double hiPrecOut[]) {
@@ -893,10 +892,10 @@ public class FastMath {
             yb = -rb;
         }
 
-	if (hiPrecOut != null) {
-	  hiPrecOut[0] = ya;
-	  hiPrecOut[1] = yb;
-	}
+        if (hiPrecOut != null) {
+            hiPrecOut[0] = ya;
+            hiPrecOut[1] = yb;
+        }
 
         return ya + yb;
     }
@@ -3143,12 +3142,12 @@ public class FastMath {
       int exp3 = exponent / 3;
 
       /* p2 will be the nearest power of 2 to x with its exponent divided by 3 */
-      double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) | 
+      double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) |
                                           (long)(((exp3 + 1023) & 0x7ff)) << 52);
 
       /* This will be a number between 1 and 2 */
       final double mant = Double.longBitsToDouble((inbits & 0x000fffffffffffffL) | 0x3ff0000000000000L);
-      
+
       /* Estimate the cube root of mant by polynomial */
       double est = -0.010714690733195933;
       est = est * mant + 0.0875862700108075;
@@ -3158,10 +3157,10 @@ public class FastMath {
 
       est *= CBRTTWO[exponent % 3 + 2];
 
-      // est should now be good to about 15 bits of precision.   Do 2 rounds of 
+      // est should now be good to about 15 bits of precision.   Do 2 rounds of
       // Newton's method to get closer,  this should get us full double precision
       // Scale down x for the purpose of doing newtons method.  This avoids over/under flows.
-      final double xs = x / (p2*p2*p2); 
+      final double xs = x / (p2*p2*p2);
       est += (xs - est*est*est) / (3*est*est);
       est += (xs - est*est*est) / (3*est*est);
 
@@ -3174,7 +3173,7 @@ public class FastMath {
       double zb = ya * yb * 2.0 + yb * yb;
       temp = za * 1073741824.0;
       double temp2 = za + temp - temp;
-      zb += (za - temp2);
+      zb += za - temp2;
       za = temp2;
 
       zb = za * yb + ya * zb + zb * yb;

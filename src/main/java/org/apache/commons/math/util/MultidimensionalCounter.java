@@ -302,9 +302,9 @@ public class MultidimensionalCounter implements Iterable<Integer> {
 
     /**
      * Java 1.5 does not support Arrays.copyOf()
-     * 
-     * @param source the array to be copied
-     * @param newLen the length of the copy to be returned
+     *
+     * @param source Array to be copied.
+     * @param newLen Length of the copy to be returned.
      * @return the copied array, truncated or padded as necessary.
      */
      private int[] copyOf(int[] source, int newLen) {
@@ -312,5 +312,4 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          System.arraycopy(source, 0, output, 0, Math.min(source.length, newLen));
          return output;
      }
-
 }
