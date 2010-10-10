@@ -47,8 +47,8 @@ import org.apache.commons.math.util.FastMath;
  * </li>
  * </ol></p>
  * <p>
- * To compute percentiles, the data must be (totally) ordered.  Input arrays
- * are copied and then sorted using  {@link java.util.Arrays#sort(double[])}.
+ * To compute percentiles, the data must be at least partially ordered.  Input
+ * arrays are copied and recursively partitioned using an ordering definition.
  * The ordering used by <code>Arrays.sort(double[])</code> is the one determined
  * by {@link java.lang.Double#compareTo(Double)}.  This ordering makes
  * <code>Double.NaN</code> larger than any other value (including
@@ -59,6 +59,18 @@ import org.apache.commons.math.util.FastMath;
  * Since percentile estimation usually involves interpolation between array
  * elements, arrays containing  <code>NaN</code> or infinite values will often
  * result in <code>NaN<code> or infinite values returned.</p>
+ * <p>
+ * Since 2.2, Percentile implementation uses only selection instead of complete
+ * sorting and caches selection algorithm state between calls to the various
+ * {@code evaluate} methods when several percentiles are to be computed on the same data.
+ * This greatly improves efficiency, both for single percentile and multiple
+ * percentiles computations. However, it also induces a need to be sure the data
+ * at one call to {@code evaluate} is the same as the data with the cached algorithm
+ * state from the previous calls. Percentile does this by checking the array reference
+ * itself and a checksum of its content by default. If the user already knows he calls
+ * {@code evaluate} on an immutable array, he can save the checking time by calling the
+ * {@code evaluate} methods that do <em>not</em>
+ * </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
@@ -72,9 +84,18 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /** Serializable version identifier */
     private static final long serialVersionUID = -8091216485095130416L;
 
+    /** Minimum size under which we use a simple insertion sort rather than Hoare's select. */
+    private static final int MIN_SELECT_SIZE = 15;
+
+    /** Maximum number of partitioning pivots cached (each level double the number of pivots). */
+    private static final int MAX_CACHED_LEVELS = 10;
+
     /** Determines what percentile is computed when evaluate() is activated
      * with no quantile argument */
     private double quantile = 0.0;
+
+    /** Cached pivots. */
+    private int[] cachedPivots;
 
     /**
      * Constructs a Percentile with a default quantile
@@ -92,6 +113,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     public Percentile(final double p) {
         setQuantile(p);
+        cachedPivots = null;
     }
 
     /**
@@ -102,6 +124,42 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     public Percentile(Percentile original) {
         copy(original, this);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setData(final double[] values) {
+        if (values == null) {
+            cachedPivots = null;
+        } else {
+            cachedPivots = new int[(0x1 << MAX_CACHED_LEVELS) - 1];
+            Arrays.fill(cachedPivots, -1);
+        }
+        super.setData(values);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setData(final double[] values, final int begin, final int length) {
+        if (values == null) {
+            cachedPivots = null;
+        } else {
+            cachedPivots = new int[(0x1 << MAX_CACHED_LEVELS) - 1];
+            Arrays.fill(cachedPivots, -1);
+        }
+        super.setData(values, begin, length);
+    }
+
+    /**
+     * Returns the result of evaluating the statistic over the stored data.
+     * <p>
+     * The stored array is the one which was set by previous calls to
+     * </p>
+     * @param p the percentile value to compute
+     * @return the value of the statistic applied to the stored data
+     */
+    public double evaluate(final double p) {
+        return evaluate(getDataRef(), p);
     }
 
     /**
@@ -214,19 +272,174 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         double fpos = FastMath.floor(pos);
         int intPos = (int) fpos;
         double dif = pos - fpos;
-        double[] sorted = new double[length];
-        System.arraycopy(values, begin, sorted, 0, length);
-        Arrays.sort(sorted);
+        double[] work;
+        int[] pivotsHeap;
+        if (values == getDataRef()) {
+            work = getDataRef();
+            pivotsHeap = cachedPivots;
+        } else {
+            work = new double[length];
+            System.arraycopy(values, begin, work, 0, length);
+            pivotsHeap = new int[(0x1 << MAX_CACHED_LEVELS) - 1];
+            Arrays.fill(pivotsHeap, -1);
+        }
 
         if (pos < 1) {
-            return sorted[0];
+            return select(work, pivotsHeap, 0);
         }
         if (pos >= n) {
-            return sorted[length - 1];
+            return select(work, pivotsHeap, length - 1);
         }
-        double lower = sorted[intPos - 1];
-        double upper = sorted[intPos];
+        double lower = select(work, pivotsHeap, intPos - 1);
+        double upper = select(work, pivotsHeap, intPos);
         return lower + dif * (upper - lower);
+    }
+
+    /**
+     * Select the k<sup>th</sup> smallest element from work array
+     * @param work work array (will be reorganized during the call)
+     * @param pivotsHeap set of pivot index corresponding to elements that
+     * are already at their sorted location, stored as an implicit heap
+     * (i.e. a sorted binary tree stored in a flat array, where the
+     * children of a node at index n are at indices 2n+1 for the left
+     * child and 2n+2 for the right child, with 0-based indices)
+     * @param k index of the desired element
+     * @return k<sup>th</sup> smallest element
+     */
+    private double select(final double[] work, final int[] pivotsHeap, final int k) {
+
+        int begin = 0;
+        int end   = work.length;
+        int node  = 0;
+
+        while (end - begin > MIN_SELECT_SIZE) {
+
+            final int pivot;
+            if ((node < pivotsHeap.length) && (pivotsHeap[node] >= 0)) {
+                // the pivot has already been found in a previous call
+                // and the array has already been partitioned around it
+                pivot = pivotsHeap[node];
+            } else {
+                // select a pivot and partition work array around it
+                pivot = partition(work, begin, end, medianOf3(work, begin, end));
+                if (node < pivotsHeap.length) {
+                    pivotsHeap[node] =  pivot;
+                }
+            }
+
+            if (k == pivot) {
+                // the pivot was exactly the element we wanted
+                return work[k];
+            } else if (k < pivot) {
+                // the element is in the left partition
+                end  = pivot;
+                node = Math.min(2 * node + 1, pivotsHeap.length); // the min is here to avoid integer overflow
+            } else {
+                // the element is in the right partition
+                begin = pivot + 1;
+                node  = Math.min(2 * node + 2, pivotsHeap.length); // the min is here to avoid integer overflow
+            }
+
+        }
+
+        // the element is somewhere in the small sub-array
+        // sort the sub-array using insertion sort
+        insertionSort(work, begin, end);
+        return work[k];
+
+    }
+
+    /** Select a pivot index as the median of three
+     * @param work data array
+     * @param begin index of the first element of the slice
+     * @param end index after the last element of the slice
+     * @return the index of the median element chosen between the
+     * first, the middle and the last element of the array slice
+     */
+    int medianOf3(final double[] work, final int begin, final int end) {
+
+        final int inclusiveEnd = end - 1;
+        final int    middle    = begin + (inclusiveEnd - begin) / 2;
+        final double wBegin    = work[begin];
+        final double wMiddle   = work[middle];
+        final double wEnd      = work[inclusiveEnd];
+
+        if (wBegin < wMiddle) {
+            if (wMiddle < wEnd) {
+                return middle;
+            } else {
+                return (wBegin < wEnd) ? inclusiveEnd : begin;
+            }
+        } else {
+            if (wBegin < wEnd) {
+                return begin;
+            } else {
+                return (wMiddle < wEnd) ? inclusiveEnd : middle;
+            }
+        }
+
+    }
+
+    /**
+     * Partition an array slice around a pivot
+     * <p>
+     * Partitioning exchanges array elements such that all elements
+     * smaller than pivot are before it and all elements larger than
+     * pivot are after it
+     * </p>
+     * @param work data array
+     * @param begin index of the first element of the slice
+     * @param end index after the last element of the slice
+     * @param pivot initial index of the pivot
+     * @return index of the pivot after partition
+     */
+    private int partition(final double[] work, final int begin, final int end, final int pivot) {
+
+        final double value = work[pivot];
+        work[pivot] = work[begin];
+
+        int i = begin + 1;
+        int j = end - 1;
+        while (i < j) {
+            while ((i < j) && (work[j] >= value)) {
+                --j;
+            }
+            while ((i < j) && (work[i] <= value)) {
+                ++i;
+            }
+
+            if (i < j) {
+                final double tmp = work[i];
+                work[i++] = work[j];
+                work[j--] = tmp;
+            }
+        }
+
+        if ((i >= end) || (work[i] > value)) {
+            --i;
+        }
+        work[begin] = work[i];
+        work[i]     = value;
+        return i;
+
+    }
+
+    /**
+     * Sort in place a (small) array slice using insertion sort
+     * @param work array to sort
+     * @param begin index of the first element of the slice to sort
+     * @param end index after the last element of the slice to sort
+     */
+    private void insertionSort(final double[] work, final int begin, final int end) {
+        for (int j = begin + 1; j < end; j++) {
+            final double saved = work[j];
+            int i = j - 1;
+            while ((i >= begin) && (saved < work[i])) {
+                work[i + 1] = work[i];
+                i--;
+            }
+            work[i + 1] = saved;
+        }
     }
 
     /**
@@ -274,6 +487,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Percentile source, Percentile dest) {
+        dest.setData(source.getDataRef());
+        if (source.cachedPivots != null) {
+            System.arraycopy(source.cachedPivots, 0, dest.cachedPivots, 0, source.cachedPivots.length);
+        }
         dest.quantile = source.quantile;
     }
 

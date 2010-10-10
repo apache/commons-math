@@ -265,6 +265,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Mean source, Mean dest) {
+        dest.setData(source.getDataRef());
         dest.incMoment = source.incMoment;
         dest.moment = source.moment.copy();
     }

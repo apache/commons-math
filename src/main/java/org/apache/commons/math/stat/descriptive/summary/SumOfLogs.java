@@ -155,6 +155,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(SumOfLogs source, SumOfLogs dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

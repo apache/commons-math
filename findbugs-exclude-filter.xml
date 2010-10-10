@@ -93,6 +93,11 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
+    <Class name="org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic"/>
+    <Method name="getDataRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math.optimization.RealPointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />

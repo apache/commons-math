@@ -151,6 +151,7 @@ public class FirstMoment extends AbstractStorelessUnivariateStatistic
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(FirstMoment source, FirstMoment dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.m1 = source.m1;
         dest.dev = source.dev;

@@ -214,6 +214,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Kurtosis source, Kurtosis dest) {
+        dest.setData(source.getDataRef());
         dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;
     }
