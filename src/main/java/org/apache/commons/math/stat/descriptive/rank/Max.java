@@ -156,6 +156,7 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Max source, Max dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

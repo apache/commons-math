@@ -156,6 +156,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Min source, Min dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

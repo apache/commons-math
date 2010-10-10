@@ -159,6 +159,7 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(final SemiVariance source, SemiVariance dest) {
+        dest.setData(source.getDataRef());
         dest.biasCorrected = source.biasCorrected;
         dest.varianceDirection = source.varianceDirection;
     }

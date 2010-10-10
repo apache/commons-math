@@ -264,6 +264,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(StandardDeviation source, StandardDeviation dest) {
+        dest.setData(source.getDataRef());
         dest.variance = source.variance.copy();
     }
 

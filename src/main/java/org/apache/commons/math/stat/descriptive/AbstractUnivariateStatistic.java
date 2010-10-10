@@ -17,10 +17,10 @@
 package org.apache.commons.math.stat.descriptive;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Abstract base class for all implementations of the
@@ -37,6 +37,60 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  */
 public abstract class AbstractUnivariateStatistic
     implements UnivariateStatistic {
+
+    /** Stored data. */
+    private double[] storedData;
+
+    /**
+     * Set the data array.
+     * <p>
+     * The stored value is a copy of the parameter array, not the array itself
+     * </p>
+     * @param values data array to store (may be null to remove stored data)
+     * @see #evaluate()
+     */
+    public void setData(final double[] values) {
+        storedData = (values == null) ? null : values.clone();
+    }
+
+    /**
+     * Get a copy of the stored data array.
+     * @return copy of the stored data array (may be null)
+     */
+    public double[] getData() {
+        return (storedData == null) ? null : storedData.clone();
+    }
+
+    /**
+     * Get a reference to the stored data array.
+     * @return reference to the stored data array (may be null)
+     */
+    protected double[] getDataRef() {
+        return storedData;
+    }
+
+    /**
+     * Set the data array.
+     * @param values data array to store
+     * @param begin the index of the first element to include
+     * @param length the number of elements to include
+     * @see #evaluate()
+     */
+    public void setData(final double[] values, final int begin, final int length) {
+        storedData = new double[length];
+        System.arraycopy(values, begin, storedData, 0, length);
+    }
+
+    /**
+     * Returns the result of evaluating the statistic over the stored data.
+     * <p>
+     * The stored array is the one which was set by previous calls to
+     * </p>
+     * @return the value of the statistic applied to the stored data
+     */
+    public double evaluate() {
+        return evaluate(storedData);
+    }
 
     /**
      * {@inheritDoc}

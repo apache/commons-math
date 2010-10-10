@@ -216,6 +216,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Product source, Product dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

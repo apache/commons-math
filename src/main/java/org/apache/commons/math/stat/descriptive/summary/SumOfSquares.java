@@ -146,6 +146,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(SumOfSquares source, SumOfSquares dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }

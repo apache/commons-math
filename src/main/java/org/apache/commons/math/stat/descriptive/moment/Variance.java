@@ -602,6 +602,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
             dest == null) {
             throw new NullArgumentException();
         }
+        dest.setData(source.getDataRef());
         dest.moment = source.moment.copy();
         dest.isBiasCorrected = source.isBiasCorrected;
         dest.incMoment = source.incMoment;

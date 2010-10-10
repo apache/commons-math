@@ -186,6 +186,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(GeometricMean source, GeometricMean dest) {
+        dest.setData(source.getDataRef());
         dest.sumOfLogs = source.sumOfLogs.copy();
     }
 

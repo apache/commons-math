@@ -212,6 +212,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @throws NullPointerException if either source or dest is null
      */
     public static void copy(Sum source, Sum dest) {
+        dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;
     }
