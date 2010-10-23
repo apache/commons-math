@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class KMeansPlusPlusClustererTest {
@@ -113,6 +114,55 @@ public class KMeansPlusPlusClustererTest {
         EuclideanIntegerPoint pt2 = new EuclideanIntegerPoint(new int[] { 1960, 373200 });
         assertTrue(clusters.get(0).getPoints().contains(pt1));
         assertTrue(clusters.get(0).getPoints().contains(pt2));
+
+    }
+
+    @Test
+    public void testCertainSpace() {
+        KMeansPlusPlusClusterer.EmptyClusterStrategy[] strategies = {
+            KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_VARIANCE,
+            KMeansPlusPlusClusterer.EmptyClusterStrategy.LARGEST_POINTS_NUMBER,
+            KMeansPlusPlusClusterer.EmptyClusterStrategy.FARTHEST_POINT
+        };
+        for (KMeansPlusPlusClusterer.EmptyClusterStrategy strategy : strategies) {
+            KMeansPlusPlusClusterer<EuclideanIntegerPoint> transformer =
+                new KMeansPlusPlusClusterer<EuclideanIntegerPoint>(new Random(1746432956321l), strategy);
+            int numberOfVariables = 27;
+            // initialise testvalues
+            int position1 = 1;
+            int position2 = position1 + numberOfVariables;
+            int position3 = position2 + numberOfVariables;
+            int position4 = position3 + numberOfVariables;
+            // testvalues will be multiplied
+            int multiplier = 1000000;
+
+            EuclideanIntegerPoint[] breakingPoints = new EuclideanIntegerPoint[numberOfVariables];
+            // define the space which will break the cluster algorithm
+            for (int i = 0; i < numberOfVariables; i++) {
+                int points[] = { position1, position2, position3, position4 };
+                // multiply the values
+                for (int j = 0; j < points.length; j++) {
+                    points[j] = points[j] * multiplier;
+                }
+                EuclideanIntegerPoint euclideanIntegerPoint = new EuclideanIntegerPoint(points);
+                breakingPoints[i] = euclideanIntegerPoint;
+                position1 = position1 + numberOfVariables;
+                position2 = position2 + numberOfVariables;
+                position3 = position3 + numberOfVariables;
+                position4 = position4 + numberOfVariables;
+            }
+
+            for (int n = 2; n < 27; ++n) {
+                List<Cluster<EuclideanIntegerPoint>> clusters =
+                    transformer.cluster(Arrays.asList(breakingPoints), n, 100);
+                Assert.assertEquals(n, clusters.size());
+                int sum = 0;
+                for (Cluster<EuclideanIntegerPoint> cluster : clusters) {
+                    sum += cluster.getPoints().size();
+                }
+                Assert.assertEquals(numberOfVariables, sum);
+            }
+        }
 
     }
 
