@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  *
- * @since 3.0
+ * @since 2.2
  * @version $Revision$ $Date$
  */
 public class ConvergenceException extends MathIllegalStateException {

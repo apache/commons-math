@@ -85,6 +85,10 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-429">
+        Fixed k-means++ to add several strategies to deal with empty clusters that may appear
+        during iterations
+      </action>
       <action dev="luc" type="update" issue="MATH-417">
         Improved Percentile performance by using a selection algorithm instead of a
         complete sort, and by allowing caching data array and pivots when several

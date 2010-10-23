@@ -86,6 +86,7 @@ public enum LocalizedFormats implements Localizable {
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
     DUPLICATED_ABSCISSA("Abscissa {0} is duplicated at both indices {1} and {2}"),
+    EMPTY_CLUSTER_IN_K_MEANS("empty cluster in k-means"),
     EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY("empty polynomials coefficients array"), /* keep */
     EMPTY_SELECTED_COLUMN_INDEX_ARRAY("empty selected column index array"),
     EMPTY_SELECTED_ROW_INDEX_ARRAY("empty selected row index array"),

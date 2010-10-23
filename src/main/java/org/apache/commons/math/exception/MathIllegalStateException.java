@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * Base class for all exceptions that signal a mismatch between the
  * current state and the user's expectations.
  *
- * @since 3.0
+ * @since 2.2
  * @version $Revision$ $Date$
  */
 public class MathIllegalStateException extends IllegalStateException {
