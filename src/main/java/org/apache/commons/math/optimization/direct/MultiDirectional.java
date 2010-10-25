@@ -29,6 +29,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  *
  * @version $Revision$ $Date$
  * @see NelderMead
+ * @deprecated in 2.2 (to be removed in 3.0). Please use {@link MultiDirectionalSimplex} instead.
  * @since 1.2
  */
 public class MultiDirectional extends DirectSearchOptimizer

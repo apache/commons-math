@@ -29,6 +29,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * @version $Revision$ $Date$
  * @see MultiDirectional
  * @since 1.2
+ * @deprecated in 2.2 (to be removed in 3.0). Please use {@link NelderMeadSimplex} instead.
  */
 public class NelderMead extends DirectSearchOptimizer
     implements MultivariateRealOptimizer {

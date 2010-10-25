@@ -24,9 +24,9 @@ import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Base class for all preconditions violation exceptions.
- * This class is not intended to be instantiated directly: it should serve
- * as a base class to create all the exceptions that share the semantics of
- * the standard {@link IllegalArgumentException}, but must also provide a
+ * In most cases, this class should not be instantiated directly: it should
+ * serve as a base class to create all the exceptions that share the semantics
+ * of the standard {@link IllegalArgumentException}, but must also provide a
  * localized message.
  *
  * @since 2.2
@@ -56,9 +56,9 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      * @param general Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    protected MathIllegalArgumentException(Localizable specific,
-                                           Localizable general,
-                                           Object ... args) {
+    public MathIllegalArgumentException(Localizable specific,
+                                        Localizable general,
+                                        Object ... args) {
         this.specific = specific;
         this.general = general;
         arguments = ArgUtils.flatten(args);
@@ -67,8 +67,8 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      * @param general Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    protected MathIllegalArgumentException(Localizable general,
-                                           Object ... args) {
+    public MathIllegalArgumentException(Localizable general,
+                                        Object ... args) {
         this(null, general, args);
     }
 

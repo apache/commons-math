@@ -80,6 +80,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @see MultiDirectional
  * @version $Revision$ $Date$
  * @since 1.2
+ * @deprecated in 2.2 (to be removed in 3.0). Please use {@link SimplexOptimizer} instead.
  */
 public abstract class DirectSearchOptimizer
     extends BaseAbstractScalarOptimizer<MultivariateRealFunction> {
