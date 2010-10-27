@@ -25,6 +25,8 @@ import org.apache.commons.math.exception.util.Localizable;
  * Thrown when an operation addresses a matrix coordinate (row, col)
  * which is outside of the dimensions of a matrix.
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use the exceptions in package
+ * {@link org.apache.commons.math.exception}.
  */
 public class MatrixIndexException extends MathRuntimeException {
 

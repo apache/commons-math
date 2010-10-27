@@ -23,6 +23,7 @@ import java.util.NoSuchElementException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -64,26 +65,27 @@ public abstract class AbstractRealVector implements RealVector {
 
     /**
      * Check if an index is valid.
-     * @param index index to check
-     * @exception MatrixIndexException if index is not valid
+     *
+     * @param index Index to check.
+     * @exception OutOfRangeException if {@code index} is not valid.
      */
-    protected void checkIndex(final int index)
-        throws MatrixIndexException {
-        if (index < 0 || index >= getDimension()) {
-            throw new MatrixIndexException(LocalizedFormats.INDEX_OUT_OF_RANGE,
-                                           index, 0, getDimension() - 1);
+    protected void checkIndex(final int index) {
+        if (index < 0 ||
+            index >= getDimension()) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX,
+                                          index, 0, getDimension() - 1);
         }
     }
 
     /** {@inheritDoc} */
-    public void setSubVector(int index, RealVector v) throws MatrixIndexException {
+    public void setSubVector(int index, RealVector v) {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
         setSubVector(index, v.getData());
     }
 
     /** {@inheritDoc} */
-    public void setSubVector(int index, double[] v) throws MatrixIndexException {
+    public void setSubVector(int index, double[] v) {
         checkIndex(index);
         checkIndex(index + v.length - 1);
         for (int i = 0; i < v.length; i++) {
@@ -92,7 +94,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector add(double[] v) throws IllegalArgumentException {
+    public RealVector add(double[] v) {
         double[] result = v.clone();
         Iterator<Entry> it = sparseIterator();
         Entry e;
@@ -103,7 +105,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector add(RealVector v) throws IllegalArgumentException {
+    public RealVector add(RealVector v) {
         if (v instanceof ArrayRealVector) {
             double[] values = ((ArrayRealVector)v).getDataRef();
             return add(values);
@@ -119,7 +121,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector subtract(double[] v) throws IllegalArgumentException {
+    public RealVector subtract(double[] v) {
         double[] result = v.clone();
         Iterator<Entry> it = sparseIterator();
         Entry e;
@@ -131,7 +133,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector subtract(RealVector v) throws IllegalArgumentException {
+    public RealVector subtract(RealVector v) {
         if (v instanceof ArrayRealVector) {
             double[] values = ((ArrayRealVector)v).getDataRef();
             return add(values);
@@ -167,12 +169,12 @@ public abstract class AbstractRealVector implements RealVector {
     public abstract AbstractRealVector copy();
 
     /** {@inheritDoc} */
-    public double dotProduct(double[] v) throws IllegalArgumentException {
+    public double dotProduct(double[] v) {
         return dotProduct(new ArrayRealVector(v, false));
     }
 
     /** {@inheritDoc} */
-    public double dotProduct(RealVector v) throws IllegalArgumentException {
+    public double dotProduct(RealVector v) {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = sparseIterator();
@@ -184,17 +186,17 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
+    public RealVector ebeDivide(double[] v) {
         return ebeDivide(new ArrayRealVector(v, false));
     }
 
     /** {@inheritDoc} */
-    public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
+    public RealVector ebeMultiply(double[] v) {
         return ebeMultiply(new ArrayRealVector(v, false));
     }
 
     /** {@inheritDoc} */
-    public double getDistance(RealVector v) throws IllegalArgumentException {
+    public double getDistance(RealVector v) {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
@@ -241,12 +243,12 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public double getDistance(double[] v) throws IllegalArgumentException {
+    public double getDistance(double[] v) {
         return getDistance(new ArrayRealVector(v,false));
     }
 
     /** {@inheritDoc} */
-    public double getL1Distance(RealVector v) throws IllegalArgumentException {
+    public double getL1Distance(RealVector v) {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
@@ -258,7 +260,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public double getL1Distance(double[] v) throws IllegalArgumentException {
+    public double getL1Distance(double[] v) {
         checkVectorDimensions(v.length);
         double d = 0;
         Iterator<Entry> it = iterator();
@@ -270,7 +272,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public double getLInfDistance(RealVector v) throws IllegalArgumentException {
+    public double getLInfDistance(RealVector v) {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
@@ -282,7 +284,7 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public double getLInfDistance(double[] v) throws IllegalArgumentException {
+    public double getLInfDistance(double[] v) {
         checkVectorDimensions(v.length);
         double d = 0;
         Iterator<Entry> it = iterator();
@@ -720,12 +722,14 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix outerProduct(RealVector v) throws IllegalArgumentException {
+    public RealMatrix outerProduct(RealVector v) {
         RealMatrix product;
         if (v instanceof SparseRealVector || this instanceof SparseRealVector) {
-            product = new OpenMapRealMatrix(this.getDimension(), v.getDimension());
+            product = new OpenMapRealMatrix(this.getDimension(),
+                                            v.getDimension());
         } else {
-            product = new Array2DRowRealMatrix(this.getDimension(), v.getDimension());
+            product = new Array2DRowRealMatrix(this.getDimension(),
+                                               v.getDimension());
         }
         Iterator<Entry> thisIt = sparseIterator();
         Entry thisE = null;
@@ -743,12 +747,12 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
+    public RealMatrix outerProduct(double[] v) {
         return outerProduct(new ArrayRealVector(v, false));
     }
 
     /** {@inheritDoc} */
-    public RealVector projection(double[] v) throws IllegalArgumentException {
+    public RealVector projection(double[] v) {
         return projection(new ArrayRealVector(v, false));
     }
 

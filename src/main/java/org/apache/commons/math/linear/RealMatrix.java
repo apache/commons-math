@@ -134,7 +134,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endColumn Final column index (inclusive)
      * @return The subMatrix containing the data of the
      *         specified rows and columns
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      */
     RealMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn);
 
@@ -146,7 +147,8 @@ public interface RealMatrix extends AnyMatrix {
     * @param selectedColumns Array of column indices.
     * @return The subMatrix containing the data in the
     *         specified rows and columns
-    * @exception MatrixIndexException if row or column selections are not valid
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the indices are not valid.
     */
     RealMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns);
 
@@ -160,22 +162,24 @@ public interface RealMatrix extends AnyMatrix {
     * @param endColumn Final column index (inclusive)
     * @param destination The arrays where the submatrix data should be copied
     * (if larger than rows/columns counts, only the upper-left part will be used)
-    * @exception MatrixIndexException if the indices are not valid
+    * @throws org.apache.commons.math.exception.OutOfRangeException if the
+    * indices are not valid.
     * @exception IllegalArgumentException if the destination array is too small
     */
-  void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
-                     double[][] destination);
-  /**
-   * Copy a submatrix. Rows and columns are indicated
-   * counting from 0 to n-1.
-   *
-    * @param selectedRows Array of row indices.
-    * @param selectedColumns Array of column indices.
-   * @param destination The arrays where the submatrix data should be copied
-   * (if larger than rows/columns counts, only the upper-left part will be used)
-   * @exception MatrixIndexException if the indices are not valid
-   * @exception IllegalArgumentException if the destination array is too small
-   */
+    void copySubMatrix(int startRow, int endRow, int startColumn, int endColumn,
+                       double[][] destination);
+    /**
+     * Copy a submatrix. Rows and columns are indicated
+     * counting from 0 to n-1.
+     *
+     * @param selectedRows Array of row indices.
+     * @param selectedColumns Array of column indices.
+     * @param destination The arrays where the submatrix data should be copied
+     * (if larger than rows/columns counts, only the upper-left part will be used)
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * indices are not valid.
+     * @exception IllegalArgumentException if the destination array is too small
+     */
     void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination);
 
    /**
@@ -198,58 +202,67 @@ public interface RealMatrix extends AnyMatrix {
     * @param subMatrix  array containing the submatrix replacement data
     * @param row  row coordinate of the top, left element to be replaced
     * @param column  column coordinate of the top, left element to be replaced
-    * @throws MatrixIndexException  if subMatrix does not fit into this
-    *    matrix from element in (row, column)
-    * @throws IllegalArgumentException if <code>subMatrix</code> is not rectangular
-    *  (not all rows have the same length) or empty
-    * @throws NullPointerException if <code>subMatrix</code> is null
+    * @throws org.apache.commons.math.exception.ZeroException if
+    * {@code subMatrix} does not contain at least one column.
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * {@code subMatrix} does not fit into this matrix from element in
+    * {@code (row, column)}.
+    * @throws org.apache.commons.math.exception.DimensionMismatchException
+    * if {@code subMatrix} is not rectangular.
+    * (not all rows have the same length) or empty.
+    * @throws org.apache.commons.math.exception.NullArgumentException if
+    * {@code subMatrix} is {@code null}.
     * @since 2.0
     */
     void setSubMatrix(double[][] subMatrix, int row, int column);
 
    /**
-    * Returns the entries in row number <code>row</code>
+    * Geet the entries at the given row index
     * as a row matrix.  Row indices start at 0.
     *
-    * @param row the row to be fetched
-    * @return row matrix
-    * @throws MatrixIndexException if the specified row index is invalid
+    * @param row Row to be fetched.
+    * @return row Matrix.
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified row index is invalid.
     */
    RealMatrix getRowMatrix(int row);
 
    /**
-    * Sets the entries in row number <code>row</code>
+    * Set the entries at the given row index
     * as a row matrix.  Row indices start at 0.
     *
-    * @param row the row to be set
-    * @param matrix row matrix (must have one row and the same number of columns
-    * as the instance)
-    * @throws MatrixIndexException if the specified row index is invalid
+    * @param row Row to be set.
+    * @param matrix Row matrix (must have one row and the same number of
+    * columns as the instance).
+    * @throws org.apache.commons.math.exception.OutOfRangeException if the
+    * specified row index is invalid.
     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
     * if the matrix dimensions do not match one instance row.
     */
     void setRowMatrix(int row, RealMatrix matrix);
 
    /**
-    * Returns the entries in column number <code>column</code>
+    * Get the entries at the given column index
     * as a column matrix.  Column indices start at 0.
     *
-    * @param column the column to be fetched
-    * @return column matrix
-    * @throws MatrixIndexException if the specified column index is invalid
+    * @param column Column to be fetched.
+    * @return column Matrix.
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified column index is invalid.
     */
    RealMatrix getColumnMatrix(int column);
 
    /**
-    * Sets the entries in column number <code>column</code>
+    * Set the entries at the given column index
     * as a column matrix.  Column indices start at 0.
     *
-    * @param column the column to be set
-    * @param matrix column matrix (must have one column and the same number of rows
-    * as the instance)
-    * @throws MatrixIndexException if the specified column index is invalid
+    * @param column Column to be set.
+    * @param matrix Column matrix (must have one column and the same number
+    * of rows as the instance).
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified column index is invalid.
     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
-    * if the matrix dimensions do not match one instance column.
+    * if the {@code matrix} dimensions do not match one instance column.
     */
     void setColumnMatrix(int column, RealMatrix matrix);
 
@@ -257,162 +270,149 @@ public interface RealMatrix extends AnyMatrix {
     * Returns the entries in row number <code>row</code>
     * as a vector.  Row indices start at 0.
     *
-    * @param row the row to be fetched
-    * @return row vector
-    * @throws MatrixIndexException if the specified row index is invalid
+    * @param row Row to be fetched.
+    * @return a row vector.
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified row index is invalid.
     */
    RealVector getRowVector(int row);
 
    /**
-    * Sets the entries in row number <code>row</code>
+    * Set the entries at the given row index.
     * as a vector.  Row indices start at 0.
     *
-    * @param row the row to be set
+    * @param row Row to be set.
     * @param vector row vector (must have the same number of columns
-    * as the instance)
-    * @throws MatrixIndexException if the specified row index is invalid
+    * as the instance).
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified row index is invalid.
     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
     * if the vector dimension does not match one instance row.
     */
     void setRowVector(int row, RealVector vector);
 
    /**
-    * Returns the entries in column number <code>column</code>
+    * Get the entries at the given column index
     * as a vector.  Column indices start at 0.
     *
-    * @param column the column to be fetched
-    * @return column vector
-    * @throws MatrixIndexException if the specified column index is invalid
+    * @param column Column to be fetched.
+    * @return a column vector.
+    * @throws org.apache.commons.math.exception.OutOfRangeException if
+    * the specified column index is invalid
     */
    RealVector getColumnVector(int column);
 
    /**
-    * Sets the entries in column number <code>column</code>
+    * Set the entries at the given column index
     * as a vector.  Column indices start at 0.
     *
-    * @param column the column to be set
-    * @param vector column vector (must have the same number of rows as the instance)
-    * @throws MatrixIndexException if the specified column index is invalid
+    * @param column Column to be set.
+    * @param vector column vector (must have the same number of rows as
+    * the instance).
+    * @throws org.apache.commons.math.exception.OutOfRangeException if the
+    * specified column index is invalid.
     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
     * if the vector dimension does not match one instance column.
     */
     void setColumnVector(int column, RealVector vector);
 
     /**
-     * Returns the entries in row number <code>row</code> as an array.
-     * <p>
-     * Row indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless {@code 0 <= row < rowDimension}.</p>
+     * Get the entries at the given row index.
+     * Row indices start at 0.
      *
-     * @param row the row to be fetched
-     * @return array of entries in the row
-     * @throws MatrixIndexException if the specified row index is not valid
+     * @param row Row to be fetched.
+     * @return the array of entries in the row.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * specified row index is not valid.
      */
     double[] getRow(int row);
 
     /**
-     * Sets the entries in row number <code>row</code>
+     * Set the entries at the given row index
      * as a row matrix.  Row indices start at 0.
      *
-     * @param row the row to be set
-     * @param array row matrix (must have the same number of columns as the instance)
-     * @throws MatrixIndexException if the specified row index is invalid
+     * @param row Row to be set.
+     * @param array Row matrix (must have the same number of columns as
+     * the instance)
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * specified row index is invalid.
      * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
      * if the array size does not match one instance row.
      */
     void setRow(int row, double[] array);
 
     /**
-     * Returns the entries in column number <code>col</code> as an array.
-     * <p>
-     * Column indices start at 0.  A <code>MatrixIndexException</code> is thrown
-     * unless {@code 0 <= column < columnDimension}.</p>
+     * Get the entries at the given column index as an array.
+     * Column indices start at 0.
      *
-     * @param column the column to be fetched
-     * @return array of entries in the column
-     * @throws MatrixIndexException if the specified column index is not valid
+     * @param column Column to be fetched.
+     * @return the array of entries in the column.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * specified column index is not valid.
      */
     double[] getColumn(int column);
 
     /**
-     * Sets the entries in column number <code>column</code>
-     * as a column matrix.  Column indices start at 0.
+     * Set the entries at the given column index
+     * as a column matrix array.  Column indices start at 0.
      *
-     * @param column the column to be set
-     * @param array column array (must have the same number of rows as the instance)
-     * @throws MatrixIndexException if the specified column index is invalid
+     * @param column Column to be set.
+     * @param array Column array (must have the same number of rows as
+     * the instance).
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * specified column index is invalid.
      * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
      * if the array size does not match one instance column.
      */
     void setColumn(int column, double[] array);
 
     /**
-     * Returns the entry in the specified row and column.
-     * <p>
-     * Row and column indices start at 0 and must satisfy
-     * <ul>
-     * <li>{@code 0 <= row < rowDimension}</li>
-     * <li>{@code 0 <= column < columnDimension}</li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * Get the entry in the specified row and column.
+     * Row and column indices start at 0.
      *
-     * @param row  row location of entry to be fetched
-     * @param column  column location of entry to be fetched
-     * @return matrix entry in row,column
-     * @throws MatrixIndexException if the row or column index is not valid
+     * @param row Row location of entry to be fetched.
+     * @param column Column location of entry to be fetched.
+     * @return the matrix entry at {@code (row, column)}.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * row or column index is not valid.
      */
     double getEntry(int row, int column);
 
     /**
      * Set the entry in the specified row and column.
-     * <p>
-     * Row and column indices start at 0 and must satisfy
-     * <ul>
-     * <li>{@code 0 <= row < rowDimension}</li>
-     * <li>{@code 0 <= column < columnDimension}</li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * Row and column indices start at 0.
      *
-     * @param row  row location of entry to be set
-     * @param column  column location of entry to be set
-     * @param value matrix entry to be set in row,column
-     * @throws MatrixIndexException if the row or column index is not valid
+     * @param row Row location of entry to be set.
+     * @param column Column location of entry to be set.
+     * @param value matrix entry to be set.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the row or column index is not valid
      * @since 2.0
      */
     void setEntry(int row, int column, double value);
 
     /**
      * Change an entry in the specified row and column.
-     * <p>
-     * Row and column indices start at 0 and must satisfy
-     * <ul>
-     * <li>{@code 0 <= row < rowDimension}</li>
-     * <li>{@code 0 <= column < columnDimension}</li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * Row and column indices start at 0.
      *
-     * @param row  row location of entry to be set
-     * @param column  column location of entry to be set
-     * @param increment value to add to the current matrix entry in row,column
-     * @throws MatrixIndexException if the row or column index is not valid
+     * @param row Row location of entry to be set.
+     * @param column Column location of entry to be set.
+     * @param increment value to add to the matrix entry.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the row or column index is not valid.
      * @since 2.0
      */
     void addToEntry(int row, int column, double increment);
 
     /**
      * Change an entry in the specified row and column.
-     * <p>
-     * Row and column indices start at 0 and must satisfy
-     * <ul>
-     * <li>{@code 0 <= row < rowDimension}</li>
-     * <li>{@code 0 <= column < columnDimension}</li>
-     * </ul>
-     * otherwise a <code>MatrixIndexException</code> is thrown.</p>
+     * Row and column indices start at 0.
      *
-     * @param row  row location of entry to be set
-     * @param column  column location of entry to be set
-     * @param factor multiplication factor for the current matrix entry in row,column
-     * @throws MatrixIndexException if the row or column index is not valid
+     * @param row Row location of entry to be set.
+     * @param column Column location of entry to be set.
+     * @param factor Multiplication factor for the matrix entry.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the row or column index is not valid.
      * @since 2.0
      */
     void multiplyEntry(int row, int column, double factor);
@@ -513,7 +513,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -536,7 +536,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -563,8 +563,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -592,8 +593,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -617,7 +619,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -640,7 +642,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -667,8 +669,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -696,8 +699,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -720,7 +724,7 @@ public interface RealMatrix extends AnyMatrix {
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -742,7 +746,7 @@ public interface RealMatrix extends AnyMatrix {
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @throws MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -768,8 +772,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -796,8 +801,9 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
-     * @exception MatrixIndexException  if the indices are not valid
+     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)

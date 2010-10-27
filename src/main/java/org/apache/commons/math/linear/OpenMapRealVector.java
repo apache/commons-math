@@ -18,59 +18,58 @@ package org.apache.commons.math.linear;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math.util.OpenIntToDoubleHashMap.Iterator;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * This class implements the {@link RealVector} interface with a {@link OpenIntToDoubleHashMap} backing store.
+ * This class implements the {@link RealVector} interface with a
+ * {@link OpenIntToDoubleHashMap} backing store.
  * @version $Revision$ $Date$
  * @since 2.0
 */
-public class OpenMapRealVector extends AbstractRealVector implements SparseRealVector, Serializable {
-
+public class OpenMapRealVector extends AbstractRealVector
+    implements SparseRealVector, Serializable {
     /** Default Tolerance for having a value considered zero. */
     public static final double DEFAULT_ZERO_TOLERANCE = 1.0e-12;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8772222695580707260L;
-
     /** Entries of the vector. */
     private final OpenIntToDoubleHashMap entries;
-
     /** Dimension of the vector. */
     private final int virtualSize;
-
     /** Tolerance for having a value considered zero. */
     private final double epsilon;
 
     /**
      * Build a 0-length vector.
-     * <p>Zero-length vectors may be used to initialized construction of vectors
+     * Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #OpenMapRealVector(OpenMapRealVector, int)} constructor
-     * or one of the <code>append</code> method ({@link #append(double)}, {@link
+     * or one of the {@code append} method ({@link #append(double)}, {@link
      * #append(double[])}, {@link #append(RealVector)}) to gather data
-     * into this vector.</p>
+     * into this vector.
      */
     public OpenMapRealVector() {
         this(0, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * Construct a (dimension)-length vector of zeros.
-     * @param dimension size of the vector
+     * Construct a vector of zeroes.
+     *
+     * @param dimension Size of the vector.
      */
     public OpenMapRealVector(int dimension) {
         this(dimension, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * Construct a (dimension)-length vector of zeros, specifying zero tolerance.
-     * @param dimension Size of the vector
-     * @param epsilon The tolerance for having a value considered zero
+     * Construct a vector of zeroes, specifying zero tolerance.
+     *
+     * @param dimension Size of the vector.
+     * @param epsilon Tolerance below which a value considered zero.
      */
     public OpenMapRealVector(int dimension, double epsilon) {
         virtualSize = dimension;
@@ -80,8 +79,9 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Build a resized vector, for use with append.
-     * @param v The original vector
-     * @param resize The amount to resize it
+     *
+     * @param v Original vector.
+     * @param resize Amount to add.
      */
     protected OpenMapRealVector(OpenMapRealVector v, int resize) {
         virtualSize = v.getDimension() + resize;
@@ -91,18 +91,21 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Build a vector with known the sparseness (for advanced use only).
-     * @param dimension The size of the vector
-     * @param expectedSize The expected number of non-zero entries
+     *
+     * @param dimension Size of the vector.
+     * @param expectedSize The expected number of non-zero entries.
      */
     public OpenMapRealVector(int dimension, int expectedSize) {
         this(dimension, expectedSize, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * Build a vector with known the sparseness and zero tolerance setting (for advanced use only).
-     * @param dimension The size of the vector
-     * @param expectedSize The expected number of non-zero entries
-     * @param epsilon The tolerance for having a value considered zero
+     * Build a vector with known the sparseness and zero tolerance
+     * setting (for advanced use only).
+     *
+     * @param dimension Size of the vector.
+     * @param expectedSize Expected number of non-zero entries.
+     * @param epsilon Tolerance below which a value is considered zero.
      */
     public OpenMapRealVector(int dimension, int expectedSize, double epsilon) {
         virtualSize = dimension;
@@ -111,19 +114,21 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * Create from a double array.
-     * Only non-zero entries will be stored
-     * @param values The set of values to create from
+     * Create from an array.
+     * Only non-zero entries will be stored.
+     *
+     * @param values Set of values to create from.
      */
     public OpenMapRealVector(double[] values) {
         this(values, DEFAULT_ZERO_TOLERANCE);
     }
 
     /**
-     * Create from a double array, specifying zero tolerance.
-     * Only non-zero entries will be stored
-     * @param values The set of values to create from
-     * @param epsilon The tolerance for having a value considered zero
+     * Create from an array, specifying zero tolerance.
+     * Only non-zero entries will be stored.
+     *
+     * @param values Set of values to create from.
+     * @param epsilon Tolerance below which a value is considered zero.
      */
     public OpenMapRealVector(double[] values, double epsilon) {
         virtualSize = values.length;
@@ -138,8 +143,9 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * Create from a Double array.
-     * Only non-zero entries will be stored
+     * Create from an array.
+     * Only non-zero entries will be stored.
+     *
      * @param values The set of values to create from
      */
     public OpenMapRealVector(Double[] values) {
@@ -147,10 +153,11 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * Create from a Double array.
-     * Only non-zero entries will be stored
-     * @param values The set of values to create from
-     * @param epsilon The tolerance for having a value considered zero
+     * Create from an array.
+     * Only non-zero entries will be stored.
+     *
+     * @param values Set of values to create from.
+     * @param epsilon Tolerance below which a value is considered zero.
      */
     public OpenMapRealVector(Double[] values, double epsilon) {
         virtualSize = values.length;
@@ -166,7 +173,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Copy constructor.
-     * @param v The instance to copy from
+     *
+     * @param v Instance to copy from.
      */
     public OpenMapRealVector(OpenMapRealVector v) {
         virtualSize = v.getDimension();
@@ -176,7 +184,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Generic copy constructor.
-     * @param v The instance to copy from
+     *
+     * @param v Instance to copy from.
      */
     public OpenMapRealVector(RealVector v) {
         virtualSize = v.getDimension();
@@ -192,7 +201,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Get the entries of this instance.
-     * @return entries of this instance
+     *
+     * @return the entries of this instance.
      */
     private OpenIntToDoubleHashMap getEntries() {
         return entries;
@@ -200,8 +210,10 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Determine if this value is within epsilon of zero.
-     * @param value The value to test
-     * @return <code>true</code> if this value is within epsilon to zero, <code>false</code> otherwise
+     *
+     * @param value Value to test
+     * @return {@code true} if this value is within epsilon to zero,
+     * {@code false} otherwise.
      * @since 2.1
      */
     protected boolean isDefaultValue(double value) {
@@ -210,7 +222,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public RealVector add(RealVector v) throws IllegalArgumentException {
+        public RealVector add(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return add((OpenMapRealVector) v);
@@ -220,12 +232,15 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * Optimized method to add two OpenMapRealVectors.  Copies the larger vector, iterates over the smaller.
-     * @param v Vector to add with
-     * @return The sum of <code>this</code> with <code>v</code>
-     * @throws IllegalArgumentException If the dimensions don't match
+     * Optimized method to add two OpenMapRealVectors.
+     * It copies the larger vector, then iterates over the smaller.
+     *
+     * @param v Vector to add.
+     * @return the sum of {@code this} and {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the dimensions do not match.
      */
-    public OpenMapRealVector add(OpenMapRealVector v) throws IllegalArgumentException{
+    public OpenMapRealVector add(OpenMapRealVector v) {
         checkVectorDimensions(v.getDimension());
         boolean copyThis = entries.size() > v.entries.size();
         OpenMapRealVector res = copyThis ? this.copy() : v.copy();
@@ -246,7 +261,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     /**
      * Optimized method to append a OpenMapRealVector.
      * @param v vector to append
-     * @return The result of appending <code>v</code> to self
+     * @return The result of appending {@code v} to self
      */
     public OpenMapRealVector append(OpenMapRealVector v) {
         OpenMapRealVector res = new OpenMapRealVector(this, v.getDimension());
@@ -293,12 +308,14 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Optimized method to compute the dot product with an OpenMapRealVector.
-     * Iterates over the smaller of the two.
-     * @param v The vector to compute the dot product with
-     * @return The dot product of <code>this</code> and <code>v</code>
-     * @throws IllegalArgumentException If the dimensions don't match
+     * It iterates over the smallest of the two.
+     *
+     * @param v Cector to compute the dot product with.
+     * @return the dot product of {@code this} and {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the dimensions do not match.
      */
-    public double dotProduct(OpenMapRealVector v) throws IllegalArgumentException {
+    public double dotProduct(OpenMapRealVector v) {
         checkVectorDimensions(v.getDimension());
         boolean thisIsSmaller  = entries.size() < v.entries.size();
         Iterator iter = thisIsSmaller  ? entries.iterator() : v.entries.iterator();
@@ -313,7 +330,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double dotProduct(RealVector v) throws IllegalArgumentException {
+    public double dotProduct(RealVector v) {
         if(v instanceof OpenMapRealVector) {
             return dotProduct((OpenMapRealVector)v);
         } else {
@@ -322,7 +339,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
-    public OpenMapRealVector ebeDivide(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeDivide(RealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -335,7 +352,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector ebeDivide(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeDivide(double[] v) {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -347,7 +364,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
-    public OpenMapRealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeMultiply(RealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -360,7 +377,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector ebeMultiply(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector ebeMultiply(double[] v) {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         Iterator iter = res.entries.iterator();
@@ -372,7 +389,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
-    public OpenMapRealVector getSubVector(int index, int n) throws MatrixIndexException {
+    public OpenMapRealVector getSubVector(int index, int n) {
         checkIndex(index);
         checkIndex(index + n - 1);
         OpenMapRealVector res = new OpenMapRealVector(n);
@@ -407,11 +424,13 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Optimized method to compute distance.
-     * @param v The vector to compute distance to
-     * @return The distance from <code>this</code> and <code>v</code>
-     * @throws IllegalArgumentException If the dimensions don't match
+     *
+     * @param v Vector to compute distance to.
+     * @return the distance from {@code this} and {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the dimensions do not match.
      */
-    public double getDistance(OpenMapRealVector v) throws IllegalArgumentException {
+    public double getDistance(OpenMapRealVector v) {
         Iterator iter = entries.iterator();
         double res = 0;
         while (iter.hasNext()) {
@@ -435,7 +454,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getDistance(RealVector v) throws IllegalArgumentException {
+    public double getDistance(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getDistance((OpenMapRealVector) v);
@@ -445,7 +464,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getDistance(double[] v) throws IllegalArgumentException {
+    public double getDistance(double[] v) {
         checkVectorDimensions(v.length);
         double res = 0;
         for (int i = 0; i < v.length; i++) {
@@ -456,18 +475,19 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
-    public double getEntry(int index) throws MatrixIndexException {
+    public double getEntry(int index) {
         checkIndex(index);
         return entries.get(index);
     }
 
     /**
      * Distance between two vectors.
-     * <p>This method computes the distance consistent with
+     * This method computes the distance consistent with
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
-     * elements differences.</p>
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * elements differences.
+     *
+     * @param v Vector to which distance is requested.
+     * @return distance between this vector and {@code v}.
      */
     public double getL1Distance(OpenMapRealVector v) {
         double max = 0;
@@ -491,7 +511,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getL1Distance(RealVector v) throws IllegalArgumentException {
+    public double getL1Distance(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getL1Distance((OpenMapRealVector) v);
@@ -501,7 +521,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getL1Distance(double[] v) throws IllegalArgumentException {
+    public double getL1Distance(double[] v) {
         checkVectorDimensions(v.length);
         double max = 0;
         for (int i = 0; i < v.length; i++) {
@@ -513,8 +533,9 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Optimized method to compute LInfDistance.
-     * @param v The vector to compute from
-     * @return the LInfDistance
+     *
+     * @param v Vector to compute distance from.
+     * @return the LInfDistance.
      */
     private double getLInfDistance(OpenMapRealVector v) {
         double max = 0;
@@ -541,7 +562,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getLInfDistance(RealVector v) throws IllegalArgumentException {
+    public double getLInfDistance(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getLInfDistance((OpenMapRealVector) v);
@@ -551,7 +572,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public double getLInfDistance(double[] v) throws IllegalArgumentException {
+    public double getLInfDistance(double[] v) {
         checkVectorDimensions(v.length);
         double max = 0;
         for (int i = 0; i < v.length; i++) {
@@ -609,7 +630,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
      /** {@inheritDoc} */
     @Override
-    public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
+    public RealMatrix outerProduct(double[] v) {
         checkVectorDimensions(v.length);
         RealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
         Iterator iter = entries.iterator();
@@ -625,20 +646,20 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /** {@inheritDoc} */
-    public RealVector projection(RealVector v) throws IllegalArgumentException {
+    public RealVector projection(RealVector v) {
         checkVectorDimensions(v.getDimension());
         return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
     }
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector projection(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector projection(double[] v) {
         checkVectorDimensions(v.length);
         return (OpenMapRealVector) projection(new OpenMapRealVector(v));
     }
 
     /** {@inheritDoc} */
-    public void setEntry(int index, double value) throws MatrixIndexException {
+    public void setEntry(int index, double value) {
         checkIndex(index);
         if (!isDefaultValue(value)) {
             entries.put(index, value);
@@ -649,7 +670,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public void setSubVector(int index, RealVector v) throws MatrixIndexException {
+    public void setSubVector(int index, RealVector v) {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
         setSubVector(index, v.getData());
@@ -657,7 +678,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public void setSubVector(int index, double[] v) throws MatrixIndexException {
+    public void setSubVector(int index, double[] v) {
         checkIndex(index);
         checkIndex(index + v.length - 1);
         for (int i = 0; i < v.length; i++) {
@@ -675,11 +696,13 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /**
      * Optimized method to subtract OpenMapRealVectors.
-     * @param v The vector to subtract from <code>this</code>
-     * @return The difference of <code>this</code> and <code>v</code>
-     * @throws IllegalArgumentException If the dimensions don't match
+     *
+     * @param v Vector to subtract from {@code this}.
+     * @return the difference of {@code this} and {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the dimensions do not match.
      */
-    public OpenMapRealVector subtract(OpenMapRealVector v) throws IllegalArgumentException{
+    public OpenMapRealVector subtract(OpenMapRealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = copy();
         Iterator iter = v.getEntries().iterator();
@@ -697,7 +720,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector subtract(RealVector v) throws IllegalArgumentException {
+    public OpenMapRealVector subtract(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return subtract((OpenMapRealVector) v);
@@ -707,7 +730,7 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector subtract(double[] v) throws IllegalArgumentException {
+    public OpenMapRealVector subtract(double[] v) {
         checkVectorDimensions(v.length);
         OpenMapRealVector res = new OpenMapRealVector(this);
         for (int i = 0; i < v.length; i++) {
@@ -734,16 +757,14 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     public void unitize() {
         double norm = getNorm();
         if (isDefaultValue(norm)) {
-            throw  MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
             entries.put(iter.key(), iter.value() / norm);
         }
-
     }
-
 
     /** {@inheritDoc} */
     @Override
@@ -751,10 +772,11 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         return getData();
     }
 
-    /** {@inheritDoc}
-     * <p> Implementation Note: This works on exact values, and as a result
+    /**
+     * {@inheritDoc}
+     * Implementation Note: This works on exact values, and as a result
      * it is possible for {@code a.subtract(b)} to be the zero vector, while
-     * {@code a.hashCode() != b.hashCode()}.</p>
+     * {@code a.hashCode() != b.hashCode()}.
      */
     @Override
     public int hashCode() {
@@ -774,10 +796,10 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     * <p> Implementation Note: This performs an exact comparison, and as a result
-     * it is possible for {@code a.subtract(b}} to be the zero vector, while
-     * {@code  a.equals(b) == false}.</p>
      * {@inheritDoc}
+     * Implementation Note: This performs an exact comparison, and as a result
+     * it is possible for {@code a.subtract(b}} to be the zero vector, while
+     * {@code  a.equals(b) == false}.
      */
     @Override
     public boolean equals(Object obj) {
@@ -817,18 +839,8 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     /**
      *
      * @return the percentage of none zero elements as a decimal percent.
-     * @deprecated Use the correctly spelled {@link #getSparsity()}
      */
-    @Deprecated
-    public double getSparcity() {
-        return getSparsity();
-    }
-
-    /**
-    *
-    * @return the percentage of none zero elements as a decimal percent.
-    */
-   public double getSparsity() {
+    public double getSparsity() {
         return (double)entries.size()/(double)getDimension();
     }
 
@@ -839,17 +851,18 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     *  Implementation of <code>Entry</code> optimized for OpenMap.
-     * <p>This implementation does not allow arbitrary calls to <code>setIndex</code>
-     * since the order that entries are returned is undefined.
+     * Implementation of {@code Entry} optimized for OpenMap.
+     * This implementation does not allow arbitrary calls to {@code setIndex}
+     * since the order in which entries are returned is undefined.
      */
     protected class OpenMapEntry extends Entry {
-
         /** Iterator pointing to the entry. */
         private final Iterator iter;
 
-        /** Build an entry from an iterator point to an element.
-         * @param iter iterator pointing to the entry
+        /**
+         * Build an entry from an iterator point to an element.
+         *
+         * @param iter Iterator pointing to the entry.
          */
         protected OpenMapEntry(Iterator iter) {
             this.iter = iter;
@@ -876,15 +889,13 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
     }
 
     /**
-     *  Iterator class to do iteration over just the non-zero elements.
-     *  <p>This implementation is fail-fast, so cannot be used to modify any zero element.
-     *
+     * Iterator class to do iteration over just the non-zero elements.
+     * This implementation is fail-fast, so cannot be used to modify
+     * any zero element.
      */
     protected class OpenMapSparseIterator implements java.util.Iterator<Entry> {
-
         /** Underlying iterator. */
         private final Iterator iter;
-
         /** Current entry. */
         private final Entry current;
 
@@ -908,7 +919,6 @@ public class OpenMapRealVector extends AbstractRealVector implements SparseRealV
         /** {@inheritDoc} */
         public void remove() {
             throw new UnsupportedOperationException("Not supported");
-       }
-
+        }
     }
 }

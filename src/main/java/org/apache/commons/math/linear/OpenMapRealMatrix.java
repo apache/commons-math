@@ -27,38 +27,37 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealMatrix, Serializable {
-
+public class OpenMapRealMatrix extends AbstractRealMatrix
+    implements SparseRealMatrix, Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -5962461716457143437L;
-
     /** Number of rows of the matrix. */
     private final int rows;
-
     /** Number of columns of the matrix. */
     private final int columns;
-
     /** Storage for (sparse) matrix elements. */
     private final OpenIntToDoubleHashMap entries;
 
     /**
      * Build a sparse matrix with the supplied row and column dimensions.
-     * @param rowDimension number of rows of the matrix
-     * @param columnDimension number of columns of the matrix
+     *
+     * @param rowDimension Number of rows of the matrix.
+     * @param columnDimension Number of columns of the matrix.
      */
     public OpenMapRealMatrix(int rowDimension, int columnDimension) {
         super(rowDimension, columnDimension);
-        this.rows    = rowDimension;
+        this.rows = rowDimension;
         this.columns = columnDimension;
         this.entries = new OpenIntToDoubleHashMap(0.0);
     }
 
     /**
      * Build a matrix by copying another one.
-     * @param matrix matrix to copy
+     *
+     * @param matrix matrix to copy.
      */
     public OpenMapRealMatrix(OpenMapRealMatrix matrix) {
-        this.rows    = matrix.rows;
+        this.rows = matrix.rows;
         this.columns = matrix.columns;
         this.entries = new OpenIntToDoubleHashMap(matrix.entries);
     }
@@ -71,8 +70,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealMatrix createMatrix(int rowDimension, int columnDimension)
-            throws IllegalArgumentException {
+    public OpenMapRealMatrix createMatrix(int rowDimension, int columnDimension) {
         return new OpenMapRealMatrix(rowDimension, columnDimension);
     }
 
@@ -82,25 +80,15 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         return columns;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public OpenMapRealMatrix add(final RealMatrix m)
-        throws IllegalArgumentException {
-        try {
-            return add((OpenMapRealMatrix) m);
-        } catch (ClassCastException cce) {
-            return (OpenMapRealMatrix) super.add(m);
-        }
-    }
-
     /**
-     * Compute the sum of this and <code>m</code>.
+     * Compute the sum of this matrix and {@code m}.
      *
-     * @param m    matrix to be added
-     * @return     this + m
-     * @throws  IllegalArgumentException if m is not the same size as this
+     * @param m Matrix to be added.
+     * @return {@code this} + {@code m}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code m} is not the same size as this matrix.
      */
-    public OpenMapRealMatrix add(OpenMapRealMatrix m) throws IllegalArgumentException {
+    public OpenMapRealMatrix add(OpenMapRealMatrix m) {
 
         // safety check
         MatrixUtils.checkAdditionCompatible(this, m);
@@ -129,15 +117,15 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
     }
 
     /**
-     * Compute this minus <code>m</code>.
+     * Subtract {@code m} from this matrix.
      *
-     * @param m    matrix to be subtracted
-     * @return     this - m
-     * @throws  IllegalArgumentException if m is not the same size as this
+     * @param m Matrix to be subtracted.
+     * @return {@code this} - {@code m}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code m} is not the same size as this matrix.
      */
-    public OpenMapRealMatrix subtract(OpenMapRealMatrix m) throws IllegalArgumentException {
-
-        // safety check
+    public OpenMapRealMatrix subtract(OpenMapRealMatrix m) {
+        // Safety check.
         MatrixUtils.checkAdditionCompatible(this, m);
 
         final OpenMapRealMatrix out = new OpenMapRealMatrix(this);
@@ -149,7 +137,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -177,21 +164,20 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
             }
 
             return out;
-
         }
     }
 
     /**
-     * Returns the result of postmultiplying this by m.
+     * Postmultiply this matrix by {@code m}.
      *
-     * @param m    matrix to postmultiply by
-     * @return     this * m
-     * @throws     IllegalArgumentException
-     *             if columnDimension(this) != rowDimension(m)
+     * @param m Matrix to postmultiply by.
+     * @return {@code this} * {@code m}.
+     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * if the number of rows of {@code m} differ from the number of columns
+     * of this matrix.
      */
-    public OpenMapRealMatrix multiply(OpenMapRealMatrix m) throws IllegalArgumentException {
-
-        // safety check
+    public OpenMapRealMatrix multiply(OpenMapRealMatrix m) {
+        // Safety check.
         MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int outCols = m.getColumnDimension();
@@ -218,12 +204,11 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getEntry(int row, int column) throws MatrixIndexException {
+    public double getEntry(int row, int column) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);
         return entries.get(computeKey(row, column));
@@ -237,8 +222,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
 
     /** {@inheritDoc} */
     @Override
-    public void setEntry(int row, int column, double value)
-            throws MatrixIndexException {
+    public void setEntry(int row, int column, double value) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);
         if (value == 0.0) {
@@ -250,8 +234,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
 
     /** {@inheritDoc} */
     @Override
-    public void addToEntry(int row, int column, double increment)
-            throws MatrixIndexException {
+    public void addToEntry(int row, int column, double increment) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);
         final int key = computeKey(row, column);
@@ -265,8 +248,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix implements SparseRealM
 
     /** {@inheritDoc} */
     @Override
-    public void multiplyEntry(int row, int column, double factor)
-            throws MatrixIndexException {
+    public void multiplyEntry(int row, int column, double factor) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);
         final int key = computeKey(row, column);

@@ -74,9 +74,8 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public abstract RealMatrix copy();
 
     /** {@inheritDoc} */
-    public RealMatrix add(RealMatrix m) throws IllegalArgumentException {
-
-        // safety check
+    public RealMatrix add(RealMatrix m) {
+        // Safety check.
         MatrixUtils.checkAdditionCompatible(this, m);
 
         final int rowCount    = getRowDimension();
@@ -92,9 +91,8 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix subtract(final RealMatrix m) throws IllegalArgumentException {
-
-        // safety check
+    public RealMatrix subtract(final RealMatrix m) {
+        // Safety check.
         MatrixUtils.checkSubtractionCompatible(this, m);
 
         final int rowCount    = getRowDimension();
@@ -111,7 +109,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public RealMatrix scalarAdd(final double d) {
-
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
         final RealMatrix out = createMatrix(rowCount, columnCount);
@@ -126,7 +123,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public RealMatrix scalarMultiply(final double d) {
-
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
         final RealMatrix out = createMatrix(rowCount, columnCount);
@@ -140,10 +136,8 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix multiply(final RealMatrix m)
-        throws IllegalArgumentException {
-
-        // safety check
+    public RealMatrix multiply(final RealMatrix m) {
+        // Safety check.
         MatrixUtils.checkMultiplicationCompatible(this, m);
 
         final int nRows = getRowDimension();
@@ -164,14 +158,12 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix preMultiply(final RealMatrix m)
-        throws IllegalArgumentException {
+    public RealMatrix preMultiply(final RealMatrix m) {
         return m.multiply(this);
     }
 
     /** {@inheritDoc} */
     public double[][] getData() {
-
         final double[][] data = new double[getRowDimension()][getColumnDimension()];
 
         for (int i = 0; i < data.length; ++i) {
@@ -250,9 +242,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public RealMatrix getSubMatrix(final int startRow, final int endRow,
-                                   final int startColumn, final int endColumn)
-        throws MatrixIndexException {
-
+                                   final int startColumn, final int endColumn) {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
 
         final RealMatrix subMatrix =
@@ -267,9 +257,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getSubMatrix(final int[] selectedRows, final int[] selectedColumns)
-        throws MatrixIndexException {
-
+    public RealMatrix getSubMatrix(final int[] selectedRows, final int[] selectedColumns) {
         // safety checks
         MatrixUtils.checkSubMatrixIndex(this, selectedRows, selectedColumns);
 
@@ -292,8 +280,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     /** {@inheritDoc} */
     public void copySubMatrix(final int startRow, final int endRow,
                               final int startColumn, final int endColumn,
-                              final double[][] destination)
-        throws MatrixIndexException, IllegalArgumentException {
+                              final double[][] destination) {
 
         // safety checks
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
@@ -352,9 +339,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
-        throws MatrixIndexException {
-
+    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) {
         final int nRows = subMatrix.length;
         if (nRows == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
@@ -386,9 +371,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getRowMatrix(final int row)
-        throws MatrixIndexException {
-
+    public RealMatrix getRowMatrix(final int row) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         final RealMatrix out = createMatrix(1, nCols);
@@ -415,9 +398,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getColumnMatrix(final int column)
-        throws MatrixIndexException {
-
+    public RealMatrix getColumnMatrix(final int column) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         final RealMatrix out = createMatrix(nRows, 1);
@@ -444,8 +425,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealVector getRowVector(final int row)
-        throws MatrixIndexException {
+    public RealVector getRowVector(final int row) {
         return new ArrayRealVector(getRow(row), false);
     }
 
@@ -463,8 +443,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealVector getColumnVector(final int column)
-        throws MatrixIndexException {
+    public RealVector getColumnVector(final int column) {
         return new ArrayRealVector(getColumn(column), false);
     }
 
@@ -482,9 +461,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public double[] getRow(final int row)
-        throws MatrixIndexException {
-
+    public double[] getRow(final int row) {
         MatrixUtils.checkRowIndex(this, row);
         final int nCols = getColumnDimension();
         final double[] out = new double[nCols];
@@ -508,9 +485,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public double[] getColumn(final int column)
-        throws MatrixIndexException {
-
+    public double[] getColumn(final int column) {
         MatrixUtils.checkColumnIndex(this, column);
         final int nRows = getRowDimension();
         final double[] out = new double[nRows];
@@ -534,24 +509,19 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public abstract double getEntry(int row, int column)
-        throws MatrixIndexException;
+    public abstract double getEntry(int row, int column);
 
     /** {@inheritDoc} */
-    public abstract void setEntry(int row, int column, double value)
-        throws MatrixIndexException;
+    public abstract void setEntry(int row, int column, double value);
 
     /** {@inheritDoc} */
-    public abstract void addToEntry(int row, int column, double increment)
-        throws MatrixIndexException;
+    public abstract void addToEntry(int row, int column, double increment);
 
     /** {@inheritDoc} */
-    public abstract void multiplyEntry(int row, int column, double factor)
-        throws MatrixIndexException;
+    public abstract void multiplyEntry(int row, int column, double factor);
 
     /** {@inheritDoc} */
     public RealMatrix transpose() {
-
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         final RealMatrix out = createMatrix(nCols, nRows);
@@ -750,7 +720,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -769,7 +739,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -816,7 +786,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-    throws MatrixIndexException, MatrixVisitorException {
+    throws MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -835,7 +805,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-    throws MatrixIndexException, MatrixVisitorException {
+    throws MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -863,7 +833,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
     }
 
@@ -871,7 +841,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixVisitorException {
         return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
     }
 

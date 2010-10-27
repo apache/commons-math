@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
@@ -97,13 +100,18 @@ public class MatrixUtils {
      *
      * @param data input array
      * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if either <code>data</code> or
-     * <code>data[0]</code> is null
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code data} is not rectangular (not all rows have the same length).
+     * @throws ZeroException if a row or column is empty.
+     * @throws NullArgumentException if either {@code data} or {@code data[0]}
+     * is {@code null}.
      * @see #createRealMatrix(int, int)
      */
     public static RealMatrix createRealMatrix(double[][] data) {
+        if (data == null ||
+            data[0] == null) {
+            throw new NullArgumentException();
+        }
         return (data.length * data[0].length <= 4096) ?
                 new Array2DRowRealMatrix(data) : new BlockRealMatrix(data);
     }
@@ -118,15 +126,20 @@ public class MatrixUtils {
      * <p>The input array is copied, not referenced.</p>
      * @param <T> the type of the field elements
      * @param data input array
-     * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if either <code>data</code> or
-     * <code>data[0]</code> is null
+     * @return a matrix containing the values of the array.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code data} is not rectangular (not all rows have the same length).
+     * @throws ZeroException if a row or column is empty.
+     * @throws NullArgumentException if either {@code data} or {@code data[0]}
+     * is {@code null}.
      * @see #createFieldMatrix(Field, int, int)
      * @since 2.0
      */
     public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data) {
+        if (data == null ||
+            data[0] == null) {
+            throw new NullArgumentException();
+        }
         return (data.length * data[0].length <= 4096) ?
                 new Array2DRowFieldMatrix<T>(data) : new BlockFieldMatrix<T>(data);
     }
@@ -172,26 +185,6 @@ public class MatrixUtils {
     }
 
     /**
-     * Returns <code>dimension x dimension</code> identity matrix.
-     *
-     * @param dimension dimension of identity matrix to generate
-     * @return identity matrix
-     * @throws IllegalArgumentException if dimension is not positive
-     * @since 1.1
-     * @deprecated since 2.0, replaced by {@link #createFieldIdentityMatrix(Field, int)}
-     */
-    @Deprecated
-    public static BigMatrix createBigIdentityMatrix(int dimension) {
-        final BigDecimal[][] d = new BigDecimal[dimension][dimension];
-        for (int row = 0; row < dimension; row++) {
-            final BigDecimal[] dRow = d[row];
-            Arrays.fill(dRow, BigMatrixImpl.ZERO);
-            dRow[row] = BigMatrixImpl.ONE;
-        }
-        return new BigMatrixImpl(d, false);
-    }
-
-    /**
      * Returns a diagonal matrix with specified elements.
      *
      * @param diagonal diagonal elements of the matrix (the array elements
@@ -227,84 +220,17 @@ public class MatrixUtils {
     }
 
     /**
-     * Returns a {@link BigMatrix} whose entries are the the values in the
-     * the input array.  The input array is copied, not referenced.
-     *
-     * @param data input array
-     * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if data is null
-     * @deprecated since 2.0 replaced by {@link #createFieldMatrix(FieldElement[][])}
-     */
-    @Deprecated
-    public static BigMatrix createBigMatrix(double[][] data) {
-        return new BigMatrixImpl(data);
-    }
-
-    /**
-     * Returns a {@link BigMatrix} whose entries are the the values in the
-     * the input array.  The input array is copied, not referenced.
-     *
-     * @param data input array
-     * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if data is null
-     * @deprecated since 2.0 replaced by {@link #createFieldMatrix(FieldElement[][])}
-     */
-    @Deprecated
-    public static BigMatrix createBigMatrix(BigDecimal[][] data) {
-        return new BigMatrixImpl(data);
-    }
-
-    /**
-     * Returns a {@link BigMatrix} whose entries are the the values in the
-     * the input array.
-     * <p>If an array is built specially in order to be embedded in a
-     * BigMatrix and not used directly, the <code>copyArray</code> may be
-     * set to <code>false</code. This will prevent the copying and improve
-     * performance as no new array will be built and no data will be copied.</p>
-     * @param data data for new matrix
-     * @param copyArray if true, the input array will be copied, otherwise
-     * it will be referenced
-     * @return  BigMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if <code>data</code> is null
-     * @see #createRealMatrix(double[][])
-     * @deprecated since 2.0 replaced by {@link #createFieldMatrix(FieldElement[][])}
-     */
-    @Deprecated
-    public static BigMatrix createBigMatrix(BigDecimal[][] data, boolean copyArray) {
-        return new BigMatrixImpl(data, copyArray);
-    }
-
-    /**
-     * Returns a {@link BigMatrix} whose entries are the the values in the
-     * the input array.  The input array is copied, not referenced.
-     *
-     * @param data input array
-     * @return  RealMatrix containing the values of the array
-     * @throws IllegalArgumentException if <code>data</code> is not rectangular
-     *  (not all rows have the same length) or empty
-     * @throws NullPointerException if data is null
-     * @deprecated since 2.0 replaced by {@link #createFieldMatrix(FieldElement[][])}
-     */
-    @Deprecated
-    public static BigMatrix createBigMatrix(String[][] data) {
-        return new BigMatrixImpl(data);
-    }
-
-    /**
      * Creates a {@link RealVector} using the data from the input array.
      *
      * @param data the input data
      * @return a data.length RealVector
-     * @throws IllegalArgumentException if <code>data</code> is empty
-     * @throws NullPointerException if <code>data</code>is null
+     * @throws ZeroException if {@code data} is empty.
+     * @throws NullArgumentException if {@code data} is {@code null}.
      */
     public static RealVector createRealVector(double[] data) {
+        if (data == null) {
+            throw new NullArgumentException();
+        }
         return new ArrayRealVector(data, true);
     }
 
@@ -314,23 +240,29 @@ public class MatrixUtils {
      * @param <T> the type of the field elements
      * @param data the input data
      * @return a data.length FieldVector
-     * @throws IllegalArgumentException if <code>data</code> is empty
-     * @throws NullPointerException if <code>data</code>is null
+     * @throws ZeroException if {@code data} is empty.
+     * @throws NullArgumentException if {@code data} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data) {
+        if (data == null) {
+            throw new NullArgumentException();
+        }
         return new ArrayFieldVector<T>(data, true);
     }
 
     /**
-     * Creates a row {@link RealMatrix} using the data from the input
+     * Create a row {@link RealMatrix} using the data from the input
      * array.
      *
      * @param rowData the input row data
      * @return a 1 x rowData.length RealMatrix
-     * @throws IllegalArgumentException if <code>rowData</code> is empty
-     * @throws NullPointerException if <code>rowData</code>is null
+     * @throws ZeroException if {@code rowData} is empty.
+     * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
     public static RealMatrix createRowRealMatrix(double[] rowData) {
+        if (rowData == null) {
+            throw new NullArgumentException();
+        }
         final int nCols = rowData.length;
         final RealMatrix m = createRealMatrix(1, nCols);
         for (int i = 0; i < nCols; ++i) {
@@ -340,20 +272,23 @@ public class MatrixUtils {
     }
 
     /**
-     * Creates a row {@link FieldMatrix} using the data from the input
+     * Create a row {@link FieldMatrix} using the data from the input
      * array.
      *
      * @param <T> the type of the field elements
      * @param rowData the input row data
      * @return a 1 x rowData.length FieldMatrix
-     * @throws IllegalArgumentException if <code>rowData</code> is empty
-     * @throws NullPointerException if <code>rowData</code>is null
+     * @throws ZeroException if {@code rowData} is empty.
+     * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
         createRowFieldMatrix(final T[] rowData) {
+        if (rowData == null) {
+            throw new NullArgumentException();
+        }
         final int nCols = rowData.length;
         if (nCols == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
+            throw new ZeroException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
         }
         final FieldMatrix<T> m = createFieldMatrix(rowData[0].getField(), 1, nCols);
         for (int i = 0; i < nCols; ++i) {
@@ -363,73 +298,18 @@ public class MatrixUtils {
     }
 
     /**
-     * Creates a row {@link BigMatrix} using the data from the input
-     * array.
-     *
-     * @param rowData the input row data
-     * @return a 1 x rowData.length BigMatrix
-     * @throws IllegalArgumentException if <code>rowData</code> is empty
-     * @throws NullPointerException if <code>rowData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createRowFieldMatrix(FieldElement[])}
-     */
-    @Deprecated
-    public static BigMatrix createRowBigMatrix(double[] rowData) {
-        final int nCols = rowData.length;
-        final BigDecimal[][] data = new BigDecimal[1][nCols];
-        for (int i = 0; i < nCols; ++i) {
-            data[0][i] = new BigDecimal(rowData[i]);
-        }
-        return new BigMatrixImpl(data, false);
-    }
-
-    /**
-     * Creates a row {@link BigMatrix} using the data from the input
-     * array.
-     *
-     * @param rowData the input row data
-     * @return a 1 x rowData.length BigMatrix
-     * @throws IllegalArgumentException if <code>rowData</code> is empty
-     * @throws NullPointerException if <code>rowData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createRowFieldMatrix(FieldElement[])}
-     */
-    @Deprecated
-    public static BigMatrix createRowBigMatrix(BigDecimal[] rowData) {
-        final int nCols = rowData.length;
-        final BigDecimal[][] data = new BigDecimal[1][nCols];
-        System.arraycopy(rowData, 0, data[0], 0, nCols);
-        return new BigMatrixImpl(data, false);
-    }
-
-    /**
-     * Creates a row {@link BigMatrix} using the data from the input
-     * array.
-     *
-     * @param rowData the input row data
-     * @return a 1 x rowData.length BigMatrix
-     * @throws IllegalArgumentException if <code>rowData</code> is empty
-     * @throws NullPointerException if <code>rowData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createRowFieldMatrix(FieldElement[])}
-     */
-    @Deprecated
-    public static BigMatrix createRowBigMatrix(String[] rowData) {
-        final int nCols = rowData.length;
-        final BigDecimal[][] data = new BigDecimal[1][nCols];
-        for (int i = 0; i < nCols; ++i) {
-            data[0][i] = new BigDecimal(rowData[i]);
-        }
-        return new BigMatrixImpl(data, false);
-    }
-
-    /**
      * Creates a column {@link RealMatrix} using the data from the input
      * array.
      *
      * @param columnData  the input column data
      * @return a columnData x 1 RealMatrix
-     * @throws IllegalArgumentException if <code>columnData</code> is empty
-     * @throws NullPointerException if <code>columnData</code>is null
+     * @throws ZeroException if {@code columnData} is empty.
+     * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
     public static RealMatrix createColumnRealMatrix(double[] columnData) {
+        if (columnData == null) {
+            throw new NullArgumentException();
+        }
         final int nRows = columnData.length;
         final RealMatrix m = createRealMatrix(nRows, 1);
         for (int i = 0; i < nRows; ++i) {
@@ -445,11 +325,14 @@ public class MatrixUtils {
      * @param <T> the type of the field elements
      * @param columnData  the input column data
      * @return a columnData x 1 FieldMatrix
-     * @throws IllegalArgumentException if <code>columnData</code> is empty
-     * @throws NullPointerException if <code>columnData</code>is null
+     * @throws ZeroException if {@code data} is empty.
+     * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
         createColumnFieldMatrix(final T[] columnData) {
+        if (columnData == null) {
+            throw new NullArgumentException();
+        }
         final int nRows = columnData.length;
         if (nRows == 0) {
             throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
@@ -462,118 +345,77 @@ public class MatrixUtils {
     }
 
     /**
-     * Creates a column {@link BigMatrix} using the data from the input
-     * array.
+     * Check if matrix indices are valid.
      *
-     * @param columnData  the input column data
-     * @return a columnData x 1 BigMatrix
-     * @throws IllegalArgumentException if <code>columnData</code> is empty
-     * @throws NullPointerException if <code>columnData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createColumnFieldMatrix(FieldElement[])}
+     * @param m Matrix.
+     * @param row Row index to check.
+     * @param column Column index to check.
+     * @throws OutOfRangeException if {@code row} or {@code column} is not
+     * a valid index.
      */
-    @Deprecated
-    public static BigMatrix createColumnBigMatrix(double[] columnData) {
-        final int nRows = columnData.length;
-        final BigDecimal[][] data = new BigDecimal[nRows][1];
-        for (int row = 0; row < nRows; row++) {
-            data[row][0] = new BigDecimal(columnData[row]);
-        }
-        return new BigMatrixImpl(data, false);
-    }
-
-    /**
-     * Creates a column {@link BigMatrix} using the data from the input
-     * array.
-     *
-     * @param columnData  the input column data
-     * @return a columnData x 1 BigMatrix
-     * @throws IllegalArgumentException if <code>columnData</code> is empty
-     * @throws NullPointerException if <code>columnData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createColumnFieldMatrix(FieldElement[])}
-     */
-    @Deprecated
-    public static BigMatrix createColumnBigMatrix(BigDecimal[] columnData) {
-        final int nRows = columnData.length;
-        final BigDecimal[][] data = new BigDecimal[nRows][1];
-        for (int row = 0; row < nRows; row++) {
-            data[row][0] = columnData[row];
-        }
-        return new BigMatrixImpl(data, false);
-    }
-
-    /**
-     * Creates a column {@link BigMatrix} using the data from the input
-     * array.
-     *
-     * @param columnData  the input column data
-     * @return a columnData x 1 BigMatrix
-     * @throws IllegalArgumentException if <code>columnData</code> is empty
-     * @throws NullPointerException if <code>columnData</code>is null
-     * @deprecated since 2.0 replaced by {@link #createColumnFieldMatrix(FieldElement[])}
-     */
-    @Deprecated
-    public static BigMatrix createColumnBigMatrix(String[] columnData) {
-        int nRows = columnData.length;
-        final BigDecimal[][] data = new BigDecimal[nRows][1];
-        for (int row = 0; row < nRows; row++) {
-            data[row][0] = new BigDecimal(columnData[row]);
-        }
-        return new BigMatrixImpl(data, false);
+    public static void checkMatrixIndex(final AnyMatrix m,
+                                        final int row, final int column) {
+        checkRowIndex(m, row);
+        checkColumnIndex(m, column);
     }
 
     /**
      * Check if a row index is valid.
-     * @param m matrix containing the submatrix
-     * @param row row index to check
-     * @exception MatrixIndexException if index is not valid
+     *
+     * @param m Matrix.
+     * @param row Row index to check.
+     * @throws OutOfRangeException if {@code row} is not a valid index.
      */
     public static void checkRowIndex(final AnyMatrix m, final int row) {
-        if (row < 0 || row >= m.getRowDimension()) {
-            throw new MatrixIndexException(LocalizedFormats.ROW_INDEX_OUT_OF_RANGE,
-                                           row, 0, m.getRowDimension() - 1);
+        if (row < 0 ||
+            row >= m.getRowDimension()) {
+            throw new OutOfRangeException(LocalizedFormats.ROW_INDEX,
+                                          row, 0, m.getRowDimension() - 1);
         }
     }
 
     /**
      * Check if a column index is valid.
-     * @param m matrix containing the submatrix
-     * @param column column index to check
-     * @exception MatrixIndexException if index is not valid
+     *
+     * @param m Matrix.
+     * @param column Column index to check.
+     * @throws OutOfRangeException if {@code column} is not a valid index.
      */
-    public static void checkColumnIndex(final AnyMatrix m, final int column)
-        throws MatrixIndexException {
+    public static void checkColumnIndex(final AnyMatrix m, final int column) {
         if (column < 0 || column >= m.getColumnDimension()) {
-            throw new MatrixIndexException(LocalizedFormats.COLUMN_INDEX_OUT_OF_RANGE,
+            throw new OutOfRangeException(LocalizedFormats.COLUMN_INDEX,
                                            column, 0, m.getColumnDimension() - 1);
         }
     }
 
     /**
      * Check if submatrix ranges indices are valid.
-     * Rows and columns are indicated counting from 0 to n-1.
+     * Rows and columns are indicated counting from 0 to {@code n - 1}.
      *
-     * @param m matrix containing the submatrix
-     * @param startRow Initial row index
-     * @param endRow Final row index
-     * @param startColumn Initial column index
-     * @param endColumn Final column index
-     * @exception MatrixIndexException  if the indices are not valid
+     * @param m Matrix.
+     * @param startRow Initial row index.
+     * @param endRow Final row index.
+     * @param startColumn Initial column index.
+     * @param endColumn Final column index.
+     * @throws OutOfRangeException if the indices are invalid.
+     * @throws NumberIsTooSmallException if {@code endRow < startRow} or
+     * {@code endColumn < startColumn}.
      */
     public static void checkSubMatrixIndex(final AnyMatrix m,
                                            final int startRow, final int endRow,
                                            final int startColumn, final int endColumn) {
         checkRowIndex(m, startRow);
         checkRowIndex(m, endRow);
-        if (startRow > endRow) {
-            throw new MatrixIndexException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW,
-                                           startRow, endRow);
+        if (endRow < startRow) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW,
+                                                endRow, startRow, false);
         }
 
         checkColumnIndex(m, startColumn);
         checkColumnIndex(m, endColumn);
-        if (startColumn > endColumn) {
-            throw new MatrixIndexException(LocalizedFormats.INITIAL_COLUMN_AFTER_FINAL_COLUMN,
-                                           startColumn, endColumn);
+        if (endColumn < startColumn) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_COLUMN_AFTER_FINAL_COLUMN,
+                                                endColumn, startColumn, false);
         }
 
 
@@ -583,19 +425,29 @@ public class MatrixUtils {
      * Check if submatrix ranges indices are valid.
      * Rows and columns are indicated counting from 0 to n-1.
      *
-     * @param m matrix containing the submatrix
+     * @param m Matrix.
      * @param selectedRows Array of row indices.
      * @param selectedColumns Array of column indices.
-     * @exception MatrixIndexException if row or column selections are not valid
+     * @throws NullArgumentException if {@code selectedRows} or
+     * {@code selectedColumns} are {@code null}.
+     * @throws ZeroException if the row or column selections are empty (zero
+     * length).
+     * @throws OutOfRangeException if row or column selections are not valid.
      */
     public static void checkSubMatrixIndex(final AnyMatrix m,
-                                           final int[] selectedRows, final int[] selectedColumns)
-        throws MatrixIndexException {
-        if (selectedRows.length * selectedColumns.length == 0) {
-            if (selectedRows.length == 0) {
-                throw new MatrixIndexException(LocalizedFormats.EMPTY_SELECTED_ROW_INDEX_ARRAY);
-            }
-            throw new MatrixIndexException(LocalizedFormats.EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
+                                           final int[] selectedRows,
+                                           final int[] selectedColumns) {
+        if (selectedRows == null) {
+            throw new NullArgumentException();
+        }
+        if (selectedColumns == null) {
+            throw new NullArgumentException();
+        }
+        if (selectedRows.length == 0) {
+            throw new ZeroException(LocalizedFormats.EMPTY_SELECTED_ROW_INDEX_ARRAY);
+        }
+        if (selectedColumns.length == 0) {
+            throw new ZeroException(LocalizedFormats.EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
         }
 
         for (final int row : selectedRows) {

@@ -46,202 +46,234 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @since 2.0
  */
 public interface RealVector {
-
     /**
      * Acts as if it is implemented as:
-     * Entry e = null;
-     * for(Iterator<Entry> it = iterator(); it.hasNext(); e = it.next()) {
-     *   e.setValue(function.value(e.getValue()));
-     * }
-     * @param function to apply to each successive entry
-     * @return this vector
-     * @throws FunctionEvaluationException if function throws it on application to any entry
+     * <pre>
+     *  Entry e = null;
+     *  for(Iterator<Entry> it = iterator(); it.hasNext(); e = it.next()) {
+     *      e.setValue(function.value(e.getValue()));
+     *  }
+     * </pre>
+     *
+     * @param function Function to apply to each entry.
+     * @return this vector.
+     * @throws FunctionEvaluationException if the function throws it.
      */
     RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException;
 
     /**
      * Acts as if implemented as:
-     * return copy().map(function);
-     * @param function to apply to each successive entry
-     * @return a new vector
-     * @throws FunctionEvaluationException if function throws it on application to any entry
+     * <pre>
+     *  return copy().map(function);
+     * </pre>
+     *
+     * @param function Functin to apply to each entry.
+     * @return a new vector.
+     * @throws FunctionEvaluationException if the function throws it.
      */
     RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException;
 
     /** Class representing a modifiable entry in the vector. */
     public abstract class Entry {
-
         /** Index of the entry. */
         private int index;
 
-        /** Get the value of the entry.
-         * @return value of the entry
+        /**
+         * Get the value of the entry.
+         *
+         * @return the value of the entry.
          */
         public abstract double getValue();
-
-        /** Set the value of the entry.
-         * @param value new value for the entry
+        /**
+         * Set the value of the entry.
+         *
+         * @param value New value for the entry.
          */
         public abstract void setValue(double value);
-
-        /** Get the index of the entry.
-         * @return index of the entry
+        /**
+         * Get the index of the entry.
+         *
+         * @return the index of the entry.
          */
         public int getIndex() {
             return index;
         }
-
-        /** Set the index of the entry.
-         * @param index new index for the entry
+        /**
+         * Set the index of the entry.
+         *
+         * @param index New index for the entry.
          */
         public void setIndex(int index) {
             this.index = index;
         }
-
     }
 
     /**
-     * Generic dense iterator - starts with index == zero, and hasNext() == true until index == getDimension();
+     * Generic dense iterator.
+     * It iterates in increasing order of the vector index.
+     *
      * @return a dense iterator
      */
     Iterator<Entry> iterator();
 
     /**
-     * Specialized implementations may choose to not iterate over all dimensions, either because those values are
-     * unset, or are equal to defaultValue(), or are small enough to be ignored for the purposes of iteration.
+     * Specialized implementations may choose to not iterate over all
+     * dimensions, either because those values are unset, or are equal
+     * to defaultValue(), or are small enough to be ignored for the
+     * purposes of iteration.
      * No guarantees are made about order of iteration.
-     * In dense implementations, this method will often delegate to {@link #iterator()}
+     * In dense implementations, this method will often delegate to
+     * {@link #iterator()}.
+     *
      * @return a sparse iterator
      */
     Iterator<Entry> sparseIterator();
 
     /**
-     * Returns a (deep) copy of this.
-     * @return vector copy
+     * Returns a (deep) copy of this vector.
+     *
+     * @return a vector copy.
      */
     RealVector copy();
 
     /**
-     * Compute the sum of this and v.
-     * @param v vector to be added
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * Compute the sum of this vector and {@code v}.
+     *
+     * @param v Vector to be added.
+     * @return {@code this} + {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector add(RealVector v)
-        throws IllegalArgumentException;
+    RealVector add(RealVector v);
 
     /**
-     * Compute the sum of this and v.
-     * @param v vector to be added
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * Compute the sum of this vector and {@code v}.
+     *
+     * @param v Vector to be added.
+     * @return {@code this} + {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector add(double[] v)
-        throws IllegalArgumentException;
+    RealVector add(double[] v);
+
 
     /**
-     * Compute this minus v.
-     * @param v vector to be subtracted
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * Subtract {@code v} from this vector.
+     *
+     * @param v Vector to be subtracted.
+     * @return {@code this} - {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector subtract(RealVector v)
-        throws IllegalArgumentException;
+    RealVector subtract(RealVector v);
 
     /**
-     * Compute this minus v.
-     * @param v vector to be subtracted
-     * @return this - v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * Subtract {@code v} from this vector.
+     *
+     * @param v Vector to be subtracted.
+     * @return {@code this} - {@code v}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector subtract(double[] v)
-        throws IllegalArgumentException;
+    RealVector subtract(double[] v);
 
     /**
-     * Map an addition operation to each entry.
-     * @param d value to be added to each entry
-     * @return this + d
+     * Add a value to each entry.
+     *
+     * @param d Value to be added to each entry.
+     * @return {@code this} + {@code d}.
      */
     RealVector mapAdd(double d);
 
     /**
-     * Map an addition operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @param d value to be added to each entry
-     * @return for convenience, return this
+     * Add a value to each entry.
+     * The instance is changed in-place.
+     *
+     * @param d Value to be added to each entry.
+     * @return {@code this}.
      */
     RealVector mapAddToSelf(double d);
 
     /**
-     * Map a subtraction operation to each entry.
-     * @param d value to be subtracted to each entry
-     * @return this - d
+     * Subtract a value from each entry.
+     *
+     * @param d Value to be subtracted.
+     * @return {@code this} - {@code d}.
      */
     RealVector mapSubtract(double d);
 
     /**
-     * Map a subtraction operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @param d value to be subtracted to each entry
-     * @return for convenience, return this
+     * Subtract a value from each entry.
+     * The instance is changed in-place.
+     *
+     * @param d Value to be subtracted.
+     * @return {@code this}.
      */
     RealVector mapSubtractToSelf(double d);
 
     /**
-     * Map a multiplication operation to each entry.
-     * @param d value to multiply all entries by
-     * @return this * d
+     * Multiply each entry.
+     *
+     * @param d Multiplication factor.
+     * @return {@code this} * {@code d}.
      */
     RealVector mapMultiply(double d);
 
     /**
-     * Map a multiplication operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @param d value to multiply all entries by
-     * @return for convenience, return this
+     * Multiply each entry.
+     * The instance is changed in-place.
+     *
+     * @param d Multiplication factor.
+     * @return {@code this}.
      */
     RealVector mapMultiplyToSelf(double d);
 
     /**
-     * Map a division operation to each entry.
-     * @param d value to divide all entries by
-     * @return this / d
+     * Divide each entry.
+     *
+     * @param d Value to divide by.
+     * @return {@code this} / {@code d}.
      */
     RealVector mapDivide(double d);
 
     /**
-     * Map a division operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @param d value to divide all entries by
-     * @return for convenience, return this
+     * Divide each entry.
+     * The instance is changed in-place.
+     *
+     * @param d Value to divide by.
+     * @return {@code this}.
      */
     RealVector mapDivideToSelf(double d);
 
     /**
      * Map a power operation to each entry.
-     * @param d value to raise all entries to
-     * @return this ^ d
+     *
+     * @param d Operator value.
+     * @return a mapped copy of the vector.
      */
     RealVector mapPow(double d);
 
     /**
      * Map a power operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @param d value to raise all entries to
-     * @return for convenience, return this
+     * The instance is changed in-place.
+     *
+     * @param d Operator value.
+     * @return the mapped vector.
      */
     RealVector mapPowToSelf(double d);
 
     /**
      * Map the {@link Math#exp(double)} function to each entry.
-     * @return a vector containing the result of applying the function to each entry
+     *
+     * @return a mapped copy of the vector.
      */
     RealVector mapExp();
 
     /**
-     * Map the {@link Math#exp(double)} function to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @return for convenience, return this
+     * Map {@link Math#exp(double)} operation to each entry.
+     * The instance is changed in-place.
+     *
+     * @return the mapped vector.
      */
     RealVector mapExpToSelf();
 
@@ -535,33 +567,37 @@ public interface RealVector {
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
      * @return a vector containing this[i] * v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector ebeMultiply(RealVector v) throws IllegalArgumentException;
+    RealVector ebeMultiply(RealVector v);
 
     /**
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
      * @return a vector containing this[i] * v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector ebeMultiply(double[] v) throws IllegalArgumentException;
+    RealVector ebeMultiply(double[] v);
 
     /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
      * @return a vector containing this[i] / v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector ebeDivide(RealVector v) throws IllegalArgumentException;
+    RealVector ebeDivide(RealVector v);
 
     /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
      * @return a vector containing this[i] / v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector ebeDivide(double[] v) throws IllegalArgumentException;
+    RealVector ebeDivide(double[] v);
 
     /**
      * Returns vector entries as a double array.
@@ -573,19 +609,19 @@ public interface RealVector {
      * Compute the dot product.
      * @param v vector with which dot product should be computed
      * @return the scalar dot product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    double dotProduct(RealVector v)
-        throws IllegalArgumentException;
+    double dotProduct(RealVector v);
 
     /**
      * Compute the dot product.
      * @param v vector with which dot product should be computed
      * @return the scalar dot product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    double dotProduct(double[] v)
-        throws IllegalArgumentException;
+    double dotProduct(double[] v);
 
     /**
      * Returns the L<sub>2</sub> norm of the vector.
@@ -627,13 +663,13 @@ public interface RealVector {
      * elements differences, or euclidian distance.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getL1Distance(RealVector)
      * @see #getLInfDistance(RealVector)
      * @see #getNorm()
      */
-    double getDistance(RealVector v)
-        throws IllegalArgumentException;
+    double getDistance(RealVector v);
 
     /**
      * Distance between two vectors.
@@ -642,13 +678,13 @@ public interface RealVector {
      * elements differences, or euclidian distance.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getL1Distance(double[])
      * @see #getLInfDistance(double[])
      * @see #getNorm()
      */
-    double getDistance(double[] v)
-        throws IllegalArgumentException;
+    double getDistance(double[] v);
 
     /**
      * Distance between two vectors.
@@ -657,13 +693,13 @@ public interface RealVector {
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getDistance(RealVector)
      * @see #getLInfDistance(RealVector)
      * @see #getL1Norm()
      */
-    double getL1Distance(RealVector v)
-        throws IllegalArgumentException;
+    double getL1Distance(RealVector v);
 
     /**
      * Distance between two vectors.
@@ -672,13 +708,13 @@ public interface RealVector {
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getDistance(double[])
      * @see #getLInfDistance(double[])
      * @see #getL1Norm()
      */
-    double getL1Distance(double[] v)
-        throws IllegalArgumentException;
+    double getL1Distance(double[] v);
 
     /**
      * Distance between two vectors.
@@ -687,13 +723,13 @@ public interface RealVector {
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getDistance(RealVector)
      * @see #getL1Distance(RealVector)
      * @see #getLInfNorm()
      */
-    double getLInfDistance(RealVector v)
-        throws IllegalArgumentException;
+    double getLInfDistance(RealVector v);
 
     /**
      * Distance between two vectors.
@@ -702,13 +738,13 @@ public interface RealVector {
      * elements differences.</p>
      * @param v vector to which distance is requested
      * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      * @see #getDistance(double[])
      * @see #getL1Distance(double[])
      * @see #getLInfNorm()
      */
-    double getLInfDistance(double[] v)
-        throws IllegalArgumentException;
+    double getLInfDistance(double[] v);
 
     /** Creates a unit vector pointing in the direction of this vector.
      * <p>The instance is not changed by this method.</p>
@@ -719,68 +755,65 @@ public interface RealVector {
 
     /** Converts this vector into a unit vector.
      * <p>The instance itself is changed by this method.</p>
-     * @exception ArithmeticException if the norm is null
+     * @throws  org.apache.commons.math.exception.MathArithmeticException
+     * if the norm is zero.
      */
     void unitize();
 
     /** Find the orthogonal projection of this vector onto another vector.
      * @param v vector onto which instance must be projected
      * @return projection of the instance onto v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector projection(RealVector v)
-        throws IllegalArgumentException;
+    RealVector projection(RealVector v);
 
     /** Find the orthogonal projection of this vector onto another vector.
      * @param v vector onto which instance must be projected
      * @return projection of the instance onto v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealVector projection(double[] v)
-        throws IllegalArgumentException;
+    RealVector projection(double[] v);
 
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
      * @return the square matrix outer product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealMatrix outerProduct(RealVector v)
-        throws IllegalArgumentException;
+    RealMatrix outerProduct(RealVector v);
 
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
      * @return the square matrix outer product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code v} is not the same size as this vector.
      */
-    RealMatrix outerProduct(double[] v)
-        throws IllegalArgumentException;
+    RealMatrix outerProduct(double[] v);
 
     /**
      * Returns the entry in the specified index.
-     * <p>
-     * The index start at 0 and must be lesser than the size,
-     * otherwise a {@link MatrixIndexException} is thrown.
-     * </p>
-     * @param index  index location of entry to be fetched
-     * @return vector entry at index
-     * @throws MatrixIndexException if the index is not valid
+     *
+     * @param index Index location of entry to be fetched.
+     * @return the vector entry at {@code index}.
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is not valid.
      * @see #setEntry(int, double)
      */
-    double getEntry(int index)
-        throws MatrixIndexException;
+    double getEntry(int index);
 
     /**
      * Set a single element.
      * @param index element index.
      * @param value new value for the element.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is not valid.
      * @see #getEntry(int)
      */
-    void setEntry(int index, double value)
-        throws MatrixIndexException;
+    void setEntry(int index, double value);
 
     /**
      * Returns the size of the vector.
@@ -814,33 +847,30 @@ public interface RealVector {
      * @param index index of first element.
      * @param n number of elements to be retrieved.
      * @return a vector containing n elements.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is not valid.
      */
-    RealVector getSubVector(int index, int n)
-        throws MatrixIndexException;
+    RealVector getSubVector(int index, int n);
 
     /**
      * Set a set of consecutive elements.
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is not valid.
      * @see #setSubVector(int, double[])
      */
-    void setSubVector(int index, RealVector v)
-        throws MatrixIndexException;
+    void setSubVector(int index, RealVector v);
 
     /**
      * Set a set of consecutive elements.
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is not valid.
      * @see #setSubVector(int, RealVector)
      */
-    void setSubVector(int index, double[] v)
-        throws MatrixIndexException;
+    void setSubVector(int index, double[] v);
 
     /**
      * Set all elements to a single value.
@@ -857,17 +887,17 @@ public interface RealVector {
     double[] toArray();
 
     /**
-     * Returns true if any coordinate of this vector is NaN; false otherwise
-     * @return  true if any coordinate of this vector is NaN; false otherwise
+     * Check whether any coordinate of this vector is {@code NaN}.
+     * @return {@code true} if any coordinate of this vector is {@code NaN},
+     * {@code false} otherwise.
      */
     boolean isNaN();
 
     /**
-     * Returns true if any coordinate of this vector is infinite and none are NaN;
-     * false otherwise
-     * @return  true if any coordinate of this vector is infinite and none are NaN;
-     * false otherwise
+     * Check whether any coordinate of this vector is infinite and none are {@code NaN}.
+     *
+     * @return {@code true} if any coordinate of this vector is infinite and
+     * none are {@code NaN}, {@code false} otherwise.
      */
     boolean isInfinite();
-
 }

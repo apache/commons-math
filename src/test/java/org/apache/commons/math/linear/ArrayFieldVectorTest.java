@@ -26,6 +26,7 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.OutOfRangeException;
 
 /**
  * Test cases for the {@link ArrayFieldVector} class.
@@ -365,8 +366,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(5), vout5.getEntry(1));
         try {
             v4.getSubVector(3, 7);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -375,8 +376,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(11), v_set1.getEntry(1));
         try {
             v_set1.setEntry(3, new Fraction(11));
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -386,8 +387,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(7), v_set2.getEntry(6));
         try {
             v_set2.set(7, v1);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -408,8 +409,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(7), v_set4.getEntry(6));
         try {
             v_set4.setSubVector(7, v2_t);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 

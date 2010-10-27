@@ -20,7 +20,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -31,42 +34,41 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 public class ArrayRealVector extends AbstractRealVector implements Serializable {
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
-
     /** Default format. */
     private static final RealVectorFormat DEFAULT_FORMAT =
         RealVectorFormat.getInstance();
-
     /** Entries of the vector. */
     protected double data[];
 
     /**
      * Build a 0-length vector.
-     * <p>Zero-length vectors may be used to initialized construction of vectors
+     * Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #ArrayRealVector(ArrayRealVector, ArrayRealVector)} constructor
-     * or one of the <code>append</code> method ({@link #append(double)}, {@link
+     * or one of the {@code append} method ({@link #append(double)}, {@link
      * #append(double[])}, {@link #append(ArrayRealVector)}) to gather data
-     * into this vector.</p>
+     * into this vector.
      */
     public ArrayRealVector() {
         data = new double[0];
     }
 
     /**
-     * Construct a (size)-length vector of zeros.
-     * @param size size of the vector
+     * Construct a vector of zeroes.
+     *
+     * @param size Size of the vector.
      */
     public ArrayRealVector(int size) {
         data = new double[size];
     }
 
     /**
-     * Construct an (size)-length vector with preset values.
-     * @param size size of the vector
-     * @param preset fill the vector with this scalar value
+     * Construct a vector with preset values.
+     *
+     * @param size Size of the vector
+     * @param preset All entries will be set with this value.
      */
     public ArrayRealVector(int size, double preset) {
         data = new double[size];
@@ -75,7 +77,9 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Construct a vector from an array, copying the input array.
-     * @param d array of doubles.
+     *
+     * @param d Array.
+     * @throws NullArgumentException if {@code d} is {@code null}.
      */
     public ArrayRealVector(double[] d) {
         data = d.clone();
@@ -84,29 +88,40 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /**
      * Create a new ArrayRealVector using the input array as the underlying
      * data array.
-     * <p>If an array is built specially in order to be embedded in a
-     * ArrayRealVector and not used directly, the <code>copyArray</code> may be
-     * set to <code>false</code. This will prevent the copying and improve
-     * performance as no new array will be built and no data will be copied.</p>
-     * @param d data for new vector
-     * @param copyArray if true, the input array will be copied, otherwise
-     * it will be referenced
+     * If an array is built specially in order to be embedded in a
+     * ArrayRealVector and not used directly, the {@code copyArray} may be
+     * set to {@code false}. This will prevent the copying and improve
+     * performance as no new array will be built and no data will be copied.
+     *
+     * @param d Data for the new vector.
+     * @param copyArray if {@code true}, the input array will be copied,
+     * otherwise it will be referenced.
+     * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #ArrayRealVector(double[])
      */
     public ArrayRealVector(double[] d, boolean copyArray) {
+        if (d == null) {
+            throw new NullArgumentException();
+        }
         data = copyArray ? d.clone() :  d;
     }
 
     /**
      * Construct a vector from part of a array.
-     * @param d array of doubles.
-     * @param pos position of first entry
-     * @param size number of entries to copy
+     *
+     * @param d Array.
+     * @param pos Position of first entry.
+     * @param size Number of entries to copy.
+     * @throws NullArgumentException if {@code d} is {@code null}.
+     * @throws NumberIsTooLargeException if the size of {@code d} is less
+     * than {@code pos + size}.
      */
     public ArrayRealVector(double[] d, int pos, int size) {
+        if (d == null) {
+            throw new NullArgumentException();
+        }
         if (d.length < pos + size) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.POSITION_SIZE_MISMATCH_INPUT_ARRAY, pos, size, d.length);
+            throw new NumberIsTooLargeException(pos + size, d.length, true);
         }
         data = new double[size];
         System.arraycopy(d, pos, data, 0, size);
@@ -124,27 +139,38 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /**
-     * Construct a vector from part of a Double array
-     * @param d array of Doubles.
-     * @param pos position of first entry
-     * @param size number of entries to copy
+     * Construct a vector from part of an array.
+     *
+     * @param d Array.
+     * @param pos Position of first entry.
+     * @param size Number of entries to copy.
+     * @throws NullArgumentException if {@code d} is {@code null}.
+     * @throws NumberIsTooLargeException if the size of {@code d} is less
+     * than {@code pos + size}.
      */
     public ArrayRealVector(Double[] d, int pos, int size) {
+        if (d == null) {
+            throw new NullArgumentException();
+        }
         if (d.length < pos + size) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.POSITION_SIZE_MISMATCH_INPUT_ARRAY, pos, size, d.length);
+            throw new NumberIsTooLargeException(pos + size, d.length, true);
         }
         data = new double[size];
         for (int i = pos; i < pos + size; i++) {
-            data[i-pos] = d[i].doubleValue();
+            data[i - pos] = d[i].doubleValue();
         }
     }
 
     /**
      * Construct a vector from another vector, using a deep copy.
-     * @param v vector to copy
+     *
+     * @param v vector to copy.
+     * @throws NullArgumentException if {@code v} is {@code null}.
      */
     public ArrayRealVector(RealVector v) {
+        if (v == null) {
+            throw new NullArgumentException();
+        }
         data = new double[v.getDimension()];
         for (int i = 0; i < data.length; ++i) {
             data[i] = v.getEntry(i);
@@ -153,7 +179,9 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Construct a vector from another vector, using a deep copy.
-     * @param v vector to copy
+     *
+     * @param v Vector to copy.
+     * @throws NullArgumentException if {@code v} is {@code null}.
      */
     public ArrayRealVector(ArrayRealVector v) {
         this(v, true);
@@ -161,8 +189,10 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Construct a vector from another vector.
-     * @param v vector to copy
-     * @param deep if true perform a deep copy otherwise perform a shallow copy
+     *
+     * @param v Vector to copy.
+     * @param deep If {@code true} perform a deep copy, otherwise perform a
+     * shallow copy.
      */
     public ArrayRealVector(ArrayRealVector v, boolean deep) {
         data = deep ? v.data.clone() : v.data;
@@ -711,12 +741,13 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Compute the dot product.
-     * @param v vector with which dot product should be computed
-     * @return the scalar dot product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     *
+     * @param v Vector with which dot product should be computed
+     * @return the scalar dot product between instance and {@code v}.
+     * @throws DimensionMismatchException if {@code v} is not the same
+     * size as this vector.
      */
-    public double dotProduct(ArrayRealVector v)
-        throws IllegalArgumentException {
+    public double dotProduct(ArrayRealVector v) {
         return dotProduct(v.data);
     }
 
@@ -782,26 +813,26 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
    /**
      * Distance between two vectors.
-     * <p>This method computes the distance consistent with the
+     * This method computes the distance consistent with the
      * L<sub>2</sub> norm, i.e. the square root of the sum of
-     * elements differences, or euclidian distance.</p>
+     * elements differences, or euclidian distance.
+     *
      * @param v vector to which distance is requested
-     * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @return the distance between two vectors.
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * this vector.
      * @see #getDistance(RealVector)
      * @see #getL1Distance(ArrayRealVector)
      * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getDistance(ArrayRealVector v)
-        throws IllegalArgumentException {
+    public double getDistance(ArrayRealVector v) {
         return getDistance(v.data);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getL1Distance(RealVector v)
-        throws IllegalArgumentException {
+    public double getL1Distance(RealVector v) {
         if (v instanceof ArrayRealVector) {
             return getL1Distance((ArrayRealVector) v);
         } else {
@@ -830,26 +861,26 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Distance between two vectors.
-     * <p>This method computes the distance consistent with
+     * This method computes the distance consistent with
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
-     * elements differences.</p>
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * elements differences.
+     *
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
+     * @throws DimensionMismatchException if {@code v} is not the same size
+     * as this vector.
      * @see #getDistance(RealVector)
      * @see #getL1Distance(ArrayRealVector)
      * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getL1Distance(ArrayRealVector v)
-        throws IllegalArgumentException {
+    public double getL1Distance(ArrayRealVector v) {
         return getL1Distance(v.data);
     }
 
     /** {@inheritDoc} */
     @Override
-    public double getLInfDistance(RealVector v)
-        throws IllegalArgumentException {
+    public double getLInfDistance(RealVector v) {
         if (v instanceof ArrayRealVector) {
             return getLInfDistance((ArrayRealVector) v);
         } else {
@@ -878,38 +909,38 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Distance between two vectors.
-     * <p>This method computes the distance consistent with
+     * This method computes the distance consistent with
      * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
-     * elements differences.</p>
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
-     * @exception IllegalArgumentException if v is not the same size as this
+     * elements differences.
+     *
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
+     * @exception IllegalArgumentException if {@code v} is not the same size as this
      * @see #getDistance(RealVector)
      * @see #getL1Distance(ArrayRealVector)
      * @see #getLInfDistance(ArrayRealVector)
      * @see #getNorm()
      */
-    public double getLInfDistance(ArrayRealVector v)
-        throws IllegalArgumentException {
+    public double getLInfDistance(ArrayRealVector v) {
         return getLInfDistance(v.data);
     }
 
     /** {@inheritDoc} */
     @Override
-    public RealVector unitVector() throws ArithmeticException {
+    public RealVector unitVector() {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
         return mapDivide(norm);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void unitize() throws ArithmeticException {
+    public void unitize() {
         final double norm = getNorm();
         if (norm == 0) {
-            throw MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
         mapDivideToSelf(norm);
     }
@@ -925,10 +956,13 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         return projection(new ArrayRealVector(v, false));
     }
 
-   /** Find the orthogonal projection of this vector onto another vector.
-     * @param v vector onto which instance must be projected
-     * @return projection of the instance onto v
-     * @throws IllegalArgumentException if v is not the same size as this
+    /**
+     * Find the orthogonal projection of this vector onto another vector.
+     *
+     * @param v Vector onto which instance must be projected.
+     * @return Projection of this instance onto {@code v}.
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * this vector.
      */
     public ArrayRealVector projection(ArrayRealVector v) {
         return (ArrayRealVector) v.mapMultiply(dotProduct(v) / v.dotProduct(v));
@@ -980,7 +1014,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /** {@inheritDoc} */
-    public double getEntry(int index) throws MatrixIndexException {
+    public double getEntry(int index) {
         return data[index];
     }
 
@@ -1000,8 +1034,9 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Construct a vector by appending a vector to this vector.
-     * @param v vector to append to this one.
-     * @return a new vector
+     *
+     * @param v Vector to append to this one.
+     * @return a new vector.
      */
     public ArrayRealVector append(ArrayRealVector v) {
         return new ArrayRealVector(this, v);
@@ -1072,13 +1107,12 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /**
      * Set a set of consecutive elements.
      *
-     * @param index index of first element to be set.
-     * @param v vector containing the values to set.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @param index Index of first element to be set.
+     * @param v Vector containing the values to set.
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is inconsistent with vector size.
      */
-    public void set(int index, ArrayRealVector v)
-        throws MatrixIndexException {
+    public void set(int index, ArrayRealVector v) {
         setSubVector(index, v.data);
     }
 
@@ -1102,36 +1136,35 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /**
      * Check if instance and specified vectors have the same dimension.
-     * @param v vector to compare instance with
-     * @exception IllegalArgumentException if the vectors do not
-     * have the same dimension
+     *
+     * @param v Vector to compare instance with.
+     * @throws DimensionMismatchException if the vectors do not
+     * have the same dimension.
      */
     @Override
-    protected void checkVectorDimensions(RealVector v)
-        throws IllegalArgumentException {
+    protected void checkVectorDimensions(RealVector v) {
         checkVectorDimensions(v.getDimension());
     }
 
     /**
      * Check if instance dimension is equal to some expected value.
      *
-     * @param n expected dimension.
-     * @exception IllegalArgumentException if the dimension is
-     * inconsistent with vector size
+     * @param n Expected dimension.
+     * @throws DimensionMismatchException if the dimension is
+     * inconsistent with vector size.
      */
     @Override
-    protected void checkVectorDimensions(int n)
-        throws IllegalArgumentException {
+    protected void checkVectorDimensions(int n) {
         if (data.length != n) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                    data.length, n);
+            throw new DimensionMismatchException(data.length, n);
         }
     }
 
     /**
-     * Returns true if any coordinate of this vector is NaN; false otherwise
-     * @return  true if any coordinate of this vector is NaN; false otherwise
+     * Check if any coordinate of this vector is {@code NaN}.
+     *
+     * @return {@code true} if any coordinate of this vector is {@code NaN},
+     * {@code false} otherwise.
      */
     public boolean isNaN() {
         for (double v : data) {
@@ -1143,13 +1176,13 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     }
 
     /**
-     * Returns true if any coordinate of this vector is infinite and none are NaN;
-     * false otherwise
-     * @return  true if any coordinate of this vector is infinite and none are NaN;
-     * false otherwise
+     * Check whether any coordinate of this vector is infinite and none
+     * are {@code NaN}.
+     *
+     * @return {@code true} if any coordinate of this vector is infinite and
+     * none are {@code NaN}, {@code false} otherwise.
      */
     public boolean isInfinite() {
-
         if (isNaN()) {
             return false;
         }
@@ -1161,61 +1194,54 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         }
 
         return false;
-
     }
 
     /**
      * Test for the equality of two real vectors.
-     * <p>
      * If all coordinates of two real vectors are exactly the same, and none are
-     * <code>Double.NaN</code>, the two real vectors are considered to be equal.
-     * </p>
-     * <p>
-     * <code>NaN</code> coordinates are considered to affect globally the vector
+     * {@code NaN}, the two real vectors are considered to be equal.
+     * {@code NaN} coordinates are considered to affect globally the vector
      * and be equals to each other - i.e, if either (or all) coordinates of the
-     * real vector are equal to <code>Double.NaN</code>, the real vector is equal to
-     * a vector with all <code>Double.NaN</code> coordinates.
-     * </p>
+     * real vector are equal to {@code NaN}, the real vector is equal to
+     * a vector with all {@code NaN} coordinates.
      *
-     * @param other Object to test for equality to this
-     * @return true if two vector objects are equal, false if
-     *         object is null, not an instance of RealVector, or
-     *         not equal to this RealVector instance
-     *
+     * @param other Object to test for equality.
+     * @return {@code true} if two vector objects are equal, {@code false} if
+     * {@code other} is null, not an instance of {@code RealVector}, or
+     * not equal to this {@code RealVector} instance.
      */
     @Override
     public boolean equals(Object other) {
-
-      if (this == other) {
-        return true;
-      }
-
-      if (other == null || !(other instanceof RealVector)) {
-        return false;
-      }
-
-
-      RealVector rhs = (RealVector) other;
-      if (data.length != rhs.getDimension()) {
-        return false;
-      }
-
-      if (rhs.isNaN()) {
-        return this.isNaN();
-      }
-
-      for (int i = 0; i < data.length; ++i) {
-        if (data[i] != rhs.getEntry(i)) {
-          return false;
+        if (this == other) {
+            return true;
         }
-      }
-      return true;
+
+        if (other == null || !(other instanceof RealVector)) {
+            return false;
+        }
+
+        RealVector rhs = (RealVector) other;
+        if (data.length != rhs.getDimension()) {
+            return false;
+        }
+
+        if (rhs.isNaN()) {
+            return this.isNaN();
+        }
+
+        for (int i = 0; i < data.length; ++i) {
+            if (data[i] != rhs.getEntry(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * Get a hashCode for the real vector.
-     * <p>All NaN values have the same hash code.</p>
-     * @return a hash code value for this object
+     * All {@code NaN} values have the same hash code.
+     *
+     * @return a hash code.
      */
     @Override
     public int hashCode() {
@@ -1224,5 +1250,4 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         }
         return MathUtils.hash(data);
     }
-
 }

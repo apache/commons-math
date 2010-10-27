@@ -19,6 +19,9 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 
 /**
  * Test cases for the {@link OpenMapRealMatrix} class.
@@ -324,14 +327,14 @@ public final class SparseRealMatrixTest extends TestCase {
         assertClose("get col", m.getColumn(2), testDataCol3, entryTolerance);
         try {
             m.getRow(10);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
         try {
             m.getColumn(-1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // ignored
         }
     }
@@ -341,8 +344,8 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("get entry", m.getEntry(0, 1), 2d, entryTolerance);
         try {
             m.getEntry(10, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -408,38 +411,38 @@ public final class SparseRealMatrixTest extends TestCase {
 
         try {
             m.getSubMatrix(1, 0, 2, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(-1, 1, 2, 2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getSubMatrix(1, 0, 2, 2);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(1, 0, 2, 4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting NumberIsTooSmallException");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             m.getSubMatrix(new int[] {}, new int[] { 0 });
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting ZeroException");
+        } catch (ZeroException ex) {
             // expected
         }
         try {
             m.getSubMatrix(new int[] { 0 }, new int[] { 4 });
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -452,14 +455,14 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("Row3", mRow3, m.getRowMatrix(3));
         try {
             m.getRowMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -472,14 +475,14 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("Column3", mColumn3, m.getColumnMatrix(3));
         try {
             m.getColumnMatrix(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnMatrix(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -492,14 +495,14 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("Row3", mRow3, m.getRowVector(3));
         try {
             m.getRowVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getRowVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -512,14 +515,14 @@ public final class SparseRealMatrixTest extends TestCase {
         assertEquals("Column3", mColumn3, m.getColumnVector(3));
         try {
             m.getColumnVector(-1);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
         try {
             m.getColumnVector(4);
-            fail("Expecting MatrixIndexException");
-        } catch (MatrixIndexException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }
@@ -582,21 +585,21 @@ public final class SparseRealMatrixTest extends TestCase {
         // dimension overflow
         try {
             m.setSubMatrix(testData, 1, 1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         // dimension underflow
         try {
             m.setSubMatrix(testData, -1, 1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
         try {
             m.setSubMatrix(testData, 1, -1);
-            fail("expecting MatrixIndexException");
-        } catch (MatrixIndexException e) {
+            fail("expecting OutOfRangeException");
+        } catch (OutOfRangeException e) {
             // expected
         }
 

@@ -25,6 +25,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.OutOfRangeException;
 
 /**
  * Test cases for the {@link ArrayRealVector} class.
@@ -655,8 +656,8 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1));
         try {
             v4.getSubVector(3, 7);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -665,8 +666,8 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1));
         try {
             v_set1.setEntry(3, 11.0);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -676,8 +677,8 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6));
         try {
             v_set2.set(7, v1);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
@@ -698,8 +699,8 @@ public class ArrayRealVectorTest extends TestCase {
         assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6));
         try {
             v_set4.setSubVector(7, v2_t);
-            fail("MatrixIndexException expected");
-        } catch (MatrixIndexException ex) {
+            fail("OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected behavior
         }
 

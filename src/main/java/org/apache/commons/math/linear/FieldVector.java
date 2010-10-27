@@ -258,28 +258,24 @@ public interface FieldVector<T extends FieldElement<T>>  {
 
     /**
      * Returns the entry in the specified index.
-     * <p>
-     * The index start at 0 and must be lesser than the size,
-     * otherwise a {@link MatrixIndexException} is thrown.
-     * </p>
-     * @param index  index location of entry to be fetched
-     * @return vector entry at index
-     * @throws MatrixIndexException if the index is not valid
+     *
+     * @param index Index location of entry to be fetched.
+     * @return the vector entry at {@code index}.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if the
+     * index is not valid.
      * @see #setEntry(int, FieldElement)
      */
-    T getEntry(int index)
-        throws MatrixIndexException;
+    T getEntry(int index);
 
     /**
      * Set a single element.
      * @param index element index.
      * @param value new value for the element.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is inconsistent with vector size.
      * @see #getEntry(int)
      */
-    void setEntry(int index, T value)
-        throws MatrixIndexException;
+    void setEntry(int index, T value);
 
     /**
      * Returns the size of the vector.
@@ -313,33 +309,30 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @param index index of first element.
      * @param n number of elements to be retrieved.
      * @return a vector containing n elements.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is inconsistent with vector size.
      */
-    FieldVector<T> getSubVector(int index, int n)
-        throws MatrixIndexException;
+    FieldVector<T> getSubVector(int index, int n);
 
     /**
      * Set a set of consecutive elements.
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is inconsistent with vector size.
      * @see #setSubVector(int, FieldElement[])
      */
-    void setSubVector(int index, FieldVector<T> v)
-        throws MatrixIndexException;
+    void setSubVector(int index, FieldVector<T> v);
 
     /**
      * Set a set of consecutive elements.
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
-     * @exception MatrixIndexException if the index is
-     * inconsistent with vector size
+     * @throws org.apache.commons.math.exception.OutOfRangeException
+     * if the index is inconsistent with vector size.
      * @see #setSubVector(int, FieldVector)
      */
-    void setSubVector(int index, T[] v)
-        throws MatrixIndexException;
+    void setSubVector(int index, T[] v);
 
     /**
      * Set all elements to a single value.

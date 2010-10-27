@@ -24,6 +24,8 @@ import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
  * Test cases for the {@link MatrixUtils} class.
@@ -83,8 +85,8 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createRealMatrix(null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -108,40 +110,8 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createFieldMatrix((Fraction[][])null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
-            // expected
-        }
-    }
-
-    @Deprecated
-    public void testCreateBigMatrix() {
-        assertEquals(new BigMatrixImpl(testData),
-                MatrixUtils.createBigMatrix(testData));
-        assertEquals(new BigMatrixImpl(BigMatrixImplTest.asBigDecimal(testData), true),
-                MatrixUtils.createBigMatrix(BigMatrixImplTest.asBigDecimal(testData), false));
-        assertEquals(new BigMatrixImpl(BigMatrixImplTest.asBigDecimal(testData), false),
-                MatrixUtils.createBigMatrix(BigMatrixImplTest.asBigDecimal(testData), true));
-        assertEquals(new BigMatrixImpl(bigColMatrix),
-                MatrixUtils.createBigMatrix(bigColMatrix));
-        assertEquals(new BigMatrixImpl(stringColMatrix),
-                MatrixUtils.createBigMatrix(stringColMatrix));
-        try {
-            MatrixUtils.createBigMatrix(new double[][] {{1}, {1,2}});  // ragged
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            MatrixUtils.createBigMatrix(new double[][] {{}, {}});  // no columns
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            MatrixUtils.createBigMatrix(nullMatrix);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -151,14 +121,14 @@ public final class MatrixUtilsTest extends TestCase {
                      new BlockRealMatrix(rowMatrix));
         try {
             MatrixUtils.createRowRealMatrix(new double[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting NotStrictlyPositiveException");
+        } catch (NotStrictlyPositiveException ex) {
             // expected
         }
         try {
             MatrixUtils.createRowRealMatrix(null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -176,30 +146,8 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createRowFieldMatrix((Fraction[]) null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
-            // expected
-        }
-    }
-
-    @Deprecated
-    public void testCreateRowBigMatrix() {
-        assertEquals(MatrixUtils.createRowBigMatrix(row),
-                new BigMatrixImpl(rowMatrix));
-        assertEquals(MatrixUtils.createRowBigMatrix(bigRow),
-                new BigMatrixImpl(bigRowMatrix));
-        assertEquals(MatrixUtils.createRowBigMatrix(stringRow),
-                new BigMatrixImpl(stringRowMatrix));
-        try {
-            MatrixUtils.createRowBigMatrix(new double[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            MatrixUtils.createRowBigMatrix(nullDoubleArray);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -215,8 +163,8 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createColumnRealMatrix(null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -235,31 +183,8 @@ public final class MatrixUtilsTest extends TestCase {
         }
         try {
             MatrixUtils.createColumnFieldMatrix((Fraction[]) null);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
-            // expected
-        }
-    }
-
-    @Deprecated
-    public void testCreateColumnBigMatrix() {
-        assertEquals(MatrixUtils.createColumnBigMatrix(col),
-                new BigMatrixImpl(colMatrix));
-        assertEquals(MatrixUtils.createColumnBigMatrix(bigCol),
-                new BigMatrixImpl(bigColMatrix));
-        assertEquals(MatrixUtils.createColumnBigMatrix(stringCol),
-                new BigMatrixImpl(stringColMatrix));
-
-        try {
-            MatrixUtils.createColumnBigMatrix(new double[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            MatrixUtils.createColumnBigMatrix(nullDoubleArray);  // null
-            fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
+            fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -370,35 +295,5 @@ public final class MatrixUtilsTest extends TestCase {
         }
         return d;
     }
-
-    /**
-     * Verifies that the matrix is an identity matrix
-     */
-    @Deprecated
-    protected void checkIdentityBigMatrix(BigMatrix m) {
-        for (int i = 0; i < m.getRowDimension(); i++) {
-            for (int j =0; j < m.getColumnDimension(); j++) {
-                if (i == j) {
-                    assertEquals(m.getEntry(i, j), BigMatrixImpl.ONE);
-                } else {
-                    assertEquals(m.getEntry(i, j), BigMatrixImpl.ZERO);
-                }
-            }
-        }
-    }
-
-    @Deprecated
-    public void testCreateBigIdentityMatrix() {
-        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(3));
-        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(2));
-        checkIdentityBigMatrix(MatrixUtils.createBigIdentityMatrix(1));
-        try {
-            MatrixUtils.createRealIdentityMatrix(0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-    }
-
 }
 
