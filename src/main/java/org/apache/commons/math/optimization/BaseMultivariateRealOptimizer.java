@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 /**
@@ -45,7 +45,7 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws org.apache.commons.math.FunctionEvaluationException if the
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException if the
      * objective function throws one during the search.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.

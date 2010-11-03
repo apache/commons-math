@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 
 /**
  * An interface representing a real function that depends on one independent

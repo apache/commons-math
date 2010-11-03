@@ -20,7 +20,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 

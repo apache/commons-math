@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.integration;
 import java.util.Random;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;

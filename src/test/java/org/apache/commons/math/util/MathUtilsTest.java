@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -1509,5 +1510,33 @@ public final class MathUtilsTest extends TestCase {
         } catch (NonMonotonousSequenceException e) {
             // Expected
         }
+    }
+
+    public void testSortInPlace() {
+        final double[] x1 = {2,   5,  -3, 1,  4};
+        final double[] x2 = {4,  25,   9, 1, 16};
+        final double[] x3 = {8, 125, -27, 1, 64};
+        
+        MathUtils.sortInPlace(x1, x2, x3);
+
+        assertEquals(-3,  x1[0], Math.ulp(1d));
+        assertEquals(9,   x2[0], Math.ulp(1d));
+        assertEquals(-27, x3[0], Math.ulp(1d));
+
+        assertEquals(1, x1[1], Math.ulp(1d));
+        assertEquals(1, x2[1], Math.ulp(1d));
+        assertEquals(1, x3[1], Math.ulp(1d));
+
+        assertEquals(2, x1[2], Math.ulp(1d));
+        assertEquals(4, x2[2], Math.ulp(1d));
+        assertEquals(8, x3[2], Math.ulp(1d));
+
+        assertEquals(4,  x1[3], Math.ulp(1d));
+        assertEquals(16, x2[3], Math.ulp(1d));
+        assertEquals(64, x3[3], Math.ulp(1d));
+
+        assertEquals(5,   x1[4], Math.ulp(1d));
+        assertEquals(25,  x2[4], Math.ulp(1d));
+        assertEquals(125, x3[4], Math.ulp(1d));
     }
 }

@@ -17,8 +17,6 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import java.io.Serializable;
-
-import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm;
 
@@ -35,29 +33,31 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class DividedDifferenceInterpolator implements UnivariateRealInterpolator,
-    Serializable {
-
+public class DividedDifferenceInterpolator
+    implements UnivariateRealInterpolator, Serializable {
     /** serializable version identifier */
     private static final long serialVersionUID = 107049519551235069L;
 
     /**
-     * Computes an interpolating function for the data set.
+     * Compute an interpolating function for the dataset.
      *
-     * @param x the interpolating points array
-     * @param y the interpolating values array
-     * @return a function which interpolates the data set
-     * @throws DuplicateSampleAbscissaException if arguments are invalid
+     * @param x Interpolating points array.
+     * @param y Interpolating values array.
+     * @return a function which interpolates the dataset.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the array lengths are different.
+     * @throws org.apache.commons.math.exception.NumberIsTooSmallException
+     * if the number of points is less than 2.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order.
      */
-    public PolynomialFunctionNewtonForm interpolate(double x[], double y[]) throws
-        DuplicateSampleAbscissaException {
-
+    public PolynomialFunctionNewtonForm interpolate(double x[], double y[]) {
         /**
          * a[] and c[] are defined in the general formula of Newton form:
          * p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
          *        a[n](x-c[0])(x-c[1])...(x-c[n-1])
          */
-        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
+        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
 
         /**
          * When used for interpolation, the Newton form formula becomes
@@ -72,11 +72,10 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
 
         final double[] a = computeDividedDifference(x, y);
         return new PolynomialFunctionNewtonForm(a, c);
-
     }
 
     /**
-     * Returns a copy of the divided difference array.
+     * Return a copy of the divided difference array.
      * <p>
      * The divided difference array is defined recursively by <pre>
      * f[x0] = f(x0)
@@ -85,15 +84,18 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
      * <p>
      * The computational complexity is O(N^2).</p>
      *
-     * @param x the interpolating points array
-     * @param y the interpolating values array
-     * @return a fresh copy of the divided difference array
-     * @throws DuplicateSampleAbscissaException if any abscissas coincide
+     * @param x Interpolating points array.
+     * @param y Interpolating values array.
+     * @return a fresh copy of the divided difference array.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the array lengths are different.
+     * @throws org.apache.commons.math.exception.NumberIsTooSmallException
+     * if the number of points is less than 2.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order.
      */
-    protected static double[] computeDividedDifference(final double x[], final double y[])
-        throws DuplicateSampleAbscissaException {
-
-        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
+    protected static double[] computeDividedDifference(final double x[], final double y[]) {
+        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
 
         final double[] divdiff = y.clone(); // initialization
 
@@ -103,10 +105,6 @@ public class DividedDifferenceInterpolator implements UnivariateRealInterpolator
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < n-i; j++) {
                 final double denominator = x[j+i] - x[j];
-                if (denominator == 0.0) {
-                    // This happens only when two abscissas are identical.
-                    throw new DuplicateSampleAbscissaException(x[j], j, j+i);
-                }
                 divdiff[j] = (divdiff[j+1] - divdiff[j]) / denominator;
             }
             a[i] = divdiff[0];

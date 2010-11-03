@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;

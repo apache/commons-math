@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.DuplicateSampleAbscissaException;
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -36,24 +36,20 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2
  */
 public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
-
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
      * coefficients[0] is the constant term and coefficients[n] is the
      * coefficient of x^n where n is the degree of the polynomial.
      */
     private double coefficients[];
-
     /**
      * Interpolating points (abscissas).
      */
     private final double x[];
-
     /**
      * Function values at interpolating points.
      */
     private final double y[];
-
     /**
      * Whether the polynomial coefficients are available.
      */
@@ -69,31 +65,34 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      * @param y function values at interpolating points
      * @throws IllegalArgumentException if input arrays are not valid
      */
-    public PolynomialFunctionLagrangeForm(double x[], double y[])
-        throws IllegalArgumentException {
-
-        verifyInterpolationArray(x, y);
+    public PolynomialFunctionLagrangeForm(double x[], double y[]) {
         this.x = new double[x.length];
         this.y = new double[y.length];
         System.arraycopy(x, 0, this.x, 0, x.length);
         System.arraycopy(y, 0, this.y, 0, y.length);
         coefficientsComputed = false;
+
+        if (!verifyInterpolationArray(x, y, false)) {
+            MathUtils.sortInPlace(this.x, this.y);
+            // Second check in case some abscissa is duplicated.
+            verifyInterpolationArray(this.x, this.y, true);
+        }
     }
 
     /**
      * Calculate the function value at the given point.
      *
-     * @param z the point at which the function value is to be computed
-     * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
-     * @see UnivariateRealFunction#value(double)
+     * @param z Point at which the function value is to be computed.
+     * @return the function value.
+     * @throws DimensionMismatchException if {@code x} and {@code y} have
+     * different lengths.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order.
+     * @throws NumberIsTooSmallException if the size of {@code x} is less
+     * than 2.
      */
-    public double value(double z) throws FunctionEvaluationException {
-        try {
-            return evaluate(x, y, z);
-        } catch (DuplicateSampleAbscissaException e) {
-            throw new FunctionEvaluationException(e, z, e.getLocalizablePattern(), e.getArguments());
-        }
+    public double value(double z) {
+        return evaluateInternal(x, y, z);
     }
 
     /**
@@ -153,23 +152,53 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     /**
      * Evaluate the Lagrange polynomial using
      * <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
-     * Neville's Algorithm</a>. It takes O(N^2) time.
-     * <p>
-     * This function is made public static so that users can call it directly
-     * without instantiating PolynomialFunctionLagrangeForm object.</p>
+     * Neville's Algorithm</a>. It takes O(n^2) time.
      *
-     * @param x the interpolating points array
-     * @param y the interpolating values array
-     * @param z the point at which the function value is to be computed
-     * @return the function value
-     * @throws DuplicateSampleAbscissaException if the sample has duplicate abscissas
-     * @throws IllegalArgumentException if inputs are not valid
+     * @param x Interpolating points array.
+     * @param y Interpolating values array.
+     * @param z Point at which the function value is to be computed.
+     * @return the function value.
+     * @throws DimensionMismatchException if {@code x} and {@code y} have
+     * different lengths.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order.
+     * @throws NumberIsTooSmallException if the size of {@code x} is less
+     * than 2.
      */
-    public static double evaluate(double x[], double y[], double z) throws
-        DuplicateSampleAbscissaException, IllegalArgumentException {
+    public static double evaluate(double x[], double y[], double z) {
+        if (verifyInterpolationArray(x, y, false)) {
+            return evaluateInternal(x, y, z);
+        }
 
-        verifyInterpolationArray(x, y);
+        // Array is not sorted.
+        final double[] xNew = new double[x.length];
+        final double[] yNew = new double[y.length];
+        System.arraycopy(x, 0, xNew, 0, x.length);
+        System.arraycopy(y, 0, yNew, 0, y.length);
 
+        MathUtils.sortInPlace(xNew, yNew);
+        // Second check in case some abscissa is duplicated.
+        verifyInterpolationArray(xNew, yNew, true);
+        return evaluateInternal(xNew, yNew, z);
+    }
+
+    /**
+     * Evaluate the Lagrange polynomial using
+     * <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
+     * Neville's Algorithm</a>. It takes O(n^2) time.
+     *
+     * @param x Interpolating points array.
+     * @param y Interpolating values array.
+     * @param z Point at which the function value is to be computed.
+     * @return the function value.
+     * @throws DimensionMismatchException if {@code x} and {@code y} have
+     * different lengths.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order.
+     * @throws NumberIsTooSmallException if the size of {@code x} is less
+     * than 2.
+     */
+    private static double evaluateInternal(double x[], double y[], double z) {
         int nearest = 0;
         final int n = x.length;
         final double[] c = new double[n];
@@ -195,10 +224,6 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
                 final double tc = x[j] - z;
                 final double td = x[i+j] - z;
                 final double divider = x[j] - x[i+j];
-                if (divider == 0.0) {
-                    // This happens only when two abscissas are identical.
-                    throw new DuplicateSampleAbscissaException(x[i], i, i+j);
-                }
                 // update the difference arrays
                 final double w = (c[j+1] - d[j]) / divider;
                 c[j] = tc * w;
@@ -218,15 +243,11 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
 
     /**
      * Calculate the coefficients of Lagrange polynomial from the
-     * interpolation data. It takes O(N^2) time.
-     * <p>
-     * Note this computation can be ill-conditioned. Use with caution
-     * and only when it is necessary.</p>
-     *
-     * @throws ArithmeticException if any abscissas coincide
+     * interpolation data. It takes O(n^2) time.
+     * Note that this computation can be ill-conditioned: Use with caution
+     * and only when it is necessary.
      */
-    protected void computeCoefficients() throws ArithmeticException {
-
+    protected void computeCoefficients() {
         final int n = degree() + 1;
         coefficients = new double[n];
         for (int i = 0; i < n; i++) {
@@ -253,16 +274,6 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
                     d *= x[i] - x[j];
                 }
             }
-            if (d == 0.0) {
-                // This happens only when two abscissas are identical.
-                for (int k = 0; k < n; ++k) {
-                    if ((i != k) && (x[i] == x[k])) {
-                        throw MathRuntimeException.createArithmeticException(
-                              LocalizedFormats.IDENTICAL_ABSCISSAS_DIVISION_BY_ZERO,
-                              i, k, x[i]);
-                    }
-                }
-            }
             final double t = y[i] / d;
             // Lagrange polynomial is the sum of n terms, each of which is a
             // polynomial of degree n-1. tc[] are the coefficients of the i-th
@@ -279,34 +290,31 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     }
 
     /**
-     * Verifies that the interpolation arrays are valid.
-     * <p>
+     * Check that the interpolation arrays are valid.
      * The arrays features checked by this method are that both arrays have the
      * same length and this length is at least 2.
-     * </p>
-     * <p>
-     * The interpolating points must be distinct. However it is not
-     * verified here, it is checked in evaluate() and computeCoefficients().
-     * </p>
      *
-     * @param x the interpolating points array
-     * @param y the interpolating values array
-     * @throws IllegalArgumentException if not valid
+     * @param x Interpolating points array.
+     * @param y Interpolating values array.
+     * @param abort Whether to throw an exception if {@code x} is not sorted.
+     * @throws DimensionMismatchException if the array lengths are different.
+     * @throws NumberIsTooSmallException if the number of points is less than 2.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if {@code x} is not sorted in strictly increasing order and {@code abort}
+     * is {@code true}.
+     * @return {@code false} if the {@code x} is not sorted in increasing order,
+     * {@code true} otherwise.
      * @see #evaluate(double[], double[], double)
      * @see #computeCoefficients()
      */
-    public static void verifyInterpolationArray(double x[], double y[])
-        throws IllegalArgumentException {
-
+    public static boolean verifyInterpolationArray(double x[], double y[], boolean abort) {
         if (x.length != y.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, x.length, y.length);
+            throw new DimensionMismatchException(x.length, y.length);
         }
-
         if (x.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.WRONG_NUMBER_OF_POINTS, 2, x.length);
+            throw new NumberIsTooSmallException(LocalizedFormats.WRONG_NUMBER_OF_POINTS, 2, x.length, true);
         }
 
+        return MathUtils.checkOrder(x, MathUtils.OrderDirection.INCREASING, true, abort);
     }
 }

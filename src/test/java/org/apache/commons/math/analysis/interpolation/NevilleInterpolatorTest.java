@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -118,8 +119,8 @@ public final class NevilleInterpolatorTest extends TestCase {
             double y[] = { 0.0, 4.0, 4.0, 2.5 };
             UnivariateRealFunction p = interpolator.interpolate(x, y);
             p.value(0.0);
-            fail("Expecting MathException - bad abscissas array");
-        } catch (MathException ex) {
+            fail("Expecting NonMonotonousSequenceException - bad abscissas array");
+        } catch (NonMonotonousSequenceException ex) {
             // expected
         }
     }

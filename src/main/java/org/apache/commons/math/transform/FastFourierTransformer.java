@@ -19,7 +19,7 @@ package org.apache.commons.math.transform;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;

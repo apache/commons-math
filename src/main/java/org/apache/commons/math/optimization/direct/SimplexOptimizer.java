@@ -19,13 +19,14 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 
 /**
  * This class implements simplex-based direct search optimization.
@@ -76,7 +77,8 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @since 3.0
  */
 public class SimplexOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateRealFunction> {
+    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    implements MultivariateRealOptimizer {
     /** Simplex. */
     private AbstractSimplex simplex;
 

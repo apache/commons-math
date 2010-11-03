@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;

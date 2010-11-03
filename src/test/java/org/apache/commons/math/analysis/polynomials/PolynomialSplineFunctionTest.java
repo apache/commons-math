@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import java.util.Arrays;
 import junit.framework.TestCase;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
@@ -116,15 +116,15 @@ public class PolynomialSplineFunctionTest extends TestCase {
 
         try { //outside of domain -- under min
             x = spline.value(-1.5);
-            fail("Expecting IllegalArgumentException");
-        } catch (FunctionEvaluationException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
 
         try { //outside of domain -- over max
             x = spline.value(2.5);
-            fail("Expecting IllegalArgumentException");
-        } catch (FunctionEvaluationException ex) {
+            fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
             // expected
         }
     }

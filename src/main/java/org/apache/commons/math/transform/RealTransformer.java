@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**

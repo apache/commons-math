@@ -28,6 +28,8 @@ import org.apache.commons.math.linear.ArrayRealVector;
  * caused the function evaluation to fail.
  *
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use
+ * {@link org.apache.commons.math.exception.FunctionEvaluationException} instead.
  */
 public class FunctionEvaluationException extends MathException  {
 

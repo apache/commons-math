@@ -48,8 +48,8 @@ public enum LocalizedFormats implements Localizable {
     AT_LEAST_ONE_COLUMN("matrix must have at least one column"),
     AT_LEAST_ONE_ROW("matrix must have at least one row"),
     BANDWIDTH_OUT_OF_INTERVAL("bandwidth must be in the interval [0,1], but got {0}"),
-    BINOMIAL_INVALID_PARAMETERS_ORDER("must have n >= k for binomial coefficient (n,k), got n = {0}, k = {1}"),
-    BINOMIAL_NEGATIVE_PARAMETER("must have n >= 0 for binomial coefficient (n,k), got n = {0}"),
+    BINOMIAL_INVALID_PARAMETERS_ORDER("must have n >= k for binomial coefficient (n, k), got k = {0}, n = {1}"),
+    BINOMIAL_NEGATIVE_PARAMETER("must have n >= 0 for binomial coefficient (n, k), got n = {0}"),
     CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS("statistics constructed from external moments cannot be cleared"),
     CANNOT_COMPUTE_0TH_ROOT_OF_UNITY("cannot compute 0-th root of unity, indefinite result"),
     CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA("cannot compute beta density at 0 when alpha = {0,number}"),
@@ -95,6 +95,7 @@ public enum LocalizedFormats implements Localizable {
     EQUAL_VERTICES_IN_SIMPLEX("equal vertices {0} and {1} in simplex configuration"),
     EULER_ANGLES_SINGULARITY("Euler angles singularity"),
     EVALUATION_FAILED("evaluation failed for argument = {0}"),
+    EVALUATION("evaluation"), /* keep */
     EXPANSION_FACTOR_SMALLER_THAN_ONE("expansion factor smaller than one ({0})"),
     FACTORIAL_NEGATIVE_PARAMETER("must have n >= 0 for n!, got n = {0}"),
     FAILED_BRACKETING("number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}, final a value={5}, final b value={6}, f(a)={7}, f(b)={8}"),

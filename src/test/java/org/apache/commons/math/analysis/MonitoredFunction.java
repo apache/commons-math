@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 
 /**
  * Wrapper class for counting functions calls.

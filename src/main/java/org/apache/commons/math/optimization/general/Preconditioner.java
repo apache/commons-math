@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 
 /**
  * This interface represents a preconditioner for differentiable scalar

@@ -60,7 +60,11 @@ The <action> type attribute can be add,update,fix,remove.
         classes were deprecated and removed.
       </action>
       <action dev="erans" type="update" issue="MATH-425">
-        Replaced old exceptions.
+        Created "MatrixDimensionMismatchException" to replace
+        "InvalidMatrixException" (when the latter is used to signal that
+        matrices are not compatible for some operation).
+        Replaced "MatrixIndexException" with "OutOfRangeException" (when the
+        former is used to signal a row or column dimension mismatch).
       </action>
       <action dev="erans" type="update" issue="MATH-310">
         Made "sample" methods part of the "IntegerDistribution" and
@@ -70,8 +74,9 @@ The <action> type attribute can be add,update,fix,remove.
         All distribution classes (in package "distribution") are immutable.
       </action>
       <action dev="erans" type="update" issue="MATH-195">
-        Created "MatrixDimensionMismatch" to replace "InvalidMatrixException"
-        (when the latter is used to signal a row or column dimension mismatch).
+        Created an unchecked "FunctionEvaluationException".
+        Modified the "UnivariateRealFunction" interface: Removed the checked
+        "FunctionEvaluationException" from the signature of the "value" method.
       </action>
       <action dev="erans" type="update" issue="MATH-370">
         Modified semantics: "equals" methods now consider that NaNs are not

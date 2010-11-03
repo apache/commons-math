@@ -18,7 +18,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Iterator;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 

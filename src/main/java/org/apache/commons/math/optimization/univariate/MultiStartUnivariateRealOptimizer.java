@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.univariate;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.ConvergenceException;

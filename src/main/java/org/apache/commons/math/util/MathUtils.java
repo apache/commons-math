@@ -20,11 +20,23 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.AbstractMap;
+import java.util.Collections;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
@@ -94,14 +106,14 @@ public final class MathUtils {
      * @param x an addend
      * @param y an addend
      * @return the sum <code>x+y</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         int
+     * @throws MathArithmeticException if the result can not be represented
+     * as an {@code int}.
      * @since 1.1
      */
     public static int addAndCheck(int x, int y) {
         long s = (long)x + (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
-            throw MathRuntimeException.createArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, x, y);
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, x, y);
         }
         return (int)s;
     }
@@ -123,12 +135,12 @@ public final class MathUtils {
     /**
      * Add two long integers, checking for overflow.
      *
-     * @param a an addend
-     * @param b an addend
-     * @param pattern the pattern to use for any thrown exception.
-     * @return the sum <code>a+b</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         long
+     * @param a Addend.
+     * @param b Addend.
+     * @param pattern Pattern to use for any thrown exception.
+     * @return the sum {@code a + b}.
+     * @throws MathArithmeticException if the result cannot be represented
+     * as a {@code long}.
      * @since 1.2
      */
     private static long addAndCheck(long a, long b, Localizable pattern) {
@@ -145,7 +157,7 @@ public final class MathUtils {
                     if (Long.MIN_VALUE - b <= a) {
                         ret = a + b;
                     } else {
-                        throw MathRuntimeException.createArithmeticException(pattern, a, b);
+                        throw new MathArithmeticException(pattern, a, b);
                     }
                 } else {
                     // opposite sign addition is always safe
@@ -159,7 +171,7 @@ public final class MathUtils {
                 if (a <= Long.MAX_VALUE - b) {
                     ret = a + b;
                 } else {
-                    throw MathRuntimeException.createArithmeticException(pattern, a, b);
+                    throw new MathArithmeticException(pattern, a, b);
                 }
             }
         }
@@ -357,21 +369,19 @@ public final class MathUtils {
 
     /**
      * Check binomial preconditions.
-     * @param n the size of the set
-     * @param k the size of the subsets to be counted
-     * @exception IllegalArgumentException if preconditions are not met.
+     *
+     * @param n Size of the set.
+     * @param k Size of the subsets to be counted.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      */
-    private static void checkBinomial(final int n, final int k)
-        throws IllegalArgumentException {
+    private static void checkBinomial(final int n, final int k) {
         if (n < k) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
-                n, k);
+            throw new NumberIsTooLargeException(LocalizedFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
+                                                k, n, true);
         }
         if (n < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER,
-                  n);
+            throw new NotPositiveException(LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER, n);
         }
     }
 
@@ -577,48 +587,40 @@ public final class MathUtils {
      *
      * @param n argument
      * @return <code>n!</code>
-     * @throws ArithmeticException if the result is too large to be represented
-     *         by a long integer.
-     * @throws IllegalArgumentException if n < 0
+     * @throws MathArithmeticException if the result is too large to be represented
+     * by a {@code long}.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws MathArithmeticException if {@code n > 20}: The factorial value is too
+     * large to fit in a {@code long}.
      */
     public static long factorial(final int n) {
         if (n < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
-                  n);
+            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+                                           n);
         }
         if (n > 20) {
-            throw new ArithmeticException(
-                    "factorial value is too large to fit in a long");
+            throw new MathArithmeticException();
         }
         return FACTORIALS[n];
     }
 
     /**
-     * Returns n!. Shorthand for <code>n</code> <a
-     * href="http://mathworld.wolfram.com/Factorial.html"> Factorial</a>, the
-     * product of the numbers <code>1,...,n</code> as a <code>double</code>.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> <code>n >= 0</code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>double</code>. The
-     * largest value of <code>n</code> for which <code>n!</code> <
-     * Double.MAX_VALUE</code> is 170. If the computed value exceeds
-     * Double.MAX_VALUE, Double.POSITIVE_INFINITY is returned</li>
-     * </ul>
-     * </p>
+     * Compute n!, the<a href="http://mathworld.wolfram.com/Factorial.html">
+     * factorial</a> of {@code n} (the product of the numbers 1 to n), as a
+     * {@code double}.
+     * The result should be small enough to fit into a {@code double}: The
+     * largest {@code n} for which {@code n! < Double.MAX_VALUE} is 170.
+     * If the computed value exceeds {@code Double.MAX_VALUE},
+     * {@code Double.POSITIVE_INFINITY} is returned.
      *
-     * @param n argument
-     * @return <code>n!</code>
-     * @throws IllegalArgumentException if n < 0
+     * @param n Argument.
+     * @return {@code n!}
+     * @throws NotPositiveException if {@code n < 0}.
      */
     public static double factorialDouble(final int n) {
         if (n < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
-                  n);
+            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+                                           n);
         }
         if (n < 21) {
             return factorial(n);
@@ -627,23 +629,16 @@ public final class MathUtils {
     }
 
     /**
-     * Returns the natural logarithm of n!.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> <code>n >= 0</code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * </ul></p>
+     * Compute the natural logarithm of the factorial of {@code n}.
      *
-     * @param n argument
-     * @return <code>n!</code>
-     * @throws IllegalArgumentException if preconditions are not met.
+     * @param n Argument.
+     * @return {@code n!}
+     * @throws NotPositiveException if {@code n < 0}.
      */
     public static double factorialLog(final int n) {
         if (n < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
-                  n);
+            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+                                           n);
         }
         if (n < 21) {
             return FastMath.log(factorial(n));
@@ -677,11 +672,11 @@ public final class MathUtils {
      * <code>0</code>.</li>
      * </ul>
      *
-     * @param p any number
-     * @param q any number
-     * @return the greatest common divisor, never negative
-     * @throws ArithmeticException if the result cannot be represented as a
-     * nonnegative int value
+     * @param p Number.
+     * @param q Number.
+     * @return the greatest common divisor, never negative.
+     * @throws MathArithmeticException if the result cannot be represented as
+     * a non-negative {@code int} value.
      * @since 1.1
      */
     public static int gcd(final int p, final int q) {
@@ -689,9 +684,8 @@ public final class MathUtils {
         int v = q;
         if ((u == 0) || (v == 0)) {
             if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
-                throw MathRuntimeException.createArithmeticException(
-                        LocalizedFormats.GCD_OVERFLOW_32_BITS,
-                        p, q);
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS,
+                                                  p, q);
             }
             return FastMath.abs(u) + FastMath.abs(v);
         }
@@ -715,9 +709,8 @@ public final class MathUtils {
             k++; // cast out twos.
         }
         if (k == 31) {
-            throw MathRuntimeException.createArithmeticException(
-                    LocalizedFormats.GCD_OVERFLOW_32_BITS,
-                    p, q);
+            throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS,
+                                              p, q);
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
         // one is odd.
@@ -766,11 +759,11 @@ public final class MathUtils {
      * <code>0L</code>.</li>
      * </ul>
      *
-     * @param p any number
-     * @param q any number
-     * @return the greatest common divisor, never negative
-     * @throws ArithmeticException if the result cannot be represented as a nonnegative long
-     * value
+     * @param p Number.
+     * @param q Number.
+     * @return the greatest common divisor, never negative.
+     * @throws MathArithmeticException if the result cannot be represented as
+     * a non-negative {@code long} value.
      * @since 2.1
      */
     public static long gcd(final long p, final long q) {
@@ -778,9 +771,8 @@ public final class MathUtils {
         long v = q;
         if ((u == 0) || (v == 0)) {
             if ((u == Long.MIN_VALUE) || (v == Long.MIN_VALUE)){
-                throw MathRuntimeException.createArithmeticException(
-                        LocalizedFormats.GCD_OVERFLOW_64_BITS,
-                        p, q);
+                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_64_BITS,
+                                                  p, q);
             }
             return FastMath.abs(u) + FastMath.abs(v);
         }
@@ -804,9 +796,8 @@ public final class MathUtils {
             k++; // cast out twos.
         }
         if (k == 63) {
-            throw MathRuntimeException.createArithmeticException(
-                    LocalizedFormats.GCD_OVERFLOW_64_BITS,
-                    p, q);
+            throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_64_BITS,
+                                              p, q);
         }
         // B2. Initialize: u and v have been divided by 2^k and at least
         // one is odd.
@@ -940,23 +931,21 @@ public final class MathUtils {
      * <code>0</code> for any <code>x</code>.
      * </ul>
      *
-     * @param a any number
-     * @param b any number
-     * @return the least common multiple, never negative
-     * @throws ArithmeticException
-     *             if the result cannot be represented as a nonnegative int
-     *             value
+     * @param a Number.
+     * @param b Number.
+     * @return the least common multiple, never negative.
+     * @throws MathArithmeticException if the result cannot be represented as
+     * a non-negative {@code int} value.
      * @since 1.1
      */
     public static int lcm(int a, int b) {
-        if (a==0 || b==0){
+        if (a == 0 || b == 0){
             return 0;
         }
         int lcm = FastMath.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Integer.MIN_VALUE) {
-            throw MathRuntimeException.createArithmeticException(
-                LocalizedFormats.LCM_OVERFLOW_32_BITS,
-                a, b);
+            throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_32_BITS,
+                                              a, b);
         }
         return lcm;
     }
@@ -976,22 +965,21 @@ public final class MathUtils {
      * <code>0L</code> for any <code>x</code>.
      * </ul>
      *
-     * @param a any number
-     * @param b any number
-     * @return the least common multiple, never negative
-     * @throws ArithmeticException if the result cannot be represented as a nonnegative long
-     * value
+     * @param a Number.
+     * @param b Number.
+     * @return the least common multiple, never negative.
+     * @throws MathArithmeticException if the result cannot be represented
+     * as a non-negative {@code long} value.
      * @since 2.1
      */
     public static long lcm(long a, long b) {
-        if (a==0 || b==0){
+        if (a == 0 || b == 0){
             return 0;
         }
         long lcm = FastMath.abs(mulAndCheck(a / gcd(a, b), b));
         if (lcm == Long.MIN_VALUE){
-            throw MathRuntimeException.createArithmeticException(
-                LocalizedFormats.LCM_OVERFLOW_64_BITS,
-                a, b);
+            throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_64_BITS,
+                                              a, b);
         }
         return lcm;
     }
@@ -1019,17 +1007,17 @@ public final class MathUtils {
     /**
      * Multiply two integers, checking for overflow.
      *
-     * @param x a factor
-     * @param y a factor
-     * @return the product <code>x*y</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         int
+     * @param x Factor.
+     * @param y Factor.
+     * @return the product {@code x * y}.
+     * @throws MathArithmeticException if the result can not be
+     * represented as an {@code int}.
      * @since 1.1
      */
     public static int mulAndCheck(int x, int y) {
         long m = ((long)x) * ((long)y);
         if (m < Integer.MIN_VALUE || m > Integer.MAX_VALUE) {
-            throw new ArithmeticException("overflow: mul");
+            throw new MathArithmeticException();
         }
         return (int)m;
     }
@@ -1037,16 +1025,15 @@ public final class MathUtils {
     /**
      * Multiply two long integers, checking for overflow.
      *
-     * @param a first value
-     * @param b second value
-     * @return the product <code>a * b</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         long
+     * @param a Factor.
+     * @param b Factor.
+     * @return the product {@code a * b}.
+     * @throws MathArithmeticException if the result can not be represented
+     * as a {@code long}.
      * @since 1.2
      */
     public static long mulAndCheck(long a, long b) {
         long ret;
-        String msg = "overflow: multiply";
         if (a > b) {
             // use symmetry to reduce boundary cases
             ret = mulAndCheck(b, a);
@@ -1057,14 +1044,14 @@ public final class MathUtils {
                     if (a >= Long.MAX_VALUE / b) {
                         ret = a * b;
                     } else {
-                        throw new ArithmeticException(msg);
+                        throw new MathArithmeticException();
                     }
                 } else if (b > 0) {
                     // check for negative overflow with negative a, positive b
                     if (Long.MIN_VALUE / b <= a) {
                         ret = a * b;
                     } else {
-                        throw new ArithmeticException(msg);
+                        throw new MathArithmeticException();
 
                     }
                 } else {
@@ -1079,7 +1066,7 @@ public final class MathUtils {
                 if (a <= Long.MAX_VALUE / b) {
                     ret = a * b;
                 } else {
-                    throw new ArithmeticException(msg);
+                    throw new MathArithmeticException();
                 }
             } else {
                 // assert a == 0
@@ -1160,8 +1147,7 @@ public final class MathUtils {
       * @throws IllegalArgumentException if the target sum is infinite or NaN
       * @since 2.1
       */
-     public static double[] normalizeArray(double[] values, double normalizedSum)
-       throws ArithmeticException, IllegalArgumentException {
+     public static double[] normalizeArray(double[] values, double normalizedSum) {
          if (Double.isInfinite(normalizedSum)) {
              throw MathRuntimeException.createIllegalArgumentException(
                      LocalizedFormats.NORMALIZE_INFINITE);
@@ -1271,15 +1257,15 @@ public final class MathUtils {
      * determined by the rounding method specified. Rounding methods are defined
      * in {@link BigDecimal}.
      *
-     * @param unscaled the value to round.
-     * @param sign the sign of the original, scaled value.
-     * @param roundingMethod the rounding method as defined in
-     *        {@link BigDecimal}.
+     * @param unscaled Value to round.
+     * @param sign Sign of the original, scaled value.
+     * @param roundingMethod Rounding method, as defined in {@link BigDecimal}.
      * @return the rounded value.
      * @since 1.1
      */
-    private static double roundUnscaled(double unscaled, double sign,
-        int roundingMethod) {
+    private static double roundUnscaled(double unscaled,
+                                        double sign,
+                                        int roundingMethod) {
         switch (roundingMethod) {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {
@@ -1337,24 +1323,23 @@ public final class MathUtils {
         }
         case BigDecimal.ROUND_UNNECESSARY :
             if (unscaled != FastMath.floor(unscaled)) {
-                throw new ArithmeticException("Inexact result from rounding");
+                throw new MathArithmeticException();
             }
             break;
         case BigDecimal.ROUND_UP :
             unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
             break;
         default :
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INVALID_ROUNDING_METHOD,
-                  roundingMethod,
-                  "ROUND_CEILING",     BigDecimal.ROUND_CEILING,
-                  "ROUND_DOWN",        BigDecimal.ROUND_DOWN,
-                  "ROUND_FLOOR",       BigDecimal.ROUND_FLOOR,
-                  "ROUND_HALF_DOWN",   BigDecimal.ROUND_HALF_DOWN,
-                  "ROUND_HALF_EVEN",   BigDecimal.ROUND_HALF_EVEN,
-                  "ROUND_HALF_UP",     BigDecimal.ROUND_HALF_UP,
-                  "ROUND_UNNECESSARY", BigDecimal.ROUND_UNNECESSARY,
-                  "ROUND_UP",          BigDecimal.ROUND_UP);
+            throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+                                                   roundingMethod,
+                                                   "ROUND_CEILING", BigDecimal.ROUND_CEILING,
+                                                   "ROUND_DOWN", BigDecimal.ROUND_DOWN,
+                                                   "ROUND_FLOOR", BigDecimal.ROUND_FLOOR,
+                                                   "ROUND_HALF_DOWN", BigDecimal.ROUND_HALF_DOWN,
+                                                   "ROUND_HALF_EVEN", BigDecimal.ROUND_HALF_EVEN,
+                                                   "ROUND_HALF_UP", BigDecimal.ROUND_HALF_UP,
+                                                   "ROUND_UNNECESSARY", BigDecimal.ROUND_UNNECESSARY,
+                                                   "ROUND_UP", BigDecimal.ROUND_UP);
         }
         return unscaled;
     }
@@ -1439,26 +1424,22 @@ public final class MathUtils {
     }
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for short value <code>x</code>.
-     * <p>
-     * For a short value x, this method returns (short)(+1) if x > 0, (short)(0)
-     * if x = 0, and (short)(-1) if x < 0.</p>
+     * Compute the <a href="http://mathworld.wolfram.com/Sign.html">sign</a>
+     * of the argument.
      *
      * @param x the value, a short
-     * @return (short)(+1), (short)(0), or (short)(-1), depending on the sign of
-     *         x
+     * @return 1 if {@code x > 0}, 0 if {@code x == 0}, and -1 if {@code x < 0}.
      */
     public static short sign(final short x) {
         return (x == ZS) ? ZS : (x > ZS) ? PS : NS;
     }
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
-     * hyperbolic sine</a> of x.
+     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
+     * hyperbolic sine</a> of the argument.
      *
-     * @param x double value for which to find the hyperbolic sine
-     * @return hyperbolic sine of x
+     * @param x Value for which to find the hyperbolic sine.
+     * @return hyperbolic sine of {@code x}.
      */
     public static double sinh(double x) {
         return (FastMath.exp(x) - FastMath.exp(-x)) / 2.0;
@@ -1467,17 +1448,17 @@ public final class MathUtils {
     /**
      * Subtract two integers, checking for overflow.
      *
-     * @param x the minuend
-     * @param y the subtrahend
-     * @return the difference <code>x-y</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         int
+     * @param x Minuend.
+     * @param y Subtrahend.
+     * @return the difference {@code x - y}.
+     * @throws MathArithmeticException if the result can not be represented
+     * as an {@code int}.
      * @since 1.1
      */
     public static int subAndCheck(int x, int y) {
         long s = (long)x - (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
-            throw MathRuntimeException.createArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, x, y);
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, x, y);
         }
         return (int)s;
     }
@@ -1485,11 +1466,11 @@ public final class MathUtils {
     /**
      * Subtract two long integers, checking for overflow.
      *
-     * @param a first value
-     * @param b second value
-     * @return the difference <code>a-b</code>
-     * @throws ArithmeticException if the result can not be represented as an
-     *         long
+     * @param a Value.
+     * @param b Value.
+     * @return the difference {@code a - b}.
+     * @throws MathArithmeticException if the result can not be represented as a
+     * {@code long}.
      * @since 1.2
      */
     public static long subAndCheck(long a, long b) {
@@ -1510,18 +1491,15 @@ public final class MathUtils {
 
     /**
      * Raise an int to an int power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static int pow(final int k, int e)
-        throws IllegalArgumentException {
-
+    public static int pow(final int k, int e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         int result = 1;
@@ -1535,23 +1513,19 @@ public final class MathUtils {
         }
 
         return result;
-
     }
 
     /**
      * Raise an int to a long power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static int pow(final int k, long e)
-        throws IllegalArgumentException {
-
+    public static int pow(final int k, long e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         int result = 1;
@@ -1565,23 +1539,19 @@ public final class MathUtils {
         }
 
         return result;
-
     }
 
     /**
      * Raise a long to an int power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static long pow(final long k, int e)
-        throws IllegalArgumentException {
-
+    public static long pow(final long k, int e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         long result = 1l;
@@ -1595,23 +1565,19 @@ public final class MathUtils {
         }
 
         return result;
-
     }
 
     /**
      * Raise a long to a long power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static long pow(final long k, long e)
-        throws IllegalArgumentException {
-
+    public static long pow(final long k, long e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         long result = 1l;
@@ -1625,43 +1591,35 @@ public final class MathUtils {
         }
 
         return result;
-
     }
 
     /**
      * Raise a BigInteger to an int power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, int e)
-        throws IllegalArgumentException {
-
+    public static BigInteger pow(final BigInteger k, int e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         return k.pow(e);
-
     }
 
     /**
      * Raise a BigInteger to a long power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, long e)
-        throws IllegalArgumentException {
-
+    public static BigInteger pow(final BigInteger k, long e) {
         if (e < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         BigInteger result = BigInteger.ONE;
@@ -1680,18 +1638,15 @@ public final class MathUtils {
 
     /**
      * Raise a BigInteger to a BigInteger power.
-     * @param k number to raise
-     * @param e exponent (must be positive or null)
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
-     * @exception IllegalArgumentException if e is negative
+     * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, BigInteger e)
-        throws IllegalArgumentException {
-
+    public static BigInteger pow(final BigInteger k, BigInteger e) {
         if (e.compareTo(BigInteger.ZERO) < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.POWER_NEGATIVE_PARAMETERS,
-                k, e);
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
         BigInteger result = BigInteger.ONE;
@@ -1705,7 +1660,6 @@ public final class MathUtils {
         }
 
         return result;
-
     }
 
     /**
@@ -1816,9 +1770,13 @@ public final class MathUtils {
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
-     * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @param abort Whether to throw an exception if the check fails.
+     * @return {@code true} if the array is sorted.
+     * @throws NonMonotonousSequenceException if the array is not sorted
+     * and {@code abort} is {@code true}.
      */
-    public static void checkOrder(double[] val, OrderDirection dir, boolean strict) {
+    public static boolean checkOrder(double[] val, OrderDirection dir,
+                                     boolean strict, boolean abort) {
         double previous = val[0];
         boolean ok = true;
 
@@ -1852,21 +1810,40 @@ public final class MathUtils {
                 throw new IllegalArgumentException();
             }
 
-            if (!ok) {
+            if (!ok &&
+                abort) {
                 throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
             }
             previous = val[i];
         }
+
+        return ok;
+    }
+
+    /**
+     * Checks that the given array is sorted.
+     *
+     * @param val Values.
+     * @param dir Ordering direction.
+     * @param strict Whether the order should be strict.
+     * @return {@code true} if the array is sorted.
+     * @throws NonMonotonousSequenceException if the array is not sorted
+     * and {@code abort} is {@code true}.
+     */
+    public static boolean checkOrder(double[] val, OrderDirection dir,
+                                     boolean strict) {
+        return checkOrder(val, dir, strict, true);
     }
 
     /**
      * Checks that the given array is sorted in strictly increasing order.
      *
      * @param val Values.
+     * @return {@code true} if the array is sorted.
      * @throws NonMonotonousSequenceException if the array is not sorted.
      */
-    public static void checkOrder(double[] val) {
-        checkOrder(val, OrderDirection.INCREASING, true);
+    public static boolean checkOrder(double[] val) {
+        return checkOrder(val, OrderDirection.INCREASING, true);
     }
 
     /**
@@ -1929,58 +1906,139 @@ public final class MathUtils {
      * @return the 2-norm of the vector
      */
     public static double safeNorm(double[] v) {
-    double rdwarf = 3.834e-20;
-    double rgiant = 1.304e+19;
-    double s1=0.0;
-    double s2=0.0;
-    double s3=0.0;
-    double x1max = 0.0;
-    double x3max = 0.0;
-    double floatn = (double)v.length;
-    double agiant = rgiant/floatn;
-    for (int i=0;i<v.length;i++) {
-        double xabs = Math.abs(v[i]);
-        if (xabs<rdwarf || xabs>agiant) {
-            if (xabs>rdwarf) {
-                if (xabs>x1max) {
-                    double r=x1max/xabs;
-                    s1=1.0+s1*r*r;
-                    x1max=xabs;
+        double rdwarf = 3.834e-20;
+        double rgiant = 1.304e+19;
+        double s1 = 0;
+        double s2 = 0;
+        double s3 = 0;
+        double x1max = 0;
+        double x3max = 0;
+        double floatn = (double) v.length;
+        double agiant = rgiant / floatn;
+        for (int i = 0; i < v.length; i++) {
+            double xabs = Math.abs(v[i]);
+            if (xabs < rdwarf || xabs > agiant) {
+                if (xabs > rdwarf) {
+                    if (xabs > x1max) {
+                        double r = x1max / xabs;
+                        s1= 1 + s1 * r * r;
+                        x1max = xabs;
+                    } else {
+                        double r = xabs / x1max;
+                        s1 += r * r;
+                    }
                 } else {
-                    double r=xabs/x1max;
-                    s1+=r*r;
-                }
-            } else {
-                if (xabs>x3max) {
-                 double r=x3max/xabs;
-                 s3=1.0+s3*r*r;
-                 x3max=xabs;
-                } else {
-                    if (xabs!=0.0) {
-                        double r=xabs/x3max;
-                        s3+=r*r;
+                    if (xabs > x3max) {
+                        double r = x3max / xabs;
+                        s3= 1 + s3 * r * r;
+                        x3max = xabs;
+                    } else {
+                        if (xabs != 0) {
+                            double r = xabs / x3max;
+                            s3 += r * r;
+                        }
                     }
                 }
-            }
-        } else {
-         s2+=xabs*xabs;
-        }
-    }
-    double norm;
-    if (s1!=0.0) {
-        norm = x1max*Math.sqrt(s1+(s2/x1max)/x1max);
-    } else {
-        if (s2==0.0) {
-            norm = x3max*Math.sqrt(s3);
-        } else {
-            if (s2>=x3max) {
-                norm = Math.sqrt(s2*(1.0+(x3max/s2)*(x3max*s3)));
             } else {
-                norm = Math.sqrt(x3max*((s2/x3max)+(x3max*s3)));
+                s2 += xabs * xabs;
+            }
+        }
+        double norm;
+        if (s1 != 0) {
+            norm = x1max * Math.sqrt(s1 + (s2 / x1max) / x1max);
+        } else {
+            if (s2 == 0) {
+                norm = x3max * Math.sqrt(s3);
+            } else {
+                if (s2 >= x3max) {
+                    norm = Math.sqrt(s2 * (1 + (x3max / s2) * (x3max * s3)));
+                } else {
+                    norm = Math.sqrt(x3max * ((s2 / x3max) + (x3max * s3)));
+                }
+            }
+        }
+        return norm;
+    }
+
+    /**
+     * Sort an array in increasing order, performing the same reordering of
+     * entries on other arrays.
+     *
+     * @param x Array to be sorted.
+     * @param yList Set of arrays whose permutations of entries must follow
+     * those performed on {@code x}.
+     * @throws DimensionMismatchException if any {@code y} has not the same
+     * size as {@code x}.
+     */
+    public static void sortInPlace(double[] x,
+                                   double[] ... yList) {
+        sortInPlace(x, OrderDirection.INCREASING, yList);
+    }
+
+    /**
+     * Sort an array, performing the same reordering of entries on other arrays.
+     *
+     * @param x Array to be sorted.
+     * @param dir Order direction.
+     * @param yList Set of arrays whose permutations of entries must follow
+     * those performed on {@code x}.
+     * @throws DimensionMismatchException if any {@code y} has not the same
+     * size as {@code x}.
+     */
+    public static void sortInPlace(double[] x,
+                                   final OrderDirection dir,
+                                   double[] ... yList) {
+        if (x == null ||
+            yList == null) {
+            throw new NullArgumentException();
+        }
+
+        final int len = x.length;
+        final List<Map.Entry<Double, double[]>> list
+            = new ArrayList<Map.Entry<Double, double[]>>(len);
+
+        final int yListLen = yList.length;
+        for (int i = 0; i < len; i++) {
+            final double[] yValues = new double[yListLen];
+            for (int j = 0; j < yListLen; j++) {
+                double[] y = yList[j];
+                if (y.length != len) {
+                    throw new DimensionMismatchException(y.length, len);
+                }
+                yValues[j] = y[i];
+            }
+            list.add(new AbstractMap.SimpleEntry<Double, double[]>(x[i], yValues));
+        }
+
+        final Comparator<Map.Entry<Double, double[]>> comp
+            = new Comparator<Map.Entry<Double, double[]>>() {
+            public int compare(Map.Entry<Double, double[]> o1,
+                               Map.Entry<Double, double[]> o2) {
+                int val;
+                switch (dir) {
+                case INCREASING:
+                    val = o1.getKey().compareTo(o2.getKey());
+                break;
+                case DECREASING:
+                    val = o2.getKey().compareTo(o1.getKey());
+                break;
+                default:
+                    // Should never happen.
+                    throw new IllegalArgumentException();
+                }
+                return val;
+            }
+        };
+
+        Collections.sort(list, comp);
+
+        for (int i = 0; i < len; i++) {
+            final Map.Entry<Double, double[]> e = list.get(i);
+            x[i] = e.getKey();
+            final double[] yValues = e.getValue();
+            for (int j = 0; j < yListLen; j++) {
+                yList[j][i] = yValues[j];
             }
         }
     }
-    return norm;
-}
-
 }

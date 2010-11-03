@@ -16,21 +16,17 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.FunctionEvaluationException;
-
 /**
  * An interface representing a univariate real function.
  *
  * @version $Revision$ $Date$
  */
 public interface UnivariateRealFunction {
-
     /**
-     * Compute the value for the function.
-     * @param x the point for which the function value should be computed
-     * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
+     * Compute the value of the function.
+     *
+     * @param x Point at which the function value should be computed.
+     * @return the value.
      */
-    double value(double x) throws FunctionEvaluationException;
-
+    double value(double x);
 }

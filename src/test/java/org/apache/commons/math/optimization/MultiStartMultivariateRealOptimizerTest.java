@@ -20,9 +20,10 @@ package org.apache.commons.math.optimization;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.optimization.direct.NelderMead;
+import org.apache.commons.math.optimization.direct.SimplexOptimizer;
+import org.apache.commons.math.optimization.direct.NelderMeadSimplex;
 import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -30,53 +31,47 @@ import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Test;
 
 public class MultiStartMultivariateRealOptimizerTest {
+    @Test
+    public void testRosenbrock() {
+        Rosenbrock rosenbrock = new Rosenbrock();
+        SimplexOptimizer underlying = new SimplexOptimizer();
+        NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {
+                { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
+            });
+        underlying.setSimplex(simplex);
+        JDKRandomGenerator g = new JDKRandomGenerator();
+        g.setSeed(16069223052l);
+        RandomVectorGenerator generator =
+            new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
+        MultiStartMultivariateRealOptimizer optimizer =
+            new MultiStartMultivariateRealOptimizer(underlying, 10, generator);
+        optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
+        optimizer.setMaxEvaluations(1100);
+        RealPointValuePair optimum =
+            optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
-  @Test
-  public void testRosenbrock()
-    throws FunctionEvaluationException {
+        assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
+        assertTrue(optimizer.getEvaluations() > 900);
+        assertTrue(optimizer.getEvaluations() < 1200);
+        assertTrue(optimum.getValue() < 8.0e-4);
+    }
 
-    Rosenbrock rosenbrock = new Rosenbrock();
-    NelderMead underlying = new NelderMead();
-    underlying.setStartConfiguration(new double[][] {
-                                         { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
-                                     });
-    JDKRandomGenerator g = new JDKRandomGenerator();
-    g.setSeed(16069223052l);
-    RandomVectorGenerator generator =
-        new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
-    MultiStartMultivariateRealOptimizer optimizer =
-        new MultiStartMultivariateRealOptimizer(underlying, 10, generator);
-    optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
-    optimizer.setMaxEvaluations(1100);
-    RealPointValuePair optimum =
-        optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
+    private static class Rosenbrock implements MultivariateRealFunction {
+        private int count;
 
-    assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
-    assertTrue(optimizer.getEvaluations() > 900);
-    assertTrue(optimizer.getEvaluations() < 1200);
-    assertTrue(optimum.getValue() < 8.0e-4);
+        public Rosenbrock() {
+            count = 0;
+        }
 
-  }
+        public double value(double[] x) {
+            ++count;
+            double a = x[1] - x[0] * x[0];
+            double b = 1.0 - x[0];
+            return 100 * a * a + b * b;
+        }
 
-  private static class Rosenbrock implements MultivariateRealFunction {
-
-      private int count;
-
-      public Rosenbrock() {
-          count = 0;
-      }
-
-      public double value(double[] x) throws FunctionEvaluationException {
-          ++count;
-          double a = x[1] - x[0] * x[0];
-          double b = 1.0 - x[0];
-          return 100 * a * a + b * b;
-      }
-
-      public int getCount() {
-          return count;
-      }
-
-  }
-
+        public int getCount() {
+            return count;
+        }
+    }
 }
