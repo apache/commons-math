@@ -57,13 +57,23 @@ public abstract class AbstractSimplex {
     private final int dimension;
 
     /**
-     * Default constructor.
-     * Build a unit hypercube.
+     * Build a unit hypercube simplex.
      *
      * @param n Dimension of the simplex.
      */
     protected AbstractSimplex(int n) {
-        this(createUnitHypercubeSteps(n));
+        this(n, 1d);
+    }
+
+    /**
+     * Build a hypercube simplex with the given side length.
+     *
+     * @param n Dimension of the simplex.
+     * @param sideLength Length of the sides of the hypercube.
+     */
+    protected AbstractSimplex(int n,
+                              double sideLength) {
+        this(createHypercubeSteps(n, sideLength));
     }
 
     /**
@@ -328,12 +338,14 @@ public abstract class AbstractSimplex {
      * Create steps for a unit hypercube.
      *
      * @param n Dimension of the hypercube.
-     * @return unit steps.
+     * @param sideLength Length of the sides of the hypercube.
+     * @return the steps.
      */
-    private static double[] createUnitHypercubeSteps(int n) {
+    private static double[] createHypercubeSteps(int n,
+                                                 double sideLength) {
         final double[] steps = new double[n];
         for (int i = 0; i < n; i++) {
-            steps[i] = 1;
+            steps[i] = sideLength;
         }
         return steps;
     }
