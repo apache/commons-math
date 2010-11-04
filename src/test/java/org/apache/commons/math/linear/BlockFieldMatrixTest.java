@@ -29,7 +29,6 @@ import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Test cases for the {@link BlockFieldMatrix} class.

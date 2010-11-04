@@ -18,11 +18,7 @@
 package org.apache.commons.math.optimization.direct;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
@@ -32,9 +28,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.LeastSquaresConverter;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.junit.Test;
-import org.junit.Ignore;
 
 public class SimplexOptimizerNelderMeadTest {
     @Test
