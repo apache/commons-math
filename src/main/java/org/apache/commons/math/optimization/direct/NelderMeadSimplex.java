@@ -55,7 +55,44 @@ public class NelderMeadSimplex extends AbstractSimplex {
      * @param n Dimension of the simplex.
      */
     public NelderMeadSimplex(final int n) {
-        this(n, DEFAULT_RHO, DEFAULT_KHI, DEFAULT_GAMMA, DEFAULT_SIGMA);
+        this(n, 1d);
+    }
+
+    /**
+     * Build a Nelder-Mead simplex with default coefficients.
+     * The default coefficients are 1.0 for rho, 2.0 for khi and 0.5
+     * for both gamma and sigma.
+     *
+     * @param n Dimension of the simplex.
+     * @param sideLength Length of the sides of the default (hypercube)
+     * simplex. See {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     */
+    public NelderMeadSimplex(final int n, double sideLength) {
+        this(n, sideLength,
+             DEFAULT_RHO, DEFAULT_KHI, DEFAULT_GAMMA, DEFAULT_SIGMA);
+    }
+
+    /**
+     * Build a Nelder-Mead simplex with specified coefficients.
+     *
+     * @param n Dimension of the simplex. See
+     * {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     * @param sideLength Length of the sides of the default (hypercube)
+     * simplex. See {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     * @param rho Reflection coefficient.
+     * @param khi Expansion coefficient.
+     * @param gamma Contraction coefficient.
+     * @param sigma Shrinkage coefficient.
+     */
+    public NelderMeadSimplex(final int n, double sideLength,
+                             final double rho, final double khi,
+                             final double gamma, final double sigma) {
+        super(n, sideLength);
+
+        this.rho = rho;
+        this.khi = khi;
+        this.gamma = gamma;
+        this.sigma = sigma;
     }
 
     /**
@@ -71,12 +108,7 @@ public class NelderMeadSimplex extends AbstractSimplex {
     public NelderMeadSimplex(final int n,
                              final double rho, final double khi,
                              final double gamma, final double sigma) {
-        super(n);
-
-        this.rho = rho;
-        this.khi = khi;
-        this.gamma = gamma;
-        this.sigma = sigma;
+        this(n, 1d, rho, khi, gamma, sigma);
     }
 
     /**
