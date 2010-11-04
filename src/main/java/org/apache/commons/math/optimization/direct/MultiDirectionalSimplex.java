@@ -46,20 +46,47 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @param n Dimension of the simplex.
      */
     public MultiDirectionalSimplex(final int n) {
-        this(n, DEFAULT_KHI, DEFAULT_GAMMA);
+        this(n, 1d);
+    }
+
+    /**
+     * Build a multi-directional simplex with default coefficients.
+     * The default values are 2.0 for khi and 0.5 for gamma.
+     *
+     * @param n Dimension of the simplex.
+     * @param sideLength Length of the sides of the default (hypercube)
+     * simplex. See {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     */
+    public MultiDirectionalSimplex(final int n, double sideLength) {
+        this(n, sideLength, DEFAULT_KHI, DEFAULT_GAMMA);
     }
 
     /**
      * Build a multi-directional simplex with specified coefficients.
      *
      * @param n Dimension of the simplex. See
-     * {@link AbstractSimplex#AbstractSimplex(int)}.
+     * {@link AbstractSimplex#AbstractSimplex(int,double)}.
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
      */
     public MultiDirectionalSimplex(final int n,
                                    final double khi, final double gamma) {
-        super(n);
+        this(n, 1d, khi, gamma);
+    }
+
+    /**
+     * Build a multi-directional simplex with specified coefficients.
+     *
+     * @param n Dimension of the simplex. See
+     * {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     * @param sideLength Length of the sides of the default (hypercube)
+     * simplex. See {@link AbstractSimplex#AbstractSimplex(int,double)}.
+     * @param khi Expansion coefficient.
+     * @param gamma Contraction coefficient.
+     */
+    public MultiDirectionalSimplex(final int n, double sideLength,
+                                   final double khi, final double gamma) {
+        super(n, sideLength);
 
         this.khi   = khi;
         this.gamma = gamma;
