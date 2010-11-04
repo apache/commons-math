@@ -34,6 +34,7 @@ package org.apache.commons.math.optimization;
  * @since 2.0
  * @deprecated To be removed in 3.0.
  */
+@Deprecated
 public interface RealConvergenceChecker {
 
   /** Check if the optimization algorithm has converged considering the last points.

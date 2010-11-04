@@ -29,6 +29,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @deprecated since 2.2. Please use the classes in the
  * {@link org.apache.commons.math.exception} package.
  */
+@Deprecated
 public class InvalidMatrixException extends MathRuntimeException {
 
     /** Serializable version identifier. */

@@ -28,6 +28,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @deprecated in 2.2 (to be removed in 3.0). Please use the exceptions in package
  * {@link org.apache.commons.math.exception}.
  */
+@Deprecated
 public class MatrixIndexException extends MathRuntimeException {
 
     /** Serializable version identifier */

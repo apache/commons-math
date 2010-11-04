@@ -28,6 +28,7 @@ import org.junit.Test;
  * @version $Revision$ $Date$ 
  * @deprecated To be removed in math 3.0 (when the class for which it is a test will also be removed).
  */
+@Deprecated
 public final class SmoothingBicubicSplineInterpolatorTest {
     /**
      * Test preconditions.

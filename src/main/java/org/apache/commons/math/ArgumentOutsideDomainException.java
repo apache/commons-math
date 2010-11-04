@@ -25,6 +25,7 @@ package org.apache.commons.math;
  * @deprecated in 2.2 (to be removed in 3.0). Please use
  * {@link org.apache.commons.math.exception.OutOfRangeException} instead.
  */
+@Deprecated
 public class ArgumentOutsideDomainException extends FunctionEvaluationException {
 
     /** Serializable version identifier. */

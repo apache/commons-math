@@ -25,6 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  * @deprecated in 2.2 (to be removed in 3.0).
  */
+@Deprecated
 public class DuplicateSampleAbscissaException extends MathException  {
 
     /** Serializable version identifier */
