@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.AbstractMap;
 import java.util.Collections;
 
 import org.apache.commons.math.MathRuntimeException;
@@ -2007,7 +2006,7 @@ public final class MathUtils {
                 }
                 yValues[j] = y[i];
             }
-            list.add(new AbstractMap.SimpleEntry<Double, double[]>(x[i], yValues));
+            list.add(new Pair<Double, double[]>(x[i], yValues));
         }
 
         final Comparator<Map.Entry<Double, double[]>> comp
