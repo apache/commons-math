@@ -87,8 +87,7 @@ public class Pair<K, V> {
         if (!(o instanceof Pair)) {
             return false;
         } else {
-            Pair<? extends K, ? extends V> oP
-                = (Pair<? extends K, ? extends V>) o;
+            Pair<?, ?> oP = (Pair<?, ? >) o;
             return (key == null ?
                     oP.getKey() == null :
                     key.equals(oP.getKey())) &&
@@ -103,6 +102,7 @@ public class Pair<K, V> {
      *
      * @return the hash code value.
      */
+    @Override
     public int hashCode() {
         return (key == null ? 0 : key.hashCode()) ^
             (value == null ? 0 : value.hashCode());
