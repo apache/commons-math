@@ -18,9 +18,6 @@ package org.apache.commons.math.util;
 
 /**
  * Generic pair.
- * It is provided as a replacement for the standard
- * {@code AbstractMap.SimpleEntry} that is available only in Java 1.6
- * and later.
  * Immutable class.
  *
  * @param <K> Key type.
@@ -82,6 +79,7 @@ public class Pair<K, V> {
      * @return {@code true} if the given object is also a map entry and
      * the two entries represent the same mapping.
      */
+    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;
