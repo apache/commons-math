@@ -87,7 +87,7 @@ public class Pair<K, V> {
         if (!(o instanceof Pair)) {
             return false;
         } else {
-            Pair<?, ?> oP = (Pair<?, ? >) o;
+            Pair<?, ?> oP = (Pair<?, ?>) o;
             return (key == null ?
                     oP.getKey() == null :
                     key.equals(oP.getKey())) &&

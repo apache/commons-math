@@ -42,5 +42,8 @@ public class PairTest {
 
         p2 = new Pair<Integer, Double>(new Integer(1), new Double(2));
         Assert.assertTrue(p1.equals(p2));
+
+        Pair<Integer, Float> p3 = new Pair<Integer, Float>(new Integer(1), new Float(2));
+        Assert.assertFalse(p1.equals(p3));
     }
 }
