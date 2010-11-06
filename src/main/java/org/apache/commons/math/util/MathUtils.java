@@ -1993,8 +1993,8 @@ public final class MathUtils {
         }
 
         final int len = x.length;
-        final List<Map.Entry<Double, double[]>> list
-            = new ArrayList<Map.Entry<Double, double[]>>(len);
+        final List<Pair<Double, double[]>> list
+            = new ArrayList<Pair<Double, double[]>>(len);
 
         final int yListLen = yList.length;
         for (int i = 0; i < len; i++) {
@@ -2009,10 +2009,10 @@ public final class MathUtils {
             list.add(new Pair<Double, double[]>(x[i], yValues));
         }
 
-        final Comparator<Map.Entry<Double, double[]>> comp
-            = new Comparator<Map.Entry<Double, double[]>>() {
-            public int compare(Map.Entry<Double, double[]> o1,
-                               Map.Entry<Double, double[]> o2) {
+        final Comparator<Pair<Double, double[]>> comp
+            = new Comparator<Pair<Double, double[]>>() {
+            public int compare(Pair<Double, double[]> o1,
+                               Pair<Double, double[]> o2) {
                 int val;
                 switch (dir) {
                 case INCREASING:
@@ -2032,7 +2032,7 @@ public final class MathUtils {
         Collections.sort(list, comp);
 
         for (int i = 0; i < len; i++) {
-            final Map.Entry<Double, double[]> e = list.get(i);
+            final Pair<Double, double[]> e = list.get(i);
             x[i] = e.getKey();
             final double[] yValues = e.getValue();
             for (int j = 0; j < yListLen; j++) {

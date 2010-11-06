@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math.util;
 
-import java.util.Map;
-
 /**
  * Generic pair.
  * It is provided as a replacement for the standard
  * {@code AbstractMap.SimpleEntry} that is available only in Java 1.6
  * and later.
+ * Immutable class.
  *
  * @param <K> Key type.
  * @param <V> Value type.
@@ -30,11 +29,11 @@ import java.util.Map;
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public class Pair<K, V> implements Map.Entry<K, V> {
+public class Pair<K, V> {
     /** Key. */
-    private K key;
+    private final K key;
     /** Value. */
-    private V value;
+    private final V value;
 
     /**
      * Create an entry representing a mapping from the specified key to the
@@ -53,7 +52,7 @@ public class Pair<K, V> implements Map.Entry<K, V> {
      *
      * @param entry Entry to copy.
      */
-    Pair(Map.Entry<? extends K, ? extends V> entry) {
+    Pair(Pair<? extends K, ? extends V> entry) {
         key = entry.getKey();
         value = entry.getValue();
     }
@@ -77,18 +76,6 @@ public class Pair<K, V> implements Map.Entry<K, V> {
     }
 
     /**
-     * Set the value.
-     *
-     * @param v Value to be stored.
-     * @return the old value.
-     */
-    public V setValue(V v) {
-        V old = value;
-        value = v;
-        return old;
-    }
-
-    /**
      * Compare the specified object with this entry for equality.
      *
      * @param o Object.
@@ -99,17 +86,17 @@ public class Pair<K, V> implements Map.Entry<K, V> {
         if (o == null) {
             return false;
         }
-        if (!(o instanceof Map.Entry)) {
+        if (!(o instanceof Pair)) {
             return false;
         } else {
-            Map.Entry<? extends K, ? extends V> ome
-                = (Map.Entry<? extends K, ? extends V>) o;
+            Pair<? extends K, ? extends V> oP
+                = (Pair<? extends K, ? extends V>) o;
             return (key == null ?
-                    ome.getKey() == null :
-                    key.equals(ome.getKey())) &&
+                    oP.getKey() == null :
+                    key.equals(oP.getKey())) &&
                 (value == null ?
-                 ome.getValue() == null :
-                 value.equals(ome.getValue()));
+                 oP.getValue() == null :
+                 value.equals(oP.getValue()));
         }
     }
 

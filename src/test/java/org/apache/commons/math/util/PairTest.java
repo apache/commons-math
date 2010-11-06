@@ -27,10 +27,6 @@ public class PairTest {
             = new Pair<Integer, Double>(new Integer(1), new Double(2));
         Assert.assertEquals(new Integer(1), p.getKey());
         Assert.assertEquals(new Double(2), p.getValue(), Math.ulp(1d));
-
-        final Double old = p.setValue(new Double(3));
-        Assert.assertEquals(new Double(2), old, Math.ulp(1d));
-        Assert.assertEquals(new Double(3), p.getValue(), Math.ulp(1d));
     }
 
     @Test
@@ -44,11 +40,7 @@ public class PairTest {
         p1 = new Pair<Integer, Double>(new Integer(1), new Double(2));
         Assert.assertFalse(p1.equals(p2));
 
-        Pair<Integer, Number> p3 = new Pair<Integer, Number>(new Integer(1), null);
-        Assert.assertFalse(p1.equals(p3));
-        p3.setValue(new Double(3));
-        Assert.assertFalse(p1.equals(p3));
-        p3.setValue(new Double(2));
-        Assert.assertTrue(p1.equals(p3));
+        p2 = new Pair<Integer, Double>(new Integer(1), new Double(2));
+        Assert.assertTrue(p1.equals(p2));
     }
 }
