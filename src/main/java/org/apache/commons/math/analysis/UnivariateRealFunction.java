@@ -27,6 +27,22 @@ public interface UnivariateRealFunction {
      *
      * @param x Point at which the function value should be computed.
      * @return the value.
+     * @throws IllegalArgumentException when the activated method itself can
+     * ascertain that preconditions specified in the API expressed at the
+     * level of the activated method have been violated.  In the vast
+     * majority of cases where Commons-Math throws IllegalArgumentException,
+     * it is the result of argument checking of actual parameters immediately
+     * passed to a method.
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException
+     * when the method that may encounter errors during evaluation.
+     * This should be thrown only in circumstances where, at the level of the
+     * activated function, IllegalArgumentException is not appropriate and it
+     * should indicate that while formal preconditions of the method have not
+     * been violated, an irrecoverable error has occurred evaluating a
+     * function at some (usually lower) level of the call stack.
+     * Convergence failures, runtime exceptions (even IllegalArgumentException)
+     * in user code or lower level methods can cause (and should be wrapped in)
+     * a FunctionEvaluationException.
      */
     double value(double x);
 }
