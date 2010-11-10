@@ -16,47 +16,49 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when some counter maximum value is exceeded.
+ * Exception to be thrown when a symmetric matrix is expected.
  *
  * @since 3.0
  * @version $Revision$ $Date$
  */
-public class MaxCountExceededException extends MathIllegalStateException {
-    /** Serializable version Id. */
-    private static final long serialVersionUID = 4330003017885151975L;
-    /**
-     * Maximum number of evaluations.
-     */
-    private final Number max;
+public class NonPositiveDefiniteMatrixException extends MathIllegalArgumentException {
+    /** Index (diagonal element). */
+    private final int index;
+    /** Threshold. */
+    private final double threshold;
 
     /**
-     * Construct the exception.
+     * Construct an exception.
      *
-     * @param max Maximum.
+     * @param index Row (and column) index.
+     * @param threshold Absolute positivity threshold.
      */
-    public MaxCountExceededException(Number max) {
-        this(null, max);
-    }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific contexte pattern.
-     * @param max Maximum.
-     */
-    public MaxCountExceededException(Localizable specific,
-                                     Number max) {
-        super(specific, LocalizedFormats.MAX_COUNT_EXCEEDED, max);
-        this.max = max;
+    public NonPositiveDefiniteMatrixException(int index,
+                                              double threshold) {
+        super(LocalizedFormats.NON_POSITIVE_DEFINITE_MATRIX, index, threshold);
+        this.index = index;
+        this.threshold = threshold;
     }
 
     /**
-     * @return the maximum number of evaluations.
+     * @return the row index.
      */
-    public Number getMax() {
-        return max;
+    public int getRow() {
+        return index;
+    }
+    /**
+     * @return the column index.
+     */
+    public int getColumn() {
+        return index;
+    }
+    /**
+     * @return the absolute positivity threshold.
+     */
+    public double getThreshold() {
+        return threshold;
     }
 }

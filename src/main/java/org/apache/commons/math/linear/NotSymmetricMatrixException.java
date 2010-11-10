@@ -26,6 +26,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @since 2.0
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use
+ * {@link org.apache.commons.math.exception.NonSymmetricMatrixException} instead.
  */
 
 public class NotSymmetricMatrixException extends MathException {

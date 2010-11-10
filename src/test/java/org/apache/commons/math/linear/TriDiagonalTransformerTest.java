@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 
 import junit.framework.TestCase;
 
@@ -47,7 +48,7 @@ public class TriDiagonalTransformerTest extends TestCase {
         try {
             new TriDiagonalTransformer(MatrixUtils.createRealMatrix(new double[3][2]));
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException ime) {
+        } catch (NonSquareMatrixException ime) {
             // expected behavior
         }
     }

@@ -17,6 +17,7 @@
 package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
 
 /**
  * Exception to be thrown when two dimensions differ.
@@ -25,12 +26,26 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class DimensionMismatchException extends MathIllegalNumberException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -8415396756375798143L;
-
     /** Correct dimension. */
     private final int dimension;
+
+    /**
+     * Construct an exception from the mismatched dimensions.
+     *
+     * @param specific Specific context information pattern.
+     * @param wrong Wrong dimension.
+     * @param expected Expected dimension.
+     */
+    public DimensionMismatchException(Localizable specific,
+                                      int wrong,
+                                      int expected) {
+        super(specific,
+              LocalizedFormats.DIMENSIONS_MISMATCH,
+              wrong, expected);
+        dimension = expected;
+    }
 
     /**
      * Construct an exception from the mismatched dimensions.
@@ -40,10 +55,7 @@ public class DimensionMismatchException extends MathIllegalNumberException {
      */
     public DimensionMismatchException(int wrong,
                                       int expected) {
-        super(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-              LocalizedFormats.DIMENSIONS_MISMATCH,
-              wrong, expected);
-        dimension = expected;
+        this(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, wrong, expected);
     }
 
     /**

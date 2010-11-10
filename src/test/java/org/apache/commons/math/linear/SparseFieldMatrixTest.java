@@ -26,6 +26,7 @@ import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link SparseFieldMatrix} class.

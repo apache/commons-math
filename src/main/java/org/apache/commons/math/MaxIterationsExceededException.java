@@ -28,6 +28,9 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @version $Revision$ $Date$
  * @since 1.2
+ * @deprecated in 2.2 (to be removed in 3.0). Please use
+ * {@link org.apache.commons.math.exception.MaxCountExceededException}
+ * instead.
  */
 public class MaxIterationsExceededException extends ConvergenceException {
 

@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.

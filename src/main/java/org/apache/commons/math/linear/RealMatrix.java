@@ -466,8 +466,9 @@ public interface RealMatrix extends AnyMatrix {
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
-     * @return trace
-     * @throws NonSquareMatrixException if the matrix is not square
+     * @return the trace.
+     * @throws org.apache.commons.math.exception.NonSquareMatrixException
+     * if the matrix is not square.
      */
     double getTrace();
 

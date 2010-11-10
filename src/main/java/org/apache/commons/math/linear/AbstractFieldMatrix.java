@@ -23,6 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -620,8 +621,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     public abstract int getColumnDimension();
 
     /** {@inheritDoc} */
-    public T getTrace()
-        throws NonSquareMatrixException {
+    public T getTrace() {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (nRows != nCols) {

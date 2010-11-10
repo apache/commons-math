@@ -17,8 +17,10 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.SingularMatrixException;
+import org.apache.commons.math.exception.NonSymmetricMatrixException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -88,39 +90,33 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Calculates the eigen decomposition of the given symmetric matrix.
-     * @param matrix The <strong>symmetric</strong> matrix to decompose.
-     * @param splitTolerance dummy parameter, present for backward compatibility only.
-     * @exception InvalidMatrixException (wrapping a
-     * {@link org.apache.commons.math.ConvergenceException} if algorithm
-     * fails to converge
+     *
+     * @param matrix Matrix to decompose. It <em>must</em> be symmetric.
+     * @param splitTolerance Dummy parameter (present for backward
+     * compatibility only).
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
-    public EigenDecompositionImpl(final RealMatrix matrix,final double splitTolerance)
-            throws InvalidMatrixException {
-        if (isSymmetric(matrix)) {
+    public EigenDecompositionImpl(final RealMatrix matrix,
+                                  final double splitTolerance)  {
+        if (isSymmetric(matrix, true)) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
-        } else {
-            // as of 2.0, non-symmetric matrices (i.e. complex eigenvalues) are
-            // NOT supported
-            // see issue https://issues.apache.org/jira/browse/MATH-235
-            throw new InvalidMatrixException(
-                    LocalizedFormats.ASSYMETRIC_EIGEN_NOT_SUPPORTED);
         }
     }
 
     /**
      * Calculates the eigen decomposition of the symmetric tridiagonal
      * matrix.  The Householder matrix is assumed to be the identity matrix.
+     *
      * @param main Main diagonal of the symmetric triadiagonal form
      * @param secondary Secondary of the tridiagonal form
-     * @param splitTolerance dummy parameter, present for backward compatibility only.
-     * @exception InvalidMatrixException (wrapping a
-     * {@link org.apache.commons.math.ConvergenceException} if algorithm
-     * fails to converge
+     * @param splitTolerance Dummy parameter (present for backward
+     * compatibility only).
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public EigenDecompositionImpl(final double[] main,final double[] secondary,
-            final double splitTolerance)
-            throws InvalidMatrixException {
+                                  final double splitTolerance) {
         this.main      = main.clone();
         this.secondary = secondary.clone();
         transformer    = null;
@@ -134,11 +130,16 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
     /**
      * Check if a matrix is symmetric.
-     * @param matrix
-     *            matrix to check
-     * @return true if matrix is symmetric
+     *
+     * @param matrix Matrix to check.
+     * @param raiseException If {@code true}, the method will throw an
+     * exception if {@code matrix} is not symmetric.
+     * @return {@code true} if {@code matrix} is symmetric.
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric and
+     * {@code raiseException} is {@code true}.
      */
-    private boolean isSymmetric(final RealMatrix matrix) {
+    private boolean isSymmetric(final RealMatrix matrix,
+                                boolean raiseException) {
         final int rows = matrix.getRowDimension();
         final int columns = matrix.getColumnDimension();
         final double eps = 10 * rows * columns * MathUtils.EPSILON;
@@ -148,6 +149,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 final double mji = matrix.getEntry(j, i);
                 if (FastMath.abs(mij - mji) >
                     (FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * eps)) {
+                    if (raiseException) {
+                        throw new NonSymmetricMatrixException(i, j, eps);
+                    }
                     return false;
                 }
             }
@@ -156,7 +160,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getV() throws InvalidMatrixException {
+    public RealMatrix getV() {
 
         if (cachedV == null) {
             final int m = eigenvectors.length;
@@ -171,7 +175,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getD() throws InvalidMatrixException {
+    public RealMatrix getD() {
         if (cachedD == null) {
             // cache the matrix for subsequent calls
             cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
@@ -180,7 +184,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getVT() throws InvalidMatrixException {
+    public RealMatrix getVT() {
 
         if (cachedVt == null) {
             final int m = eigenvectors.length;
@@ -196,30 +200,27 @@ public class EigenDecompositionImpl implements EigenDecomposition {
     }
 
     /** {@inheritDoc} */
-    public double[] getRealEigenvalues() throws InvalidMatrixException {
+    public double[] getRealEigenvalues() {
         return realEigenvalues.clone();
     }
 
     /** {@inheritDoc} */
-    public double getRealEigenvalue(final int i) throws InvalidMatrixException,
-            ArrayIndexOutOfBoundsException {
+    public double getRealEigenvalue(final int i) {
         return realEigenvalues[i];
     }
 
     /** {@inheritDoc} */
-    public double[] getImagEigenvalues() throws InvalidMatrixException {
+    public double[] getImagEigenvalues() {
         return imagEigenvalues.clone();
     }
 
     /** {@inheritDoc} */
-    public double getImagEigenvalue(final int i) throws InvalidMatrixException,
-            ArrayIndexOutOfBoundsException {
+    public double getImagEigenvalue(final int i) {
         return imagEigenvalues[i];
     }
 
     /** {@inheritDoc} */
-    public RealVector getEigenvector(final int i)
-            throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
+    public RealVector getEigenvector(final int i) {
         return eigenvectors[i].copy();
     }
 
@@ -283,8 +284,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * @exception InvalidMatrixException
          *                if decomposed matrix is singular
          */
-        public double[] solve(final double[] b)
-                throws IllegalArgumentException, InvalidMatrixException {
+        public double[] solve(final double[] b) {
 
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
@@ -292,9 +292,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int m = realEigenvalues.length;
             if (b.length != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                        b.length, m);
+                throw new DimensionMismatchException(b.length, m);
             }
 
             final double[] bp = new double[m];
@@ -317,26 +315,19 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * This method only find exact linear solutions, i.e. solutions for
          * which ||A &times; X - B|| is exactly 0.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
-         * @return a vector X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
-         * @exception InvalidMatrixException
-         *                if decomposed matrix is singular
+         * @param b Right-hand side of the equation A &times; X = B
+         * @return a Vector X that minimizes the two norm of A &times; X - B
+         * @throws DimensionMismatchException if the matrices dimensions do not match.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
-        public RealVector solve(final RealVector b)
-                throws IllegalArgumentException, InvalidMatrixException {
-
+        public RealVector solve(final RealVector b) {
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
             }
 
             final int m = realEigenvalues.length;
             if (b.getDimension() != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH, b
-                                .getDimension(), m);
+                throw new DimensionMismatchException(b.getDimension(), m);
             }
 
             final double[] bp = new double[m];
@@ -350,7 +341,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             }
 
             return new ArrayRealVector(bp, false);
-
         }
 
         /**
@@ -359,16 +349,12 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * This method only find exact linear solutions, i.e. solutions for
          * which ||A &times; X - B|| is exactly 0.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
-         * @return a matrix X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
-         * @exception InvalidMatrixException
-         *                if decomposed matrix is singular
+         * @param b Right-hand side of the equation A &times; X = B
+         * @return a Matrix X that minimizes the two norm of A &times; X - B
+         * @throws DimensionMismatchException if the matrices dimensions do not match.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
-        public RealMatrix solve(final RealMatrix b)
-                throws IllegalArgumentException, InvalidMatrixException {
+        public RealMatrix solve(final RealMatrix b) {
 
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
@@ -376,11 +362,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int m = realEigenvalues.length;
             if (b.getRowDimension() != m) {
-                throw MathRuntimeException
-                        .createIllegalArgumentException(
-                                LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                                b.getRowDimension(), b.getColumnDimension(), m,
-                                "n");
+                throw new DimensionMismatchException(b.getRowDimension(), m);
             }
 
             final int nColB = b.getColumnDimension();
@@ -419,12 +401,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
         /**
          * Get the inverse of the decomposed matrix.
-         * @return inverse matrix
-         * @throws InvalidMatrixException
-         *             if decomposed matrix is singular
+         *
+         * @return the inverse matrix.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
-        public RealMatrix getInverse() throws InvalidMatrixException {
-
+        public RealMatrix getInverse() {
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
             }
@@ -444,32 +425,28 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                 }
             }
             return MatrixUtils.createRealMatrix(invData);
-
         }
-
     }
 
     /**
      * Transform matrix to tridiagonal.
-     * @param matrix
-     *            matrix to transform
+     *
+     * @param matrix Matrix to transform.
      */
     private void transformToTridiagonal(final RealMatrix matrix) {
-
         // transform the matrix to tridiagonal
         transformer = new TriDiagonalTransformer(matrix);
         main = transformer.getMainDiagonalRef();
         secondary = transformer.getSecondaryDiagonalRef();
-
     }
 
     /**
      * Find eigenvalues and eigenvectors (Dubrulle et al., 1971)
+     *
      * @param householderMatrix Householder matrix of the transformation
-     *  to tri-diagonal form.
+     * to tri-diagonal form.
      */
     private void findEigenVectors(double[][] householderMatrix) {
-
         double[][]z = householderMatrix.clone();
         final int n = main.length;
         realEigenvalues = new double[n];
@@ -515,9 +492,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                     }
                 }
                 if (m != j) {
-                    if (its == maxIter)
-                        throw new InvalidMatrixException(
-                                new MaxIterationsExceededException(maxIter));
+                    if (its == maxIter) {
+                        throw new MaxCountExceededException(LocalizedFormats.CONVERGENCE_FAILED,
+                                                            maxIter);
+                    }
                     its++;
                     double q = (realEigenvalues[j + 1] - realEigenvalues[j]) / (2 * e[j]);
                     double t = FastMath.sqrt(1 + q * q);

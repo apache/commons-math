@@ -14,31 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.commons.math.linear;
+package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
-
 /**
- * Thrown when an operation defined only for square matrices is applied to non-square ones.
+ * Exception to be thrown when a square matrix is expected.
+ *
+ * @since 3.0
  * @version $Revision$ $Date$
- * @since 2.0
- * @deprecated in 2.2 (to be removed in 3.0). Please use
- * {@link org.apache.commons.math.exception.DimensionMismatchException} instead.
  */
-public class NonSquareMatrixException extends InvalidMatrixException {
-
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8996207526636673730L;
-
+public class NonSquareMatrixException extends DimensionMismatchException {
     /**
-     * Construct an exception with the given message.
-     * @param rows number of rows of the faulty matrix
-     * @param columns number of columns of the faulty matrix
+     * Construct an exception from the mismatched dimensions.
+     *
+     * @param wrong Row dimension.
+     * @param expected Column dimension.
      */
-    public NonSquareMatrixException(final int rows, final int columns) {
-        super(LocalizedFormats.NON_SQUARE_MATRIX, rows, columns);
+    public NonSquareMatrixException(int wrong,
+                                    int expected) {
+        super(LocalizedFormats.NON_SQUARE_MATRIX, wrong, expected);
     }
-
 }

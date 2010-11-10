@@ -21,8 +21,9 @@ import java.lang.reflect.Array;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.SingularMatrixException;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.
@@ -67,13 +68,12 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     /**
      * Calculates the LU-decomposition of the given matrix.
      * @param matrix The matrix to decompose.
-     * @exception NonSquareMatrixException if matrix is not square
+     * @throws NonSquareMatrixException if matrix is not square
      */
-    public FieldLUDecompositionImpl(FieldMatrix<T> matrix)
-        throws NonSquareMatrixException {
-
+    public FieldLUDecompositionImpl(FieldMatrix<T> matrix) {
         if (!matrix.isSquare()) {
-            throw new NonSquareMatrixException(matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new NonSquareMatrixException(matrix.getRowDimension(),
+                                               matrix.getColumnDimension());
         }
 
         final int m = matrix.getColumnDimension();
@@ -258,14 +258,10 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         }
 
         /** {@inheritDoc} */
-        public T[] solve(T[] b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
+        public T[] solve(T[] b) {
             final int m = pivot.length;
             if (b.length != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                        b.length, m);
+                throw new DimensionMismatchException(b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -301,17 +297,14 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         }
 
         /** {@inheritDoc} */
-        public FieldVector<T> solve(FieldVector<T> b)
-            throws IllegalArgumentException, InvalidMatrixException {
+        public FieldVector<T> solve(FieldVector<T> b) {
             try {
                 return solve((ArrayFieldVector<T>) b);
             } catch (ClassCastException cce) {
 
                 final int m = pivot.length;
                 if (b.getDimension() != m) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                            b.getDimension(), m);
+                    throw new DimensionMismatchException(b.getDimension(), m);
                 }
                 if (singular) {
                     throw new SingularMatrixException();
@@ -351,23 +344,18 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
          * <p>The A matrix is implicit here. It is </p>
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
-         * @exception IllegalArgumentException if matrices dimensions don't match
-         * @exception InvalidMatrixException if decomposed matrix is singular
+         * @throws IllegalArgumentException if matrices dimensions don't match
+         * @throws InvalidMatrixException if decomposed matrix is singular
          */
-        public ArrayFieldVector<T> solve(ArrayFieldVector<T> b)
-            throws IllegalArgumentException, InvalidMatrixException {
+        public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
             return new ArrayFieldVector<T>(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
-        public FieldMatrix<T> solve(FieldMatrix<T> b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
+        public FieldMatrix<T> solve(FieldMatrix<T> b) {
             final int m = pivot.length;
             if (b.getRowDimension() != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                        b.getRowDimension(), b.getColumnDimension(), m, "n");
+                throw new DimensionMismatchException(b.getRowDimension(), m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -428,7 +416,5 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
             }
             return solve(identity);
         }
-
     }
-
 }

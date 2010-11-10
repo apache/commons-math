@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.NonSquareMatrixException;
 import junit.framework.TestCase;
 
 public class LUDecompositionImplTest extends TestCase {
@@ -73,8 +74,8 @@ public class LUDecompositionImplTest extends TestCase {
     public void testNonSquare() {
         try {
             new LUDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
-            fail("Expecting InvalidMatrixException");
-        } catch (InvalidMatrixException ime) {
+            fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ime) {
             // expected behavior
         }
     }

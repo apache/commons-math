@@ -181,6 +181,7 @@ public enum LocalizedFormats implements Localizable {
     BETA("beta"), /* keep */
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"),
+    NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({0},{0}) is larger than {2}"), /* keep */
     DEGREES_OF_FREEDOM("degrees of freedom ({0})"), /* keep */
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
@@ -217,6 +218,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_STRICTLY_INCREASING_SEQUENCE("points {3} and {2} are not strictly increasing ({1} >= {0})"), /* keep */
     NOT_SUBTRACTION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not subtraction compatible"),
     NOT_SYMMETRIC_MATRIX("not symmetric matrix"),
+    NON_SYMMETRIC_MATRIX("non symmetric matrix: the difference between entries at ({0},{1}) and ({1},{0}) is larger than {2}"), /* keep */
     NO_BIN_SELECTED("no bin selected"),
     NO_CONVERGENCE_WITH_ANY_START_POINT("none of the {0} start points lead to convergence"), /* keep */
     NO_DATA("no data"), /* keep */
@@ -276,7 +278,7 @@ public enum LocalizedFormats implements Localizable {
     SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE("sample size ({0}) must be less than or equal to population size ({1})"),
     SIMPLEX_NEED_ONE_POINT("simplex must contain at least one point"),
     SIMPLE_MESSAGE("{0}"),
-    SINGULAR_MATRIX("matrix is singular"),
+    SINGULAR_MATRIX("matrix is singular"), /* keep */
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),

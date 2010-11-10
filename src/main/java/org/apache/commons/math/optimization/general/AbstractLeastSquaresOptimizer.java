@@ -17,12 +17,11 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
-import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
@@ -95,15 +94,17 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Update the jacobian matrix.
-     * @exception FunctionEvaluationException if the function jacobian
-     * cannot be evaluated or its dimension doesn't match problem dimension
+     *
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException
+     * if the function Jacobian cannot be evaluated.
+     * @throws DimensionMismatchException if the Jacobian dimension does not
+     * match problem dimension.
      */
-    protected void updateJacobian() throws FunctionEvaluationException {
+    protected void updateJacobian() {
         ++jacobianEvaluations;
         weightedResidualJacobian = jF.value(point);
         if (weightedResidualJacobian.length != rows) {
-            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  weightedResidualJacobian.length, rows);
+            throw new DimensionMismatchException(weightedResidualJacobian.length, rows);
         }
 
         final double[] residualsWeights = getWeightRef();
@@ -120,15 +121,17 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Update the residuals array and cost function value.
-     * @exception FunctionEvaluationException if the function cannot be evaluated
-     * or its dimension doesn't match problem dimension or maximal number of
-     * of evaluations is exceeded
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException
+     * if the function cannot be evaluated.
+     * @throws DimensionMismatchException if the dimension does not match the
+     * problem dimension.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
      */
-    protected void updateResidualsAndCost() throws FunctionEvaluationException {
+    protected void updateResidualsAndCost() {
         objective = computeObjectiveValue(point);
         if (objective.length != rows) {
-            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  objective.length, rows);
+            throw new DimensionMismatchException(objective.length, rows);
         }
 
         final double[] targetValues = getTargetRef();
@@ -170,16 +173,15 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
-     * Get the covariance matrix of optimized parameters.
-     * @return covariance matrix
-     * @exception FunctionEvaluationException if the function jacobian cannot
-     * be evaluated
-     * @exception ConvergenceException if the covariance matrix
-     * cannot be computed (singular problem)
+     * Get the covariance matrix of the optimized parameters.
+     *
+     * @return the covariance matrix.
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException
+     * if the function Jacobian cannot be evaluated.
+     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * if the covariance matrix cannot be computed (singular problem).
      */
-    public double[][] getCovariances()
-        throws FunctionEvaluationException {
-
+    public double[][] getCovariances() {
         // set up the jacobian
         updateJacobian();
 
@@ -196,31 +198,29 @@ public abstract class AbstractLeastSquaresOptimizer
             }
         }
 
-        try {
-            // compute the covariances matrix
-            RealMatrix inverse =
-                new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
-            return inverse.getData();
-        } catch (InvalidMatrixException ime) {
-            throw new ConvergenceException(LocalizedFormats.UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM);
-        }
-
+        // compute the covariances matrix
+        RealMatrix inverse =
+            new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
+        return inverse.getData();
     }
 
     /**
      * Guess the errors in optimized parameters.
-     * <p>Guessing is covariance-based, it only gives rough order of magnitude.</p>
+     * Guessing is covariance-based: It only gives a rough order of magnitude.
+     *
      * @return errors in optimized parameters
-     * @exception FunctionEvaluationException if the function jacobian cannot b evaluated
-     * @exception ConvergenceException if the covariances matrix cannot be computed
-     * or the number of degrees of freedom is not positive (number of measurements
-     * lesser or equal to number of parameters)
+     * @throws org.apache.commons.math.exception.FunctionEvaluationException
+     * if the function Jacobian cannot be evaluated.
+     * @throws org.apache.commons.math.exception.SingularMatrixException if
+     * the covariances matrix cannot be computed.
+     * @throws NumberIsTooSmallException if the number of degrees of freedom is not
+     * positive, i.e. the number of measurements is less or equal to the number of
+     * parameters.
      */
-    public double[] guessParametersErrors()
-        throws FunctionEvaluationException {
+    public double[] guessParametersErrors() {
         if (rows <= cols) {
-            throw new ConvergenceException(LocalizedFormats.NO_DEGREES_OF_FREEDOM,
-                                           rows, cols);
+            throw new NumberIsTooSmallException(LocalizedFormats.NO_DEGREES_OF_FREEDOM,
+                                                rows, cols, false);
         }
         double[] errors = new double[cols];
         final double c = FastMath.sqrt(getChiSquare() / (rows - cols));
@@ -235,8 +235,7 @@ public abstract class AbstractLeastSquaresOptimizer
     @Override
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
-                                            final double[] startPoint)
-        throws FunctionEvaluationException {
+                                            final double[] startPoint) {
         // Reset counter.
         jacobianEvaluations = 0;
 

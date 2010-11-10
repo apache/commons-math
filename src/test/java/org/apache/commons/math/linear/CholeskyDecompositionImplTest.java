@@ -21,13 +21,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.linear.CholeskyDecomposition;
-import org.apache.commons.math.linear.CholeskyDecompositionImpl;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.NonSquareMatrixException;
-import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
-import org.apache.commons.math.linear.NotSymmetricMatrixException;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
+import org.apache.commons.math.exception.NonSymmetricMatrixException;
 import org.junit.Test;
 
 public class CholeskyDecompositionImplTest {
@@ -58,7 +54,7 @@ public class CholeskyDecompositionImplTest {
     }
 
     /** test non-symmetric matrix */
-    @Test(expected = NotSymmetricMatrixException.class)
+    @Test(expected = NonSymmetricMatrixException.class)
     public void testNotSymmetricMatrixException() throws MathException {
         double[][] changed = testData.clone();
         changed[0][changed[0].length - 1] += 1.0e-5;
@@ -66,7 +62,7 @@ public class CholeskyDecompositionImplTest {
     }
 
     /** test non positive definite matrix */
-    @Test(expected = NotPositiveDefiniteMatrixException.class)
+    @Test(expected = NonPositiveDefiniteMatrixException.class)
     public void testNotPositiveDefinite() throws MathException {
         new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
                 { 14, 11, 13, 15, 24 },
@@ -77,7 +73,7 @@ public class CholeskyDecompositionImplTest {
         }));
     }
 
-    @Test(expected = NotPositiveDefiniteMatrixException.class)
+    @Test(expected = NonPositiveDefiniteMatrixException.class)
     public void testMath274() throws MathException {
         new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
                 { 0.40434286, -0.09376327, 0.30328980, 0.04909388 },

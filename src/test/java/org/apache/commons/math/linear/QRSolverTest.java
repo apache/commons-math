@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
+import org.apache.commons.math.exception.SingularMatrixException;
 import junit.framework.TestCase;
 
 public class QRSolverTest extends TestCase {
@@ -101,19 +102,19 @@ public class QRSolverTest extends TestCase {
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException iae) {
+        } catch (SingularMatrixException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException iae) {
+        } catch (SingularMatrixException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumnVector(0));
             fail("an exception should have been thrown");
-        } catch (InvalidMatrixException iae) {
+        } catch (SingularMatrixException iae) {
             // expected behavior
         }
     }

@@ -17,15 +17,15 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 
@@ -120,7 +120,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 for (int i = 0; i < cols; ++i) {
                     point[i] += dX[i];
                 }
-            } catch (InvalidMatrixException e) {
+            } catch (SingularMatrixException e) {
                 throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
             }
 

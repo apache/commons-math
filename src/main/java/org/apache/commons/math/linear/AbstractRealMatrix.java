@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
@@ -576,8 +577,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public abstract int getColumnDimension();
 
     /** {@inheritDoc} */
-    public double getTrace()
-        throws NonSquareMatrixException {
+    public double getTrace() {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (nRows != nCols) {

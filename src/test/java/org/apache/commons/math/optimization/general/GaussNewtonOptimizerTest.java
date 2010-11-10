@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -278,7 +279,6 @@ extends TestCase {
         } catch (ConvergenceException ee) {
             // expected behavior
         }
-
     }
 
     public void testMoreEstimatedParametersUnsorted() throws Exception {
@@ -362,7 +362,7 @@ extends TestCase {
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (FunctionEvaluationException oe) {
+        } catch (DimensionMismatchException oe) {
             // expected behavior
         }
 

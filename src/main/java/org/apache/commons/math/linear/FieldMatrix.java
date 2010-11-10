@@ -424,7 +424,8 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace
-     * @throws NonSquareMatrixException if the matrix is not square
+     * @throws org.apache.commons.math.exception.NonSquareMatrixException
+     * if the matrix is not square.
      */
     T getTrace();
 

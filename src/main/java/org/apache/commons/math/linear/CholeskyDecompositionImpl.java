@@ -17,8 +17,10 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.NonSymmetricMatrixException;
+import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -34,21 +36,20 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 public class CholeskyDecompositionImpl implements CholeskyDecomposition {
-
-    /** Default threshold above which off-diagonal elements are considered too different
-     * and matrix not symmetric. */
+    /**
+     * Default threshold above which off-diagonal elements are considered too different
+     * and matrix not symmetric.
+     */
     public static final double DEFAULT_RELATIVE_SYMMETRY_THRESHOLD = 1.0e-15;
-
-    /** Default threshold below which diagonal elements are considered null
-     * and matrix not positive definite. */
+    /**
+     * Default threshold below which diagonal elements are considered null
+     * and matrix not positive definite.
+     */
     public static final double DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD = 1.0e-10;
-
     /** Row-oriented storage for L<sup>T</sup> matrix data. */
     private double[][] lTData;
-
     /** Cached value of L. */
     private RealMatrix cachedL;
-
     /** Cached value of LT. */
     private RealMatrix cachedLT;
 
@@ -62,17 +63,15 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
      * #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD}
      * </p>
      * @param matrix the matrix to decompose
-     * @exception NonSquareMatrixException if matrix is not square
-     * @exception NotSymmetricMatrixException if matrix is not symmetric
-     * @exception NotPositiveDefiniteMatrixException if the matrix is not
-     * strictly positive definite
+     * @throws NonSquareMatrixException if the matrix is not square.
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     * @throws NonPositiveDefiniteMatrixException if the matrix is not
+     * strictly positive definite.
      * @see #CholeskyDecompositionImpl(RealMatrix, double, double)
      * @see #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */
-    public CholeskyDecompositionImpl(final RealMatrix matrix)
-        throws NonSquareMatrixException,
-               NotSymmetricMatrixException, NotPositiveDefiniteMatrixException {
+    public CholeskyDecompositionImpl(final RealMatrix matrix) {
         this(matrix, DEFAULT_RELATIVE_SYMMETRY_THRESHOLD,
              DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD);
     }
@@ -84,20 +83,17 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
      * elements are considered too different and matrix not symmetric
      * @param absolutePositivityThreshold threshold below which diagonal
      * elements are considered null and matrix not positive definite
-     * @exception NonSquareMatrixException if matrix is not square
-     * @exception NotSymmetricMatrixException if matrix is not symmetric
-     * @exception NotPositiveDefiniteMatrixException if the matrix is not
-     * strictly positive definite
+     * @throws NonSquareMatrixException if the matrix is not square.
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     * @throws NonPositiveDefiniteMatrixException if the matrix is not
+     * strictly positive definite.
      * @see #CholeskyDecompositionImpl(RealMatrix)
      * @see #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */
     public CholeskyDecompositionImpl(final RealMatrix matrix,
                                      final double relativeSymmetryThreshold,
-                                     final double absolutePositivityThreshold)
-        throws NonSquareMatrixException,
-               NotSymmetricMatrixException, NotPositiveDefiniteMatrixException {
-
+                                     final double absolutePositivityThreshold) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                                                matrix.getColumnDimension());
@@ -110,7 +106,6 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
         // check the matrix before transformation
         for (int i = 0; i < order; ++i) {
-
             final double[] lI = lTData[i];
 
             // check off-diagonal elements (and reset them to 0)
@@ -121,7 +116,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 final double maxDelta =
                     relativeSymmetryThreshold * FastMath.max(FastMath.abs(lIJ), FastMath.abs(lJI));
                 if (FastMath.abs(lIJ - lJI) > maxDelta) {
-                    throw new NotSymmetricMatrixException();
+                    throw new NonSymmetricMatrixException(i, j, relativeSymmetryThreshold);
                 }
                 lJ[i] = 0;
            }
@@ -134,7 +129,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
             // check diagonal element
             if (ltI[i] < absolutePositivityThreshold) {
-                throw new NotPositiveDefiniteMatrixException();
+                throw new NonPositiveDefiniteMatrixException(i, absolutePositivityThreshold);
             }
 
             ltI[i] = FastMath.sqrt(ltI[i]);
@@ -147,9 +142,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                     ltQ[p] -= ltI[q] * ltI[p];
                 }
             }
-
         }
-
     }
 
     /** {@inheritDoc} */
@@ -169,7 +162,6 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
         // return the cached matrix
         return cachedLT;
-
     }
 
     /** {@inheritDoc} */
@@ -189,7 +181,6 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-
         /** Row-oriented storage for L<sup>T</sup> matrix data. */
         private final double[][] lTData;
 
@@ -208,14 +199,10 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
         }
 
         /** {@inheritDoc} */
-        public double[] solve(double[] b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
+        public double[] solve(double[] b) {
             final int m = lTData.length;
             if (b.length != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                        b.length, m);
+                throw new DimensionMismatchException(b.length, m);
             }
 
             final double[] x = b.clone();
@@ -240,21 +227,17 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             }
 
             return x;
-
         }
 
         /** {@inheritDoc} */
-        public RealVector solve(RealVector b)
-            throws IllegalArgumentException, InvalidMatrixException {
+        public RealVector solve(RealVector b) {
             try {
                 return solve((ArrayRealVector) b);
             } catch (ClassCastException cce) {
 
                 final int m = lTData.length;
                 if (b.getDimension() != m) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-                            b.getDimension(), m);
+                    throw new DimensionMismatchException(b.getDimension(), m);
                 }
 
                 final double[] x = b.getData();
@@ -279,7 +262,6 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 }
 
                 return new ArrayRealVector(x, false);
-
             }
         }
 
@@ -287,23 +269,18 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * <p>The A matrix is implicit here. It is </p>
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
-         * @exception IllegalArgumentException if matrices dimensions don't match
-         * @exception InvalidMatrixException if decomposed matrix is singular
+         * @throws IllegalArgumentException if matrices dimensions don't match
+         * @throws InvalidMatrixException if decomposed matrix is singular
          */
-        public ArrayRealVector solve(ArrayRealVector b)
-            throws IllegalArgumentException, InvalidMatrixException {
+        public ArrayRealVector solve(ArrayRealVector b) {
             return new ArrayRealVector(solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
-        public RealMatrix solve(RealMatrix b)
-            throws IllegalArgumentException, InvalidMatrixException {
-
+        public RealMatrix solve(RealMatrix b) {
             final int m = lTData.length;
             if (b.getRowDimension() != m) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                        b.getRowDimension(), b.getColumnDimension(), m, "n");
+                throw new DimensionMismatchException(b.getRowDimension(), m);
             }
 
             final int nColB = b.getColumnDimension();
@@ -347,10 +324,8 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
         }
 
         /** {@inheritDoc} */
-        public RealMatrix getInverse() throws InvalidMatrixException {
+        public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(lTData.length));
         }
-
     }
-
 }

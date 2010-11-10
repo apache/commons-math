@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.NonSquareMatrixException;
 
 public class FieldLUDecompositionImplTest extends TestCase {
     private Fraction[][] testData = {
@@ -77,7 +78,7 @@ public class FieldLUDecompositionImplTest extends TestCase {
                     { Fraction.ZERO, Fraction.ZERO },
                     { Fraction.ZERO, Fraction.ZERO }
             }));
-        } catch (InvalidMatrixException ime) {
+        } catch (NonSquareMatrixException ime) {
             // expected behavior
         }
     }

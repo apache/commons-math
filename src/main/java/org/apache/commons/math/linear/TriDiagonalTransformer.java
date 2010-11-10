@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Arrays;
 
+import org.apache.commons.math.exception.NonSquareMatrixException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -38,22 +39,16 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 class TriDiagonalTransformer {
-
     /** Householder vectors. */
     private final double householderVectors[][];
-
     /** Main diagonal. */
     private final double[] main;
-
     /** Secondary diagonal. */
     private final double[] secondary;
-
     /** Cached value of Q. */
     private RealMatrix cachedQ;
-
     /** Cached value of Qt. */
     private RealMatrix cachedQt;
-
     /** Cached value of T. */
     private RealMatrix cachedT;
 
@@ -61,11 +56,11 @@ class TriDiagonalTransformer {
      * Build the transformation to tridiagonal shape of a symmetrical matrix.
      * <p>The specified matrix is assumed to be symmetrical without any check.
      * Only the upper triangular part of the matrix is used.</p>
-     * @param matrix the symmetrical matrix to transform.
-     * @exception InvalidMatrixException if matrix is not square
+     *
+     * @param matrix Symmetrical matrix to transform.
+     * @exception NonSquareMatrixException if the matrix is not square.
      */
-    public TriDiagonalTransformer(RealMatrix matrix)
-        throws InvalidMatrixException {
+    public TriDiagonalTransformer(RealMatrix matrix) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(), matrix.getColumnDimension());
         }
@@ -80,7 +75,6 @@ class TriDiagonalTransformer {
 
         // transform matrix
         transform();
-
     }
 
     /**
@@ -101,9 +95,7 @@ class TriDiagonalTransformer {
      * @return the Q matrix
      */
     public RealMatrix getQT() {
-
         if (cachedQt == null) {
-
             final int m = householderVectors.length;
             cachedQt = MatrixUtils.createRealMatrix(m, m);
 
@@ -132,12 +124,10 @@ class TriDiagonalTransformer {
                 }
             }
             cachedQt.setEntry(0, 0, 1);
-
         }
 
         // return the cached matrix
         return cachedQt;
-
     }
 
     /**
@@ -145,9 +135,7 @@ class TriDiagonalTransformer {
      * @return the T matrix
      */
     public RealMatrix getT() {
-
         if (cachedT == null) {
-
             final int m = main.length;
             cachedT = MatrixUtils.createRealMatrix(m, m);
             for (int i = 0; i < m; ++i) {
@@ -164,7 +152,6 @@ class TriDiagonalTransformer {
 
         // return the cached matrix
         return cachedT;
-
     }
 
     /**
@@ -202,7 +189,6 @@ class TriDiagonalTransformer {
      * <p>Transformation is done using Householder transforms.</p>
      */
     private void transform() {
-
         final int m = householderVectors.length;
         final double[] z = new double[m];
         for (int k = 0; k < m - 1; k++) {
@@ -260,11 +246,8 @@ class TriDiagonalTransformer {
                         hI[j] -= hK[i] * z[j] + z[i] * hK[j];
                     }
                 }
-
             }
-
         }
         main[m - 1] = householderVectors[m - 1][m - 1];
     }
-
 }
