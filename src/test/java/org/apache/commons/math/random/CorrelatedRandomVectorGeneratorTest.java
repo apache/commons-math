@@ -20,8 +20,8 @@ package org.apache.commons.math.random;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math.stat.descriptive.moment.VectorialMean;
@@ -42,7 +42,7 @@ extends TestCase {
     }
 
     public void testMath226()
-        throws DimensionMismatchException, NotPositiveDefiniteMatrixException {
+        throws DimensionMismatchException {
         double[] mean = { 1, 1, 10, 1 };
         double[][] cov = {
                 { 1, 3, 2, 6 },
@@ -129,7 +129,7 @@ extends TestCase {
                                                             rawGenerator);
         } catch (DimensionMismatchException e) {
             fail(e.getMessage());
-        } catch (NotPositiveDefiniteMatrixException e) {
+        } catch (NonPositiveDefiniteMatrixException e) {
             fail("not positive definite matrix");
         }
     }

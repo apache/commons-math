@@ -18,8 +18,8 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.NotPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.util.FastMath;
 
@@ -89,7 +89,7 @@ public class CorrelatedRandomVectorGenerator
      * components
      * @exception IllegalArgumentException if there is a dimension
      * mismatch between the mean vector and the covariance matrix
-     * @exception NotPositiveDefiniteMatrixException if the
+     * @exception NonPositiveDefiniteMatrixException if the
      * covariance matrix is not strictly positive definite
      * @exception DimensionMismatchException if the mean and covariance
      * arrays dimensions don't match
@@ -97,7 +97,7 @@ public class CorrelatedRandomVectorGenerator
     public CorrelatedRandomVectorGenerator(double[] mean,
                                            RealMatrix covariance, double small,
                                            NormalizedRandomGenerator generator)
-    throws NotPositiveDefiniteMatrixException, DimensionMismatchException {
+    throws DimensionMismatchException {
 
         int order = covariance.getRowDimension();
         if (mean.length != order) {
@@ -120,13 +120,11 @@ public class CorrelatedRandomVectorGenerator
      * considered to be dependent on previous ones and are discarded
      * @param generator underlying generator for uncorrelated normalized
      * components
-     * @exception NotPositiveDefiniteMatrixException if the
+     * @exception NonPositiveDefiniteMatrixException if the
      * covariance matrix is not strictly positive definite
      */
     public CorrelatedRandomVectorGenerator(RealMatrix covariance, double small,
-                                           NormalizedRandomGenerator generator)
-    throws NotPositiveDefiniteMatrixException {
-
+                                           NormalizedRandomGenerator generator) {
         int order = covariance.getRowDimension();
         mean = new double[order];
         for (int i = 0; i < order; ++i) {
@@ -182,12 +180,10 @@ public class CorrelatedRandomVectorGenerator
      * @param covariance covariance matrix
      * @param small diagonal elements threshold under which  column are
      * considered to be dependent on previous ones and are discarded
-     * @exception NotPositiveDefiniteMatrixException if the
+     * @exception NonPositiveDefiniteMatrixException if the
      * covariance matrix is not strictly positive definite
      */
-    private void decompose(RealMatrix covariance, double small)
-    throws NotPositiveDefiniteMatrixException {
-
+    private void decompose(RealMatrix covariance, double small) {
         int order = covariance.getRowDimension();
         double[][] c = covariance.getData();
         double[][] b = new double[order][order];
@@ -224,7 +220,7 @@ public class CorrelatedRandomVectorGenerator
             if (c[ir][ir] < small) {
 
                 if (rank == 0) {
-                    throw new NotPositiveDefiniteMatrixException();
+                    throw new NonPositiveDefiniteMatrixException(ir, small);
                 }
 
                 // check remaining diagonal elements
@@ -232,7 +228,7 @@ public class CorrelatedRandomVectorGenerator
                     if (c[index[i]][index[i]] < -small) {
                         // there is at least one sufficiently negative diagonal element,
                         // the covariance matrix is wrong
-                        throw new NotPositiveDefiniteMatrixException();
+                        throw new NonPositiveDefiniteMatrixException(i, small);
                     }
                 }
 
