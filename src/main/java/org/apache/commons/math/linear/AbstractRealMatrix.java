@@ -35,20 +35,10 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 public abstract class AbstractRealMatrix implements RealMatrix {
-
-
-    /** Cached LU solver.
-     * @deprecated as of release 2.0, since all methods using this are deprecated
-     */
-    @Deprecated
-    private DecompositionSolver lu;
-
     /**
      * Creates a matrix with no data
      */
-    protected AbstractRealMatrix() {
-        lu = null;
-    }
+    protected AbstractRealMatrix() {}
 
     /**
      * Create a new RealMatrix with the supplied row and column dimensions.
@@ -64,7 +54,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
         if (columnDimension < 1) {
             throw new NotStrictlyPositiveException(columnDimension);
         }
-        lu = null;
     }
 
     /** {@inheritDoc} */
@@ -367,8 +356,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 setEntry(row + i, column + j, subMatrix[i][j]);
             }
         }
-
-        lu = null;
     }
 
     /** {@inheritDoc} */
@@ -540,34 +527,8 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    @Deprecated
-    public RealMatrix inverse()
-        throws InvalidMatrixException {
-        if (lu == null) {
-            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
-        }
-        return lu.getInverse();
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double getDeterminant()
-        throws InvalidMatrixException {
-        return new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getDeterminant();
-    }
-
-    /** {@inheritDoc} */
     public boolean isSquare() {
         return getColumnDimension() == getRowDimension();
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public boolean isSingular() {
-        if (lu == null) {
-            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
-       }
-        return !lu.isNonSingular();
     }
 
     /** {@inheritDoc} */
@@ -698,7 +659,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 setEntry(row, column, newValue);
             }
         }
-        lu = null;
         return visitor.end();
     }
 
@@ -731,7 +691,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 setEntry(row, column, newValue);
             }
         }
-        lu = null;
         return visitor.end();
     }
 
@@ -764,7 +723,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 setEntry(row, column, newValue);
             }
         }
-        lu = null;
         return visitor.end();
     }
 
@@ -797,7 +755,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 setEntry(row, column, newValue);
             }
         }
-        lu = null;
         return visitor.end();
     }
 
@@ -843,53 +800,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                                        final int startColumn, final int endColumn)
         throws MatrixVisitorException {
         return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double[] solve(final double[] b)
-        throws IllegalArgumentException, InvalidMatrixException {
-        if (lu == null) {
-            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
-        }
-        return lu.solve(b);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public RealMatrix solve(final RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException  {
-        if (lu == null) {
-            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
-        }
-        return lu.solve(b);
-    }
-
-    /**
-     * Computes a new
-     * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
-     * LU decomposition</a> for this matrix, storing the result for use by other methods.
-     * <p>
-     * <strong>Implementation Note</strong>:<br>
-     * Uses <a href="http://www.damtp.cam.ac.uk/user/fdl/people/sd/lectures/nummeth98/linear.htm">
-     * Crout's algorithm</a>, with partial pivoting.</p>
-     * <p>
-     * <strong>Usage Note</strong>:<br>
-     * This method should rarely be invoked directly. Its only use is
-     * to force recomputation of the LU decomposition when changes have been
-     * made to the underlying data using direct array references. Changes
-     * made using setXxx methods will trigger recomputation when needed
-     * automatically.</p>
-     *
-     * @throws InvalidMatrixException if the matrix is non-square or singular.
-     * @deprecated as of release 2.0, replaced by {@link LUDecomposition}
-     */
-    @Deprecated
-    public void luDecompose()
-        throws InvalidMatrixException {
-        if (lu == null) {
-            lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
-        }
     }
 
     /**

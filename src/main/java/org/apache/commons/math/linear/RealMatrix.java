@@ -425,44 +425,6 @@ public interface RealMatrix extends AnyMatrix {
     RealMatrix transpose();
 
     /**
-     * Returns the inverse of this matrix.
-     *
-     * @return inverse matrix
-     * @throws InvalidMatrixException if this is not invertible
-     * @deprecated as of release 2.0, replaced by <code>
-     * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
-     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
-     * getSolver()}.{@link DecompositionSolver#getInverse()
-     * getInverse()}</code>
-     */
-    @Deprecated
-        RealMatrix inverse();
-
-    /**
-     * Returns the determinant of this matrix.
-     *
-     * @return determinant
-     * @deprecated as of release 2.0, replaced by <code>
-     * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
-     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getDeterminant()
-     * getDeterminant()}</code>
-     */
-    @Deprecated
-    double getDeterminant();
-
-    /**
-     * Is this a singular matrix?
-     * @return true if the matrix is singular
-     * @deprecated as of release 2.0, replaced by the boolean negation of
-     * <code>{@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
-     * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
-     * getSolver()}.{@link DecompositionSolver#isNonSingular()
-     * isNonSingular()}</code>
-     */
-    @Deprecated
-    boolean isSingular();
-
-    /**
      * Returns the <a href="http://mathworld.wolfram.com/MatrixTrace.html">
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
@@ -821,32 +783,4 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor,
                                 int startRow, int endRow, int startColumn, int endColumn);
-
-    /**
-     * Returns the solution vector for a linear system with coefficient
-     * matrix = this and constant vector = <code>b</code>.
-     *
-     * @param b  constant vector
-     * @return vector of solution values to AX = b, where A is *this
-     * @throws IllegalArgumentException if this.rowDimension != b.length
-     * @throws InvalidMatrixException if this matrix is not square or is singular
-     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(double[])}
-     */
-    @Deprecated
-    double[] solve(double[] b);
-
-    /**
-     * Returns a matrix of (column) solution vectors for linear systems with
-     * coefficient matrix = this and constant vectors = columns of
-     * <code>b</code>.
-     *
-     * @param b  matrix of constant vectors forming RHS of linear systems to
-     * to solve
-     * @return matrix of solution vectors
-     * @throws IllegalArgumentException if this.rowDimension != row dimension
-     * @throws InvalidMatrixException if this matrix is not square or is singular
-     * @deprecated as of release 2.0, replaced by {@link DecompositionSolver#solve(RealMatrix)}
-     */
-    @Deprecated
-    RealMatrix solve(RealMatrix b);
 }
