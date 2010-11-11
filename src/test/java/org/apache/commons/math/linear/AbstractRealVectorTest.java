@@ -53,13 +53,13 @@ public class AbstractRealVectorTest extends TestCase {
         }
 
         @Override
-        public RealVector add(RealVector v) throws IllegalArgumentException {
+        public RealVector add(RealVector v) {
             RealVector result = new ArrayRealVector(v);
             return result.add(this);
         }
 
         @Override
-        public RealVector subtract(RealVector v) throws IllegalArgumentException {
+        public RealVector subtract(RealVector v) {
             RealVector result = new ArrayRealVector(v);
             return result.subtract(this).mapMultiplyToSelf(-1);
         }
@@ -112,16 +112,16 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
-        public RealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
+        public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }
 
-        public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
+        public RealVector ebeDivide(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public double dotProduct(RealVector v) throws IllegalArgumentException {
+        public double dotProduct(RealVector v) {
             throw unsupported();
         }
 
@@ -140,15 +140,15 @@ public class AbstractRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector projection(RealVector v) throws IllegalArgumentException {
+        public RealVector projection(RealVector v) {
             throw unsupported();
         }
 
-        public double getEntry(int index) throws MatrixIndexException {
+        public double getEntry(int index) {
             return values[index];
         }
 
-        public void setEntry(int index, double value) throws MatrixIndexException {
+        public void setEntry(int index, double value) {
             values[index] = value;
         }
 
@@ -168,7 +168,7 @@ public class AbstractRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector getSubVector(int index, int n) throws MatrixIndexException {
+        public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
 

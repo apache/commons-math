@@ -95,19 +95,19 @@ public class ArrayFieldVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldVector<T> add(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldVector<T> add(T[] v) throws IllegalArgumentException {
+        public FieldVector<T> add(T[] v) {
             throw unsupported();
         }
 
-        public FieldVector<T> subtract(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldVector<T> subtract(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldVector<T> subtract(T[] v) throws IllegalArgumentException {
+        public FieldVector<T> subtract(T[] v) {
             throw unsupported();
         }
 
@@ -155,19 +155,19 @@ public class ArrayFieldVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public FieldVector<T> ebeMultiply(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldVector<T> ebeMultiply(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldVector<T> ebeMultiply(T[] v) throws IllegalArgumentException {
+        public FieldVector<T> ebeMultiply(T[] v) {
             throw unsupported();
         }
 
-        public FieldVector<T> ebeDivide(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldVector<T> ebeDivide(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldVector<T> ebeDivide(T[] v) throws IllegalArgumentException {
+        public FieldVector<T> ebeDivide(T[] v) {
             throw unsupported();
         }
 
@@ -175,7 +175,7 @@ public class ArrayFieldVectorTest extends TestCase {
             return data.clone();
         }
 
-        public T dotProduct(FieldVector<T> v) throws IllegalArgumentException {
+        public T dotProduct(FieldVector<T> v) {
             T dot = field.getZero();
             for (int i = 0; i < data.length; i++) {
                 dot = dot.add(data[i].multiply(v.getEntry(i)));
@@ -183,7 +183,7 @@ public class ArrayFieldVectorTest extends TestCase {
             return dot;
         }
 
-        public T dotProduct(T[] v) throws IllegalArgumentException {
+        public T dotProduct(T[] v) {
             T dot = field.getZero();
             for (int i = 0; i < data.length; i++) {
                 dot = dot.add(data[i].multiply(v[i]));
@@ -191,23 +191,23 @@ public class ArrayFieldVectorTest extends TestCase {
             return dot;
         }
 
-        public FieldVector<T> projection(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldVector<T> projection(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldVector<T> projection(T[] v) throws IllegalArgumentException {
+        public FieldVector<T> projection(T[] v) {
             throw unsupported();
         }
 
-        public FieldMatrix<T> outerProduct(FieldVector<T> v) throws IllegalArgumentException {
+        public FieldMatrix<T> outerProduct(FieldVector<T> v) {
             throw unsupported();
         }
 
-        public FieldMatrix<T> outerProduct(T[] v) throws IllegalArgumentException {
+        public FieldMatrix<T> outerProduct(T[] v) {
             throw unsupported();
         }
 
-        public T getEntry(int index) throws MatrixIndexException {
+        public T getEntry(int index) {
             return data[index];
         }
 
@@ -227,19 +227,19 @@ public class ArrayFieldVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public FieldVector<T> getSubVector(int index, int n) throws MatrixIndexException {
+        public FieldVector<T> getSubVector(int index, int n) {
             throw unsupported();
         }
 
-        public void setEntry(int index, T value) throws MatrixIndexException {
+        public void setEntry(int index, T value) {
             throw unsupported();
         }
 
-        public void setSubVector(int index, FieldVector<T> v) throws MatrixIndexException {
+        public void setSubVector(int index, FieldVector<T> v) {
             throw unsupported();
         }
 
-        public void setSubVector(int index, T[] v) throws MatrixIndexException {
+        public void setSubVector(int index, T[] v) {
             throw unsupported();
         }
 

@@ -66,12 +66,12 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         @Override
-        public RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException {
+        public RealVector map(UnivariateRealFunction function) {
             throw unsupported();
         }
 
         @Override
-        public RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException {
+        public RealVector mapToSelf(UnivariateRealFunction function) {
             throw unsupported();
         }
 
@@ -86,22 +86,22 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         @Override
-        public RealVector add(RealVector v) throws IllegalArgumentException {
+        public RealVector add(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector add(double[] v) throws IllegalArgumentException {
+        public RealVector add(double[] v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector subtract(RealVector v) throws IllegalArgumentException {
+        public RealVector subtract(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector subtract(double[] v) throws IllegalArgumentException {
+        public RealVector subtract(double[] v) {
             throw unsupported();
         }
 
@@ -389,21 +389,21 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector ebeMultiply(RealVector v) throws IllegalArgumentException {
+        public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
+        public RealVector ebeMultiply(double[] v) {
             throw unsupported();
         }
 
-        public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
+        public RealVector ebeDivide(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
+        public RealVector ebeDivide(double[] v) {
             throw unsupported();
         }
 
@@ -413,7 +413,7 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         @Override
-        public double dotProduct(RealVector v) throws IllegalArgumentException {
+        public double dotProduct(RealVector v) {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
                 dot += data[i] * v.getEntry(i);
@@ -422,7 +422,7 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         @Override
-        public double dotProduct(double[] v) throws IllegalArgumentException {
+        public double dotProduct(double[] v) {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
                 dot += data[i] * v[i];
@@ -446,32 +446,32 @@ public class SparseRealVectorTest extends TestCase {
         }
 
         @Override
-        public double getDistance(RealVector v) throws IllegalArgumentException {
+        public double getDistance(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public double getDistance(double[] v) throws IllegalArgumentException {
+        public double getDistance(double[] v) {
             throw unsupported();
         }
 
         @Override
-        public double getL1Distance(RealVector v) throws IllegalArgumentException {
+        public double getL1Distance(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public double getL1Distance(double[] v) throws IllegalArgumentException {
+        public double getL1Distance(double[] v) {
             throw unsupported();
         }
 
         @Override
-        public double getLInfDistance(RealVector v) throws IllegalArgumentException {
+        public double getLInfDistance(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public double getLInfDistance(double[] v) throws IllegalArgumentException {
+        public double getLInfDistance(double[] v) {
             throw unsupported();
         }
 
@@ -485,26 +485,26 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector projection(RealVector v) throws IllegalArgumentException {
+        public RealVector projection(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealVector projection(double[] v) throws IllegalArgumentException {
+        public RealVector projection(double[] v) {
             throw unsupported();
         }
 
         @Override
-        public RealMatrix outerProduct(RealVector v) throws IllegalArgumentException {
+        public RealMatrix outerProduct(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
+        public RealMatrix outerProduct(double[] v) {
             throw unsupported();
         }
 
-        public double getEntry(int index) throws MatrixIndexException {
+        public double getEntry(int index) {
             return data[index];
         }
 
@@ -524,21 +524,21 @@ public class SparseRealVectorTest extends TestCase {
             throw unsupported();
         }
 
-        public RealVector getSubVector(int index, int n) throws MatrixIndexException {
+        public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
 
-        public void setEntry(int index, double value) throws MatrixIndexException {
+        public void setEntry(int index, double value) {
             data[index] = value;
         }
 
         @Override
-        public void setSubVector(int index, RealVector v) throws MatrixIndexException {
+        public void setSubVector(int index, RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public void setSubVector(int index, double[] v) throws MatrixIndexException {
+        public void setSubVector(int index, double[] v) {
             throw unsupported();
         }
 
