@@ -51,7 +51,6 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test freq counts */
-    @SuppressWarnings("deprecation")
     public void testCounts() {
         assertEquals("total count",0,f.getSumFreq());
         f.addValue(oneL);
@@ -125,7 +124,6 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test pcts */
-    @SuppressWarnings("deprecation")
     public void testPcts() {
         f.addValue(oneL);
         f.addValue(twoL);
@@ -138,8 +136,6 @@ public final class FrequencyTest extends TestCase {
         assertEquals("one pct",0.25,f.getPct(1),tolerance);
         assertEquals("two pct",0.25,f.getPct(Long.valueOf(2)),tolerance);
         assertEquals("three pct",0.5,f.getPct(threeL),tolerance);
-        // MATH-329
-        assertEquals("three (Object) pct",0.5,f.getPct((Object) (Integer.valueOf(3))),tolerance);
         assertEquals("five pct",0,f.getPct(5),tolerance);
         assertEquals("foo pct",0,f.getPct("foo"),tolerance);
         assertEquals("one cum pct",0.25,f.getCumPct(1),tolerance);
@@ -152,7 +148,6 @@ public final class FrequencyTest extends TestCase {
     }
 
     /** test adding incomparable values */
-    @SuppressWarnings("deprecation")
     public void testAdd() {
         char aChar = 'a';
         char bChar = 'b';
@@ -183,23 +178,6 @@ public final class FrequencyTest extends TestCase {
             fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
-        }
-    }
-
-    // Check what happens when non-Comparable objects are added
-    @SuppressWarnings("deprecation")
-    public void testAddNonComparable(){
-        try {
-            f.addValue(new Object()); // This was previously OK
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
-        }
-        f.clear();
-        f.addValue(1);
-        try {
-            f.addValue(new Object());
-            fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {
         }
     }
 
@@ -245,7 +223,7 @@ public final class FrequencyTest extends TestCase {
             fail(ex.getMessage());
         }
     }
-    @SuppressWarnings("deprecation")
+
     public void testIntegerValues() {
         Comparable<?> obj1 = null;
         obj1 = Integer.valueOf(1);
