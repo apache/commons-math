@@ -219,9 +219,7 @@ public class NonLinearConjugateGradientOptimizer
      * @return b such that f(a) and f(b) have opposite signs
      * @exception FunctionEvaluationException if the function cannot be computed
      * @exception MathIllegalStateException if no bracket can be found
-     * @deprecated in 2.2 (must be replaced with "BracketFinder").
      */
-    @Deprecated
     private double findUpperBound(final UnivariateRealFunction f,
                                   final double a, final double h)
         throws FunctionEvaluationException {
