@@ -614,23 +614,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      *
      * @return the internal storage array used by this object
-     * @deprecated replaced by {@link #getInternalValues()} as of 2.0
-     */
-    @Deprecated
-    public synchronized double[] getValues() {
-        return internalArray;
-    }
-
-    /**
-     * Returns the internal storage array.  Note that this method returns
-     * a reference to the internal storage array, not a copy, and to correctly
-     * address elements of the array, the <code>startIndex</code> is
-     * required (available via the {@link #start} method).  This method should
-     * only be used in cases where copying the internal array is not practical.
-     * The {@link #getElements} method should be used in all other cases.
-     *
-     *
-     * @return the internal storage array used by this object
      * @since 2.0
      */
     public synchronized double[] getInternalValues() {
