@@ -76,7 +76,6 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
      * Get the message in a specified locale.
      *
      * @param locale Locale in which the message should be translated.
-     *
      * @return the localized message.
      */
     public String getMessage(final Locale locale) {

@@ -16,6 +16,13 @@
  */
 package org.apache.commons.math.exception;
 
+import java.util.Locale;
+
+import org.apache.commons.math.exception.util.ArgUtils;
+import org.apache.commons.math.exception.util.MessageFactory;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
 /**
  * This class is intended as a sort of communication channel between
  * layers of <em>user</em> code separated from each other by calls to
@@ -26,31 +33,67 @@ package org.apache.commons.math.exception;
  * @version $Revision$ $Date$
  */
 public class MathUserException extends RuntimeException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -6024911025449780478L;
+    /**
+     * Pattern used to build the message (problem description).
+     */
+    private final Localizable pattern;
+    /**
+     * Arguments used to build the message.
+     */
+    private final Object[] arguments;
+
     /**
      * Default constructor.
      */
-    public MathUserException() {}
-
-    /**
-     * @param msg Error message.
-     */
-    public MathUserException(String msg) {
-        super(msg);
-    }
-
-    /**
-     * @param msg Error message.
-     * @param cause Cause of the error.
-     */
-    public MathUserException(String msg,
-                             Throwable cause) {
-        super(msg, cause);
+    public MathUserException() {
+        this(null);
     }
 
     /**
      * @param cause Cause of the error.
+     * @param args Arguments.
      */
-    public MathUserException(Throwable cause) {
-        super(cause);
+    public MathUserException(Throwable cause,
+                             Object ... args) {
+        this(null, cause, args);
+    }
+
+    /**
+     * @param pattern Message pattern explaining the cause of the error.
+     * @param cause Cause of the error.
+     * @param args Arguments.
+     */
+    public MathUserException(Localizable pattern,
+                             Throwable cause,
+                             Object ... args) {
+        this.pattern  = pattern;
+        arguments = ArgUtils.flatten(args);
+    }
+
+    /**
+     * Get the message in a specified locale.
+     *
+     * @param locale Locale in which the message should be translated.
+     * @return the localized message.
+     */
+    public String getMessage(final Locale locale) {
+        return MessageFactory.buildMessage(locale,
+                                           pattern,
+                                           LocalizedFormats.USER_EXCEPTION,
+                                           arguments);
+    }
+
+   /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return getMessage(Locale.US);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return getMessage(Locale.getDefault());
     }
 }
