@@ -1320,8 +1320,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor)
-        throws MatrixVisitorException {
+    public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor) {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
@@ -1345,8 +1344,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor)
-        throws MatrixVisitorException {
+    public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor) {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
@@ -1371,9 +1369,8 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     /** {@inheritDoc} */
     @Override
     public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor,
-                                 final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws MatrixVisitorException {
+                            final int startRow, final int endRow,
+                            final int startColumn, final int endColumn) {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1401,9 +1398,8 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     /** {@inheritDoc} */
     @Override
     public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor,
-                                 final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws MatrixVisitorException {
+                            final int startRow, final int endRow,
+                            final int startColumn, final int endColumn) {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1430,8 +1426,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor)
-        throws MatrixVisitorException {
+    public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor) {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1456,8 +1451,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor)
-        throws MatrixVisitorException {
+    public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor) {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1484,8 +1478,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public T walkInOptimizedOrder(final FieldMatrixChangingVisitor<T> visitor,
                                        final int startRow, final int endRow,
-                                       final int startColumn, final int endColumn)
-        throws MatrixVisitorException {
+                                       final int startColumn, final int endColumn) {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1514,8 +1507,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public T walkInOptimizedOrder(final FieldMatrixPreservingVisitor<T> visitor,
                                        final int startRow, final int endRow,
-                                       final int startColumn, final int endColumn)
-        throws MatrixVisitorException {
+                                       final int startColumn, final int endColumn) {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {

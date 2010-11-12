@@ -44,10 +44,10 @@ public interface RealMatrixPreservingVisitor {
      * @param row row index of the entry
      * @param column column index of the entry
      * @param value current value of the entry
-     * @throws MatrixVisitorException if something wrong occurs
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      */
-    void visit(int row, int column, double value)
-        throws MatrixVisitorException;
+    void visit(int row, int column, double value);
 
     /**
      * End visiting a matrix.
@@ -55,5 +55,4 @@ public interface RealMatrixPreservingVisitor {
      * @return the value that the <code>walkInXxxOrder</code> must return
      */
     double end();
-
 }

@@ -35,9 +35,7 @@ public class DefaultRealMatrixPreservingVisitor implements RealMatrixPreservingV
     }
 
     /** {@inheritDoc} */
-    public void visit(int row, int column, double value)
-        throws MatrixVisitorException {
-    }
+    public void visit(int row, int column, double value) {}
 
     /** {@inheritDoc} */
     public double end() {

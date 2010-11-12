@@ -476,7 +476,8 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -499,7 +500,8 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -526,7 +528,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
@@ -556,7 +559,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
@@ -582,7 +586,8 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -605,7 +610,8 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -632,7 +638,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
@@ -662,7 +669,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
@@ -687,7 +695,8 @@ public interface RealMatrix extends AnyMatrix {
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -709,7 +718,8 @@ public interface RealMatrix extends AnyMatrix {
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -735,7 +745,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * the indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
@@ -764,7 +775,8 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @throws MatrixVisitorException if the visitor cannot process an entry
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      * @throws org.apache.commons.math.exception.OutOfRangeException if the
      * indices are not valid.
      * @see #walkInRowOrder(RealMatrixChangingVisitor)

@@ -20,7 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrixPreservingVisitor;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -413,8 +412,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         }
 
         /** {@inheritDoc} */
-        public void visit(int row, int column, double value)
-            throws MatrixVisitorException {
+        public void visit(int row, int column, double value) {
             if ((row & 0x1) == 0) {
                 after[column] -= value;
             } else {

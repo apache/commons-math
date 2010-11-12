@@ -35,8 +35,7 @@ public class DefaultRealMatrixChangingVisitor implements RealMatrixChangingVisit
     }
 
     /** {@inheritDoc} */
-    public double visit(int row, int column, double value)
-        throws MatrixVisitorException {
+    public double visit(int row, int column, double value) {
         return value;
     }
 

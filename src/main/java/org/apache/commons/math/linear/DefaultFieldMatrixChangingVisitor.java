@@ -49,8 +49,7 @@ public class DefaultFieldMatrixChangingVisitor<T extends FieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    public T visit(int row, int column, T value)
-        throws MatrixVisitorException {
+    public T visit(int row, int column, T value) {
         return value;
     }
 

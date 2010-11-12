@@ -240,8 +240,7 @@ public class QRDecompositionImplTest extends TestCase {
         RealMatrix m = MatrixUtils.createRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor(){
             @Override
-            public double visit(int row, int column, double value)
-                throws MatrixVisitorException {
+            public double visit(int row, int column, double value) {
                 return 2.0 * r.nextDouble() - 1.0;
             }
         });

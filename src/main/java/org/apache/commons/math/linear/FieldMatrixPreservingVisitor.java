@@ -46,10 +46,10 @@ public interface FieldMatrixPreservingVisitor<T extends FieldElement<?>> {
      * @param row row index of the entry
      * @param column column index of the entry
      * @param value current value of the entry
-     * @throws MatrixVisitorException if something wrong occurs
+     * @throws org.apache.commons.math.exception.MathUserException if the visitor
+     * cannot process an entry.
      */
-    void visit(int row, int column, T value)
-        throws MatrixVisitorException;
+    void visit(int row, int column, T value);
 
     /**
      * End visiting a matrix.
@@ -57,5 +57,4 @@ public interface FieldMatrixPreservingVisitor<T extends FieldElement<?>> {
      * @return the value that the <code>walkInXxxOrder</code> must return
      */
     T end();
-
 }
