@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-440">
+        Removed classes "FunctionEvaluationException", "MatrixVisitorException"
+        and "DerivativeException" (superseded by the new "MathUserException").
+      </action>
       <action dev="erans" type="fix" issue="MATH-432">
         Created a generic "Pair" class to replace the "AbstractMap.SimpleEntry"
         that is only available in Java 6 and later.
