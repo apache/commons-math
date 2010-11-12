@@ -27,6 +27,8 @@ import org.apache.commons.math.exception.util.Localizable;
  * the differential equations.
  * @version $Revision$ $Date$
  * @since 1.2
+ * @deprecated in 2.2 (to be removed in 3.0). Please use
+ * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
 public class DerivativeException
   extends MathException {

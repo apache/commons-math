@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-440">
+        Created "MathUserException" class to convey cause of failure between
+        layers of user code separated by a layer of Commons-Math code. Deprecated
+        classes "FunctionEvaluationException", "MatrixVisitorException" and
+        "DerivativeException".
+      </action>
       <action dev="luc" type="fix" issue="MATH-429">
         Fixed k-means++ to add several strategies to deal with empty clusters that may appear
         during iterations
