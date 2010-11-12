@@ -269,8 +269,9 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * <p>The A matrix is implicit here. It is </p>
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
-         * @throws IllegalArgumentException if matrices dimensions don't match
-         * @throws InvalidMatrixException if decomposed matrix is singular
+         * @throws DimensionMismatchException if the matrices dimensions do not match.
+         * @throws org.apache.commons.math.exception.SingularMatrixException if
+         * the decomposed matrix is singular.
          */
         public ArrayRealVector solve(ArrayRealVector b) {
             return new ArrayRealVector(solve(b.getDataRef()), false);

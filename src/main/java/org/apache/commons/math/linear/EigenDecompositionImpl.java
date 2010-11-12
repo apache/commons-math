@@ -276,13 +276,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * This method only find exact linear solutions, i.e. solutions for
          * which ||A &times; X - B|| is exactly 0.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
-         * @return a vector X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
-         * @exception InvalidMatrixException
-         *                if decomposed matrix is singular
+         * @param b Right-hand side of the equation A &times; X = B
+         * @return a Vector X that minimizes the two norm of A &times; X - B
+         * @throws DimensionMismatchException if the matrices dimensions do not match.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public double[] solve(final double[] b) {
 

@@ -28,7 +28,8 @@ package org.apache.commons.math.linear;
  *   <li>a {@link #getLT() getLT} method has been added,</li>
  *   <li>the <code>isspd</code> method has been removed, the constructors of
  *   implementation classes being expected to throw {@link
- *   NotPositiveDefiniteMatrixException} when a matrix cannot be decomposed,</li>
+ *   org.apache.commons.math.exception.NonPositiveDefiniteMatrixException}
+ *   when a matrix cannot be decomposed,</li>
  *   <li>a {@link #getDeterminant() getDeterminant} method has been added,</li>
  *   <li>the <code>solve</code> method has been replaced by a {@link
  *   #getSolver() getSolver} method and the equivalent method provided by

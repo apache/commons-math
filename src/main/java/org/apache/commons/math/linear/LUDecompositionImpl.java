@@ -54,11 +54,10 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /**
      * Calculates the LU-decomposition of the given matrix.
-     * @param matrix The matrix to decompose.
-     * @throws InvalidMatrixException if matrix is not square
+     * @param matrix Matrix to decompose.
+     * @throws NonSquareMatrixException if matrix is not square.
      */
-    public LUDecompositionImpl(RealMatrix matrix)
-        throws InvalidMatrixException {
+    public LUDecompositionImpl(RealMatrix matrix) {
         this(matrix, DEFAULT_TOO_SMALL);
     }
 
@@ -333,7 +332,7 @@ public class LUDecompositionImpl implements LUDecomposition {
          * @return a vector X such that A &times; X = B
          * @throws DimensionMismatchException if the matrices dimensions
          * do not match.
-         * @throws InvalidMatrixException if decomposed matrix is singular
+         * @throws SingularMatrixException if decomposed matrix is singular.
          */
         public ArrayRealVector solve(ArrayRealVector b) {
             return new ArrayRealVector(solve(b.getDataRef()), false);
@@ -394,7 +393,7 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         /** {@inheritDoc} */
-        public RealMatrix getInverse() throws InvalidMatrixException {
+        public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
         }
     }

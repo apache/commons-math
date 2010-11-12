@@ -40,45 +40,47 @@ public interface DecompositionSolver {
      * decomposition algorithm.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
-     * @exception IllegalArgumentException if matrices dimensions don't match
-     * @exception InvalidMatrixException if decomposed matrix is singular
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the matrices dimensions do not match.
+     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * if the decomposed matrix is singular.
      */
-    double[] solve(final double[] b)
-        throws IllegalArgumentException, InvalidMatrixException;
+    double[] solve(final double[] b);
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying
      * decomposition algorithm.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
-     * @exception IllegalArgumentException if matrices dimensions don't match
-     * @exception InvalidMatrixException if decomposed matrix is singular
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the matrices dimensions do not match.
+     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * if the decomposed matrix is singular.
      */
-    RealVector solve(final RealVector b)
-        throws IllegalArgumentException, InvalidMatrixException;
+    RealVector solve(final RealVector b);
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying
      * decomposition algorithm.</p>
      * @param b right-hand side of the equation A &times; X = B
      * @return a matrix X that minimizes the two norm of A &times; X - B
-     * @exception IllegalArgumentException if matrices dimensions don't match
-     * @exception InvalidMatrixException if decomposed matrix is singular
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the matrices dimensions do not match.
+     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * if the decomposed matrix is singular.
      */
-    RealMatrix solve(final RealMatrix b)
-        throws IllegalArgumentException, InvalidMatrixException;
+    RealMatrix solve(final RealMatrix b);
 
     /**
      * Check if the decomposed matrix is non-singular.
-     * @return true if the decomposed matrix is non-singular
+     * @return true if the decomposed matrix is non-singular.
      */
     boolean isNonSingular();
 
     /** Get the inverse (or pseudo-inverse) of the decomposed matrix.
      * @return inverse matrix
-     * @throws InvalidMatrixException if decomposed matrix is singular
+     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * if the decomposed matrix is singular.
      */
-    RealMatrix getInverse()
-        throws InvalidMatrixException;
-
+    RealMatrix getInverse();
 }

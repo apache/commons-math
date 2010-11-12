@@ -344,8 +344,8 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
          * <p>The A matrix is implicit here. It is </p>
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
-         * @throws IllegalArgumentException if matrices dimensions don't match
-         * @throws InvalidMatrixException if decomposed matrix is singular
+         * @throws DimensionMismatchException if the matrices dimensions do not match.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
             return new ArrayFieldVector<T>(solve(b.getDataRef()), false);
@@ -407,7 +407,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         }
 
         /** {@inheritDoc} */
-        public FieldMatrix<T> getInverse() throws InvalidMatrixException {
+        public FieldMatrix<T> getInverse() {
             final int m = pivot.length;
             final T one = field.getOne();
             FieldMatrix<T> identity = new Array2DRowFieldMatrix<T>(field, m, m);

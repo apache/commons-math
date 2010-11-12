@@ -66,16 +66,9 @@ public class SingularValueDecompositionImpl implements
 
     /**
      * Calculates the compact Singular Value Decomposition of the given matrix.
-     * @param matrix
-     *            The matrix to decompose.
-     * @exception InvalidMatrixException
-     *                (wrapping a
-     *                {@link org.apache.commons.math.ConvergenceException} if
-     *                algorithm fails to converge
+     * @param matrix Matrix to decompose.
      */
-    public SingularValueDecompositionImpl(final RealMatrix matrix)
-            throws InvalidMatrixException {
-
+    public SingularValueDecompositionImpl(final RealMatrix matrix) {
         m = matrix.getRowDimension();
         n = matrix.getColumnDimension();
 
@@ -154,14 +147,14 @@ public class SingularValueDecompositionImpl implements
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getU() throws InvalidMatrixException {
+    public RealMatrix getU() {
         // return the cached matrix
         return cachedU;
 
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getUT() throws InvalidMatrixException {
+    public RealMatrix getUT() {
 
         if (cachedUt == null) {
             cachedUt = getU().transpose();
@@ -173,7 +166,7 @@ public class SingularValueDecompositionImpl implements
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getS() throws InvalidMatrixException {
+    public RealMatrix getS() {
 
         if (cachedS == null) {
 
@@ -185,19 +178,19 @@ public class SingularValueDecompositionImpl implements
     }
 
     /** {@inheritDoc} */
-    public double[] getSingularValues() throws InvalidMatrixException {
+    public double[] getSingularValues() {
         return singularValues.clone();
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getV() throws InvalidMatrixException {
+    public RealMatrix getV() {
         // return the cached matrix
         return cachedV;
 
     }
 
     /** {@inheritDoc} */
-    public RealMatrix getVT() throws InvalidMatrixException {
+    public RealMatrix getVT() {
 
         if (cachedVt == null) {
             cachedVt = getV().transpose();
@@ -240,12 +233,12 @@ public class SingularValueDecompositionImpl implements
     }
 
     /** {@inheritDoc} */
-    public double getNorm() throws InvalidMatrixException {
+    public double getNorm() {
         return singularValues[0];
     }
 
     /** {@inheritDoc} */
-    public double getConditionNumber() throws InvalidMatrixException {
+    public double getConditionNumber() {
         return singularValues[0] / singularValues[singularValues.length - 1];
     }
 
