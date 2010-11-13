@@ -48,40 +48,6 @@ public abstract class UnivariateRealSolverImpl
     /** Value of the function at the last computed result. */
     protected double functionValue;
 
-    /** The function to solve.
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method. */
-    @Deprecated
-    protected UnivariateRealFunction f;
-
-    /**
-     * Construct a solver with given iteration count and accuracy.
-     *
-     * @param f the function to solve.
-     * @param defaultAbsoluteAccuracy maximum absolute error
-     * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the
-     * defaultAbsoluteAccuracy is not valid
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    protected UnivariateRealSolverImpl(final UnivariateRealFunction f,
-                                       final int defaultMaximalIterationCount,
-                                       final double defaultAbsoluteAccuracy) {
-        super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
-        if (f == null) {
-            throw new NullArgumentException(LocalizedFormats.FUNCTION);
-        }
-        this.f = f;
-        this.defaultFunctionValueAccuracy = 1.0e-15;
-        this.functionValueAccuracy = defaultFunctionValueAccuracy;
-    }
-
     /**
      * Construct a solver with given iteration count and accuracy.
      *

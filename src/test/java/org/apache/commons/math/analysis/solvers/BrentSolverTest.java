@@ -42,44 +42,6 @@ public final class BrentSolverTest extends TestCase {
         super(name);
     }
 
-    @Deprecated
-    public void testDeprecated() throws MathException {
-        // The sinus function is behaved well around the root at #pi. The second
-        // order derivative is zero, which means linar approximating methods will
-        // still converge quadratically.
-        UnivariateRealFunction f = new SinFunction();
-        double result;
-        UnivariateRealSolver solver = new BrentSolver(f);
-        // Somewhat benign interval. The function is monotone.
-        result = solver.solve(3, 4);
-        //System.out.println(
-        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-        // 4 iterations on i586 JDK 1.4.1.
-        assertTrue(solver.getIterationCount() <= 5);
-        // Larger and somewhat less benign interval. The function is grows first.
-        result = solver.solve(1, 4);
-        //System.out.println(
-        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-        // 5 iterations on i586 JDK 1.4.1.
-        assertTrue(solver.getIterationCount() <= 6);
-        solver = new SecantSolver(f);
-        result = solver.solve(3, 4);
-        //System.out.println(
-        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-        // 4 iterations on i586 JDK 1.4.1.
-        assertTrue(solver.getIterationCount() <= 5);
-        result = solver.solve(1, 4);
-        //System.out.println(
-        //    "Root: " + result + " Iterations: " + solver.getIterationCount());
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-        // 5 iterations on i586 JDK 1.4.1.
-        assertTrue(solver.getIterationCount() <= 6);
-        assertEquals(result, solver.getResult(), 0);
-    }
-
     public void testSinZero() throws MathException {
         // The sinus function is behaved well around the root at #pi. The second
         // order derivative is zero, which means linar approximating methods will

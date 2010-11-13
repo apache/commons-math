@@ -40,64 +40,11 @@ import org.apache.commons.math.util.FastMath;
  */
 public class LaguerreSolver extends UnivariateRealSolverImpl {
 
-    /** polynomial function to solve.
-     * @deprecated as of 2.0 the function is not stored anymore in the instance
-     */
-    @Deprecated
-    private final PolynomialFunction p;
-
-    /**
-     * Construct a solver for the given function.
-     *
-     * @param f function to solve
-     * @throws IllegalArgumentException if function is not polynomial
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    public LaguerreSolver(UnivariateRealFunction f) throws
-        IllegalArgumentException {
-        super(f, 100, 1E-6);
-        if (f instanceof PolynomialFunction) {
-            p = (PolynomialFunction) f;
-        } else {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_POLYNOMIAL);
-        }
-    }
-
     /**
      * Construct a solver.
      */
     public LaguerreSolver() {
         super(100, 1E-6);
-        p = null;
-    }
-
-    /**
-     * Returns a copy of the polynomial function.
-     *
-     * @return a fresh copy of the polynomial function
-     * @deprecated as of 2.0 the function is not stored anymore within the instance.
-     */
-    @Deprecated
-    public PolynomialFunction getPolynomialFunction() {
-        return new PolynomialFunction(p.getCoefficients());
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(p, min, max);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max, final double initial)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(p, min, max, initial);
     }
 
     /**

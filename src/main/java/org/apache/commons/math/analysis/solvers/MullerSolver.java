@@ -39,38 +39,10 @@ import org.apache.commons.math.util.MathUtils;
 public class MullerSolver extends UnivariateRealSolverImpl {
 
     /**
-     * Construct a solver for the given function.
-     *
-     * @param f function to solve
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    public MullerSolver(UnivariateRealFunction f) {
-        super(f, 100, 1E-6);
-    }
-
-    /**
      * Construct a solver.
      */
     public MullerSolver() {
         super(100, 1E-6);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max, final double initial)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(f, min, max, initial);
     }
 
     /**
@@ -215,39 +187,6 @@ public class MullerSolver extends UnivariateRealSolverImpl {
             }
         }
         throw new MaxIterationsExceededException(maximalIterationCount);
-    }
-
-    /**
-     * Find a real root in the given interval.
-     * <p>
-     * solve2() differs from solve() in the way it avoids complex operations.
-     * Except for the initial [min, max], solve2() does not require bracketing
-     * condition, e.g. f(x0), f(x1), f(x2) can have the same sign. If complex
-     * number arises in the computation, we simply use its modulus as real
-     * approximation.</p>
-     * <p>
-     * Because the interval may not be bracketing, bisection alternative is
-     * not applicable here. However in practice our treatment usually works
-     * well, especially near real zeros where the imaginary part of complex
-     * approximation is often negligible.</p>
-     * <p>
-     * The formulas here do not use divided differences directly.</p>
-     *
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the point at which the function value is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if any parameters are invalid
-     * @deprecated replaced by {@link #solve2(UnivariateRealFunction, double, double)}
-     * since 2.0
-     */
-    @Deprecated
-    public double solve2(final double min, final double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return solve2(f, min, max);
     }
 
     /**

@@ -41,56 +41,6 @@ import junit.framework.TestCase;
 public final class MullerSolverTest extends TestCase {
 
     /**
-     * Test deprecated APIs.
-     */
-    @Deprecated
-    public void testDeprecated() throws MathException {
-        UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new MullerSolver(f);
-        double min, max, expected, result, tolerance;
-
-        min = 3.0; max = 4.0; expected = FastMath.PI;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
-        assertEquals(expected, result, tolerance);
-
-        min = -1.0; max = 1.5; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
-        assertEquals(expected, result, tolerance);
-    }
-
-    /**
-     * Test deprecated APIs.
-     */
-    @Deprecated
-    public void testDeprecated2() throws MathException {
-        UnivariateRealFunction f = new QuinticFunction();
-        MullerSolver solver = new MullerSolver(f);
-        double min, max, expected, result, tolerance;
-
-        min = -0.4; max = 0.2; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve2(min, max);
-        assertEquals(expected, result, tolerance);
-
-        min = 0.75; max = 1.5; expected = 1.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve2(min, max);
-        assertEquals(expected, result, tolerance);
-
-        min = -0.9; max = -0.2; expected = -0.5;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve2(min, max);
-        assertEquals(expected, result, tolerance);
-    }
-
-    /**
      * Test of solver for the sine function.
      */
     public void testSinFunction() throws MathException {

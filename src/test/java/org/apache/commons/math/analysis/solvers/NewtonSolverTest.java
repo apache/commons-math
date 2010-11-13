@@ -30,16 +30,18 @@ import junit.framework.TestCase;
  */
 public final class NewtonSolverTest extends TestCase {
 
-    @Deprecated
-    public void testDeprecated() throws MathException {
+    /**
+     *
+     */
+    public void testSinZero() throws MathException {
         DifferentiableUnivariateRealFunction f = new SinFunction();
         double result;
 
-        UnivariateRealSolver solver = new NewtonSolver(f);
-        result = solver.solve(3, 4);
+        UnivariateRealSolver solver = new NewtonSolver();
+        result = solver.solve(f, 3, 4);
         assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(1, 4);
+        result = solver.solve(f, 1, 4);
         assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         assertEquals(result, solver.getResult(), 0);
@@ -47,24 +49,6 @@ public final class NewtonSolverTest extends TestCase {
     }
 
     /**
-    *
-    */
-   public void testSinZero() throws MathException {
-       DifferentiableUnivariateRealFunction f = new SinFunction();
-       double result;
-
-       UnivariateRealSolver solver = new NewtonSolver();
-       result = solver.solve(f, 3, 4);
-       assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-
-       result = solver.solve(f, 1, 4);
-       assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-
-       assertEquals(result, solver.getResult(), 0);
-       assertTrue(solver.getIterationCount() > 0);
-   }
-
-   /**
      *
      */
     public void testQuinticZero() throws MathException {

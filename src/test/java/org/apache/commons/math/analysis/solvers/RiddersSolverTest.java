@@ -39,28 +39,6 @@ import junit.framework.TestCase;
 public final class RiddersSolverTest extends TestCase {
 
     /**
-     * Test the deprecated APIs.
-     */
-    @Deprecated
-    public void testDeprecated() throws MathException {
-        UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new RiddersSolver(f);
-        double min, max, expected, result, tolerance;
-
-        min = 3.0; max = 4.0; expected = FastMath.PI;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
-        assertEquals(expected, result, tolerance);
-
-        min = -1.0; max = 1.5; expected = 0.0;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
-        assertEquals(expected, result, tolerance);
-    }
-
-    /**
      * Test of solver for the sine function.
      */
     public void testSinFunction() throws MathException {

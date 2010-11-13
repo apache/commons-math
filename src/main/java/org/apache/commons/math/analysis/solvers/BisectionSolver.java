@@ -32,39 +32,11 @@ import org.apache.commons.math.util.FastMath;
 public class BisectionSolver extends UnivariateRealSolverImpl {
 
     /**
-     * Construct a solver for the given function.
-     *
-     * @param f function to solve.
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    public BisectionSolver(UnivariateRealFunction f) {
-        super(f, 100, 1E-6);
-    }
-
-    /**
      * Construct a solver.
      *
      */
     public BisectionSolver() {
         super(100, 1E-6);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(double min, double max, double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return solve(f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return solve(f, min, max);
     }
 
     /** {@inheritDoc} */

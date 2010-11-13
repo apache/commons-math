@@ -38,25 +38,6 @@ import junit.framework.TestCase;
 public final class LaguerreSolverTest extends TestCase {
 
     /**
-     * Test deprecated APIs.
-     */
-    @Deprecated
-    public void testDeprecated() throws MathException {
-        double min, max, expected, result, tolerance;
-
-        // p(x) = 4x - 1
-        double coefficients[] = { -1.0, 4.0 };
-        PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver(f);
-
-        min = 0.0; max = 1.0; expected = 0.25;
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected * solver.getRelativeAccuracy()));
-        result = solver.solve(min, max);
-        assertEquals(expected, result, tolerance);
-    }
-
-    /**
      * Test of solver for the linear function.
      */
     public void testLinearFunction() throws MathException {

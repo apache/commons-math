@@ -29,19 +29,6 @@ import junit.framework.TestCase;
  */
 public final class BisectionSolverTest extends TestCase {
 
-    @Deprecated
-    public void testDeprecated() throws MathException {
-        UnivariateRealFunction f = new SinFunction();
-        double result;
-
-        UnivariateRealSolver solver = new BisectionSolver(f);
-        result = solver.solve(3, 4);
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-
-        result = solver.solve(1, 4);
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-    }
-
     public void testSinZero() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         double result;

@@ -49,20 +49,6 @@ public class BrentSolver extends UnivariateRealSolverImpl {
     private static final long serialVersionUID = 7694577816772532779L;
 
     /**
-     * Construct a solver for the given function.
-     *
-     * @param f function to solve.
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    public BrentSolver(UnivariateRealFunction f) {
-        super(f, DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
-    }
-
-    /**
      * Construct a solver with default properties.
      */
     public BrentSolver() {
@@ -88,20 +74,6 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      */
     public BrentSolver(int maximumIterations, double absoluteAccuracy) {
         super(maximumIterations, absoluteAccuracy);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return solve(f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(double min, double max, double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
-        return solve(f, min, max, initial);
     }
 
     /**

@@ -38,38 +38,10 @@ import org.apache.commons.math.util.MathUtils;
 public class RiddersSolver extends UnivariateRealSolverImpl {
 
     /**
-     * Construct a solver for the given function.
-     *
-     * @param f function to solve
-     * @deprecated as of 2.0 the function to solve is passed as an argument
-     * to the {@link #solve(UnivariateRealFunction, double, double)} or
-     * {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
-     * method.
-     */
-    @Deprecated
-    public RiddersSolver(UnivariateRealFunction f) {
-        super(f, 100, 1E-6);
-    }
-
-    /**
      * Construct a solver.
      */
     public RiddersSolver() {
         super(100, 1E-6);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    @Deprecated
-    public double solve(final double min, final double max, final double initial)
-        throws ConvergenceException, FunctionEvaluationException {
-        return solve(f, min, max, initial);
     }
 
     /**
