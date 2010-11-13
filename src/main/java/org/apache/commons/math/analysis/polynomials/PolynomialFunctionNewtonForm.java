@@ -16,8 +16,9 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -66,12 +67,14 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * <p>
      * The constructor makes copy of the input arrays and assigns them.</p>
      *
-     * @param a the coefficients in Newton form formula
-     * @param c the centers
-     * @throws IllegalArgumentException if input arrays are not valid
+     * @param a Coefficients in Newton form formula.
+     * @param c Centers.
+     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws NoDataException if any array has zero length.
+     * @throws DimensionMismatchException if the size difference between
+     * {@code a} and {@code c} is not equal to 1.
      */
-    public PolynomialFunctionNewtonForm(double a[], double c[])
-        throws IllegalArgumentException {
+    public PolynomialFunctionNewtonForm(double a[], double c[]) {
 
         verifyInputArray(a, c);
         this.a = new double[a.length];
@@ -84,12 +87,10 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
     /**
      * Calculate the function value at the given point.
      *
-     * @param z the point at which the function value is to be computed
-     * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
-     * @see UnivariateRealFunction#value(double)
+     * @param z Point at which the function value is to be computed.
+     * @return the function value.
      */
-    public double value(double z) throws FunctionEvaluationException {
+    public double value(double z) {
        return evaluate(a, c, z);
     }
 
@@ -120,7 +121,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
      *
-     * @return a fresh copy of the centers array
+     * @return a fresh copy of the centers array.
      */
     public double[] getCenters() {
         double[] out = new double[c.length];
@@ -133,7 +134,7 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * <p>
      * Changes made to the returned copy will not affect the polynomial.</p>
      *
-     * @return a fresh copy of the coefficients array
+     * @return a fresh copy of the coefficients array.
      */
     public double[] getCoefficients() {
         if (!coefficientsComputed) {
@@ -149,21 +150,21 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * also called <a href="http://mathworld.wolfram.com/HornersRule.html">
      * Horner's Rule</a> and takes O(N) time.
      *
-     * @param a the coefficients in Newton form formula
-     * @param c the centers
-     * @param z the point at which the function value is to be computed
-     * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
-     * @throws IllegalArgumentException if inputs are not valid
+     * @param a Coefficients in Newton form formula.
+     * @param c Centers.
+     * @param z Point at which the function value is to be computed.
+     * @return the function value.
+     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws NoDataException if any array has zero length.
+     * @throws DimensionMismatchException if the size difference between
+     * {@code a} and {@code c} is not equal to 1.
      */
-    public static double evaluate(double a[], double c[], double z) throws
-        FunctionEvaluationException, IllegalArgumentException {
-
+    public static double evaluate(double a[], double c[], double z) {
         verifyInputArray(a, c);
 
-        int n = c.length;
+        final int n = c.length;
         double value = a[n];
-        for (int i = n-1; i >= 0; i--) {
+        for (int i = n - 1; i >= 0; i--) {
             value = a[i] + (z - c[i]) * value;
         }
 
@@ -201,21 +202,21 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      *
      * @param a the coefficients in Newton form formula
      * @param c the centers
-     * @throws IllegalArgumentException if not valid
+     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws NoDataException if any array has zero length.
+     * @throws DimensionMismatchException if the size difference between
+     * {@code a} and {@code c} is not equal to 1.
      * @see org.apache.commons.math.analysis.interpolation.DividedDifferenceInterpolator#computeDividedDifference(double[],
      * double[])
      */
-    protected static void verifyInputArray(double a[], double c[]) throws
-        IllegalArgumentException {
-
-        if (a.length < 1 || c.length < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+    protected static void verifyInputArray(double a[], double c[]) {
+        if (a.length == 0 ||
+            c.length == 0) {
+            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         if (a.length != c.length + 1) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1,
-                  a.length, c.length);
+            throw new DimensionMismatchException(LocalizedFormats.ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1,
+                                                 a.length, c.length);
         }
     }
 }
