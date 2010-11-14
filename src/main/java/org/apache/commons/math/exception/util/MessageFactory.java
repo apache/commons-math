@@ -52,42 +52,25 @@ public class MessageFactory {
      * @param locale Locale in which the message should be translated.
      * @param specific Format specifier (may be null).
      * @param general Format specifier (may be null).
-     * @param arguments Format arguments. They will be substituted first in
-     * the {@code specific} format specifier, then the remaining arguments
-     * will be substituted in the {@code general} format specifier.
+     * @param arguments Format arguments. They will be substituted in
+     * <em>both</em> the {@code general} and {@code specific} format specifiers.
      * @return a localized message string.
      */
     public static String buildMessage(Locale locale,
                                       Localizable specific,
                                       Localizable general,
                                       Object ... arguments) {
-
         final StringBuilder sb = new StringBuilder();
-        Object[] generalArgs = arguments;
-
-        if (specific != null) {
-
-            final MessageFormat specificFmt = new MessageFormat(specific.getLocalizedString(locale), locale);
-
-            // split the arguments: first specific ones then general ones
-            final int nbSpecific = Math.min(arguments.length, specificFmt.getFormatsByArgumentIndex().length);
-            final int nbGeneral  = arguments.length - nbSpecific;
-            Object[] specificArgs = new Object[nbSpecific];
-            System.arraycopy(arguments, 0, specificArgs, 0, nbSpecific);
-            generalArgs = new Object[nbGeneral];
-            System.arraycopy(arguments, nbSpecific, generalArgs, 0, nbGeneral);
-
-            // build the message
-            sb.append(specificFmt.format(specificArgs));
-
-        }
-
         if (general != null) {
-            if (specific != null) {
+            final MessageFormat fmt = new MessageFormat(general.getLocalizedString(locale), locale);
+            sb.append(fmt.format(arguments));
+        }
+        if (specific != null) {
+            if (general != null) {
                 sb.append(": ");
             }
-            final MessageFormat generalFmt  = new MessageFormat(general.getLocalizedString(locale), locale);
-            sb.append(generalFmt.format(generalArgs));
+            final MessageFormat fmt = new MessageFormat(specific.getLocalizedString(locale), locale);
+            sb.append(fmt.format(arguments));
         }
 
         return sb.toString();
