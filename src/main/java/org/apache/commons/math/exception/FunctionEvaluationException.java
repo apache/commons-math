@@ -29,7 +29,9 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @since 3.0
  * @version $Revision$ $Date$
+ * @deprecated Superseded by {@link MathUserException}.
  */
+@Deprecated
 public class FunctionEvaluationException extends RuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
