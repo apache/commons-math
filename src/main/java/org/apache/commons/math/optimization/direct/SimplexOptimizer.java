@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.GoalType;
@@ -108,8 +107,7 @@ public class SimplexOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize()
-        throws FunctionEvaluationException {
+    protected RealPointValuePair doOptimize() {
         if (simplex == null) {
             throw new NullArgumentException();
         }
@@ -118,8 +116,7 @@ public class SimplexOptimizer
         // evaluations counter.
         final MultivariateRealFunction evalFunc
             = new MultivariateRealFunction() {
-                public double value(double[] point)
-                    throws FunctionEvaluationException {
+                public double value(double[] point) {
                     return computeObjectiveValue(point);
                 }
             };

@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -200,14 +199,11 @@ public abstract class AbstractSimplex {
      * @param evaluationFunction Evaluation function.
      * @param comparator Comparator to use to sort simplex vertices from best
      * to worst.
-     * @throws FunctionEvaluationException if the function cannot be evaluated
-     * at some point.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the algorithm fails to converge.
      */
     public abstract void iterate(final MultivariateRealFunction evaluationFunction,
-                                 final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException;
+                                 final Comparator<RealPointValuePair> comparator);
 
     /**
      * Build an initial simplex.
@@ -241,14 +237,11 @@ public abstract class AbstractSimplex {
      *
      * @param evaluationFunction Evaluation function.
      * @param comparator Comparator to use to sort simplex vertices from best to worst.
-     * @throws FunctionEvaluationException if no value can be computed for the parameters.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
     public void evaluate(final MultivariateRealFunction evaluationFunction,
-                         final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException {
-
+                         final Comparator<RealPointValuePair> comparator) {
         // Evaluate the objective function at all non-evaluated simplex points.
         for (int i = 0; i < simplex.length; i++) {
             final RealPointValuePair vertex = simplex[i];

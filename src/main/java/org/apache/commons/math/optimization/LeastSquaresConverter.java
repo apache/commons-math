@@ -17,8 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -99,23 +98,21 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * weights array must have consistent sizes or a {@link FunctionEvaluationException} will be
-     * triggered while computing the scalar objective.
+     * weights array must have consistent sizes or a {@link DimensionMismatchException}
+     * will be triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      * @param weights weights to apply to the residuals
-     * @exception IllegalArgumentException if the observations vector and the weights
-     * vector dimensions don't match (objective function dimension is checked only when
+     * @exception DimensionMismatchException if the observations vector and the weights
+     * vector dimensions do not match (objective function dimension is checked only when
      * the {@link #value(double[])} method is called)
      */
     public LeastSquaresConverter(final MultivariateVectorialFunction function,
                                  final double[] observations, final double[] weights)
         throws IllegalArgumentException {
         if (observations.length != weights.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                    observations.length, weights.length);
+            throw new DimensionMismatchException(observations.length, weights.length);
         }
         this.function     = function;
         this.observations = observations.clone();
@@ -132,23 +129,20 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * the scaling matrix must have consistent sizes or a {@link FunctionEvaluationException}
+     * the scaling matrix must have consistent sizes or a {@link DimensionMismatchException}
      * will be triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      * @param scale scaling matrix
-     * @exception IllegalArgumentException if the observations vector and the scale
-     * matrix dimensions don't match (objective function dimension is checked only when
+     * @throws DimensionMismatchException if the observations vector and the scale
+     * matrix dimensions do not match (objective function dimension is checked only when
      * the {@link #value(double[])} method is called)
      */
     public LeastSquaresConverter(final MultivariateVectorialFunction function,
-                                 final double[] observations, final RealMatrix scale)
-        throws IllegalArgumentException {
+                                 final double[] observations, final RealMatrix scale) {
         if (observations.length != scale.getColumnDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                    observations.length, scale.getColumnDimension());
+            throw new DimensionMismatchException(observations.length, scale.getColumnDimension());
         }
         this.function     = function;
         this.observations = observations.clone();
@@ -157,13 +151,11 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public double value(final double[] point) throws FunctionEvaluationException {
-
+    public double value(final double[] point) {
         // compute residuals
         final double[] residuals = function.value(point);
         if (residuals.length != observations.length) {
-            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  residuals.length, observations.length);
+            throw new DimensionMismatchException(residuals.length, observations.length);
         }
         for (int i = 0; i < residuals.length; ++i) {
             residuals[i] -= observations[i];
@@ -187,7 +179,5 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
         }
 
         return sumSquares;
-
     }
-
 }

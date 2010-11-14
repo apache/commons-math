@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -86,8 +85,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealPointValuePair doOptimize()
-        throws FunctionEvaluationException {
+    protected UnivariateRealPointValuePair doOptimize() {
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final double lo = getMin();
         final double mid = getStartValue();

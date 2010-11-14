@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 
@@ -76,12 +74,7 @@ public class PolynomialFitter {
      * if the algorithm failed to converge.
      */
     public PolynomialFunction fit() {
-        try {
-            return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
-        } catch (FunctionEvaluationException fee) {
-            // this should never happen
-            throw MathRuntimeException.createInternalError(fee);
-        }
+        return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
     }
 
     /**
@@ -90,8 +83,7 @@ public class PolynomialFitter {
     private static class ParametricPolynomial implements ParametricRealFunction {
 
         /** {@inheritDoc} */
-        public double[] gradient(double x, double[] parameters)
-                throws FunctionEvaluationException {
+        public double[] gradient(double x, double[] parameters) {
             final double[] gradient = new double[parameters.length];
             double xn = 1.0;
             for (int i = 0; i < parameters.length; ++i) {

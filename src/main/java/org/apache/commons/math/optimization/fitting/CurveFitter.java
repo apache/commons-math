@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.fitting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
@@ -57,7 +56,7 @@ public class CurveFitter {
 
     /** Add an observed (x,y) point to the sample with unit weight.
      * <p>Calling this method is equivalent to call
-     * <code>addObservedPoint(1.0, x, y)</code>.</p>
+     * {@code addObservedPoint(1.0, x, y)}.</p>
      * @param x abscissa of the point
      * @param y observed value of the point at x, after fitting we should
      * have f(x) as close as possible to this value
@@ -117,17 +116,13 @@ public class CurveFitter {
      * @param f parametric function to fit
      * @param initialGuess first guess of the function parameters
      * @return fitted parameters
-     * @exception FunctionEvaluationException if the objective function throws one during
-     * the search
      * @exception org.apache.commons.math.exception.ConvergenceException
      * if the algorithm failed to converge.
      * @exception org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
      */
     public double[] fit(final ParametricRealFunction f,
-                        final double[] initialGuess)
-        throws FunctionEvaluationException {
-
+                        final double[] initialGuess) {
         // prepare least squares problem
         double[] target  = new double[observations.size()];
         double[] weights = new double[observations.size()];
@@ -149,7 +144,6 @@ public class CurveFitter {
     /** Vectorial function computing function theoretical values. */
     private class TheoreticalValuesFunction
         implements DifferentiableMultivariateVectorialFunction {
-
         /** Function to fit. */
         private final ParametricRealFunction f;
 
@@ -163,9 +157,7 @@ public class CurveFitter {
         /** {@inheritDoc} */
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
-                public double[][] value(double[] point)
-                    throws FunctionEvaluationException, IllegalArgumentException {
-
+                public double[][] value(double[] point) {
                     final double[][] jacobian = new double[observations.size()][];
 
                     int i = 0;
@@ -174,15 +166,12 @@ public class CurveFitter {
                     }
 
                     return jacobian;
-
                 }
             };
         }
 
         /** {@inheritDoc} */
-        public double[] value(double[] point)
-                throws FunctionEvaluationException, IllegalArgumentException {
-
+        public double[] value(double[] point) {
             // compute the residuals
             final double[] values = new double[observations.size()];
             int i = 0;
@@ -191,9 +180,6 @@ public class CurveFitter {
             }
 
             return values;
-
         }
-
     }
-
 }

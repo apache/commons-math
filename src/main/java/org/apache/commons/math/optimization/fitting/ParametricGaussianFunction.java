@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.fitting;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroException;
@@ -29,21 +28,21 @@ import org.apache.commons.math.optimization.fitting.ParametricRealFunction;
 /**
  * A Gaussian function.  Specifically:
  * <p>
- * <tt>f(x) = a + b*exp(-((x - c)^2 / (2*d^2)))</tt>
+ * {@code f(x) = a + b*exp(-((x - c)^2 / (2*d^2)))}
  * <p>
  * The parameters have the following meaning:
  * <ul>
- * <li><tt>a</tt> is a constant offset that shifts <tt>f(x)</tt> up or down
- * <li><tt>b</tt> is the height of the peak
- * <li><tt>c</tt> is the position of the center of the peak
- * <li><tt>d</tt> is related to the FWHM by <tt>FWHM = 2*sqrt(2*ln(2))*d</tt>
+ * <li>{@code a} is a constant offset that shifts {@code f(x)} up or down
+ * <li>{@code b} is the height of the peak
+ * <li>{@code c} is the position of the center of the peak
+ * <li>{@code d} is related to the FWHM by {@code FWHM = 2*sqrt(2*ln(2))*d}
  * </ul>
  * Notation key:
  * <ul>
- * <li><tt>x^n</tt>: <tt>x</tt> raised to the power of <tt>n</tt>
- * <li><tt>exp(x)</tt>: <i>e</i><tt>^x</tt>
- * <li><tt>sqrt(x)</tt>: the square root of <tt>x</tt>
- * <li><tt>ln(x)</tt>: the natural logarithm of <tt>x</tt>
+ * <li>{@code x^n}: {@code x} raised to the power of {@code n}
+ * <li>{@code exp(x)}: e<sup>x</sup>
+ * <li>{@code sqrt(x)}: square root of {@code x}
+ * <li>{@code ln(x)}: natural logarithm of {@code x}
  * </ul>
  * References:
  * <ul>
@@ -55,33 +54,22 @@ import org.apache.commons.math.optimization.fitting.ParametricRealFunction;
  * @version $Revision$ $Date$
  */
 public class ParametricGaussianFunction implements ParametricRealFunction, Serializable {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -3875578602503903233L;
 
     /**
-     * Constructs an instance.
+     * Computes value of function {@code f(x)} for the specified {@code x} and
+     * parameters {@code a}, {@code b}, {@code c}, and {@code d}.
+     *
+     * @param x Value at which to compute the function.
+     * @return {@code f(x)}.
+     * @param parameters Values of {@code a}, {@code b}, {@code c}, and {@code d}.
+     * @throws NullArgumentException if {@code parameters} is {@code null}.
+     * @throws DimensionMismatchException if the size of {@code parameters} is
+     * not 4.
+     * @throws ZeroException if {@code parameters[3]} is 0.
      */
-    public ParametricGaussianFunction() {
-    }
-
-    /**
-     * Computes value of function <tt>f(x)</tt> for the specified <tt>x</tt> and
-     * parameters <tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and <tt>d</tt>.
-     *
-     * @param x <tt>x</tt> value
-     * @param parameters values of <tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and
-     *        <tt>d</tt>
-     *
-     * @return value of <tt>f(x)</tt> evaluated at <tt>x</tt> with the specified
-     *         parameters
-     *
-     * @throws IllegalArgumentException if <code>parameters</code> is invalid as
-     *         determined by {@link #validateParameters(double[])}
-     * @throws FunctionEvaluationException if <code>parameters</code> values are
-     *         invalid as determined by {@link #validateParameters(double[])}
-     */
-    public double value(double x, double[] parameters) throws FunctionEvaluationException {
+    public double value(double x, double[] parameters) {
         validateParameters(parameters);
         final double a = parameters[0];
         final double b = parameters[1];
@@ -93,37 +81,33 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
 
     /**
      * Computes the gradient vector for a four variable version of the function
-     * where the parameters, <tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and <tt>d</tt>,
-     * are considered the variables, not <tt>x</tt>.  That is, instead of
-     * computing the gradient vector for the function <tt>f(x)</tt> (which would
-     * just be the derivative of <tt>f(x)</tt> with respect to <tt>x</tt> since
+     * where the parameters, {@code a}, {@code b}, {@code c}, and {@code d},
+     * are considered the variables, not {@code x}.  That is, instead of
+     * computing the gradient vector for the function {@code f(x)} (which would
+     * just be the derivative of {@code f(x)} with respect to {@code x} since
      * it's a one-dimensional function), computes the gradient vector for the
-     * function <tt>f(a, b, c, d) = a + b*exp(-((x - c)^2 / (2*d^2)))</tt>
-     * treating the specified <tt>x</tt> as a constant.
+     * function {@code f(a, b, c, d) = a + b*exp(-((x - c)^2 / (2*d^2)))}
+     * treating the specified {@code x} as a constant.
      * <p>
      * The components of the computed gradient vector are the partial
-     * derivatives of <tt>f(a, b, c, d)</tt> with respect to each variable.
-     * That is, the partial derivative of <tt>f(a, b, c, d)</tt> with respect to
-     * <tt>a</tt>, the partial derivative of <tt>f(a, b, c, d)</tt> with respect
-     * to <tt>b</tt>, the partial derivative of <tt>f(a, b, c, d)</tt> with
-     * respect to <tt>c</tt>, and the partial derivative of <tt>f(a, b, c,
-     * d)</tt> with respect to <tt>d</tt>.
+     * derivatives of {@code f(a, b, c, d)} with respect to each variable.
+     * That is, the partial derivative of {@code f(a, b, c, d)} with respect to
+     * {@code a}, the partial derivative of {@code f(a, b, c, d)} with respect
+     * to {@code b}, the partial derivative of {@code f(a, b, c, d)} with
+     * respect to {@code c}, and the partial derivative of {@code f(a, b, c,
+     * d)} with respect to {@code d}.
      *
-     * @param x <tt>x</tt> value to be used as constant in <tt>f(a, b, c,
-     *        d)</tt>
-     * @param parameters values of <tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and
-     *        <tt>d</tt> for computation of gradient vector of <tt>f(a, b, c,
-     *        d)</tt>
-     *
-     * @return gradient vector of <tt>f(a, b, c, d)</tt>
-     *
-     * @throws IllegalArgumentException if <code>parameters</code> is invalid as
-     *         determined by {@link #validateParameters(double[])}
-     * @throws FunctionEvaluationException if <code>parameters</code> values are
-     *         invalid as determined by {@link #validateParameters(double[])}
+     * @param x {@code x} value to be used as constant in {@code f(a, b, c, d)}.
+     * @param parameters values of {@code a}, {@code b}, {@code c}, and
+     * {@code d} for computation of gradient vector of {@code f(a, b, c, d)}.
+     * @return the gradient vector of {@code f(a, b, c, d)}.
+     * @param parameters Values of {@code a}, {@code b}, {@code c}, and {@code d}.
+     * @throws NullArgumentException if {@code parameters} is {@code null}.
+     * @throws DimensionMismatchException if the size of {@code parameters} is
+     * not 4.
+     * @throws ZeroException if {@code parameters[3]} is 0.
      */
-    public double[] gradient(double x, double[] parameters) throws FunctionEvaluationException {
-
+    public double[] gradient(double x, double[] parameters) {
         validateParameters(parameters);
         final double b = parameters[1];
         final double c = parameters[2];
@@ -135,32 +119,27 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
         final double f    = b * exp * xMc / d2;
 
         return new double[] { 1.0, exp, f, f * xMc / d };
-
     }
 
     /**
      * Validates parameters to ensure they are appropriate for the evaluation of
-     * the <code>value</code> and <code>gradient</code> methods.
+     * the {@code value} and {@code gradient} methods.
      *
-     * @param parameters values of <tt>a</tt>, <tt>b</tt>, <tt>c</tt>, and
-     *        <tt>d</tt>
-     *
-     * @throws IllegalArgumentException if <code>parameters</code> is
-     *         <code>null</code> or if <code>parameters</code> does not have
-     *         length == 4
-     * @throws FunctionEvaluationException if <code>parameters[3]</code>
-     *         (<tt>d</tt>) is 0
+     * @param parameters Values of {@code a}, {@code b}, {@code c}, and {@code d}.
+     * @throws NullArgumentException if {@code parameters} is {@code null}.
+     * @throws DimensionMismatchException if the size of {@code parameters} is
+     * not 4.
+     * @throws ZeroException if {@code parameters[3]} is 0.
      */
-    private void validateParameters(double[] parameters) throws FunctionEvaluationException {
+    private void validateParameters(double[] parameters) {
         if (parameters == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
         if (parameters.length != 4) {
             throw new DimensionMismatchException(4, parameters.length);
         }
-        if (parameters[3] == 0.0) {
+        if (parameters[3] == 0) {
             throw new ZeroException();
         }
     }
-
 }

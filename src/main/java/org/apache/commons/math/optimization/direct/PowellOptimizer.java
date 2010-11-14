@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
@@ -108,8 +107,7 @@ public class PowellOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize()
-        throws FunctionEvaluationException {
+    protected RealPointValuePair doOptimize() {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -254,19 +252,14 @@ public class PowellOptimizer
          * @param p Starting point.
          * @param d Search direction.
          * @return the optimum.
-         * @throws FunctionEvaluationException if the function evaluation
-         * fails.
          * @throws org.apache.commons.math.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
          */
         public UnivariateRealPointValuePair search(final double[] p,
-                                                   final double[] d)
-            throws FunctionEvaluationException {
-
+                                                   final double[] d) {
             final int n = p.length;
             final UnivariateRealFunction f = new UnivariateRealFunction() {
-                    public double value(double alpha)
-                        throws FunctionEvaluationException {
+                    public double value(double alpha) {
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {
                             x[i] = p[i] + alpha * d[i];

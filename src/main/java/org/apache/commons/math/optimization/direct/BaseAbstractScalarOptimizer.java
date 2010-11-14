@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -100,12 +99,10 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      *
      * @param point Point at which the objective function must be evaluated.
      * @return the objective function value at the specified point.
-     * @throws FunctionEvaluationException if the function cannot be evaluated.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
      */
-    protected double computeObjectiveValue(double[] point)
-        throws FunctionEvaluationException {
+    protected double computeObjectiveValue(double[] point) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -117,8 +114,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /** {@inheritDoc} */
     public RealPointValuePair optimize(FUNC f,
                                        GoalType goalType,
-                                       double[] startPoint)
-        throws FunctionEvaluationException {
+                                       double[] startPoint) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -159,10 +155,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /**
      * Perform the bulk of the optimization algorithm.
      *
-     * @return the point/value pair giving the optimal value for objective function
-     * @throws FunctionEvaluationException if the objective function throws one during
-     * the search
+     * @return the point/value pair giving the optimal value for objective function.
      */
-    protected abstract RealPointValuePair doOptimize()
-        throws FunctionEvaluationException;
+    protected abstract RealPointValuePair doOptimize();
 }

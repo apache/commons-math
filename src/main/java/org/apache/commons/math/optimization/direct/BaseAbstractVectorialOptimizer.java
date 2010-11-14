@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -102,12 +101,10 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      *
      * @param point Point at which the objective function must be evaluated.
      * @return the objective function value at the specified point.
-     * @throws FunctionEvaluationException if the function cannot be evaluated.
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
      */
-    protected double[] computeObjectiveValue(double[] point)
-        throws FunctionEvaluationException {
+    protected double[] computeObjectiveValue(double[] point) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -119,8 +116,7 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
     /** {@inheritDoc} */
     public VectorialPointValuePair optimize(FUNC f,
                                             double[] t, double[] w,
-                                            double[] startPoint)
-        throws FunctionEvaluationException {
+                                            double[] startPoint) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -162,11 +158,8 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      * Perform the bulk of the optimization algorithm.
      *
      * @return the point/value pair giving the optimal value for objective function
-     * @throws FunctionEvaluationException if the objective function throws one during
-     * the search
      */
-    protected abstract VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException;
+    protected abstract VectorialPointValuePair doOptimize();
 
     /**
      * @return a reference to the {@link #target array}.

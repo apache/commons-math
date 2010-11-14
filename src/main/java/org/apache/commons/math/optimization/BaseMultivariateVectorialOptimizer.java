@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 
 /**
@@ -47,8 +46,6 @@ public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVec
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws FunctionEvaluationException if the objective function throws one
-     * during the search.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
@@ -57,6 +54,5 @@ public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVec
      * any argument is {@code null}.
      */
     VectorialPointValuePair optimize(FUNC f, double[] target, double[] weight,
-                                     double[] startPoint)
-        throws FunctionEvaluationException;
+                                     double[] startPoint);
 }

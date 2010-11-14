@@ -95,8 +95,6 @@ public abstract class AbstractLeastSquaresOptimizer
     /**
      * Update the jacobian matrix.
      *
-     * @throws org.apache.commons.math.exception.FunctionEvaluationException
-     * if the function Jacobian cannot be evaluated.
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
      */
@@ -121,8 +119,6 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Update the residuals array and cost function value.
-     * @throws org.apache.commons.math.exception.FunctionEvaluationException
-     * if the function cannot be evaluated.
      * @throws DimensionMismatchException if the dimension does not match the
      * problem dimension.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
@@ -176,8 +172,6 @@ public abstract class AbstractLeastSquaresOptimizer
      * Get the covariance matrix of the optimized parameters.
      *
      * @return the covariance matrix.
-     * @throws org.apache.commons.math.exception.FunctionEvaluationException
-     * if the function Jacobian cannot be evaluated.
      * @throws org.apache.commons.math.exception.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      */
@@ -209,8 +203,6 @@ public abstract class AbstractLeastSquaresOptimizer
      * Guessing is covariance-based: It only gives a rough order of magnitude.
      *
      * @return errors in optimized parameters
-     * @throws org.apache.commons.math.exception.FunctionEvaluationException
-     * if the function Jacobian cannot be evaluated.
      * @throws org.apache.commons.math.exception.SingularMatrixException if
      * the covariances matrix cannot be computed.
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not

@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.fitting;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -29,37 +28,33 @@ import org.apache.commons.math.exception.NullArgumentException;
 /**
  * The derivative of {@link GaussianFunction}.  Specifically:
  * <p>
- * <tt>f'(x) = (-b / (d^2)) * (x - c) * exp(-((x - c)^2) / (2*(d^2)))</tt>
+ * {@code f'(x) = (-b / (d^2)) * (x - c) * exp(-((x - c)^2) / (2*(d^2)))}
  * <p>
  * Notation key:
  * <ul>
- * <li><tt>x^n</tt>: <tt>x</tt> raised to the power of <tt>n</tt>
- * <li><tt>exp(x)</tt>: <i>e</i><tt>^x</tt>
+ * <li>{@code x^n}: {@code x} raised to the power of {@code n}
+ * <li>{@code exp(x)}: <i>e</i><sup>x</sup>
  * </ul>
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
 public class GaussianDerivativeFunction implements UnivariateRealFunction, Serializable {
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -6500229089670174766L;
-
     /** Parameter b of this function. */
     private final double b;
-
     /** Parameter c of this function. */
     private final double c;
-
     /** Square of the parameter d of this function. */
     private final double d2;
 
     /**
      * Constructs an instance with the specified parameters.
      *
-     * @param b <tt>b</tt> parameter value
-     * @param c <tt>c</tt> parameter value
-     * @param d <tt>d</tt> parameter value
+     * @param b {@code b} parameter value.
+     * @param c {@code c} parameter value.
+     * @param d {@code d} parameter value.
      *
      * @throws IllegalArgumentException if <code>d</code> is 0
      */
@@ -75,11 +70,11 @@ public class GaussianDerivativeFunction implements UnivariateRealFunction, Seria
     /**
      * Constructs an instance with the specified parameters.
      *
-     * @param parameters <tt>b</tt>, <tt>c</tt>, and <tt>d</tt> parameter values
-     *
-     * @throws IllegalArgumentException if <code>parameters</code> is null,
-     *         <code>parameters</code> length is not 3, or if
-     *         <code>parameters[2]</code> is 0
+     * @param parameters {@code b}, {@code c} and {@code d} parameter values.
+     * @throws NullArgumentException if {@code parameters} is {@code null}.
+     * @throws DimensionMismatchException if the size of {@code parameters} is
+     * not 3.
+     * @throws ZeroException if {@code parameters[2]} is 0.
      */
     public GaussianDerivativeFunction(double[] parameters) {
         if (parameters == null) {
@@ -97,9 +92,8 @@ public class GaussianDerivativeFunction implements UnivariateRealFunction, Seria
     }
 
     /** {@inheritDoc} */
-    public double value(double x) throws FunctionEvaluationException {
+    public double value(double x) {
         final double xMc = x - c;
         return (-b / d2) * xMc * Math.exp(-(xMc * xMc) / (2.0 * d2));
     }
-
 }
