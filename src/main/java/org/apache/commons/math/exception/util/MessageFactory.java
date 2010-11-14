@@ -61,15 +61,30 @@ public class MessageFactory {
                                       Localizable specific,
                                       Localizable general,
                                       Object ... arguments) {
+
         final StringBuilder sb = new StringBuilder();
-        MessageFormat fmt = null;
-        fmt = new MessageFormat(general.getLocalizedString(locale), locale);
-        sb.append(fmt.format(arguments));
+        final MessageFormat generalFmt  = new MessageFormat(general.getLocalizedString(locale), locale);
+        Object[] generalArgs = arguments;
+
         if (specific != null) {
+
+            final MessageFormat specificFmt = new MessageFormat(specific.getLocalizedString(locale), locale);
+
+            // split the arguments: first specific ones then general ones
+            final int nbSpecific = Math.min(arguments.length, specificFmt.getFormatsByArgumentIndex().length);
+            final int nbGeneral  = arguments.length - nbSpecific;
+            Object[] specificArgs = new Object[nbSpecific];
+            System.arraycopy(arguments, 0, specificArgs, 0, nbSpecific);
+            generalArgs = new Object[nbGeneral];
+            System.arraycopy(arguments, nbSpecific, generalArgs, 0, nbGeneral);
+
+            // build the message
+            sb.append(specificFmt.format(specificArgs));
             sb.append(": ");
-            fmt = new MessageFormat(specific.getLocalizedString(locale), locale);
-            sb.append(fmt.format(arguments));
+
         }
+
+        sb.append(generalFmt.format(generalArgs));
 
         return sb.toString();
     }
