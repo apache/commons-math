@@ -24,12 +24,34 @@ import org.junit.Test;
 public class MessageFactoryTest {
 
     @Test
-    public void testSpecificGeneric() {
+    public void testSpecificGeneral() {
         Localizable specific = new DummyLocalizable("specific {0} - {1} - {2}");
         Localizable general  = new DummyLocalizable("general  {0} / {1}");
         String message = MessageFactory.buildMessage(Locale.FRENCH, specific, general,
                                                      0, 1, 2, 'a', 'b');
         Assert.assertEquals("specific 0 - 1 - 2: general  a / b", message);
+    }
+
+    @Test
+    public void testNullSpecific() {
+        Localizable general  = new DummyLocalizable("general  {0} / {1}");
+        String message = MessageFactory.buildMessage(Locale.FRENCH, null, general,
+                                                     'a', 'b');
+        Assert.assertEquals("general  a / b", message);
+    }
+
+    @Test
+    public void testNullGeneral() {
+        Localizable specific = new DummyLocalizable("specific {0} - {1} - {2}");
+        String message = MessageFactory.buildMessage(Locale.FRENCH, specific, null,
+                                                     0, 1, 2);
+        Assert.assertEquals("specific 0 - 1 - 2", message);
+    }
+
+    @Test
+    public void testNull() {
+        String message = MessageFactory.buildMessage(Locale.FRENCH, null, null, "nothing");
+        Assert.assertEquals("", message);
     }
 
 }

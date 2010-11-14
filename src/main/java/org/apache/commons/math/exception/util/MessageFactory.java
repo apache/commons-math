@@ -50,8 +50,8 @@ public class MessageFactory {
      * an argument list.
      *
      * @param locale Locale in which the message should be translated.
-     * @param specific Format specifier.
-     * @param general Format specifier.
+     * @param specific Format specifier (may be null).
+     * @param general Format specifier (may be null).
      * @param arguments Format arguments. They will be substituted first in
      * the {@code specific} format specifier, then the remaining arguments
      * will be substituted in the {@code general} format specifier.
@@ -63,7 +63,6 @@ public class MessageFactory {
                                       Object ... arguments) {
 
         final StringBuilder sb = new StringBuilder();
-        final MessageFormat generalFmt  = new MessageFormat(general.getLocalizedString(locale), locale);
         Object[] generalArgs = arguments;
 
         if (specific != null) {
@@ -80,11 +79,16 @@ public class MessageFactory {
 
             // build the message
             sb.append(specificFmt.format(specificArgs));
-            sb.append(": ");
 
         }
 
-        sb.append(generalFmt.format(generalArgs));
+        if (general != null) {
+            if (specific != null) {
+                sb.append(": ");
+            }
+            final MessageFormat generalFmt  = new MessageFormat(general.getLocalizedString(locale), locale);
+            sb.append(generalFmt.format(generalArgs));
+        }
 
         return sb.toString();
     }
