@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Utility class for trensforming the list of arguments passed to
+ * Utility class for transforming the list of arguments passed to
  * constructors of exceptions.
  *
  * @version $Revision$ $Date$
