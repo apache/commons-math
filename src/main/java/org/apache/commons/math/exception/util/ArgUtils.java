@@ -19,6 +19,12 @@ package org.apache.commons.math.exception.util;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Utility class for transforming the list of arguments passed to
+ * constructors of exceptions.
+ *
+ * @version $Revision$ $Date$
+ */
 public class ArgUtils {
     /**
      * Transform a multidimensional array into a one-dimensional list.
