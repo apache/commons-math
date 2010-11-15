@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.util.MessageFactory;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUserException extends RuntimeException {
+public class MathUserException extends RuntimeException implements MathThrowable {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /**
@@ -114,6 +114,21 @@ public class MathUserException extends RuntimeException {
         this.specific  = specific;
         this.general   = general;
         this.arguments = ArgUtils.flatten(arguments);
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return specific;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
+        return general;
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getArguments() {
+        return arguments.clone();
     }
 
     /**

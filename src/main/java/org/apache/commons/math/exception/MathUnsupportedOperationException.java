@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUnsupportedOperationException extends UnsupportedOperationException {
+public class MathUnsupportedOperationException extends UnsupportedOperationException implements MathThrowable {
 
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
@@ -61,6 +61,21 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
                                              Object ... args) {
         this.specific = specific;
         arguments = ArgUtils.flatten(args);
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return specific;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
+        return LocalizedFormats.UNSUPPORTED_OPERATION;
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getArguments() {
+        return arguments.clone();
     }
 
     /**

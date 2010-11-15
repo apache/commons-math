@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalArgumentException extends IllegalArgumentException {
+public class MathIllegalArgumentException extends IllegalArgumentException implements MathThrowable {
 
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
@@ -70,6 +70,21 @@ public class MathIllegalArgumentException extends IllegalArgumentException {
     public MathIllegalArgumentException(Localizable general,
                                         Object ... args) {
         this(null, general, args);
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return specific;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
+        return general;
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getArguments() {
+        return arguments.clone();
     }
 
     /**

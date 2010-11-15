@@ -45,7 +45,7 @@ public class MathExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathException ex = new MathException(pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -68,7 +68,7 @@ public class MathExceptionTest extends TestCase {
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
