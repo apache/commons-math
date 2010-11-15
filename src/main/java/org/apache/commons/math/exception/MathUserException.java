@@ -16,6 +16,13 @@
  */
 package org.apache.commons.math.exception;
 
+import java.util.Locale;
+
+import org.apache.commons.math.exception.util.ArgUtils;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.MessageFactory;
+
 /**
  * This class is intended as a sort of communication channel between
  * layers of <em>user</em> code separated from each other by calls to
@@ -26,31 +33,108 @@ package org.apache.commons.math.exception;
  * @version $Revision$ $Date$
  */
 public class MathUserException extends RuntimeException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -6024911025449780478L;
     /**
-     * Default constructor.
+     * Pattern used to build the specific part of the message (problem description).
      */
-    public MathUserException() {}
+    private final Localizable specific;
+    /**
+     * Pattern used to build the general part of the message (problem description).
+     */
+    private final Localizable general;
+    /**
+     * Arguments used to build the message.
+     */
+    private final Object[] arguments;
 
     /**
-     * @param msg Error message.
+     * Build an exception with a default message.
      */
-    public MathUserException(String msg) {
-        super(msg);
+    public MathUserException() {
+        this((Throwable) null);
     }
 
     /**
-     * @param msg Error message.
-     * @param cause Cause of the error.
+     * Build an exception with a default message.
+     * @param cause Cause of the error (may be null).
      */
-    public MathUserException(String msg,
-                             Throwable cause) {
-        super(msg, cause);
+    public MathUserException(final Throwable cause) {
+        this(cause, LocalizedFormats.USER_EXCEPTION);
     }
 
     /**
-     * @param cause Cause of the error.
+     * Build an exception with a localizable message.
+     * @param pattern Format specifier.
+     * @param arguments Format arguments.
      */
-    public MathUserException(Throwable cause) {
+    public MathUserException(final Localizable pattern, final Object ... arguments) {
+        this((Throwable) null, pattern, arguments);
+    }
+
+    /**
+     * Build an exception with a localizable message.
+     * @param cause Cause of the error (may be null).
+     * @param pattern Format specifier.
+     * @param arguments Format arguments.
+     */
+    public MathUserException(final Throwable cause,
+                             final Localizable pattern, final Object ... arguments) {
+        this(cause, (Localizable) null, pattern, arguments);
+    }
+
+    /**
+     * Builds an exception from two patterns (specific and general) and
+     * an argument list.
+     *
+     * @param specific Format specifier for the specific part (may be null).
+     * @param general Format specifier for the general part (may be null).
+     * @param arguments Format arguments. They will be substituted in
+     * <em>both</em> the {@code general} and {@code specific} format specifiers.
+     */
+    public MathUserException(final Localizable specific, final Localizable general,
+                             final Object ... arguments) {
+        this((Throwable) null, specific, general, arguments);
+    }
+
+    /**
+     * Builds an exception from two patterns (specific and general) and
+     * an argument list.
+     *
+     * @param cause Cause of the error (may be null).
+     * @param specific Format specifier for the specific part (may be null).
+     * @param general Format specifier for the general part (may be null).
+     * @param arguments Format arguments. They will be substituted in
+     * <em>both</em> the {@code general} and {@code specific} format specifiers.
+     */
+    public MathUserException(final Throwable cause,
+                             final Localizable specific, final Localizable general,
+                             final Object ... arguments) {
         super(cause);
+        this.specific  = specific;
+        this.general   = general;
+        this.arguments = ArgUtils.flatten(arguments);
+    }
+
+    /**
+     * Get the message in a specified locale.
+     *
+     * @param locale Locale in which the message should be translated.
+     * @return the localized message.
+     */
+    public String getMessage(final Locale locale) {
+        return MessageFactory.buildMessage(locale, specific, general, arguments);
+    }
+
+   /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return getMessage(Locale.US);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return getMessage(Locale.getDefault());
     }
 }

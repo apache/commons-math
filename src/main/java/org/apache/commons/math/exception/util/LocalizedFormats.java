@@ -284,6 +284,7 @@ public enum LocalizedFormats implements Localizable {
     UNPARSEABLE_REAL_VECTOR("unparseable real vector: \"{0}\""),
     UNSUPPORTED_EXPANSION_MODE("unsupported expansion mode {0}, supported modes are {1} ({2}) and {3} ({4})"),
     UNSUPPORTED_OPERATION("unsupported operation"), /* keep */
+    USER_EXCEPTION("exception generated in user code"), /* keep */
     URL_CONTAINS_NO_DATA("URL {0} contains no data"),
     VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC("{0} values have been added before statistic is configured"),
     VECTOR_LENGTH_MISMATCH("vector length mismatch: got {0} but expected {1}"),
