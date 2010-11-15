@@ -41,7 +41,7 @@ public class ConvergenceExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         ConvergenceException ex = new ConvergenceException(pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -64,7 +64,7 @@ public class ConvergenceExceptionTest extends TestCase {
         Exception cause = new Exception(inMsg);
         ConvergenceException ex = new ConvergenceException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);

@@ -40,7 +40,7 @@ public class MathConfigurationExceptionTest extends TestCase {
         Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
         MathConfigurationException ex = new MathConfigurationException(pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -63,7 +63,7 @@ public class MathConfigurationExceptionTest extends TestCase {
         Exception cause = new Exception(inMsg);
         MathConfigurationException ex = new MathConfigurationException(cause, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);

@@ -26,6 +26,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.math.exception.MathThrowable;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -36,7 +37,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 * @version $Revision$ $Date$
 * @since 2.0
 */
-public class MathRuntimeException extends RuntimeException {
+public class MathRuntimeException extends RuntimeException implements MathThrowable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 9058794795027570002L;
@@ -139,26 +140,24 @@ public class MathRuntimeException extends RuntimeException {
     /** Gets the pattern used to build the message of this throwable.
     *
     * @return the pattern used to build the message of this throwable
-    * @deprecated as of 2.2 replaced by {@link #getLocalizablePattern()}
+    * @deprecated as of 2.2 replaced by {@link #getSpecificPattern()} and {@link #getGeneralPattern()}
     */
     @Deprecated
     public String getPattern() {
         return pattern.getSourceString();
     }
 
-    /** Gets the localizable pattern used to build the message of this throwable.
-     *
-     * @return the localizable pattern used to build the message of this throwable
-     * @since 2.2
-     */
-    public Localizable getLocalizablePattern() {
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
         return pattern;
     }
 
-    /** Gets the arguments used to build the message of this throwable.
-     *
-     * @return the arguments used to build the message of this throwable
-     */
+    /** {@inheritDoc} */
     public Object[] getArguments() {
         return arguments.clone();
     }

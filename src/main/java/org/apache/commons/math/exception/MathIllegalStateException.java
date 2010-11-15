@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalStateException extends IllegalStateException {
+public class MathIllegalStateException extends IllegalStateException implements MathThrowable {
 
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
@@ -69,6 +69,21 @@ public class MathIllegalStateException extends IllegalStateException {
         this(null, general, args);
     }
 
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return specific;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
+        return general;
+    }
+
+    /** {@inheritDoc} */
+    public Object[] getArguments() {
+        return arguments.clone();
+    }
+
     /**
      * Get the message in a specified locale.
      *
@@ -91,4 +106,5 @@ public class MathIllegalStateException extends IllegalStateException {
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
     }
+
 }

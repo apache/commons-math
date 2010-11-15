@@ -21,6 +21,7 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Locale;
 
+import org.apache.commons.math.exception.MathThrowable;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -35,7 +36,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 *
 * @version $Revision$ $Date$
 */
-public class MathException extends Exception {
+public class MathException extends Exception implements MathThrowable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7428019509644517071L;
@@ -134,27 +135,24 @@ public class MathException extends Exception {
      *
      * @return the pattern used to build the message of this throwable
      * @since 1.2
-     * @deprecated as of 2.2 replaced by {@link #getLocalizablePattern()}
+     * @deprecated as of 2.2 replaced by {@link #getSpecificPattern()} and {@link #getGeneralPattern()}
      */
     @Deprecated
     public String getPattern() {
         return pattern.getSourceString();
     }
 
-    /** Gets the localizable pattern used to build the message of this throwable.
-     *
-     * @return the localizable pattern used to build the message of this throwable
-     * @since 2.2
-     */
-    public Localizable getLocalizablePattern() {
+    /** {@inheritDoc} */
+    public Localizable getSpecificPattern() {
+        return null;
+    }
+
+    /** {@inheritDoc} */
+    public Localizable getGeneralPattern() {
         return pattern;
     }
 
-    /** Gets the arguments used to build the message of this throwable.
-     *
-     * @return the arguments used to build the message of this throwable
-     * @since 1.2
-     */
+    /** {@inheritDoc} */
     public Object[] getArguments() {
         return arguments.clone();
     }
