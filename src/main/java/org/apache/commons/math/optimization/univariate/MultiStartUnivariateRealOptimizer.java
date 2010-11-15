@@ -20,10 +20,9 @@ package org.apache.commons.math.optimization.univariate;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.optimization.GoalType;
@@ -121,14 +120,15 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * descending order if maximizing), followed by {@code null} elements
      * corresponding to the runs that did not converge. This means all
      * elements will be {@code null} if the {@link
-     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize} method did throw a
-     * {@link ConvergenceException}). This also means that if the first
-     * element is not {@code null}, it is the best point found across all
-     * starts.
+     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
+     * method did throw a {@link MathUserException}). This also means that
+     * if the first element is not {@code null}, it is the best point found
+     * across all starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize} has not been called.
+     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
+     * has not been called.
      */
     public UnivariateRealPointValuePair[] getOptima() {
         if (optima == null) {
@@ -140,16 +140,15 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(final FUNC f,
                                                  final GoalType goal,
-                                                 final double min, final double max)
-        throws FunctionEvaluationException {
+                                                 final double min, final double max) {
         return optimize(f, goal, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(final FUNC f, final GoalType goal,
                                                  final double min, final double max,
-                                                 final double startValue)
-        throws FunctionEvaluationException {
+                                                 final double startValue) {
+        MathUserException lastException = null;
         optima = new UnivariateRealPointValuePair[starts];
         totalEvaluations = 0;
 
@@ -158,9 +157,8 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
             try {
                 final double s = (i == 0) ? startValue : min + generator.nextDouble() * (max - min);
                 optima[i] = optimizer.optimize(f, goal, min, max, s);
-            } catch (FunctionEvaluationException fee) {
-                optima[i] = null;
-            } catch (ConvergenceException ce) {
+            } catch (MathUserException mue) {
+                lastException = mue;
                 optima[i] = null;
             }
 
@@ -172,8 +170,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
         sortPairs(goal);
 
         if (optima[0] == null) {
-            throw new ConvergenceException(LocalizedFormats.NO_CONVERGENCE_WITH_ANY_START_POINT,
-                                           starts);
+            throw lastException;
         }
 
         // Return the point with the best objective function value.
