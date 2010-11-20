@@ -19,6 +19,7 @@ package org.apache.commons.math.stat;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -420,4 +421,48 @@ public final class StatUtilsTest extends TestCase {
         assertEquals(FastMath.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
                 StatUtils.geometricMean(test, 0, 2), Double.MIN_VALUE);
     }
+    
+    
+	/**
+	 * Run the test with the values 50 and 100 and assume standardized values 
+	 */
+
+	public void testNormalize1() {
+		double sample[] = { 50, 100 };
+		double expectedSample[] = { -25 / Math.sqrt(1250), 25 / Math.sqrt(1250) };
+		double[] out = StatUtils.normalize(sample);
+		for (int i = 0; i < out.length; i++) {
+			assertEquals(out[i], expectedSample[i]);
+		}
+
+	}
+
+	/**
+	 * Run with 77 random values, assuming that the outcome has a mean of 0 and a standard deviation of 1 with a
+	 * precision of 1E-10.
+	 */
+
+	public void testNormalize2() {
+		// create an sample with 77 values 
+		int length = 77;
+		double sample[] = new double[length];
+		for (int i = 0; i < length; i++) {
+			sample[i] = Math.random();
+		}
+		// normalize this sample
+		double standardizedSample[] = StatUtils.normalize(sample);
+
+		DescriptiveStatistics stats = new DescriptiveStatistics();
+		// Add the data from the array
+		for (int i = 0; i < length; i++) {
+			stats.addValue(standardizedSample[i]);
+		}
+		// the calculations do have a limited precision  
+		double distance = 1E-10;
+		// check the mean an standard deviation
+		assertEquals(0.0, stats.getMean(), distance);
+		assertEquals(1.0, stats.getStandardDeviation(), distance);
+
+	}
+    
 }
