@@ -24,8 +24,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.exception.SingularMatrixException;
-import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -107,7 +106,7 @@ extends TestCase {
         super(name);
     }
 
-    public void testTrivial() throws FunctionEvaluationException {
+    public void testTrivial() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
@@ -120,7 +119,7 @@ extends TestCase {
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws FunctionEvaluationException {
+    public void testColumnsPermutation() throws MathUserException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -140,7 +139,7 @@ extends TestCase {
 
     }
 
-    public void testNoDependency() throws FunctionEvaluationException {
+    public void testNoDependency() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -161,7 +160,7 @@ extends TestCase {
         }
     }
 
-    public void testOneSet() throws FunctionEvaluationException {
+    public void testOneSet() throws MathUserException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -180,7 +179,7 @@ extends TestCase {
 
     }
 
-    public void testTwoSets() throws FunctionEvaluationException {
+    public void testTwoSets() throws MathUserException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -225,7 +224,7 @@ extends TestCase {
         }
     }
 
-    public void testIllConditioned() throws FunctionEvaluationException {
+    public void testIllConditioned() throws MathUserException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -301,7 +300,7 @@ extends TestCase {
         }
     }
 
-    public void testRedundantEquations() throws FunctionEvaluationException {
+    public void testRedundantEquations() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -320,7 +319,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentEquations() throws FunctionEvaluationException {
+    public void testInconsistentEquations() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -335,7 +334,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentSizes() throws FunctionEvaluationException {
+    public void testInconsistentSizes() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
@@ -388,7 +387,7 @@ extends TestCase {
         }
     }
 
-    public void testCircleFitting() throws FunctionEvaluationException {
+    public void testCircleFitting() throws MathUserException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -409,7 +408,7 @@ extends TestCase {
         assertEquals(48.135167894714,   center.y, 1.0e-10);
     }
 
-    public void testCircleFittingBadInit() throws FunctionEvaluationException {
+    public void testCircleFittingBadInit() throws MathUserException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},

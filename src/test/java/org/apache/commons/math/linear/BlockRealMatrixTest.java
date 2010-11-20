@@ -22,6 +22,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -1099,7 +1100,7 @@ public final class BlockRealMatrixTest extends TestCase {
 
     }
 
-    public void testWalk() {
+    public void testWalk() throws MathUserException {
         int rows    = 150;
         int columns = 75;
 

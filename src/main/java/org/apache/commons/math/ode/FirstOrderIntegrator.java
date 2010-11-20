@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.exception.MathUserException;
+
 /** This interface represents a first order integrator for
  * differential equations.
 
@@ -50,11 +52,11 @@ public interface FirstOrderIntegrator extends ODEIntegrator {
    * target, but may be different if some {@link
    * org.apache.commons.math.ode.events.EventHandler} stops it at some point.
    * @throws IntegratorException if the integrator cannot perform integration
-   * @throws DerivativeException this exception is propagated to the caller if
+   * @throws MathUserException this exception is propagated to the caller if
    * the underlying user function triggers one
    */
   double integrate (FirstOrderDifferentialEquations equations,
                     double t0, double[] y0,
-                    double t, double[] y) throws DerivativeException, IntegratorException;
+                    double t, double[] y) throws MathUserException, IntegratorException;
 
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis;
 
+import org.apache.commons.math.exception.MathUserException;
+
 /**
  * An interface representing a univariate real function.
  *
@@ -33,8 +35,7 @@ public interface UnivariateRealFunction {
      * majority of cases where Commons-Math throws IllegalArgumentException,
      * it is the result of argument checking of actual parameters immediately
      * passed to a method.
-     * @throws org.apache.commons.math.exception.FunctionEvaluationException
-     * when the method may encounter errors during evaluation.
+     * @throws MathUserException when the method may encounter errors during evaluation.
      * This should be thrown only in circumstances where, at the level of the
      * activated function, IllegalArgumentException is not appropriate and it
      * should indicate that while formal preconditions of the method have not
@@ -42,7 +43,7 @@ public interface UnivariateRealFunction {
      * function at some (usually lower) level of the call stack.
      * Convergence failures, runtime exceptions (even IllegalArgumentException)
      * in user code or lower level methods can cause (and should be wrapped in)
-     * a FunctionEvaluationException.
+     * a MathUserException.
      */
-    double value(double x);
+    double value(double x) throws MathUserException;
 }

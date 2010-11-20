@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
-
 /**
  * Auxiliary class for testing solvers.
  *
@@ -28,13 +26,13 @@ public class QuinticFunction implements DifferentiableUnivariateRealFunction {
     /* Evaluate quintic.
      * @see org.apache.commons.math.UnivariateRealFunction#value(double)
      */
-    public double value(double x) throws FunctionEvaluationException {
+    public double value(double x) {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
     public UnivariateRealFunction derivative() {
         return new UnivariateRealFunction() {
-            public double value(double x) throws FunctionEvaluationException {
+            public double value(double x) {
                 return (5*x*x-3.75)*x*x+0.25;
             }
         };

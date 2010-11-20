@@ -17,10 +17,10 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.RealMatrix;
 
 /** This class converts {@link MultivariateVectorialFunction vectorial
@@ -151,7 +151,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public double value(final double[] point) {
+    public double value(final double[] point) throws MathUserException {
         // compute residuals
         final double[] residuals = function.value(point);
         if (residuals.length != observations.length) {

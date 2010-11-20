@@ -17,7 +17,6 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -33,8 +32,7 @@ public class BracketFinderTest {
     public void testCubicMin() throws MathException {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateRealFunction func = new UnivariateRealFunction() {
-                public double value(double x)
-                    throws FunctionEvaluationException {
+                public double value(double x) {
                     if (x < -2) {
                         return value(-2);
                     }
@@ -56,8 +54,7 @@ public class BracketFinderTest {
     public void testCubicMax() throws MathException {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateRealFunction func = new UnivariateRealFunction() {
-                public double value(double x)
-                    throws FunctionEvaluationException {
+                public double value(double x) {
                     if (x < -2) {
                         return value(-2);
                     }
@@ -77,8 +74,7 @@ public class BracketFinderTest {
     @Test
     public void testMinimumIsOnIntervalBoundary() throws MathException {
         final UnivariateRealFunction func = new UnivariateRealFunction() {
-                public double value(double x)
-                    throws FunctionEvaluationException {
+                public double value(double x) {
                     return x * x;
                 }
             };
@@ -97,8 +93,7 @@ public class BracketFinderTest {
     @Test
     public void testIntervalBoundsOrdering() throws MathException {
         final UnivariateRealFunction func = new UnivariateRealFunction() {
-                public double value(double x)
-                    throws FunctionEvaluationException {
+                public double value(double x) {
                     return x * x;
                 }
             };

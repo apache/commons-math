@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * An interface representing a univariate vectorial function.
@@ -30,8 +30,8 @@ public interface UnivariateVectorialFunction {
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
      * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
+     * @throws MathUserException if the function evaluation fails
      */
-    double[] value(double x) throws FunctionEvaluationException;
+    double[] value(double x) throws MathUserException;
 
 }

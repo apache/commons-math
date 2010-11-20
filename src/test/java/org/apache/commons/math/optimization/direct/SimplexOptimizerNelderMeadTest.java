@@ -19,7 +19,8 @@ package org.apache.commons.math.optimization.direct;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import org.apache.commons.math.exception.FunctionEvaluationException;
+
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
@@ -33,7 +34,7 @@ import org.junit.Test;
 public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testMinimizeMaximize()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         // the following function has 4 local extrema:
         final double xM        = -3.841947088256863675365;
@@ -46,7 +47,7 @@ public class SimplexOptimizerNelderMeadTest {
         final double valueXpYp = -valueXpYm;                // global maximum
         MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
                 private static final long serialVersionUID = -7039124064449091152L;
-                public double value(double[] variables) throws FunctionEvaluationException {
+                public double value(double[] variables) {
                     final double x = variables[0];
                     final double y = variables[1];
                     return (x == 0 || y == 0) ? 0 :
@@ -92,7 +93,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testRosenbrock()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
@@ -111,7 +112,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testPowell()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         Powell powell = new Powell();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
@@ -127,7 +128,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testLeastSquares1()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -153,7 +154,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testLeastSquares2()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -179,7 +180,7 @@ public class SimplexOptimizerNelderMeadTest {
 
     @Test
     public void testLeastSquares3()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -206,7 +207,7 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test(expected = TooManyEvaluationsException.class)
-    public void testMaxIterations() throws FunctionEvaluationException {
+    public void testMaxIterations() throws MathUserException {
         Powell powell = new Powell();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
         optimizer.setMaxEvaluations(20);
@@ -221,7 +222,7 @@ public class SimplexOptimizerNelderMeadTest {
             count = 0;
         }
 
-        public double value(double[] x) throws FunctionEvaluationException {
+        public double value(double[] x) throws MathUserException {
             ++count;
             double a = x[1] - x[0] * x[0];
             double b = 1.0 - x[0];
@@ -240,7 +241,7 @@ public class SimplexOptimizerNelderMeadTest {
             count = 0;
         }
 
-        public double value(double[] x) throws FunctionEvaluationException {
+        public double value(double[] x) {
             ++count;
             double a = x[0] + 10 * x[1];
             double b = x[2] - x[3];

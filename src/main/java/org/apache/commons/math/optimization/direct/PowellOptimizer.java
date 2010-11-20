@@ -20,6 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
@@ -107,7 +108,7 @@ public class PowellOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected RealPointValuePair doOptimize() throws MathUserException {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -254,12 +255,13 @@ public class PowellOptimizer
          * @return the optimum.
          * @throws org.apache.commons.math.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
+         * @throws MathUserException if objective function throws one.
          */
-        public UnivariateRealPointValuePair search(final double[] p,
-                                                   final double[] d) {
+        public UnivariateRealPointValuePair search(final double[] p, final double[] d)
+            throws MathUserException {
             final int n = p.length;
             final UnivariateRealFunction f = new UnivariateRealFunction() {
-                    public double value(double alpha) {
+                    public double value(double alpha) throws MathUserException {
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {
                             x[i] = p[i] + alpha * d[i];

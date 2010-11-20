@@ -32,7 +32,7 @@ import org.junit.Test;
 public class MultiStartUnivariateRealOptimizerTest {
 
     @Test
-    public void testSinMin() {
+    public void testSinMin() throws MathUserException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
         underlying.setMaxEvaluations(300);
@@ -53,7 +53,7 @@ public class MultiStartUnivariateRealOptimizerTest {
     }
 
     @Test
-    public void testQuinticMin() {
+    public void testQuinticMin() throws MathUserException {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
@@ -78,9 +78,9 @@ public class MultiStartUnivariateRealOptimizerTest {
     }
 
     @Test(expected=MathUserException.class)
-    public void testBadFunction() {
+    public void testBadFunction() throws MathUserException {
         UnivariateRealFunction f = new UnivariateRealFunction() {
-                public double value(double x) {
+                public double value(double x) throws MathUserException {
                     if (x < 0) {
                         throw new MathUserException();
                     }
@@ -94,7 +94,6 @@ public class MultiStartUnivariateRealOptimizerTest {
         MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
             new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 5, g);
 
-        UnivariateRealPointValuePair optimum
-            = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+        optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
     }
 }

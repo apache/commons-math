@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -61,7 +62,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    public VectorialPointValuePair doOptimize() {
+    public VectorialPointValuePair doOptimize() throws MathUserException {
 
         final ConvergenceChecker<VectorialPointValuePair> checker
             = getConvergenceChecker();

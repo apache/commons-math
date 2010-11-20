@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -81,7 +81,7 @@ class MidpointStepInterpolator
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
                                           final double oneMinusThetaH)
-    throws DerivativeException {
+    throws MathUserException {
 
     final double coeff1    = oneMinusThetaH * theta;
     final double coeff2    = oneMinusThetaH * (1.0 + theta);

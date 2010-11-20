@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
@@ -120,9 +121,10 @@ public class CurveFitter {
      * if the algorithm failed to converge.
      * @exception org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
+     * @throws MathUserException if the parametric function throws one
      */
     public double[] fit(final ParametricRealFunction f,
-                        final double[] initialGuess) {
+                        final double[] initialGuess) throws MathUserException {
         // prepare least squares problem
         double[] target  = new double[observations.size()];
         double[] weights = new double[observations.size()];

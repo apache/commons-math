@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
@@ -49,12 +49,11 @@ public interface RealTransformer  {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws FunctionEvaluationException if function cannot be evaluated
-     * at some point
+     * @throws MathUserException if function cannot be evaluated at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     double[] transform(UnivariateRealFunction f, double min, double max, int n)
-        throws FunctionEvaluationException, IllegalArgumentException;
+        throws MathUserException, IllegalArgumentException;
 
     /**
      * Inversely transform the given real data set.
@@ -72,11 +71,10 @@ public interface RealTransformer  {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws FunctionEvaluationException if function cannot be evaluated
-     * at some point
+     * @throws MathUserException if function cannot be evaluated at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     double[] inversetransform(UnivariateRealFunction f, double min, double max, int n)
-        throws FunctionEvaluationException, IllegalArgumentException;
+        throws MathUserException, IllegalArgumentException;
 
 }

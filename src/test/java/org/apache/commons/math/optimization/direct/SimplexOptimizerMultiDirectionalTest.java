@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
@@ -28,7 +28,7 @@ import org.junit.Test;
 
 public class SimplexOptimizerMultiDirectionalTest {
     @Test
-    public void testMinimizeMaximize() throws FunctionEvaluationException {
+    public void testMinimizeMaximize() throws MathUserException {
         // the following function has 4 local extrema:
         final double xM        = -3.841947088256863675365;
         final double yM        = -1.391745200270734924416;
@@ -40,7 +40,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         final double valueXpYp = -valueXpYm;                // global maximum
         MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
                 private static final long serialVersionUID = -7039124064449091152L;
-                public double value(double[] variables) throws FunctionEvaluationException {
+                public double value(double[] variables) throws MathUserException {
                     final double x = variables[0];
                     final double y = variables[1];
                     return ((x == 0) || (y == 0)) ? 0 :
@@ -86,11 +86,11 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testRosenbrock() throws FunctionEvaluationException {
+    public void testRosenbrock() throws MathUserException {
         MultivariateRealFunction rosenbrock =
             new MultivariateRealFunction() {
                 private static final long serialVersionUID = -9044950469615237490L;
-                public double value(double[] x) throws FunctionEvaluationException {
+                public double value(double[] x) throws MathUserException {
                     ++count;
                     double a = x[1] - x[0] * x[0];
                     double b = 1.0 - x[0];
@@ -114,11 +114,11 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testPowell() throws FunctionEvaluationException {
+    public void testPowell() throws MathUserException {
         MultivariateRealFunction powell =
             new MultivariateRealFunction() {
                 private static final long serialVersionUID = -832162886102041840L;
-                public double value(double[] x) throws FunctionEvaluationException {
+                public double value(double[] x) throws MathUserException {
                     ++count;
                     double a = x[0] + 10 * x[1];
                     double b = x[2] - x[3];
@@ -141,7 +141,7 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testMath283() throws FunctionEvaluationException {
+    public void testMath283() throws MathUserException {
         // fails because MultiDirectional.iterateSimplex is looping forever
         // the while(true) should be replaced with a convergence check
         SimplexOptimizer optimizer = new SimplexOptimizer();

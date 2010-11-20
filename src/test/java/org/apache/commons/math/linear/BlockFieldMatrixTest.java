@@ -22,6 +22,7 @@ import java.util.Random;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
@@ -1197,7 +1198,7 @@ public final class BlockFieldMatrixTest extends TestCase {
 
     }
 
-    public void testWalk() {
+    public void testWalk() throws MathUserException {
         int rows    = 150;
         int columns = 75;
 

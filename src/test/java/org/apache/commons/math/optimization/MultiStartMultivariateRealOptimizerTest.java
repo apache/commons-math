@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.direct.SimplexOptimizer;
 import org.apache.commons.math.optimization.direct.NelderMeadSimplex;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -31,7 +32,7 @@ import org.junit.Test;
 
 public class MultiStartMultivariateRealOptimizerTest {
     @Test
-    public void testRosenbrock() {
+    public void testRosenbrock() throws MathUserException {
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer underlying = new SimplexOptimizer();
         NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {

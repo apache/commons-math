@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.ode;
 
+import org.apache.commons.math.exception.MathUserException;
+
 
 /** This interface represents a second order integrator for
  * differential equations.
@@ -47,12 +49,12 @@ public interface SecondOrderIntegrator extends ODEIntegrator {
    * @param yDot placeholder where to put the first derivative of
    * the state vector at time t, can be the same object as yDot0
    * @throws IntegratorException if the integrator cannot perform integration
-   * @throws DerivativeException this exception is propagated to the caller if the
+   * @throws MathUserException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
   void integrate(SecondOrderDifferentialEquations equations,
                  double t0, double[] y0, double[] yDot0,
                  double t, double[] y, double[] yDot)
-      throws DerivativeException, IntegratorException;
+      throws MathUserException, IntegratorException;
 
 }

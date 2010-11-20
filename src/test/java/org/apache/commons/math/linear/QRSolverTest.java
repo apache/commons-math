@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.SingularMatrixException;
 import junit.framework.TestCase;
 
@@ -159,7 +160,7 @@ public class QRSolverTest extends TestCase {
 
     }
 
-    public void testOverdetermined() {
+    public void testOverdetermined() throws MathUserException {
         final Random r    = new Random(5559252868205245l);
         int          p    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
@@ -182,7 +183,7 @@ public class QRSolverTest extends TestCase {
 
     }
 
-    public void testUnderdetermined() {
+    public void testUnderdetermined() throws MathUserException {
         final Random r    = new Random(42185006424567123l);
         int          p    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;

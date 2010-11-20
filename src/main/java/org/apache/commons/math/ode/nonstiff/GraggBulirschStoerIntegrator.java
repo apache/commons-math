@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.EventHandler;
@@ -460,14 +460,14 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * @param yTmp placeholder for one state vector
    * @return true if computation was done properly,
    *         false if stability check failed before end of computation
-   * @throws DerivativeException this exception is propagated to the caller if the
+   * @throws MathUserException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
   private boolean tryStep(final double t0, final double[] y0, final double step, final int k,
                           final double[] scale, final double[][] f,
                           final double[] yMiddle, final double[] yEnd,
                           final double[] yTmp)
-    throws DerivativeException {
+    throws MathUserException {
 
     final int    n        = sequence[k];
     final double subStep  = step / n;
@@ -556,7 +556,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   @Override
   public double integrate(final FirstOrderDifferentialEquations equations,
                           final double t0, final double[] y0, final double t, final double[] y)
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
     setEquations(equations);

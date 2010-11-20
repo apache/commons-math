@@ -17,12 +17,12 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -59,13 +59,12 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws ConvergenceException, MathUserException {
 
         // check for zeros before verifying bracketing
         if (f.value(min) == 0.0) {
@@ -103,13 +102,12 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws ConvergenceException, FunctionEvaluationException {
+        throws ConvergenceException, MathUserException {
 
         // check function type
         if (!(f instanceof PolynomialFunction)) {
@@ -171,12 +169,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] solveAll(double coefficients[], double initial) throws
-        ConvergenceException, FunctionEvaluationException {
+        ConvergenceException, MathUserException {
 
         Complex c[] = new Complex[coefficients.length];
         Complex z = new Complex(initial, 0.0);
@@ -195,12 +192,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] solveAll(Complex coefficients[], Complex initial) throws
-        MaxIterationsExceededException, FunctionEvaluationException {
+        MaxIterationsExceededException, MathUserException {
 
         int n = coefficients.length - 1;
         int iterationCount = 0;
@@ -244,12 +240,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex solve(Complex coefficients[], Complex initial) throws
-        MaxIterationsExceededException, FunctionEvaluationException {
+        MaxIterationsExceededException, MathUserException {
 
         int n = coefficients.length - 1;
         if (n < 1) {

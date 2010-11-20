@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderConverter;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.SecondOrderDifferentialEquations;
@@ -42,7 +42,7 @@ public class FirstOrderConverterTest
   }
 
   public void testDecreasingSteps()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     double previousError = Double.NaN;
     for (int i = 0; i < 10; ++i) {
@@ -59,14 +59,14 @@ public class FirstOrderConverterTest
   }
 
   public void testSmallStep()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 1.0e-4)
                    - FastMath.sin(4.0);
     assertTrue(FastMath.abs(error) < 1.0e-10);
   }
 
   public void testBigStep()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 0.5)
                    - FastMath.sin(4.0);
     assertTrue(FastMath.abs(error) > 0.1);
@@ -100,7 +100,7 @@ public class FirstOrderConverterTest
   private double integrateWithSpecifiedStep(double omega,
                                             double t0, double t,
                                             double step)
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
     double[] y0 = new double[2];
     y0[0] = FastMath.sin(omega * t0);
     y0[1] = omega * FastMath.cos(omega * t0);

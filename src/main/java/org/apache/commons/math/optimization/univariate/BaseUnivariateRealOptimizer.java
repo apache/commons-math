@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.BaseOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -53,9 +54,10 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * if the optimizer detects a convergence problem.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
+     * @throws MathUserException if the function to optimize throws one during search.
      */
     UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
-                                          double min, double max);
+                                          double min, double max) throws MathUserException;
 
     /**
      * Find an optimum in the given interval, start at startValue.
@@ -76,8 +78,9 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * do not satisfy the requirements specified by the optimizer.
      * @throws org.apache.commons.math.exception.NullArgumentException if any
      * argument is {@code null}.
+     * @throws MathUserException if the function to optimize throws one during search.
      */
     UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
                                           double min, double max,
-                                          double startValue);
+                                          double startValue) throws MathUserException;
 }

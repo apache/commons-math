@@ -17,9 +17,9 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
@@ -57,13 +57,12 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         // check for zeros before verifying bracketing
         if (f.value(min) == 0.0) { return min; }
@@ -100,13 +99,12 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         // [x0, x2] is the bracketing interval in each iteration
         // x1 is the last approximation and an interpolation point in (x0, x2)
@@ -211,13 +209,12 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double solve2(final UnivariateRealFunction f,
                          final double min, final double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         // x2 is the last root approximation
         // x is the new approximation and new x2 for next round

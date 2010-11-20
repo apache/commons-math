@@ -18,11 +18,10 @@
 package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
 
@@ -180,8 +179,8 @@ public class EventState {
                 g0Positive = g0 >= 0;
             }
 
-        } catch (DerivativeException de) {
-            throw new EventException(de);
+        } catch (MathUserException mue) {
+            throw new EventException(mue);
         }
     }
 
@@ -190,14 +189,14 @@ public class EventState {
      * @return true if the event handler triggers an event before
      * the end of the proposed step (this implies the step should be
      * rejected)
-     * @exception DerivativeException if the interpolator fails to
+     * @exception MathUserException if the interpolator fails to
      * compute the switching function somewhere within the step
      * @exception EventException if the switching function
      * cannot be evaluated
      * @exception ConvergenceException if an event cannot be located
      */
     public boolean evaluateStep(final StepInterpolator interpolator)
-        throws DerivativeException, EventException, ConvergenceException {
+        throws MathUserException, EventException, ConvergenceException {
 
         try {
 
@@ -244,14 +243,12 @@ public class EventState {
                     increasing = gb >= ga;
 
                     final UnivariateRealFunction f = new UnivariateRealFunction() {
-                        public double value(final double t) throws FunctionEvaluationException {
+                        public double value(final double t) throws MathUserException {
                             try {
                                 interpolator.setInterpolatedTime(t);
                                 return handler.g(t, interpolator.getInterpolatedState());
-                            } catch (DerivativeException e) {
-                                throw new FunctionEvaluationException(e, t);
                             } catch (EventException e) {
-                                throw new FunctionEvaluationException(e, t);
+                                throw new MathUserException(e);
                             }
                         }
                     };
@@ -291,14 +288,12 @@ public class EventState {
             pendingEventTime = Double.NaN;
             return false;
 
-        } catch (FunctionEvaluationException e) {
-            final Throwable cause = e.getCause();
-            if ((cause != null) && (cause instanceof DerivativeException)) {
-                throw (DerivativeException) cause;
-            } else if ((cause != null) && (cause instanceof EventException)) {
+        } catch (MathUserException mue) {
+            final Throwable cause = mue.getCause();
+            if ((cause != null) && (cause instanceof EventException)) {
                 throw (EventException) cause;
             }
-            throw new EventException(e);
+            throw mue;
         }
 
     }

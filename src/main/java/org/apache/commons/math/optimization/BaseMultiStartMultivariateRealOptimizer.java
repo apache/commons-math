@@ -22,7 +22,6 @@ import java.util.Comparator;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -136,7 +135,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      */
     public RealPointValuePair optimize(final FUNC f,
                                        final GoalType goal,
-                                       double[] startPoint) {
+                                       double[] startPoint) throws MathUserException {
         MathUserException lastException = null;
         optima = new RealPointValuePair[starts];
         totalEvaluations = 0;

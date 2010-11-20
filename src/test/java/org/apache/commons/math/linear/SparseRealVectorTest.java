@@ -21,7 +21,6 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;

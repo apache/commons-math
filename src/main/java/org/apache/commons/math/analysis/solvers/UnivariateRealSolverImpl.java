@@ -18,10 +18,10 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergingAlgorithmImpl;
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NullArgumentException;
 
 /**
@@ -141,12 +141,11 @@ public abstract class UnivariateRealSolverImpl
      * @param upper  the upper endpoint
      * @param function the function
      * @return true if f(lower) * f(upper) < 0
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function at the endpoints
+     * @throws MathUserException if an error occurs evaluating the function at the endpoints
      */
     protected boolean isBracketing(final double lower, final double upper,
                                    final UnivariateRealFunction function)
-        throws FunctionEvaluationException {
+        throws MathUserException {
         final double f1 = function.value(lower);
         final double f2 = function.value(upper);
         return (f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0);
@@ -205,12 +204,11 @@ public abstract class UnivariateRealSolverImpl
      * @param upper upper endpoint
      * @param function function
      * @throws IllegalArgumentException
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function at the endpoints
+     * @throws MathUserException if an error occurs evaluating the function at the endpoints
      */
     protected void verifyBracketing(final double lower, final double upper,
                                     final UnivariateRealFunction function)
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         verifyInterval(lower, upper);
         if (!isBracketing(lower, upper, function)) {

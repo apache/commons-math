@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.Incrementor;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -101,8 +102,9 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
+     * @throws MathUserException if objective function throws one
      */
-    protected double computeObjectiveValue(double[] point) {
+    protected double computeObjectiveValue(double[] point) throws MathUserException {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -114,7 +116,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /** {@inheritDoc} */
     public RealPointValuePair optimize(FUNC f,
                                        GoalType goalType,
-                                       double[] startPoint) {
+                                       double[] startPoint) throws MathUserException {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -156,6 +158,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      * Perform the bulk of the optimization algorithm.
      *
      * @return the point/value pair giving the optimal value for objective function.
+     * @throws MathUserException if objective function throws one
      */
-    protected abstract RealPointValuePair doOptimize();
+    protected abstract RealPointValuePair doOptimize() throws MathUserException;
 }

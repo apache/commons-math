@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -50,7 +50,7 @@ public class GraggBulirschStoerIntegratorTest
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -65,7 +65,7 @@ public class GraggBulirschStoerIntegratorTest
                            0.0, new double[pb.getDimension()],
                            0.0, new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -89,7 +89,7 @@ public class GraggBulirschStoerIntegratorTest
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -97,7 +97,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testBackward()
-      throws DerivativeException, IntegratorException {
+      throws MathUserException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -120,7 +120,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testIncreasingTolerance()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -4; ++i) {
@@ -157,7 +157,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testIntegratorControls()
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
 
     TestProblem3 pb = new TestProblem3(0.999);
     GraggBulirschStoerIntegrator integ =
@@ -186,7 +186,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
       TestProblemHandler handler = new TestProblemHandler(pb, integrator);
       integrator.addStepHandler(handler);
       integrator.integrate(pb,
@@ -196,7 +196,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testEvents()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -228,7 +228,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testKepler()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb = new TestProblem3(0.9);
     double minStep        = 0;
@@ -250,7 +250,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testVariableSteps()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb = new TestProblem3(0.9);
     double minStep        = 0;
@@ -269,7 +269,7 @@ public class GraggBulirschStoerIntegratorTest
   }
 
   public void testUnstableDerivative()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(0.1, 10, 1.0e-12, 0.0);
@@ -293,7 +293,7 @@ public class GraggBulirschStoerIntegratorTest
     }
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast)
-    throws DerivativeException {
+    throws MathUserException {
 
       ++nbSteps;
       for (int a = 1; a < 100; ++a) {

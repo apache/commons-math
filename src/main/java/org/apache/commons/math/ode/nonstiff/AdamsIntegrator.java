@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.MultistepIntegrator;
@@ -85,7 +85,7 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
     public abstract double integrate(final FirstOrderDifferentialEquations equations,
                                      final double t0, final double[] y0,
                                      final double t, final double[] y)
-        throws DerivativeException, IntegratorException;
+        throws MathUserException, IntegratorException;
 
     /** {@inheritDoc} */
     @Override

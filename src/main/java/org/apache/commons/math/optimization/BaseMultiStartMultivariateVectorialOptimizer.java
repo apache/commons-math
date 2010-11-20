@@ -20,9 +20,9 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -137,8 +137,9 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
     public VectorialPointValuePair optimize(final FUNC f,
                                             double[] target, double[] weights,
                                             double[] startPoint)
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
+        MathUserException lastException = null;
         optima = new VectorialPointValuePair[starts];
 
         // Multi-start loop.
@@ -147,7 +148,8 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
             try {
                 optima[i] = optimizer.optimize(f, target, weights,
                                                i == 0 ? startPoint : generator.nextVector());
-            } catch (FunctionEvaluationException fee) {
+            } catch (MathUserException mue) {
+                lastException = mue;
                 optima[i] = null;
             } catch (ConvergenceException oe) {
                 optima[i] = null;
@@ -161,8 +163,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
         sortPairs(target, weights);
 
         if (optima[0] == null) {
-            throw new ConvergenceException(LocalizedFormats.NO_CONVERGENCE_WITH_ANY_START_POINT,
-                                           starts);
+            throw lastException;
         }
 
         // Return the found point given the best objective function value.

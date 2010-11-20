@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
@@ -52,7 +53,8 @@ public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVec
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
+     * @throws MathUserException if function throws one during search.
      */
     VectorialPointValuePair optimize(FUNC f, double[] target, double[] weight,
-                                     double[] startPoint);
+                                     double[] startPoint) throws MathUserException;
 }

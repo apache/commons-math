@@ -19,6 +19,7 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
@@ -108,7 +109,7 @@ public class NonLinearConjugateGradientOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected RealPointValuePair doOptimize() throws MathUserException {
         // Initialization.
         if (preconditioner == null) {
             preconditioner = new IdentityPreconditioner();
@@ -217,9 +218,11 @@ public class NonLinearConjugateGradientOptimizer
      * @param h initial step to try.
      * @return b such that f(a) and f(b) have opposite signs.
      * @exception MathIllegalStateException if no bracket can be found.
+     * @exception MathUserException if function throws one.
      */
     private double findUpperBound(final UnivariateRealFunction f,
-                                  final double a, final double h) {
+                                  final double a, final double h)
+        throws MathUserException {
         final double yA = f.value(a);
         double yB = yA;
         for (double step = h; step < Double.MAX_VALUE; step *= FastMath.max(2, yA / yB)) {
@@ -263,7 +266,7 @@ public class NonLinearConjugateGradientOptimizer
         }
 
         /** {@inheritDoc} */
-        public double value(double x) {
+        public double value(double x) throws MathUserException {
 
             // current point in the search direction
             final double[] shiftedPoint = point.clone();

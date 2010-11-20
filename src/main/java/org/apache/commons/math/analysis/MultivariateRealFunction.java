@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * An interface representing a multivariate real function.
@@ -30,10 +30,10 @@ public interface MultivariateRealFunction {
      * Compute the value for the function at the given point.
      * @param point point at which the function must be evaluated
      * @return function value for the given point
-     * @exception FunctionEvaluationException if the function evaluation fails
+     * @exception MathUserException if the function evaluation fails
      * @exception IllegalArgumentException if points dimension is wrong
      */
     double value(double[] point)
-        throws FunctionEvaluationException, IllegalArgumentException;
+        throws MathUserException, IllegalArgumentException;
 
 }

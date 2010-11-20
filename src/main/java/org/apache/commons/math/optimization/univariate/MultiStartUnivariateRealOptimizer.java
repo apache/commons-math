@@ -140,14 +140,16 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(final FUNC f,
                                                  final GoalType goal,
-                                                 final double min, final double max) {
+                                                 final double min, final double max)
+        throws MathUserException {
         return optimize(f, goal, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(final FUNC f, final GoalType goal,
                                                  final double min, final double max,
-                                                 final double startValue) {
+                                                 final double startValue)
+        throws MathUserException {
         MathUserException lastException = null;
         optima = new UnivariateRealPointValuePair[starts];
         totalEvaluations = 0;

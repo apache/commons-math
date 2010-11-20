@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Interface defining a visitor for matrix entries.

@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.util.Incrementor;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -96,8 +97,9 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the objective function value at specified point.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
+     * @throws MathUserException if objective function throws one
      */
-    protected double computeObjectiveValue(double point) {
+    protected double computeObjectiveValue(double point) throws MathUserException {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -110,7 +112,7 @@ public abstract class AbstractUnivariateRealOptimizer
     public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
                                                  GoalType goalType,
                                                  double min, double max,
-                                                 double startValue) {
+                                                 double startValue) throws MathUserException {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -134,7 +136,7 @@ public abstract class AbstractUnivariateRealOptimizer
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
                                                  GoalType goalType,
-                                                 double min, double max) {
+                                                 double min, double max) throws MathUserException {
         return optimize(f, goalType, min, max, min + 0.5 * (max - min));
     }
 
@@ -159,6 +161,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the optimum and its corresponding function value.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
+     * @throws MathUserException if the function to optimize throws one during search.
      */
-    protected abstract UnivariateRealPointValuePair doOptimize();
+    protected abstract UnivariateRealPointValuePair doOptimize() throws MathUserException;
 }

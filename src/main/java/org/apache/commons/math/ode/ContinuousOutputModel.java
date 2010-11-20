@@ -22,6 +22,7 @@ import java.util.List;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -116,14 +117,14 @@ public class ContinuousOutputModel
 
   /** Append another model at the end of the instance.
    * @param model model to add at the end of the instance
-   * @exception DerivativeException if some step interpolators from
-   * the appended model cannot be copied
+   * @exception MathUserException if user code called from step interpolator
+   * finalization triggers one
    * @exception IllegalArgumentException if the model to append is not
    * compatible with the instance (dimension of the state vector,
    * propagation direction, hole between the dates)
    */
   public void append(final ContinuousOutputModel model)
-    throws DerivativeException {
+    throws MathUserException {
 
     if (model.steps.size() == 0) {
       return;
@@ -193,11 +194,11 @@ public class ContinuousOutputModel
    * the instance for later use.
    * @param interpolator interpolator for the last accepted step.
    * @param isLast true if the step is the last one
-   * @throws DerivativeException this exception is propagated to the
-   * caller if the underlying user function triggers one
+   * @exception MathUserException if user code called from step interpolator
+   * finalization triggers one
    */
   public void handleStep(final StepInterpolator interpolator, final boolean isLast)
-    throws DerivativeException {
+    throws MathUserException {
 
     if (steps.size() == 0) {
       initialTime = interpolator.getPreviousTime();
@@ -342,10 +343,10 @@ public class ContinuousOutputModel
   /**
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
-   * @throws DerivativeException if this call induces an automatic
-   * step finalization that throws one
+   * @exception MathUserException if user code called from step interpolator
+   * finalization triggers one
    */
-  public double[] getInterpolatedState() throws DerivativeException {
+  public double[] getInterpolatedState() throws MathUserException {
     return steps.get(index).getInterpolatedState();
   }
 

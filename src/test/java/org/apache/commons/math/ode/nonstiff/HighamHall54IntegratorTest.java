@@ -20,8 +20,8 @@ package org.apache.commons.math.ode.nonstiff;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -50,11 +50,11 @@ public class HighamHall54IntegratorTest
           new FirstOrderDifferentialEquations() {
             private static final long serialVersionUID = -1157081786301178032L;
             public void computeDerivatives(double t, double[] y, double[] dot)
-            throws DerivativeException {
+            throws MathUserException {
             if (t < -0.5) {
-                throw new DerivativeException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
+                throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
             } else {
-                throw new DerivativeException(new RuntimeException("oops"));
+                throw new MathUserException(new RuntimeException("oops"));
            }
           }
           public int getDimension() {
@@ -65,14 +65,14 @@ public class HighamHall54IntegratorTest
       try  {
         integrator.integrate(equations, -1.0, new double[1], 0.0, new double[1]);
         fail("an exception should have been thrown");
-      } catch(DerivativeException de) {
+      } catch(MathUserException de) {
         // expected behavior
       }
 
       try  {
         integrator.integrate(equations, 0.0, new double[1], 1.0, new double[1]);
         fail("an exception should have been thrown");
-      } catch(DerivativeException de) {
+      } catch(MathUserException de) {
         // expected behavior
       }
 
@@ -96,7 +96,7 @@ public class HighamHall54IntegratorTest
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -104,7 +104,7 @@ public class HighamHall54IntegratorTest
   }
 
   public void testIncreasingTolerance()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -139,7 +139,7 @@ public class HighamHall54IntegratorTest
   }
 
   public void testBackward()
-      throws DerivativeException, IntegratorException {
+      throws MathUserException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -162,7 +162,7 @@ public class HighamHall54IntegratorTest
   }
 
   public void testEvents()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -333,7 +333,7 @@ public class HighamHall54IntegratorTest
   }
 
   public void testKepler()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -365,7 +365,7 @@ public class HighamHall54IntegratorTest
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) throws DerivativeException {
+                           boolean isLast) throws MathUserException {
 
       ++nbSteps;
       double[] interpolatedY = interpolator.getInterpolatedState();

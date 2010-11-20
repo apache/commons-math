@@ -17,6 +17,7 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.util.Incrementor;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.MaxCountExceededException;
@@ -102,17 +103,16 @@ public class BracketFinder {
     /**
      * Search new points that bracket a local optimum of the function.
      *
-     * @param func Function whose optimum should be bracketted.
+     * @param func Function whose optimum should be bracketed.
      * @param goal {@link GoalType Goal type}.
      * @param xA Initial point.
      * @param xB Initial point.
      * @throws TooManyEvaluationsException if the maximum number of evaluations
      * is exceeded.
+     * @throws MathUserException if function throw one
      */
-    public void search(UnivariateRealFunction func,
-                       GoalType goal,
-                       double xA,
-                       double xB) {
+    public void search(UnivariateRealFunction func, GoalType goal, double xA, double xB)
+        throws MathUserException {
         evaluations.resetCount();
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
@@ -278,9 +278,9 @@ public class BracketFinder {
      * @return {@code f(x)}
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
+     * @throws MathUserException if f throws one.
      */
-    private double eval(UnivariateRealFunction f,
-                        double x) {
+    private double eval(UnivariateRealFunction f, double x) throws MathUserException {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
