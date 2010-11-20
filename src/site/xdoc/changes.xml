@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-426" due-to="Erik van Ingen">
+        Added a normalization feature to transform samples so they have zero mean and unit standard deviation
+      </action>
       <action dev="erans" type="add" issue="MATH-440">
         Created "MathUserException" class to convey cause of failure between
         layers of user code separated by a layer of Commons-Math code. Deprecated
