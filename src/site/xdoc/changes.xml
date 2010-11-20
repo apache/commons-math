@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-380">
+        Removed the ode.jacobians package.
+      </action>
       <action dev="erans" type="update" issue="MATH-440">
         Removed classes "FunctionEvaluationException", "MatrixVisitorException"
         and "DerivativeException" (superseded by the new "MathUserException").
@@ -105,6 +108,11 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-380">
+        Deprecated the whole ode.jacobians package. It is clumsy and difficult to use. It will
+        be replaced by a completely rewritten implementation in 3.0, which will be more tightly
+        bound to the top level ode package
+      </action>
       <action dev="luc" type="fix" issue="MATH-426" due-to="Erik van Ingen">
         Added a normalization feature to transform samples so they have zero mean and unit standard deviation
       </action>
