@@ -27,8 +27,10 @@ import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
  *
  * @version $Revision$ $Date$
  * @since 2.1
+ * @deprecated as of 2.2 the complete package is deprecated, it will be replaced
+ * in 3.0 by a completely rewritten implementation
  */
-
+@Deprecated
 public interface ParameterizedODE extends FirstOrderDifferentialEquations {
 
     /** Get the number of parameters.

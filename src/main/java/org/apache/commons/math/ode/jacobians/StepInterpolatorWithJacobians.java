@@ -43,8 +43,10 @@ import org.apache.commons.math.exception.MathUserException;
  * @see StepHandlerWithJacobians
  * @version $Revision$ $Date$
  * @since 2.1
+ * @deprecated as of 2.2 the complete package is deprecated, it will be replaced
+ * in 3.0 by a completely rewritten implementation
  */
-
+@Deprecated
 public interface StepInterpolatorWithJacobians extends Externalizable {
 
   /**

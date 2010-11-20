@@ -26,6 +26,7 @@ import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
