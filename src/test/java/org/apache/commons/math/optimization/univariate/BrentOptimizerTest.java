@@ -20,9 +20,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
@@ -60,7 +60,7 @@ public final class BrentOptimizerTest {
         try {
             minimizer.optimize(f, GoalType.MINIMIZE, 4, 5);
             fail("an exception should have been thrown");
-        } catch (FunctionEvaluationException fee) {
+        } catch (MathUserException mue) {
             // expected
         } catch (Exception e) {
             fail("wrong exception caught");

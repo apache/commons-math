@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -1449,7 +1450,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     /** {@inheritDoc} */
     @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
-        throws MatrixVisitorException {
+        throws MathUserException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
@@ -1474,7 +1475,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     /** {@inheritDoc} */
     @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
-        throws MatrixVisitorException {
+        throws MathUserException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart = iBlock * BLOCK_SIZE;
@@ -1501,7 +1502,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixIndexException, MathUserException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1531,7 +1532,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixIndexException, MathUserException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1559,7 +1560,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     /** {@inheritDoc} */
     @Override
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
-        throws MatrixVisitorException {
+        throws MathUserException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1585,7 +1586,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     /** {@inheritDoc} */
     @Override
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
-        throws MatrixVisitorException {
+        throws MathUserException {
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1613,7 +1614,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixIndexException, MathUserException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {
@@ -1643,7 +1644,7 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MatrixVisitorException {
+        throws MatrixIndexException, MathUserException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(rows, columns, startRow, endRow, startColumn, endColumn);
         for (int iBlock = startRow / BLOCK_SIZE; iBlock < 1 + endRow / BLOCK_SIZE; ++iBlock) {

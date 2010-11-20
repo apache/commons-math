@@ -20,11 +20,11 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
@@ -257,8 +257,7 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
     public RealPointValuePair optimize(final MultivariateRealFunction function,
                                        final GoalType goalType,
                                        final double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException,
-        IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
 
         if ((startConfiguration == null) ||
             (startConfiguration.length != startPoint.length)) {
@@ -322,28 +321,27 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
 
     /** Compute the next simplex of the algorithm.
      * @param comparator comparator to use to sort simplex vertices from best to worst
-     * @exception FunctionEvaluationException if the function cannot be evaluated at
+     * @exception MathUserException if the function cannot be evaluated at
      * some point
      * @exception OptimizationException if the algorithm fails to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     protected abstract void iterateSimplex(final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+        throws MathUserException, OptimizationException, IllegalArgumentException;
 
     /** Evaluate the objective function on one point.
      * <p>A side effect of this method is to count the number of
      * function evaluations</p>
      * @param x point on which the objective function should be evaluated
      * @return objective function value at the given point
-     * @exception FunctionEvaluationException if no value can be computed for the
+     * @exception MathUserException if no value can be computed for the
      * parameters or if the maximal number of evaluations is exceeded
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     protected double evaluate(final double[] x)
-        throws FunctionEvaluationException, IllegalArgumentException {
+        throws MathUserException, IllegalArgumentException {
         if (++evaluations > maxEvaluations) {
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  x);
+            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         return f.value(x);
     }
@@ -380,11 +378,11 @@ public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer
 
     /** Evaluate all the non-evaluated points of the simplex.
      * @param comparator comparator to use to sort simplex vertices from best to worst
-     * @exception FunctionEvaluationException if no value can be computed for the parameters
+     * @exception MathUserException if no value can be computed for the parameters
      * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     protected void evaluateSimplex(final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         // evaluate the objective function at all non-evaluated simplex points
         for (int i = 0; i < simplex.length; ++i) {

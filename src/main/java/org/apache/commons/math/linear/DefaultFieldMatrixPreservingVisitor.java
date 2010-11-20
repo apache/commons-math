@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Default implementation of the {@link FieldMatrixPreservingVisitor} interface.
@@ -50,7 +51,7 @@ public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     public void visit(int row, int column, T value)
-        throws MatrixVisitorException {
+        throws MathUserException {
     }
 
     /** {@inheritDoc} */

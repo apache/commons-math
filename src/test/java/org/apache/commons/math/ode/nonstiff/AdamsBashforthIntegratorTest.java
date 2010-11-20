@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -33,7 +33,7 @@ import org.junit.Test;
 public class AdamsBashforthIntegratorTest {
 
     @Test(expected=IntegratorException.class)
-    public void dimensionCheck() throws DerivativeException, IntegratorException {
+    public void dimensionCheck() throws MathUserException, IntegratorException {
         TestProblem1 pb = new TestProblem1();
         FirstOrderIntegrator integ =
             new AdamsBashforthIntegrator(2, 0.0, 1.0, 1.0e-10, 1.0e-10);
@@ -43,7 +43,7 @@ public class AdamsBashforthIntegratorTest {
     }
 
     @Test(expected=IntegratorException.class)
-    public void testMinStep() throws DerivativeException, IntegratorException {
+    public void testMinStep() throws MathUserException, IntegratorException {
 
           TestProblem1 pb = new TestProblem1();
           double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
@@ -64,7 +64,7 @@ public class AdamsBashforthIntegratorTest {
 
     @Test
     public void testIncreasingTolerance()
-        throws DerivativeException, IntegratorException {
+        throws MathUserException, IntegratorException {
 
         int previousCalls = Integer.MAX_VALUE;
         for (int i = -12; i < -5; ++i) {
@@ -99,8 +99,8 @@ public class AdamsBashforthIntegratorTest {
 
     }
 
-    @Test(expected = DerivativeException.class)
-    public void exceedMaxEvaluations() throws DerivativeException, IntegratorException {
+    @Test(expected = MathUserException.class)
+    public void exceedMaxEvaluations() throws MathUserException, IntegratorException {
 
         TestProblem1 pb  = new TestProblem1();
         double range = pb.getFinalTime() - pb.getInitialTime();
@@ -116,7 +116,7 @@ public class AdamsBashforthIntegratorTest {
     }
 
     @Test
-    public void backward() throws DerivativeException, IntegratorException {
+    public void backward() throws MathUserException, IntegratorException {
 
         TestProblem5 pb = new TestProblem5();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
@@ -134,7 +134,7 @@ public class AdamsBashforthIntegratorTest {
     }
 
     @Test
-    public void polynomial() throws DerivativeException, IntegratorException {
+    public void polynomial() throws MathUserException, IntegratorException {
         TestProblem6 pb = new TestProblem6();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 

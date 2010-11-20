@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
@@ -88,8 +87,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealMatrix referenceVariance = new Array2DRowRealMatrix(s.length, s.length);
         referenceVariance.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor() {
             @Override
-            public double visit(int row, int column, double value)
-                throws MatrixVisitorException {
+            public double visit(int row, int column, double value) {
                 if (row == 0) {
                     return s[column];
                 }

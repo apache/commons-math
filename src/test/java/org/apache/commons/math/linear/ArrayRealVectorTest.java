@@ -21,9 +21,9 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -62,15 +62,15 @@ public class ArrayRealVectorTest extends TestCase {
             data = d.clone();
         }
 
-        private UnsupportedOperationException unsupported() {
-            return new UnsupportedOperationException("Not supported, unneeded for test purposes");
+        private MathUserException unsupported() {
+            return new MathUserException(new UnsupportedOperationException("Not supported, unneeded for test purposes"));
         }
 
-        public RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException {
+        public RealVector map(UnivariateRealFunction function) throws MathUserException {
             throw unsupported();
         }
 
-        public RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException {
+        public RealVector mapToSelf(UnivariateRealFunction function) throws MathUserException {
             throw unsupported();
         }
 

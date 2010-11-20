@@ -18,9 +18,9 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.util.FastMath;
@@ -226,8 +226,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     /** {@inheritDoc} */
     public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max)
-        throws ConvergenceException,
-            FunctionEvaluationException {
+        throws ConvergenceException, MathUserException {
 
         optima           = new double[starts];
         optimaValues     = new double[starts];
@@ -246,7 +245,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
                                                      FastMath.min(bound1, bound2),
                                                      FastMath.max(bound1, bound2));
                 optimaValues[i] = optimizer.getFunctionValue();
-            } catch (FunctionEvaluationException fee) {
+            } catch (MathUserException fee) {
                 optima[i]       = Double.NaN;
                 optimaValues[i] = Double.NaN;
             } catch (ConvergenceException ce) {
@@ -313,7 +312,7 @@ public class MultiStartUnivariateRealOptimizer implements UnivariateRealOptimize
     /** {@inheritDoc} */
     public double optimize(final UnivariateRealFunction f, final GoalType goalType,
                            final double min, final double max, final double startValue)
-            throws ConvergenceException, FunctionEvaluationException {
+            throws ConvergenceException, MathUserException {
         return optimize(f, goalType, min, max);
     }
 }

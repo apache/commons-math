@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -62,7 +62,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     public VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;

@@ -17,10 +17,10 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -146,24 +146,21 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
      * Compute the objective function value.
      * @param evaluationPoint point at which the objective function must be evaluated
      * @return objective function value at specified point
-     * @throws FunctionEvaluationException if the function cannot be evaluated
+     * @throws MathUserException if the function cannot be evaluated
      * or its dimension doesn't match problem dimension or the maximal number
      * of iterations is exceeded
      */
     protected double computeObjectiveValue(double[] evaluationPoint)
-        throws FunctionEvaluationException {
+        throws MathUserException {
         if (++evaluations > maxEvaluations) {
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  evaluationPoint);
+            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         return function.value(evaluationPoint);
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(T f,
-                                       GoalType goalType,
-                                       double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException {
+    public RealPointValuePair optimize(T f, GoalType goalType, double[] startPoint)
+        throws MathUserException, OptimizationException {
 
         // reset counters
         iterations = 0;
@@ -194,11 +191,10 @@ public abstract class BaseAbstractScalarOptimizer<T extends MultivariateRealFunc
     /**
      * Perform the bulk of optimization algorithm.
      * @return the point/value pair giving the optimal value for objective function
-     * @throws FunctionEvaluationException if the objective function throws one during
-     * the search
+     * @throws MathUserException if the objective function throws one during the search
      * @throws OptimizationException if the algorithm failed to converge
      * @throws IllegalArgumentException if the start point dimension is wrong
      */
     protected abstract RealPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException;
+        throws MathUserException, OptimizationException;
 }

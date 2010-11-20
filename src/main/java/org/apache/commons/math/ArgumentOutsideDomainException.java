@@ -17,13 +17,16 @@
 
 package org.apache.commons.math;
 
+import org.apache.commons.math.exception.MathIllegalNumberException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
 /**
  * Error thrown when a method is called with an out of bounds argument.
  *
  * @since 1.2
  * @version $Revision$ $Date$
  */
-public class ArgumentOutsideDomainException extends FunctionEvaluationException {
+public class ArgumentOutsideDomainException extends MathIllegalNumberException {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4965972841162580234L;
@@ -36,8 +39,7 @@ public class ArgumentOutsideDomainException extends FunctionEvaluationException 
      * @param upper upper bound of the domain
      */
     public ArgumentOutsideDomainException(double argument, double lower, double upper) {
-        super(argument,
-              "Argument {0} outside domain [{1} ; {2}]", argument, lower, upper);
+        super(LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN, argument, lower, upper);
     }
 
 }

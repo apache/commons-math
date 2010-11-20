@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
@@ -72,7 +72,7 @@ public class NelderMead extends DirectSearchOptimizer {
     /** {@inheritDoc} */
     @Override
     protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         incrementIterationsCounter();
 

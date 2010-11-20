@@ -22,8 +22,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -171,11 +171,11 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      * to be preserved across several calls.</p>
      * @return state vector at time {@link #getInterpolatedTime}
      * @see #getInterpolatedDerivatives()
-     * @throws DerivativeException if this call induces an automatic
+     * @throws MathUserException if this call induces an automatic
      * step finalization that throws one
      */
     public double[] getInterpolatedStateVariation()
-        throws DerivativeException {
+        throws MathUserException {
         // compute and ignore interpolated state
         // to make sure state variation is computed as a side effect
         getInterpolatedState();

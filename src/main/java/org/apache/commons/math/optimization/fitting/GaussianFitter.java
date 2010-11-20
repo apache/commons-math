@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
@@ -91,16 +91,13 @@ public class GaussianFitter {
      *
      * @return Gaussian function best fitting the observed points
      *
-     * @throws FunctionEvaluationException if <code>CurveFitter.fit</code>
-     *         throws it
+     * @throws MathUserException if <code>CurveFitter.fit</code> throws it
      * @throws OptimizationException if <code>CurveFitter.fit</code> throws it
-     * @throws IllegalArgumentException if <code>CurveFitter.fit</code> throws
-     *         it
+     * @throws IllegalArgumentException if <code>CurveFitter.fit</code> throws it
      *
      * @see CurveFitter
      */
-    public GaussianFunction fit()
-        throws FunctionEvaluationException, OptimizationException {
+    public GaussianFunction fit() throws MathUserException, OptimizationException {
         return new GaussianFunction(fitter.fit(new ParametricGaussianFunction(),
                                                createParametersGuesser(fitter.getObservations()).guess()));
     }

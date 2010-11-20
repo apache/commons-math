@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,37 +24,37 @@ import org.junit.Test;
 public class ComposableFunctionTest {
 
     @Test
-    public void testZero() throws FunctionEvaluationException {
+    public void testZero() throws MathUserException {
         Assert.assertEquals(0.0, ComposableFunction.ZERO.value(1), 1.0e-15);
         Assert.assertEquals(0.0, ComposableFunction.ZERO.value(2), 1.0e-15);
     }
 
     @Test
-    public void testOne() throws FunctionEvaluationException {
+    public void testOne() throws MathUserException {
         Assert.assertEquals(1.0, ComposableFunction.ONE.value(1), 1.0e-15);
         Assert.assertEquals(1.0, ComposableFunction.ONE.value(2), 1.0e-15);
     }
 
     @Test
-    public void testIdentity() throws FunctionEvaluationException {
+    public void testIdentity() throws MathUserException {
         Assert.assertEquals(1.0, ComposableFunction.IDENTITY.value(1), 1.0e-15);
         Assert.assertEquals(2.0, ComposableFunction.IDENTITY.value(2), 1.0e-15);
     }
 
     @Test
-    public void testRint() throws FunctionEvaluationException {
+    public void testRint() throws MathUserException {
         Assert.assertEquals(1.0, ComposableFunction.RINT.value(0.9), 1.0e-15);
         Assert.assertEquals(2.0, ComposableFunction.RINT.value(2.2), 1.0e-15);
     }
 
     @Test
-    public void testSignum() throws FunctionEvaluationException {
+    public void testSignum() throws MathUserException {
         Assert.assertEquals(1.0, ComposableFunction.SIGNUM.value(12.3), 1.0e-15);
         Assert.assertEquals(-1.0, ComposableFunction.SIGNUM.value(-6), 1.0e-15);
     }
 
     @Test
-    public void testComposition() throws FunctionEvaluationException {
+    public void testComposition() throws MathUserException {
         ComposableFunction abs    = ComposableFunction.ABS;
         ComposableFunction acos   = ComposableFunction.ACOS;
         ComposableFunction asin   = ComposableFunction.ASIN;
@@ -104,7 +104,7 @@ public class ComposableFunctionTest {
     }
 
     @Test
-    public void testCombine() throws FunctionEvaluationException {
+    public void testCombine() throws MathUserException {
 
         ComposableFunction f =
             ComposableFunction.COS.combine(ComposableFunction.ASIN, BinaryFunction.POW);
@@ -115,7 +115,7 @@ public class ComposableFunctionTest {
     }
 
     @Test
-    public void testSimpleCombination() throws FunctionEvaluationException {
+    public void testSimpleCombination() throws MathUserException {
 
         ComposableFunction f1 = ComposableFunction.COS.add(3);
         ComposableFunction f2 = ComposableFunction.COS.add(ComposableFunction.SIN);
@@ -135,7 +135,7 @@ public class ComposableFunctionTest {
     }
 
     @Test
-    public void testCollector() throws FunctionEvaluationException {
+    public void testCollector() throws MathUserException {
 
         ComposableFunction f = BinaryFunction.POW.fix2ndArgument(2);
         Assert.assertEquals(30, f.asCollector().value(new double[] { 1, 2, 3, 4 }), 1.0e-15);

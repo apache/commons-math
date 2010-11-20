@@ -20,9 +20,9 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
@@ -172,7 +172,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizer
     public RealPointValuePair optimize(final DifferentiableMultivariateRealFunction f,
                                          final GoalType goalType,
                                          double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         optima                   = new RealPointValuePair[starts];
         totalIterations          = 0;
@@ -187,7 +187,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizer
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
-            } catch (FunctionEvaluationException fee) {
+            } catch (MathUserException fee) {
                 optima[i] = null;
             } catch (OptimizationException oe) {
                 optima[i] = null;

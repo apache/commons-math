@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.MathUserException;
+
 /**
  * Interface defining a visitor for matrix entries.
  *
@@ -44,10 +46,10 @@ public interface RealMatrixPreservingVisitor {
      * @param row row index of the entry
      * @param column column index of the entry
      * @param value current value of the entry
-     * @throws MatrixVisitorException if something wrong occurs
+     * @throws MathUserException if something wrong occurs
      */
     void visit(int row, int column, double value)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * End visiting a matrix.

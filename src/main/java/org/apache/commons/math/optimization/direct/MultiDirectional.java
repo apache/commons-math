@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -59,7 +59,7 @@ public class MultiDirectional extends DirectSearchOptimizer {
     /** {@inheritDoc} */
     @Override
     protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
 
         final RealConvergenceChecker checker = getConvergenceChecker();
         while (true) {
@@ -112,14 +112,13 @@ public class MultiDirectional extends DirectSearchOptimizer {
      * @param coeff linear coefficient
      * @param comparator comparator to use to sort simplex vertices from best to poorest
      * @return best point in the transformed simplex
-     * @exception FunctionEvaluationException if the function cannot be evaluated at
-     * some point
+     * @exception MathUserException if the function cannot be evaluated at some point
      * @exception OptimizationException if the maximal number of evaluations is exceeded
      */
     private RealPointValuePair evaluateNewSimplex(final RealPointValuePair[] original,
                                               final double coeff,
                                               final Comparator<RealPointValuePair> comparator)
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         final double[] xSmallest = original[0].getPointRef();
         final int n = xSmallest.length;

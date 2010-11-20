@@ -24,12 +24,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
@@ -44,15 +45,15 @@ import org.junit.Test;
 public class NelderMeadTest {
 
   @Test
-  public void testFunctionEvaluationExceptions() throws OptimizationException {
+  public void testMathUserException() throws OptimizationException, MathUserException, IllegalArgumentException {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
-            public double value(double[] x) throws FunctionEvaluationException {
+            public double value(double[] x) throws MathUserException {
                 if (x[0] < 0) {
-                    throw new FunctionEvaluationException(x, "{0}", "oops");
+                    throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
                 } else if (x[0] > 1) {
-                    throw new FunctionEvaluationException(new RuntimeException("oops"), x);
+                    throw new MathUserException(new RuntimeException("oops"));
                 } else {
                     return x[0] * (1 - x[0]);
                 }
@@ -62,7 +63,7 @@ public class NelderMeadTest {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { -1.0 });
           fail("an exception should have been thrown");
-      } catch (FunctionEvaluationException ce) {
+      } catch (MathUserException ce) {
           // expected behavior
           assertNull(ce.getCause());
       }
@@ -70,7 +71,7 @@ public class NelderMeadTest {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
           fail("an exception should have been thrown");
-      } catch (FunctionEvaluationException ce) {
+      } catch (MathUserException ce) {
           // expected behavior
           assertNotNull(ce.getCause());
       }
@@ -78,7 +79,7 @@ public class NelderMeadTest {
 
   @Test
   public void testMinimizeMaximize()
-      throws FunctionEvaluationException, ConvergenceException {
+      throws MathUserException, ConvergenceException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;
@@ -91,7 +92,7 @@ public class NelderMeadTest {
       final double valueXpYp = -valueXpYm;                // global maximum
       MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
           private static final long serialVersionUID = -7039124064449091152L;
-          public double value(double[] variables) throws FunctionEvaluationException {
+          public double value(double[] variables) throws MathUserException {
               final double x = variables[0];
               final double y = variables[1];
               return ((x == 0) || (y == 0)) ? 0 : (FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y));
@@ -138,7 +139,7 @@ public class NelderMeadTest {
 
   @Test
   public void testRosenbrock()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws MathUserException, ConvergenceException {
 
     Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead optimizer = new NelderMead();
@@ -159,7 +160,7 @@ public class NelderMeadTest {
 
   @Test
   public void testPowell()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws MathUserException, ConvergenceException {
 
     Powell powell = new Powell();
     NelderMead optimizer = new NelderMead();
@@ -176,7 +177,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares1()
-  throws FunctionEvaluationException, ConvergenceException {
+  throws MathUserException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -202,7 +203,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares2()
-  throws FunctionEvaluationException, ConvergenceException {
+  throws MathUserException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -228,7 +229,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares3()
-  throws FunctionEvaluationException, ConvergenceException {
+  throws MathUserException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -278,7 +279,7 @@ public class NelderMeadTest {
           optimizer.setConvergenceChecker(new SimpleRealPointChecker(-1.0, 1.0e-3));
           optimizer.setMaxEvaluations(20);
           optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
-      } catch (FunctionEvaluationException fee) {
+      } catch (MathUserException fee) {
           if (fee.getCause() instanceof ConvergenceException) {
               throw (ConvergenceException) fee.getCause();
           }
@@ -294,7 +295,7 @@ public class NelderMeadTest {
           count = 0;
       }
 
-      public double value(double[] x) throws FunctionEvaluationException {
+      public double value(double[] x) {
           ++count;
           double a = x[1] - x[0] * x[0];
           double b = 1.0 - x[0];
@@ -315,7 +316,7 @@ public class NelderMeadTest {
           count = 0;
       }
 
-      public double value(double[] x) throws FunctionEvaluationException {
+      public double value(double[] x) {
           ++count;
           double a = x[0] + 10 * x[1];
           double b = x[2] - x[3];

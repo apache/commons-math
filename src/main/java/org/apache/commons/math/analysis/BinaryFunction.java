@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -85,7 +85,7 @@ public abstract class BinaryFunction implements BivariateRealFunction {
     };
 
     /** {@inheritDoc} */
-    public abstract double value(double x, double y) throws FunctionEvaluationException;
+    public abstract double value(double x, double y) throws MathUserException;
 
     /** Get a composable function by fixing the first argument of the instance.
      * @param fixedX fixed value of the first argument
@@ -95,7 +95,7 @@ public abstract class BinaryFunction implements BivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws FunctionEvaluationException {
+            public double value(double x) throws MathUserException {
                 return BinaryFunction.this.value(fixedX, x);
             }
         };
@@ -109,7 +109,7 @@ public abstract class BinaryFunction implements BivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws FunctionEvaluationException {
+            public double value(double x) throws MathUserException {
                 return BinaryFunction.this.value(x, fixedY);
             }
         };

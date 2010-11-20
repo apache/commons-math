@@ -27,8 +27,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -41,7 +41,7 @@ public class DormandPrince853StepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
     TestProblem3 pb = new TestProblem3(0.1);
     double minStep = 0;
     double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -55,7 +55,7 @@ public class DormandPrince853StepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws DerivativeException, IntegratorException,
+    throws MathUserException, IntegratorException,
            IOException, ClassNotFoundException {
 
     TestProblem3 pb = new TestProblem3(0.9);
@@ -106,7 +106,7 @@ public class DormandPrince853StepInterpolatorTest {
 
   @Test
   public void checklone()
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
     TestProblem3 pb = new TestProblem3(0.9);
     double minStep = 0;
     double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -117,7 +117,7 @@ public class DormandPrince853StepInterpolatorTest {
                                                                       scalRelativeTolerance);
     integ.addStepHandler(new StepHandler() {
         public void handleStep(StepInterpolator interpolator, boolean isLast)
-        throws DerivativeException {
+        throws MathUserException {
             StepInterpolator cloned = interpolator.copy();
             double tA = cloned.getPreviousTime();
             double tB = cloned.getCurrentTime();

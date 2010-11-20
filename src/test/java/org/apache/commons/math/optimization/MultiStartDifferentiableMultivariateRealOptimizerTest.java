@@ -23,11 +23,11 @@ import static org.junit.Assert.assertTrue;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -39,7 +39,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateRealOptimizerTest {
 
     @Test
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws MathUserException, OptimizationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -123,7 +123,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         }
 
         public double value(double[] variables)
-        throws IllegalArgumentException, FunctionEvaluationException {
+        throws IllegalArgumentException, MathUserException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

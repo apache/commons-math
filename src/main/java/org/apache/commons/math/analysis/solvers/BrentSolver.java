@@ -17,10 +17,10 @@
 package org.apache.commons.math.analysis.solvers;
 
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -93,14 +93,14 @@ public class BrentSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double solve(double min, double max, double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max, initial);
     }
 
@@ -117,16 +117,14 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @param initial the start value to use (must be set to min if no
      * initial point is known).
      * @return the value where the function is zero
-     * @throws MaxIterationsExceededException the maximum iteration count
-     * is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating
-     *  the function
+     * @throws MaxIterationsExceededException the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating  the function
      * @throws IllegalArgumentException if initial is not between min and max
      * (even if it <em>is</em> a root)
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         clearResult();
         if ((initial < min) || (initial > max)) {
@@ -183,15 +181,13 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
+     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException,
-        FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         clearResult();
         verifyInterval(min, max);
@@ -243,16 +239,14 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * known, this will force starting with linear interpolation)
      * @param y2 function value at the bracket point.
      * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count
-     * is exceeded
-     * @throws FunctionEvaluationException if an error occurs evaluating
-     * the function
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function
      */
     private double solve(final UnivariateRealFunction f,
                          double x0, double y0,
                          double x1, double y1,
                          double x2, double y2)
-    throws MaxIterationsExceededException, FunctionEvaluationException {
+    throws MaxIterationsExceededException, MathUserException {
 
         double delta = x1 - x0;
         double oldDelta = delta;

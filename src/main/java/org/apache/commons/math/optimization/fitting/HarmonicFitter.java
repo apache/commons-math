@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
@@ -78,33 +77,28 @@ public class HarmonicFitter {
      * the first guess cannot be computed
      */
     public HarmonicFunction fit() throws OptimizationException {
-        try {
 
-            // shall we compute the first guess of the parameters ourselves ?
-            if (parameters == null) {
-                final WeightedObservedPoint[] observations = fitter.getObservations();
-                if (observations.length < 4) {
-                    throw new OptimizationException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
-                                                    observations.length, 4);
-                }
-
-                HarmonicCoefficientsGuesser guesser = new HarmonicCoefficientsGuesser(observations);
-                guesser.guess();
-                parameters = new double[] {
-                                 guesser.getGuessedAmplitude(),
-                                 guesser.getGuessedPulsation(),
-                                 guesser.getGuessedPhase()
-                            };
-
+        // shall we compute the first guess of the parameters ourselves ?
+        if (parameters == null) {
+            final WeightedObservedPoint[] observations = fitter.getObservations();
+            if (observations.length < 4) {
+                throw new OptimizationException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
+                                                observations.length, 4);
             }
 
-            double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);
-            return new HarmonicFunction(fitted[0], fitted[1], fitted[2]);
+            HarmonicCoefficientsGuesser guesser = new HarmonicCoefficientsGuesser(observations);
+            guesser.guess();
+            parameters = new double[] {
+                guesser.getGuessedAmplitude(),
+                guesser.getGuessedPulsation(),
+                guesser.getGuessedPhase()
+            };
 
-        } catch (FunctionEvaluationException fee) {
-            // this should never happen
-            throw MathRuntimeException.createInternalError(fee);
         }
+
+        double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);
+        return new HarmonicFunction(fitted[0], fitted[1], fitted[2]);
+
     }
 
     /** Parametric harmonic function. */

@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 import junit.framework.*;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -42,7 +42,7 @@ public class ClassicalRungeKuttaIntegratorTest
     super(name);
   }
 
-  public void testMissedEndEvent() throws IntegratorException, DerivativeException {
+  public void testMissedEndEvent() throws IntegratorException, MathUserException {
       final double   t0     = 1878250320.0000029;
       final double   tEvent = 1878250379.9999986;
       final double[] k      = { 1.0e-4, 1.0e-5, 1.0e-6 };
@@ -102,7 +102,7 @@ public class ClassicalRungeKuttaIntegratorTest
                                                         0.0, new double[pb.getDimension()+10],
                                                         1.0, new double[pb.getDimension()]);
         fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -112,7 +112,7 @@ public class ClassicalRungeKuttaIntegratorTest
                                                           0.0, new double[pb.getDimension()],
                                                           1.0, new double[pb.getDimension()+10]);
           fail("an exception should have been thrown");
-      } catch(DerivativeException de) {
+      } catch(MathUserException de) {
         fail("wrong exception caught");
       } catch(IntegratorException ie) {
       }
@@ -122,14 +122,14 @@ public class ClassicalRungeKuttaIntegratorTest
                                                         0.0, new double[pb.getDimension()],
                                                         0.0, new double[pb.getDimension()]);
         fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
   public void testDecreasingSteps()
-    throws DerivativeException, IntegratorException  {
+    throws MathUserException, IntegratorException  {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -170,7 +170,7 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   public void testSmallStep()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -188,7 +188,7 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   public void testBigStep()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -206,7 +206,7 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   public void testBackward()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem5 pb = new TestProblem5();
     double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -224,7 +224,7 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   public void testKepler()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
@@ -248,7 +248,7 @@ public class ClassicalRungeKuttaIntegratorTest
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) throws DerivativeException {
+                           boolean isLast) throws MathUserException {
 
       double[] interpolatedY = interpolator.getInterpolatedState ();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
@@ -270,7 +270,7 @@ public class ClassicalRungeKuttaIntegratorTest
   }
 
   public void testStepSize()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
       integ.addStepHandler(new StepHandler() {

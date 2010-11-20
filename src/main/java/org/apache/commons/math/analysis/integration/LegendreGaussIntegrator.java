@@ -17,10 +17,10 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -156,14 +156,13 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
-        throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
+        throws ConvergenceException,  MathUserException, IllegalArgumentException {
         return integrate(f, min, max);
     }
 
     /** {@inheritDoc} */
-    public double integrate(final UnivariateRealFunction f,
-            final double min, final double max)
-        throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
+    public double integrate(final UnivariateRealFunction f, final double min, final double max)
+        throws ConvergenceException,  MathUserException, IllegalArgumentException {
 
         clearResult();
         verifyInterval(min, max);
@@ -208,12 +207,12 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
      * @param max the upper bound for the interval
      * @param n number of steps
      * @return the value of n-th stage integral
-     * @throws FunctionEvaluationException if an error occurs evaluating the
+     * @throws MathUserException if an error occurs evaluating the
      * function
      */
     private double stage(final UnivariateRealFunction f,
                          final double min, final double max, final int n)
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         // set up the step for the current stage
         final double step     = (max - min) / n;

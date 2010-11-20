@@ -17,7 +17,8 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @deprecated in 2.2 (to be removed in 3.0). Please use
  * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
-public class MatrixVisitorException extends MathRuntimeException {
+public class MatrixVisitorException extends MathUserException {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 3814333035048617048L;
@@ -39,7 +40,7 @@ public class MatrixVisitorException extends MathRuntimeException {
      */
     @Deprecated
     public MatrixVisitorException(final String pattern, final Object[] arguments) {
-      super(pattern, arguments);
+      super(new DummyLocalizable(pattern), arguments);
     }
 
     /**

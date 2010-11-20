@@ -120,10 +120,6 @@ public class PolynomialSplineFunction
 
     /**
      * Compute the value for the function.
-     * <p>
-     * Throws FunctionEvaluationException if v is outside of the domain of the
-     * function.  The domain is [smallest knot, largest knot].</p>
-     * <p>
      * See {@link PolynomialSplineFunction} for details on the algorithm for
      * computing the value of the function.</p>
      *

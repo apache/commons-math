@@ -23,11 +23,11 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
@@ -104,7 +104,7 @@ extends TestCase {
         super(name);
     }
 
-    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
+    public void testTrivial() throws MathUserException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer =
@@ -117,7 +117,7 @@ extends TestCase {
         assertEquals(0.0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
+    public void testColumnsPermutation() throws MathUserException, OptimizationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -135,7 +135,7 @@ extends TestCase {
 
     }
 
-    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
+    public void testNoDependency() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -155,7 +155,7 @@ extends TestCase {
         }
     }
 
-    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
+    public void testOneSet() throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -174,7 +174,7 @@ extends TestCase {
 
     }
 
-    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
+    public void testTwoSets() throws MathUserException, OptimizationException {
         final double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -213,7 +213,7 @@ extends TestCase {
 
     }
 
-    public void testNonInversible() throws FunctionEvaluationException, OptimizationException {
+    public void testNonInversible() throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -229,7 +229,7 @@ extends TestCase {
         assertTrue(optimum.getValue() > 0.5);
     }
 
-    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
+    public void testIllConditioned() throws MathUserException, OptimizationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -267,7 +267,7 @@ extends TestCase {
     }
 
     public void testMoreEstimatedParametersSimple()
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -286,7 +286,7 @@ extends TestCase {
     }
 
     public void testMoreEstimatedParametersUnsorted()
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                  { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -303,7 +303,7 @@ extends TestCase {
         assertEquals(0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testRedundantEquations() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -321,7 +321,7 @@ extends TestCase {
 
     }
 
-    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentEquations() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -338,7 +338,7 @@ extends TestCase {
 
     }
 
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws MathUserException, OptimizationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -383,7 +383,7 @@ extends TestCase {
             return p;
         }
 
-        public double value(double[] variables) throws FunctionEvaluationException {
+        public double value(double[] variables) throws MathUserException {
             double[] y = factors.operate(variables);
             double sum = 0;
             for (int i = 0; i < y.length; ++i) {
@@ -457,7 +457,7 @@ extends TestCase {
         }
 
         public double value(double[] variables)
-                throws IllegalArgumentException, FunctionEvaluationException {
+                throws IllegalArgumentException, MathUserException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

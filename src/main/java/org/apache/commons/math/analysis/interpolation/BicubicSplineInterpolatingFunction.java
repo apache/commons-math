@@ -17,7 +17,6 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.DimensionMismatchException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -241,12 +240,7 @@ public class BicubicSplineInterpolatingFunction
         final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
 
         double result = Double.NaN;
-        try { // Workaround to avoid carrying around "try" blocks for an
-              // exception that will never happen
-            result = partialDerivatives[which][i][j].value(xN, yN);
-        } catch (FunctionEvaluationException e) {
-            // Will never happen
-        }
+        result = partialDerivatives[which][i][j].value(xN, yN);
 
         return result;
     }

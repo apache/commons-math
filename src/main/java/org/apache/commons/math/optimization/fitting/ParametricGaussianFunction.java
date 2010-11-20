@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.fitting;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroException;
@@ -78,10 +77,10 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
      *
      * @throws IllegalArgumentException if <code>parameters</code> is invalid as
      *         determined by {@link #validateParameters(double[])}
-     * @throws FunctionEvaluationException if <code>parameters</code> values are
+     * @throws ZeroException if <code>parameters</code> values are
      *         invalid as determined by {@link #validateParameters(double[])}
      */
-    public double value(double x, double[] parameters) throws FunctionEvaluationException {
+    public double value(double x, double[] parameters) throws ZeroException {
         validateParameters(parameters);
         final double a = parameters[0];
         final double b = parameters[1];
@@ -119,10 +118,10 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
      *
      * @throws IllegalArgumentException if <code>parameters</code> is invalid as
      *         determined by {@link #validateParameters(double[])}
-     * @throws FunctionEvaluationException if <code>parameters</code> values are
+     * @throws ZeroException if <code>parameters</code> values are
      *         invalid as determined by {@link #validateParameters(double[])}
      */
-    public double[] gradient(double x, double[] parameters) throws FunctionEvaluationException {
+    public double[] gradient(double x, double[] parameters) throws ZeroException {
 
         validateParameters(parameters);
         final double b = parameters[1];
@@ -148,10 +147,10 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
      * @throws IllegalArgumentException if <code>parameters</code> is
      *         <code>null</code> or if <code>parameters</code> does not have
      *         length == 4
-     * @throws FunctionEvaluationException if <code>parameters[3]</code>
+     * @throws ZeroException if <code>parameters[3]</code>
      *         (<tt>d</tt>) is 0
      */
-    private void validateParameters(double[] parameters) throws FunctionEvaluationException {
+    private void validateParameters(double[] parameters) throws ZeroException {
         if (parameters == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }

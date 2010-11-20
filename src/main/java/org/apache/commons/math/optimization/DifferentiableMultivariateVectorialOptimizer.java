@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * This interface represents an optimization algorithm for {@link DifferentiableMultivariateVectorialFunction
@@ -101,7 +101,7 @@ public interface DifferentiableMultivariateVectorialOptimizer {
      * @param weights weight for the least squares cost computation
      * @param startPoint the start point for optimization
      * @return the point/value pair giving the optimal value for objective function
-     * @exception FunctionEvaluationException if the objective function throws one during
+     * @exception MathUserException if the objective function throws one during
      * the search
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
@@ -109,6 +109,6 @@ public interface DifferentiableMultivariateVectorialOptimizer {
     VectorialPointValuePair optimize(DifferentiableMultivariateVectorialFunction f,
                                      double[] target, double[] weights,
                                      double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+        throws MathUserException, OptimizationException, IllegalArgumentException;
 
 }

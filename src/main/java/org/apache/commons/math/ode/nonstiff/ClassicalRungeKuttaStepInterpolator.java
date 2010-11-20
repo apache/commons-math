@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -83,7 +83,7 @@ class ClassicalRungeKuttaStepInterpolator
     @Override
     protected void computeInterpolatedStateAndDerivatives(final double theta,
                                             final double oneMinusThetaH)
-        throws DerivativeException {
+        throws MathUserException {
 
         final double fourTheta      = 4 * theta;
         final double oneMinusTheta  = 1 - theta;

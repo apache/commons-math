@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * An interface representing a real function that depends on one independent
@@ -32,19 +32,19 @@ public interface ParametricRealFunction {
      * @param x the point for which the function value should be computed
      * @param parameters function parameters
      * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
+     * @throws MathUserException if the function evaluation fails
      */
     double value(double x, double[] parameters)
-        throws FunctionEvaluationException;
+        throws MathUserException;
 
     /**
      * Compute the gradient of the function with respect to its parameters.
      * @param x the point for which the function value should be computed
      * @param parameters function parameters
      * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
+     * @throws MathUserException if the function evaluation fails
      */
     double[] gradient(double x, double[] parameters)
-        throws FunctionEvaluationException;
+        throws MathUserException;
 
 }

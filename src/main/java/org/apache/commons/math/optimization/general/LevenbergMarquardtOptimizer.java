@@ -18,7 +18,7 @@ package org.apache.commons.math.optimization.general;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -240,7 +240,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     protected VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
 
         // arrays shared with the other private methods
         solvedCols  = FastMath.min(rows, cols);

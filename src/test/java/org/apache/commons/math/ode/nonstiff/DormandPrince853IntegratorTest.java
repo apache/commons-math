@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -42,7 +42,7 @@ public class DormandPrince853IntegratorTest
     super(name);
   }
 
-  public void testMissedEndEvent() throws IntegratorException, DerivativeException {
+  public void testMissedEndEvent() throws IntegratorException, MathUserException {
       final double   t0     = 1878250320.0000029;
       final double   tEvent = 1878250379.9999986;
       final double[] k  = { 1.0e-4, 1.0e-5, 1.0e-6 };
@@ -107,7 +107,7 @@ public class DormandPrince853IntegratorTest
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -122,7 +122,7 @@ public class DormandPrince853IntegratorTest
                            0.0, new double[pb.getDimension()],
                            0.0, new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -146,7 +146,7 @@ public class DormandPrince853IntegratorTest
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(DerivativeException de) {
+    } catch(MathUserException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -154,7 +154,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testIncreasingTolerance()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -189,7 +189,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testBackward()
-      throws DerivativeException, IntegratorException {
+      throws MathUserException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -212,7 +212,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testEvents()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -244,7 +244,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testKepler()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -266,7 +266,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testVariableSteps()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -286,7 +286,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testNoDenseOutput()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     TestProblem1 pb1 = new TestProblem1();
     TestProblem1 pb2 = pb1.copy();
     double minStep = 0.1 * (pb1.getFinalTime() - pb1.getInitialTime());
@@ -316,7 +316,7 @@ public class DormandPrince853IntegratorTest
   }
 
   public void testUnstableDerivative()
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ =
       new DormandPrince853Integrator(0.1, 10, 1.0e-12, 0.0);
@@ -340,7 +340,7 @@ public class DormandPrince853IntegratorTest
     }
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast)
-    throws DerivativeException {
+    throws MathUserException {
 
       ++nbSteps;
       for (int a = 1; a < 10; ++a) {
@@ -417,7 +417,7 @@ public class DormandPrince853IntegratorTest
     }
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast)
-    throws DerivativeException {
+    throws MathUserException {
       double prev = interpolator.getPreviousTime();
       double curr = interpolator.getCurrentTime();
       interpolator.setInterpolatedTime(0.5*(prev + curr));

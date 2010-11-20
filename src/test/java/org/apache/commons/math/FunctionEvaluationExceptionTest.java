@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0)
  */
 public class FunctionEvaluationExceptionTest extends TestCase {
 
@@ -52,7 +53,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         Object[] arguments = { Double.valueOf(0.0) };
         FunctionEvaluationException ex = new FunctionEvaluationException(0.0, pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -67,7 +68,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         FunctionEvaluationException ex =
             new FunctionEvaluationException(new double[] { 0, 1, 2 }, pattern, arguments);
         assertNull(ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -86,7 +87,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         Exception cause = new Exception(inMsg);
         FunctionEvaluationException ex = new FunctionEvaluationException(cause, 0.0, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);
@@ -103,7 +104,7 @@ public class FunctionEvaluationExceptionTest extends TestCase {
         FunctionEvaluationException ex =
             new FunctionEvaluationException(cause, new double[] { 0, 1, 2 }, pattern, arguments);
         assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getLocalizablePattern());
+        assertEquals(pattern, ex.getGeneralPattern());
         assertEquals(arguments.length, ex.getArguments().length);
         for (int i = 0; i < arguments.length; ++i) {
             assertEquals(arguments[i], ex.getArguments()[i]);

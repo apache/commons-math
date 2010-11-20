@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Optimization algorithms find the input point set that either {@link GoalType
@@ -105,11 +105,10 @@ public interface BaseMultivariateRealOptimizer<T extends MultivariateRealFunctio
      * or {@link GoalType#MINIMIZE}.
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective function.
-     * @throws FunctionEvaluationException if the objective function throws one during
-     * the search.
+     * @throws MathUserException if the objective function throws one during the search.
      * @throws OptimizationException if the algorithm failed to converge.
      * @throws IllegalArgumentException if the start point dimension is wrong.
      */
     RealPointValuePair optimize(T f, GoalType goalType, double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException;
+        throws MathUserException, OptimizationException;
 }

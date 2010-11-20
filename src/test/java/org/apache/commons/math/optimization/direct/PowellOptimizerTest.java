@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.SumSincFunction;
@@ -24,7 +23,6 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
-import org.apache.commons.math.optimization.direct.PowellOptimizer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -61,8 +59,7 @@ public class PowellOptimizerTest {
     @Test
     public void testQuadratic() throws MathException {
         final MultivariateRealFunction func = new MultivariateRealFunction() {
-                public double value(double[] x)
-                    throws FunctionEvaluationException {
+                public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
                     return a * a + b * b + 1;
@@ -93,8 +90,7 @@ public class PowellOptimizerTest {
     @Test
     public void testMaximizeQuadratic() throws MathException {
         final MultivariateRealFunction func = new MultivariateRealFunction() {
-                public double value(double[] x)
-                    throws FunctionEvaluationException {
+                public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
                     return -a * a - b * b + 1;

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 
@@ -30,8 +30,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @deprecated in 2.2 (to be removed in 3.0). Please use
  * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
-public class DerivativeException
-  extends MathException {
+public class DerivativeException extends MathUserException {
 
   /** Serializable version identifier */
   private static final long serialVersionUID = 5666710788967425123L;
@@ -40,9 +39,7 @@ public class DerivativeException
    * Build an exception by translating and formating a message
    * @param specifier format specifier (to be translated)
    * @param parts to insert in the format (no translation)
-   * @deprecated as of 2.2 replaced by {@link #DerivativeException(Localizable, Object...)}
    */
-  @Deprecated
   public DerivativeException(final String specifier, final Object ... parts) {
     this(new DummyLocalizable(specifier), parts);
   }

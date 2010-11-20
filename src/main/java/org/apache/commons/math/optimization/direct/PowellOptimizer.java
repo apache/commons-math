@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -88,7 +88,7 @@ public class PowellOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
-        throws FunctionEvaluationException,
+        throws MathUserException,
                OptimizationException {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
@@ -232,12 +232,11 @@ public class PowellOptimizer
          *
          * @param p Starting point.
          * @param d Search direction.
-         * @throws OptimizationException if function cannot be evaluated at some test point
-         * or algorithm fails to converge
+         * @throws MathUserException if function cannot be evaluated at some test point
+         * @throws OptimizationException if algorithm fails to converge
          */
-        public void search(final double[] p,
-                           final double[] d)
-            throws OptimizationException {
+        public void search(final double[] p, final double[] d)
+            throws MathUserException, OptimizationException {
 
             // Reset.
             optimum = Double.NaN;
@@ -247,7 +246,7 @@ public class PowellOptimizer
                 final int n = p.length;
                 final UnivariateRealFunction f = new UnivariateRealFunction() {
                         public double value(double alpha)
-                            throws FunctionEvaluationException {
+                            throws MathUserException {
 
                             final double[] x = new double[n];
                             for (int i = 0; i < n; i++) {
@@ -265,8 +264,6 @@ public class PowellOptimizer
                                          bracket.getHi(),
                                          bracket.getMid());
                 valueAtOptimum = optim.getFunctionValue();
-            } catch (FunctionEvaluationException e) {
-                throw new OptimizationException(e);
             } catch (MaxIterationsExceededException e) {
                 throw new OptimizationException(e);
             }

@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Default implementation of the {@link FieldMatrixChangingVisitor} interface.
@@ -49,8 +50,7 @@ public class DefaultFieldMatrixChangingVisitor<T extends FieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    public T visit(int row, int column, T value)
-        throws MatrixVisitorException {
+    public T visit(int row, int column, T value) throws MathUserException {
         return value;
     }
 

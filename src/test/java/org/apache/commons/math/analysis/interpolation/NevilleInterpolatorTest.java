@@ -20,6 +20,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
@@ -118,8 +119,8 @@ public final class NevilleInterpolatorTest extends TestCase {
             double y[] = { 0.0, 4.0, 4.0, 2.5 };
             UnivariateRealFunction p = interpolator.interpolate(x, y);
             p.value(0.0);
-            fail("Expecting MathException - bad abscissas array");
-        } catch (MathException ex) {
+            fail("Expecting MathUserException - bad abscissas array");
+        } catch (MathUserException ex) {
             // expected
         }
     }

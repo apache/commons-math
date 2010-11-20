@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -56,26 +56,26 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(double min, double max, double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double solve(double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     public double solve(final UnivariateRealFunction f, double min, double max, double initial)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     public double solve(final UnivariateRealFunction f, double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
 
         clearResult();
         verifyInterval(min,max);

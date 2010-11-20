@@ -25,9 +25,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -104,7 +104,7 @@ public class LevenbergMarquardtOptimizerTest
         super(name);
     }
 
-    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
+    public void testTrivial() throws MathUserException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -121,7 +121,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testQRColumnsPermutation() throws FunctionEvaluationException, OptimizationException {
+    public void testQRColumnsPermutation() throws MathUserException, OptimizationException {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -139,7 +139,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testNoDependency() throws FunctionEvaluationException, OptimizationException {
+    public void testNoDependency() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -158,7 +158,7 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testOneSet() throws FunctionEvaluationException, OptimizationException {
+    public void testOneSet() throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -175,7 +175,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testTwoSets() throws FunctionEvaluationException, OptimizationException {
+    public void testTwoSets() throws MathUserException, OptimizationException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -200,7 +200,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testNonInversible() throws FunctionEvaluationException, OptimizationException {
+    public void testNonInversible() throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -220,7 +220,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testIllConditioned() throws FunctionEvaluationException, OptimizationException {
+    public void testIllConditioned() throws MathUserException, OptimizationException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -254,7 +254,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testMoreEstimatedParametersSimple() throws FunctionEvaluationException, OptimizationException {
+    public void testMoreEstimatedParametersSimple() throws MathUserException, OptimizationException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -269,7 +269,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testMoreEstimatedParametersUnsorted() throws FunctionEvaluationException, OptimizationException {
+    public void testMoreEstimatedParametersUnsorted() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                 { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -290,7 +290,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testRedundantEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testRedundantEquations() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -307,7 +307,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentEquations() throws MathUserException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -320,7 +320,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentSizes() throws FunctionEvaluationException, OptimizationException {
+    public void testInconsistentSizes() throws MathUserException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -345,7 +345,7 @@ public class LevenbergMarquardtOptimizerTest
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (FunctionEvaluationException oe) {
+        } catch (MathUserException oe) {
             // expected behavior
         }
 
@@ -381,12 +381,12 @@ public class LevenbergMarquardtOptimizerTest
             assertTrue(! shouldFail);
         } catch (OptimizationException ee) {
             assertTrue(shouldFail);
-        } catch (FunctionEvaluationException ee) {
+        } catch (MathUserException ee) {
             assertTrue(shouldFail);
         }
     }
 
-    public void testCircleFitting() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFitting() throws MathUserException, OptimizationException {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -435,7 +435,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testCircleFittingBadInit() throws FunctionEvaluationException, OptimizationException {
+    public void testCircleFittingBadInit() throws MathUserException, OptimizationException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -488,7 +488,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
-    public void testMath199() throws FunctionEvaluationException {
+    public void testMath199() throws MathUserException {
         try {
             QuadraticProblem problem = new QuadraticProblem();
             problem.addPoint (0, -3.182591015485607);
@@ -590,7 +590,7 @@ public class LevenbergMarquardtOptimizerTest
         }
 
         public double[] value(double[] variables)
-        throws FunctionEvaluationException, IllegalArgumentException {
+        throws MathUserException, IllegalArgumentException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

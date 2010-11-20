@@ -26,8 +26,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
-import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
@@ -39,7 +39,7 @@ public class MidpointStepInterpolatorTest {
 
   @Test
   public void testDerivativesConsistency()
-  throws DerivativeException, IntegratorException {
+  throws MathUserException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     MidpointIntegrator integ = new MidpointIntegrator(step);
@@ -48,7 +48,7 @@ public class MidpointStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws DerivativeException, IntegratorException,
+    throws MathUserException, IntegratorException,
            IOException, ClassNotFoundException {
 
     TestProblem1 pb = new TestProblem1();

@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -839,7 +840,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
 
     }
 
-    public void testWalk() {
+    public void testWalk() throws MathUserException {
         int rows    = 150;
         int columns = 75;
 

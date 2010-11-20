@@ -19,12 +19,12 @@ package org.apache.commons.math.analysis.integration;
 import java.util.Random;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 import junit.framework.*;
@@ -77,7 +77,7 @@ extends TestCase {
     }
 
     public void testExactIntegration()
-        throws ConvergenceException, FunctionEvaluationException {
+        throws ConvergenceException, MathUserException {
         Random random = new Random(86343623467878363l);
         for (int n = 2; n < 6; ++n) {
             LegendreGaussIntegrator integrator =

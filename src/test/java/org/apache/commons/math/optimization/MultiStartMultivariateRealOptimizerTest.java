@@ -21,8 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.direct.NelderMead;
 import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
@@ -34,7 +34,7 @@ public class MultiStartMultivariateRealOptimizerTest {
 
   @Test
   public void testRosenbrock()
-    throws FunctionEvaluationException, ConvergenceException {
+    throws MathUserException, ConvergenceException {
 
     Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead underlying = new NelderMead();
@@ -67,7 +67,7 @@ public class MultiStartMultivariateRealOptimizerTest {
           count = 0;
       }
 
-      public double value(double[] x) throws FunctionEvaluationException {
+      public double value(double[] x) throws MathUserException {
           ++count;
           double a = x[1] - x[0] * x[0];
           double b = 1.0 - x[0];

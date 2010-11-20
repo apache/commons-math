@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
@@ -71,22 +70,15 @@ public class PolynomialFitter {
      * @return polynomial function best fitting the observed points
      * @exception OptimizationException if the algorithm failed to converge
      */
-    public PolynomialFunction fit()
-        throws OptimizationException {
-        try {
-            return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
-        } catch (FunctionEvaluationException fee) {
-            // this should never happen
-            throw MathRuntimeException.createInternalError(fee);
-        }
+    public PolynomialFunction fit() throws OptimizationException {
+        return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
     }
 
     /** Dedicated parametric polynomial class. */
     private static class ParametricPolynomial implements ParametricRealFunction {
 
         /** {@inheritDoc} */
-        public double[] gradient(double x, double[] parameters)
-                throws FunctionEvaluationException {
+        public double[] gradient(double x, double[] parameters) {
             final double[] gradient = new double[parameters.length];
             double xn = 1.0;
             for (int i = 0; i < parameters.length; ++i) {

@@ -17,20 +17,20 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
 
@@ -178,15 +178,15 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /**
      * Update the jacobian matrix.
-     * @exception FunctionEvaluationException if the function jacobian
+     * @exception MathUserException if the function jacobian
      * cannot be evaluated or its dimension doesn't match problem dimension
      */
-    protected void updateJacobian() throws FunctionEvaluationException {
+    protected void updateJacobian() throws MathUserException {
         ++jacobianEvaluations;
         weightedResidualJacobian = jF.value(point);
         if (weightedResidualJacobian.length != rows) {
-            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  weightedResidualJacobian.length, rows);
+            throw new MathUserException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+                                        weightedResidualJacobian.length, rows);
         }
         for (int i = 0; i < rows; i++) {
             final double[] ji = weightedResidualJacobian[i];
@@ -200,21 +200,19 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /**
      * Update the residuals array and cost function value.
-     * @exception FunctionEvaluationException if the function cannot be evaluated
+     * @exception MathUserException if the function cannot be evaluated
      * or its dimension doesn't match problem dimension or maximal number of
      * of evaluations is exceeded
      */
     protected void updateResidualsAndCost()
-        throws FunctionEvaluationException {
+        throws MathUserException {
 
         if (++objectiveEvaluations > maxEvaluations) {
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  point);
+            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         objective = function.value(point);
         if (objective.length != rows) {
-            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                                                  objective.length, rows);
+            throw new MathUserException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, objective.length, rows);
         }
         cost = 0;
         int index = 0;
@@ -255,13 +253,13 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     /**
      * Get the covariance matrix of optimized parameters.
      * @return covariance matrix
-     * @exception FunctionEvaluationException if the function jacobian cannot
+     * @exception MathUserException if the function jacobian cannot
      * be evaluated
      * @exception OptimizationException if the covariance matrix
      * cannot be computed (singular problem)
      */
     public double[][] getCovariances()
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
 
         // set up the jacobian
         updateJacobian();
@@ -294,13 +292,13 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
      * Guess the errors in optimized parameters.
      * <p>Guessing is covariance-based, it only gives rough order of magnitude.</p>
      * @return errors in optimized parameters
-     * @exception FunctionEvaluationException if the function jacobian cannot b evaluated
+     * @exception MathUserException if the function jacobian cannot b evaluated
      * @exception OptimizationException if the covariances matrix cannot be computed
      * or the number of degrees of freedom is not positive (number of measurements
      * lesser or equal to number of parameters)
      */
     public double[] guessParametersErrors()
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
         if (rows <= cols) {
             throw new OptimizationException(
                     LocalizedFormats.NO_DEGREES_OF_FREEDOM,
@@ -319,7 +317,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
 
         if (target.length != weights.length) {
             throw new OptimizationException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
@@ -353,12 +351,12 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Perform the bulk of optimization algorithm.
      * @return the point/value pair giving the optimal value for objective function
-     * @exception FunctionEvaluationException if the objective function throws one during
+     * @exception MathUserException if the objective function throws one during
      * the search
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     protected abstract VectorialPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+        throws MathUserException, OptimizationException, IllegalArgumentException;
 
 }

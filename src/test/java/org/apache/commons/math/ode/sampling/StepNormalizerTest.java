@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
@@ -38,7 +38,7 @@ public class StepNormalizerTest
   }
 
   public void testBoundaries()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.0,
@@ -66,7 +66,7 @@ public class StepNormalizerTest
   }
 
   public void testBeforeEnd()
-    throws DerivativeException, IntegratorException {
+    throws MathUserException, IntegratorException {
     final double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.5,

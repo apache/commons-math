@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.MathUserException;
+
 /**
  * Default implementation of the {@link RealMatrixPreservingVisitor} interface.
  * <p>
@@ -36,7 +38,7 @@ public class DefaultRealMatrixPreservingVisitor implements RealMatrixPreservingV
 
     /** {@inheritDoc} */
     public void visit(int row, int column, double value)
-        throws MatrixVisitorException {
+        throws MathUserException {
     }
 
     /** {@inheritDoc} */

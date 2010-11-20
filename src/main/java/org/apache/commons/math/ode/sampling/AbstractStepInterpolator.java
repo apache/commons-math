@@ -22,7 +22,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.exception.MathUserException;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.
@@ -184,7 +184,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
-   public StepInterpolator copy() throws DerivativeException {
+   public StepInterpolator copy() throws MathUserException {
 
      // finalize the step before performing copy
      finalizeStep();
@@ -258,15 +258,15 @@ public abstract class AbstractStepInterpolator
    * (theta is zero at the previous time step and one at the current time step)
    * @param oneMinusThetaH time gap between the interpolated time and
    * the current time
-   * @throws DerivativeException this exception is propagated to the caller if the
+   * @throws MathUserException this exception is propagated to the caller if the
    * underlying user function triggers one
    */
   protected abstract void computeInterpolatedStateAndDerivatives(double theta,
                                                                  double oneMinusThetaH)
-    throws DerivativeException;
+    throws MathUserException;
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedState() throws DerivativeException {
+  public double[] getInterpolatedState() throws MathUserException {
 
       // lazy evaluation of the state
       if (dirtyState) {
@@ -281,7 +281,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedDerivatives() throws DerivativeException {
+  public double[] getInterpolatedDerivatives() throws MathUserException {
 
       // lazy evaluation of the state
       if (dirtyState) {
@@ -333,11 +333,11 @@ public abstract class AbstractStepInterpolator
    * Therefore, subclasses are not allowed not reimplement it, they
    * should rather reimplement <code>doFinalize</code>.</p>
 
-   * @throws DerivativeException this exception is propagated to the
+   * @throws MathUserException this exception is propagated to the
    * caller if the underlying user function triggers one
    */
   public final void finalizeStep()
-    throws DerivativeException {
+    throws MathUserException {
     if (! finalized) {
       doFinalize();
       finalized = true;
@@ -347,11 +347,11 @@ public abstract class AbstractStepInterpolator
   /**
    * Really finalize the step.
    * The default implementation of this method does nothing.
-   * @throws DerivativeException this exception is propagated to the
+   * @throws MathUserException this exception is propagated to the
    * caller if the underlying user function triggers one
    */
   protected void doFinalize()
-    throws DerivativeException {
+    throws MathUserException {
   }
 
   /** {@inheritDoc} */
@@ -395,7 +395,7 @@ public abstract class AbstractStepInterpolator
     // finalize the step (and don't bother saving the now true flag)
     try {
       finalizeStep();
-    } catch (DerivativeException e) {
+    } catch (MathUserException e) {
       throw MathRuntimeException.createIOException(e);
     }
 

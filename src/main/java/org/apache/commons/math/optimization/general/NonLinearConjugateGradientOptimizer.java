@@ -18,10 +18,10 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -110,7 +110,7 @@ public class NonLinearConjugateGradientOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
-        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        throws MathUserException, OptimizationException, IllegalArgumentException {
         try {
             // initialization
             if (preconditioner == null) {
@@ -217,12 +217,12 @@ public class NonLinearConjugateGradientOptimizer
      * @param a lower bound of the interval
      * @param h initial step to try
      * @return b such that f(a) and f(b) have opposite signs
-     * @exception FunctionEvaluationException if the function cannot be computed
+     * @exception MathUserException if the function cannot be computed
      * @exception OptimizationException if no bracket can be found
      */
     private double findUpperBound(final UnivariateRealFunction f,
                                   final double a, final double h)
-        throws FunctionEvaluationException, OptimizationException {
+        throws MathUserException, OptimizationException {
         final double yA = f.value(a);
         double yB = yA;
         for (double step = h; step < Double.MAX_VALUE; step *= FastMath.max(2, yA / yB)) {
@@ -266,7 +266,7 @@ public class NonLinearConjugateGradientOptimizer
         }
 
         /** {@inheritDoc} */
-        public double value(double x) throws FunctionEvaluationException {
+        public double value(double x) throws MathUserException {
 
             // current point in the search direction
             final double[] shiftedPoint = point.clone();

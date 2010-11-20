@@ -18,10 +18,10 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.ConvergingAlgorithmImpl;
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
@@ -58,7 +58,6 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /**
      * Construct a solver with given iteration count and accuracy.
-     * FunctionEvaluationExceptionFunctionEvaluationException
      * @param defaultAbsoluteAccuracy maximum absolute error
      * @param defaultMaximalIterationCount maximum number of iterations
      * @throws IllegalArgumentException if f is null or the
@@ -100,14 +99,10 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public double getFunctionValue() {
+    public double getFunctionValue() throws MathUserException {
         if (Double.isNaN(functionValue)) {
             final double opt = getResult();
-            try {
-                functionValue = function.value(opt);
-            } catch (FunctionEvaluationException e) {
-                throw new RuntimeException(e);
-            }
+            functionValue = function.value(opt);
         }
         return functionValue;
     }
@@ -181,17 +176,16 @@ public abstract class AbstractUnivariateRealOptimizer
      * @param f objective function
      * @param point point at which the objective function must be evaluated
      * @return objective function value at specified point
-     * @exception FunctionEvaluationException if the function cannot be evaluated
+     * @exception MathUserException if the function cannot be evaluated
      * or the maximal number of iterations is exceeded
      * @deprecated in 2.2. Use this {@link #computeObjectiveValue(double)
      * replacement} instead.
      */
     protected double computeObjectiveValue(final UnivariateRealFunction f,
                                            final double point)
-        throws FunctionEvaluationException {
+        throws MathUserException {
         if (++evaluations > maxEvaluations) {
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  point);
+            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         return f.value(point);
     }
@@ -201,15 +195,14 @@ public abstract class AbstractUnivariateRealOptimizer
      *
      * @param point Point at which the objective function must be evaluated.
      * @return the objective function value at specified point.
-     * @exception FunctionEvaluationException if the function cannot be evaluated
+     * @exception MathUserException if the function cannot be evaluated
      * or the maximal number of iterations is exceeded.
      */
     protected double computeObjectiveValue(double point)
-        throws FunctionEvaluationException {
+        throws MathUserException {
         if (++evaluations > maxEvaluations) {
             resultComputed = false;
-            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),
-                                                  point);
+            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         return function.value(point);
     }
@@ -217,7 +210,7 @@ public abstract class AbstractUnivariateRealOptimizer
     /** {@inheritDoc} */
     public double optimize(UnivariateRealFunction f, GoalType goal,
                            double min, double max, double startValue)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         // Initialize.
         this.searchMin = min;
         this.searchMax = max;
@@ -249,7 +242,7 @@ public abstract class AbstractUnivariateRealOptimizer
     /** {@inheritDoc} */
     public double optimize(UnivariateRealFunction f, GoalType goal,
                            double min, double max)
-        throws MaxIterationsExceededException, FunctionEvaluationException {
+        throws MaxIterationsExceededException, MathUserException {
         return optimize(f, goal, min, max, min + 0.5 * (max - min));
     }
 
@@ -260,9 +253,9 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the optimum.
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
-     * @throws FunctionEvaluationException if an error occurs evaluating
+     * @throws MathUserException if an error occurs evaluating
      * the function.
      */
     protected abstract double doOptimize()
-        throws MaxIterationsExceededException, FunctionEvaluationException;
+        throws MaxIterationsExceededException, MathUserException;
 }

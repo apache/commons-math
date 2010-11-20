@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Interface defining field-valued matrix with basic algebraic operations.
@@ -480,7 +481,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor, int, int, int, int)
@@ -496,7 +497,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInRowOrder(FieldMatrixChangingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (but don't change) all matrix entries in row order.
@@ -504,7 +505,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor, int, int, int, int)
@@ -520,7 +521,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInRowOrder(FieldMatrixPreservingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (and possibly change) some matrix entries in row order.
@@ -532,7 +533,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -550,7 +551,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInRowOrder(FieldMatrixChangingVisitor<T> visitor,
                           int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -562,7 +563,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -580,7 +581,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInRowOrder(FieldMatrixPreservingVisitor<T> visitor,
                           int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
@@ -588,7 +589,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
@@ -604,7 +605,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInColumnOrder(FieldMatrixChangingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (but don't change) all matrix entries in column order.
@@ -612,7 +613,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
@@ -628,7 +629,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInColumnOrder(FieldMatrixPreservingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (and possibly change) some matrix entries in column order.
@@ -640,7 +641,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -658,7 +659,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInColumnOrder(FieldMatrixChangingVisitor<T> visitor,
                              int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
     /**
      * Visit (but don't change) some matrix entries in column order.
@@ -670,7 +671,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -688,14 +689,14 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInColumnOrder(FieldMatrixPreservingVisitor<T> visitor,
                              int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
     /**
      * Visit (and possibly change) all matrix entries using the fastest possible order.
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
@@ -711,14 +712,14 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (but don't change) all matrix entries using the fastest possible order.
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
@@ -734,7 +735,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * of the walk
      */
     T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> visitor)
-        throws MatrixVisitorException;
+        throws MathUserException;
 
     /**
      * Visit (and possibly change) some matrix entries using the fastest possible order.
@@ -745,7 +746,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -763,7 +764,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> visitor,
                                 int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
     /**
      * Visit (but don't change) some matrix entries using the fastest possible order.
@@ -774,7 +775,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MatrixVisitorException if the visitor cannot process an entry
+     * @exception  MathUserException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
@@ -792,6 +793,6 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> visitor,
                                 int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MatrixVisitorException;
+        throws MatrixIndexException, MathUserException;
 
 }

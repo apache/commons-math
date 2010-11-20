@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -86,10 +86,10 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      *
      * @param z the point at which the function value is to be computed
      * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
+     * @throws MathUserException if a runtime error occurs
      * @see UnivariateRealFunction#value(double)
      */
-    public double value(double z) throws FunctionEvaluationException {
+    public double value(double z) throws MathUserException {
        return evaluate(a, c, z);
     }
 
@@ -153,11 +153,11 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * @param c the centers
      * @param z the point at which the function value is to be computed
      * @return the function value
-     * @throws FunctionEvaluationException if a runtime error occurs
+     * @throws MathUserException if a runtime error occurs
      * @throws IllegalArgumentException if inputs are not valid
      */
-    public static double evaluate(double a[], double c[], double z) throws
-        FunctionEvaluationException, IllegalArgumentException {
+    public static double evaluate(double a[], double c[], double z)
+        throws MathUserException, IllegalArgumentException {
 
         verifyInputArray(a, c);
 

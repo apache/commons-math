@@ -19,6 +19,8 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
+import org.apache.commons.math.exception.MathUserException;
+
 import junit.framework.TestCase;
 
 public class QRSolverTest extends TestCase {
@@ -158,7 +160,7 @@ public class QRSolverTest extends TestCase {
 
     }
 
-    public void testOverdetermined() {
+    public void testOverdetermined() throws MathUserException {
         final Random r    = new Random(5559252868205245l);
         int          p    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
@@ -181,7 +183,7 @@ public class QRSolverTest extends TestCase {
 
     }
 
-    public void testUnderdetermined() {
+    public void testUnderdetermined() throws MathUserException {
         final Random r    = new Random(42185006424567123l);
         int          p    = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int          q    = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
@@ -198,12 +200,11 @@ public class QRSolverTest extends TestCase {
 
     }
 
-    private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {
+    private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) throws MathUserException {
         RealMatrix m = MatrixUtils.createRealMatrix(rows, columns);
         m.walkInOptimizedOrder(new DefaultRealMatrixChangingVisitor(){
             @Override
-            public double visit(int row, int column, double value)
-                throws MatrixVisitorException {
+            public double visit(int row, int column, double value) {
                 return 2.0 * r.nextDouble() - 1.0;
             }
         });

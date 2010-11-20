@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.fitting;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -97,7 +96,7 @@ public class GaussianDerivativeFunction implements UnivariateRealFunction, Seria
     }
 
     /** {@inheritDoc} */
-    public double value(double x) throws FunctionEvaluationException {
+    public double value(double x) {
         final double xMc = x - c;
         return (-b / d2) * xMc * Math.exp(-(xMc * xMc) / (2.0 * d2));
     }
