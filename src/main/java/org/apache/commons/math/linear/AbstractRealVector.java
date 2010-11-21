@@ -22,7 +22,6 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.BinaryFunction;
 import org.apache.commons.math.analysis.ComposableFunction;
@@ -350,11 +349,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapAbsToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.ABS);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.ABS);
     }
 
     /** {@inheritDoc} */
@@ -364,11 +359,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapAcosToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.ACOS);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.ACOS);
     }
 
     /** {@inheritDoc} */
@@ -378,11 +369,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapAsinToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.ASIN);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.ASIN);
     }
 
     /** {@inheritDoc} */
@@ -392,11 +379,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapAtanToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.ATAN);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.ATAN);
     }
 
     /** {@inheritDoc} */
@@ -406,11 +389,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCbrtToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.CBRT);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.CBRT);
     }
 
     /** {@inheritDoc} */
@@ -420,11 +399,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCeilToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.CEIL);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.CEIL);
     }
 
     /** {@inheritDoc} */
@@ -434,11 +409,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCosToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.COS);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.COS);
     }
 
     /** {@inheritDoc} */
@@ -448,11 +419,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapCoshToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.COSH);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.COSH);
     }
 
     /** {@inheritDoc} */
@@ -462,11 +429,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapDivideToSelf(double d){
-        try {
-            return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
     }
 
     /** {@inheritDoc} */
@@ -476,11 +439,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapExpToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.EXP);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.EXP);
     }
 
     /** {@inheritDoc} */
@@ -490,11 +449,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapExpm1ToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.EXPM1);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.EXPM1);
     }
 
     /** {@inheritDoc} */
@@ -504,11 +459,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapFloorToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.FLOOR);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.FLOOR);
     }
 
     /** {@inheritDoc} */
@@ -518,11 +469,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapInvToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.INVERT);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.INVERT);
     }
 
     /** {@inheritDoc} */
@@ -532,11 +479,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapLogToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.LOG);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.LOG);
     }
 
     /** {@inheritDoc} */
@@ -546,11 +489,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapLog10ToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.LOG10);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.LOG10);
     }
 
     /** {@inheritDoc} */
@@ -560,11 +499,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapLog1pToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.LOG1P);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.LOG1P);
     }
 
     /** {@inheritDoc} */
@@ -574,11 +509,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapMultiplyToSelf(double d){
-        try {
-            return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
     }
 
     /** {@inheritDoc} */
@@ -588,11 +519,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapPowToSelf(double d){
-        try {
-            return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
     }
 
     /** {@inheritDoc} */
@@ -602,11 +529,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapRintToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.RINT);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.RINT);
     }
 
     /** {@inheritDoc} */
@@ -616,11 +539,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapSignumToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.SIGNUM);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.SIGNUM);
     }
 
     /** {@inheritDoc} */
@@ -630,11 +549,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapSinToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.SIN);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.SIN);
     }
 
     /** {@inheritDoc} */
@@ -644,11 +559,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapSinhToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.SINH);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.SINH);
     }
 
     /** {@inheritDoc} */
@@ -658,11 +569,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapSqrtToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.SQRT);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.SQRT);
     }
 
     /** {@inheritDoc} */
@@ -682,11 +589,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapTanToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.TAN);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.TAN);
     }
 
     /** {@inheritDoc} */
@@ -696,11 +599,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapTanhToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.TANH);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.TANH);
     }
 
     /** {@inheritDoc} */
@@ -710,11 +609,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapUlpToSelf() {
-        try {
-            return mapToSelf(ComposableFunction.ULP);
-        } catch (MathUserException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return mapToSelf(ComposableFunction.ULP);
     }
 
     /** {@inheritDoc} */
@@ -823,12 +718,12 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector map(UnivariateRealFunction function) throws MathUserException {
+    public RealVector map(UnivariateRealFunction function) {
         return copy().mapToSelf(function);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapToSelf(UnivariateRealFunction function) throws MathUserException {
+    public RealVector mapToSelf(UnivariateRealFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
