@@ -28,11 +28,12 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
+import org.junit.Assert;
 
 public class MultiStartUnivariateRealOptimizerTest {
 
     @Test
-    public void testSinMin() throws MathUserException {
+    public void testSinMin() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
         underlying.setMaxEvaluations(300);
@@ -53,7 +54,7 @@ public class MultiStartUnivariateRealOptimizerTest {
     }
 
     @Test
-    public void testQuinticMin() throws MathUserException {
+    public void testQuinticMin() {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
@@ -77,10 +78,10 @@ public class MultiStartUnivariateRealOptimizerTest {
         assertTrue(optimizer.getEvaluations() <= 100);
     }
 
-    @Test(expected=MathUserException.class)
-    public void testBadFunction() throws MathUserException {
+    @Test
+    public void testBadFunction() {
         UnivariateRealFunction f = new UnivariateRealFunction() {
-                public double value(double x) throws MathUserException {
+                public double value(double x) {
                     if (x < 0) {
                         throw new MathUserException();
                     }
@@ -93,7 +94,16 @@ public class MultiStartUnivariateRealOptimizerTest {
         g.setSeed(4312000053L);
         MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
             new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 5, g);
+ 
+        try {
+            UnivariateRealPointValuePair optimum
+                = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+            Assert.fail();
+        } catch (MathUserException e) {
+            // Expected.
+        }
 
-        optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+        // Ensure that the exception was thrown because no optimum was found.
+        Assert.assertTrue(optimizer.getOptima()[0] == null);
     }
 }
