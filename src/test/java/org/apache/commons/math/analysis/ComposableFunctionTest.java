@@ -21,6 +21,10 @@ import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @deprecated To be removed when the class {@link ComposableFunction} is removed.
+ */
+@Deprecated
 public class ComposableFunctionTest {
 
     @Test

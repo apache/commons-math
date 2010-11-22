@@ -26,152 +26,85 @@ import org.apache.commons.math.util.FastMath;
  *
  * @since 2.1
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use the function classes
+ * in the {@link org.apache.commons.math.analysis.function} package and the
+ * methods in {@link FunctionUtils}.
  */
+@Deprecated
 public abstract class ComposableFunction implements UnivariateRealFunction {
+    public static ComposableFunction make(final UnivariateRealFunction f) {
+        return new ComposableFunction() {
+            /** {@inheritDoc} */
+            @Override
+            public double value(double x) {
+                return f.value(x);
+            }
+        };
+    }
 
     /** The constant function always returning 0. */
-    public static final ComposableFunction ZERO = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return 0;
-        }
-    };
-
+    public static final ComposableFunction ZERO =
+        make(new org.apache.commons.math.analysis.function.Constant(0));
+    
     /** The constant function always returning 1. */
-    public static final ComposableFunction ONE = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return 1;
-        }
-    };
+    public static final ComposableFunction ONE = 
+        make(new org.apache.commons.math.analysis.function.Constant(1));
 
     /** The identity function. */
-    public static final ComposableFunction IDENTITY = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return d;
-        }
-    };
+    public static final ComposableFunction IDENTITY =
+        make(new org.apache.commons.math.analysis.function.Identity());
 
     /** The {@code FastMath.abs} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction ABS = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.abs(d);
-        }
-    };
+    public static final ComposableFunction ABS =
+        make(new org.apache.commons.math.analysis.function.Abs());
 
     /** The - operator wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction NEGATE = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return -d;
-        }
-    };
+    public static final ComposableFunction NEGATE = 
+        make(new org.apache.commons.math.analysis.function.Minus());
 
     /** The invert operator wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction INVERT = new ComposableFunction () {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d){
-            return 1/d;
-        }
-    };
+    public static final ComposableFunction INVERT =
+        make(new org.apache.commons.math.analysis.function.Inverse());
 
     /** The {@code FastMath.sin} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction SIN = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.sin(d);
-        }
-    };
+    public static final ComposableFunction SIN =
+        make(new org.apache.commons.math.analysis.function.Sin());
 
     /** The {@code FastMath.sqrt} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction SQRT = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.sqrt(d);
-        }
-    };
+    public static final ComposableFunction SQRT =
+        make(new org.apache.commons.math.analysis.function.Sqrt());
 
     /** The {@code FastMath.sinh} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction SINH = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.sinh(d);
-        }
-    };
+    public static final ComposableFunction SINH =
+        make(new org.apache.commons.math.analysis.function.Sinh());
 
     /** The {@code FastMath.exp} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction EXP = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.exp(d);
-        }
-    };
+    public static final ComposableFunction EXP =
+        make(new org.apache.commons.math.analysis.function.Exp());
 
     /** The {@code FastMath.expm1} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction EXPM1 = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.expm1(d);
-        }
-    };
+    public static final ComposableFunction EXPM1 =
+        make(new org.apache.commons.math.analysis.function.Expm1());
 
     /** The {@code FastMath.asin} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction ASIN = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.asin(d);
-        }
-    };
+    public static final ComposableFunction ASIN =
+        make(new org.apache.commons.math.analysis.function.Asin());
 
     /** The {@code FastMath.atan} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction ATAN = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.atan(d);
-        }
-    };
+    public static final ComposableFunction ATAN =
+        make(new org.apache.commons.math.analysis.function.Atan());
 
     /** The {@code FastMath.tan} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction TAN = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.tan(d);
-        }
-    };
+    public static final ComposableFunction TAN =
+        make(new org.apache.commons.math.analysis.function.Tan());
 
     /** The {@code FastMath.tanh} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction TANH = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.tanh(d);
-        }
-    };
+    public static final ComposableFunction TANH =
+        make(new org.apache.commons.math.analysis.function.Tanh());
 
     /** The {@code FastMath.cbrt} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction CBRT = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.cbrt(d);
-        }
-    };
+    public static final ComposableFunction CBRT =
+        make(new org.apache.commons.math.analysis.function.Cbrt());
 
     /** The {@code FastMath.ceil} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction CEIL = new ComposableFunction() {
@@ -192,57 +125,28 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     };
 
     /** The {@code FastMath.log} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction LOG = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.log(d);
-        }
-    };
+    public static final ComposableFunction LOG =
+        make(new org.apache.commons.math.analysis.function.Log());
 
     /** The {@code FastMath.log10} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction LOG10 = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.log10(d);
-        }
-    };
+    public static final ComposableFunction LOG10 =
+        make(new org.apache.commons.math.analysis.function.Log10());
 
     /** The {@code FastMath.log1p} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction LOG1P = new ComposableFunction () {
-        @Override
-        public double value(double d){
-            return FastMath.log1p(d);
-        }
-    };
+    public static final ComposableFunction LOG1P =
+        make(new org.apache.commons.math.analysis.function.Log1p());
 
     /** The {@code FastMath.cos} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction COS = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.cos(d);
-        }
-    };
+    public static final ComposableFunction COS =
+        make(new org.apache.commons.math.analysis.function.Cos());
 
     /** The {@code FastMath.abs} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction ACOS = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.acos(d);
-        }
-    };
+    public static final ComposableFunction ACOS =
+        make(new org.apache.commons.math.analysis.function.Acos());
 
     /** The {@code FastMath.cosh} method wrapped as a {@link ComposableFunction}. */
-    public static final ComposableFunction COSH = new ComposableFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double d) {
-            return FastMath.cosh(d);
-        }
-    };
+    public static final ComposableFunction COSH =
+        make(new org.apache.commons.math.analysis.function.Cosh());
 
     /** The {@code FastMath.rint} method wrapped as a {@link ComposableFunction}. */
     public static final ComposableFunction RINT = new ComposableFunction() {
