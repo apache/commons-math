@@ -34,38 +34,29 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class SingularValueDecompositionImpl implements
-        SingularValueDecomposition {
-
+public class SingularValueDecompositionImpl implements SingularValueDecomposition {
     /** Number of rows of the initial matrix. */
     private int m;
-
     /** Number of columns of the initial matrix. */
     private int n;
-
     /** Eigen decomposition of the tridiagonal matrix. */
     private EigenDecomposition eigenDecomposition;
-
     /** Singular values. */
     private double[] singularValues;
-
     /** Cached value of U. */
     private RealMatrix cachedU;
-
     /** Cached value of U<sup>T</sup>. */
     private RealMatrix cachedUt;
-
     /** Cached value of S. */
     private RealMatrix cachedS;
-
     /** Cached value of V. */
     private RealMatrix cachedV;
-
     /** Cached value of V<sup>T</sup>. */
     private RealMatrix cachedVt;
 
     /**
      * Calculates the compact Singular Value Decomposition of the given matrix.
+     *
      * @param matrix Matrix to decompose.
      */
     public SingularValueDecompositionImpl(final RealMatrix matrix) {
@@ -88,7 +79,7 @@ public class SingularValueDecompositionImpl implements
                 for (int k = 0; k < m; k++) {
                     matATA[i][j] += localcopy[k][i] * localcopy[k][j];
                 }
-                matATA[j][i]=matATA[i][j];
+                matATA[j][i] = matATA[i][j];
             }
         }
 
@@ -102,33 +93,33 @@ public class SingularValueDecompositionImpl implements
                 for (int k = 0; k < n; k++) {
                     matAAT[i][j] += localcopy[i][k] * localcopy[j][k];
                 }
-                 matAAT[j][i]=matAAT[i][j];
+                 matAAT[j][i] = matAAT[i][j];
             }
         }
         int p;
-        if (m>=n) {
-            p=n;
+        if (m >= n) {
+            p = n;
             // compute eigen decomposition of A^T*A
-            eigenDecomposition = new EigenDecompositionImpl(
-                    new Array2DRowRealMatrix(matATA),1.0);
+            eigenDecomposition
+                = new EigenDecompositionImpl(new Array2DRowRealMatrix(matATA), 1);
             singularValues = eigenDecomposition.getRealEigenvalues();
             cachedV = eigenDecomposition.getV();
             // compute eigen decomposition of A*A^T
-            eigenDecomposition = new EigenDecompositionImpl(
-                    new Array2DRowRealMatrix(matAAT),1.0);
+            eigenDecomposition
+                = new EigenDecompositionImpl(new Array2DRowRealMatrix(matAAT), 1);
             cachedU = eigenDecomposition.getV().getSubMatrix(0, m - 1, 0, p - 1);
         } else {
-            p=m;
+            p = m;
             // compute eigen decomposition of A*A^T
-            eigenDecomposition = new EigenDecompositionImpl(
-                    new Array2DRowRealMatrix(matAAT),1.0);
+            eigenDecomposition
+                = new EigenDecompositionImpl(new Array2DRowRealMatrix(matAAT), 1);
             singularValues = eigenDecomposition.getRealEigenvalues();
             cachedU = eigenDecomposition.getV();
 
             // compute eigen decomposition of A^T*A
-            eigenDecomposition = new EigenDecompositionImpl(
-                    new Array2DRowRealMatrix(matATA),1.0);
-            cachedV = eigenDecomposition.getV().getSubMatrix(0,n-1,0,p-1);
+            eigenDecomposition
+                = new EigenDecompositionImpl(new Array2DRowRealMatrix(matATA), 1);
+            cachedV = eigenDecomposition.getV().getSubMatrix(0, n - 1 , 0, p - 1);
         }
         for (int i = 0; i < p; i++) {
             singularValues[i] = FastMath.sqrt(FastMath.abs(singularValues[i]));
@@ -138,11 +129,11 @@ public class SingularValueDecompositionImpl implements
         // The sign is set such that A.V_i=sigma_i.U_i (i<=p)
         // The right sign corresponds to a positive dot product of A.V_i and U_i
         for (int i = 0; i < p; i++) {
-          RealVector tmp = cachedU.getColumnVector(i);
-          double product=matrix.operate(cachedV.getColumnVector(i)).dotProduct(tmp);
-          if (product<0) {
-            cachedU.setColumnVector(i, tmp.mapMultiply(-1.0));
-          }
+            RealVector tmp = cachedU.getColumnVector(i);
+            double product=matrix.operate(cachedV.getColumnVector(i)).dotProduct(tmp);
+            if (product < 0) {
+                cachedU.setColumnVector(i, tmp.mapMultiply(-1));
+            }
         }
     }
 
@@ -155,24 +146,18 @@ public class SingularValueDecompositionImpl implements
 
     /** {@inheritDoc} */
     public RealMatrix getUT() {
-
         if (cachedUt == null) {
             cachedUt = getU().transpose();
         }
-
         // return the cached matrix
         return cachedUt;
-
     }
 
     /** {@inheritDoc} */
     public RealMatrix getS() {
-
         if (cachedS == null) {
-
             // cache the matrix for subsequent calls
             cachedS = MatrixUtils.createRealDiagonalMatrix(singularValues);
-
         }
         return cachedS;
     }
@@ -186,24 +171,19 @@ public class SingularValueDecompositionImpl implements
     public RealMatrix getV() {
         // return the cached matrix
         return cachedV;
-
     }
 
     /** {@inheritDoc} */
     public RealMatrix getVT() {
-
         if (cachedVt == null) {
             cachedVt = getV().transpose();
         }
-
         // return the cached matrix
         return cachedVt;
-
     }
 
     /** {@inheritDoc} */
     public RealMatrix getCovariance(final double minSingularValue) {
-
         // get the number of singular values to consider
         final int p = singularValues.length;
         int dimension = 0;
@@ -229,7 +209,6 @@ public class SingularValueDecompositionImpl implements
 
         RealMatrix jv = new Array2DRowRealMatrix(data, false);
         return jv.transpose().multiply(jv);
-
     }
 
     /** {@inheritDoc} */
@@ -243,8 +222,7 @@ public class SingularValueDecompositionImpl implements
     }
 
     /** {@inheritDoc} */
-    public int getRank() throws IllegalStateException {
-
+    public int getRank() {
         final double threshold = FastMath.max(m, n) * FastMath.ulp(singularValues[0]);
 
         for (int i = singularValues.length - 1; i >= 0; --i) {
@@ -253,44 +231,37 @@ public class SingularValueDecompositionImpl implements
             }
         }
         return 0;
-
     }
 
     /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
-        return new Solver(singularValues, getUT(), getV(), getRank() == Math
-                .max(m, n));
+        return new Solver(singularValues, getUT(), getV(), getRank() == Math.max(m, n));
     }
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-
         /** Pseudo-inverse of the initial matrix. */
         private final RealMatrix pseudoInverse;
-
         /** Singularity indicator. */
         private boolean nonSingular;
 
         /**
          * Build a solver from decomposed matrix.
-         * @param singularValues
-         *            singularValues
-         * @param uT
-         *            U<sup>T</sup> matrix of the decomposition
-         * @param v
-         *            V matrix of the decomposition
-         * @param nonSingular
-         *            singularity indicator
+         *
+         * @param singularValues Singular values.
+         * @param uT U<sup>T</sup> matrix of the decomposition.
+         * @param v V matrix of the decomposition.
+         * @param nonSingular Singularity indicator.
          */
         private Solver(final double[] singularValues, final RealMatrix uT,
-                final RealMatrix v, final boolean nonSingular) {
+                       final RealMatrix v, final boolean nonSingular) {
             double[][] suT = uT.getData();
             for (int i = 0; i < singularValues.length; ++i) {
                 final double a;
-                if (singularValues[i]>0) {
-                 a=1.0 / singularValues[i];
+                if (singularValues[i] > 0) {
+                 a = 1 / singularValues[i];
                 } else {
-                 a=0.0;
+                 a = 0;
                 }
                 final double[] suTi = suT[i];
                 for (int j = 0; j < suTi.length; ++j) {
@@ -307,13 +278,12 @@ public class SingularValueDecompositionImpl implements
          * The m&times;n matrix A may not be square, the solution X is such that
          * ||A &times; X - B|| is minimal.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
+         * @param b Right-hand side of the equation A &times; X = B
          * @return a vector X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
+         * @throws org.apache.commons.math.exception.DimensionMismatchException
+         * if the matrices dimensions do not match.
          */
-        public double[] solve(final double[] b) throws IllegalArgumentException {
+        public double[] solve(final double[] b) {
             return pseudoInverse.operate(b);
         }
 
@@ -323,14 +293,12 @@ public class SingularValueDecompositionImpl implements
          * The m&times;n matrix A may not be square, the solution X is such that
          * ||A &times; X - B|| is minimal.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
+         * @param b Right-hand side of the equation A &times; X = B
          * @return a vector X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
+         * @throws org.apache.commons.math.exception.DimensionMismatchException
+         * if the matrices dimensions do not match.
          */
-        public RealVector solve(final RealVector b)
-                throws IllegalArgumentException {
+        public RealVector solve(final RealVector b) {
             return pseudoInverse.operate(b);
         }
 
@@ -340,20 +308,20 @@ public class SingularValueDecompositionImpl implements
          * The m&times;n matrix A may not be square, the solution X is such that
          * ||A &times; X - B|| is minimal.
          * </p>
-         * @param b
-         *            right-hand side of the equation A &times; X = B
+         *
+         * @param b Right-hand side of the equation A &times; X = B
          * @return a matrix X that minimizes the two norm of A &times; X - B
-         * @exception IllegalArgumentException
-         *                if matrices dimensions don't match
+         * @throws org.apache.commons.math.exception.DimensionMismatchException
+         * if the matrices dimensions do not match.
          */
-        public RealMatrix solve(final RealMatrix b)
-                throws IllegalArgumentException {
+        public RealMatrix solve(final RealMatrix b) {
             return pseudoInverse.multiply(b);
         }
 
         /**
          * Check if the decomposed matrix is non-singular.
-         * @return true if the decomposed matrix is non-singular
+         *
+         * @return {@code true} if the decomposed matrix is non-singular.
          */
         public boolean isNonSingular() {
             return nonSingular;
@@ -361,12 +329,11 @@ public class SingularValueDecompositionImpl implements
 
         /**
          * Get the pseudo-inverse of the decomposed matrix.
-         * @return inverse matrix
+         *
+         * @return the inverse matrix.
          */
         public RealMatrix getInverse() {
             return pseudoInverse;
         }
-
     }
-
 }

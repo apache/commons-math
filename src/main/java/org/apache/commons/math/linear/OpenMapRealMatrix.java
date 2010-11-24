@@ -107,8 +107,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealMatrix subtract(final RealMatrix m)
-        throws IllegalArgumentException {
+    public OpenMapRealMatrix subtract(final RealMatrix m) {
         try {
             return subtract((OpenMapRealMatrix) m);
         } catch (ClassCastException cce) {
@@ -141,8 +140,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
 
     /** {@inheritDoc} */
     @Override
-    public RealMatrix multiply(final RealMatrix m)
-        throws IllegalArgumentException {
+    public RealMatrix multiply(final RealMatrix m) {
         try {
             return multiply((OpenMapRealMatrix) m);
         } catch (ClassCastException cce) {

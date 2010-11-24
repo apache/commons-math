@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
 
@@ -399,7 +399,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             RealMatrix sub = m.getSubMatrix(startRow, endRow, startColumn, endColumn);
             assertEquals(new Array2DRowRealMatrix(reference), sub);
             if (mustFail) {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (!mustFail) {
@@ -409,7 +409,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             if (!mustFail) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (!mustFail) {
                 throw e;
             }
@@ -423,7 +423,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             RealMatrix sub = m.getSubMatrix(selectedRows, selectedColumns);
             assertEquals(new Array2DRowRealMatrix(reference), sub);
             if (mustFail) {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (!mustFail) {
@@ -433,7 +433,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             if (!mustFail) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (!mustFail) {
                 throw e;
             }
@@ -470,7 +470,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             assertEquals(new Array2DRowRealMatrix(reference), new Array2DRowRealMatrix(sub));
             if (mustFail) {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (!mustFail) {
@@ -480,7 +480,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             if (!mustFail) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (!mustFail) {
                 throw e;
             }
@@ -497,7 +497,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             assertEquals(new Array2DRowRealMatrix(reference), new Array2DRowRealMatrix(sub));
             if (mustFail) {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (!mustFail) {
@@ -507,7 +507,7 @@ public final class Array2DRowRealMatrixTest extends TestCase {
             if (!mustFail) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (!mustFail) {
                 throw e;
             }

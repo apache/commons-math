@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
 
@@ -499,7 +499,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockRealMatrix(reference), sub);
             } else {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (reference != null) {
@@ -509,7 +509,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -523,7 +523,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockRealMatrix(reference), sub);
             } else {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallExceptiono r ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallExceptiono r NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (reference != null) {
@@ -533,7 +533,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -589,7 +589,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             } else {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (reference != null) {
@@ -599,7 +599,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }
@@ -616,7 +616,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 assertEquals(new BlockRealMatrix(reference), new BlockRealMatrix(sub));
             } else {
-                fail("Expecting OutOfRangeException or NumberIsTooSmallException or ZeroException");
+                fail("Expecting OutOfRangeException or NumberIsTooSmallException or NoDataException");
             }
         } catch (OutOfRangeException e) {
             if (reference != null) {
@@ -626,7 +626,7 @@ public final class BlockRealMatrixTest extends TestCase {
             if (reference != null) {
                 throw e;
             }
-        } catch (ZeroException e) {
+        } catch (NoDataException e) {
             if (reference != null) {
                 throw e;
             }

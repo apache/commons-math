@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
 
@@ -436,8 +436,8 @@ public final class SparseRealMatrixTest extends TestCase {
         }
         try {
             m.getSubMatrix(new int[] {}, new int[] { 0 });
-            fail("Expecting ZeroException");
-        } catch (ZeroException ex) {
+            fail("Expecting NoDataException");
+        } catch (NoDataException ex) {
             // expected
         }
         try {

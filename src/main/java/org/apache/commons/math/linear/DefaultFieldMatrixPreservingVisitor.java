@@ -18,7 +18,6 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Default implementation of the {@link FieldMatrixPreservingVisitor} interface.
@@ -33,7 +32,6 @@ import org.apache.commons.math.exception.MathUserException;
  */
 public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>
     implements FieldMatrixPreservingVisitor<T> {
-
     /** Zero element of the field. */
     private final T zero;
 
@@ -56,5 +54,4 @@ public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>
     public T end() {
         return zero;
     }
-
 }

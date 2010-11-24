@@ -39,9 +39,10 @@ public abstract class AbstractRealVector implements RealVector {
 
     /**
      * Check if instance and specified vectors have the same dimension.
-     * @param v vector to compare instance with
-     * @exception IllegalArgumentException if the vectors do not
-     * have the same dimension
+     *
+     * @param v Vector to compare instance with.
+     * @throws DimensionMismatchException if the vectors do not
+     * have the same dimension.
      */
     protected void checkVectorDimensions(RealVector v) {
         checkVectorDimensions(v.getDimension());
@@ -50,12 +51,11 @@ public abstract class AbstractRealVector implements RealVector {
     /**
      * Check if instance dimension is equal to some expected value.
      *
-     * @param n expected dimension.
+     * @param n Expected dimension.
      * @throws DimensionMismatchException if the dimension is
-     * inconsistent with vector size
+     * inconsistent with the vector size.
      */
-    protected void checkVectorDimensions(int n)
-        throws DimensionMismatchException {
+    protected void checkVectorDimensions(int n) {
         int d = getDimension();
         if (d != n) {
             throw new DimensionMismatchException(d, n);
@@ -823,5 +823,4 @@ public abstract class AbstractRealVector implements RealVector {
             throw new MathUnsupportedOperationException();
         }
     }
-
 }

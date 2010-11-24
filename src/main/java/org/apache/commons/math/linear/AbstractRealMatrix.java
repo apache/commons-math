@@ -57,8 +57,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public abstract RealMatrix createMatrix(final int rowDimension, final int columnDimension)
-        throws IllegalArgumentException;
+    public abstract RealMatrix createMatrix(final int rowDimension, final int columnDimension);
 
     /** {@inheritDoc} */
     public abstract RealMatrix copy();
@@ -271,7 +270,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public void copySubMatrix(final int startRow, final int endRow,
                               final int startColumn, final int endColumn,
                               final double[][] destination) {
-
         // safety checks
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         final int rowsCount    = endRow + 1 - startRow;
@@ -310,7 +308,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public void copySubMatrix(int[] selectedRows, int[] selectedColumns, double[][] destination) {
-
         // safety checks
         MatrixUtils.checkSubMatrixIndex(this, selectedRows, selectedColumns);
         if ((destination.length < selectedRows.length) ||
@@ -552,9 +549,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public double[] operate(final double[] v)
-        throws IllegalArgumentException {
-
+    public double[] operate(final double[] v) {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nCols) {
@@ -574,8 +569,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealVector operate(final RealVector v)
-        throws IllegalArgumentException {
+    public RealVector operate(final RealVector v) {
         try {
             return new ArrayRealVector(operate(((ArrayRealVector) v).getDataRef()), false);
         } catch (ClassCastException cce) {
@@ -599,8 +593,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public double[] preMultiply(final double[] v)
-        throws IllegalArgumentException {
+    public double[] preMultiply(final double[] v) {
 
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
@@ -621,8 +614,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public RealVector preMultiply(final RealVector v)
-        throws IllegalArgumentException {
+    public RealVector preMultiply(final RealVector v) {
         try {
             return new ArrayRealVector(preMultiply(((ArrayRealVector) v).getDataRef()), false);
         } catch (ClassCastException cce) {

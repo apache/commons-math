@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /**
  * Interface defining a visitor for matrix entries.
  *
@@ -27,7 +25,6 @@ import org.apache.commons.math.exception.MathUserException;
  * @since 2.0
  */
 public interface RealMatrixChangingVisitor {
-
     /**
      * Start visiting a matrix.
      * <p>This method is called once before any entry of the matrix is visited.</p>

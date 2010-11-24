@@ -25,11 +25,12 @@ import java.util.Arrays;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.MatrixDimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
@@ -102,7 +103,7 @@ public class MatrixUtils {
      * @return  RealMatrix containing the values of the array
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code data} is not rectangular (not all rows have the same length).
-     * @throws ZeroException if a row or column is empty.
+     * @throws NoDataException if a row or column is empty.
      * @throws NullArgumentException if either {@code data} or {@code data[0]}
      * is {@code null}.
      * @see #createRealMatrix(int, int)
@@ -129,7 +130,7 @@ public class MatrixUtils {
      * @return a matrix containing the values of the array.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code data} is not rectangular (not all rows have the same length).
-     * @throws ZeroException if a row or column is empty.
+     * @throws NoDataException if a row or column is empty.
      * @throws NullArgumentException if either {@code data} or {@code data[0]}
      * is {@code null}.
      * @see #createFieldMatrix(Field, int, int)
@@ -224,7 +225,7 @@ public class MatrixUtils {
      *
      * @param data the input data
      * @return a data.length RealVector
-     * @throws ZeroException if {@code data} is empty.
+     * @throws NoDataException if {@code data} is empty.
      * @throws NullArgumentException if {@code data} is {@code null}.
      */
     public static RealVector createRealVector(double[] data) {
@@ -240,7 +241,7 @@ public class MatrixUtils {
      * @param <T> the type of the field elements
      * @param data the input data
      * @return a data.length FieldVector
-     * @throws ZeroException if {@code data} is empty.
+     * @throws NoDataException if {@code data} is empty.
      * @throws NullArgumentException if {@code data} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data) {
@@ -256,7 +257,7 @@ public class MatrixUtils {
      *
      * @param rowData the input row data
      * @return a 1 x rowData.length RealMatrix
-     * @throws ZeroException if {@code rowData} is empty.
+     * @throws NoDataException if {@code rowData} is empty.
      * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
     public static RealMatrix createRowRealMatrix(double[] rowData) {
@@ -278,7 +279,7 @@ public class MatrixUtils {
      * @param <T> the type of the field elements
      * @param rowData the input row data
      * @return a 1 x rowData.length FieldMatrix
-     * @throws ZeroException if {@code rowData} is empty.
+     * @throws NoDataException if {@code rowData} is empty.
      * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
@@ -288,7 +289,7 @@ public class MatrixUtils {
         }
         final int nCols = rowData.length;
         if (nCols == 0) {
-            throw new ZeroException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
+            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
         }
         final FieldMatrix<T> m = createFieldMatrix(rowData[0].getField(), 1, nCols);
         for (int i = 0; i < nCols; ++i) {
@@ -303,7 +304,7 @@ public class MatrixUtils {
      *
      * @param columnData  the input column data
      * @return a columnData x 1 RealMatrix
-     * @throws ZeroException if {@code columnData} is empty.
+     * @throws NoDataException if {@code columnData} is empty.
      * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
     public static RealMatrix createColumnRealMatrix(double[] columnData) {
@@ -325,7 +326,7 @@ public class MatrixUtils {
      * @param <T> the type of the field elements
      * @param columnData  the input column data
      * @return a columnData x 1 FieldMatrix
-     * @throws ZeroException if {@code data} is empty.
+     * @throws NoDataException if {@code data} is empty.
      * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
@@ -335,7 +336,7 @@ public class MatrixUtils {
         }
         final int nRows = columnData.length;
         if (nRows == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
+            throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
         }
         final FieldMatrix<T> m = createFieldMatrix(columnData[0].getField(), nRows, 1);
         for (int i = 0; i < nRows; ++i) {
@@ -430,7 +431,7 @@ public class MatrixUtils {
      * @param selectedColumns Array of column indices.
      * @throws NullArgumentException if {@code selectedRows} or
      * {@code selectedColumns} are {@code null}.
-     * @throws ZeroException if the row or column selections are empty (zero
+     * @throws NoDataException if the row or column selections are empty (zero
      * length).
      * @throws OutOfRangeException if row or column selections are not valid.
      */
@@ -444,10 +445,10 @@ public class MatrixUtils {
             throw new NullArgumentException();
         }
         if (selectedRows.length == 0) {
-            throw new ZeroException(LocalizedFormats.EMPTY_SELECTED_ROW_INDEX_ARRAY);
+            throw new NoDataException(LocalizedFormats.EMPTY_SELECTED_ROW_INDEX_ARRAY);
         }
         if (selectedColumns.length == 0) {
-            throw new ZeroException(LocalizedFormats.EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
+            throw new NoDataException(LocalizedFormats.EMPTY_SELECTED_COLUMN_INDEX_ARRAY);
         }
 
         for (final int row : selectedRows) {
@@ -459,59 +460,53 @@ public class MatrixUtils {
     }
 
     /**
-     * Check if matrices are addition compatible
-     * @param left left hand side matrix
-     * @param right right hand side matrix
-     * @exception IllegalArgumentException if matrices are not addition compatible
+     * Check if matrices are addition compatible.
+     *
+     * @param left Left hand side matrix.
+     * @param right Right hand side matrix.
+     * @throws MatrixDimensionMismatchException if the matrices are not addition compatible.
      */
-    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws IllegalArgumentException {
+    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right) {
         if ((left.getRowDimension()    != right.getRowDimension()) ||
             (left.getColumnDimension() != right.getColumnDimension())) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_ADDITION_COMPATIBLE_MATRICES,
-                    left.getRowDimension(), left.getColumnDimension(),
-                    right.getRowDimension(), right.getColumnDimension());
+            throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
+                                                       right.getRowDimension(), right.getColumnDimension());
         }
     }
 
     /**
      * Check if matrices are subtraction compatible
-     * @param left left hand side matrix
-     * @param right right hand side matrix
-     * @exception IllegalArgumentException if matrices are not subtraction compatible
+     *
+     * @param left Left hand side matrix.
+     * @param right Right hand side matrix.
+     * @throws MatrixDimensionMismatchException if the matrices are not addition compatible.
      */
-    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws IllegalArgumentException {
+    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right) {
         if ((left.getRowDimension()    != right.getRowDimension()) ||
             (left.getColumnDimension() != right.getColumnDimension())) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_SUBTRACTION_COMPATIBLE_MATRICES,
-                    left.getRowDimension(), left.getColumnDimension(),
-                    right.getRowDimension(), right.getColumnDimension());
+            throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
+                                                       right.getRowDimension(), right.getColumnDimension());
         }
     }
 
     /**
      * Check if matrices are multiplication compatible
-     * @param left left hand side matrix
-     * @param right right hand side matrix
-     * @exception IllegalArgumentException if matrices are not multiplication compatible
+     *
+     * @param left Left hand side matrix.
+     * @param right Right hand side matrix.
+     * @throws DimensionMismatchException if matrices are not multiplication compatible.
      */
-    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right)
-        throws IllegalArgumentException {
+    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right) {
         if (left.getColumnDimension() != right.getRowDimension()) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_MULTIPLICATION_COMPATIBLE_MATRICES,
-                    left.getRowDimension(), left.getColumnDimension(),
-                    right.getRowDimension(), right.getColumnDimension());
+            throw new DimensionMismatchException(left.getColumnDimension(),
+                                                 right.getRowDimension());
         }
     }
 
     /**
      * Convert a {@link FieldMatrix}/{@link Fraction} matrix to a {@link RealMatrix}.
-     * @param m matrix to convert
-     * @return converted matrix
+     * @param m Matrix to convert.
+     * @return the converted matrix.
      */
     public static Array2DRowRealMatrix fractionMatrixToRealMatrix(final FieldMatrix<Fraction> m) {
         final FractionMatrixConverter converter = new FractionMatrixConverter();
@@ -521,10 +516,8 @@ public class MatrixUtils {
 
     /** Converter for {@link FieldMatrix}/{@link Fraction}. */
     private static class FractionMatrixConverter extends DefaultFieldMatrixPreservingVisitor<Fraction> {
-
         /** Converted array. */
         private double[][] data;
-
         /** Simple constructor. */
         public FractionMatrixConverter() {
             super(Fraction.ZERO);
@@ -543,8 +536,10 @@ public class MatrixUtils {
             data[row][column] = value.doubleValue();
         }
 
-        /** Get the converted matrix.
-         * @return converted matrix
+        /**
+         * Get the converted matrix.
+         *
+         * @return the converted matrix.
          */
         Array2DRowRealMatrix getConvertedMatrix() {
             return new Array2DRowRealMatrix(data, false);
@@ -554,8 +549,9 @@ public class MatrixUtils {
 
     /**
      * Convert a {@link FieldMatrix}/{@link BigFraction} matrix to a {@link RealMatrix}.
-     * @param m matrix to convert
-     * @return converted matrix
+     *
+     * @param m Matrix to convert.
+     * @return the converted matrix.
      */
     public static Array2DRowRealMatrix bigFractionMatrixToRealMatrix(final FieldMatrix<BigFraction> m) {
         final BigFractionMatrixConverter converter = new BigFractionMatrixConverter();
@@ -565,10 +561,8 @@ public class MatrixUtils {
 
     /** Converter for {@link FieldMatrix}/{@link BigFraction}. */
     private static class BigFractionMatrixConverter extends DefaultFieldMatrixPreservingVisitor<BigFraction> {
-
         /** Converted array. */
         private double[][] data;
-
         /** Simple constructor. */
         public BigFractionMatrixConverter() {
             super(BigFraction.ZERO);
@@ -587,13 +581,14 @@ public class MatrixUtils {
             data[row][column] = value.doubleValue();
         }
 
-        /** Get the converted matrix.
-         * @return converted matrix
+        /**
+         * Get the converted matrix.
+         *
+         * @return the converted matrix.
          */
         Array2DRowRealMatrix getConvertedMatrix() {
             return new Array2DRowRealMatrix(data, false);
         }
-
     }
 
     /** Serialize a {@link RealVector}.
@@ -803,7 +798,5 @@ public class MatrixUtils {
             ioe.initCause(iae);
             throw ioe;
         }
-
     }
-
 }

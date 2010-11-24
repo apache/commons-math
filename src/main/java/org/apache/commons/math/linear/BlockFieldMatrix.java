@@ -370,8 +370,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public FieldMatrix<T> subtract(final FieldMatrix<T> m)
-        throws IllegalArgumentException {
+    public FieldMatrix<T> subtract(final FieldMatrix<T> m) {
         try {
             return subtract((BlockFieldMatrix<T>) m);
         } catch (ClassCastException cce) {
@@ -1229,9 +1228,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T[] operate(final T[] v)
-        throws IllegalArgumentException {
-
+    public T[] operate(final T[] v) {
         if (v.length != columns) {
             throw new DimensionMismatchException(v.length, columns);
         }
@@ -1272,8 +1269,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
     /** {@inheritDoc} */
     @Override
-    public T[] preMultiply(final T[] v)
-        throws IllegalArgumentException {
+    public T[] preMultiply(final T[] v) {
 
         if (v.length != rows) {
             throw new DimensionMismatchException(v.length, rows);

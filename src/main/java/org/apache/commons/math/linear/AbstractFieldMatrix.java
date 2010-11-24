@@ -37,11 +37,13 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * <p>All the methods implemented here use {@link #getEntry(int, int)} to access
  * matrix elements. Derived class can provide faster implementations. </p>
  *
- * @param <T> the type of the field elements
+ * @param <T> Type of the field elements.
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements FieldMatrix<T> {
+public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
+    implements FieldMatrix<T> {
     /** Field to which the elements belong. */
     private final Field<T> field;
 
@@ -170,15 +172,13 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public abstract FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension)
-        throws IllegalArgumentException;
+    public abstract FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension);
 
     /** {@inheritDoc} */
     public abstract FieldMatrix<T> copy();
 
     /** {@inheritDoc} */
-    public FieldMatrix<T> add(FieldMatrix<T> m) throws IllegalArgumentException {
-
+    public FieldMatrix<T> add(FieldMatrix<T> m) {
         // safety check
         checkAdditionCompatible(m);
 
@@ -192,12 +192,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public FieldMatrix<T> subtract(final FieldMatrix<T> m) throws IllegalArgumentException {
-
+    public FieldMatrix<T> subtract(final FieldMatrix<T> m) {
         // safety check
         checkSubtractionCompatible(m);
 
@@ -211,7 +209,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
@@ -227,12 +224,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
     public FieldMatrix<T> scalarMultiply(final T d) {
-
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
         final FieldMatrix<T> out = createMatrix(rowCount, columnCount);
@@ -243,13 +238,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public FieldMatrix<T> multiply(final FieldMatrix<T> m)
-        throws IllegalArgumentException {
-
+    public FieldMatrix<T> multiply(final FieldMatrix<T> m) {
         // safety check
         checkMultiplicationCompatible(m);
 
@@ -268,18 +260,15 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return out;
-
     }
 
     /** {@inheritDoc} */
-    public FieldMatrix<T> preMultiply(final FieldMatrix<T> m)
-        throws IllegalArgumentException {
+    public FieldMatrix<T> preMultiply(final FieldMatrix<T> m) {
         return m.multiply(this);
     }
 
     /** {@inheritDoc} */
     public T[][] getData() {
-
         final T[][] data = buildArray(field, getRowDimension(), getColumnDimension());
 
         for (int i = 0; i < data.length; ++i) {
@@ -290,13 +279,11 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
         }
 
         return data;
-
     }
 
     /** {@inheritDoc} */
     public FieldMatrix<T> getSubMatrix(final int startRow, final int endRow,
                                        final int startColumn, final int endColumn) {
-
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
 
         final FieldMatrix<T> subMatrix =
@@ -635,8 +622,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public T[] operate(final T[] v)
-        throws IllegalArgumentException {
+    public T[] operate(final T[] v) {
 
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
@@ -657,8 +643,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> operate(final FieldVector<T> v)
-        throws IllegalArgumentException {
+    public FieldVector<T> operate(final FieldVector<T> v) {
         try {
             return new ArrayFieldVector<T>(operate(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
@@ -682,8 +667,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public T[] preMultiply(final T[] v)
-        throws IllegalArgumentException {
+    public T[] preMultiply(final T[] v) {
 
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
@@ -704,12 +688,10 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>> implements 
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> preMultiply(final FieldVector<T> v)
-        throws IllegalArgumentException {
+    public FieldVector<T> preMultiply(final FieldVector<T> v) {
         try {
             return new ArrayFieldVector<T>(preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
-
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
             if (v.getDimension() != nRows) {

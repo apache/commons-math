@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathUserException;
-
-
 /**
  * Interface defining a real-valued matrix with basic algebraic operations.
  * <p>
@@ -29,7 +26,6 @@ import org.apache.commons.math.exception.MathUserException;
  * @version $Revision$ $Date$
  */
 public interface RealMatrix extends AnyMatrix {
-
     /**
      * Create a new RealMatrix of the same type as the instance with the supplied
      * row and column dimensions.

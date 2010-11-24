@@ -20,7 +20,6 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Interface defining field-valued matrix with basic algebraic operations.
@@ -32,7 +31,6 @@ import org.apache.commons.math.exception.MathUserException;
  * @version $Revision$ $Date$
  */
 public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
-
     /**
      * Get the type of field elements of the matrix.
      *

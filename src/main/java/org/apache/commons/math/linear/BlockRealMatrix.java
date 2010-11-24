@@ -86,8 +86,8 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      *
      * @param rows  the number of rows in the new matrix
      * @param columns  the number of columns in the new matrix
-     * @throws IllegalArgumentException if row or column dimension is not
-     * positive.
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if row or column dimension is not positive.
      */
     public BlockRealMatrix(final int rows, final int columns) {
         super(rows, columns);
@@ -109,28 +109,26 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * <pre>matrix = new BlockRealMatrix(rawData.length, rawData[0].length,
      *                                   toBlocksLayout(rawData), false);</pre>
      * </p>
-     * @param rawData data for new matrix, in raw layout
      *
-     * @exception IllegalArgumentException if <code>blockData</code> shape is
-     * inconsistent with block layout
+     * @param rawData data for new matrix, in raw layout
+     * @throws DimensionMismatchException if the shape of {@code blockData} is
+     * inconsistent with block layout.
      * @see #BlockRealMatrix(int, int, double[][], boolean)
      */
-    public BlockRealMatrix(final double[][] rawData)
-        throws IllegalArgumentException {
+    public BlockRealMatrix(final double[][] rawData) {
         this(rawData.length, rawData[0].length, toBlocksLayout(rawData), false);
     }
 
     /**
      * Create a new dense matrix copying entries from block layout data.
      * <p>The input array <em>must</em> already be in blocks layout.</p>
-     * @param rows  the number of rows in the new matrix
-     * @param columns  the number of columns in the new matrix
-     * @param blockData data for new matrix
-     * @param copyArray if true, the input array will be copied, otherwise
-     * it will be referenced
      *
-     * @exception IllegalArgumentException if <code>blockData</code> shape is
-     * inconsistent with block layout
+     * @param rows Number of rows in the new matrix.
+     * @param columns Number of columns in the new matrix.
+     * @param blockData data for new matrix
+     * @param copyArray Whether the input array will be copied or referenced.
+     * @throws DimensionMismatchException if the shape of {@code blockData} is
+     * inconsistent with block layout.
      * @see #createBlocksLayout(int, int)
      * @see #toBlocksLayout(double[][])
      * @see #BlockRealMatrix(double[][])
@@ -183,10 +181,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * It can be used to provide the array argument of the {@link
      * #BlockRealMatrix(int, int, double[][], boolean)} constructor.
      * </p>
-     * @param rawData data array in raw layout
-     * @return a new data array containing the same entries but in blocks layout
-     * @exception IllegalArgumentException if <code>rawData</code> is not rectangular
-     *  (not all rows have the same length)
+     * @param rawData Data array in raw layout.
+     * @return a new data array containing the same entries but in blocks layout.
+     * @throws DimensionMismatchException if {@code rawData} is not rectangular.
      * @see #createBlocksLayout(int, int)
      * @see #BlockRealMatrix(int, int, double[][], boolean)
      */
@@ -239,9 +236,9 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
      * This method can be used to create the array argument of the {@link
      * #BlockRealMatrix(int, int, double[][], boolean)} constructor.
      * </p>
-     * @param rows  the number of rows in the new matrix
-     * @param columns  the number of columns in the new matrix
-     * @return a new data array in blocks layout
+     * @param rows Number of rows in the new matrix.
+     * @param columns Number of columns in the new matrix.
+     * @return a new data array in blocks layout.
      * @see #toBlocksLayout(double[][])
      * @see #BlockRealMatrix(int, int, double[][], boolean)
      */

@@ -111,7 +111,7 @@ public interface SingularValueDecomposition {
      * @exception IllegalArgumentException if minSingularValue is larger than
      * the largest singular value, meaning all singular values are ignored
      */
-    RealMatrix getCovariance(double minSingularValue) throws IllegalArgumentException;
+    RealMatrix getCovariance(double minSingularValue);
 
     /**
      * Returns the L<sub>2</sub> norm of the matrix.
