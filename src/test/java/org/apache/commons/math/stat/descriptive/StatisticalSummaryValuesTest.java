@@ -17,6 +17,8 @@
 package org.apache.commons.math.stat.descriptive;
 
 
+import java.util.Locale;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
@@ -64,5 +66,20 @@ public final class StatisticalSummaryValuesTest extends TestCase {
         TestUtils.assertEquals("mean",s.getMean(),u.getMean(), 0);
         TestUtils.assertEquals("min",s.getMin(),u.getMin(), 0);
         TestUtils.assertEquals("max",s.getMax(),u.getMax(), 0);
+    }
+    
+    public void testToString() {
+        StatisticalSummaryValues u  = new StatisticalSummaryValues(4.5, 16, 10, 5, 4, 45);
+        Locale d = Locale.getDefault();
+        Locale.setDefault(Locale.US);
+        assertEquals("StatisticalSummaryValues:\n" +
+                     "n: 10\n" +
+                     "min: 4.0\n" +
+                     "max: 5.0\n" +
+                     "mean: 4.5\n" +
+                     "std dev: 4.0\n" +
+                     "variance: 16.0\n" +
+                     "sum: 45.0\n",  u.toString());
+        Locale.setDefault(d);
     }
 }

@@ -160,5 +160,27 @@ public class StatisticalSummaryValues implements Serializable,
         result = result * 31 + MathUtils.hash(getVariance());
         return result;
     }
+    
+    /**
+     * Generates a text report displaying values of statistics.
+     * Each statistic is displayed on a separate line.
+     *
+     * @return String with line feeds displaying statistics
+     */
+    @Override
+    public String toString() {
+        StringBuffer outBuffer = new StringBuffer();
+        String endl = "\n";
+        outBuffer.append("StatisticalSummaryValues:").append(endl);
+        outBuffer.append("n: ").append(getN()).append(endl);
+        outBuffer.append("min: ").append(getMin()).append(endl);
+        outBuffer.append("max: ").append(getMax()).append(endl);
+        outBuffer.append("mean: ").append(getMean()).append(endl);
+        outBuffer.append("std dev: ").append(getStandardDeviation())
+            .append(endl);
+        outBuffer.append("variance: ").append(getVariance()).append(endl);
+        outBuffer.append("sum: ").append(getSum()).append(endl);
+        return outBuffer.toString();
+    }
 
 }
