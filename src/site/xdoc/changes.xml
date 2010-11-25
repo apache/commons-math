@@ -111,6 +111,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-420">
+        Added toString() override to StatisticalSummaryValues.
+      </action>
       <action dev="luc" type="fix" issue="MATH-380">
         Deprecated the whole ode.jacobians package. It is clumsy and difficult to use. It will
         be replaced by a completely rewritten implementation in 3.0, which will be more tightly
