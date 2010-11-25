@@ -21,18 +21,18 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -96,14 +96,9 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class NonLinearConjugateGradientOptimizerTest
-extends TestCase {
-
-    public NonLinearConjugateGradientOptimizerTest(String name) {
-        super(name);
-    }
-
-    public void testTrivial() throws MathUserException {
+public class NonLinearConjugateGradientOptimizerTest {
+    @Test
+    public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         NonLinearConjugateGradientOptimizer optimizer =
@@ -112,12 +107,12 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0 });
-        assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(0.0, optimum.getValue(), 1.0e-10);
+        Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testColumnsPermutation() throws MathUserException {
-
+    @Test
+    public void testColumnsPermutation() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
                               new double[] { 4.0, 6.0, 1.0 });
@@ -128,13 +123,14 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0 });
-        assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(0.0, optimum.getValue(), 1.0e-10);
+        Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
 
     }
 
-    public void testNoDependency() throws MathUserException {
+    @Test
+    public void testNoDependency() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -150,12 +146,12 @@ extends TestCase {
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0, 0, 0, 0 });
         for (int i = 0; i < problem.target.length; ++i) {
-            assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
+            Assert.assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
         }
     }
 
-    public void testOneSet() throws MathUserException {
-
+    @Test
+    public void testOneSet() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
                 { -1,  1, 0 },
@@ -167,13 +163,14 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0 });
-        assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
 
     }
 
-    public void testTwoSets() throws MathUserException {
+    @Test
+    public void testTwoSets() {
         final double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -203,17 +200,17 @@ extends TestCase {
 
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0, 0, 0, 0 });
-        assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
-        assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
-        assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
-        assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
+        Assert.assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
+        Assert.assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
+        Assert.assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
 
     }
 
-    public void testNonInversible() throws MathUserException {
-
+    @Test
+    public void testNonInversible() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
                 {  2, 1,  3 },
@@ -225,10 +222,11 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
                 optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 0, 0, 0 });
-        assertTrue(optimum.getValue() > 0.5);
+        Assert.assertTrue(optimum.getValue() > 0.5);
     }
 
-    public void testIllConditioned() throws MathUserException {
+    @Test
+    public void testIllConditioned() {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -239,16 +237,14 @@ extends TestCase {
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
         optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-13, 1.0e-13));
-        BrentSolver solver = new BrentSolver();
-        solver.setAbsoluteAccuracy(1.0e-15);
-        solver.setRelativeAccuracy(1.0e-15);
+        BrentSolver solver = new BrentSolver(1e-15, 1e-15);
         optimizer.setLineSearchSolver(solver);
         RealPointValuePair optimum1 =
             optimizer.optimize(problem1, GoalType.MINIMIZE, new double[] { 0, 1, 2, 3 });
-        assertEquals(1.0, optimum1.getPoint()[0], 1.0e-5);
-        assertEquals(1.0, optimum1.getPoint()[1], 1.0e-5);
-        assertEquals(1.0, optimum1.getPoint()[2], 1.0e-5);
-        assertEquals(1.0, optimum1.getPoint()[3], 1.0e-5);
+        Assert.assertEquals(1.0, optimum1.getPoint()[0], 1.0e-4);
+        Assert.assertEquals(1.0, optimum1.getPoint()[1], 1.0e-4);
+        Assert.assertEquals(1.0, optimum1.getPoint()[2], 1.0e-4);
+        Assert.assertEquals(1.0, optimum1.getPoint()[3], 1.0e-4);
 
         LinearProblem problem2 = new LinearProblem(new double[][] {
                 { 10.00, 7.00, 8.10, 7.20 },
@@ -258,16 +254,15 @@ extends TestCase {
         }, new double[] { 32, 23, 33, 31 });
         RealPointValuePair optimum2 =
             optimizer.optimize(problem2, GoalType.MINIMIZE, new double[] { 0, 1, 2, 3 });
-        assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-1);
-        assertEquals(137.0, optimum2.getPoint()[1], 1.0e-1);
-        assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-1);
-        assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-1);
+        Assert.assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-1);
+        Assert.assertEquals(137.0, optimum2.getPoint()[1], 1.0e-1);
+        Assert.assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-1);
+        Assert.assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-1);
 
     }
 
-    public void testMoreEstimatedParametersSimple()
-        throws MathUserException {
-
+    @Test
+    public void testMoreEstimatedParametersSimple() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
                 { 0.0, 1.0, -1.0, 1.0 },
@@ -280,12 +275,12 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 7, 6, 5, 4 });
-        assertEquals(0, optimum.getValue(), 1.0e-10);
+        Assert.assertEquals(0, optimum.getValue(), 1.0e-10);
 
     }
 
-    public void testMoreEstimatedParametersUnsorted()
-        throws MathUserException {
+    @Test
+    public void testMoreEstimatedParametersUnsorted() {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                  { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -299,10 +294,11 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 2, 2, 2, 2, 2, 2 });
-        assertEquals(0, optimum.getValue(), 1.0e-10);
+        Assert.assertEquals(0, optimum.getValue(), 1.0e-10);
     }
 
-    public void testRedundantEquations() throws MathUserException {
+    @Test
+    public void testRedundantEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -315,12 +311,13 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 1, 1 });
-        assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
-        assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
+        Assert.assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
+        Assert.assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
 
     }
 
-    public void testInconsistentEquations() throws MathUserException {
+    @Test
+    public void testInconsistentEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -333,12 +330,13 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-6, 1.0e-6));
         RealPointValuePair optimum =
             optimizer.optimize(problem, GoalType.MINIMIZE, new double[] { 1, 1 });
-        assertTrue(optimum.getValue() > 0.1);
+        Assert.assertTrue(optimum.getValue() > 0.1);
 
     }
 
-    public void testCircleFitting() throws MathUserException {
-        Circle circle = new Circle();
+    @Test
+    public void testCircleFitting() {
+        CircleScalar circle = new CircleScalar();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
         circle.addPoint(110.0, -20.0);
@@ -348,16 +346,14 @@ extends TestCase {
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
         optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-30, 1.0e-30));
-        BrentSolver solver = new BrentSolver();
-        solver.setAbsoluteAccuracy(1.0e-13);
-        solver.setRelativeAccuracy(1.0e-15);
+        UnivariateRealSolver solver = new BrentSolver(1e-15, 1e-13);
         optimizer.setLineSearchSolver(solver);
         RealPointValuePair optimum =
             optimizer.optimize(circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
-        assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
-        assertEquals(96.075902096, center.x, 1.0e-8);
-        assertEquals(48.135167894, center.y, 1.0e-8);
+        Assert.assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
+        Assert.assertEquals(96.075902096, center.x, 1.0e-8);
+        Assert.assertEquals(48.135167894, center.y, 1.0e-8);
     }
 
     private static class LinearProblem implements DifferentiableMultivariateRealFunction, Serializable {
@@ -382,7 +378,7 @@ extends TestCase {
             return p;
         }
 
-        public double value(double[] variables) throws MathUserException {
+        public double value(double[] variables) {
             double[] y = factors.operate(variables);
             double sum = 0;
             for (int i = 0; i < y.length; ++i) {
@@ -409,86 +405,5 @@ extends TestCase {
                 }
             };
         }
-
     }
-
-    private static class Circle implements DifferentiableMultivariateRealFunction, Serializable {
-
-        private static final long serialVersionUID = -4711170319243817874L;
-
-        private ArrayList<Point2D.Double> points;
-
-        public Circle() {
-            points  = new ArrayList<Point2D.Double>();
-        }
-
-        public void addPoint(double px, double py) {
-            points.add(new Point2D.Double(px, py));
-        }
-
-        public double getRadius(Point2D.Double center) {
-            double r = 0;
-            for (Point2D.Double point : points) {
-                r += point.distance(center);
-            }
-            return r / points.size();
-        }
-
-        private double[] gradient(double[] point) {
-
-            // optimal radius
-            Point2D.Double center = new Point2D.Double(point[0], point[1]);
-            double radius = getRadius(center);
-
-            // gradient of the sum of squared residuals
-            double dJdX = 0;
-            double dJdY = 0;
-            for (Point2D.Double pk : points) {
-                double dk = pk.distance(center);
-                dJdX += (center.x - pk.x) * (dk - radius) / dk;
-                dJdY += (center.y - pk.y) * (dk - radius) / dk;
-            }
-            dJdX *= 2;
-            dJdY *= 2;
-
-            return new double[] { dJdX, dJdY };
-
-        }
-
-        public double value(double[] variables)
-                throws IllegalArgumentException, MathUserException {
-
-            Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
-            double radius = getRadius(center);
-
-            double sum = 0;
-            for (Point2D.Double point : points) {
-                double di = point.distance(center) - radius;
-                sum += di * di;
-            }
-
-            return sum;
-
-        }
-
-        public MultivariateVectorialFunction gradient() {
-            return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 3174909643301201710L;
-                public double[] value(double[] point) {
-                    return gradient(point);
-                }
-            };
-        }
-
-        public MultivariateRealFunction partialDerivative(final int k) {
-            return new MultivariateRealFunction() {
-                private static final long serialVersionUID = 3073956364104833888L;
-                public double value(double[] point) {
-                    return gradient(point)[k];
-                }
-            };
-        }
-
-    }
-
 }

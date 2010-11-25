@@ -109,8 +109,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * the {@link #value(double[])} method is called)
      */
     public LeastSquaresConverter(final MultivariateVectorialFunction function,
-                                 final double[] observations, final double[] weights)
-        throws IllegalArgumentException {
+                                 final double[] observations, final double[] weights) {
         if (observations.length != weights.length) {
             throw new DimensionMismatchException(observations.length, weights.length);
         }

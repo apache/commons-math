@@ -25,20 +25,19 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
-import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.NumberIsTooSmallException;
-import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -109,7 +108,7 @@ public class LevenbergMarquardtOptimizerTest
         super(name);
     }
 
-    public void testTrivial() throws MathUserException {
+    public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -126,7 +125,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
-    public void testQRColumnsPermutation() throws MathUserException {
+    public void testQRColumnsPermutation() {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -143,7 +142,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
     }
 
-    public void testNoDependency() throws MathUserException {
+    public void testNoDependency() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -162,7 +161,7 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testOneSet() throws MathUserException {
+    public void testOneSet() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -178,7 +177,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
     }
 
-    public void testTwoSets() throws MathUserException {
+    public void testTwoSets() {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -202,7 +201,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
     }
 
-    public void testNonInvertible() throws MathUserException {
+    public void testNonInvertible() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
@@ -221,7 +220,7 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testIllConditioned() throws MathUserException {
+    public void testIllConditioned() {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -254,7 +253,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
     }
 
-    public void testMoreEstimatedParametersSimple() throws MathUserException {
+    public void testMoreEstimatedParametersSimple() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 3.0, 2.0,  0.0, 0.0 },
@@ -268,7 +267,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
     }
 
-    public void testMoreEstimatedParametersUnsorted() throws MathUserException {
+    public void testMoreEstimatedParametersUnsorted() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
                 { 0.0, 0.0,  1.0,  1.0, 1.0,  0.0 },
@@ -288,7 +287,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(6.0, optimum.getPointRef()[5], 1.0e-10);
     }
 
-    public void testRedundantEquations() throws MathUserException {
+    public void testRedundantEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -304,7 +303,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(1.0, optimum.getPointRef()[1], 1.0e-10);
     }
 
-    public void testInconsistentEquations() throws MathUserException {
+    public void testInconsistentEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -316,7 +315,7 @@ public class LevenbergMarquardtOptimizerTest
         assertTrue(optimizer.getRMS() > 0.1);
     }
 
-    public void testInconsistentSizes() throws MathUserException {
+    public void testInconsistentSizes() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -346,8 +345,8 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testControlParameters() throws MathUserException {
-        Circle circle = new Circle();
+    public void testControlParameters() {
+        CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
         circle.addPoint(110.0, -20.0);
@@ -363,7 +362,7 @@ public class LevenbergMarquardtOptimizerTest
     private void checkEstimate(DifferentiableMultivariateVectorialFunction problem,
                                double initialStepBoundFactor, int maxCostEval,
                                double costRelativeTolerance, double parRelativeTolerance,
-                               double orthoTolerance, boolean shouldFail) throws MathUserException {
+                               double orthoTolerance, boolean shouldFail) {
         try {
             LevenbergMarquardtOptimizer optimizer
                 = new LevenbergMarquardtOptimizer(initialStepBoundFactor,
@@ -382,8 +381,8 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testCircleFitting() throws MathUserException {
-        Circle circle = new Circle();
+    public void testCircleFitting() {
+        CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
         circle.addPoint(110.0, -20.0);
@@ -430,8 +429,8 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals(0.004, errors[1], 0.001);
     }
 
-    public void testCircleFittingBadInit() throws MathUserException {
-        Circle circle = new Circle();
+    public void testCircleFittingBadInit() {
+        CircleVectorial circle = new CircleVectorial();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
                 {-0.390426,  0.260487}, {-0.361212,  0.328325}, {-0.346039,  0.392619},
@@ -483,7 +482,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
-    public void testMath199() throws MathUserException {
+    public void testMath199() {
         try {
             QuadraticProblem problem = new QuadraticProblem();
             problem.addPoint (0, -3.182591015485607);
@@ -522,83 +521,6 @@ public class LevenbergMarquardtOptimizerTest
                 private static final long serialVersionUID = 556396458721526234L;
                 public double[][] value(double[] point) {
                     return factors.getData();
-                }
-            };
-        }
-    }
-
-    private static class Circle implements DifferentiableMultivariateVectorialFunction, Serializable {
-
-        private static final long serialVersionUID = -4711170319243817874L;
-
-        private ArrayList<Point2D.Double> points;
-
-        public Circle() {
-            points  = new ArrayList<Point2D.Double>();
-        }
-
-        public void addPoint(double px, double py) {
-            points.add(new Point2D.Double(px, py));
-        }
-
-        public int getN() {
-            return points.size();
-        }
-
-        public double getRadius(Point2D.Double center) {
-            double r = 0;
-            for (Point2D.Double point : points) {
-                r += point.distance(center);
-            }
-            return r / points.size();
-        }
-
-        private double[][] jacobian(double[] point) {
-
-            int n = points.size();
-            Point2D.Double center = new Point2D.Double(point[0], point[1]);
-
-            // gradient of the optimal radius
-            double dRdX = 0;
-            double dRdY = 0;
-            for (Point2D.Double pk : points) {
-                double dk = pk.distance(center);
-                dRdX += (center.x - pk.x) / dk;
-                dRdY += (center.y - pk.y) / dk;
-            }
-            dRdX /= n;
-            dRdY /= n;
-
-            // jacobian of the radius residuals
-            double[][] jacobian = new double[n][2];
-            for (int i = 0; i < n; ++i) {
-                Point2D.Double pi = points.get(i);
-                double di   = pi.distance(center);
-                jacobian[i][0] = (center.x - pi.x) / di - dRdX;
-                jacobian[i][1] = (center.y - pi.y) / di - dRdY;
-            }
-
-            return jacobian;
-        }
-
-        public double[] value(double[] variables) {
-
-            Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
-            double radius = getRadius(center);
-
-            double[] residuals = new double[points.size()];
-            for (int i = 0; i < residuals.length; ++i) {
-                residuals[i] = points.get(i).distance(center) - radius;
-            }
-
-            return residuals;
-        }
-
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = -4340046230875165095L;
-                public double[][] value(double[] point) {
-                    return jacobian(point);
                 }
             };
         }

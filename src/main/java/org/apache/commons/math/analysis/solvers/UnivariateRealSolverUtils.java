@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NoBracketingException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -30,56 +30,53 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class UnivariateRealSolverUtils {
-
     /**
-     * Default constructor.
+     * Class contains only static methods.
      */
-    private UnivariateRealSolverUtils() {
-        super();
-    }
+    private UnivariateRealSolverUtils() {}
 
     /**
      * Convenience method to find a zero of a univariate real function.  A default
      * solver is used.
      *
-     * @param f the function.
-     * @param x0 the lower bound for the interval.
-     * @param x1 the upper bound for the interval.
+     * @param function Function.
+     * @param x0 Lower bound for the interval.
+     * @param x1 Upper bound for the interval.
      * @return a value where the function is zero.
-     * @throws ConvergenceException if the iteration count was exceeded
-     * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if f is null or the endpoints do not
-     * specify a valid interval
+     * specify a valid interval.
      */
-    public static double solve(UnivariateRealFunction f, double x0, double x1)
-    throws ConvergenceException, MathUserException {
-        setup(f);
-        return LazyHolder.FACTORY.newDefaultSolver().solve(f, x0, x1);
+    public static double solve(UnivariateRealFunction function, double x0, double x1) {
+        if (function == null) {
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+        }
+        final UnivariateRealSolver solver = new BrentSolver();
+        solver.setMaxEvaluations(Integer.MAX_VALUE);
+        return solver.solve(function, x0, x1);
     }
 
     /**
      * Convenience method to find a zero of a univariate real function.  A default
      * solver is used.
      *
-     * @param f the function
-     * @param x0 the lower bound for the interval
-     * @param x1 the upper bound for the interval
-     * @param absoluteAccuracy the accuracy to be used by the solver
-     * @return a value where the function is zero
-     * @throws ConvergenceException if the iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if f is null, the endpoints do not
-     * specify a valid interval, or the absoluteAccuracy is not valid for the
-     * default solver
+     * @param function Function.
+     * @param x0 Lower bound for the interval.
+     * @param x1 Upper bound for the interval.
+     * @param absoluteAccuracy Accuracy to be used by the solver.
+     * @return a value where the function is zero.
+     * @throws IllegalArgumentException if {@code function} is {@code null},
+     * the endpoints do not specify a valid interval, or the absolute accuracy
+     * is not valid for the default solver.
      */
-    public static double solve(UnivariateRealFunction f, double x0, double x1,
-            double absoluteAccuracy) throws ConvergenceException,
-            MathUserException {
-
-        setup(f);
-        UnivariateRealSolver solver = LazyHolder.FACTORY.newDefaultSolver();
-        solver.setAbsoluteAccuracy(absoluteAccuracy);
-        return solver.solve(f, x0, x1);
+    public static double solve(UnivariateRealFunction function,
+                               double x0, double x1,
+                               double absoluteAccuracy) {
+        if (function == null) {
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+        }
+        final UnivariateRealSolver solver = new BrentSolver(absoluteAccuracy);
+        solver.setMaxEvaluations(Integer.MAX_VALUE);
+        return solver.solve(function, x0, x1);
     }
 
     /**
@@ -110,23 +107,21 @@ public class UnivariateRealSolverUtils {
      * {@link #bracket(UnivariateRealFunction, double, double, double, int)},
      * explicitly specifying the maximum number of iterations.</p>
      *
-     * @param function the function
-     * @param initial initial midpoint of interval being expanded to
-     * bracket a root
-     * @param lowerBound lower bound (a is never lower than this value)
-     * @param upperBound upper bound (b never is greater than this
-     * value)
-     * @return a two element array holding {a, b}
-     * @throws ConvergenceException if a root can not be bracketted
-     * @throws MathUserException if an error occurs evaluating the function
+     * @param function Function.
+     * @param initial Initial midpoint of interval being expanded to
+     * bracket a root.
+     * @param lowerBound Lower bound (a is never lower than this value)
+     * @param upperBound Upper bound (b never is greater than this
+     * value).
+     * @return a two-element array holding a and b.
+     * @throws NoBracketingException if a root cannot be bracketted.
      * @throws IllegalArgumentException if function is null, maximumIterations
-     * is not positive, or initial is not between lowerBound and upperBound
+     * is not positive, or initial is not between lowerBound and upperBound.
      */
     public static double[] bracket(UnivariateRealFunction function,
-            double initial, double lowerBound, double upperBound)
-    throws ConvergenceException, MathUserException {
-        return bracket( function, initial, lowerBound, upperBound,
-            Integer.MAX_VALUE ) ;
+                                   double initial,
+                                   double lowerBound, double upperBound) {
+        return bracket(function, initial, lowerBound, upperBound, Integer.MAX_VALUE);
     }
 
      /**
@@ -148,42 +143,36 @@ public class UnivariateRealSolverUtils {
      * <li> <code> maximumIterations</code> iterations elapse
      * -- ConvergenceException </li></ul></p>
      *
-     * @param function the function
-     * @param initial initial midpoint of interval being expanded to
-     * bracket a root
-     * @param lowerBound lower bound (a is never lower than this value)
-     * @param upperBound upper bound (b never is greater than this
-     * value)
-     * @param maximumIterations maximum number of iterations to perform
-     * @return a two element array holding {a, b}.
-     * @throws ConvergenceException if the algorithm fails to find a and b
-     * satisfying the desired conditions
-     * @throws MathUserException if an error occurs evaluating the function
+     * @param function Function.
+     * @param initial Initial midpoint of interval being expanded to
+     * bracket a root.
+     * @param lowerBound Lower bound (a is never lower than this value).
+     * @param upperBound Upper bound (b never is greater than this
+     * value).
+     * @param maximumIterations Maximum number of iterations to perform
+     * @return a two element array holding a and b.
+     * @throws NoBracketingException if the algorithm fails to find a and b
+     * satisfying the desired conditions.
      * @throws IllegalArgumentException if function is null, maximumIterations
-     * is not positive, or initial is not between lowerBound and upperBound
+     * is not positive, or initial is not between lowerBound and upperBound.
      */
     public static double[] bracket(UnivariateRealFunction function,
-            double initial, double lowerBound, double upperBound,
-            int maximumIterations) throws ConvergenceException,
-            MathUserException {
-
+                                   double initial,
+                                   double lowerBound, double upperBound,
+                                   int maximumIterations)  {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         if (maximumIterations <= 0)  {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INVALID_MAX_ITERATIONS, maximumIterations);
+            throw new NotStrictlyPositiveException(LocalizedFormats.INVALID_MAX_ITERATIONS, maximumIterations);
         }
-        if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INVALID_BRACKETING_PARAMETERS,
-                  lowerBound, initial, upperBound);
-        }
+        verifySequence(lowerBound, initial, upperBound);
+
         double a = initial;
         double b = initial;
         double fa;
         double fb;
-        int numIterations = 0 ;
+        int numIterations = 0;
 
         do {
             a = FastMath.max(a - 1.0, lowerBound);
@@ -191,18 +180,18 @@ public class UnivariateRealSolverUtils {
             fa = function.value(a);
 
             fb = function.value(b);
-            numIterations++ ;
+            ++numIterations;
         } while ((fa * fb > 0.0) && (numIterations < maximumIterations) &&
                 ((a > lowerBound) || (b < upperBound)));
 
-        if (fa * fb > 0.0 ) {
-            throw new ConvergenceException(
-                      LocalizedFormats.FAILED_BRACKETING,
-                      numIterations, maximumIterations, initial,
-                      lowerBound, upperBound, a, b, fa, fb);
+        if (fa * fb > 0.0) {
+            throw new NoBracketingException(LocalizedFormats.FAILED_BRACKETING,
+                                            a, b, fa, fb,
+                                            numIterations, maximumIterations, initial,
+                                            lowerBound, upperBound);
         }
 
-        return new double[]{a, b};
+        return new double[] {a, b};
     }
 
     /**
@@ -213,28 +202,95 @@ public class UnivariateRealSolverUtils {
      * @return the midpoint.
      */
     public static double midpoint(double a, double b) {
-        return (a + b) * .5;
+        return (a + b) * 0.5;
     }
 
     /**
-     * Checks to see if f is null, throwing IllegalArgumentException if so.
-     * @param f  input function
-     * @throws IllegalArgumentException if f is null
+     * Check whether the function takes opposite signs at the endpoints.
+     *
+     * @param function Function.
+     * @param lower Lower endpoint.
+     * @param upper Upper endpoint.
+     * @return {@code true} if the function values have opposite signs at the
+     * given points.
      */
-    private static void setup(UnivariateRealFunction f) {
-        if (f == null) {
+    public static boolean isBracketing(UnivariateRealFunction function,
+                                       final double lower,
+                                       final double upper) {
+        if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
+        }
+        final double fLo = function.value(lower);
+        final double fHi = function.value(upper);
+        return (fLo > 0 && fHi < 0) || (fLo < 0 && fHi > 0);
+    }
+
+    /**
+     * Check whether the arguments form a (strictly) increasing sequence.
+     *
+     * @param start First number.
+     * @param mid Second number.
+     * @param end Third number.
+     * @return {@code true} if the arguments form an increasing sequence.
+     */
+    public static boolean isSequence(final double start,
+                                     final double mid,
+                                     final double end) {
+        return (start < mid) && (mid < end);
+    }
+
+    /**
+     * Check that the endpoints specify an interval.
+     *
+     * @param lower Lower endpoint.
+     * @param upper Upper endpoint.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     */
+    public static void verifyInterval(final double lower,
+                                      final double upper) {
+        if (lower >= upper) {
+            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
+                                                lower, upper, false);
         }
     }
 
-    // CHECKSTYLE: stop HideUtilityClassConstructor
-    /** Holder for the factory.
-     * <p>We use here the Initialization On Demand Holder Idiom.</p>
+    /**
+     * Check that {@code lower < initial < upper}.
+     *
+     * @param lower Lower endpoint.
+     * @param initial Initial value.
+     * @param upper Upper endpoint.
+     * @throws NumberIsTooLargeException if {@code lower >= initial} or
+     * {@code initial >= upper}.
      */
-    private static class LazyHolder {
-        /** Cached solver factory */
-        private static final UnivariateRealSolverFactory FACTORY = UnivariateRealSolverFactory.newInstance();
+    public static void verifySequence(final double lower,
+                                      final double initial,
+                                      final double upper) {
+        verifyInterval(lower, initial);
+        verifyInterval(initial, upper);
     }
-    // CHECKSTYLE: resume HideUtilityClassConstructor
 
+    /**
+     * Check that the endpoints specify an interval and the function takes
+     * opposite signs at the endpoints.
+     *
+     * @param function Function.
+     * @param lower Lower endpoint.
+     * @param upper Upper endpoint.
+     * @throws NoBracketingException if function has the same sign at the
+     * endpoints.
+     */
+    public static void verifyBracketing(UnivariateRealFunction function,
+                                        final double lower,
+                                        final double upper) {
+        if (function == null) {
+            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+        }
+        verifyInterval(lower, upper);
+        if (!isBracketing(function, lower, upper)) {
+            throw new NoBracketingException(lower, upper,
+                                            function.value(lower),
+                                            function.value(upper));
+        }
+    }
 }

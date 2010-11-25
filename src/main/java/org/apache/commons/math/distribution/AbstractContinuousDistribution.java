@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
@@ -27,6 +26,7 @@ import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.util.FastMath;
 
@@ -106,7 +106,7 @@ public abstract class AbstractContinuousDistribution
             bracket = UnivariateRealSolverUtils.bracket(
                     rootFindingFunction, getInitialDomain(p),
                     lowerBound, upperBound);
-        } catch (ConvergenceException ex) {
+        } catch (NumberIsTooLargeException ex) {
             /*
              * Check domain endpoints to see if one gives value that is within
              * the default solver's defaultAbsoluteAccuracy of 0 (will be the

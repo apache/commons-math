@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
@@ -35,106 +31,84 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class RiddersSolver extends UnivariateRealSolverImpl {
+public class RiddersSolver extends AbstractUnivariateRealSolver {
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver.
+     * Construct a solver with default accuracy.
      */
     public RiddersSolver() {
-        super(100, 1E-6);
+        this(DEFAULT_ABSOLUTE_ACCURACY);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public RiddersSolver(double absoluteAccuracy) {
+        super(absoluteAccuracy);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public RiddersSolver(double relativeAccuracy,
+                         double absoluteAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy);
     }
 
     /**
-     * Find a root in the given interval with initial value.
-     * <p>
-     * Requires bracketing condition.</p>
-     *
-     * @param f the function to solve
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param initial the start value to use
-     * @return the point at which the function value is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if any parameters are invalid
+     * {@inheritDoc}
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
-
-        // check for zeros before verifying bracketing
-        if (f.value(min) == 0.0) { return min; }
-        if (f.value(max) == 0.0) { return max; }
-        if (f.value(initial) == 0.0) { return initial; }
-
-        verifyBracketing(min, max, f);
-        verifySequence(min, initial, max);
-        if (isBracketing(min, initial, f)) {
-            return solve(f, min, initial);
-        } else {
-            return solve(f, initial, max);
-        }
-    }
-
-    /**
-     * Find a root in the given interval.
-     * <p>
-     * Requires bracketing condition.</p>
-     *
-     * @param f the function to solve
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the point at which the function value is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
-
+    @Override
+    protected double doSolve() {
+        double min = getMin();
+        double max = getMax();
         // [x1, x2] is the bracketing interval in each iteration
         // x3 is the midpoint of [x1, x2]
         // x is the new root approximation and an endpoint of the new interval
         double x1 = min;
-        double y1 = f.value(x1);
+        double y1 = computeObjectiveValue(x1);
         double x2 = max;
-        double y2 = f.value(x2);
+        double y2 = computeObjectiveValue(x2);
 
         // check for zeros before verifying bracketing
-        if (y1 == 0.0) {
+        if (y1 == 0) {
             return min;
         }
-        if (y2 == 0.0) {
+        if (y2 == 0) {
             return max;
         }
-        verifyBracketing(min, max, f);
+        verifyBracketing(min, max);
 
-        int i = 1;
+        final double absoluteAccuracy = getAbsoluteAccuracy();
+        final double functionValueAccuracy = getFunctionValueAccuracy();
+        final double relativeAccuracy = getRelativeAccuracy();
+
         double oldx = Double.POSITIVE_INFINITY;
-        while (i <= maximalIterationCount) {
+        while (true) {
             // calculate the new root approximation
             final double x3 = 0.5 * (x1 + x2);
-            final double y3 = f.value(x3);
+            final double y3 = computeObjectiveValue(x3);
             if (FastMath.abs(y3) <= functionValueAccuracy) {
-                setResult(x3, i);
-                return result;
+                return x3;
             }
             final double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
             final double correction = (MathUtils.sign(y2) * MathUtils.sign(y3)) *
                                       (x3 - x1) / FastMath.sqrt(delta);
             final double x = x3 - correction;                // correction != 0
-            final double y = f.value(x);
+            final double y = computeObjectiveValue(x);
 
             // check for convergence
             final double tolerance = FastMath.max(relativeAccuracy * FastMath.abs(x), absoluteAccuracy);
             if (FastMath.abs(x - oldx) <= tolerance) {
-                setResult(x, i);
-                return result;
+                return x;
             }
             if (FastMath.abs(y) <= functionValueAccuracy) {
-                setResult(x, i);
-                return result;
+                return x;
             }
 
             // prepare the new interval for next iteration
@@ -161,8 +135,6 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
                 }
             }
             oldx = x;
-            i++;
         }
-        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-
+import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 
 /**
- * Interface for (univariate real) root-finding algorithms.
+ * Interface for (polynomial) root-finding algorithms.
  * Implementations will search for only one zero in the given interval.
  *
  * @version $Revision$ $Date$
+ * @since 3.0
  */
-public interface UnivariateRealSolver
-    extends BaseUnivariateRealSolver<UnivariateRealFunction> {}
+public interface PolynomialSolver
+    extends BaseUnivariateRealSolver<PolynomialFunction> {}

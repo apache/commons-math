@@ -25,17 +25,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for {@link BrentSolver Brent} solver.
- * Because Brent-Dekker is guaranteed to converge in less than the default
- * maximum iteration count due to bisection fallback, it is quite hard to
- * debug. I include measured iteration counts plus one in order to detect
- * regressions. On average Brent-Dekker should use 4..5 iterations for the
- * default absolute accuracy of 10E-8 for sinus and the quintic function around
- * zero, and 5..10 iterations for the other zeros.
+ * Testcase for {@link SecantSolver}.
  *
  * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
-public final class BrentSolverTest {
+public final class SecantSolverTest {
     @Test
     public void testSinZero() {
         // The sinus function is behaved well around the root at pi. The second
@@ -43,20 +37,19 @@ public final class BrentSolverTest {
         // still converge quadratically.
         UnivariateRealFunction f = new SinFunction();
         double result;
-        UnivariateRealSolver solver = new BrentSolver();
+        UnivariateRealSolver solver = new SecantSolver();
         solver.setMaxEvaluations(10);
-        // Somewhat benign interval. The function is monotone.
+
         result = solver.solve(f, 3, 4);
-        // System.out.println(
+        //System.out.println(
+        //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
+        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertTrue(solver.getEvaluations() <= 6);
+        result = solver.solve(f, 1, 4);
+        //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 7);
-        // Larger and somewhat less benign interval. The function is grows first.
-        result = solver.solve(f, 1, 4);
-        // System.out.println(
-        //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
-        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 8);
     }
 
     @Test
@@ -71,86 +64,71 @@ public final class BrentSolverTest {
         UnivariateRealFunction f = new QuinticFunction();
         double result;
         // Brent-Dekker solver.
-        UnivariateRealSolver solver = new BrentSolver();
+        UnivariateRealSolver solver = new SecantSolver();
         solver.setMaxEvaluations(20);
-        // Symmetric bracket around 0. Test whether solvers can handle hitting
-        // the root in the first iteration.
         result = solver.solve(f, -0.2, 0.2);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 3);
-        // 1 iterations on i586 JDK 1.4.1.
-        // Asymmetric bracket around 0, just for fun. Contains extremum.
         result = solver.solve(f, -0.1, 0.3);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
-        // 5 iterations on i586 JDK 1.4.1.
         Assert.assertTrue(solver.getEvaluations() <= 7);
-        // Large bracket around 0. Contains two extrema.
         result = solver.solve(f, -0.3, 0.45);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
-        // 6 iterations on i586 JDK 1.4.1.
         Assert.assertTrue(solver.getEvaluations() <= 8);
-        // Benign bracket around 0.5, function is monotonous.
         result = solver.solve(f, 0.3, 0.7);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-        // 6 iterations on i586 JDK 1.4.1.
         Assert.assertTrue(solver.getEvaluations() <= 9);
-        // Less benign bracket around 0.5, contains one extremum.
         result = solver.solve(f, 0.2, 0.6);
-        // System.out.println(
+        //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 10);
-        // Large, less benign bracket around 0.5, contains both extrema.
+        Assert.assertTrue(solver.getEvaluations() <= 8);
         result = solver.solve(f, 0.05, 0.95);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 11);
-        // Relatively benign bracket around 1, function is monotonous. Fast growth for x>1
-        // is still a problem.
+        Assert.assertTrue(solver.getEvaluations() <= 10);
         result = solver.solve(f, 0.85, 1.25);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 11);
-        // Less benign bracket around 1 with extremum.
+        Assert.assertTrue(solver.getEvaluations() <= 12);
         result = solver.solve(f, 0.8, 1.2);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 11);
-        // Large bracket around 1. Monotonous.
+        Assert.assertTrue(solver.getEvaluations() <= 10);
         result = solver.solve(f, 0.85, 1.75);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 13);
-        // Large bracket around 1. Interval contains extremum.
+        Assert.assertTrue(solver.getEvaluations() <= 16);
+        // The followig is especially slow because the solver first has to reduce
+        // the bracket to exclude the extremum. After that, convergence is rapide.
         result = solver.solve(f, 0.55, 1.45);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 10);
-        // Very large bracket around 1 for testing fast growth behaviour.
+        Assert.assertTrue(solver.getEvaluations() <= 9);
         result = solver.solve(f, 0.85, 5);
         //System.out.println(
-       //     "Root: " + result + " Evaluations: " + solver.getEvaluations());
+        //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(solver.getEvaluations() <= 15);
+        Assert.assertTrue(solver.getEvaluations() <= 16);
     }
 
     @Test
     public void testRootEndpoints() {
         UnivariateRealFunction f = new SinFunction();
-        BrentSolver solver = new BrentSolver();
+        SecantSolver solver = new SecantSolver();
         solver.setMaxEvaluations(10);
 
         // endpoint is root
@@ -171,7 +149,7 @@ public final class BrentSolverTest {
     @Test
     public void testBadEndpoints() {
         UnivariateRealFunction f = new SinFunction();
-        BrentSolver solver = new BrentSolver();
+        SecantSolver solver = new SecantSolver();
         solver.setMaxEvaluations(10);
         try {  // bad interval
             solver.solve(f, 1, -1);
@@ -191,46 +169,5 @@ public final class BrentSolverTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
-    }
-
-    @Test
-    public void testInitialGuess() {
-        MonitoredFunction f = new MonitoredFunction(new QuinticFunction());
-        BrentSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(20);
-        double result;
-
-        // no guess
-        result = solver.solve(f, 0.6, 7.0);
-        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        int referenceCallsCount = f.getCallsCount();
-        Assert.assertTrue(referenceCallsCount >= 13);
-
-        // invalid guess (it *is* a root, but outside of the range)
-        try {
-          result = solver.solve(f, 0.6, 7.0, 0.0);
-          Assert.fail("an IllegalArgumentException was expected");
-        } catch (IllegalArgumentException iae) {
-            // expected behaviour
-        }
-
-        // bad guess
-        f.setCallsCount(0);
-        result = solver.solve(f, 0.6, 7.0, 0.61);
-        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(f.getCallsCount() > referenceCallsCount);
-
-        // good guess
-        f.setCallsCount(0);
-        result = solver.solve(f, 0.6, 7.0, 0.999999);
-        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertTrue(f.getCallsCount() < referenceCallsCount);
-
-        // perfect guess
-        f.setCallsCount(0);
-        result = solver.solve(f, 0.6, 7.0, 1.0);
-        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
-        Assert.assertEquals(1, solver.getEvaluations());
-        Assert.assertEquals(1, f.getCallsCount());
     }
 }

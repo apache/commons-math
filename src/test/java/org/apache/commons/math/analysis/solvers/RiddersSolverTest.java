@@ -16,17 +16,18 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
-
-import junit.framework.TestCase;
+import org.apache.commons.math.exception.NoBracketingException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Testcase for Ridders solver.
+ * Testcase for {@link RiddersSolver Ridders} solver.
  * <p>
  * Ridders' method converges superlinearly, more specific, its rate of
  * convergence is sqrt(2). Test runs show that for a default absolute
@@ -36,102 +37,109 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public final class RiddersSolverTest extends TestCase {
-
+public final class RiddersSolverTest {
     /**
      * Test of solver for the sine function.
      */
-    public void testSinFunction() throws MathException {
+    @Test
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
+        solver.setMaxEvaluations(10);
         double min, max, expected, result, tolerance;
 
         min = 3.0; max = 4.0; expected = FastMath.PI;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -1.0; max = 1.5; expected = 0.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of solver for the quintic function.
      */
-    public void testQuinticFunction() throws MathException {
+    @Test
+    public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new RiddersSolver();
+        solver.setMaxEvaluations(15);
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = 0.75; max = 1.5; expected = 1.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -0.9; max = -0.2; expected = -0.5;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of solver for the exponential function.
      */
-    public void testExpm1Function() throws MathException {
+    @Test
+    public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
         UnivariateRealSolver solver = new RiddersSolver();
+        solver.setMaxEvaluations(20);
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -20.0; max = 10.0; expected = 0.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -50.0; max = 100.0; expected = 0.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of parameters for the solver.
      */
-    public void testParameters() throws Exception {
+    @Test
+    public void testParameters() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
+        solver.setMaxEvaluations(10);
 
         try {
             // bad interval
             solver.solve(f, 1, -1);
-            fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting IllegalArgumentException - bad interval");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {
             // no bracketing
             solver.solve(f, 2, 3);
-            fail("Expecting IllegalArgumentException - no bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting IllegalArgumentException - no bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
     }

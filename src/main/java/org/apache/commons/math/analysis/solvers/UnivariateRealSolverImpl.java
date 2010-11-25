@@ -22,16 +22,17 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use
+ * {@link AbstractUnivariateRealSolver} instead.
  */
-public abstract class UnivariateRealSolverImpl
-    extends ConvergingAlgorithmImpl implements UnivariateRealSolver {
+@Deprecated
+public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl {
 
     /** Maximum error of function. */
     protected double functionValueAccuracy;

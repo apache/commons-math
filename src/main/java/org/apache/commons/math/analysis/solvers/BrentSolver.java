@@ -17,297 +17,214 @@
 package org.apache.commons.math.analysis.solvers;
 
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
- * Brent algorithm</a> for  finding zeros of real univariate functions.
- * <p>
- * The function should be continuous but not necessarily smooth.</p>
+ * This class implements the <a href="http://mathworld.wolfram.com/BrentsMethod.html">
+ * Brent algorithm</a> for finding zeros of real univariate functions.
+ * The function should be continuous but not necessarily smooth.
+ * The {@code solve} method returns a zero {@code x} of the function {@code f}
+ * in the given interval {@code [a, b]} to within a tolerance
+ * {@code 6 eps abs(x) + t} where {@code eps} is the relative accuracy and
+ * {@code t} is the absolute accuracy.
+ * The given interval must bracket the root.
  *
  * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
  */
-public class BrentSolver extends UnivariateRealSolverImpl {
-
-    /**
-     * Default absolute accuracy
-     * @since 2.1
-     */
-    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1E-6;
-
-    /** Default maximum number of iterations
-     * @since 2.1
-     */
-    public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
-
+public class BrentSolver extends AbstractUnivariateRealSolver {
     /** Serializable version identifier */
     private static final long serialVersionUID = 7694577816772532779L;
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver with default properties.
+     * Construct a solver with default accuracies.
      */
     public BrentSolver() {
-        super(DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
+        this(DEFAULT_ABSOLUTE_ACCURACY);
     }
-
     /**
-     * Construct a solver with the given absolute accuracy.
+     * Construct a solver.
      *
-     * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
-     * @since 2.1
+     * @param absoluteAccuracy Absolute accuracy.
      */
     public BrentSolver(double absoluteAccuracy) {
-        super(DEFAULT_MAXIMUM_ITERATIONS, absoluteAccuracy);
+        super(absoluteAccuracy);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public BrentSolver(double relativeAccuracy,
+                       double absoluteAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
+     * @param functionValueAccuracy Function value accuracy.
+     */
+    public BrentSolver(double relativeAccuracy,
+                       double absoluteAccuracy,
+                       double functionValueAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
     /**
-     * Contstruct a solver with the given maximum iterations and absolute accuracy.
-     *
-     * @param maximumIterations maximum number of iterations
-     * @param absoluteAccuracy lower bound for absolute accuracy of solutions returned by the solver
-     * @since 2.1
+     * {@inheritDoc}
      */
-    public BrentSolver(int maximumIterations, double absoluteAccuracy) {
-        super(maximumIterations, absoluteAccuracy);
-    }
+    @Override
+    protected double doSolve() {
+        double min = getMin();
+        double max = getMax();
+        final double initial = getStartValue();
+        final double functionValueAccuracy = getFunctionValueAccuracy();
 
-    /**
-     * Find a zero in the given interval with an initial guess.
-     * <p>Throws <code>IllegalArgumentException</code> if the values of the
-     * function at the three points have the same sign (note that it is
-     * allowed to have endpoints with the same sign if the initial point has
-     * opposite sign function-wise).</p>
-     *
-     * @param f function to solve.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @param initial the start value to use (must be set to min if no
-     * initial point is known).
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating  the function
-     * @throws IllegalArgumentException if initial is not between min and max
-     * (even if it <em>is</em> a root)
-     */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
+        verifySequence(min, initial, max);
 
-        clearResult();
-        if ((initial < min) || (initial > max)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS,
-                  min, initial, max);
-        }
-
-        // return the initial guess if it is good enough
-        double yInitial = f.value(initial);
+        // Return the initial guess if it is good enough.
+        double yInitial = computeObjectiveValue(initial);
         if (FastMath.abs(yInitial) <= functionValueAccuracy) {
-            setResult(initial, 0);
-            return result;
+            return initial;
         }
 
-        // return the first endpoint if it is good enough
-        double yMin = f.value(min);
+        // Return the first endpoint if it is good enough.
+        double yMin = computeObjectiveValue(min);
         if (FastMath.abs(yMin) <= functionValueAccuracy) {
-            setResult(min, 0);
-            return result;
+            return min;
         }
 
-        // reduce interval if min and initial bracket the root
+        // Reduce interval if min and initial bracket the root.
         if (yInitial * yMin < 0) {
-            return solve(f, min, yMin, initial, yInitial, min, yMin);
+            return brent(min, initial, yMin, yInitial);
         }
 
-        // return the second endpoint if it is good enough
-        double yMax = f.value(max);
+        // Return the second endpoint if it is good enough.
+        double yMax = computeObjectiveValue(max);
         if (FastMath.abs(yMax) <= functionValueAccuracy) {
-            setResult(max, 0);
-            return result;
+            return max;
         }
 
-        // reduce interval if initial and max bracket the root
+        // Reduce interval if initial and max bracket the root.
         if (yInitial * yMax < 0) {
-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+            return brent(initial, max, yInitial, yMax);
         }
 
-        throw MathRuntimeException.createIllegalArgumentException(
-              LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, yMin, yMax);
-
+        throw new NoBracketingException(min, max, yMin, yMax);
     }
 
     /**
-     * Find a zero in the given interval.
-     * <p>
-     * Requires that the values of the function at the endpoints have opposite
-     * signs. An <code>IllegalArgumentException</code> is thrown if this is not
-     * the case.</p>
+     * Search for a zero inside the provided interval.
+     * This implemenation is based on the algorithm described at page 58 of
+     * the book
+     * <quote>
+     *  <b>Algorithms for Minimization Without Derivatives</b>
+     *  <it>Richard P. Brent</it>
+     *  Dover 0-486-41998-3
+     * </quote>
      *
-     * @param f the function to solve
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min is not less than max or the
-     * signs of the values of the function at the endpoints are not opposites
+     * @param lo Lower bound of the search interval.
+     * @param hi Higher bound of the search interval.
+     * @param fLo Function value at the lower bound of the search interval.
+     * @param fHi Function value at the higher bound of the search interval.
+     * @return the value where the function is zero.
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
+    private double brent(double lo, double hi,
+                         double fLo, double fHi) {
+        double a = lo;
+        double fa = fLo;
+        double b = hi;
+        double fb = fHi;
+        double c = a;
+        double fc = fa;
+        double d = b - a;
+        double e = d;
 
-        clearResult();
-        verifyInterval(min, max);
+        final double t = getAbsoluteAccuracy();
+        final double eps = getRelativeAccuracy();
 
-        double ret = Double.NaN;
-
-        double yMin = f.value(min);
-        double yMax = f.value(max);
-
-        // Verify bracketing
-        double sign = yMin * yMax;
-        if (sign > 0) {
-            // check if either value is close to a zero
-            if (FastMath.abs(yMin) <= functionValueAccuracy) {
-                setResult(min, 0);
-                ret = min;
-            } else if (FastMath.abs(yMax) <= functionValueAccuracy) {
-                setResult(max, 0);
-                ret = max;
-            } else {
-                // neither value is close to zero and min and max do not bracket root.
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, yMin, yMax);
+        while (true) {
+            if (FastMath.abs(fc) < FastMath.abs(fb)) {
+                a = b;
+                b = c;
+                c = a;
+                fa = fb;
+                fb = fc;
+                fc = fa;
             }
-        } else if (sign < 0){
-            // solve using only the first endpoint as initial guess
-            ret = solve(f, min, yMin, max, yMax, min, yMin);
-        } else {
-            // either min or max is a root
-            if (yMin == 0.0) {
-                ret = min;
-            } else {
-                ret = max;
-            }
-        }
 
-        return ret;
-    }
+            final double tol = 2 * eps * FastMath.abs(b) + t;
+            final double m = 0.5 * (c - b);
 
-    /**
-     * Find a zero starting search according to the three provided points.
-     * @param f the function to solve
-     * @param x0 old approximation for the root
-     * @param y0 function value at the approximation for the root
-     * @param x1 last calculated approximation for the root
-     * @param y1 function value at the last calculated approximation
-     * for the root
-     * @param x2 bracket point (must be set to x0 if no bracket point is
-     * known, this will force starting with linear interpolation)
-     * @param y2 function value at the bracket point.
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     */
-    private double solve(final UnivariateRealFunction f,
-                         double x0, double y0,
-                         double x1, double y1,
-                         double x2, double y2)
-    throws MaxIterationsExceededException, MathUserException {
-
-        double delta = x1 - x0;
-        double oldDelta = delta;
-
-        int i = 0;
-        while (i < maximalIterationCount) {
-            if (FastMath.abs(y2) < FastMath.abs(y1)) {
-                // use the bracket point if is better than last approximation
-                x0 = x1;
-                x1 = x2;
-                x2 = x0;
-                y0 = y1;
-                y1 = y2;
-                y2 = y0;
+            if (FastMath.abs(m) <= tol ||
+                MathUtils.equals(fb, 0))  {
+                return b;
             }
-            if (FastMath.abs(y1) <= functionValueAccuracy) {
-                // Avoid division by very small values. Assume
-                // the iteration has converged (the problem may
-                // still be ill conditioned)
-                setResult(x1, i);
-                return result;
-            }
-            double dx = x2 - x1;
-            double tolerance =
-                FastMath.max(relativeAccuracy * FastMath.abs(x1), absoluteAccuracy);
-            if (FastMath.abs(dx) <= tolerance) {
-                setResult(x1, i);
-                return result;
-            }
-            if ((FastMath.abs(oldDelta) < tolerance) ||
-                    (FastMath.abs(y0) <= FastMath.abs(y1))) {
+            if (FastMath.abs(e) < tol ||
+                FastMath.abs(fa) <= FastMath.abs(fb)) {
                 // Force bisection.
-                delta = 0.5 * dx;
-                oldDelta = delta;
+                d = m;
+                e = d;
             } else {
-                double r3 = y1 / y0;
+                double s = fb / fa;
                 double p;
-                double p1;
-                // the equality test (x0 == x2) is intentional,
-                // it is part of the original Brent's method,
-                // it should NOT be replaced by proximity test
-                if (x0 == x2) {
+                double q;
+                // The equality test (a == c) is intentional,
+                // it is part of the original Brent's method and
+                // it should NOT be replaced by proximity test.
+                if (a == c) {
                     // Linear interpolation.
-                    p = dx * r3;
-                    p1 = 1.0 - r3;
+                    p = 2 * m * s;
+                    q = 1 - s;
                 } else {
                     // Inverse quadratic interpolation.
-                    double r1 = y0 / y2;
-                    double r2 = y1 / y2;
-                    p = r3 * (dx * r1 * (r1 - r2) - (x1 - x0) * (r2 - 1.0));
-                    p1 = (r1 - 1.0) * (r2 - 1.0) * (r3 - 1.0);
+                    q = fa / fc;
+                    final double r = fb / fc;
+                    p = s * (2 * m * q * (q - r) - (b - a) * (r - 1));
+                    q = (q - 1) * (r - 1) * (s - 1);
                 }
-                if (p > 0.0) {
-                    p1 = -p1;
+                if (p > 0) {
+                    q = -q;
                 } else {
                     p = -p;
                 }
-                if (2.0 * p >= 1.5 * dx * p1 - FastMath.abs(tolerance * p1) ||
-                        p >= FastMath.abs(0.5 * oldDelta * p1)) {
+                s = e;
+                e = d;
+                if (p >= 1.5 * m * q - FastMath.abs(tol * q) ||
+                    p >= FastMath.abs(0.5 * s * q)) {
                     // Inverse quadratic interpolation gives a value
                     // in the wrong direction, or progress is slow.
                     // Fall back to bisection.
-                    delta = 0.5 * dx;
-                    oldDelta = delta;
+                    d = m;
+                    e = d;
                 } else {
-                    oldDelta = delta;
-                    delta = p / p1;
+                    d = p / q;
                 }
             }
-            // Save old X1, Y1
-            x0 = x1;
-            y0 = y1;
-            // Compute new X1, Y1
-            if (FastMath.abs(delta) > tolerance) {
-                x1 = x1 + delta;
-            } else if (dx > 0.0) {
-                x1 = x1 + 0.5 * tolerance;
-            } else if (dx <= 0.0) {
-                x1 = x1 - 0.5 * tolerance;
+            a = b;
+            fa = fb;
+
+            if (FastMath.abs(d) > tol) {
+                b += d;
+            } else if (m > 0) {
+                b += tol;
+            } else {
+                b -= tol;
             }
-            y1 = f.value(x1);
-            if ((y1 > 0) == (y2 > 0)) {
-                x2 = x0;
-                y2 = y0;
-                delta = x1 - x0;
-                oldDelta = delta;
+            fb = computeObjectiveValue(b);
+            if ((fb > 0 && fc > 0) ||
+                (fb <= 0 && fc <= 0)) {
+                c = a;
+                fc = fa;
+                d = b - a;
+                e = d;
             }
-            i++;
         }
-        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

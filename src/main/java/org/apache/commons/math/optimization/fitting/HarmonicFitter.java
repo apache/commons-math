@@ -77,6 +77,7 @@ public class HarmonicFitter {
      * @return harmonic Function that best fits the observed points.
      * @throws NumberIsTooSmallException if the sample is too short or if
      * the first guess cannot be computed.
+     * @throws OptimizationException
      */
     public HarmonicFunction fit() throws OptimizationException {
         // shall we compute the first guess of the parameters ourselves ?
@@ -93,7 +94,7 @@ public class HarmonicFitter {
                 guesser.getGuessedAmplitude(),
                 guesser.getGuessedPulsation(),
                 guesser.getGuessedPhase()
-            };    
+            };
         }
 
         double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);

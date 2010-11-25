@@ -22,8 +22,9 @@ import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.util.FastMath;
-
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Testcase for Laguerre solver.
@@ -35,144 +36,145 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public final class LaguerreSolverTest extends TestCase {
-
+public final class LaguerreSolverTest {
     /**
      * Test of solver for the linear function.
      */
-    public void testLinearFunction() throws MathException {
+    @Test
+    public void testLinearFunction() {
         double min, max, expected, result, tolerance;
 
         // p(x) = 4x - 1
         double coefficients[] = { -1.0, 4.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver();
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.setMaxEvaluations(10);
 
         min = 0.0; max = 1.0; expected = 0.25;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of solver for the quadratic function.
      */
-    public void testQuadraticFunction() throws MathException {
+    @Test
+    public void testQuadraticFunction() {
         double min, max, expected, result, tolerance;
 
         // p(x) = 2x^2 + 5x - 3 = (x+3)(2x-1)
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver();
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.setMaxEvaluations(10);
 
         min = 0.0; max = 2.0; expected = 0.5;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -4.0; max = -1.0; expected = -3.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of solver for the quintic function.
      */
-    public void testQuinticFunction() throws MathException {
+    @Test
+    public void testQuinticFunction() {
         double min, max, expected, result, tolerance;
 
         // p(x) = x^5 - x^4 - 12x^3 + x^2 - x - 12 = (x+1)(x+3)(x-4)(x^2-x+1)
         double coefficients[] = { -12.0, -1.0, 1.0, -12.0, -1.0, 1.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver();
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.setMaxEvaluations(10);
 
         min = -2.0; max = 2.0; expected = -1.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -5.0; max = -2.5; expected = -3.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = 3.0; max = 6.0; expected = 4.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
                     FastMath.abs(expected * solver.getRelativeAccuracy()));
         result = solver.solve(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of solver for the quintic function using solveAll().
+     * XXX commented out because "solveAll" is not part of the API.
      */
-    public void testQuinticFunction2() throws MathException {
-        double initial = 0.0, tolerance;
-        Complex expected, result[];
+    // public void testQuinticFunction2() {
+    //     double initial = 0.0, tolerance;
+    //     Complex expected, result[];
 
-        // p(x) = x^5 + 4x^3 + x^2 + 4 = (x+1)(x^2-x+1)(x^2+4)
-        double coefficients[] = { 4.0, 0.0, 1.0, 4.0, 0.0, 1.0 };
-        LaguerreSolver solver = new LaguerreSolver();
-        result = solver.solveAll(coefficients, initial);
+    //     // p(x) = x^5 + 4x^3 + x^2 + 4 = (x+1)(x^2-x+1)(x^2+4)
+    //     double coefficients[] = { 4.0, 0.0, 1.0, 4.0, 0.0, 1.0 };
+    //     LaguerreSolver solver = new LaguerreSolver();
+    //     result = solver.solveAll(coefficients, initial);
 
-        expected = new Complex(0.0, -2.0);
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-        TestUtils.assertContains(result, expected, tolerance);
+    //     expected = new Complex(0.0, -2.0);
+    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+    //     TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(0.0, 2.0);
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-        TestUtils.assertContains(result, expected, tolerance);
+    //     expected = new Complex(0.0, 2.0);
+    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+    //     TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(0.5, 0.5 * FastMath.sqrt(3.0));
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-        TestUtils.assertContains(result, expected, tolerance);
+    //     expected = new Complex(0.5, 0.5 * FastMath.sqrt(3.0));
+    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+    //     TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(-1.0, 0.0);
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-        TestUtils.assertContains(result, expected, tolerance);
+    //     expected = new Complex(-1.0, 0.0);
+    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+    //     TestUtils.assertContains(result, expected, tolerance);
 
-        expected = new Complex(0.5, -0.5 * FastMath.sqrt(3.0));
-        tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-                    FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-        TestUtils.assertContains(result, expected, tolerance);
-    }
+    //     expected = new Complex(0.5, -0.5 * FastMath.sqrt(3.0));
+    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+    //     TestUtils.assertContains(result, expected, tolerance);
+    // }
 
     /**
      * Test of parameters for the solver.
      */
-    public void testParameters() throws Exception {
+    @Test
+    public void testParameters() {
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
-        UnivariateRealSolver solver = new LaguerreSolver();
+        LaguerreSolver solver = new LaguerreSolver();
+        solver.setMaxEvaluations(10);
 
         try {
             // bad interval
             solver.solve(f, 1, -1);
-            fail("Expecting IllegalArgumentException - bad interval");
+            Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // no bracketing
             solver.solve(f, 2, 3);
-            fail("Expecting IllegalArgumentException - no bracketing");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
-        try {
-            // bad function
-            solver.solve(new SinFunction(), -1, 1);
-            fail("Expecting IllegalArgumentException - bad function");
+            Assert.fail("Expecting IllegalArgumentException - no bracketing");
         } catch (IllegalArgumentException ex) {
             // expected
         }

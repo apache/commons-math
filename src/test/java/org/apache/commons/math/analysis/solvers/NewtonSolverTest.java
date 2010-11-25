@@ -16,78 +16,78 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
  */
-public final class NewtonSolverTest extends TestCase {
-
+public final class NewtonSolverTest {
     /**
      *
      */
-    public void testSinZero() throws MathException {
+    @Test
+    public void testSinZero() {
         DifferentiableUnivariateRealFunction f = new SinFunction();
         double result;
 
-        UnivariateRealSolver solver = new NewtonSolver();
+        NewtonSolver solver = new NewtonSolver();
+        solver.setMaxEvaluations(10);
         result = solver.solve(f, 3, 4);
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 1, 4);
-        assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
-        assertEquals(result, solver.getResult(), 0);
-        assertTrue(solver.getIterationCount() > 0);
+        Assert.assertTrue(solver.getEvaluations() > 0);
     }
 
     /**
      *
      */
-    public void testQuinticZero() throws MathException {
+    @Test
+    public void testQuinticZero() {
         DifferentiableUnivariateRealFunction f = new QuinticFunction();
         double result;
 
-        UnivariateRealSolver solver = new NewtonSolver();
+        NewtonSolver solver = new NewtonSolver();
+        solver.setMaxEvaluations(30);
         result = solver.solve(f, -0.2, 0.2);
-        assertEquals(result, 0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, -0.1, 0.3);
-        assertEquals(result, 0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, -0.3, 0.45);
-        assertEquals(result, 0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.3, 0.7);
-        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.2, 0.6);
-        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.05, 0.95);
-        assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.85, 1.25);
-        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.8, 1.2);
-        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.85, 1.75);
-        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.55, 1.45);
-        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
         result = solver.solve(f, 0.85, 5);
-        assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
+        Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
     }
-
 }

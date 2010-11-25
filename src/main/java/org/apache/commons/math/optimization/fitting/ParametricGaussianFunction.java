@@ -97,11 +97,9 @@ public class ParametricGaussianFunction implements ParametricRealFunction, Seria
      * respect to {@code c}, and the partial derivative of {@code f(a, b, c,
      * d)} with respect to {@code d}.
      *
-     * @param x {@code x} value to be used as constant in {@code f(a, b, c, d)}.
-     * @param parameters values of {@code a}, {@code b}, {@code c}, and
-     * {@code d} for computation of gradient vector of {@code f(a, b, c, d)}.
-     * @return the gradient vector of {@code f(a, b, c, d)}.
+     * @param x Value to be used as constant in {@code f(x, a, b, c, d)}.
      * @param parameters Values of {@code a}, {@code b}, {@code c}, and {@code d}.
+     * @return the gradient vector of {@code f(a, b, c, d)}.
      * @throws NullArgumentException if {@code parameters} is {@code null}.
      * @throws DimensionMismatchException if the size of {@code parameters} is
      * not 4.

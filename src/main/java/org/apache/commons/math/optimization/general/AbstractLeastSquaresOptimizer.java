@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
@@ -98,9 +97,10 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
-     * @throws MathUserException if users jacobian function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
+     * function throws one.
      */
-    protected void updateJacobian() throws MathUserException {
+    protected void updateJacobian() {
         ++jacobianEvaluations;
         weightedResidualJacobian = jF.value(point);
         if (weightedResidualJacobian.length != rows) {
@@ -126,7 +126,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    protected void updateResidualsAndCost() throws MathUserException {
+    protected void updateResidualsAndCost() {
         objective = computeObjectiveValue(point);
         if (objective.length != rows) {
             throw new DimensionMismatchException(objective.length, rows);
@@ -176,9 +176,10 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the covariance matrix.
      * @throws org.apache.commons.math.exception.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
-     * @throws MathUserException if jacobian function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
+     * function throws one.
      */
-    public double[][] getCovariances() throws MathUserException {
+    public double[][] getCovariances() {
         // set up the jacobian
         updateJacobian();
 
@@ -211,9 +212,10 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.
-     * @throws MathUserException if jacobian function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
+     * function throws one.
      */
-    public double[] guessParametersErrors() throws MathUserException {
+    public double[] guessParametersErrors() {
         if (rows <= cols) {
             throw new NumberIsTooSmallException(LocalizedFormats.NO_DEGREES_OF_FREEDOM,
                                                 rows, cols, false);
@@ -231,7 +233,7 @@ public abstract class AbstractLeastSquaresOptimizer
     @Override
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
-                                            final double[] startPoint) throws MathUserException {
+                                            final double[] startPoint) {
         // Reset counter.
         jacobianEvaluations = 0;
 

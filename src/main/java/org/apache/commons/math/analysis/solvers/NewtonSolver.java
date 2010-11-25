@@ -17,12 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -33,76 +28,58 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Revision$ $Date$
  */
-public class NewtonSolver extends UnivariateRealSolverImpl {
+public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
      * Construct a solver.
      */
     public NewtonSolver() {
-        super(100, 1E-6);
+        this(DEFAULT_ABSOLUTE_ACCURACY);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public NewtonSolver(double absoluteAccuracy) {
+        super(absoluteAccuracy);
     }
 
     /**
-     * Find a zero near the midpoint of <code>min</code> and <code>max</code>.
+     * Find a zero near the midpoint of {@code min} and {@code max}.
      *
-     * @param f the function to solve
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
-     * @throws IllegalArgumentException if min is not less than max
+     * @param f Function to solve.
+     * @param min Lower bound for the interval?
+     * @param max Upper bound for the interval.
+     * @return the value where the function is zero.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximum evaluation count is exceeded.
+     * @throws IllegalArgumentException if {@code min >= max}.
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException  {
-        return solve(f, min, max, UnivariateRealSolverUtils.midpoint(min, max));
+    public double solve(final DifferentiableUnivariateRealFunction f,
+                        final double min, final double max) {
+        return super.solve(f, UnivariateRealSolverUtils.midpoint(min, max));
     }
 
     /**
-     * Find a zero near the value <code>startValue</code>.
-     *
-     * @param f the function to solve
-     * @param min the lower bound for the interval (ignored).
-     * @param max the upper bound for the interval (ignored).
-     * @param startValue the start value to use.
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
-     * @throws IllegalArgumentException if startValue is not between min and max or
-     * if function is not a {@link DifferentiableUnivariateRealFunction} instance
+     * {@inheritDoc}
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max, final double startValue)
-        throws MaxIterationsExceededException, MathUserException {
+    @Override
+    protected double doSolve() {
+        final double startValue = getStartValue();
+        final double absoluteAccuracy = getAbsoluteAccuracy();
 
-        try {
-
-            final UnivariateRealFunction derivative =
-                ((DifferentiableUnivariateRealFunction) f).derivative();
-            clearResult();
-            verifySequence(min, startValue, max);
-
-            double x0 = startValue;
-            double x1;
-
-            int i = 0;
-            while (i < maximalIterationCount) {
-
-                x1 = x0 - (f.value(x0) / derivative.value(x0));
-                if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
-                    setResult(x1, i);
-                    return x1;
-                }
-
-                x0 = x1;
-                ++i;
+        double x0 = startValue;
+        double x1;
+        while (true) {
+            x1 = x0 - (computeObjectiveValue(x0) / computeDerivativeObjectiveValue(x0));
+            if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
+                return x1;
             }
 
-            throw new MaxIterationsExceededException(maximalIterationCount);
-        } catch (ClassCastException cce) {
-            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.FUNCTION_NOT_DIFFERENTIABLE);
+            x0 = x1;
         }
     }
-
 }

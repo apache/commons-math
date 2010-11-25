@@ -27,6 +27,11 @@ import org.apache.commons.math.analysis.function.Identity;
  */
 public class FunctionUtils {
     /**
+     * Class only contains static methods.
+     */
+    private FunctionUtils() {}
+
+    /**
      * Compose functions.
      *
      * @param f List of functions.
@@ -142,6 +147,7 @@ public class FunctionUtils {
      *
      * @param f Binary function.
      * @param fixed Value to which the first argument of {@code f} is set.
+     * @return a unary function.
      */
     public static UnivariateRealFunction fix1stArgument(final BivariateRealFunction f,
                                                         final double fixed) {
@@ -157,6 +163,7 @@ public class FunctionUtils {
      *
      * @param f Binary function.
      * @param fixed Value to which the second argument of {@code f} is set.
+     * @return a unary function.
      */
     public static UnivariateRealFunction fix2ndArgument(final BivariateRealFunction f,
                                                         final double fixed) {

@@ -20,8 +20,9 @@ package org.apache.commons.math.ode.nonstiff;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -268,9 +269,8 @@ public class HighamHall54IntegratorTest
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch (IntegratorException ie) {
-       assertTrue(ie.getCause() != null);
-       assertTrue(ie.getCause() instanceof ConvergenceException);
+    } catch (TooManyEvaluationsException tmee) {
+        // Expected.
     }
 
 }

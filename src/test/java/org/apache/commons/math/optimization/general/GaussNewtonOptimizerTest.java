@@ -368,7 +368,7 @@ extends TestCase {
     }
 
     public void testMaxEvaluations() throws Exception {
-        Circle circle = new Circle();
+        CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
         circle.addPoint(110.0, -20.0);
@@ -388,7 +388,7 @@ extends TestCase {
     }
 
     public void testCircleFitting() throws MathUserException {
-        Circle circle = new Circle();
+        CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
         circle.addPoint(110.0, -20.0);
@@ -409,7 +409,7 @@ extends TestCase {
     }
 
     public void testCircleFittingBadInit() throws MathUserException {
-        Circle circle = new Circle();
+        CircleVectorial circle = new CircleVectorial();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
                 {-0.390426,  0.260487}, {-0.361212,  0.328325}, {-0.346039,  0.392619},
@@ -488,86 +488,5 @@ extends TestCase {
                 }
             };
         }
-
     }
-
-    private static class Circle implements DifferentiableMultivariateVectorialFunction, Serializable {
-
-        private static final long serialVersionUID = -7165774454925027042L;
-        private ArrayList<Point2D.Double> points;
-
-        public Circle() {
-            points  = new ArrayList<Point2D.Double>();
-        }
-
-        public void addPoint(double px, double py) {
-            points.add(new Point2D.Double(px, py));
-        }
-
-        public int getN() {
-            return points.size();
-        }
-
-        public double getRadius(Point2D.Double center) {
-            double r = 0;
-            for (Point2D.Double point : points) {
-                r += point.distance(center);
-            }
-            return r / points.size();
-        }
-
-        private double[][] jacobian(double[] variables) {
-
-            int n = points.size();
-            Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
-
-            // gradient of the optimal radius
-            double dRdX = 0;
-            double dRdY = 0;
-            for (Point2D.Double pk : points) {
-                double dk = pk.distance(center);
-                dRdX += (center.x - pk.x) / dk;
-                dRdY += (center.y - pk.y) / dk;
-            }
-            dRdX /= n;
-            dRdY /= n;
-
-            // jacobian of the radius residuals
-            double[][] jacobian = new double[n][2];
-            for (int i = 0; i < n; ++i) {
-                Point2D.Double pi = points.get(i);
-                double di   = pi.distance(center);
-                jacobian[i][0] = (center.x - pi.x) / di - dRdX;
-                jacobian[i][1] = (center.y - pi.y) / di - dRdY;
-           }
-
-            return jacobian;
-
-        }
-
-        public double[] value(double[] variables) {
-
-            Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
-            double radius = getRadius(center);
-
-            double[] residuals = new double[points.size()];
-            for (int i = 0; i < residuals.length; ++i) {
-                residuals[i] = points.get(i).distance(center) - radius;
-            }
-
-            return residuals;
-
-        }
-
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = -4340046230875165095L;
-                public double[][] value(double[] point) {
-                    return jacobian(point);
-                }
-            };
-        }
-
-    }
-
 }

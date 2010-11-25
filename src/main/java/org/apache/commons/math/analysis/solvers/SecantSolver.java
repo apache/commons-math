@@ -16,12 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -41,51 +36,45 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Revision$ $Date$
  */
-public class SecantSolver extends UnivariateRealSolverImpl {
+public class SecantSolver extends AbstractUnivariateRealSolver {
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver.
+     * Construct a solver with default accuracy.
      */
     public SecantSolver() {
-        super(100, 1E-6);
+        this(DEFAULT_ABSOLUTE_ACCURACY);
     }
-
     /**
-     * Find a zero in the given interval.
+     * Construct a solver.
      *
-     * @param f the function to solve
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param initial the start value to use (ignored)
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min is not less than max or the
-     * signs of the values of the function at the endpoints are not opposites
+     * @param absoluteAccuracy Absolute accuracy.
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
-        return solve(f, min, max);
+    public SecantSolver(double absoluteAccuracy) {
+        super(absoluteAccuracy);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public SecantSolver(double relativeAccuracy,
+                        double absoluteAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy);
     }
 
     /**
-     * Find a zero in the given interval.
-     * @param f the function to solve
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
-     * @return the value where the function is zero
-     * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min is not less than max or the
-     * signs of the values of the function at the endpoints are not opposites
+     * {@inheritDoc}
      */
-    public double solve(final UnivariateRealFunction f,
-                        final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
-
-        clearResult();
+    @Override
+    protected double doSolve() {
+        double min = getMin();
+        double max = getMax();
         verifyInterval(min, max);
+
+        final double functionValueAccuracy = getFunctionValueAccuracy();
 
         // Index 0 is the old approximation for the root.
         // Index 1 is the last calculated approximation  for the root.
@@ -94,20 +83,31 @@ public class SecantSolver extends UnivariateRealSolverImpl {
         // iteration.
         double x0 = min;
         double x1 = max;
-        double y0 = f.value(x0);
-        double y1 = f.value(x1);
+
+        double y0 = computeObjectiveValue(x0);
+        // return the first endpoint if it is good enough
+        if (FastMath.abs(y0) <= functionValueAccuracy) {
+            return x0;
+        }
+
+        // return the second endpoint if it is good enough
+        double y1 = computeObjectiveValue(x1);
+        if (FastMath.abs(y1) <= functionValueAccuracy) {
+            return x1;
+        }
 
         // Verify bracketing
         if (y0 * y1 >= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, min, max, y0, y1);
+            throw new NoBracketingException(min, max, y0, y1);
         }
+
+        final double absoluteAccuracy = getAbsoluteAccuracy();
+        final double relativeAccuracy = getRelativeAccuracy();
 
         double x2 = x0;
         double y2 = y0;
         double oldDelta = x2 - x1;
-        int i = 0;
-        while (i < maximalIterationCount) {
+        while (true) {
             if (FastMath.abs(y2) < FastMath.abs(y1)) {
                 x0 = x1;
                 x1 = x2;
@@ -117,13 +117,11 @@ public class SecantSolver extends UnivariateRealSolverImpl {
                 y2 = y0;
             }
             if (FastMath.abs(y1) <= functionValueAccuracy) {
-                setResult(x1, i);
-                return result;
+                return x1;
             }
-            if (FastMath.abs(oldDelta) <
-                FastMath.max(relativeAccuracy * FastMath.abs(x1), absoluteAccuracy)) {
-                setResult(x1, i);
-                return result;
+            if (FastMath.abs(oldDelta) < FastMath.max(relativeAccuracy * FastMath.abs(x1),
+                                                      absoluteAccuracy)) {
+                return x1;
             }
             double delta;
             if (FastMath.abs(y1) > FastMath.abs(y0)) {
@@ -140,16 +138,13 @@ public class SecantSolver extends UnivariateRealSolverImpl {
             x0 = x1;
             y0 = y1;
             x1 = x1 + delta;
-            y1 = f.value(x1);
+            y1 = computeObjectiveValue(x1);
             if ((y1 > 0) == (y2 > 0)) {
                 // New bracket is (x0,x1).
                 x2 = x0;
                 y2 = y0;
             }
             oldDelta = x2 - x1;
-            i++;
         }
-        throw new MaxIterationsExceededException(maximalIterationCount);
     }
-
 }

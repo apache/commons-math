@@ -235,7 +235,7 @@ public class DormandPrince853IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalValueError() < 5.0e-8);
+    assertEquals(0, handler.getMaximalValueError(), 1.1e-7);
     assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
     assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
     integ.clearEventHandlers();

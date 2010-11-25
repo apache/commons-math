@@ -17,125 +17,168 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public class UnivariateRealSolverUtilsTest extends TestCase {
+public class UnivariateRealSolverUtilsTest {
 
     protected UnivariateRealFunction sin = new SinFunction();
 
-    public void testSolveNull() throws MathException {
+    @Test
+    public void testSolveNull() {
         try {
             UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
-            fail();
+            Assert.fail();
         } catch(IllegalArgumentException ex){
             // success
         }
     }
 
-    public void testSolveBadEndpoints() throws MathException {
+    @Test
+    public void testSolveBadEndpoints() {
         try { // bad endpoints
-            UnivariateRealSolverUtils.solve(sin, -0.1, 4.0, 4.0);
-            fail("Expecting IllegalArgumentException");
+            double root = UnivariateRealSolverUtils.solve(sin, 4.0, -0.1, 1e-6);
+            System.out.println("root=" + root);
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
-    public void testSolveBadAccuracy() throws MathException {
+    @Test
+    public void testSolveBadAccuracy() {
         try { // bad accuracy
             UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0);
-//             fail("Expecting IllegalArgumentException"); // TODO needs rework since convergence behaviour was changed
+//             Assert.fail("Expecting IllegalArgumentException"); // TODO needs rework since convergence behaviour was changed
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
-    public void testSolveSin() throws MathException {
+    @Test
+    public void testSolveSin() {
         double x = UnivariateRealSolverUtils.solve(sin, 1.0, 4.0);
-        assertEquals(FastMath.PI, x, 1.0e-4);
+        Assert.assertEquals(FastMath.PI, x, 1.0e-4);
     }
 
-    public void testSolveAccuracyNull()  throws MathException {
+    @Test
+    public void testSolveAccuracyNull()  {
         try {
             double accuracy = 1.0e-6;
             UnivariateRealSolverUtils.solve(null, 0.0, 4.0, accuracy);
-            fail();
+            Assert.fail();
         } catch(IllegalArgumentException ex){
             // success
         }
     }
 
-    public void testSolveAccuracySin() throws MathException {
+    @Test
+    public void testSolveAccuracySin() {
         double accuracy = 1.0e-6;
         double x = UnivariateRealSolverUtils.solve(sin, 1.0,
                 4.0, accuracy);
-        assertEquals(FastMath.PI, x, accuracy);
+        Assert.assertEquals(FastMath.PI, x, accuracy);
     }
 
-    public void testSolveNoRoot() throws MathException {
+    @Test
+    public void testSolveNoRoot() {
         try {
             UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);
-            fail("Expecting IllegalArgumentException ");
+            Assert.fail("Expecting IllegalArgumentException ");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
-    public void testBracketSin() throws MathException {
+    @Test
+    public void testBracketSin() {
         double[] result = UnivariateRealSolverUtils.bracket(sin,
                 0.0, -2.0, 2.0);
-        assertTrue(sin.value(result[0]) < 0);
-        assertTrue(sin.value(result[1]) > 0);
+        Assert.assertTrue(sin.value(result[0]) < 0);
+        Assert.assertTrue(sin.value(result[1]) > 0);
     }
 
-    public void testBracketEndpointRoot() throws MathException {
+    @Test
+    public void testBracketEndpointRoot() {
         double[] result = UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0);
-        assertEquals(0.0, sin.value(result[0]), 1.0e-15);
-        assertTrue(sin.value(result[1]) > 0);
+        Assert.assertEquals(0.0, sin.value(result[0]), 1.0e-15);
+        Assert.assertTrue(sin.value(result[1]) > 0);
     }
 
-    public void testNullFunction() throws MathException {
+    @Test
+    public void testNullFunction() {
         try { // null function
             UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
     
-    public void testBadInitial() throws MathException {
+    @Test
+    public void testBadInitial() {
         try { // initial not between endpoints
             UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
     
-    public void testBadEndpoints() throws MathException {
+    @Test
+    public void testBadEndpoints() {
         try { // endpoints not valid
             UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
     
-    public void testBadMaximumIterations() throws MathException {
+    @Test
+    public void testBadMaximumIterations() {
         try { // bad maximum iterations
             UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
+    public void testMisc() {
+        UnivariateRealFunction f = new QuinticFunction();
+        double result;
+        // Static solve method
+        result = UnivariateRealSolverUtils.solve(f, -0.2, 0.2);
+        Assert.assertEquals(result, 0, 1E-8);
+        result = UnivariateRealSolverUtils.solve(f, -0.1, 0.3);
+        Assert.assertEquals(result, 0, 1E-8);
+        result = UnivariateRealSolverUtils.solve(f, -0.3, 0.45);
+        Assert.assertEquals(result, 0, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.3, 0.7);
+        Assert.assertEquals(result, 0.5, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.2, 0.6);
+        Assert.assertEquals(result, 0.5, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.05, 0.95);
+        Assert.assertEquals(result, 0.5, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 1.25);
+        Assert.assertEquals(result, 1.0, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.8, 1.2);
+        Assert.assertEquals(result, 1.0, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 1.75);
+        Assert.assertEquals(result, 1.0, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.55, 1.45);
+        Assert.assertEquals(result, 1.0, 1E-6);
+        result = UnivariateRealSolverUtils.solve(f, 0.85, 5);
+        Assert.assertEquals(result, 1.0, 1E-6);
+    }
 }

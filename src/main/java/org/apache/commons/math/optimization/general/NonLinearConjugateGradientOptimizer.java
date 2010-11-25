@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
@@ -40,7 +39,6 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  *
  */
-
 public class NonLinearConjugateGradientOptimizer
     extends AbstractScalarDifferentiableOptimizer {
     /** Update formula for the beta parameter. */
@@ -86,7 +84,8 @@ public class NonLinearConjugateGradientOptimizer
      * default {@link BrentSolver Brent solver}.
      */
     public void setLineSearchSolver(final UnivariateRealSolver lineSearchSolver) {
-        this.solver = lineSearchSolver;
+        solver = lineSearchSolver;
+        solver.setMaxEvaluations(getMaxEvaluations());
     }
 
     /**
@@ -116,6 +115,7 @@ public class NonLinearConjugateGradientOptimizer
         }
         if (solver == null) {
             solver = new BrentSolver();
+            solver.setMaxEvaluations(getMaxEvaluations());
         }
         point = getStartPoint();
         final GoalType goal = getGoalType();
@@ -158,15 +158,15 @@ public class NonLinearConjugateGradientOptimizer
 
             // Find the optimal step in the search direction.
             final UnivariateRealFunction lsf = new LineSearchFunction(searchDirection);
-            try {
-                final double step = solver.solve(lsf, 0, findUpperBound(lsf, 0, initialStep));
+            final double uB = findUpperBound(lsf, 0, initialStep);
+            // XXX Last parameters is set to a value clode to zero in order to
+            // work around the divergence problem in the "testCircleFitting"
+            // unit test (see MATH-439).
+            final double step = solver.solve(lsf, 0, uB, 1e-15);
 
-                // Validate new point.
-                for (int i = 0; i < point.length; ++i) {
-                    point[i] += step * searchDirection[i];
-                }
-            } catch (org.apache.commons.math.ConvergenceException e) {
-                throw new ConvergenceException(); // XXX ugly workaround.
+            // Validate new point.
+            for (int i = 0; i < point.length; ++i) {
+                point[i] += step * searchDirection[i];
             }
 
             r = computeObjectiveGradient(point);
@@ -242,7 +242,6 @@ public class NonLinearConjugateGradientOptimizer
         public double[] precondition(double[] variables, double[] r) {
             return r.clone();
         }
-
     }
 
     /** Internal class for line search.
@@ -267,7 +266,6 @@ public class NonLinearConjugateGradientOptimizer
 
         /** {@inheritDoc} */
         public double value(double x) throws MathUserException {
-
             // current point in the search direction
             final double[] shiftedPoint = point.clone();
             for (int i = 0; i < shiftedPoint.length; ++i) {
@@ -284,9 +282,6 @@ public class NonLinearConjugateGradientOptimizer
             }
 
             return dotProduct;
-
         }
-
     }
-
 }

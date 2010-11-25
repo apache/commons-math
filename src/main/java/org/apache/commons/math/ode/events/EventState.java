@@ -252,7 +252,8 @@ public class EventState {
                             }
                         }
                     };
-                    final BrentSolver solver = new BrentSolver(maxIterationCount, convergence);
+                    final BrentSolver solver = new BrentSolver(convergence);
+                    solver.setMaxEvaluations(maxIterationCount);
                     final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
                     if ((FastMath.abs(root - ta) <= convergence) &&
                          (FastMath.abs(root - previousEventTime) <= convergence)) {

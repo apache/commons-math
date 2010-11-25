@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
 import org.apache.commons.math.optimization.fitting.WeightedObservedPoint;
 
@@ -86,7 +85,8 @@ public class GaussianFitter {
 
     /**
      * Fits Gaussian function to the observed points.
-     * It will call {@link CurveFitter#fit()}.
+     * It will call the base class
+     * {@link CurveFitter#fit(ParametricRealFunction,double[]) fit} method.
      *
      * @return the Gaussian function that best fits the observed points.
      * @see CurveFitter

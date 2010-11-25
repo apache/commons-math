@@ -98,7 +98,7 @@ public enum LocalizedFormats implements Localizable {
     EVALUATION("evaluation"), /* keep */
     EXPANSION_FACTOR_SMALLER_THAN_ONE("expansion factor smaller than one ({0})"),
     FACTORIAL_NEGATIVE_PARAMETER("must have n >= 0 for n!, got n = {0}"),
-    FAILED_BRACKETING("number of iterations={0}, maximum iterations={1}, initial={2}, lower bound={3}, upper bound={4}, final a value={5}, final b value={6}, f(a)={7}, f(b)={8}"),
+    FAILED_BRACKETING("number of iterations={4}, maximum iterations={5}, initial={6}, lower bound={7}, upper bound={8}, final a value={0}, final b value={1}, f(a)={2}, f(b)={3}"),
     FAILED_FRACTION_CONVERSION("Unable to convert {0} to fraction after {1} iterations"),
     FIRST_COLUMNS_NOT_INITIALIZED_YET("first {0} columns are not initialized yet"),
     FIRST_ELEMENT_NOT_ZERO("first element is not 0: {0}"),
@@ -263,6 +263,7 @@ public enum LocalizedFormats implements Localizable {
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),
     PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permuation domain ({1})"), /* keep */
+    POLYNOMIAL("polynomial"), /* keep */
     POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS("number of polynomial interpolants must match the number of segments ({0} != {1} - 1)"),
     POPULATION_LIMIT_NOT_POSITIVE("population limit has to be positive"),
     POSITION_SIZE_MISMATCH_INPUT_ARRAY("position {0} and size {1} don't fit to the size of the input array {2}"),

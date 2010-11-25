@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -69,7 +68,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      *
      * @param a Coefficients in Newton form formula.
      * @param c Centers.
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * any argument is {@code null}.
      * @throws NoDataException if any array has zero length.
      * @throws DimensionMismatchException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
@@ -154,7 +154,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      * @param c Centers.
      * @param z Point at which the function value is to be computed.
      * @return the function value.
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * any argument is {@code null}.
      * @throws NoDataException if any array has zero length.
      * @throws DimensionMismatchException if the size difference between
      * {@code a} and {@code c} is not equal to 1.
@@ -202,7 +203,8 @@ public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
      *
      * @param a the coefficients in Newton form formula
      * @param c the centers
-     * @throws NullArgumentException if any argument is {@code null}.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * any argument is {@code null}.
      * @throws NoDataException if any array has zero length.
      * @throws DimensionMismatchException if the size difference between
      * {@code a} and {@code c} is not equal to 1.

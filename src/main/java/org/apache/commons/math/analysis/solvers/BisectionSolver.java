@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -29,39 +26,54 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Revision$ $Date$
  */
-public class BisectionSolver extends UnivariateRealSolverImpl {
+public class BisectionSolver extends AbstractUnivariateRealSolver {
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
+    /**
+     * Construct a solver with default accuracy.
+     */
+    public BisectionSolver() {
+        this(DEFAULT_ABSOLUTE_ACCURACY);
+    }
     /**
      * Construct a solver.
      *
+     * @param absoluteAccuracy Absolute accuracy.
      */
-    public BisectionSolver() {
-        super(100, 1E-6);
+    public BisectionSolver(double absoluteAccuracy) {
+        super(absoluteAccuracy);
+    }
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
+     */
+    public BisectionSolver(double relativeAccuracy,
+                           double absoluteAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy);
     }
 
-    /** {@inheritDoc} */
-    public double solve(final UnivariateRealFunction f, double min, double max, double initial)
-        throws MaxIterationsExceededException, MathUserException {
-        return solve(f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    public double solve(final UnivariateRealFunction f, double min, double max)
-        throws MaxIterationsExceededException, MathUserException {
-
-        clearResult();
-        verifyInterval(min,max);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected double doSolve() {
+        double min = getMin();
+        double max = getMax();
+        verifyInterval(min, max);
+        final double absoluteAccuracy = getAbsoluteAccuracy();
         double m;
         double fm;
         double fmin;
 
-        int i = 0;
-        while (i < maximalIterationCount) {
+        while (true) {
             m = UnivariateRealSolverUtils.midpoint(min, max);
-           fmin = f.value(min);
-           fm = f.value(m);
+            fmin = computeObjectiveValue(min);
+            fm = computeObjectiveValue(m);
 
-            if (fm * fmin > 0.0) {
+            if (fm * fmin > 0) {
                 // max and m bracket the root.
                 min = m;
             } else {
@@ -71,12 +83,8 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
 
             if (FastMath.abs(max - min) <= absoluteAccuracy) {
                 m = UnivariateRealSolverUtils.midpoint(min, max);
-                setResult(m, i);
                 return m;
             }
-            ++i;
         }
-
-        throw new MaxIterationsExceededException(maximalIterationCount);
     }
 }

@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for {@link MullerSolver Muller} solver.
+ * Testcase for {@link MullerSolver2 Muller} solver.
  * <p>
  * Muller's method converges almost quadratically near roots, but it can
  * be very slow in regions far away from zeros. Test runs show that for
@@ -37,16 +37,16 @@ import org.junit.Test;
  * Tests for the exponential function illustrate the situations where
  * Muller solver performs poorly.
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 1034896 $ $Date: 2010-11-13 23:27:34 +0100 (Sat, 13 Nov 2010) $
  */
-public final class MullerSolverTest {
+public final class MullerSolver2Test {
     /**
      * Test of solver for the sine function.
      */
     @Test
     public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateRealSolver solver = new MullerSolver2();
         solver.setMaxEvaluations(10);
         double min, max, expected, result, tolerance;
 
@@ -69,8 +69,8 @@ public final class MullerSolverTest {
     @Test
     public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
-        UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(15);
+        UnivariateRealSolver solver = new MullerSolver2();
+        solver.setMaxEvaluations(10);
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
@@ -95,15 +95,13 @@ public final class MullerSolverTest {
     /**
      * Test of solver for the exponential function.
      * <p>
-     * It takes 10 to 15 iterations for the last two tests to converge.
-     * In fact, if not for the bisection alternative, the solver would
-     * exceed the default maximal iteration of 100.
+     * It takes 25 to 50 iterations for the last two tests to converge.
      */
     @Test
     public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
-        UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(25);
+        UnivariateRealSolver solver = new MullerSolver2();
+        solver.setMaxEvaluations(55);
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
@@ -131,13 +129,12 @@ public final class MullerSolverTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateRealSolver solver = new MullerSolver2();
         solver.setMaxEvaluations(10);
 
         try {
             // bad interval
-            double root = solver.solve(f, 1, -1);
-            System.out.println("root=" + root);
+            solver.solve(f, 1, -1);
             Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (NumberIsTooLargeException ex) {
             // expected
