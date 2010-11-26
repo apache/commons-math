@@ -23,7 +23,11 @@ import java.util.NoSuchElementException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.analysis.BinaryFunction;
+import org.apache.commons.math.analysis.FunctionUtils;
+import org.apache.commons.math.analysis.function.Add;
+import org.apache.commons.math.analysis.function.Multiply;
+import org.apache.commons.math.analysis.function.Divide;
+import org.apache.commons.math.analysis.function.Power;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -154,7 +158,7 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapAddToSelf(double d) {
         if (d != 0) {
-            return mapToSelf(BinaryFunction.ADD.fix1stArgument(d));
+            return mapToSelf(FunctionUtils.fix2ndArgument(new Add(), d));
         }
         return this;
     }
@@ -349,7 +353,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapMultiplyToSelf(double d){
-        return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
+        return mapToSelf(FunctionUtils.fix2ndArgument(new Multiply(), d));
     }
 
     /** {@inheritDoc} */
@@ -369,7 +373,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapDivideToSelf(double d){
-        return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
+        return mapToSelf(FunctionUtils.fix2ndArgument(new Divide(), d));
     }
 
     /** {@inheritDoc} */
@@ -379,7 +383,7 @@ public abstract class AbstractRealVector implements RealVector {
 
     /** {@inheritDoc} */
     public RealVector mapPowToSelf(double d){
-        return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
+        return mapToSelf(new Power(d));
     }
 
     /** {@inheritDoc} */
