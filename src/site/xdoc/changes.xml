@@ -52,8 +52,15 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-430">
+        Replaced "ComposableFunction" and "BinaryFunction" (in package "analysis")
+        by a set of utilities in the new class "FunctionUtils" together with
+        independent function objects in the new "analysis.function" package.
+        Removed redundant "mapXxx" and "mapXxxToSelf" methods in "RealVector" and
+        "AbstractRealVector" (in package "linear").
+      </action>
       <action dev="erans" type="update" issue="MATH-439">
-        Refacoring of the "analysis.solvers" package.
+        Refactoring of the "analysis.solvers" package.
       </action>
       <action dev="luc" type="fix" issue="MATH-380">
         Removed the ode.jacobians package.
