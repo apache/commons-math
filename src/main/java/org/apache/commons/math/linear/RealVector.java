@@ -24,21 +24,21 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface defining a real-valued vector with basic algebraic operations.
  * <p>
- * vector element indexing is 0-based -- e.g., <code>getEntry(0)</code>
+ * vector element indexing is 0-based -- e.g., {@code getEntry(0)}
  * returns the first element of the vector.
  * </p>
  * <p>
- * The various <code>mapXxx</code> and <code>mapXxxToSelf</code> methods operate
+ * The {@code code map} and {@code mapToSelf} methods operate
  * on vectors element-wise, i.e. they perform the same operation (adding a scalar,
- * applying a function ...) on each element in turn. The <code>mapXxx</code>
- * versions create a new vector to hold the result and do not change the instance.
- * The <code>mapXxxToSelf</code> versions use the instance itself to store the
- * results, so the instance is changed by these methods. In both cases, the result
+ * applying a function ...) on each element in turn. The {@code map}
+ * version creates a new vector to hold the result and do not change the instance.
+ * The {@code mapToSelf} version use the instance itself to store the
+ * results, so the instance is changed by this method. In both cases, the result
  * vector is returned by the methods, this allows to use the <i>fluent API</i>
  * style, like this:
  * </p>
  * <pre>
- *   RealVector result = v.mapAddToSelf(3.0).mapTanToSelf().mapSquareToSelf();
+ *   RealVector result = v.mapAddToSelf(3.4).mapToSelf(new Tan()).mapToSelf(new Power(2.3));
  * </pre>
  *
  * @version $Revision$ $Date$

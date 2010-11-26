@@ -35,6 +35,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * This class provides default basic implementations for many methods in the
  * {@link RealVector} interface.
+ *
  * @version $Revision$ $Date$
  * @since 2.1
  */
