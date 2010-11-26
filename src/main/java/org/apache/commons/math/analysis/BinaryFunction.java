@@ -27,6 +27,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @since 2.1
  * @version $Revision$ $Date$
+ * @deprecated in 2.2
  */
 public abstract class BinaryFunction implements BivariateRealFunction {
 
