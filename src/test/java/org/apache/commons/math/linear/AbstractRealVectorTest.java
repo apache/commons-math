@@ -17,7 +17,8 @@
 
 package org.apache.commons.math.linear;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.linear.RealVector.Entry;
 import org.apache.commons.math.util.FastMath;
@@ -28,7 +29,7 @@ import java.util.Random;
 /**
  *
  */
-public class AbstractRealVectorTest extends TestCase {
+public class AbstractRealVectorTest {
     private double[] vec1 = { 1d, 2d, 3d, 4d, 5d };
     private double[] vec2 = { -3d, 0d, 0d, 2d, 1d };
 
@@ -104,13 +105,6 @@ public class AbstractRealVectorTest extends TestCase {
             return this;
         }
 
-        @Override
-        public RealVector mapInvToSelf() {
-            for(int i=0; i<values.length; i++) {
-                values[i] = 1/values[i];
-            }
-            return this;
-        }
 
         public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
@@ -182,10 +176,11 @@ public class AbstractRealVectorTest extends TestCase {
     }
 
     private static void assertEquals(double[] d1, double[] d2) {
-        assertEquals(d1.length, d2.length);
-        for(int i=0; i<d1.length; i++) assertEquals(d1[i], d2[i]);
+        Assert.assertEquals(d1.length, d2.length);
+        for(int i=0; i<d1.length; i++) Assert.assertEquals(d1[i], d2[i], 0);
     }
 
+    @Test
     public void testMap() throws Exception {
         double[] vec1Squared = { 1d, 4d, 9d, 16d, 25d };
         RealVector v = new TestVectorImpl(vec1.clone());
@@ -193,41 +188,44 @@ public class AbstractRealVectorTest extends TestCase {
         assertEquals(vec1Squared, w.getData());
     }
 
+    @Test
     public void testIterator() throws Exception {
         RealVector v = new TestVectorImpl(vec2.clone());
         Entry e;
         int i = 0;
         for(Iterator<Entry> it = v.iterator(); it.hasNext() && (e = it.next()) != null; i++) {
-            assertEquals(vec2[i], e.getValue());
+            Assert.assertEquals(vec2[i], e.getValue(), 0);
         }
     }
 
+    @Test
     public void testSparseIterator() throws Exception {
         RealVector v = new TestVectorImpl(vec2.clone());
         Entry e;
         int i = 0;
         double[] nonDefaultV2 = { -3d, 2d, 1d };
         for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; i++) {
-            assertEquals(nonDefaultV2[i], e.getValue());
+            Assert.assertEquals(nonDefaultV2[i], e.getValue(), 0);
         }
         double [] onlyOne = {0d, 1.0, 0d};
         v = new TestVectorImpl(onlyOne);
         for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; ) {
-            assertEquals(onlyOne[1], e.getValue());
+            Assert.assertEquals(onlyOne[1], e.getValue(), 0);
         }
         
     }
 
+    @Test
     public void testClone() throws Exception {
         double[] d = new double[1000000];
         Random r = new Random(1234);
         for(int i=0;i<d.length; i++) d[i] = r.nextDouble();
-        assertTrue(new ArrayRealVector(d).getNorm() > 0);
+        Assert.assertTrue(new ArrayRealVector(d).getNorm() > 0);
         double[] c = d.clone();
         c[0] = 1;
-        assertNotSame(c[0], d[0]);
+        Assert.assertNotSame(c[0], d[0]);
         d[0] = 1;
-        assertEquals(new ArrayRealVector(d).getNorm(), new ArrayRealVector(c).getNorm());
+        Assert.assertEquals(new ArrayRealVector(d).getNorm(), new ArrayRealVector(c).getNorm(), 0);
         long cloneTime = 0;
         long setAndAddTime = 0;
         for(int i=0; i<10; i++) {

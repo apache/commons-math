@@ -24,7 +24,6 @@ import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.BinaryFunction;
-import org.apache.commons.math.analysis.ComposableFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -342,165 +341,6 @@ public abstract class AbstractRealVector implements RealVector {
         return maxIndex < 0 ? Double.NaN : getEntry(maxIndex);
     }
 
-    /** {@inheritDoc} */
-    public RealVector mapAbs() {
-        return copy().mapAbsToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAbsToSelf() {
-        return mapToSelf(ComposableFunction.ABS);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAcos() {
-        return copy().mapAcosToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAcosToSelf() {
-        return mapToSelf(ComposableFunction.ACOS);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAsin() {
-        return copy().mapAsinToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAsinToSelf() {
-        return mapToSelf(ComposableFunction.ASIN);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAtan() {
-        return copy().mapAtanToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapAtanToSelf() {
-        return mapToSelf(ComposableFunction.ATAN);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCbrt() {
-        return copy().mapCbrtToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCbrtToSelf() {
-        return mapToSelf(ComposableFunction.CBRT);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCeil() {
-        return copy().mapCeilToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCeilToSelf() {
-        return mapToSelf(ComposableFunction.CEIL);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCos() {
-        return copy().mapCosToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCosToSelf() {
-        return mapToSelf(ComposableFunction.COS);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCosh() {
-        return copy().mapCoshToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapCoshToSelf() {
-        return mapToSelf(ComposableFunction.COSH);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapDivide(double d) {
-        return copy().mapDivideToSelf(d);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapDivideToSelf(double d){
-        return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapExp() {
-        return copy().mapExpToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapExpToSelf() {
-        return mapToSelf(ComposableFunction.EXP);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapExpm1() {
-        return copy().mapExpm1ToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapExpm1ToSelf() {
-        return mapToSelf(ComposableFunction.EXPM1);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapFloor() {
-        return copy().mapFloorToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapFloorToSelf() {
-        return mapToSelf(ComposableFunction.FLOOR);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapInv() {
-        return copy().mapInvToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapInvToSelf() {
-        return mapToSelf(ComposableFunction.INVERT);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLog() {
-        return copy().mapLogToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLogToSelf() {
-        return mapToSelf(ComposableFunction.LOG);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLog10() {
-        return copy().mapLog10ToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLog10ToSelf() {
-        return mapToSelf(ComposableFunction.LOG10);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLog1p() {
-        return copy().mapLog1pToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapLog1pToSelf() {
-        return mapToSelf(ComposableFunction.LOG1P);
-    }
 
     /** {@inheritDoc} */
     public RealVector mapMultiply(double d) {
@@ -510,66 +350,6 @@ public abstract class AbstractRealVector implements RealVector {
     /** {@inheritDoc} */
     public RealVector mapMultiplyToSelf(double d){
         return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapPow(double d) {
-        return copy().mapPowToSelf(d);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapPowToSelf(double d){
-        return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapRint() {
-        return copy().mapRintToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapRintToSelf() {
-        return mapToSelf(ComposableFunction.RINT);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSignum() {
-        return copy().mapSignumToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSignumToSelf() {
-        return mapToSelf(ComposableFunction.SIGNUM);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSin() {
-        return copy().mapSinToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSinToSelf() {
-        return mapToSelf(ComposableFunction.SIN);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSinh() {
-        return copy().mapSinhToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSinhToSelf() {
-        return mapToSelf(ComposableFunction.SINH);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSqrt() {
-        return copy().mapSqrtToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapSqrtToSelf() {
-        return mapToSelf(ComposableFunction.SQRT);
     }
 
     /** {@inheritDoc} */
@@ -583,33 +363,23 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTan() {
-        return copy().mapTanToSelf();
+    public RealVector mapDivide(double d) {
+        return copy().mapDivideToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanToSelf() {
-        return mapToSelf(ComposableFunction.TAN);
+    public RealVector mapDivideToSelf(double d){
+        return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanh() {
-        return copy().mapTanhToSelf();
+    public RealVector mapPow(double d) {
+        return copy().mapPowToSelf(d);
     }
 
     /** {@inheritDoc} */
-    public RealVector mapTanhToSelf() {
-        return mapToSelf(ComposableFunction.TANH);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapUlp() {
-        return copy().mapUlpToSelf();
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapUlpToSelf() {
-        return mapToSelf(ComposableFunction.ULP);
+    public RealVector mapPowToSelf(double d){
+        return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
     }
 
     /** {@inheritDoc} */
@@ -718,11 +488,13 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector map(UnivariateRealFunction function) {
         return copy().mapToSelf(function);
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector mapToSelf(UnivariateRealFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
         Entry e;

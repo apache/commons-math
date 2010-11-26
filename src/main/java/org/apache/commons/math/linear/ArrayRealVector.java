@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -280,7 +281,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public AbstractRealVector copy() {
+    public ArrayRealVector copy() {
         return new ArrayRealVector(this, true);
     }
 
@@ -366,6 +367,21 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
 
     /** {@inheritDoc} */
     @Override
+    public ArrayRealVector map(UnivariateRealFunction function) {
+        return copy().mapToSelf(function);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ArrayRealVector mapToSelf(UnivariateRealFunction function) {
+        for (int i = 0; i < data.length; i++) {
+            data[i] = function.value(data[i]);
+        }
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public RealVector mapAddToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] + d;
@@ -396,222 +412,6 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     public RealVector mapDivideToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i] / d;
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapPowToSelf(double d) {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.pow(data[i], d);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapExpToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.exp(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapExpm1ToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.expm1(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapLogToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.log(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapLog10ToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.log10(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapLog1pToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.log1p(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapCoshToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.cosh(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapSinhToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.sinh(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapTanhToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.tanh(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapCosToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.cos(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapSinToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.sin(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapTanToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.tan(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapAcosToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.acos(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapAsinToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.asin(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapAtanToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.atan(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapInvToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = 1.0 / data[i];
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapAbsToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.abs(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapSqrtToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.sqrt(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapCbrtToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.cbrt(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapCeilToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.ceil(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapFloorToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.floor(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapRintToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.rint(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapSignumToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.signum(data[i]);
-        }
-        return this;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector mapUlpToSelf() {
-        for (int i = 0; i < data.length; i++) {
-            data[i] = FastMath.ulp(data[i]);
         }
         return this;
     }
