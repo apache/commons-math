@@ -493,13 +493,11 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    @Override
     public RealVector map(UnivariateRealFunction function) {
         return copy().mapToSelf(function);
     }
 
     /** {@inheritDoc} */
-    @Override
     public RealVector mapToSelf(UnivariateRealFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
         Entry e;
