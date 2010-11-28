@@ -116,7 +116,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
      * @param x Value at which the CDF is evaluated.
-     * @return CDF evaluted at {@code x}.
+     * @return CDF evaluated at {@code x}.
      * @throws MathException if the algorithm fails to converge; unless
      * {@code x} is more than 20 standard deviations from the mean, in which
      * case the convergence exception is caught and 0 or 1 is returned.
