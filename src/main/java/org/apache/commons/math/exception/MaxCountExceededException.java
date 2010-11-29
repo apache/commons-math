@@ -46,10 +46,12 @@ public class MaxCountExceededException extends MathIllegalStateException {
      *
      * @param specific Specific contexte pattern.
      * @param max Maximum.
+     * @param args Additional arguments.
      */
     public MaxCountExceededException(Localizable specific,
-                                     Number max) {
-        super(specific, LocalizedFormats.MAX_COUNT_EXCEEDED, max);
+                                     Number max,
+                                     Object ... args) {
+        super(specific, LocalizedFormats.MAX_COUNT_EXCEEDED, max, args);
         this.max = max;
     }
 

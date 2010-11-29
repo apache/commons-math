@@ -160,7 +160,7 @@ public enum LocalizedFormats implements Localizable {
     NUMBER_OF_TRIALS("number of trials ({0})"),
     NEGATIVE_ROBUSTNESS_ITERATIONS("the number of robustness iterations must be non-negative, but got {0}"),
     START_POSITION("start position ({0})"), /* keep */
-    NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge for value {0}"),
+    NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge (in less than {0} iterations) for value {1}"),
     NON_POSITIVE_MICROSPHERE_ELEMENTS("number of microsphere elements must be positive, but got {0}"),
     NON_POSITIVE_POLYNOMIAL_DEGREE("polynomial degree must be positive: degree={0}"),
     NON_REAL_FINITE_ABSCISSA("all abscissae must be finite real numbers, but {0}-th is {1}"),

@@ -50,24 +50,7 @@ public class NoBracketingException extends MathIllegalArgumentException {
                                  double fLo, double fHi) {
         this(null, lo, hi, fLo, fHi);
     }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Contextual information on what caused the exception.
-     * @param lo Lower end of the interval.
-     * @param hi Higher end of the interval.
-     * @param fLo Value at lower end of the interval.
-     * @param fHi Value at higher end of the interval.
-     */
-    public NoBracketingException(Localizable specific,
-                                 double lo, double hi,
-                                 double fLo, double fHi) {
-        super(specific, LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, lo, hi, fLo, fHi);
-        this.lo = lo;
-        this.hi = hi;
-        this.fLo = fLo;
-        this.fHi = fHi;
-    }
+
     /**
      * Construct the exception with a specific context.
      *
