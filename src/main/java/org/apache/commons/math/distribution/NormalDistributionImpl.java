@@ -171,25 +171,20 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
+     * If <code>x</code>is more than 40 standard deviations from the mean, 0 or 1 is returned,
+     * as in these cases the actual value is within <code>Double.MIN_VALUE</code> of 0 or 1.
+     * 
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluated at <code>x</code>.
-     * @throws MathException if the algorithm fails to converge; unless
-     * x is more than 20 standard deviations from the mean, in which case the
-     * convergence exception is caught and 0 or 1 is returned.
+     * @throws MathException if the algorithm fails to converge
      */
     public double cumulativeProbability(double x) throws MathException {
-        try {
-            return 0.5 * (1.0 + Erf.erf((x - mean) /
-                    (standardDeviation * FastMath.sqrt(2.0))));
-        } catch (MaxIterationsExceededException ex) {
-            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
-                return 0.0d;
-            } else if (x > (mean + 20 * standardDeviation)) {
-                return 1.0d;
-            } else {
-                throw ex;
-            }
+        final double dev = x - mean;
+        if (FastMath.abs(dev) > 40 * standardDeviation) { 
+            return dev < 0 ? 0.0d : 1.0d;
         }
+        return 0.5 * (1.0 + Erf.erf((dev) /
+                    (standardDeviation * FastMath.sqrt(2.0))));
     }
 
     /**

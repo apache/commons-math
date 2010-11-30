@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-414">
+        Modified NormalDistributionImpl.cumulativeProbability to return 0 or 1,
+        respectively for values more than 40 standard deviations from the mean.
+        For these values, the actual probability is indistinguishable from 0 or 1
+        as a double.  Top coding improves performance for extreme values and prevents
+        convergence exceptions.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-420">
         Added toString() override to StatisticalSummaryValues.
       </action>

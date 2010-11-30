@@ -164,16 +164,18 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
 
     /**
      * Check to make sure top-coding of extreme values works correctly.
-     * Verifies fix for JIRA MATH-167
+     * Verifies fixes for JIRA MATH-167, MATH-414
      */
     public void testExtremeValues() throws Exception {
         NormalDistribution distribution = (NormalDistribution) getDistribution();
         distribution.setMean(0);
         distribution.setStandardDeviation(1);
-        for (int i = 0; i < 100; i+=5) { // make sure no convergence exception
+        for (int i = 0; i < 100; i++) { // make sure no convergence exception
             double lowerTail = distribution.cumulativeProbability(-i);
             double upperTail = distribution.cumulativeProbability(i);
-            if (i < 10) { // make sure not top-coded
+            if (i < 9) { // make sure not top-coded 
+                // For i = 10, due to bad tail precision in erf (MATH-364), 1 is returned
+                // TODO: once MATH-364 is resolved, replace 9 with 30
                 assertTrue(lowerTail > 0.0d);
                 assertTrue(upperTail < 1.0d);
             }
@@ -182,6 +184,12 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
                 assertTrue(upperTail > 0.99999);
             }
         }
+        
+        assertEquals(distribution.cumulativeProbability(Double.MAX_VALUE), 1, 0);
+        assertEquals(distribution.cumulativeProbability(-Double.MAX_VALUE), 0, 0);
+        assertEquals(distribution.cumulativeProbability(Double.POSITIVE_INFINITY), 1, 0);
+        assertEquals(distribution.cumulativeProbability(Double.NEGATIVE_INFINITY), 0, 0);
+        
    }
 
     public void testMath280() throws MathException {
