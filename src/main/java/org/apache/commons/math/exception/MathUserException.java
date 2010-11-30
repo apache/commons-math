@@ -18,10 +18,8 @@ package org.apache.commons.math.exception;
 
 import java.util.Locale;
 
-import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.util.MessageFactory;
 
 /**
  * This class is intended as a sort of communication channel between
@@ -32,21 +30,9 @@ import org.apache.commons.math.exception.util.MessageFactory;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUserException extends RuntimeException implements MathThrowable {
+public class MathUserException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-    /**
-     * Pattern used to build the specific part of the message (problem description).
-     */
-    private final Localizable specific;
-    /**
-     * Pattern used to build the general part of the message (problem description).
-     */
-    private final Localizable general;
-    /**
-     * Arguments used to build the message.
-     */
-    private final Object[] arguments;
 
     /**
      * Build an exception with a default message.
@@ -110,46 +96,6 @@ public class MathUserException extends RuntimeException implements MathThrowable
     public MathUserException(final Throwable cause,
                              final Localizable specific, final Localizable general,
                              final Object ... arguments) {
-        super(cause);
-        this.specific  = specific;
-        this.general   = general;
-        this.arguments = ArgUtils.flatten(arguments);
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return specific;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return general;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
-    }
-
-    /**
-     * Get the message in a specified locale.
-     *
-     * @param locale Locale in which the message should be translated.
-     * @return the localized message.
-     */
-    public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale, specific, general, arguments);
-    }
-
-   /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return getMessage(Locale.US);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
+        super(cause, specific, general, arguments);
     }
 }
