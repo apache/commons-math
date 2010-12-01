@@ -18,8 +18,8 @@ package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -196,7 +196,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
         }
 
-        throw new MaxIterationsExceededException(maximalIterationCount);
+        throw new MaxCountExceededException(maximalIterationCount);
 
     }
 

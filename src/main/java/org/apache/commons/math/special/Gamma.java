@@ -17,7 +17,7 @@
 package org.apache.commons.math.special;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.util.ContinuedFraction;
 import org.apache.commons.math.util.FastMath;
 
@@ -185,7 +185,7 @@ public class Gamma {
                 sum = sum + an;
             }
             if (n >= maxIterations) {
-                throw new MaxIterationsExceededException(maxIterations);
+                throw new MaxCountExceededException(maxIterations);
             } else if (Double.isInfinite(sum)) {
                 ret = 1.0;
             } else {

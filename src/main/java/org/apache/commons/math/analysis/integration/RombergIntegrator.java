@@ -18,8 +18,8 @@ package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -60,13 +60,13 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException, IllegalArgumentException {
+        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
         return integrate(f, min, max);
     }
 
     /** {@inheritDoc} */
     public double integrate(final UnivariateRealFunction f, final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException, IllegalArgumentException {
+        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
 
         final int m = maximalIterationCount + 1;
         double previousRow[] = new double[m];
@@ -104,7 +104,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
             }
             olds = s;
         }
-        throw new MaxIterationsExceededException(maximalIterationCount);
+        throw new MaxCountExceededException(maximalIterationCount);
     }
 
     /** {@inheritDoc} */
