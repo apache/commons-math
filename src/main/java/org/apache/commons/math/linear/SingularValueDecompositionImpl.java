@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -192,9 +192,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         }
 
         if (dimension == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
-                    minSingularValue, singularValues[0]);
+            throw new NumberIsTooLargeException(LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
+                                                minSingularValue, singularValues[0], true);
         }
 
         final double[][] data = new double[dimension][p];
