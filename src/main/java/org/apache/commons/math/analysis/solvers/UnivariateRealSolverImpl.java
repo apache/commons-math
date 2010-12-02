@@ -29,6 +29,7 @@ import org.apache.commons.math.exception.NullArgumentException;
  * solvers.
  *
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0).
  */
 public abstract class UnivariateRealSolverImpl
     extends ConvergingAlgorithmImpl implements UnivariateRealSolver {
