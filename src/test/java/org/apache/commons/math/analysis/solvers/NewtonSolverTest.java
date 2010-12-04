@@ -37,7 +37,6 @@ public final class NewtonSolverTest {
         double result;
 
         NewtonSolver solver = new NewtonSolver();
-        solver.setMaxEvaluations(10);
         result = solver.solve(f, 3, 4);
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
@@ -56,7 +55,6 @@ public final class NewtonSolverTest {
         double result;
 
         NewtonSolver solver = new NewtonSolver();
-        solver.setMaxEvaluations(30);
         result = solver.solve(f, -0.2, 0.2);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 

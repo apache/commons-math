@@ -51,8 +51,7 @@ public class UnivariateRealSolverUtils {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         final UnivariateRealSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(Integer.MAX_VALUE);
-        return solver.solve(function, x0, x1);
+        return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
     /**
@@ -75,8 +74,7 @@ public class UnivariateRealSolverUtils {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
         final UnivariateRealSolver solver = new BrentSolver(absoluteAccuracy);
-        solver.setMaxEvaluations(Integer.MAX_VALUE);
-        return solver.solve(function, x0, x1);
+        return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
     /**

@@ -30,13 +30,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
     /**
-     * Set the maximal number of function evaluations.
-     *
-     * @param maxEvaluations Maximal number of function evaluations.
-     */
-    void setMaxEvaluations(int maxEvaluations);
-
-    /**
      * Get the maximal number of function evaluations.
      *
      * @return the maximal number of function evaluations.
@@ -76,9 +69,10 @@ public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @return a value where the function is zero.
-     * @throws IllegalArgumentException if {@code min > max} or the endpoints
-     * do not satisfy the requirements specified by the solver.
-     * @since 2.0
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the default allowed number of evaluations is exceeded.
      */
     double solve(FUNC f, double min, double max);
 
@@ -93,22 +87,74 @@ public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
      * @return a value where the function is zero.
-     * @throws IllegalArgumentException if {@code min > max} or the arguments
-     * do not satisfy the requirements specified by the solver.
-     * @since 2.0
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the default allowed number of evaluations is exceeded.
      */
     double solve(FUNC f, double min, double max, double startValue);
 
     /**
      * Solve for a zero in the vicinity of {@code startValue}.
-     * A solver may require that the interval brackets a single zero root.
      *
      * @param f Function to solve.
      * @param startValue Start value to use.
      * @return a value where the function is zero.
-     * @throws IllegalArgumentException if {@code min > max} or the arguments
-     * do not satisfy the requirements specified by the solver.
-     * @since 2.0
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the default allowed number of evaluations is exceeded.
      */
     double solve(FUNC f, double startValue);
+
+    /**
+     * Solve for a zero root in the given interval.
+     * A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.
+     *
+     * @param f Function to solve.
+     * @param min Lower bound for the interval.
+     * @param max Upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
+     * @return a value where the function is zero.
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the allowed number of evaluations is exceeded.
+     */
+    double solve(int maxEval, FUNC f, double min, double max);
+
+    /**
+     * Solve for a zero in the given interval, start at {@code startValue}.
+     * A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.
+     *
+     * @param f Function to solve.
+     * @param min Lower bound for the interval.
+     * @param max Upper bound for the interval.
+     * @param startValue Start value to use.
+     * @param maxEval Maximum number of evaluations.
+     * @return a value where the function is zero.
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the allowed number of evaluations is exceeded.
+     */
+    double solve(int maxEval, FUNC f, double min, double max, double startValue);
+
+    /**
+     * Solve for a zero in the vicinity of {@code startValue}.
+     *
+     * @param f Function to solve.
+     * @param startValue Start value to use.
+     * @return a value where the function is zero.
+     * @param maxEval Maximum number of evaluations.
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the allowed number of evaluations is exceeded.
+     */
+    double solve(int maxEval, FUNC f, double startValue);
 }

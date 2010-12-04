@@ -21,6 +21,9 @@ import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NoBracketingException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,7 +47,6 @@ public final class BrentSolverTest {
         UnivariateRealFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(10);
         // Somewhat benign interval. The function is monotone.
         result = solver.solve(f, 3, 4);
         // System.out.println(
@@ -72,7 +74,6 @@ public final class BrentSolverTest {
         double result;
         // Brent-Dekker solver.
         UnivariateRealSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(20);
         // Symmetric bracket around 0. Test whether solvers can handle hitting
         // the root in the first iteration.
         result = solver.solve(f, -0.2, 0.2);
@@ -145,13 +146,18 @@ public final class BrentSolverTest {
        //     "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 15);
+
+        try {
+            result = solver.solve(5, f, 0.85, 5);
+        } catch (TooManyEvaluationsException e) {
+            // Expected.
+        }
     }
 
     @Test
     public void testRootEndpoints() {
         UnivariateRealFunction f = new SinFunction();
         BrentSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(10);
 
         // endpoint is root
         double result = solver.solve(f, FastMath.PI, 4);
@@ -165,30 +171,28 @@ public final class BrentSolverTest {
 
         result = solver.solve(f, 3, FastMath.PI, 3.07);
         Assert.assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
-
     }
 
     @Test
     public void testBadEndpoints() {
         UnivariateRealFunction f = new SinFunction();
         BrentSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(10);
         try {  // bad interval
             solver.solve(f, 1, -1);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {  // no bracket
             solver.solve(f, 1, 1.5);
-            Assert.fail("Expecting IllegalArgumentException - non-bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NoBracketingException - non-bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
         try {  // no bracket
             solver.solve(f, 1, 1.5, 1.2);
-            Assert.fail("Expecting IllegalArgumentException - non-bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NoBracketingException - non-bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
     }
@@ -197,7 +201,6 @@ public final class BrentSolverTest {
     public void testInitialGuess() {
         MonitoredFunction f = new MonitoredFunction(new QuinticFunction());
         BrentSolver solver = new BrentSolver();
-        solver.setMaxEvaluations(20);
         double result;
 
         // no guess
@@ -209,8 +212,8 @@ public final class BrentSolverTest {
         // invalid guess (it *is* a root, but outside of the range)
         try {
           result = solver.solve(f, 0.6, 7.0, 0.0);
-          Assert.fail("an IllegalArgumentException was expected");
-        } catch (IllegalArgumentException iae) {
+          Assert.fail("a NumberIsTooLargeException was expected");
+        } catch (NumberIsTooLargeException iae) {
             // expected behaviour
         }
 

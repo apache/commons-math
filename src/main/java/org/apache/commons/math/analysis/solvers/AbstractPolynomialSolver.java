@@ -66,10 +66,9 @@ public abstract class AbstractPolynomialSolver
      * {@inheritDoc}
      */
     @Override
-    protected void setup(PolynomialFunction f,
-                         double min, double max,
-                         double startValue) {
-        super.setup(f, min, max, startValue);
+    protected void setup(int maxEval, PolynomialFunction f,
+                             double min, double max, double startValue) {
+        super.setup(maxEval, f, min, max, startValue);
         polynomialFunction = f;
     }
 

@@ -235,7 +235,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         }, new double[] { 32, 23, 33, 31 });
         NonLinearConjugateGradientOptimizer optimizer =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
-        optimizer.setMaxEvaluations(100);
+        optimizer.setMaxEvaluations(200);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-13, 1.0e-13));
         BrentSolver solver = new BrentSolver(1e-15, 1e-15);
         optimizer.setLineSearchSolver(solver);

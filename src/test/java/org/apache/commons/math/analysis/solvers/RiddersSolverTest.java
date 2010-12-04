@@ -45,7 +45,6 @@ public final class RiddersSolverTest {
     public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
-        solver.setMaxEvaluations(10);
         double min, max, expected, result, tolerance;
 
         min = 3.0; max = 4.0; expected = FastMath.PI;
@@ -68,7 +67,6 @@ public final class RiddersSolverTest {
     public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new RiddersSolver();
-        solver.setMaxEvaluations(15);
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
@@ -97,7 +95,6 @@ public final class RiddersSolverTest {
     public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
         UnivariateRealSolver solver = new RiddersSolver();
-        solver.setMaxEvaluations(20);
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
@@ -126,19 +123,18 @@ public final class RiddersSolverTest {
     public void testParameters() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
-        solver.setMaxEvaluations(10);
 
         try {
             // bad interval
             solver.solve(f, 1, -1);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
         } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {
             // no bracketing
             solver.solve(f, 2, 3);
-            Assert.fail("Expecting IllegalArgumentException - no bracketing");
+            Assert.fail("Expecting NoBracketingException - no bracketing");
         } catch (NoBracketingException ex) {
             // expected
         }

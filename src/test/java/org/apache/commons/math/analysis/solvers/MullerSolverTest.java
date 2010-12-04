@@ -47,7 +47,6 @@ public final class MullerSolverTest {
     public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(10);
         double min, max, expected, result, tolerance;
 
         min = 3.0; max = 4.0; expected = FastMath.PI;
@@ -70,7 +69,6 @@ public final class MullerSolverTest {
     public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(15);
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
@@ -103,7 +101,6 @@ public final class MullerSolverTest {
     public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
         UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(25);
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
@@ -132,20 +129,19 @@ public final class MullerSolverTest {
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = new MullerSolver();
-        solver.setMaxEvaluations(10);
 
         try {
             // bad interval
             double root = solver.solve(f, 1, -1);
             System.out.println("root=" + root);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
         } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {
             // no bracketing
             solver.solve(f, 2, 3);
-            Assert.fail("Expecting IllegalArgumentException - no bracketing");
+            Assert.fail("Expecting NoBracketingException - no bracketing");
         } catch (NoBracketingException ex) {
             // expected
         }

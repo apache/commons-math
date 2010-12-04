@@ -55,8 +55,8 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                                                   new GaussianRandomGenerator(g));
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
-        optimizer.setMaxEvaluations(100);
-        assertEquals(100, optimizer.getMaxEvaluations());
+        optimizer.setMaxEvaluations(200);
+        assertEquals(200, optimizer.getMaxEvaluations());
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         BrentSolver solver = new BrentSolver();
         RealPointValuePair optimum =

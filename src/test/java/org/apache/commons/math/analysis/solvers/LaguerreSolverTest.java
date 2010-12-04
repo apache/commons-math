@@ -21,6 +21,8 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,7 +50,6 @@ public final class LaguerreSolverTest {
         double coefficients[] = { -1.0, 4.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
         LaguerreSolver solver = new LaguerreSolver();
-        solver.setMaxEvaluations(10);
 
         min = 0.0; max = 1.0; expected = 0.25;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
@@ -68,7 +69,6 @@ public final class LaguerreSolverTest {
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
         LaguerreSolver solver = new LaguerreSolver();
-        solver.setMaxEvaluations(10);
 
         min = 0.0; max = 2.0; expected = 0.5;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
@@ -94,7 +94,6 @@ public final class LaguerreSolverTest {
         double coefficients[] = { -12.0, -1.0, 1.0, -12.0, -1.0, 1.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
         LaguerreSolver solver = new LaguerreSolver();
-        solver.setMaxEvaluations(10);
 
         min = -2.0; max = 2.0; expected = -1.0;
         tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
@@ -162,20 +161,19 @@ public final class LaguerreSolverTest {
         double coefficients[] = { -3.0, 5.0, 2.0 };
         PolynomialFunction f = new PolynomialFunction(coefficients);
         LaguerreSolver solver = new LaguerreSolver();
-        solver.setMaxEvaluations(10);
 
         try {
             // bad interval
             solver.solve(f, 1, -1);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {
             // no bracketing
             solver.solve(f, 2, 3);
-            Assert.fail("Expecting IllegalArgumentException - no bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NoBracketingException - no bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
     }

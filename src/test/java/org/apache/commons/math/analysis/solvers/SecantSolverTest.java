@@ -20,6 +20,8 @@ import org.apache.commons.math.analysis.MonitoredFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +40,6 @@ public final class SecantSolverTest {
         UnivariateRealFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = new SecantSolver();
-        solver.setMaxEvaluations(10);
 
         result = solver.solve(f, 3, 4);
         //System.out.println(
@@ -65,7 +66,6 @@ public final class SecantSolverTest {
         double result;
         // Brent-Dekker solver.
         UnivariateRealSolver solver = new SecantSolver();
-        solver.setMaxEvaluations(20);
         result = solver.solve(f, -0.2, 0.2);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
@@ -129,7 +129,6 @@ public final class SecantSolverTest {
     public void testRootEndpoints() {
         UnivariateRealFunction f = new SinFunction();
         SecantSolver solver = new SecantSolver();
-        solver.setMaxEvaluations(10);
 
         // endpoint is root
         double result = solver.solve(f, FastMath.PI, 4);
@@ -150,23 +149,22 @@ public final class SecantSolverTest {
     public void testBadEndpoints() {
         UnivariateRealFunction f = new SinFunction();
         SecantSolver solver = new SecantSolver();
-        solver.setMaxEvaluations(10);
         try {  // bad interval
             solver.solve(f, 1, -1);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {  // no bracket
             solver.solve(f, 1, 1.5);
-            Assert.fail("Expecting IllegalArgumentException - non-bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NoBracketingException - non-bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
         try {  // no bracket
             solver.solve(f, 1, 1.5, 1.2);
-            Assert.fail("Expecting IllegalArgumentException - non-bracketing");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting NoBracketingException - non-bracketing");
+        } catch (NoBracketingException ex) {
             // expected
         }
     }

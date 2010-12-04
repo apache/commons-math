@@ -34,6 +34,8 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRealFunction>
     implements BaseUnivariateRealSolver<FUNC> {
+    /** Default maximum number of evaluations */
+    public static final int DEFAULT_MAX_EVALUATIONS = 100;
     /** Default absolute accuracy */
     public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Default relative accuracy. */
@@ -96,10 +98,6 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
         this.functionValueAccuracy = functionValueAccuracy;
     }
 
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount(maxEvaluations);
-    }
     /** {@inheritDoc} */
     public int getMaxEvaluations() {
         return evaluations.getMaximalCount();
@@ -167,8 +165,10 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
+     * @param maxEval Maximum number of evaluations.
      */
-    protected void setup(FUNC f,
+    protected void setup(int maxEval,
+                         FUNC f,
                          double min, double max,
                          double startValue) {
         // Checks.
@@ -181,26 +181,42 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
         searchMax = max;
         searchStart = startValue;
         function = f;
+        evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
     }
 
     /** {@inheritDoc} */
     public double solve(FUNC f, double min, double max, double startValue) {
+        return solve(DEFAULT_MAX_EVALUATIONS, f, min, max, startValue);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(FUNC f, double min, double max) {
+        return solve(DEFAULT_MAX_EVALUATIONS, f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(FUNC f, double startValue) {
+        return solve(DEFAULT_MAX_EVALUATIONS, f, startValue);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(int maxEval, FUNC f, double min, double max, double startValue) {
         // Initialization.
-        setup(f, min, max, startValue);
+        setup(maxEval, f, min, max, startValue);
 
         // Perform computation.
         return doSolve();
     }
 
     /** {@inheritDoc} */
-    public double solve(FUNC f, double min, double max) {
-        return solve(f, min, max, min + 0.5 * (max - min));
+    public double solve(int maxEval, FUNC f, double min, double max) {
+        return solve(maxEval, f, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
-    public double solve(FUNC f, double startValue) {
-        return solve(f, Double.NaN, Double.NaN, startValue);
+    public double solve(int maxEval, FUNC f, double startValue) {
+        return solve(maxEval, f, Double.NaN, Double.NaN, startValue);
     }
 
     /**

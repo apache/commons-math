@@ -72,10 +72,9 @@ public abstract class AbstractDifferentiableUnivariateRealSolver
      * {@inheritDoc}
      */
     @Override
-    protected void setup(DifferentiableUnivariateRealFunction f,
-                         double min, double max,
-                         double startValue) {
-        super.setup(f, min, max, startValue);
+    protected void setup(int maxEval, DifferentiableUnivariateRealFunction f,
+                         double min, double max, double startValue) {
+        super.setup(maxEval, f, min, max, startValue);
         functionDerivative = f.derivative();
     }
 }

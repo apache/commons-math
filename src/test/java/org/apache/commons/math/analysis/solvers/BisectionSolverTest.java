@@ -33,7 +33,6 @@ public final class BisectionSolverTest {
         double result;
 
         BisectionSolver solver = new BisectionSolver();
-        solver.setMaxEvaluations(50);
         result = solver.solve(f, 3, 4);
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
@@ -47,7 +46,6 @@ public final class BisectionSolverTest {
         double result;
 
         BisectionSolver solver = new BisectionSolver();
-        solver.setMaxEvaluations(50);
         result = solver.solve(f, -0.2, 0.2);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
@@ -85,21 +83,9 @@ public final class BisectionSolverTest {
     }
 
     @Test
-    public void testMath369() throws Exception {
+    public void testMath369() {
         UnivariateRealFunction f = new SinFunction();
         BisectionSolver solver = new BisectionSolver();
-        solver.setMaxEvaluations(40);
         Assert.assertEquals(FastMath.PI, solver.solve(f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void testSetMaximalEvaluationCount(){
-        int expected = 100;
-        BisectionSolver solver = new BisectionSolver();
-        solver.setMaxEvaluations(expected);
-        Assert.assertEquals(expected, solver.getMaxEvaluations());
     }
 }

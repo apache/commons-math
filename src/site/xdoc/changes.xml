@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-451">
+        For "solvers" (package "analysis.solvers"), the number of allowed function
+        evaluations is passed as a parameter to the "solve" method.
+      </action>
       <action dev="erans" type="fix" issue="MATH-447">
         Created a "MathRuntimeException" to serve as a base class for exception
         types that need to wrap another (lower-level) exception.
