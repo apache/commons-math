@@ -281,7 +281,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
     @Override
      public String toString() {
 
-       StringBuffer s = new StringBuffer();
+       StringBuilder s = new StringBuilder();
        if (coefficients[0] == 0.0) {
          if (coefficients.length == 1) {
            return "0";

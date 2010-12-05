@@ -309,7 +309,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     @Override
     public String toString() {
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
         String endl = "\n";
         outBuffer.append("SummaryStatistics:").append(endl);
         outBuffer.append("n: ").append(getN()).append(endl);

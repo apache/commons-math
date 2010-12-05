@@ -359,14 +359,14 @@ public class DfpMath {
         // X is now in the range of 2/3 < x < 4/3
         Dfp[] spz = logInternal(spx);
 
-        spx[0] = a.newInstance(new StringBuffer().append(p2+4*lr).toString());
+        spx[0] = a.newInstance(new StringBuilder().append(p2+4*lr).toString());
         spx[1] = a.getZero();
         spy = splitMult(a.getField().getLn2Split(), spx);
 
         spz[0] = spz[0].add(spy[0]);
         spz[1] = spz[1].add(spy[1]);
 
-        spx[0] = a.newInstance(new StringBuffer().append(4*lr).toString());
+        spx[0] = a.newInstance(new StringBuilder().append(4*lr).toString());
         spx[1] = a.getZero();
         spy = splitMult(a.getField().getLn5Split(), spx);
 

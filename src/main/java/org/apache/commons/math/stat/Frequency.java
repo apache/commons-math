@@ -80,7 +80,7 @@ public class Frequency implements Serializable {
     @Override
     public String toString() {
         NumberFormat nf = NumberFormat.getPercentInstance();
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
         outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
         Iterator<Comparable<?>> iter = freqTable.keySet().iterator();
         while (iter.hasNext()) {

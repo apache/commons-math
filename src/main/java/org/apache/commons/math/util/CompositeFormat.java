@@ -109,7 +109,7 @@ public abstract class CompositeFormat extends Format {
                                final ParsePosition pos) {
         Number ret = null;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append('(');
         sb.append(value);
         sb.append(')');

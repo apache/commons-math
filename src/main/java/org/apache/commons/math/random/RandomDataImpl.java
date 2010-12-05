@@ -159,7 +159,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         RandomGenerator ran = getRan();
 
         // Initialize output buffer
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
 
         // Get int(len/2)+1 random bytes
         byte[] randomBytes = new byte[(len / 2) + 1];
@@ -265,7 +265,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         // Compute number of iterations required (40 bytes each)
         int numIter = (len / 40) + 1;
 
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
         for (int iter = 1; iter < numIter + 1; iter++) {
             byte[] randomBytes = new byte[40];
             secRan.nextBytes(randomBytes);
