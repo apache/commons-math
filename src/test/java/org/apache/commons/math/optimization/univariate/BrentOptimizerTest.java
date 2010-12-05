@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
@@ -35,7 +34,7 @@ import org.junit.Test;
 public final class BrentOptimizerTest {
 
     @Test
-    public void testSinMin() throws MathException {
+    public void testSinMin() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
         optimizer.setMaxEvaluations(200);
@@ -55,7 +54,7 @@ public final class BrentOptimizerTest {
     }
 
     @Test
-    public void testQuinticMin() throws MathException {
+    public void testQuinticMin() {
         // The function has local minima at -0.27195613 and 0.82221643.
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
@@ -70,7 +69,7 @@ public final class BrentOptimizerTest {
     }
 
     @Test
-    public void testQuinticMinStatistics() throws MathException {
+    public void testQuinticMinStatistics() {
         // The function has local minima at -0.27195613 and 0.82221643.
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-11, 1e-14);
@@ -99,7 +98,7 @@ public final class BrentOptimizerTest {
     }
 
     @Test(expected = TooManyEvaluationsException.class)
-    public void testQuinticMax() throws MathException {
+    public void testQuinticMax() {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has a local maximum at 0.27195613.
         UnivariateRealFunction f = new QuinticFunction();

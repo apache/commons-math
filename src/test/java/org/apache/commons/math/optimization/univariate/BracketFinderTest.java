@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -29,7 +28,7 @@ import org.junit.Test;
 public class BracketFinderTest {
 
     @Test
-    public void testCubicMin() throws MathException {
+    public void testCubicMin() {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateRealFunction func = new UnivariateRealFunction() {
                 public double value(double x) {
@@ -51,7 +50,7 @@ public class BracketFinderTest {
     }
 
     @Test
-    public void testCubicMax() throws MathException {
+    public void testCubicMax() {
         final BracketFinder bFind = new BracketFinder();
         final UnivariateRealFunction func = new UnivariateRealFunction() {
                 public double value(double x) {
@@ -72,7 +71,7 @@ public class BracketFinderTest {
     }
 
     @Test
-    public void testMinimumIsOnIntervalBoundary() throws MathException {
+    public void testMinimumIsOnIntervalBoundary() {
         final UnivariateRealFunction func = new UnivariateRealFunction() {
                 public double value(double x) {
                     return x * x;
@@ -91,7 +90,7 @@ public class BracketFinderTest {
     }
 
     @Test
-    public void testIntervalBoundsOrdering() throws MathException {
+    public void testIntervalBoundsOrdering() {
         final UnivariateRealFunction func = new UnivariateRealFunction() {
                 public double value(double x) {
                     return x * x;

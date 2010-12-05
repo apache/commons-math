@@ -18,7 +18,6 @@ package org.apache.commons.math.transform;
 
 import org.apache.commons.math.analysis.*;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
@@ -69,7 +68,7 @@ public final class FastSineTransformerTest extends TestCase {
     /**
      * Test of transformer for the sine function.
      */
-    public void testSinFunction() throws MathException {
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;

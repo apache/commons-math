@@ -19,8 +19,6 @@ package org.apache.commons.math.linear;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.MathException;
-
 public class CholeskySolverTest extends TestCase {
 
     private double[][] testData = new double[][] {
@@ -36,7 +34,7 @@ public class CholeskySolverTest extends TestCase {
     }
 
     /** test solve dimension errors */
-    public void testSolveDimensionErrors() throws MathException {
+    public void testSolveDimensionErrors() {
         DecompositionSolver solver =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
@@ -61,7 +59,7 @@ public class CholeskySolverTest extends TestCase {
     }
 
     /** test solve */
-    public void testSolve() throws MathException {
+    public void testSolve() {
         DecompositionSolver solver =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
@@ -108,11 +106,11 @@ public class CholeskySolverTest extends TestCase {
     }
 
     /** test determinant */
-    public void testDeterminant() throws MathException {
+    public void testDeterminant() {
         assertEquals(7290000.0, getDeterminant(MatrixUtils.createRealMatrix(testData)), 1.0e-15);
     }
 
-    private double getDeterminant(RealMatrix m) throws MathException {
+    private double getDeterminant(RealMatrix m) {
         return new CholeskyDecompositionImpl(m).getDeterminant();
     }
 
