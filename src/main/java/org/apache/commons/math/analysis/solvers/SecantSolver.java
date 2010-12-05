@@ -58,7 +58,9 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public SecantSolver() {
         super(100, 1E-6);
     }
@@ -84,15 +86,59 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use (ignored)
+     * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    /**
+     * Find a zero in the given interval.
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @param initial the start value to use (ignored)
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, MathUserException {
+        return solve(f, min, max);
+    }
+
+    /**
+     * Find a zero in the given interval.
+     * @param f the function to solve
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
+     */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
         return solve(f, min, max);
     }
 
@@ -106,7 +152,9 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, MathUserException {

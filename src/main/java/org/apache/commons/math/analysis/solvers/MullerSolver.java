@@ -54,7 +54,9 @@ public class MullerSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public MullerSolver() {
         super(100, 1E-6);
     }
@@ -82,12 +84,37 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
      * @param initial the start value to use
+     * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    /**
+     * Find a real root in the given interval with initial value.
+     * <p>
+     * Requires bracketing condition.</p>
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @param initial the start value to use
+     * @return the point at which the function value is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, MathUserException {
@@ -124,12 +151,47 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
+     * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    /**
+     * Find a real root in the given interval.
+     * <p>
+     * Original Muller's method would have function evaluation at complex point.
+     * Since our f(x) is real, we have to find ways to avoid that. Bracketing
+     * condition is one way to go: by requiring bracketing in every iteration,
+     * the newly computed approximation is guaranteed to be real.</p>
+     * <p>
+     * Normally Muller's method converges quadratically in the vicinity of a
+     * zero, however it may be very slow in regions far away from zeros. For
+     * example, f(x) = exp(x) - 1, min = -50, max = 100. In such case we use
+     * bisection as a safety backup if it performs very poorly.</p>
+     * <p>
+     * The formulas here use divided differences directly.</p>
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @return the point at which the function value is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, MathUserException {
@@ -271,7 +333,9 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * or the solver detects convergence problems otherwise
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve2(final UnivariateRealFunction f,
                          final double min, final double max)
         throws MaxIterationsExceededException, MathUserException {

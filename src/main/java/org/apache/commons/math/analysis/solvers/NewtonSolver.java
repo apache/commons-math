@@ -50,7 +50,9 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public NewtonSolver() {
         super(100, 1E-6);
     }
@@ -75,15 +77,59 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param f the function to solve
      * @param min the lower bound for the interval
      * @param max the upper bound for the interval
+     * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
      * @throws MathUserException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if min is not less than max
      */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, MathUserException  {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    /**
+     * Find a zero near the midpoint of <code>min</code> and <code>max</code>.
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval
+     * @param max the upper bound for the interval
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws IllegalArgumentException if min is not less than max
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, MathUserException  {
         return solve(f, min, max, UnivariateRealSolverUtils.midpoint(min, max));
+    }
+
+    /**
+     * Find a zero near the value <code>startValue</code>.
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval (ignored).
+     * @param max the upper bound for the interval (ignored).
+     * @param startValue the start value to use.
+     * @param maxEval Maximum number of evaluations.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws IllegalArgumentException if startValue is not between min and max or
+     * if function is not a {@link DifferentiableUnivariateRealFunction} instance
+     */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double startValue)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, startValue);
     }
 
     /**
@@ -98,7 +144,9 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @throws MathUserException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if startValue is not between min and max or
      * if function is not a {@link DifferentiableUnivariateRealFunction} instance
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double startValue)
         throws MaxIterationsExceededException, MathUserException {

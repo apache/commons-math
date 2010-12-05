@@ -67,13 +67,34 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
         return solve(f, min, max);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
     public double solve(final UnivariateRealFunction f, double min, double max, double initial)
         throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f, double min, double max, double initial)
+        throws MaxIterationsExceededException, MathUserException {
+        return solve(maxEval, f, min, max);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f, double min, double max)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @deprecated in 2.2 (to be removed in 3.0).
+     */
     public double solve(final UnivariateRealFunction f, double min, double max)
         throws MaxIterationsExceededException, MathUserException {
 

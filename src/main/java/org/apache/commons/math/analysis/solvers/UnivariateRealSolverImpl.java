@@ -21,6 +21,7 @@ import org.apache.commons.math.ConvergingAlgorithmImpl;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NullArgumentException;
 
@@ -132,6 +133,18 @@ public abstract class UnivariateRealSolverImpl
     /** {@inheritDoc} */
     public void resetFunctionValueAccuracy() {
         functionValueAccuracy = defaultFunctionValueAccuracy;
+    }
+
+    /** {@inheritDoc} */
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max)
+        throws ConvergenceException, MathUserException {
+        throw new UnsupportedOperationException("Method not overriden");
+    }
+
+    /** {@inheritDoc} */
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max, double startValue)
+        throws ConvergenceException, MathUserException, IllegalArgumentException {
+        throw new UnsupportedOperationException("Method not overriden");
     }
 
     /**

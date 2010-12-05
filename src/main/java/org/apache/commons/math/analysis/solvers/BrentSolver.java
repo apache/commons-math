@@ -64,7 +64,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver with default properties.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public BrentSolver() {
         super(DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
     }
@@ -121,7 +123,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws MathUserException if an error occurs evaluating  the function
      * @throws IllegalArgumentException if initial is not between min and max
      * (even if it <em>is</em> a root)
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, MathUserException {
@@ -170,6 +174,33 @@ public class BrentSolver extends UnivariateRealSolverImpl {
     }
 
     /**
+     * Find a zero in the given interval with an initial guess.
+     * <p>Throws <code>IllegalArgumentException</code> if the values of the
+     * function at the three points have the same sign (note that it is
+     * allowed to have endpoints with the same sign if the initial point has
+     * opposite sign function-wise).</p>
+     *
+     * @param f function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param initial the start value to use (must be set to min if no
+     * initial point is known).
+     * @param maxEval Maximum number of evaluations.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating  the function
+     * @throws IllegalArgumentException if initial is not between min and max
+     * (even if it <em>is</em> a root)
+     */
+    @Override
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double initial)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    /**
      * Find a zero in the given interval.
      * <p>
      * Requires that the values of the function at the endpoints have opposite
@@ -184,7 +215,9 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, MathUserException {
@@ -225,6 +258,30 @@ public class BrentSolver extends UnivariateRealSolverImpl {
         }
 
         return ret;
+    }
+
+    /**
+     * Find a zero in the given interval.
+     * <p>
+     * Requires that the values of the function at the endpoints have opposite
+     * signs. An <code>IllegalArgumentException</code> is thrown if this is not
+     * the case.</p>
+     *
+     * @param f the function to solve
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
+     * @return the value where the function is zero
+     * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min is not less than max or the
+     * signs of the values of the function at the endpoints are not opposites
+     */
+    public double solve(int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max)
+        throws MaxIterationsExceededException, MathUserException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
     }
 
     /**
