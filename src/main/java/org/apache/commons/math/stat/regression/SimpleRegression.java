@@ -104,6 +104,7 @@ public class SimpleRegression implements Serializable {
      * @deprecated in 2.2 (to be removed in 3.0). Please use the {@link
      * #SimpleRegression(int) other constructor} instead.
      */
+    @Deprecated
     public SimpleRegression(TDistribution t) {
         super();
         setDistribution(t);
@@ -626,6 +627,7 @@ public class SimpleRegression implements Serializable {
      * @since 1.2
      * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public void setDistribution(TDistribution value) {
         distribution = value;
 

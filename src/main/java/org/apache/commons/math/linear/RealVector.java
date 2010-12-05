@@ -255,6 +255,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapPow(double d);
 
     /**
@@ -268,6 +269,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapPowToSelf(double d);
 
     /**
@@ -279,6 +281,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapExp();
 
     /**
@@ -291,6 +294,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapExpToSelf();
 
     /**
@@ -301,6 +305,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapExpm1();
 
     /**
@@ -312,6 +317,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapExpm1ToSelf();
 
     /**
@@ -322,6 +328,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLog();
 
     /**
@@ -333,6 +340,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLogToSelf();
 
     /**
@@ -343,6 +351,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLog10();
 
     /**
@@ -354,6 +363,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLog10ToSelf();
 
     /**
@@ -364,6 +374,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLog1p();
 
     /**
@@ -375,6 +386,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapLog1pToSelf();
 
     /**
@@ -385,6 +397,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCosh();
 
     /**
@@ -396,6 +409,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCoshToSelf();
 
     /**
@@ -406,6 +420,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSinh();
 
     /**
@@ -417,6 +432,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSinhToSelf();
 
     /**
@@ -427,6 +443,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapTanh();
 
     /**
@@ -438,6 +455,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapTanhToSelf();
 
     /**
@@ -448,6 +466,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCos();
 
     /**
@@ -459,6 +478,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCosToSelf();
 
     /**
@@ -469,6 +489,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSin();
 
     /**
@@ -480,6 +501,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSinToSelf();
 
     /**
@@ -490,6 +512,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapTan();
 
     /**
@@ -501,6 +524,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapTanToSelf();
 
     /**
@@ -511,6 +535,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAcos();
 
     /**
@@ -522,6 +547,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAcosToSelf();
 
     /**
@@ -532,6 +558,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAsin();
 
     /**
@@ -543,6 +570,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAsinToSelf();
 
     /**
@@ -553,6 +581,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAtan();
 
     /**
@@ -564,6 +593,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAtanToSelf();
 
     /**
@@ -574,6 +604,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapInv();
 
     /**
@@ -585,6 +616,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapInvToSelf();
 
     /**
@@ -595,6 +627,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAbs();
 
     /**
@@ -606,6 +639,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapAbsToSelf();
 
     /**
@@ -616,6 +650,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSqrt();
 
     /**
@@ -627,6 +662,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSqrtToSelf();
 
     /**
@@ -637,6 +673,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCbrt();
 
     /**
@@ -648,6 +685,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCbrtToSelf();
 
     /**
@@ -658,6 +696,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCeil();
 
     /**
@@ -669,6 +708,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapCeilToSelf();
 
     /**
@@ -679,6 +719,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapFloor();
 
     /**
@@ -690,6 +731,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapFloorToSelf();
 
     /**
@@ -700,6 +742,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapRint();
 
     /**
@@ -711,6 +754,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapRintToSelf();
 
     /**
@@ -721,6 +765,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSignum();
 
     /**
@@ -732,6 +777,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapSignumToSelf();
 
     /**
@@ -742,6 +788,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapUlp();
 
     /**
@@ -753,6 +800,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapUlpToSelf();
 
     /**

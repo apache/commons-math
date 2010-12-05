@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * @deprecated in 2.2 (to be removed in 3.0). Please use
  * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
+@Deprecated
 public class MatrixVisitorException extends MathUserException {
 
     /** Serializable version identifier */

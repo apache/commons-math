@@ -42,6 +42,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @deprecated in 2.2 (to be removed in 3.0). Please use the accessor
      * {@link BaseAbstractScalarOptimizer#getConvergenceChecker()} instead.
      */
+    @Deprecated
     protected RealConvergenceChecker checker;
     /**
      * Type of optimization.
@@ -49,10 +50,12 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @deprecated in 2.2 (to be removed in 3.0). Please use the accessor
      * {@link BaseAbstractScalarOptimizer#getGoalType()} instead.
      */
+    @Deprecated
     protected GoalType goal;
     /** Current point set.
      * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     protected double[] point;
 
     /** Number of gradient evaluations. */

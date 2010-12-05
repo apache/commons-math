@@ -71,6 +71,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
      * {@inheritDoc}
      * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f, double min, double max, double initial)
         throws MaxIterationsExceededException, MathUserException {
         return solve(f, min, max);
@@ -95,6 +96,7 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
      * {@inheritDoc}
      * @deprecated in 2.2 (to be removed in 3.0).
      */
+    @Deprecated
     public double solve(final UnivariateRealFunction f, double min, double max)
         throws MaxIterationsExceededException, MathUserException {
 

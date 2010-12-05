@@ -105,6 +105,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      * @deprecated - use density(double)
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }

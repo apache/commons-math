@@ -186,6 +186,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @deprecated in 2.2 (to be removed in 3.0). Please use
      * {@link #solve(int,UnivariateRealFunction,double,double,double)} instead.
      */
+    @Deprecated
     double solve(UnivariateRealFunction f, double min, double max, double startValue)
         throws ConvergenceException, MathUserException, IllegalArgumentException;
 

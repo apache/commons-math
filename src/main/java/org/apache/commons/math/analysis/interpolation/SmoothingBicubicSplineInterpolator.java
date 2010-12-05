@@ -40,6 +40,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * {@link org.apache.commons.math.analysis.interpolation.SmoothingPolynomialBicubicSplineInterpolator}.
  * This class will be removed in math 3.0.
  */
+@Deprecated
 public class SmoothingBicubicSplineInterpolator
     implements BivariateRealGridInterpolator {
     /**

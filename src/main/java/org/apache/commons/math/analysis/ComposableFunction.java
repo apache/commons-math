@@ -28,6 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @deprecated in 2.2
  */
+@Deprecated
 public abstract class ComposableFunction implements UnivariateRealFunction {
 
     /** The constant function always returning 0. */

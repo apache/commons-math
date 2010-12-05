@@ -57,6 +57,7 @@ public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
      * @deprecated in 2.2. Derived classes should use the "setter" methods
      * in order to assign meaningful values to all the instances variables.
      */
+    @Deprecated
     protected ConvergingAlgorithmImpl(final int defaultMaximalIterationCount,
                                       final double defaultAbsoluteAccuracy) {
         this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
@@ -75,6 +76,7 @@ public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
      * @deprecated in 2.2 (to be removed as soon as the single non-default one
      * has been removed).
      */
+    @Deprecated
     protected ConvergingAlgorithmImpl() {}
 
     /** {@inheritDoc} */

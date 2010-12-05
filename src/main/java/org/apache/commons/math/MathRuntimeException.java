@@ -558,6 +558,7 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @deprecated in 2.2. Please use {@link org.apache.commons.math.exception.MathUnsupportedOperationException}
      * instead.
      */
+    @Deprecated
     public static UnsupportedOperationException createUnsupportedOperationException(final Localizable pattern,
                                                                                     final Object ... arguments) {
         return new UnsupportedOperationException() {
@@ -603,6 +604,7 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @since 2.2
      * @deprecated in 2.2. Checks for "null" must not be performed in Commons-Math.
      */
+    @Deprecated
     public static NullPointerException createNullPointerException(final Localizable pattern,
                                                                   final Object ... arguments) {
         return new NullPointerException() {

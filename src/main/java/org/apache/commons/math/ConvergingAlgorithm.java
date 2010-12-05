@@ -31,6 +31,7 @@ package org.apache.commons.math;
  * currently is also contained in {@link org.apache.commons.math.optimization.SimpleRealPointChecker}
  * and similar classes.
  */
+@Deprecated
 public interface ConvergingAlgorithm {
 
     /**

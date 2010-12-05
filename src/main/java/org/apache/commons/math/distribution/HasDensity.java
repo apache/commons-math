@@ -31,6 +31,7 @@ import org.apache.commons.math.MathException;
  * @deprecated to be removed in math 3.0
  * @version $Revision$ $Date$
  */
+@Deprecated
 public interface HasDensity<P> {
 
     /**

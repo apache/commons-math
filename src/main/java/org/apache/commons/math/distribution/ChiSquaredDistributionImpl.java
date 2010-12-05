@@ -115,6 +115,7 @@ public class ChiSquaredDistributionImpl
      * @return The pdf at point x.
      * @deprecated
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }

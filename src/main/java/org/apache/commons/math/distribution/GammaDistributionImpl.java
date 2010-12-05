@@ -213,6 +213,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      * @return The pdf at point x.
      * @deprecated
      */
+    @Deprecated
     public double density(Double x) {
         return density(x.doubleValue());
     }

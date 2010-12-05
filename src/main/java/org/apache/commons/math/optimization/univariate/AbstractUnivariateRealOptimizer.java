@@ -66,6 +66,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * values to the maximum numbers of iterations and evaluations, and to the
      * absolute and relative accuracy thresholds.
      */
+    @Deprecated
     protected AbstractUnivariateRealOptimizer(final int defaultMaximalIterationCount,
                                               final double defaultAbsoluteAccuracy) {
         super(defaultMaximalIterationCount, defaultAbsoluteAccuracy);
@@ -84,6 +85,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * @throws NoDataException if no result has been computed
      * @deprecated in 2.2 (no alternative).
      */
+    @Deprecated
     protected void checkResultComputed() {
         if (!resultComputed) {
             throw new NoDataException();
@@ -115,6 +117,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * @param iterationCount the iteration count to set
      * @deprecated in 2.2 (no alternative).
      */
+    @Deprecated
     protected final void setResult(final double x, final double fx,
                                    final int iterationCount) {
         this.result         = x;
@@ -127,6 +130,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * Convenience function for implementations.
      * @deprecated in 2.2 (no alternative).
      */
+    @Deprecated
     protected final void clearResult() {
         this.resultComputed = false;
     }
@@ -181,6 +185,7 @@ public abstract class AbstractUnivariateRealOptimizer
      * @deprecated in 2.2. Use this {@link #computeObjectiveValue(double)
      * replacement} instead.
      */
+    @Deprecated
     protected double computeObjectiveValue(final UnivariateRealFunction f,
                                            final double point)
         throws MathUserException {
