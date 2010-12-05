@@ -169,7 +169,7 @@ public class StatisticalSummaryValues implements Serializable,
      */
     @Override
     public String toString() {
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
         String endl = "\n";
         outBuffer.append("StatisticalSummaryValues:").append(endl);
         outBuffer.append("n: ").append(getN()).append(endl);

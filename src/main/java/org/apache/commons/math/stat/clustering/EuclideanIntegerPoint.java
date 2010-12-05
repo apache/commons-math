@@ -105,7 +105,7 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
      */
     @Override
     public String toString() {
-        final StringBuffer buff = new StringBuffer("(");
+        final StringBuilder buff = new StringBuilder("(");
         final int[] coordinates = getPoint();
         for (int i = 0; i < coordinates.length; i++) {
             buff.append(coordinates[i]);

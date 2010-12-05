@@ -307,7 +307,7 @@ public class MultivariateSummaryStatistics
     public String toString() {
         final String separator = ", ";
         final String suffix = System.getProperty("line.separator");
-        StringBuffer outBuffer = new StringBuffer();
+        StringBuilder outBuffer = new StringBuilder();
         outBuffer.append("MultivariateSummaryStatistics:" + suffix);
         outBuffer.append("n: " + getN() + suffix);
         append(outBuffer, getMin(), "min: ", separator, suffix);
@@ -329,7 +329,7 @@ public class MultivariateSummaryStatistics
      * @param separator elements separator
      * @param suffix text suffix
      */
-    private void append(StringBuffer buffer, double[] data,
+    private void append(StringBuilder buffer, double[] data,
                         String prefix, String separator, String suffix) {
         buffer.append(prefix);
         for (int i = 0; i < data.length; ++i) {

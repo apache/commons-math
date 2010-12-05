@@ -264,7 +264,7 @@ public class TestUtils {
 
         if (expected.getColumnDimension() != observed.getColumnDimension() ||
                 expected.getRowDimension() != observed.getRowDimension()) {
-            StringBuffer messageBuffer = new StringBuffer(msg);
+            StringBuilder messageBuffer = new StringBuilder(msg);
             messageBuffer.append("\nObserved has incorrect dimensions.");
             messageBuffer.append("\nobserved is " + observed.getRowDimension() +
                     " x " + observed.getColumnDimension());
@@ -275,7 +275,7 @@ public class TestUtils {
 
         RealMatrix delta = expected.subtract(observed);
         if (delta.getNorm() >= tolerance) {
-            StringBuffer messageBuffer = new StringBuffer(msg);
+            StringBuilder messageBuffer = new StringBuilder(msg);
             messageBuffer.append("\nExpected: " + expected);
             messageBuffer.append("\nObserved: " + observed);
             messageBuffer.append("\nexpected - observed: " + delta);
@@ -291,7 +291,7 @@ public class TestUtils {
 
         if (expected.getColumnDimension() != observed.getColumnDimension() ||
                 expected.getRowDimension() != observed.getRowDimension()) {
-            StringBuffer messageBuffer = new StringBuffer();
+            StringBuilder messageBuffer = new StringBuilder();
             messageBuffer.append("Observed has incorrect dimensions.");
             messageBuffer.append("\nobserved is " + observed.getRowDimension() +
                     " x " + observed.getColumnDimension());
@@ -312,7 +312,7 @@ public class TestUtils {
     /** verifies that two arrays are close (sup norm) */
     public static void assertEquals(String msg, double[] expected, double[] observed,
         double tolerance) {
-        StringBuffer out = new StringBuffer(msg);
+        StringBuilder out = new StringBuilder(msg);
         if (expected.length != observed.length) {
             out.append("\n Arrays not same length. \n");
             out.append("expected has length ");
@@ -382,7 +382,7 @@ public class TestUtils {
             // Fail if we can reject null hypothesis that distributions are the same
             Assert.assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
         } catch (AssertionFailedError ex) {
-            StringBuffer msgBuffer = new StringBuffer();
+            StringBuilder msgBuffer = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
             msgBuffer.append("Chisquare test failed");
             msgBuffer.append(" p-value = ");

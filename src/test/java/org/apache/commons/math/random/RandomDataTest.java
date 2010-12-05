@@ -355,7 +355,7 @@ public class RandomDataTest extends RetryTestCase {
             // Fail if we can reject null hypothesis that distributions are the same
             assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
         } catch (AssertionFailedError ex) {
-            StringBuffer msgBuffer = new StringBuffer();
+            StringBuilder msgBuffer = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
             msgBuffer.append("Chisquare test failed for mean = ");
             msgBuffer.append(mean);

@@ -1301,7 +1301,7 @@ public class BigMatrixImpl implements BigMatrix, Serializable {
      */
     @Override
     public String toString() {
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         res.append("BigMatrixImpl{");
         if (data != null) {
             for (int i = 0; i < data.length; i++) {

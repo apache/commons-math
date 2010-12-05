@@ -991,7 +991,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public String toString() {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
-        final StringBuffer res = new StringBuffer();
+        final StringBuilder res = new StringBuilder();
         String fullClassName = getClass().getName();
         String shortClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
         res.append(shortClassName).append("{");
