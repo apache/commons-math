@@ -32,6 +32,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * {@link org.apache.commons.math.exception.MaxCountExceededException}
  * instead.
  */
+@Deprecated
 public class MaxIterationsExceededException extends ConvergenceException {
 
     /** Serializable version identifier. */
