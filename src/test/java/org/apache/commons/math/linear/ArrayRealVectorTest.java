@@ -501,7 +501,7 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_set1 = (ArrayRealVector) v1.copy();
+        ArrayRealVector v_set1 = v1.copy();
         v_set1.setEntry(1, 11.0);
         Assert.assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1), 0);
         try {
@@ -511,7 +511,7 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_set2 = (ArrayRealVector) v4.copy();
+        ArrayRealVector v_set2 = v4.copy();
         v_set2.set(3, v1);
         Assert.assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3), 0);
         Assert.assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6), 0);
@@ -522,7 +522,7 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_set3 = (ArrayRealVector) v1.copy();
+        ArrayRealVector v_set3 = v1.copy();
         v_set3.set(13.0);
         Assert.assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2), 0);
 
@@ -533,7 +533,7 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_set4 = (ArrayRealVector) v4.copy();
+        ArrayRealVector v_set4 = v4.copy();
         v_set4.setSubVector(3, v2_t);
         Assert.assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3), 0);
         Assert.assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6), 0);
@@ -545,8 +545,8 @@ public class ArrayRealVectorTest {
         }
 
 
-        ArrayRealVector vout10 = (ArrayRealVector) v1.copy();
-        ArrayRealVector vout10_2 = (ArrayRealVector) v1.copy();
+        ArrayRealVector vout10 = v1.copy();
+        ArrayRealVector vout10_2 = v1.copy();
         Assert.assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, 1.1);
         Assert.assertNotSame(vout10, vout10_2);
@@ -1008,7 +1008,7 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_unitize = (ArrayRealVector)v1.copy();
+        ArrayRealVector v_unitize = v1.copy();
         v_unitize.unitize();
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
