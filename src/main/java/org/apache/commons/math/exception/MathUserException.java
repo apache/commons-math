@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import java.util.Locale;
-
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 

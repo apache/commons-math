@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;

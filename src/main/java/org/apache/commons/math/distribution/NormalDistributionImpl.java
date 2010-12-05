@@ -21,7 +21,6 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
 import org.apache.commons.math.util.FastMath;

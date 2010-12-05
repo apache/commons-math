@@ -16,17 +16,12 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Testcase for Laguerre solver.

@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;

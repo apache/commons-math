@@ -19,7 +19,6 @@ package org.apache.commons.math.ode.nonstiff;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.MathUserException;

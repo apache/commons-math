@@ -21,7 +21,6 @@ import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 
 import junit.framework.TestCase;
