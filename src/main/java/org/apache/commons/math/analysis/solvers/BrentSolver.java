@@ -277,6 +277,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
+    @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max)
         throws MaxIterationsExceededException, MathUserException {

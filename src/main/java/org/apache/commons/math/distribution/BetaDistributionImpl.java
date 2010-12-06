@@ -141,6 +141,7 @@ public class BetaDistributionImpl
      * @return The pdf at point x.
      * @since 2.1
      */
+    @Override
     public double density(double x) {
         recomputeZ();
         if (x < 0 || x > 1) {

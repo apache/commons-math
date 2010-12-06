@@ -91,6 +91,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
      * @throws MathUserException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
+    @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
         throws MaxIterationsExceededException, MathUserException {

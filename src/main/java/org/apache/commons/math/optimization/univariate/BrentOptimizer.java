@@ -48,6 +48,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double doOptimize()
         throws MaxIterationsExceededException, MathUserException {
         return localMin(getGoalType() == GoalType.MINIMIZE,
