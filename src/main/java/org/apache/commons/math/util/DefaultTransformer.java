@@ -41,7 +41,7 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
      * @return a double primitive representation of the Object o.
      * @throws MathException if it cannot successfully be transformed.
      * @throws NullArgumentException if is {@code null}.
-     * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html"/>
+     * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html">Commons Collections Transformer</a>
      */
     public double transform(Object o) throws MathException {
         if (o == null) {

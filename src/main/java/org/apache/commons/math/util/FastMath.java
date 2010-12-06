@@ -756,7 +756,7 @@ public class FastMath {
 
     /** Internal helper method for expm1
      * @param x number to compute shifted exponential
-     * @param hiPrecOut[] receive high precision result for -1.0 < x < 1.0
+     * @param hiPrecOut array to receive high precision result for -1.0 < x < 1.0
      * @return exp(x) - 1
      */
     private static double expm1(double x, double hiPrecOut[]) {

@@ -147,7 +147,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
         }
 
         /**
-         * @throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException
          */
         public void remove() {
             throw new UnsupportedOperationException();
