@@ -256,6 +256,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapPow(double d);
 
     /**
@@ -269,6 +270,7 @@ public interface RealVector {
      * the function classes in package
      * {@link org.apache.commons.math.analysis.function}.
      */
+    @Deprecated
     RealVector mapPowToSelf(double d);
 
     /**
