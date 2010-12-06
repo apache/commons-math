@@ -264,7 +264,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
      */
     @Test
-    public void testSplinePartialDerivatives() throws MathException {
+    public void testSplinePartialDerivatives() {
         final int N = 4;
         final double[] coeff = new double[16];
 

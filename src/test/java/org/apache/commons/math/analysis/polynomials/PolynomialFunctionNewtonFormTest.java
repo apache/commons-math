@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
@@ -31,7 +30,7 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
     /**
      * Test of polynomial for the linear function.
      */
-    public void testLinearFunction() throws MathException {
+    public void testLinearFunction() {
         PolynomialFunctionNewtonForm p;
         double coefficients[], z, expected, result, tolerance = 1E-12;
 
@@ -60,7 +59,7 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
     /**
      * Test of polynomial for the quadratic function.
      */
-    public void testQuadraticFunction() throws MathException {
+    public void testQuadraticFunction() {
         PolynomialFunctionNewtonForm p;
         double coefficients[], z, expected, result, tolerance = 1E-12;
 
@@ -90,7 +89,7 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
     /**
      * Test of polynomial for the quintic function.
      */
-    public void testQuinticFunction() throws MathException {
+    public void testQuinticFunction() {
         PolynomialFunctionNewtonForm p;
         double coefficients[], z, expected, result, tolerance = 1E-12;
 

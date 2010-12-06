@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
@@ -33,7 +32,7 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
     /**
      * Test of polynomial for the linear function.
      */
-    public void testLinearFunction() throws MathException {
+    public void testLinearFunction() {
         PolynomialFunctionLagrangeForm p;
         double c[], z, expected, result, tolerance = 1E-12;
 
@@ -62,7 +61,7 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
     /**
      * Test of polynomial for the quadratic function.
      */
-    public void testQuadraticFunction() throws MathException {
+    public void testQuadraticFunction() {
         PolynomialFunctionLagrangeForm p;
         double c[], z, expected, result, tolerance = 1E-12;
 
@@ -92,7 +91,7 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
     /**
      * Test of polynomial for the quintic function.
      */
-    public void testQuinticFunction() throws MathException {
+    public void testQuinticFunction() {
         PolynomialFunctionLagrangeForm p;
         double c[], z, expected, result, tolerance = 1E-12;
 

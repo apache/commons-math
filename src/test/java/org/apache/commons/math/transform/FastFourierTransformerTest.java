@@ -19,7 +19,6 @@ package org.apache.commons.math.transform;
 import org.apache.commons.math.analysis.*;
 import org.apache.commons.math.complex.*;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.MathException;
 import junit.framework.TestCase;
 
 /**
@@ -114,7 +113,7 @@ public final class FastFourierTransformerTest extends TestCase {
     /**
      * Test of transformer for the sine function.
      */
-    public void testSinFunction() throws MathException {
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         FastFourierTransformer transformer = new FastFourierTransformer();
         Complex result[]; int N = 1 << 8;
