@@ -250,10 +250,7 @@ public interface RealVector {
      *
      * @param d Operator value.
      * @return a mapped copy of the vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapPow(double d);
@@ -264,10 +261,7 @@ public interface RealVector {
      *
      * @param d Operator value.
      * @return the mapped vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapPowToSelf(double d);
@@ -276,10 +270,7 @@ public interface RealVector {
      * Map the {@link Math#exp(double)} function to each entry.
      *
      * @return a mapped copy of the vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapExp();
@@ -289,10 +280,7 @@ public interface RealVector {
      * The instance is changed in-place.
      *
      * @return the mapped vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapExpToSelf();
@@ -300,10 +288,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#expm1(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapExpm1();
@@ -312,10 +297,7 @@ public interface RealVector {
      * Map the {@link Math#expm1(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapExpm1ToSelf();
@@ -323,10 +305,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#log(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLog();
@@ -335,10 +314,7 @@ public interface RealVector {
      * Map the {@link Math#log(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLogToSelf();
@@ -346,10 +322,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#log10(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLog10();
@@ -358,10 +331,7 @@ public interface RealVector {
      * Map the {@link Math#log10(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLog10ToSelf();
@@ -369,10 +339,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#log1p(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLog1p();
@@ -381,10 +348,7 @@ public interface RealVector {
      * Map the {@link Math#log1p(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapLog1pToSelf();
@@ -392,10 +356,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#cosh(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCosh();
@@ -404,10 +365,7 @@ public interface RealVector {
      * Map the {@link Math#cosh(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCoshToSelf();
@@ -415,10 +373,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#sinh(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSinh();
@@ -427,10 +382,7 @@ public interface RealVector {
      * Map the {@link Math#sinh(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSinhToSelf();
@@ -438,10 +390,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#tanh(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapTanh();
@@ -450,10 +399,7 @@ public interface RealVector {
      * Map the {@link Math#tanh(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapTanhToSelf();
@@ -461,10 +407,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#cos(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCos();
@@ -473,10 +416,7 @@ public interface RealVector {
      * Map the {@link Math#cos(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCosToSelf();
@@ -484,10 +424,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#sin(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSin();
@@ -496,10 +433,7 @@ public interface RealVector {
      * Map the {@link Math#sin(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSinToSelf();
@@ -507,10 +441,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#tan(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapTan();
@@ -519,10 +450,7 @@ public interface RealVector {
      * Map the {@link Math#tan(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapTanToSelf();
@@ -530,10 +458,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#acos(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAcos();
@@ -542,10 +467,7 @@ public interface RealVector {
      * Map the {@link Math#acos(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAcosToSelf();
@@ -553,10 +475,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#asin(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAsin();
@@ -565,10 +484,7 @@ public interface RealVector {
      * Map the {@link Math#asin(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAsinToSelf();
@@ -576,10 +492,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#atan(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAtan();
@@ -588,10 +501,7 @@ public interface RealVector {
      * Map the {@link Math#atan(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAtanToSelf();
@@ -599,10 +509,7 @@ public interface RealVector {
     /**
      * Map the 1/x function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapInv();
@@ -611,10 +518,7 @@ public interface RealVector {
      * Map the 1/x function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapInvToSelf();
@@ -622,10 +526,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#abs(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAbs();
@@ -634,10 +535,7 @@ public interface RealVector {
      * Map the {@link Math#abs(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapAbsToSelf();
@@ -645,10 +543,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#sqrt(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSqrt();
@@ -657,10 +552,7 @@ public interface RealVector {
      * Map the {@link Math#sqrt(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSqrtToSelf();
@@ -668,10 +560,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#cbrt(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCbrt();
@@ -680,10 +569,7 @@ public interface RealVector {
      * Map the {@link Math#cbrt(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCbrtToSelf();
@@ -691,10 +577,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#ceil(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCeil();
@@ -703,10 +586,7 @@ public interface RealVector {
      * Map the {@link Math#ceil(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapCeilToSelf();
@@ -714,10 +594,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#floor(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapFloor();
@@ -726,10 +603,7 @@ public interface RealVector {
      * Map the {@link Math#floor(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapFloorToSelf();
@@ -737,10 +611,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#rint(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapRint();
@@ -749,10 +620,7 @@ public interface RealVector {
      * Map the {@link Math#rint(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapRintToSelf();
@@ -760,10 +628,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#signum(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSignum();
@@ -772,10 +637,7 @@ public interface RealVector {
      * Map the {@link Math#signum(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapSignumToSelf();
@@ -783,10 +645,7 @@ public interface RealVector {
     /**
      * Map the {@link Math#ulp(double)} function to each entry.
      * @return a vector containing the result of applying the function to each entry
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapUlp();
@@ -795,10 +654,7 @@ public interface RealVector {
      * Map the {@link Math#ulp(double)} function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return this
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
+     * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     RealVector mapUlpToSelf();
