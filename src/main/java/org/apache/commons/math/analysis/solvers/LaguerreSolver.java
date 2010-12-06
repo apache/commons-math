@@ -144,7 +144,6 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      */
     public double laguerre(double lo, double hi,
                            double fLo, double fHi) {
-        double result = Double.NaN;
         double coefficients[] = getCoefficients();
         Complex c[] = new Complex[coefficients.length];
         for (int i = 0; i < coefficients.length; i++) {
