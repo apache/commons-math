@@ -33,10 +33,10 @@ public final class BisectionSolverTest {
         double result;
 
         BisectionSolver solver = new BisectionSolver();
-        result = solver.solve(f, 3, 4);
+        result = solver.solve(100, f, 3, 4);
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 1, 4);
+        result = solver.solve(100, f, 1, 4);
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
     }
 
@@ -46,37 +46,37 @@ public final class BisectionSolverTest {
         double result;
 
         BisectionSolver solver = new BisectionSolver();
-        result = solver.solve(f, -0.2, 0.2);
+        result = solver.solve(100, f, -0.2, 0.2);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, -0.1, 0.3);
+        result = solver.solve(100, f, -0.1, 0.3);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, -0.3, 0.45);
+        result = solver.solve(100, f, -0.3, 0.45);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.3, 0.7);
+        result = solver.solve(100, f, 0.3, 0.7);
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.2, 0.6);
+        result = solver.solve(100, f, 0.2, 0.6);
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.05, 0.95);
+        result = solver.solve(100, f, 0.05, 0.95);
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.85, 1.25);
+        result = solver.solve(100, f, 0.85, 1.25);
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.8, 1.2);
+        result = solver.solve(100, f, 0.8, 1.2);
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.85, 1.75);
+        result = solver.solve(100, f, 0.85, 1.75);
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.55, 1.45);
+        result = solver.solve(100, f, 0.55, 1.45);
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 0.85, 5);
+        result = solver.solve(100, f, 0.85, 5);
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
 
         Assert.assertTrue(solver.getEvaluations() > 0);
@@ -86,6 +86,6 @@ public final class BisectionSolverTest {
     public void testMath369() {
         UnivariateRealFunction f = new SinFunction();
         BisectionSolver solver = new BisectionSolver();
-        Assert.assertEquals(FastMath.PI, solver.solve(f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
+        Assert.assertEquals(FastMath.PI, solver.solve(100, f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
     }
 }

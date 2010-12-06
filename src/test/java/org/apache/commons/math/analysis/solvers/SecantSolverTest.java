@@ -40,12 +40,12 @@ public final class SecantSolverTest {
         double result;
         UnivariateRealSolver solver = new SecantSolver();
 
-        result = solver.solve(f, 3, 4);
+        result = solver.solve(100, f, 3, 4);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 6);
-        result = solver.solve(f, 1, 4);
+        result = solver.solve(100, f, 1, 4);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
@@ -65,59 +65,59 @@ public final class SecantSolverTest {
         double result;
         // Brent-Dekker solver.
         UnivariateRealSolver solver = new SecantSolver();
-        result = solver.solve(f, -0.2, 0.2);
+        result = solver.solve(100, f, -0.2, 0.2);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 3);
-        result = solver.solve(f, -0.1, 0.3);
+        result = solver.solve(100, f, -0.1, 0.3);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 7);
-        result = solver.solve(f, -0.3, 0.45);
+        result = solver.solve(100, f, -0.3, 0.45);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 8);
-        result = solver.solve(f, 0.3, 0.7);
+        result = solver.solve(100, f, 0.3, 0.7);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 9);
-        result = solver.solve(f, 0.2, 0.6);
+        result = solver.solve(100, f, 0.2, 0.6);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 8);
-        result = solver.solve(f, 0.05, 0.95);
+        result = solver.solve(100, f, 0.05, 0.95);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 0.5, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 10);
-        result = solver.solve(f, 0.85, 1.25);
+        result = solver.solve(100, f, 0.85, 1.25);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 12);
-        result = solver.solve(f, 0.8, 1.2);
+        result = solver.solve(100, f, 0.8, 1.2);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 10);
-        result = solver.solve(f, 0.85, 1.75);
+        result = solver.solve(100, f, 0.85, 1.75);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 16);
         // The followig is especially slow because the solver first has to reduce
         // the bracket to exclude the extremum. After that, convergence is rapide.
-        result = solver.solve(f, 0.55, 1.45);
+        result = solver.solve(100, f, 0.55, 1.45);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertTrue(solver.getEvaluations() <= 9);
-        result = solver.solve(f, 0.85, 5);
+        result = solver.solve(100, f, 0.85, 5);
         //System.out.println(
         //    "Root: " + result + " Evaluations: " + solver.getEvaluations());
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
@@ -130,16 +130,16 @@ public final class SecantSolverTest {
         SecantSolver solver = new SecantSolver();
 
         // endpoint is root
-        double result = solver.solve(f, FastMath.PI, 4);
+        double result = solver.solve(100, f, FastMath.PI, 4);
         Assert.assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 3, FastMath.PI);
+        result = solver.solve(100, f, 3, FastMath.PI);
         Assert.assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, FastMath.PI, 4, 3.5);
+        result = solver.solve(100, f, FastMath.PI, 4, 3.5);
         Assert.assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
-        result = solver.solve(f, 3, FastMath.PI, 3.07);
+        result = solver.solve(100, f, 3, FastMath.PI, 3.07);
         Assert.assertEquals(FastMath.PI, result, solver.getAbsoluteAccuracy());
 
     }
@@ -149,19 +149,19 @@ public final class SecantSolverTest {
         UnivariateRealFunction f = new SinFunction();
         SecantSolver solver = new SecantSolver();
         try {  // bad interval
-            solver.solve(f, 1, -1);
+            solver.solve(100, f, 1, -1);
             Assert.fail("Expecting NumberIsTooLargeException - bad interval");
         } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {  // no bracket
-            solver.solve(f, 1, 1.5);
+            solver.solve(100, f, 1, 1.5);
             Assert.fail("Expecting NoBracketingException - non-bracketing");
         } catch (NoBracketingException ex) {
             // expected
         }
         try {  // no bracket
-            solver.solve(f, 1, 1.5, 1.2);
+            solver.solve(100, f, 1, 1.5, 1.2);
             Assert.fail("Expecting NoBracketingException - non-bracketing");
         } catch (NoBracketingException ex) {
             // expected

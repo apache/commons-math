@@ -53,14 +53,17 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
      * @param f Function to solve.
      * @param min Lower bound for the interval?
      * @param max Upper bound for the interval.
+     * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
-     * @throws IllegalArgumentException if {@code min >= max}.
+     * @throws org.apache.commons.math.exception.NumberIsTooLargeException
+     * if {@code min >= max}.
      */
-    public double solve(final DifferentiableUnivariateRealFunction f,
+    @Override
+    public double solve(int maxEval, final DifferentiableUnivariateRealFunction f,
                         final double min, final double max) {
-        return super.solve(f, UnivariateRealSolverUtils.midpoint(min, max));
+        return super.solve(maxEval, f, UnivariateRealSolverUtils.midpoint(min, max));
     }
 
     /**

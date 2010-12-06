@@ -34,8 +34,6 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRealFunction>
     implements BaseUnivariateRealSolver<FUNC> {
-    /** Default maximum number of evaluations */
-    public static final int DEFAULT_MAX_EVALUATIONS = 100;
     /** Default absolute accuracy */
     public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Default relative accuracy. */
@@ -183,21 +181,6 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
         function = f;
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
-    }
-
-    /** {@inheritDoc} */
-    public double solve(FUNC f, double min, double max, double startValue) {
-        return solve(DEFAULT_MAX_EVALUATIONS, f, min, max, startValue);
-    }
-
-    /** {@inheritDoc} */
-    public double solve(FUNC f, double min, double max) {
-        return solve(DEFAULT_MAX_EVALUATIONS, f, min, max);
-    }
-
-    /** {@inheritDoc} */
-    public double solve(FUNC f, double startValue) {
-        return solve(DEFAULT_MAX_EVALUATIONS, f, startValue);
     }
 
     /** {@inheritDoc} */
