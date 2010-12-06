@@ -42,16 +42,18 @@ public abstract class AbstractContinuousDistribution
     implements ContinuousDistribution, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
+    /** Default accuracy. */
+    public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /**
      * RandomData instance used to generate samples from the distribution
      * @since 2.2
      */
     protected final RandomDataImpl randomData = new RandomDataImpl();
     /**
-     * Solver absolute accuracy for inverse cumulative computation
+     * Solver absolute accuracy for inverse cumulative computation.
      * @since 2.1
      */
-    private double solverAbsoluteAccuracy = BrentSolver.DEFAULT_ABSOLUTE_ACCURACY;
+    private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
     /**
      * Default constructor.
      */
@@ -125,7 +127,7 @@ public abstract class AbstractContinuousDistribution
         // find root
         double root = UnivariateRealSolverUtils.solve(rootFindingFunction,
                 // override getSolverAbsoluteAccuracy() to use a Brent solver with
-                // absolute accuracy different from BrentSolver default
+                // absolute accuracy different from the default.
                 bracket[0],bracket[1], getSolverAbsoluteAccuracy());
         return root;
     }
@@ -209,6 +211,8 @@ public abstract class AbstractContinuousDistribution
 
     /**
      * Returns the solver absolute accuracy for inverse cumulative computation.
+     * You can override this method in order to use a Brent solver with an
+     * absolute accuracy different from the default.
      *
      * @return the maximum absolute error in inverse cumulative probability estimates
      * @since 2.1
@@ -216,5 +220,4 @@ public abstract class AbstractContinuousDistribution
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
-
 }

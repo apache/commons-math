@@ -34,12 +34,10 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRealFunction>
     implements BaseUnivariateRealSolver<FUNC> {
-    /** Default absolute accuracy */
-    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Default relative accuracy. */
-    public static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;
+    private static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;
     /** Default function value accuracy. */
-    public static final double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
+    private static final double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
     /** Function value accuracy. */
     private final double functionValueAccuracy;
     /** Absolute accuracy. */

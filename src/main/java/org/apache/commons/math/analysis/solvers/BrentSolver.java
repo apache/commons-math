@@ -37,10 +37,10 @@ public class BrentSolver extends AbstractUnivariateRealSolver {
     /** Serializable version identifier */
     private static final long serialVersionUID = 7694577816772532779L;
     /** Default absolute accuracy. */
-    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+    private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver with default accuracies.
+     * Construct a solver with default accuracy (1e-6).
      */
     public BrentSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);

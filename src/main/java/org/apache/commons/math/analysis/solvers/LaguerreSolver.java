@@ -40,12 +40,12 @@ import org.apache.commons.math.util.FastMath;
  */
 public class LaguerreSolver extends AbstractPolynomialSolver {
     /** Default absolute accuracy. */
-    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+    private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Complex solver. */
     protected ComplexSolver complexSolver = new ComplexSolver();
 
     /**
-     * Construct a solver with default accuracies.
+     * Construct a solver with default accuracy (1e-6).
      */
     public LaguerreSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);

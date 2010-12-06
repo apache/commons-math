@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  */
 public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
     /** Default absolute accuracy. */
-    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+    private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
      * Construct a solver.
