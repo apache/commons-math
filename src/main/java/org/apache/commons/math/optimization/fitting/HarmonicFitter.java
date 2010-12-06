@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
