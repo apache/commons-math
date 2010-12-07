@@ -247,33 +247,6 @@ public interface RealVector {
     RealVector mapDivideToSelf(double d);
 
     /**
-     * Map a power operation to each entry.
-     *
-     * @param d Operator value.
-     * @return a mapped copy of the vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #map(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
-     */
-    @Deprecated
-    RealVector mapPow(double d);
-
-    /**
-     * Map a power operation to each entry.
-     * The instance is changed in-place.
-     *
-     * @param d Operator value.
-     * @return the mapped vector.
-     * @deprecated in 2.2 (to be removed in 3.0). Please use
-     * {@link #mapToSelf(UnivariateRealFunction)} directly with
-     * the function classes in package
-     * {@link org.apache.commons.math.analysis.function}.
-     */
-    @Deprecated
-    RealVector mapPowToSelf(double d);
-
-    /**
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
      * @return a vector containing this[i] * v[i] for all i

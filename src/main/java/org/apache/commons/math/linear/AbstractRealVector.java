@@ -378,16 +378,6 @@ public abstract class AbstractRealVector implements RealVector {
     }
 
     /** {@inheritDoc} */
-    public RealVector mapPow(double d) {
-        return copy().mapPowToSelf(d);
-    }
-
-    /** {@inheritDoc} */
-    public RealVector mapPowToSelf(double d){
-        return mapToSelf(new Power(d));
-    }
-
-    /** {@inheritDoc} */
     public RealMatrix outerProduct(RealVector v) {
         RealMatrix product;
         if (v instanceof SparseRealVector || this instanceof SparseRealVector) {

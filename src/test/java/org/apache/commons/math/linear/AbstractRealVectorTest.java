@@ -97,15 +97,6 @@ public class AbstractRealVectorTest {
             return this;
         }
 
-        @Override
-        public RealVector mapPowToSelf(double d) {
-            for(int i=0; i<values.length; i++) {
-                values[i] = FastMath.pow(values[i], d);
-            }
-            return this;
-        }
-
-
         public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }

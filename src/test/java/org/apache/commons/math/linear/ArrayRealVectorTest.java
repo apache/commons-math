@@ -48,6 +48,7 @@ import org.apache.commons.math.analysis.function.Ceil;
 import org.apache.commons.math.analysis.function.Rint;
 import org.apache.commons.math.analysis.function.Signum;
 import org.apache.commons.math.analysis.function.Ulp;
+import org.apache.commons.math.analysis.function.Power;
 
 /**
  * Test cases for the {@link ArrayRealVector} class.
@@ -179,14 +180,6 @@ public class ArrayRealVectorTest {
         }
 
         public RealVector mapDivideToSelf(double d) {
-            throw unsupported();
-        }
-
-        public RealVector mapPow(double d) {
-            throw unsupported();
-        }
-
-        public RealVector mapPowToSelf(double d) {
             throw unsupported();
         }
 
@@ -602,13 +595,13 @@ public class ArrayRealVectorTest {
         assertClose("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.getData(),normTolerance);
 
         //octave =  v1 .^ 2.0
-        RealVector v_mapPow = v1.mapPow(2.0d);
+        RealVector v_mapPow = v1.map(new Power(2));
         double[] result_mapPow = {1d, 4d, 9d};
         assertClose("compare vectors" ,result_mapPow,v_mapPow.getData(),normTolerance);
 
         //octave =  v1 .^ 2.0
         RealVector v_mapPowToSelf = v1.copy();
-        v_mapPowToSelf.mapPowToSelf(2.0d);
+        v_mapPowToSelf.mapToSelf(new Power(2));
         double[] result_mapPowToSelf = {1d, 4d, 9d};
         assertClose("compare vectors" ,result_mapPowToSelf,v_mapPowToSelf.getData(),normTolerance);
 
