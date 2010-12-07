@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
 
@@ -236,19 +237,18 @@ public class RealVectorFormat extends CompositeFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
+     * @throws MathIllegalArgumentException is {@code obj} is not a valid type.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
                                FieldPosition pos) {
 
         if (obj instanceof RealVector) {
-            return format( (RealVector)obj, toAppendTo, pos);
+            return format((RealVector) obj, toAppendTo, pos);
         }
 
-        throw MathRuntimeException.createIllegalArgumentException(
-              LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_REAL_VECTOR,
-              obj.getClass().getName());
+        throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_REAL_VECTOR,
+                                               obj.getClass().getName());
 
     }
 
