@@ -41,6 +41,12 @@ import org.apache.commons.math.exception.MathUserException;
  * <pre>
  *   RealVector result = v.mapAddToSelf(3.0).mapTanToSelf().mapSquareToSelf();
  * </pre>
+ * <p>
+ *  Remark on the deprecated {@code mapXxx} and {@code mapXxxToSelf} methods: In
+ *  Commons-Math v3.0, the same functionality will be achieved by directly using the
+ *  {@link #map(UnivariateRealFunction)} and {@link #mapToSelf(UnivariateRealFunction)}
+ *  together with new function objects (not available in v2.2).
+ * </p>
  *
  * @version $Revision$ $Date$
  * @since 2.0
