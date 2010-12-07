@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.BaseOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -47,6 +46,7 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
+     * @param maxEval Maximum number of function evaluations.
      * @return a (point, value) pair where the function is optimum.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
@@ -54,10 +54,11 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * if the optimizer detects a convergence problem.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
-     * @throws MathUserException if the function to optimize throws one during search.
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * function to optimize throws one during search.
      */
-    UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
-                                          double min, double max) throws MathUserException;
+    UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+                                          double min, double max);
 
     /**
      * Find an optimum in the given interval, start at startValue.
@@ -69,6 +70,7 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
+     * @param maxEval Maximum number of function evaluations.
      * @return a (point, value) pair where the function is optimum.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
@@ -78,9 +80,10 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * do not satisfy the requirements specified by the optimizer.
      * @throws org.apache.commons.math.exception.NullArgumentException if any
      * argument is {@code null}.
-     * @throws MathUserException if the function to optimize throws one during search.
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * function to optimize throws one during search.
      */
-    UnivariateRealPointValuePair optimize(FUNC f, GoalType goalType,
+    UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                           double min, double max,
-                                          double startValue) throws MathUserException;
+                                          double startValue);
 }

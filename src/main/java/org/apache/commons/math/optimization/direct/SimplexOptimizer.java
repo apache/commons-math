@@ -55,7 +55,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  *  be called prior to calling the {@code optimize} method.
  * </p>
  * <p>
- *  Each call to {@link #optimize(MultivariateRealFunction,GoalType,double[])
+ *  Each call to {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
  *  optimize} will re-use the start configuration of the current simplex and
  *  move it such that its first vertex is at the provided start point of the
  *  optimization. If the {@code optimize} method is called to solve a different

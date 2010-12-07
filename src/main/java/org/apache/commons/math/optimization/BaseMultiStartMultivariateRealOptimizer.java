@@ -73,13 +73,13 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
 
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(MultivariateRealFunction,GoalType,double[]) optimize}.
+     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(MultivariateRealFunction,GoalType,double[])
+     * restarts. The {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
      * optimize} method returns the best point only. This method
      * returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(MultivariateRealFunction,GoalType,double[]) optimize} method.
+     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize} method.
      * <br/>
      * The returned array as one element for each start as specified
      * in the constructor. It is ordered with the results from the
@@ -87,14 +87,14 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(MultivariateRealFunction,GoalType,double[])
+     * elements will be null if the {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
      * optimize} method did throw a {@link MathUserException}).
      * This also means that if the first element is not {@code null}, it
      * is the best point found across all starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(MultivariateRealFunction,GoalType,double[]) optimize}
+     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize}
      * has not been called.
      */
     public RealPointValuePair[] getOptima() {
@@ -115,12 +115,6 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
     }
 
     /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-        optimizer.setMaxEvaluations(maxEvaluations);
-    }
-
-    /** {@inheritDoc} */
     public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> checker) {
         optimizer.setConvergenceChecker(checker);
     }
@@ -133,9 +127,10 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
     /**
      * {@inheritDoc}
      */
-    public RealPointValuePair optimize(final FUNC f,
+    public RealPointValuePair optimize(int maxEval, final FUNC f,
                                        final GoalType goal,
-                                       double[] startPoint) throws MathUserException {
+                                       double[] startPoint) {
+        maxEvaluations = maxEval;
         MathUserException lastException = null;
         optima = new RealPointValuePair[starts];
         totalEvaluations = 0;
@@ -143,16 +138,14 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
         // Multi-start loop.
         for (int i = 0; i < starts; ++i) {
             try {
-                optima[i] = optimizer.optimize(f, goal,
+                optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal,
                                                i == 0 ? startPoint : generator.nextVector());
             } catch (MathUserException mue) {
                 lastException = mue;
                 optima[i] = null;
             }
 
-            final int usedEvaluations = optimizer.getEvaluations();
-            optimizer.setMaxEvaluations(optimizer.getMaxEvaluations() - usedEvaluations);
-            totalEvaluations += usedEvaluations;
+            totalEvaluations += optimizer.getEvaluations();
         }
 
         sortPairs(goal);

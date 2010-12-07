@@ -58,21 +58,13 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
     protected BaseAbstractScalarOptimizer() {
-        this(new SimpleScalarValueChecker(), Integer.MAX_VALUE);
+        this(new SimpleScalarValueChecker());
     }
     /**
      * @param checker Convergence checker.
-     * @param maxEvaluations Maximum number of function evaluations.
      */
-    protected BaseAbstractScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker,
-                                          int maxEvaluations) {
+    protected BaseAbstractScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
         this.checker = checker;
-        evaluations.setMaximalCount(maxEvaluations);
-    }
-
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount(maxEvaluations);
     }
 
     /** {@inheritDoc} */
@@ -102,9 +94,10 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
-     * @throws MathUserException if objective function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * objective function throws one.
      */
-    protected double computeObjectiveValue(double[] point) throws MathUserException {
+    protected double computeObjectiveValue(double[] point) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -114,9 +107,8 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(FUNC f,
-                                       GoalType goalType,
-                                       double[] startPoint) throws MathUserException {
+    public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+                                       double[] startPoint) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -129,6 +121,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
         }
 
         // Reset.
+        evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
 
         // Store optimization problem characteristics.
@@ -157,8 +150,10 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /**
      * Perform the bulk of the optimization algorithm.
      *
-     * @return the point/value pair giving the optimal value for objective function.
-     * @throws MathUserException if objective function throws one
+     * @return the point/value pair giving the optimal value for the
+     * objective function.
+     * @throws org.apache.commons.math.exception.MathUserException if
+     * the objective function throws one.
      */
-    protected abstract RealPointValuePair doOptimize() throws MathUserException;
+    protected abstract RealPointValuePair doOptimize();
 }

@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
@@ -96,19 +95,7 @@ public class PowellOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public void setMaxEvaluations(int maxEvaluations) {
-        super.setMaxEvaluations(maxEvaluations);
-
-        // We must allow at least as many iterations to the underlying line
-        // search optimizer. Because the line search inner class will call
-        // "computeObjectiveValue" in this class, we ensure that this class
-        // will be the first to eventually throw "TooManyEvaluationsException".
-        line.setMaxEvaluations(maxEvaluations);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected RealPointValuePair doOptimize() throws MathUserException {
+    protected RealPointValuePair doOptimize() {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -255,13 +242,13 @@ public class PowellOptimizer
          * @return the optimum.
          * @throws org.apache.commons.math.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
-         * @throws MathUserException if objective function throws one.
+         * @throws org.apache.commons.math.exception.MathUserException if the
+         * objective function throws one.
          */
-        public UnivariateRealPointValuePair search(final double[] p, final double[] d)
-            throws MathUserException {
+        public UnivariateRealPointValuePair search(final double[] p, final double[] d) {
             final int n = p.length;
             final UnivariateRealFunction f = new UnivariateRealFunction() {
-                    public double value(double alpha) throws MathUserException {
+                    public double value(double alpha) {
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {
                             x[i] = p[i] + alpha * d[i];
@@ -273,8 +260,11 @@ public class PowellOptimizer
 
             final GoalType goal = PowellOptimizer.this.getGoalType();
             bracket.search(f, goal, 0, 1);
-            return optimize(f, goal, bracket.getLo(), bracket.getHi(),
-                            bracket.getMid());
+            // Passing "MAX_VALUE" as a dummy value because it is the enclosing
+            // class that counts the number of evaluations (and will eventually
+            // generate the exception).
+            return optimize(Integer.MAX_VALUE, f, goal,
+                            bracket.getLo(), bracket.getHi(), bracket.getMid());
         }
     }
 

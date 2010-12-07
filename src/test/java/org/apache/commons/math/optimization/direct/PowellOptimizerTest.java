@@ -132,9 +132,8 @@ public class PowellOptimizerTest {
                         double fTol,
                         double pointTol) {
         final MultivariateRealOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d));
-        optim.setMaxEvaluations(1000);
 
-        final RealPointValuePair result = optim.optimize(func, goal, init);
+        final RealPointValuePair result = optim.optimize(1000, func, goal, init);
         final double[] found = result.getPoint();
 
         for (int i = 0, dim = optimum.length; i < dim; i++) {

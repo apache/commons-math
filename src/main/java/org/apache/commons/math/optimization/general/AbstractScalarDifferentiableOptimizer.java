@@ -51,11 +51,9 @@ public abstract class AbstractScalarDifferentiableOptimizer
     protected AbstractScalarDifferentiableOptimizer() {}
     /**
      * @param checker Convergence checker.
-     * @param maxEvaluations Maximum number of function evaluations.
      */
-    protected AbstractScalarDifferentiableOptimizer(ConvergenceChecker<RealPointValuePair> checker,
-                                                    int maxEvaluations) {
-        super(checker, maxEvaluations);
+    protected AbstractScalarDifferentiableOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+        super(checker);
     }
 
     /**
@@ -74,12 +72,13 @@ public abstract class AbstractScalarDifferentiableOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public RealPointValuePair optimize(final DifferentiableMultivariateRealFunction f,
+    public RealPointValuePair optimize(int maxEval,
+                                       final DifferentiableMultivariateRealFunction f,
                                        final GoalType goalType,
                                        final double[] startPoint) throws MathUserException {
         // Store optimization problem characteristics.
         gradient = f.gradient();
 
-        return super.optimize(f, goalType, startPoint);
+        return super.optimize(maxEval, f, goalType, startPoint);
     }
 }

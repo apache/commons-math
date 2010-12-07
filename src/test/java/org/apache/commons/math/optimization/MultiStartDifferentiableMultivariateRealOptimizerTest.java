@@ -27,7 +27,6 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -39,7 +38,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateRealOptimizerTest {
 
     @Test
-    public void testCircleFitting() throws MathUserException {
+    public void testCircleFitting() {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -55,12 +54,11 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                                                   new GaussianRandomGenerator(g));
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
-        optimizer.setMaxEvaluations(200);
-        assertEquals(200, optimizer.getMaxEvaluations());
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         BrentSolver solver = new BrentSolver();
         RealPointValuePair optimum =
-            optimizer.optimize(circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
+            optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
+        assertEquals(200, optimizer.getMaxEvaluations());
         RealPointValuePair[] optima = optimizer.getOptima();
         for (RealPointValuePair o : optima) {
             Point2D.Double center = new Point2D.Double(o.getPointRef()[0], o.getPointRef()[1]);
@@ -113,8 +111,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             return new double[] { dJdX, dJdY };
         }
 
-        public double value(double[] variables)
-        throws IllegalArgumentException, MathUserException {
+        public double value(double[] variables) {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

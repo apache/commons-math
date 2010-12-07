@@ -113,7 +113,7 @@ public class LevenbergMarquardtOptimizerTest
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         try {
             optimizer.guessParametersErrors();
@@ -133,7 +133,7 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
@@ -153,7 +153,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         for (int i = 0; i < problem.target.length; ++i) {
@@ -170,7 +170,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 1, 1, 1});
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
@@ -190,7 +190,7 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
@@ -210,7 +210,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 1, 1, 1 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
         try {
             optimizer.getCovariances();
@@ -229,7 +229,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 32, 23, 33, 31 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum1 =
-            optimizer.optimize(problem1, problem1.target, new double[] { 1, 1, 1, 1 },
+            optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
@@ -244,7 +244,7 @@ public class LevenbergMarquardtOptimizerTest
                 {  6.99, 4.99, 9.00, 9.98 }
         }, new double[] { 32, 23, 33, 31 });
         VectorialPointValuePair optimum2 =
-            optimizer.optimize(problem2, problem2.target, new double[] { 1, 1, 1, 1 },
+            optimizer.optimize(100, problem2, problem2.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
@@ -262,7 +262,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 7.0, 3.0, 5.0 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
+        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                 new double[] { 7, 6, 5, 4 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
     }
@@ -278,7 +278,7 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 2, 2, 2, 2, 2, 2 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(3.0, optimum.getPointRef()[2], 1.0e-10);
@@ -296,7 +296,7 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(2.0, optimum.getPointRef()[0], 1.0e-10);
@@ -311,7 +311,7 @@ public class LevenbergMarquardtOptimizerTest
         }, new double[] { 3.0, 1.0, 4.0 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
+        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         assertTrue(optimizer.getRMS() > 0.1);
     }
 
@@ -321,13 +321,13 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
 
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
         assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
 
         try {
-            optimizer.optimize(problem, problem.target,
+            optimizer.optimize(100, problem, problem.target,
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
@@ -336,7 +336,7 @@ public class LevenbergMarquardtOptimizerTest
         }
 
         try {
-            optimizer.optimize(problem, new double[] { 1 },
+            optimizer.optimize(100, problem, new double[] { 1 },
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
@@ -370,8 +370,8 @@ public class LevenbergMarquardtOptimizerTest
                                                   parRelativeTolerance,
                                                   orthoTolerance,
                                                   MathUtils.SAFE_MIN);
-            optimizer.setMaxEvaluations(maxCostEval);
-            optimizer.optimize(problem, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
+            optimizer.optimize(maxCostEval, problem, new double[] { 0, 0, 0, 0, 0 },
+                               new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
             assertTrue(!shouldFail);
         } catch (DimensionMismatchException ee) {
@@ -390,7 +390,7 @@ public class LevenbergMarquardtOptimizerTest
         circle.addPoint( 45.0,  97.0);
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
-            optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
         assertTrue(optimizer.getEvaluations() < 10);
         assertTrue(optimizer.getJacobianEvaluations() < 10);
@@ -418,7 +418,7 @@ public class LevenbergMarquardtOptimizerTest
         Arrays.fill(target, 0.0);
         double[] weights = new double[circle.getN()];
         Arrays.fill(weights, 2.0);
-        optimizer.optimize(circle, target, weights, new double[] { 98.680, 47.345 });
+        optimizer.optimize(100, circle, target, weights, new double[] { 98.680, 47.345 });
         cov = optimizer.getCovariances();
         assertEquals(0.0016, cov[0][0], 0.001);
         assertEquals(3.2e-7, cov[0][1], 1.0e-9);
@@ -472,7 +472,7 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-8, 1.0e-8));
         VectorialPointValuePair optimum =
-            optimizer.optimize(circle, target, weights, new double[] { -12, -12 });
+            optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         assertTrue(optimizer.getEvaluations() < 25);
         assertTrue(optimizer.getJacobianEvaluations() < 20);
@@ -492,7 +492,7 @@ public class LevenbergMarquardtOptimizerTest
             problem.addPoint (4, 1.7785661310051026);
             LevenbergMarquardtOptimizer optimizer
                 = new LevenbergMarquardtOptimizer(100, 1e-10, 1e-10, 1e-10, 0);
-            optimizer.optimize(problem,
+            optimizer.optimize(100, problem,
                                new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 0.0, 4.4e-323, 1.0, 4.4e-323, 0.0 },
                                new double[] { 0, 0, 0 });

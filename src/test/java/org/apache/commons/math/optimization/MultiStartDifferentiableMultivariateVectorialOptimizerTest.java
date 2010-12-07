@@ -100,7 +100,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
 
     @Test
-    public void testTrivial() throws MathUserException {
+    public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
@@ -112,7 +112,6 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         // no optima before first optimization attempt
@@ -123,7 +122,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
             // expected
         }
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
         VectorialPointValuePair[] optima = optimizer.getOptima();
@@ -138,7 +137,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
     }
 
     @Test(expected = MathUserException.class)
-    public void testNoOptimum() throws MathUserException {
+    public void testNoOptimum() {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true);
         JDKRandomGenerator g = new JDKRandomGenerator();
@@ -148,13 +147,12 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
-        optimizer.optimize(new DifferentiableMultivariateVectorialFunction() {
+        optimizer.optimize(100, new DifferentiableMultivariateVectorialFunction() {
                 public MultivariateMatrixFunction jacobian() {
                     return null;
                 }
-                public double[] value(double[] point) throws MathUserException {
+                public double[] value(double[] point) {
                     throw new MathUserException();
                 }
             }, new double[] { 2 }, new double[] { 1 }, new double[] { 0 });

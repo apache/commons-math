@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.Incrementor;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -60,21 +59,13 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
     protected BaseAbstractVectorialOptimizer() {
-        this(new SimpleVectorialValueChecker(),  Integer.MAX_VALUE);
+        this(new SimpleVectorialValueChecker());
     }
     /**
      * @param checker Convergence checker.
-     * @param maxEvaluations Maximum number of function evaluations.
      */
-    protected BaseAbstractVectorialOptimizer(ConvergenceChecker<VectorialPointValuePair> checker,
-                                             int maxEvaluations) {
+    protected BaseAbstractVectorialOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
         this.checker = checker;
-        evaluations.setMaximalCount(maxEvaluations);
-    }
-
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount(maxEvaluations);
     }
 
     /** {@inheritDoc} */
@@ -104,9 +95,10 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
-     * @throws MathUserException if objective function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * objective function throws one.
      */
-    protected double[] computeObjectiveValue(double[] point) throws MathUserException {
+    protected double[] computeObjectiveValue(double[] point) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -116,8 +108,8 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
     }
 
     /** {@inheritDoc} */
-    public VectorialPointValuePair optimize(FUNC f, double[] t, double[] w, double[] startPoint)
-        throws MathUserException {
+    public VectorialPointValuePair optimize(int maxEval, FUNC f, double[] t, double[] w,
+                                            double[] startPoint) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -136,6 +128,7 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
         }
 
         // Reset.
+        evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
 
         // Store optimization problem characteristics.
@@ -158,10 +151,12 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
     /**
      * Perform the bulk of the optimization algorithm.
      *
-     * @return the point/value pair giving the optimal value for objective function
-     * @throws MathUserException if function throws one during search.
+     * @return the point/value pair giving the optimal value for the
+     * objective function.
+     * @throws org.apache.commons.math.exception.MathUserException if
+     * the function throws one during search.
      */
-    protected abstract VectorialPointValuePair doOptimize() throws MathUserException;
+    protected abstract VectorialPointValuePair doOptimize();
 
     /**
      * @return a reference to the {@link #target array}.

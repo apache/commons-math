@@ -52,8 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-454">
+        For optimizers (package "optimization"), the number of allowed function
+        evaluations is passed as a parameter to the "optimize" method.
+      </action>
       <action dev="erans" type="fix" issue="MATH-451">
-        For "solvers" (package "analysis.solvers"), the number of allowed function
+        For solvers (package "analysis.solvers"), the number of allowed function
         evaluations is passed as a parameter to the "solve" method.
       </action>
       <action dev="erans" type="fix" issue="MATH-447">

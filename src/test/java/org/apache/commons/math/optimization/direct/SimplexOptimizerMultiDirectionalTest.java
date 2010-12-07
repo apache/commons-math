@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
@@ -28,7 +27,7 @@ import org.junit.Test;
 
 public class SimplexOptimizerMultiDirectionalTest {
     @Test
-    public void testMinimizeMaximize() throws MathUserException {
+    public void testMinimizeMaximize() {
         // the following function has 4 local extrema:
         final double xM        = -3.841947088256863675365;
         final double yM        = -1.391745200270734924416;
@@ -40,7 +39,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         final double valueXpYp = -valueXpYm;                // global maximum
         MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
                 private static final long serialVersionUID = -7039124064449091152L;
-                public double value(double[] variables) throws MathUserException {
+                public double value(double[] variables) {
                     final double x = variables[0];
                     final double y = variables[1];
                     return ((x == 0) || (y == 0)) ? 0 :
@@ -49,19 +48,18 @@ public class SimplexOptimizerMultiDirectionalTest {
             };
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-11, 1e-30);
-        optimizer.setMaxEvaluations(200);
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         RealPointValuePair optimum;
 
         // minimization
-        optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
+        optimum = optimizer.optimize(200, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
         Assert.assertEquals(xM,        optimum.getPoint()[0], 4e-6);
         Assert.assertEquals(yP,        optimum.getPoint()[1], 3e-6);
         Assert.assertEquals(valueXmYp, optimum.getValue(),    8e-13);
         Assert.assertTrue(optimizer.getEvaluations() > 120);
         Assert.assertTrue(optimizer.getEvaluations() < 150);
 
-        optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
+        optimum = optimizer.optimize(200, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(xP,        optimum.getPoint()[0], 2e-8);
         Assert.assertEquals(yM,        optimum.getPoint()[1], 3e-6);
         Assert.assertEquals(valueXpYm, optimum.getValue(),    2e-12);
@@ -69,7 +67,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertTrue(optimizer.getEvaluations() < 150);
 
         // maximization
-        optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { -3.0, 0.0 });
+        optimum = optimizer.optimize(200, fourExtrema, GoalType.MAXIMIZE, new double[] { -3.0, 0.0 });
         Assert.assertEquals(xM,        optimum.getPoint()[0], 7e-7);
         Assert.assertEquals(yM,        optimum.getPoint()[1], 3e-7);
         Assert.assertEquals(valueXmYm, optimum.getValue(),    2e-14);
@@ -77,7 +75,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertTrue(optimizer.getEvaluations() < 150);
 
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1e-15, 1e-30));
-        optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
+        optimum = optimizer.optimize(200, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(xP,        optimum.getPoint()[0], 2e-8);
         Assert.assertEquals(yP,        optimum.getPoint()[1], 3e-6);
         Assert.assertEquals(valueXpYp, optimum.getValue(),    2e-12);
@@ -86,11 +84,11 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testRosenbrock() throws MathUserException {
+    public void testRosenbrock() {
         MultivariateRealFunction rosenbrock =
             new MultivariateRealFunction() {
                 private static final long serialVersionUID = -9044950469615237490L;
-                public double value(double[] x) throws MathUserException {
+                public double value(double[] x) {
                     ++count;
                     double a = x[1] - x[0] * x[0];
                     double b = 1.0 - x[0];
@@ -100,12 +98,11 @@ public class SimplexOptimizerMultiDirectionalTest {
 
         count = 0;
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.setMaxEvaluations(100);
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[][] {
                     { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
                 }));
         RealPointValuePair optimum =
-            optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
+            optimizer.optimize(100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
 
         Assert.assertEquals(count, optimizer.getEvaluations());
         Assert.assertTrue(optimizer.getEvaluations() > 50);
@@ -114,11 +111,11 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testPowell() throws MathUserException {
+    public void testPowell() {
         MultivariateRealFunction powell =
             new MultivariateRealFunction() {
                 private static final long serialVersionUID = -832162886102041840L;
-                public double value(double[] x) throws MathUserException {
+                public double value(double[] x) {
                     ++count;
                     double a = x[0] + 10 * x[1];
                     double b = x[2] - x[3];
@@ -130,10 +127,9 @@ public class SimplexOptimizerMultiDirectionalTest {
 
         count = 0;
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.setMaxEvaluations(1000);
         optimizer.setSimplex(new MultiDirectionalSimplex(4));
         RealPointValuePair optimum =
-            optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
+            optimizer.optimize(1000, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
         Assert.assertEquals(count, optimizer.getEvaluations());
         Assert.assertTrue(optimizer.getEvaluations() > 800);
         Assert.assertTrue(optimizer.getEvaluations() < 900);
@@ -141,14 +137,13 @@ public class SimplexOptimizerMultiDirectionalTest {
     }
 
     @Test
-    public void testMath283() throws MathUserException {
+    public void testMath283() {
         // fails because MultiDirectional.iterateSimplex is looping forever
         // the while(true) should be replaced with a convergence check
         SimplexOptimizer optimizer = new SimplexOptimizer();
-        optimizer.setMaxEvaluations(1000);
         optimizer.setSimplex(new MultiDirectionalSimplex(2));
         final Gaussian2D function = new Gaussian2D(0, 0, 1);
-        RealPointValuePair estimate = optimizer.optimize(function,
+        RealPointValuePair estimate = optimizer.optimize(1000, function,
                                                          GoalType.MAXIMIZE, function.getMaximumPosition());
         final double EPSILON = 1e-5;
         final double expectedMaximum = function.getMaximum();

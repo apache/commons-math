@@ -35,13 +35,6 @@ package org.apache.commons.math.optimization;
  */
 public interface BaseOptimizer<PAIR> {
     /**
-     * Set the maximal number of function evaluations.
-     *
-     * @param maxEvaluations Maximal number of function evaluations.
-     */
-    void setMaxEvaluations(int maxEvaluations);
-
-    /**
      * Get the maximal number of function evaluations.
      *
      * @return the maximal number of function evaluations.

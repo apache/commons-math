@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
@@ -43,6 +42,7 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * @param goalType Type of optimization goal: either
      * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
      * @param startPoint Start point for optimization.
+     * @param maxEval Maximum number of function evaluations.
      * @return the point/value pair giving the optimal value for objective
      * function.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -51,7 +51,9 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
-     * @throws MathUserException if objective function throws one during search
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * objective function throws one during search.
      */
-    RealPointValuePair optimize(FUNC f, GoalType goalType, double[] startPoint) throws MathUserException;
+    RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+                                double[] startPoint);
 }

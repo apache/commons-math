@@ -78,11 +78,9 @@ public abstract class AbstractLeastSquaresOptimizer
     protected AbstractLeastSquaresOptimizer() {}
     /**
      * @param checker Convergence checker.
-     * @param maxEvaluations Maximal number of function evaluations.
      */
-    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<VectorialPointValuePair> checker,
-                                            int maxEvaluations) {
-        super(checker, maxEvaluations);
+    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+        super(checker);
     }
 
     /**
@@ -231,7 +229,8 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
+    public VectorialPointValuePair optimize(int maxEval,
+                                            final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint) {
         // Reset counter.
@@ -251,6 +250,6 @@ public abstract class AbstractLeastSquaresOptimizer
 
         cost = Double.POSITIVE_INFINITY;
 
-        return super.optimize(f, target, weights, startPoint);
+        return super.optimize(maxEval, f, target, weights, startPoint);
     }
 }

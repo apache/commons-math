@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.univariate;
 
 import org.apache.commons.math.util.Incrementor;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -49,11 +48,6 @@ public abstract class AbstractUnivariateRealOptimizer
     private double searchStart;
     /** Function to optimize. */
     private UnivariateRealFunction function;
-
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        evaluations.setMaximalCount(maxEvaluations);
-    }
 
     /** {@inheritDoc} */
     public int getMaxEvaluations() {
@@ -97,9 +91,10 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the objective function value at specified point.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
-     * @throws MathUserException if objective function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * objective function throws one.
      */
-    protected double computeObjectiveValue(double point) throws MathUserException {
+    protected double computeObjectiveValue(double point) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {
@@ -109,10 +104,10 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
+    public UnivariateRealPointValuePair optimize(int maxEval, UnivariateRealFunction f,
                                                  GoalType goalType,
                                                  double min, double max,
-                                                 double startValue) throws MathUserException {
+                                                 double startValue) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -127,6 +122,7 @@ public abstract class AbstractUnivariateRealOptimizer
         searchStart = startValue;
         goal = goalType;
         function = f;
+        evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
 
         // Perform computation.
@@ -134,10 +130,11 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(UnivariateRealFunction f,
+    public UnivariateRealPointValuePair optimize(int maxEval,
+                                                 UnivariateRealFunction f,
                                                  GoalType goalType,
-                                                 double min, double max) throws MathUserException {
-        return optimize(f, goalType, min, max, min + 0.5 * (max - min));
+                                                 double min, double max){
+        return optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));
     }
 
     /**
@@ -161,7 +158,8 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the optimum and its corresponding function value.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
-     * @throws MathUserException if the function to optimize throws one during search.
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * function to optimize throws one during search.
      */
-    protected abstract UnivariateRealPointValuePair doOptimize() throws MathUserException;
+    protected abstract UnivariateRealPointValuePair doOptimize();
 }

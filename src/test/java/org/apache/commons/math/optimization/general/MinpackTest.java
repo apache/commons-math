@@ -493,11 +493,10 @@ public class MinpackTest extends TestCase {
           = new LevenbergMarquardtOptimizer(FastMath.sqrt(2.22044604926e-16),
                                             FastMath.sqrt(2.22044604926e-16),
                                             2.22044604926e-16);
-      optimizer.setMaxEvaluations(400 * (function.getN() + 1));
 //      assertTrue(function.checkTheoreticalStartCost(optimizer.getRMS()));
       try {
           VectorialPointValuePair optimum =
-              optimizer.optimize(function,
+              optimizer.optimize(400 * (function.getN() + 1), function,
                                  function.getTarget(), function.getWeight(),
                                  function.getStartPoint());
           assertFalse(exceptionExpected);

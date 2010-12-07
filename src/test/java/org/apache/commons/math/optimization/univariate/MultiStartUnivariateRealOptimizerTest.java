@@ -36,12 +36,11 @@ public class MultiStartUnivariateRealOptimizerTest {
     public void testSinMin() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
-        underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);
         MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
             new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 10, g);
-        optimizer.optimize(f, GoalType.MINIMIZE, -100.0, 100.0);
+        optimizer.optimize(300, f, GoalType.MINIMIZE, -100.0, 100.0);
         UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
             double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * FastMath.PI);
@@ -59,14 +58,13 @@ public class MultiStartUnivariateRealOptimizerTest {
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
-        underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
         MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
             new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 5, g);
 
         UnivariateRealPointValuePair optimum
-            = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+            = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
         assertEquals(-0.2719561293, optimum.getPoint(), 1e-9);
         assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
 
@@ -89,7 +87,6 @@ public class MultiStartUnivariateRealOptimizerTest {
                 }
             };
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
-        underlying.setMaxEvaluations(300);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
         MultiStartUnivariateRealOptimizer<UnivariateRealFunction> optimizer =
@@ -97,7 +94,7 @@ public class MultiStartUnivariateRealOptimizerTest {
  
         try {
             UnivariateRealPointValuePair optimum
-                = optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2);
+                = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
             Assert.fail();
         } catch (MathUserException e) {
             // Expected.

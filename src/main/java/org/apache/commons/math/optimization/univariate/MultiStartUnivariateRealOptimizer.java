@@ -97,20 +97,14 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
         return totalEvaluations;
     }
 
-    /** {@inheritDoc} */
-    public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
-        optimizer.setMaxEvaluations(maxEvaluations);
-    }
-
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}.
+     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
+     * restarts. The {@link #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
      * method returns the best point only. This method returns all the points
      * found at the end of each starts, including the best one already
-     * returned by the {@link #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
+     * returned by the {@link #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
      * method.
      * <br/>
      * The returned array as one element for each start as specified
@@ -120,14 +114,14 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * descending order if maximizing), followed by {@code null} elements
      * corresponding to the runs that did not converge. This means all
      * elements will be {@code null} if the {@link
-     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
-     * method did throw a {@link MathUserException}). This also means that
-     * if the first element is not {@code null}, it is the best point found
-     * across all starts.
+     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
+     * method did throw a {@link MathUserException}).
+     * This also means that if the first element is not {@code null}, it is
+     * the best point found across all starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(UnivariateRealFunction,GoalType,double,double) optimize}
+     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
      * has not been called.
      */
     public UnivariateRealPointValuePair[] getOptima() {
@@ -138,18 +132,17 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(final FUNC f,
+    public UnivariateRealPointValuePair optimize(int maxEval, final FUNC f,
                                                  final GoalType goal,
-                                                 final double min, final double max)
-        throws MathUserException {
-        return optimize(f, goal, min, max, min + 0.5 * (max - min));
+                                                 final double min, final double max) {
+        return optimize(maxEval, f, goal, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(final FUNC f, final GoalType goal,
+    public UnivariateRealPointValuePair optimize(int maxEval, final FUNC f,
+                                                 final GoalType goal,
                                                  final double min, final double max,
-                                                 final double startValue)
-        throws MathUserException {
+                                                 final double startValue) {
         MathUserException lastException = null;
         optima = new UnivariateRealPointValuePair[starts];
         totalEvaluations = 0;
@@ -158,15 +151,13 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
         for (int i = 0; i < starts; ++i) {
             try {
                 final double s = (i == 0) ? startValue : min + generator.nextDouble() * (max - min);
-                optima[i] = optimizer.optimize(f, goal, min, max, s);
+                optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal, min, max, s);
             } catch (MathUserException mue) {
                 lastException = mue;
                 optima[i] = null;
             }
 
-            final int usedEvaluations = optimizer.getEvaluations();
-            optimizer.setMaxEvaluations(optimizer.getMaxEvaluations() - usedEvaluations);
-            totalEvaluations += usedEvaluations;
+            totalEvaluations += optimizer.getEvaluations();
         }
 
         sortPairs(goal);

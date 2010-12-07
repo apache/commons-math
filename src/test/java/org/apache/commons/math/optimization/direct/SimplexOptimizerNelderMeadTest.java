@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
@@ -33,8 +32,7 @@ import org.junit.Test;
 
 public class SimplexOptimizerNelderMeadTest {
     @Test
-    public void testMinimizeMaximize()
-        throws MathUserException {
+    public void testMinimizeMaximize() {
 
         // the following function has 4 local extrema:
         final double xM        = -3.841947088256863675365;
@@ -56,19 +54,18 @@ public class SimplexOptimizerNelderMeadTest {
             };
 
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
-        optimizer.setMaxEvaluations(100);
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
         RealPointValuePair optimum;
 
         // minimization
-        optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
+        optimum = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
         assertEquals(xM,        optimum.getPoint()[0], 2e-7);
         assertEquals(yP,        optimum.getPoint()[1], 2e-5);
         assertEquals(valueXmYp, optimum.getValue(),    6e-12);
         assertTrue(optimizer.getEvaluations() > 60);
         assertTrue(optimizer.getEvaluations() < 90);
 
-        optimum = optimizer.optimize(fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
+        optimum = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
         assertEquals(xP,        optimum.getPoint()[0], 5e-6);
         assertEquals(yM,        optimum.getPoint()[1], 6e-6);
         assertEquals(valueXpYm, optimum.getValue(),    1e-11);
@@ -76,14 +73,14 @@ public class SimplexOptimizerNelderMeadTest {
         assertTrue(optimizer.getEvaluations() < 90);
 
         // maximization
-        optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { -3, 0 });
+        optimum = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { -3, 0 });
         assertEquals(xM,        optimum.getPoint()[0], 1e-5);
         assertEquals(yM,        optimum.getPoint()[1], 3e-6);
         assertEquals(valueXmYm, optimum.getValue(),    3e-12);
         assertTrue(optimizer.getEvaluations() > 60);
         assertTrue(optimizer.getEvaluations() < 90);
 
-        optimum = optimizer.optimize(fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
+        optimum = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
         assertEquals(xP,        optimum.getPoint()[0], 4e-6);
         assertEquals(yP,        optimum.getPoint()[1], 5e-6);
         assertEquals(valueXpYp, optimum.getValue(),    7e-12);
@@ -92,17 +89,15 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test
-    public void testRosenbrock()
-        throws MathUserException {
+    public void testRosenbrock() {
 
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.setMaxEvaluations(100);
         optimizer.setSimplex(new NelderMeadSimplex(new double[][] {
                     { -1.2,  1 }, { 0.9, 1.2 } , {  3.5, -2.3 }
                 }));
         RealPointValuePair optimum =
-            optimizer.optimize(rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
+            optimizer.optimize(100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
 
         assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
         assertTrue(optimizer.getEvaluations() > 40);
@@ -111,15 +106,13 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test
-    public void testPowell()
-        throws MathUserException {
+    public void testPowell() {
 
         Powell powell = new Powell();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.setMaxEvaluations(200);
         optimizer.setSimplex(new NelderMeadSimplex(4));
         RealPointValuePair optimum =
-            optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
+            optimizer.optimize(200, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
         assertEquals(powell.getCount(), optimizer.getEvaluations());
         assertTrue(optimizer.getEvaluations() > 110);
         assertTrue(optimizer.getEvaluations() < 130);
@@ -127,8 +120,7 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test
-    public void testLeastSquares1()
-        throws MathUserException {
+    public void testLeastSquares1() {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -141,10 +133,9 @@ public class SimplexOptimizerNelderMeadTest {
                 }
             }, new double[] { 2.0, -3.0 });
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
-        optimizer.setMaxEvaluations(200);
         optimizer.setSimplex(new NelderMeadSimplex(2));
         RealPointValuePair optimum =
-            optimizer.optimize(ls, GoalType.MINIMIZE, new double[] { 10, 10 });
+            optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         assertEquals( 2, optimum.getPointRef()[0], 3e-5);
         assertEquals(-3, optimum.getPointRef()[1], 4e-4);
         assertTrue(optimizer.getEvaluations() > 60);
@@ -153,8 +144,7 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test
-    public void testLeastSquares2()
-        throws MathUserException {
+    public void testLeastSquares2() {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -167,10 +157,9 @@ public class SimplexOptimizerNelderMeadTest {
                 }
             }, new double[] { 2, -3 }, new double[] { 10, 0.1 });
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
-        optimizer.setMaxEvaluations(200);
         optimizer.setSimplex(new NelderMeadSimplex(2));
         RealPointValuePair optimum =
-            optimizer.optimize(ls, GoalType.MINIMIZE, new double[] { 10, 10 });
+            optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         assertEquals( 2, optimum.getPointRef()[0], 5e-5);
         assertEquals(-3, optimum.getPointRef()[1], 8e-4);
         assertTrue(optimizer.getEvaluations() > 60);
@@ -179,8 +168,7 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test
-    public void testLeastSquares3()
-        throws MathUserException {
+    public void testLeastSquares3() {
 
         final RealMatrix factors =
             new Array2DRowRealMatrix(new double[][] {
@@ -195,10 +183,9 @@ public class SimplexOptimizerNelderMeadTest {
                     { 1, 1.2 }, { 1.2, 2 }
                 }));
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
-        optimizer.setMaxEvaluations(200);
         optimizer.setSimplex(new NelderMeadSimplex(2));
         RealPointValuePair optimum =
-            optimizer.optimize(ls, GoalType.MINIMIZE, new double[] { 10, 10 });
+            optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         assertEquals( 2, optimum.getPointRef()[0], 2e-3);
         assertEquals(-3, optimum.getPointRef()[1], 8e-4);
         assertTrue(optimizer.getEvaluations() > 60);
@@ -207,12 +194,11 @@ public class SimplexOptimizerNelderMeadTest {
     }
 
     @Test(expected = TooManyEvaluationsException.class)
-    public void testMaxIterations() throws MathUserException {
+    public void testMaxIterations() {
         Powell powell = new Powell();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
-        optimizer.setMaxEvaluations(20);
         optimizer.setSimplex(new NelderMeadSimplex(4));
-        optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
+        optimizer.optimize(20, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
     }
 
     private static class Rosenbrock implements MultivariateRealFunction {
@@ -222,7 +208,7 @@ public class SimplexOptimizerNelderMeadTest {
             count = 0;
         }
 
-        public double value(double[] x) throws MathUserException {
+        public double value(double[] x) {
             ++count;
             double a = x[1] - x[0] * x[0];
             double b = 1.0 - x[0];

@@ -37,16 +37,14 @@ public final class BrentOptimizerTest {
     public void testSinMin() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
-        optimizer.setMaxEvaluations(200);
-        assertEquals(200, optimizer.getMaxEvaluations());
-        assertEquals(3 * Math.PI / 2, optimizer.optimize(f, GoalType.MINIMIZE, 4, 5).getPoint(),1e-8);
+        assertEquals(3 * Math.PI / 2, optimizer.optimize(200, f, GoalType.MINIMIZE, 4, 5).getPoint(),1e-8);
         assertTrue(optimizer.getEvaluations() <= 50);
-        assertEquals(3 * Math.PI / 2, optimizer.optimize(f, GoalType.MINIMIZE, 1, 5).getPoint(), 1e-8);
+        assertEquals(200, optimizer.getMaxEvaluations());
+        assertEquals(3 * Math.PI / 2, optimizer.optimize(200, f, GoalType.MINIMIZE, 1, 5).getPoint(), 1e-8);
         assertTrue(optimizer.getEvaluations() <= 100);
         assertTrue(optimizer.getEvaluations() >= 15);
-        optimizer.setMaxEvaluations(10);
         try {
-            optimizer.optimize(f, GoalType.MINIMIZE, 4, 5);
+            optimizer.optimize(10, f, GoalType.MINIMIZE, 4, 5);
             fail("an exception should have been thrown");
         } catch (TooManyEvaluationsException fee) {
             // expected
@@ -58,13 +56,12 @@ public final class BrentOptimizerTest {
         // The function has local minima at -0.27195613 and 0.82221643.
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
-        optimizer.setMaxEvaluations(200);
-        assertEquals(-0.27195613, optimizer.optimize(f, GoalType.MINIMIZE, -0.3, -0.2).getPoint(), 1.0e-8);
-        assertEquals( 0.82221643, optimizer.optimize(f, GoalType.MINIMIZE,  0.3,  0.9).getPoint(), 1.0e-8);
+        assertEquals(-0.27195613, optimizer.optimize(200, f, GoalType.MINIMIZE, -0.3, -0.2).getPoint(), 1.0e-8);
+        assertEquals( 0.82221643, optimizer.optimize(200, f, GoalType.MINIMIZE,  0.3,  0.9).getPoint(), 1.0e-8);
         assertTrue(optimizer.getEvaluations() <= 50);
 
         // search in a large interval
-        assertEquals(-0.27195613, optimizer.optimize(f, GoalType.MINIMIZE, -1.0, 0.2).getPoint(), 1.0e-8);
+        assertEquals(-0.27195613, optimizer.optimize(200, f, GoalType.MINIMIZE, -1.0, 0.2).getPoint(), 1.0e-8);
         assertTrue(optimizer.getEvaluations() <= 50);
     }
 
@@ -73,7 +70,6 @@ public final class BrentOptimizerTest {
         // The function has local minima at -0.27195613 and 0.82221643.
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-11, 1e-14);
-        optimizer.setMaxEvaluations(40);
 
         final DescriptiveStatistics[] stat = new DescriptiveStatistics[2];
         for (int i = 0; i < stat.length; i++) {
@@ -86,7 +82,7 @@ public final class BrentOptimizerTest {
         final double delta = (max - min) / nSamples;
         for (int i = 0; i < nSamples; i++) {
             final double start = min + i * delta;
-            stat[0].addValue(optimizer.optimize(f, GoalType.MINIMIZE, min, max, start).getPoint());
+            stat[0].addValue(optimizer.optimize(40, f, GoalType.MINIMIZE, min, max, start).getPoint());
             stat[1].addValue(optimizer.getEvaluations());
         }
 
@@ -97,16 +93,15 @@ public final class BrentOptimizerTest {
         assertEquals(23, (int) medianEval);
     }
 
-    @Test(expected = TooManyEvaluationsException.class)
+    @Test
     public void testQuinticMax() {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has a local maximum at 0.27195613.
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-12, 1e-14);
-        assertEquals(0.27195613, optimizer.optimize(f, GoalType.MAXIMIZE, 0.2, 0.3).getPoint(), 1e-8);
-        optimizer.setMaxEvaluations(5);
+        assertEquals(0.27195613, optimizer.optimize(100, f, GoalType.MAXIMIZE, 0.2, 0.3).getPoint(), 1e-8);
         try {
-            optimizer.optimize(f, GoalType.MAXIMIZE, 0.2, 0.3);
+            optimizer.optimize(5, f, GoalType.MAXIMIZE, 0.2, 0.3);
             fail("an exception should have been thrown");
         } catch (TooManyEvaluationsException miee) {
             // expected
@@ -114,16 +109,15 @@ public final class BrentOptimizerTest {
     }
 
     @Test
-    public void testMinEndpoints() throws Exception {
+    public void testMinEndpoints() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealOptimizer optimizer = new BrentOptimizer(1e-8, 1e-14);
-        optimizer.setMaxEvaluations(50);
 
         // endpoint is minimum
-        double result = optimizer.optimize(f, GoalType.MINIMIZE, 3 * Math.PI / 2, 5).getPoint();
+        double result = optimizer.optimize(50, f, GoalType.MINIMIZE, 3 * Math.PI / 2, 5).getPoint();
         assertEquals(3 * Math.PI / 2, result, 1e-6);
 
-        result = optimizer.optimize(f, GoalType.MINIMIZE, 4, 3 * Math.PI / 2).getPoint();
+        result = optimizer.optimize(50, f, GoalType.MINIMIZE, 4, 3 * Math.PI / 2).getPoint();
         assertEquals(3 * Math.PI / 2, result, 1e-6);
     }
 }

@@ -109,10 +109,9 @@ extends TestCase {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1 }, new double[] { 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
@@ -125,10 +124,9 @@ extends TestCase {
                               new double[] { 4.0, 6.0, 1.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
@@ -148,10 +146,9 @@ extends TestCase {
                 { 0, 0, 0, 0, 0, 2 }
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         for (int i = 0; i < problem.target.length; ++i) {
@@ -167,10 +164,9 @@ extends TestCase {
                 {  0, -1, 1 }
         }, new double[] { 1, 1, 1});
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
         assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
@@ -190,10 +186,9 @@ extends TestCase {
         }, new double[] { 2, -9, 2, 2, 1 + epsilon * epsilon, 2});
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
@@ -213,10 +208,9 @@ extends TestCase {
                 { -3, 0, -9 }
         }, new double[] { 1, 1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
             fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
@@ -231,10 +225,9 @@ extends TestCase {
                 {  7.0, 5.0,  9.0, 10.0 }
         }, new double[] { 32, 23, 33, 31 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum1 =
-            optimizer.optimize(problem1, problem1.target, new double[] { 1, 1, 1, 1 },
+            optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
@@ -249,7 +242,7 @@ extends TestCase {
                 {  6.99, 4.99, 9.00, 9.98 }
         }, new double[] { 32, 23, 33, 31 });
         VectorialPointValuePair optimum2 =
-            optimizer.optimize(problem2, problem2.target, new double[] { 1, 1, 1, 1 },
+            optimizer.optimize(100, problem2, problem2.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
@@ -268,10 +261,9 @@ extends TestCase {
         }, new double[] { 7.0, 3.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 7, 6, 5, 4 });
             fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
@@ -288,10 +280,9 @@ extends TestCase {
                  { 0.0, 0.0,  0.0, -1.0, 1.0,  0.0 }
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 2, 2, 2, 2, 2, 2 });
             fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
@@ -307,10 +298,9 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 5.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 },
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
@@ -326,9 +316,8 @@ extends TestCase {
         }, new double[] { 3.0, 1.0, 4.0 });
 
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
-        optimizer.optimize(problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
+        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         assertTrue(optimizer.getRMS() > 0.1);
 
     }
@@ -337,17 +326,16 @@ extends TestCase {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
-            optimizer.optimize(problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
+            optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
         assertEquals(0, optimizer.getRMS(), 1.0e-10);
         assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
         assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
 
         try {
-            optimizer.optimize(problem, problem.target,
+            optimizer.optimize(100, problem, problem.target,
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
@@ -356,7 +344,7 @@ extends TestCase {
         }
 
         try {
-            optimizer.optimize(problem, new double[] { 1 },
+            optimizer.optimize(100, problem, new double[] { 1 },
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
@@ -374,10 +362,9 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialPointChecker(1.0e-30, 1.0e-30));
         try {
-            optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
+            optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
             fail("an exception should have been caught");
@@ -394,10 +381,9 @@ extends TestCase {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
         VectorialPointValuePair optimum =
-            optimizer.optimize(circle, new double[] { 0, 0, 0, 0, 0 },
+            optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
         assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * optimizer.getRMS(),  1.0e-10);
@@ -448,17 +434,16 @@ extends TestCase {
             circle.addPoint(points[i][0], points[i][1]);
         }
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setMaxEvaluations(100);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
-            optimizer.optimize(circle, target, weights, new double[] { -12, -12 });
+            optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
             fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
         }
 
         VectorialPointValuePair optimum =
-            optimizer.optimize(circle, target, weights, new double[] { 0, 0 });
+            optimizer.optimize(100, circle, target, weights, new double[] { 0, 0 });
         assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-6);
         assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-6);
         assertEquals(0.04268731682389561, optimizer.getRMS(),       1.0e-8);

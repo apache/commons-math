@@ -40,10 +40,8 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  * @since 2.0
  */
 public class CurveFitter {
-
     /** Optimizer to use for the fitting. */
     private final DifferentiableMultivariateVectorialOptimizer optimizer;
-
     /** Observed points. */
     private final List<WeightedObservedPoint> observations;
 
@@ -109,22 +107,45 @@ public class CurveFitter {
         observations.clear();
     }
 
-    /** Fit a curve.
-     * <p>This method compute the coefficients of the curve that best
+    /**
+     * Fit a curve.
+     * This method compute the coefficients of the curve that best
      * fit the sample of observed points previously given through calls
      * to the {@link #addObservedPoint(WeightedObservedPoint)
-     * addObservedPoint} method.</p>
-     * @param f parametric function to fit
-     * @param initialGuess first guess of the function parameters
-     * @return fitted parameters
-     * @exception org.apache.commons.math.exception.ConvergenceException
-     * if the algorithm failed to converge.
-     * @exception org.apache.commons.math.exception.DimensionMismatchException
+     * addObservedPoint} method.
+     *
+     * @param f parametric function to fit.
+     * @param initialGuess first guess of the function parameters.
+     * @return the fitted parameters.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws MathUserException if the parametric function throws one
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * parametric function throws one.
      */
-    public double[] fit(final ParametricRealFunction f,
-                        final double[] initialGuess) throws MathUserException {
+    public double[] fit(final ParametricRealFunction f, final double[] initialGuess) {
+        return fit(Integer.MAX_VALUE, f, initialGuess);
+    }
+
+    /**
+     * Fit a curve.
+     * This method compute the coefficients of the curve that best
+     * fit the sample of observed points previously given through calls
+     * to the {@link #addObservedPoint(WeightedObservedPoint)
+     * addObservedPoint} method.
+     *
+     * @param f parametric function to fit.
+     * @param initialGuess first guess of the function parameters.
+     * @param maxEval Maximum number of function evaluations.
+     * @return the fitted parameters.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the number of allowed evaluations is exceeded.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * parametric function throws one.
+     */
+    public double[] fit(int maxEval, final ParametricRealFunction f,
+                        final double[] initialGuess) {
         // prepare least squares problem
         double[] target  = new double[observations.size()];
         double[] weights = new double[observations.size()];
@@ -137,7 +158,8 @@ public class CurveFitter {
 
         // perform the fit
         VectorialPointValuePair optimum =
-            optimizer.optimize(new TheoreticalValuesFunction(f), target, weights, initialGuess);
+            optimizer.optimize(maxEval, new TheoreticalValuesFunction(f),
+                               target, weights, initialGuess);
 
         // extract the coefficients
         return optimum.getPointRef();
