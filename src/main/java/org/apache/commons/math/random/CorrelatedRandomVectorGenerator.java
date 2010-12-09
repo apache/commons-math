@@ -36,7 +36,7 @@ import org.apache.commons.math.util.FastMath;
  * interesting case is when the generated vector should be drawn from a <a
  * href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
  * Multivariate Normal Distribution</a>. The approach using a Cholesky
- * decomposition is quite usual in this case. However, it cas be extended
+ * decomposition is quite usual in this case. However, it can be extended
  * to other cases as long as the underlying random generator provides
  * {@link NormalizedRandomGenerator normalized values} like {@link
  * GaussianRandomGenerator} or {@link UniformRandomGenerator}.</p>
@@ -48,7 +48,7 @@ import org.apache.commons.math.util.FastMath;
  * should be null. Another non-conventional extension handling this case
  * is used here. Rather than computing <code>C = U<sup>T</sup>.U</code>
  * where <code>C</code> is the covariance matrix and <code>U</code>
- * is an uppertriangular matrix, we compute <code>C = B.B<sup>T</sup></code>
+ * is an upper-triangular matrix, we compute <code>C = B.B<sup>T</sup></code>
  * where <code>B</code> is a rectangular matrix having
  * more rows than columns. The number of columns of <code>B</code> is
  * the rank of the covariance matrix, and it is the dimension of the
