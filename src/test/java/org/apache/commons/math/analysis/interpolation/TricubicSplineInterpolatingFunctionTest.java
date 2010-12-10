@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.TrivariateRealFunction;
 import org.junit.Assert;
@@ -49,7 +50,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                                                           fval, fval, fval, fval,
                                                           fval, fval, fval, fval);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // Expected
         }
         double[] wyval = new double[] {-4, -1, -1, 2.5};
@@ -58,7 +59,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                                                           fval, fval, fval, fval,
                                                           fval, fval, fval, fval);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // Expected
         }
         double[] wzval = new double[] {-12, -8, -9, -3, 0, 2.5};
@@ -67,7 +68,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
                                                           fval, fval, fval, fval,
                                                           fval, fval, fval, fval);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // Expected
         }
         double[][][] wfval = new double[xval.length - 1][yval.length - 1][zval.length];

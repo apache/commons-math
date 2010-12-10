@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.StatUtils;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 import junit.framework.TestCase;
 
@@ -30,14 +31,14 @@ public class SemiVarianceTest extends TestCase {
         try {
             sv.evaluate(nothing);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
         }
 
         try {
             sv.setVarianceDirection(SemiVariance.UPSIDE_VARIANCE);
             sv.evaluate(nothing);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
         }
         nothing = new double[] {};
         assertTrue(Double.isNaN(sv.evaluate(nothing)));

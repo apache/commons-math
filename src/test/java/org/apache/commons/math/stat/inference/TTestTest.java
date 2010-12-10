@@ -18,13 +18,14 @@ package org.apache.commons.math.stat.inference;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+
 /**
  * Test cases for the TTestImpl class.
  *
  * @version $Revision$ $Date$
  */
-
 public class TTestTest extends TestCase {
 
     protected TTest testStatistic = new TTestImpl();
@@ -66,55 +67,55 @@ public class TTestTest extends TestCase {
 
         try {
             testStatistic.t(mu, (double[]) null);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(mu, (SummaryStatistics) null);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(mu, emptyObs);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(mu, emptyStats);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(mu, tooShortObs);
-            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.tTest(mu, tooShortObs);
-            fail("insufficient data to perform t test, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to perform t test, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
            // expected
         }
 
         try {
             testStatistic.t(mu, tooShortStats);
-            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.tTest(mu, tooShortStats);
-            fail("insufficient data to perform t test, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to perform t test, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -142,15 +143,15 @@ public class TTestTest extends TestCase {
 
         try {
             testStatistic.tTest(0d, oneSidedP, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.tTest(0d, oneSidedPStats, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -188,57 +189,57 @@ public class TTestTest extends TestCase {
 
         try {
             testStatistic.tTest(sample1, sample2, .95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.tTest(sampleStats1, sampleStats2, .95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.tTest(sample1, tooShortObs, .01);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.tTest(sampleStats1, tooShortStats, .01);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.tTest(sample1, tooShortObs);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
            // expected
         }
 
         try {
             testStatistic.tTest(sampleStats1, tooShortStats);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(sample1, tooShortObs);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.t(sampleStats1, tooShortStats);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
            // expected
         }
     }

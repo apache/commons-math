@@ -24,6 +24,9 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
@@ -43,7 +46,7 @@ public final class MathUtilsTest extends TestCase {
     /**
      * Exact (caching) recursive implementation to test against
      */
-    private long binomialCoefficient(int n, int k) throws ArithmeticException {
+    private long binomialCoefficient(int n, int k) throws MathArithmeticException {
         if (binomialCache.size() > n) {
             Long cachedResult = binomialCache.get(n).get(Integer.valueOf(k));
             if (cachedResult != null) {
@@ -67,7 +70,7 @@ public final class MathUtilsTest extends TestCase {
                 binomialCoefficient(n - 1, k));
         }
         if (result == -1) {
-            throw new ArithmeticException(
+            throw new MathArithmeticException(
                 "error computing binomial coefficient");
         }
         for (int i = binomialCache.size(); i < n + 1; i++) {
@@ -101,13 +104,13 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(big, MathUtils.addAndCheck(big, 0));
         try {
             MathUtils.addAndCheck(big, 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
         try {
             MathUtils.addAndCheck(bigNeg, -1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
     }
 
@@ -131,8 +134,8 @@ public final class MathUtilsTest extends TestCase {
     private void testAddAndCheckLongFailure(long a, long b) {
         try {
             MathUtils.addAndCheck(a, b);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // success
         }
     }
@@ -195,12 +198,12 @@ public final class MathUtilsTest extends TestCase {
                 boolean didThrow = false;
                 try {
                     ourResult = MathUtils.binomialCoefficient(n, k);
-                } catch (ArithmeticException ex) {
+                } catch (MathArithmeticException ex) {
                     didThrow = true;
                 }
                 try {
                     exactResult = binomialCoefficient(n, k);
-                } catch (ArithmeticException ex) {
+                } catch (MathArithmeticException ex) {
                     shouldThrow = true;
                 }
                 assertEquals(n + " choose " + k, exactResult, ourResult);
@@ -227,8 +230,8 @@ public final class MathUtilsTest extends TestCase {
         // This one should throw
         try {
             MathUtils.binomialCoefficient(700, 300);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // Expected
         }
 
@@ -244,54 +247,54 @@ public final class MathUtilsTest extends TestCase {
     public void testBinomialCoefficientFail() {
         try {
             MathUtils.binomialCoefficient(4, 5);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
             MathUtils.binomialCoefficientDouble(4, 5);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
             MathUtils.binomialCoefficientLog(4, 5);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
             MathUtils.binomialCoefficient(-1, -2);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             MathUtils.binomialCoefficientDouble(-1, -2);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             MathUtils.binomialCoefficientLog(-1, -2);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
             MathUtils.binomialCoefficient(67, 30);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // ignored
         }
         try {
             MathUtils.binomialCoefficient(67, 34);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // ignored
         }
         double x = MathUtils.binomialCoefficientDouble(1030, 515);
@@ -498,26 +501,26 @@ public final class MathUtilsTest extends TestCase {
     public void testFactorialFail() {
         try {
             MathUtils.factorial(-1);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             MathUtils.factorialDouble(-1);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             MathUtils.factorialLog(-1);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             MathUtils.factorial(21);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // ignored
         }
         assertTrue("expecting infinite factorial value", Double.isInfinite(MathUtils.factorialDouble(171)));
@@ -553,22 +556,22 @@ public final class MathUtilsTest extends TestCase {
         try {
             // gcd(Integer.MIN_VALUE, 0) > Integer.MAX_VALUE
             MathUtils.gcd(Integer.MIN_VALUE, 0);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(0, Integer.MIN_VALUE) > Integer.MAX_VALUE
             MathUtils.gcd(0, Integer.MIN_VALUE);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(Integer.MIN_VALUE, Integer.MIN_VALUE) > Integer.MAX_VALUE
             MathUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
     }
@@ -605,22 +608,22 @@ public final class MathUtilsTest extends TestCase {
         try {
             // gcd(Long.MIN_VALUE, 0) > Long.MAX_VALUE
             MathUtils.gcd(Long.MIN_VALUE, 0);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(0, Long.MIN_VALUE) > Long.MAX_VALUE
             MathUtils.gcd(0, Long.MIN_VALUE);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(Long.MIN_VALUE, Long.MIN_VALUE) > Long.MAX_VALUE
             MathUtils.gcd(Long.MIN_VALUE, Long.MIN_VALUE);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
     }
@@ -781,23 +784,23 @@ public final class MathUtilsTest extends TestCase {
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Integer.MIN_VALUE, 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Integer.MIN_VALUE, 1<<20);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
 
         try {
             MathUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
     }
@@ -829,16 +832,16 @@ public final class MathUtilsTest extends TestCase {
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Long.MIN_VALUE, 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
             MathUtils.lcm(Long.MIN_VALUE, 1<<20);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
 
@@ -846,8 +849,8 @@ public final class MathUtilsTest extends TestCase {
             MathUtils.lcm((long)Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
         try {
             MathUtils.lcm(Long.MAX_VALUE, Long.MAX_VALUE - 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException expected) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException expected) {
             // expected
         }
     }
@@ -868,13 +871,13 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(big, MathUtils.mulAndCheck(big, 1));
         try {
             MathUtils.mulAndCheck(big, 2);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
         try {
             MathUtils.mulAndCheck(bigNeg, 2);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
     }
 
@@ -902,8 +905,8 @@ public final class MathUtilsTest extends TestCase {
     private void testMulAndCheckLongFailure(long a, long b) {
         try {
             MathUtils.mulAndCheck(a, b);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // success
         }
     }
@@ -1025,31 +1028,31 @@ public final class MathUtilsTest extends TestCase {
                 MathUtils.normalizeArray(testValues3, 1),
                 Double.MIN_VALUE);
 
-        // Zero sum -> ArithmeticException
+        // Zero sum -> MathArithmeticException
         double[] zeroSum = new double[] {-1, 1};
         try {
             MathUtils.normalizeArray(zeroSum, 1);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
-        // Infinite elements -> ArithmeticException
+        // Infinite elements -> MathArithmeticException
         double[] hasInf = new double[] {1, 2, 1, Double.NEGATIVE_INFINITY};
         try {
             MathUtils.normalizeArray(hasInf, 1);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
-        // Infinite target -> IllegalArgumentException
+        // Infinite target -> MathIllegalArgumentException
         try {
             MathUtils.normalizeArray(testValues1, Double.POSITIVE_INFINITY);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
-        // NaN target -> IllegalArgumentException
+        // NaN target -> MathIllegalArgumentException
         try {
             MathUtils.normalizeArray(testValues1, Double.NaN);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
     }
 
@@ -1133,7 +1136,7 @@ public final class MathUtilsTest extends TestCase {
         try {
             MathUtils.round(1.234, 2, BigDecimal.ROUND_UNNECESSARY);
             fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathRuntimeException ex) { // XXX Loosing semantics?
             // success
         }
 
@@ -1147,7 +1150,7 @@ public final class MathUtilsTest extends TestCase {
         try {
             MathUtils.round(1.234, 2, 1923);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathRuntimeException ex) { // XXX Loosing semantics?
             // success
         }
 
@@ -1232,7 +1235,7 @@ public final class MathUtilsTest extends TestCase {
         try {
             MathUtils.round(1.234f, 2, BigDecimal.ROUND_UNNECESSARY);
             fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathArithmeticException ex) {
             // success
         }
 
@@ -1246,7 +1249,7 @@ public final class MathUtilsTest extends TestCase {
         try {
             MathUtils.round(1.234f, 2, 1923);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -1315,13 +1318,13 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(-1, MathUtils.subAndCheck(bigNeg, -big));
         try {
             MathUtils.subAndCheck(big, -1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
         try {
             MathUtils.subAndCheck(bigNeg, 1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
     }
 
@@ -1329,8 +1332,8 @@ public final class MathUtilsTest extends TestCase {
         int big = Integer.MAX_VALUE;
         try {
             MathUtils.subAndCheck(big, -1);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             assertTrue(ex.getMessage().length() > 1);
         }
     }
@@ -1353,8 +1356,8 @@ public final class MathUtilsTest extends TestCase {
     private void testSubAndCheckLongFailure(long a, long b) {
         try {
             MathUtils.subAndCheck(a, b);
-            fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // success
         }
 
@@ -1366,8 +1369,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1, MathUtils.pow(21, 0));
         try {
             MathUtils.pow(21, -7);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1375,8 +1378,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1, MathUtils.pow(21, 0l));
         try {
             MathUtils.pow(21, -7l);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1384,8 +1387,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1l, MathUtils.pow(21l, 0));
         try {
             MathUtils.pow(21l, -7);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1393,8 +1396,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(1l, MathUtils.pow(21l, 0l));
         try {
             MathUtils.pow(21l, -7l);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1403,8 +1406,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0));
         try {
             MathUtils.pow(twentyOne, -7);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1412,8 +1415,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0l));
         try {
             MathUtils.pow(twentyOne, -7l);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 
@@ -1421,8 +1424,8 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, BigInteger.ZERO));
         try {
             MathUtils.pow(twentyOne, BigInteger.valueOf(-7l));
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected behavior
         }
 

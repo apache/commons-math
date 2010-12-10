@@ -21,6 +21,8 @@ import java.util.Random;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.SingularMatrixException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import junit.framework.TestCase;
 
 public class QRSolverTest extends TestCase {
@@ -78,19 +80,19 @@ public class QRSolverTest extends TestCase {
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumnVector(0));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
     }

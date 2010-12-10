@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive.rank;
 
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -71,13 +72,13 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         try {
             p.evaluate(d, 0, d.length, -1.0);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
         try {
             p.evaluate(d, 0, d.length, 101.0);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
     }
@@ -102,8 +103,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         double[] emptyArray = new double[] {};
         try {
             percentile.evaluate(nullArray);
-            fail("Expecting IllegalArgumentException for null array");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException for null array");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
@@ -144,14 +145,14 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         assertEquals(100, percentile.getQuantile(), 0);
         try {
             percentile.setQuantile(0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             new Percentile(0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

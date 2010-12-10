@@ -21,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import org.junit.Test;
 
 public class MersenneTwisterTest {
@@ -62,7 +64,7 @@ public class MersenneTwisterTest {
                      0.006);
     }
 
-    @Test(expected=java.lang.IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNextIntNeg() {
         new MersenneTwister(1).nextInt(-1);
     }

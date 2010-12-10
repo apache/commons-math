@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.stat;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
@@ -560,19 +562,17 @@ public final class StatUtils {
      * @param sample1  the first array
      * @param sample2  the second array
      * @return sum of paired differences
-     * @throws IllegalArgumentException if the arrays do not have the same
-     * (positive) length
+     * @throws DimensionMismatchException if the arrays do not have the same
+     * (positive) length.
+     * @throws NoDataException if the sample arrays are empty.
      */
-    public static double sumDifference(final double[] sample1, final double[] sample2)
-        throws IllegalArgumentException {
+    public static double sumDifference(final double[] sample1, final double[] sample2) {
         int n = sample1.length;
-        if (n  != sample2.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
+        if (n != sample2.length) {
+            throw new DimensionMismatchException(n, sample2.length);
         }
-        if (n < 1) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, sample2.length, 1);
+        if (n <= 0) {
+            throw new NoDataException(LocalizedFormats.INSUFFICIENT_DIMENSION);
         }
         double result = 0;
         for (int i = 0; i < n; i++) {
@@ -588,11 +588,11 @@ public final class StatUtils {
      * @param sample1  the first array
      * @param sample2  the second array
      * @return mean of paired differences
-     * @throws IllegalArgumentException if the arrays do not have the same
-     * (positive) length
+     * @throws DimensionMismatchException if the arrays do not have the same
+     * (positive) length.
+     * @throws NoDataException if the sample arrays are empty.
      */
-    public static double meanDifference(final double[] sample1, final double[] sample2)
-    throws IllegalArgumentException {
+    public static double meanDifference(final double[] sample1, final double[] sample2) {
         return sumDifference(sample1, sample2) / sample1.length;
     }
 
@@ -605,22 +605,22 @@ public final class StatUtils {
      * @param meanDifference   the mean difference between corresponding entries
      * @see #meanDifference(double[],double[])
      * @return variance of paired differences
-     * @throws IllegalArgumentException if the arrays do not have the same
-     * length or their common length is less than 2.
+     * @throws DimensionMismatchException if the arrays do not have the same
+     * length.
+     * @throws NumberIsTooSmallException if the arrays length is less than 2.
      */
-    public static double varianceDifference(final double[] sample1, final double[] sample2,
-            double meanDifference)  throws IllegalArgumentException {
+    public static double varianceDifference(final double[] sample1,
+                                            final double[] sample2,
+                                            double meanDifference) {
         double sum1 = 0d;
         double sum2 = 0d;
         double diff = 0d;
         int n = sample1.length;
         if (n != sample2.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, n, sample2.length);
+            throw new DimensionMismatchException(n, sample2.length);
         }
         if (n < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, n, 2);
+            throw new NumberIsTooSmallException(n, 2, true);
         }
         for (int i = 0; i < n; i++) {
             diff = sample1[i] - sample2[i];
@@ -629,34 +629,32 @@ public final class StatUtils {
         }
         return (sum1 - (sum2 * sum2 / n)) / (n - 1);
     }
-    
-    
-	/**
-	 * Normalize (standardize) the series, so in the end it is having a mean of 0 and a standard deviation of 1.
-	 * 
-	 * @param sample sample to normalize
-	 * @return normalized (standardized) sample
-	 */
-	public static double[] normalize(final double[] sample) {
-		DescriptiveStatistics stats = new DescriptiveStatistics();
 
-		// Add the data from the series to stats
-		for (int i = 0; i < sample.length; i++) {
-			stats.addValue(sample[i]);
-		}
+    /**
+     * Normalize (standardize) the series, so in the end it is having a mean of 0 and a standard deviation of 1.
+     *
+     * @param sample Sample to normalize.
+     * @return normalized (standardized) sample.
+     */
+    public static double[] normalize(final double[] sample) {
+        DescriptiveStatistics stats = new DescriptiveStatistics();
 
-		// Compute mean and standard deviation
-		double mean = stats.getMean();
-		double standardDeviation = stats.getStandardDeviation();
+        // Add the data from the series to stats
+        for (int i = 0; i < sample.length; i++) {
+            stats.addValue(sample[i]);
+        }
 
-		// initialize the standardizedSample, which has the same length as the sample 
-		double[] standardizedSample = new double[sample.length];
+        // Compute mean and standard deviation
+        double mean = stats.getMean();
+        double standardDeviation = stats.getStandardDeviation();
 
-		for (int i = 0; i < sample.length; i++) {
-			// z = (x- mean)/standardDeviation
-			standardizedSample[i] = (sample[i] - mean) / standardDeviation;
-		}
-		return standardizedSample;
-	}
+        // initialize the standardizedSample, which has the same length as the sample
+        double[] standardizedSample = new double[sample.length];
 
+        for (int i = 0; i < sample.length; i++) {
+            // z = (x- mean)/standardDeviation
+            standardizedSample[i] = (sample[i] - mean) / standardDeviation;
+        }
+        return standardizedSample;
+    }
 }

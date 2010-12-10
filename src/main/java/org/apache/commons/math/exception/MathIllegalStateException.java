@@ -16,11 +16,8 @@
  */
 package org.apache.commons.math.exception;
 
-import java.util.Locale;
-
-import org.apache.commons.math.exception.util.ArgUtils;
-import org.apache.commons.math.exception.util.MessageFactory;
 import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Base class for all exceptions that signal a mismatch between the
@@ -29,23 +26,9 @@ import org.apache.commons.math.exception.util.Localizable;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalStateException extends IllegalStateException implements MathThrowable {
-
+public class MathIllegalStateException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-
-    /**
-     * Pattern used to build the message (specific context).
-     */
-    private final Localizable specific;
-    /**
-     * Pattern used to build the message (general problem description).
-     */
-    private final Localizable general;
-    /**
-     * Arguments used to build the message.
-     */
-    private final Object[] arguments;
 
     /**
      * @param specific Message pattern providing the specific context of
@@ -56,55 +39,20 @@ public class MathIllegalStateException extends IllegalStateException implements 
     public MathIllegalStateException(Localizable specific,
                                      Localizable general,
                                      Object ... args) {
-        this.specific = specific;
-        this.general = general;
-        arguments = ArgUtils.flatten(args);
+        super(null, specific, general, args);
     }
     /**
-     * @param general Message pattern explaining the cause of the error.
+     * @param specific Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalStateException(Localizable general,
+    public MathIllegalStateException(Localizable specific,
                                      Object ... args) {
-        this(null, general, args);
+        this(specific, LocalizedFormats.ILLEGAL_STATE, args);
     }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return specific;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return general;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
-    }
-
     /**
-     * Get the message in a specified locale.
-     *
-     * @param locale Locale in which the message should be translated.
-     *
-     * @return the localized message.
+     * @param args Arguments.
      */
-    public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale, specific, general, arguments);
+    public MathIllegalStateException(Object ... args) {
+        this(null, args);
     }
-
-   /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return getMessage(Locale.US);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
-    }
-
 }

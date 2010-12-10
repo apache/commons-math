@@ -19,6 +19,7 @@ package org.apache.commons.math.random;
 import org.junit.Assert;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
@@ -61,7 +62,7 @@ public class Well1024aTest {
                      0.003);
     }
 
-    @Test(expected=java.lang.IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNextIntNeg() {
         new Well1024a(1).nextInt(-1);
     }

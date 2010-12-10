@@ -18,6 +18,7 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 import junit.framework.TestCase;
 
@@ -255,20 +256,20 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     public void testIllegalArguments() throws Exception {
         try {
             distribution.cumulativeProbability(1, 0);
-            fail("Expecting IllegalArgumentException for bad cumulativeProbability interval");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(-1);
-            fail("Expecting IllegalArgumentException for p = -1");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException for p = -1");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(2);
-            fail("Expecting IllegalArgumentException for p = 2");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException for p = 2");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import junit.framework.TestCase;
 
 /**
@@ -53,8 +55,8 @@ public class ChiSquareTestTest extends TestCase {
 
         try {
             testStatistic.chiSquareTest(expected1, observed1, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -62,8 +64,8 @@ public class ChiSquareTestTest extends TestCase {
         double[] tooShortEx = { 1 };
         try {
             testStatistic.chiSquare(tooShortEx, tooShortObs);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -72,8 +74,8 @@ public class ChiSquareTestTest extends TestCase {
         double[] unMatchedEx = { 1, 1, 2 };
         try {
             testStatistic.chiSquare(unMatchedEx, unMatchedObs);
-            fail("arrays have different lengths, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arrays have different lengths, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -81,8 +83,8 @@ public class ChiSquareTestTest extends TestCase {
         expected[0] = 0;
         try {
             testStatistic.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("bad expected count, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -91,8 +93,8 @@ public class ChiSquareTestTest extends TestCase {
         observed[0] = -1;
         try {
             testStatistic.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("bad expected count, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -117,8 +119,8 @@ public class ChiSquareTestTest extends TestCase {
         long[][] counts3 = { {40, 22, 43}, {91, 21, 28}, {60, 10}};
         try {
             testStatistic.chiSquare(counts3);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -126,15 +128,15 @@ public class ChiSquareTestTest extends TestCase {
         long[][] counts4 = {{40, 22, 43}};
         try {
             testStatistic.chiSquare(counts4);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         long[][] counts5 = {{40}, {40}, {30}, {10}};
         try {
             testStatistic.chiSquare(counts5);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -142,16 +144,16 @@ public class ChiSquareTestTest extends TestCase {
         long[][] counts6 = {{10, -2}, {30, 40}, {60, 90} };
         try {
             testStatistic.chiSquare(counts6);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         // bad alpha
         try {
             testStatistic.chiSquareTest(counts, 0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -225,8 +227,8 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed1, observed2);
-            fail("Expecting IllegalArgumentException - negative count");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - negative count");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         long[] observed3 = {10, 0, 12, 10, 15};
@@ -234,8 +236,8 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed3, observed4);
-            fail("Expecting IllegalArgumentException - double 0's");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - double 0's");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         long[] observed5 = {10, 10, 12, 10, 15};
@@ -243,8 +245,8 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed5, observed6);
-            fail("Expecting IllegalArgumentException - vanishing counts");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - vanishing counts");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

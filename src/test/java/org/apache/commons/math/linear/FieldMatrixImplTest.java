@@ -19,9 +19,11 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
+import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -29,6 +31,7 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link Array2DRowFieldMatrix} class.
@@ -143,8 +146,8 @@ public final class FieldMatrixImplTest extends TestCase {
         Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(testData2);
         try {
             m.add(m2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -157,7 +160,7 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             m.subtract(new Array2DRowFieldMatrix<Fraction>(testData2));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -176,7 +179,7 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             m.multiply(new Array2DRowFieldMatrix<Fraction>(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -222,7 +225,7 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -259,8 +262,8 @@ public final class FieldMatrixImplTest extends TestCase {
         m = new Array2DRowFieldMatrix<Fraction>(bigSingular);
         try {
             m.preMultiply(testVector);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -281,7 +284,7 @@ public final class FieldMatrixImplTest extends TestCase {
         try {
             m.preMultiply(new Array2DRowFieldMatrix<Fraction>(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -856,30 +859,30 @@ public final class FieldMatrixImplTest extends TestCase {
         Array2DRowFieldMatrix<Fraction> m2 = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance());
         try {
             m2.setSubMatrix(testData,0,1);
-            fail("expecting IllegalStateException");
-        } catch (IllegalStateException e) {
+            fail("expecting MathIllegalStateException");
+        } catch (MathIllegalStateException e) {
             // expected
         }
         try {
             m2.setSubMatrix(testData,1,0);
-            fail("expecting IllegalStateException");
-        } catch (IllegalStateException e) {
+            fail("expecting MathIllegalStateException");
+        } catch (MathIllegalStateException e) {
             // expected
         }
 
         // ragged
         try {
             m.setSubMatrix(new Fraction[][] {{new Fraction(1)}, {new Fraction(2), new Fraction(3)}}, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 
         // empty
         try {
             m.setSubMatrix(new Fraction[][] {{}}, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 
@@ -1009,12 +1012,20 @@ public final class FieldMatrixImplTest extends TestCase {
     protected void splitLU(FieldMatrix<Fraction> lu,
                            Fraction[][] lowerData,
                            Fraction[][] upperData) {
-        if (!lu.isSquare() ||
-            lowerData.length != lowerData[0].length ||
-            upperData.length != upperData[0].length ||
-            lowerData.length != upperData.length ||
-            lowerData.length != lu.getRowDimension()) {
-            throw new IllegalArgumentException("incorrect dimensions");
+        if (!lu.isSquare()) {
+            throw new NonSquareMatrixException(lu.getRowDimension(), lu.getColumnDimension());
+        }
+        if (lowerData.length != lowerData[0].length) {
+            throw new DimensionMismatchException(lowerData.length, lowerData[0].length);
+        }
+        if (upperData.length != upperData[0].length) {
+            throw new DimensionMismatchException(upperData.length, upperData[0].length);
+        }
+        if (lowerData.length != upperData.length) {
+            throw new DimensionMismatchException(lowerData.length, upperData.length);
+        }
+        if (lowerData.length != lu.getRowDimension()) {
+            throw new DimensionMismatchException(lowerData.length, lu.getRowDimension());
         }
         int n = lu.getRowDimension();
         for (int i = 0; i < n; i++) {
@@ -1035,8 +1046,12 @@ public final class FieldMatrixImplTest extends TestCase {
 
     /** Returns the result of applying the given row permutation to the matrix */
     protected FieldMatrix<Fraction> permuteRows(FieldMatrix<Fraction> matrix, int[] permutation) {
-        if (!matrix.isSquare() || matrix.getRowDimension() != permutation.length) {
-            throw new IllegalArgumentException("dimension mismatch");
+        if (!matrix.isSquare()) {
+            throw new NonSquareMatrixException(matrix.getRowDimension(),
+                                               matrix.getColumnDimension());
+        }
+        if (matrix.getRowDimension() != permutation.length) {
+            throw new DimensionMismatchException(matrix.getRowDimension(), permutation.length);
         }
         int n = matrix.getRowDimension();
         int m = matrix.getColumnDimension();

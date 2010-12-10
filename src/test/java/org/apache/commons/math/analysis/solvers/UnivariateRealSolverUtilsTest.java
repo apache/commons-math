@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -36,7 +37,7 @@ public class UnivariateRealSolverUtilsTest {
         try {
             UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
             Assert.fail();
-        } catch(IllegalArgumentException ex){
+        } catch(MathIllegalArgumentException ex){
             // success
         }
     }
@@ -46,8 +47,8 @@ public class UnivariateRealSolverUtilsTest {
         try { // bad endpoints
             double root = UnivariateRealSolverUtils.solve(sin, 4.0, -0.1, 1e-6);
             System.out.println("root=" + root);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -56,8 +57,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testSolveBadAccuracy() {
         try { // bad accuracy
             UnivariateRealSolverUtils.solve(sin, 0.0, 4.0, 0.0);
-//             Assert.fail("Expecting IllegalArgumentException"); // TODO needs rework since convergence behaviour was changed
-        } catch (IllegalArgumentException ex) {
+//             Assert.fail("Expecting MathIllegalArgumentException"); // TODO needs rework since convergence behaviour was changed
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -74,7 +75,7 @@ public class UnivariateRealSolverUtilsTest {
             double accuracy = 1.0e-6;
             UnivariateRealSolverUtils.solve(null, 0.0, 4.0, accuracy);
             Assert.fail();
-        } catch(IllegalArgumentException ex){
+        } catch(MathIllegalArgumentException ex){
             // success
         }
     }
@@ -91,8 +92,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testSolveNoRoot() {
         try {
             UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);
-            Assert.fail("Expecting IllegalArgumentException ");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException ");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -116,8 +117,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testNullFunction() {
         try { // null function
             UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -126,8 +127,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testBadInitial() {
         try { // initial not between endpoints
             UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -136,8 +137,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testBadEndpoints() {
         try { // endpoints not valid
             UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -146,8 +147,8 @@ public class UnivariateRealSolverUtilsTest {
     public void testBadMaximumIterations() {
         try { // bad maximum iterations
             UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

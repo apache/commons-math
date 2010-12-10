@@ -86,7 +86,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
         throws MathException {
         if (x1 < x0) {
             throw new NumberIsTooSmallException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                                                x0, x1, true);
+                                                x1, x0, true);
         }
         if (FastMath.floor(x0) < x0) {
             return cumulativeProbability(((int) FastMath.floor(x0)) + 1,
@@ -143,7 +143,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     public double cumulativeProbability(int x0, int x1) throws MathException {
         if (x1 < x0) {
             throw new NumberIsTooSmallException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                                                x0, x1, true);
+                                                x1, x0, true);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
     }

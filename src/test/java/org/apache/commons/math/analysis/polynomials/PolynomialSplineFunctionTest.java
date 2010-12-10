@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 
 /**
  * Tests the PolynomialSplineFunction implementation.
@@ -65,22 +67,22 @@ public class PolynomialSplineFunctionTest extends TestCase {
 
         try { // too few knots
             new PolynomialSplineFunction(new double[] {0}, polynomials);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try { // too many knots
             new PolynomialSplineFunction(new double[] {0,1,2,3,4}, polynomials);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try { // knots not increasing
             new PolynomialSplineFunction(new double[] {0,1, 3, 2}, polynomials);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -135,14 +137,14 @@ public class PolynomialSplineFunctionTest extends TestCase {
      */
      protected int findKnot(double[] knots, double x) {
          if (x < knots[0] || x >= knots[knots.length -1]) {
-             throw new IllegalArgumentException("x is out of range");
+             throw new OutOfRangeException(x, knots[0], knots[knots.length -1]);
          }
          for (int i = 0; i < knots.length; i++) {
              if (knots[i] > x) {
-                 return i -1;
+                 return i - 1;
              }
          }
-         throw new IllegalArgumentException("x is out of range");
+         throw new MathIllegalStateException();
      }
 }
 

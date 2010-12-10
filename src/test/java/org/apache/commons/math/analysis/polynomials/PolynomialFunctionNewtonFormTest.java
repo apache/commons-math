@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import junit.framework.TestCase;
 
 /**
@@ -130,8 +132,8 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
             double a[] = { 1.0 };
             double c[] = { 2.0 };
             new PolynomialFunctionNewtonForm(a, c);
-            fail("Expecting IllegalArgumentException - bad input array length");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - bad input array length");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -139,8 +141,8 @@ public final class PolynomialFunctionNewtonFormTest extends TestCase {
             double a[] = { 1.0, 2.0, 3.0, 4.0 };
             double c[] = { 4.0, 3.0, 2.0, 1.0 };
             new PolynomialFunctionNewtonForm(a, c);
-            fail("Expecting IllegalArgumentException - mismatch input arrays");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - mismatch input arrays");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

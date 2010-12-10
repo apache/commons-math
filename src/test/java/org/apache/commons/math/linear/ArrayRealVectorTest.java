@@ -25,6 +25,8 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.analysis.function.Abs;
 import org.apache.commons.math.analysis.function.Acos;
 import org.apache.commons.math.analysis.function.Asin;
@@ -368,8 +370,8 @@ public class ArrayRealVectorTest {
         Assert.assertEquals("testData is 4.0 ", 4.0, v4.getEntry(0), 0);
         try {
             new ArrayRealVector(vec4, 8, 3);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
@@ -386,8 +388,8 @@ public class ArrayRealVectorTest {
         Assert.assertEquals("testData is 4.0 ", 4.0, v6.getEntry(0), 0);
         try {
             new ArrayRealVector(dvec1, 8, 3);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
@@ -996,8 +998,8 @@ public class ArrayRealVectorTest {
 
         try {
             v_null.unitVector();
-            Assert.fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected behavior
         }
 
@@ -1006,8 +1008,8 @@ public class ArrayRealVectorTest {
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
             v_null.unitize();
-            Assert.fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected behavior
         }
 
@@ -1040,22 +1042,22 @@ public class ArrayRealVectorTest {
          */
         try {
             v1.checkVectorDimensions(2);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
        try {
             v1.checkVectorDimensions(v4);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         try {
             v1.checkVectorDimensions(v4_2);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 

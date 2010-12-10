@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
-
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 import junit.framework.TestCase;
 
@@ -175,8 +175,8 @@ public class SparseFieldVectorTest extends TestCase {
         assertTrue("some output ",  out1.length()!=0);
         try {
             v1.checkVectorDimensions(2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 

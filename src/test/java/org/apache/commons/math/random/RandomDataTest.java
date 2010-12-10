@@ -47,6 +47,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the RandomData class.
@@ -86,8 +87,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextInt() {
         try {
             randomData.nextInt(4, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency freq = new Frequency();
@@ -114,8 +115,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextLong() {
         try {
             randomData.nextLong(4, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency freq = new Frequency();
@@ -142,8 +143,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextSecureLong() {
         try {
             randomData.nextSecureLong(4, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency freq = new Frequency();
@@ -170,8 +171,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextSecureInt() {
         try {
             randomData.nextSecureInt(4, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency freq = new Frequency();
@@ -203,8 +204,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextPoisson() {
         try {
             randomData.nextPoisson(0);
-            fail("zero mean -- expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("zero mean -- expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency f = new Frequency();
@@ -219,14 +220,14 @@ public class RandomDataTest extends RetryTestCase {
         assertEquals("cum Poisson(4)", cumPct, 0.7851, 0.2);
         try {
             randomData.nextPoisson(-1);
-            fail("negative mean supplied -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("negative mean supplied -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextPoisson(0);
-            fail("0 mean supplied -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("0 mean supplied -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
@@ -388,14 +389,14 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextHex() {
         try {
             randomData.nextHexString(-1);
-            fail("negative length supplied -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("negative length supplied -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextHexString(0);
-            fail("zero length supplied -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("zero length supplied -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         String hexString = randomData.nextHexString(3);
@@ -408,8 +409,8 @@ public class RandomDataTest extends RetryTestCase {
         }
         try {
             hexString = randomData.nextHexString(0);
-            fail("zero length requested -- expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("zero length requested -- expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         if (hexString.length() != 1) {
@@ -443,14 +444,14 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextSecureHex() {
         try {
             randomData.nextSecureHexString(-1);
-            fail("negative length -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("negative length -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextSecureHexString(0);
-            fail("zero length -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("zero length -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         String hexString = randomData.nextSecureHexString(3);
@@ -463,8 +464,8 @@ public class RandomDataTest extends RetryTestCase {
         }
         try {
             hexString = randomData.nextSecureHexString(0);
-            fail("zero length requested -- expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("zero length requested -- expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         if (hexString.length() != 1) {
@@ -498,14 +499,14 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextUniform() {
         try {
             randomData.nextUniform(4, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextUniform(3, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         double[] expected = { 500, 500 };
@@ -545,8 +546,8 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextGaussian() {
         try {
             randomData.nextGaussian(0, 0);
-            fail("zero sigma -- IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("zero sigma -- MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         SummaryStatistics u = new SummaryStatistics();
@@ -567,14 +568,14 @@ public class RandomDataTest extends RetryTestCase {
     public void testNextExponential() {
         try {
             randomData.nextExponential(-1);
-            fail("negative mean -- expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("negative mean -- expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextExponential(0);
-            fail("zero mean -- expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("zero mean -- expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         long cumFreq = 0;
@@ -688,8 +689,8 @@ public class RandomDataTest extends RetryTestCase {
         // Make sure we fail for sample size > collection size
         try {
             one = randomData.nextSample(hs, 2);
-            fail("sample size > set size, expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("sample size > set size, expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
@@ -697,8 +698,8 @@ public class RandomDataTest extends RetryTestCase {
         try {
             hs = new HashSet<Object>();
             one = randomData.nextSample(hs, 0);
-            fail("n = k = 0, expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("n = k = 0, expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -746,24 +747,24 @@ public class RandomDataTest extends RetryTestCase {
             // Make sure we fail for k size > n
             try {
                 perm = randomData.nextPermutation(2, 3);
-                fail("permutation k > n, expecting IllegalArgumentException");
-            } catch (IllegalArgumentException ex) {
+                fail("permutation k > n, expecting MathIllegalArgumentException");
+            } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
 
             // Make sure we fail for n = 0
             try {
                 perm = randomData.nextPermutation(0, 0);
-                fail("permutation k = n = 0, expecting IllegalArgumentException");
-            } catch (IllegalArgumentException ex) {
+                fail("permutation k = n = 0, expecting MathIllegalArgumentException");
+            } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
 
             // Make sure we fail for k < n < 0
             try {
                 perm = randomData.nextPermutation(-1, -3);
-                fail("permutation k < n < 0, expecting IllegalArgumentException");
-            } catch (IllegalArgumentException ex) {
+                fail("permutation k < n < 0, expecting MathIllegalArgumentException");
+            } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
 

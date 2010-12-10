@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.regression;
 
 import java.util.Random;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import junit.framework.TestCase;
 
 /**
@@ -222,8 +224,8 @@ public final class SimpleRegressionTest extends TestCase {
 
         try {
             regression.getSlopeConfidenceInterval(1);
-            fail("expecting IllegalArgumentException for alpha = 1");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException for alpha = 1");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 

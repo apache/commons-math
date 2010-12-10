@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.util.MathUtils;

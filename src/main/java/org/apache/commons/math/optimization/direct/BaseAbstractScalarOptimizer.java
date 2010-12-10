@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.Incrementor;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;

@@ -17,7 +17,8 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,7 +47,7 @@ public final class BicubicSplineInterpolatorTest {
         try {
             p = interpolator.interpolate(wxval, yval, zval);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // Expected
         }
 
@@ -54,7 +55,7 @@ public final class BicubicSplineInterpolatorTest {
         try {
             p = interpolator.interpolate(xval, wyval, zval);
             Assert.fail("an exception should have been thrown");
-        } catch (IllegalArgumentException e) {
+        } catch (MathIllegalArgumentException e) {
             // Expected
         }
 

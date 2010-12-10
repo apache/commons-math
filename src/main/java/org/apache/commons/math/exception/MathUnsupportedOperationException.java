@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import java.util.Locale;
-
-import org.apache.commons.math.exception.util.ArgUtils;
-import org.apache.commons.math.exception.util.MessageFactory;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -32,19 +28,9 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUnsupportedOperationException extends UnsupportedOperationException implements MathThrowable {
-
+public class MathUnsupportedOperationException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-
-    /**
-     * Pattern used to build the message (specific context).
-     */
-    private final Localizable specific;
-    /**
-     * Arguments used to build the message.
-     */
-    private final Object[] arguments;
 
     /**
      * @param args Arguments.
@@ -59,48 +45,6 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
      */
     public MathUnsupportedOperationException(Localizable specific,
                                              Object ... args) {
-        this.specific = specific;
-        arguments = ArgUtils.flatten(args);
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return specific;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return LocalizedFormats.UNSUPPORTED_OPERATION;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
-    }
-
-    /**
-     * Get the message in a specified locale.
-     *
-     * @param locale Locale in which the message should be translated.
-     *
-     * @return the localized message.
-     */
-    public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale,
-                                           specific,
-                                           LocalizedFormats.UNSUPPORTED_OPERATION,
-                                           arguments);
-    }
-
-   /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return getMessage(Locale.US);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
+        super(null, specific, LocalizedFormats.UNSUPPORTED_OPERATION, args);
     }
 }

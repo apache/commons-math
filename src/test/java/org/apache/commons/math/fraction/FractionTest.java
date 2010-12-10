@@ -17,6 +17,8 @@
 package org.apache.commons.math.fraction;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 
@@ -47,13 +49,13 @@ public class FractionTest extends TestCase {
         try {
             new Fraction(Integer.MIN_VALUE, -1);
             fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathArithmeticException ex) {
             // success
         }
         try {
             new Fraction(1, Integer.MIN_VALUE);
             fail();
-        } catch (ArithmeticException ex) {
+        } catch (MathArithmeticException ex) {
             // success
         }
         try {
@@ -256,8 +258,8 @@ public class FractionTest extends TestCase {
         f = new Fraction(0, 3);
         try {
             f = f.reciprocal();
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         // large values
         f = new Fraction(Integer.MAX_VALUE, 1);
@@ -288,8 +290,8 @@ public class FractionTest extends TestCase {
         f = new Fraction(Integer.MIN_VALUE, 1);
         try {
             f = f.negate();
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
     }
 
     public void testAdd() {
@@ -318,8 +320,8 @@ public class FractionTest extends TestCase {
 
         try {
             f.add(null);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
         // if this fraction is added naively, it will overflow.
         // check that it doesn't.
@@ -343,35 +345,35 @@ public class FractionTest extends TestCase {
 
         try {
             f = f.add(Fraction.ONE); // should overflow
-            fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
 
         // denominator should not be a multiple of 2 or 3 to trigger overflow
         f1 = new Fraction(Integer.MIN_VALUE, 5);
         f2 = new Fraction(-1,5);
         try {
             f = f1.add(f2); // should overflow
-            fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(-Integer.MAX_VALUE, 1);
             f = f.add(f);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(-Integer.MAX_VALUE, 1);
             f = f.add(f);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         f1 = new Fraction(3,327680);
         f2 = new Fraction(2,59049);
         try {
             f = f1.add(f2); // should overflow
-            fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
     }
 
     public void testDivide() {
@@ -387,8 +389,8 @@ public class FractionTest extends TestCase {
         Fraction f2 = Fraction.ZERO;
         try {
             f1.divide(f2);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         f1 = new Fraction(0, 5);
         f2 = new Fraction(2, 7);
@@ -414,19 +416,19 @@ public class FractionTest extends TestCase {
 
         try {
             f.divide(null);
-            fail("IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
         try {
             f1 = new Fraction(1, Integer.MAX_VALUE);
             f = f1.divide(f1.reciprocal());  // should overflow
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
         try {
             f1 = new Fraction(1, -Integer.MAX_VALUE);
             f = f1.divide(f1.reciprocal());  // should overflow
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         f1 = new Fraction(6, 35);
         f  = f1.divide(15);
@@ -452,8 +454,8 @@ public class FractionTest extends TestCase {
 
         try {
             f.multiply(null);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
         f1 = new Fraction(6, 35);
         f  = f1.multiply(15);
@@ -473,8 +475,8 @@ public class FractionTest extends TestCase {
         Fraction f = new Fraction(1,1);
         try {
             f.subtract(null);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {}
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
 
         // if this fraction is subtracted naively, it will overflow.
         // check that it doesn't.
@@ -503,35 +505,35 @@ public class FractionTest extends TestCase {
             f1 = new Fraction(1, Integer.MAX_VALUE);
             f2 = new Fraction(1, Integer.MAX_VALUE - 1);
             f = f1.subtract(f2);
-            fail("expecting ArithmeticException");  //should overflow
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");  //should overflow
+        } catch (MathArithmeticException ex) {}
 
         // denominator should not be a multiple of 2 or 3 to trigger overflow
         f1 = new Fraction(Integer.MIN_VALUE, 5);
         f2 = new Fraction(1,5);
         try {
             f = f1.subtract(f2); // should overflow
-            fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(Integer.MIN_VALUE, 1);
             f = f.subtract(Fraction.ONE);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         try {
             f= new Fraction(Integer.MAX_VALUE, 1);
             f = f.subtract(Fraction.ONE.negate());
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
 
         f1 = new Fraction(3,327680);
         f2 = new Fraction(2,59049);
         try {
             f = f1.subtract(f2); // should overflow
-            fail("expecting ArithmeticException but got: " + f.toString());
-        } catch (ArithmeticException ex) {}
+            fail("expecting MathArithmeticException but got: " + f.toString());
+        } catch (MathArithmeticException ex) {}
     }
 
     public void testEqualsAndHashCode() {
@@ -553,8 +555,8 @@ public class FractionTest extends TestCase {
         assertTrue(Fraction.ZERO.equals(Fraction.getReducedFraction(0, -1)));
         try {
             Fraction.getReducedFraction(1, 0);
-            fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected
         }
         assertEquals(Fraction.getReducedFraction

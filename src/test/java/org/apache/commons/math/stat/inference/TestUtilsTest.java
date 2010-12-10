@@ -19,15 +19,16 @@ package org.apache.commons.math.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+
 import junit.framework.TestCase;
 
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 /**
  * Test cases for the TestUtils class.
  *
  * @version $Revision$ $Date$
  */
-
 public class TestUtilsTest extends TestCase {
 
     public TestUtilsTest(String name) {
@@ -55,8 +56,8 @@ public class TestUtilsTest extends TestCase {
 
         try {
             TestUtils.chiSquareTest(expected1, observed1, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -64,8 +65,8 @@ public class TestUtilsTest extends TestCase {
         double[] tooShortEx = { 1 };
         try {
             TestUtils.chiSquare(tooShortEx, tooShortObs);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -74,8 +75,8 @@ public class TestUtilsTest extends TestCase {
         double[] unMatchedEx = { 1, 1, 2 };
         try {
             TestUtils.chiSquare(unMatchedEx, unMatchedObs);
-            fail("arrays have different lengths, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arrays have different lengths, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -83,8 +84,8 @@ public class TestUtilsTest extends TestCase {
         expected[0] = 0;
         try {
             TestUtils.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("bad expected count, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -93,8 +94,8 @@ public class TestUtilsTest extends TestCase {
         observed[0] = -1;
         try {
             TestUtils.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("bad expected count, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -119,8 +120,8 @@ public class TestUtilsTest extends TestCase {
         long[][] counts3 = { {40, 22, 43}, {91, 21, 28}, {60, 10}};
         try {
             TestUtils.chiSquare(counts3);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -128,15 +129,15 @@ public class TestUtilsTest extends TestCase {
         long[][] counts4 = {{40, 22, 43}};
         try {
             TestUtils.chiSquare(counts4);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         long[][] counts5 = {{40}, {40}, {30}, {10}};
         try {
             TestUtils.chiSquare(counts5);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -144,16 +145,16 @@ public class TestUtilsTest extends TestCase {
         long[][] counts6 = {{10, -2}, {30, 40}, {60, 90} };
         try {
             TestUtils.chiSquare(counts6);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         // bad alpha
         try {
             TestUtils.chiSquareTest(counts, 0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -211,55 +212,55 @@ public class TestUtilsTest extends TestCase {
 
         try {
             TestUtils.t(mu, (double[]) null);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, (SummaryStatistics) null);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, emptyObs);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, emptyStats);
-            fail("arguments too short, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("arguments too short, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, tooShortObs);
-            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             TestUtils.tTest(mu, tooShortObs);
-            fail("insufficient data to perform t test, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to perform t test, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, (SummaryStatistics) null);
-            fail("insufficient data to compute t statistic, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             TestUtils.tTest(mu, (SummaryStatistics) null);
-            fail("insufficient data to perform t test, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data to perform t test, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -287,15 +288,15 @@ public class TestUtilsTest extends TestCase {
 
         try {
             TestUtils.tTest(0d, oneSidedP, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(0d, oneSidedPStats, 95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -333,57 +334,57 @@ public class TestUtilsTest extends TestCase {
 
         try {
             TestUtils.tTest(sample1, sample2, .95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, sampleStats2, .95);
-            fail("alpha out of range, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("alpha out of range, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sample1, tooShortObs, .01);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, (SummaryStatistics) null, .01);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sample1, tooShortObs);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, (SummaryStatistics) null);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(sample1, tooShortObs);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(sampleStats1, (SummaryStatistics) null);
-            fail("insufficient data, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("insufficient data, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

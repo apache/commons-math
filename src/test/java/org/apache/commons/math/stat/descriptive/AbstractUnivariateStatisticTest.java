@@ -18,6 +18,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 
 /**
@@ -53,50 +54,50 @@ public class AbstractUnivariateStatisticTest extends TestCase {
         assertFalse(testStatistic.test(testArray, 0, 0));
         try {
             testStatistic.test(singletonArray, 2, 1);  // start past end
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, 0, 7);  // end past end
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, -1, 1);  // start negative
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, 0, -1);  // length negative
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(nullArray, 0, 1);  // null array
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, nullArray, 0, 1);  // null weights array
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(singletonArray, testWeightsArray, 0, 1);  // weights.length != value.length
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, testNegativeWeightsArray, 0, 6);  // can't have negative weights
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

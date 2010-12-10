@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import java.util.Locale;
-
-import org.apache.commons.math.exception.util.ArgUtils;
-import org.apache.commons.math.exception.util.MessageFactory;
 import org.apache.commons.math.exception.util.Localizable;
 
 /**
@@ -32,23 +28,9 @@ import org.apache.commons.math.exception.util.Localizable;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalArgumentException extends IllegalArgumentException implements MathThrowable {
-
+public class MathIllegalArgumentException extends MathRuntimeException {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
-
-    /**
-     * Pattern used to build the message (specific context).
-     */
-    private final Localizable specific;
-    /**
-     * Pattern used to build the message (general problem description).
-     */
-    private final Localizable general;
-    /**
-     * Arguments used to build the message.
-     */
-    private final Object[] arguments;
 
     /**
      * @param specific Message pattern providing the specific context of
@@ -59,9 +41,7 @@ public class MathIllegalArgumentException extends IllegalArgumentException imple
     public MathIllegalArgumentException(Localizable specific,
                                         Localizable general,
                                         Object ... args) {
-        this.specific = specific;
-        this.general = general;
-        arguments = ArgUtils.flatten(args);
+        super(null, specific, general, args);
     }
     /**
      * @param general Message pattern explaining the cause of the error.
@@ -70,42 +50,5 @@ public class MathIllegalArgumentException extends IllegalArgumentException imple
     public MathIllegalArgumentException(Localizable general,
                                         Object ... args) {
         this(null, general, args);
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return specific;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return general;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
-    }
-
-    /**
-     * Get the message in a specified locale.
-     *
-     * @param locale Locale in which the message should be translated.
-     * @return the localized message.
-     */
-    public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale, specific, general, arguments);
-    }
-
-   /** {@inheritDoc} */
-    @Override
-    public String getMessage() {
-        return getMessage(Locale.US);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getLocalizedMessage() {
-        return getMessage(Locale.getDefault());
     }
 }

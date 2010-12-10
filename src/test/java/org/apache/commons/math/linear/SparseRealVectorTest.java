@@ -24,6 +24,8 @@ import org.junit.Test;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.function.Abs;
 import org.apache.commons.math.analysis.function.Acos;
@@ -364,8 +366,8 @@ public class SparseRealVectorTest {
         //Assert.assertEquals("testData is 4.0 ", 4.0, v4.getEntry(0));
         //try {
         //    new SparseRealVector(vec4, 8, 3);
-        //    Assert.fail("IllegalArgumentException expected");
-        //} catch (IllegalArgumentException ex) {
+        //    Assert.fail("MathIllegalArgumentException expected");
+        //} catch (MathIllegalArgumentException ex) {
             // expected behavior
         //}
 
@@ -901,8 +903,8 @@ public class SparseRealVectorTest {
 
         try {
             v_null.unitVector();
-            Assert.fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected behavior
         }
 
@@ -911,8 +913,8 @@ public class SparseRealVectorTest {
         assertClose("compare vect" ,v_unitVector_2.getData(),v_unitize.getData(),normTolerance);
         try {
             v_null.unitize();
-            Assert.fail("Expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("Expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
             // expected behavior
         }
 
@@ -934,8 +936,8 @@ public class SparseRealVectorTest {
         Assert.assertTrue("some output ",  out1.length()!=0);
         try {
             v1.checkVectorDimensions(2);
-            Assert.fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 

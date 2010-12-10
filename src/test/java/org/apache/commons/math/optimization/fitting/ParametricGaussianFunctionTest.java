@@ -19,10 +19,10 @@ package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
-import org.apache.commons.math.optimization.general.
-       LevenbergMarquardtOptimizer;
+import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -111,7 +111,7 @@ public class ParametricGaussianFunctionTest {
      *
      * @throws MathUserException in the event of a test case error
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testValue01() throws MathUserException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, null);
@@ -122,7 +122,7 @@ public class ParametricGaussianFunctionTest {
      *
      * @throws MathUserException in the event of a test case error
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testValue02() throws MathUserException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, new double[] {0.0, 1.0});

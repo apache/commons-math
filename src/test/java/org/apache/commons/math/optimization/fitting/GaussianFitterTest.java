@@ -19,10 +19,10 @@ package org.apache.commons.math.optimization.fitting;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.optimization.general.
-       LevenbergMarquardtOptimizer;
+import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
+
 import org.junit.Test;
 
 /**
@@ -185,11 +185,10 @@ public class GaussianFitterTest {
      * Basic.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
     @Test
     public void testFit01()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET1, fitter);
         GaussianFunction fitFunction = fitter.fit();
@@ -203,11 +202,10 @@ public class GaussianFitterTest {
      * Zero points is not enough observed points.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testFit02()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         fitter.fit();
     }
@@ -216,11 +214,10 @@ public class GaussianFitterTest {
      * Two points is not enough observed points.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=MathIllegalArgumentException.class)
     public void testFit03()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(new double[][] {
             {4.0254623,  531026.0},
@@ -233,11 +230,10 @@ public class GaussianFitterTest {
      * Poor data: right of peak not symmetric with left of peak.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
     @Test
     public void testFit04()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET2, fitter);
         GaussianFunction fitFunction = fitter.fit();
@@ -251,11 +247,10 @@ public class GaussianFitterTest {
      * Poor data: long tails.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
     @Test
     public void testFit05()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET3, fitter);
         GaussianFunction fitFunction = fitter.fit();
@@ -269,11 +264,10 @@ public class GaussianFitterTest {
      * Poor data: right of peak is missing.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
     @Test
     public void testFit06()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET4, fitter);
         GaussianFunction fitFunction = fitter.fit();
@@ -287,11 +281,10 @@ public class GaussianFitterTest {
      * Basic with smaller dataset.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
      */
     @Test
     public void testFit07()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET5, fitter);
         GaussianFunction fitFunction = fitter.fit();

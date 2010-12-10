@@ -24,6 +24,8 @@ import java.util.Locale;
 
 import org.apache.commons.math.util.CompositeFormat;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 import junit.framework.TestCase;
 
@@ -292,7 +294,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryFormat(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
     }
@@ -302,7 +304,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
             ComplexFormat cf = new ComplexFormat();
             cf.setRealFormat(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
     }
@@ -321,7 +323,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryCharacter(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
     }
@@ -331,7 +333,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryCharacter("");
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
     }
@@ -349,7 +351,7 @@ public abstract class ComplexFormatAbstractTest extends TestCase {
             Object object = new Object();
             cf.format(object);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
     }

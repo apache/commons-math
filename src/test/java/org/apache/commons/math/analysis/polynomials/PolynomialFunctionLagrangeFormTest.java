@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.polynomials;
 
 import junit.framework.TestCase;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Testcase for Lagrange form of polynomial function.
@@ -131,8 +132,8 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
             double x[] = { 1.0 };
             double y[] = { 2.0 };
             new PolynomialFunctionLagrangeForm(x, y);
-            fail("Expecting IllegalArgumentException - bad input array length");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - bad input array length");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -140,8 +141,8 @@ public final class PolynomialFunctionLagrangeFormTest extends TestCase {
             double x[] = { 1.0, 2.0, 3.0, 4.0 };
             double y[] = { 0.0, -4.0, -24.0 };
             new PolynomialFunctionLagrangeForm(x, y);
-            fail("Expecting IllegalArgumentException - mismatch input arrays");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException - mismatch input arrays");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

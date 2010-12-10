@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -172,8 +173,8 @@ public abstract class AbstractUnivariateStatistic
         }
 
         if (begin + length > values.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END);
+            throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
+                                                begin + length, values.length, true);
         }
 
         if (length == 0 && !allowEmpty) {
@@ -265,16 +266,13 @@ public abstract class AbstractUnivariateStatistic
         boolean containsPositiveWeight = false;
         for (int i = begin; i < begin + length; i++) {
             if (Double.isNaN(weights[i])) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
+                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
             }
             if (Double.isInfinite(weights[i])) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.INFINITE_ARRAY_ELEMENT, weights[i], i);
+                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, weights[i], i);
             }
             if (weights[i] < 0) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
+                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
             }
             if (!containsPositiveWeight && weights[i] > 0.0) {
                 containsPositiveWeight = true;
@@ -282,8 +280,7 @@ public abstract class AbstractUnivariateStatistic
         }
 
         if (!containsPositiveWeight) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
+            throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
         return test(values, begin, length, allowEmpty);

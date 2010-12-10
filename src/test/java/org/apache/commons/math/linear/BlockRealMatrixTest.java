@@ -29,6 +29,7 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.
@@ -146,8 +147,8 @@ public final class BlockRealMatrixTest extends TestCase {
         BlockRealMatrix m2 = new BlockRealMatrix(testData2);
         try {
             m.add(m2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -176,7 +177,7 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             m.subtract(new BlockRealMatrix(testData2));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -195,7 +196,7 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             m.multiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -325,7 +326,7 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -388,8 +389,8 @@ public final class BlockRealMatrixTest extends TestCase {
         m = new BlockRealMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -410,7 +411,7 @@ public final class BlockRealMatrixTest extends TestCase {
         try {
             m.preMultiply(new BlockRealMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -1085,16 +1086,16 @@ public final class BlockRealMatrixTest extends TestCase {
         // ragged
         try {
             m.setSubMatrix(new double[][] {{1}, {2, 3}}, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 
         // empty
         try {
             m.setSubMatrix(new double[][] {{}}, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 

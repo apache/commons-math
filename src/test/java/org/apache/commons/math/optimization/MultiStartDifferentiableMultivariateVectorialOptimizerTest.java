@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 import java.io.Serializable;
 
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -118,7 +119,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         try {
             optimizer.getOptima();
             fail("an exception should have been thrown");
-        } catch (IllegalStateException ise) {
+        } catch (MathIllegalStateException ise) {
             // expected
         }
         VectorialPointValuePair optimum =

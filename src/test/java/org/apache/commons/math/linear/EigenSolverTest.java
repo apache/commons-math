@@ -19,10 +19,11 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math.exception.SingularMatrixException;
-import junit.framework.TestCase;
-
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.exception.SingularMatrixException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
+import junit.framework.TestCase;
 
 public class EigenSolverTest extends TestCase {
 
@@ -68,19 +69,19 @@ public class EigenSolverTest extends TestCase {
         try {
             es.solve(b);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             es.solve(b.getColumn(0));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             es.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
     }

@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NonSquareMatrixException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link SparseFieldMatrix} class.
@@ -175,8 +176,8 @@ public class SparseFieldMatrixTest extends TestCase {
         SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
         try {
             m.add(m2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -191,7 +192,7 @@ public class SparseFieldMatrixTest extends TestCase {
         try {
             m.subtract(createSparseMatrix(testData2));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -217,7 +218,7 @@ public class SparseFieldMatrixTest extends TestCase {
         try {
             m.multiply(createSparseMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -266,7 +267,7 @@ public class SparseFieldMatrixTest extends TestCase {
         try {
             m.operate(testVector);
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -304,8 +305,8 @@ public class SparseFieldMatrixTest extends TestCase {
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -330,7 +331,7 @@ public class SparseFieldMatrixTest extends TestCase {
         try {
             m.preMultiply(createSparseMatrix(bigSingular));
             fail("Expecting illegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
     }
@@ -628,24 +629,24 @@ public class SparseFieldMatrixTest extends TestCase {
         }
         try {
             new SparseFieldMatrix<Fraction>(field, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 
         // ragged
         try {
             m.setSubMatrix(new Fraction[][] { { new Fraction(1) }, { new Fraction(2), new Fraction(3) } }, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 
         // empty
         try {
             m.setSubMatrix(new Fraction[][] { {} }, 0, 0);
-            fail("expecting IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
 

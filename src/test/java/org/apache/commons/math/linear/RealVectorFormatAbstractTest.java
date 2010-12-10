@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.CompositeFormat;
 
 public abstract class RealVectorFormatAbstractTest extends TestCase {
@@ -358,7 +359,7 @@ public abstract class RealVectorFormatAbstractTest extends TestCase {
             Object object = new Object();
             cf.format(object);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
     }

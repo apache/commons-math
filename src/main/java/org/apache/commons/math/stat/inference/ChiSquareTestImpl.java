@@ -17,7 +17,12 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -60,18 +65,14 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
      * @return chi-square test statistic
-     * @throws IllegalArgumentException if preconditions are not met
-     * or length is less than 2
+     * @throws DimensionMismatchException if the arrays length is less than 2.
      */
-    public double chiSquare(double[] expected, long[] observed)
-        throws IllegalArgumentException {
+    public double chiSquare(double[] expected, long[] observed) {
         if (expected.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, expected.length, 2);
+            throw new DimensionMismatchException(expected.length, 2);
         }
         if (expected.length != observed.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, expected.length, observed.length);
+            throw new DimensionMismatchException(expected.length, observed.length);
         }
         checkPositive(expected);
         checkNonNegative(observed);
@@ -109,11 +110,11 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param observed array of observed frequency counts
      * @param expected array of expected frequency counts
      * @return p-value
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
      */
     public double chiSquareTest(double[] expected, long[] observed)
-        throws IllegalArgumentException, MathException {
+        throws MathException {
         distribution = new ChiSquaredDistributionImpl(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(
             chiSquare(expected, observed));
@@ -130,15 +131,15 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
     public boolean chiSquareTest(double[] expected, long[] observed,
-            double alpha) throws IllegalArgumentException, MathException {
+                                 double alpha)
+        throws MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0, 0.5);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
+                                          alpha, 0, 0.5);
         }
         return chiSquareTest(expected, observed) < alpha;
     }
@@ -146,10 +147,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     /**
      * @param counts array representation of 2-way table
      * @return chi-square test statistic
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met.
      */
-    public double chiSquare(long[][] counts) throws IllegalArgumentException {
-
+    public double chiSquare(long[][] counts) {
         checkArray(counts);
         int nRows = counts.length;
         int nCols = counts[0].length;
@@ -182,11 +182,11 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     /**
      * @param counts array representation of 2-way table
      * @return p-value
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
      */
     public double chiSquareTest(long[][] counts)
-    throws IllegalArgumentException, MathException {
+    throws MathException {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
         distribution = new ChiSquaredDistributionImpl(df);
@@ -198,15 +198,14 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs performing the test
      */
     public boolean chiSquareTest(long[][] counts, double alpha)
-    throws IllegalArgumentException, MathException {
+    throws MathException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0.0, 0.5);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
+                                          alpha, 0, 0.5);
         }
         return chiSquareTest(counts) < alpha;
     }
@@ -215,21 +214,16 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
      * @return chi-square test statistic
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @since 1.2
      */
-    public double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
-        throws IllegalArgumentException {
-
+    public double chiSquareDataSetsComparison(long[] observed1, long[] observed2) {
         // Make sure lengths are same
         if (observed1.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, observed1.length, 2);
+            throw new DimensionMismatchException(observed1.length, 2);
         }
         if (observed1.length != observed2.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                  observed1.length, observed2.length);
+            throw new DimensionMismatchException(observed1.length, observed2.length);
         }
 
         // Ensure non-negative counts
@@ -247,12 +241,10 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         }
         // Ensure neither sample is uniformly 0
         if (countSum1 == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OBSERVED_COUNTS_ALL_ZERO, 1);
+            throw new MathIllegalArgumentException(LocalizedFormats.OBSERVED_COUNTS_ALL_ZERO, 1);
         }
         if (countSum2 == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OBSERVED_COUNTS_ALL_ZERO, 2);
+            throw new MathIllegalArgumentException(LocalizedFormats.OBSERVED_COUNTS_ALL_ZERO, 2);
         }
         // Compare and compute weight only if different
         unequalCounts = countSum1 != countSum2;
@@ -266,8 +258,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         double obs2 = 0.0d;
         for (int i = 0; i < observed1.length; i++) {
             if (observed1[i] == 0 && observed2[i] == 0) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
+                throw new MathIllegalArgumentException(LocalizedFormats.OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY, i);
             } else {
                 obs1 = observed1[i];
                 obs2 = observed2[i];
@@ -286,12 +277,12 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param observed1 array of observed frequency counts of the first data set
      * @param observed2 array of observed frequency counts of the second data set
      * @return p-value
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs computing the p-value
      * @since 1.2
      */
     public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
-        throws IllegalArgumentException, MathException {
+        throws MathException {
         distribution = new ChiSquaredDistributionImpl((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
@@ -303,16 +294,17 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * @param alpha significance level of the test
      * @return true iff null hypothesis can be rejected with confidence
      * 1 - alpha
-     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathIllegalArgumentException if preconditions are not met
      * @throws MathException if an error occurs performing the test
      * @since 1.2
      */
     public boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
-            double alpha) throws IllegalArgumentException, MathException {
-        if ((alpha <= 0) || (alpha > 0.5)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0.0, 0.5);
+                                                   double alpha)
+        throws MathException {
+        if (alpha <= 0 ||
+            alpha > 0.5) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
+                                          alpha, 0, 0.5);
         }
         return chiSquareTestDataSetsComparison(observed1, observed2) < alpha;
     }
@@ -320,21 +312,18 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     /**
      * Checks to make sure that the input long[][] array is rectangular,
      * has at least 2 rows and 2 columns, and has all non-negative entries,
-     * throwing IllegalArgumentException if any of these checks fail.
+     * throwing MathIllegalArgumentException if any of these checks fail.
      *
      * @param in input 2-way table to check
-     * @throws IllegalArgumentException if the array is not valid
+     * @throws MathIllegalArgumentException if the array is not valid
      */
-    private void checkArray(long[][] in) throws IllegalArgumentException {
-
+    private void checkArray(long[][] in) {
         if (in.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, in.length, 2);
+            throw new NumberIsTooSmallException(in.length, 2, true);
         }
 
         if (in[0].length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, in[0].length, 2);
+            throw new NumberIsTooSmallException(in[0].length, 2, true);
         }
 
         checkRectangular(in);
@@ -345,34 +334,31 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     //---------------------  Private array methods -- should find a utility home for these
 
     /**
-     * Throws IllegalArgumentException if the input array is not rectangular.
+     * Throws MathIllegalArgumentException if the input array is not rectangular.
      *
      * @param in array to be tested
      * @throws NullPointerException if input array is null
-     * @throws IllegalArgumentException if input array is not rectangular
+     * @throws MathIllegalArgumentException if input array is not rectangular
      */
     private void checkRectangular(long[][] in) {
         for (int i = 1; i < in.length; i++) {
             if (in[i].length != in[0].length) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                      in[i].length, in[0].length);
+                throw new DimensionMismatchException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
+                                                     in[i].length, in[0].length);
             }
         }
     }
 
     /**
-     * Check all entries of the input array are > 0.
+     * Check all entries of the input array are strictly postive.
      *
-     * @param in array to be tested
-     * @exception IllegalArgumentException if one entry is not positive
+     * @param in Array to be tested.
+     * @exception NotStrictlyPositiveException if one entry is not positive.
      */
-    private void checkPositive(double[] in) throws IllegalArgumentException {
+    private void checkPositive(double[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] <= 0) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.NOT_POSITIVE_ELEMENT_AT_INDEX,
-                      i, in[i]);
+                throw new NotStrictlyPositiveException(in[i]);
             }
         }
     }
@@ -380,15 +366,13 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     /**
      * Check all entries of the input array are >= 0.
      *
-     * @param in array to be tested
-     * @exception IllegalArgumentException if one entry is negative
+     * @param in Array to be tested.
+     * @exception NotPositiveException if one entry is negative.
      */
-    private void checkNonNegative(long[] in) throws IllegalArgumentException {
+    private void checkNonNegative(long[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] < 0) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
-                      i, in[i]);
+                throw new NotPositiveException(in[i]);
             }
         }
     }
@@ -396,16 +380,14 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     /**
      * Check all entries of the input array are >= 0.
      *
-     * @param in array to be tested
-     * @exception IllegalArgumentException if one entry is negative
+     * @param in Array to be tested.
+     * @exception NotPositiveException if one entry is negative.
      */
-    private void checkNonNegative(long[][] in) throws IllegalArgumentException {
+    private void checkNonNegative(long[][] in) {
         for (int i = 0; i < in.length; i ++) {
             for (int j = 0; j < in[i].length; j++) {
                 if (in[i][j] < 0) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                          LocalizedFormats.NEGATIVE_ELEMENT_AT_2D_INDEX,
-                          i, j, in[i][j]);
+                    throw new NotPositiveException(in[i][j]);
                 }
             }
         }

@@ -17,7 +17,7 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.stat.Frequency;
-
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the AbstractRandomGenerator class
@@ -38,8 +38,8 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
     public void testNextInt() {
         try {
             testGenerator.nextInt(-1);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         Frequency freq = new Frequency();

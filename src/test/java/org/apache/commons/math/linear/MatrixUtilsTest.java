@@ -26,6 +26,7 @@ import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link MatrixUtils} class.
@@ -73,14 +74,14 @@ public final class MatrixUtilsTest extends TestCase {
                 MatrixUtils.createRealMatrix(testData));
         try {
             MatrixUtils.createRealMatrix(new double[][] {{1}, {1,2}});  // ragged
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             MatrixUtils.createRealMatrix(new double[][] {{}, {}});  // no columns
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -98,14 +99,14 @@ public final class MatrixUtilsTest extends TestCase {
                      MatrixUtils.createFieldMatrix(fractionColMatrix));
         try {
             MatrixUtils.createFieldMatrix(asFraction(new double[][] {{1}, {1,2}}));  // ragged
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             MatrixUtils.createFieldMatrix(asFraction(new double[][] {{}, {}}));  // no columns
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -140,8 +141,8 @@ public final class MatrixUtilsTest extends TestCase {
                      new Array2DRowFieldMatrix<Fraction>(fractionRowMatrix));
         try {
             MatrixUtils.createRowFieldMatrix(new Fraction[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -157,8 +158,8 @@ public final class MatrixUtilsTest extends TestCase {
                      new BlockRealMatrix(colMatrix));
         try {
             MatrixUtils.createColumnRealMatrix(new double[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -177,8 +178,8 @@ public final class MatrixUtilsTest extends TestCase {
 
         try {
             MatrixUtils.createColumnFieldMatrix(new Fraction[] {});  // empty
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
@@ -210,8 +211,8 @@ public final class MatrixUtilsTest extends TestCase {
         checkIdentityMatrix(MatrixUtils.createRealIdentityMatrix(1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -237,8 +238,8 @@ public final class MatrixUtilsTest extends TestCase {
         checkIdentityFieldMatrix(MatrixUtils.createFieldIdentityMatrix(FractionField.getInstance(), 1));
         try {
             MatrixUtils.createRealIdentityMatrix(0);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }

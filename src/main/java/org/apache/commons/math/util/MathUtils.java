@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
@@ -34,6 +33,7 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 
 /**
@@ -103,7 +103,7 @@ public final class MathUtils {
      *
      * @param x an addend
      * @param y an addend
-     * @return the sum <code>x+y</code>
+     * @return the sum {@code x+y}
      * @throws MathArithmeticException if the result can not be represented
      * as an {@code int}.
      * @since 1.1
@@ -121,8 +121,8 @@ public final class MathUtils {
      *
      * @param a an addend
      * @param b an addend
-     * @return the sum <code>a+b</code>
-     * @throws ArithmeticException if the result can not be represented as an
+     * @return the sum {@code a+b}
+     * @throws MathArithmeticException if the result can not be represented as an
      *         long
      * @since 1.2
      */
@@ -179,27 +179,27 @@ public final class MathUtils {
     /**
      * Returns an exact representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "<code>n choose k</code>", the number of
-     * <code>k</code>-element subsets that can be selected from an
-     * <code>n</code>-element set.
+     * Coefficient</a>, "{@code n choose k}", the number of
+     * {@code k}-element subsets that can be selected from an
+     * {@code n}-element set.
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> <code>0 <= k <= n </code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>long</code>. The
-     * largest value of <code>n</code> for which all coefficients are
-     * <code> < Long.MAX_VALUE</code> is 66. If the computed value exceeds
-     * <code>Long.MAX_VALUE</code> an <code>ArithMeticException</code> is
+     * <li> {@code 0 <= k <= n } (otherwise
+     * {@code IllegalArgumentException} is thrown)</li>
+     * <li> The result is small enough to fit into a {@code long}. The
+     * largest value of {@code n} for which all coefficients are
+     * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
+     * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
      * thrown.</li>
      * </ul></p>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
-     * @return <code>n choose k</code>
-     * @throws IllegalArgumentException if preconditions are not met.
-     * @throws ArithmeticException if the result is too large to be represented
-     *         by a long integer.
+     * @return {@code n choose k}
+     * @throws MathIllegalArgumentException if preconditions are not met.
+     * @throws MathArithmeticException if the result is too large to be
+     * represented by a long integer.
      */
     public static long binomialCoefficient(final int n, final int k) {
         checkBinomial(n, k);
@@ -256,25 +256,25 @@ public final class MathUtils {
     }
 
     /**
-     * Returns a <code>double</code> representation of the <a
+     * Returns a {@code double} representation of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "<code>n choose k</code>", the number of
-     * <code>k</code>-element subsets that can be selected from an
-     * <code>n</code>-element set.
+     * Coefficient</a>, "{@code n choose k}", the number of
+     * {@code k}-element subsets that can be selected from an
+     * {@code n}-element set.
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> <code>0 <= k <= n </code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>double</code>. The
-     * largest value of <code>n</code> for which all coefficients are <
+     * <li> {@code 0 <= k <= n } (otherwise
+     * {@code IllegalArgumentException} is thrown)</li>
+     * <li> The result is small enough to fit into a {@code double}. The
+     * largest value of {@code n} for which all coefficients are <
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
      * </ul></p>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
-     * @return <code>n choose k</code>
+     * @return {@code n choose k}
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientDouble(final int n, final int k) {
@@ -301,21 +301,21 @@ public final class MathUtils {
     }
 
     /**
-     * Returns the natural <code>log</code> of the <a
+     * Returns the natural {@code log} of the <a
      * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "<code>n choose k</code>", the number of
-     * <code>k</code>-element subsets that can be selected from an
-     * <code>n</code>-element set.
+     * Coefficient</a>, "{@code n choose k}", the number of
+     * {@code k}-element subsets that can be selected from an
+     * {@code n}-element set.
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> <code>0 <= k <= n </code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
+     * <li> {@code 0 <= k <= n } (otherwise
+     * {@code IllegalArgumentException} is thrown)</li>
      * </ul></p>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
-     * @return <code>n choose k</code>
+     * @return {@code n choose k}
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientLog(final int n, final int k) {
@@ -568,23 +568,23 @@ public final class MathUtils {
     }
 
     /**
-     * Returns n!. Shorthand for <code>n</code> <a
+     * Returns n!. Shorthand for {@code n} <a
      * href="http://mathworld.wolfram.com/Factorial.html"> Factorial</a>, the
-     * product of the numbers <code>1,...,n</code>.
+     * product of the numbers {@code 1,...,n}.
      * <p>
      * <Strong>Preconditions</strong>:
      * <ul>
-     * <li> <code>n >= 0</code> (otherwise
-     * <code>IllegalArgumentException</code> is thrown)</li>
-     * <li> The result is small enough to fit into a <code>long</code>. The
-     * largest value of <code>n</code> for which <code>n!</code> <
-     * Long.MAX_VALUE</code> is 20. If the computed value exceeds <code>Long.MAX_VALUE</code>
-     * an <code>ArithMeticException </code> is thrown.</li>
+     * <li> {@code n >= 0} (otherwise
+     * {@code IllegalArgumentException} is thrown)</li>
+     * <li> The result is small enough to fit into a {@code long}. The
+     * largest value of {@code n} for which {@code n!} <
+     * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
+     * an {@code ArithMeticException } is thrown.</li>
      * </ul>
      * </p>
      *
      * @param n argument
-     * @return <code>n!</code>
+     * @return {@code n!}
      * @throws MathArithmeticException if the result is too large to be represented
      * by a {@code long}.
      * @throws NotPositiveException if {@code n < 0}.
@@ -658,16 +658,16 @@ public final class MathUtils {
      * Special cases:
      * <ul>
      * <li>The invocations
-     * <code>gcd(Integer.MIN_VALUE, Integer.MIN_VALUE)</code>,
-     * <code>gcd(Integer.MIN_VALUE, 0)</code> and
-     * <code>gcd(0, Integer.MIN_VALUE)</code> throw an
-     * <code>ArithmeticException</code>, because the result would be 2^31, which
+     * {@code gcd(Integer.MIN_VALUE, Integer.MIN_VALUE)},
+     * {@code gcd(Integer.MIN_VALUE, 0)} and
+     * {@code gcd(0, Integer.MIN_VALUE)} throw an
+     * {@code ArithmeticException}, because the result would be 2^31, which
      * is too large for an int value.</li>
-     * <li>The result of <code>gcd(x, x)</code>, <code>gcd(0, x)</code> and
-     * <code>gcd(x, 0)</code> is the absolute value of <code>x</code>, except
+     * <li>The result of {@code gcd(x, x)}, {@code gcd(0, x)} and
+     * {@code gcd(x, 0)} is the absolute value of {@code x}, except
      * for the special cases above.
-     * <li>The invocation <code>gcd(0, 0)</code> is the only one which returns
-     * <code>0</code>.</li>
+     * <li>The invocation {@code gcd(0, 0)} is the only one which returns
+     * {@code 0}.</li>
      * </ul>
      *
      * @param p Number.
@@ -745,16 +745,16 @@ public final class MathUtils {
      * Special cases:
      * <ul>
      * <li>The invocations
-     * <code>gcd(Long.MIN_VALUE, Long.MIN_VALUE)</code>,
-     * <code>gcd(Long.MIN_VALUE, 0L)</code> and
-     * <code>gcd(0L, Long.MIN_VALUE)</code> throw an
-     * <code>ArithmeticException</code>, because the result would be 2^63, which
+     * {@code gcd(Long.MIN_VALUE, Long.MIN_VALUE)},
+     * {@code gcd(Long.MIN_VALUE, 0L)} and
+     * {@code gcd(0L, Long.MIN_VALUE)} throw an
+     * {@code ArithmeticException}, because the result would be 2^63, which
      * is too large for a long value.</li>
-     * <li>The result of <code>gcd(x, x)</code>, <code>gcd(0L, x)</code> and
-     * <code>gcd(x, 0L)</code> is the absolute value of <code>x</code>, except
+     * <li>The result of {@code gcd(x, x)}, {@code gcd(0L, x)} and
+     * {@code gcd(x, 0L)} is the absolute value of {@code x}, except
      * for the special cases above.
-     * <li>The invocation <code>gcd(0L, 0L)</code> is the only one which returns
-     * <code>0L</code>.</li>
+     * <li>The invocation {@code gcd(0L, 0L)} is the only one which returns
+     * {@code 0L}.</li>
      * </ul>
      *
      * @param p Number.
@@ -856,8 +856,8 @@ public final class MathUtils {
 
     /**
      * For a double precision value x, this method returns +1.0 if x >= 0 and
-     * -1.0 if x < 0. Returns <code>NaN</code> if <code>x</code> is
-     * <code>NaN</code>.
+     * -1.0 if x < 0. Returns {@code NaN} if {@code x} is
+     * {@code NaN}.
      *
      * @param x the value, a double
      * @return +1.0 or -1.0, depending on the sign of x
@@ -871,7 +871,7 @@ public final class MathUtils {
 
     /**
      * For a float value x, this method returns +1.0F if x >= 0 and -1.0F if x <
-     * 0. Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.
+     * 0. Returns {@code NaN} if {@code x} is {@code NaN}.
      *
      * @param x the value, a float
      * @return +1.0F or -1.0F, depending on the sign of x
@@ -917,16 +917,16 @@ public final class MathUtils {
     /**
      * <p>
      * Returns the least common multiple of the absolute value of two numbers,
-     * using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+     * using the formula {@code lcm(a,b) = (a / gcd(a,b)) * b}.
      * </p>
      * Special cases:
      * <ul>
-     * <li>The invocations <code>lcm(Integer.MIN_VALUE, n)</code> and
-     * <code>lcm(n, Integer.MIN_VALUE)</code>, where <code>abs(n)</code> is a
-     * power of 2, throw an <code>ArithmeticException</code>, because the result
+     * <li>The invocations {@code lcm(Integer.MIN_VALUE, n)} and
+     * {@code lcm(n, Integer.MIN_VALUE)}, where {@code abs(n)} is a
+     * power of 2, throw an {@code ArithmeticException}, because the result
      * would be 2^31, which is too large for an int value.</li>
-     * <li>The result of <code>lcm(0, x)</code> and <code>lcm(x, 0)</code> is
-     * <code>0</code> for any <code>x</code>.
+     * <li>The result of {@code lcm(0, x)} and {@code lcm(x, 0)} is
+     * {@code 0} for any {@code x}.
      * </ul>
      *
      * @param a Number.
@@ -951,16 +951,16 @@ public final class MathUtils {
     /**
      * <p>
      * Returns the least common multiple of the absolute value of two numbers,
-     * using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+     * using the formula {@code lcm(a,b) = (a / gcd(a,b)) * b}.
      * </p>
      * Special cases:
      * <ul>
-     * <li>The invocations <code>lcm(Long.MIN_VALUE, n)</code> and
-     * <code>lcm(n, Long.MIN_VALUE)</code>, where <code>abs(n)</code> is a
-     * power of 2, throw an <code>ArithmeticException</code>, because the result
+     * <li>The invocations {@code lcm(Long.MIN_VALUE, n)} and
+     * {@code lcm(n, Long.MIN_VALUE)}, where {@code abs(n)} is a
+     * power of 2, throw an {@code ArithmeticException}, because the result
      * would be 2^63, which is too large for an int value.</li>
-     * <li>The result of <code>lcm(0L, x)</code> and <code>lcm(x, 0L)</code> is
-     * <code>0L</code> for any <code>x</code>.
+     * <li>The result of {@code lcm(0L, x)} and {@code lcm(x, 0L)} is
+     * {@code 0L} for any {@code x}.
      * </ul>
      *
      * @param a Number.
@@ -985,13 +985,13 @@ public final class MathUtils {
     /**
      * <p>Returns the
      * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
-     * for base <code>b</code> of <code>x</code>.
+     * for base {@code b} of {@code x}.
      * </p>
-     * <p>Returns <code>NaN<code> if either argument is negative.  If
-     * <code>base</code> is 0 and <code>x</code> is positive, 0 is returned.
-     * If <code>base</code> is positive and <code>x</code> is 0,
-     * <code>Double.NEGATIVE_INFINITY</code> is returned.  If both arguments
-     * are 0, the result is <code>NaN</code>.</p>
+     * <p>Returns {@code NaN} if either argument is negative. If
+     * {@code base} is 0 and {@code x} is positive, 0 is returned.
+     * If {@code base} is positive and {@code x} is 0,
+     * {@code Double.NEGATIVE_INFINITY} is returned.  If both arguments
+     * are 0, the result is {@code NaN}.</p>
      *
      * @param base the base of the logarithm, must be greater than 0
      * @param x argument, must be greater than 0
@@ -1076,7 +1076,7 @@ public final class MathUtils {
 
     /**
      * Scale a number by 2<sup>scaleFactor</sup>.
-     * <p>If <code>d</code> is 0 or NaN or Infinite, it is returned unchanged.</p>
+     * <p>If {@code d} is 0 or NaN or Infinite, it is returned unchanged.</p>
      *
      * @param d base number
      * @param scaleFactor power of two by which d sould be multiplied
@@ -1106,11 +1106,11 @@ public final class MathUtils {
      * <p>This method has three main uses:</p>
      * <ul>
      *   <li>normalize an angle between 0 and 2&pi;:<br/>
-     *       <code>a = MathUtils.normalizeAngle(a, FastMath.PI);</code></li>
+     *       {@code a = MathUtils.normalizeAngle(a, FastMath.PI);}</li>
      *   <li>normalize an angle between -&pi; and +&pi;<br/>
-     *       <code>a = MathUtils.normalizeAngle(a, 0.0);</code></li>
+     *       {@code a = MathUtils.normalizeAngle(a, 0.0);}</li>
      *   <li>compute the angle between two defining angular positions:<br>
-     *       <code>angle = MathUtils.normalizeAngle(end, start) - start;</code></li>
+     *       {@code angle = MathUtils.normalizeAngle(end, start) - start;}</li>
      * </ul>
      * <p>Note that due to numerical accuracy and since &pi; cannot be represented
      * exactly, the result interval is <em>closed</em>, it cannot be half-closed
@@ -1132,7 +1132,7 @@ public final class MathUtils {
       * applied to each non-NaN element x of the input array, where sum is the
       * sum of the non-NaN entries in the input array.</p>
       *
-      * <p>Throws IllegalArgumentException if <code>normalizedSum</code> is infinite
+      * <p>Throws IllegalArgumentException if {@code normalizedSum} is infinite
       * or NaN and ArithmeticException if the input array contains any infinite elements
       * or sums to 0</p>
       *
@@ -1141,33 +1141,30 @@ public final class MathUtils {
       * @param values input array to be normalized
       * @param normalizedSum target sum for the normalized array
       * @return normalized array
-      * @throws ArithmeticException if the input array contains infinite elements or sums to zero
-      * @throws IllegalArgumentException if the target sum is infinite or NaN
+      * @throws MathArithmeticException if the input array contains infinite elements or sums to zero
+      * @throws MathIllegalArgumentException if the target sum is infinite or NaN
       * @since 2.1
       */
      public static double[] normalizeArray(double[] values, double normalizedSum) {
          if (Double.isInfinite(normalizedSum)) {
-             throw MathRuntimeException.createIllegalArgumentException(
-                     LocalizedFormats.NORMALIZE_INFINITE);
+             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
          }
          if (Double.isNaN(normalizedSum)) {
-             throw MathRuntimeException.createIllegalArgumentException(
-                     LocalizedFormats.NORMALIZE_NAN);
+             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
          }
          double sum = 0d;
          final int len = values.length;
          double[] out = new double[len];
          for (int i = 0; i < len; i++) {
              if (Double.isInfinite(values[i])) {
-                 throw MathRuntimeException.createArithmeticException(
-                         LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+                 throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
              }
              if (!Double.isNaN(values[i])) {
                  sum += values[i];
              }
          }
          if (sum == 0) {
-             throw MathRuntimeException.createArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+             throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
          }
          for (int i = 0; i < len; i++) {
              if (Double.isNaN(values[i])) {
@@ -1216,6 +1213,8 @@ public final class MathUtils {
             } else {
                 return Double.NaN;
             }
+        } catch (RuntimeException ex) {
+            throw new MathRuntimeException(ex);
         }
     }
 
@@ -1344,7 +1343,7 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for byte value <code>x</code>.
+     * for byte value {@code x}.
      * <p>
      * For a byte value x, this method returns (byte)(+1) if x > 0, (byte)(0) if
      * x = 0, and (byte)(-1) if x < 0.</p>
@@ -1358,12 +1357,12 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for double precision <code>x</code>.
+     * for double precision {@code x}.
      * <p>
-     * For a double value <code>x</code>, this method returns
-     * <code>+1.0</code> if <code>x > 0</code>, <code>0.0</code> if
-     * <code>x = 0.0</code>, and <code>-1.0</code> if <code>x < 0</code>.
-     * Returns <code>NaN</code> if <code>x</code> is <code>NaN</code>.</p>
+     * For a double value {@code x}, this method returns
+     * {@code +1.0} if {@code x > 0}, {@code 0.0} if
+     * {@code x = 0.0}, and {@code -1.0} if {@code x < 0}.
+     * Returns {@code NaN} if {@code x} is {@code NaN}.</p>
      *
      * @param x the value, a double
      * @return +1.0, 0.0, or -1.0, depending on the sign of x
@@ -1377,11 +1376,11 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for float value <code>x</code>.
+     * for float value {@code x}.
      * <p>
      * For a float value x, this method returns +1.0F if x > 0, 0.0F if x =
-     * 0.0F, and -1.0F if x < 0. Returns <code>NaN</code> if <code>x</code>
-     * is <code>NaN</code>.</p>
+     * 0.0F, and -1.0F if x < 0. Returns {@code NaN} if {@code x}
+     * is {@code NaN}.</p>
      *
      * @param x the value, a float
      * @return +1.0F, 0.0F, or -1.0F, depending on the sign of x
@@ -1395,7 +1394,7 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for int value <code>x</code>.
+     * for int value {@code x}.
      * <p>
      * For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1
      * if x < 0.</p>
@@ -1409,7 +1408,7 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for long value <code>x</code>.
+     * for long value {@code x}.
      * <p>
      * For a long value x, this method returns +1L if x > 0, 0L if x = 0, and
      * -1L if x < 0.</p>
@@ -1478,7 +1477,7 @@ public final class MathUtils {
             if (a < 0) {
                 ret = a - b;
             } else {
-                throw new ArithmeticException(msg);
+                throw new MathArithmeticException(msg);
             }
         } else {
             // use additive inverse
@@ -1870,8 +1869,8 @@ public final class MathUtils {
      *     with the distribution.</li>
      * <li>The end-user documentation included with the redistribution, if any,
      *     must include the following acknowledgment:
-     *     <code>This product includes software developed by the University of
-     *           Chicago, as Operator of Argonne National Laboratory.</code>
+     *     {@code This product includes software developed by the University of
+     *           Chicago, as Operator of Argonne National Laboratory.}
      *     Alternately, this acknowledgment may appear in the software itself,
      *     if and wherever such third-party acknowledgments normally appear.</li>
      * <li><strong>WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"

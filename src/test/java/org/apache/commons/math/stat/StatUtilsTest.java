@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link StatUtils} class.
@@ -119,14 +120,14 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.sumSq(x);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumSq(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -153,14 +154,14 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.product(x);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.product(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -187,14 +188,14 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.sumLog(x);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumLog(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -220,7 +221,7 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.mean(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -243,7 +244,7 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.variance(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -270,7 +271,7 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.max(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -309,7 +310,7 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.min(x, 0, 4);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -349,14 +350,14 @@ public final class StatUtilsTest extends TestCase {
         try {
             StatUtils.percentile(x, .25);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.percentile(x, 0, 4, 0.25);
             fail("null is not a valid data array.");
-        } catch (IllegalArgumentException ex) {
+        } catch (MathIllegalArgumentException ex) {
             // success
         }
 
@@ -388,21 +389,21 @@ public final class StatUtilsTest extends TestCase {
                 StatUtils.variance(diff), tolerance);
         try {
             StatUtils.meanDifference(sample1, small);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             StatUtils.varianceDifference(sample1, small, meanDifference);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             double[] single = {1.0};
             StatUtils.varianceDifference(single, single, meanDifference);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -411,8 +412,8 @@ public final class StatUtilsTest extends TestCase {
         double[] test = null;
         try {
             StatUtils.geometricMean(test);
-            fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
         test = new double[] {2, 4, 6, 8};

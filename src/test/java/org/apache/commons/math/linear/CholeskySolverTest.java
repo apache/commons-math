@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+
 import junit.framework.TestCase;
 
 public class CholeskySolverTest extends TestCase {
@@ -41,19 +43,19 @@ public class CholeskySolverTest extends TestCase {
         try {
             solver.solve(b);
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumn(0));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
             fail("an exception should have been thrown");
-        } catch (IllegalArgumentException iae) {
+        } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
     }

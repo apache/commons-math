@@ -24,9 +24,11 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NoDataException;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -169,7 +171,7 @@ public class ComplexFormat extends CompositeFormat {
     }
 
     /**
-     * Formats a object to produce a string.  <code>obj</code> must be either a
+     * Formats a object to produce a string.  {@code obj} must be either a
      * {@link Complex} object or a {@link Number} object.  Any other type of
      * object will result in an {@link IllegalArgumentException} being thrown.
      *
@@ -179,7 +181,7 @@ public class ComplexFormat extends CompositeFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
+     * @throws IllegalArgumentException is {@code obj} is not a valid type.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
@@ -193,9 +195,8 @@ public class ComplexFormat extends CompositeFormat {
             ret = format( new Complex(((Number)obj).doubleValue(), 0.0),
                 toAppendTo, pos);
         } else {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
-                  obj.getClass().getName());
+            throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
+                                                   obj.getClass().getName());
         }
 
         return ret;
@@ -345,13 +346,17 @@ public class ComplexFormat extends CompositeFormat {
     /**
      * Modify the imaginaryCharacter.
      * @param imaginaryCharacter The new imaginaryCharacter value.
-     * @throws IllegalArgumentException if <code>imaginaryCharacter</code> is
-     *         <code>null</code> or an empty string.
+     * @throws NullArgumentException if {@code imaginaryCharacter} is
+     * {@code null}.
+     * @throws NoDataException if {@code imaginaryCharacter} is an
+     * empty string.
      */
     public void setImaginaryCharacter(String imaginaryCharacter) {
-        if (imaginaryCharacter == null || imaginaryCharacter.length() == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.EMPTY_STRING_FOR_IMAGINARY_CHARACTER);
+        if (imaginaryCharacter == null) {
+            throw new NullArgumentException();
+        }
+        if (imaginaryCharacter.length() == 0) {
+            throw new NoDataException();
         }
         this.imaginaryCharacter = imaginaryCharacter;
     }
@@ -379,5 +384,4 @@ public class ComplexFormat extends CompositeFormat {
         }
         this.realFormat = realFormat;
     }
-
 }

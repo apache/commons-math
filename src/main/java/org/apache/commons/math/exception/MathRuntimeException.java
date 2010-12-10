@@ -23,9 +23,10 @@ import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.MessageFactory;
 
 /**
- * This class is intended as a base class for exceptions that must wrap
- * low-level exceptions in order to propagate an exception that better
- * corresponds to the high-level action that triggered the problem.
+ * This class is primarily intended as a base class for exceptions
+ * that must wrap low-level exceptions in order to propagate an
+ * exception that better corresponds to the high-level action that
+ * triggered the problem.
  *
  * @since 3.0
  * @version $Revision$ $Date$
@@ -48,7 +49,7 @@ public class MathRuntimeException extends RuntimeException
     private final Object[] arguments;
 
     /**
-     * Builds an exception from two patterns (specific and general) and
+     * Build an exception from two patterns (specific and general) and
      * an argument list.
      *
      * @param cause Cause of the error (may be null).
@@ -57,14 +58,23 @@ public class MathRuntimeException extends RuntimeException
      * @param arguments Format arguments. They will be substituted in
      * <em>both</em> the {@code general} and {@code specific} format specifiers.
      */
-    protected MathRuntimeException(final Throwable cause,
-                                   final Localizable specific,
-                                   final Localizable general,
-                                   final Object ... arguments) {
+    public MathRuntimeException(final Throwable cause,
+                                final Localizable specific,
+                                final Localizable general,
+                                final Object ... arguments) {
         super(cause);
         this.specific = specific;
         this.general = general;
         this.arguments = ArgUtils.flatten(arguments);
+    }
+
+    /**
+     * Wrap an exception.
+     *
+     * @param cause Cause of the error (may be null).
+     */
+    public MathRuntimeException(final Throwable cause) {
+        this(cause, null, null);
     }
 
     /** {@inheritDoc} */

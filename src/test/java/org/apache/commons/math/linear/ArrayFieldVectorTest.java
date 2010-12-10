@@ -27,6 +27,7 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link ArrayFieldVector} class.
@@ -275,8 +276,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(4), v4.getEntry(0));
         try {
             new ArrayFieldVector<Fraction>(vec4, 8, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
@@ -293,8 +294,8 @@ public class ArrayFieldVectorTest extends TestCase {
         assertEquals(new Fraction(4), v6.getEntry(0));
         try {
             new ArrayFieldVector<Fraction>(dvec1, 8, 3);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
@@ -565,22 +566,22 @@ public class ArrayFieldVectorTest extends TestCase {
          */
         try {
             v1.checkVectorDimensions(2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
        try {
             v1.checkVectorDimensions(v4);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         try {
             v1.checkVectorDimensions(v4_2);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
@@ -596,20 +597,20 @@ public class ArrayFieldVectorTest extends TestCase {
         // when the field is not specified, array cannot be empty
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0]);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0], true);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0], false);
-            fail("IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 

@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -51,18 +51,17 @@ public abstract class AbstractDistribution
      * @param x0 the (inclusive) lower bound
      * @param x1 the (inclusive) upper bound
      * @return the probability that a random variable with this distribution
-     * will take a value between <code>x0</code> and <code>x1</code>,
+     * will take a value between {@code x0} and {@code x1},
      * including the endpoints.
      * @throws MathException if the cumulative probability can not be
      * computed due to convergence or other numerical errors.
-     * @throws IllegalArgumentException if <code>x0 > x1</code>
+     * @throws NumberIsTooLargeException if {@code x0 > x1}
      */
     public double cumulativeProbability(double x0, double x1)
         throws MathException {
         if (x0 > x1) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                  x0, x1);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
+                                                x0, x1, true);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
