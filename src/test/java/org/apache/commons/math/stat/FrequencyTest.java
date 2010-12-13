@@ -251,5 +251,15 @@ public final class FrequencyTest extends TestCase {
         f.addValue(twoI);
         assertEquals(f, TestUtils.serializeAndRecover(f));
     }
+    
+    public void testGetUniqueCount() {
+        assertEquals(0, f.getUniqueCount());
+        f.addValue(oneL);
+        assertEquals(1, f.getUniqueCount());
+        f.addValue(oneL);
+        assertEquals(1, f.getUniqueCount());
+        f.addValue(twoI);
+        assertEquals(2, f.getUniqueCount());
+    }
 }
 
