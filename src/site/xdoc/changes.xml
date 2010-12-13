@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-448" due-to="Patrick Meyer">
+        Added a getUniqueCount() method to Frequency to return the number of unique
+        values included in the frequency table.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-414">
         Modified NormalDistributionImpl.cumulativeProbability to return 0 or 1,
         respectively for values more than 40 standard deviations from the mean.
