@@ -247,6 +247,8 @@
     <maven.compile.target>1.5</maven.compile.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- Allow severity to be overriden by the command-line option -DminSeverity=level -->
+    <minSeverity>info</minSeverity>
   </properties> 
 
   <build>
@@ -350,7 +352,7 @@
         <artifactId>clirr-maven-plugin</artifactId>
         <version>2.2.3</version>
         <configuration>
-          <minSeverity>info</minSeverity>
+          <minSeverity>${minSeverity}</minSeverity>
          </configuration>
       </plugin>
     </plugins>
