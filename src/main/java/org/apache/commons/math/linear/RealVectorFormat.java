@@ -19,13 +19,12 @@ package org.apache.commons.math.linear;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathParseException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
@@ -253,26 +252,28 @@ public class RealVectorFormat extends CompositeFormat {
     }
 
     /**
-     * Parses a string to produce a {@link RealVector} object.
-     * @param source the string to parse
+     * Parse a string to produce a {@link RealVector} object.
+     *
+     * @param source String to parse.
      * @return the parsed {@link RealVector} object.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @throws MathParseException if the beginning of the specified string
+     * cannot be parsed.
      */
-    public ArrayRealVector parse(String source) throws ParseException {
-        ParsePosition parsePosition = new ParsePosition(0);
-        ArrayRealVector result = parse(source, parsePosition);
+    public ArrayRealVector parse(String source) {
+        final ParsePosition parsePosition = new ParsePosition(0);
+        final ArrayRealVector result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException(
-                    parsePosition.getErrorIndex(),
-                    LocalizedFormats.UNPARSEABLE_REAL_VECTOR, source);
+            throw new MathParseException(source,
+                                         parsePosition.getErrorIndex(),
+                                         ArrayRealVector.class);
         }
         return result;
     }
 
     /**
-     * Parses a string to produce a {@link RealVector} object.
-     * @param source the string to parse
+     * Parse a string to produce a {@link RealVector} object.
+     *
+     * @param source String to parse.
      * @param pos input/ouput parsing parameter.
      * @return the parsed {@link RealVector} object.
      */
@@ -323,7 +324,6 @@ public class RealVectorFormat extends CompositeFormat {
             data[i] = components.get(i).doubleValue();
         }
         return new ArrayRealVector(data, false);
-
     }
 
     /**
@@ -337,5 +337,4 @@ public class RealVectorFormat extends CompositeFormat {
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, pos);
     }
-
 }

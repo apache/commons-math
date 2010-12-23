@@ -298,6 +298,8 @@ public enum LocalizedFormats implements Localizable {
     UNABLE_TO_SOLVE_SINGULAR_PROBLEM("unable to solve: singular problem"),
     UNBOUNDED_SOLUTION("unbounded solution"),
     UNKNOWN_MODE("unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})"),
+    CANNOT_PARSE_AS_TYPE("string {0} unparseable (from position {1}) as an object of type {2}"), /* keep */
+    CANNOT_PARSE("string {0} unparseable (from position {1})"), /* keep */
     UNPARSEABLE_3D_VECTOR("unparseable 3D vector: \"{0}\""),
     UNPARSEABLE_COMPLEX_NUMBER("unparseable complex number: \"{0}\""),
     UNPARSEABLE_FRACTION_NUMBER("unparseable fraction number: \"{0}\""),
