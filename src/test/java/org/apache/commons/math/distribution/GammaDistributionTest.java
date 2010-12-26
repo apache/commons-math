@@ -152,4 +152,18 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        GammaDistribution dist;
+        
+        dist = new GammaDistributionImpl(1, 2);
+        assertEquals(dist.getNumericalMean(), 2, tol);
+        assertEquals(dist.getNumericalVariance(), 4, tol); 
+        
+        dist.setAlpha(1.1);
+        dist.setBeta(4.2);        
+        assertEquals(dist.getNumericalMean(), 1.1d * 4.2d, tol);
+        assertEquals(dist.getNumericalVariance(), 1.1d * 4.2d * 4.2d, tol);
+    }
 }

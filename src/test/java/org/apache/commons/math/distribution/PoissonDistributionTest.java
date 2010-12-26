@@ -217,4 +217,17 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             mean *= 10.0;
         }
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        PoissonDistribution dist;
+        
+        dist = new PoissonDistributionImpl(1);
+        assertEquals(dist.getNumericalMean(), 1, tol);
+        assertEquals(dist.getNumericalVariance(), 1, tol); 
+        
+        dist.setMean(11.23);
+        assertEquals(dist.getNumericalMean(), 11.23, tol);
+        assertEquals(dist.getNumericalVariance(), 11.23, tol);
+    }
 }

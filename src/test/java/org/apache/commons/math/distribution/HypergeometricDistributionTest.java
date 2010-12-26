@@ -211,4 +211,19 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         };
         testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        HypergeometricDistribution dist;
+        
+        dist = new HypergeometricDistributionImpl(1500, 40, 100);
+        assertEquals(dist.getNumericalMean(), 40d * 100d / 1500d, tol);
+        assertEquals(dist.getNumericalVariance(), ( 100d * 40d * (1500d - 100d) * (1500d - 40d) ) / ( (1500d * 1500d * 1499d) ), tol); 
+        
+        dist.setPopulationSize(3000);
+        dist.setNumberOfSuccesses(55);
+        dist.setSampleSize(200);
+        assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
+        assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
+    }
 }

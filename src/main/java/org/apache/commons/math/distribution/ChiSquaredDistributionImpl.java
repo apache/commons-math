@@ -91,6 +91,7 @@ public class ChiSquaredDistributionImpl
     @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         setDegreesOfFreedomInternal(degreesOfFreedom);
+        invalidateParameterDependentMoments();
     }
     /**
      * Modify the degrees of freedom.
@@ -268,5 +269,67 @@ public class ChiSquaredDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the 
+     * degrees of freedom.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity no matter the 
+     * degrees of freedom.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For <code>k</code> degrees of freedom, the mean is
+     * <code>k</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return getDegreesOfFreedom();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For <code>k</code> degrees of freedom, the variance is
+     * <code>2 * k</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        return 2*getDegreesOfFreedom();
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

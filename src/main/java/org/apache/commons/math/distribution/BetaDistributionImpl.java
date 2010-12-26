@@ -92,6 +92,7 @@ public class BetaDistributionImpl
     public void setAlpha(double alpha) {
         this.alpha = alpha;
         z = Double.NaN;
+        invalidateParameterDependentMoments();
     }
 
     /** {@inheritDoc} */
@@ -106,6 +107,7 @@ public class BetaDistributionImpl
     public void setBeta(double beta) {
         this.beta = beta;
         z = Double.NaN;
+        invalidateParameterDependentMoments();
     }
 
     /** {@inheritDoc} */
@@ -222,5 +224,72 @@ public class BetaDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always 1 no matter the parameters.
+     *
+     * @return upper bound of the support (always 1)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For first shape parameter <code>s1</code> and 
+     * second shape parameter <code>s2</code>, the mean is
+     * <code>s1 / (s1 + s2)</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        final double alpha = getAlpha();
+        return alpha / (alpha + getBeta());
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For first shape parameter <code>s1</code> and 
+     * second shape parameter <code>s2</code>, 
+     * the variance is
+     * <code>[ s1 * s2 ] / [ (s1 + s2)^2 * (s1 + s2 + 1) ]</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double alpha = getAlpha();
+        final double beta = getBeta();        
+        final double alphabetasum = alpha + beta;
+        return (alpha * beta) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return false;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

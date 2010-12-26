@@ -113,4 +113,18 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
             // success
         }
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        CauchyDistribution dist;
+        
+        dist = new CauchyDistributionImpl(10.2, 0.15);
+        assertEquals(dist.getNumericalMean(), Double.NaN, tol);
+        assertEquals(dist.getNumericalVariance(), Double.NaN, tol); 
+        
+        dist.setMedian(23.12);
+        dist.setScale(2.12);
+        assertEquals(dist.getNumericalMean(), Double.NaN, tol);
+        assertEquals(dist.getNumericalVariance(), Double.NaN, tol);
+    }
 }

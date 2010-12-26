@@ -80,7 +80,9 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNumberOfSuccesses(int successes) {
         setNumberOfSuccessesInternal(successes);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Change the number of successes for this distribution.
      * @param successes the new number of successes
@@ -106,7 +108,9 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setProbabilityOfSuccess(double p) {
         setProbabilityOfSuccessInternal(p);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Change the probability of success for this distribution.
      * @param p the new probability of success
@@ -210,5 +214,70 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters. Positive infinity is symbolised 
+     * by <code>Integer.MAX_VALUE</code> together with 
+     * {@link #isSupportUpperBoundInclusive()} being <code>false</code>
+     *
+     * @return upper bound of the support (always <code>Integer.MAX_VALUE</code> for positive infinity)
+     */
+    @Override
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For number of successes <code>r</code> and 
+     * probability of success <code>p</code>, the mean is
+     * <code>( r * p ) / ( 1 - p )</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        final double p = getProbabilityOfSuccess();
+        final double r = getNumberOfSuccesses();
+        return ( r * p ) / ( 1 - p );
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For number of successes <code>r</code> and 
+     * probability of success <code>p</code>, the mean is
+     * <code>( r * p ) / ( 1 - p )^2</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double p = getProbabilityOfSuccess();
+        final double r = getNumberOfSuccesses();
+        final double pInv = 1 - p;
+        return ( r * p ) / (pInv * pInv);
+    }
+    
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

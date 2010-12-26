@@ -76,6 +76,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNumberOfElements(final int n) {
         setNumberOfElementsInternal(n);
+        invalidateParameterDependentMoments();
     }
     /**
      * Set the number of elements (e.g. corpus size) for the distribution.
@@ -115,7 +116,9 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setExponent(final double s) {
         setExponentInternal(s);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Set the exponent characterising the distribution.
      * The parameter value must be positive; otherwise an
@@ -211,4 +214,75 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 1 no matter the parameters.
+     *
+     * @return lower bound of the support (always 1)
+     */
+    @Override
+    public int getSupportLowerBound() {        
+        return 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is the number of elements
+     *
+     * @return upper bound of the support
+     */
+    @Override
+    public int getSupportUpperBound() {
+        return getNumberOfElements();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For number of elements N and exponent s, the mean is
+     * <code>Hs1 / Hs</code> where 
+     * <ul>
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li> 
+     *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+        
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return Hs1 / Hs;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For number of elements N and exponent s, the mean is
+     * <code>(Hs2 / Hs) - (Hs1^2 / Hs^2)</code> where 
+     * <ul>
+     *  <li><code>Hs2 = generalizedHarmonic(N, s - 2)</code></li>
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li> 
+     *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
+     * </ul>
+     * 
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+        
+        final double Hs2 = generalizedHarmonic(N, s - 2);
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
+    }
 }

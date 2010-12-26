@@ -119,4 +119,18 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        PascalDistribution dist;
+        
+        dist = new PascalDistributionImpl(10, 0.5);
+        assertEquals(dist.getNumericalMean(), ( 10d * 0.5d ) / 0.5d, tol);
+        assertEquals(dist.getNumericalVariance(), ( 10d * 0.5d ) / (0.5d * 0.5d), tol); 
+        
+        dist.setNumberOfSuccesses(25);
+        dist.setProbabilityOfSuccess(0.3);
+        assertEquals(dist.getNumericalMean(), ( 25d * 0.3d ) / 0.7d, tol);
+        assertEquals(dist.getNumericalVariance(), ( 25d * 0.3d ) / (0.7d * 0.7d), tol);
+    }
 }

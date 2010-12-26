@@ -157,7 +157,9 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setMedian(double median) {
         setMedianInternal(median);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Modify the median.
      * @param newMedian for this distribution
@@ -175,7 +177,9 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setScale(double s) {
         setScaleInternal(s);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Modify the scale parameter.
      * @param s scale parameter for this distribution
@@ -266,5 +270,65 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always negative infinity no matter 
+     * the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity no matter 
+     * the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The mean is always undefined no matter the parameters.
+     *
+     * @return mean (always Double.NaN)
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return Double.NaN;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The variance is always undefined no matter the parameters.
+     *
+     * @return variance (always Double.NaN)
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        return Double.NaN;
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return false;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

@@ -104,7 +104,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setMean(double mean) {
         setMeanInternal(mean);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Modify the mean.
      * @param newMean for this distribution
@@ -130,7 +132,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setStandardDeviation(double sd) {
         setStandardDeviationInternal(sd);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Modify the standard deviation.
      * @param sd standard deviation for this distribution
@@ -303,5 +307,67 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         }
 
         return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always negative infinity 
+     * no matter the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For mean parameter <code>mu</code>, the mean is <code>mu</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For standard deviation parameter <code>s</code>, 
+     * the variance is <code>s^2</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double s = getStandardDeviation();
+        return s * s;
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return false;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

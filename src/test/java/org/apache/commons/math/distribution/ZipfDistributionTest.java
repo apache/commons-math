@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.util.FastMath;
+
 /**
  * Test cases for {@link ZipfDistribution}.
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
@@ -74,5 +76,14 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     @Override
     public int[] makeInverseCumulativeTestValues() {
         return new int[] {0, 0, 0, 0, 0, 0, 1, 9, 9, 9, 8, 7, 10};
+    }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        ZipfDistribution dist;
+        
+        dist = new ZipfDistributionImpl(2, 0.5);
+        assertEquals(dist.getNumericalMean(), FastMath.sqrt(2), tol);
+        assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol); 
     }
 }

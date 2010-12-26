@@ -209,6 +209,7 @@ public class FDistributionImpl
     @Deprecated
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
         setNumeratorDegreesOfFreedomInternal(degreesOfFreedom);
+        invalidateParameterDependentMoments();
     }
 
     /**
@@ -243,6 +244,7 @@ public class FDistributionImpl
     @Deprecated
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
         setDenominatorDegreesOfFreedomInternal(degreesOfFreedom);
+        invalidateParameterDependentMoments();
     }
 
     /**
@@ -277,5 +279,94 @@ public class FDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For denominator degrees of freedom parameter <code>b</code>, 
+     * the mean is
+     * <ul>
+     *  <li>if <code>b &gt; 2</code> then <code>b / (b - 2)</code></li>
+     *  <li>else <code>undefined</code>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     */    
+    @Override
+    protected double calculateNumericalMean() {        
+        final double denominatorDF = getDenominatorDegreesOfFreedom();
+
+        if (denominatorDF > 2) {
+            return denominatorDF / (denominatorDF - 2);     
+        }
+        
+        return Double.NaN;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For numerator degrees of freedom parameter <code>a</code> 
+     * and denominator degrees of freedom parameter <code>b</code>, 
+     * the variance is
+     * <ul>
+     *  <li>
+     *    if <code>b &gt; 4</code> then 
+     *    <code>[ 2 * b^2 * (a + b - 2) ] / [ a * (b - 2)^2 * (b - 4) ]</code>
+     *  </li>
+     *  <li>else <code>undefined</code>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double denominatorDF = getDenominatorDegreesOfFreedom();
+
+        if (denominatorDF > 4) {
+            final double numeratorDF = getNumeratorDegreesOfFreedom();
+            final double denomDFMinusTwo = denominatorDF - 2;
+            
+            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) )
+                   / ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );
+        }
+        
+        return Double.NaN;        
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

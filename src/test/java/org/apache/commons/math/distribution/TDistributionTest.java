@@ -116,4 +116,20 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         }
     }
 
+    public void testMomonts() {
+        final double tol = 1e-9;
+        TDistribution dist;
+        
+        dist = new TDistributionImpl(1);
+        assertEquals(dist.getNumericalMean(), Double.NaN, tol);
+        assertEquals(dist.getNumericalVariance(), Double.NaN, tol); 
+        
+        dist.setDegreesOfFreedom(1.5);
+        assertEquals(dist.getNumericalMean(), 0, tol);
+        assertEquals(dist.getNumericalVariance(), Double.POSITIVE_INFINITY, tol);
+        
+        dist.setDegreesOfFreedom(5);
+        assertEquals(dist.getNumericalMean(), 0, tol);
+        assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);        
+    }
 }

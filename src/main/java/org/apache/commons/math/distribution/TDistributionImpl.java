@@ -81,7 +81,9 @@ public class TDistributionImpl
     @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         setDegreesOfFreedomInternal(degreesOfFreedom);
+        invalidateParameterDependentMoments();
     }
+    
     /**
      * Modify the degrees of freedom.
      * @param newDegreesOfFreedom the new degrees of freedom.
@@ -222,5 +224,90 @@ public class TDistributionImpl
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always negative infinity 
+     * no matter the parameters.
+     *
+     * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For degrees of freedom parameter df, the mean is
+     * <ul>
+     *  <li>if <code>df &gt; 1</code> then <code>0</code></li>
+     * <li>else <code>undefined</code></li>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        final double df = getDegreesOfFreedom();
+        
+        if (df > 1) {
+            return 0;
+        }
+        
+        return Double.NaN;        
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For degrees of freedom parameter df, the variance is
+     * <ul>
+     *  <li>if <code>df &gt; 2</code> then <code>df / (df - 2)</code> </li>
+     *  <li>if <code>1 &lt; df &lt;= 2</code> then <code>positive infinity</code></li>
+     *  <li>else <code>undefined</code></li>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double df = getDegreesOfFreedom();        
+
+        if (df > 2) {
+            return df / (df - 2);
+        }
+
+        if (df > 1 && df <= 2) {
+            return Double.POSITIVE_INFINITY;
+        }
+        
+        return Double.NaN;
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return false;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }

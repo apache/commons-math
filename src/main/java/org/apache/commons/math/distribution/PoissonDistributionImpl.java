@@ -157,6 +157,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setMean(double p) {
         setNormalAndMeanInternal(normal, p);
+        invalidateParameterDependentMoments();
     }
     /**
      * Set the Poisson mean for the distribution. The mean value must be
@@ -299,5 +300,61 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNormal(NormalDistribution value) {
         setNormalAndMeanInternal(value, mean);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the mean parameter.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is positive infinity, 
+     * regardless of the parameter values. There is no integer infinity, 
+     * so this method returns <code>Integer.MAX_VALUE</code> and
+     * {@link #isSupportUpperBoundInclusive()} returns <code>true</code>.
+     *
+     * @return upper bound of the support (always <code>Integer.MAX_VALUE</code> for positive infinity)
+     */
+    @Override
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For mean parameter <code>p</code>, the mean is <code>p</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For mean parameter <code>p</code>, the variance is <code>p</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        return getMean();
+    }
+    
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return true;
     }
 }

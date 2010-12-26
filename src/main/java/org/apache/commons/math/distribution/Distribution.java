@@ -52,4 +52,59 @@ public interface Distribution {
      * @throws IllegalArgumentException if <code>x0 > x1</code>
      */
     double cumulativeProbability(double x0, double x1) throws MathException;
+    
+    /**
+     * Use this method to get the numerical value of the mean of this 
+     * distribution.
+     *
+     * @return the mean or Double.NaN if it's not defined
+     */
+    double getNumericalMean();
+    
+    /**
+     * Use this method to get the numerical value of the variance of this 
+     * distribution.
+     *
+     * @return the variance (possibly Double.POSITIVE_INFINITY as 
+     * for certain cases in {@link TDistributionImpl}) or 
+     * Double.NaN if it's not defined
+     */
+    double getNumericalVariance(); 
+    
+    /**
+     * Use this method to get information about whether the lower bound 
+     * of the support is inclusive or not.
+     *
+     * @return whether the lower bound of the support is inclusive or not
+     */
+    boolean isSupportLowerBoundInclusive();
+    
+    /**
+     * Use this method to get information about whether the upper bound 
+     * of the support is inclusive or not.
+     *
+     * @return whether the upper bound of the support is inclusive or not
+     */
+    boolean isSupportUpperBoundInclusive();    
+    
+    /**
+     * Use this method to get information about whether the support is connected, 
+     * i.e. whether all values between the lower and upper bound of the support
+     * is included in the support.
+     * 
+     * For {@link AbstractIntegerDistribution} the support is discrete, so
+     * if this is true, then the support is 
+     * {lower bound, lower bound + 1, ..., upper bound}.
+     * 
+     * For {@link AbstractContinuousDistribution} the support is continuous, so
+     * if this is true, then the support is the interval
+     * [lower bound, upper bound]
+     * where the limits are inclusive or not according to 
+     * {@link #isSupportLowerBoundInclusive()} and {@link #isSupportUpperBoundInclusive()} 
+     * (in the example both are true). If both are false, then the support is the interval
+     * (lower bound, upper bound)
+     *
+     * @return whether the support limits given by subclassed methods are connected or not
+     */
+    boolean isSupportConnected();
 }
