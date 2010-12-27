@@ -237,4 +237,68 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For shape parameter <code>alpha</code> and scale 
+     * parameter <code>beta</code>, the mean is
+     * <code>alpha * beta</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return getAlpha() * getBeta();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For shape parameter <code>alpha</code> and scale 
+     * parameter <code>beta</code>, the variance is
+     * <code>alpha * beta^2</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double beta = getBeta();        
+        return getAlpha() * beta * beta;
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
+    }
 }

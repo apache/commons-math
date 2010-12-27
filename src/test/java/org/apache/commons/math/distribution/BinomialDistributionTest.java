@@ -113,4 +113,17 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
         verifyInverseCumulativeProbabilities();
     }
 
+    public void testMomonts() {
+        final double tol = 1e-9;
+        BinomialDistribution dist;
+        
+        dist = new BinomialDistributionImpl(10, 0.5);
+        assertEquals(dist.getNumericalMean(), 10d * 0.5d, tol);
+        assertEquals(dist.getNumericalVariance(), 10d * 0.5d * 0.5d, tol); 
+        
+        dist = new BinomialDistributionImpl(30, 0.3);
+        assertEquals(dist.getNumericalMean(), 30d * 0.3d, tol);
+        assertEquals(dist.getNumericalVariance(), 30d * 0.3d * (1d - 0.3d), tol);
+    }
+
 }

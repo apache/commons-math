@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 /**
@@ -94,5 +96,23 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
+    }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        WeibullDistribution dist;
+        
+        dist = new WeibullDistributionImpl(2.5, 3.5);
+        // In R: 3.5*gamma(1+(1/2.5)) (or emperically: mean(rweibull(10000, 2.5, 3.5)))
+        assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(Gamma.logGamma(1 + (1 / 2.5))), tol);
+        assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) * 
+                FastMath.exp(Gamma.logGamma(1 + (2 / 2.5))) -
+                (dist.getNumericalMean() * dist.getNumericalMean()), tol); 
+        
+        dist = new WeibullDistributionImpl(10.4, 2.222);
+        assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(Gamma.logGamma(1 + (1 / 10.4))), tol);
+        assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) * 
+                FastMath.exp(Gamma.logGamma(1 + (2 / 10.4))) -
+                (dist.getNumericalMean() * dist.getNumericalMean()), tol);
     }
 }

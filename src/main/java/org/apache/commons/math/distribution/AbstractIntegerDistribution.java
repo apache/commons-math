@@ -289,4 +289,42 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
      */
     protected abstract int getDomainUpperBound(double p);
+    
+    /**
+     * Access the lower bound of the support.
+     *
+     * @return lower bound of the support (Integer.MIN_VALUE for negative infinity)
+     */
+    public abstract int getSupportLowerBound();
+    
+    /**
+     * Access the upper bound of the support.
+     *
+     * @return upper bound of the support (Integer.MAX_VALUE for positive infinity)
+     */
+    public abstract int getSupportUpperBound();
+    
+    /**
+     * Use this method to get information about whether the lower bound 
+     * of the support is inclusive or not. For discrete support,
+     * only true here is meaningful.
+     *
+     * @return true (always but at Integer.MIN_VALUE because of the nature of discrete support) 
+     */
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+    
+    /**
+     * Use this method to get information about whether the upper bound 
+     * of the support is inclusive or not. For discrete support,
+     * only true here is meaningful.
+     *
+     * @return true (always but at Integer.MAX_VALUE because of the nature of discrete support) 
+     */
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return true;
+    }    
 }

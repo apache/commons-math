@@ -222,4 +222,66 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the mean parameter.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the mean parameter.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For mean parameter <code>k</code>, the mean is
+     * <code>k</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * For mean parameter <code>k</code>, the variance is
+     * <code>k^2</code>
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double mean = getMean();
+        return mean * mean;
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
+    }
 }

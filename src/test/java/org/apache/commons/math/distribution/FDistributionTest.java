@@ -124,4 +124,21 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
         x = fd.inverseCumulativeProbability(p);
         assertEquals(0.975, x, 1.0e-5);
     }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        FDistribution dist;
+        
+        dist = new FDistributionImpl(1, 2);
+        assertEquals(dist.getNumericalMean(), Double.NaN, tol);
+        assertEquals(dist.getNumericalVariance(), Double.NaN, tol); 
+        
+        dist = new FDistributionImpl(1, 3);
+        assertEquals(dist.getNumericalMean(), 3d / (3d - 2d), tol);
+        assertEquals(dist.getNumericalVariance(), Double.NaN, tol);
+        
+        dist = new FDistributionImpl(1, 5);
+        assertEquals(dist.getNumericalMean(), 5d / (5d - 2d), tol);
+        assertEquals(dist.getNumericalVariance(), (2d * 5d * 5d * 4d) / 9d, tol);        
+    }
 }

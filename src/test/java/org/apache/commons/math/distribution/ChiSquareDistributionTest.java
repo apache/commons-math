@@ -124,4 +124,17 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
         }
     }
 
+    public void testMomonts() {
+        final double tol = 1e-9;
+        ChiSquaredDistribution dist;
+        
+        dist = new ChiSquaredDistributionImpl(1500);
+        assertEquals(dist.getNumericalMean(), 1500, tol);
+        assertEquals(dist.getNumericalVariance(), 3000, tol); 
+        
+        dist = new ChiSquaredDistributionImpl(1.12);
+        assertEquals(dist.getNumericalMean(), 1.12, tol);
+        assertEquals(dist.getNumericalVariance(), 2.24, tol);
+    }
+
 }

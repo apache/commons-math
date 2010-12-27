@@ -18,6 +18,7 @@ package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.util.FastMath;
 
 public class BetaDistributionTest extends TestCase {
     public void testCumulative() throws MathException {
@@ -285,5 +286,18 @@ public class BetaDistributionTest extends TestCase {
         for (int i = 0; i < x.length; i++) {
             assertEquals(String.format("density at x=%.1f for alpha=%.1f, beta=%.1f", x[i], alpha, beta), expected[i], d.density(x[i]), 1e-5);
         }
+    }
+
+    public void testMomonts() {
+        final double tol = 1e-9;
+        BetaDistribution dist;
+        
+        dist = new BetaDistributionImpl(1, 1);
+        assertEquals(dist.getNumericalMean(), 0.5, tol);
+        assertEquals(dist.getNumericalVariance(), 1.0 / 12.0, tol); 
+        
+        dist = new BetaDistributionImpl(2, 5);
+        assertEquals(dist.getNumericalMean(), 2.0 / 7.0, tol);
+        assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol); 
     }
 }

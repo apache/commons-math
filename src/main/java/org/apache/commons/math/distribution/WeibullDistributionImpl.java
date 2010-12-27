@@ -22,6 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -214,5 +215,76 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    @Override
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The upper bound of the support is always positive infinity 
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    @Override
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The mean is <code>scale * Gamma(1 + (1 / shape))</code>
+     * where <code>Gamma(...)</code> is the Gamma-function
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalMean() {
+        final double shape = getShape();
+        final double scale = getScale();
+
+        return scale * FastMath.exp(Gamma.logGamma(1 + (1 / shape)));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The variance is 
+     * <code>scale^2 * Gamma(1 + (2 / shape)) - mean^2</code> 
+     * where <code>Gamma(...)</code> is the Gamma-function
+     *
+     * @return {@inheritDoc}
+     */
+    @Override
+    protected double calculateNumericalVariance() {
+        final double shape = getShape();
+        final double scale = getScale();
+        final double mean = getNumericalMean();
+
+        return (scale * scale) * 
+            FastMath.exp(Gamma.logGamma(1 + (2 / shape))) -
+            (mean * mean);
+    }
+
+    @Override
+    public boolean isSupportLowerBoundInclusive() {
+        return true;
+    }
+
+    @Override
+    public boolean isSupportUpperBoundInclusive() {
+        return false;
     }
 }
