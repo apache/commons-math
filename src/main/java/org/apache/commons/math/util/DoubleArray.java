@@ -68,6 +68,13 @@ public interface DoubleArray {
     void addElement(double value);
 
     /**
+     * Adds elements to the end of this expandable array
+     *
+     * @param values to be added to end of array
+     */
+    void addElements(double[] values);
+
+    /**
      * <p>
      * Adds an element to the end of the array and removes the first
      * element in the array.  Returns the discarded first element.

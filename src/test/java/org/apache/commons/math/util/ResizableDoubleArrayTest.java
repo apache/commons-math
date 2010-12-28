@@ -59,6 +59,13 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         } catch (IllegalArgumentException ex) {
             // expected
         }
+        
+        testDa = new ResizableDoubleArray((double[]) null);
+        assertEquals(0, testDa.getNumElements());
+        
+        double[] initialArray = new double[] { 0, 1, 2 };        
+        testDa = new ResizableDoubleArray(initialArray);
+        assertEquals(3, testDa.getNumElements());
 
         testDa = new ResizableDoubleArray(2, 2.0f);
         assertEquals(0, testDa.getNumElements());
@@ -183,6 +190,33 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
                 "16 and an expansion factor of 2.0",
                 1024, ((ResizableDoubleArray) da).getInternalLength());
+    }
+    
+    public void testAddElements() {
+        ResizableDoubleArray testDa = new ResizableDoubleArray();
+        
+        // MULTIPLICATIVE_MODE
+        testDa.addElements(new double[] {4, 5, 6});
+        assertEquals(3, testDa.getNumElements(), 0);
+        assertEquals(4, testDa.getElement(0), 0);
+        assertEquals(5, testDa.getElement(1), 0);
+        assertEquals(6, testDa.getElement(2), 0);
+        
+        testDa.addElements(new double[] {4, 5, 6});
+        assertEquals(6, testDa.getNumElements());
+
+        // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
+        testDa = new ResizableDoubleArray(2, 2.0f, 2.5f,
+                ResizableDoubleArray.ADDITIVE_MODE);        
+        assertEquals(2, testDa.getInternalLength());
+        testDa.addElements(new double[] { 1d }); // x,0
+        testDa.addElements(new double[] { 2d }); // x,x
+        testDa.addElements(new double[] { 3d }); // x,x,x,0 -- expanded
+        assertEquals(1d, testDa.getElement(0), 0);
+        assertEquals(2d, testDa.getElement(1), 0);
+        assertEquals(3d, testDa.getElement(2), 0);
+        assertEquals(4, testDa.getInternalLength());  // x,x,x,0
+        assertEquals(3, testDa.getNumElements());
     }
 
     @Override

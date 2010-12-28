@@ -161,6 +161,29 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
+     * Create a ResizableArray from an existing double[] with the 
+     * initial capacity and numElements corresponding to the size of 
+     * the supplied double[] array. If the supplied array is null, a 
+     * new empty array with the default initial capacity will be created. 
+     * Other properties take default values:
+     * <ul>
+     * <li><code>initialCapacity = 16</code></li>
+     * <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li>
+     * <li><code>expansionFactor = 2.5</code></li>
+     * <li><code>contractionFactor = 2.0</code></li>
+     * </ul>
+     */
+    public ResizableDoubleArray(double[] initialArray) {
+        if (initialArray == null) {
+            internalArray = new double[initialCapacity];
+        } else {
+            internalArray = initialArray;
+            initialCapacity = initialArray.length;
+            numElements = initialArray.length;
+        }
+    }
+    
+    /**
      * <p>
      * Create a ResizableArray with the specified initial capacity
      * and expansion factor.  The remaining properties take default
@@ -273,6 +296,20 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         if (shouldContract()) {
             contract();
         }
+    }
+    
+    /**
+     * Adds several element to the end of this expandable array.
+     *
+     * @param values to be added to end of array
+     */
+    public synchronized void addElements(double[] values) {
+        final double[] tempArray = new double[numElements + values.length + 1];
+        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
+        System.arraycopy(values, 0, tempArray, numElements, values.length);
+        internalArray = tempArray;
+        startIndex = 0;
+        numElements += values.length;
     }
 
     /**
