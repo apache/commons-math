@@ -121,12 +121,12 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         TDistribution dist;
         
         dist = new TDistributionImpl(1);
-        assertEquals(dist.getNumericalMean(), Double.NaN, tol);
-        assertEquals(dist.getNumericalVariance(), Double.NaN, tol); 
+        assertTrue(Double.isNaN(dist.getNumericalMean()));
+        assertTrue(Double.isNaN(dist.getNumericalVariance())); 
         
         dist.setDegreesOfFreedom(1.5);
         assertEquals(dist.getNumericalMean(), 0, tol);
-        assertEquals(dist.getNumericalVariance(), Double.POSITIVE_INFINITY, tol);
+        assertTrue(Double.isInfinite(dist.getNumericalVariance()));
         
         dist.setDegreesOfFreedom(5);
         assertEquals(dist.getNumericalMean(), 0, tol);
