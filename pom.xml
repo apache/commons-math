@@ -53,6 +53,11 @@
 
   <developers>
     <developer>
+      <name>Mikkel Meyer Andersen</name>
+      <id>mikl</id>
+      <email>mikl at apache dot org</email>
+    </developer>
+    <developer>
       <name>Bill Barker</name>
       <id>billbarker</id>
       <email>billbarker at apache dot org</email>
