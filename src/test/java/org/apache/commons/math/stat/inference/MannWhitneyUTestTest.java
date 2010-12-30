@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date$
  */
 
 public class MannWhitneyUTestTest extends TestCase {
