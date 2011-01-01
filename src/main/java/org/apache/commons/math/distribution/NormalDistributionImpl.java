@@ -188,7 +188,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
-        return 0.5 * (1.0 + Erf.erf((dev) /
+        return 0.5 * (1.0 + Erf.erf(dev /
                     (standardDeviation * FastMath.sqrt(2.0))));
     }
 
@@ -361,11 +361,17 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         return s * s;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
