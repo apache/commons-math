@@ -33,10 +33,16 @@ public abstract class AbstractDistribution
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
 
+    /** Cached numerical mean */
     private double numericalMean = Double.NaN;
+    
+    /** Whether or not the numerical mean has been calculated */
     private boolean numericalMeanIsCalculated = false;
 
+    /** Cached numerical variance */
     private double numericalVariance = Double.NaN;
+    
+    /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
 
     /**
