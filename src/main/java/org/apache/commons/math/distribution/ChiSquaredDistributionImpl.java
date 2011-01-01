@@ -323,11 +323,17 @@ public class ChiSquaredDistributionImpl
         return 2*getDegreesOfFreedom();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;

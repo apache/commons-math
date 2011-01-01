@@ -322,11 +322,17 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         return Double.NaN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
