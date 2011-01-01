@@ -41,7 +41,7 @@ public abstract class AbstractDistribution
 
     /** Cached numerical variance */
     private double numericalVariance = Double.NaN;
- 
+
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
 
