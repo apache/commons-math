@@ -27,6 +27,12 @@ import java.util.ArrayList;
  */
 public class ArgUtils {
     /**
+     * Private constructor
+     */
+    private ArgUtils() {
+    }
+
+    /**
      * Transform a multidimensional array into a one-dimensional list.
      *
      * @param array Array (possibly multidimensional).
