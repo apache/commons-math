@@ -261,8 +261,8 @@ public class BetaDistributionImpl
      */
     @Override
     protected double calculateNumericalMean() {
-        final double alpha = getAlpha();
-        return alpha / (alpha + getBeta());
+        final double a = getAlpha();
+        return a / (a + getBeta());
     }
 
     /**
@@ -277,17 +277,23 @@ public class BetaDistributionImpl
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double alpha = getAlpha();
-        final double beta = getBeta();
-        final double alphabetasum = alpha + beta;
-        return (alpha * beta) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
+        final double a = getAlpha();
+        final double b = getBeta();
+        final double alphabetasum = a + b;
+        return (a * b) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
