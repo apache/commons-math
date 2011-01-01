@@ -288,15 +288,21 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double beta = getBeta();        
-        return getAlpha() * beta * beta;
+        final double b = getBeta();        
+        return getAlpha() * b * b;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
