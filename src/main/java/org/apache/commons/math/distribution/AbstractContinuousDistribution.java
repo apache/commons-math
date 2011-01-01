@@ -234,7 +234,7 @@ public abstract class AbstractContinuousDistribution
      * @return lower bound of the support (might be Double.NEGATIVE_INFINITY)
      */
     public abstract double getSupportLowerBound();
-    
+
     /**
      * Access the upper bound of the support.
      *

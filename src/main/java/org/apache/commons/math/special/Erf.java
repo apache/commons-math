@@ -41,7 +41,7 @@ public class Erf {
      * <p>This implementation computes erf(x) using the
      * {@link Gamma#regularizedGammaP(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3)</p>
-     * 
+     *
      * <p>The value returned is always between -1 and 1 (inclusive).  If {@code abs(x) > 40}, then
      * {@code erf(x)} is indistinguishable from either 1 or -1 as a double, so the appropriate extreme
      * value is returned.</p>
@@ -61,7 +61,7 @@ public class Erf {
         }
         return ret;
     }
-    
+
     /**
      * <p>Returns the complementary error function</p>
      * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<sup>2</sup></sup>dt <br/>
@@ -70,11 +70,11 @@ public class Erf {
      * <p>This implementation computes erfc(x) using the
      * {@link Gamma#regularizedGammaQ(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3).</p>
-     * 
+     *
      * <p>The value returned is always between 0 and 2 (inclusive).  If {@code abs(x) > 40}, then
      * {@code erf(x)} is indistinguishable from either 0 or 2 as a double, so the appropriate extreme
      * value is returned.</p>
-     * 
+     *
      * @param x the value
      * @return the complementary error function erfc(x)
      * @throws MathException if the algorithm fails to converge

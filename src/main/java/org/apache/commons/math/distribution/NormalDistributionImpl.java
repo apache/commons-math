@@ -106,7 +106,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         setMeanInternal(mean);
         invalidateParameterDependentMoments();
     }
-    
+
     /**
      * Modify the mean.
      * @param newMean for this distribution
@@ -134,7 +134,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         setStandardDeviationInternal(sd);
         invalidateParameterDependentMoments();
     }
-    
+
     /**
      * Modify the standard deviation.
      * @param sd standard deviation for this distribution
@@ -178,14 +178,14 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * If <code>x</code>is more than 40 standard deviations from the mean, 0 or 1 is returned,
      * as in these cases the actual value is within <code>Double.MIN_VALUE</code> of 0 or 1.
-     * 
+     *
      * @param x the value at which the CDF is evaluated.
      * @return CDF evaluated at <code>x</code>.
      * @throws MathException if the algorithm fails to converge
      */
     public double cumulativeProbability(double x) throws MathException {
         final double dev = x - mean;
-        if (FastMath.abs(dev) > 40 * standardDeviation) { 
+        if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
         return 0.5 * (1.0 + Erf.erf((dev) /
@@ -311,8 +311,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always negative infinity 
+     *
+     * The lower bound of the support is always negative infinity
      * no matter the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
@@ -324,8 +324,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -337,7 +337,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>mu</code>, the mean is <code>mu</code>
      *
      * @return {@inheritDoc}
@@ -349,8 +349,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For standard deviation parameter <code>s</code>, 
+     *
+     * For standard deviation parameter <code>s</code>,
      * the variance is <code>s^2</code>
      *
      * @return {@inheritDoc}

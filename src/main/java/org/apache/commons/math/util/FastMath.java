@@ -156,9 +156,9 @@ public class FastMath {
 
     /* Table of 2^((n+2)/3) */
     private static final double CBRTTWO[] = { 0.6299605249474366,
-                                            0.7937005259840998, 
-                                            1.0, 
-                                            1.2599210498948732, 
+                                            0.7937005259840998,
+                                            1.0,
+                                            1.2599210498948732,
                                             1.5874010519681994 };
 
     // Initialize tables
@@ -494,7 +494,7 @@ public class FastMath {
 
           result = ratioa + ratiob;
       }
-      
+
       if (negate) {
           result = -result;
       }
@@ -893,10 +893,10 @@ public class FastMath {
             yb = -rb;
         }
 
-	if (hiPrecOut != null) {
-	  hiPrecOut[0] = ya;
-	  hiPrecOut[1] = yb;
-	}
+    if (hiPrecOut != null) {
+      hiPrecOut[0] = ya;
+      hiPrecOut[1] = yb;
+    }
 
         return ya + yb;
     }
@@ -3143,12 +3143,12 @@ public class FastMath {
       int exp3 = exponent / 3;
 
       /* p2 will be the nearest power of 2 to x with its exponent divided by 3 */
-      double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) | 
+      double p2 = Double.longBitsToDouble((inbits & 0x8000000000000000L) |
                                           (long)(((exp3 + 1023) & 0x7ff)) << 52);
 
       /* This will be a number between 1 and 2 */
       final double mant = Double.longBitsToDouble((inbits & 0x000fffffffffffffL) | 0x3ff0000000000000L);
-      
+
       /* Estimate the cube root of mant by polynomial */
       double est = -0.010714690733195933;
       est = est * mant + 0.0875862700108075;
@@ -3158,10 +3158,10 @@ public class FastMath {
 
       est *= CBRTTWO[exponent % 3 + 2];
 
-      // est should now be good to about 15 bits of precision.   Do 2 rounds of 
+      // est should now be good to about 15 bits of precision.   Do 2 rounds of
       // Newton's method to get closer,  this should get us full double precision
       // Scale down x for the purpose of doing newtons method.  This avoids over/under flows.
-      final double xs = x / (p2*p2*p2); 
+      final double xs = x / (p2*p2*p2);
       est += (xs - est*est*est) / (3*est*est);
       est += (xs - est*est*est) / (3*est*est);
 

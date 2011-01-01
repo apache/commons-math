@@ -160,7 +160,7 @@ public class StatisticalSummaryValues implements Serializable,
         result = result * 31 + MathUtils.hash(getVariance());
         return result;
     }
-    
+
     /**
      * Generates a text report displaying values of statistics.
      * Each statistic is displayed on a separate line.

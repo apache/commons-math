@@ -629,34 +629,34 @@ public final class StatUtils {
         }
         return (sum1 - (sum2 * sum2 / n)) / (n - 1);
     }
-    
-    
-	/**
-	 * Normalize (standardize) the series, so in the end it is having a mean of 0 and a standard deviation of 1.
-	 * 
+
+
+    /**
+     * Normalize (standardize) the series, so in the end it is having a mean of 0 and a standard deviation of 1.
+     *
      * @param sample sample to normalize
-	 * @return normalized (standardized) sample
-	 */
-	public static double[] normalize(final double[] sample) {
-		DescriptiveStatistics stats = new DescriptiveStatistics();
+     * @return normalized (standardized) sample
+     */
+    public static double[] normalize(final double[] sample) {
+        DescriptiveStatistics stats = new DescriptiveStatistics();
 
-		// Add the data from the series to stats
-		for (int i = 0; i < sample.length; i++) {
-			stats.addValue(sample[i]);
-		}
+        // Add the data from the series to stats
+        for (int i = 0; i < sample.length; i++) {
+            stats.addValue(sample[i]);
+        }
 
-		// Compute mean and standard deviation
-		double mean = stats.getMean();
-		double standardDeviation = stats.getStandardDeviation();
+        // Compute mean and standard deviation
+        double mean = stats.getMean();
+        double standardDeviation = stats.getStandardDeviation();
 
-		// initialize the standardizedSample, which has the same length as the sample 
-		double[] standardizedSample = new double[sample.length];
+        // initialize the standardizedSample, which has the same length as the sample
+        double[] standardizedSample = new double[sample.length];
 
-		for (int i = 0; i < sample.length; i++) {
-			// z = (x- mean)/standardDeviation
-			standardizedSample[i] = (sample[i] - mean) / standardDeviation;
-		}
-		return standardizedSample;
-	}
+        for (int i = 0; i < sample.length; i++) {
+            // z = (x- mean)/standardDeviation
+            standardizedSample[i] = (sample[i] - mean) / standardDeviation;
+        }
+        return standardizedSample;
+    }
 
 }

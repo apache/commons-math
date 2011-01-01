@@ -285,7 +285,7 @@ public class PowellOptimizer
 
     /**
      * Java 1.5 does not support Arrays.copyOf()
-     * 
+     *
      * @param source the array to be copied
      * @param newLen the length of the copy to be returned
      * @return the copied array, truncated or padded as necessary.

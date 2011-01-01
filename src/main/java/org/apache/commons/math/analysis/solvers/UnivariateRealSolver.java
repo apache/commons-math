@@ -98,7 +98,7 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      */
     double solve(int maxEval, UnivariateRealFunction f, double min, double max)
         throws ConvergenceException, MathUserException;
-    
+
     /**
      * Solve for a zero root in the given interval.
      * <p>A solver may require that the interval brackets a single zero root.

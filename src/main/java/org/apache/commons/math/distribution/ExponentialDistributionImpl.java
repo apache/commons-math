@@ -267,7 +267,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the mean parameter.
      *
      * @return lower bound of the support (always 0)
@@ -279,8 +279,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the mean parameter.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -292,7 +292,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>k</code>, the mean is
      * <code>k</code>
      *
@@ -305,7 +305,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>k</code>, the variance is
      * <code>k^2</code>
      *

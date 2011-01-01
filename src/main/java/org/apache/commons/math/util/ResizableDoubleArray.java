@@ -161,10 +161,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Create a ResizableArray from an existing double[] with the 
-     * initial capacity and numElements corresponding to the size of 
-     * the supplied double[] array. If the supplied array is null, a 
-     * new empty array with the default initial capacity will be created. 
+     * Create a ResizableArray from an existing double[] with the
+     * initial capacity and numElements corresponding to the size of
+     * the supplied double[] array. If the supplied array is null, a
+     * new empty array with the default initial capacity will be created.
      * Other properties take default values:
      * <ul>
      * <li><code>initialCapacity = 16</code></li>
@@ -182,7 +182,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             numElements = initialArray.length;
         }
     }
-    
+
     /**
      * <p>
      * Create a ResizableArray with the specified initial capacity
@@ -297,7 +297,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             contract();
         }
     }
-    
+
     /**
      * Adds several element to the end of this expandable array.
      *
