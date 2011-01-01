@@ -255,10 +255,11 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * values returned.
      * Throws MathException if the value is NaN. Rethrows any MathException encountered
      * evaluating the cumulative probability function. Throws
-     * MathException of the cumulative probability function returns NaN.
+     * MathException if the cumulative probability function returns NaN.
      *
      * @param argument Input value.
      * @return the cumulative probability.
+     * @throws MathException if the cumulative probability is NaN
      */
     private double checkedCumulativeProbability(int argument)
         throws MathException {
