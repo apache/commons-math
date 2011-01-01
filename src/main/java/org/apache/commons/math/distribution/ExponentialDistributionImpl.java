@@ -271,15 +271,21 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double mean = getMean();
-        return mean * mean;
+        final double m = getMean();
+        return m * m;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
