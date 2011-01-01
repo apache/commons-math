@@ -301,11 +301,17 @@ public class TDistributionImpl
         return Double.NaN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;

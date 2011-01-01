@@ -276,6 +276,9 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         return ( r * p ) / (pInv * pInv);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
