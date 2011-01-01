@@ -353,18 +353,24 @@ public class FDistributionImpl
             final double numeratorDF = getNumeratorDegreesOfFreedom();
             final double denomDFMinusTwo = denominatorDF - 2;
 
-            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) )
-                   / ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );
+            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) ) /
+                    ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );
         }
 
         return Double.NaN;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
