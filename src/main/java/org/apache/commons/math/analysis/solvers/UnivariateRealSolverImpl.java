@@ -137,15 +137,15 @@ public abstract class UnivariateRealSolverImpl
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, UnivariateRealFunction f, double min, double max)
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max)
         throws ConvergenceException, MathUserException {
-        throw new UnsupportedOperationException("Method not overriden");
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, UnivariateRealFunction f, double min, double max, double startValue)
+    public double solve(int maxEval, UnivariateRealFunction function, double min, double max, double startValue)
         throws ConvergenceException, MathUserException, IllegalArgumentException {
-        throw new UnsupportedOperationException("Method not overriden");
+        throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
     /**
