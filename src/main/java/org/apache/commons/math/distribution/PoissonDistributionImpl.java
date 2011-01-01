@@ -282,6 +282,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
         return getMean();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return true;
