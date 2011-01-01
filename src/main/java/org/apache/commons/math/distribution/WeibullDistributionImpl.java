@@ -252,10 +252,10 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     protected double calculateNumericalMean() {
-        final double shape = getShape();
-        final double scale = getScale();
+        final double sh = getShape();
+        final double sc = getScale();
 
-        return scale * FastMath.exp(Gamma.logGamma(1 + (1 / shape)));
+        return sc * FastMath.exp(Gamma.logGamma(1 + (1 / sh)));
     }
 
     /**
@@ -269,20 +269,26 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double shape = getShape();
-        final double scale = getScale();
-        final double mean = getNumericalMean();
+        final double sh = getShape();
+        final double sc = getScale();
+        final double mn = getNumericalMean();
 
-        return (scale * scale) * 
-            FastMath.exp(Gamma.logGamma(1 + (2 / shape))) -
-            (mean * mean);
+        return (sc * sc) * 
+            FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
+            (mn * mn);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
