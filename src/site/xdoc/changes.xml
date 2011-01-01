@@ -134,6 +134,13 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-364" due-to="Christian Winter">
+        Added complementary error function, erfc.
+      </action>
+      <action dev="psteitz" type="fix" issue="MATH-456">
+        Modified erf (and erfc) to return extreme values for x with abs(x) > 40.
+        For these arguments, the true value is indistinguishable from an extrema as a double.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-448" due-to="Patrick Meyer">
         Added a getUniqueCount() method to Frequency to return the number of unique
         values included in the frequency table.
