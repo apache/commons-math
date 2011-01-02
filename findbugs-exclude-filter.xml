@@ -89,7 +89,13 @@
     <Method name="atan2" params="double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
-
+  
+  <!-- Spurious: Findbugs confused by final local variables -->
+  <Match>
+    <Class name="org.apache.commons.math.util.FastMath" />
+    <Method name="atan" params="double,double,boolean" returns="double" />
+    <Bug pattern="DLS_DEAD_LOCAL_STORE" />
+  </Match>
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
