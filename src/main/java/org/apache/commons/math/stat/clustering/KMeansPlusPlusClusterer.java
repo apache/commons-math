@@ -200,7 +200,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Get a random point from the {@link Cluster} with the largest distance variance.
      *
-     * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @return a random point from the selected cluster
      */
@@ -242,7 +241,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Get a random point from the {@link Cluster} with the largest number of points
      *
-     * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @return a random point from the selected cluster
      */
@@ -277,7 +275,6 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
     /**
      * Get the point farthest to its cluster center
      *
-     * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @return point farthest to its cluster center
      */
