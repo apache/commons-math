@@ -172,6 +172,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <li><code>expansionFactor = 2.5</code></li>
      * <li><code>contractionFactor = 2.0</code></li>
      * </ul>
+     * 
+     * @param initialArray initial array
      */
     public ResizableDoubleArray(double[] initialArray) {
         if (initialArray == null) {
