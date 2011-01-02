@@ -161,10 +161,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Create a ResizableArray from an existing double[] with the 
-     * initial capacity and numElements corresponding to the size of 
-     * the supplied double[] array. If the supplied array is null, a 
-     * new empty array with the default initial capacity will be created. 
+     * Create a ResizableArray from an existing double[] with the
+     * initial capacity and numElements corresponding to the size of
+     * the supplied double[] array. If the supplied array is null, a
+     * new empty array with the default initial capacity will be created.
+     * The input array is copied, not referenced.
      * Other properties take default values:
      * <ul>
      * <li><code>initialCapacity = 16</code></li>
@@ -172,14 +173,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <li><code>expansionFactor = 2.5</code></li>
      * <li><code>contractionFactor = 2.0</code></li>
      * </ul>
-     * 
+     *
      * @param initialArray initial array
+     * @since 2.2
      */
     public ResizableDoubleArray(double[] initialArray) {
         if (initialArray == null) {
-            internalArray = new double[initialCapacity];
+            this.internalArray = new double[initialCapacity];
         } else {
-            internalArray = initialArray;
+            this.internalArray = new double[initialArray.length];
+            System.arraycopy(initialArray, 0, this.internalArray, 0, initialArray.length);
             initialCapacity = initialArray.length;
             numElements = initialArray.length;
         }
