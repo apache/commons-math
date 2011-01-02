@@ -154,7 +154,7 @@ public class FastMath {
      */
     private static final double EIGHTHES[] = {0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
 
-    /* Table of 2^((n+2)/3) */
+    /** Table of 2^((n+2)/3) */
     private static final double CBRTTWO[] = { 0.6299605249474366,
                                             0.7937005259840998,
                                             1.0,
@@ -350,10 +350,9 @@ public class FastMath {
           double denomr = 1.0/denom;
           double denomb = -(denom - 1.0 - ya) + yb;
           double ratio = ya*denomr;
-          double ra, rb;
           double temp = ratio * 1073741824.0;
-          ra = ratio + temp - temp;
-          rb = ratio - ra;
+          double ra = ratio + temp - temp;
+          double rb = ratio - ra;
 
           temp = denom * 1073741824.0;
           double za = denom + temp - temp;
@@ -3174,7 +3173,7 @@ public class FastMath {
       double zb = ya * yb * 2.0 + yb * yb;
       temp = za * 1073741824.0;
       double temp2 = za + temp - temp;
-      zb += (za - temp2);
+      zb += za - temp2;
       za = temp2;
 
       zb = za * yb + ya * zb + zb * yb;
