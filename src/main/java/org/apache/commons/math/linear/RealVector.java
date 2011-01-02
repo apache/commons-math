@@ -857,7 +857,7 @@ public interface RealVector {
 
     /** Converts this vector into a unit vector.
      * <p>The instance itself is changed by this method.</p>
-     * @throws  org.apache.commons.math.exception.MathArithmeticException
+     * @throws ArithmeticException
      * if the norm is zero.
      */
     void unitize();
