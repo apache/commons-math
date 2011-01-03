@@ -209,7 +209,6 @@ public class FDistributionImpl
     @Deprecated
     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
         setNumeratorDegreesOfFreedomInternal(degreesOfFreedom);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -244,7 +243,6 @@ public class FDistributionImpl
     @Deprecated
     public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
         setDenominatorDegreesOfFreedomInternal(degreesOfFreedom);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -282,32 +280,32 @@ public class FDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
-     * The lower bound of the support is always 0 no matter the parameters.
+     * The lower bound of the support is always 0, regardless of the parameters.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
-     * The upper bound of the support is always positive infinity
-     * no matter the parameters.
+     * The upper bound of the support is always positive infinity,
+     * regardless of the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean of the distribution.
      *
      * For denominator degrees of freedom parameter <code>b</code>,
      * the mean is
@@ -316,10 +314,10 @@ public class FDistributionImpl
      *  <li>else <code>undefined</code>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
 
         if (denominatorDF > 2) {
@@ -330,7 +328,7 @@ public class FDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance of the distribution.
      *
      * For numerator degrees of freedom parameter <code>a</code>
      * and denominator degrees of freedom parameter <code>b</code>,
@@ -343,10 +341,10 @@ public class FDistributionImpl
      *  <li>else <code>undefined</code>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
 
         if (denominatorDF > 4) {
@@ -358,21 +356,5 @@ public class FDistributionImpl
         }
 
         return Double.NaN;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
     }
 }

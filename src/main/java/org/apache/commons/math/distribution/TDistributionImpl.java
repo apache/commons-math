@@ -81,7 +81,6 @@ public class TDistributionImpl
     @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         setDegreesOfFreedomInternal(degreesOfFreedom);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -227,33 +226,33 @@ public class TDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always negative infinity
      * no matter the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For degrees of freedom parameter df, the mean is
      * <ul>
@@ -261,10 +260,10 @@ public class TDistributionImpl
      * <li>else <code>undefined</code></li>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double df = getDegreesOfFreedom();
 
         if (df > 1) {
@@ -275,7 +274,7 @@ public class TDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For degrees of freedom parameter df, the variance is
      * <ul>
@@ -284,10 +283,10 @@ public class TDistributionImpl
      *  <li>else <code>undefined</code></li>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double df = getDegreesOfFreedom();
 
         if (df > 2) {
@@ -301,19 +300,4 @@ public class TDistributionImpl
         return Double.NaN;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
 }

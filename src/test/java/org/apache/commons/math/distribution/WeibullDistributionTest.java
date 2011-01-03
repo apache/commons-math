@@ -125,7 +125,7 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
 
     public void testMomonts() {
         final double tol = 1e-9;
-        WeibullDistribution dist;
+        WeibullDistributionImpl dist;
         
         dist = new WeibullDistributionImpl(2.5, 3.5);
         // In R: 3.5*gamma(1+(1/2.5)) (or emperically: mean(rweibull(10000, 2.5, 3.5)))

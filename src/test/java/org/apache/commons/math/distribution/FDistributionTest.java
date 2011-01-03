@@ -131,7 +131,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        FDistribution dist;
+        FDistributionImpl dist;
         
         dist = new FDistributionImpl(1, 2);
         assertTrue(Double.isNaN(dist.getNumericalMean()));

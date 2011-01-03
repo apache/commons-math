@@ -115,7 +115,7 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     public void testMomonts() {
-        CauchyDistribution dist;
+        CauchyDistributionImpl dist;
         
         dist = new CauchyDistributionImpl(10.2, 0.15);
         assertTrue(Double.isNaN(dist.getNumericalMean()));

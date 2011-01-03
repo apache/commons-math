@@ -122,7 +122,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        PascalDistribution dist;
+        PascalDistributionImpl dist;
         
         dist = new PascalDistributionImpl(10, 0.5);
         assertEquals(dist.getNumericalMean(), ( 10d * 0.5d ) / 0.5d, tol);

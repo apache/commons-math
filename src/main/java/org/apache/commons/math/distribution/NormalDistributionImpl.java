@@ -104,7 +104,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setMean(double mean) {
         setMeanInternal(mean);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -132,7 +131,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setStandardDeviation(double sd) {
         setStandardDeviationInternal(sd);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -310,70 +308,42 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always negative infinity
      * no matter the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * For mean parameter <code>mu</code>, the mean is <code>mu</code>
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getMean();
-    }
-
-    /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For standard deviation parameter <code>s</code>,
      * the variance is <code>s^2</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double s = getStandardDeviation();
         return s * s;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
     }
 }

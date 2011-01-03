@@ -80,7 +80,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        ZipfDistribution dist;
+        ZipfDistributionImpl dist;
         
         dist = new ZipfDistributionImpl(2, 0.5);
         assertEquals(dist.getNumericalMean(), FastMath.sqrt(2), tol);

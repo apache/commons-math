@@ -206,20 +206,17 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
 
     public void testMomonts() {
         final double tol = 1e-9;
-        NormalDistribution dist;
+        NormalDistributionImpl dist;
         
         dist = new NormalDistributionImpl(0, 1);        
-        assertEquals(dist.getNumericalMean(), 0, tol);
         assertEquals(dist.getNumericalVariance(), 1, tol);        
  
         dist.setMean(2.2);
         dist.setStandardDeviation(1.4);        
-        assertEquals(dist.getNumericalMean(), 2.2, tol);
         assertEquals(dist.getNumericalVariance(), 1.4 * 1.4, tol);
         
         dist.setMean(-2000.9);
         dist.setStandardDeviation(10.4);
-        assertEquals(dist.getNumericalMean(), -2000.9, tol);
         assertEquals(dist.getNumericalVariance(), 10.4 * 10.4, tol);
     }
 }

@@ -86,7 +86,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * @return CDF evaluated at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
         return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
@@ -157,7 +157,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setMedian(double median) {
         setMedianInternal(median);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -177,7 +176,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setScale(double s) {
         setScaleInternal(s);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -273,68 +271,50 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * The lower bound of the support is always negative infinity no matter
-     * the parameters.
+     * Returns the lower bound of the support for this distribution.
+     * The lower bound of the support of the Cauchy distribution is always
+     * negative infinity, regardless of the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always positive infinity no matter
-     * the parameters.
+     * Returns the upper bound of the support for this distribution.
+     * The upper bound of the support of the Cauchy distribution is always
+     * positive infinity, regardless of the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
-     * The mean is always undefined no matter the parameters.
+     * The mean is always undefined, regardless of the parameters.
      *
      * @return mean (always Double.NaN)
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         return Double.NaN;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
-     * The variance is always undefined no matter the parameters.
+     * The variance is always undefined, regardless of the parameters.
      *
      * @return variance (always Double.NaN)
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         return Double.NaN;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
     }
 }

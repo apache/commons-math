@@ -137,7 +137,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setAlpha(double alpha) {
         setAlphaInternal(alpha);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -171,7 +170,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setBeta(double newBeta) {
         setBetaInternal(newBeta);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -302,72 +300,56 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
-     * The lower bound of the support is always 0 no matter the parameters.
+     * The lower bound of the support is always 0, regardless of the parameters.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
-     * The upper bound of the support is always positive infinity
-     * no matter the parameters.
+     * The upper bound of the support is always positive infinity,
+     * regardless of the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For shape parameter <code>alpha</code> and scale
      * parameter <code>beta</code>, the mean is
      * <code>alpha * beta</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         return getAlpha() * getBeta();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For shape parameter <code>alpha</code> and scale
      * parameter <code>beta</code>, the variance is
      * <code>alpha * beta^2</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double b = getBeta();
         return getAlpha() * b * b;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
     }
 }

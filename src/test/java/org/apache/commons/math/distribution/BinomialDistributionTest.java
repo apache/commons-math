@@ -115,7 +115,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        BinomialDistribution dist;
+        BinomialDistributionImpl dist;
         
         dist = new BinomialDistributionImpl(10, 0.5);
         assertEquals(dist.getNumericalMean(), 10d * 0.5d, tol);

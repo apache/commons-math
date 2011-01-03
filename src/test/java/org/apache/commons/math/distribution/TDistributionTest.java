@@ -118,7 +118,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        TDistribution dist;
+        TDistributionImpl dist;
         
         dist = new TDistributionImpl(1);
         assertTrue(Double.isNaN(dist.getNumericalMean()));

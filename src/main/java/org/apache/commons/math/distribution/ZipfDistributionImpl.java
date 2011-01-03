@@ -76,7 +76,6 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNumberOfElements(final int n) {
         setNumberOfElementsInternal(n);
-        invalidateParameterDependentMoments();
     }
     /**
      * Set the number of elements (e.g. corpus size) for the distribution.
@@ -116,7 +115,6 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setExponent(final double s) {
         setExponentInternal(s);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -215,31 +213,31 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always 1 no matter the parameters.
      *
      * @return lower bound of the support (always 1)
+     * @since 2.2
      */
-    @Override
     public int getSupportLowerBound() {
         return 1;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is the number of elements
      *
      * @return upper bound of the support
+     * @since 2.2
      */
-    @Override
     public int getSupportUpperBound() {
         return getNumberOfElements();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For number of elements N and exponent s, the mean is
      * <code>Hs1 / Hs</code> where
@@ -248,10 +246,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    protected double getNumericalMean() {
         final int N = getNumberOfElements();
         final double s = getExponent();
 
@@ -262,7 +260,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For number of elements N and exponent s, the mean is
      * <code>(Hs2 / Hs) - (Hs1^2 / Hs^2)</code> where
@@ -272,10 +270,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
      *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
      * </ul>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    protected double getNumericalVariance() {
         final int N = getNumberOfElements();
         final double s = getExponent();
 

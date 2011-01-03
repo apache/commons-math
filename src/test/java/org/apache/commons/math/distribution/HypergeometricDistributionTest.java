@@ -214,7 +214,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
     public void testMomonts() {
         final double tol = 1e-9;
-        HypergeometricDistribution dist;
+        HypergeometricDistributionImpl dist;
         
         dist = new HypergeometricDistributionImpl(1500, 40, 100);
         assertEquals(dist.getNumericalMean(), 40d * 100d / 1500d, tol);

@@ -124,7 +124,7 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
 
     public void testMomonts() {
         final double tol = 1e-9;
-        ExponentialDistribution dist;
+        ExponentialDistributionImpl dist;
         
         dist = new ExponentialDistributionImpl(11d);
         assertEquals(dist.getNumericalMean(), 11d, tol);

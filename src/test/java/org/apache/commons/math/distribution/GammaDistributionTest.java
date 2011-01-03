@@ -155,7 +155,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        GammaDistribution dist;
+        GammaDistributionImpl dist;
         
         dist = new GammaDistributionImpl(1, 2);
         assertEquals(dist.getNumericalMean(), 2, tol);

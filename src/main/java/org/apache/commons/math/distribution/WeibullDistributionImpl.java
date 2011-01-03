@@ -52,6 +52,18 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /** Inverse cumulative probability accuracy */
     private final double solverAbsoluteAccuracy;
 
+    /** Cached numerical mean */
+    private double numericalMean = Double.NaN;
+
+    /** Whether or not the numerical mean has been calculated */
+    private boolean numericalMeanIsCalculated = false;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
+
     /**
      * Creates weibull distribution with the given shape and scale and a
      * location equal to zero.
@@ -81,7 +93,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * For this distribution, X, this method returns P(X &lt; <code>x</code>).
      * @param x the value at which the CDF is evaluated.
-     * @return CDF evaluted at <code>x</code>.
+     * @return CDF evaluated at <code>x</code>.
      */
     public double cumulativeProbability(double x) {
         double ret;
@@ -264,39 +276,39 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Calculates the mean.
      *
      * The mean is <code>scale * Gamma(1 + (1 / shape))</code>
      * where <code>Gamma(...)</code> is the Gamma-function
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
     protected double calculateNumericalMean() {
         final double sh = getShape();
         final double sc = getScale();
@@ -305,16 +317,16 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Calculates the variance.
      *
      * The variance is
      * <code>scale^2 * Gamma(1 + (2 / shape)) - mean^2</code>
      * where <code>Gamma(...)</code> is the Gamma-function
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    private double calculateNumericalVariance() {
         final double sh = getShape();
         final double sc = getScale();
         final double mn = getNumericalMean();
@@ -325,18 +337,42 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean of the distribution.
+     *
+     * @return the mean or Double.NaN if it's not defined
+     * @since 2.2
      */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
+    public double getNumericalMean() {
+        if (!numericalMeanIsCalculated) {
+            numericalMean = calculateNumericalMean();
+            numericalMeanIsCalculated = true;
+        }
+
+        return numericalMean;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance of the distribution.
+     *
+     * @return the variance (possibly Double.POSITIVE_INFINITY as
+     * for certain cases in {@link TDistributionImpl}) or
+     * Double.NaN if it's not defined
+     * @since 2.2
      */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+
+        return numericalVariance;
+    }
+
+    /**
+     * Invalidates the cached mean and variance.
+     */
+    private void invalidateParameterDependentMoments() {
+        numericalMeanIsCalculated = false;
+        numericalVarianceIsCalculated = false;
     }
 }

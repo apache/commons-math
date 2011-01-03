@@ -33,18 +33,6 @@ public abstract class AbstractDistribution
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
 
-    /** Cached numerical mean */
-    private double numericalMean = Double.NaN;
-
-    /** Whether or not the numerical mean has been calculated */
-    private boolean numericalMeanIsCalculated = false;
-
-    /** Cached numerical variance */
-    private double numericalVariance = Double.NaN;
-
-    /** Whether or not the numerical variance has been calculated */
-    private boolean numericalVarianceIsCalculated = false;
-
     /**
      * Default constructor.
      */
@@ -77,107 +65,5 @@ public abstract class AbstractDistribution
                   x0, x1);
         }
         return cumulativeProbability(x1) - cumulativeProbability(x0);
-    }
-
-    /**
-     * This method invalidates cached moments when parameters change.
-     * Usually it is called from a sub-class when the distribution
-     * gets its parameters updated.
-     *
-     * @deprecated as of 2.2 (sub-classes will become immutable in 3.0)
-     */
-    @Deprecated
-    protected void invalidateParameterDependentMoments() {
-        numericalMeanIsCalculated = false;
-        numericalVarianceIsCalculated = false;
-    }
-
-    /**
-     * Use this method to actually calculate the mean for the
-     * specific distribution. Use {@link #getNumericalMean()}
-     * (which implements caching) to actually get the mean.
-     *
-     * @return the mean or Double.NaN if it's not defined
-     */
-    protected abstract double calculateNumericalMean();
-
-    /**
-     * Use this method to get the numerical value of the mean of this
-     * distribution.
-     *
-     * @return the mean or Double.NaN if it's not defined
-     */
-    public double getNumericalMean() {
-        if (!numericalMeanIsCalculated) {
-            numericalMean = calculateNumericalMean();
-            numericalMeanIsCalculated = true;
-        }
-
-        return numericalMean;
-    }
-
-    /**
-     * Use this method to actually calculate the variance for the
-     * specific distribution.  Use {@link #getNumericalVariance()}
-     * (which implements caching) to actually get the variance.
-     *
-     * @return the variance or Double.NaN if it's not defined
-     */
-    protected abstract double calculateNumericalVariance();
-
-    /**
-     * Use this method to get the numerical value of the variance of this
-     * distribution.
-     *
-     * @return the variance (possibly Double.POSITIVE_INFINITY as
-     * for certain cases in {@link TDistributionImpl}) or
-     * Double.NaN if it's not defined
-     */
-    public double getNumericalVariance() {
-        if (!numericalVarianceIsCalculated) {
-            numericalVariance = calculateNumericalVariance();
-            numericalVarianceIsCalculated = true;
-        }
-
-        return numericalVariance;
-    }
-
-    /**
-     * Use this method to get information about whether the lower bound
-     * of the support is inclusive or not.
-     *
-     * @return whether the lower bound of the support is inclusive or not
-     */
-    public abstract boolean isSupportLowerBoundInclusive();
-
-    /**
-     * Use this method to get information about whether the upper bound
-     * of the support is inclusive or not.
-     *
-     * @return whether the upper bound of the support is inclusive or not
-     */
-    public abstract boolean isSupportUpperBoundInclusive();
-
-    /**
-     * Use this method to get information about whether the support is connected,
-     * i.e. whether all values between the lower and upper bound of the support
-     * is included in the support.
-     *
-     * For {@link AbstractIntegerDistribution} the support is discrete, so
-     * if this is true, then the support is
-     * {lower bound, lower bound + 1, ..., upper bound}.
-     *
-     * For {@link AbstractContinuousDistribution} the support is continuous, so
-     * if this is true, then the support is the interval
-     * [lower bound, upper bound]
-     * where the limits are inclusive or not according to
-     * {@link #isSupportLowerBoundInclusive()} and {@link #isSupportUpperBoundInclusive()}
-     * (in the example both are true). If both are false, then the support is the interval
-     * (lower bound, upper bound)
-     *
-     * @return whether the support limits given by subclassed methods are connected or not
-     */
-    public boolean isSupportConnected() {
-        return true;
     }
 }

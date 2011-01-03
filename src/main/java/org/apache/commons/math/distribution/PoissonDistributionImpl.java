@@ -157,7 +157,6 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setMean(double p) {
         setNormalAndMeanInternal(normal, p);
-        invalidateParameterDependentMoments();
     }
     /**
      * Set the Poisson mean for the distribution. The mean value must be
@@ -303,19 +302,19 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always 0 no matter the mean parameter.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public int getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is positive infinity,
      * regardless of the parameter values. There is no integer infinity,
@@ -323,41 +322,22 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * {@link #isSupportUpperBoundInclusive()} returns <code>true</code>.
      *
      * @return upper bound of the support (always <code>Integer.MAX_VALUE</code> for positive infinity)
+     * @since 2.2
      */
-    @Override
     public int getSupportUpperBound() {
         return Integer.MAX_VALUE;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * For mean parameter <code>p</code>, the mean is <code>p</code>
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getMean();
-    }
-
-    /**
-     * {@inheritDoc}
+     * Returns the variance of the distribution.
      *
      * For mean parameter <code>p</code>, the variance is <code>p</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         return getMean();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
-    }
 }

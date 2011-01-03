@@ -83,7 +83,6 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNumberOfTrials(int trials) {
         setNumberOfTrialsInternal(trials);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -112,7 +111,6 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setProbabilityOfSuccess(double p) {
         setProbabilityOfSuccessInternal(p);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -226,55 +224,55 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always 0 no matter the number of trials
      * and probability parameter.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public int getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
      * The upper bound of the support is the number of trials.
      *
      * @return upper bound of the support (equal to number of trials)
+     * @since 2.2
      */
-    @Override
     public int getSupportUpperBound() {
         return getNumberOfTrials();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For <code>n</code> number of trials and
      * probability parameter <code>p</code>, the mean is
      * <code>n * p</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         return (double)getNumberOfTrials() * getProbabilityOfSuccess();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For <code>n</code> number of trials and
      * probability parameter <code>p</code>, the variance is
      * <code>n * p * (1 - p)</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double p = getProbabilityOfSuccess();
         return (double)getNumberOfTrials() * p * (1 - p);
     }

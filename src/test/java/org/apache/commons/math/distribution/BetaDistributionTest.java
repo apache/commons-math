@@ -290,7 +290,7 @@ public class BetaDistributionTest extends TestCase {
 
     public void testMomonts() {
         final double tol = 1e-9;
-        BetaDistribution dist;
+        BetaDistributionImpl dist;
         
         dist = new BetaDistributionImpl(1, 1);
         assertEquals(dist.getNumericalMean(), 0.5, tol);

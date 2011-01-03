@@ -39,7 +39,7 @@ public class BetaDistributionImpl
     extends AbstractContinuousDistribution implements BetaDistribution {
 
     /**
-     * Default inverse cumulative probability accurac
+     * Default inverse cumulative probability accuracy
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
@@ -92,7 +92,6 @@ public class BetaDistributionImpl
     public void setAlpha(double alpha) {
         this.alpha = alpha;
         z = Double.NaN;
-        invalidateParameterDependentMoments();
     }
 
     /** {@inheritDoc} */
@@ -107,7 +106,6 @@ public class BetaDistributionImpl
     public void setBeta(double beta) {
         this.beta = beta;
         z = Double.NaN;
-        invalidateParameterDependentMoments();
     }
 
     /** {@inheritDoc} */
@@ -227,75 +225,60 @@ public class BetaDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * The lower bound of the support is always 0 no matter the parameters.
+     * Returns the lower bound of the support for this distribution.
+     * The support of the Beta distribution is always [0, 1], regardless
+     * of the parameters, so this method always returns 0.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for this distribution.
+     * The support of the Beta distribution is always [0, 1], regardless
+     * of the parameters, so this method always returns 1.
      *
-     * The upper bound of the support is always 1 no matter the parameters.
-     *
-     * @return upper bound of the support (always 1)
+     * @return lower bound of the support (always 1)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return 1;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For first shape parameter <code>s1</code> and
      * second shape parameter <code>s2</code>, the mean is
      * <code>s1 / (s1 + s2)</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double a = getAlpha();
         return a / (a + getBeta());
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For first shape parameter <code>s1</code> and
      * second shape parameter <code>s2</code>,
      * the variance is
      * <code>[ s1 * s2 ] / [ (s1 + s2)^2 * (s1 + s2 + 1) ]</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double a = getAlpha();
         final double b = getBeta();
         final double alphabetasum = a + b;
         return (a * b) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
 }

@@ -91,7 +91,6 @@ public class ChiSquaredDistributionImpl
     @Deprecated
     public void setDegreesOfFreedom(double degreesOfFreedom) {
         setDegreesOfFreedomInternal(degreesOfFreedom);
-        invalidateParameterDependentMoments();
     }
     /**
      * Modify the degrees of freedom.
@@ -272,70 +271,54 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
      * The lower bound of the support is always 0 no matter the
      * degrees of freedom.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound for the support for the distribution.
      *
      * The upper bound of the support is always positive infinity no matter the
      * degrees of freedom.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean of the distribution.
      *
      * For <code>k</code> degrees of freedom, the mean is
      * <code>k</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         return getDegreesOfFreedom();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance of the distribution.
      *
      * For <code>k</code> degrees of freedom, the variance is
      * <code>2 * k</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         return 2*getDegreesOfFreedom();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
     }
 }

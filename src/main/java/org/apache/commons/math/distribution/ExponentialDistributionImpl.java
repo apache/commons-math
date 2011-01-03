@@ -76,7 +76,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     @Deprecated
     public void setMean(double mean) {
         setMeanInternal(mean);
-        invalidateParameterDependentMoments();
     }
     /**
      * Modify the mean.
@@ -204,7 +203,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
-    @Override
     protected double getDomainLowerBound(double p) {
         return 0;
     }
@@ -217,7 +215,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
-    @Override
     protected double getDomainUpperBound(double p) {
         // NOTE: exponential is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
@@ -266,70 +263,55 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound of the support for the distribution.
      *
-     * The lower bound of the support is always 0 no matter the mean parameter.
+     * The lower bound of the support is always 0, regardless of the mean.
      *
      * @return lower bound of the support (always 0)
+     * @since 2.2
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound of the support for the distribution.
      *
-     * The upper bound of the support is always positive infinity
-     * no matter the mean parameter.
+     * The upper bound of the support is always positive infinity,
+     * regardless of the mean.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @since 2.2
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean of the distribution.
      *
      * For mean parameter <code>k</code>, the mean is
      * <code>k</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         return getMean();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance of the distribution.
      *
      * For mean parameter <code>k</code>, the variance is
      * <code>k^2</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double m = getMean();
         return m * m;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
 }

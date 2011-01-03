@@ -241,7 +241,6 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setNumberOfSuccesses(int num) {
         setNumberOfSuccessesInternal(num);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -268,7 +267,6 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setPopulationSize(int size) {
         setPopulationSizeInternal(size);
-        invalidateParameterDependentMoments();
     }
 
     /**
@@ -295,7 +293,6 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     @Deprecated
     public void setSampleSize(int size) {
         setSampleSizeInternal(size);
-        invalidateParameterDependentMoments();
     }
     /**
      * Modify the sample size.
@@ -358,7 +355,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the lower bound for the support for the distribution.
      *
      * For population size <code>N</code>,
      * number of successes <code>m</code>, and
@@ -367,15 +364,15 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * <code>max(0, n + m - N)</code>
      *
      * @return lower bound of the support
+     * @since 2.2
      */
-    @Override
     public int getSupportLowerBound() {
         return FastMath.max(0,
                 getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the upper bound for the support of the distribution.
      *
      * For number of successes <code>m</code> and
      * sample size <code>n</code>,
@@ -383,39 +380,39 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * <code>min(m, n)</code>
      *
      * @return upper bound of the support
+     * @since 2.2
      */
-    @Override
     public int getSupportUpperBound() {
         return FastMath.min(getNumberOfSuccesses(), getSampleSize());
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the mean.
      *
      * For population size <code>N</code>,
      * number of successes <code>m</code>, and
      * sample size <code>n</code>, the mean is
      * <code>n * m / N</code>
      *
-     * @return {@inheritDoc}
+     * @return the mean
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalMean() {
+    protected double getNumericalMean() {
         return (double)(getSampleSize() * getNumberOfSuccesses()) / (double)getPopulationSize();
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the variance.
      *
      * For population size <code>N</code>,
      * number of successes <code>m</code>, and
      * sample size <code>n</code>, the variance is
      * <code>[ n * m * (N - n) * (N - m) ] / [ N^2 * (N - 1) ]</code>
      *
-     * @return {@inheritDoc}
+     * @return the variance
+     * @since 2.2
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double N = getPopulationSize();
         final double m = getNumberOfSuccesses();
         final double n = getSampleSize();
