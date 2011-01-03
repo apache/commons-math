@@ -91,7 +91,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
      * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
      * @param x Value at which the CDF is evaluated.
-     * @return the CDF evaluted at {@code x}.
+     * @return the CDF evaluated at {@code x}.
      */
     public double cumulativeProbability(double x) {
         double ret;

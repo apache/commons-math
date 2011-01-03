@@ -90,7 +90,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
      * For this distribution, {@code X}, this method returns {@code P(X < x)}.
      *
      * @param x Value at which the CDF is evaluated.
-     * @return CDF evaluted at {@code x}.
+     * @return CDF evaluated at {@code x}.
      */
     public double cumulativeProbability(double x) {
         return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
