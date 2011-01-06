@@ -25,6 +25,10 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NonSymmetricMatrixException extends MathIllegalArgumentException {
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -7518495577824189882L;
+
     /** Row. */
     private final int row;
     /** Column. */
