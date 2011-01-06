@@ -25,8 +25,6 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import org.apache.commons.math.exception.MathParseException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.util.CompositeFormat;
 
 public abstract class RealVectorFormatAbstractTest {
 

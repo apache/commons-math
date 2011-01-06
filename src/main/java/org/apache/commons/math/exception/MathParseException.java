@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**

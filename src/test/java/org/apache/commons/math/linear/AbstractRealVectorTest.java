@@ -21,8 +21,6 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.linear.RealVector.Entry;
-import org.apache.commons.math.util.FastMath;
-
 import java.util.Iterator;
 import java.util.Random;
 

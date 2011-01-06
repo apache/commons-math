@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import junit.framework.TestCase;
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.util.FastMath;
 
 public class BetaDistributionTest extends TestCase {
     public void testCumulative() throws MathException {
