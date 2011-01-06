@@ -19,13 +19,11 @@ package org.apache.commons.math.geometry;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.exception.MathParseException;
 
 /**
  * Formats a 3D vector in components list format "{x; y; z}".
@@ -40,38 +38,27 @@ import org.apache.commons.math.util.CompositeFormat;
  *
  * @version $Revision$ $Date$
  */
-public class Vector3DFormat extends CompositeFormat {
-
+public class Vector3DFormat {
     /** Serializable version identifier */
     private static final long serialVersionUID = -5447606608652576301L;
-
     /** The default prefix: "{". */
     private static final String DEFAULT_PREFIX = "{";
-
     /** The default suffix: "}". */
     private static final String DEFAULT_SUFFIX = "}";
-
     /** The default separator: ", ". */
     private static final String DEFAULT_SEPARATOR = "; ";
-
     /** Prefix. */
     private final String prefix;
-
     /** Suffix. */
     private final String suffix;
-
     /** Separator. */
     private final String separator;
-
     /** Trimmed prefix. */
     private final String trimmedPrefix;
-
     /** Trimmed suffix. */
     private final String trimmedSuffix;
-
     /** Trimmed separator. */
     private final String trimmedSeparator;
-
     /** The format used for components. */
     private final NumberFormat format;
 
@@ -81,7 +68,8 @@ public class Vector3DFormat extends CompositeFormat {
      * "{", "}", and "; " and the default number format for components.</p>
      */
     public Vector3DFormat() {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, getDefaultNumberFormat());
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
+             CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -100,7 +88,7 @@ public class Vector3DFormat extends CompositeFormat {
      */
     public Vector3DFormat(final String prefix, final String suffix,
                           final String separator) {
-        this(prefix, suffix, separator, getDefaultNumberFormat());
+        this(prefix, suffix, separator, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -177,18 +165,17 @@ public class Vector3DFormat extends CompositeFormat {
      * @return the 3D vector format specific to the given locale.
      */
     public static Vector3DFormat getInstance(final Locale locale) {
-        return new Vector3DFormat(getDefaultNumberFormat(locale));
+        return new Vector3DFormat(CompositeFormat.getDefaultNumberFormat(locale));
     }
 
     /**
-     * This static method calls {@link #format(Object)} on a default instance of
-     * Vector3DFormat.
+     * This method calls {@link #format(Vector3D,StringBuffer,FieldPosition)}.
      *
-     * @param v Vector3D object to format
-     * @return A formatted vector
+     * @param v Vector3D object to format.
+     * @return a formatted vector.
      */
-    public static String formatVector3D(Vector3D v) {
-        return getInstance().format(v);
+    public String format(Vector3D v) {
+        return format(v, new StringBuffer(), new FieldPosition(0)).toString();
     }
 
     /**
@@ -209,58 +196,32 @@ public class Vector3DFormat extends CompositeFormat {
         toAppendTo.append(prefix);
 
         // format components
-        formatDouble(vector.getX(), format, toAppendTo, pos);
+        CompositeFormat.formatDouble(vector.getX(), format, toAppendTo, pos);
         toAppendTo.append(separator);
-        formatDouble(vector.getY(), format, toAppendTo, pos);
+        CompositeFormat.formatDouble(vector.getY(), format, toAppendTo, pos);
         toAppendTo.append(separator);
-        formatDouble(vector.getZ(), format, toAppendTo, pos);
+        CompositeFormat.formatDouble(vector.getZ(), format, toAppendTo, pos);
 
         // format suffix
         toAppendTo.append(suffix);
 
         return toAppendTo;
-
-    }
-
-    /**
-     * Formats a object to produce a string.
-     * <p><code>obj</code> must be a  {@link Vector3D} object. Any other type of
-     * object will result in an {@link IllegalArgumentException} being thrown.</p>
-     * @param obj the object to format.
-     * @param toAppendTo where the text is to be appended
-     * @param pos On input: an alignment field, if desired. On output: the
-     *            offsets of the alignment field
-     * @return the value passed in as toAppendTo.
-     * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
-     */
-    @Override
-    public StringBuffer format(Object obj, StringBuffer toAppendTo,
-                               FieldPosition pos) {
-
-        if (obj instanceof Vector3D) {
-            return format( (Vector3D)obj, toAppendTo, pos);
-        }
-
-        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_3D_VECTOR,
-                                                                  obj.getClass().getName());
-
     }
 
     /**
      * Parses a string to produce a {@link Vector3D} object.
      * @param source the string to parse
      * @return the parsed {@link Vector3D} object.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @throws MathParseException if the beginning of the specified string
+     * cannot be parsed.
      */
-    public Vector3D parse(String source) throws ParseException {
+    public Vector3D parse(String source) {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector3D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException(
-                    parsePosition.getErrorIndex(),
-                    LocalizedFormats.UNPARSEABLE_3D_VECTOR, source);
+            throw new MathParseException(source,
+                                         parsePosition.getErrorIndex(),
+                                         Vector3D.class);
         }
         return result;
     }
@@ -275,14 +236,14 @@ public class Vector3DFormat extends CompositeFormat {
         int initialIndex = pos.getIndex();
 
         // parse prefix
-        parseAndIgnoreWhitespace(source, pos);
-        if (!parseFixedstring(source, trimmedPrefix, pos)) {
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        if (!CompositeFormat.parseFixedstring(source, trimmedPrefix, pos)) {
             return null;
         }
 
         // parse X component
-        parseAndIgnoreWhitespace(source, pos);
-        Number x = parseNumber(source, format, pos);
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        Number x = CompositeFormat.parseNumber(source, format, pos);
         if (x == null) {
             // invalid abscissa
             // set index back to initial, error index should already be set
@@ -291,12 +252,12 @@ public class Vector3DFormat extends CompositeFormat {
         }
 
         // parse Y component
-        parseAndIgnoreWhitespace(source, pos);
-        if (!parseFixedstring(source, trimmedSeparator, pos)) {
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        if (!CompositeFormat.parseFixedstring(source, trimmedSeparator, pos)) {
             return null;
         }
-        parseAndIgnoreWhitespace(source, pos);
-        Number y = parseNumber(source, format, pos);
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        Number y = CompositeFormat.parseNumber(source, format, pos);
         if (y == null) {
             // invalid ordinate
             // set index back to initial, error index should already be set
@@ -305,12 +266,12 @@ public class Vector3DFormat extends CompositeFormat {
         }
 
         // parse Z component
-        parseAndIgnoreWhitespace(source, pos);
-        if (!parseFixedstring(source, trimmedSeparator, pos)) {
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        if (!CompositeFormat.parseFixedstring(source, trimmedSeparator, pos)) {
             return null;
         }
-        parseAndIgnoreWhitespace(source, pos);
-        Number z = parseNumber(source, format, pos);
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        Number z = CompositeFormat.parseNumber(source, format, pos);
         if (z == null) {
             // invalid height
             // set index back to initial, error index should already be set
@@ -319,25 +280,11 @@ public class Vector3DFormat extends CompositeFormat {
         }
 
         // parse suffix
-        parseAndIgnoreWhitespace(source, pos);
-        if (!parseFixedstring(source, trimmedSuffix, pos)) {
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+        if (!CompositeFormat.parseFixedstring(source, trimmedSuffix, pos)) {
             return null;
         }
 
         return new Vector3D(x.doubleValue(), y.doubleValue(), z.doubleValue());
-
     }
-
-    /**
-     * Parses a string to produce a object.
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
-     * @return the parsed object.
-     * @see java.text.Format#parseObject(java.lang.String, java.text.ParsePosition)
-     */
-    @Override
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
-    }
-
 }

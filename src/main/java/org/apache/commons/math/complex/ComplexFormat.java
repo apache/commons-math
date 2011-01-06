@@ -19,13 +19,12 @@ package org.apache.commons.math.complex;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.util.CompositeFormat;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathParseException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
@@ -37,20 +36,15 @@ import org.apache.commons.math.exception.NoDataException;
  *
  * @version $Revision$ $Date$
  */
-public class ComplexFormat extends CompositeFormat {
-
+public class ComplexFormat {
     /** Serializable version identifier */
     private static final long serialVersionUID = -3343698360149467646L;
-
      /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
-
     /** The notation used to signify the imaginary part of the complex number. */
     private String imaginaryCharacter;
-
     /** The format used for the imaginary part. */
     private NumberFormat imaginaryFormat;
-
     /** The format used for the real part. */
     private NumberFormat realFormat;
 
@@ -59,7 +53,7 @@ public class ComplexFormat extends CompositeFormat {
      * default number format for both real and imaginary parts.
      */
     public ComplexFormat() {
-        this(DEFAULT_IMAGINARY_CHARACTER, getDefaultNumberFormat());
+        this(DEFAULT_IMAGINARY_CHARACTER, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -87,7 +81,7 @@ public class ComplexFormat extends CompositeFormat {
      * @param imaginaryCharacter The custom imaginary character.
      */
     public ComplexFormat(String imaginaryCharacter) {
-        this(imaginaryCharacter, getDefaultNumberFormat());
+        this(imaginaryCharacter, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -126,14 +120,23 @@ public class ComplexFormat extends CompositeFormat {
     }
 
     /**
-     * This static method calls {@link #format(Object)} on a default instance of
-     * ComplexFormat.
+     * This method calls {@link #format(Object,StringBuffer,FieldPosition)}.
      *
-     * @param c Complex object to format
-     * @return A formatted number in the form "Re(c) + Im(c)i"
+     * @param c Complex object to format.
+     * @return A formatted number in the form "Re(c) + Im(c)i".
      */
-    public static String formatComplex(Complex c) {
-        return getInstance().format(c);
+    public String format(Complex c) {
+        return format(c, new StringBuffer(), new FieldPosition(0)).toString();
+    }
+
+    /**
+     * This method calls {@link #format(Object,StringBuffer,FieldPosition)}.
+     *
+     * @param c Double object to format.
+     * @return A formatted number.
+     */
+    public String format(Double c) {
+        return format(new Complex(c, 0), new StringBuffer(), new FieldPosition(0)).toString();
     }
 
     /**
@@ -146,24 +149,23 @@ public class ComplexFormat extends CompositeFormat {
      * @return the value passed in as toAppendTo.
      */
     public StringBuffer format(Complex complex, StringBuffer toAppendTo,
-            FieldPosition pos) {
-
+                               FieldPosition pos) {
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
         // format real
         double re = complex.getReal();
-        formatDouble(re, getRealFormat(), toAppendTo, pos);
+        CompositeFormat.formatDouble(re, getRealFormat(), toAppendTo, pos);
 
         // format sign and imaginary
         double im = complex.getImaginary();
         if (im < 0.0) {
             toAppendTo.append(" - ");
-            formatDouble(-im, getImaginaryFormat(), toAppendTo, pos);
+            CompositeFormat.formatDouble(-im, getImaginaryFormat(), toAppendTo, pos);
             toAppendTo.append(getImaginaryCharacter());
         } else if (im > 0.0 || Double.isNaN(im)) {
             toAppendTo.append(" + ");
-            formatDouble(im, getImaginaryFormat(), toAppendTo, pos);
+            CompositeFormat.formatDouble(im, getImaginaryFormat(), toAppendTo, pos);
             toAppendTo.append(getImaginaryCharacter());
         }
 
@@ -183,17 +185,16 @@ public class ComplexFormat extends CompositeFormat {
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
      * @throws IllegalArgumentException is {@code obj} is not a valid type.
      */
-    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
-            FieldPosition pos) {
+                               FieldPosition pos) {
 
         StringBuffer ret = null;
 
         if (obj instanceof Complex) {
             ret = format( (Complex)obj, toAppendTo, pos);
         } else if (obj instanceof Number) {
-            ret = format( new Complex(((Number)obj).doubleValue(), 0.0),
-                toAppendTo, pos);
+            ret = format(new Complex(((Number)obj).doubleValue(), 0.0),
+                         toAppendTo, pos);
         } else {
             throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_INSTANCE_AS_COMPLEX,
                                                    obj.getClass().getName());
@@ -232,7 +233,7 @@ public class ComplexFormat extends CompositeFormat {
      * @return the complex format specific to the given locale.
      */
     public static ComplexFormat getInstance(Locale locale) {
-        NumberFormat f = getDefaultNumberFormat(locale);
+        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
         return new ComplexFormat(f);
     }
 
@@ -247,18 +248,18 @@ public class ComplexFormat extends CompositeFormat {
     /**
      * Parses a string to produce a {@link Complex} object.
      *
-     * @param source the string to parse
+     * @param source the string to parse.
      * @return the parsed {@link Complex} object.
-     * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+     * @throws MathParseException if the beginning of the specified string
+     * cannot be parsed.
      */
-    public Complex parse(String source) throws ParseException {
+    public Complex parse(String source) {
         ParsePosition parsePosition = new ParsePosition(0);
         Complex result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException(
-                    parsePosition.getErrorIndex(),
-                    LocalizedFormats.UNPARSEABLE_COMPLEX_NUMBER, source);
+            throw new MathParseException(source,
+                                         parsePosition.getErrorIndex(),
+                                         Complex.class);
         }
         return result;
     }
@@ -274,10 +275,10 @@ public class ComplexFormat extends CompositeFormat {
         int initialIndex = pos.getIndex();
 
         // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
 
         // parse real
-        Number re = parseNumber(source, getRealFormat(), pos);
+        Number re = CompositeFormat.parseNumber(source, getRealFormat(), pos);
         if (re == null) {
             // invalid real number
             // set index back to initial, error index should already be set
@@ -287,7 +288,7 @@ public class ComplexFormat extends CompositeFormat {
 
         // parse sign
         int startIndex = pos.getIndex();
-        char c = parseNextCharacter(source, pos);
+        char c = CompositeFormat.parseNextCharacter(source, pos);
         int sign = 0;
         switch (c) {
         case 0 :
@@ -310,10 +311,10 @@ public class ComplexFormat extends CompositeFormat {
         }
 
         // parse whitespace
-        parseAndIgnoreWhitespace(source, pos);
+        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
 
         // parse imaginary
-        Number im = parseNumber(source, getRealFormat(), pos);
+        Number im = CompositeFormat.parseNumber(source, getRealFormat(), pos);
         if (im == null) {
             // invalid imaginary number
             // set index back to initial, error index should already be set
@@ -322,25 +323,12 @@ public class ComplexFormat extends CompositeFormat {
         }
 
         // parse imaginary character
-        if (!parseFixedstring(source, getImaginaryCharacter(), pos)) {
+        if (!CompositeFormat.parseFixedstring(source, getImaginaryCharacter(), pos)) {
             return null;
         }
 
         return new Complex(re.doubleValue(), im.doubleValue() * sign);
 
-    }
-
-    /**
-     * Parses a string to produce a object.
-     *
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
-     * @return the parsed object.
-     * @see java.text.Format#parseObject(java.lang.String, java.text.ParsePosition)
-     */
-    @Override
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
     }
 
     /**

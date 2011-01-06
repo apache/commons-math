@@ -38,8 +38,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
     /** Default format. */
-    private static final RealVectorFormat DEFAULT_FORMAT =
-        RealVectorFormat.getInstance();
+    private static final RealVectorFormat DEFAULT_FORMAT = RealVectorFormat.getInstance();
     /** Entries of the vector. */
     protected double data[];
 

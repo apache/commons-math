@@ -188,7 +188,7 @@ public class TestUtils {
      * @param epsilon  tolerance
      */
     public static void assertContains(String msg, Complex[] values,
-            Complex z, double epsilon) {
+                                      Complex z, double epsilon) {
         int i = 0;
         boolean found = false;
         while (!found && i < values.length) {
@@ -202,7 +202,7 @@ public class TestUtils {
         }
         if (!found) {
             Assert.fail(msg +
-                " Unable to find " + ComplexFormat.formatComplex(z));
+                        " Unable to find " + (new ComplexFormat()).format(z));
         }
     }
 

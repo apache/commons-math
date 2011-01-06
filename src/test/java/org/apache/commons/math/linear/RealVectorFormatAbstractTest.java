@@ -121,7 +121,7 @@ public abstract class RealVectorFormatAbstractTest {
     }
 
     @Test
-    public void testStaticFormatRealVectorImpl() {
+    public void testDefaultFormatRealVectorImpl() {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
@@ -131,7 +131,7 @@ public abstract class RealVectorFormatAbstractTest {
             "22; -342" + getDecimalCharacter() +
             "33; 432" + getDecimalCharacter() +
             "44}";
-        String actual = RealVectorFormat.formatRealVector(c);
+        String actual = (new RealVectorFormat()).format(c);
         Assert.assertEquals(expected, actual);
 
         Locale.setDefault(defaultLocal);
@@ -377,18 +377,6 @@ public abstract class RealVectorFormatAbstractTest {
         RealVectorFormat cf = new RealVectorFormat(nf);
         Assert.assertNotNull(cf);
         Assert.assertEquals(nf, cf.getFormat());
-    }
-
-    @Test
-    public void testFormatObject() {
-        try {
-            CompositeFormat cf = new RealVectorFormat();
-            Object object = new Object();
-            cf.format(object);
-            Assert.fail();
-        } catch (MathIllegalArgumentException ex) {
-            // success
-        }
     }
 
     @Test

@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-461">
+        In order to comply with the new runtime exceptions policy, the classes
+        "RealVectorFormat", "ComplexFormat", "Vector3DFormat" and "CompositeFormat"
+        do not inherit anymore from the Java standard "Format" class. Failed parsing
+        will result in the throwing of a "MathParseException".
+        "CompositeFormat" is now a utility class ("private" constructor).
+      </action>
       <action dev="erans" type="fix" issue="MATH-447">
         By policy, all Commons-Math exceptions must inherit from class
         "MathRuntimeException".

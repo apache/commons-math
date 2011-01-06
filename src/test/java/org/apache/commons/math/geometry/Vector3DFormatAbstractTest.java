@@ -18,15 +18,16 @@
 package org.apache.commons.math.geometry;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
 import org.apache.commons.math.util.CompositeFormat;
+import org.apache.commons.math.exception.MathParseException;
 
-public abstract class Vector3DFormatAbstractTest extends TestCase {
+public abstract class Vector3DFormatAbstractTest {
 
     Vector3DFormat vector3DFormat = null;
     Vector3DFormat vector3DFormatSquare = null;
@@ -35,21 +36,22 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
 
     protected abstract char getDecimalCharacter();
 
-    @Override
-    protected void setUp() throws Exception {
+    protected Vector3DFormatAbstractTest() {
         vector3DFormat = Vector3DFormat.getInstance(getLocale());
         final NumberFormat nf = NumberFormat.getInstance(getLocale());
         nf.setMaximumFractionDigits(2);
         vector3DFormatSquare = new Vector3DFormat("[", "]", " : ", nf);
     }
 
+    @Test
     public void testSimpleNoDecimals() {
         Vector3D c = new Vector3D(1, 1, 1);
         String expected = "{1; 1; 1}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testSimpleWithDecimals() {
         Vector3D c = new Vector3D(1.23, 1.43, 1.63);
         String expected =
@@ -58,9 +60,10 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testSimpleWithDecimalsTrunc() {
         Vector3D c = new Vector3D(1.2323, 1.4343, 1.6333);
         String expected =
@@ -69,9 +72,10 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeX() {
         Vector3D c = new Vector3D(-1.2323, 1.4343, 1.6333);
         String expected =
@@ -80,9 +84,10 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeY() {
         Vector3D c = new Vector3D(1.2323, -1.4343, 1.6333);
         String expected =
@@ -91,9 +96,10 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeZ() {
         Vector3D c = new Vector3D(1.2323, 1.4343, -1.6333);
         String expected =
@@ -102,17 +108,19 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "43; -1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNonDefaultSetting() {
         Vector3D c = new Vector3D(1, 1, 1);
         String expected = "[1 : 1 : 1]";
         String actual = vector3DFormatSquare.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
-    public void testStaticFormatVector3D() {
+    @Test
+    public void testDefaultFormatVector3D() {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
@@ -122,56 +130,62 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "22; -342" + getDecimalCharacter() +
             "33; 432" + getDecimalCharacter() +
             "44}";
-        String actual = Vector3DFormat.formatVector3D(c);
-        assertEquals(expected, actual);
+        String actual = (new Vector3DFormat()).format(c);
+        Assert.assertEquals(expected, actual);
 
         Locale.setDefault(defaultLocal);
     }
 
+    @Test
     public void testNan() {
         Vector3D c = Vector3D.NaN;
         String expected = "{(NaN); (NaN); (NaN)}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testPositiveInfinity() {
         Vector3D c = Vector3D.POSITIVE_INFINITY;
         String expected = "{(Infinity); (Infinity); (Infinity)}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void tesNegativeInfinity() {
         Vector3D c = Vector3D.NEGATIVE_INFINITY;
         String expected = "{(-Infinity); (-Infinity); (-Infinity)}";
         String actual = vector3DFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testParseSimpleNoDecimals() {
         String source = "{1; 1; 1}";
         Vector3D expected = new Vector3D(1, 1, 1);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseIgnoredWhitespace() {
         Vector3D expected = new Vector3D(1, 1, 1);
         ParsePosition pos1 = new ParsePosition(0);
         String source1 = "{1;1;1}";
-        assertEquals(expected, vector3DFormat.parseObject(source1, pos1));
-        assertEquals(source1.length(), pos1.getIndex());
+        Assert.assertEquals(expected, vector3DFormat.parse(source1, pos1));
+        Assert.assertEquals(source1.length(), pos1.getIndex());
         ParsePosition pos2 = new ParsePosition(0);
         String source2 = " { 1 ; 1 ; 1 } ";
-        assertEquals(expected, vector3DFormat.parseObject(source2, pos2));
-        assertEquals(source2.length() - 1, pos2.getIndex());
+        Assert.assertEquals(expected, vector3DFormat.parse(source2, pos2));
+        Assert.assertEquals(source2.length() - 1, pos2.getIndex());
     }
 
+    @Test
     public void testParseSimpleWithDecimals() {
         String source =
             "{1" + getDecimalCharacter() +
@@ -180,13 +194,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "63}";
         Vector3D expected = new Vector3D(1.23, 1.43, 1.63);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseSimpleWithDecimalsTrunc() {
         String source =
             "{1" + getDecimalCharacter() +
@@ -195,13 +210,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeX() {
         String source =
             "{-1" + getDecimalCharacter() +
@@ -210,13 +226,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(-1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeY() {
         String source =
             "{1" + getDecimalCharacter() +
@@ -225,13 +242,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, -1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeZ() {
         String source =
             "{1" + getDecimalCharacter() +
@@ -240,13 +258,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, 1.4343, -1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeAll() {
         String source =
             "{-1" + getDecimalCharacter() +
@@ -255,13 +274,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(-1.2323, -1.4343, -1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseZeroX() {
         String source =
             "{0" + getDecimalCharacter() +
@@ -270,13 +290,14 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333}";
         Vector3D expected = new Vector3D(0.0, -1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNonDefaultSetting() {
         String source =
             "[1" + getDecimalCharacter() +
@@ -285,77 +306,73 @@ public abstract class Vector3DFormatAbstractTest extends TestCase {
             "6333]";
         Vector3D expected = new Vector3D(1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormatSquare.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormatSquare.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNan() {
         String source = "{(NaN); (NaN); (NaN)}";
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parseObject(source);
-            assertEquals(Vector3D.NaN, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Assert.assertEquals(Vector3D.NaN, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParsePositiveInfinity() {
         String source = "{(Infinity); (Infinity); (Infinity)}";
         try {
-            Vector3D actual = (Vector3D)vector3DFormat.parseObject(source);
-            assertEquals(Vector3D.POSITIVE_INFINITY, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D)vector3DFormat.parse(source);
+            Assert.assertEquals(Vector3D.POSITIVE_INFINITY, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeInfinity() {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
         try {
-            Vector3D actual = (Vector3D)vector3DFormat.parseObject(source);
-            assertEquals(Vector3D.NEGATIVE_INFINITY, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Vector3D actual = (Vector3D)vector3DFormat.parse(source);
+            Assert.assertEquals(Vector3D.NEGATIVE_INFINITY, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testConstructorSingleFormat() {
         NumberFormat nf = NumberFormat.getInstance();
         Vector3DFormat cf = new Vector3DFormat(nf);
-        assertNotNull(cf);
-        assertEquals(nf, cf.getFormat());
+        Assert.assertNotNull(cf);
+        Assert.assertEquals(nf, cf.getFormat());
     }
 
-    public void testFormatObject() {
-        try {
-            CompositeFormat cf = new Vector3DFormat();
-            Object object = new Object();
-            cf.format(object);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            // success
-        }
-    }
-
+    @Test
     public void testForgottenPrefix() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new Vector3DFormat().parse("1; 1; 1}", pos));
-        assertEquals(0, pos.getErrorIndex());
+        Assert.assertNull(new Vector3DFormat().parse("1; 1; 1}", pos));
+        Assert.assertEquals(0, pos.getErrorIndex());
     }
 
+    @Test
     public void testForgottenSeparator() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new Vector3DFormat().parse("{1; 1 1}", pos));
-        assertEquals(6, pos.getErrorIndex());
+        Assert.assertNull(new Vector3DFormat().parse("{1; 1 1}", pos));
+        Assert.assertEquals(6, pos.getErrorIndex());
     }
 
+    @Test
     public void testForgottenSuffix() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new Vector3DFormat().parse("{1; 1; 1 ", pos));
-        assertEquals(8, pos.getErrorIndex());
+        Assert.assertNull(new Vector3DFormat().parse("{1; 1; 1 ", pos));
+        Assert.assertEquals(8, pos.getErrorIndex());
     }
 
 }

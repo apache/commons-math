@@ -18,347 +18,370 @@
 package org.apache.commons.math.complex;
 
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
+
+import org.junit.Test;
+import org.junit.Assert;
 
 import org.apache.commons.math.util.CompositeFormat;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.MathParseException;
 
-import junit.framework.TestCase;
+public abstract class ComplexFormatAbstractTest {
 
-public abstract class ComplexFormatAbstractTest extends TestCase {
-
-    CompositeFormat complexFormat = null;
+    ComplexFormat complexFormat = null;
     ComplexFormat complexFormatJ = null;
 
     protected abstract Locale getLocale();
 
     protected abstract char getDecimalCharacter();
 
-    @Override
-    protected void setUp() throws Exception {
+    protected ComplexFormatAbstractTest() {
         complexFormat = ComplexFormat.getInstance(getLocale());
         complexFormatJ = ComplexFormat.getInstance(getLocale());
         complexFormatJ.setImaginaryCharacter("j");
     }
 
+    @Test
     public void testSimpleNoDecimals() {
         Complex c = new Complex(1, 1);
         String expected = "1 + 1i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testSimpleWithDecimals() {
         Complex c = new Complex(1.23, 1.43);
         String expected = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testSimpleWithDecimalsTrunc() {
         Complex c = new Complex(1.2323, 1.4343);
         String expected = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeReal() {
         Complex c = new Complex(-1.2323, 1.4343);
         String expected = "-1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeImaginary() {
         Complex c = new Complex(1.2323, -1.4343);
         String expected = "1" + getDecimalCharacter() + "23 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeBoth() {
         Complex c = new Complex(-1.2323, -1.4343);
         String expected = "-1" + getDecimalCharacter() + "23 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testZeroReal() {
         Complex c = new Complex(0.0, -1.4343);
         String expected = "0 - 1" + getDecimalCharacter() + "43i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testZeroImaginary() {
         Complex c = new Complex(30.233, 0);
         String expected = "30" + getDecimalCharacter() + "23";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testDifferentImaginaryChar() {
         Complex c = new Complex(1, 1);
         String expected = "1 + 1j";
         String actual = complexFormatJ.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
-    public void testStaticFormatComplex() {
+    @Test
+    public void testDefaultFormatComplex() {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
         Complex c = new Complex(232.222, -342.33);
         String expected = "232" + getDecimalCharacter() + "22 - 342" + getDecimalCharacter() + "33i";
-        String actual = ComplexFormat.formatComplex(c);
-        assertEquals(expected, actual);
+        String actual = (new ComplexFormat()).format(c);
+        Assert.assertEquals(expected, actual);
 
         Locale.setDefault(defaultLocal);
     }
 
+    @Test
     public void testNan() {
         Complex c = new Complex(Double.NaN, Double.NaN);
         String expected = "(NaN) + (NaN)i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testPositiveInfinity() {
         Complex c = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         String expected = "(Infinity) + (Infinity)i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testNegativeInfinity() {
         Complex c = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
         String expected = "(-Infinity) - (Infinity)i";
         String actual = complexFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testParseSimpleNoDecimals() {
         String source = "1 + 1i";
         Complex expected = new Complex(1, 1);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseSimpleWithDecimals() {
         String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         Complex expected = new Complex(1.23, 1.43);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseSimpleWithDecimalsTrunc() {
         String source = "1" + getDecimalCharacter() + "2323 + 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(1.2323, 1.4343);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeReal() {
         String source = "-1" + getDecimalCharacter() + "2323 + 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(-1.2323, 1.4343);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeImaginary() {
         String source = "1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(1.2323, -1.4343);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNegativeBoth() {
         String source = "-1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(-1.2323, -1.4343);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseZeroReal() {
         String source = "0" + getDecimalCharacter() + "0 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(0.0, -1.4343);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseZeroImaginary() {
         String source = "-1" + getDecimalCharacter() + "2323";
         Complex expected = new Complex(-1.2323, 0);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseDifferentImaginaryChar() {
         String source = "-1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343j";
         Complex expected = new Complex(-1.2323, -1.4343);
         try {
-            Complex actual = (Complex)complexFormatJ.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormatJ.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseNan() {
         String source = "(NaN) + (NaN)i";
         Complex expected = new Complex(Double.NaN, Double.NaN);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParsePositiveInfinity() {
         String source = "(Infinity) + (Infinity)i";
         Complex expected = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testPaseNegativeInfinity() {
         String source = "(-Infinity) - (Infinity)i";
         Complex expected = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
         try {
-            Complex actual = (Complex)complexFormat.parseObject(source);
-            assertEquals(expected, actual);
-        } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Complex actual = (Complex)complexFormat.parse(source);
+            Assert.assertEquals(expected, actual);
+        } catch (MathParseException ex) {
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testConstructorSingleFormat() {
         NumberFormat nf = NumberFormat.getInstance();
         ComplexFormat cf = new ComplexFormat(nf);
-        assertNotNull(cf);
-        assertEquals(nf, cf.getRealFormat());
+        Assert.assertNotNull(cf);
+        Assert.assertEquals(nf, cf.getRealFormat());
     }
 
+    @Test
     public void testGetImaginaryFormat() {
         NumberFormat nf = NumberFormat.getInstance();
         ComplexFormat cf = new ComplexFormat();
 
-        assertNotSame(nf, cf.getImaginaryFormat());
+        Assert.assertNotSame(nf, cf.getImaginaryFormat());
         cf.setImaginaryFormat(nf);
-        assertSame(nf, cf.getImaginaryFormat());
+        Assert.assertSame(nf, cf.getImaginaryFormat());
     }
 
+    @Test
     public void testSetImaginaryFormatNull() {
         try {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryFormat(null);
-            fail();
+            Assert.fail();
         } catch (NullArgumentException ex) {
             // success
         }
     }
 
+    @Test
     public void testSetRealFormatNull() {
         try {
             ComplexFormat cf = new ComplexFormat();
             cf.setRealFormat(null);
-            fail();
+            Assert.fail();
         } catch (NullArgumentException ex) {
             // success
         }
     }
 
+    @Test
     public void testGetRealFormat() {
         NumberFormat nf = NumberFormat.getInstance();
         ComplexFormat cf = new ComplexFormat();
 
-        assertNotSame(nf, cf.getRealFormat());
+        Assert.assertNotSame(nf, cf.getRealFormat());
         cf.setRealFormat(nf);
-        assertSame(nf, cf.getRealFormat());
+        Assert.assertSame(nf, cf.getRealFormat());
     }
 
+    @Test
     public void testSetImaginaryCharacterNull() {
         try {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryCharacter(null);
-            fail();
+            Assert.fail();
         } catch (NullArgumentException ex) {
             // success
         }
     }
 
+    @Test
     public void testSetImaginaryCharacterEmpty() {
         try {
             ComplexFormat cf = new ComplexFormat();
             cf.setImaginaryCharacter("");
-            fail();
+            Assert.fail();
         } catch (MathIllegalArgumentException ex) {
             // success
         }
     }
 
+    @Test
     public void testFormatNumber() {
-        CompositeFormat cf = ComplexFormat.getInstance(getLocale());
+        ComplexFormat cf = ComplexFormat.getInstance(getLocale());
         Double pi = Double.valueOf(FastMath.PI);
         String text = cf.format(pi);
-        assertEquals("3" + getDecimalCharacter() + "14", text);
+        Assert.assertEquals("3" + getDecimalCharacter() + "14", text);
     }
 
-    public void testFormatObject() {
-        try {
-            CompositeFormat cf = new ComplexFormat();
-            Object object = new Object();
-            cf.format(object);
-            fail();
-        } catch (MathIllegalArgumentException ex) {
-            // success
-        }
-    }
-
+    @Test
     public void testForgottenImaginaryCharacter() {
         ParsePosition pos = new ParsePosition(0);
-        assertNull(new ComplexFormat().parse("1 + 1", pos));
-        assertEquals(5, pos.getErrorIndex());
+        Assert.assertNull(new ComplexFormat().parse("1 + 1", pos));
+        Assert.assertEquals(5, pos.getErrorIndex());
     }
 }
