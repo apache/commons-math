@@ -24,7 +24,6 @@ import java.util.Locale;
 import org.junit.Test;
 import org.junit.Assert;
 
-import org.apache.commons.math.util.CompositeFormat;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
