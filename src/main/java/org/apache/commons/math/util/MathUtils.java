@@ -35,6 +35,7 @@ import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NotFiniteNumberException;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
@@ -1838,6 +1839,35 @@ public final class MathUtils {
      */
     public static void checkOrder(double[] val) {
         checkOrder(val, OrderDirection.INCREASING, true);
+    }
+
+    /**
+     * Check that the argument is a real number.
+     *
+     * @param x Argument.
+     * @throws NotFiniteNumberException if {@code x} is not a
+     * finite real number.
+     */
+    public static void checkFinite(final double x) {
+        if (Double.isInfinite(x) || Double.isNaN(x)) {
+            throw new NotFiniteNumberException(x);
+        }
+    }
+
+    /**
+     * Check that all the elements are real number.
+     *
+     * @param val Arguments.
+     * @throws NotFiniteNumberException if any values of the array is not a
+     * finite real number.
+     */
+    public static void checkFinite(final double[] val) {
+        for (int i = 0; i < val.length; i++) {
+            final double x = val[i];
+            if (Double.isInfinite(x) || Double.isNaN(x)) {
+                throw new NotFiniteNumberException(LocalizedFormats.ARRAY_ELEMENT, x, i);
+            }
+        }
     }
 
     /**
