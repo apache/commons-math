@@ -16,8 +16,15 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NotFiniteNumberException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +34,7 @@ import org.junit.Test;
 public class LoessInterpolatorTest {
 
     @Test
-    public void testOnOnePoint() throws MathException {
+    public void testOnOnePoint() {
         double[] xval = {0.5};
         double[] yval = {0.7};
         double[] res = new LoessInterpolator().smooth(xval, yval);
@@ -36,7 +43,7 @@ public class LoessInterpolatorTest {
     }
 
     @Test
-    public void testOnTwoPoints() throws MathException {
+    public void testOnTwoPoints() {
         double[] xval = {0.5, 0.6};
         double[] yval = {0.7, 0.8};
         double[] res = new LoessInterpolator().smooth(xval, yval);
@@ -46,7 +53,7 @@ public class LoessInterpolatorTest {
     }
 
     @Test
-    public void testOnStraightLine() throws MathException {
+    public void testOnStraightLine() {
         double[] xval = {1,2,3,4,5};
         double[] yval = {2,4,6,8,10};
         LoessInterpolator li = new LoessInterpolator(0.6, 2, 1e-12);
@@ -58,7 +65,7 @@ public class LoessInterpolatorTest {
     }
 
     @Test
-    public void testOnDistortedSine() throws MathException {
+    public void testOnDistortedSine() {
         int numPoints = 100;
         double[] xval = new double[numPoints];
         double[] yval = new double[numPoints];
@@ -90,7 +97,7 @@ public class LoessInterpolatorTest {
     }
 
     @Test
-    public void testIncreasingBandwidthIncreasesSmoothness() throws MathException {
+    public void testIncreasingBandwidthIncreasesSmoothness() {
         int numPoints = 100;
         double[] xval = new double[numPoints];
         double[] yval = new double[numPoints];
@@ -121,7 +128,7 @@ public class LoessInterpolatorTest {
     }
 
     @Test
-    public void testIncreasingRobustnessItersIncreasesSmoothnessWithOutliers() throws MathException {
+    public void testIncreasingRobustnessItersIncreasesSmoothnessWithOutliers() {
         int numPoints = 100;
         double[] xval = new double[numPoints];
         double[] yval = new double[numPoints];
@@ -153,74 +160,74 @@ public class LoessInterpolatorTest {
         }
     }
 
-    @Test(expected=MathException.class)
-    public void testUnequalSizeArguments() throws MathException {
+    @Test(expected=DimensionMismatchException.class)
+    public void testUnequalSizeArguments() {
         new LoessInterpolator().smooth(new double[] {1,2,3}, new double[] {1,2,3,4});
     }
 
-    @Test(expected=MathException.class)
-    public void testEmptyData() throws MathException {
+    @Test(expected=NoDataException.class)
+    public void testEmptyData() {
         new LoessInterpolator().smooth(new double[] {}, new double[] {});
     }
 
-    @Test(expected=MathException.class)
-    public void testNonStrictlyIncreasing1() throws MathException {
+    @Test(expected=NonMonotonousSequenceException.class)
+    public void testNonStrictlyIncreasing1() {
         new LoessInterpolator().smooth(new double[] {4,3,1,2}, new double[] {3,4,5,6});
     }
 
-    @Test(expected=MathException.class)
-    public void testNonStrictlyIncreasing2() throws MathException {
+    @Test(expected=NonMonotonousSequenceException.class)
+    public void testNonStrictlyIncreasing2() {
         new LoessInterpolator().smooth(new double[] {1,2,2,3}, new double[] {3,4,5,6});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal1() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal1() {
         new LoessInterpolator().smooth(new double[] {1,2,Double.NaN}, new double[] {3,4,5});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal2() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal2() {
         new LoessInterpolator().smooth(new double[] {1,2,Double.POSITIVE_INFINITY}, new double[] {3,4,5});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal3() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal3() {
         new LoessInterpolator().smooth(new double[] {1,2,Double.NEGATIVE_INFINITY}, new double[] {3,4,5});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal4() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal4() {
         new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NaN});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal5() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal5() {
         new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.POSITIVE_INFINITY});
     }
 
-    @Test(expected=MathException.class)
-    public void testNotAllFiniteReal6() throws MathException {
+    @Test(expected=NotFiniteNumberException.class)
+    public void testNotAllFiniteReal6() {
         new LoessInterpolator().smooth(new double[] {3,4,5}, new double[] {1,2,Double.NEGATIVE_INFINITY});
     }
 
-    @Test(expected=MathException.class)
-    public void testInsufficientBandwidth() throws MathException {
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testInsufficientBandwidth() {
         LoessInterpolator li = new LoessInterpolator(0.1, 3, 1e-12);
         li.smooth(new double[] {1,2,3,4,5,6,7,8,9,10,11,12}, new double[] {1,2,3,4,5,6,7,8,9,10,11,12});
     }
 
-    @Test(expected=MathException.class)
-    public void testCompletelyIncorrectBandwidth1() throws MathException {
+    @Test(expected=OutOfRangeException.class)
+    public void testCompletelyIncorrectBandwidth1() {
         new LoessInterpolator(-0.2, 3, 1e-12);
     }
 
-    @Test(expected=MathException.class)
-    public void testCompletelyIncorrectBandwidth2() throws MathException {
+    @Test(expected=OutOfRangeException.class)
+    public void testCompletelyIncorrectBandwidth2() {
         new LoessInterpolator(1.1, 3, 1e-12);
     }
 
     @Test
-    public void testMath296withoutWeights() throws MathException {
+    public void testMath296withoutWeights() {
         double[] xval = {
                 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
                  1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0};
@@ -251,5 +258,4 @@ public class LoessInterpolatorTest {
             x += dx * (1 + (2 * FastMath.random() - 1) * xnoise);
         }
     }
-
 }

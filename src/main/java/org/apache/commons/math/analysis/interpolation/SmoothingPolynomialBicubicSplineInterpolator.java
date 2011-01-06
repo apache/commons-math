@@ -18,7 +18,6 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.fitting.PolynomialFitter;
@@ -73,8 +72,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
     @Override
     public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
                                                           final double[] yval,
-                                                          final double[][] fval)
-        throws MathException {
+                                                          final double[][] fval) {
         if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
             throw new NoDataException();
         }

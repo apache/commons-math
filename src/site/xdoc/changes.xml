@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-458">
+        Removed "MathException" from the "throws" clause of the "interpolate" method
+        of the interpolators interfaces (package "analysis.interpolation").
+      </action>
       <action dev="erans" type="fix" issue="MATH-461">
         In order to comply with the new runtime exceptions policy, the classes
         "RealVectorFormat", "ComplexFormat", "Vector3DFormat" and "CompositeFormat"

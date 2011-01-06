@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 
 /**
@@ -27,7 +26,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
  */
 public interface BivariateRealGridInterpolator {
     /**
-     * Computes an interpolating function for the data set.
+     * Compute an interpolating function for the dataset.
      *
      * @param xval All the x-coordinates of the interpolation points, sorted
      * in increasing order.
@@ -35,10 +34,12 @@ public interface BivariateRealGridInterpolator {
      * in increasing order.
      * @param fval The values of the interpolation points on all the grid knots:
      * {@code fval[i][j] = f(xval[i], yval[j])}.
-     * @return a function which interpolates the data set.
-     * @throws MathException if arguments violate assumptions made by the
-     *         interpolation algorithm.
+     * @return a function which interpolates the dataset.
+     * @throws org.apache.commons.math.exception.NoDataException if any of
+     * the arrays has zero length.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the array lengths are inconsistent.
      */
-    BivariateRealFunction interpolate(double[] xval, double[] yval, double[][] fval)
-        throws MathException;
+    BivariateRealFunction interpolate(double[] xval, double[] yval,
+                                      double[][] fval);
 }

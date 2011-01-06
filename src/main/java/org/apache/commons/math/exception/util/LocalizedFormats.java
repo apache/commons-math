@@ -47,7 +47,7 @@ public enum LocalizedFormats implements Localizable {
     ASSYMETRIC_EIGEN_NOT_SUPPORTED("eigen decomposition of assymetric matrices not supported yet"),
     AT_LEAST_ONE_COLUMN("matrix must have at least one column"),
     AT_LEAST_ONE_ROW("matrix must have at least one row"),
-    BANDWIDTH_OUT_OF_INTERVAL("bandwidth must be in the interval [0,1], but got {0}"),
+    BANDWIDTH("bandwidth ({0})"),
     BINOMIAL_INVALID_PARAMETERS_ORDER("must have n >= k for binomial coefficient (n, k), got k = {0}, n = {1}"),
     BINOMIAL_NEGATIVE_PARAMETER("must have n >= 0 for binomial coefficient (n, k), got n = {0}"),
     CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS("statistics constructed from external moments cannot be cleared"),
@@ -160,7 +160,7 @@ public enum LocalizedFormats implements Localizable {
     NUMBER_OF_SUCCESSES("number of successes ({0})"), /* keep */
     NEGATIVE_NUMBER_OF_TRIALS("number of trials must be non-negative ({0})"),
     NUMBER_OF_TRIALS("number of trials ({0})"),
-    NEGATIVE_ROBUSTNESS_ITERATIONS("the number of robustness iterations must be non-negative, but got {0}"),
+    ROBUSTNESS_ITERATIONS("number of robustness iterations ({0})"),
     START_POSITION("start position ({0})"), /* keep */
     NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge (in less than {0} iterations) for value {1}"),
     NON_POSITIVE_MICROSPHERE_ELEMENTS("number of microsphere elements must be positive, but got {0}"),
@@ -285,7 +285,6 @@ public enum LocalizedFormats implements Localizable {
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),
-    TOO_SMALL_BANDWIDTH("the bandwidth must be large enough to accomodate at least 2 points. There are {0}  data points, and bandwidth must be at least {1}  but it is only {2}"),
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),
     TOO_SMALL_ORTHOGONALITY_TOLERANCE("orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian"),

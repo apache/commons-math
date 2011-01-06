@@ -18,7 +18,6 @@ package org.apache.commons.math.analysis.interpolation;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
 
 /**
@@ -45,10 +44,14 @@ public class NevilleInterpolator implements UnivariateRealInterpolator,
      * @param x the interpolating points array
      * @param y the interpolating values array
      * @return a function which interpolates the data set
-     * @throws MathException if arguments are invalid
+     * @throws org.apache.commons.math.exception.DimensionMismatchException if
+     * the array lengths are different.
+     * @throws org.apache.commons.math.exception.NumberIsTooSmallException if
+     * the number of points is less than 2.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if two abscissae have the same value.
      */
-    public PolynomialFunctionLagrangeForm interpolate(double x[], double y[])
-        throws MathException {
+    public PolynomialFunctionLagrangeForm interpolate(double x[], double y[]) {
         return new PolynomialFunctionLagrangeForm(x, y);
     }
 }

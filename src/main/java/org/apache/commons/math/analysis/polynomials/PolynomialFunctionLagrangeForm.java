@@ -63,7 +63,10 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
      *
      * @param x interpolating points
      * @param y function values at interpolating points
-     * @throws IllegalArgumentException if input arrays are not valid
+     * @throws DimensionMismatchException if the array lengths are different.
+     * @throws NumberIsTooSmallException if the number of points is less than 2.
+     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * if two abscissae have the same value.
      */
     public PolynomialFunctionLagrangeForm(double x[], double y[]) {
         this.x = new double[x.length];

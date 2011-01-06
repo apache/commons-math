@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
 /**
@@ -25,15 +24,14 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  */
 public interface UnivariateRealInterpolator {
-
     /**
-     * Computes an interpolating function for the data set.
-     * @param xval the arguments for the interpolation points
-     * @param yval the values for the interpolation points
-     * @return a function which interpolates the data set
-     * @throws MathException if arguments violate assumptions made by the
-     *         interpolation algorithm
+     * Compute an interpolating function for the dataset.
+     *
+     * @param xval Arguments for the interpolation points.
+     * @param yval Values for the interpolation points.
+     * @return a function which interpolates the dataset.
+     * @throws org.apache.commons.math.exception.MathRuntimeException if the
+     * arguments violate assumptions made by the interpolation algorithm.
      */
-    UnivariateRealFunction interpolate(double xval[], double yval[])
-        throws MathException;
+    UnivariateRealFunction interpolate(double xval[], double yval[]);
 }

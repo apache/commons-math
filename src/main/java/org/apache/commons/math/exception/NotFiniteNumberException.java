@@ -36,8 +36,8 @@ public class NotFiniteNumberException extends MathIllegalNumberException {
      * @param args Optional arguments.
      */
     public NotFiniteNumberException(Number wrong,
-                                    Object ... arguments) {
-        this(null, wrong, arguments);
+                                    Object ... args) {
+        this(null, wrong, args);
     }
 
     /**
@@ -49,8 +49,8 @@ public class NotFiniteNumberException extends MathIllegalNumberException {
      */
     public NotFiniteNumberException(Localizable specific,
                                     Number wrong,
-                                    Object ... arguments) {
+                                    Object ... args) {
         super(specific, LocalizedFormats.NOT_FINITE_NUMBER,
-              wrong, arguments);
+              wrong, args);
     }
 }

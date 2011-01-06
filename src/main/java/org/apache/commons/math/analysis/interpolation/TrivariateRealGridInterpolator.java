@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.TrivariateRealFunction;
 
 /**
@@ -28,7 +27,7 @@ import org.apache.commons.math.analysis.TrivariateRealFunction;
  */
 public interface TrivariateRealGridInterpolator {
     /**
-     * Computes an interpolating function for the data set.
+     * Compute an interpolating function for the dataset.
      *
      * @param xval All the x-coordinates of the interpolation points, sorted
      * in increasing order.
@@ -39,11 +38,11 @@ public interface TrivariateRealGridInterpolator {
      * @param fval the values of the interpolation points on all the grid knots:
      * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
      * @return a function that interpolates the data set.
-     * @throws org.apache.commons.math.exception.NoDataException if any of the arrays has zero length.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException if the array lengths are inconsistent.
-     * @throws MathException if arguments violate assumptions made by the
-     *         interpolation algorithm.
+     * @throws org.apache.commons.math.exception.NoDataException if any of
+     * the arrays has zero length.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the array lengths are inconsistent.
      */
-    TrivariateRealFunction interpolate(double[] xval, double[] yval, double[] zval, double[][][] fval)
-        throws MathException;
+    TrivariateRealFunction interpolate(double[] xval, double[] yval, double[] zval,
+                                       double[][][] fval);
 }
