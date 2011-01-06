@@ -144,7 +144,9 @@ public class SimplexOptimizer
             if (iteration > 0) {
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
-                    converged &= checker.converged(iteration, previous[i], simplex.getPoint(i));
+                    @SuppressWarnings("null") // Cannot be null when iteration > 0
+                    RealPointValuePair prev = previous[i];
+                    converged &= checker.converged(iteration, prev, simplex.getPoint(i));
                 }
                 if (converged) {
                     // We have found an optimum.
