@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathRuntimeException;
+import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
@@ -1511,6 +1512,46 @@ public final class MathUtilsTest extends TestCase {
                                  MathUtils.OrderDirection.DECREASING, false);
             fail("an exception should have been thrown");
         } catch (NonMonotonousSequenceException e) {
+            // Expected
+        }
+    }
+
+    public void testCheckFinite() {
+        try {
+            MathUtils.checkFinite(Double.POSITIVE_INFINITY);
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkFinite(Double.NEGATIVE_INFINITY);
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkFinite(Double.NaN);
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+
+        try {
+            MathUtils.checkFinite(new double[] {0, -1, Double.POSITIVE_INFINITY, -2, 3});
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkFinite(new double[] {1, Double.NEGATIVE_INFINITY, -2, 3});
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkFinite(new double[] {4, 3, -1, Double.NaN, -2, 1});
+            fail("an exception should have been thrown");
+        } catch (NotFiniteNumberException e) {
             // Expected
         }
     }

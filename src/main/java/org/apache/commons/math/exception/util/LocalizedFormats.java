@@ -114,6 +114,8 @@ public enum LocalizedFormats implements Localizable {
     INDEX_NOT_POSITIVE("index ({0}) is not positive"),
     INDEX_OUT_OF_RANGE("index {0} out of allowed range [{1}, {2}]"),
     INDEX("index ({0})"), /* keep */
+    NOT_FINITE_NUMBER("{0} is not a finite number"), /* keep */
+    ARRAY_ELEMENT("value {0} at index {1}"), /* keep */
     INFINITE_ARRAY_ELEMENT("Array contains an infinite element, {0} at index {1}"),
     INFINITE_VALUE_CONVERSION("cannot convert infinite value"),
     INITIAL_CAPACITY_NOT_POSITIVE("initial capacity ({0}) is not positive"),
