@@ -145,6 +145,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-467">
+        Fixed an awkward statement that triggered a false positive warning.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-364" due-to="Christian Winter">
         Added complementary error function, erfc.
       </action>
