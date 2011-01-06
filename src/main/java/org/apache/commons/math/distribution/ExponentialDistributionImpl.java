@@ -203,6 +203,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value lower bound, i.e.
      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code>
      */
+    @Override
     protected double getDomainLowerBound(double p) {
         return 0;
     }
@@ -215,6 +216,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * @return domain value upper bound, i.e.
      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code>
      */
+    @Override
     protected double getDomainUpperBound(double p) {
         // NOTE: exponential is skewed to the left
         // NOTE: therefore, P(X < &mu;) > .5
