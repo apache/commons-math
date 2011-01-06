@@ -164,7 +164,7 @@ public abstract class Vector3DFormatAbstractTest {
         String source = "{1; 1; 1}";
         Vector3D expected = new Vector3D(1, 1, 1);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -193,7 +193,7 @@ public abstract class Vector3DFormatAbstractTest {
             "63}";
         Vector3D expected = new Vector3D(1.23, 1.43, 1.63);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -209,7 +209,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -225,7 +225,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(-1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -241,7 +241,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, -1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -257,7 +257,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(1.2323, 1.4343, -1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -273,7 +273,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(-1.2323, -1.4343, -1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -289,7 +289,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333}";
         Vector3D expected = new Vector3D(0.0, -1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -305,7 +305,7 @@ public abstract class Vector3DFormatAbstractTest {
             "6333]";
         Vector3D expected = new Vector3D(1.2323, 1.4343, 1.6333);
         try {
-            Vector3D actual = (Vector3D) vector3DFormatSquare.parse(source);
+            Vector3D actual = vector3DFormatSquare.parse(source);
             Assert.assertEquals(expected, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -316,7 +316,7 @@ public abstract class Vector3DFormatAbstractTest {
     public void testParseNan() {
         String source = "{(NaN); (NaN); (NaN)}";
         try {
-            Vector3D actual = (Vector3D) vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(Vector3D.NaN, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -327,7 +327,7 @@ public abstract class Vector3DFormatAbstractTest {
     public void testParsePositiveInfinity() {
         String source = "{(Infinity); (Infinity); (Infinity)}";
         try {
-            Vector3D actual = (Vector3D)vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(Vector3D.POSITIVE_INFINITY, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
@@ -338,7 +338,7 @@ public abstract class Vector3DFormatAbstractTest {
     public void testParseNegativeInfinity() {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
         try {
-            Vector3D actual = (Vector3D)vector3DFormat.parse(source);
+            Vector3D actual = vector3DFormat.parse(source);
             Assert.assertEquals(Vector3D.NEGATIVE_INFINITY, actual);
         } catch (MathParseException ex) {
             Assert.fail(ex.getMessage());
