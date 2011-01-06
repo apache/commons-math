@@ -1762,7 +1762,7 @@ public final class MathUtils {
     }
 
     /**
-     * Checks that the given array is sorted.
+     * Check that the given array is sorted.
      *
      * @param val Values.
      * @param dir Ordering direction.
@@ -1818,29 +1818,26 @@ public final class MathUtils {
     }
 
     /**
-     * Checks that the given array is sorted.
+     * Check that the given array is sorted.
      *
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
-     * @return {@code true} if the array is sorted.
-     * @throws NonMonotonousSequenceException if the array is not sorted
-     * and {@code abort} is {@code true}.
+     * @throws NonMonotonousSequenceException if the array is not sorted.
      */
-    public static boolean checkOrder(double[] val, OrderDirection dir,
-                                     boolean strict) {
-        return checkOrder(val, dir, strict, true);
+    public static void checkOrder(double[] val, OrderDirection dir,
+                                  boolean strict) {
+        checkOrder(val, dir, strict, true);
     }
 
     /**
-     * Checks that the given array is sorted in strictly increasing order.
+     * Check that the given array is sorted in strictly increasing order.
      *
      * @param val Values.
-     * @return {@code true} if the array is sorted.
      * @throws NonMonotonousSequenceException if the array is not sorted.
      */
-    public static boolean checkOrder(double[] val) {
-        return checkOrder(val, OrderDirection.INCREASING, true);
+    public static void checkOrder(double[] val) {
+        checkOrder(val, OrderDirection.INCREASING, true);
     }
 
     /**
