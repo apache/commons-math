@@ -37,7 +37,7 @@ public class MathParseException extends MathRuntimeException {
      */
     public MathParseException(String wrong,
                               int position,
-                              Class type) {
+                              Class<?> type) {
         super(null, null, LocalizedFormats.CANNOT_PARSE_AS_TYPE,
               wrong, new Integer(position), type.getName());
     }
