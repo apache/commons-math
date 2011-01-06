@@ -177,8 +177,6 @@ public class HarmonicCoefficientsGuesser {
                     observations[i + 1] = mI;
                     if (i-- != 0) {
                         mI = observations[i];
-                    } else {
-                        mI = null;
                     }
                 }
                 observations[i + 1] = curr;
