@@ -174,8 +174,6 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      *            the first sample
      * @param y
      *            the second sample
-     * @param exactPValue
-     *            if the exact p-value is wanted (only for x.length <= 50)
      * @return asymptotic p-value (biased for samples with ties)
      * @throws IllegalArgumentException
      *             if preconditions are not met
