@@ -19,7 +19,7 @@ package org.apache.commons.math.geometry;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -30,10 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-
-public class Vector3D
-  implements Serializable {
-
+public class Vector3D implements Serializable {
   /** Null vector (coordinates: 0, 0, 0). */
   public static final Vector3D ZERO   = new Vector3D(0, 0, 0);
 
@@ -285,7 +282,7 @@ public class Vector3D
   public Vector3D normalize() {
     double s = getNorm();
     if (s == 0) {
-      throw MathRuntimeException.createArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
+      throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
     }
     return scalarMultiply(1 / s);
   }
@@ -309,7 +306,7 @@ public class Vector3D
 
     double threshold = 0.6 * getNorm();
     if (threshold == 0) {
-      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
+      throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
     }
 
     if ((x >= -threshold) && (x <= threshold)) {
@@ -339,7 +336,7 @@ public class Vector3D
 
     double normProduct = v1.getNorm() * v2.getNorm();
     if (normProduct == 0) {
-      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM);
+      throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
     }
 
     double dot = dotProduct(v1, v2);
