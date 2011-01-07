@@ -42,11 +42,11 @@ public class ComplexFormat {
      /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     /** The notation used to signify the imaginary part of the complex number. */
-    private String imaginaryCharacter;
+    private final String imaginaryCharacter;
     /** The format used for the imaginary part. */
-    private NumberFormat imaginaryFormat;
+    private final NumberFormat imaginaryFormat;
     /** The format used for the real part. */
-    private NumberFormat realFormat;
+    private final NumberFormat realFormat;
 
     /**
      * Create an instance with the default imaginary character, 'i', and the
