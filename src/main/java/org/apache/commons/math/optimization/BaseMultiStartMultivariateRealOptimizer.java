@@ -22,6 +22,8 @@ import java.util.Comparator;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -58,14 +60,23 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      * Create a multi-start optimizer from a single-start optimizer.
      *
      * @param optimizer Single-start optimizer to wrap.
-     * @param starts Number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1.
+     * @param starts Number of starts to perform.
      * @param generator Random vector generator to use for restarts.
+     * @throws NullArgumentException if {@code optimizer} or {@code generator}
+     * is {@code null}.
+     * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     protected BaseMultiStartMultivariateRealOptimizer(final BaseMultivariateRealOptimizer<FUNC> optimizer,
                                                       final int starts,
                                                       final RandomVectorGenerator generator) {
+        if (optimizer == null ||
+            generator == null) {
+            throw new NullArgumentException();
+        }
+        if (starts < 1) {
+            throw new NotStrictlyPositiveException(starts);
+        }
+
         this.optimizer = optimizer;
         this.starts = starts;
         this.generator = generator;
