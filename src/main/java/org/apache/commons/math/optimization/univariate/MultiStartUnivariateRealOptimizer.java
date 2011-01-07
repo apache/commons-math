@@ -23,6 +23,8 @@ import java.util.Comparator;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.optimization.GoalType;
@@ -60,14 +62,24 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * Create a multi-start optimizer from a single-start optimizer.
      *
      * @param optimizer Single-start optimizer to wrap.
-     * @param starts Number of starts to perform (including the
-     * first one), multi-start is disabled if value is less than or
-     * equal to 1.
+     * @param starts Number of starts to perform, must be >=1. 
+     * Multi-start is disabled if {@code starts == 1}.
      * @param generator Random generator to use for restarts.
+     * @throws NullArgumentException if {@code optimizer} or {@code generator}
+     * is {@code null}.
+     * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     public MultiStartUnivariateRealOptimizer(final BaseUnivariateRealOptimizer<FUNC> optimizer,
                                              final int starts,
                                              final RandomGenerator generator) {
+        if (optimizer == null ||
+                generator == null) {
+                throw new NullArgumentException();
+        }
+        if (starts < 1) {
+            throw new NotStrictlyPositiveException(starts);
+        }
+
         this.optimizer = optimizer;
         this.starts = starts;
         this.generator = generator;
@@ -163,7 +175,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
         sortPairs(goal);
 
         if (optima[0] == null) {
-            throw lastException;
+            throw lastException; // cannot be null if starts >=1
         }
 
         // Return the point with the best objective function value.
