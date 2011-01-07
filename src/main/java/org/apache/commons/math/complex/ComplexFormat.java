@@ -91,23 +91,43 @@ public class ComplexFormat {
      * @param format the custom format for both real and imaginary parts.
      */
     public ComplexFormat(String imaginaryCharacter, NumberFormat format) {
-        this(imaginaryCharacter, format, (NumberFormat)format.clone());
+        this(imaginaryCharacter, format, format);
     }
 
     /**
      * Create an instance with a custom imaginary character, a custom number
      * format for the real part, and a custom number format for the imaginary
      * part.
+     *
      * @param imaginaryCharacter The custom imaginary character.
      * @param realFormat the custom format for the real part.
      * @param imaginaryFormat the custom format for the imaginary part.
+     * @throws NullArgumentException if {@code imaginaryCharacter} is
+     * {@code null}.
+     * @throws NoDataException if {@code imaginaryCharacter} is an
+     * empty string.
+     * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
+     * @throws NullArgumentException if {@code realFormat} is {@code null}.
      */
-    public ComplexFormat(String imaginaryCharacter, NumberFormat realFormat,
-            NumberFormat imaginaryFormat) {
-        super();
-        setImaginaryCharacter(imaginaryCharacter);
-        setImaginaryFormat(imaginaryFormat);
-        setRealFormat(realFormat);
+    public ComplexFormat(String imaginaryCharacter,
+                         NumberFormat realFormat,
+                         NumberFormat imaginaryFormat) {
+        if (imaginaryCharacter == null) {
+            throw new NullArgumentException();
+        }
+        if (imaginaryCharacter.length() == 0) {
+            throw new NoDataException();
+        }
+        if (imaginaryFormat == null) {
+            throw new NullArgumentException(LocalizedFormats.IMAGINARY_FORMAT);
+        }
+        if (realFormat == null) {
+            throw new NullArgumentException(LocalizedFormats.REAL_FORMAT);
+        }
+
+        this.imaginaryCharacter = imaginaryCharacter;
+        this.imaginaryFormat = imaginaryFormat;
+        this.realFormat = realFormat;
     }
 
     /**
@@ -238,6 +258,18 @@ public class ComplexFormat {
     }
 
     /**
+     * Returns the default complex format for the given locale.
+     * @param locale the specific locale used by the format.
+     * @param imaginaryCharacter Imaginary character.
+     * @return the complex format specific to the given locale.
+     */
+    public static ComplexFormat getInstance(String imaginaryCharacter,
+                                            Locale locale) {
+        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
+        return new ComplexFormat(imaginaryCharacter, f);
+    }
+
+    /**
      * Access the realFormat.
      * @return the realFormat.
      */
@@ -329,47 +361,5 @@ public class ComplexFormat {
 
         return new Complex(re.doubleValue(), im.doubleValue() * sign);
 
-    }
-
-    /**
-     * Modify the imaginaryCharacter.
-     * @param imaginaryCharacter The new imaginaryCharacter value.
-     * @throws NullArgumentException if {@code imaginaryCharacter} is
-     * {@code null}.
-     * @throws NoDataException if {@code imaginaryCharacter} is an
-     * empty string.
-     */
-    public void setImaginaryCharacter(String imaginaryCharacter) {
-        if (imaginaryCharacter == null) {
-            throw new NullArgumentException();
-        }
-        if (imaginaryCharacter.length() == 0) {
-            throw new NoDataException();
-        }
-        this.imaginaryCharacter = imaginaryCharacter;
-    }
-
-    /**
-     * Modify the imaginaryFormat.
-     * @param imaginaryFormat The new imaginaryFormat value.
-     * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
-     */
-    public void setImaginaryFormat(NumberFormat imaginaryFormat) {
-        if (imaginaryFormat == null) {
-            throw new NullArgumentException(LocalizedFormats.IMAGINARY_FORMAT);
-        }
-        this.imaginaryFormat = imaginaryFormat;
-    }
-
-    /**
-     * Modify the realFormat.
-     * @param realFormat The new realFormat value.
-     * @throws NullArgumentException if {@code realFormat} is {@code null}.
-     */
-    public void setRealFormat(NumberFormat realFormat) {
-        if (realFormat == null) {
-            throw new NullArgumentException(LocalizedFormats.REAL_FORMAT);
-        }
-        this.realFormat = realFormat;
     }
 }

@@ -40,8 +40,7 @@ public abstract class ComplexFormatAbstractTest {
 
     protected ComplexFormatAbstractTest() {
         complexFormat = ComplexFormat.getInstance(getLocale());
-        complexFormatJ = ComplexFormat.getInstance(getLocale());
-        complexFormatJ.setImaginaryCharacter("j");
+        complexFormatJ = ComplexFormat.getInstance("j", getLocale());
     }
 
     @Test
@@ -308,65 +307,15 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testGetImaginaryFormat() {
         NumberFormat nf = NumberFormat.getInstance();
-        ComplexFormat cf = new ComplexFormat();
-
-        Assert.assertNotSame(nf, cf.getImaginaryFormat());
-        cf.setImaginaryFormat(nf);
+        ComplexFormat cf = new ComplexFormat(nf);
         Assert.assertSame(nf, cf.getImaginaryFormat());
-    }
-
-    @Test
-    public void testSetImaginaryFormatNull() {
-        try {
-            ComplexFormat cf = new ComplexFormat();
-            cf.setImaginaryFormat(null);
-            Assert.fail();
-        } catch (NullArgumentException ex) {
-            // success
-        }
-    }
-
-    @Test
-    public void testSetRealFormatNull() {
-        try {
-            ComplexFormat cf = new ComplexFormat();
-            cf.setRealFormat(null);
-            Assert.fail();
-        } catch (NullArgumentException ex) {
-            // success
-        }
     }
 
     @Test
     public void testGetRealFormat() {
         NumberFormat nf = NumberFormat.getInstance();
-        ComplexFormat cf = new ComplexFormat();
-
-        Assert.assertNotSame(nf, cf.getRealFormat());
-        cf.setRealFormat(nf);
+        ComplexFormat cf = new ComplexFormat(nf);
         Assert.assertSame(nf, cf.getRealFormat());
-    }
-
-    @Test
-    public void testSetImaginaryCharacterNull() {
-        try {
-            ComplexFormat cf = new ComplexFormat();
-            cf.setImaginaryCharacter(null);
-            Assert.fail();
-        } catch (NullArgumentException ex) {
-            // success
-        }
-    }
-
-    @Test
-    public void testSetImaginaryCharacterEmpty() {
-        try {
-            ComplexFormat cf = new ComplexFormat();
-            cf.setImaginaryCharacter("");
-            Assert.fail();
-        } catch (MathIllegalArgumentException ex) {
-            // success
-        }
     }
 
     @Test
