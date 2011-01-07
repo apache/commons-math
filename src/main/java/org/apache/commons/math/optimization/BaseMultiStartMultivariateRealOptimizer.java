@@ -60,7 +60,8 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      * Create a multi-start optimizer from a single-start optimizer.
      *
      * @param optimizer Single-start optimizer to wrap.
-     * @param starts Number of starts to perform.
+     * @param starts Number of starts to perform, must be >=1. 
+     * Multi-start is disabled if {@code starts == 1}.
      * @param generator Random vector generator to use for restarts.
      * @throws NullArgumentException if {@code optimizer} or {@code generator}
      * is {@code null}.
@@ -162,7 +163,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
         sortPairs(goal);
 
         if (optima[0] == null) {
-            throw lastException;
+            throw lastException; // cannot be null if starts >=1
         }
 
         // Return the found point given the best objective function value.
