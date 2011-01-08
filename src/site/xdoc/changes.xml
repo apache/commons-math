@@ -62,6 +62,18 @@ The <action> type attribute can be add,update,fix,remove.
         Modified erf (and erfc) to return extreme values for x with abs(x) > 40.
         For these arguments, the true value is indistinguishable from an extrema as a double.
       </action>
+      <action dev="mikkel" type="update" issue="MATH-385">
+        Added characteristic support to distributions, including methods to return numerical
+        estimates of the mean and variance and upper and lower bounds of support. In version 2.2,
+        methods returning distribution characteristics have been added only to the implementation
+        classes.  In version 3, supporting methods have been added to the abstract base classes
+        and distribution interfaces.
+      </action>
+      <action dev="mikkel" type="update" issue="MATH-384">
+        Added a constructor and addValues(double[]) methods allowing DescriptiveStatistics to
+        be initialized with values from a double[] array.  Similarly enhanced 
+        ResizeableDoubleArray.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-448" due-to="Patrick Meyer">
         Added a getUniqueCount() method to Frequency to return the number of unique
         values included in the frequency table.
