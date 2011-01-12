@@ -469,7 +469,7 @@ public final class MathUtils {
      * Returns true if both arguments are equal or within the range of allowed
      * error (inclusive).
      * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
-     * (or less) floating point numbers between them (i.e. two adjacent floating
+     * (or fewer) floating point numbers between them, i.e. two adjacent floating
      * point numbers are considered equal.
      * Adapted from <a
      * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
@@ -479,7 +479,7 @@ public final class MathUtils {
      * @param y second value
      * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
      * values between {@code x} and {@code y}.
-     * @return {@code true} if there are less than {@code maxUlps} floating
+     * @return {@code true} if there are fewer than {@code maxUlps} floating
      * point values between {@code x} and {@code y}.
      */
     public static boolean equals(double x, double y, int maxUlps) {
