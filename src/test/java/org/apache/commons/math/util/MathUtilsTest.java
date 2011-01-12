@@ -439,11 +439,6 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
 
-    /**
-     * @deprecated To be removed in release 3.0 (replaced by {@link
-     * #testArrayEqualsIncludingNaN()}.
-     */
-    @Deprecated
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));
         assertFalse(MathUtils.equals(null, new double[] { 1d }));
