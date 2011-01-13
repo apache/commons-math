@@ -82,6 +82,9 @@ public final class MathUtils {
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
 
+    /** Offset to order signed double numbers lexicographically. */
+    private static final int SGN_MASK_FLOAT = 0x80000000;
+
     /** All long-representable factorials */
     private static final long[] FACTORIALS = new long[] {
                        1l,                  1l,                   2l,
@@ -412,6 +415,160 @@ public final class MathUtils {
      */
     public static double cosh(double x) {
         return (FastMath.exp(x) + FastMath.exp(-x)) / 2.0;
+    }
+
+    /**
+     * Returns true iff they are equal as defined by
+     * {@link #equals(float,float,int) equals(x, y, 1)}.
+     *
+     * @param x first value
+     * @param y second value
+     * @return {@code true} if the values are equal.
+     */
+    public static boolean equals(float x, float y) {
+        return equals(x, y, 1);
+    }
+
+    /**
+     * Returns true if both arguments are NaN or neither is NaN and they are
+     * equal as defined by {@link #equals(float,float) this method}.
+     *
+     * @param x first value
+     * @param y second value
+     * @return {@code true} if the values are equal or both are NaN.
+     */
+    public static boolean equalsIncludingNaN(float x, float y) {
+        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, 1);
+    }
+
+    /**
+     * Returns true if both arguments are equal or within the range of allowed
+     * error (inclusive).
+     *
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow.
+     * @return {@code true} if the values are equal or within range of each other.
+     */
+    public static boolean equals(float x, float y, float eps) {
+        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
+    }
+
+    /**
+     * Returns true if both arguments are NaN or are equal or within the range
+     * of allowed error (inclusive).
+     *
+     * @param x first value
+     * @param y second value
+     * @param eps the amount of absolute error to allow.
+     * @return {@code true} if the values are equal or within range of each other,
+     * or both are NaN.
+     */
+    public static boolean equalsIncludingNaN(float x, float y, float eps) {
+        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
+    }
+
+    /**
+     * Returns true if both arguments are equal or within the range of allowed
+     * error (inclusive).
+     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
+     * (or fewer) floating point numbers between them, i.e. two adjacent floating
+     * point numbers are considered equal.
+     * Adapted from <a
+     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
+     * Bruce Dawson</a>
+     *
+     * @param x first value
+     * @param y second value
+     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
+     * values between {@code x} and {@code y}.
+     * @return {@code true} if there are fewer than {@code maxUlps} floating
+     * point values between {@code x} and {@code y}.
+     */
+    public static boolean equals(float x, float y, int maxUlps) {
+        // Check that "maxUlps" is non-negative and small enough so that
+        // NaN won't compare as equal to anything (except another NaN).
+        assert maxUlps > 0 && maxUlps < NAN_GAP;
+
+        int xInt = Float.floatToIntBits(x);
+        int yInt = Float.floatToIntBits(y);
+
+        // Make lexicographically ordered as a two's-complement integer.
+        if (xInt < 0) {
+            xInt = SGN_MASK_FLOAT - xInt;
+        }
+        if (yInt < 0) {
+            yInt = SGN_MASK_FLOAT - yInt;
+        }
+
+        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
+
+        return isEqual && !Float.isNaN(x) && !Float.isNaN(y);
+    }
+
+    /**
+     * Returns true if both arguments are NaN or if they are equal as defined
+     * by {@link #equals(float,float,int) this method}.
+     *
+     * @param x first value
+     * @param y second value
+     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
+     * values between {@code x} and {@code y}.
+     * @return {@code true} if both arguments are NaN or if there are less than
+     * {@code maxUlps} floating point values between {@code x} and {@code y}.
+     */
+    public static boolean equalsIncludingNaN(float x, float y, int maxUlps) {
+        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, maxUlps);
+    }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link #equals(float,float) this method}.
+     *
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension
+     * and equal elements.
+     */
+    public static boolean equals(float[] x, float[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!equals(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link #equalsIncludingNaN(double,double) this method}.
+     *
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension and
+     * equal elements
+     */
+    public static boolean equalsIncludingNaN(float[] x, float[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!equalsIncludingNaN(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
