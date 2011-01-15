@@ -159,7 +159,25 @@ public abstract class UnivariateRealSolverImpl
         throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Solve for a zero in the given interval, start at startValue.
+     * <p>A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.</p>
+     *
+     * @param f the function to solve.
+     * @param min the lower bound for the interval.
+     * @param max the upper bound for the interval.
+     * @param startValue the start value to use
+     * @param maxEval Maximum number of evaluations.
+     * @return a value where the function is zero
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the solver detects convergence problems otherwise.
+     * @throws MathUserException if an error occurs evaluating the function
+     * @throws IllegalArgumentException if min > max or the arguments do not
+     * satisfy the requirements specified by the solver
+     * @since 2.2
+     */
     public double solve(int maxEval, UnivariateRealFunction function, double min, double max, double startValue)
         throws ConvergenceException, MathUserException, IllegalArgumentException {
         throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
