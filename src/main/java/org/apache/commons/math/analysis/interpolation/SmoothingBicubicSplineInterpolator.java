@@ -21,6 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.MathUtils.OrderDirection;
+import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -46,7 +47,7 @@ public class SmoothingBicubicSplineInterpolator
     /**
      * {@inheritDoc}
      */
-    public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
+    public BivariateRealFunction interpolate(final double[] xval,
                                                           final double[] yval,
                                                           final double[][] zval)
         throws MathException, IllegalArgumentException {
