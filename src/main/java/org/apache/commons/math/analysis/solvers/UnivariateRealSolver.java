@@ -87,27 +87,6 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
      * @param f the function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
-     * @param maxEval Maximum number of evaluations.
-     * @return a value where the function is zero
-     * @throws ConvergenceException if the maximum iteration count is exceeded
-     * or the solver detects convergence problems otherwise.
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min > max or the endpoints do not
-     * satisfy the requirements specified by the solver
-     * @since 2.2
-     */
-    double solve(int maxEval, UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException, MathUserException;
-
-    /**
-     * Solve for a zero root in the given interval.
-     * <p>A solver may require that the interval brackets a single zero root.
-     * Solvers that do require bracketing should be able to handle the case
-     * where one of the endpoints is itself a root.</p>
-     *
-     * @param f the function to solve.
-     * @param min the lower bound for the interval.
-     * @param max the upper bound for the interval.
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
