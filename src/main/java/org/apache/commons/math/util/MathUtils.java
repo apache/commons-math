@@ -409,8 +409,7 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff if both arguments are NaN or neither is NaN
-     * and they are equal as defined by {x==y}.
+     * Returns true iff they are strictly equal.
      *
      * @param x first value
      * @param y second value
