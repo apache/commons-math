@@ -408,8 +408,6 @@ public final class MathUtils {
         return (FastMath.exp(x) + FastMath.exp(-x)) / 2.0;
     }
 
-    ///////////////////////////////
-
     /**
      * Returns true iff if both arguments are NaN or neither is NaN
      * and they are equal as defined by {x==y}.
@@ -578,10 +576,6 @@ public final class MathUtils {
         return true;
     }
 
-
-    //////////////////////////////////
-    
-    
     /**
      * Returns true iff they are strictly equal.
      *
