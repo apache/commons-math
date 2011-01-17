@@ -56,6 +56,10 @@ The <action> type attribute can be add,update,fix,remove.
         FastMath.max(50.0f, -50.0f) => -50.0f; should be +50.0f
         Fixed FastMath.max(float, float) so it returns correct value.
       </action>
+      <action dev="sebb" type="fix" issue="MATH-491">
+        MATH-491 MathUtils.equals(double, double) does not work properly for floats
+        - add equivalent (float, float) methods and basic tests
+      </action>
       <action dev="erans" type="fix" issue="MATH-458">
         Removed "MathException" from the "throws" clause of the "interpolate" method
         of the interpolators interfaces (package "analysis.interpolation").
