@@ -359,6 +359,40 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equalsIncludingNaN(152.9374, 153.0000, .0625));
     }
 
+    // Tests for floating point equality
+    @SuppressWarnings("deprecation") // Math.equals(float, float)
+    public void testFloatEqualsWithAllowedUlps() {
+        assertTrue("+0.0f == -0.0f",MathUtils.equals(0.0f, -0.0f));
+        assertTrue("+0.0f == -0.0f (1 ulp)",MathUtils.equals(0.0f, -0.0f, 1));
+        float oneFloat = 1.0f;
+        assertTrue("1.0f == 1.0f + 1 ulp",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat))));
+        assertTrue("1.0f == 1.0f + 1 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat)), 1));
+        assertFalse("1.0f != 1.0f + 2 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(2 + Float.floatToIntBits(oneFloat)), 1));
+
+        assertTrue(MathUtils.equals(153.0f, 153.0f, 1));
+
+        // These tests need adjusting for floating point precision
+//        assertTrue(MathUtils.equals(153.0f, 153.00000000000003f, 1));
+//        assertFalse(MathUtils.equals(153.0f, 153.00000000000006f, 1));
+//        assertTrue(MathUtils.equals(153.0f, 152.99999999999997f, 1));
+//        assertFalse(MathUtils.equals(153f, 152.99999999999994f, 1));
+//
+//        assertTrue(MathUtils.equals(-128.0f, -127.99999999999999f, 1));
+//        assertFalse(MathUtils.equals(-128.0f, -127.99999999999997f, 1));
+//        assertTrue(MathUtils.equals(-128.0f, -128.00000000000003f, 1));
+//        assertFalse(MathUtils.equals(-128.0f, -128.00000000000006f, 1));
+
+        assertTrue(MathUtils.equals(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(Double.MAX_VALUE, Float.POSITIVE_INFINITY, 1));
+
+        assertTrue(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(-Float.MAX_VALUE, Float.NEGATIVE_INFINITY, 1));
+
+        assertFalse(MathUtils.equals(Float.NaN, Float.NaN, 1));
+
+        assertFalse(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 100000));
+    }
+
     public void testEqualsWithAllowedUlps() {
         assertTrue(MathUtils.equals(0.0, -0.0, 1));
 
@@ -435,6 +469,7 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
 
+    @SuppressWarnings("deprecation") // specific tests of deprecated methods
     public void testArrayEquals() {
         assertFalse(MathUtils.equals(new double[] { 1d }, null));
         assertFalse(MathUtils.equals(null, new double[] { 1d }));
@@ -474,6 +509,26 @@ public final class MathUtilsTest extends TestCase {
                                                  new double[] { Double.NEGATIVE_INFINITY }));
         assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d },
                                                  new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
+    }
+
+    public void testFloatArrayEqualsIncludingNaN() {
+        assertFalse(MathUtils.equalsIncludingNaN(new float[] { 1f }, null));
+        assertFalse(MathUtils.equalsIncludingNaN(null, new float[] { 1f }));
+        assertTrue(MathUtils.equalsIncludingNaN((float[]) null, (float[]) null));
+
+        assertFalse(MathUtils.equalsIncludingNaN(new float[] { 1f }, new float[0]));
+        assertTrue(MathUtils.equalsIncludingNaN(new float[] { 1f }, new float[] { 1f }));
+        assertTrue(MathUtils.equalsIncludingNaN(new float[] {
+                    Float.NaN, Float.POSITIVE_INFINITY,
+                    Float.NEGATIVE_INFINITY, 1f, 0f
+                }, new float[] {
+                Float.NaN, Float.POSITIVE_INFINITY,
+                Float.NEGATIVE_INFINITY, 1f, 0f
+                }));
+        assertFalse(MathUtils.equalsIncludingNaN(new float[] { Float.POSITIVE_INFINITY },
+                                                 new float[] { Float.NEGATIVE_INFINITY }));
+//        assertFalse(MathUtils.equalsIncludingNaN(new float[] { 1f },
+//                                                 new float[] { FastMath.nextAfter(FastMath.nextAfter(1f, 2f), 2f) }));
     }
 
     public void testFactorial() {
