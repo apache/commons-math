@@ -583,27 +583,27 @@ public final class MathUtils {
     
     
     /**
-     * Returns true iff they are equal as defined by
-     * {@link #equals(double,double,int) this method}.
+     * Returns true iff they are strictly equal.
      *
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal.
      * @deprecated This method considers that {@code NaN == NaN}. In release
      * 3.0, the semantics will change in order to comply with IEEE754 where it
-     * is specified that {@code NaN != NaN}.
-     * New methods have been added for those cases wher the old semantics is
-     * useful (see e.g. {@link #equalsIncludingNaN(double,double)
-     * equalsIncludingNaN}.
+     * is specified that {@code NaN != NaN}. Also, two adjacent floating point
+     * numbers will be considered equal.
+     * New methods have been added for those cases where the old semantics
+     * (w.r.t. NaN) is useful (see e.g.
+     * {@link #equalsIncludingNaN(double,double) equalsIncludingNaN}.
      */
     @Deprecated
-public static boolean equals(double x, double y) {
-    return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
-}
+        public static boolean equals(double x, double y) {
+        return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
+    }
 
     /**
      * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(double,double) this method}.
+     * equal as defined by {@link #equals(double,double,int) equals(x, y, 1)}.
      *
      * @param x first value
      * @param y second value
