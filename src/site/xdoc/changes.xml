@@ -52,7 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
-      <action dev="sebb" type="fix" issue="MATH-491">
+      <action dev="sebb" type="fix" issue="MATH-471">
         MATH-491 MathUtils.equals(double, double) does not work properly for floats
         - add equivalent (float, float) methods and basic tests
       </action>
