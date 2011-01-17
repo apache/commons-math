@@ -429,7 +429,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(float,float,int)}.
+     * equal as defined by {@link #equals(float,float,int) equals(x, y, 1)}.
      *
      * @param x first value
      * @param y second value
@@ -506,7 +506,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(float,float,int)}.
+     * by {@link #equals(float,float,int) equals(x, y, maxUlps)}.
      *
      * @param x first value
      * @param y second value
@@ -674,7 +674,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(double,double,int) this method}.
+     * by {@link #equals(double,double,int) equals(x, y, maxUlps}.
      *
      * @param x first value
      * @param y second value
@@ -690,7 +690,7 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are null or have same dimensions and all
      * their elements are equal as defined by
-     * {@link #equals(double,double) this method}.
+     * {@link #equals(double,double)}.
      *
      * @param x first array
      * @param y second array
@@ -722,7 +722,7 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are null or have same dimensions and all
      * their elements are equal as defined by
-     * {@link #equalsIncludingNaN(double,double) this method}.
+     * {@link #equalsIncludingNaN(double,double)}.
      *
      * @param x first array
      * @param y second array
