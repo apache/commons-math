@@ -17,7 +17,6 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
