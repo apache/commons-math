@@ -596,13 +596,15 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true if both arguments are equal or within the range of allowed
+     * Returns {@code true} if there is no double value strictly between the
+     * arguments or the difference between them is within the range of allowed
      * error (inclusive).
      *
-     * @param x first value
-     * @param y second value
-     * @param eps the amount of absolute error to allow.
-     * @return {@code true} if the values are equal or within range of each other.
+     * @param x First value.
+     * @param y Second value.
+     * @param eps Amount of allowed absolute error.
+     * @return {@code true} if the values are two adjacent floating point
+     * numbers or they are within range of each other.
      */
     public static boolean equals(double x, double y, double eps) {
         return equals(x, y, 1) || FastMath.abs(y - x) <= eps;

@@ -343,12 +343,30 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(153.0000, 153.0000, .0625));
         assertTrue(MathUtils.equals(153.0000, 153.0625, .0625));
         assertTrue(MathUtils.equals(152.9375, 153.0000, .0625));
+        assertFalse(MathUtils.equals(153.0000, 153.0625, .0624));
+        assertFalse(MathUtils.equals(152.9374, 153.0000, .0625));
         assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1.0));
         assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
         assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
-        assertFalse(MathUtils.equals(153.0000, 153.0625, .0624));
-        assertFalse(MathUtils.equals(152.9374, 153.0000, .0625));
+    }
+
+    public void testMath475() {
+        final double a = 1.7976931348623182E16;
+        final double b = FastMath.nextUp(a);
+
+        double diff = FastMath.abs(a - b);
+        // Because they are adjacent floating point numbers, "a" and "b" are
+        // considered equal even though the allowed error is smaller than
+        // their difference.
+        assertTrue(MathUtils.equals(a, b, 0.5 * diff));
+
+        final double c = FastMath.nextUp(b);
+        diff = FastMath.abs(a - c);
+        // Because "a" and "c" are not adjacent, the tolerance is taken into
+        // account for assessing equality.
+        assertTrue(MathUtils.equals(a, c, diff));
+        assertFalse(MathUtils.equals(a, c, (1 - 1e-16) * diff));
     }
 
     public void testEqualsIncludingNaNWithAllowedDelta() {
