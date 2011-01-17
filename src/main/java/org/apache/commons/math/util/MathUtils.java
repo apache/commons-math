@@ -431,7 +431,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(float,float) this method}.
+     * equal as defined by {@link #equals(float,float) equals(x, y, 1)}.
      *
      * @param x first value
      * @param y second value
@@ -508,7 +508,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(float,float,int) this method}.
+     * by {@link #equals(float,float,int) equals(x, y, maxUlps)}.
      *
      * @param x first value
      * @param y second value
@@ -524,7 +524,7 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are null or have same dimensions and all
      * their elements are equal as defined by
-     * {@link #equals(float,float) this method}.
+     * {@link #equals(float,float)}.
      *
      * @param x first array
      * @param y second array
@@ -585,7 +585,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(double,double) this method}.
+     * equal as defined by {@link #equals(double,double) equals(x, y, 1)}.
      *
      * @param x first value
      * @param y second value
@@ -664,7 +664,7 @@ public final class MathUtils {
 
     /**
      * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(double,double,int) this method}.
+     * by {@link #equals(double,double,int) equals(x, y, maxUlps)}.
      *
      * @param x first value
      * @param y second value
@@ -680,7 +680,7 @@ public final class MathUtils {
     /**
      * Returns {@code true} iff both arguments are {@code null} or have same
      * dimensions and all their elements are equal as defined by
-     * {@link #equals(double,double) this method}.
+     * {@link #equals(double,double)}.
      *
      * @param x First array.
      * @param y Second array.
