@@ -76,18 +76,18 @@ public class FastMathTest {
 
     @Test
     public void testMinMaxFloat() {
-        double[][] pairs = {
-            { -50.0, 50.0 },
-            {  Float.POSITIVE_INFINITY, 1.0 },
-            {  Float.NEGATIVE_INFINITY, 1.0 },
-            {  Float.NaN, 1.0 },
-            {  Float.POSITIVE_INFINITY, 0.0 },
-            {  Float.NEGATIVE_INFINITY, 0.0 },
-            {  Float.NaN, 0.0 },
+        float[][] pairs = {
+            { -50.0f, 50.0f },
+            {  Float.POSITIVE_INFINITY, 1.0f },
+            {  Float.NEGATIVE_INFINITY, 1.0f },
+            {  Float.NaN, 1.0f },
+            {  Float.POSITIVE_INFINITY, 0.0f },
+            {  Float.NEGATIVE_INFINITY, 0.0f },
+            {  Float.NaN, 0.0f },
             {  Float.NaN, Float.NEGATIVE_INFINITY },
             {  Float.NaN, Float.POSITIVE_INFINITY }
         };
-        for (double[] pair : pairs) {
+        for (float[] pair : pairs) {
             Assert.assertEquals("min(" + pair[0] + ", " + pair[1] + ")",
                                 Math.min(pair[0], pair[1]),
                                 FastMath.min(pair[0], pair[1]),
