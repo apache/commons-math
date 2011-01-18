@@ -287,10 +287,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For population size <code>N</code>, 
-     * number of successes <code>m</code>, and 
-     * sample size <code>n</code>, 
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
+     * sample size <code>n</code>,
      * the lower bound of the support is
      * <code>max(0, n + m - N)</code>
      *
@@ -298,15 +298,15 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      */
     @Override
     public int getSupportLowerBound() {
-        return FastMath.max(0, 
+        return FastMath.max(0,
                 getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * For number of successes <code>m</code> and 
-     * sample size <code>n</code>, 
+     *
+     * For number of successes <code>m</code> and
+     * sample size <code>n</code>,
      * the upper bound of the support is
      * <code>min(m, n)</code>
      *
@@ -319,9 +319,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For population size <code>N</code>, 
-     * number of successes <code>m</code>, and 
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
      * sample size <code>n</code>, the mean is
      * <code>n * m / N</code>
      *
@@ -334,9 +334,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For population size <code>N</code>, 
-     * number of successes <code>m</code>, and 
+     *
+     * For population size <code>N</code>,
+     * number of successes <code>m</code>, and
      * sample size <code>n</code>, the variance is
      * <code>[ n * m * (N - n) * (N - m) ] / [ N^2 * (N - 1) ]</code>
      *

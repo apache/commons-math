@@ -202,8 +202,8 @@ public class TDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always negative infinity 
+     *
+     * The lower bound of the support is always negative infinity
      * no matter the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
@@ -215,8 +215,8 @@ public class TDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -228,7 +228,7 @@ public class TDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For degrees of freedom parameter df, the mean is
      * <ul>
      *  <li>if <code>df &gt; 1</code> then <code>0</code></li>
@@ -240,17 +240,17 @@ public class TDistributionImpl
     @Override
     protected double calculateNumericalMean() {
         final double df = getDegreesOfFreedom();
-        
+
         if (df > 1) {
             return 0;
         }
-        
-        return Double.NaN;        
+
+        return Double.NaN;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For degrees of freedom parameter df, the variance is
      * <ul>
      *  <li>if <code>df &gt; 2</code> then <code>df / (df - 2)</code> </li>
@@ -262,7 +262,7 @@ public class TDistributionImpl
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double df = getDegreesOfFreedom();        
+        final double df = getDegreesOfFreedom();
 
         if (df > 2) {
             return df / (df - 2);
@@ -271,7 +271,7 @@ public class TDistributionImpl
         if (df > 1 && df <= 2) {
             return Double.POSITIVE_INFINITY;
         }
-        
+
         return Double.NaN;
     }
 

@@ -187,7 +187,7 @@ public class BetaDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
@@ -199,7 +199,7 @@ public class BetaDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The upper bound of the support is always 1 no matter the parameters.
      *
      * @return upper bound of the support (always 1)
@@ -211,8 +211,8 @@ public class BetaDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * For first shape parameter <code>s1</code> and 
+     *
+     * For first shape parameter <code>s1</code> and
      * second shape parameter <code>s2</code>, the mean is
      * <code>s1 / (s1 + s2)</code>
      *
@@ -226,9 +226,9 @@ public class BetaDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * For first shape parameter <code>s1</code> and 
-     * second shape parameter <code>s2</code>, 
+     *
+     * For first shape parameter <code>s1</code> and
+     * second shape parameter <code>s2</code>,
      * the variance is
      * <code>[ s1 * s2 ] / [ (s1 + s2)^2 * (s1 + s2 + 1) ]</code>
      *
@@ -237,7 +237,7 @@ public class BetaDistributionImpl
     @Override
     protected double calculateNumericalVariance() {
         final double a = getAlpha();
-        final double b = getBeta();        
+        final double b = getBeta();
         final double alphabetasum = a + b;
         return (a * b) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
     }

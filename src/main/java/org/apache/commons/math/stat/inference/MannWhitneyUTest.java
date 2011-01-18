@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * An interface for Mann-Whitney U test (also called Wilcoxon rank-sum test).
- * 
+ *
  * @version $Revision$ $Date$
  */
 public interface MannWhitneyUTest {
@@ -46,7 +46,7 @@ public interface MannWhitneyUTest {
      * <li>The observations are at least ordinal (continuous are also ordinal).</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -76,7 +76,7 @@ public interface MannWhitneyUTest {
      * <li>The observations are at least ordinal (continuous are also ordinal).</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param x
      *            the first sample
      * @param y

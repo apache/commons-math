@@ -219,7 +219,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
@@ -231,8 +231,8 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -244,7 +244,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The mean is <code>scale * Gamma(1 + (1 / shape))</code>
      * where <code>Gamma(...)</code> is the Gamma-function
      *
@@ -260,9 +260,9 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The variance is 
-     * <code>scale^2 * Gamma(1 + (2 / shape)) - mean^2</code> 
+     *
+     * The variance is
+     * <code>scale^2 * Gamma(1 + (2 / shape)) - mean^2</code>
      * where <code>Gamma(...)</code> is the Gamma-function
      *
      * @return {@inheritDoc}
@@ -273,7 +273,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
         final double sc = getScale();
         final double mn = getNumericalMean();
 
-        return (sc * sc) * 
+        return (sc * sc) *
             FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
             (mn * mn);
     }

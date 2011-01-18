@@ -187,7 +187,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             numElements = initialArray.length;
         }
     }
-    
+
     /**
      * <p>
      * Create a ResizableArray with the specified initial capacity
@@ -302,7 +302,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             contract();
         }
     }
-    
+
     /**
      * Adds several element to the end of this expandable array.
      *

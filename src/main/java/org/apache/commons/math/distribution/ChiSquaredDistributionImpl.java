@@ -196,8 +196,8 @@ public class ChiSquaredDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always 0 no matter the 
+     *
+     * The lower bound of the support is always 0 no matter the
      * degrees of freedom.
      *
      * @return lower bound of the support (always 0)
@@ -209,8 +209,8 @@ public class ChiSquaredDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity no matter the 
+     *
+     * The upper bound of the support is always positive infinity no matter the
      * degrees of freedom.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -222,7 +222,7 @@ public class ChiSquaredDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For <code>k</code> degrees of freedom, the mean is
      * <code>k</code>
      *
@@ -235,7 +235,7 @@ public class ChiSquaredDistributionImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For <code>k</code> degrees of freedom, the variance is
      * <code>2 * k</code>
      *

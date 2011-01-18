@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * An implementation of the Wilcoxon signed-rank test.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
@@ -44,7 +44,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     /**
      * Create a test instance using the given strategies for NaN's and ties.
      * Only use this if you are sure of what you are doing.
-     * 
+     *
      * @param nanStrategy
      *            specifies the strategy that should be used for Double.NaN's
      * @param tiesStrategy
@@ -57,7 +57,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /**
      * Ensures that the provided arrays fulfills the assumptions.
-     * 
+     *
      * @param x
      * @param y
      * @throws IllegalArgumentException
@@ -86,7 +86,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /**
      * Calculates y[i] - x[i] for all i
-     * 
+     *
      * @param x
      * @param y
      * @throws IllegalArgumentException
@@ -106,7 +106,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /**
      * Calculates |z[i]| for all i
-     * 
+     *
      * @param z
      * @throws IllegalArgumentException
      *             if assumptions are not met
@@ -133,7 +133,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -144,7 +144,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      */
     public double wilcoxonSignedRank(final double[] x, final double[] y)
             throws IllegalArgumentException {
-        
+
         ensureDataConformance(x, y);
 
         // throws IllegalArgumentException if x and y are not correctly
@@ -171,12 +171,12 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     /**
      * Algorithm inspired by
      * http://www.fon.hum.uva.nl/Service/Statistics/Signed_Rank_Algorihms.html#C
-     * by Rob van Son, Institute of Phonetic Sciences & IFOTT, 
+     * by Rob van Son, Institute of Phonetic Sciences & IFOTT,
      * University of Amsterdam
-     * 
+     *
      * @param Wmax largest Wilcoxon signed rank value
      * @param N number of subjects (corresponding to x.length)
-     * @return two-sided exact p-value 
+     * @return two-sided exact p-value
      */
     private double calculateExactPValue(final double Wmax, final int N) {
 
@@ -208,22 +208,22 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
          */
         return 2 * ((double) largerRankSums) / ((double) m);
     }
-    
+
     /**
      * @param Wmin smallest Wilcoxon signed rank value
      * @param N number of subjects (corresponding to x.length)
-     * @return two-sided asymptotic p-value 
+     * @return two-sided asymptotic p-value
      * @throws MathException if an error occurs computing the p-value
      */
     private double calculateAsymptoticPValue(final double Wmin, final int N) throws MathException {
-        
+
         final double ES = (double) (N * (N + 1)) / 4.0;
-        
-        /* Same as (but saves computations): 
+
+        /* Same as (but saves computations):
          * final double VarW = ((double) (N * (N + 1) * (2*N + 1))) / 24;
          */
         final double VarS = ES * ((double) (2 * N + 1) / 6.0);
-        
+
         // - 0.5 is a continuity correction
         final double z = (Wmin - ES - 0.5) / FastMath.sqrt(VarS);
 
@@ -234,7 +234,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -251,16 +251,16 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     public double wilcoxonSignedRankTest(final double[] x, final double[] y,
             boolean exactPValue) throws IllegalArgumentException,
             MathException {
-        
+
         ensureDataConformance(x, y);
 
         final int N = x.length;
         final double Wmax = wilcoxonSignedRank(x, y);
-        
+
         if (exactPValue && N > 30) {
             throw new IllegalArgumentException("Exact test can only be made for N <= 30.");
         }
-        
+
         if (exactPValue) {
             return calculateExactPValue(Wmax, N);
         } else {

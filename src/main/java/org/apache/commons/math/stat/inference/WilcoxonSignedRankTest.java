@@ -20,7 +20,7 @@ import org.apache.commons.math.MathException;
 
 /**
  * An interface for Wilcoxon signed-rank test.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public interface WilcoxonSignedRankTest {
@@ -51,7 +51,7 @@ public interface WilcoxonSignedRankTest {
      * meaningful.</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -86,7 +86,7 @@ public interface WilcoxonSignedRankTest {
      * meaningful.</li>
      * </ul>
      * </p>
-     * 
+     *
      * @param x
      *            the first sample
      * @param y

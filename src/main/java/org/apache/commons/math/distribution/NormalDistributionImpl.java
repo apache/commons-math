@@ -244,8 +244,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always negative infinity 
+     *
+     * The lower bound of the support is always negative infinity
      * no matter the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
@@ -257,8 +257,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -270,7 +270,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>mu</code>, the mean is <code>mu</code>
      *
      * @return {@inheritDoc}
@@ -282,8 +282,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For standard deviation parameter <code>s</code>, 
+     *
+     * For standard deviation parameter <code>s</code>,
      * the variance is <code>s^2</code>
      *
      * @return {@inheritDoc}

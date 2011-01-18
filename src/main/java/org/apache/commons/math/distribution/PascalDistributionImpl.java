@@ -168,7 +168,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
@@ -180,10 +180,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
-     * no matter the parameters. Positive infinity is symbolised 
-     * by <code>Integer.MAX_VALUE</code> together with 
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters. Positive infinity is symbolised
+     * by <code>Integer.MAX_VALUE</code> together with
      * {@link #isSupportUpperBoundInclusive()} being <code>false</code>
      *
      * @return upper bound of the support (always <code>Integer.MAX_VALUE</code> for positive infinity)
@@ -195,8 +195,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For number of successes <code>r</code> and 
+     *
+     * For number of successes <code>r</code> and
      * probability of success <code>p</code>, the mean is
      * <code>( r * p ) / ( 1 - p )</code>
      *
@@ -211,8 +211,8 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For number of successes <code>r</code> and 
+     *
+     * For number of successes <code>r</code> and
      * probability of success <code>p</code>, the mean is
      * <code>( r * p ) / ( 1 - p )^2</code>
      *
@@ -225,7 +225,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         final double pInv = 1 - p;
         return ( r * p ) / (pInv * pInv);
     }
-    
+
     /**
      * {@inheritDoc}
      */

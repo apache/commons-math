@@ -163,7 +163,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
         }
 
         return ret;
-    }    
+    }
 
     /**
      * Access the domain value upper bound, based on <code>p</code>, used to
@@ -223,8 +223,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always negative infinity no matter 
+     *
+     * The lower bound of the support is always negative infinity no matter
      * the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
@@ -236,8 +236,8 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity no matter 
+     *
+     * The upper bound of the support is always positive infinity no matter
      * the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -249,7 +249,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The mean is always undefined no matter the parameters.
      *
      * @return mean (always Double.NaN)
@@ -261,7 +261,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The variance is always undefined no matter the parameters.
      *
      * @return variance (always Double.NaN)

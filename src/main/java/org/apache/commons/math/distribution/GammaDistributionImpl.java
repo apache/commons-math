@@ -240,7 +240,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
@@ -252,8 +252,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is always positive infinity 
+     *
+     * The upper bound of the support is always positive infinity
      * no matter the parameters.
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
@@ -265,8 +265,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For shape parameter <code>alpha</code> and scale 
+     *
+     * For shape parameter <code>alpha</code> and scale
      * parameter <code>beta</code>, the mean is
      * <code>alpha * beta</code>
      *
@@ -279,8 +279,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For shape parameter <code>alpha</code> and scale 
+     *
+     * For shape parameter <code>alpha</code> and scale
      * parameter <code>beta</code>, the variance is
      * <code>alpha * beta^2</code>
      *
@@ -288,7 +288,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     protected double calculateNumericalVariance() {
-        final double b = getBeta();        
+        final double b = getBeta();
         return getAlpha() * b * b;
     }
 

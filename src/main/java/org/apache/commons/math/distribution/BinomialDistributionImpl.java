@@ -167,8 +167,8 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The lower bound of the support is always 0 no matter the number of trials 
+     *
+     * The lower bound of the support is always 0 no matter the number of trials
      * and probability parameter.
      *
      * @return lower bound of the support (always 0)
@@ -177,10 +177,10 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     public int getSupportLowerBound() {
         return 0;
     }
-    
+
     /**
      * {@inheritDoc}
-     * 
+     *
      * The upper bound of the support is the number of trials.
      *
      * @return upper bound of the support (equal to number of trials)
@@ -192,8 +192,8 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For <code>n</code> number of trials and 
+     *
+     * For <code>n</code> number of trials and
      * probability parameter <code>p</code>, the mean is
      * <code>n * p</code>
      *
@@ -206,8 +206,8 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * For <code>n</code> number of trials and 
+     *
+     * For <code>n</code> number of trials and
      * probability parameter <code>p</code>, the variance is
      * <code>n * p * (1 - p)</code>
      *

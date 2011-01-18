@@ -150,19 +150,19 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 1 no matter the parameters.
      *
      * @return lower bound of the support (always 1)
      */
     @Override
-    public int getSupportLowerBound() {        
+    public int getSupportLowerBound() {
         return 1;
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The upper bound of the support is the number of elements
      *
      * @return upper bound of the support
@@ -174,11 +174,11 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For number of elements N and exponent s, the mean is
-     * <code>Hs1 / Hs</code> where 
+     * <code>Hs1 / Hs</code> where
      * <ul>
-     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li> 
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li>
      *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
      * </ul>
      *
@@ -188,7 +188,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
     protected double calculateNumericalMean() {
         final int N = getNumberOfElements();
         final double s = getExponent();
-        
+
         final double Hs1 = generalizedHarmonic(N, s - 1);
         final double Hs = generalizedHarmonic(N, s);
 
@@ -197,22 +197,22 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For number of elements N and exponent s, the mean is
-     * <code>(Hs2 / Hs) - (Hs1^2 / Hs^2)</code> where 
+     * <code>(Hs2 / Hs) - (Hs1^2 / Hs^2)</code> where
      * <ul>
      *  <li><code>Hs2 = generalizedHarmonic(N, s - 2)</code></li>
-     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li> 
+     *  <li><code>Hs1 = generalizedHarmonic(N, s - 1)</code></li>
      *  <li><code>Hs = generalizedHarmonic(N, s)</code></li>
      * </ul>
-     * 
+     *
      * @return {@inheritDoc}
      */
     @Override
     protected double calculateNumericalVariance() {
         final int N = getNumberOfElements();
         final double s = getExponent();
-        
+
         final double Hs2 = generalizedHarmonic(N, s - 2);
         final double Hs1 = generalizedHarmonic(N, s - 1);
         final double Hs = generalizedHarmonic(N, s);

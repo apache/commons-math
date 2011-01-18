@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * An implementation of the Mann-Whitney U test (also called Wilcoxon rank-sum
  * test).
- * 
+ *
  * @version $Revision$ $Date$
  */
 public class MannWhitneyUTestImpl implements MannWhitneyUTest {
@@ -45,7 +45,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
     /**
      * Create a test instance using the given strategies for NaN's and ties.
      * Only use this if you are sure of what you are doing.
-     * 
+     *
      * @param nanStrategy
      *            specifies the strategy that should be used for Double.NaN's
      * @param tiesStrategy
@@ -58,7 +58,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
 
     /**
      * Ensures that the provided arrays fulfills the assumptions.
-     * 
+     *
      * @param x
      * @param y
      * @throws IllegalArgumentException
@@ -96,7 +96,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -148,7 +148,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      */
     private double calculateAsymptoticPValue(final double Umin, final int n1,
             final int n2) throws MathException {
-        
+
         final int n1n2prod = n1 * n2;
 
         // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation
@@ -167,9 +167,9 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      * Ties give rise to biased variance at the moment. See e.g. <a
      * href="http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf"
      * >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.
-     * 
+     *
      * {@inheritDoc}
-     * 
+     *
      * @param x
      *            the first sample
      * @param y
@@ -184,13 +184,13 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
             throws IllegalArgumentException, MathException {
 
         ensureDataConformance(x, y);
-        
+
         final double Umax = mannWhitneyU(x, y);
-        
+
         /*
          * It can be shown that U1 + U2 = n1 * n2
          */
-        final double Umin = x.length * y.length - Umax; 
+        final double Umin = x.length * y.length - Umax;
 
         return calculateAsymptoticPValue(Umin, x.length, y.length);
     }

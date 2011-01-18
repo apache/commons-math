@@ -243,9 +243,9 @@ public class Frequency implements Serializable {
 
     /**
      * Returns the number of values in the frequency table.
-     * 
+     *
      * @return the number of unique values that have been added to the frequency table.
-     * @see #valuesIterator() 
+     * @see #valuesIterator()
      */
     public int getUniqueCount(){
     	return freqTable.keySet().size();

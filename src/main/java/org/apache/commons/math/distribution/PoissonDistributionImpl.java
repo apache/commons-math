@@ -233,7 +233,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The lower bound of the support is always 0 no matter the mean parameter.
      *
      * @return lower bound of the support (always 0)
@@ -245,9 +245,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
-     * The upper bound of the support is positive infinity, 
-     * regardless of the parameter values. There is no integer infinity, 
+     *
+     * The upper bound of the support is positive infinity,
+     * regardless of the parameter values. There is no integer infinity,
      * so this method returns <code>Integer.MAX_VALUE</code> and
      * {@link #isSupportUpperBoundInclusive()} returns <code>true</code>.
      *
@@ -260,7 +260,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>p</code>, the mean is <code>p</code>
      *
      * @return {@inheritDoc}
@@ -272,7 +272,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * For mean parameter <code>p</code>, the variance is <code>p</code>
      *
      * @return {@inheritDoc}
@@ -281,7 +281,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
     protected double calculateNumericalVariance() {
         return getMean();
     }
-    
+
     /**
      * {@inheritDoc}
      */
