@@ -60,8 +60,9 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
      * Create a multi-start optimizer from a single-start optimizer.
      *
      * @param optimizer Single-start optimizer to wrap.
-     * @param starts Number of starts to perform, must be >=1. 
-     * Multi-start is disabled if {@code starts == 1}.
+     * @param starts Number of starts to perform. If {@code starts == 1},
+     * the {@link #optimize(int,MultivariateVectorialFunction,double[],double[],double[])
+     * optimize} will return the same solution as {@code optimizer} would.
      * @param generator Random vector generator to use for restarts.
      * @throws NullArgumentException if {@code optimizer} or {@code generator}
      * is {@code null}.
