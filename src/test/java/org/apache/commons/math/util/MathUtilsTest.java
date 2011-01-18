@@ -365,7 +365,8 @@ public final class MathUtilsTest extends TestCase {
         assertTrue("+0.0f == -0.0f",MathUtils.equals(0.0f, -0.0f));
         assertTrue("+0.0f == -0.0f (1 ulp)",MathUtils.equals(0.0f, -0.0f, 1));
         float oneFloat = 1.0f;
-        assertTrue("1.0f == 1.0f + 1 ulp",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat))));
+        // Deprecated method - requires parameters to be strictly equal
+        assertFalse("1.0f != 1.0f + 1 ulp",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat))));
         assertTrue("1.0f == 1.0f + 1 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat)), 1));
         assertFalse("1.0f != 1.0f + 2 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(2 + Float.floatToIntBits(oneFloat)), 1));
 
