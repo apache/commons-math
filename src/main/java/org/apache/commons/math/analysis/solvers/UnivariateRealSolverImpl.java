@@ -142,7 +142,7 @@ public abstract class UnivariateRealSolverImpl
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
      *
-     * @param f the function to solve.
+     * @param function the function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param maxEval Maximum number of evaluations.
@@ -165,7 +165,7 @@ public abstract class UnivariateRealSolverImpl
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.</p>
      *
-     * @param f the function to solve.
+     * @param function the function to solve.
      * @param min the lower bound for the interval.
      * @param max the upper bound for the interval.
      * @param startValue the start value to use
