@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.util;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+
 import org.apache.commons.math.dfp.Dfp;
 import org.apache.commons.math.dfp.DfpField;
 import org.apache.commons.math.dfp.DfpMath;
@@ -30,6 +33,23 @@ public class FastMathTest {
 
     private static final double MAX_ERROR_ULP = 0.51;
     private static final int NUMBER_OF_TRIALS = 1000;
+
+    // Values which often need special handling
+    private static final double [] DOUBLE_SPECIAL_VALUES = {
+        -0.0, +0.0,                                         // 1,2
+        Double.NaN,                                         // 3
+        Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, // 4,5
+        Double.MIN_VALUE, Double.MAX_VALUE,                 // 6,7
+        -Double.MIN_VALUE, -Double.MAX_VALUE,               // 8,9
+    };
+
+    private static final float [] FLOAT_SPECIAL_VALUES = {
+        -0.0f, +0.0f,                                       // 1,2
+        Float.NaN,                                          // 3
+        Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY,   // 4,5
+        Float.MIN_VALUE, Float.MAX_VALUE,                   // 6,7
+        -Float.MIN_VALUE, -Float.MAX_VALUE,                 // 8,9
+    };
 
     private DfpField field;
     private RandomGenerator generator;
@@ -948,6 +968,86 @@ public class FastMathTest {
         }
         Assert.assertTrue("toRadians() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
 
+    }
+
+    private static void reportError(String message) {
+        final boolean fatal = false; // TODO set true once all bugs have been fixed
+        if (fatal) {
+            Assert.fail(message);
+        } else {
+            System.out.println(message);
+        }
+    }
+    
+    private static abstract class SpecialComparer {
+        abstract void compareSpecials(Method mathMethod, Method fastMethod) throws Exception;
+        void check(Method mathMethod, float f, Object expected, Object actual, int entry){
+            if (!expected.equals(actual)){
+                reportError(mathMethod.getName()+"(float "+f+") expected "+expected+" actual "+actual+ " entry "+entry);
+            }            
+        }
+        void check(Method mathMethod, double d, Object expected, Object actual, int entry){
+            if (!expected.equals(actual)){
+                reportError(mathMethod.getName()+"(float "+d+") expected "+expected+" actual "+actual+ " entry "+entry);
+            }            
+        }
+    }
+
+    private static class CompareFloatSpecials extends SpecialComparer {
+        @Override
+        public void compareSpecials(Method mathMethod, Method fastMethod) throws Exception {
+            int entry = 0;
+            for(float f : FLOAT_SPECIAL_VALUES) {
+                entry++;
+                Object expected = mathMethod.invoke(mathMethod, new Object[]{f});
+                Object actual = fastMethod.invoke(mathMethod, new Object[]{f});
+                check(mathMethod, f, expected, actual, entry);
+            }
+        }
+    }
+    
+    private static class CompareDoubleSpecials extends SpecialComparer {
+        @Override
+        public void compareSpecials(Method mathMethod, Method fastMethod) throws Exception {
+            int entry = 0;
+            for(double d : DOUBLE_SPECIAL_VALUES) {
+                entry++;
+                Object expected = mathMethod.invoke(mathMethod, new Object[]{d});
+                Object actual = fastMethod.invoke(mathMethod, new Object[]{d});
+                check(mathMethod, d, expected, actual, entry);
+            }
+        }
+    }
+
+    private void testSpecialCases(Class<?> type, SpecialComparer comparer) throws Exception {
+        Class<?> param[] = new Class<?> [] {type}; 
+        Method math[] = StrictMath.class.getDeclaredMethods();
+        for(Method mathMethod : math) {
+            Type ret = mathMethod.getGenericReturnType();
+            if (ret.equals(type)){
+                Type []params = mathMethod.getGenericParameterTypes();
+                if (params.length ==1 && params[0].equals(type)) {
+                    Method fastMethod = null;
+                    String name = mathMethod.getName();
+                    try {
+                        fastMethod = FastMath.class.getDeclaredMethod(name, param);
+                        comparer.compareSpecials(mathMethod, fastMethod);
+                    } catch (NoSuchMethodException e) {
+                        System.out.println("Cannot find FastMath method corresponding to: "+mathMethod);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloatSpecialCases() throws Exception {
+        testSpecialCases(float.class, new CompareFloatSpecials());
+    }
+
+    @Test
+    public void testDoubleSpecialCases() throws Exception {
+        testSpecialCases(double.class, new CompareDoubleSpecials());
     }
 
     @Ignore
