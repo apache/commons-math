@@ -579,7 +579,7 @@ public class FastMath {
      * @return -1, 0, +1 or NaN depending on sign of a
      */
     public static double signum(final double a) {
-        return (a < 0.0) ? -1.0 : ((a > 0.0) ? 1.0 : (Double.isNaN(a) ? Double.NaN : 0.0));
+        return (a < 0.0) ? -1.0 : ((a > 0.0) ? 1.0 : a);
     }
 
     /** Compute next number towards positive infinity.
