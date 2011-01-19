@@ -1171,6 +1171,9 @@ public class FastMath {
      * @return log(x)
      */
     private static double log(final double x, final double[] hiPrec) {
+        if (x==0) { // Handle special case of +0/-0
+            return Double.NEGATIVE_INFINITY;
+        }
         long bits = Double.doubleToLongBits(x);
 
         /* Handle special cases of negative input, and NaN */
@@ -1408,7 +1411,10 @@ public class FastMath {
         if (x>1e-6 || x<-1e-6) {
             double hiPrec[] = new double[2];
 
-            log(xpa, hiPrec);
+            final double lores = log(xpa, hiPrec);
+            if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
+                return lores;
+            }
 
             /* Do a taylor series expansion around xpa */
             /* f(x+y) = f(x) + f'(x)*y + f''(x)/2 y^2 */
@@ -1435,7 +1441,10 @@ public class FastMath {
     public static double log10(final double x) {
         final double hiPrec[] = new double[2];
 
-        log(x, hiPrec);
+        final double lores = log(x, hiPrec);
+        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
+            return lores;
+        }
 
         final double tmp = hiPrec[0] * 1073741824.0;
         final double lna = hiPrec[0] + tmp - tmp;
@@ -1584,7 +1593,11 @@ public class FastMath {
         }
 
         /* Compute ln(x) */
-        log(x, lns);
+        final double lores = log(x, lns);
+        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN
+            return lores;
+        }
+
         double lna = lns[0];
         double lnb = lns[1];
 
@@ -2713,6 +2726,10 @@ public class FastMath {
         boolean negate = false;
         int idx;
 
+        if (xa == 0.0) { // Matches +/- 0.0; return correct sign
+            return xa;
+        }
+
         if (xa < 0) {
             // negative
             xa = -xa;
@@ -2980,6 +2997,10 @@ public class FastMath {
           return Double.NaN;
       }
 
+      if (x == 0.0) { // Matches +/- 0.0; return correct sign
+          return x;
+      }
+
       if (x > 1.0 || x < -1.0) {
           return Double.NaN;
       }
@@ -3211,6 +3232,10 @@ public class FastMath {
      */
     public static double toRadians(double x)
     {
+        if (Double.isInfinite(x) || x == 0.0) { // Matches +/- 0.0; return correct sign
+            return x;
+        }
+
         final double facta = 0.01745329052209854;
         final double factb = 1.997844754509471E-9;
 
@@ -3228,6 +3253,10 @@ public class FastMath {
      */
     public static double toDegrees(double x)
     {
+        if (Double.isInfinite(x) || x == 0.0) { // Matches +/- 0.0; return correct sign
+            return x;
+        }
+
         final double facta = 57.2957763671875;
         final double factb = 3.145894820876798E-6;
 
@@ -3262,7 +3291,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static float abs(final float x) {
-        return (x < 0.0f) ? -x : x;
+        return (x < 0.0f) ? -x : (x == 0.0f) ? 0.0f : x; // -0.0 => +0.0
     }
 
     /**
@@ -3271,7 +3300,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static double abs(double x) {
-        return (x < 0.0) ? -x : x;
+        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0
     }
 
     /**
@@ -3415,6 +3444,9 @@ public class FastMath {
         double d = x - y;
 
         if (d > 0.5) {
+            if (y == -1.0) {
+                return -0.0; // Preserve sign of operand
+            }
             return y+1.0;
         }
         if (d < 0.5) {
