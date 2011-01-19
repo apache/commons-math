@@ -3270,9 +3270,23 @@ public class FastMath {
      * @param x number from which ulp is requested
      * @return ulp(x)
      */
-
     public static double ulp(double x) {
+        if (Double.isInfinite(x)) {
+            return Double.POSITIVE_INFINITY;
+        }
         return abs(x - Double.longBitsToDouble(Double.doubleToLongBits(x) ^ 1));
+    }
+
+    /**
+     * Compute least significant bit (Unit in Last Position) for a number.
+     * @param x number from which ulp is requested
+     * @return ulp(x)
+     */
+    public static float ulp(float x) {
+        if (Float.isInfinite(x)) {
+            return Float.POSITIVE_INFINITY;
+        }
+        return abs(x - Float.intBitsToFloat(Float.floatToIntBits(x) ^ 1));
     }
 
     /**
