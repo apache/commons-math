@@ -582,6 +582,15 @@ public class FastMath {
         return (a < 0.0) ? -1.0 : ((a > 0.0) ? 1.0 : a);
     }
 
+    /** Compute the signum of a number.
+     * The signum is -1 for negative numbers, +1 for positive numbers and 0 otherwise
+     * @param a number on which evaluation is done
+     * @return -1, 0, +1 or NaN depending on sign of a
+     */
+    public static float signum(final float a) {
+        return (a < 0.0f) ? -1.0f : ((a > 0.0f) ? 1.0f : a);
+    }
+
     /** Compute next number towards positive infinity.
      * @param a number to which neighbor should be computed
      * @return neighbor of a towards positive infinity
