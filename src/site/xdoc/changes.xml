@@ -52,8 +52,24 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-486">
+          FastMath toRadian and toDegree don't handle large double numbers well
+      </action>
+      <action dev="sebb" type="fix" issue="MATH-483">
+          FastMath does not handle all special cases correctly
+      </action>
+      <action dev="sebb" type="fix" issue="MATH-480">
+          Fix ulp(Infinity) to return Infinity rather than NaN
+      </action>
+      <action dev="sebb" type="fix" issue="MATH-479">
+        FastMath.signum(-0.0) does not agree with Math.signum(-0.0)
+      </action>
+      <action dev="sebb" type="fix" issue="MATH-478">
+          FastMath is not an exact replacement for StrictMath
+          (partially fixed) Add signum(float), ulp(float)
+      </action>
       <action dev="sebb" type="fix" issue="MATH-471">
-        MATH-491 MathUtils.equals(double, double) does not work properly for floats
+        MathUtils.equals(double, double) does not work properly for floats
         - add equivalent (float, float) methods and basic tests
       </action>
       <action dev="sebb" type="fix" issue="MATH-482">
