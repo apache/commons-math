@@ -3243,7 +3243,11 @@ public class FastMath {
         double xa = x + temp - temp;
         double xb = x - xa;
 
-        return xb * factb + xb * facta + xa * factb + xa * facta;
+        double result = xb * factb + xb * facta + xa * factb + xa * facta;
+        if (result == 0) {
+            result = result * x; // ensure correct sign
+        }
+        return result;
     }
 
     /**
