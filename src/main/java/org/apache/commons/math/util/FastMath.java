@@ -3239,7 +3239,10 @@ public class FastMath {
         final double facta = 0.01745329052209854;
         final double factb = 1.997844754509471E-9;
 
-        double temp = x * 1073741824.0;
+        double temp = 0;
+        if (abs(x) < Double.MAX_VALUE/1073741824.0) { // prevent overflow to infinity
+            temp = x * 1073741824.0;
+        }
         double xa = x + temp - temp;
         double xb = x - xa;
 
@@ -3264,7 +3267,10 @@ public class FastMath {
         final double facta = 57.2957763671875;
         final double factb = 3.145894820876798E-6;
 
-        double temp = x * 1073741824.0;
+        double temp = 0;
+        if (abs(x) < Double.MAX_VALUE/1073741824.0) { // prevent overflow to infinity
+            temp = x * 1073741824.0;
+        }
         double xa = x + temp - temp;
         double xb = x - xa;
 
