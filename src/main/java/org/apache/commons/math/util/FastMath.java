@@ -148,7 +148,7 @@ public class FastMath {
         (0xc90fdaa2L << 32) | 0x2168c234L,
         (0xc4c6628bL << 32) | 0x80dc1cd1L };
 
-    /** Eighthes.
+    /** Eighths.
      * This is used by sinQ, because its faster to do a table lookup than
      * a multiply in this time-critical routine
      */
@@ -346,10 +346,10 @@ public class FastMath {
           double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
           /* Compute expm1(-x) = -expm1(x) / (expm1(x) + 1) */
-          double denom = 1.0+ya;
-          double denomr = 1.0/denom;
+          double denom = 1.0 + ya;
+          double denomr = 1.0 / denom;
           double denomb = -(denom - 1.0 - ya) + yb;
-          double ratio = ya*denomr;
+          double ratio = ya * denomr;
           double temp = ratio * 1073741824.0;
           double ra = ratio + temp - temp;
           double rb = ratio - ra;
@@ -764,7 +764,7 @@ public class FastMath {
 
     /** Internal helper method for expm1
      * @param x number to compute shifted exponential
-     * @param hiPrecOut array to receive high precision result for -1.0 < x < 1.0
+     * @param hiPrecOut receive high precision result for -1.0 < x < 1.0
      * @return exp(x) - 1
      */
     private static double expm1(double x, double hiPrecOut[]) {
@@ -901,10 +901,10 @@ public class FastMath {
             yb = -rb;
         }
 
-    if (hiPrecOut != null) {
-      hiPrecOut[0] = ya;
-      hiPrecOut[1] = yb;
-    }
+        if (hiPrecOut != null) {
+            hiPrecOut[0] = ya;
+            hiPrecOut[1] = yb;
+        }
 
         return ya + yb;
     }
@@ -2997,10 +2997,6 @@ public class FastMath {
           return Double.NaN;
       }
 
-      if (x == 0.0) { // Matches +/- 0.0; return correct sign
-          return x;
-      }
-
       if (x > 1.0 || x < -1.0) {
           return Double.NaN;
       }
@@ -3011,6 +3007,10 @@ public class FastMath {
 
       if (x == -1.0) {
           return -Math.PI/2.0;
+      }
+
+      if (x == 0.0) { // Matches +/- 0.0; return correct sign
+          return x;
       }
 
       /* Compute asin(x) = atan(x/sqrt(1-x*x)) */
