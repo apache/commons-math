@@ -210,7 +210,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
-    if (requiresDenseOutput() || (! eventsStates.isEmpty())) {
+    if (requiresDenseOutput()) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
@@ -301,7 +301,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
       interpolator.storeTime(stepStart + stepSize);
       System.arraycopy(yTmp, 0, y, 0, y0.length);
       System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
-      stepStart = acceptStep(interpolator, stepHandlers, y, yDotTmp, t);
+      stepStart = acceptStep(interpolator, y, yDotTmp, t);
 
       if (!isLastStep) {
 

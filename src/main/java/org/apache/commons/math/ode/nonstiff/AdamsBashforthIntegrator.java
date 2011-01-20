@@ -272,7 +272,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
             // discrete events handling
             interpolator.storeTime(stepEnd);
-            stepStart = acceptStep(interpolator, stepHandlers, y, yDot, t);
+            stepStart = acceptStep(interpolator, y, yDot, t);
             scaled    = predictedScaled;
             nordsieck = nordsieckTmp;
             interpolator.reinitialize(stepEnd, stepSize, scaled, nordsieck);
