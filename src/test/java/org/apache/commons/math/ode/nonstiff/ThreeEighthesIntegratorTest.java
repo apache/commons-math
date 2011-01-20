@@ -61,12 +61,12 @@ public class ThreeEighthesIntegratorTest
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
 
-      double previousError = Double.NaN;
+      double previousValueError = Double.NaN;
+      double previousTimeError = Double.NaN;
       for (int i = 4; i < 10; ++i) {
 
         TestProblemAbstract pb = problems[k].copy();
-        double step = (pb.getFinalTime() - pb.getInitialTime())
-          * FastMath.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * FastMath.pow(2.0, -i);
 
         FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
@@ -84,10 +84,15 @@ public class ThreeEighthesIntegratorTest
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < FastMath.abs(previousError));
+          assertTrue(error < FastMath.abs(previousValueError));
         }
-        previousError = error;
-        assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+        previousValueError = error;
+
+        double timeError = handler.getMaximalTimeError();
+        if (i > 4) {
+          assertTrue(timeError <= FastMath.abs(previousTimeError));
+        }
+        previousTimeError = timeError;
 
       }
 

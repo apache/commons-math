@@ -77,8 +77,8 @@ public class DormandPrince853StepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    assertTrue(bos.size () > 86000);
-    assertTrue(bos.size () < 87000);
+    assertTrue(bos.size () > 88000);
+    assertTrue(bos.size () < 89000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);

@@ -159,6 +159,14 @@ public abstract class TestProblemAbstract
   }
 
   /**
+   * Get the theoretical events times.
+   * @return theoretical events times
+   */
+  public double[] getTheoreticalEventsTimes() {
+      return new double[0];
+  }
+
+  /**
    * Get the number of calls.
    * @return nuber of calls
    */

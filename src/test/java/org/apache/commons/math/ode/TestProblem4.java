@@ -80,6 +80,20 @@ public TestProblem4 copy() {
     return new EventHandler[] { new Bounce(), new Stop() };
   }
 
+  /**
+   * Get the theoretical events times.
+   * @return theoretical events times
+   */
+  public double[] getTheoreticalEventsTimes() {
+      return new double[] {
+          1 * FastMath.PI - a,
+          2 * FastMath.PI - a,
+          3 * FastMath.PI - a,
+          4 * FastMath.PI - a,
+          12.0
+      };
+  }
+
   @Override
   public void doComputeDerivatives(double t, double[] y, double[] yDot) {
     yDot[0] =  y[1];

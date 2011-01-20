@@ -20,15 +20,21 @@ package org.apache.commons.math.ode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.ode.events.CombinedEventsManager;
+import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
+import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Base class managing common boilerplate for all integrators.
@@ -46,8 +52,17 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Current stepsize. */
     protected double stepSize;
 
-    /** Events handlers manager. */
-    protected CombinedEventsManager eventsHandlersManager;
+    /** Indicator for last step. */
+    protected boolean isLastStep;
+
+    /** Indicator that a state or derivative reset was triggered by some event. */
+    protected boolean resetOccurred;
+
+    /** Events states. */
+    protected Collection<EventState> eventsStates;
+
+    /** Initialization indicator of events states. */
+    protected boolean statesInitialized;
 
     /** Name of the method. */
     private final String name;
@@ -69,7 +84,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         stepHandlers = new ArrayList<StepHandler>();
         stepStart = Double.NaN;
         stepSize  = Double.NaN;
-        eventsHandlersManager = new CombinedEventsManager();
+        eventsStates = new ArrayList<EventState>();
+        statesInitialized = false;
         setMaxEvaluations(-1);
         resetEvaluations();
     }
@@ -101,22 +117,25 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** {@inheritDoc} */
-    public void addEventHandler(final EventHandler function,
+    public void addEventHandler(final EventHandler handler,
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount) {
-        eventsHandlersManager.addEventHandler(function, maxCheckInterval,
-                                              convergence, maxIterationCount);
+        eventsStates.add(new EventState(handler, maxCheckInterval, convergence, maxIterationCount));
     }
 
     /** {@inheritDoc} */
     public Collection<EventHandler> getEventHandlers() {
-        return eventsHandlersManager.getEventsHandlers();
+        final List<EventHandler> list = new ArrayList<EventHandler>();
+        for (EventState state : eventsStates) {
+            list.add(state.getEventHandler());
+        }
+        return Collections.unmodifiableCollection(list);
     }
 
     /** {@inheritDoc} */
     public void clearEventHandlers() {
-        eventsHandlersManager.clearEventsHandlers();
+        eventsStates.clear();
     }
 
     /** Check if one of the step handlers requires dense output.
@@ -185,6 +204,109 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         equations.computeDerivatives(t, y, yDot);
     }
 
+    /** Accept a step, triggering events and step handlers.
+     * @param interpolator step interpolator
+     * @param handlers step handlers
+     * @param y state vector at step end time, must be reset if an event
+     * asks for resetting or if an events stops integration during the step
+     * @param yDot placeholder array where to put the time derivative of the state vector
+     * @param tEnd final integration time
+     * @return time at end of step
+     * @exception IntegratorException if the value of one event state cannot be evaluated
+     */
+    protected double acceptStep(final AbstractStepInterpolator interpolator,
+                                final Collection<StepHandler> handlers,
+                                final double[] y,
+                                final double[] yDot, final double tEnd)
+        throws IntegratorException {
+
+        try {
+            double previousT = interpolator.getGlobalPreviousTime();
+            final double currentT = interpolator.getGlobalCurrentTime();
+            resetOccurred = false;
+
+            // initialize the events states if needed
+            if (! statesInitialized) {
+                for (EventState state : eventsStates) {
+                    state.reinitializeBegin(interpolator);
+                }
+                statesInitialized = true;
+            }
+
+            // find all events that occur during the step
+            SortedSet<EventState> occuringEvents = new TreeSet<EventState>();
+            for (final EventState state : eventsStates) {
+                if (state.evaluateStep(interpolator)) {
+                    // the event occurs during the current step
+                    occuringEvents.add(state);
+                }
+            }
+
+            // handle the events chronologically
+            for (final EventState state : occuringEvents) {
+
+                // restrict the interpolator to the first part of the step, up to the event
+                final double eventT = state.getEventTime();
+                interpolator.setSoftBounds(previousT, eventT);
+
+                // trigger the event
+                interpolator.setInterpolatedTime(eventT);
+                final double[] eventY = interpolator.getInterpolatedState();
+                state.stepAccepted(eventT, eventY);
+                isLastStep = state.stop();
+
+                // handle the first part of the step, up to the event
+                for (final StepHandler handler : stepHandlers) {
+                    handler.handleStep(interpolator, isLastStep);
+                }
+
+                if (isLastStep) {
+                    // the event asked to stop integration
+                    System.arraycopy(eventY, 0, y, 0, y.length);
+                    return eventT;
+                }
+
+                if (state.reset(eventT, eventY)) {
+                    // some event handler has triggered changes that
+                    // invalidate the derivatives, we need to recompute them
+                    System.arraycopy(eventY, 0, y, 0, y.length);
+                    computeDerivatives(eventT, y, yDot);
+                    resetOccurred = true;
+                    return eventT;
+                }
+
+                // prepare handling of the remaining part of the step
+                previousT = eventT;
+                interpolator.setSoftBounds(eventT, currentT);
+
+            }
+
+            interpolator.setInterpolatedTime(currentT);
+            final double[] currentY = interpolator.getInterpolatedState();
+            for (final EventState state : eventsStates) {
+                state.stepAccepted(currentT, currentY);
+                isLastStep = isLastStep || state.stop();
+            }
+            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, 1);
+
+            // handle the remaining part of the step, after all events if any
+            for (StepHandler handler : stepHandlers) {
+                handler.handleStep(interpolator, isLastStep);
+            }
+
+            return currentT;
+        } catch (EventException se) {
+            final Throwable cause = se.getCause();
+            if ((cause != null) && (cause instanceof MathUserException)) {
+                throw (MathUserException) cause;
+            }
+            throw new IntegratorException(se);
+        } catch (ConvergenceException ce) {
+            throw new IntegratorException(ce);
+        }
+
+    }
+
     /** Perform some sanity checks on the integration parameters.
      * @param ode differential equations set
      * @param t0 start time
@@ -212,62 +334,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             throw new IntegratorException(
                     LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
                     FastMath.abs(t - t0));
-        }
-
-    }
-
-    /** Add an event handler for end time checking.
-     * <p>This method can be used to simplify handling of integration end time.
-     * It leverages the nominal stop condition with the exceptional stop
-     * conditions.</p>
-     * @param startTime integration start time
-     * @param endTime desired end time
-     * @param manager manager containing the user-defined handlers
-     * @return a new manager containing all the user-defined handlers plus a
-     * dedicated manager triggering a stop event at entTime
-     */
-    protected CombinedEventsManager addEndTimeChecker(final double startTime,
-                                                      final double endTime,
-                                                      final CombinedEventsManager manager) {
-        CombinedEventsManager newManager = new CombinedEventsManager();
-        for (final EventState state : manager.getEventsStates()) {
-            newManager.addEventHandler(state.getEventHandler(),
-                                       state.getMaxCheckInterval(),
-                                       state.getConvergence(),
-                                       state.getMaxIterationCount());
-        }
-        newManager.addEventHandler(new EndTimeChecker(endTime),
-                                   Double.POSITIVE_INFINITY,
-                                   FastMath.ulp(FastMath.max(FastMath.abs(startTime), FastMath.abs(endTime))),
-                                   100);
-        return newManager;
-    }
-
-    /** Specialized event handler to stop integration. */
-    private static class EndTimeChecker implements EventHandler {
-
-        /** Desired end time. */
-        private final double endTime;
-
-        /** Build an instance.
-         * @param endTime desired time
-         */
-        public EndTimeChecker(final double endTime) {
-            this.endTime = endTime;
-        }
-
-        /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y, boolean increasing) {
-            return STOP;
-        }
-
-        /** {@inheritDoc} */
-        public double g(double t, double[] y) {
-            return t - endTime;
-        }
-
-        /** {@inheritDoc} */
-        public void resetState(double t, double[] y) {
         }
 
     }

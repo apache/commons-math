@@ -32,8 +32,6 @@ import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.sampling.StepHandler;
-import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
 
 public class HighamHall54IntegratorTest
@@ -176,9 +174,10 @@ public class HighamHall54IntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.addStepHandler(handler);
     EventHandler[] functions = pb.getEventsHandlers();
+    double convergence = 1.0e-8 * maxStep;
     for (int l = 0; l < functions.length; ++l) {
       integ.addEventHandler(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
+                                 Double.POSITIVE_INFINITY, convergence, 1000);
     }
     assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
@@ -186,8 +185,8 @@ public class HighamHall54IntegratorTest
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     assertTrue(handler.getMaximalValueError() < 1.0e-7);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
+    assertEquals(0, handler.getMaximalTimeError(), convergence);
+    assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     assertEquals(0, integ.getEventHandlers().size());
 
@@ -343,46 +342,13 @@ public class HighamHall54IntegratorTest
     FirstOrderIntegrator integ = new HighamHall54Integrator(minStep, maxStep,
                                                             vecAbsoluteTolerance,
                                                             vecRelativeTolerance);
-    integ.addStepHandler(new KeplerHandler(pb));
+    TestProblemHandler handler = new TestProblemHandler(pb, integ); 
+    integ.addStepHandler(handler);
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
+    assertEquals(0.0, handler.getMaximalValueError(), 1.5e-4);
     assertEquals("Higham-Hall 5(4)", integ.getName());
-  }
-
-  private static class KeplerHandler implements StepHandler {
-    public KeplerHandler(TestProblem3 pb) {
-      this.pb = pb;
-      nbSteps = 0;
-      maxError = 0;
-    }
-    public boolean requiresDenseOutput() {
-      return false;
-    }
-    public void reset() {
-      nbSteps = 0;
-      maxError = 0;
-    }
-    public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) throws MathUserException {
-
-      ++nbSteps;
-      double[] interpolatedY = interpolator.getInterpolatedState();
-      double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
-      double dx = interpolatedY[0] - theoreticalY[0];
-      double dy = interpolatedY[1] - theoreticalY[1];
-      double error = dx * dx + dy * dy;
-      if (error > maxError) {
-        maxError = error;
-      }
-      if (isLast) {
-        assertTrue(maxError < 4.2e-11);
-        assertTrue(nbSteps < 670);
-      }
-    }
-    private TestProblem3 pb;
-    private int nbSteps;
-    private double maxError;
   }
 
 }

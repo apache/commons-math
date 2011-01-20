@@ -64,8 +64,8 @@ public class ThreeEighthesStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    assertTrue(bos.size () > 700000);
-    assertTrue(bos.size () < 701000);
+    assertTrue(bos.size () > 753000);
+    assertTrue(bos.size () < 754000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);

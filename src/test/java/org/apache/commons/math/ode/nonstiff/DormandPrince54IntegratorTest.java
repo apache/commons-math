@@ -217,9 +217,10 @@ public class DormandPrince54IntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.addStepHandler(handler);
     EventHandler[] functions = pb.getEventsHandlers();
+    double convergence = 1.0e-8 * maxStep;
     for (int l = 0; l < functions.length; ++l) {
       integ.addEventHandler(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
+                                 Double.POSITIVE_INFINITY, convergence, 1000);
     }
     assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
@@ -227,8 +228,8 @@ public class DormandPrince54IntegratorTest
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     assertTrue(handler.getMaximalValueError() < 5.0e-6);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
+    assertEquals(0, handler.getMaximalTimeError(), convergence);
+    assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     assertEquals(0, integ.getEventHandlers().size());
 
