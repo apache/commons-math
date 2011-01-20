@@ -48,6 +48,7 @@ public class MathIllegalStateException extends IllegalStateException implements 
     private final Object[] arguments;
 
     /**
+     * Simple constructor.
      * @param specific Message pattern providing the specific context of
      * the error.
      * @param general Message pattern explaining the cause of the error.
@@ -56,17 +57,46 @@ public class MathIllegalStateException extends IllegalStateException implements 
     public MathIllegalStateException(Localizable specific,
                                      Localizable general,
                                      Object ... args) {
+        this(null, specific, general, args);
+    }
+
+    /**
+     * Simple constructor.
+     * @param cause root cause
+     * @param specific Message pattern providing the specific context of
+     * the error.
+     * @param general Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    public MathIllegalStateException(Throwable cause,
+                                     Localizable specific,
+                                     Localizable general,
+                                     Object ... args) {
+        super(cause);
         this.specific = specific;
         this.general = general;
         arguments = ArgUtils.flatten(args);
     }
+
     /**
      * @param general Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
     public MathIllegalStateException(Localizable general,
                                      Object ... args) {
-        this(null, general, args);
+        this(null, null, general, args);
+    }
+
+    /**
+     * Simple constructor.
+     * @param cause root cause
+     * @param general Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    public MathIllegalStateException(Throwable cause,
+                                     Localizable general,
+                                     Object ... args) {
+        this(cause, null, general, args);
     }
 
     /** {@inheritDoc} */

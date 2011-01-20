@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.random.RandomGenerator;
@@ -211,7 +211,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 nanPositions = getNanPositions(ranks);
                 break;
             default: // this should not happen unless NaNStrategy enum is changed
-                throw MathRuntimeException.createInternalError(null);
+                throw new MathInternalError();
         }
 
         // Sort the IntDoublePairs
@@ -359,7 +359,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 }
                 break;
             default: // this should not happen unless TiesStrategy enum is changed
-                throw MathRuntimeException.createInternalError(null);
+                throw new MathInternalError();
         }
     }
 
