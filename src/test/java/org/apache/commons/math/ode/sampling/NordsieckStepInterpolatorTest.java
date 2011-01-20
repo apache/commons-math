@@ -41,7 +41,7 @@ public class NordsieckStepInterpolatorTest {
     throws MathUserException, IntegratorException {
         TestProblem3 pb = new TestProblem3();
         AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(4, 0.0, 1.0, 1.0e-10, 1.0e-10);
-        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 7e-10);
+        StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 5e-9);
     }
 
     @Test
@@ -62,8 +62,8 @@ public class NordsieckStepInterpolatorTest {
             oos.writeObject(handler);
         }
 
-        assertTrue(bos.size () >  20000);
-        assertTrue(bos.size () <  25000);
+        assertTrue(bos.size () >  25500);
+        assertTrue(bos.size () <  26500);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);

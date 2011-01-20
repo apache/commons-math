@@ -80,7 +80,13 @@ public class TestProblemHandler
         // multistep integrators do not handle the first steps themselves
         // so we have to make sure the integrator we look at has really started its work
         if (!Double.isNaN(expectedStepStart)) {
-            maxTimeError = FastMath.max(maxTimeError, FastMath.abs(start - expectedStepStart));
+            // the step should either start at the end of the integrator step
+            // or at an event if the step is split into several substeps
+            double stepError = FastMath.max(maxTimeError, FastMath.abs(start - expectedStepStart));
+            for (double eventTime : problem.getTheoreticalEventsTimes()) {
+                stepError = FastMath.min(stepError, FastMath.abs(start - eventTime));
+            }
+            maxTimeError = FastMath.max(maxTimeError, stepError);
         }
         expectedStepStart = start + integrator.getCurrentSignedStepsize();
     }

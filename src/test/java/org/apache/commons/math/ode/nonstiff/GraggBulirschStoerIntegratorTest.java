@@ -113,8 +113,8 @@ public class GraggBulirschStoerIntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 9.0e-10);
-      assertTrue(handler.getMaximalValueError() < 9.0e-10);
+      assertTrue(handler.getLastError() < 7.5e-9);
+      assertTrue(handler.getMaximalValueError() < 8.1e-9);
       assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
       assertEquals("Gragg-Bulirsch-Stoer", integ.getName());
   }
@@ -210,9 +210,9 @@ public class GraggBulirschStoerIntegratorTest
     TestProblemHandler handler = new TestProblemHandler(pb, integ);
     integ.addStepHandler(handler);
     EventHandler[] functions = pb.getEventsHandlers();
+    double convergence = 1.0e-8 * maxStep;
     for (int l = 0; l < functions.length; ++l) {
-      integ.addEventHandler(functions[l],
-                                 Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
+      integ.addEventHandler(functions[l], Double.POSITIVE_INFINITY, convergence, 1000);
     }
     assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
@@ -220,8 +220,8 @@ public class GraggBulirschStoerIntegratorTest
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     assertTrue(handler.getMaximalValueError() < 5.0e-8);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals(12.0, handler.getLastTime(), 1.0e-8 * maxStep);
+    assertEquals(0, handler.getMaximalTimeError(), convergence);
+    assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
     assertEquals(0, integ.getEventHandlers().size());
 

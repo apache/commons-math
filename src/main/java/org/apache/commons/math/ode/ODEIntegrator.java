@@ -73,10 +73,8 @@ public interface ODEIntegrator  {
      * @see #getEventHandlers()
      * @see #clearEventHandlers()
      */
-    void addEventHandler(EventHandler handler,
-                                         double maxCheckInterval,
-                                         double convergence,
-                                         int maxIterationCount);
+    void addEventHandler(EventHandler handler, double maxCheckInterval,
+                         double convergence, int maxIterationCount);
 
     /** Get all the event handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers

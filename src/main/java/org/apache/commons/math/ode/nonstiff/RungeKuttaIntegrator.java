@@ -22,7 +22,6 @@ import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -112,11 +111,12 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     for (int i = 0; i < stages; ++i) {
       yDotK [i] = new double[y0.length];
     }
-    final double[] yTmp = new double[y0.length];
+    final double[] yTmp    = new double[y0.length];
+    final double[] yDotTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
-    if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
+    if (requiresDenseOutput() || (! eventsStates.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
@@ -131,90 +131,61 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
-    boolean lastStep = false;
+    statesInitialized = false;
 
     // main integration loop
-    while (!lastStep) {
+    isLastStep = false;
+    do {
 
       interpolator.shift();
 
-      for (boolean loop = true; loop;) {
+      // first stage
+      computeDerivatives(stepStart, y, yDotK[0]);
 
-        // first stage
-        computeDerivatives(stepStart, y, yDotK[0]);
-
-        // next stages
-        for (int k = 1; k < stages; ++k) {
+      // next stages
+      for (int k = 1; k < stages; ++k) {
 
           for (int j = 0; j < y0.length; ++j) {
-            double sum = a[k-1][0] * yDotK[0][j];
-            for (int l = 1; l < k; ++l) {
-              sum += a[k-1][l] * yDotK[l][j];
-            }
-            yTmp[j] = y[j] + stepSize * sum;
+              double sum = a[k-1][0] * yDotK[0][j];
+              for (int l = 1; l < k; ++l) {
+                  sum += a[k-1][l] * yDotK[l][j];
+              }
+              yTmp[j] = y[j] + stepSize * sum;
           }
 
           computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
 
-        }
+      }
 
-        // estimate the state at the end of the step
-        for (int j = 0; j < y0.length; ++j) {
+      // estimate the state at the end of the step
+      for (int j = 0; j < y0.length; ++j) {
           double sum    = b[0] * yDotK[0][j];
           for (int l = 1; l < stages; ++l) {
-            sum    += b[l] * yDotK[l][j];
+              sum    += b[l] * yDotK[l][j];
           }
           yTmp[j] = y[j] + stepSize * sum;
-        }
-
-        // discrete events handling
-        interpolator.storeTime(stepStart + stepSize);
-        if (manager.evaluateStep(interpolator)) {
-            final double dt = manager.getEventTime() - stepStart;
-            if (FastMath.abs(dt) <= FastMath.ulp(stepStart)) {
-                // we cannot simply truncate the step, reject the current computation
-                // and let the loop compute another state with the truncated step.
-                // it is so small (much probably exactly 0 due to limited accuracy)
-                // that the code above would fail handling it.
-                // So we set up an artificial 0 size step by copying states
-                interpolator.storeTime(stepStart);
-                System.arraycopy(y, 0, yTmp, 0, y0.length);
-                stepSize = 0;
-                loop     = false;
-            } else {
-                // reject the step to match exactly the next switch time
-                stepSize = dt;
-            }
-        } else {
-          loop = false;
-        }
-
       }
 
-      // the step has been accepted
-      final double nextStep = stepStart + stepSize;
+      // discrete events handling
+      interpolator.storeTime(stepStart + stepSize);
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      manager.stepAccepted(nextStep, y);
-      lastStep = manager.stop();
+      System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
+      stepStart = acceptStep(interpolator, stepHandlers, y, yDotTmp, t);
 
-      // provide the step data to the step handler
-      interpolator.storeTime(nextStep);
-      for (StepHandler handler : stepHandlers) {
-          handler.handleStep(interpolator, lastStep);
+      if (!isLastStep) {
+
+          // prepare next step
+          interpolator.storeTime(stepStart);
+
+          // stepsize control for next step
+          final double  nextT      = stepStart + stepSize;
+          final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+          if (nextIsLast) {
+              stepSize = t - stepStart;
+          }
       }
-      stepStart = nextStep;
 
-      if (manager.reset(stepStart, y) && ! lastStep) {
-        // some events handler has triggered changes that
-        // invalidate the derivatives, we need to recompute them
-        computeDerivatives(stepStart, y, yDotK[0]);
-      }
-
-      // make sure step size is set to default before next step
-      stepSize = forward ? step : -step;
-
-    }
+    } while (!isLastStep);
 
     final double stopTime = stepStart;
     stepStart = Double.NaN;

@@ -20,7 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -206,11 +205,12 @@ public abstract class EmbeddedRungeKuttaIntegrator
       System.arraycopy(y0, 0, y, 0, y0.length);
     }
     final double[][] yDotK = new double[stages][y0.length];
-    final double[] yTmp = new double[y0.length];
+    final double[] yTmp    = new double[y0.length];
+    final double[] yDotTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
     AbstractStepInterpolator interpolator;
-    if (requiresDenseOutput() || (! eventsHandlersManager.isEmpty())) {
+    if (requiresDenseOutput() || (! eventsStates.isEmpty())) {
       final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
       rki.reinitialize(this, yTmp, yDotK, forward);
       interpolator = rki;
@@ -226,16 +226,17 @@ public abstract class EmbeddedRungeKuttaIntegrator
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    CombinedEventsManager manager = addEndTimeChecker(t0, t, eventsHandlersManager);
-    boolean lastStep = false;
+    statesInitialized = false;
 
     // main integration loop
-    while (!lastStep) {
+    isLastStep = false;
+    do {
 
       interpolator.shift();
 
-      double error = 0;
-      for (boolean loop = true; loop;) {
+      // iterate over step size, ensuring local normalized error is smaller than 1
+      double error = 10;
+      while (error >= 1.0) {
 
         if (firstTime || !fsal) {
           // first stage
@@ -248,11 +249,11 @@ public abstract class EmbeddedRungeKuttaIntegrator
               for (int i = 0; i < scale.length; ++i) {
                 scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
               }
-            } else {
+          } else {
               for (int i = 0; i < scale.length; ++i) {
                 scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
               }
-            }
+          }
           hNew = initializeStep(equations, forward, getOrder(), scale,
                                 stepStart, y, yDotK[0], yTmp, yDotK[1]);
           firstTime = false;
@@ -286,83 +287,49 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
         // estimate the error at the end of the step
         error = estimateError(yDotK, y, yTmp, stepSize);
-        if (error <= 1.0) {
-
-          // discrete events handling
-          interpolator.storeTime(stepStart + stepSize);
-          if (manager.evaluateStep(interpolator)) {
-              final double dt = manager.getEventTime() - stepStart;
-              if (FastMath.abs(dt) <= FastMath.ulp(stepStart)) {
-                  // we cannot simply truncate the step, reject the current computation
-                  // and let the loop compute another state with the truncated step.
-                  // it is so small (much probably exactly 0 due to limited accuracy)
-                  // that the code above would fail handling it.
-                  // So we set up an artificial 0 size step by copying states
-                  interpolator.storeTime(stepStart);
-                  System.arraycopy(y, 0, yTmp, 0, y0.length);
-                  hNew     = 0;
-                  stepSize = 0;
-                  loop     = false;
-              } else {
-                  // reject the step to match exactly the next switch time
-                  hNew = dt;
-              }
-          } else {
-            // accept the step
-            loop = false;
-          }
-
-        } else {
+        if (error >= 1.0) {
           // reject the step and attempt to reduce error by stepsize control
           final double factor =
               FastMath.min(maxGrowth,
-                       FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+                           FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
           hNew = filterStep(stepSize * factor, forward, false);
         }
 
       }
 
-      // the step has been accepted
-      final double nextStep = stepStart + stepSize;
+      // local error is small enough: accept the step, trigger events and step handlers
+      interpolator.storeTime(stepStart + stepSize);
       System.arraycopy(yTmp, 0, y, 0, y0.length);
-      manager.stepAccepted(nextStep, y);
-      lastStep = manager.stop();
+      System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
+      stepStart = acceptStep(interpolator, stepHandlers, y, yDotTmp, t);
 
-      // provide the step data to the step handler
-      interpolator.storeTime(nextStep);
-      for (StepHandler handler : stepHandlers) {
-          handler.handleStep(interpolator, lastStep);
-      }
-      stepStart = nextStep;
+      if (!isLastStep) {
 
-      if (fsal) {
-        // save the last evaluation for the next step
-        System.arraycopy(yDotK[stages - 1], 0, yDotK[0], 0, y0.length);
-      }
+          // prepare next step
+          interpolator.storeTime(stepStart);
 
-      if (manager.reset(stepStart, y) && ! lastStep) {
-        // some event handler has triggered changes that
-        // invalidate the derivatives, we need to recompute them
-        computeDerivatives(stepStart, y, yDotK[0]);
-      }
+          if (fsal) {
+              // save the last evaluation for the next step
+              System.arraycopy(yDotTmp, 0, yDotK[0], 0, y0.length);
+          }
 
-      if (! lastStep) {
-        // in some rare cases we may get here with stepSize = 0, for example
-        // when an event occurs at integration start, reducing the first step
-        // to zero; we have to reset the step to some safe non zero value
-          stepSize = filterStep(stepSize, forward, true);
+          // stepsize control for next step
+          final double factor =
+              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));
+          final double  scaledH    = stepSize * factor;
+          final double  nextT      = stepStart + scaledH;
+          final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
+          hNew = filterStep(scaledH, forward, nextIsLast);
 
-        // stepsize control for next step
-        final double factor = FastMath.min(maxGrowth,
-                                       FastMath.max(minReduction,
-                                                safety * FastMath.pow(error, exp)));
-        final double  scaledH    = stepSize * factor;
-        final double  nextT      = stepStart + scaledH;
-        final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
-        hNew = filterStep(scaledH, forward, nextIsLast);
+          final double  filteredNextT      = stepStart + hNew;
+          final boolean filteredNextIsLast = forward ? (filteredNextT >= t) : (filteredNextT <= t);
+          if (filteredNextIsLast) {
+              hNew = t - stepStart;
+          }
+
       }
 
-    }
+    } while (!isLastStep);
 
     final double stopTime = stepStart;
     resetInternalState();

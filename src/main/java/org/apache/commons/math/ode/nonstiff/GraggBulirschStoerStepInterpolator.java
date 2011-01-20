@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -310,8 +309,7 @@ class GraggBulirschStoerStepInterpolator
   /** {@inheritDoc} */
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
-                                          final double oneMinusThetaH)
-    throws MathUserException {
+                                          final double oneMinusThetaH) {
 
     final int dimension = currentState.length;
 

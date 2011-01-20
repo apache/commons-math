@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-484">
+          separate discrete event detection from adaptive step size handling in ODE solvers,
+          thus improving robustness, maintainability and speed
+      </action>
       <action dev="sebb" type="fix" issue="MATH-486">
           FastMath toRadian and toDegree don't handle large double numbers well
       </action>

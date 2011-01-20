@@ -33,8 +33,9 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * @see EventState
  * @version $Revision$ $Date$
  * @since 1.2
+ * @deprecated as of 2.2, this class is not used anymore
  */
-
+@Deprecated
 public class CombinedEventsManager {
 
     /** Events states. */

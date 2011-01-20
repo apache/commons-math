@@ -111,8 +111,8 @@ public class FirstOrderIntegratorWithJacobiansTest {
             extInt.setMaxEvaluations(5000);
             extInt.integrate(0, z, new double[][] { { 0.0 }, { 1.0 } }, 20.0, z, dZdZ0, dZdP);
             Assert.assertEquals(5000, extInt.getMaxEvaluations());
-            Assert.assertTrue(extInt.getEvaluations() > 1500);
-            Assert.assertTrue(extInt.getEvaluations() < 2100);
+            Assert.assertTrue(extInt.getEvaluations() > 1400);
+            Assert.assertTrue(extInt.getEvaluations() < 2000);
             Assert.assertEquals(4 * integ.getEvaluations(), extInt.getEvaluations());
             residualsP0.addValue(dZdP[0][0] - brusselator.dYdP0());
             residualsP1.addValue(dZdP[1][0] - brusselator.dYdP1());

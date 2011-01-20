@@ -60,12 +60,12 @@ public class MidpointIntegratorTest
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
 
-      double previousError = Double.NaN;
+      double previousValueError = Double.NaN;
+      double previousTimeError = Double.NaN;
       for (int i = 4; i < 10; ++i) {
 
         TestProblemAbstract pb = problems[k].copy();
-        double step = (pb.getFinalTime() - pb.getInitialTime())
-          * FastMath.pow(2.0, -i);
+        double step = (pb.getFinalTime() - pb.getInitialTime()) * FastMath.pow(2.0, -i);
         FirstOrderIntegrator integ = new MidpointIntegrator(step);
         TestProblemHandler handler = new TestProblemHandler(pb, integ);
         integ.addStepHandler(handler);
@@ -81,12 +81,17 @@ public class MidpointIntegratorTest
             assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
         }
 
-        double error = handler.getMaximalValueError();
+        double valueError = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < FastMath.abs(previousError));
+          assertTrue(valueError < FastMath.abs(previousValueError));
         }
-        previousError = error;
-        assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+        previousValueError = valueError;
+
+        double timeError = handler.getMaximalTimeError();
+        if (i > 4) {
+          assertTrue(timeError <= FastMath.abs(previousTimeError));
+        }
+        previousTimeError = timeError;
 
       }
 

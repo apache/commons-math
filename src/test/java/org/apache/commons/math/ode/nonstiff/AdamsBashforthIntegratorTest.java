@@ -146,9 +146,9 @@ public class AdamsBashforthIntegratorTest {
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
             if (nSteps < 4) {
-                assertTrue(integ.getEvaluations() > 160);
+                assertTrue(integ.getEvaluations() > 150);
             } else {
-                assertTrue(integ.getEvaluations() < 80);
+                assertTrue(integ.getEvaluations() < 70);
             }
         }
 
