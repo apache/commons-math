@@ -19,16 +19,12 @@ package org.apache.commons.math.random;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.util.Collection;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.distribution.BetaDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
@@ -42,8 +38,12 @@ import org.apache.commons.math.distribution.PascalDistributionImpl;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.distribution.WeibullDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.exception.MathInternalError;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -258,7 +258,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             alg = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException ex) {
             // this should never happen
-            throw MathRuntimeException.createInternalError(ex);
+            throw new MathInternalError(ex);
         }
         alg.reset();
 

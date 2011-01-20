@@ -31,6 +31,7 @@ public class MathIllegalStateException extends MathRuntimeException {
     private static final long serialVersionUID = -6024911025449780478L;
 
     /**
+     * Simple constructor.
      * @param specific Message pattern providing the specific context of
      * the error.
      * @param general Message pattern explaining the cause of the error.
@@ -39,16 +40,46 @@ public class MathIllegalStateException extends MathRuntimeException {
     public MathIllegalStateException(Localizable specific,
                                      Localizable general,
                                      Object ... args) {
-        super(null, specific, general, args);
+        super(null, null, specific, general, args);
     }
+
     /**
+     * Simple constructor.
+     * @param cause root cause
+     * @param specific Message pattern providing the specific context of
+     * the error.
+     * @param general Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    public MathIllegalStateException(Throwable cause,
+                                     Localizable specific,
+                                     Localizable general,
+                                     Object ... args) {
+        super(cause, null, specific, general, args);
+    }
+
+    /**
+     * Simple constructor.
      * @param specific Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
     public MathIllegalStateException(Localizable specific,
                                      Object ... args) {
-        this(specific, LocalizedFormats.ILLEGAL_STATE, args);
+        super(null, specific, LocalizedFormats.ILLEGAL_STATE, args);
     }
+
+    /**
+     * Simple constructor.
+     * @param cause root cause
+     * @param specific Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    public MathIllegalStateException(Throwable cause,
+                                     Localizable specific,
+                                     Object ... args) {
+        super(cause, specific, LocalizedFormats.ILLEGAL_STATE, args);
+    }
+
     /**
      * @param args Arguments.
      */
