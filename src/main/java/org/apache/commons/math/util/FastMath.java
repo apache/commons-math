@@ -3354,7 +3354,8 @@ public class FastMath {
      * <code>d</code> is returned; otherwise the largest representable number
      * strictly less than <code>d</code> is returned.</p>
      * <p>
-     * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
+     * If <code>d</code> is NaN or if it is infinite and direction does not
+     * bring it back to finite numbers, it is returned unchanged.</p>
      *
      * @param d base number
      * @param direction (the only important thing is whether
@@ -3418,7 +3419,8 @@ public class FastMath {
      * <code>d</code> is returned; otherwise the largest representable number
      * strictly less than <code>d</code> is returned.</p>
      * <p>
-     * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
+     * If <code>d</code> is NaN or if it is infinite and direction does not
+     * bring it back to finite numbers, it is returned unchanged.</p>
      *
      * @param f base number
      * @param direction (the only important thing is whether
