@@ -991,7 +991,7 @@ public class FastMathTest {
         }
         void check(Method mathMethod, double d, Object expected, Object actual, int entry){
             if (!expected.equals(actual)){
-                reportError(mathMethod.getName()+"(float "+d+") expected "+expected+" actual "+actual+ " entry "+entry);
+                reportError(mathMethod.getName()+"(double "+d+") expected "+expected+" actual "+actual+ " entry "+entry);
             }            
         }
     }

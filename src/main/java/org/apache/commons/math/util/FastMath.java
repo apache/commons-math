@@ -599,6 +599,14 @@ public class FastMath {
         return nextAfter(a, Double.POSITIVE_INFINITY);
     }
 
+    /** Compute next number towards positive infinity.
+     * @param a number to which neighbor should be computed
+     * @return neighbor of a towards positive infinity
+     */
+    public static float nextUp(final float a) {
+        return nextAfter(a, Float.POSITIVE_INFINITY);
+    }
+
     /** Returns a pseudo-random number between 0.0 and 1.0.
      * @return a random number between 0.0 and 1.0
      */
@@ -3356,8 +3364,16 @@ public class FastMath {
     public static double nextAfter(double d, double direction) {
 
         // handling of some important special cases
-        if (Double.isNaN(d) || Double.isInfinite(d)) {
+        if (Double.isNaN(d)) {
             return d;
+        } else if (Double.isInfinite(d)) {
+            if (d < direction) {
+                return -Double.MAX_VALUE;
+            } else if (direction < d) {
+                return Double.MAX_VALUE;
+            } else {
+                return d;
+            }
         } else if (d == 0) {
             return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
         }
@@ -3388,6 +3404,65 @@ public class FastMath {
             } else {
                 return Double.longBitsToDouble(sign |
                                                exponent | (mantissa - 1));
+            }
+        }
+
+    }
+
+    /**
+     * Get the next machine representable number after a number, moving
+     * in the direction of another number.
+     * <p>
+     * If <code>direction</code> is greater than or equal to<code>d</code>,
+     * the smallest machine representable number strictly greater than
+     * <code>d</code> is returned; otherwise the largest representable number
+     * strictly less than <code>d</code> is returned.</p>
+     * <p>
+     * If <code>d</code> is NaN or Infinite, it is returned unchanged.</p>
+     *
+     * @param f base number
+     * @param direction (the only important thing is whether
+     * direction is greater or smaller than f)
+     * @return the next machine representable number in the specified direction
+     */
+    public static float nextAfter(float f, float direction) {
+
+        // handling of some important special cases
+        if (Float.isNaN(f)) {
+            return f;
+        } else if (Float.isInfinite(f)) {
+            if (f < direction) {
+                return -Float.MAX_VALUE;
+            } else if (direction < f) {
+                return Float.MAX_VALUE;
+            } else {
+                return f;
+            }
+        } else if (f == 0f) {
+            return (direction < 0f) ? -Float.MIN_VALUE : Float.MIN_VALUE;
+        }
+        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
+        // are handled just as normal numbers
+
+        // split the double in raw components
+        int bits     = Float.floatToIntBits(f);
+        int sign     = bits & 0x80000000;
+        int exponent = bits & 0x7f800000;
+        int mantissa = bits & 0x007fffff;
+
+        if (f * (direction - f) >= 0f) {
+            // we should increase the mantissa
+            if (mantissa == 0x000fffff) {
+                return Float.intBitsToFloat(sign | (exponent + 0x00800000));
+            } else {
+                return Float.intBitsToFloat(sign | exponent | (mantissa + 1));
+            }
+        } else {
+            // we should decrease the mantissa
+            if (mantissa == 0) {
+                return Float.intBitsToFloat(sign | (exponent - 0x00800000) | 0x007fffff);
+            } else {
+                return Float.intBitsToFloat(sign | exponent | (mantissa - 1));
             }
         }
 
