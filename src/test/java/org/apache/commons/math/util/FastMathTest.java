@@ -39,8 +39,11 @@ public class FastMathTest {
         -0.0, +0.0,                                         // 1,2
         Double.NaN,                                         // 3
         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, // 4,5
-        Double.MIN_VALUE, Double.MAX_VALUE,                 // 6,7
-        -Double.MIN_VALUE, -Double.MAX_VALUE,               // 8,9
+        -Double.MAX_VALUE, Double.MAX_VALUE,                // 6,7
+        // decreasing order of absolute value to help catch first failure
+        -MathUtils.EPSILON, MathUtils.EPSILON,              // 8,9
+        -MathUtils.SAFE_MIN, MathUtils.SAFE_MIN,            // 10,11
+        -Double.MIN_VALUE, Double.MIN_VALUE,                // 12,13
     };
 
     private static final float [] FLOAT_SPECIAL_VALUES = {
