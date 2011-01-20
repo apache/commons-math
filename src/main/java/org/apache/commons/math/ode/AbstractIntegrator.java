@@ -60,7 +60,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     protected boolean resetOccurred;
 
     /** Events states. */
-    protected Collection<EventState> eventsStates;
+    private Collection<EventState> eventsStates;
 
     /** Initialization indicator of events states. */
     protected boolean statesInitialized;
@@ -139,10 +139,14 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         eventsStates.clear();
     }
 
-    /** Check if one of the step handlers requires dense output.
-     * @return true if one of the step handlers requires dense output
+    /** Check if dense output is needed.
+     * @return true if there is at least one event handler or if
+     * one of the step handlers requires dense output
      */
     protected boolean requiresDenseOutput() {
+        if (!eventsStates.isEmpty()) {
+            return true;
+        }
         for (StepHandler handler : stepHandlers) {
             if (handler.requiresDenseOutput()) {
                 return true;
@@ -207,7 +211,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** Accept a step, triggering events and step handlers.
      * @param interpolator step interpolator
-     * @param handlers step handlers
      * @param y state vector at step end time, must be reset if an event
      * asks for resetting or if an events stops integration during the step
      * @param yDot placeholder array where to put the time derivative of the state vector
@@ -216,9 +219,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @exception IntegratorException if the value of one event state cannot be evaluated
      */
     protected double acceptStep(final AbstractStepInterpolator interpolator,
-                                final Collection<StepHandler> handlers,
-                                final double[] y,
-                                final double[] yDot, final double tEnd)
+                                final double[] y, final double[] yDot, final double tEnd)
         throws IntegratorException {
 
         try {

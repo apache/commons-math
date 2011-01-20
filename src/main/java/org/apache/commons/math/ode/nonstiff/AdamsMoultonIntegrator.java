@@ -291,7 +291,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
             interpolator.storeTime(stepStart);
             interpolator.shift();
             interpolator.storeTime(stepEnd);
-            stepStart = acceptStep(interpolator, stepHandlers, y, yDot, t);
+            stepStart = acceptStep(interpolator, y, yDot, t);
             scaled    = correctedScaled;
             nordsieck = nordsieckTmp;
 
