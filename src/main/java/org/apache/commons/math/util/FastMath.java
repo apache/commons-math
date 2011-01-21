@@ -17,14 +17,17 @@
 package org.apache.commons.math.util;
 
 /**
- * Faster, more accurate, portable alternative to StrictMath.
+ * Faster, more accurate, portable alternative to {@link StrictMath}.
  * <p>
- * Additionally implements the following methods:
+ * Additionally implements the following methods not found in StrictMath:
  * <ul>
  * <li>{@link #asinh(double)}</li>
  * <li>{@link #acosh(double)}</li>
  * <li>{@link #atanh(double)}</li>
  * <li>{@link #nextAfter(float,float)}</li>
+ * </ul>
+ * The following methods are found in StrictMath since 1.6 only
+ * <ul>
  * <li>{@link #nextAfter(double,double)}</li>
  * <li>{@link #nextUp(double)}</li>
  * <li>{@link #nextUp(float)}</li>
