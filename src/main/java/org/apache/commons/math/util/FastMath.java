@@ -18,6 +18,17 @@ package org.apache.commons.math.util;
 
 /**
  * Faster, more accurate, portable alternative to StrictMath.
+ * <p>
+ * Additionally implements the following methods:
+ * <ul>
+ * <li>{@link #asinh(double)}</li>
+ * <li>{@link #acosh(double)}</li>
+ * <li>{@link #atanh(double)}</li>
+ * <li>{@link #nextAfter(float,float)}</li>
+ * <li>{@link #nextAfter(double,double)}</li>
+ * <li>{@link #nextUp(double)}</li>
+ * <li>{@link #nextUp(float)}</li>
+ * </ul>
  * @version $Revision$ $Date$
  * @since 2.2
  */
@@ -161,7 +172,7 @@ public class FastMath {
                                             1.2599210498948732,
                                             1.5874010519681994 };
 
-    /** 
+    /**
      * 0x40000000 - used to split a double into two parts, both with the low order bits cleared.
      */
     private static final double HEX_40000000 = 1073741824.0;
@@ -3150,7 +3161,7 @@ public class FastMath {
       }
 
       if (abs(r) < Double.MAX_VALUE/HEX_40000000){ // is it safe to split r ?
-          temp = r * HEX_40000000;          
+          temp = r * HEX_40000000;
       } else {
           temp = 0.0;
       }
@@ -3654,4 +3665,44 @@ public class FastMath {
         return (a <= b) ? b : (Double.isNaN(a + b) ? Double.NaN : a);
     }
 
+    /**
+     * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * avoiding intermediate overflow or underflow.
+     *
+     * <ul>
+     * <li> If either argument is infinite, then the result is positive infinity.</li>
+     * <li> else, if either argument is NaN then the result is NaN.</li>
+     * </ul>
+     *
+     * @param x a value
+     * @param y a value
+     * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
+     */
+    public static double hypot(double x, double y) {
+        return StrictMath.hypot(x, y); // TODO provide our own implementation
+    }
+    /**
+     * Computes the remainder as prescribed by the IEEE 754 standard.
+     * The remainder value is mathematically equal to {@code x - y*n}
+     * where {@code n} is the mathematical integer closest to the exact mathematical value
+     * of the quotient {@code x/y}.
+     * If two mathematical integers are equally close to {@code x/y} then
+     * {@code n} is the integer that is even.
+     * <p>
+     * <ul>
+     * <li>If either operand is NaN, the result is NaN.</li>
+     * <li>If the result is not NaN, the sign of the result equals the sign of the dividend.</li>
+     * <li>If the dividend is an infinity, or the divisor is a zero, or both, the result is NaN.</li>
+     * <li>If the dividend is finite and the divisor is an infinity, the result equals the dividend.</li>
+     * <li>If the dividend is a zero and the divisor is finite, the result equals the dividend.</li>
+     * </ul>
+     * @param dividend the number to be divided
+     * @param divisor the number by which to divide
+     * @return the remainder, rounded
+     */
+    public static double IEEEremainder(double dividend, double divisor) {
+        return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
+    }
+    
 }
