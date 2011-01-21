@@ -3349,7 +3349,7 @@ public class FastMath {
      * Get the next machine representable number after a number, moving
      * in the direction of another number.
      * <p>
-     * If <code>direction</code> is greater than or equal to<code>d</code>,
+     * If <code>direction</code> is greater than or equal to <code>d</code>,
      * the smallest machine representable number strictly greater than
      * <code>d</code> is returned; otherwise the largest representable number
      * strictly less than <code>d</code> is returned.</p>
@@ -3414,7 +3414,7 @@ public class FastMath {
      * Get the next machine representable number after a number, moving
      * in the direction of another number.
      * <p>
-     * If <code>direction</code> is greater than or equal to<code>d</code>,
+     * If <code>direction</code> is greater than or equal to <code>d</code>,
      * the smallest machine representable number strictly greater than
      * <code>d</code> is returned; otherwise the largest representable number
      * strictly less than <code>d</code> is returned.</p>
