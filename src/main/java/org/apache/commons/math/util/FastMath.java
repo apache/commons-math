@@ -152,7 +152,7 @@ public class FastMath {
      * This is used by sinQ, because its faster to do a table lookup than
      * a multiply in this time-critical routine
      */
-    private static final double EIGHTHES[] = {0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
+    private static final double EIGHTHS[] = {0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625};
 
     /** Table of 2^((n+2)/3) */
     private static final double CBRTTWO[] = { 0.6299605249474366,
@@ -1934,7 +1934,7 @@ public class FastMath {
      */
     private static double sinQ(double xa, double xb) {
         int idx = (int) ((xa * 8.0) + 0.5);
-        final double epsilon = xa - EIGHTHES[idx]; //idx*0.125;
+        final double epsilon = xa - EIGHTHS[idx]; //idx*0.125;
 
         // Table lookups
         final double sintA = SINE_TABLE_A[idx];
@@ -2078,7 +2078,7 @@ public class FastMath {
     private static double tanQ(double xa, double xb, boolean cotanFlag) {
 
         int idx = (int) ((xa * 8.0) + 0.5);
-        final double epsilon = xa - EIGHTHES[idx]; //idx*0.125;
+        final double epsilon = xa - EIGHTHS[idx]; //idx*0.125;
 
         // Table lookups
         final double sintA = SINE_TABLE_A[idx];
@@ -2852,8 +2852,8 @@ public class FastMath {
         double resultb;
 
         //result = yb + eighths[idx] + ya;
-        double za = EIGHTHES[idx] + ya;
-        double zb = -(za - EIGHTHES[idx] - ya);
+        double za = EIGHTHS[idx] + ya;
+        double zb = -(za - EIGHTHS[idx] - ya);
         temp = za + yb;
         zb += -(temp - za - yb);
         za = temp;
