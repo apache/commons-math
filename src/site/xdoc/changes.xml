@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-489">
+          FastMath acos fails when input abs value is less than about 5.7851920321187236E-300 - returns NaN
+      </action>
       <action dev="luc" type="fix" issue="MATH-484">
           separate discrete event detection from adaptive step size handling in ODE solvers,
           thus improving robustness, maintainability and speed
