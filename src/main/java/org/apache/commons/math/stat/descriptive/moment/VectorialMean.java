@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
  * Returns the arithmetic mean of the available vectors.
@@ -47,9 +47,9 @@ public class VectorialMean implements Serializable {
     /**
      * Add a new vector to the sample.
      * @param v vector to add
-     * @exception DimensionMismatchException if the vector does not have the right dimension
+     * @throws DimensionMismatchException if the vector does not have the right dimension
      */
-    public void increment(double[] v) throws DimensionMismatchException {
+    public void increment(double[] v) {
         if (v.length != means.length) {
             throw new DimensionMismatchException(v.length, means.length);
         }

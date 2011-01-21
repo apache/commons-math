@@ -19,9 +19,9 @@ package org.apache.commons.math.stat.descriptive;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -68,7 +68,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class MultivariateSummaryStatistics
-  implements StatisticalMultivariateSummary, Serializable {
+    implements StatisticalMultivariateSummary, Serializable {
 
     /** Serialization UID */
     private static final long serialVersionUID = 2271900808994826718L;
@@ -143,8 +143,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the length of the array
      * does not match the one used at construction
      */
-    public void addValue(double[] value)
-      throws DimensionMismatchException {
+    public void addValue(double[] value) {
         checkDimension(value.length);
         for (int i = 0; i < k; ++i) {
             double v = value[i];
@@ -415,8 +414,7 @@ public class MultivariateSummaryStatistics
      *  (i.e if n > 0)
      */
     private void setImpl(StorelessUnivariateStatistic[] newImpl,
-                         StorelessUnivariateStatistic[] oldImpl)
-       throws DimensionMismatchException, IllegalStateException {
+                         StorelessUnivariateStatistic[] oldImpl) {
         checkEmpty();
         checkDimension(newImpl.length);
         System.arraycopy(newImpl, 0, oldImpl, 0, newImpl.length);
@@ -444,8 +442,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumImpl(StorelessUnivariateStatistic[] sumImpl)
-      throws DimensionMismatchException {
+    public void setSumImpl(StorelessUnivariateStatistic[] sumImpl) {
         setImpl(sumImpl, this.sumImpl);
     }
 
@@ -471,8 +468,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl)
-      throws DimensionMismatchException {
+    public void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl) {
         setImpl(sumsqImpl, this.sumSqImpl);
     }
 
@@ -498,8 +494,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMinImpl(StorelessUnivariateStatistic[] minImpl)
-      throws DimensionMismatchException {
+    public void setMinImpl(StorelessUnivariateStatistic[] minImpl) {
         setImpl(minImpl, this.minImpl);
     }
 
@@ -525,8 +520,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMaxImpl(StorelessUnivariateStatistic[] maxImpl)
-      throws DimensionMismatchException {
+    public void setMaxImpl(StorelessUnivariateStatistic[] maxImpl) {
         setImpl(maxImpl, this.maxImpl);
     }
 
@@ -552,8 +546,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl)
-      throws DimensionMismatchException {
+    public void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl) {
         setImpl(sumLogImpl, this.sumLogImpl);
     }
 
@@ -579,8 +572,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl)
-      throws DimensionMismatchException {
+    public void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl) {
         setImpl(geoMeanImpl, this.geoMeanImpl);
     }
 
@@ -606,8 +598,7 @@ public class MultivariateSummaryStatistics
      * @throws IllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMeanImpl(StorelessUnivariateStatistic[] meanImpl)
-      throws DimensionMismatchException {
+    public void setMeanImpl(StorelessUnivariateStatistic[] meanImpl) {
         setImpl(meanImpl, this.meanImpl);
     }
 
@@ -627,11 +618,9 @@ public class MultivariateSummaryStatistics
      * @param dimension dimension to check
      * @throws DimensionMismatchException if dimension != k
      */
-    private void checkDimension(int dimension)
-      throws DimensionMismatchException {
+    private void checkDimension(int dimension) {
         if (dimension != k) {
             throw new DimensionMismatchException(dimension, k);
         }
     }
-
 }

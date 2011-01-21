@@ -19,12 +19,13 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
-import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.util.FastMath;
+
+import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * Test cases for the {@link MultivariateSummaryStatistics} class.
@@ -32,16 +33,13 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 
-public class MultivariateSummaryStatisticsTest extends TestCase {
-
-    public MultivariateSummaryStatisticsTest(String name) {
-        super(name);
-    }
+public class MultivariateSummaryStatisticsTest {
 
     protected MultivariateSummaryStatistics createMultivariateSummaryStatistics(int k, boolean isCovarianceBiasCorrected) {
         return new MultivariateSummaryStatistics(k, isCovarianceBiasCorrected);
     }
 
+    @Test
     public void testSetterInjection() throws Exception {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
@@ -49,24 +47,25 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
                       });
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
-        assertEquals(4, u.getMean()[0], 1E-14);
-        assertEquals(6, u.getMean()[1], 1E-14);
+        Assert.assertEquals(4, u.getMean()[0], 1E-14);
+        Assert.assertEquals(6, u.getMean()[1], 1E-14);
         u.clear();
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
-        assertEquals(4, u.getMean()[0], 1E-14);
-        assertEquals(6, u.getMean()[1], 1E-14);
+        Assert.assertEquals(4, u.getMean()[0], 1E-14);
+        Assert.assertEquals(6, u.getMean()[1], 1E-14);
         u.clear();
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
                         new Mean(), new Mean()
                       }); // OK after clear
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
-        assertEquals(2, u.getMean()[0], 1E-14);
-        assertEquals(3, u.getMean()[1], 1E-14);
-        assertEquals(2, u.getDimension());
+        Assert.assertEquals(2, u.getMean()[0], 1E-14);
+        Assert.assertEquals(3, u.getMean()[1], 1E-14);
+        Assert.assertEquals(2, u.getDimension());
     }
 
+    @Test
     public void testSetterIllegalState() throws Exception {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.addValue(new double[] { 1, 2 });
@@ -75,13 +74,14 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
             u.setMeanImpl(new StorelessUnivariateStatistic[] {
                             new sumMean(), new sumMean()
                           });
-            fail("Expecting IllegalStateException");
+            Assert.fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {
             // expected
         }
     }
 
-    public void testToString() throws DimensionMismatchException {
+    @Test
+    public void testToString() {
         MultivariateSummaryStatistics stats = createMultivariateSummaryStatistics(2, true);
         stats.addValue(new double[] {1, 3});
         stats.addValue(new double[] {2, 2});
@@ -89,7 +89,7 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         Locale d = Locale.getDefault();
         Locale.setDefault(Locale.US);
         final String suffix = System.getProperty("line.separator");
-        assertEquals("MultivariateSummaryStatistics:" + suffix+
+        Assert.assertEquals("MultivariateSummaryStatistics:" + suffix+
                      "n: 3" +suffix+
                      "min: 1.0, 1.0" +suffix+
                      "max: 3.0, 3.0" +suffix+
@@ -103,7 +103,8 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         Locale.setDefault(d);
     }
 
-    public void testShuffledStatistics() throws DimensionMismatchException {
+    @Test
+    public void testShuffledStatistics() {
         // the purpose of this test is only to check the get/set methods
         // we are aware shuffling statistics like this is really not
         // something sensible to do in production ...
@@ -170,86 +171,91 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         }
     }
 
+    @Test
     public void testDimension() {
         try {
             createMultivariateSummaryStatistics(2, true).addValue(new double[3]);
-            fail("Expecting DimensionMismatchException");
+            Assert.fail("Expecting DimensionMismatchException");
         } catch (DimensionMismatchException dme) {
             // expected behavior
         }
     }
 
     /** test stats */
-    public void testStats() throws DimensionMismatchException {
+    @Test
+    public void testStats() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
-        assertEquals(0, u.getN());
+        Assert.assertEquals(0, u.getN());
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 2, 3 });
         u.addValue(new double[] { 2, 3 });
         u.addValue(new double[] { 3, 4 });
-        assertEquals( 4, u.getN());
-        assertEquals( 8, u.getSum()[0], 1.0e-10);
-        assertEquals(12, u.getSum()[1], 1.0e-10);
-        assertEquals(18, u.getSumSq()[0], 1.0e-10);
-        assertEquals(38, u.getSumSq()[1], 1.0e-10);
-        assertEquals( 1, u.getMin()[0], 1.0e-10);
-        assertEquals( 2, u.getMin()[1], 1.0e-10);
-        assertEquals( 3, u.getMax()[0], 1.0e-10);
-        assertEquals( 4, u.getMax()[1], 1.0e-10);
-        assertEquals(2.4849066497880003102, u.getSumLog()[0], 1.0e-10);
-        assertEquals( 4.276666119016055311, u.getSumLog()[1], 1.0e-10);
-        assertEquals( 1.8612097182041991979, u.getGeometricMean()[0], 1.0e-10);
-        assertEquals( 2.9129506302439405217, u.getGeometricMean()[1], 1.0e-10);
-        assertEquals( 2, u.getMean()[0], 1.0e-10);
-        assertEquals( 3, u.getMean()[1], 1.0e-10);
-        assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[0], 1.0e-10);
-        assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[1], 1.0e-10);
-        assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 0), 1.0e-10);
-        assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 1), 1.0e-10);
-        assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 0), 1.0e-10);
-        assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 1), 1.0e-10);
+        Assert.assertEquals( 4, u.getN());
+        Assert.assertEquals( 8, u.getSum()[0], 1.0e-10);
+        Assert.assertEquals(12, u.getSum()[1], 1.0e-10);
+        Assert.assertEquals(18, u.getSumSq()[0], 1.0e-10);
+        Assert.assertEquals(38, u.getSumSq()[1], 1.0e-10);
+        Assert.assertEquals( 1, u.getMin()[0], 1.0e-10);
+        Assert.assertEquals( 2, u.getMin()[1], 1.0e-10);
+        Assert.assertEquals( 3, u.getMax()[0], 1.0e-10);
+        Assert.assertEquals( 4, u.getMax()[1], 1.0e-10);
+        Assert.assertEquals(2.4849066497880003102, u.getSumLog()[0], 1.0e-10);
+        Assert.assertEquals( 4.276666119016055311, u.getSumLog()[1], 1.0e-10);
+        Assert.assertEquals( 1.8612097182041991979, u.getGeometricMean()[0], 1.0e-10);
+        Assert.assertEquals( 2.9129506302439405217, u.getGeometricMean()[1], 1.0e-10);
+        Assert.assertEquals( 2, u.getMean()[0], 1.0e-10);
+        Assert.assertEquals( 3, u.getMean()[1], 1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[0], 1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(2.0 / 3.0), u.getStandardDeviation()[1], 1.0e-10);
+        Assert.assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 0), 1.0e-10);
+        Assert.assertEquals(2.0 / 3.0, u.getCovariance().getEntry(0, 1), 1.0e-10);
+        Assert.assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 0), 1.0e-10);
+        Assert.assertEquals(2.0 / 3.0, u.getCovariance().getEntry(1, 1), 1.0e-10);
         u.clear();
-        assertEquals(0, u.getN());
+        Assert.assertEquals(0, u.getN());
     }
 
+    @Test
     public void testN0andN1Conditions() throws Exception {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
-        assertTrue(Double.isNaN(u.getMean()[0]));
-        assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
+        Assert.assertTrue(Double.isNaN(u.getMean()[0]));
+        Assert.assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
 
         /* n=1 */
         u.addValue(new double[] { 1 });
-        assertEquals(1.0, u.getMean()[0], 1.0e-10);
-        assertEquals(1.0, u.getGeometricMean()[0], 1.0e-10);
-        assertEquals(0.0, u.getStandardDeviation()[0], 1.0e-10);
+        Assert.assertEquals(1.0, u.getMean()[0], 1.0e-10);
+        Assert.assertEquals(1.0, u.getGeometricMean()[0], 1.0e-10);
+        Assert.assertEquals(0.0, u.getStandardDeviation()[0], 1.0e-10);
 
         /* n=2 */
         u.addValue(new double[] { 2 });
-        assertTrue(u.getStandardDeviation()[0] > 0);
+        Assert.assertTrue(u.getStandardDeviation()[0] > 0);
 
     }
 
-    public void testNaNContracts() throws DimensionMismatchException {
+    @Test
+    public void testNaNContracts() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
-        assertTrue(Double.isNaN(u.getMean()[0]));
-        assertTrue(Double.isNaN(u.getMin()[0]));
-        assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
-        assertTrue(Double.isNaN(u.getGeometricMean()[0]));
+        Assert.assertTrue(Double.isNaN(u.getMean()[0]));
+        Assert.assertTrue(Double.isNaN(u.getMin()[0]));
+        Assert.assertTrue(Double.isNaN(u.getStandardDeviation()[0]));
+        Assert.assertTrue(Double.isNaN(u.getGeometricMean()[0]));
 
         u.addValue(new double[] { 1.0 });
-        assertFalse(Double.isNaN(u.getMean()[0]));
-        assertFalse(Double.isNaN(u.getMin()[0]));
-        assertFalse(Double.isNaN(u.getStandardDeviation()[0]));
-        assertFalse(Double.isNaN(u.getGeometricMean()[0]));
+        Assert.assertFalse(Double.isNaN(u.getMean()[0]));
+        Assert.assertFalse(Double.isNaN(u.getMin()[0]));
+        Assert.assertFalse(Double.isNaN(u.getStandardDeviation()[0]));
+        Assert.assertFalse(Double.isNaN(u.getGeometricMean()[0]));
 
     }
 
-    public void testSerialization() throws DimensionMismatchException {
+    @Test
+    public void testSerialization() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         // Empty test
         TestUtils.checkSerializedEquality(u);
         MultivariateSummaryStatistics s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        assertEquals(u, s);
+        Assert.assertEquals(u, s);
 
         // Add some data
         u.addValue(new double[] { 2d, 1d });
@@ -261,21 +267,22 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         // Test again
         TestUtils.checkSerializedEquality(u);
         s = (MultivariateSummaryStatistics) TestUtils.serializeAndRecover(u);
-        assertEquals(u, s);
+        Assert.assertEquals(u, s);
 
     }
 
-    public void testEqualsAndHashCode() throws DimensionMismatchException {
+    @Test
+    public void testEqualsAndHashCode() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         MultivariateSummaryStatistics t = null;
         int emptyHash = u.hashCode();
-        assertTrue(u.equals(u));
-        assertFalse(u.equals(t));
-        assertFalse(u.equals(Double.valueOf(0)));
+        Assert.assertTrue(u.equals(u));
+        Assert.assertFalse(u.equals(t));
+        Assert.assertFalse(u.equals(Double.valueOf(0)));
         t = createMultivariateSummaryStatistics(2, true);
-        assertTrue(t.equals(u));
-        assertTrue(u.equals(t));
-        assertEquals(emptyHash, t.hashCode());
+        Assert.assertTrue(t.equals(u));
+        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(emptyHash, t.hashCode());
 
         // Add some data to u
         u.addValue(new double[] { 2d, 1d });
@@ -283,9 +290,9 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         u.addValue(new double[] { 3d, 1d });
         u.addValue(new double[] { 4d, 1d });
         u.addValue(new double[] { 5d, 1d });
-        assertFalse(t.equals(u));
-        assertFalse(u.equals(t));
-        assertTrue(u.hashCode() != t.hashCode());
+        Assert.assertFalse(t.equals(u));
+        Assert.assertFalse(u.equals(t));
+        Assert.assertTrue(u.hashCode() != t.hashCode());
 
         //Add data in same order to t
         t.addValue(new double[] { 2d, 1d });
@@ -293,17 +300,16 @@ public class MultivariateSummaryStatisticsTest extends TestCase {
         t.addValue(new double[] { 3d, 1d });
         t.addValue(new double[] { 4d, 1d });
         t.addValue(new double[] { 5d, 1d });
-        assertTrue(t.equals(u));
-        assertTrue(u.equals(t));
-        assertEquals(u.hashCode(), t.hashCode());
+        Assert.assertTrue(t.equals(u));
+        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(u.hashCode(), t.hashCode());
 
         // Clear and make sure summaries are indistinguishable from empty summary
         u.clear();
         t.clear();
-        assertTrue(t.equals(u));
-        assertTrue(u.equals(t));
-        assertEquals(emptyHash, t.hashCode());
-        assertEquals(emptyHash, u.hashCode());
+        Assert.assertTrue(t.equals(u));
+        Assert.assertTrue(u.equals(t));
+        Assert.assertEquals(emptyHash, t.hashCode());
+        Assert.assertEquals(emptyHash, u.hashCode());
     }
-
 }

@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-491">
+        Removed unchecked "DimensionMismatchException". Replaced all occurrences by its
+        equivalent from package "exception".
+      </action>
       <action dev="sebb" type="fix" issue="MATH-489">
           FastMath acos fails when input abs value is less than about 5.7851920321187236E-300 - returns NaN
       </action>

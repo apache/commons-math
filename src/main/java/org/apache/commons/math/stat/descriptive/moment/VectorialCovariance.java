@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 
@@ -60,7 +60,7 @@ public class VectorialCovariance implements Serializable {
     /**
      * Add a new vector to the sample.
      * @param v vector to add
-     * @exception DimensionMismatchException if the vector does not have the right dimension
+     * @throws DimensionMismatchException if the vector does not have the right dimension
      */
     public void increment(double[] v) throws DimensionMismatchException {
         if (v.length != sums.length) {

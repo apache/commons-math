@@ -19,15 +19,10 @@ package org.apache.commons.math.stat.descriptive;
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public final class SynchronizedMultivariateSummaryStatisticsTest extends MultivariateSummaryStatisticsTest {
-
-    public SynchronizedMultivariateSummaryStatisticsTest(String name) {
-        super(name);
-    }
-
+public final class SynchronizedMultivariateSummaryStatisticsTest
+    extends MultivariateSummaryStatisticsTest {
     @Override
     protected MultivariateSummaryStatistics createMultivariateSummaryStatistics(int k, boolean isCovarianceBiasCorrected) {
         return new SynchronizedMultivariateSummaryStatistics(k, isCovarianceBiasCorrected);
     }
-
 }
