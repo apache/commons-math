@@ -3135,7 +3135,18 @@ public class FastMath {
 
       // Compute ratio r = y/x
       double r = y/x;
-      temp = r * 1073741824.0;
+
+      // Did r overflow?
+      if (Double.isInfinite(r)) { // x is effectively zero
+          return Math.PI/2; // so return the appropriate value
+      }
+
+      if (abs(r) < Double.MAX_VALUE/1073741824.0){ // is it safe to split r ?
+          temp = r * 1073741824.0;          
+      } else {
+          temp = 0.0;
+      }
+
       double ra = r + temp - temp;
       double rb = r - ra;
 
