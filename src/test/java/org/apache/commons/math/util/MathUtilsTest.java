@@ -1020,16 +1020,28 @@ public final class MathUtilsTest extends TestCase {
 
     }
 
-    public void testNextAfterSpecialCases() {
-        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.NEGATIVE_INFINITY, 0)));
-        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.POSITIVE_INFINITY, 0)));
-        assertTrue(Double.isNaN(FastMath.nextAfter(Double.NaN, 0)));
-        assertTrue(Double.isInfinite(FastMath.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY)));
-        assertTrue(Double.isInfinite(FastMath.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY)));
-        assertEquals(Double.MIN_VALUE, FastMath.nextAfter(0, 1), 0);
-        assertEquals(-Double.MIN_VALUE, FastMath.nextAfter(0, -1), 0);
-        assertEquals(0, FastMath.nextAfter(Double.MIN_VALUE, -1), 0);
-        assertEquals(0, FastMath.nextAfter(-Double.MIN_VALUE, 1), 0);
+    public void testDoubleNextAfterSpecialCases() {
+        assertEquals(-Double.MAX_VALUE,FastMath.nextAfter(Double.NEGATIVE_INFINITY, 0D));
+        assertEquals(Double.MAX_VALUE,FastMath.nextAfter(Double.POSITIVE_INFINITY, 0D));
+        assertEquals(Double.NaN,FastMath.nextAfter(Double.NaN, 0D));
+        assertEquals(Double.POSITIVE_INFINITY,FastMath.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY));
+        assertEquals(Double.NEGATIVE_INFINITY,FastMath.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY));
+        assertEquals(Double.MIN_VALUE, FastMath.nextAfter(0D, 1D), 0D);
+        assertEquals(-Double.MIN_VALUE, FastMath.nextAfter(0D, -1D), 0D);
+        assertEquals(0D, FastMath.nextAfter(Double.MIN_VALUE, -1), 0D);
+        assertEquals(0D, FastMath.nextAfter(-Double.MIN_VALUE, 1), 0D);
+    }
+
+    public void testFloatNextAfterSpecialCases() {
+        assertEquals(-Float.MAX_VALUE,FastMath.nextAfter(Float.NEGATIVE_INFINITY, 0F));
+        assertEquals(Float.MAX_VALUE,FastMath.nextAfter(Float.POSITIVE_INFINITY, 0F));
+        assertEquals(Float.NaN,FastMath.nextAfter(Float.NaN, 0F));
+        assertEquals(Float.POSITIVE_INFINITY,FastMath.nextAfter(Float.MAX_VALUE, Float.POSITIVE_INFINITY));
+        assertEquals(Float.NEGATIVE_INFINITY,FastMath.nextAfter(-Float.MAX_VALUE, Float.NEGATIVE_INFINITY));
+        assertEquals(Float.MIN_VALUE, FastMath.nextAfter(0F, 1F), 0F);
+        assertEquals(-Float.MIN_VALUE, FastMath.nextAfter(0F, -1F), 0F);
+        assertEquals(0F, FastMath.nextAfter(Float.MIN_VALUE, -1F), 0F);
+        assertEquals(0F, FastMath.nextAfter(-Float.MIN_VALUE, 1F), 0F);
     }
 
     public void testScalb() {
