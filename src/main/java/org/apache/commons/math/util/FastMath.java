@@ -161,6 +161,11 @@ public class FastMath {
                                             1.2599210498948732,
                                             1.5874010519681994 };
 
+    /** 
+     * 0x40000000 - used to split a double into two parts, both with the low order bits cleared.
+     */
+    private static final double HEX_40000000 = 1073741824.0;
+
     // Initialize tables
     static {
         int i;
@@ -245,13 +250,13 @@ public class FastMath {
       double ya = hiPrec[0] + hiPrec[1];
       double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-      double temp = ya * 1073741824.0;
+      double temp = ya * HEX_40000000;
       double yaa = ya + temp - temp;
       double yab = ya - yaa;
 
       // recip = 1/y
       double recip = 1.0/ya;
-      temp = recip * 1073741824.0;
+      temp = recip * HEX_40000000;
       double recipa = recip + temp - temp;
       double recipb = recip - recipa;
 
@@ -309,13 +314,13 @@ public class FastMath {
           double ya = hiPrec[0] + hiPrec[1];
           double yb = -(ya - hiPrec[0] - hiPrec[1]);
 
-          double temp = ya * 1073741824.0;
+          double temp = ya * HEX_40000000;
           double yaa = ya + temp - temp;
           double yab = ya - yaa;
 
           // recip = 1/y
           double recip = 1.0/ya;
-          temp = recip * 1073741824.0;
+          temp = recip * HEX_40000000;
           double recipa = recip + temp - temp;
           double recipb = recip - recipa;
 
@@ -350,11 +355,11 @@ public class FastMath {
           double denomr = 1.0 / denom;
           double denomb = -(denom - 1.0 - ya) + yb;
           double ratio = ya * denomr;
-          double temp = ratio * 1073741824.0;
+          double temp = ratio * HEX_40000000;
           double ra = ratio + temp - temp;
           double rb = ratio - ra;
 
-          temp = denom * 1073741824.0;
+          temp = denom * HEX_40000000;
           double za = denom + temp - temp;
           double zb = denom - za;
 
@@ -434,13 +439,13 @@ public class FastMath {
           db += -(temp - da - yb);
           da = temp;
 
-          temp = da * 1073741824.0;
+          temp = da * HEX_40000000;
           double daa = da + temp - temp;
           double dab = da - daa;
 
           // ratio = na/da
           double ratio = na/da;
-          temp = ratio * 1073741824.0;
+          temp = ratio * HEX_40000000;
           double ratioa = ratio + temp - temp;
           double ratiob = ratio - ratioa;
 
@@ -473,13 +478,13 @@ public class FastMath {
           db += -(temp - da - yb);
           da = temp;
 
-          temp = da * 1073741824.0;
+          temp = da * HEX_40000000;
           double daa = da + temp - temp;
           double dab = da - daa;
 
           // ratio = na/da
           double ratio = na/da;
-          temp = ratio * 1073741824.0;
+          temp = ratio * HEX_40000000;
           double ratioa = ratio + temp - temp;
           double ratiob = ratio - ratioa;
 
@@ -814,7 +819,7 @@ public class FastMath {
             tempB = -(temp - tempA - tempB);
             tempA = temp;
 
-            temp = tempA * 1073741824.0;
+            temp = tempA * HEX_40000000;
             baseA = tempA + temp - temp;
             baseB = tempB + (tempA - baseA);
 
@@ -835,7 +840,7 @@ public class FastMath {
         zb = -(temp - za - zb);
         za = temp;
 
-        temp = za * 1073741824.0;
+        temp = za * HEX_40000000;
         temp = za + temp - temp;
         zb += za - temp;
         za = temp;
@@ -882,11 +887,11 @@ public class FastMath {
             double denomr = 1.0 / denom;
             double denomb = -(denom - 1.0 - ya) + yb;
             double ratio = ya * denomr;
-            temp = ratio * 1073741824.0;
+            temp = ratio * HEX_40000000;
             final double ra = ratio + temp - temp;
             double rb = ratio - ra;
 
-            temp = denom * 1073741824.0;
+            temp = denom * HEX_40000000;
             za = denom + temp - temp;
             zb = denom - za;
 
@@ -960,12 +965,12 @@ public class FastMath {
      */
     private static void split(final double d, final double split[]) {
         if (d < 8e298 && d > -8e298) {
-            final double a = d * 1073741824.0;
+            final double a = d * HEX_40000000;
             split[0] = (d + a) - a;
             split[1] = d - split[0];
         } else {
             final double a = d * 9.31322574615478515625E-10;
-            split[0] = (d + a - d) * 1073741824.0;
+            split[0] = (d + a - d) * HEX_40000000;
             split[1] = d - split[0];
         }
     }
@@ -979,12 +984,12 @@ public class FastMath {
         final double d = -(c - a[0] - a[1]);
 
         if (c < 8e298 && c > -8e298) {
-            double z = c * 1073741824.0;
+            double z = c * HEX_40000000;
             a[0] = (c + z) - z;
             a[1] = c - a[0] + d;
         } else {
             double z = c * 9.31322574615478515625E-10;
-            a[0] = (c + z - c) * 1073741824.0;
+            a[0] = (c + z - c) * HEX_40000000;
             a[1] = c - a[0] + d;
         }
     }
@@ -1235,7 +1240,7 @@ public class FastMath {
                /* Compute x - 1.0 and split it */
                 double xa = x - 1.0;
                 double xb = xa - x + 1.0;
-                double tmp = xa * 1073741824.0;
+                double tmp = xa * HEX_40000000;
                 double aa = xa + tmp - tmp;
                 double ab = xa - aa;
                 xa = aa;
@@ -1249,7 +1254,7 @@ public class FastMath {
                     aa = ya * xa;
                     ab = ya * xb + yb * xa + yb * xb;
                     /* split, so now y = a */
-                    tmp = aa * 1073741824.0;
+                    tmp = aa * HEX_40000000;
                     ya = aa + tmp - tmp;
                     yb = aa - ya + ab;
 
@@ -1257,7 +1262,7 @@ public class FastMath {
                     aa = ya + LN_QUICK_COEF[i][0];
                     ab = yb + LN_QUICK_COEF[i][1];
                     /* Split y = a */
-                    tmp = aa * 1073741824.0;
+                    tmp = aa * HEX_40000000;
                     ya = aa + tmp - tmp;
                     yb = aa - ya + ab;
                 }
@@ -1266,7 +1271,7 @@ public class FastMath {
                 aa = ya * xa;
                 ab = ya * xb + yb * xa + yb * xb;
                 /* split, so now y = a */
-                tmp = aa * 1073741824.0;
+                tmp = aa * HEX_40000000;
                 ya = aa + tmp - tmp;
                 yb = aa - ya + ab;
 
@@ -1293,7 +1298,7 @@ public class FastMath {
 
         if (hiPrec != null) {
             /* split epsilon -> x */
-            double tmp = epsilon * 1073741824.0;
+            double tmp = epsilon * HEX_40000000;
             double aa = epsilon + tmp - tmp;
             double ab = epsilon - aa;
             double xa = aa;
@@ -1314,7 +1319,7 @@ public class FastMath {
                 aa = ya * xa;
                 ab = ya * xb + yb * xa + yb * xb;
                 /* split, so now y = a */
-                tmp = aa * 1073741824.0;
+                tmp = aa * HEX_40000000;
                 ya = aa + tmp - tmp;
                 yb = aa - ya + ab;
 
@@ -1322,7 +1327,7 @@ public class FastMath {
                 aa = ya + LN_HI_PREC_COEF[i][0];
                 ab = yb + LN_HI_PREC_COEF[i][1];
                 /* Split y = a */
-                tmp = aa * 1073741824.0;
+                tmp = aa * HEX_40000000;
                 ya = aa + tmp - tmp;
                 yb = aa - ya + ab;
             }
@@ -1454,7 +1459,7 @@ public class FastMath {
             return lores;
         }
 
-        final double tmp = hiPrec[0] * 1073741824.0;
+        final double tmp = hiPrec[0] * HEX_40000000;
         final double lna = hiPrec[0] + tmp - tmp;
         final double lnb = hiPrec[0] - lna + hiPrec[1];
 
@@ -1590,13 +1595,13 @@ public class FastMath {
         double ya;
         double yb;
         if (y < 8e298 && y > -8e298) {
-            double tmp1 = y * 1073741824.0;
+            double tmp1 = y * HEX_40000000;
             ya = y + tmp1 - tmp1;
             yb = y - ya;
         } else {
             double tmp1 = y * 9.31322574615478515625E-10;
             double tmp2 = tmp1 * 9.31322574615478515625E-10;
-            ya = (tmp1 + tmp2 - tmp1) * 1073741824.0 * 1073741824.0;
+            ya = (tmp1 + tmp2 - tmp1) * HEX_40000000 * HEX_40000000;
             yb = y - ya;
         }
 
@@ -1610,7 +1615,7 @@ public class FastMath {
         double lnb = lns[1];
 
         /* resplit lns */
-        double tmp1 = lna * 1073741824.0;
+        double tmp1 = lna * HEX_40000000;
         double tmp2 = lna + tmp1 - tmp1;
         lnb += lna - tmp2;
         lna = tmp2;
@@ -1941,7 +1946,7 @@ public class FastMath {
         final double cosEpsB = polyCosine(epsilon);
 
         // Split epsilon   xa + xb = x
-        final double temp = sinEpsA * 1073741824.0;
+        final double temp = sinEpsA * HEX_40000000;
         double temp2 = (sinEpsA + temp) - temp;
         sinEpsB +=  sinEpsA - temp2;
         sinEpsA = temp2;
@@ -2085,7 +2090,7 @@ public class FastMath {
         final double cosEpsB = polyCosine(epsilon);
 
         // Split epsilon   xa + xb = x
-        double temp = sinEpsA * 1073741824.0;
+        double temp = sinEpsA * HEX_40000000;
         double temp2 = (sinEpsA + temp) - temp;
         sinEpsB +=  sinEpsA - temp2;
         sinEpsA = temp2;
@@ -2177,11 +2182,11 @@ public class FastMath {
         double est = sina/cosa;
 
         /* Split the estimate to get more accurate read on division rounding */
-        temp = est * 1073741824.0;
+        temp = est * HEX_40000000;
         double esta = (est + temp) - temp;
         double estb =  est - esta;
 
-        temp = cosa * 1073741824.0;
+        temp = cosa * HEX_40000000;
         double cosaa = (cosa + temp) - temp;
         double cosab =  cosa - cosaa;
 
@@ -2765,7 +2770,7 @@ public class FastMath {
         epsA = temp;
 
         /* Compute eps = eps / (1.0 + xa*tangent) */
-        temp = xa * 1073741824.0;
+        temp = xa * HEX_40000000;
         double ya = xa + temp - temp;
         double yb = xb + xa - ya;
         xa = ya;
@@ -2791,11 +2796,11 @@ public class FastMath {
             zb += xb * TANGENT_TABLE_B[idx];
             ya = epsA / za;
 
-            temp = ya * 1073741824.0;
+            temp = ya * HEX_40000000;
             final double yaa = (ya + temp) - temp;
             final double yab = ya - yaa;
 
-            temp = za * 1073741824.0;
+            temp = za * HEX_40000000;
             final double zaa = (za + temp) - temp;
             final double zab = za - zaa;
 
@@ -2974,13 +2979,13 @@ public class FastMath {
         }
 
         // Split y
-        double temp = x * 1073741824.0;
+        double temp = x * HEX_40000000;
         final double xa = x + temp - temp;
         final double xb = x - xa;
 
         // Compute ratio r = x/y
         final double r = y/x;
-        temp = r * 1073741824.0;
+        temp = r * HEX_40000000;
         double ra = r + temp - temp;
         double rb = r - ra;
 
@@ -3024,7 +3029,7 @@ public class FastMath {
       /* Compute asin(x) = atan(x/sqrt(1-x*x)) */
 
       /* Split x */
-      double temp = x * 1073741824.0;
+      double temp = x * HEX_40000000;
       final double xa = x + temp - temp;
       final double xb = x - xa;
 
@@ -3046,7 +3051,7 @@ public class FastMath {
       /* Square root */
       double y;
       y = sqrt(za);
-      temp = y * 1073741824.0;
+      temp = y * HEX_40000000;
       ya = y + temp - temp;
       yb = y - ya;
 
@@ -3058,7 +3063,7 @@ public class FastMath {
 
       // Compute ratio r = x/y
       double r = x/y;
-      temp = r * 1073741824.0;
+      temp = r * HEX_40000000;
       double ra = r + temp - temp;
       double rb = r - ra;
 
@@ -3100,7 +3105,7 @@ public class FastMath {
       /* Compute acos(x) = atan(sqrt(1-x*x)/x) */
 
       /* Split x */
-      double temp = x * 1073741824.0;
+      double temp = x * HEX_40000000;
       final double xa = x + temp - temp;
       final double xb = x - xa;
 
@@ -3121,7 +3126,7 @@ public class FastMath {
 
       /* Square root */
       double y = sqrt(za);
-      temp = y * 1073741824.0;
+      temp = y * HEX_40000000;
       ya = y + temp - temp;
       yb = y - ya;
 
@@ -3141,8 +3146,8 @@ public class FastMath {
           return Math.PI/2; // so return the appropriate value
       }
 
-      if (abs(r) < Double.MAX_VALUE/1073741824.0){ // is it safe to split r ?
-          temp = r * 1073741824.0;
+      if (abs(r) < Double.MAX_VALUE/HEX_40000000){ // is it safe to split r ?
+          temp = r * HEX_40000000;          
       } else {
           temp = 0.0;
       }
@@ -3214,13 +3219,13 @@ public class FastMath {
       est += (xs - est*est*est) / (3*est*est);
 
       // Do one round of Newton's method in extended precision to get the last bit right.
-      double temp = est * 1073741824.0;
+      double temp = est * HEX_40000000;
       double ya = est + temp - temp;
       double yb = est - ya;
 
       double za = ya * ya;
       double zb = ya * yb * 2.0 + yb * yb;
-      temp = za * 1073741824.0;
+      temp = za * HEX_40000000;
       double temp2 = za + temp - temp;
       zb += za - temp2;
       za = temp2;
@@ -3255,12 +3260,13 @@ public class FastMath {
             return x;
         }
 
+        // These are PI/180 split into high and low order bits
         final double facta = 0.01745329052209854;
         final double factb = 1.997844754509471E-9;
 
         double temp = 0;
-        if (abs(x) < Double.MAX_VALUE/1073741824.0) { // prevent overflow to infinity
-            temp = x * 1073741824.0;
+        if (abs(x) < Double.MAX_VALUE/HEX_40000000) { // prevent overflow to infinity
+            temp = x * HEX_40000000;
         }
         double xa = x + temp - temp;
         double xb = x - xa;
@@ -3283,12 +3289,13 @@ public class FastMath {
             return x;
         }
 
+        // These are 180/PI split into high and low order bits
         final double facta = 57.2957763671875;
         final double factb = 3.145894820876798E-6;
 
         double temp = 0;
-        if (abs(x) < Double.MAX_VALUE/1073741824.0) { // prevent overflow to infinity
-            temp = x * 1073741824.0;
+        if (abs(x) < Double.MAX_VALUE/HEX_40000000) { // prevent overflow to infinity
+            temp = x * HEX_40000000;
         }
         double xa = x + temp - temp;
         double xb = x - xa;
