@@ -161,7 +161,7 @@ public class MicrosphereInterpolatingFunction
         if (xval[0] == null) {
             throw new NullArgumentException();
         }
-        
+
         dimension = xval[0].length;
         this.brightnessExponent = brightnessExponent;
 
