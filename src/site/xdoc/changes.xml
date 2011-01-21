@@ -52,8 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-492">
+        Removed checked "MaxIterationsExceededException" (superseded by
+        "MaxCountExceededException" from package "exception").
+      </action>
       <action dev="erans" type="fix" issue="MATH-491">
-        Removed unchecked "DimensionMismatchException". Replaced all occurrences by its
+        Removed checked "DimensionMismatchException". Replaced all occurrences by its
         equivalent from package "exception".
       </action>
       <action dev="sebb" type="fix" issue="MATH-489">
