@@ -17,6 +17,7 @@
 package org.apache.commons.math.util;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
 import org.apache.commons.math.dfp.Dfp;
@@ -1027,7 +1028,7 @@ public class FastMathTest {
         Method math[] = StrictMath.class.getDeclaredMethods();
         for(Method mathMethod : math) {
             Type ret = mathMethod.getGenericReturnType();
-            if (ret.equals(type)){
+            if (ret.equals(type) && Modifier.isPublic(mathMethod.getModifiers())){
                 Type []params = mathMethod.getGenericParameterTypes();
                 if (params.length ==1 && params[0].equals(type)) {
                     Method fastMethod = null;
