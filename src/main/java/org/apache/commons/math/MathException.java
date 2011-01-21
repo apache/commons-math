@@ -28,14 +28,16 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 
 
 /**
-* Base class for commons-math checked exceptions.
-* <p>
-* Supports nesting, emulating JDK 1.4 behavior if necessary.</p>
-* <p>
-* Adapted from <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/FunctorException.html"/>.</p>
-*
-* @version $Revision$ $Date$
-*/
+ * Base class for commons-math checked exceptions.
+ * <p>
+ * Supports nesting, emulating JDK 1.4 behavior if necessary.</p>
+ * <p>
+ * Adapted from <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/FunctorException.html"/>.</p>
+ *
+ * @version $Revision$ $Date$
+ * @deprecated in 2.2. Occurrences will be replaced in 3.0 by more specific
+ * (and unchecked) exceptions.
+ */
 public class MathException extends Exception implements MathThrowable {
 
     /** Serializable version identifier. */
