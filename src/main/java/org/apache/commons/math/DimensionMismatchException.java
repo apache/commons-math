@@ -23,6 +23,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @since 1.2
  * @version $Revision$ $Date$
+ * @deprecated in 2.2 (to be removed in 3.0). Please use its equivalent from package
+ * {@link org.apache.commons.math.exception}.
  */
 public class DimensionMismatchException extends MathException {
 
