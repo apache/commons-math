@@ -17,6 +17,8 @@
 
 package org.apache.commons.math;
 
+import org.apache.commons.math.exception.MaxCountExceededException;
+
 /**
  * Provide a default implementation for several functions useful to generic
  * converging algorithms.
@@ -143,14 +145,13 @@ public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
     /**
      * Increment the iterations counter by 1.
      *
-     * @throws MaxIterationsExceededException if the maximal number
+     * @throws MaxCountExceededException if the maximal number
      * of iterations is exceeded.
      * @since 2.2
      */
-    protected void incrementIterationsCounter()
-        throws MaxIterationsExceededException {
+    protected void incrementIterationsCounter() {
         if (++iterationCount > maximalIterationCount) {
-            throw new MaxIterationsExceededException(maximalIterationCount);
+            throw new MaxCountExceededException(maximalIterationCount);
         }
     }
 }
