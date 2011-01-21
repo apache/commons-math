@@ -21,9 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
@@ -62,13 +63,10 @@ public class MicrosphereInterpolatingFunction
      * microsphere projection.
      */
     private static class MicrosphereSurfaceElement {
-
         /** Normal vector characterizing a surface element. */
         private final RealVector normal;
-
         /** Illumination received from the brightest sample. */
         private double brightestIllumination;
-
         /** Brightest sample. */
         private Map.Entry<RealVector, Double> brightestSample;
 
@@ -142,22 +140,28 @@ public class MicrosphereInterpolatingFunction
      * {@code xval} (equal to {@code n}, the number of interpolation points)
      * do not match, or the the arrays {@code xval[0]} ... {@code xval[n]},
      * have lengths different from {@code dimension}.
-     * @throws NoDataException if there are no data (xval null or zero length)
+     * @throws NoDataException if there an array has zero-length.
+     * @throws NullArgumentException if an argument is {@code null}.
      */
     public MicrosphereInterpolatingFunction(double[][] xval,
                                             double[] yval,
                                             int brightnessExponent,
                                             int microsphereElements,
-                                            UnitSphereRandomVectorGenerator rand)
-        throws DimensionMismatchException, NoDataException {
-        if (xval.length == 0 || xval[0] == null) {
+                                            UnitSphereRandomVectorGenerator rand) {
+        if (xval == null ||
+            yval == null) {
+            throw new NullArgumentException();
+        }
+        if (xval.length == 0) {
             throw new NoDataException();
         }
-
         if (xval.length != yval.length) {
             throw new DimensionMismatchException(xval.length, yval.length);
         }
-
+        if (xval[0] == null) {
+            throw new NullArgumentException();
+        }
+        
         dimension = xval[0].length;
         this.brightnessExponent = brightnessExponent;
 
@@ -165,7 +169,10 @@ public class MicrosphereInterpolatingFunction
         samples = new HashMap<RealVector, Double>(yval.length);
         for (int i = 0; i < xval.length; ++i) {
             final double[] xvalI = xval[i];
-            if ( xvalI.length != dimension) {
+            if (xvalI == null) {
+                throw new NullArgumentException();
+            }
+            if (xvalI.length != dimension) {
                 throw new DimensionMismatchException(xvalI.length, dimension);
             }
 
@@ -178,7 +185,6 @@ public class MicrosphereInterpolatingFunction
         for (int i = 0; i < microsphereElements; i++) {
             microsphere.add(new MicrosphereSurfaceElement(rand.nextVector()));
         }
-
     }
 
     /**
@@ -186,7 +192,6 @@ public class MicrosphereInterpolatingFunction
      * @return the interpolated value.
      */
     public double value(double[] point) {
-
         final RealVector p = new ArrayRealVector(point);
 
         // Reset.
@@ -227,7 +232,6 @@ public class MicrosphereInterpolatingFunction
         }
 
         return value / totalWeight;
-
     }
 
     /**
@@ -235,7 +239,7 @@ public class MicrosphereInterpolatingFunction
      *
      * @param v Vector.
      * @param w Vector.
-     * @return cosine of the angle
+     * @return the cosine of the angle between {@code v} and {@code w}.
      */
     private double cosAngle(final RealVector v, final RealVector w) {
         return v.dotProduct(w) / (v.getNorm() * w.getNorm());
