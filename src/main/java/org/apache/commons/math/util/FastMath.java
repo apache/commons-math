@@ -3620,7 +3620,7 @@ public class FastMath {
      * @return a if a is lesser or equal to b, b otherwise
      */
     public static float min(final float a, final float b) {
-        return (a <= b) ? a : (Float.isNaN(a + b) ? Float.NaN : b);
+        return (a <= b) ? a : ((a!=a||b!=b) ? Float.NaN : b);
     }
 
     /** Compute the minimum of two values
@@ -3629,7 +3629,7 @@ public class FastMath {
      * @return a if a is lesser or equal to b, b otherwise
      */
     public static double min(final double a, final double b) {
-        return (a <= b) ? a : (Double.isNaN(a + b) ? Double.NaN : b);
+        return (a <= b) ? a : ((a!=a||b!=b) ? Double.NaN : b);
     }
 
     /** Compute the maximum of two values
@@ -3656,7 +3656,7 @@ public class FastMath {
      * @return b if a is lesser or equal to b, a otherwise
      */
     public static float max(final float a, final float b) {
-        return (a <= b) ? b : (Float.isNaN(a + b) ? Float.NaN : a);
+        return (a < b) ? b : ((a!=a||b!=b) ? Float.NaN : a);
     }
 
     /** Compute the maximum of two values
@@ -3665,7 +3665,7 @@ public class FastMath {
      * @return b if a is lesser or equal to b, a otherwise
      */
     public static double max(final double a, final double b) {
-        return (a <= b) ? b : (Double.isNaN(a + b) ? Double.NaN : a);
+        return (a <= b) ? b : ((a!=a||b!=b) ? Double.NaN : a);
     }
 
     /**
@@ -3685,6 +3685,7 @@ public class FastMath {
     public static double hypot(double x, double y) {
         return StrictMath.hypot(x, y); // TODO provide our own implementation
     }
+
     /**
      * Computes the remainder as prescribed by the IEEE 754 standard.
      * The remainder value is mathematically equal to {@code x - y*n}
