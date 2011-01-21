@@ -975,7 +975,7 @@ public class FastMathTest {
     }
 
     private static void reportError(String message) {
-        final boolean fatal = false; // TODO set true once all bugs have been fixed
+        final boolean fatal = true;
         if (fatal) {
             Assert.fail(message);
         } else {
