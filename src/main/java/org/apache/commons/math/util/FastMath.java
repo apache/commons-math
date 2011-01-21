@@ -166,6 +166,9 @@ public class FastMath {
      */
     private static final double HEX_40000000 = 1073741824.0;
 
+    /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
+    private static final double TWO_POWER_52 = 4503599627370496.0;
+
     // Initialize tables
     static {
         int i;
@@ -1291,7 +1294,7 @@ public class FastMath {
         // y is the most significant 10 bits of the mantissa
         //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);
         //double epsilon = (x - y) / y;
-        double epsilon = (double)(bits & 0x3ffffffffffL) / (4503599627370496.0 + (bits & 0x000ffc0000000000L));
+        double epsilon = (double)(bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
 
         double lnza = 0.0;
         double lnzb = 0.0;
@@ -1306,7 +1309,7 @@ public class FastMath {
 
             /* Need a more accurate epsilon, so adjust the division. */
             double numer = (double)(bits & 0x3ffffffffffL);
-            double denom = 4503599627370496.0 + (bits & 0x000ffc0000000000L);
+            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
             aa = numer - xa*denom - xb * denom;
             xb += aa / denom;
 
@@ -1579,7 +1582,7 @@ public class FastMath {
         /* Handle special case x<0 */
         if (x < 0) {
             // y is an even integer in this case
-            if (y >= 4503599627370496.0 || y <= -4503599627370496.0) {
+            if (y >= TWO_POWER_52 || y <= -TWO_POWER_52) {
                 return pow(-x, y);
             }
 
@@ -2420,8 +2423,8 @@ public class FastMath {
         }
 
         /* Convert to double */
-        double tmpA = (prod2A >>> 12) / 4503599627370496.0;  // High order 52 bits
-        double tmpB = (((prod2A & 0xfffL) << 40) + (prod2B >>> 24)) / 4503599627370496.0 / 4503599627370496.0; // Low bits
+        double tmpA = (prod2A >>> 12) / TWO_POWER_52;  // High order 52 bits
+        double tmpB = (((prod2A & 0xfffL) << 40) + (prod2B >>> 24)) / TWO_POWER_52 / TWO_POWER_52; // Low bits
 
         double sumA = tmpA + tmpB;
         double sumB = -(sumA - tmpA - tmpB);
@@ -3499,7 +3502,7 @@ public class FastMath {
             return x;
         }
 
-        if (x >= 4503599627370496.0 || x <= -4503599627370496.0) {
+        if (x >= TWO_POWER_52 || x <= -TWO_POWER_52) {
             return x;
         }
 
