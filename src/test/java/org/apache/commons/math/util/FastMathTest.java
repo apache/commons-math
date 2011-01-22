@@ -987,6 +987,19 @@ public class FastMathTest {
     
     private static void check(Method mathMethod, Object[] params, Object expected, Object actual, int[] entries){
         if (!expected.equals(actual)){
+            if (expected instanceof Double) {
+                double exp = (Double) expected;
+                // Need to discount 0 otherwise +0.0 == -0.0
+                if (exp != 0 && MathUtils.equals(exp, (Double) actual, 1)) {
+                    return;
+                }
+            } else {
+                float exp = (Float) expected;
+                // Need to discount 0 otherwise +0.0 == -0.0
+                if (exp != 0 && MathUtils.equals(exp, ((Float) actual), 1)) {
+                    return;
+                }
+            }
             StringBuilder sb = new StringBuilder();
             sb.append(mathMethod.getName());
             sb.append("(");
