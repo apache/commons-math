@@ -175,10 +175,21 @@ public class FastMath {
                                             1.2599210498948732,
                                             1.5874010519681994 };
 
+    /*
+     *  There are 52 bits in the mantissa of a double.
+     *  For additional precision, the code splits double numbers into two parts,
+     *  by clearing the low order 30 bits if possible, and then performs the arithmetic
+     *  on each half separately.
+     */
+
     /**
      * 0x40000000 - used to split a double into two parts, both with the low order bits cleared.
+     * Equivalent to 2^30.
      */
-    private static final double HEX_40000000 = 1073741824.0;
+    private static final long HEX_40000000 = 0x40000000L; // 1073741824L
+    
+    /** Mask used to clear low order 30 bits */
+    private static final long MASK_30BITS = -1L - (HEX_40000000 -1); // 0xFFFFFFFFC0000000L;
 
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
@@ -231,6 +242,36 @@ public class FastMath {
      * Private Constructor
      */
     private FastMath() {
+    }
+
+    // Generic helper methods
+    
+    /**
+     * Get the sign information (works even for 0).
+     * 
+     * @param d the value to check
+     * 
+     * @return +1.0 or -1.0, never 0.0
+     */
+    private static double getSign(double d){ // TODO perhaps move to MathUtils?
+        long l = Double.doubleToLongBits(d);
+        return l < 0 ? -1.0 : 1.0;
+    }
+
+    /**
+     * Get the high order bits from the mantissa.
+     * Equivalent to adding and subtracting HEX_40000 but also works for very large numbers
+     * 
+     * @param d the value to split
+     * @return the high order part of the mantissa
+     */
+    private static double doubleHighPart(double d) {
+        if (d > -MathUtils.SAFE_MIN && d < MathUtils.SAFE_MIN){
+            return d; // These are un-normalised - don't try to convert
+        }
+        long xl = Double.doubleToLongBits(d);
+        xl = xl & MASK_30BITS; // Drop low order bits
+        return Double.longBitsToDouble(xl);
     }
 
     /** Compute the square root of a number.
@@ -2750,14 +2791,14 @@ public class FastMath {
      * @param xa number from which arctangent is requested
      * @param xb extra bits for x (may be 0.0)
      * @param leftPlane if true, result angle must be put in the left half plane
-     * @return atan(xa + xb) (or angle shifted by &pi; if leftPlane is true)
+     * @return atan(xa + xb) (or angle shifted by {@code PI} if leftPlane is true)
      */
     private static double atan(double xa, double xb, boolean leftPlane) {
         boolean negate = false;
         int idx;
 
         if (xa == 0.0) { // Matches +/- 0.0; return correct sign
-            return xa;
+            return leftPlane ? getSign(xa) * Math.PI : xa;
         }
 
         if (xa < 0) {
@@ -2914,14 +2955,10 @@ public class FastMath {
 
             if (invx == 0.0) { // X is infinite
                 if (x > 0) {
-                    return 0.0;
+                    return y; // return +/- 0.0
                 } else {
-                    return Math.PI;
+                    return getSign(y) * Math.PI;
                 }
-            }
-
-            if (result != result) { // y must be infinite
-                return x/y;
             }
 
             if (x < 0.0 || invx < 0.0) {
@@ -2934,6 +2971,8 @@ public class FastMath {
                 return result;
             }
         }
+
+        // y cannot now be zero
 
         if (y == Double.POSITIVE_INFINITY) {
             if (x == Double.POSITIVE_INFINITY) {
@@ -2980,6 +3019,8 @@ public class FastMath {
             }
         }
 
+        // Neither y nor x can be infinite or NAN here
+
         if (x == 0) {
             if (y > 0.0 || 1/y > 0.0) {
                 return Math.PI/2.0;
@@ -2990,27 +3031,28 @@ public class FastMath {
             }
         }
 
-        if (x > 8e298 || x < -8e298) { // This would cause split of x to fail
-            x *= 9.31322574615478515625E-10;
-            y *= 9.31322574615478515625E-10;
+        // Compute ratio r = y/x
+        final double r = y/x;
+        if (Double.isInfinite(r)) { // bypass calculations that can create NaN
+            return atan(r, 0, x < 0);
         }
 
-        // Split y
-        double temp = x * HEX_40000000;
-        final double xa = x + temp - temp;
-        final double xb = x - xa;
-
-        // Compute ratio r = x/y
-        final double r = y/x;
-        temp = r * HEX_40000000;
-        double ra = r + temp - temp;
+        double ra = doubleHighPart(r);
         double rb = r - ra;
+
+        // Split x
+        final double xa = doubleHighPart(x);
+        final double xb = x - xa;
 
         rb += (y - ra * xa - ra * xb - rb * xa - rb * xb) / x;
 
-        temp = ra + rb;
+        double temp = ra + rb;
         rb = -(temp - ra - rb);
         ra = temp;
+
+        if (ra == 0 && (y < 0)) { // Fix up the sign so atan works correctly
+            ra = -0.0;
+        }
 
         // Call atan
         double result = atan(ra, rb, x < 0);
@@ -3290,7 +3332,7 @@ public class FastMath {
 
         double result = xb * factb + xb * facta + xa * factb + xa * facta;
         if (result == 0) {
-            result = result * x; // ensure correct sign
+            result = result * x; // ensure correct sign if calculation underflows
         }
         return result;
     }
