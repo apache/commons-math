@@ -3205,13 +3205,7 @@ public class FastMath {
           return Math.PI/2; // so return the appropriate value
       }
 
-      if (abs(r) < Double.MAX_VALUE/HEX_40000000){ // is it safe to split r ?
-          temp = r * HEX_40000000;
-      } else {
-          temp = 0.0;
-      }
-
-      double ra = r + temp - temp;
+      double ra = doubleHighPart(r);
       double rb = r - ra;
 
       rb += (y - ra*xa - ra*xb - rb*xa - rb*xb) / x;  // Correct for rounding in division
@@ -3323,11 +3317,7 @@ public class FastMath {
         final double facta = 0.01745329052209854;
         final double factb = 1.997844754509471E-9;
 
-        double temp = 0;
-        if (abs(x) < Double.MAX_VALUE/HEX_40000000) { // prevent overflow to infinity
-            temp = x * HEX_40000000;
-        }
-        double xa = x + temp - temp;
+        double xa = doubleHighPart(x);
         double xb = x - xa;
 
         double result = xb * factb + xb * facta + xa * factb + xa * facta;
@@ -3352,11 +3342,7 @@ public class FastMath {
         final double facta = 57.2957763671875;
         final double factb = 3.145894820876798E-6;
 
-        double temp = 0;
-        if (abs(x) < Double.MAX_VALUE/HEX_40000000) { // prevent overflow to infinity
-            temp = x * HEX_40000000;
-        }
-        double xa = x + temp - temp;
+        double xa = doubleHighPart(x);
         double xb = x - xa;
 
         return xb * factb + xb * facta + xa * factb + xa * facta;
