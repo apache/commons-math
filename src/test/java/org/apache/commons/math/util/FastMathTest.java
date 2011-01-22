@@ -1001,13 +1001,13 @@ public class FastMathTest {
                 }
             }
             StringBuilder sb = new StringBuilder();
+            sb.append(mathMethod.getReturnType().getSimpleName());
+            sb.append(" ");
             sb.append(mathMethod.getName());
             sb.append("(");
             String sep = "";
             for(Object o : params){
                 sb.append(sep);
-                sb.append(o.getClass().getSimpleName().toLowerCase()); // Hack: assume only Float/Double are used
-                sb.append(" ");
                 sb.append(o);
                 sep=", ";
             }
