@@ -2941,7 +2941,7 @@ public class FastMath {
      * Two arguments arctangent function
      * @param y ordinate
      * @param x abscissa
-     * @return phase angle of point (x,y) between -&pi; and &pi;
+     * @return phase angle of point (x,y) between {@code -PI} and {@code PI}
      */
     public static double atan2(double y, double x) {
         if (x !=x || y != y) {
