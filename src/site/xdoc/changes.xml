@@ -52,15 +52,19 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-498">
+          FastMath is not an exact replacement for StrictMath
+          (partially fixed) added scalb(double, int), scalb(float, int)
+      </action>
       <action dev="luc" type="fix" issue="MATH-478">
           FastMath is not an exact replacement for StrictMath
-          (partially fixed) fixed nextAfter(double, double) and nextAfter(float,double)
+          (partially fixed) added nextAfter(double, double) and nextAfter(float,double)
           (beware of the strange double second argument) so that they handle
           special values in the way as StrictMath
       </action>
       <action dev="luc" type="fix" issue="MATH-497">
           FastMath is not an exact replacement for StrictMath
-          (partially fixed) Add getExponent(double), getExponent(float)
+          (partially fixed) added getExponent(double) and getExponent(float)
       </action>
       <action dev="sebb" type="fix" issue="MATH-496">
           FastMath is not an exact replacement for StrictMath
