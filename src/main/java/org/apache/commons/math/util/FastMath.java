@@ -3847,8 +3847,39 @@ public class FastMath {
      * @param y a value
      * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      */
-    public static double hypot(double x, double y) {
-        return StrictMath.hypot(x, y); // TODO provide our own implementation
+    public static double hypot(final double x, final double y) {
+        if (Double.isInfinite(x) || Double.isInfinite(y)) {
+            return Double.POSITIVE_INFINITY;
+        } else if (Double.isNaN(x) || Double.isNaN(y)) {
+            return Double.NaN;
+        } else {
+
+            final int expX = getExponent(x);
+            final int expY = getExponent(y);
+            if (expX > expY + 27) {
+                // y is neglectible with respect to x
+                return abs(x);
+            } else if (expY > expX + 27) {
+                // x is neglectible with respect to y
+                return abs(y);
+            } else {
+
+                // find an intermediate scale to avoid both overflow and underflow
+                final int middleExp = (expX + expY) / 2;
+
+                // scale parameters without losing precision
+                final double scaledX = scalb(x, -middleExp);
+                final double scaledY = scalb(y, -middleExp);
+
+                // compute scaled hypotenuse
+                final double scaledH = sqrt(scaledX * scaledX + scaledY * scaledY);
+
+                // remove scaling
+                return scalb(scaledH, middleExp);
+
+            }
+
+        }
     }
 
     /**
