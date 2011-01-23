@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-496">
+          FastMath is not an exact replacement for StrictMath
+          (partially fixed) Add copySign(float), copySign(float)
+      </action>
       <action dev="sebb" type="fix" issue="MATH-494">
           FastMath atan2 does not agree with StrictMath for special cases
       </action>
