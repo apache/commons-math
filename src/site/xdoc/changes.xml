@@ -192,9 +192,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="luc" type="fix" issue="MATH-478">
           FastMath is not an exact replacement for StrictMath
-          (partially fixed) added nextAfter(double, double) and nextAfter(float,double)
-          (beware of the strange double second argument) so that they handle
-          special values in the way as StrictMath
+          (partially fixed) added hypot(double, double), nextAfter(double, double)
+          and nextAfter(float,double) (beware of the strange double second argument)
+          so that they handle special values in the way as StrictMath
       </action>
       <action dev="luc" type="fix" issue="MATH-497">
           FastMath is not an exact replacement for StrictMath
