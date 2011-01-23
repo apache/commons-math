@@ -1071,7 +1071,11 @@ public class FastMathTest {
                     String name = mathMethod.getName();
                     try {
                         fastMethod = FastMath.class.getDeclaredMethod(name, (Class[]) params);
-                        comparer.compareSpecials(mathMethod, fastMethod, params);
+                        if (Modifier.isPublic(fastMethod.getModifiers())) {
+                            comparer.compareSpecials(mathMethod, fastMethod, params);
+                        } else {
+                            System.out.println("Cannot find public FastMath method corresponding to: "+mathMethod);                            
+                        }
                     } catch (NoSuchMethodException e) {
                         System.out.println("Cannot find FastMath method corresponding to: "+mathMethod);
                     }
