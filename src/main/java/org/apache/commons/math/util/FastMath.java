@@ -29,9 +29,11 @@ package org.apache.commons.math.util;
  * The following methods are found in StrictMath since 1.6 only
  * <ul>
  * <li>{@link #copySign(double, double)}</li>
+ * <li>{@link #getExponent(double)}</li>
  * <li>{@link #nextAfter(double,double)}</li>
  * <li>{@link #nextUp(double)}</li>
  * <li>{@link #copySign(float, float)}</li>
+ * <li>{@link #getExponent(float)}</li>
  * <li>{@link #nextUp(float)}</li>
  * </ul>
  * @version $Revision$ $Date$
@@ -3760,4 +3762,31 @@ public class FastMath {
         }
         return -magnitude; // flip sign
     }
+
+    /**
+     * Return the exponent of a double number, removing the bias.
+     * <p>
+     * For double numbers of the form 2<sup>x</sup>, the unbiased
+     * exponent is exactly x.
+     * </p>
+     * @param d number from which exponent is requested
+     * @return exponent for d in IEEE754 representation, without bias
+     */
+    public static int getExponent(final double d) {
+        return (int) ((Double.doubleToLongBits(d) >>> 52) & 0x7ff) - 1023;
+    }
+
+    /**
+     * Return the exponent of a float number, removing the bias.
+     * <p>
+     * For float numbers of the form 2<sup>x</sup>, the unbiased
+     * exponent is exactly x.
+     * </p>
+     * @param f number from which exponent is requested
+     * @return exponent for d in IEEE754 representation, without bias
+     */
+    public static int getExponent(final float f) {
+        return (int) ((Float.floatToIntBits(f) >>> 23) & 0xff) - 127;
+    }
+
 }
