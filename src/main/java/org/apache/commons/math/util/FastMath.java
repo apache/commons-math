@@ -31,10 +31,12 @@ package org.apache.commons.math.util;
  * <li>{@link #getExponent(double)}</li>
  * <li>{@link #nextAfter(double,double)}</li>
  * <li>{@link #nextUp(double)}</li>
+ * <li>{@link #scalb(double, int)}</li>
  * <li>{@link #copySign(float, float)}</li>
  * <li>{@link #getExponent(float)}</li>
  * <li>{@link #nextAfter(float,double)}</li>
  * <li>{@link #nextUp(float)}</li>
+ * <li>{@link #scalb(float, int)}</li>
  * </ul>
  * @version $Revision$ $Date$
  * @since 2.2
