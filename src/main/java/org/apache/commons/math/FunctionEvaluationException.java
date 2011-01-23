@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -33,7 +32,7 @@ import org.apache.commons.math.linear.ArrayRealVector;
  * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
 @Deprecated
-public class FunctionEvaluationException extends MathUserException  {
+public class FunctionEvaluationException extends MathException  {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1384427981840836868L;
