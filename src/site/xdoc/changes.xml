@@ -183,9 +183,13 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-497">
+          FastMath is not an exact replacement for StrictMath
+          (partially fixed) Add getExponent(double), getExponent(float)
+      </action>
       <action dev="sebb" type="fix" issue="MATH-496">
           FastMath is not an exact replacement for StrictMath
-          (partially fixed) Add copySign(float), copySign(float)
+          (partially fixed) Add copySign(double), copySign(float)
       </action>
       <action dev="luc" type="fix" issue="MATH-484">
           separate discrete event detection from adaptive step size handling in ODE solvers,
