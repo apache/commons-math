@@ -28,8 +28,10 @@ package org.apache.commons.math.util;
  * </ul>
  * The following methods are found in StrictMath since 1.6 only
  * <ul>
+ * <li>{@link #copySign(double, double)}</li>
  * <li>{@link #nextAfter(double,double)}</li>
  * <li>{@link #nextUp(double)}</li>
+ * <li>{@link #copySign(float, float)}</li>
  * <li>{@link #nextUp(float)}</li>
  * </ul>
  * @version $Revision$ $Date$
