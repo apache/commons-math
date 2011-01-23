@@ -1239,26 +1239,14 @@ public final class MathUtils {
      * <p>If {@code d} is 0 or NaN or Infinite, it is returned unchanged.</p>
      *
      * @param d base number
-     * @param scaleFactor power of two by which d sould be multiplied
+     * @param scaleFactor power of two by which d should be multiplied
      * @return d &times; 2<sup>scaleFactor</sup>
      * @since 2.0
+     * @deprecated as of 2.2, replaced by {@link FastMath#scalb(double, int)}
      */
+    @Deprecated
     public static double scalb(final double d, final int scaleFactor) {
-
-        // handling of some important special cases
-        if ((d == 0) || Double.isNaN(d) || Double.isInfinite(d)) {
-            return d;
-        }
-
-        // split the double in raw components
-        final long bits     = Double.doubleToLongBits(d);
-        final long exponent = bits & 0x7ff0000000000000L;
-        final long rest     = bits & 0x800fffffffffffffL;
-
-        // shift the exponent
-        final long newBits = rest | (exponent + (((long) scaleFactor) << 52));
-        return Double.longBitsToDouble(newBits);
-
+        return FastMath.scalb(d, scaleFactor);
     }
 
     /**
