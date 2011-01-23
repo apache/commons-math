@@ -24,7 +24,6 @@ package org.apache.commons.math.util;
  * <li>{@link #asinh(double)}</li>
  * <li>{@link #acosh(double)}</li>
  * <li>{@link #atanh(double)}</li>
- * <li>{@link #nextAfter(float,float)}</li>
  * </ul>
  * The following methods are found in StrictMath since 1.6 only
  * <ul>
@@ -34,6 +33,7 @@ package org.apache.commons.math.util;
  * <li>{@link #nextUp(double)}</li>
  * <li>{@link #copySign(float, float)}</li>
  * <li>{@link #getExponent(float)}</li>
+ * <li>{@link #nextAfter(float,double)}</li>
  * <li>{@link #nextUp(float)}</li>
  * </ul>
  * @version $Revision$ $Date$
@@ -3420,47 +3420,24 @@ public class FastMath {
     public static double nextAfter(double d, double direction) {
 
         // handling of some important special cases
-        if (Double.isNaN(d)) {
-            return d;
+        if (Double.isNaN(d) || Double.isNaN(direction)) {
+            return Double.NaN;
+        } else if (d == direction) {
+            return direction;
         } else if (Double.isInfinite(d)) {
-            if (d < direction) {
-                return -Double.MAX_VALUE;
-            } else if (direction < d) {
-                return Double.MAX_VALUE;
-            } else {
-                return d;
-            }
+            return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;
         } else if (d == 0) {
             return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
         }
         // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
         // are handled just as normal numbers
 
-        // split the double in raw components
-        long bits     = Double.doubleToLongBits(d);
-        long sign     = bits & 0x8000000000000000L;
-        long exponent = bits & 0x7ff0000000000000L;
-        long mantissa = bits & 0x000fffffffffffffL;
-
-        if (d * (direction - d) >= 0) {
-            // we should increase the mantissa
-            if (mantissa == 0x000fffffffffffffL) {
-                return Double.longBitsToDouble(sign |
-                                               (exponent + 0x0010000000000000L));
-            } else {
-                return Double.longBitsToDouble(sign |
-                                               exponent | (mantissa + 1));
-            }
+        final long bits = Double.doubleToLongBits(d);
+        final long sign = bits & 0x8000000000000000L;
+        if ((direction < d) ^ (sign == 0L)) {
+            return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) + 1));
         } else {
-            // we should decrease the mantissa
-            if (mantissa == 0L) {
-                return Double.longBitsToDouble(sign |
-                                               (exponent - 0x0010000000000000L) |
-                                               0x000fffffffffffffL);
-            } else {
-                return Double.longBitsToDouble(sign |
-                                               exponent | (mantissa - 1));
-            }
+            return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) - 1));
         }
 
     }
@@ -3482,45 +3459,27 @@ public class FastMath {
      * direction is greater or smaller than f)
      * @return the next machine representable number in the specified direction
      */
-    public static float nextAfter(float f, float direction) {
+    public static float nextAfter(final float f, final double direction) {
 
         // handling of some important special cases
-        if (Float.isNaN(f)) {
-            return f;
+        if (Double.isNaN(f) || Double.isNaN(direction)) {
+            return Float.NaN;
+        } else if (f == direction) {
+            return (float) direction;
         } else if (Float.isInfinite(f)) {
-            if (f < direction) {
-                return -Float.MAX_VALUE;
-            } else if (direction < f) {
-                return Float.MAX_VALUE;
-            } else {
-                return f;
-            }
+            return (f < 0f) ? -Float.MAX_VALUE : Float.MAX_VALUE;
         } else if (f == 0f) {
-            return (direction < 0f) ? -Float.MIN_VALUE : Float.MIN_VALUE;
+            return (direction < 0) ? -Float.MIN_VALUE : Float.MIN_VALUE;
         }
         // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
         // are handled just as normal numbers
 
-        // split the double in raw components
-        int bits     = Float.floatToIntBits(f);
-        int sign     = bits & 0x80000000;
-        int exponent = bits & 0x7f800000;
-        int mantissa = bits & 0x007fffff;
-
-        if (f * (direction - f) >= 0f) {
-            // we should increase the mantissa
-            if (mantissa == 0x000fffff) {
-                return Float.intBitsToFloat(sign | (exponent + 0x00800000));
-            } else {
-                return Float.intBitsToFloat(sign | exponent | (mantissa + 1));
-            }
+        final int bits = Float.floatToIntBits(f);
+        final int sign = bits & 0x80000000;
+        if ((direction < f) ^ (sign == 0)) {
+            return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) + 1));
         } else {
-            // we should decrease the mantissa
-            if (mantissa == 0) {
-                return Float.intBitsToFloat(sign | (exponent - 0x00800000) | 0x007fffff);
-            } else {
-                return Float.intBitsToFloat(sign | exponent | (mantissa - 1));
-            }
+            return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) - 1));
         }
 
     }
