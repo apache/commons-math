@@ -3404,17 +3404,31 @@ public class FastMath {
      * Get the next machine representable number after a number, moving
      * in the direction of another number.
      * <p>
-     * If <code>direction</code> is greater than or equal to <code>d</code>,
-     * the smallest machine representable number strictly greater than
-     * <code>d</code> is returned; otherwise the largest representable number
-     * strictly less than <code>d</code> is returned.</p>
+     * The ordering is as follows (increasing):
+     * <ul>
+     * <li>-INFINITY</li>
+     * <li>-MAX_VALUE</li>
+     * <li>-MIN_VALUE</li>
+     * <li>-0.0</li>
+     * <li>+0.0</li>
+     * <li>+MIN_VALUE</li>
+     * <li>+MAX_VALUE</li>
+     * <li>+INFINITY</li>
+     * <li></li>
      * <p>
-     * If <code>d</code> is NaN or if it is infinite and direction does not
+     * If arguments compare equal, then the second argument is returned.
+     * <p>
+     * If {@code direction} is greater than {@code d},
+     * the smallest machine representable number strictly greater than
+     * {@code d} is returned; if less, then the largest representable number
+     * strictly less than {@code d} is returned.</p>
+     * <p>
+     * If {@code d} is infinite and direction does not
      * bring it back to finite numbers, it is returned unchanged.</p>
      *
      * @param d base number
      * @param direction (the only important thing is whether
-     * direction is greater or smaller than d)
+     * {@code direction} is greater or smaller than {@code d})
      * @return the next machine representable number in the specified direction
      */
     public static double nextAfter(double d, double direction) {
@@ -3446,17 +3460,31 @@ public class FastMath {
      * Get the next machine representable number after a number, moving
      * in the direction of another number.
      * <p>
-     * If <code>direction</code> is greater than or equal to <code>d</code>,
-     * the smallest machine representable number strictly greater than
-     * <code>d</code> is returned; otherwise the largest representable number
-     * strictly less than <code>d</code> is returned.</p>
+     * The ordering is as follows (increasing):
+     * <ul>
+     * <li>-INFINITY</li>
+     * <li>-MAX_VALUE</li>
+     * <li>-MIN_VALUE</li>
+     * <li>-0.0</li>
+     * <li>+0.0</li>
+     * <li>+MIN_VALUE</li>
+     * <li>+MAX_VALUE</li>
+     * <li>+INFINITY</li>
+     * <li></li>
      * <p>
-     * If <code>d</code> is NaN or if it is infinite and direction does not
+     * If arguments compare equal, then the second argument is returned.
+     * <p>
+     * If {@code direction} is greater than {@code f},
+     * the smallest machine representable number strictly greater than
+     * {@code f} is returned; if less, then the largest representable number
+     * strictly less than {@code f} is returned.</p>
+     * <p>
+     * If {@code f} is infinite and direction does not
      * bring it back to finite numbers, it is returned unchanged.</p>
      *
      * @param f base number
      * @param direction (the only important thing is whether
-     * direction is greater or smaller than f)
+     * {@code direction} is greater or smaller than {@code f})
      * @return the next machine representable number in the specified direction
      */
     public static float nextAfter(final float f, final double direction) {
