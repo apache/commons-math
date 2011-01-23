@@ -247,18 +247,6 @@ public class FastMath {
     // Generic helper methods
     
     /**
-     * Get the sign information (works even for 0).
-     * 
-     * @param d the value to check
-     * 
-     * @return +1.0 or -1.0, never 0.0
-     */
-    private static double getSign(double d){ // TODO perhaps move to MathUtils?
-        long l = Double.doubleToLongBits(d);
-        return l < 0 ? -1.0 : 1.0;
-    }
-
-    /**
      * Get the high order bits from the mantissa.
      * Equivalent to adding and subtracting HEX_40000 but also works for very large numbers
      * 
@@ -2798,7 +2786,7 @@ public class FastMath {
         int idx;
 
         if (xa == 0.0) { // Matches +/- 0.0; return correct sign
-            return leftPlane ? getSign(xa) * Math.PI : xa;
+            return leftPlane ? copySign(Math.PI, xa) : xa;
         }
 
         if (xa < 0) {
@@ -2957,7 +2945,7 @@ public class FastMath {
                 if (x > 0) {
                     return y; // return +/- 0.0
                 } else {
-                    return getSign(y) * Math.PI;
+                    return copySign(Math.PI, y);
                 }
             }
 
@@ -3737,4 +3725,37 @@ public class FastMath {
         return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
     }
     
+    /**
+     * Returns the first argument with the sign of the second argument.
+     * A NaN {@code sign} argument is treated as positive.
+     * 
+     * @param magnitude the value to return
+     * @param sign the sign for the returned value
+     * @return the magnitude with the same sign as the {@code sign} argument
+     */
+    public static double copySign(double magnitude, double sign){
+        long m = Double.doubleToLongBits(magnitude);
+        long s = Double.doubleToLongBits(sign);
+        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+            return magnitude;
+        }
+        return -magnitude; // flip sign
+    }
+
+    /**
+     * Returns the first argument with the sign of the second argument.
+     * A NaN {@code sign} argument is treated as positive.
+     * 
+     * @param magnitude the value to return
+     * @param sign the sign for the returned value
+     * @return the magnitude with the same sign as the {@code sign} argument
+     */
+    public static float copySign(float magnitude, float sign){
+        int m = Float.floatToIntBits(magnitude);
+        int s = Float.floatToIntBits(sign);
+        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+            return magnitude;
+        }
+        return -magnitude; // flip sign
+    }
 }
