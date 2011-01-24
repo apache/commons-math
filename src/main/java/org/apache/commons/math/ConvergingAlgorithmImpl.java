@@ -23,6 +23,7 @@ package org.apache.commons.math;
  *
  * @version $Revision$ $Date$
  * @since 2.0
+ * @deprecated in 2.2 (to be removed in 3.0).
  */
 public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
 
