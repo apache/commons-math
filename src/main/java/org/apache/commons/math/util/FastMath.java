@@ -3785,7 +3785,23 @@ public class FastMath {
      * @return a if a is lesser or equal to b, b otherwise
      */
     public static float min(final float a, final float b) {
-        return (a <= b) ? a : ((a!=a||b!=b) ? Float.NaN : b);
+        if (a > b) {
+            return b;
+        }
+        if (a < b) {
+            return a;
+        }
+        /* if either arg is NaN, return NaN */
+        if (a != b) {
+            return Float.NaN;
+        }
+        /* min(+0.0,-0.0) == -0.0 */
+        /* 0x80000000 == Float.floatToRawIntBits(-0.0d) */
+        int bits = Float.floatToRawIntBits(a);
+        if (bits == 0x80000000) {
+            return a;
+        }
+        return b;
     }
 
     /** Compute the minimum of two values
@@ -3794,7 +3810,23 @@ public class FastMath {
      * @return a if a is lesser or equal to b, b otherwise
      */
     public static double min(final double a, final double b) {
-        return (a <= b) ? a : ((a!=a||b!=b) ? Double.NaN : b);
+        if (a > b) {
+            return b;
+        }
+        if (a < b) {
+            return a;
+        }
+        /* if either arg is NaN, return NaN */
+        if (a != b) {
+            return Double.NaN;
+        }
+        /* min(+0.0,-0.0) == -0.0 */
+        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */
+        long bits = Double.doubleToRawLongBits(a);
+        if (bits == 0x8000000000000000L) {
+            return a;
+        }
+        return b;
     }
 
     /** Compute the maximum of two values
@@ -3821,7 +3853,23 @@ public class FastMath {
      * @return b if a is lesser or equal to b, a otherwise
      */
     public static float max(final float a, final float b) {
-        return (a < b) ? b : ((a!=a||b!=b) ? Float.NaN : a);
+        if (a > b) {
+            return a;
+        }
+        if (a < b) {
+            return b;
+        }
+        /* if either arg is NaN, return NaN */
+        if (a != b) {
+            return Float.NaN;
+        }
+        /* min(+0.0,-0.0) == -0.0 */
+        /* 0x80000000 == Float.floatToRawIntBits(-0.0d) */
+        int bits = Float.floatToRawIntBits(a);
+        if (bits == 0x80000000) {
+            return b;
+        }
+        return a;
     }
 
     /** Compute the maximum of two values
@@ -3830,7 +3878,23 @@ public class FastMath {
      * @return b if a is lesser or equal to b, a otherwise
      */
     public static double max(final double a, final double b) {
-        return (a <= b) ? b : ((a!=a||b!=b) ? Double.NaN : a);
+        if (a > b) {
+            return a;
+        }
+        if (a < b) {
+            return b;
+        }
+        /* if either arg is NaN, return NaN */
+        if (a != b) {
+            return Double.NaN;
+        }
+        /* min(+0.0,-0.0) == -0.0 */
+        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */
+        long bits = Double.doubleToRawLongBits(a);
+        if (bits == 0x8000000000000000L) {
+            return b;
+        }
+        return a;
     }
 
     /**
