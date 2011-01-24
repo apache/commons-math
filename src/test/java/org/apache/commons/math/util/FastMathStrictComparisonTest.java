@@ -32,6 +32,11 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Test to compare FastMath results against StrictMath results for boundary values.
+ * <p>
+ * Running all tests independently: <br/>
+ * {@code mvn test -Dtest=FastMathStrictComparisonTest}<br/>
+ * or just run tests against a single method (e.g. scalb):<br/>
+ * {@code mvn test -Dtest=FastMathStrictComparisonTest -DargLine="-DtestMethod=scalb"}
  */
 @RunWith(Parameterized.class)
 public class FastMathStrictComparisonTest {
@@ -57,13 +62,13 @@ public class FastMathStrictComparisonTest {
     };
     
     private static final Object [] LONG_SPECIAL_VALUES = {
-        -1,0,1,
-        Long.MIN_VALUE, Long.MAX_VALUE,
+        -1,0,1,                                             // 1,2,3
+        Long.MIN_VALUE, Long.MAX_VALUE,                     // 4,5
     };
     
     private static final Object[] INT_SPECIAL_VALUES = {
-        -1,0,1,
-        Integer.MIN_VALUE, Integer.MAX_VALUE,
+        -1,0,1,                                             // 1,2,3
+        Integer.MIN_VALUE, Integer.MAX_VALUE,               // 4,5
     };
     
     private final Method mathMethod;
@@ -184,6 +189,7 @@ public class FastMathStrictComparisonTest {
 
     @Parameters
     public static List<Object[]> data() throws Exception {
+        String singleMethod = System.getProperty("testMethod");
         List<Object[]> list = new ArrayList<Object[]>();
         for(Method mathMethod : StrictMath.class.getDeclaredMethods()) {
             method:
@@ -194,6 +200,9 @@ public class FastMathStrictComparisonTest {
                         // Get the corresponding FastMath method
                         Method fastMethod = FastMath.class.getDeclaredMethod(mathMethod.getName(), (Class[]) types);
                         if (Modifier.isPublic(fastMethod.getModifiers())) { // It must be public too
+                            if (singleMethod != null && !fastMethod.getName().equals(singleMethod)) {
+                                break method;
+                            }
                             Object [][] values = new Object[types.length][];
                             int index = 0;
                             for(Type t : types) {
