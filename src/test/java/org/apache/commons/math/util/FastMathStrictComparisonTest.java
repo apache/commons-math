@@ -62,13 +62,13 @@ public class FastMathStrictComparisonTest {
     };
     
     private static final Object [] LONG_SPECIAL_VALUES = {
-        -1,0,1,
-        Long.MIN_VALUE, Long.MAX_VALUE,
+        -1,0,1,                                             // 1,2,3
+        Long.MIN_VALUE, Long.MAX_VALUE,                     // 4,5
     };
     
     private static final Object[] INT_SPECIAL_VALUES = {
-        -1,0,1,
-        Integer.MIN_VALUE, Integer.MAX_VALUE,
+        -1,0,1,                                             // 1,2,3
+        Integer.MIN_VALUE, Integer.MAX_VALUE,               // 4,5
     };
     
     private final Method mathMethod;
