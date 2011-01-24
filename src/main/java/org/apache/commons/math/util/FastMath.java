@@ -3421,6 +3421,12 @@ public class FastMath {
         if (Double.isNaN(d) || Double.isInfinite(d) || (d == 0)) {
             return d;
         }
+        if (n < -2098) {
+            return (d > 0) ? 0.0 : -0.0;
+        }
+        if (n > 2097) {
+            return (d > 0) ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY;
+        }
 
         // decompose d
         final long bits = Double.doubleToLongBits(d);
@@ -3498,6 +3504,12 @@ public class FastMath {
         // handle special cases
         if (Float.isNaN(f) || Float.isInfinite(f) || (f == 0f)) {
             return f;
+        }
+        if (n < -277) {
+            return (f > 0) ? 0.0f : -0.0f;
+        }
+        if (n > 276) {
+            return (f > 0) ? Float.POSITIVE_INFINITY : Float.NEGATIVE_INFINITY;
         }
 
         // decompose f
