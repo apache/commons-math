@@ -269,6 +269,7 @@ public class FastMath {
     }
 
     /** Compute the square root of a number.
+     * <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt}
      * @param a number on which evaluation is done
      * @return square root of a
      */
@@ -665,6 +666,7 @@ public class FastMath {
     }
 
     /** Returns a pseudo-random number between 0.0 and 1.0.
+     * <p><b>Note:</b> this implementation currently delegates to {@link Math#random}
      * @return a random number between 0.0 and 1.0
      */
     public static double random() {
@@ -3758,7 +3760,7 @@ public class FastMath {
      * @return closest int to x
      */
     public static int round(final float x) {
-        return Math.round(x);
+        return (int) floor(x + 0.5f);
     }
 
     /** Compute the minimum of two values
@@ -3961,6 +3963,7 @@ public class FastMath {
      * <li>If the dividend is finite and the divisor is an infinity, the result equals the dividend.</li>
      * <li>If the dividend is a zero and the divisor is finite, the result equals the dividend.</li>
      * </ul>
+     * <p><b>Note:</b> this implementation currently delegates to {@link StrictMath#IEEEremainder}
      * @param dividend the number to be divided
      * @param divisor the number by which to divide
      * @return the remainder, rounded
