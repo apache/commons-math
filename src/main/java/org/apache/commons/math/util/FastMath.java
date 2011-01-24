@@ -193,7 +193,7 @@ public class FastMath {
      * Equivalent to 2^30.
      */
     private static final long HEX_40000000 = 0x40000000L; // 1073741824L
-    
+
     /** Mask used to clear low order 30 bits */
     private static final long MASK_30BITS = -1L - (HEX_40000000 -1); // 0xFFFFFFFFC0000000L;
 
@@ -251,11 +251,11 @@ public class FastMath {
     }
 
     // Generic helper methods
-    
+
     /**
      * Get the high order bits from the mantissa.
      * Equivalent to adding and subtracting HEX_40000 but also works for very large numbers
-     * 
+     *
      * @param d the value to split
      * @return the high order part of the mantissa
      */
@@ -3983,11 +3983,11 @@ public class FastMath {
     public static double IEEEremainder(double dividend, double divisor) {
         return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
     }
-    
+
     /**
      * Returns the first argument with the sign of the second argument.
      * A NaN {@code sign} argument is treated as positive.
-     * 
+     *
      * @param magnitude the value to return
      * @param sign the sign for the returned value
      * @return the magnitude with the same sign as the {@code sign} argument
@@ -4004,7 +4004,7 @@ public class FastMath {
     /**
      * Returns the first argument with the sign of the second argument.
      * A NaN {@code sign} argument is treated as positive.
-     * 
+     *
      * @param magnitude the value to return
      * @param sign the sign for the returned value
      * @return the magnitude with the same sign as the {@code sign} argument
