@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math;
+package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.exception.MaxCountExceededException;
 
@@ -29,59 +29,20 @@ import org.apache.commons.math.exception.MaxCountExceededException;
  */
 @Deprecated
 public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
-
     /** Maximum absolute error. */
     protected double absoluteAccuracy;
-
     /** Maximum relative error. */
     protected double relativeAccuracy;
-
     /** Maximum number of iterations. */
     protected int maximalIterationCount;
-
     /** Default maximum absolute error. */
     protected double defaultAbsoluteAccuracy;
-
     /** Default maximum relative error. */
     protected double defaultRelativeAccuracy;
-
     /** Default maximum number of iterations. */
     protected int defaultMaximalIterationCount;
-
     /** The last iteration count. */
     protected int iterationCount;
-
-    /**
-     * Construct an algorithm with given iteration count and accuracy.
-     *
-     * @param defaultAbsoluteAccuracy maximum absolute error
-     * @param defaultMaximalIterationCount maximum number of iterations
-     * @throws IllegalArgumentException if f is null or the
-     * defaultAbsoluteAccuracy is not valid
-     * @deprecated in 2.2. Derived classes should use the "setter" methods
-     * in order to assign meaningful values to all the instances variables.
-     */
-    @Deprecated
-    protected ConvergingAlgorithmImpl(final int defaultMaximalIterationCount,
-                                      final double defaultAbsoluteAccuracy) {
-        this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
-        this.defaultRelativeAccuracy = 1.0e-14;
-        this.absoluteAccuracy = defaultAbsoluteAccuracy;
-        this.relativeAccuracy = defaultRelativeAccuracy;
-        this.defaultMaximalIterationCount = defaultMaximalIterationCount;
-        this.maximalIterationCount = defaultMaximalIterationCount;
-        this.iterationCount = 0;
-    }
-
-    /**
-     * Default constructor.
-     *
-     * @since 2.2
-     * @deprecated in 2.2 (to be removed as soon as the single non-default one
-     * has been removed).
-     */
-    @Deprecated
-    protected ConvergingAlgorithmImpl() {}
 
     /** {@inheritDoc} */
     public int getIterationCount() {
