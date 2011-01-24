@@ -248,7 +248,7 @@ public class Frequency implements Serializable {
      * @see #valuesIterator()
      */
     public int getUniqueCount(){
-    	return freqTable.keySet().size();
+        return freqTable.keySet().size();
     }
 
     /**

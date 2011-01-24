@@ -134,7 +134,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     public DescriptiveStatistics(double[] initialDoubleArray) {
         if (initialDoubleArray != null) {
             eDA = new ResizableDoubleArray(initialDoubleArray);
-    	}
+        }
     }
 
     /**
