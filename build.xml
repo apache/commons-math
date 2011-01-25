@@ -191,7 +191,12 @@
                showOutput="true">
                <formatter usefile="false" type="plain"/>
                <classpath refid="test.classpath"/>
-               <batchtest>
+               <!-- If test.entry is defined, run a single test, otherwise run all valid tests -->
+               <!-- N.B. test.entry must be the full path to the test class, for example:
+               ant test -Dtest.entry=org.apache.commons.math.util.FastMathTestPerformance
+               -->
+               <test name="${test.entry}" if="test.entry"/>
+               <batchtest unless="test.entry">
                    <fileset dir="${test.home}">
                       <include name="**/*Test.java"/> 
                       <include name="**/*TestBinary.java"/> 
