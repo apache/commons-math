@@ -16,223 +16,362 @@
  */
 package org.apache.commons.math.util;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Performance tests for FastMath.
- * Not enabled by default, as the class does not have Test in its name.
+ * Not enabled by default, as the class does not end in Test.
  * 
- * Invoke by running {@code mvn test -Dtest=FastMathTestPerformance}
+ * Invoke by running<br/>
+ * {@code mvn test -Dtest=FastMathTestPerformance}<br/>
+ * or by running<br/>
+ * {@code mvn test -Dtest=FastMathTestPerformance -DargLine="-DtestRuns=1234 -server"}<br/>
  */
 public class FastMathTestPerformance {
-    @Test
-    public void testPerformance() {
-        final int numberOfRuns = 10000000;
-        for (int j = 0; j < 10; j++) {
-            double x = 0;
-            long time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.log(Math.PI + i/* 1.0 + i/1e9 */);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.log " + time + "\t" + x + "\t");
+    private static final int RUNS = Integer.parseInt(System.getProperty("testRuns","10000000"));
 
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.log(Math.PI + i/* 1.0 + i/1e9 */);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.log " + time + "\t" + x);
+    // Header format
+    private static final String FMT_HDR = "%-5s %13s %13s %13s Runs=%d Java %s (%s) %s (%s)";
+    // Detail format
+    private static final String FMT_DTL = "%-5s %6d %6.2f %6d %6.2f %6d %6.2f";
 
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.pow(Math.PI + i / 1e6, i / 1e6);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.pow " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.pow(Math.PI + i / 1e6, i / 1e6);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.pow " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.exp(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.exp " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.exp(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.exp " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.sin(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.sin " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.sin(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.sin " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.asin(i / 10000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.asin " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.asin(i / 10000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.asin " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.cos(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.cos " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.cos(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.cos " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.acos(i / 10000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.acos " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.acos(i / 10000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.acos " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.tan(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.tan " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.tan(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.tan " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.atan(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.atan " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.atan(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.atan " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.cbrt(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.cbrt " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.cbrt(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.cbrt " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.cosh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.cosh " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.cosh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.cosh " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.sinh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.sinh " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.sinh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.sinh " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.tanh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.tanh " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.tanh(i / 1000000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.tanh " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += StrictMath.expm1(-i / 100000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.print("StrictMath.expm1 " + time + "\t" + x + "\t");
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.expm1(-i / 100000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.expm1 " + time + "\t" + x);
-
-            x = 0;
-            time = System.currentTimeMillis();
-            for (int i = 0; i < numberOfRuns; i++)
-                x += FastMath.expm1(-i / 100000.0);
-            time = System.currentTimeMillis() - time;
-            System.out.println("FastMath.expm1 " + time + "\t" + x);
-
-        }
+    @BeforeClass
+    public static void header() {
+        System.out.println(String.format(FMT_HDR,
+                "Name","StrictMath","FastMath","Math",RUNS,
+                System.getProperty("java.version"),
+                System.getProperty("java.runtime.version","?"),
+                System.getProperty("java.vm.name"),
+                System.getProperty("java.vm.version"),
+                ""));
     }
-    
+
+    private static void report(String name, long strictMathTime, long fastMathTime, long mathTime) {
+        long unitTime = strictMathTime;
+        System.out.println(String.format(FMT_DTL,
+                name,
+                strictMathTime / RUNS, (double) strictMathTime / unitTime,
+                fastMathTime / RUNS, (double) fastMathTime / unitTime,
+                mathTime / RUNS, (double) mathTime / unitTime
+                ));
+    }
+    @Test
+    public void testLog() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.log(Math.PI + i/* 1.0 + i/1e9 */);
+        long strictMath = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.log(Math.PI + i/* 1.0 + i/1e9 */);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.log(Math.PI + i/* 1.0 + i/1e9 */);
+        long mathTime = System.nanoTime() - time;
+
+        report("log",strictMath,fastTime,mathTime);
+    }
+
+    @Test
+    public void testPow() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.pow(Math.PI + i / 1e6, i / 1e6);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.pow(Math.PI + i / 1e6, i / 1e6);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.pow(Math.PI + i / 1e6, i / 1e6);
+        long mathTime = System.nanoTime() - time;
+        report("pow",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testExp() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.exp(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.exp(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.exp(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("exp",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testSin() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.sin(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.sin(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.sin(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("sin",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testAsin() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.asin(i / 10000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.asin(i / 10000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.asin(i / 10000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("asin",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testCos() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.cos(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.cos(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.cos(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("cos",strictTime,fastTime,mathTime);
+    }
+            
+    @Test
+    public void testAcos() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.acos(i / 10000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.acos(i / 10000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.acos(i / 10000000.0);
+        long mathTime = System.nanoTime() - time;
+        report("acos",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testTan() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.tan(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.tan(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.tan(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("tan",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testAtan() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.atan(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.atan(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.atan(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("atan",strictTime,fastTime,mathTime);
+    }
+     
+    @Test
+    public void testCbrt() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.cbrt(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.cbrt(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.cbrt(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("cbrt",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testCosh() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.cosh(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.cosh(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.cosh(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("cosh",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testSinh() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.sinh(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.sinh(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.sinh(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("sinh",strictTime,fastTime,mathTime);
+    }
+
+    @Test
+    public void testTanh() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.tanh(i / 1000000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.tanh(i / 1000000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.tanh(i / 1000000.0);
+        long mathTime = System.nanoTime() - time;
+
+        report("tanh",strictTime,fastTime,mathTime);
+    }
+     
+    @Test
+    public void testExpm1() {
+        double x = 0;
+        long time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += StrictMath.expm1(-i / 100000.0);
+        long strictTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += FastMath.expm1(-i / 100000.0);
+        long fastTime = System.nanoTime() - time;
+
+        x = 0;
+        time = System.nanoTime();
+        for (int i = 0; i < RUNS; i++)
+            x += Math.expm1(-i / 100000.0);
+        long mathTime = System.nanoTime() - time;
+        report("expm1",strictTime,fastTime,mathTime);
+    }
 }
