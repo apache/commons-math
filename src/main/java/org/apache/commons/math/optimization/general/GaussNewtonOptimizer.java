@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -72,8 +73,16 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
             // evaluate the objective function and its jacobian
             VectorialPointValuePair previous = current;
+            try {
             updateResidualsAndCost();
-            updateJacobian();
+            } catch (FunctionEvaluationException ex) {
+                throw new MathUserException(ex);
+            }
+            try {
+                updateJacobian();
+            } catch (FunctionEvaluationException ex) {
+                throw new MathUserException(ex);
+            }
             current = new VectorialPointValuePair(point, objective);
 
             // build the linear problem
@@ -81,7 +90,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             final double[][] a = new double[cols][cols];
             for (int i = 0; i < rows; ++i) {
 
-                final double[] grad   = weightedResidualJacobian[i];
+                final double[] grad   = jacobian[i];
                 final double weight   = residualsWeights[i];
                 final double residual = objective[i] - targetValues[i];
 
