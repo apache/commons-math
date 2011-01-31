@@ -22,7 +22,9 @@ import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 
@@ -36,11 +38,11 @@ import org.apache.commons.math.optimization.UnivariateRealOptimizer;
 public abstract class AbstractUnivariateRealOptimizer
     extends ConvergingAlgorithmImpl implements UnivariateRealOptimizer {
     /** Indicates where a root has been computed. */
-    private boolean resultComputed;
+    protected boolean resultComputed;
     /** The last computed root. */
-    private double result;
+    protected double result;
     /** Value of the function at the last computed result. */
-    private double functionValue;
+    protected double functionValue;
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
     /** Number of evaluations already performed. */
@@ -254,6 +256,11 @@ public abstract class AbstractUnivariateRealOptimizer
     /**
      * Method for implementing actual optimization algorithms in derived
      * classes.
+     * 
+     * From version 3.0 onwards, this method will be abstract - i.e.
+     * concrete implementations will have to implement it.  If this method
+     * is not implemented, subclasses must override 
+     * {@link #optimize(UnivariateRealFunction, GoalType, double, double)}.
      *
      * @return the optimum.
      * @throws MaxIterationsExceededException if the maximum iteration count
@@ -261,6 +268,8 @@ public abstract class AbstractUnivariateRealOptimizer
      * @throws MathUserException if an error occurs evaluating
      * the function.
      */
-    protected abstract double doOptimize()
-        throws MaxIterationsExceededException, MathUserException;
+    protected double doOptimize()
+        throws MaxIterationsExceededException, MathUserException {
+        throw new MathUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
+    }
 }
