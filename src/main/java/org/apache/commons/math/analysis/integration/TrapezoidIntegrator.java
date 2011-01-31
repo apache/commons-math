@@ -96,7 +96,6 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
         }
     }
 
-    /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
         throws MaxCountExceededException, MathUserException, IllegalArgumentException {

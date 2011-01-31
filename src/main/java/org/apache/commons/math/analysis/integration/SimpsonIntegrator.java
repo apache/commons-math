@@ -56,7 +56,6 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
         super(64);
     }
 
-    /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
         throws MaxCountExceededException, MathUserException, IllegalArgumentException {

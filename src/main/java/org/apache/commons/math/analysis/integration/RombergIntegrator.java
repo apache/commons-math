@@ -57,7 +57,6 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
         super(32);
     }
 
-    /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
         throws MaxCountExceededException, MathUserException, IllegalArgumentException {

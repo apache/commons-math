@@ -153,7 +153,6 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
     }
 
-    /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
         throws ConvergenceException,  MathUserException, IllegalArgumentException {
