@@ -43,12 +43,14 @@ public class Logistic implements UnivariateRealFunction {
     private final double m;
 
     /**
-     * @param k Upper asymptote.
+     * @param k If {@code b > 0}, value of the function for x going towards +&infin;.
+     * If {@code b < 0}, value of the function for x going towards -&infin;.
      * @param m Abscissa of maximum growth.
      * @param b Growth rate.
      * @param q Parameter that affects the position of the curve along the
      * ordinate axis.
-     * @param a Lower asymptote.
+     * @param a If {@code b > 0}, value of the function for x going towards -&infin;.
+     * If {@code b < 0}, value of the function for x going towards +&infin;.
      * @param n Parameter that affects near which asymptote the maximum
      * growth occurs.
      * @throws NotStrictlyPositiveException if {@code n <= 0}.
@@ -73,6 +75,6 @@ public class Logistic implements UnivariateRealFunction {
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return a + (k - a) / FastMath.pow((1 + q * FastMath.exp(b * (m - x))), 1 / n);
+        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * (m - x)), 1 / n);
     }
 }
