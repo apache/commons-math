@@ -20,6 +20,7 @@ package org.apache.commons.math.util;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Converter between unidimensional storage structure and multidimensional
@@ -128,7 +129,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          * @return the indices within the multidimensional counter.
          */
         public int[] getCounts() {
-            return /* Arrays.*/ copyOf(counter, dimension); // Java 1.5 does not support Arrays.copyOf()
+            return MathUtils.copyOf(counter);
         }
 
         /**
@@ -163,7 +164,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      */
     public MultidimensionalCounter(int ... size) {
         dimension = size.length;
-        this.size = /* Arrays.*/ copyOf(size, dimension); // Java 1.5 does not support Arrays.copyOf()
+        this.size = MathUtils.copyOf(size);
 
         uniCounterOffset = new int[dimension];
 
@@ -285,7 +286,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * @return the sizes of the multidimensional counter in each dimension.
      */
     public int[] getSizes() {
-        return /* Arrays.*/ copyOf(size, dimension); // Java 1.5 does not support Arrays.copyOf()
+        return MathUtils.copyOf(size);
     }
 
     /**
@@ -299,17 +300,4 @@ public class MultidimensionalCounter implements Iterable<Integer> {
         }
         return sb.toString();
     }
-
-    /**
-     * Java 1.5 does not support Arrays.copyOf()
-     *
-     * @param source Array to be copied.
-     * @param newLen Length of the copy to be returned.
-     * @return the copied array, truncated or padded as necessary.
-     */
-     private int[] copyOf(int[] source, int newLen) {
-         int[] output = new int[newLen];
-         System.arraycopy(source, 0, output, 0, Math.min(source.length, newLen));
-         return output;
-     }
 }

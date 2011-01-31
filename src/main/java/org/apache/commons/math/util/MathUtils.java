@@ -2212,4 +2212,30 @@ public final class MathUtils {
             }
         }
     }
+
+    /**
+     * Creates a copy of the {@code source} array.
+     *
+     * @param source Array to be copied.
+     * @return the copied array.
+     */
+     public static int[] copyOf(int[] source) {
+         final int len = source.length;
+         final int[] output = new int[len];
+         System.arraycopy(source, 0, output, 0, len);
+         return output;
+     }
+
+    /**
+     * Creates a copy of the {@code source} array.
+     *
+     * @param source Array to be copied.
+     * @return the copied array.
+     */
+     public static double[] copyOf(double[] source) {
+         final int len = source.length;
+         final double[] output = new double[len];
+         System.arraycopy(source, 0, output, 0, len);
+         return output;
+     }
 }

@@ -1544,4 +1544,33 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(25,  x2[4], Math.ulp(1d));
         assertEquals(125, x3[4], Math.ulp(1d));
     }
+
+    public void testCopyOfInt() {
+        final int[] source = { Integer.MIN_VALUE,
+                               -1, 0, 1, 3, 113, 4769,
+                               Integer.MAX_VALUE };
+        final int[] dest = MathUtils.copyOf(source);
+
+        assertEquals(dest.length, source.length);
+        for (int i = 0; i < source.length; i++) {
+            assertEquals(source[i], dest[i]);
+        }
+    }
+
+    public void testCopyOfDouble() {
+        final double[] source = { Double.NEGATIVE_INFINITY,
+                                  -Double.MAX_VALUE,
+                                  -1, 0,
+                                  Double.MIN_VALUE,
+                                  Math.ulp(1d),
+                                  1, 3, 113, 4769,
+                                  Double.MAX_VALUE,
+                                  Double.POSITIVE_INFINITY };
+        final double[] dest = MathUtils.copyOf(source);
+
+        assertEquals(dest.length, source.length);
+        for (int i = 0; i < source.length; i++) {
+            assertEquals(source[i], dest[i], 0);
+        }
+    }
 }

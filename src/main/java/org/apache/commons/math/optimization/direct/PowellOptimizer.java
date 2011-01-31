@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -122,7 +123,7 @@ public class PowellOptimizer
             double alphaMin = 0;
 
             for (int i = 0; i < n; i++) {
-                final double[] d = /* Arrays.*/ copyOf(direc[i], n); // Java 1.5 does not support Arrays.copyOf()
+                final double[] d = MathUtils.copyOf(direc[i]);
 
                 fX2 = fVal;
 
@@ -267,17 +268,4 @@ public class PowellOptimizer
                             bracket.getLo(), bracket.getHi(), bracket.getMid());
         }
     }
-
-    /**
-     * Java 1.5 does not support Arrays.copyOf()
-     *
-     * @param source Array to be copied.
-     * @param newLen Length of the copy to be returned.
-     * @return the copied array, truncated or padded as necessary.
-     */
-     private double[] copyOf(double[] source, int newLen) {
-         double[] output = new double[newLen];
-         System.arraycopy(source, 0, output, 0, Math.min(source.length, newLen));
-         return output;
-     }
 }
