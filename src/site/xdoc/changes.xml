@@ -105,7 +105,7 @@ The <action> type attribute can be add,update,fix,remove.
         "CompositeFormat" is now a utility class ("private" constructor).
       </action>
       <action dev="erans" type="fix" issue="MATH-447">
-        By policy, all Commons-Math exceptions must inherit from class
+        By policy, all Commons Math exceptions must inherit from class
         "MathRuntimeException".
       </action>
       <action dev="erans" type="fix" issue="MATH-454">
@@ -270,7 +270,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="erans" type="add" issue="MATH-440">
         Created "MathUserException" class to convey cause of failure between
-        layers of user code separated by a layer of Commons-Math code. Deprecated
+        layers of user code separated by a layer of Commons Math code. Deprecated
         classes "FunctionEvaluationException", "MatrixVisitorException" and
         "DerivativeException".
       </action>
@@ -303,7 +303,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="luc" type="fix" issue="MATH-415">
         Fixed lost cause in MathRuntimeException.createInternalError. Note that
         the message is still the default message for internal errors asking to
-        report a bug to commons-math JIRA tracker. In order to retrieve the
+        report a bug to Commons Math JIRA tracker. In order to retrieve the
         message from the root cause, one has to get the cause itself by getCause().
       </action>
       <action dev="psteitz" type="fix" issue="MATH-411">
@@ -684,7 +684,7 @@ rank transformations;
 Mersenne twister pseudo random number generator.
 This release is NOT source and binary compatible with earlier versions
 of Commons Math. Starting with version 2.0 of the library, the minimal
-version of the Java platform required to compile and use commons-math
+version of the Java platform required to compile and use Commons Math
 is Java 5.  Users are encouraged to upgrade to this version, as in addition
 to new features, this release includes numerous bug fixes.  Users of 
 Commons Math 1.0-1.2 should recompile their code against the 2.0 jar. 
@@ -1072,7 +1072,7 @@ are simply solved by adjusting the import statements in users code.">
       </action>
       <action dev="luc" type="update" >
         Starting with version 2.0 of the library, the minimal version of the Java
-        platform required to compile and use commons-math is Java 5. This version
+        platform required to compile and use Commons Math is Java 5. This version
         is widely deployed now on many systems. It brings new important features
         for specific mathematical developments, for example new functions (log10,
         cbrt, ulp, signum, cosh, sinh, tanh, hypot, expm1, log1p), autoboxing,
@@ -1268,7 +1268,7 @@ are simply solved by adjusting the import statements in users code.">
        include some new probability distributions, a Fraction class, new matrix
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
-       commons-math (and elsewhere) with alternative PRNG implementations.">
+       Commons Math (and elsewhere) with alternative PRNG implementations.">
       <action dev="psteitz" type="fix" issue="MATH-74">
         Made NewtonSolver derivative field transient and implemented readObject to
         initialize.

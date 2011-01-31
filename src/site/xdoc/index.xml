@@ -21,12 +21,12 @@
 <document>
 
  <properties>
-  <title>Commons-Math: The Apache Commons Mathematics Library</title>
+  <title>Commons Math: The Apache Commons Mathematics Library</title>
  </properties>
 
  <body>
 
-  <section name="Commons-Math: The Apache Commons Mathematics Library" href="summary">
+  <section name="Commons Math: The Apache Commons Mathematics Library" href="summary">
    <p>
     Commons Math is a library of lightweight, self-contained
     mathematics and statistics components addressing the most common
