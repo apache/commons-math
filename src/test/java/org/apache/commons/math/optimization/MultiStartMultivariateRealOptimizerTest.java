@@ -33,8 +33,7 @@ import org.junit.Test;
 public class MultiStartMultivariateRealOptimizerTest {
 
   @Test
-  public void testRosenbrock()
-    throws MathUserException, ConvergenceException {
+  public void testRosenbrock() throws Exception {
 
     Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead underlying = new NelderMead();

@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 /**
@@ -29,5 +30,72 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public interface MultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<MultivariateRealFunction> {}
+public interface MultivariateRealOptimizer {
+
+    /** Set the maximal number of iterations of the algorithm.
+     * @param maxIterations maximal number of algorithm iterations
+     */
+    void setMaxIterations(int maxIterations);
+
+    /** Get the maximal number of iterations of the algorithm.
+     * @return maximal number of iterations
+     */
+    int getMaxIterations();
+
+    /** Set the maximal number of functions evaluations.
+     * @param maxEvaluations maximal number of function evaluations
+     */
+    void setMaxEvaluations(int maxEvaluations);
+
+    /** Get the maximal number of functions evaluations.
+     * @return maximal number of functions evaluations
+     */
+    int getMaxEvaluations();
+
+    /** Get the number of iterations realized by the algorithm.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of iterations
+     */
+    int getIterations();
+
+    /** Get the number of evaluations of the objective function.
+     * <p>
+     * The number of evaluations corresponds to the last call to the
+     * {@link #optimize(MultivariateRealFunction, GoalType, double[]) optimize}
+     * method. It is 0 if the method has not been called yet.
+     * </p>
+     * @return number of evaluations of the objective function
+     */
+    int getEvaluations();
+
+    /** Set the convergence checker.
+     * @param checker object to use to check for convergence
+     */
+    void setConvergenceChecker(RealConvergenceChecker checker);
+
+    /** Get the convergence checker.
+     * @return object used to check for convergence
+     */
+    RealConvergenceChecker getConvergenceChecker();
+
+    /** Optimizes an objective function.
+     * @param f objective function
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
+     * or {@link GoalType#MINIMIZE}
+     * @param startPoint the start point for optimization
+     * @return the point/value pair giving the optimal value for objective function
+     * @exception FunctionEvaluationException if the objective function throws one during
+     * the search
+     * @exception OptimizationException if the algorithm failed to converge
+     * @exception IllegalArgumentException if the start point dimension is wrong
+     */
+    RealPointValuePair optimize(MultivariateRealFunction f,
+                                  GoalType goalType,
+                                  double[] startPoint)
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+
+}

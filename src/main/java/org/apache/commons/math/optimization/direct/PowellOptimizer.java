@@ -19,11 +19,12 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.general.AbstractScalarOptimizer;
+import org.apache.commons.math.optimization.general.AbstractScalarDifferentiableOptimizer;
 import org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
@@ -38,7 +39,7 @@ import org.apache.commons.math.optimization.univariate.BrentOptimizer;
  * @since 2.2
  */
 public class PowellOptimizer
-    extends AbstractScalarOptimizer {
+    extends AbstractScalarDifferentiableOptimizer {
     /**
      * Default relative tolerance for line search ({@value}).
      */
@@ -88,10 +89,9 @@ public class PowellOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
-        throws MathUserException,
+        throws FunctionEvaluationException,
                OptimizationException {
-        final GoalType goal = getGoalType();
-        final double[] guess = getStartPoint();
+        final double[] guess = point;
         final int n = guess.length;
 
         final double[][] direc = new double[n][n];
@@ -236,7 +236,7 @@ public class PowellOptimizer
          * @throws OptimizationException if algorithm fails to converge
          */
         public void search(final double[] p, final double[] d)
-            throws MathUserException, OptimizationException {
+            throws FunctionEvaluationException, OptimizationException {
 
             // Reset.
             optimum = Double.NaN;
@@ -252,12 +252,16 @@ public class PowellOptimizer
                             for (int i = 0; i < n; i++) {
                                 x[i] = p[i] + alpha * d[i];
                             }
-                            final double obj = computeObjectiveValue(x);
+                            final double obj;
+                            try {
+                                obj = computeObjectiveValue(x);
+                            } catch (FunctionEvaluationException ex) {
+                                throw new MathUserException(ex);
+                            }
                             return obj;
                         }
                     };
 
-                final GoalType goal = getGoalType();
                 bracket.search(f, goal, 0, 1);
                 optimum = optim.optimize(f, goal,
                                          bracket.getLo(),

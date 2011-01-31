@@ -17,7 +17,9 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.SumSincFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
@@ -33,7 +35,7 @@ public class PowellOptimizerTest {
 
     @Test
     public void testSumSinc() throws MathException {
-        final MultivariateRealFunction func = new SumSincFunction(-1);
+        final DifferentiableMultivariateRealFunction func = new SumSincFunction(-1);
 
         int dim = 2;
         final double[] minPoint = new double[dim];
@@ -58,11 +60,17 @@ public class PowellOptimizerTest {
 
     @Test
     public void testQuadratic() throws MathException {
-        final MultivariateRealFunction func = new MultivariateRealFunction() {
+        final DifferentiableMultivariateRealFunction func = new DifferentiableMultivariateRealFunction() {
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
                     return a * a + b * b + 1;
+                }
+                public MultivariateRealFunction partialDerivative(int k) {
+                    return null; // Not used
+                }
+                public MultivariateVectorialFunction gradient() {
+                    return null; // Not used
                 }
             };
 
@@ -89,11 +97,17 @@ public class PowellOptimizerTest {
 
     @Test
     public void testMaximizeQuadratic() throws MathException {
-        final MultivariateRealFunction func = new MultivariateRealFunction() {
+        final DifferentiableMultivariateRealFunction func = new DifferentiableMultivariateRealFunction() {
                 public double value(double[] x) {
                     final double a = x[0] - 1;
                     final double b = x[1] - 1;
                     return -a * a - b * b + 1;
+                }
+                public MultivariateRealFunction partialDerivative(int k) {
+                    return null;  // Not used
+                }
+                public MultivariateVectorialFunction gradient() {
+                    return null;  // Not used
                 }
             };
 
@@ -129,7 +143,7 @@ public class PowellOptimizerTest {
      * "Powell" algorithm.
      * @param pointTol Tolerance for checking that the optimum is correct.
      */
-    private void doTest(MultivariateRealFunction func,
+    private void doTest(DifferentiableMultivariateRealFunction func,
                         double[] optimum,
                         double[] init,
                         GoalType goal,
@@ -137,7 +151,7 @@ public class PowellOptimizerTest {
                         double fTol,
                         double pointTol)
         throws MathException {
-        final MultivariateRealOptimizer optim = new PowellOptimizer(xTol);
+        final PowellOptimizer optim = new PowellOptimizer(xTol);
         optim.setConvergenceChecker(new SimpleScalarValueChecker(fTol, -1));
 
         final RealPointValuePair result = optim.optimize(func, goal, init);

@@ -39,7 +39,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateRealOptimizerTest {
 
     @Test
-    public void testCircleFitting() throws MathUserException, OptimizationException {
+    public void testCircleFitting() throws Exception {
         Circle circle = new Circle();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);

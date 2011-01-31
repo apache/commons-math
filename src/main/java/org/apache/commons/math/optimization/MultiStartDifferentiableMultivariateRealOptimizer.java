@@ -20,6 +20,7 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
@@ -172,7 +173,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizer
     public RealPointValuePair optimize(final DifferentiableMultivariateRealFunction f,
                                          final GoalType goalType,
                                          double[] startPoint)
-        throws MathUserException, OptimizationException {
+        throws MathUserException, OptimizationException, FunctionEvaluationException {
 
         optima                   = new RealPointValuePair[starts];
         totalIterations          = 0;

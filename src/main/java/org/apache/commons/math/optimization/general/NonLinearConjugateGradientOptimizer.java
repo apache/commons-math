@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
@@ -43,16 +44,18 @@ import org.apache.commons.math.util.FastMath;
 
 public class NonLinearConjugateGradientOptimizer
     extends AbstractScalarDifferentiableOptimizer {
+
     /** Update formula for the beta parameter. */
     private final ConjugateGradientFormula updateFormula;
+
     /** Preconditioner (may be null). */
     private Preconditioner preconditioner;
+
     /** solver to use in the line search (may be null). */
     private UnivariateRealSolver solver;
+
     /** Initial step used to bracket the optimum in line search. */
     private double initialStep;
-    /** Current point. */
-    private double[] point;
 
     /** Simple constructor with default settings.
      * <p>The convergence check is set to a {@link
@@ -110,8 +113,9 @@ public class NonLinearConjugateGradientOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize()
-        throws MathUserException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
         try {
+
             // initialization
             if (preconditioner == null) {
                 preconditioner = new IdentityPreconditioner();
@@ -119,8 +123,6 @@ public class NonLinearConjugateGradientOptimizer
             if (solver == null) {
                 solver = new BrentSolver();
             }
-            point = getStartPoint();
-            final GoalType goal = getGoalType();
             final int n = point.length;
             double[] r = computeObjectiveGradient(point);
             if (goal == GoalType.MINIMIZE) {
@@ -145,7 +147,7 @@ public class NonLinearConjugateGradientOptimizer
                 RealPointValuePair previous = current;
                 current = new RealPointValuePair(point, objective);
                 if (previous != null) {
-                    if (getConvergenceChecker().converged(getIterations(), previous, current)) {
+                    if (checker.converged(getIterations(), previous, current)) {
                         // we have found an optimum
                         return current;
                     }
@@ -275,7 +277,12 @@ public class NonLinearConjugateGradientOptimizer
             }
 
             // gradient of the objective function
-            final double[] gradient = computeObjectiveGradient(shiftedPoint);
+            final double[] gradient;
+            try {
+                gradient = computeObjectiveGradient(shiftedPoint);
+            } catch (FunctionEvaluationException ex) {
+                throw new MathUserException(ex);
+            }
 
             // dot product with the search direction
             double dotProduct = 0;
