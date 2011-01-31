@@ -184,6 +184,22 @@ The <action> type attribute can be add,update,fix,remove.
         Removed all references to "OptimizationException" (replaced by
         "ConvergenceException").
       </action>
+      <action dev="erans" type="update" issue="MATH-397">
+        Modified "AbstractUnivariateRealOptimizer" to make it more similar to
+        "BaseAbstractScalarOptimizer".
+        Added utility methods in "ConvergingAlgorithmImpl".
+      </action>
+      <action dev="erans" type="update" issue="MATH-389">
+        Refactoring of some classes in package "optimization.general" to remove
+        code duplication and to allow the implementation of optimization algorithms
+        that do not use derivatives.
+        Created interface "BaseMultivariateRealOptimizer".
+        Created classes "BaseAbstractScalarOptimizer" and "AbstractScalarOptimizer".
+        "MultivariateRealOptimizer" and "DifferentiableMultivariateRealOptimizer"
+        both extend "BaseMultivariateRealOptimizer".
+        "AbstractScalarOptimizer" extends "BaseAbstractScalarOptimizer" and
+        "AbstractScalarDifferentiableOptimizer" inherits from "AbstractScalarOptimizer".
+      </action>
     </release>
     <release version="2.2" date="TBD" description="TBD">
       <action dev="luc" type="fix" issue="MATH-498">
@@ -341,27 +357,11 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="luc" type="add" issue="MATH-400" due-to="J. Lewis Muir">
         Added support for Gaussian curve fitting.
       </action>
-      <action dev="erans" type="update" issue="MATH-397">
-        Modified "AbstractUnivariateRealOptimizer" to make it more similar to
-        "BaseAbstractScalarOptimizer".
-        Added utility methods in "ConvergingAlgorithmImpl".
-      </action>
       <action dev="erans" type="fix" issue="MATH-395">
         Fixed several bugs in "BrentOptimizer".
       </action>
       <action dev="erans" type="fix" issue="MATH-393">
         Fixed inconsistency in return values in "MultiStartUnivariateRealOptimizer".
-      </action>
-      <action dev="erans" type="update" issue="MATH-389">
-        Refactoring of some classes in package "optimization.general" to remove
-        code duplication and to allow the implementation of optimization algorithms
-        that do not use derivatives.
-        Created interface "BaseMultivariateRealOptimizer".
-        Created classes "BaseAbstractScalarOptimizer" and "AbstractScalarOptimizer".
-        "MultivariateRealOptimizer" and "DifferentiableMultivariateRealOptimizer"
-        both extend "BaseMultivariateRealOptimizer".
-        "AbstractScalarOptimizer" extends "BaseAbstractScalarOptimizer" and
-        "AbstractScalarDifferentiableOptimizer" inherits from "AbstractScalarOptimizer".
       </action>
       <action dev="luc" type="add" issue="MATH-388">
         Added a feature allowing error estimation to be computed only on a subset of
