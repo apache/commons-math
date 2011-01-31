@@ -18,7 +18,6 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.util.FastMath;
 
 /**
