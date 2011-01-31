@@ -47,8 +47,7 @@ public interface DifferentiableMultivariateRealOptimizer {
     /** Get the number of iterations realized by the algorithm.
      * <p>
      * The number of evaluations corresponds to the last call to the
-     * {@code optimize} method (see {@link BaseMultivariateRealOptimizer}).
-     * It is 0 if the method has not been called yet.
+     * {@code optimize} method. It is 0 if the method has not been called yet.
      * </p>
      * @return number of iterations
      */
