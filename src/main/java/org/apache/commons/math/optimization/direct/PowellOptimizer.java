@@ -91,7 +91,7 @@ public class PowellOptimizer
     protected RealPointValuePair doOptimize()
         throws FunctionEvaluationException,
                OptimizationException {
-        final double[] guess = point;
+        final double[] guess = point.clone();
         final int n = guess.length;
 
         final double[][] direc = new double[n][n];
