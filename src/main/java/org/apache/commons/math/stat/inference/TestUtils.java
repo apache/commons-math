@@ -24,6 +24,11 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * A collection of static methods to create inference test instances or to
  * perform inference tests.
  *
+ * <p>
+ * The set methods are not compatible with using the class in multiple threads,
+ * and have therefore been deprecated (along with the getters).
+ * The setters and getters will be removed in version 3.0.
+ * 
  * @since 1.1
  * @version $Revision$ $Date$
  */
@@ -56,7 +61,9 @@ public class TestUtils  {
      *
      * @param chiSquareTest the new instance to use
      * @since 1.2
+     * @deprecated 2.2 will be removed in 3.0 - not compatible with use from multiple threads
      */
+    @Deprecated
     public static void setChiSquareTest(TTest chiSquareTest) {
         TestUtils.tTest = chiSquareTest;
     }
@@ -65,7 +72,9 @@ public class TestUtils  {
      * Return a (singleton) TTest instance.  Does not create a new instance.
      *
      * @return a TTest instance
+     * @deprecated 2.2 will be removed in 3.0
      */
+    @Deprecated
     public static TTest getTTest() {
         return tTest;
     }
@@ -75,7 +84,9 @@ public class TestUtils  {
      *
      * @param chiSquareTest the new instance to use
      * @since 1.2
+     * @deprecated 2.2 will be removed in 3.0 - not compatible with use from multiple threads
      */
+    @Deprecated
     public static void setChiSquareTest(ChiSquareTest chiSquareTest) {
         TestUtils.chiSquareTest = chiSquareTest;
     }
@@ -84,7 +95,9 @@ public class TestUtils  {
      * Return a (singleton) ChiSquareTest instance.  Does not create a new instance.
      *
      * @return a ChiSquareTest instance
+     * @deprecated 2.2 will be removed in 3.0
      */
+    @Deprecated
     public static ChiSquareTest getChiSquareTest() {
         return chiSquareTest;
     }
@@ -94,7 +107,9 @@ public class TestUtils  {
      *
      * @param unknownDistributionChiSquareTest the new instance to use
      * @since 1.2
+     * @deprecated 2.2 will be removed in 3.0 - not compatible with use from multiple threads
      */
+    @Deprecated
     public static void setUnknownDistributionChiSquareTest(UnknownDistributionChiSquareTest unknownDistributionChiSquareTest) {
         TestUtils.unknownDistributionChiSquareTest = unknownDistributionChiSquareTest;
     }
@@ -103,7 +118,9 @@ public class TestUtils  {
      * Return a (singleton) UnknownDistributionChiSquareTest instance.  Does not create a new instance.
      *
      * @return a UnknownDistributionChiSquareTest instance
+     * @deprecated 2.2 will be removed in 3.0
      */
+    @Deprecated
     public static UnknownDistributionChiSquareTest getUnknownDistributionChiSquareTest() {
         return unknownDistributionChiSquareTest;
     }
@@ -113,7 +130,9 @@ public class TestUtils  {
      *
      * @param oneWayAnova the new instance to use
      * @since 1.2
+     * @deprecated 2.2 will be removed in 3.0 - not compatible with use from multiple threads
      */
+    @Deprecated
     public static void setOneWayAnova(OneWayAnova oneWayAnova) {
         TestUtils.oneWayAnova = oneWayAnova;
     }
@@ -123,7 +142,9 @@ public class TestUtils  {
      *
      * @return a OneWayAnova instance
      * @since 1.2
+     * @deprecated 2.2 will be removed in 3.0
      */
+    @Deprecated
     public static OneWayAnova getOneWayAnova() {
         return oneWayAnova;
     }
