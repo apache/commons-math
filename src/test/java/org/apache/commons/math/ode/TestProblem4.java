@@ -84,6 +84,7 @@ public TestProblem4 copy() {
    * Get the theoretical events times.
    * @return theoretical events times
    */
+  @Override
   public double[] getTheoreticalEventsTimes() {
       return new double[] {
           1 * FastMath.PI - a,
