@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -160,7 +159,7 @@ public class SplineInterpolatorTest {
     }
 
     @Test
-    public void testIllegalArguments() throws MathException {
+    public void testIllegalArguments() {
         // Data set arrays of different size.
         UnivariateRealInterpolator i = new SplineInterpolator();
         try {

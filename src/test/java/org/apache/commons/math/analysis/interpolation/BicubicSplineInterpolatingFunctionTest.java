@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
@@ -33,7 +32,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * Test preconditions.
      */
     @Test
-    public void testPreconditions() throws MathException {
+    public void testPreconditions() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
@@ -115,7 +114,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * z = 2 x - 3 y + 5
      */
     @Test
-    public void testPlane() throws MathException {
+    public void testPlane() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         // Function values
@@ -185,7 +184,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
      */
     @Test
-    public void testParaboloid() throws MathException {
+    public void testParaboloid() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         // Function values
@@ -349,7 +348,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      *           + 4 x<sup>2</sup> y - x y<sup>2</sup> - 3 x<sup>3</sup> + y<sup>3</sup>
      */
     @Test
-    public void testMatchingPartialDerivatives() throws MathException {
+    public void testMatchingPartialDerivatives() {
         final int sz = 21;
         double[] val = new double[sz];
         // Coordinate values

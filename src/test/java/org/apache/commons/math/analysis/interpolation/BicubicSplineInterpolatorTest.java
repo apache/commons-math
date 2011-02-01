@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
@@ -33,7 +32,7 @@ public final class BicubicSplineInterpolatorTest {
      * Test preconditions.
      */
     @Test
-    public void testPreconditions() throws MathException {
+    public void testPreconditions() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
@@ -81,7 +80,7 @@ public final class BicubicSplineInterpolatorTest {
      * z = 2 x - 3 y + 5
      */
     @Test
-    public void testPlane() throws MathException {
+    public void testPlane() {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
@@ -128,7 +127,7 @@ public final class BicubicSplineInterpolatorTest {
      * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
      */
     @Test
-    public void testParaboloid() throws MathException {
+    public void testParaboloid() {
         BivariateRealFunction f = new BivariateRealFunction() {
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;

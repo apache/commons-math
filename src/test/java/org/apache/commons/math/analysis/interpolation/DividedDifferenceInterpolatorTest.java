@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
@@ -46,7 +45,7 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
      * <p>
      * |sin^(n)(zeta)| <= 1.0, zeta in [0, 2*PI]
      */
-    public void testSinFunction() throws MathException {
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealInterpolator interpolator = new DividedDifferenceInterpolator();
         double x[], y[], z, expected, result, tolerance;
@@ -77,7 +76,7 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
      * <p>
      * |expm1^(n)(zeta)| <= e, zeta in [-1, 1]
      */
-    public void testExpm1Function() throws MathException {
+    public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
         UnivariateRealInterpolator interpolator = new DividedDifferenceInterpolator();
         double x[], y[], z, expected, result, tolerance;
