@@ -1345,7 +1345,7 @@ public class FastMath {
         // y is the most significant 10 bits of the mantissa
         //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);
         //double epsilon = (x - y) / y;
-        double epsilon = (double)(bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
+        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
 
         double lnza = 0.0;
         double lnzb = 0.0;
@@ -1359,7 +1359,7 @@ public class FastMath {
             double xb = ab;
 
             /* Need a more accurate epsilon, so adjust the division. */
-            double numer = (double)(bits & 0x3ffffffffffL);
+            double numer = (bits & 0x3ffffffffffL);
             double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
             aa = numer - xa*denom - xb * denom;
             xb += aa / denom;
@@ -3708,7 +3708,7 @@ public class FastMath {
             return x*y;
         }
 
-        return (double) y;
+        return y;
     }
 
     /** Get the smallest whole number larger than x.
@@ -4041,7 +4041,7 @@ public class FastMath {
      * @return exponent for d in IEEE754 representation, without bias
      */
     public static int getExponent(final float f) {
-        return (int) ((Float.floatToIntBits(f) >>> 23) & 0xff) - 127;
+        return ((Float.floatToIntBits(f) >>> 23) & 0xff) - 127;
     }
 
 }
