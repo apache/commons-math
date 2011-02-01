@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.direct.NelderMead;
