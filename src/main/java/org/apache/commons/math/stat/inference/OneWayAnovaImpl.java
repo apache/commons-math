@@ -186,13 +186,13 @@ public class OneWayAnovaImpl implements OneWayAnova  {
     private static class AnovaStats {
 
         /** Degrees of freedom in numerator (between groups). */
-        private int dfbg;
+        private final int dfbg;
 
         /** Degrees of freedom in denominator (within groups). */
-        private int dfwg;
+        private final int dfwg;
 
         /** Statistic. */
-        private double F;
+        private final double F;
 
         /**
          * Constructor
