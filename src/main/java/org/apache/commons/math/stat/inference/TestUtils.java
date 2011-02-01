@@ -30,104 +30,24 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 public class TestUtils  {
 
     /** Singleton TTest instance using default implementation. */
-    private static TTest tTest = new TTestImpl();
+    private static final TTest T_TEST = new TTestImpl();
 
     /** Singleton ChiSquareTest instance using default implementation. */
-    private static ChiSquareTest chiSquareTest =
-        new ChiSquareTestImpl();
+    private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTestImpl();
 
     /** Singleton ChiSquareTest instance using default implementation. */
-    private static UnknownDistributionChiSquareTest unknownDistributionChiSquareTest =
+    private static final UnknownDistributionChiSquareTest UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST =
         new ChiSquareTestImpl();
 
     /** Singleton OneWayAnova instance using default implementation. */
-    private static OneWayAnova oneWayAnova =
-        new OneWayAnovaImpl();
+    private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnovaImpl();
 
     /**
      * Prevent instantiation.
      */
-    protected TestUtils() {
+    private TestUtils() {
         super();
     }
-
-    /**
-     * Set the (singleton) TTest instance.
-     *
-     * @param chiSquareTest the new instance to use
-     * @since 1.2
-     */
-    public static void setChiSquareTest(TTest chiSquareTest) {
-        TestUtils.tTest = chiSquareTest;
-    }
-
-    /**
-     * Return a (singleton) TTest instance.  Does not create a new instance.
-     *
-     * @return a TTest instance
-     */
-    public static TTest getTTest() {
-        return tTest;
-    }
-
-    /**
-     * Set the (singleton) ChiSquareTest instance.
-     *
-     * @param chiSquareTest the new instance to use
-     * @since 1.2
-     */
-    public static void setChiSquareTest(ChiSquareTest chiSquareTest) {
-        TestUtils.chiSquareTest = chiSquareTest;
-    }
-
-    /**
-     * Return a (singleton) ChiSquareTest instance.  Does not create a new instance.
-     *
-     * @return a ChiSquareTest instance
-     */
-    public static ChiSquareTest getChiSquareTest() {
-        return chiSquareTest;
-    }
-
-    /**
-     * Set the (singleton) UnknownDistributionChiSquareTest instance.
-     *
-     * @param unknownDistributionChiSquareTest the new instance to use
-     * @since 1.2
-     */
-    public static void setUnknownDistributionChiSquareTest(UnknownDistributionChiSquareTest unknownDistributionChiSquareTest) {
-        TestUtils.unknownDistributionChiSquareTest = unknownDistributionChiSquareTest;
-    }
-
-    /**
-     * Return a (singleton) UnknownDistributionChiSquareTest instance.  Does not create a new instance.
-     *
-     * @return a UnknownDistributionChiSquareTest instance
-     */
-    public static UnknownDistributionChiSquareTest getUnknownDistributionChiSquareTest() {
-        return unknownDistributionChiSquareTest;
-    }
-
-    /**
-     * Set the (singleton) OneWayAnova instance
-     *
-     * @param oneWayAnova the new instance to use
-     * @since 1.2
-     */
-    public static void setOneWayAnova(OneWayAnova oneWayAnova) {
-        TestUtils.oneWayAnova = oneWayAnova;
-    }
-
-    /**
-     * Return a (singleton) OneWayAnova instance.  Does not create a new instance.
-     *
-     * @return a OneWayAnova instance
-     * @since 1.2
-     */
-    public static OneWayAnova getOneWayAnova() {
-        return oneWayAnova;
-    }
-
 
     // CHECKSTYLE: stop JavadocMethodCheck
 
@@ -136,7 +56,7 @@ public class TestUtils  {
      */
     public static double homoscedasticT(double[] sample1, double[] sample2)
         throws IllegalArgumentException {
-        return tTest.homoscedasticT(sample1, sample2);
+        return T_TEST.homoscedasticT(sample1, sample2);
     }
 
     /**
@@ -145,7 +65,7 @@ public class TestUtils  {
     public static double homoscedasticT(StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException {
-        return tTest.homoscedasticT(sampleStats1, sampleStats2);
+        return T_TEST.homoscedasticT(sampleStats1, sampleStats2);
     }
 
     /**
@@ -154,7 +74,7 @@ public class TestUtils  {
     public static boolean homoscedasticTTest(double[] sample1, double[] sample2,
             double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest. homoscedasticTTest(sample1, sample2, alpha);
+        return T_TEST. homoscedasticTTest(sample1, sample2, alpha);
     }
 
     /**
@@ -162,7 +82,7 @@ public class TestUtils  {
      */
     public static double homoscedasticTTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        return tTest.homoscedasticTTest(sample1, sample2);
+        return T_TEST.homoscedasticTTest(sample1, sample2);
     }
 
     /**
@@ -171,7 +91,7 @@ public class TestUtils  {
     public static double homoscedasticTTest(StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException {
-        return tTest.homoscedasticTTest(sampleStats1, sampleStats2);
+        return T_TEST.homoscedasticTTest(sampleStats1, sampleStats2);
     }
 
     /**
@@ -179,7 +99,7 @@ public class TestUtils  {
      */
     public static double pairedT(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        return tTest.pairedT(sample1, sample2);
+        return T_TEST.pairedT(sample1, sample2);
     }
 
     /**
@@ -188,7 +108,7 @@ public class TestUtils  {
     public static boolean pairedTTest(double[] sample1, double[] sample2,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest.pairedTTest(sample1, sample2, alpha);
+        return T_TEST.pairedTTest(sample1, sample2, alpha);
     }
 
     /**
@@ -196,7 +116,7 @@ public class TestUtils  {
      */
     public static double pairedTTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        return tTest.pairedTTest(sample1, sample2);
+        return T_TEST.pairedTTest(sample1, sample2);
     }
 
     /**
@@ -204,7 +124,7 @@ public class TestUtils  {
      */
     public static double t(double mu, double[] observed)
         throws IllegalArgumentException {
-        return tTest.t(mu, observed);
+        return T_TEST.t(mu, observed);
     }
 
     /**
@@ -212,7 +132,7 @@ public class TestUtils  {
      */
     public static double t(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException {
-        return tTest.t(mu, sampleStats);
+        return T_TEST.t(mu, sampleStats);
     }
 
     /**
@@ -220,7 +140,7 @@ public class TestUtils  {
      */
     public static double t(double[] sample1, double[] sample2)
         throws IllegalArgumentException {
-        return tTest.t(sample1, sample2);
+        return T_TEST.t(sample1, sample2);
     }
 
     /**
@@ -229,7 +149,7 @@ public class TestUtils  {
     public static double t(StatisticalSummary sampleStats1,
             StatisticalSummary sampleStats2)
         throws IllegalArgumentException {
-        return tTest.t(sampleStats1, sampleStats2);
+        return T_TEST.t(sampleStats1, sampleStats2);
     }
 
     /**
@@ -237,7 +157,7 @@ public class TestUtils  {
      */
     public static boolean tTest(double mu, double[] sample, double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(mu, sample, alpha);
+        return T_TEST.tTest(mu, sample, alpha);
     }
 
     /**
@@ -245,7 +165,7 @@ public class TestUtils  {
      */
     public static double tTest(double mu, double[] sample)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(mu, sample);
+        return T_TEST.tTest(mu, sample);
     }
 
     /**
@@ -254,7 +174,7 @@ public class TestUtils  {
     public static boolean tTest(double mu, StatisticalSummary sampleStats,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest. tTest(mu, sampleStats, alpha);
+        return T_TEST. tTest(mu, sampleStats, alpha);
     }
 
     /**
@@ -262,7 +182,7 @@ public class TestUtils  {
      */
     public static double tTest(double mu, StatisticalSummary sampleStats)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(mu, sampleStats);
+        return T_TEST.tTest(mu, sampleStats);
     }
 
     /**
@@ -270,7 +190,7 @@ public class TestUtils  {
      */
     public static boolean tTest(double[] sample1, double[] sample2, double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(sample1, sample2, alpha);
+        return T_TEST.tTest(sample1, sample2, alpha);
     }
 
     /**
@@ -278,7 +198,7 @@ public class TestUtils  {
      */
     public static double tTest(double[] sample1, double[] sample2)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(sample1, sample2);
+        return T_TEST.tTest(sample1, sample2);
     }
 
     /**
@@ -287,7 +207,7 @@ public class TestUtils  {
     public static boolean tTest(StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2, double alpha)
         throws IllegalArgumentException, MathException {
-        return tTest. tTest(sampleStats1, sampleStats2, alpha);
+        return T_TEST. tTest(sampleStats1, sampleStats2, alpha);
     }
 
     /**
@@ -296,7 +216,7 @@ public class TestUtils  {
     public static double tTest(StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2)
         throws IllegalArgumentException, MathException {
-        return tTest.tTest(sampleStats1, sampleStats2);
+        return T_TEST.tTest(sampleStats1, sampleStats2);
     }
 
     /**
@@ -304,7 +224,7 @@ public class TestUtils  {
      */
     public static double chiSquare(double[] expected, long[] observed)
         throws IllegalArgumentException {
-        return chiSquareTest.chiSquare(expected, observed);
+        return CHI_SQUARE_TEST.chiSquare(expected, observed);
     }
 
     /**
@@ -312,7 +232,7 @@ public class TestUtils  {
      */
     public static double chiSquare(long[][] counts)
         throws IllegalArgumentException {
-        return chiSquareTest.chiSquare(counts);
+        return CHI_SQUARE_TEST.chiSquare(counts);
     }
 
     /**
@@ -321,7 +241,7 @@ public class TestUtils  {
     public static boolean chiSquareTest(double[] expected, long[] observed,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest.chiSquareTest(expected, observed, alpha);
+        return CHI_SQUARE_TEST.chiSquareTest(expected, observed, alpha);
     }
 
     /**
@@ -329,7 +249,7 @@ public class TestUtils  {
      */
     public static double chiSquareTest(double[] expected, long[] observed)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest.chiSquareTest(expected, observed);
+        return CHI_SQUARE_TEST.chiSquareTest(expected, observed);
     }
 
     /**
@@ -337,7 +257,7 @@ public class TestUtils  {
      */
     public static boolean chiSquareTest(long[][] counts, double alpha)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest. chiSquareTest(counts, alpha);
+        return CHI_SQUARE_TEST. chiSquareTest(counts, alpha);
     }
 
     /**
@@ -345,7 +265,7 @@ public class TestUtils  {
      */
     public static double chiSquareTest(long[][] counts)
         throws IllegalArgumentException, MathException {
-        return chiSquareTest. chiSquareTest(counts);
+        return CHI_SQUARE_TEST.chiSquareTest(counts);
     }
 
     /**
@@ -355,7 +275,7 @@ public class TestUtils  {
      */
     public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException {
-        return unknownDistributionChiSquareTest.chiSquareDataSetsComparison(observed1, observed2);
+        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareDataSetsComparison(observed1, observed2);
     }
 
     /**
@@ -365,7 +285,7 @@ public class TestUtils  {
      */
     public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws IllegalArgumentException, MathException {
-        return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2);
+        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2);
     }
 
 
@@ -377,7 +297,7 @@ public class TestUtils  {
     public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return unknownDistributionChiSquareTest.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
+        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
     }
 
     /**
@@ -387,7 +307,7 @@ public class TestUtils  {
      */
     public static double oneWayAnovaFValue(Collection<double[]> categoryData)
     throws IllegalArgumentException, MathException {
-        return oneWayAnova.anovaFValue(categoryData);
+        return ONE_WAY_ANANOVA.anovaFValue(categoryData);
     }
 
     /**
@@ -397,7 +317,7 @@ public class TestUtils  {
      */
     public static double oneWayAnovaPValue(Collection<double[]> categoryData)
     throws IllegalArgumentException, MathException {
-        return oneWayAnova.anovaPValue(categoryData);
+        return ONE_WAY_ANANOVA.anovaPValue(categoryData);
     }
 
     /**
@@ -407,7 +327,7 @@ public class TestUtils  {
      */
     public static boolean oneWayAnovaTest(Collection<double[]> categoryData, double alpha)
     throws IllegalArgumentException, MathException {
-        return oneWayAnova.anovaTest(categoryData, alpha);
+        return ONE_WAY_ANANOVA.anovaTest(categoryData, alpha);
     }
 
     // CHECKSTYLE: resume JavadocMethodCheck
