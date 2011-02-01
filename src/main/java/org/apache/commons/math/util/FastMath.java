@@ -206,7 +206,7 @@ public class FastMath {
 
         // Generate an array of factorials
         FACT[0] = 1.0;
-        for (i = 1; i < 20; i++) {
+        for (i = 1; i < FACT.length; i++) {
             FACT[i] = FACT[i-1] * i;
         }
 
@@ -228,14 +228,14 @@ public class FastMath {
         }
 
         // Populate expFracTable
-        for (i = 0; i < 1025; i++) {
+        for (i = 0; i < EXP_FRAC_TABLE_A.length; i++) {
             slowexp(i/1024.0, tmp);
             EXP_FRAC_TABLE_A[i] = tmp[0];
             EXP_FRAC_TABLE_B[i] = tmp[1];
         }
 
         // Populate lnMant table
-        for (i = 0; i < 1024; i++) {
+        for (i = 0; i < LN_MANT.length; i++) {
             double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
             LN_MANT[i] = slowLog(d);
         }
