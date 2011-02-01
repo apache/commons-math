@@ -93,8 +93,7 @@ public class MultiStartUnivariateRealOptimizerTest {
             new MultiStartUnivariateRealOptimizer<UnivariateRealFunction>(underlying, 5, g);
  
         try {
-            UnivariateRealPointValuePair optimum
-                = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
+            optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
             Assert.fail();
         } catch (MathUserException e) {
             // Expected.
