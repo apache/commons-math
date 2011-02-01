@@ -143,7 +143,7 @@ public class FastMath {
     private static final double TANGENT_TABLE_B[] = new double[14];
 
     /** Bits of 1/(2*pi), need for reducePayneHanek(). */
-    private static long RECIP_2PI[] = new long[] {
+    private static final long RECIP_2PI[] = new long[] {
         (0x28be60dbL << 32) | 0x9391054aL,
         (0x7f09d5f4L << 32) | 0x7d4d3770L,
         (0x36d8a566L << 32) | 0x4f10e410L,
@@ -164,7 +164,7 @@ public class FastMath {
          0x9afed7ecL << 32  };
 
     /** Bits of pi/4, need for reducePayneHanek(). */
-    private static long PI_O_4_BITS[] = new long[] {
+    private static final long PI_O_4_BITS[] = new long[] {
         (0xc90fdaa2L << 32) | 0x2168c234L,
         (0xc4c6628bL << 32) | 0x80dc1cd1L };
 
