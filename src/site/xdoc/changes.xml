@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="2.2" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-505">
+          TestUtils is thread-hostile. Deprecate the getters and setters.
+      </action>
       <action dev="luc" type="fix" issue="MATH-498">
           FastMath is not an exact replacement for StrictMath
           (partially fixed) added scalb(double, int), scalb(float, int)
