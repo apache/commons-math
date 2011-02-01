@@ -30,19 +30,14 @@ import org.junit.Test;
 public class LogisticTest {
     private final double EPS = Math.ulp(1d);
 
-    @Test
-    public void testPreconditions() {
-        try {
-            final UnivariateRealFunction f = new Logistic(1, 0, 1, 1, 0, -1);
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPreconditions1() {
+        new Logistic(1, 0, 1, 1, 0, -1);
+    }
 
-        try {
-            final UnivariateRealFunction f = new Logistic(1, 0, 1, 1, 0, 0);
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPreconditions2() {
+        new Logistic(1, 0, 1, 1, 0, 0);
     }
 
     @Test
