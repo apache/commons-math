@@ -32,48 +32,34 @@ import org.junit.Test;
 public class StepFunctionTest {
     private final double EPS = Math.ulp(1d);
 
-    @Test
-    public void testPreconditions() {
-        try {
-            final UnivariateRealFunction f = new StepFunction(null,
-                                                              new double[] {0, -1, -2});
-        } catch (NullArgumentException e) {
-            // Expected.
-        }
-        try {
-            final UnivariateRealFunction f = new StepFunction(new double[] {0, 1},
-                                                              null);
-        } catch (NullArgumentException e) {
-            // Expected.
-        }
+    @Test(expected=NullArgumentException.class)
+    public void testPreconditions1() {
+        new StepFunction(null, new double[] {0, -1, -2});
+    }
 
-        try {
-            final UnivariateRealFunction f = new StepFunction(new double[] {0},
-                                                              new double[] {});
-        } catch (NoDataException e) {
-            // Expected.
-        }
+    @Test(expected=NullArgumentException.class)
+    public void testPreconditions2() {
+        new StepFunction(new double[] {0, 1}, null);
+    }
 
-        try {
-            final UnivariateRealFunction f = new StepFunction(new double[] {},
-                                                              new double[] {0});
-        } catch (NoDataException e) {
-            // Expected.
-        }
+    @Test(expected=NoDataException.class)
+    public void testPreconditions3() {
+        new StepFunction(new double[] {0}, new double[] {});
+    }
 
-        try {
-            final UnivariateRealFunction f = new StepFunction(new double[] {0, 1},
-                                                              new double[] {0, -1, -2});
-        } catch (DimensionMismatchException e) {
-            // Expected.
-        }
+    @Test(expected=NoDataException.class)
+    public void testPreconditions4() {
+        new StepFunction(new double[] {}, new double[] {0});
+    }
 
-        try {
-            final UnivariateRealFunction f = new StepFunction(new double[] {1, 0, 1},
-                                                              new double[] {0, -1, -2});
-        } catch (NonMonotonousSequenceException e) {
-            // Expected.
-        }
+    @Test(expected=DimensionMismatchException.class)
+    public void testPreconditions5() {
+        new StepFunction(new double[] {0, 1}, new double[] {0, -1, -2});
+    }
+
+    @Test(expected=NonMonotonousSequenceException.class)
+    public void testPreconditions6() {
+        new StepFunction(new double[] {1, 0, 1}, new double[] {0, -1, -2});
     }
 
     @Test
