@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.random;
 
-import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.VectorialCovariance;
