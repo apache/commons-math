@@ -77,6 +77,7 @@ public class FieldLUDecompositionImplTest extends TestCase {
                     { Fraction.ZERO, Fraction.ZERO },
                     { Fraction.ZERO, Fraction.ZERO }
             }));
+            fail("Expected InvalidMatrixException");
         } catch (InvalidMatrixException ime) {
             // expected behavior
         }
