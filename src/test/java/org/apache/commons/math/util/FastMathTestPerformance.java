@@ -43,8 +43,8 @@ public class FastMathTestPerformance {
                 System.getProperty("java.version"),
                 System.getProperty("java.runtime.version","?"),
                 System.getProperty("java.vm.name"),
-                System.getProperty("java.vm.version"),
-                ""));
+                System.getProperty("java.vm.version")
+                ));
     }
 
     private static void report(String name, long strictMathTime, long fastMathTime, long mathTime) {
