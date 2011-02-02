@@ -167,12 +167,8 @@ public abstract class RealVectorFormatAbstractTest {
     public void testParseSimpleNoDecimals() {
         String source = "{1; 1; 1}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1, 1, 1});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -196,12 +192,8 @@ public abstract class RealVectorFormatAbstractTest {
             "43; 1" + getDecimalCharacter() +
             "63}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1.23, 1.43, 1.63});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -212,12 +204,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; 1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1.2323, 1.4343, 1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -228,12 +216,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; 1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {-1.2323, 1.4343, 1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -244,12 +228,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; 1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1.2323, -1.4343, 1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -260,12 +240,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; -1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1.2323, 1.4343, -1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -276,12 +252,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; -1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {-1.2323, -1.4343, -1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -292,12 +264,8 @@ public abstract class RealVectorFormatAbstractTest {
             "4343; 1" + getDecimalCharacter() +
             "6333}";
         ArrayRealVector expected = new ArrayRealVector(new double[] {0.0, -1.4343, 1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -308,49 +276,33 @@ public abstract class RealVectorFormatAbstractTest {
             "4343 : 1" + getDecimalCharacter() +
             "6333]";
         ArrayRealVector expected = new ArrayRealVector(new double[] {1.2323, 1.4343, 1.6333});
-        try {
-            ArrayRealVector actual = realVectorFormatSquare.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormatSquare.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() {
         String source = "{(NaN); (NaN); (NaN)}";
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(new ArrayRealVector(new double[] {Double.NaN, Double.NaN, Double.NaN}), actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(new ArrayRealVector(new double[] {Double.NaN, Double.NaN, Double.NaN}), actual);
     }
 
     @Test
     public void testParsePositiveInfinity() {
         String source = "{(Infinity); (Infinity); (Infinity)}";
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(new ArrayRealVector(new double[] {
-                    Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY
-            }), actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(new ArrayRealVector(new double[] {
+                Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY
+        }), actual);
     }
 
     @Test
     public void testParseNegativeInfinity() {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
-        try {
-            ArrayRealVector actual = realVectorFormat.parse(source);
-            Assert.assertEquals(new ArrayRealVector(new double[] {
-                    Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY
-            }), actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        ArrayRealVector actual = realVectorFormat.parse(source);
+        Assert.assertEquals(new ArrayRealVector(new double[] {
+                Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY
+        }), actual);
     }
 
     @Test
