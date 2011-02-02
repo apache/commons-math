@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.MathParseException;
 
 public abstract class ComplexFormatAbstractTest {
 
@@ -154,144 +153,96 @@ public abstract class ComplexFormatAbstractTest {
     public void testParseSimpleNoDecimals() {
         String source = "1 + 1i";
         Complex expected = new Complex(1, 1);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseSimpleWithDecimals() {
         String source = "1" + getDecimalCharacter() + "23 + 1" + getDecimalCharacter() + "43i";
         Complex expected = new Complex(1.23, 1.43);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseSimpleWithDecimalsTrunc() {
         String source = "1" + getDecimalCharacter() + "2323 + 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(1.2323, 1.4343);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNegativeReal() {
         String source = "-1" + getDecimalCharacter() + "2323 + 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(-1.2323, 1.4343);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNegativeImaginary() {
         String source = "1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(1.2323, -1.4343);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNegativeBoth() {
         String source = "-1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(-1.2323, -1.4343);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseZeroReal() {
         String source = "0" + getDecimalCharacter() + "0 - 1" + getDecimalCharacter() + "4343i";
         Complex expected = new Complex(0.0, -1.4343);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseZeroImaginary() {
         String source = "-1" + getDecimalCharacter() + "2323";
         Complex expected = new Complex(-1.2323, 0);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseDifferentImaginaryChar() {
         String source = "-1" + getDecimalCharacter() + "2323 - 1" + getDecimalCharacter() + "4343j";
         Complex expected = new Complex(-1.2323, -1.4343);
-        try {
-            Complex actual = complexFormatJ.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormatJ.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() {
         String source = "(NaN) + (NaN)i";
         Complex expected = new Complex(Double.NaN, Double.NaN);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParsePositiveInfinity() {
         String source = "(Infinity) + (Infinity)i";
         Complex expected = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testPaseNegativeInfinity() {
         String source = "(-Infinity) - (Infinity)i";
         Complex expected = new Complex(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-        try {
-            Complex actual = complexFormat.parse(source);
-            Assert.assertEquals(expected, actual);
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
-        }
+        Complex actual = complexFormat.parse(source);
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
