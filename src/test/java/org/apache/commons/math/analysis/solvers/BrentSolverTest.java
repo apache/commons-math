@@ -149,6 +149,7 @@ public final class BrentSolverTest {
 
         try {
             result = solver.solve(5, f, 0.85, 5);
+            Assert.fail("Expected TooManyEvaluationsException");
         } catch (TooManyEvaluationsException e) {
             // Expected.
         }
