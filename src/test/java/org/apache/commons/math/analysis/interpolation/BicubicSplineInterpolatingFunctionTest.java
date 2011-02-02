@@ -106,6 +106,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         } catch (DimensionMismatchException e) {
             // Expected
         }
+        Assert.assertNotNull(bcf); // Avoid Findbugs "dead store" warning
     }
 
     /**

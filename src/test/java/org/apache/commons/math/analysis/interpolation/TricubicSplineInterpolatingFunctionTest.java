@@ -265,6 +265,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
         } catch (DimensionMismatchException e) {
             // Expected
         }
+        Assert.assertNotNull(tcf); // Avoid Findbugs "dead store" warning
     }
 
     /**
