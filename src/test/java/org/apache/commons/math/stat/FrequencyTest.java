@@ -197,7 +197,7 @@ public final class FrequencyTest extends TestCase {
     /**
      * Tests toString()
      */
-    public void testToString(){
+    public void testToString() throws Exception {
         f.addValue(oneL);
         f.addValue(twoL);
         f.addValue(oneI);
@@ -207,21 +207,17 @@ public final class FrequencyTest extends TestCase {
         //System.out.println(s);
         assertNotNull(s);
         BufferedReader reader = new BufferedReader(new StringReader(s));
-        try {
-            String line = reader.readLine(); // header line
-            assertNotNull(line);
+        String line = reader.readLine(); // header line
+        assertNotNull(line);
 
-            line = reader.readLine(); // one's or two's line
-            assertNotNull(line);
+        line = reader.readLine(); // one's or two's line
+        assertNotNull(line);
 
-            line = reader.readLine(); // one's or two's line
-            assertNotNull(line);
+        line = reader.readLine(); // one's or two's line
+        assertNotNull(line);
 
-            line = reader.readLine(); // no more elements
-            assertNull(line);
-        } catch(IOException ex){
-            fail(ex.getMessage());
-        }
+        line = reader.readLine(); // no more elements
+        assertNull(line);
     }
 
     public void testIntegerValues() {

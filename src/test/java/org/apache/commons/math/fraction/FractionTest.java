@@ -34,7 +34,7 @@ public class FractionTest extends TestCase {
         assertEquals(expectedDenominator, actual.getDenominator());
     }
 
-    public void testConstructor() {
+    public void testConstructor() throws Exception {
         assertFraction(0, 1, new Fraction(0, 1));
         assertFraction(0, 1, new Fraction(0, 2));
         assertFraction(0, 1, new Fraction(0, -1));
@@ -58,14 +58,9 @@ public class FractionTest extends TestCase {
         } catch (MathArithmeticException ex) {
             // success
         }
-        try {
-            assertFraction(0, 1, new Fraction(0.00000000000001));
-            assertFraction(2, 5, new Fraction(0.40000000000001));
-            assertFraction(15, 1, new Fraction(15.0000000000001));
-
-        } catch (ConvergenceException ex) {
-            fail(ex.getMessage());
-        }
+        assertFraction(0, 1, new Fraction(0.00000000000001));
+        assertFraction(2, 5, new Fraction(0.40000000000001));
+        assertFraction(15, 1, new Fraction(15.0000000000001));
     }
 
     public void testGoldenRatio() {
@@ -212,19 +207,15 @@ public class FractionTest extends TestCase {
         assertEquals(1L, second.longValue());
     }
 
-    public void testConstructorDouble() {
-        try {
-            assertFraction(1, 2, new Fraction(0.5));
-            assertFraction(1, 3, new Fraction(1.0 / 3.0));
-            assertFraction(17, 100, new Fraction(17.0 / 100.0));
-            assertFraction(317, 100, new Fraction(317.0 / 100.0));
-            assertFraction(-1, 2, new Fraction(-0.5));
-            assertFraction(-1, 3, new Fraction(-1.0 / 3.0));
-            assertFraction(-17, 100, new Fraction(17.0 / -100.0));
-            assertFraction(-317, 100, new Fraction(-317.0 / 100.0));
-        } catch (ConvergenceException ex) {
-            fail(ex.getMessage());
-        }
+    public void testConstructorDouble() throws Exception {
+        assertFraction(1, 2, new Fraction(0.5));
+        assertFraction(1, 3, new Fraction(1.0 / 3.0));
+        assertFraction(17, 100, new Fraction(17.0 / 100.0));
+        assertFraction(317, 100, new Fraction(317.0 / 100.0));
+        assertFraction(-1, 2, new Fraction(-0.5));
+        assertFraction(-1, 3, new Fraction(-1.0 / 3.0));
+        assertFraction(-17, 100, new Fraction(17.0 / -100.0));
+        assertFraction(-317, 100, new Fraction(-317.0 / 100.0));
     }
 
     public void testAbs() {

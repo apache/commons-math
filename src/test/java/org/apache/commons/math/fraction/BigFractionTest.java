@@ -38,7 +38,7 @@ public class BigFractionTest extends TestCase {
         assertEquals(expectedDenominator, actual.getDenominatorAsLong());
     }
 
-    public void testConstructor() {
+    public void testConstructor() throws Exception {
         assertFraction(0, 1, new BigFraction(0, 1));
         assertFraction(0, 1, new BigFraction(0l, 2l));
         assertFraction(0, 1, new BigFraction(0, -1));
@@ -52,13 +52,10 @@ public class BigFractionTest extends TestCase {
         assertFraction(11, 1, new BigFraction(11l));
         assertFraction(11, 1, new BigFraction(new BigInteger("11")));
 
-        try {
-            assertFraction(0, 1, new BigFraction(0.00000000000001, 1.0e-5, 100));
-            assertFraction(2, 5, new BigFraction(0.40000000000001, 1.0e-5, 100));
-            assertFraction(15, 1, new BigFraction(15.0000000000001, 1.0e-5, 100));
-        } catch (ConvergenceException ex) {
-            fail(ex.getMessage());
-        }
+        assertFraction(0, 1, new BigFraction(0.00000000000001, 1.0e-5, 100));
+        assertFraction(2, 5, new BigFraction(0.40000000000001, 1.0e-5, 100));
+        assertFraction(15, 1, new BigFraction(15.0000000000001, 1.0e-5, 100));
+
         assertEquals(0.00000000000001, new BigFraction(0.00000000000001).doubleValue(), 0.0);
         assertEquals(0.40000000000001, new BigFraction(0.40000000000001).doubleValue(), 0.0);
         assertEquals(15.0000000000001, new BigFraction(15.0000000000001).doubleValue(), 0.0);

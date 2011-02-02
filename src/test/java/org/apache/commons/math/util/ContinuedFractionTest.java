@@ -32,7 +32,7 @@ public class ContinuedFractionTest extends TestCase {
         super(name);
     }
 
-    public void testGoldenRatio(){
+    public void testGoldenRatio() throws Exception {
         ContinuedFraction cf = new ContinuedFraction() {
 
             @Override
@@ -46,11 +46,7 @@ public class ContinuedFractionTest extends TestCase {
             }
         };
 
-        try {
-            double gr = cf.evaluate(0.0, 10e-9);
-            assertEquals(1.61803399, gr, 10e-9);
-        } catch (MathException e) {
-            fail(e.getMessage());
-        }
+        double gr = cf.evaluate(0.0, 10e-9);
+        assertEquals(1.61803399, gr, 10e-9);
     }
 }
