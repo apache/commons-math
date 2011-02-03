@@ -66,7 +66,7 @@ public class Pair<K, V> {
     /**
      * Get the value.
      *
-     * @return the key.
+     * @return the value.
      */
     public V getValue() {
         return value;
