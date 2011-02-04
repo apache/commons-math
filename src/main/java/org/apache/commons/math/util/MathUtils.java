@@ -2220,10 +2220,7 @@ public final class MathUtils {
      * @return the copied array.
      */
      public static int[] copyOf(int[] source) {
-         final int len = source.length;
-         final int[] output = new int[len];
-         System.arraycopy(source, 0, output, 0, len);
-         return output;
+         return copyOf(source, source.length);
      }
 
     /**
@@ -2233,9 +2230,36 @@ public final class MathUtils {
      * @return the copied array.
      */
      public static double[] copyOf(double[] source) {
-         final int len = source.length;
+         return copyOf(source, source.length);
+     }
+
+    /**
+     * Creates a copy of the {@code source} array.
+     *
+     * @param source Array to be copied.
+     * @param len Number of entries to copy. If smaller then the source
+     * length, the copy will be truncated, if larger it will padded with
+     * zeroes.
+     * @return the copied array.
+     */
+    public static int[] copyOf(int[] source, int len) {
+         final int[] output = new int[len];
+         System.arraycopy(source, 0, output, 0, FastMath.min(len, source.length));
+         return output;
+     }
+
+    /**
+     * Creates a copy of the {@code source} array.
+     *
+     * @param source Array to be copied.
+     * @param len Number of entries to copy. If smaller then the source
+     * length, the copy will be truncated, if larger it will padded with
+     * zeroes.
+     * @return the copied array.
+     */
+    public static double[] copyOf(double[] source, int len) {
          final double[] output = new double[len];
-         System.arraycopy(source, 0, output, 0, len);
+         System.arraycopy(source, 0, output, 0, FastMath.min(len, source.length));
          return output;
      }
 }
