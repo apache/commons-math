@@ -1557,35 +1557,6 @@ public final class MathUtilsTest extends TestCase {
         }
     }
 
-    public void testCopyOfInt2() {
-        final int[] source = { Integer.MIN_VALUE,
-                               -1, 0, 1, 3, 113, 4769,
-                               Integer.MAX_VALUE };
-        final int offset = 3;
-        final int[] dest = MathUtils.copyOf(source, source.length - offset);
-
-        assertEquals(dest.length, source.length - offset);
-        for (int i = 0; i < source.length - offset; i++) {
-            assertEquals(source[i], dest[i]);
-        }
-    }
-
-    public void testCopyOfInt3() {
-        final int[] source = { Integer.MIN_VALUE,
-                               -1, 0, 1, 3, 113, 4769,
-                               Integer.MAX_VALUE };
-        final int offset = 3;
-        final int[] dest = MathUtils.copyOf(source, source.length + offset);
-
-        assertEquals(dest.length, source.length + offset);
-        for (int i = 0; i < source.length; i++) {
-            assertEquals(source[i], dest[i]);
-        }
-        for (int i = source.length; i < source.length + offset; i++) {
-            assertEquals(0, dest[i], 0);
-        }
-    }
-
     public void testCopyOfDouble() {
         final double[] source = { Double.NEGATIVE_INFINITY,
                                   -Double.MAX_VALUE,
@@ -1600,45 +1571,6 @@ public final class MathUtilsTest extends TestCase {
         assertEquals(dest.length, source.length);
         for (int i = 0; i < source.length; i++) {
             assertEquals(source[i], dest[i], 0);
-        }
-    }
-
-    public void testCopyOfDouble2() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  Math.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final int offset = 3;
-        final double[] dest = MathUtils.copyOf(source, source.length - offset);
-
-        assertEquals(dest.length, source.length - offset);
-        for (int i = 0; i < source.length - offset; i++) {
-            assertEquals(source[i], dest[i], 0);
-        }
-    }
-
-    public void testCopyOfDouble3() {
-        final double[] source = { Double.NEGATIVE_INFINITY,
-                                  -Double.MAX_VALUE,
-                                  -1, 0,
-                                  Double.MIN_VALUE,
-                                  Math.ulp(1d),
-                                  1, 3, 113, 4769,
-                                  Double.MAX_VALUE,
-                                  Double.POSITIVE_INFINITY };
-        final int offset = 3;
-        final double[] dest = MathUtils.copyOf(source, source.length + offset);
-
-        assertEquals(dest.length, source.length + offset);
-        for (int i = 0; i < source.length; i++) {
-            assertEquals(source[i], dest[i], 0);
-        }
-        for (int i = source.length; i < source.length + offset; i++) {
-            assertEquals(0, dest[i], 0);
         }
     }
 }
