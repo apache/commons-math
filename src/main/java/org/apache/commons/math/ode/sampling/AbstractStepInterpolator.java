@@ -250,6 +250,7 @@ public abstract class AbstractStepInterpolator
    * </p>
    * @param softPreviousTime start of the restricted step
    * @param softCurrentTime end of the restricted step
+   * @since 2.2
    */
   public void setSoftBounds(final double softPreviousTime, final double softCurrentTime) {
       this.softPreviousTime = softPreviousTime;
@@ -259,6 +260,7 @@ public abstract class AbstractStepInterpolator
   /**
    * Get the previous global grid point time.
    * @return previous global grid point time
+   * @since 2.2
    */
   public double getGlobalPreviousTime() {
     return globalPreviousTime;
@@ -267,6 +269,7 @@ public abstract class AbstractStepInterpolator
   /**
    * Get the current global grid point time.
    * @return current global grid point time
+   * @since 2.2
    */
   public double getGlobalCurrentTime() {
     return globalCurrentTime;
