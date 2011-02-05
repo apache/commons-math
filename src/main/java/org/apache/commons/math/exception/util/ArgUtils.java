@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * constructors of exceptions.
  *
  * @version $Revision$ $Date$
+ * @since 2.2
  */
 public class ArgUtils {
     /**

@@ -299,6 +299,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * only true here is meaningful.
      *
      * @return true (always but at Integer.MIN_VALUE because of the nature of discrete support)
+     * @since 2.2
      */
     public boolean isSupportLowerBoundInclusive() {
         return true;
@@ -310,6 +311,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * only true here is meaningful.
      *
      * @return true (always but at Integer.MAX_VALUE because of the nature of discrete support)
+     * @since 2.2
      */
     public boolean isSupportUpperBoundInclusive() {
         return true;
