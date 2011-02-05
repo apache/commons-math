@@ -194,7 +194,7 @@ public class Rotation implements Serializable {
    * coefficients. The module of the determinant of unit matrices is
    * 1, among the orthogonal 3X3 matrices, only the ones having a
    * positive determinant (+1) are rotation matrices.</p>
-
+   *
    * <p>When a rotation is defined by a matrix with truncated values
    * (typically when it is extracted from a technical sheet where only
    * four to five significant digits are available), the matrix is not
@@ -204,18 +204,18 @@ public class Rotation implements Serializable {
    * the Frobenius norm of the correction needed is above the given
    * threshold, then the matrix is considered to be too far from a
    * true rotation matrix and an exception is thrown.<p>
-
+   *
    * @param m rotation matrix
    * @param threshold convergence threshold for the iterative
    * orthogonality correction (convergence is reached when the
    * difference between two steps of the Frobenius norm of the
    * correction is below this threshold)
-
+   *
    * @exception NotARotationMatrixException if the matrix is not a 3X3
    * matrix, or if it cannot be transformed into an orthogonal matrix
    * with the given threshold, or if the determinant of the resulting
    * orthogonal matrix is negative
-
+   *
    */
   public Rotation(double[][] m, double threshold)
     throws NotARotationMatrixException {
@@ -297,13 +297,13 @@ public class Rotation implements Serializable {
    * <p>Except for possible scale factors, if the instance were applied to
    * the pair (u<sub>1</sub>, u<sub>2</sub>) it will produce the pair
    * (v<sub>1</sub>, v<sub>2</sub>).</p>
-
+   *
    * <p>If the angular separation between u<sub>1</sub> and u<sub>2</sub> is
    * not the same as the angular separation between v<sub>1</sub> and
    * v<sub>2</sub>, then a corrected v'<sub>2</sub> will be used rather than
    * v<sub>2</sub>, the corrected vector will be in the (v<sub>1</sub>,
    * v<sub>2</sub>) plane.</p>
-
+   *
    * @param u1 first vector of the origin pair
    * @param u2 second vector of the origin pair
    * @param v1 desired image of u1 by the rotation
@@ -440,7 +440,7 @@ public class Rotation implements Serializable {
    * one with the smallest associated angle (i.e. the one whose axis
    * is orthogonal to the (u, v) plane). If u and v are colinear, an
    * arbitrary rotation axis is chosen.</p>
-
+   *
    * @param u origin vector
    * @param v desired image of u by the rotation
    * @exception IllegalArgumentException if the norm of one of the vectors is zero
@@ -487,7 +487,7 @@ public class Rotation implements Serializable {
    * for what really are Cardan angles (this confusion is especially
    * widespread in the aerospace business where Roll, Pitch and Yaw angles
    * are often wrongly tagged as Euler angles).</p>
-
+   *
    * @param order order of rotations to use
    * @param alpha1 angle of the first elementary rotation
    * @param alpha2 angle of the second elementary rotation
@@ -589,7 +589,7 @@ public class Rotation implements Serializable {
    *   <li>for Euler angles, the chosen set is the one for which the
    *   second angle is between 0 and &pi; (i.e its sine is positive).</li>
    * </ul>
-
+   *
    * <p>Cardan and Euler angle have a very disappointing drawback: all
    * of them have singularities. This means that if the instance is
    * too close to the singularities corresponding to the given
@@ -602,7 +602,7 @@ public class Rotation implements Serializable {
    * -&pi;/2 or +&pi;/2, for Euler angle singularities occur when the
    * second angle is close to 0 or &pi;, this implies that the identity
    * rotation is always singular for Euler angles!</p>
-
+   *
    * @param order rotation order to use
    * @return an array of three angles, in the order specified by the set
    * @exception CardanEulerSingularityException if the rotation is

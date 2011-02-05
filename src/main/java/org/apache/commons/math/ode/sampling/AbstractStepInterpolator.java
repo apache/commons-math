@@ -140,12 +140,12 @@ public abstract class AbstractStepInterpolator
    * don't want this method to modify the state of the copied
    * interpolator, finalization is <strong>not</strong> done
    * automatically, it remains under user control.</p>
-
+   *
    * <p>The copy is a deep copy: its arrays are separated from the
    * original arrays of the instance.</p>
-
+   *
    * @param interpolator interpolator to copy from.
-
+   *
    */
   protected AbstractStepInterpolator(final AbstractStepInterpolator interpolator) {
 
@@ -355,7 +355,7 @@ public abstract class AbstractStepInterpolator
 
   /**
    * Finalize the step.
-
+   *
    * <p>Some embedded Runge-Kutta integrators need fewer functions
    * evaluations than their counterpart step interpolators. These
    * interpolators should perform the last evaluations they need by
@@ -363,7 +363,7 @@ public abstract class AbstractStepInterpolator
    * extra evaluations. It can be called directly by the user step
    * handler and it is called automatically if {@link
    * #setInterpolatedTime} is called.</p>
-
+   *
    * <p>Once this method has been called, <strong>no</strong> other
    * evaluation will be performed on this step. If there is a need to
    * have some side effects between the step handler and the
@@ -373,7 +373,7 @@ public abstract class AbstractStepInterpolator
    * effects are set up. If the step handler induces no side effect,
    * then this method can safely be ignored, it will be called
    * transparently as needed.</p>
-
+   *
    * <p><strong>Warning</strong>: since the step interpolator provided
    * to the step handler as a parameter of the {@link
    * StepHandler#handleStep handleStep} is valid only for the duration
@@ -381,7 +381,7 @@ public abstract class AbstractStepInterpolator
    * simply store a reference and reuse it later. One should first
    * finalize the instance, then copy this finalized instance into a
    * new object that can be kept.</p>
-
+   *
    * <p>This method calls the protected <code>doFinalize</code> method
    * if it has never been called during this step and set a flag
    * indicating that it has been called once. It is the <code>
@@ -390,7 +390,7 @@ public abstract class AbstractStepInterpolator
    * times and hence evaluating the differential equations too often.
    * Therefore, subclasses are not allowed not reimplement it, they
    * should rather reimplement <code>doFinalize</code>.</p>
-
+   *
    * @throws MathUserException this exception is propagated to the
    * caller if the underlying user function triggers one
    */

@@ -401,7 +401,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * The interpolation order for dense output is 2k - mudif + 1. The
    * default value for mudif is 4 and the interpolation error is used
    * in stepsize control by default.
-
+   *
    * @param useInterpolationErrorForControl if true, interpolation error is used
    * for stepsize control
    * @param mudifControlParameter interpolation order control parameter (the parameter

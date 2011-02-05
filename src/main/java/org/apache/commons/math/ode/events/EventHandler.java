@@ -90,7 +90,7 @@ public interface EventHandler  {
    * The switching function must be continuous in its roots neighborhood
    * (but not necessarily smooth), as the integrator will need to find its
    * roots to locate precisely the events.</p>
-
+   *
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return value of the g switching function
@@ -109,7 +109,7 @@ public interface EventHandler  {
    * differential equations} to switch the derivatives computation in
    * case of discontinuity), or to direct the integrator to either stop
    * or continue integration, possibly with a reset state or derivatives.</p>
-
+   *
    * <ul>
    *   <li>if {@link #STOP} is returned, the step handler will be called
    *   with the <code>isLast</code> flag of the {@link
@@ -125,7 +125,7 @@ public interface EventHandler  {
    *   be taken (apart from having called this method) and integration
    *   will continue.</li>
    * </ul>
-
+   *
    * <p>The scheduling between this method and the {@link
    * org.apache.commons.math.ode.sampling.StepHandler StepHandler} method {@link
    * org.apache.commons.math.ode.sampling.StepHandler#handleStep(
@@ -149,7 +149,7 @@ public interface EventHandler  {
    * org.apache.commons.math.ode.sampling.StepHandler variable step handlers} and
    * to the size of the fixed step for {@link
    * org.apache.commons.math.ode.sampling.FixedStepHandler fixed step handlers}.</p>
-
+   *
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @param increasing if true, the value of the switching function increases
@@ -172,7 +172,7 @@ public interface EventHandler  {
    * step. If the {@link #eventOccurred} never returns the {@link
    * #RESET_STATE} indicator, this function will never be called, and it is
    * safe to leave its body empty.</p>
-
+   *
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * the new state should be put in the same array
