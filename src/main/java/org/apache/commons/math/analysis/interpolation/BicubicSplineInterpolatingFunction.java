@@ -176,6 +176,7 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the first partial derivative with
      * respect to x.
+     * @since 2.2
      */
     public double partialDerivativeX(double x, double y) {
         return partialDerivative(0, x, y);
@@ -185,6 +186,7 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the first partial derivative with
      * respect to y.
+     * @since 2.2
      */
     public double partialDerivativeY(double x, double y) {
         return partialDerivative(1, x, y);
@@ -194,6 +196,7 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial derivative with
      * respect to x.
+     * @since 2.2
      */
     public double partialDerivativeXX(double x, double y) {
         return partialDerivative(2, x, y);
@@ -203,6 +206,7 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial derivative with
      * respect to y.
+     * @since 2.2
      */
     public double partialDerivativeYY(double x, double y) {
         return partialDerivative(3, x, y);
@@ -211,6 +215,7 @@ public class BicubicSplineInterpolatingFunction
      * @param x x-coordinate.
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial cross-derivative.
+     * @since 2.2
      */
     public double partialDerivativeXY(double x, double y) {
         return partialDerivative(4, x, y);

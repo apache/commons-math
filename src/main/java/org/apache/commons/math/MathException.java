@@ -144,12 +144,20 @@ public class MathException extends Exception implements MathThrowable {
         return pattern.getSourceString();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @since 2.2
+     */
     public Localizable getSpecificPattern() {
         return null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @since 2.2
+     */
     public Localizable getGeneralPattern() {
         return pattern;
     }
