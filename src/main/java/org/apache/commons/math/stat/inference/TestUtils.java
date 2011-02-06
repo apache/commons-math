@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * The set methods are not compatible with using the class in multiple threads,
  * and have therefore been deprecated (along with the getters).
  * The setters and getters will be removed in version 3.0.
- * 
+ *
  * @since 1.1
  * @version $Revision$ $Date$
  */

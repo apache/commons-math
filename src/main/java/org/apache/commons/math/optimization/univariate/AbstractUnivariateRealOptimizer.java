@@ -256,10 +256,10 @@ public abstract class AbstractUnivariateRealOptimizer
     /**
      * Method for implementing actual optimization algorithms in derived
      * classes.
-     * 
+     *
      * From version 3.0 onwards, this method will be abstract - i.e.
      * concrete implementations will have to implement it.  If this method
-     * is not implemented, subclasses must override 
+     * is not implemented, subclasses must override
      * {@link #optimize(UnivariateRealFunction, GoalType, double, double)}.
      *
      * @return the optimum.

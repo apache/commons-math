@@ -86,10 +86,10 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
     /** Current residuals. */
     protected double[] residuals;
-    
+
     /** Weighted Jacobian */
     protected double[][] wjacobian;
-    
+
     /** Weighted residuals */
     protected double[] wresiduals;
 
@@ -354,7 +354,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
         wjacobian = new double[rows][cols];
         wresiduals = new double[rows];
-        
+
         cost = Double.POSITIVE_INFINITY;
 
         try {
