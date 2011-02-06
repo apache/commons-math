@@ -236,7 +236,7 @@ public class PowellOptimizer
          * @throws OptimizationException if algorithm fails to converge
          */
         public void search(final double[] p, final double[] d)
-            throws FunctionEvaluationException, OptimizationException {
+            throws OptimizationException, MathUserException {
 
             // Reset.
             optimum = Double.NaN;
