@@ -230,7 +230,7 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
         for (StepHandler handler : stepHandlers) {
             handler.reset();
         }
-        statesInitialized = false;
+        setStateInitialized(false);
 
         // compute the initial Nordsieck vector using the configured starter integrator
         start(t0, y, t);

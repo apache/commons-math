@@ -148,7 +148,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * Compute the gradient vector.
      * @param evaluationPoint point at which the gradient must be evaluated
      * @return gradient at the specified point
-     * @exception MathUserException if the function gradient
+     * @exception FunctionEvaluationException if the function gradient
      */
     protected double[] computeObjectiveGradient(final double[] evaluationPoint)
         throws FunctionEvaluationException {

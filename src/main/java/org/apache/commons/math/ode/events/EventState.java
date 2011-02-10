@@ -39,7 +39,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class EventState implements Comparable<EventState> {
+public class EventState {
 
     /** Event handler. */
     private final EventHandler handler;
@@ -301,13 +301,12 @@ public class EventState implements Comparable<EventState> {
 
     }
 
-    /** Get the occurrence time of the event triggered in the current
-     * step.
+    /** Get the occurrence time of the event triggered in the current step.
      * @return occurrence time of the event triggered in the current
-     * step.
+     * step or positive infinity if no events are triggered
      */
     public double getEventTime() {
-        return pendingEventTime;
+        return pendingEvent ? pendingEventTime : Double.POSITIVE_INFINITY;
     }
 
     /** Acknowledge the fact the step has been accepted by the integrator.
@@ -368,23 +367,6 @@ public class EventState implements Comparable<EventState> {
         return (nextAction == EventHandler.RESET_STATE) ||
                (nextAction == EventHandler.RESET_DERIVATIVES);
 
-    }
-
-    /** Compare the instance with another event state.
-     * <p>
-     * Event state ordering is based on occurrence time within the last
-     * evaluated step. If no event occurs during the step, a time arbitrarily
-     * set to positive infinity is used.
-     * </p>
-     * @param state other event state to compare the instance to
-     * @return a negative integer, zero, or a positive integer as the event
-     * occurs before, simultaneous, or after the specified event of the
-     * specified state.
-     */
-    public int compareTo(final EventState state) {
-        final double instanceTime = pendingEvent ? pendingEventTime : Double.POSITIVE_INFINITY;
-        final double otherTime = state.pendingEvent ? state.pendingEventTime : Double.POSITIVE_INFINITY;
-        return Double.compare(instanceTime, otherTime);
     }
 
 }

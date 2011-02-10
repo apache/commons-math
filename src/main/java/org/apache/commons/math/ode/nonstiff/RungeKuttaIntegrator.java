@@ -131,7 +131,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    statesInitialized = false;
+    setStateInitialized(false);
 
     // main integration loop
     isLastStep = false;

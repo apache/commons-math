@@ -20,6 +20,7 @@ package org.apache.commons.math.ode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -63,7 +64,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private Collection<EventState> eventsStates;
 
     /** Initialization indicator of events states. */
-    protected boolean statesInitialized;
+    private boolean statesInitialized;
 
     /** Name of the method. */
     private final String name;
@@ -209,6 +210,16 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         equations.computeDerivatives(t, y, yDot);
     }
 
+    /** Set the stateInitialized flag.
+     * <p>This method must be called by integrators with the value
+     * {@code false} before they start integration, so a proper lazy
+     * initialization is done automatically on the first step.</p>
+     * @param stateInitialized new value for the flag
+     */
+    protected void setStateInitialized(final boolean stateInitialized) {
+        this.statesInitialized = stateInitialized;
+    }
+
     /** Accept a step, triggering events and step handlers.
      * @param interpolator step interpolator
      * @param y state vector at step end time, must be reset if an event
@@ -235,8 +246,16 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 statesInitialized = true;
             }
 
+            SortedSet<EventState> occuringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
+
+                /** {@inheritDoc} */
+                public int compare(EventState es0, EventState es1) {
+                    return Double.compare(es0.getEventTime(), es1.getEventTime());
+                }
+
+            });
+
             // find all events that occur during the step
-            SortedSet<EventState> occuringEvents = new TreeSet<EventState>();
             for (final EventState state : eventsStates) {
                 if (state.evaluateStep(interpolator)) {
                     // the event occurs during the current step
@@ -249,7 +268,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
                 // restrict the interpolator to the first part of the step, up to the event
                 final double eventT = state.getEventTime();
-                interpolator.setSoftBounds(previousT, eventT);
+                interpolator.setSoftPreviousTime(previousT);
+                interpolator.setSoftCurrentTime(eventT);
 
                 // trigger the event
                 interpolator.setInterpolatedTime(eventT);
@@ -279,7 +299,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
                 // prepare handling of the remaining part of the step
                 previousT = eventT;
-                interpolator.setSoftBounds(eventT, currentT);
+                interpolator.setSoftPreviousTime(eventT);
+                interpolator.setSoftCurrentTime(currentT);
 
             }
 

@@ -1359,7 +1359,7 @@ public class FastMath {
             double xb = ab;
 
             /* Need a more accurate epsilon, so adjust the division. */
-            double numer = (bits & 0x3ffffffffffL);
+            double numer = bits & 0x3ffffffffffL;
             double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
             aa = numer - xa*denom - xb * denom;
             xb += aa / denom;
