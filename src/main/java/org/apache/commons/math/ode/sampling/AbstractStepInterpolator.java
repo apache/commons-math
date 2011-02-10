@@ -43,18 +43,6 @@ import org.apache.commons.math.exception.MathUserException;
 public abstract class AbstractStepInterpolator
   implements StepInterpolator {
 
-  /** global previous time */
-  private double globalPreviousTime;
-
-  /** global current time */
-  private double globalCurrentTime;
-
-  /** soft previous time */
-  private double softPreviousTime;
-
-  /** soft current time */
-  private double softCurrentTime;
-
   /** current time step */
   protected double h;
 
@@ -69,6 +57,18 @@ public abstract class AbstractStepInterpolator
 
   /** interpolated derivatives */
   protected double[] interpolatedDerivatives;
+
+  /** global previous time */
+  private double globalPreviousTime;
+
+  /** global current time */
+  private double globalCurrentTime;
+
+  /** soft previous time */
+  private double softPreviousTime;
+
+  /** soft current time */
+  private double softCurrentTime;
 
   /** indicate if the step has been finalized or not. */
   private boolean finalized;
@@ -245,14 +245,27 @@ public abstract class AbstractStepInterpolator
    * <p>
    * This method can be used to restrict a step and make it appear
    * as if the original step was smaller. Calling this method
-   * <em>only</em> changes the value returned by {@link #getPreviousTime()}
-   * and {@link #getCurrentTime()}, it does not change any
+   * <em>only</em> changes the value returned by {@link #getPreviousTime()},
+   * it does not change any other property
    * </p>
    * @param softPreviousTime start of the restricted step
-   * @param softCurrentTime end of the restricted step
+   * @since 2.2
    */
-  public void setSoftBounds(final double softPreviousTime, final double softCurrentTime) {
+  public void setSoftPreviousTime(final double softPreviousTime) {
       this.softPreviousTime = softPreviousTime;
+  }
+
+  /** Restrict step range to a limited part of the global step.
+   * <p>
+   * This method can be used to restrict a step and make it appear
+   * as if the original step was smaller. Calling this method
+   * <em>only</em> changes the value returned by {@link #getCurrentTime()},
+   * it does not change any other property
+   * </p>
+   * @param softCurrentTime end of the restricted step
+   * @since 2.2
+   */
+  public void setSoftCurrentTime(final double softCurrentTime) {
       this.softCurrentTime  = softCurrentTime;
   }
 
@@ -275,7 +288,7 @@ public abstract class AbstractStepInterpolator
   /**
    * Get the previous soft grid point time.
    * @return previous soft grid point time
-   * @see #setSoftBounds(double, double)
+   * @see #setSoftPreviousTime(double)
    */
   public double getPreviousTime() {
     return softPreviousTime;
@@ -284,7 +297,7 @@ public abstract class AbstractStepInterpolator
   /**
    * Get the current soft grid point time.
    * @return current soft grid point time
-   * @see #setSoftBounds(double, double)
+   * @see #setSoftCurrentTime(double)
    */
   public double getCurrentTime() {
     return softCurrentTime;

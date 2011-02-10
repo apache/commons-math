@@ -633,7 +633,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    statesInitialized = false;
+    setStateInitialized(false);
     costPerTimeUnit[0] = 0;
     isLastStep = false;
     do {

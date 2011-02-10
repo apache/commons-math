@@ -226,7 +226,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     for (StepHandler handler : stepHandlers) {
         handler.reset();
     }
-    statesInitialized = false;
+    setStateInitialized(false);
 
     // main integration loop
     isLastStep = false;
