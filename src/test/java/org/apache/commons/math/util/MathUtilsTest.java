@@ -315,6 +315,26 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(Double.isNaN(MathUtils.cosh(Double.NaN)));
     }
 
+    public void testEquals() {
+        double[] testArray = {
+            Double.NaN,
+            Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY,
+            1d,
+            0d };
+        for (int i = 0; i < testArray.length; i++) {
+            for (int j = 0; j < testArray.length; j++) {
+                if (i == j) {
+                    assertTrue(MathUtils.equals(testArray[i], testArray[j]));
+                    assertTrue(MathUtils.equals(testArray[j], testArray[i]));
+                } else {
+                    assertTrue(!MathUtils.equals(testArray[i], testArray[j]));
+                    assertTrue(!MathUtils.equals(testArray[j], testArray[i]));
+                }
+            }
+        }
+    }
+
     public void testEqualsIncludingNaN() {
         double[] testArray = {
             Double.NaN,
@@ -339,7 +359,7 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(153.0000, 153.0000, .0625));
         assertTrue(MathUtils.equals(153.0000, 153.0625, .0625));
         assertTrue(MathUtils.equals(152.9375, 153.0000, .0625));
-        assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1.0));
+        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1.0)); // This will change in 3.0
         assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
         assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
@@ -394,6 +414,31 @@ public final class MathUtilsTest extends TestCase {
         assertFalse(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 100000));
     }
 
+    public void testEqualsWithAllowedUlps21() { // From 2.1
+        assertTrue(MathUtils.equals(153, 153, 1));
+
+        assertTrue(MathUtils.equals(153, 153.00000000000003, 1));
+        assertFalse(MathUtils.equals(153, 153.00000000000006, 1));
+        assertTrue(MathUtils.equals(153, 152.99999999999997, 1));
+        assertFalse(MathUtils.equals(153, 152.99999999999994, 1));
+
+        assertTrue(MathUtils.equals(-128, -127.99999999999999, 1));
+        assertFalse(MathUtils.equals(-128, -127.99999999999997, 1));
+        assertTrue(MathUtils.equals(-128, -128.00000000000003, 1));
+        assertFalse(MathUtils.equals(-128, -128.00000000000006, 1));
+
+        assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
+
+        assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
+        assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
+
+
+        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1));
+
+        assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
+    }
+
     public void testEqualsWithAllowedUlps() {
         assertTrue(MathUtils.equals(0.0, -0.0, 1));
 
@@ -427,7 +472,7 @@ public final class MathUtilsTest extends TestCase {
         assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
         assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
 
-        assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1));
+        assertTrue(MathUtils.equals(Double.NaN, Double.NaN, 1)); // This will change in 3.0
 
         assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
@@ -957,6 +1002,91 @@ public final class MathUtilsTest extends TestCase {
         }
     }
 
+    public void testNextAfter() { // Test from Math 2.1
+        // 0x402fffffffffffff 0x404123456789abcd -> 4030000000000000
+        assertEquals(16.0, MathUtils.nextAfter(15.999999999999998, 34.27555555555555), 0.0);
+
+        // 0xc02fffffffffffff 0x404123456789abcd -> c02ffffffffffffe
+        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 34.27555555555555), 0.0);
+
+        // 0x402fffffffffffff 0x400123456789abcd -> 402ffffffffffffe
+        assertEquals(15.999999999999996, MathUtils.nextAfter(15.999999999999998, 2.142222222222222), 0.0);
+
+        // 0xc02fffffffffffff 0x400123456789abcd -> c02ffffffffffffe
+        assertEquals(-15.999999999999996, MathUtils.nextAfter(-15.999999999999998, 2.142222222222222), 0.0);
+
+        // 0x4020000000000000 0x404123456789abcd -> 4020000000000001
+        assertEquals(8.000000000000002, MathUtils.nextAfter(8.0, 34.27555555555555), 0.0);
+
+        // 0xc020000000000000 0x404123456789abcd -> c01fffffffffffff
+        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 34.27555555555555), 0.0);
+
+        // 0x4020000000000000 0x400123456789abcd -> 401fffffffffffff
+        assertEquals(7.999999999999999, MathUtils.nextAfter(8.0, 2.142222222222222), 0.0);
+
+        // 0xc020000000000000 0x400123456789abcd -> c01fffffffffffff
+        assertEquals(-7.999999999999999, MathUtils.nextAfter(-8.0, 2.142222222222222), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a224 -> 3f2e43753d36a224
+        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a223 -> 3f2e43753d36a224
+        assertEquals(2.308922399667661E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0x3f2e43753d36a222 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a224 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a223 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+
+        // 0x3f2e43753d36a223 0xbf2e43753d36a222 -> 3f2e43753d36a222
+        assertEquals(2.3089223996676603E-4, MathUtils.nextAfter(2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a224 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.308922399667661E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a223 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676606E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0x3f2e43753d36a222 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, 2.3089223996676603E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a224 -> bf2e43753d36a224
+        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.308922399667661E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a223 -> bf2e43753d36a224
+        assertEquals(-2.308922399667661E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676606E-4), 0.0);
+
+        // 0xbf2e43753d36a223 0xbf2e43753d36a222 -> bf2e43753d36a222
+        assertEquals(-2.3089223996676603E-4, MathUtils.nextAfter(-2.3089223996676606E-4, -2.3089223996676603E-4), 0.0);
+
+    }
+
+    public void testNextAfterSpecialCases() {
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.NEGATIVE_INFINITY, 0)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.POSITIVE_INFINITY, 0)));
+        assertTrue(Double.isNaN(MathUtils.nextAfter(Double.NaN, 0)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(Double.MAX_VALUE, Double.POSITIVE_INFINITY)));
+        assertTrue(Double.isInfinite(MathUtils.nextAfter(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY)));
+        assertEquals(Double.MIN_VALUE, MathUtils.nextAfter(0, 1), 0);
+        assertEquals(-Double.MIN_VALUE, MathUtils.nextAfter(0, -1), 0);
+        assertEquals(0, MathUtils.nextAfter(Double.MIN_VALUE, -1), 0);
+        assertEquals(0, MathUtils.nextAfter(-Double.MIN_VALUE, 1), 0);
+    }
+
+    public void testScalb() { // Math 2.1
+        assertEquals( 0.0, MathUtils.scalb(0.0, 5), 1.0e-15);
+        assertEquals(32.0, MathUtils.scalb(1.0, 5), 1.0e-15);
+        assertEquals(1.0 / 32.0, MathUtils.scalb(1.0,  -5), 1.0e-15);
+        assertEquals(Math.PI, MathUtils.scalb(Math.PI, 0), 1.0e-15);
+        assertTrue(Double.isInfinite(MathUtils.scalb(Double.POSITIVE_INFINITY, 1)));
+        assertTrue(Double.isInfinite(MathUtils.scalb(Double.NEGATIVE_INFINITY, 1)));
+        assertTrue(Double.isNaN(MathUtils.scalb(Double.NaN, 1)));
+    }
+
     public void testNormalizeAngle() {
         for (double a = -15.0; a <= 15.0; a += 0.1) {
             for (double b = -15.0; b <= 15.0; b += 0.2) {
@@ -1434,6 +1564,38 @@ public final class MathUtilsTest extends TestCase {
         int[] p1 = { 3, 0 };
         int[] p2 = { 0, 4 };
         assertEquals(4, MathUtils.distanceInf(p1, p2));
+    }
+
+    public void testCheckOrder21() { // Test from 2.1
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 15}, 1, true);
+        MathUtils.checkOrder(new double[] {-15, -5.5, -1, 2, 2}, 1, false);
+        MathUtils.checkOrder(new double[] {3, -5.5, -11, -27.5}, -1, true);
+        MathUtils.checkOrder(new double[] {3, 0, 0, -5.5, -11, -27.5}, -1, false);
+
+        try {
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15}, 1, true);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2}, 1, false);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5}, -1, true);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
+        try {
+            MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5}, -1, false);
+            fail("an exception should have been thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected
+        }
     }
 
     public void testCheckOrder() {

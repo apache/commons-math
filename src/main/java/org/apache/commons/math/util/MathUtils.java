@@ -530,7 +530,7 @@ public final class MathUtils {
      * @deprecated This method considers that {@code NaN == NaN}. In release
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
-     * New methods have been added for those cases wher the old semantics is
+     * New methods have been added for those cases where the old semantics is
      * useful (see e.g. {@link #equalsIncludingNaN(float[],float[])
      * equalsIncludingNaN}.
      */
@@ -576,21 +576,22 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff they are strictly equal.
+     * Returns true iff both arguments are NaN or neither is NaN and they are
+     * equal
      *
+     * <p>This method considers that {@code NaN == NaN}. In release
+     * 3.0, the semantics will change in order to comply with IEEE754 where it
+     * is specified that {@code NaN != NaN}.
+     * New methods have been added for those cases where the old semantics
+     * (w.r.t. NaN) is useful (see e.g.
+     * {@link #equalsIncludingNaN(double,double, double) equalsIncludingNaN}.
+     * </p>
+     * 
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
-     * 3.0, the semantics will change in order to comply with IEEE754 where it
-     * is specified that {@code NaN != NaN}. Also, two adjacent floating point
-     * numbers will be considered equal.
-     * New methods have been added for those cases where the old semantics
-     * (w.r.t. NaN) is useful (see e.g.
-     * {@link #equalsIncludingNaN(double,double) equalsIncludingNaN}.
      */
-    @Deprecated
-        public static boolean equals(double x, double y) {
+    public static boolean equals(double x, double y) {
         return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
     }
 
@@ -609,14 +610,23 @@ public final class MathUtils {
     /**
      * Returns true if both arguments are equal or within the range of allowed
      * error (inclusive).
-     *
+     * <p>
+     * Two NaNs are considered equals, as are two infinities with same sign.
+     * </p>
+     * <p>This method considers that {@code NaN == NaN}. In release
+     * 3.0, the semantics will change in order to comply with IEEE754 where it
+     * is specified that {@code NaN != NaN}.
+     * New methods have been added for those cases where the old semantics
+     * (w.r.t. NaN) is useful (see e.g.
+     * {@link #equalsIncludingNaN(double,double, double) equalsIncludingNaN}.
+     * </p>
      * @param x first value
      * @param y second value
      * @param eps the amount of absolute error to allow.
      * @return {@code true} if the values are equal or within range of each other.
      */
     public static boolean equals(double x, double y, double eps) {
-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
+        return equals(x, y) || FastMath.abs(y - x) <= eps;
     }
 
     /**
@@ -643,6 +653,14 @@ public final class MathUtils {
      * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
      * Bruce Dawson</a>
      *
+     * <p>This method considers that {@code NaN == NaN}. In release
+     * 3.0, the semantics will change in order to comply with IEEE754 where it
+     * is specified that {@code NaN != NaN}.
+     * New methods have been added for those cases where the old semantics
+     * (w.r.t. NaN) is useful (see e.g.
+     * {@link #equalsIncludingNaN(double,double, int) equalsIncludingNaN}.
+     * </p>
+     * 
      * @param x first value
      * @param y second value
      * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
@@ -666,9 +684,7 @@ public final class MathUtils {
             yInt = SGN_MASK - yInt;
         }
 
-        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
-
-        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
+        return FastMath.abs(xInt - yInt) <= maxUlps;
     }
 
     /**
@@ -691,18 +707,18 @@ public final class MathUtils {
      * their elements are equal as defined by
      * {@link #equals(double,double)}.
      *
-     * @param x first array
-     * @param y second array
-     * @return true if the values are both null or have same dimension
-     * and equal elements.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
+     * <p>This method considers that {@code NaN == NaN}. In release
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
      * New methods have been added for those cases wher the old semantics is
      * useful (see e.g. {@link #equalsIncludingNaN(double[],double[])
      * equalsIncludingNaN}.
+     * </p>
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension
+     * and equal elements.
      */
-    @Deprecated
     public static boolean equals(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
             return !((x == null) ^ (y == null));
@@ -1290,10 +1306,46 @@ public final class MathUtils {
      * @return the next machine representable number in the specified direction
      * @since 1.2
      * @deprecated as of 2.2, replaced by {@link FastMath#nextAfter(double, double)}
+     * which handles Infinities differently, and returns direction if d and direction compare equal.
      */
     @Deprecated
     public static double nextAfter(double d, double direction) {
-        return FastMath.nextAfter(d, direction);
+
+        // handling of some important special cases
+        if (Double.isNaN(d) || Double.isInfinite(d)) {
+                return d;
+        } else if (d == 0) {
+                return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
+        }
+        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
+        // are handled just as normal numbers
+
+        // split the double in raw components
+        long bits     = Double.doubleToLongBits(d);
+        long sign     = bits & 0x8000000000000000L;
+        long exponent = bits & 0x7ff0000000000000L;
+        long mantissa = bits & 0x000fffffffffffffL;
+
+        if (d * (direction - d) >= 0) {
+                // we should increase the mantissa
+                if (mantissa == 0x000fffffffffffffL) {
+                        return Double.longBitsToDouble(sign |
+                                        (exponent + 0x0010000000000000L));
+                } else {
+                        return Double.longBitsToDouble(sign |
+                                        exponent | (mantissa + 1));
+                }
+        } else {
+                // we should decrease the mantissa
+                if (mantissa == 0L) {
+                        return Double.longBitsToDouble(sign |
+                                        (exponent - 0x0010000000000000L) |
+                                        0x000fffffffffffffL);
+                } else {
+                        return Double.longBitsToDouble(sign |
+                                        exponent | (mantissa - 1));
+                }
+        }
     }
 
     /**
