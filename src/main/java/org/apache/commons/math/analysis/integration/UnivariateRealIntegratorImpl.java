@@ -46,9 +46,12 @@ public abstract class UnivariateRealIntegratorImpl
     /** the last computed integral */
     protected double result;
 
-    /** The integrand functione.
+    /** 
+     * The integrand function.
+     * 
      * @deprecated as of 2.0 the integrand function is passed as an argument
-     * to the {@link #integrate(UnivariateRealFunction, double, double)}method. */
+     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
+     */
     @Deprecated
     protected UnivariateRealFunction f;
 
