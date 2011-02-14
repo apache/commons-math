@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.util.FastMath;
 
@@ -28,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public class Gaussian implements UnivariateRealFunction {
+public class Gaussian implements DifferentiableUnivariateRealFunction {
     /** Mean. */
     private final double mean;
     /** Inverse of twice the square of the standard deviation. */
@@ -79,5 +80,23 @@ public class Gaussian implements UnivariateRealFunction {
     public double value(double x) {
         final double diff = x - mean;
         return norm * FastMath.exp(-diff * diff * i2s2);
+    }
+
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                final double diff = x - mean;
+                final double g = Gaussian.this.value(x);
+
+                if (g == 0) {
+                    // Avoid returning NaN in case of overflow.
+                    return 0;
+                } else {
+                    return -2 * diff * i2s2 * g;
+                }
+            }
+        };
     }
 }

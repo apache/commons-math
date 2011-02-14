@@ -39,8 +39,49 @@ public class GaussianTest {
     public void testSomeValues() {
         final UnivariateRealFunction f = new Gaussian();
 
-        Assert.assertEquals(0, f.value(Double.NEGATIVE_INFINITY), 0);
         Assert.assertEquals(1 / FastMath.sqrt(2 * Math.PI), f.value(0), EPS);
+    }
+
+    @Test
+    public void testLargeArguments() {
+        final UnivariateRealFunction f = new Gaussian();
+
+        Assert.assertEquals(0, f.value(Double.NEGATIVE_INFINITY), 0);
+        Assert.assertEquals(0, f.value(-Double.MAX_VALUE), 0);
+        Assert.assertEquals(0, f.value(-1e2), 0);
+        Assert.assertEquals(0, f.value(1e2), 0);
+        Assert.assertEquals(0, f.value(Double.MAX_VALUE), 0);
         Assert.assertEquals(0, f.value(Double.POSITIVE_INFINITY), 0);
+    }
+
+    @Test
+    public void testDerivative() {
+        final Gaussian f = new Gaussian();
+        final UnivariateRealFunction dfdx = f.derivative();
+
+        Assert.assertEquals(0, dfdx.value(0), 0);
+    }
+
+    @Test
+    public void testDerivativeLargeArguments() {
+        final Gaussian f = new Gaussian(0, 1e-50);
+        final UnivariateRealFunction dfdx = f.derivative();
+
+        Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
+        Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);
+        Assert.assertEquals(0, f.value(-1e50), 0);
+        Assert.assertEquals(0, f.value(-1e2), 0);
+        Assert.assertEquals(0, f.value(1e2), 0);
+        Assert.assertEquals(0, f.value(1e50), 0);
+        Assert.assertEquals(0, dfdx.value(Double.MAX_VALUE), 0);
+        Assert.assertEquals(0, dfdx.value(Double.POSITIVE_INFINITY), 0);        
+    }
+
+    @Test
+    public void testDerivativeNaN() {
+        final Gaussian f = new Gaussian(0, 1e-50);
+        final UnivariateRealFunction dfdx = f.derivative();
+
+        Assert.assertTrue(Double.isNaN(dfdx.value(Double.NaN)));
     }
 }
