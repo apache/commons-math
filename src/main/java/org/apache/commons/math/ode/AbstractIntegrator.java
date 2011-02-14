@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -246,16 +247,17 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 statesInitialized = true;
             }
 
+            // search for next events that may occur during the step
+            final int orderingSign = interpolator.isForward() ? +1 : -1;
             SortedSet<EventState> occuringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
 
                 /** {@inheritDoc} */
                 public int compare(EventState es0, EventState es1) {
-                    return Double.compare(es0.getEventTime(), es1.getEventTime());
+                    return orderingSign * Double.compare(es0.getEventTime(), es1.getEventTime());
                 }
 
             });
 
-            // find all events that occur during the step
             for (final EventState state : eventsStates) {
                 if (state.evaluateStep(interpolator)) {
                     // the event occurs during the current step
@@ -263,19 +265,23 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 }
             }
 
-            // handle the events chronologically
-            for (final EventState state : occuringEvents) {
+            while (!occuringEvents.isEmpty()) {
+
+                // handle the chronologically first event
+                final Iterator<EventState> iterator = occuringEvents.iterator();
+                final EventState currentEvent = iterator.next();
+                iterator.remove();
 
                 // restrict the interpolator to the first part of the step, up to the event
-                final double eventT = state.getEventTime();
+                final double eventT = currentEvent.getEventTime();
                 interpolator.setSoftPreviousTime(previousT);
                 interpolator.setSoftCurrentTime(eventT);
 
                 // trigger the event
                 interpolator.setInterpolatedTime(eventT);
                 final double[] eventY = interpolator.getInterpolatedState();
-                state.stepAccepted(eventT, eventY);
-                isLastStep = state.stop();
+                currentEvent.stepAccepted(eventT, eventY);
+                isLastStep = currentEvent.stop();
 
                 // handle the first part of the step, up to the event
                 for (final StepHandler handler : stepHandlers) {
@@ -288,7 +294,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                     return eventT;
                 }
 
-                if (state.reset(eventT, eventY)) {
+                if (currentEvent.reset(eventT, eventY)) {
                     // some event handler has triggered changes that
                     // invalidate the derivatives, we need to recompute them
                     System.arraycopy(eventY, 0, y, 0, y.length);
@@ -301,6 +307,12 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 previousT = eventT;
                 interpolator.setSoftPreviousTime(eventT);
                 interpolator.setSoftCurrentTime(currentT);
+
+                // check if the same event occurs again in the remaining part of the step
+                if (currentEvent.evaluateStep(interpolator)) {
+                    // the event occurs during the current step
+                    occuringEvents.add(currentEvent);
+                }
 
             }
 
