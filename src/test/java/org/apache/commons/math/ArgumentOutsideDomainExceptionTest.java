@@ -33,7 +33,7 @@ public class ArgumentOutsideDomainExceptionTest extends TestCase {
         assertNull(ex.getCause());
         assertNotNull(ex.getMessage());
         assertTrue(ex.getMessage().indexOf("3.14") > 0);
-        assertEquals(FastMath.PI, ex.getArgument().doubleValue(), 0);
+        assertEquals(FastMath.PI, ex.getArgument()[0], 0);
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 

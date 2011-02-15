@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -114,13 +114,13 @@ public class BracketFinder {
      * @param xB Initial point.
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
-     * @throws MathUserException if an error occurs evaluating the function.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function.
      */
     public void search(UnivariateRealFunction func,
                        GoalType goal,
                        double xA,
                        double xB)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         reset();
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
@@ -218,7 +218,7 @@ public class BracketFinder {
         return iterations;
     }
     /**
-     * @return the number of evalutations.
+     * @return the number of evaluations.
      */
     public int getEvaluations() {
         return evaluations;
@@ -276,10 +276,10 @@ public class BracketFinder {
      * @param f Function.
      * @param x Argument.
      * @return {@code f(x)}
-     * @throws MathUserException if function cannot be evaluated at x
+     * @throws FunctionEvaluationException if function cannot be evaluated at x
      */
     private double eval(UnivariateRealFunction f, double x)
-        throws MathUserException {
+        throws FunctionEvaluationException {
 
         ++evaluations;
         return f.value(x);

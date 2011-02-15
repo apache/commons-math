@@ -18,8 +18,8 @@ package org.apache.commons.math.linear;
 
 import java.util.Iterator;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 
 
 /**
@@ -63,9 +63,9 @@ public interface RealVector {
      *
      * @param function Function to apply to each entry.
      * @return this vector.
-     * @throws MathUserException if the function throws it.
+     * @throws FunctionEvaluationException if the function throws it.
      */
-    RealVector mapToSelf(UnivariateRealFunction function) throws MathUserException;
+    RealVector mapToSelf(UnivariateRealFunction function) throws FunctionEvaluationException;
 
     /**
      * Acts as if implemented as:
@@ -73,11 +73,11 @@ public interface RealVector {
      *  return copy().map(function);
      * </pre>
      *
-     * @param function Functin to apply to each entry.
+     * @param function Function to apply to each entry.
      * @return a new vector.
-     * @throws MathUserException if the function throws it.
+     * @throws FunctionEvaluationException if the function throws it.
      */
-    RealVector map(UnivariateRealFunction function) throws MathUserException;
+    RealVector map(UnivariateRealFunction function) throws FunctionEvaluationException;
 
     /** Class representing a modifiable entry in the vector. */
     public abstract class Entry {

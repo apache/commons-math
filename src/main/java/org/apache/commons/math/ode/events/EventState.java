@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.exception.MathInternalError;
@@ -249,7 +250,11 @@ public class EventState {
                         final double epsilon = (forward ? 0.25 : -0.25) * convergence;
                         for (int k = 0; (k < 4) && (ga * gb > 0); ++k) {
                             ta += epsilon;
-                            ga = f.value(ta);
+                            try {
+                                ga = f.value(ta);
+                            } catch (FunctionEvaluationException ex) {
+                                throw new MathUserException(ex);
+                            }
                         }
                         if (ga * gb > 0) {
                             // this should never happen
@@ -257,9 +262,14 @@ public class EventState {
                         }
                     }
 
-                    final double root = (ta <= tb) ?
-                                        solver.solve(maxIterationCount, f, ta, tb) :
-                                        solver.solve(maxIterationCount, f, tb, ta);
+                    final double root;
+                    try {
+                        root = (ta <= tb) ?
+                                solver.solve(maxIterationCount, f, ta, tb) :
+                                    solver.solve(maxIterationCount, f, tb, ta);
+                    } catch (FunctionEvaluationException ex) {
+                        throw new MathUserException(ex);
+                    }
 
                     if ((!Double.isNaN(previousEventTime)) &&
                         (FastMath.abs(root - ta) <= convergence) &&

@@ -17,9 +17,9 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ConvergingAlgorithm;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 
 
 /**
@@ -63,13 +63,13 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
      * @return a value where the function is optimum.
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the optimizer detects convergence problems otherwise.
-     * @throws MathUserException if an error occurs evaluating the function.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function.
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the optimizer.
      */
     double optimize(UnivariateRealFunction f, GoalType goalType,
                     double min, double max)
-        throws ConvergenceException, MathUserException;
+        throws ConvergenceException, FunctionEvaluationException;
 
     /**
      * Find an optimum in the given interval, start at startValue.
@@ -85,13 +85,13 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
      * @return a value where the function is optimum.
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the optimizer detects convergence problems otherwise.
-     * @throws MathUserException if an error occurs evaluating the function.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function.
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the optimizer.
      */
     double optimize(UnivariateRealFunction f, GoalType goalType,
                     double min, double max, double startValue)
-        throws ConvergenceException, MathUserException;
+        throws ConvergenceException, FunctionEvaluationException;
 
     /**
      * Get the result of the last run of the optimizer.
@@ -106,10 +106,10 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
      * Get the result of the last run of the optimizer.
      *
      * @return the value of the function at the optimum.
-     * @throws MathUserException if an error occurs evaluating the function.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function.
      * @throws IllegalStateException if there is no result available, either
      * because no result was yet computed or the last attempt failed.
      */
-    double getFunctionValue() throws MathUserException;
+    double getFunctionValue() throws FunctionEvaluationException;
 
 }

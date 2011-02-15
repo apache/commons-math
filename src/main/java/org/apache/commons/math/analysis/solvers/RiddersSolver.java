@@ -17,9 +17,9 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
@@ -63,14 +63,14 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max)
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException, FunctionEvaluationException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max, final double initial)
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException, FunctionEvaluationException {
         return solve(f, min, max, initial);
     }
 
@@ -86,13 +86,13 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max, initial);
     }
@@ -108,14 +108,14 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * @param initial the start value to use
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         // check for zeros before verifying bracketing
         if (f.value(min) == 0.0) { return min; }
@@ -142,13 +142,13 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max);
     }
@@ -163,14 +163,14 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval
      * @return the point at which the function value is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if any parameters are invalid
      * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         // [x1, x2] is the bracketing interval in each iteration
         // x3 is the midpoint of [x1, x2]

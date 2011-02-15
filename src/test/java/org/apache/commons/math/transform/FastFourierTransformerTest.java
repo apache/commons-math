@@ -113,7 +113,7 @@ public final class FastFourierTransformerTest extends TestCase {
     /**
      * Test of transformer for the sine function.
      */
-    public void testSinFunction() {
+    public void testSinFunction() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         FastFourierTransformer transformer = new FastFourierTransformer();
         Complex result[]; int N = 1 << 8;

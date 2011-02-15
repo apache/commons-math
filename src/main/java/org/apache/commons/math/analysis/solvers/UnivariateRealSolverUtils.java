@@ -17,10 +17,10 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.FastMath;
 
@@ -47,12 +47,12 @@ public class UnivariateRealSolverUtils {
      * @param x1 the upper bound for the interval.
      * @return a value where the function is zero.
      * @throws ConvergenceException if the iteration count was exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if f is null or the endpoints do not
      * specify a valid interval
      */
     public static double solve(UnivariateRealFunction f, double x0, double x1)
-    throws ConvergenceException, MathUserException {
+    throws ConvergenceException, FunctionEvaluationException {
         setup(f);
         return LazyHolder.FACTORY.newDefaultSolver().solve(f, x0, x1);
     }
@@ -67,14 +67,14 @@ public class UnivariateRealSolverUtils {
      * @param absoluteAccuracy the accuracy to be used by the solver
      * @return a value where the function is zero
      * @throws ConvergenceException if the iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if f is null, the endpoints do not
      * specify a valid interval, or the absoluteAccuracy is not valid for the
      * default solver
      */
     public static double solve(UnivariateRealFunction f, double x0, double x1,
             double absoluteAccuracy) throws ConvergenceException,
-            MathUserException {
+            FunctionEvaluationException {
 
         setup(f);
         UnivariateRealSolver solver = LazyHolder.FACTORY.newDefaultSolver();
@@ -118,13 +118,13 @@ public class UnivariateRealSolverUtils {
      * value)
      * @return a two element array holding {a, b}
      * @throws ConvergenceException if a root can not be bracketted
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound
      */
     public static double[] bracket(UnivariateRealFunction function,
             double initial, double lowerBound, double upperBound)
-    throws ConvergenceException, MathUserException {
+    throws ConvergenceException, FunctionEvaluationException {
         return bracket( function, initial, lowerBound, upperBound,
             Integer.MAX_VALUE ) ;
     }
@@ -158,14 +158,14 @@ public class UnivariateRealSolverUtils {
      * @return a two element array holding {a, b}.
      * @throws ConvergenceException if the algorithm fails to find a and b
      * satisfying the desired conditions
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound
      */
     public static double[] bracket(UnivariateRealFunction function,
             double initial, double lowerBound, double upperBound,
             int maximumIterations) throws ConvergenceException,
-            MathUserException {
+            FunctionEvaluationException {
 
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);

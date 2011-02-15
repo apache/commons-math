@@ -18,8 +18,8 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -32,15 +32,15 @@ import org.junit.Test;
 public class MultiDirectionalTest {
 
   @Test
-  public void testMathUserException() throws OptimizationException, MathUserException, IllegalArgumentException {
+  public void testFunctionEvaluationException() throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
-            public double value(double[] x) throws MathUserException {
+            public double value(double[] x) throws FunctionEvaluationException {
                 if (x[0] < 0) {
-                    throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
+                    throw new FunctionEvaluationException(x,LocalizedFormats.SIMPLE_MESSAGE, "oops");
                 } else if (x[0] > 1) {
-                    throw new MathUserException(new RuntimeException("oops"));
+                    throw (new FunctionEvaluationException(new RuntimeException("oops"), x));
                 } else {
                     return x[0] * (1 - x[0]);
                 }
@@ -50,7 +50,7 @@ public class MultiDirectionalTest {
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { -1.0 });
           Assert.fail("an exception should have been thrown");
-      } catch (MathUserException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           Assert.assertNull(ce.getCause());
       }
@@ -58,7 +58,7 @@ public class MultiDirectionalTest {
           MultiDirectional optimizer = new MultiDirectional(0.9, 1.9);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
           Assert.fail("an exception should have been thrown");
-      } catch (MathUserException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           Assert.assertNotNull(ce.getCause());
       }
@@ -66,7 +66,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testMinimizeMaximize()
-      throws MathUserException, ConvergenceException {
+      throws FunctionEvaluationException, ConvergenceException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;
@@ -79,7 +79,7 @@ public class MultiDirectionalTest {
       final double valueXpYp = -valueXpYm;                // global maximum
       MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
           private static final long serialVersionUID = -7039124064449091152L;
-          public double value(double[] variables) throws MathUserException {
+          public double value(double[] variables) throws FunctionEvaluationException {
               final double x = variables[0];
               final double y = variables[1];
               return ((x == 0) || (y == 0)) ? 0 : (FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y));
@@ -127,12 +127,12 @@ public class MultiDirectionalTest {
 
   @Test
   public void testRosenbrock()
-    throws MathUserException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
     MultivariateRealFunction rosenbrock =
       new MultivariateRealFunction() {
         private static final long serialVersionUID = -9044950469615237490L;
-        public double value(double[] x) throws MathUserException {
+        public double value(double[] x) throws FunctionEvaluationException {
           ++count;
           double a = x[1] - x[0] * x[0];
           double b = 1.0 - x[0];
@@ -159,12 +159,12 @@ public class MultiDirectionalTest {
 
   @Test
   public void testPowell()
-    throws MathUserException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
     MultivariateRealFunction powell =
       new MultivariateRealFunction() {
         private static final long serialVersionUID = -832162886102041840L;
-        public double value(double[] x) throws MathUserException {
+        public double value(double[] x) throws FunctionEvaluationException {
           ++count;
           double a = x[0] + 10 * x[1];
           double b = x[2] - x[3];
@@ -189,7 +189,7 @@ public class MultiDirectionalTest {
 
   @Test
   public void testMath283()
-      throws MathUserException, OptimizationException {
+      throws FunctionEvaluationException, OptimizationException {
       // fails because MultiDirectional.iterateSimplex is looping forever
       // the while(true) should be replaced with a convergence check
       MultiDirectional multiDirectional = new MultiDirectional();

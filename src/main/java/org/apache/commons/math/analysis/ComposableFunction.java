@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -26,9 +26,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @since 2.1
  * @version $Revision$ $Date$
- * @deprecated in 2.2
  */
-@Deprecated
 public abstract class ComposableFunction implements UnivariateRealFunction {
 
     /** The constant function always returning 0. */
@@ -286,7 +284,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(f.value(x));
             }
         };
@@ -305,7 +303,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return f.value(ComposableFunction.this.value(x));
             }
         };
@@ -326,7 +324,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return combiner.value(ComposableFunction.this.value(x), f.value(x));
             }
         };
@@ -341,7 +339,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) + f.value(x);
             }
         };
@@ -356,7 +354,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) + a;
             }
         };
@@ -371,7 +369,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) - f.value(x);
             }
         };
@@ -386,7 +384,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) * f.value(x);
             }
         };
@@ -401,7 +399,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) * scaleFactor;
             }
         };
@@ -415,7 +413,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new ComposableFunction() {
             @Override
             /** {@inheritDoc} */
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 return ComposableFunction.this.value(x) / f.value(x);
             }
         };
@@ -435,7 +433,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
      * </p>
      * @param combiner combiner to use between entries
      * @param initialValue initial value to use before first entry
-     * @return a new function that iteratively applie instance function on all
+     * @return a new function that iteratively apply instance function on all
      * elements of an array.
      */
     public MultivariateRealFunction asCollector(final BivariateRealFunction combiner,
@@ -443,7 +441,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
         return new MultivariateRealFunction() {
             /** {@inheritDoc} */
             public double value(double[] point)
-                throws MathUserException, IllegalArgumentException {
+                throws FunctionEvaluationException, IllegalArgumentException {
                 double result = initialValue;
                 for (final double entry : point) {
                     result = combiner.value(result, ComposableFunction.this.value(entry));
@@ -461,7 +459,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
      * #asCollector(BivariateRealFunction, double) asCollector(BivariateRealFunction, 0.0)}.
      * </p>
      * @param combiner combiner to use between entries
-     * @return a new function that iteratively applie instance function on all
+     * @return a new function that iteratively apply instance function on all
      * elements of an array.
      * @see #asCollector(BivariateRealFunction, double)
      */
@@ -477,7 +475,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
      * #asCollector(BivariateRealFunction, double) asCollector(BinaryFunction.ADD, initialValue)}.
      * </p>
      * @param initialValue initial value to use before first entry
-     * @return a new function that iteratively applie instance function on all
+     * @return a new function that iteratively apply instance function on all
      * elements of an array.
      * @see #asCollector(BivariateRealFunction, double)
      * @see BinaryFunction#ADD
@@ -493,7 +491,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
      * Calling this method is equivalent to call {@link
      * #asCollector(BivariateRealFunction, double) asCollector(BinaryFunction.ADD, 0.0)}.
      * </p>
-     * @return a new function that iteratively applie instance function on all
+     * @return a new function that iteratively apply instance function on all
      * elements of an array.
      * @see #asCollector(BivariateRealFunction, double)
      * @see BinaryFunction#ADD
@@ -503,6 +501,6 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public abstract double value(double x) throws MathUserException;
+    public abstract double value(double x) throws FunctionEvaluationException;
 
 }

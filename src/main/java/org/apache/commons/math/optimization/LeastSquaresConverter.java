@@ -17,10 +17,10 @@
 
 package org.apache.commons.math.optimization;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.RealMatrix;
 
@@ -99,7 +99,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * weights array must have consistent sizes or a {@link MathUserException} will be
+     * weights array must have consistent sizes or a {@link FunctionEvaluationException} will be
      * triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
@@ -132,7 +132,7 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
      * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
-     * the scaling matrix must have consistent sizes or a {@link MathUserException}
+     * the scaling matrix must have consistent sizes or a {@link FunctionEvaluationException}
      * will be triggered while computing the scalar objective.
      * </p>
      * @param function vectorial residuals function to wrap
@@ -157,12 +157,12 @@ public class LeastSquaresConverter implements MultivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public double value(final double[] point) throws MathUserException {
+    public double value(final double[] point) throws FunctionEvaluationException {
 
         // compute residuals
         final double[] residuals = function.value(point);
         if (residuals.length != observations.length) {
-            throw new MathUserException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+            throw new FunctionEvaluationException(point,LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
                                         residuals.length, observations.length);
         }
         for (int i = 0; i < residuals.length; ++i) {

@@ -22,7 +22,6 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -219,12 +218,12 @@ public class NonLinearConjugateGradientOptimizer
      * @param a lower bound of the interval
      * @param h initial step to try
      * @return b such that f(a) and f(b) have opposite signs
-     * @exception MathUserException if the function cannot be computed
+     * @exception FunctionEvaluationException if the function cannot be computed
      * @exception OptimizationException if no bracket can be found
      */
     private double findUpperBound(final UnivariateRealFunction f,
                                   final double a, final double h)
-        throws MathUserException, OptimizationException {
+        throws FunctionEvaluationException, OptimizationException {
         final double yA = f.value(a);
         double yB = yA;
         for (double step = h; step < Double.MAX_VALUE; step *= FastMath.max(2, yA / yB)) {
@@ -268,7 +267,7 @@ public class NonLinearConjugateGradientOptimizer
         }
 
         /** {@inheritDoc} */
-        public double value(double x) throws MathUserException {
+        public double value(double x) throws FunctionEvaluationException {
 
             // current point in the search direction
             final double[] shiftedPoint = point.clone();
@@ -278,11 +277,7 @@ public class NonLinearConjugateGradientOptimizer
 
             // gradient of the objective function
             final double[] gradient;
-            try {
-                gradient = computeObjectiveGradient(shiftedPoint);
-            } catch (FunctionEvaluationException ex) {
-                throw new MathUserException(ex);
-            }
+            gradient = computeObjectiveGradient(shiftedPoint);
 
             // dot product with the search direction
             double dotProduct = 0;

@@ -17,11 +17,11 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -60,14 +60,14 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException  {
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max, final double startValue)
-        throws MaxIterationsExceededException, MathUserException  {
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
         return solve(f, min, max, startValue);
     }
 
@@ -80,13 +80,13 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws FunctionEvaluationException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if min is not less than max
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException  {
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max);
     }
@@ -99,14 +99,14 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws FunctionEvaluationException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if min is not less than max
      * @deprecated in 2.2 (to be removed in 3.0).
      */
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException  {
+        throws MaxIterationsExceededException, FunctionEvaluationException  {
         return solve(f, min, max, UnivariateRealSolverUtils.midpoint(min, max));
     }
 
@@ -120,14 +120,14 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws FunctionEvaluationException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if startValue is not between min and max or
      * if function is not a {@link DifferentiableUnivariateRealFunction} instance
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double startValue)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max, startValue);
     }
@@ -141,7 +141,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
      * @param startValue the start value to use.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function or derivative
+     * @throws FunctionEvaluationException if an error occurs evaluating the function or derivative
      * @throws IllegalArgumentException if startValue is not between min and max or
      * if function is not a {@link DifferentiableUnivariateRealFunction} instance
      * @deprecated in 2.2 (to be removed in 3.0).
@@ -149,7 +149,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double startValue)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         try {
 

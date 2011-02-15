@@ -68,7 +68,7 @@ public final class FastSineTransformerTest extends TestCase {
     /**
      * Test of transformer for the sine function.
      */
-    public void testSinFunction() {
+    public void testSinFunction() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;

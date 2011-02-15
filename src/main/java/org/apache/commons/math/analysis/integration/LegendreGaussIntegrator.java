@@ -17,10 +17,10 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * Legendre-Gauss integrators are efficient integrators that can
  * accurately integrate functions with few functions evaluations. A
  * Legendre-Gauss integrator using an n-points quadrature formula can
- * integrate exactly 2n-1 degree polynomialss.
+ * integrate exactly 2n-1 degree polynomials.
  * </p>
  * <p>
  * These integrators evaluate the function on n carefully chosen
@@ -119,7 +119,8 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     /** Weights for the current method. */
     private final double[] weights;
 
-    /** Build a Legendre-Gauss integrator.
+    /**
+     * Build a Legendre-Gauss integrator.
      * @param n number of points desired (must be between 2 and 5 inclusive)
      * @param defaultMaximalIterationCount maximum number of iterations
      * @exception IllegalArgumentException if the number of points is not
@@ -156,13 +157,13 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double integrate(final double min, final double max)
-        throws ConvergenceException,  MathUserException, IllegalArgumentException {
+        throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
         return integrate(f, min, max);
     }
 
     /** {@inheritDoc} */
     public double integrate(final UnivariateRealFunction f, final double min, final double max)
-        throws ConvergenceException,  MathUserException, IllegalArgumentException {
+        throws ConvergenceException,  FunctionEvaluationException, IllegalArgumentException {
 
         clearResult();
         verifyInterval(min, max);
@@ -207,12 +208,12 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
      * @param max the upper bound for the interval
      * @param n number of steps
      * @return the value of n-th stage integral
-     * @throws MathUserException if an error occurs evaluating the
+     * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      */
     private double stage(final UnivariateRealFunction f,
                          final double min, final double max, final int n)
-        throws MathUserException {
+        throws FunctionEvaluationException {
 
         // set up the step for the current stage
         final double step     = (max - min) / n;

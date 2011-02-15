@@ -18,8 +18,8 @@ package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.ConvergingAlgorithm;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 
 /**
  * Interface for univariate real integration algorithms.
@@ -67,7 +67,7 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * @return the value of integral
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
-     * @throws MathUserException if an error occurs evaluating the
+     * @throws FunctionEvaluationException if an error occurs evaluating the
      * function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the integrator
@@ -76,7 +76,7 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      */
     @Deprecated
     double integrate(double min, double max)
-        throws ConvergenceException, MathUserException, IllegalArgumentException;
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Integrate the function in the given interval.
@@ -87,12 +87,12 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
      * @return the value of integral
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the integrator
      */
     double integrate(UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException, MathUserException, IllegalArgumentException;
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
 
     /**
      * Get the result of the last run of the integrator.

@@ -19,8 +19,8 @@ package org.apache.commons.math.ode.events;
 
 import junit.framework.Assert;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class EventStateTest {
     // JIRA: MATH-322
     @Test
     public void closeEvents()
-        throws EventException, ConvergenceException, MathUserException {
+        throws EventException, ConvergenceException, FunctionEvaluationException {
 
         final double r1  = 90.0;
         final double r2  = 135.0;

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math.transform;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -76,13 +76,13 @@ public class FastCosineTransformer implements RealTransformer {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws MathUserException if function cannot be evaluated
+     * @throws FunctionEvaluationException if function cannot be evaluated
      * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] transform(UnivariateRealFunction f,
                               double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         return fct(data);
     }
@@ -117,13 +117,13 @@ public class FastCosineTransformer implements RealTransformer {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws MathUserException if function cannot be evaluated
+     * @throws FunctionEvaluationException if function cannot be evaluated
      * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] transform2(UnivariateRealFunction f,
                                double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         double scaling_coefficient = FastMath.sqrt(2.0 / (n-1));
@@ -159,12 +159,12 @@ public class FastCosineTransformer implements RealTransformer {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws MathUserException if function cannot be evaluated at some point
+     * @throws FunctionEvaluationException if function cannot be evaluated at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] inversetransform(UnivariateRealFunction f,
                                      double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
         double scaling_coefficient = 2.0 / (n - 1);
@@ -198,12 +198,12 @@ public class FastCosineTransformer implements RealTransformer {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws MathUserException if function cannot be evaluated at some point
+     * @throws FunctionEvaluationException if function cannot be evaluated at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] inversetransform2(UnivariateRealFunction f,
                                       double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
 
         return transform2(f, min, max, n);
     }

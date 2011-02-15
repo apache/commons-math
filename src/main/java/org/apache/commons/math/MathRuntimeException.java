@@ -36,7 +36,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 *
 * @version $Revision$ $Date$
 * @since 2.0
-* @deprecated in 2.2 (to be removed in 3.0).
 */
 public class MathRuntimeException extends RuntimeException implements MathThrowable {
 

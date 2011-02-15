@@ -17,7 +17,6 @@
 
 package org.apache.commons.math;
 
-import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -26,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 1.2
  * @version $Revision$ $Date$
  */
-public class ArgumentOutsideDomainException extends MathIllegalNumberException {
+public class ArgumentOutsideDomainException extends FunctionEvaluationException {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -4965972841162580234L;
@@ -39,7 +38,7 @@ public class ArgumentOutsideDomainException extends MathIllegalNumberException {
      * @param upper upper bound of the domain
      */
     public ArgumentOutsideDomainException(double argument, double lower, double upper) {
-        super(LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN, argument, lower, upper);
+        super(argument, LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN, argument, lower, upper);
     }
 
 }

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,43 +23,43 @@ import org.junit.Test;
 public class BinaryFunctionTest {
 
     @Test
-    public void testAdd() throws MathUserException {
+    public void testAdd() throws Exception {
         Assert.assertEquals(5.0, BinaryFunction.ADD.value(2, 3), 1.0e-15);
         Assert.assertEquals(0.0, BinaryFunction.ADD.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testSubtract() throws MathUserException {
+    public void testSubtract() throws Exception {
         Assert.assertEquals(-1.0, BinaryFunction.SUBTRACT.value(2, 3), 1.0e-15);
         Assert.assertEquals(-2.0, BinaryFunction.SUBTRACT.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testMultiply() throws MathUserException {
+    public void testMultiply() throws Exception {
         Assert.assertEquals(6.0, BinaryFunction.MULTIPLY.value(2, 3), 1.0e-15);
         Assert.assertEquals(-1.0, BinaryFunction.MULTIPLY.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testDivide() throws MathUserException {
+    public void testDivide() throws Exception {
         Assert.assertEquals(1.5, BinaryFunction.DIVIDE.value(3, 2), 1.0e-15);
         Assert.assertEquals(-1.0, BinaryFunction.DIVIDE.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testPow() throws MathUserException {
+    public void testPow() throws Exception {
         Assert.assertEquals(9.0, BinaryFunction.POW.value(3, 2), 1.0e-15);
         Assert.assertEquals(-1.0, BinaryFunction.POW.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testAtan2() throws MathUserException {
+    public void testAtan2() throws Exception {
         Assert.assertEquals(FastMath.PI / 4, BinaryFunction.ATAN2.value(1, 1), 1.0e-15);
         Assert.assertEquals(-FastMath.PI / 4, BinaryFunction.ATAN2.value(-1, 1), 1.0e-15);
     }
 
     @Test
-    public void testFix1st() throws MathUserException {
+    public void testFix1st() throws Exception {
         ComposableFunction f = BinaryFunction.POW.fix1stArgument(2);
         for (double x = 0.0; x < 1.0; x += 0.01) {
             Assert.assertEquals(FastMath.pow(2.0, x), f.value(x), 1.0e-15);
@@ -68,7 +67,7 @@ public class BinaryFunctionTest {
     }
 
     @Test
-    public void testFix2nd() throws MathUserException {
+    public void testFix2nd() throws Exception {
         ComposableFunction f = BinaryFunction.POW.fix2ndArgument(2);
         for (double y = 0.0; y < 1.0; y += 0.01) {
             Assert.assertEquals(y * y, f.value(y), 1.0e-15);

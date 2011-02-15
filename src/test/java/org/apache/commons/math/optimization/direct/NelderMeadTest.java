@@ -24,12 +24,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -45,15 +45,15 @@ import org.junit.Test;
 public class NelderMeadTest {
 
   @Test
-  public void testMathUserException() throws OptimizationException, MathUserException, IllegalArgumentException {
+  public void testFunctionEvaluationException() throws OptimizationException, FunctionEvaluationException, IllegalArgumentException {
       MultivariateRealFunction wrong =
           new MultivariateRealFunction() {
             private static final long serialVersionUID = 4751314470965489371L;
-            public double value(double[] x) throws MathUserException {
+            public double value(double[] x) throws FunctionEvaluationException {
                 if (x[0] < 0) {
-                    throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
+                    throw new FunctionEvaluationException(x, LocalizedFormats.SIMPLE_MESSAGE, "oops");
                 } else if (x[0] > 1) {
-                    throw new MathUserException(new RuntimeException("oops"));
+                    throw new FunctionEvaluationException(new RuntimeException("oops"), x);
                 } else {
                     return x[0] * (1 - x[0]);
                 }
@@ -63,7 +63,7 @@ public class NelderMeadTest {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { -1.0 });
           fail("an exception should have been thrown");
-      } catch (MathUserException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNull(ce.getCause());
       }
@@ -71,7 +71,7 @@ public class NelderMeadTest {
           NelderMead optimizer = new NelderMead(0.9, 1.9, 0.4, 0.6);
           optimizer.optimize(wrong, GoalType.MINIMIZE, new double[] { +2.0 });
           fail("an exception should have been thrown");
-      } catch (MathUserException ce) {
+      } catch (FunctionEvaluationException ce) {
           // expected behavior
           assertNotNull(ce.getCause());
       }
@@ -79,7 +79,7 @@ public class NelderMeadTest {
 
   @Test
   public void testMinimizeMaximize()
-      throws MathUserException, ConvergenceException {
+      throws FunctionEvaluationException, ConvergenceException {
 
       // the following function has 4 local extrema:
       final double xM        = -3.841947088256863675365;
@@ -92,7 +92,7 @@ public class NelderMeadTest {
       final double valueXpYp = -valueXpYm;                // global maximum
       MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
           private static final long serialVersionUID = -7039124064449091152L;
-          public double value(double[] variables) throws MathUserException {
+          public double value(double[] variables) throws FunctionEvaluationException {
               final double x = variables[0];
               final double y = variables[1];
               return ((x == 0) || (y == 0)) ? 0 : (FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y));
@@ -139,7 +139,7 @@ public class NelderMeadTest {
 
   @Test
   public void testRosenbrock()
-    throws MathUserException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
     Rosenbrock rosenbrock = new Rosenbrock();
     NelderMead optimizer = new NelderMead();
@@ -160,7 +160,7 @@ public class NelderMeadTest {
 
   @Test
   public void testPowell()
-    throws MathUserException, ConvergenceException {
+    throws FunctionEvaluationException, ConvergenceException {
 
     Powell powell = new Powell();
     NelderMead optimizer = new NelderMead();
@@ -177,7 +177,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares1()
-  throws MathUserException, ConvergenceException {
+  throws FunctionEvaluationException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -203,7 +203,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares2()
-  throws MathUserException, ConvergenceException {
+  throws FunctionEvaluationException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -229,7 +229,7 @@ public class NelderMeadTest {
 
   @Test
   public void testLeastSquares3()
-  throws MathUserException, ConvergenceException {
+  throws FunctionEvaluationException, ConvergenceException {
 
       final RealMatrix factors =
           new Array2DRowRealMatrix(new double[][] {
@@ -279,7 +279,7 @@ public class NelderMeadTest {
           optimizer.setConvergenceChecker(new SimpleRealPointChecker(-1.0, 1.0e-3));
           optimizer.setMaxEvaluations(20);
           optimizer.optimize(powell, GoalType.MINIMIZE, new double[] { 3.0, -1.0, 0.0, 1.0 });
-      } catch (MathUserException fee) {
+      } catch (FunctionEvaluationException fee) {
           if (fee.getCause() instanceof ConvergenceException) {
               throw (ConvergenceException) fee.getCause();
           }

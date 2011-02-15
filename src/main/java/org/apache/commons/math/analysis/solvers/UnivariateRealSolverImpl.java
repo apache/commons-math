@@ -18,11 +18,11 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergingAlgorithmImpl;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NullArgumentException;
 
 /**
@@ -149,13 +149,13 @@ public abstract class UnivariateRealSolverImpl
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the solver
      * @since 2.2
      */
     public double solve(int maxEval, UnivariateRealFunction function, double min, double max)
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException, FunctionEvaluationException {
         throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
@@ -173,13 +173,13 @@ public abstract class UnivariateRealSolverImpl
      * @return a value where the function is zero
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the solver detects convergence problems otherwise.
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the solver
      * @since 2.2
      */
     public double solve(int maxEval, UnivariateRealFunction function, double min, double max, double startValue)
-        throws ConvergenceException, MathUserException, IllegalArgumentException {
+        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException {
         throw MathRuntimeException.createUnsupportedOperationException(LocalizedFormats.NOT_OVERRIDEN);
     }
 
@@ -225,11 +225,11 @@ public abstract class UnivariateRealSolverImpl
      * @param upper  the upper endpoint
      * @param function the function
      * @return true if f(lower) * f(upper) < 0
-     * @throws MathUserException if an error occurs evaluating the function at the endpoints
+     * @throws FunctionEvaluationException if an error occurs evaluating the function at the endpoints
      */
     protected boolean isBracketing(final double lower, final double upper,
                                    final UnivariateRealFunction function)
-        throws MathUserException {
+        throws FunctionEvaluationException {
         final double f1 = function.value(lower);
         final double f2 = function.value(upper);
         return (f1 > 0 && f2 < 0) || (f1 < 0 && f2 > 0);
@@ -288,11 +288,11 @@ public abstract class UnivariateRealSolverImpl
      * @param upper upper endpoint
      * @param function function
      * @throws IllegalArgumentException
-     * @throws MathUserException if an error occurs evaluating the function at the endpoints
+     * @throws FunctionEvaluationException if an error occurs evaluating the function at the endpoints
      */
     protected void verifyBracketing(final double lower, final double upper,
                                     final UnivariateRealFunction function)
-        throws MathUserException {
+        throws FunctionEvaluationException {
 
         verifyInterval(lower, upper);
         if (!isBracketing(lower, upper, function)) {

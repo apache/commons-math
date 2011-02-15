@@ -37,7 +37,7 @@ public final class PolynomialFunctionTest extends TestCase {
      *
      * <p>value of this is 2.5 everywhere.</p>
      */
-    public void testConstants() {
+    public void testConstants() throws Exception {
         double[] c = { 2.5 };
         PolynomialFunction f = new PolynomialFunction( c );
 
@@ -63,7 +63,7 @@ public final class PolynomialFunctionTest extends TestCase {
      *      f(0.5) = 0.0, f(1.5) = 3.0</tt> and <tt>f(3.0) = 7.5</tt>
      * </p>
      */
-    public void testLinear() {
+    public void testLinear() throws Exception {
         double[] c = { -1.5, 3.0 };
         PolynomialFunction f = new PolynomialFunction( c );
 
@@ -137,7 +137,7 @@ public final class PolynomialFunctionTest extends TestCase {
      * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
      * and <tt>h(x) = 6x - 4</tt>
      */
-    public void testfirstDerivativeComparison() {
+    public void testfirstDerivativeComparison() throws Exception {
         double[] f_coeff = { 3.0, 6.0, -2.0, 1.0 };
         double[] g_coeff = { 6.0, -4.0, 3.0 };
         double[] h_coeff = { -4.0, 6.0 };
@@ -237,7 +237,7 @@ public final class PolynomialFunctionTest extends TestCase {
      * <tt>f(x) = x^3 - 2x^2 + 6x + 3, g(x) = 3x^2 - 4x + 6</tt>
      * and <tt>h(x) = 6x - 4</tt>
      */
-    public void testMath341() {
+    public void testMath341() throws Exception {
         double[] f_coeff = { 3.0, 6.0, -2.0, 1.0 };
         double[] g_coeff = { 6.0, -4.0, 3.0 };
         double[] h_coeff = { -4.0, 6.0 };

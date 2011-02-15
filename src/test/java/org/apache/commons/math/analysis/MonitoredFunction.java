@@ -16,8 +16,7 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
-
+import org.apache.commons.math.FunctionEvaluationException;
 /**
  * Wrapper class for counting functions calls.
  *
@@ -38,7 +37,7 @@ public class MonitoredFunction implements UnivariateRealFunction {
         return callsCount;
     }
 
-    public double value(double x) throws MathUserException {
+    public double value(double x) throws FunctionEvaluationException {
         ++callsCount;
         return f.value(x);
     }

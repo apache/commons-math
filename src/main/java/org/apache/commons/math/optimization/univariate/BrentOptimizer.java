@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.util.FastMath;
@@ -50,7 +50,7 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
     /** {@inheritDoc} */
     @Override
     protected double doOptimize()
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         return localMin(getGoalType() == GoalType.MINIMIZE,
                         getMin(), getStartValue(), getMax(),
                         getRelativeAccuracy(), getAbsoluteAccuracy());
@@ -77,12 +77,12 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      * @return the optimum point.
      * @throws MaxIterationsExceededException if the maximum iteration count
      * is exceeded.
-     * @throws MathUserException if an error occurs evaluating the function.
+     * @throws FunctionEvaluationException if an error occurs evaluating the function.
      */
     private double localMin(boolean isMinim,
                             double lo, double mid, double hi,
                             double eps, double t)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         if (eps <= 0) {
             throw new NotStrictlyPositiveException(eps);
         }

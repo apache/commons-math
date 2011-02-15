@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -232,11 +231,11 @@ public class PowellOptimizer
          *
          * @param p Starting point.
          * @param d Search direction.
-         * @throws MathUserException if function cannot be evaluated at some test point
+         * @throws FunctionEvaluationException if function cannot be evaluated at some test point
          * @throws OptimizationException if algorithm fails to converge
          */
         public void search(final double[] p, final double[] d)
-            throws OptimizationException, MathUserException {
+            throws OptimizationException, FunctionEvaluationException {
 
             // Reset.
             optimum = Double.NaN;
@@ -246,18 +245,14 @@ public class PowellOptimizer
                 final int n = p.length;
                 final UnivariateRealFunction f = new UnivariateRealFunction() {
                         public double value(double alpha)
-                            throws MathUserException {
+                            throws FunctionEvaluationException {
 
                             final double[] x = new double[n];
                             for (int i = 0; i < n; i++) {
                                 x[i] = p[i] + alpha * d[i];
                             }
                             final double obj;
-                            try {
-                                obj = computeObjectiveValue(x);
-                            } catch (FunctionEvaluationException ex) {
-                                throw new MathUserException(ex);
-                            }
+                            obj = computeObjectiveValue(x);
                             return obj;
                         }
                     };

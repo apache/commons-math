@@ -17,10 +17,10 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -68,14 +68,14 @@ public class SecantSolver extends UnivariateRealSolverImpl {
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max)
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException, FunctionEvaluationException {
         return solve(f, min, max);
     }
 
     /** {@inheritDoc} */
     @Deprecated
     public double solve(final double min, final double max, final double initial)
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException, FunctionEvaluationException {
         return solve(f, min, max, initial);
     }
 
@@ -89,14 +89,14 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max, initial);
     }
@@ -110,7 +110,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param initial the start value to use (ignored)
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      * @deprecated in 2.2 (to be removed in 3.0).
@@ -118,7 +118,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max, final double initial)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         return solve(f, min, max);
     }
 
@@ -130,14 +130,14 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      */
     @Override
     public double solve(int maxEval, final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
         setMaximalIterationCount(maxEval);
         return solve(f, min, max);
     }
@@ -149,7 +149,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
      * @param max the upper bound for the interval.
      * @return the value where the function is zero
      * @throws MaxIterationsExceededException  if the maximum iteration count is exceeded
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws FunctionEvaluationException if an error occurs evaluating the function
      * @throws IllegalArgumentException if min is not less than max or the
      * signs of the values of the function at the endpoints are not opposites
      * @deprecated in 2.2 (to be removed in 3.0).
@@ -157,7 +157,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
     @Deprecated
     public double solve(final UnivariateRealFunction f,
                         final double min, final double max)
-        throws MaxIterationsExceededException, MathUserException {
+        throws MaxIterationsExceededException, FunctionEvaluationException {
 
         clearResult();
         verifyInterval(min, max);
