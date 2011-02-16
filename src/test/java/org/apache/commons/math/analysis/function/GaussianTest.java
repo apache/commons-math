@@ -19,6 +19,8 @@ package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
 
 import org.junit.Assert;
@@ -83,5 +85,72 @@ public class GaussianTest {
         final UnivariateRealFunction dfdx = f.derivative();
 
         Assert.assertTrue(Double.isNaN(dfdx.value(Double.NaN)));
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage1() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.value(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage2() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.value(0, new double[] {0});
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testParametricUsage3() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.value(0, new double[] {0, 1, 0});
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage4() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.gradient(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage5() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.gradient(0, new double[] {0});
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testParametricUsage6() {
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        g.gradient(0, new double[] {0, 1, 0});
+    }
+
+    @Test
+    public void testParametricValue() {
+        final double norm = 2;
+        final double mean = 3;
+        final double sigma = 4;
+        final Gaussian f = new Gaussian(norm, mean, sigma);
+
+        final Gaussian.Parametric g = new Gaussian.Parametric();
+        Assert.assertEquals(f.value(-1), g.value(-1, new double[] {norm, mean, sigma}), 0);
+        Assert.assertEquals(f.value(0), g.value(0, new double[] {norm, mean, sigma}), 0);
+        Assert.assertEquals(f.value(2), g.value(2, new double[] {norm, mean, sigma}), 0);
+    }
+
+    @Test
+    public void testParametricGradient() {
+        final double norm = 2;
+        final double mean = 3;
+        final double sigma = 4;
+        final Gaussian.Parametric f = new Gaussian.Parametric();
+
+        final double x = 1;
+        final double[] grad = f.gradient(1, new double[] {norm, mean, sigma});
+        final double diff = x - mean;
+        final double n = FastMath.exp(-diff * diff / (2 * sigma * sigma));
+        Assert.assertEquals(n, grad[0], EPS);
+        final double m = norm * n * diff / (sigma * sigma);
+        Assert.assertEquals(m, grad[1], EPS);
+        final double s = m * diff / sigma;
+        Assert.assertEquals(s, grad[2], EPS);
     }
 }
