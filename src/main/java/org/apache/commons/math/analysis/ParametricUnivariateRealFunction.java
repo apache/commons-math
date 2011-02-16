@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.optimization.fitting;
+package org.apache.commons.math.analysis;
 
 /**
  * An interface representing a real function that depends on one independent
@@ -23,7 +23,7 @@ package org.apache.commons.math.optimization.fitting;
  *
  * @version $Revision$ $Date$
  */
-public interface ParametricRealFunction {
+public interface ParametricUnivariateRealFunction {
     /**
      * Compute the value of the function.
      *
@@ -31,7 +31,7 @@ public interface ParametricRealFunction {
      * @param parameters Function parameters.
      * @return the value.
      */
-    double value(double x, double[] parameters);
+    double value(double x, double ... parameters);
 
     /**
      * Compute the gradient of the function with respect to its parameters.
@@ -40,5 +40,5 @@ public interface ParametricRealFunction {
      * @param parameters Function parameters.
      * @return the value.
      */
-    double[] gradient(double x, double[] parameters);
+    double[] gradient(double x, double ... parameters);
 }

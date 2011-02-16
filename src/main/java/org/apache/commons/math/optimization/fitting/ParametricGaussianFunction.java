@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.optimization.fitting.ParametricRealFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 
 /**
  * A Gaussian function.  Specifically:
@@ -53,7 +53,7 @@ import org.apache.commons.math.optimization.fitting.ParametricRealFunction;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class ParametricGaussianFunction implements ParametricRealFunction, Serializable {
+public class ParametricGaussianFunction implements ParametricUnivariateRealFunction, Serializable {
     /** Serializable version Id. */
     private static final long serialVersionUID = -3875578602503903233L;
 

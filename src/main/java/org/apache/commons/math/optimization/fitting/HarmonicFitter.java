@@ -21,6 +21,7 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /** This class implements a curve fitting specialized for sinusoids.
@@ -102,7 +103,7 @@ public class HarmonicFitter {
     }
 
     /** Parametric harmonic function. */
-    private static class ParametricHarmonicFunction implements ParametricRealFunction {
+    private static class ParametricHarmonicFunction implements ParametricUnivariateRealFunction {
 
         /** {@inheritDoc} */
         public double value(double x, double[] parameters) {

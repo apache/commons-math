@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -121,7 +122,7 @@ public class CurveFitter {
      * @throws org.apache.commons.math.exception.MathUserException if the
      * parametric function throws one.
      */
-    public double[] fit(final ParametricRealFunction f, final double[] initialGuess) {
+    public double[] fit(final ParametricUnivariateRealFunction f, final double[] initialGuess) {
         return fit(Integer.MAX_VALUE, f, initialGuess);
     }
 
@@ -143,7 +144,7 @@ public class CurveFitter {
      * @throws org.apache.commons.math.exception.MathUserException if the
      * parametric function throws one.
      */
-    public double[] fit(int maxEval, final ParametricRealFunction f,
+    public double[] fit(int maxEval, final ParametricUnivariateRealFunction f,
                         final double[] initialGuess) {
         // prepare least squares problem
         double[] target  = new double[observations.size()];
@@ -168,12 +169,12 @@ public class CurveFitter {
     private class TheoreticalValuesFunction
         implements DifferentiableMultivariateVectorialFunction {
         /** Function to fit. */
-        private final ParametricRealFunction f;
+        private final ParametricUnivariateRealFunction f;
 
         /** Simple constructor.
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricRealFunction f) {
+        public TheoreticalValuesFunction(final ParametricUnivariateRealFunction f) {
             this.f = f;
         }
 

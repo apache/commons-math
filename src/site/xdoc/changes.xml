@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-513">
+        The interface "ParametricRealFunction" (in package "optimization.fitting") has
+        been renamed to "ParametricUnivariateRealFunction" and moved to package "analysis".
+      </action>
       <action dev="sebb" type="fix" issue="MATH-505">
           TestUtils is thread-hostile. Remove getters and setters, and make static variables final.
       </action>

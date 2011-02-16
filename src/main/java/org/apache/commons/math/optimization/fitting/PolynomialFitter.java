@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 
 /** This class implements a curve fitting specialized for polynomials.
@@ -80,7 +81,7 @@ public class PolynomialFitter {
     /**
      * Dedicated parametric polynomial class.
      */
-    private static class ParametricPolynomial implements ParametricRealFunction {
+    private static class ParametricPolynomial implements ParametricUnivariateRealFunction {
 
         /** {@inheritDoc} */
         public double[] gradient(double x, double[] parameters) {

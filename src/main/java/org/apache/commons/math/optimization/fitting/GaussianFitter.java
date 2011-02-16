@@ -86,7 +86,7 @@ public class GaussianFitter {
     /**
      * Fits Gaussian function to the observed points.
      * It will call the base class
-     * {@link CurveFitter#fit(ParametricRealFunction,double[]) fit} method.
+     * {@link CurveFitter#fit(ParametricUnivariateRealFunction,double[]) fit} method.
      *
      * @return the Gaussian function that best fits the observed points.
      * @see CurveFitter
