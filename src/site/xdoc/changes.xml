@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-442" due-to="Dietmar Wolz">
+        Implementation of the CMA-ES optimization algorithm.
+      </action>
       <action dev="erans" type="fix" issue="MATH-513">
         The interface "ParametricRealFunction" (in package "optimization.fitting") has
         been renamed to "ParametricUnivariateRealFunction" and moved to package "analysis".
