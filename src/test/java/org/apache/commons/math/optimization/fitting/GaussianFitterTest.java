@@ -191,11 +191,11 @@ public class GaussianFitterTest {
     throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET1, fitter);
-        GaussianFunction fitFunction = fitter.fit();
-        assertEquals(99200.86969833552, fitFunction.getA(), 1e-4);
-        assertEquals(3410515.285208688, fitFunction.getB(), 1e-4);
-        assertEquals(4.054928275302832, fitFunction.getC(), 1e-4);
-        assertEquals(0.014609868872574, fitFunction.getD(), 1e-4);
+        double[] parameters = fitter.fit();
+
+        assertEquals(3496978.1837704973, parameters[0], 1e-4);
+        assertEquals(4.054933085999146, parameters[1], 1e-4);
+        assertEquals(0.015039355620304326, parameters[2], 1e-4);
     }
 
     /**
@@ -209,7 +209,7 @@ public class GaussianFitterTest {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         fitter.fit();
     }
-
+    
     /**
      * Two points is not enough observed points.
      *
@@ -225,7 +225,7 @@ public class GaussianFitterTest {
             fitter);
         fitter.fit();
     }
-
+    
     /**
      * Poor data: right of peak not symmetric with left of peak.
      *
@@ -233,16 +233,17 @@ public class GaussianFitterTest {
      */
     @Test
     public void testFit04()
-    throws OptimizationException {
+    throws OptimizationException 
+    {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET2, fitter);
-        GaussianFunction fitFunction = fitter.fit();
-        assertEquals(-256534.689445631, fitFunction.getA(), 1e-4);
-        assertEquals(481328.2181530679, fitFunction.getB(), 1e-4);
-        assertEquals(-10.5217226891099, fitFunction.getC(), 1e-4);
-        assertEquals(-7.64248239366800, fitFunction.getD(), 1e-4);
-    }
+        double[] parameters = fitter.fit();
 
+        assertEquals(233003.2967252038, parameters[0], 1e-4);
+        assertEquals(-10.654887521095983, parameters[1], 1e-4);
+        assertEquals(4.335937353196641, parameters[2], 1e-4);
+    }  
+    
     /**
      * Poor data: long tails.
      *
@@ -253,13 +254,13 @@ public class GaussianFitterTest {
     throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET3, fitter);
-        GaussianFunction fitFunction = fitter.fit();
-        assertEquals(491.6310079258938, fitFunction.getA(), 1e-4);
-        assertEquals(283508.6800413632, fitFunction.getB(), 1e-4);
-        assertEquals(-13.2966857238057, fitFunction.getC(), 1e-4);
-        assertEquals(1.725590356962981, fitFunction.getD(), 1e-4);
-    }
+        double[] parameters = fitter.fit();
 
+        assertEquals(283863.81929180305, parameters[0], 1e-4);
+        assertEquals(-13.29641995105174, parameters[1], 1e-4);
+        assertEquals(1.7297330293549908, parameters[2], 1e-4);
+    }
+    
     /**
      * Poor data: right of peak is missing.
      *
@@ -270,12 +271,12 @@ public class GaussianFitterTest {
     throws OptimizationException {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET4, fitter);
-        GaussianFunction fitFunction = fitter.fit();
-        assertEquals(530.3649792355617, fitFunction.getA(), 1e-4);
-        assertEquals(284517.0835567514, fitFunction.getB(), 1e-4);
-        assertEquals(-13.5355534565105, fitFunction.getC(), 1e-4);
-        assertEquals(1.512353018625465, fitFunction.getD(), 1e-4);
-    }
+        double[] parameters = fitter.fit();
+
+        assertEquals(285250.66754309234, parameters[0], 1e-4);
+        assertEquals(-13.528375695228455, parameters[1], 1e-4);
+        assertEquals(1.5204344894331614, parameters[2], 1e-4);
+    }    
 
     /**
      * Basic with smaller dataset.
@@ -284,16 +285,17 @@ public class GaussianFitterTest {
      */
     @Test
     public void testFit07()
-    throws OptimizationException {
+    throws OptimizationException 
+    {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET5, fitter);
-        GaussianFunction fitFunction = fitter.fit();
-        assertEquals(176748.1400947575, fitFunction.getA(), 1e-4);
-        assertEquals(3361537.018813906, fitFunction.getB(), 1e-4);
-        assertEquals(4.054949992747176, fitFunction.getC(), 1e-4);
-        assertEquals(0.014192380137002, fitFunction.getD(), 1e-4);
-    }
+        double[] parameters = fitter.fit();
 
+        assertEquals(3514384.729342235, parameters[0], 1e-4);
+        assertEquals(4.054970307455625, parameters[1], 1e-4);
+        assertEquals(0.015029412832160017, parameters[2], 1e-4);
+    }
+    
     /**
      * Adds the specified points to specified <code>GaussianFitter</code>
      * instance.

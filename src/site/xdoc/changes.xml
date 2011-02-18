@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-512" due-to="Ole Ersoy">
+        Refactored "GaussianFitter" (in package "optimization.fitting").
+        The class now really fits a Gaussian function (whereas previously it was
+        fitting the sum of a constant and a Gaussian).
+      </action>
       <action dev="erans" type="fix" issue="MATH-442" due-to="Dietmar Wolz">
         Implementation of the CMA-ES optimization algorithm.
       </action>
