@@ -43,7 +43,6 @@ import org.apache.commons.math.exception.NullArgumentException;
  * </ul>
  *
  * @see GaussianDerivativeFunction
- * @see ParametricGaussianFunction
  * @since 2.2
  * @version $Revision$ $Date$
  */
