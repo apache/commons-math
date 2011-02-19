@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 
@@ -27,11 +27,8 @@ import org.apache.commons.math.exception.util.Localizable;
  * the differential equations.
  * @version $Revision$ $Date$
  * @since 1.2
- * @deprecated in 2.2 (to be removed in 3.0). Please use
- * {@link org.apache.commons.math.exception.MathUserException} instead.
  */
-@Deprecated
-public class DerivativeException extends MathUserException {
+public class DerivativeException extends MathException {
 
   /** Serializable version identifier */
   private static final long serialVersionUID = 5666710788967425123L;
