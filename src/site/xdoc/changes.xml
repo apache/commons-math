@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-516">
+        Removed "GaussianFunction" and "GaussianDerivativeFunction" (in package
+        "optimization.fitting"); functionality moved to class "Gaussian" (in
+        package "analysis.function").
+      </action>
       <action dev="erans" type="fix" issue="MATH-514">
         Removed "ParametricGaussianFunction" (in package "optimization.fitting");
         functionality moved to class "Gaussian" (in package "analysis.function").
