@@ -586,7 +586,7 @@ public final class MathUtils {
      * (w.r.t. NaN) is useful (see e.g.
      * {@link #equalsIncludingNaN(double,double, double) equalsIncludingNaN}.
      * </p>
-     * 
+     *
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal.
@@ -660,7 +660,7 @@ public final class MathUtils {
      * (w.r.t. NaN) is useful (see e.g.
      * {@link #equalsIncludingNaN(double,double, int) equalsIncludingNaN}.
      * </p>
-     * 
+     *
      * @param x first value
      * @param y second value
      * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
