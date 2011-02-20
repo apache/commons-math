@@ -51,7 +51,27 @@ The <action> type attribute can be add,update,fix,remove.
     with a new-line in the release notes. (These spaces are ignored when displaying HTML).
     If the output is not quite correct, check for invisible trailing spaces!
      -->
-    <release version="2.2" date="TBD" description="TBD">
+    <release version="2.2" date="2011-02-24" description="
+This is primarily a maintenance release, but it also includes new features and enhancements.
+
+  Users of version 2.1 are encouraged to upgrade to 2.2, as this release includes some important bug fixes.
+
+  See the detailed list of changes below for full description of all bug fixes and enhancements.
+
+  This release contains some minor compatibility breaks with version 2.1 in some internal classes but none
+  of them are in the public API:
+  the MessagesResources_fr class has been removed (replaced by a properties file);
+  the arguments of the EventState.reinitializeBegin method have changed;
+  some private fields in AbstractStepInterpolator have been replaced.
+
+  The major new features are:
+  a new FastMath class, both faster, more accurate and with a few additional functions than StrictMath and Math;
+  a new package for floating point arbitrary precision computing, including high level functions like exponential, sine, square root ...;
+  new linear and tricubic interpolators;
+  a new Gaussian curve fitter;
+  a new erfc function;
+  characteristic support for distributions;
+  a set of new Well Equidistributed Long-period Linear (WELL) random generators.">
       <action dev="sebb" type="fix" issue="MATH-505">
           TestUtils is thread-hostile. Deprecate the getters and setters.
       </action>
@@ -110,14 +130,14 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="luc" type="fix" issue="MATH-467">
         Fixed an awkward statement that triggered a false positive warning.
       </action>
-      <action dev="psteitz" type="update" issue="MATH-364" due-to="Christian Winter">
+      <action dev="psteitz" type="add" issue="MATH-364" due-to="Christian Winter">
         Added complementary error function, erfc.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-456">
         Modified erf (and erfc) to return extreme values for x with abs(x) > 40.
         For these arguments, the true value is indistinguishable from an extrema as a double.
       </action>
-      <action dev="mikl" type="update" issue="MATH-385">
+      <action dev="mikl" type="add" issue="MATH-385">
         Added characteristic support to distributions, including methods to return numerical
         estimates of the mean and variance and upper and lower bounds of support. In version 2.2,
         methods returning distribution characteristics have been added only to the implementation
@@ -153,9 +173,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="erans" type="add" issue="MATH-440">
         Created "MathUserException" class to convey cause of failure between
-        layers of user code separated by a layer of Commons-Math code. Deprecated
-        classes "FunctionEvaluationException", "MatrixVisitorException" and
-        "DerivativeException".
+        layers of user code separated by a layer of Commons-Math code.
       </action>
       <action dev="luc" type="fix" issue="MATH-429">
         Fixed k-means++ to add several strategies to deal with empty clusters that may appear
@@ -197,14 +215,14 @@ The <action> type attribute can be add,update,fix,remove.
         verify that their code either does not use the first set of data loading methods above or set the noIntercept
         property to true on estimated models to get the previous behavior.
       </action>
-      <action dev="luc" type="fix" issue="MATH-412" due-to="Bill Rossi">
+      <action dev="luc" type="add" issue="MATH-412" due-to="Bill Rossi">
         Added the dfp library providing arbitrary precision floating point computation in the spirit of
         IEEE 854-1987 (not exactly as it uses base 1000 instead of base 10). In addition to finite numbers,
         infinities and NaNs are available (but there are no subnormals). All IEEE 854-1987 rounding modes and
         signaling flags are supported. The available operations are +, -, *, / and the available functions
         are sqrt, sin, cos, tan, asin, acos, atan, exp, log.
       </action>
-      <action dev="luc" type="fix" issue="MATH-375" due-to="Bill Rossi">
+      <action dev="luc" type="add" issue="MATH-375" due-to="Bill Rossi">
         Added faster and more accurate version of traditional mathematical functions in a FastMath
         class intended to be a drop-in replacement for java.util.Math at source-level. Some functions
         still directly delegates to Math but this will improve with time. Some functions like exp
@@ -251,7 +269,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="erans" type="add" issue="MATH-379">
         Created "MultidimensionalCounter" class.
       </action>
-      <action dev="erans" type="add" issue="MATH-361">
+      <action dev="erans" type="update" issue="MATH-361">
         Created package "exception" to contain the new exceptions hierarchy.
         Created package "exception.util": utilities for the exception classes
         (e.g. managing the localization of error messages).
@@ -267,9 +285,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action dev="erans" type="fix" issue="MATH-376">
         Allow multiple optimizations with a default simplex.
       </action>      
-      <action dev="erans" type="update" issue="MATH-370">
+      <action dev="erans" type="add" issue="MATH-370">
         Added new "equalsIncludingNaN" methods that have the same semantics as the old "equals" methods.
-        These are deprecated, and their semantics will be modified (in the next major release) such that
+        The semantics of the old methods will be modified (in the next major release) such that
         NaNs are not considered equal (to be more compliant with IEEE754).
       </action>
       <action dev="luc" type="fix" issue="MATH-352" >
