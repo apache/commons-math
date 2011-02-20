@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math</artifactId>
-  <version>2.1</version>
+  <version>2.2</version>
   <name>Commons Math User Guide</name>
   <inceptionYear>2003</inceptionYear>
   <description>User Guide</description>
@@ -38,7 +38,7 @@
   </scm>
   <properties>
     <commons.componentid>math</commons.componentid>
-    <commons.release.version>2.0</commons.release.version>
+    <commons.release.version>2.2</commons.release.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties> 
