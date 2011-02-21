@@ -72,11 +72,11 @@
   <!-- The base directory for distribution targets -->
   <property name="dist.home"               value="${build.home}/dist"/>
 
-    <!-- The base directory for test reports -->
-    <property name="test.reports"               value="${build.home}/test-reports"/>
+  <!-- The base directory for test reports -->
+  <property name="test.reports"            value="${build.home}/test-reports"/>
 
   <!-- Base file name for dist files -->
-  <property name="final.name"        value="${component.name}-${component.version}"/>
+  <property name="final.name"              value="${component.name}-${component.version}"/>
 
   <!-- Directory where binary release files are staged -->
   <property name="stage.bin.dir"           value="${dist.home}/stage-bin"/>
