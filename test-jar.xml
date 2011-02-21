@@ -34,10 +34,9 @@
   <property name="libdir" value="target/lib"/>
   <property name="testclassesdir" value="target/test-classes"/>
   <property name="testreportdir" value="target/test-reports"/>
-  <property name="defaulttargetdir" value="target"/>
   <property name="jardir" value="${basedir}"/>
    <path id="build.classpath">
-    <fileset dir="${libdir}">
+    <fileset dir="${jardir}">
       <include name="**/*.jar">
       </include>
     </fileset>
