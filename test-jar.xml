@@ -31,7 +31,6 @@
   
 <project default="test" name="commons-math" basedir=".">
   <property name="defaulttargetdir" value="target"/>
-  <property name="libdir" value="target/lib"/>
   <property name="testclassesdir" value="target/test-classes"/>
   <property name="testreportdir" value="target/test-reports"/>
   <property name="jardir" value="${basedir}"/>
@@ -59,11 +58,6 @@
     Java library path: ${java.library.path}
     ===========================================================================
     </echo>
-    <mkdir dir="${libdir}" />
-    <condition property="noget">
-      <equals arg2="only" arg1="${build.sysclasspath}">
-      </equals>
-    </condition>
     <!--Test if JUNIT is present in ANT classpath-->
     <available property="Junit.present" classname="junit.framework.Test">
     </available>
