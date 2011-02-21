@@ -82,6 +82,8 @@
       <batchtest todir="${testreportdir}">
         <fileset dir="src/test/java">
           <include name="**/*Test.java"/>
+          <include name="**/*TestBinary.java"/> 
+          <include name="**/*TestPermutations.java"/> 
           <exclude name="**/*AbstractTest.java"/>
         </fileset>
       </batchtest>
