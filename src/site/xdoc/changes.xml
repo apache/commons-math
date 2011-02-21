@@ -59,7 +59,10 @@ This is primarily a maintenance release, but it also includes new features and e
   See the detailed list of changes below for full description of all bug fixes and enhancements.
 
   This release contains some minor compatibility breaks with version 2.1 in some internal classes but none
-  of them are in APIs likely to be accessed by user code.
+  of them are in APIs likely to be accessed by user code:
+  the MessagesResources_fr class has been removed (replaced by a properties file);
+  the arguments of the EventState.reinitializeBegin method have changed;
+  some protected fields which already had public accessors in AbstractStepInterpolator have been replaced.
 
   The major new features are:
   a new FastMath class, both faster, more accurate and with a few additional functions than StrictMath and Math;
