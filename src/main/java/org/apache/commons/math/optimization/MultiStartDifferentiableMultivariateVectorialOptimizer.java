@@ -22,7 +22,7 @@ import java.util.Comparator;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
@@ -176,7 +176,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)
-        throws MathUserException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         optima                   = new VectorialPointValuePair[starts];
         totalIterations          = 0;
@@ -191,7 +191,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, target, weights,
                                                (i == 0) ? startPoint : generator.nextVector());
-            } catch (MathUserException fee) {
+            } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
             } catch (OptimizationException oe) {
                 optima[i] = null;

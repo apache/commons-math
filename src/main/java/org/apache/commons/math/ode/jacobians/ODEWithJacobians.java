@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.jacobians;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 
 
@@ -45,10 +45,10 @@ public interface ODEWithJacobians extends FirstOrderDifferentialEquations {
      * @param yDot array containing the current value of the time derivative of the state vector
      * @param dFdY placeholder array where to put the jacobian of the ODE with respect to the state vector
      * @param dFdP placeholder array where to put the jacobian of the ODE with respect to the parameters
-     * @throws MathUserException this exception is propagated to the caller if the
+     * @throws DerivativeException this exception is propagated to the caller if the
      * underlying user function triggers one
      */
     void computeJacobians(double t, double[] y, double[] yDot, double[][] dFdY, double[][] dFdP)
-        throws MathUserException;
+        throws DerivativeException;
 
 }

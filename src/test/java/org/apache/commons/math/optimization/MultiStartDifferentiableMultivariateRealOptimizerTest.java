@@ -27,7 +27,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -123,7 +123,7 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         }
 
         public double value(double[] variables)
-        throws IllegalArgumentException, MathUserException {
+        throws IllegalArgumentException, FunctionEvaluationException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

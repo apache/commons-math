@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -51,7 +51,7 @@ public class DormandPrince54IntegratorTest
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
       fail("an exception should have been thrown");
-    } catch(MathUserException de) {
+    } catch(DerivativeException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -75,7 +75,7 @@ public class DormandPrince54IntegratorTest
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       fail("an exception should have been thrown");
-    } catch(MathUserException de) {
+    } catch(DerivativeException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
@@ -83,7 +83,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testSmallLastStep()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     TestProblemAbstract pb = new TestProblem5();
     double minStep = 1.25;
@@ -108,7 +108,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testBackward()
-      throws MathUserException, IntegratorException {
+      throws DerivativeException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -162,7 +162,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testIncreasingTolerance()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -203,7 +203,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testEvents()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -236,7 +236,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testKepler()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -258,7 +258,7 @@ public class DormandPrince54IntegratorTest
   }
 
   public void testVariableSteps()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -289,7 +289,7 @@ public class DormandPrince54IntegratorTest
     }
     public void handleStep(StepInterpolator interpolator,
                            boolean isLast)
-    throws MathUserException {
+    throws DerivativeException {
 
       ++nbSteps;
       for (int a = 1; a < 10; ++a) {

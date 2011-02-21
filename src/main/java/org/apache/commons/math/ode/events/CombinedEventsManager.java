@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -116,12 +116,12 @@ public class CombinedEventsManager {
      * @return true if at least one event handler triggers an event
      * before the end of the proposed step (this implies the step should
      * be rejected)
-     * @exception MathUserException if the interpolator fails to
+     * @exception DerivativeException if the interpolator fails to
      * compute the function somewhere within the step
      * @exception IntegratorException if an event cannot be located
      */
     public boolean evaluateStep(final StepInterpolator interpolator)
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
         try {
 
@@ -169,8 +169,8 @@ public class CombinedEventsManager {
 
         } catch (EventException se) {
             final Throwable cause = se.getCause();
-            if ((cause != null) && (cause instanceof MathUserException)) {
-                throw (MathUserException) cause;
+            if ((cause != null) && (cause instanceof DerivativeException)) {
+                throw (DerivativeException) cause;
             }
             throw new IntegratorException(se);
         } catch (ConvergenceException ce) {

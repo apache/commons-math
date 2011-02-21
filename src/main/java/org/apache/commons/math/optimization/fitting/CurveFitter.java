@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -118,13 +118,13 @@ public class CurveFitter {
      * @param f parametric function to fit
      * @param initialGuess first guess of the function parameters
      * @return fitted parameters
-     * @exception MathUserException if the objective function throws one during the search
+     * @exception FunctionEvaluationException if the objective function throws one during the search
      * @exception OptimizationException if the algorithm failed to converge
      * @exception IllegalArgumentException if the start point dimension is wrong
      */
     public double[] fit(final ParametricRealFunction f,
                         final double[] initialGuess)
-        throws MathUserException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         // prepare least squares problem
         double[] target  = new double[observations.size()];
@@ -163,7 +163,7 @@ public class CurveFitter {
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
                 public double[][] value(double[] point)
-                    throws MathUserException, IllegalArgumentException {
+                    throws FunctionEvaluationException, IllegalArgumentException {
 
                     final double[][] jacobian = new double[observations.size()][];
 
@@ -179,7 +179,7 @@ public class CurveFitter {
         }
 
         /** {@inheritDoc} */
-        public double[] value(double[] point) throws MathUserException, IllegalArgumentException {
+        public double[] value(double[] point) throws FunctionEvaluationException, IllegalArgumentException {
 
             // compute the residuals
             final double[] values = new double[observations.size()];

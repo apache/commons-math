@@ -18,7 +18,7 @@ package org.apache.commons.math.ode.sampling;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblemAbstract;
@@ -29,7 +29,7 @@ public class StepInterpolatorTestUtils {
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,
                                                    final double threshold)
-        throws MathUserException, IntegratorException {
+        throws DerivativeException, IntegratorException {
         integrator.addStepHandler(new StepHandler() {
 
             public boolean requiresDenseOutput() {
@@ -37,7 +37,7 @@ public class StepInterpolatorTestUtils {
             }
 
             public void handleStep(StepInterpolator interpolator, boolean isLast)
-                throws MathUserException {
+                throws DerivativeException {
 
                 final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
                 final double t = interpolator.getCurrentTime() - 300 * h;

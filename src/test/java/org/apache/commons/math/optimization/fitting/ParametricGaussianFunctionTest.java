@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
@@ -72,11 +72,11 @@ public class ParametricGaussianFunctionTest {
      * Using not-so-good initial parameters.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
+     * @throws FunctionEvaluationException in the event of a test case error
      */
     @Test
     public void testFit01()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException, FunctionEvaluationException {
         CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
         addDatasetToCurveFitter(DATASET1, fitter);
         double[] parameters = fitter.fit(new ParametricGaussianFunction(),
@@ -91,11 +91,11 @@ public class ParametricGaussianFunctionTest {
      * Using eye-balled guesses for initial parameters.
      *
      * @throws OptimizationException in the event of a test case error
-     * @throws MathUserException in the event of a test case error
+     * @throws FunctionEvaluationException in the event of a test case error
      */
     @Test
     public void testFit02()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException, FunctionEvaluationException {
         CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
         addDatasetToCurveFitter(DATASET1, fitter);
         double[] parameters = fitter.fit(new ParametricGaussianFunction(),
@@ -109,10 +109,10 @@ public class ParametricGaussianFunctionTest {
     /**
      * The parameters array is null.
      *
-     * @throws MathUserException in the event of a test case error
+     * @throws FunctionEvaluationException in the event of a test case error
      */
     @Test(expected=IllegalArgumentException.class)
-    public void testValue01() throws MathUserException {
+    public void testValue01() throws FunctionEvaluationException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, null);
     }
@@ -120,10 +120,10 @@ public class ParametricGaussianFunctionTest {
     /**
      * The parameters array length is not 4.
      *
-     * @throws MathUserException in the event of a test case error
+     * @throws FunctionEvaluationException in the event of a test case error
      */
     @Test(expected=IllegalArgumentException.class)
-    public void testValue02() throws MathUserException {
+    public void testValue02() throws FunctionEvaluationException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, new double[] {0.0, 1.0});
     }
@@ -131,10 +131,10 @@ public class ParametricGaussianFunctionTest {
     /**
      * The parameters d is 0.
      *
-     * @throws MathUserException in the event of a test case error
+     * @throws FunctionEvaluationException in the event of a test case error
      */
     @Test(expected=ZeroException.class)
-    public void testValue03() throws MathUserException {
+    public void testValue03() throws FunctionEvaluationException {
         ParametricGaussianFunction f = new ParametricGaussianFunction();
         f.value(0.0, new double[] {0.0, 1.0, 1.0, 0.0});
     }

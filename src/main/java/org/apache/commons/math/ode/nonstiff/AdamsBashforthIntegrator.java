@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
@@ -188,7 +188,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
     public double integrate(final FirstOrderDifferentialEquations equations,
                             final double t0, final double[] y0,
                             final double t, final double[] y)
-        throws MathUserException, IntegratorException {
+        throws DerivativeException, IntegratorException {
 
         final int n = y0.length;
         sanityChecks(equations, t0, y0, t, y);

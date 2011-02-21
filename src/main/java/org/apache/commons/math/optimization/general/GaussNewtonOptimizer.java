@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -63,7 +62,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     public VectorialPointValuePair doOptimize()
-        throws MathUserException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         // iterate until convergence is reached
         VectorialPointValuePair current = null;
@@ -73,16 +72,8 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
             // evaluate the objective function and its jacobian
             VectorialPointValuePair previous = current;
-            try {
             updateResidualsAndCost();
-            } catch (FunctionEvaluationException ex) {
-                throw new MathUserException(ex);
-            }
-            try {
-                updateJacobian();
-            } catch (FunctionEvaluationException ex) {
-                throw new MathUserException(ex);
-            }
+            updateJacobian();
             current = new VectorialPointValuePair(point, objective);
 
             // build the linear problem

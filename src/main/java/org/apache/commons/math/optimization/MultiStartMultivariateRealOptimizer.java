@@ -23,7 +23,6 @@ import java.util.Comparator;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
@@ -163,7 +162,7 @@ public class MultiStartMultivariateRealOptimizer
     public RealPointValuePair optimize(final MultivariateRealFunction f,
                                          final GoalType goalType,
                                          double[] startPoint)
-        throws MathUserException, OptimizationException, FunctionEvaluationException {
+        throws FunctionEvaluationException, OptimizationException, FunctionEvaluationException {
 
         optima           = new RealPointValuePair[starts];
         totalIterations  = 0;
@@ -177,7 +176,7 @@ public class MultiStartMultivariateRealOptimizer
                 optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);
                 optima[i] = optimizer.optimize(f, goalType,
                                                (i == 0) ? startPoint : generator.nextVector());
-            } catch (MathUserException fee) {
+            } catch (FunctionEvaluationException fee) {
                 optima[i] = null;
             } catch (OptimizationException oe) {
                 optima[i] = null;

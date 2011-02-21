@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.jacobians;
 
 import java.io.Externalizable;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 
 /** This interface represents an interpolator over the last step
  * during an ODE integration.
@@ -90,10 +90,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * to be preserved across several calls.</p>
    * @return state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedYDot()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[] getInterpolatedY() throws MathUserException;
+  double[] getInterpolatedY() throws DerivativeException;
 
   /**
    * Get the partial derivatives of the state vector with respect to
@@ -104,10 +104,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * @return partial derivatives of the state vector with respect to
    * the initial state at time {@link #getInterpolatedTime}
    * @see #getInterpolatedY()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[][] getInterpolatedDyDy0() throws MathUserException;
+  double[][] getInterpolatedDyDy0() throws DerivativeException;
 
   /**
    * Get the partial derivatives of the state vector with respect to
@@ -118,10 +118,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * @return partial derivatives of the state vector with respect to
    * the ODE parameters at time {@link #getInterpolatedTime}
    * @see #getInterpolatedY()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[][] getInterpolatedDyDp() throws MathUserException;
+  double[][] getInterpolatedDyDp() throws DerivativeException;
 
   /**
    * Get the time derivatives of the state vector of the interpolated point.
@@ -130,10 +130,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * to be preserved across several calls.</p>
    * @return derivatives of the state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedY()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[] getInterpolatedYDot() throws MathUserException;
+  double[] getInterpolatedYDot() throws DerivativeException;
 
   /**
    * Get the time derivatives of the jacobian of the state vector
@@ -144,10 +144,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * @return time derivatives of the jacobian of the state vector
    * with respect to the initial state at time {@link #getInterpolatedTime}
    * @see #getInterpolatedY()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[][] getInterpolatedDyDy0Dot() throws MathUserException;
+  double[][] getInterpolatedDyDy0Dot() throws DerivativeException;
 
   /**
    * Get the time derivatives of the jacobian of the state vector
@@ -158,10 +158,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * @return time derivatives of the jacobian of the state vector
    * with respect to the ODE parameters at time {@link #getInterpolatedTime}
    * @see #getInterpolatedY()
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    */
-  double[][] getInterpolatedDyDpDot() throws MathUserException;
+  double[][] getInterpolatedDyDpDot() throws DerivativeException;
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by
@@ -179,10 +179,10 @@ public interface StepInterpolatorWithJacobians extends Externalizable {
    * original one. Both can be used with different settings for
    * interpolated time without any side effect.</p>
    * @return a deep copy of the instance, which can be used independently.
-   * @throws MathUserException if this call induces an automatic
+   * @throws DerivativeException if this call induces an automatic
    * step finalization that throws one
    * @see #setInterpolatedTime(double)
    */
-   StepInterpolatorWithJacobians copy() throws MathUserException;
+   StepInterpolatorWithJacobians copy() throws DerivativeException;
 
 }

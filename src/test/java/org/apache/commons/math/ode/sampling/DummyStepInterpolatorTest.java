@@ -27,7 +27,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
@@ -38,7 +38,7 @@ import org.junit.Test;
 public class DummyStepInterpolatorTest {
 
   @Test
-  public void testNoReset() throws MathUserException {
+  public void testNoReset() throws DerivativeException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -55,7 +55,7 @@ public class DummyStepInterpolatorTest {
 
   @Test
   public void testFixedState()
-    throws MathUserException {
+    throws DerivativeException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -79,7 +79,7 @@ public class DummyStepInterpolatorTest {
 
   @Test
   public void testSerialization()
-  throws MathUserException, IOException, ClassNotFoundException {
+  throws DerivativeException, IOException, ClassNotFoundException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -136,8 +136,8 @@ public class DummyStepInterpolatorTest {
           super(y, new double[y.length], forward);
       }
       @Override
-      protected void doFinalize() throws MathUserException {
-          throw new MathUserException((Localizable) null, LocalizedFormats.SIMPLE_MESSAGE, "");
+      protected void doFinalize() throws DerivativeException {
+          throw new DerivativeException((Localizable) null, LocalizedFormats.SIMPLE_MESSAGE, "");
       }
   }
 

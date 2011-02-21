@@ -25,7 +25,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
@@ -100,7 +100,7 @@ import org.junit.Test;
 public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
 
     @Test
-    public void testTrivial() throws MathUserException, OptimizationException {
+    public void testTrivial() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
@@ -142,7 +142,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
     }
 
     @Test(expected = OptimizationException.class)
-    public void testNoOptimum() throws MathUserException, OptimizationException {
+    public void testNoOptimum() throws FunctionEvaluationException, OptimizationException {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true);
         JDKRandomGenerator g = new JDKRandomGenerator();
@@ -158,8 +158,8 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
                 public MultivariateMatrixFunction jacobian() {
                     return null;
                 }
-                public double[] value(double[] point) throws MathUserException {
-                    throw new MathUserException();
+                public double[] value(double[] point) throws FunctionEvaluationException {
+                    throw new FunctionEvaluationException(point);
                 }
             }, new double[] { 2 }, new double[] { 1 }, new double[] { 0 });
     }

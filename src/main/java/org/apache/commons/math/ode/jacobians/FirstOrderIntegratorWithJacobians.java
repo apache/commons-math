@@ -26,7 +26,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -209,13 +209,13 @@ public class FirstOrderIntegratorWithJacobians {
      * @return stop time, will be the same as target time if integration reached its
      * target, but may be different if some event handler stops it at some point.
      * @throws IntegratorException if the integrator cannot perform integration
-     * @throws MathUserException this exception is propagated to the caller if
+     * @throws DerivativeException this exception is propagated to the caller if
      * the underlying user function triggers one
      */
     public double integrate(final double t0, final double[] y0, final double[][] dY0dP,
                             final double t, final double[] y,
                             final double[][] dYdY0, final double[][] dYdP)
-        throws MathUserException, IntegratorException {
+        throws DerivativeException, IntegratorException {
 
         final int n = ode.getDimension();
         final int k = ode.getParametersDimension();
@@ -398,7 +398,7 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** {@inheritDoc} */
         public void computeDerivatives(final double t, final double[] z, final double[] zDot)
-            throws MathUserException {
+            throws DerivativeException {
 
             final int n = y.length;
             final int k = dFdP[0].length;
@@ -406,7 +406,7 @@ public class FirstOrderIntegratorWithJacobians {
             // compute raw ODE and its jacobians: dy/dt, d[dy/dt]/dy0 and d[dy/dt]/dp
             System.arraycopy(z,    0, y,    0, n);
             if (++evaluations > maxEvaluations) {
-                throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
+                throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
             }
             ode.computeDerivatives(t, y, yDot);
             ode.computeJacobians(t, y, yDot, dFdY, dFdP);
@@ -488,7 +488,7 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public void computeDerivatives(double t, double[] y, double[] yDot) throws MathUserException {
+        public void computeDerivatives(double t, double[] y, double[] yDot) throws DerivativeException {
             // this call to computeDerivatives has already been counted,
             // we must not increment the counter again
             ode.computeDerivatives(t, y, yDot);
@@ -502,14 +502,14 @@ public class FirstOrderIntegratorWithJacobians {
         /** {@inheritDoc} */
         public void computeJacobians(double t, double[] y, double[] yDot,
                                      double[][] dFdY, double[][] dFdP)
-            throws MathUserException {
+            throws DerivativeException {
 
             final int n = hY.length;
             final int k = hP.length;
 
             evaluations += n + k;
             if (evaluations > maxEvaluations) {
-                throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
+                throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
             }
 
             // compute df/dy where f is the ODE and y is the state array
@@ -570,7 +570,7 @@ public class FirstOrderIntegratorWithJacobians {
 
         /** {@inheritDoc} */
         public void handleStep(StepInterpolator interpolator, boolean isLast)
-            throws MathUserException {
+            throws DerivativeException {
             handler.handleStep(new StepInterpolatorWrapper(interpolator, n, k), isLast);
         }
 
@@ -655,14 +655,14 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public double[] getInterpolatedY() throws MathUserException {
+        public double[] getInterpolatedY() throws DerivativeException {
             double[] extendedState = interpolator.getInterpolatedState();
             System.arraycopy(extendedState, 0, y, 0, y.length);
             return y;
         }
 
         /** {@inheritDoc} */
-        public double[][] getInterpolatedDyDy0() throws MathUserException {
+        public double[][] getInterpolatedDyDy0() throws DerivativeException {
             double[] extendedState = interpolator.getInterpolatedState();
             final int n = y.length;
             int start = n;
@@ -674,7 +674,7 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public double[][] getInterpolatedDyDp() throws MathUserException {
+        public double[][] getInterpolatedDyDp() throws DerivativeException {
             double[] extendedState = interpolator.getInterpolatedState();
             final int n = y.length;
             final int k = dydp[0].length;
@@ -687,14 +687,14 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public double[] getInterpolatedYDot() throws MathUserException {
+        public double[] getInterpolatedYDot() throws DerivativeException {
             double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
             System.arraycopy(extendedDerivatives, 0, yDot, 0, yDot.length);
             return yDot;
         }
 
         /** {@inheritDoc} */
-        public double[][] getInterpolatedDyDy0Dot() throws MathUserException {
+        public double[][] getInterpolatedDyDy0Dot() throws DerivativeException {
             double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
             final int n = y.length;
             int start = n;
@@ -706,7 +706,7 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public double[][] getInterpolatedDyDpDot() throws MathUserException {
+        public double[][] getInterpolatedDyDpDot() throws DerivativeException {
             double[] extendedDerivatives = interpolator.getInterpolatedDerivatives();
             final int n = y.length;
             final int k = dydpDot[0].length;
@@ -724,7 +724,7 @@ public class FirstOrderIntegratorWithJacobians {
         }
 
         /** {@inheritDoc} */
-        public StepInterpolatorWithJacobians copy() throws MathUserException {
+        public StepInterpolatorWithJacobians copy() throws DerivativeException {
             final int n = y.length;
             final int k = dydp[0].length;
             StepInterpolatorWrapper copied =

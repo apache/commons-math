@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -458,7 +458,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -474,7 +474,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -492,7 +492,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -510,7 +510,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -526,7 +526,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -542,7 +542,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     /** {@inheritDoc} */
     @Override
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -559,7 +559,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -577,7 +577,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);

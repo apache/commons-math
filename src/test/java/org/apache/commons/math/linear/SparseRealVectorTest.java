@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -60,17 +60,17 @@ public class SparseRealVectorTest extends TestCase {
             data = d.clone();
         }
 
-        private MathUserException unsupported() {
-            return new MathUserException(new UnsupportedOperationException("Not supported, unneeded for test purposes"));
+        private MatrixVisitorException unsupported() {
+            return new MatrixVisitorException("Not supported, unneeded for test purposes", new Object[0]);
         }
 
         @Override
-        public RealVector map(UnivariateRealFunction function) throws MathUserException {
+        public RealVector map(UnivariateRealFunction function) throws MatrixVisitorException {
             throw unsupported();
         }
 
         @Override
-        public RealVector mapToSelf(UnivariateRealFunction function) throws MathUserException {
+        public RealVector mapToSelf(UnivariateRealFunction function) throws MatrixVisitorException {
             throw unsupported();
         }
 

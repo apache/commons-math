@@ -23,7 +23,6 @@ import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.InvalidMatrixException;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -327,7 +326,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
     public VectorialPointValuePair optimize(final DifferentiableMultivariateVectorialFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint)
-        throws MathUserException, OptimizationException, IllegalArgumentException {
+        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
 
         if (target.length != weights.length) {
             throw new OptimizationException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
@@ -357,11 +356,7 @@ public abstract class AbstractLeastSquaresOptimizer implements DifferentiableMul
 
         cost = Double.POSITIVE_INFINITY;
 
-        try {
-            return doOptimize();
-        } catch (FunctionEvaluationException ex) {
-            throw new MathUserException(ex);
-        }
+        return doOptimize();
 
     }
 

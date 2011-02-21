@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -307,7 +307,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentEquations() throws MathUserException, OptimizationException {
+    public void testInconsistentEquations() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -320,7 +320,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testInconsistentSizes() throws MathUserException, OptimizationException {
+    public void testInconsistentSizes() throws FunctionEvaluationException, OptimizationException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
@@ -345,7 +345,7 @@ public class LevenbergMarquardtOptimizerTest
                                new double[] { 1 },
                                new double[] { 0, 0 });
             fail("an exception should have been thrown");
-        } catch (MathUserException oe) {
+        } catch (FunctionEvaluationException oe) {
             // expected behavior
         }
 
@@ -381,7 +381,7 @@ public class LevenbergMarquardtOptimizerTest
             assertTrue(! shouldFail);
         } catch (OptimizationException ee) {
             assertTrue(shouldFail);
-        } catch (MathUserException ee) {
+        } catch (FunctionEvaluationException ee) {
             assertTrue(shouldFail);
         }
     }
@@ -435,7 +435,7 @@ public class LevenbergMarquardtOptimizerTest
 
     }
 
-    public void testCircleFittingBadInit() throws MathUserException, OptimizationException {
+    public void testCircleFittingBadInit() throws FunctionEvaluationException, OptimizationException {
         Circle circle = new Circle();
         double[][] points = new double[][] {
                 {-0.312967,  0.072366}, {-0.339248,  0.132965}, {-0.379780,  0.202724},
@@ -488,7 +488,7 @@ public class LevenbergMarquardtOptimizerTest
         assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
-    public void testMath199() throws MathUserException {
+    public void testMath199() throws FunctionEvaluationException {
         try {
             QuadraticProblem problem = new QuadraticProblem();
             problem.addPoint (0, -3.182591015485607);
@@ -590,7 +590,7 @@ public class LevenbergMarquardtOptimizerTest
         }
 
         public double[] value(double[] variables)
-        throws MathUserException, IllegalArgumentException {
+        throws FunctionEvaluationException, IllegalArgumentException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

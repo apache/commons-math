@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 import junit.framework.*;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -49,14 +49,14 @@ public class GillIntegratorTest
                                          0.0, new double[pb.getDimension()+10],
                                          1.0, new double[pb.getDimension()+10]);
         fail("an exception should have been thrown");
-    } catch(MathUserException de) {
+    } catch(DerivativeException de) {
       fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
   public void testDecreasingSteps()
-    throws MathUserException, IntegratorException  {
+    throws DerivativeException, IntegratorException  {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -101,7 +101,7 @@ public class GillIntegratorTest
   }
 
   public void testSmallStep()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -120,7 +120,7 @@ public class GillIntegratorTest
   }
 
   public void testBigStep()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -138,7 +138,7 @@ public class GillIntegratorTest
   }
 
   public void testBackward()
-      throws MathUserException, IntegratorException {
+      throws DerivativeException, IntegratorException {
 
       TestProblem5 pb = new TestProblem5();
       double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -156,7 +156,7 @@ public class GillIntegratorTest
   }
 
   public void testKepler()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
@@ -169,7 +169,7 @@ public class GillIntegratorTest
   }
 
   public void testUnstableDerivative()
-  throws MathUserException, IntegratorException {
+  throws DerivativeException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ = new GillIntegrator(0.3);
     integ.addEventHandler(stepProblem, 1.0, 1.0e-12, 1000);
@@ -190,7 +190,7 @@ public class GillIntegratorTest
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) throws MathUserException {
+                           boolean isLast) throws DerivativeException {
 
       double[] interpolatedY = interpolator.getInterpolatedState();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
@@ -212,7 +212,7 @@ public class GillIntegratorTest
   }
 
   public void testStepSize()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new GillIntegrator(step);
       integ.addStepHandler(new StepHandler() {

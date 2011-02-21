@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -70,7 +71,12 @@ public class PolynomialFitter {
      * @exception OptimizationException if the algorithm failed to converge
      */
     public PolynomialFunction fit() throws OptimizationException {
-        return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
+        try {
+            return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
+        } catch (FunctionEvaluationException fee) {
+            // should never happen
+            throw new RuntimeException(fee);
+        }
     }
 
     /** Dedicated parametric polynomial class. */

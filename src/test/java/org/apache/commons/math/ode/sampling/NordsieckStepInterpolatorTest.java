@@ -26,7 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -38,7 +38,7 @@ public class NordsieckStepInterpolatorTest {
 
     @Test
     public void derivativesConsistency()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
         TestProblem3 pb = new TestProblem3();
         AdamsBashforthIntegrator integ = new AdamsBashforthIntegrator(4, 0.0, 1.0, 1.0e-10, 1.0e-10);
         StepInterpolatorTestUtils.checkDerivativesConsistency(integ, pb, 5e-9);
@@ -46,7 +46,7 @@ public class NordsieckStepInterpolatorTest {
 
     @Test
     public void serialization()
-    throws MathUserException, IntegratorException,
+    throws DerivativeException, IntegratorException,
     IOException, ClassNotFoundException {
 
         TestProblem1 pb = new TestProblem1();

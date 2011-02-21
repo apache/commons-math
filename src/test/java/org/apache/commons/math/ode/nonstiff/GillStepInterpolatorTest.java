@@ -26,7 +26,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
@@ -39,7 +39,7 @@ public class GillStepInterpolatorTest {
 
   @Test
   public void testDerivativesConsistency()
-  throws MathUserException, IntegratorException {
+  throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     GillIntegrator integ = new GillIntegrator(step);
@@ -48,7 +48,7 @@ public class GillStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws MathUserException, IntegratorException,
+    throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
     TestProblem3 pb = new TestProblem3(0.9);

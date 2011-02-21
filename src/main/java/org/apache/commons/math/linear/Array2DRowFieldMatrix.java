@@ -22,7 +22,7 @@ import java.io.Serializable;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -450,7 +450,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     /** {@inheritDoc} */
     @Override
     public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -466,7 +466,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     /** {@inheritDoc} */
     @Override
     public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -484,7 +484,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInRowOrder(final FieldMatrixChangingVisitor<T> visitor,
                             final int startRow, final int endRow,
                             final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -502,7 +502,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInRowOrder(final FieldMatrixPreservingVisitor<T> visitor,
                             final int startRow, final int endRow,
                             final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -518,7 +518,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     /** {@inheritDoc} */
     @Override
     public T walkInColumnOrder(final FieldMatrixChangingVisitor<T> visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -534,7 +534,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     /** {@inheritDoc} */
     @Override
     public T walkInColumnOrder(final FieldMatrixPreservingVisitor<T> visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -551,7 +551,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInColumnOrder(final FieldMatrixChangingVisitor<T> visitor,
                                final int startRow, final int endRow,
                                final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -569,7 +569,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>> extends AbstractFi
     public T walkInColumnOrder(final FieldMatrixPreservingVisitor<T> visitor,
                                final int startRow, final int endRow,
                                final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         checkSubMatrixIndex(startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);

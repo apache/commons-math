@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 
@@ -836,7 +836,7 @@ public final class FieldMatrixImplTest extends TestCase {
 
     }
 
-    public void testWalk() throws MathUserException {
+    public void testWalk() throws MatrixVisitorException {
         int rows    = 150;
         int columns = 75;
 

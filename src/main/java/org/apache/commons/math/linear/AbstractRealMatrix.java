@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -778,7 +778,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -795,7 +795,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -811,7 +811,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -830,7 +830,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
                                  final int startRow, final int endRow,
                                  final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -844,7 +844,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -861,7 +861,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         final int rows    = getRowDimension();
         final int columns = getColumnDimension();
         visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);
@@ -877,7 +877,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-    throws MatrixIndexException, MathUserException {
+    throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -896,7 +896,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
                                     final int startRow, final int endRow,
                                     final int startColumn, final int endColumn)
-    throws MatrixIndexException, MathUserException {
+    throws MatrixIndexException, MatrixVisitorException {
         MatrixUtils.checkSubMatrixIndex(this, startRow, endRow, startColumn, endColumn);
         visitor.start(getRowDimension(), getColumnDimension(),
                       startRow, endRow, startColumn, endColumn);
@@ -910,13 +910,13 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
     /** {@inheritDoc} */
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         return walkInRowOrder(visitor);
     }
 
     /** {@inheritDoc} */
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUserException {
+        throws MatrixVisitorException {
         return walkInRowOrder(visitor);
     }
 
@@ -924,7 +924,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
     }
 
@@ -932,7 +932,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor,
                                        final int startRow, final int endRow,
                                        final int startColumn, final int endColumn)
-        throws MatrixIndexException, MathUserException {
+        throws MatrixIndexException, MatrixVisitorException {
         return walkInRowOrder(visitor, startRow, endRow, startColumn, endColumn);
     }
 

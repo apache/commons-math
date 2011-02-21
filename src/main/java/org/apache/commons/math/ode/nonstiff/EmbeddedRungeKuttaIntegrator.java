@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
@@ -192,7 +192,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
   public double integrate(final FirstOrderDifferentialEquations equations,
                           final double t0, final double[] y0,
                           final double t, final double[] y)
-  throws MathUserException, IntegratorException {
+  throws DerivativeException, IntegratorException {
 
     sanityChecks(equations, t0, y0, t, y);
     setEquations(equations);

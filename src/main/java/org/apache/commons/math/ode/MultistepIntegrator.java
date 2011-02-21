@@ -18,7 +18,7 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -206,11 +206,11 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
      * @throws IntegratorException if the integrator cannot perform integration
-     * @throws MathUserException this exception is propagated to the caller if
+     * @throws DerivativeException this exception is propagated to the caller if
      * the underlying user function triggers one
      */
     protected void start(final double t0, final double[] y0, final double t)
-        throws MathUserException, IntegratorException {
+        throws DerivativeException, IntegratorException {
 
         // make sure NO user event nor user step handler is triggered,
         // this is the task of the top level integrator, not the task
@@ -225,7 +225,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         try {
             starter.integrate(new CountingDifferentialEquations(y0.length),
                               t0, y0, t, new double[y0.length]);
-        } catch (MathUserException mue) {
+        } catch (DerivativeException mue) {
             if (!(mue instanceof InitializationCompletedMarkerException)) {
                 // this is not the expected nominal interruption of the start integrator
                 throw mue;
@@ -322,7 +322,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
         /** {@inheritDoc} */
         public void handleStep(StepInterpolator interpolator, boolean isLast)
-            throws MathUserException {
+            throws DerivativeException {
 
             final double prev = interpolator.getPreviousTime();
             final double curr = interpolator.getCurrentTime();
@@ -367,7 +367,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
     private static class InitializationCompletedMarkerException
-        extends MathUserException {
+        extends DerivativeException {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = -4105805787353488365L;
@@ -394,7 +394,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
         /** {@inheritDoc} */
         public void computeDerivatives(double t, double[] y, double[] dot)
-                throws MathUserException {
+                throws DerivativeException {
             MultistepIntegrator.this.computeDerivatives(t, y, dot);
         }
 

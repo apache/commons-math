@@ -26,7 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -39,7 +39,7 @@ import org.junit.Test;
 public class EulerStepInterpolatorTest {
 
   @Test
-  public void noReset() throws MathUserException {
+  public void noReset() throws DerivativeException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -58,7 +58,7 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void interpolationAtBounds()
-    throws MathUserException {
+    throws DerivativeException {
 
     double   t0 = 0;
     double[] y0 = {0.0, 1.0, -2.0};
@@ -95,7 +95,7 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void interpolationInside()
-  throws MathUserException {
+  throws DerivativeException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -121,7 +121,7 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  throws MathUserException, IntegratorException {
+  throws DerivativeException, IntegratorException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     EulerIntegrator integ = new EulerIntegrator(step);
@@ -130,7 +130,7 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws MathUserException, IntegratorException,
+    throws DerivativeException, IntegratorException,
            IOException, ClassNotFoundException {
 
     TestProblem1 pb = new TestProblem1();

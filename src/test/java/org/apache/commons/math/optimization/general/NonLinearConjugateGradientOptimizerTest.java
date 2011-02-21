@@ -27,7 +27,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
@@ -380,7 +380,7 @@ extends TestCase {
             return p;
         }
 
-        public double value(double[] variables) throws MathUserException {
+        public double value(double[] variables) throws FunctionEvaluationException {
             double[] y = factors.operate(variables);
             double sum = 0;
             for (int i = 0; i < y.length; ++i) {
@@ -454,7 +454,7 @@ extends TestCase {
         }
 
         public double value(double[] variables)
-                throws IllegalArgumentException, MathUserException {
+                throws IllegalArgumentException, FunctionEvaluationException {
 
             Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
             double radius = getRadius(center);

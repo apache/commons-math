@@ -28,7 +28,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.events.CombinedEventsManager;
 import org.apache.commons.math.ode.events.EventException;
@@ -200,13 +199,13 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
-     * @throws MathUserException this user-defined exception should be used if an error is
+     * @throws DerivativeException this user-defined exception should be used if an error is
      * is triggered by user code
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
-        throws MathUserException {
+        throws DerivativeException {
         if (++evaluations > maxEvaluations) {
-            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
+            throw new DerivativeException(new MaxEvaluationsExceededException(maxEvaluations));
         }
         equations.computeDerivatives(t, y, yDot);
     }
@@ -228,11 +227,13 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @param tEnd final integration time
      * @return time at end of step
+     * @throws DerivativeException this exception is propagated to the caller if
+     * the underlying user function triggers one
      * @exception IntegratorException if the value of one event state cannot be evaluated
      */
     protected double acceptStep(final AbstractStepInterpolator interpolator,
                                 final double[] y, final double[] yDot, final double tEnd)
-        throws IntegratorException {
+        throws DerivativeException, IntegratorException {
 
         try {
             double previousT = interpolator.getGlobalPreviousTime();
@@ -332,8 +333,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             return currentT;
         } catch (EventException se) {
             final Throwable cause = se.getCause();
-            if ((cause != null) && (cause instanceof MathUserException)) {
-                throw (MathUserException) cause;
+            if ((cause != null) && (cause instanceof DerivativeException)) {
+                throw (DerivativeException) cause;
             }
             throw new IntegratorException(se);
         } catch (ConvergenceException ce) {

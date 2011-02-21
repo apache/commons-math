@@ -22,7 +22,7 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.exception.MathInternalError;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
 
@@ -180,7 +180,7 @@ public class EventState {
                 g0Positive = g0 >= 0;
             }
 
-        } catch (MathUserException mue) {
+        } catch (DerivativeException mue) {
             throw new EventException(mue);
         }
     }
@@ -189,14 +189,14 @@ public class EventState {
      * @param interpolator step interpolator for the proposed step
      * @return true if the event handler triggers an event before
      * the end of the proposed step
-     * @exception MathUserException if the interpolator fails to
+     * @exception DerivativeException if the interpolator fails to
      * compute the switching function somewhere within the step
      * @exception EventException if the switching function
      * cannot be evaluated
      * @exception ConvergenceException if an event cannot be located
      */
     public boolean evaluateStep(final StepInterpolator interpolator)
-        throws MathUserException, EventException, ConvergenceException {
+        throws DerivativeException, EventException, ConvergenceException {
 
         try {
 
@@ -228,12 +228,14 @@ public class EventState {
                     increasing = gb >= ga;
 
                     final UnivariateRealFunction f = new UnivariateRealFunction() {
-                        public double value(final double t) throws MathUserException {
+                        public double value(final double t) {
                             try {
                                 interpolator.setInterpolatedTime(t);
                                 return handler.g(t, interpolator.getInterpolatedState());
+                            } catch (DerivativeException e) {
+                                throw new EmbeddedDerivativeException(e);
                             } catch (EventException e) {
-                                throw new MathUserException(e);
+                                throw new EmbeddedEventException(e);
                             }
                         }
                     };
@@ -253,7 +255,7 @@ public class EventState {
                             try {
                                 ga = f.value(ta);
                             } catch (FunctionEvaluationException ex) {
-                                throw new MathUserException(ex);
+                                throw new DerivativeException(ex);
                             }
                         }
                         if (ga * gb > 0) {
@@ -268,7 +270,7 @@ public class EventState {
                                 solver.solve(maxIterationCount, f, ta, tb) :
                                     solver.solve(maxIterationCount, f, tb, ta);
                     } catch (FunctionEvaluationException ex) {
-                        throw new MathUserException(ex);
+                        throw new DerivativeException(ex);
                     }
 
                     if ((!Double.isNaN(previousEventTime)) &&
@@ -301,12 +303,10 @@ public class EventState {
             pendingEventTime = Double.NaN;
             return false;
 
-        } catch (MathUserException mue) {
-            final Throwable cause = mue.getCause();
-            if ((cause != null) && (cause instanceof EventException)) {
-                throw (EventException) cause;
-            }
-            throw mue;
+        } catch (EmbeddedDerivativeException ede) {
+            throw ede.getDerivativeException();
+        } catch (EmbeddedEventException eee) {
+            throw eee.getEventException();
         }
 
     }
@@ -379,4 +379,53 @@ public class EventState {
 
     }
 
+    /** Local exception for embedding DerivativeException. */
+    private static class EmbeddedDerivativeException extends RuntimeException {
+
+        /** Serializable UID. */
+        private static final long serialVersionUID = 3574188382434584610L;
+
+        /** Embedded exception. */
+        private final DerivativeException derivativeException;
+
+        /** Simple constructor.
+         * @param derivativeException embedded exception
+         */
+        public EmbeddedDerivativeException(final DerivativeException derivativeException) {
+            this.derivativeException = derivativeException;
+        }
+
+        /** Get the embedded exception.
+         * @return embedded exception
+         */
+        public DerivativeException getDerivativeException() {
+            return derivativeException;
+        }
+
+    }
+
+    /** Local exception for embedding EventException. */
+    private static class EmbeddedEventException extends RuntimeException {
+
+        /** Serializable UID. */
+        private static final long serialVersionUID = -1337749250090455474L;
+
+        /** Embedded exception. */
+        private final EventException eventException;
+
+        /** Simple constructor.
+         * @param eventException embedded exception
+         */
+        public EmbeddedEventException(final EventException eventException) {
+            this.eventException = eventException;
+        }
+
+        /** Get the embedded exception.
+         * @return embedded exception
+         */
+        public EventException getEventException() {
+            return eventException;
+        }
+
+    }
 }

@@ -18,7 +18,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 
 /**
  * Interface defining a visitor for matrix entries.
@@ -48,10 +48,10 @@ public interface FieldMatrixChangingVisitor<T extends FieldElement<?>> {
      * @param column column index of the entry
      * @param value current value of the entry
      * @return the new value to be set for the entry
-     * @throws MathUserException if something wrong occurs
+     * @throws MatrixVisitorException if something wrong occurs
      */
     T visit(int row, int column, T value)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * End visiting a matrix.

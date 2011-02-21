@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.jacobians;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
@@ -31,7 +31,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testLowAccuracyExternalDifferentiation()
-        throws IntegratorException, MathUserException {
+        throws IntegratorException, DerivativeException {
         // this test does not really test FirstOrderIntegratorWithJacobians,
         // it only shows that WITHOUT this class, attempting to recover
         // the jacobians from external differentiation on simple integration
@@ -64,7 +64,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testHighAccuracyExternalDifferentiation()
-        throws IntegratorException, MathUserException {
+        throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double hP = 1.0e-12;
@@ -92,7 +92,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testInternalDifferentiation()
-        throws IntegratorException, MathUserException {
+        throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         double hP = 1.0e-12;
@@ -125,7 +125,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
 
     @Test
     public void testAnalyticalDifferentiation()
-        throws IntegratorException, MathUserException {
+        throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         SummaryStatistics residualsP0 = new SummaryStatistics();
@@ -154,7 +154,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
     }
 
     @Test
-    public void testFinalResult() throws IntegratorException, MathUserException {
+    public void testFinalResult() throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };
@@ -181,7 +181,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
     }
 
     @Test
-    public void testStepHandlerResult() throws IntegratorException, MathUserException {
+    public void testStepHandlerResult() throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };
@@ -201,7 +201,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
             }
 
             public void handleStep(StepInterpolatorWithJacobians interpolator, boolean isLast)
-                throws MathUserException {
+                throws DerivativeException {
                 double     t     = interpolator.getCurrentTime();
                 double[]   y     = interpolator.getInterpolatedY();
                 double[][] dydy0 = interpolator.getInterpolatedDyDy0();
@@ -245,7 +245,7 @@ public class FirstOrderIntegratorWithJacobiansTest {
     }
 
     @Test
-    public void testEventHandler() throws IntegratorException, MathUserException {
+    public void testEventHandler() throws IntegratorException, DerivativeException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };

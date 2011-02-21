@@ -20,7 +20,7 @@ package org.apache.commons.math.ode;
 import junit.framework.*;
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
@@ -40,7 +40,7 @@ public class ContinuousOutputModelTest
   }
 
   public void testBoundaries()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
     integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -52,7 +52,7 @@ public class ContinuousOutputModelTest
   }
 
   public void testRandomAccess()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
     ContinuousOutputModel cm = new ContinuousOutputModel();
     integ.addStepHandler(cm);
@@ -81,14 +81,14 @@ public class ContinuousOutputModelTest
   }
 
   public void testModelsMerging()
-    throws MathUserException, IntegratorException {
+    throws DerivativeException, IntegratorException {
 
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =
           new FirstOrderDifferentialEquations() {
               private static final long serialVersionUID = 2472449657345878299L;
               public void computeDerivatives(double t, double[] y, double[] dot)
-                  throws MathUserException {
+                  throws DerivativeException {
                   dot[0] = -y[1];
                   dot[1] =  y[0];
               }
@@ -133,7 +133,7 @@ public class ContinuousOutputModelTest
   }
 
   public void testErrorConditions()
-    throws MathUserException {
+    throws DerivativeException {
 
       ContinuousOutputModel cm = new ContinuousOutputModel();
       cm.handleStep(buildInterpolator(0, new double[] { 0.0, 1.0, -2.0 }, 1), true);
@@ -154,7 +154,7 @@ public class ContinuousOutputModelTest
 
   private boolean checkAppendError(ContinuousOutputModel cm,
                                    double t0, double[] y0, double t1)
-  throws MathUserException {
+  throws DerivativeException {
       try {
           ContinuousOutputModel otherCm = new ContinuousOutputModel();
           otherCm.handleStep(buildInterpolator(t0, y0, t1), true);

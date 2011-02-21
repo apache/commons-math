@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.OptimizationException;
@@ -95,8 +96,13 @@ public class HarmonicFitter {
 
         }
 
-        double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);
-        return new HarmonicFunction(fitted[0], fitted[1], fitted[2]);
+        try {
+            double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);
+            return new HarmonicFunction(fitted[0], fitted[1], fitted[2]);
+        } catch (FunctionEvaluationException fee) {
+            // should never happen
+            throw new RuntimeException(fee);
+        }
 
     }
 

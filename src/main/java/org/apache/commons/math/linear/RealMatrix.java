@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 
 
 /**
@@ -526,7 +526,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -542,7 +542,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInRowOrder(RealMatrixChangingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (but don't change) all matrix entries in row order.
@@ -550,7 +550,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a row from left to right before going to the leftmost element
      * of the next row.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor, int, int, int, int)
@@ -566,7 +566,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInRowOrder(RealMatrixPreservingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (and possibly change) some matrix entries in row order.
@@ -578,7 +578,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -596,7 +596,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInRowOrder(RealMatrixChangingVisitor visitor,
                           int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -608,7 +608,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -626,7 +626,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInRowOrder(RealMatrixPreservingVisitor visitor,
                           int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
@@ -634,7 +634,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -650,7 +650,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInColumnOrder(RealMatrixChangingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (but don't change) all matrix entries in column order.
@@ -658,7 +658,7 @@ public interface RealMatrix extends AnyMatrix {
      * of a column from top to bottom before going to the topmost element
      * of the next column.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -674,7 +674,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInColumnOrder(RealMatrixPreservingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (and possibly change) some matrix entries in column order.
@@ -686,7 +686,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -704,7 +704,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInColumnOrder(RealMatrixChangingVisitor visitor,
                              int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Visit (but don't change) some matrix entries in column order.
@@ -716,7 +716,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -734,14 +734,14 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInColumnOrder(RealMatrixPreservingVisitor visitor,
                              int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Visit (and possibly change) all matrix entries using the fastest possible order.
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -757,14 +757,14 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInOptimizedOrder(RealMatrixChangingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (but don't change) all matrix entries using the fastest possible order.
      * <p>The fastest walking order depends on the exact matrix class. It may be
      * different from traditional row or column orders.</p>
      * @param visitor visitor used to process all matrix entries
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
      * @see #walkInRowOrder(RealMatrixChangingVisitor, int, int, int, int)
@@ -780,7 +780,7 @@ public interface RealMatrix extends AnyMatrix {
      * of the walk
      */
     double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor)
-        throws MathUserException;
+        throws MatrixVisitorException;
 
     /**
      * Visit (and possibly change) some matrix entries using the fastest possible order.
@@ -791,7 +791,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -809,7 +809,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInOptimizedOrder(RealMatrixChangingVisitor visitor,
                                 int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Visit (but don't change) some matrix entries using the fastest possible order.
@@ -820,7 +820,7 @@ public interface RealMatrix extends AnyMatrix {
      * @param endRow Final row index (inclusive)
      * @param startColumn Initial column index
      * @param endColumn Final column index (inclusive)
-     * @exception  MathUserException if the visitor cannot process an entry
+     * @exception  MatrixVisitorException if the visitor cannot process an entry
      * @exception MatrixIndexException  if the indices are not valid
      * @see #walkInRowOrder(RealMatrixChangingVisitor)
      * @see #walkInRowOrder(RealMatrixPreservingVisitor)
@@ -838,7 +838,7 @@ public interface RealMatrix extends AnyMatrix {
      */
     double walkInOptimizedOrder(RealMatrixPreservingVisitor visitor,
                                 int startRow, int endRow, int startColumn, int endColumn)
-        throws MatrixIndexException, MathUserException;
+        throws MatrixIndexException, MatrixVisitorException;
 
     /**
      * Returns the solution vector for a linear system with coefficient

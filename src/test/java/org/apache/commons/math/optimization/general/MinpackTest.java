@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
@@ -505,7 +505,7 @@ public class MinpackTest extends TestCase {
           function.checkTheoreticalMinParams(optimum);
       } catch (OptimizationException lsse) {
           assertTrue(exceptionExpected);
-      } catch (MathUserException fe) {
+      } catch (FunctionEvaluationException fe) {
           assertTrue(exceptionExpected);
       }
   }

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.ODEIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -73,7 +73,7 @@ public class TestProblemHandler
 
   public void handleStep(StepInterpolator interpolator,
                          boolean isLast)
-    throws MathUserException {
+    throws DerivativeException {
 
     double start = integrator.getCurrentStepStart();
     if (FastMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {

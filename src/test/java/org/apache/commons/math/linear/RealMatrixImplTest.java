@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.linear.MatrixVisitorException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -840,7 +840,7 @@ public final class RealMatrixImplTest extends TestCase {
 
     }
 
-    public void testWalk() throws MatrixIndexException, MathUserException {
+    public void testWalk() throws MatrixIndexException, MatrixVisitorException {
         int rows    = 150;
         int columns = 75;
 

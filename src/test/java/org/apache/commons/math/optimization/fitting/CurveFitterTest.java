@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.util.FastMath;
@@ -28,7 +28,7 @@ public class CurveFitterTest {
 
     @Test
     public void testMath303()
-        throws OptimizationException, MathUserException {
+        throws OptimizationException, FunctionEvaluationException {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter fitter = new CurveFitter(optimizer);
@@ -52,7 +52,7 @@ public class CurveFitterTest {
 
     @Test
     public void testMath304()
-        throws OptimizationException, MathUserException {
+        throws OptimizationException, FunctionEvaluationException {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter fitter = new CurveFitter(optimizer);
@@ -75,7 +75,7 @@ public class CurveFitterTest {
 
     @Test
     public void testMath372()
-    throws OptimizationException, MathUserException {
+    throws OptimizationException, FunctionEvaluationException {
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter curveFitter = new CurveFitter(optimizer);
 
