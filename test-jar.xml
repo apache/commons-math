@@ -30,6 +30,10 @@
 -->
   
 <project default="test" name="commons-math" basedir=".">
+  <!-- JDK level -->
+  <property name="compile.source"          value="1.5"/>
+  <property name="compile.target"          value="1.5"/>
+
   <property name="defaulttargetdir" value="target"/>
   <property name="testclassesdir" value="target/test-classes"/>
   <property name="testreportdir" value="target/test-reports"/>
@@ -100,8 +104,14 @@
 
   <target name="compile-tests" if="Junit.present" depends="junit-present">
     <mkdir dir="${testclassesdir}"/>
-    <javac destdir="${testclassesdir}" deprecation="true" debug="true"
-            optimize="false" excludes="**/package.html">
+    <javac destdir="${testclassesdir}" 
+            deprecation="false" 
+            debug="true"
+            includeantruntime="false"
+            source="${compile.source}"
+            target="${compile.target}"
+            optimize="false" 
+            excludes="**/package.html">
       <src>
         <pathelement location="src/test"/>
       </src>
