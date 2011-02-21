@@ -149,7 +149,7 @@ public class FastMathStrictComparisonTest {
         sb.append(" entries ");
         sb.append(Arrays.toString(entries));
         String message = sb.toString();
-        final boolean fatal = false;
+        final boolean fatal = true;
         if (fatal) {
             Assert.fail(message);
         } else {
