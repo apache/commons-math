@@ -72,7 +72,7 @@
 
   <target name="test-only">
     <mkdir dir="${testreportdir}"/>
-    <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
+    <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="false">
       <sysproperty key="basedir" value="."/>
       <formatter usefile="true" type="brief"/>
       <classpath>
