@@ -35,15 +35,17 @@
   <property name="testclassesdir" value="target/test-classes"/>
   <property name="testreportdir" value="target/test-reports"/>
   <property name="jardir" value="${basedir}"/>
-   <path id="build.classpath">
+  <path id="build.classpath">
     <fileset dir="${jardir}">
       <include name="**/*.jar">
       </include>
     </fileset>
   </path>
+
   <target name="clean" description="o Clean up the generated directories">
     <delete dir="${defaulttargetdir}"/>
   </target>
+
   <target name="init" description="o Initializes some properties">
     <echo>
     JAVA ENVIRONMENT
@@ -66,11 +68,15 @@
     <available property="Junit.present" classname="junit.framework.Test">
     </available>
   </target>
+
   <target name="test" description="o Run the test cases" if="test.failure" depends="internal-test">
     <fail message="There were test failures.">
     </fail>
   </target>
-  <target name="internal-test" if="Junit.present" depends="clean, junit-present,compile-tests">
+
+  <target name="internal-test" if="Junit.present" depends="clean,junit-present,compile-tests,test-only"/>
+
+  <target name="test-only">
     <mkdir dir="${testreportdir}"/>
     <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
       <sysproperty key="basedir" value="."/>
@@ -87,6 +93,7 @@
       </batchtest>
     </junit>
   </target>
+
   <target name="junit-present" unless="Junit.present" depends="init">
   <echo>
     ================================= WARNING ================================
@@ -94,6 +101,7 @@
     ==========================================================================
   </echo>
   </target>
+
   <target name="compile-tests" if="Junit.present" depends="junit-present">
     <mkdir dir="${testclassesdir}"/>
     <javac destdir="${testclassesdir}" deprecation="true" debug="true"
@@ -113,4 +121,3 @@
     </copy>
   </target>
 </project>
-
