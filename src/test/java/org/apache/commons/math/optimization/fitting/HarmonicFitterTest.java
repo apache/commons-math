@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
-import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.analysis.function.HarmonicOscillator;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
@@ -31,68 +31,80 @@ import org.junit.Test;
 public class HarmonicFitterTest {
 
     @Test
-    public void testNoError() throws OptimizationException {
-        HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
+    public void testNoError() {
+        final double a = 0.2;
+        final double w = 3.4;
+        final double p = 4.1;
+        HarmonicOscillator f = new HarmonicOscillator(a, w, p);
 
         HarmonicFitter fitter =
             new HarmonicFitter(new LevenbergMarquardtOptimizer());
         for (double x = 0.0; x < 1.3; x += 0.01) {
-            fitter.addObservedPoint(1.0, x, f.value(x));
+            fitter.addObservedPoint(1, x, f.value(x));
         }
 
-        HarmonicFunction fitted = fitter.fit();
-        assertEquals(f.getAmplitude(), fitted.getAmplitude(), 1.0e-13);
-        assertEquals(f.getPulsation(), fitted.getPulsation(), 1.0e-13);
-        assertEquals(f.getPhase(),     MathUtils.normalizeAngle(fitted.getPhase(), f.getPhase()), 1.0e-13);
+        final double[] fitted = fitter.fit();
+        assertEquals(a, fitted[0], 1.0e-13);
+        assertEquals(w, fitted[1], 1.0e-13);
+        assertEquals(p, MathUtils.normalizeAngle(fitted[2], p), 1e-13);
+
+        HarmonicOscillator ff = new HarmonicOscillator(fitted[0], fitted[1], fitted[2]);
 
         for (double x = -1.0; x < 1.0; x += 0.01) {
-            assertTrue(FastMath.abs(f.value(x) - fitted.value(x)) < 1.0e-13);
+            assertTrue(FastMath.abs(f.value(x) - ff.value(x)) < 1e-13);
         }
-
     }
 
     @Test
-    public void test1PercentError() throws OptimizationException {
+    public void test1PercentError() {
         Random randomizer = new Random(64925784252l);
-        HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
+        final double a = 0.2;
+        final double w = 3.4;
+        final double p = 4.1;
+        HarmonicOscillator f = new HarmonicOscillator(a, w, p);
 
         HarmonicFitter fitter =
             new HarmonicFitter(new LevenbergMarquardtOptimizer());
         for (double x = 0.0; x < 10.0; x += 0.1) {
-            fitter.addObservedPoint(1.0, x,
+            fitter.addObservedPoint(1, x,
                                    f.value(x) + 0.01 * randomizer.nextGaussian());
         }
 
-        HarmonicFunction fitted = fitter.fit();
-        assertEquals(f.getAmplitude(), fitted.getAmplitude(), 7.6e-4);
-        assertEquals(f.getPulsation(), fitted.getPulsation(), 2.7e-3);
-        assertEquals(f.getPhase(),     MathUtils.normalizeAngle(fitted.getPhase(), f.getPhase()), 1.3e-2);
+        final double[] fitted = fitter.fit();
+        assertEquals(a, fitted[0], 7.6e-4);
+        assertEquals(w, fitted[1], 2.7e-3);
+        assertEquals(p, MathUtils.normalizeAngle(fitted[2], p), 1.3e-2);
 
     }
 
     @Test
-    public void testInitialGuess() throws OptimizationException {
+    public void testInitialGuess() {
         Random randomizer = new Random(45314242l);
-        HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
+        final double a = 0.2;
+        final double w = 3.4;
+        final double p = 4.1;
+        HarmonicOscillator f = new HarmonicOscillator(a, w, p);
 
         HarmonicFitter fitter =
-            new HarmonicFitter(new LevenbergMarquardtOptimizer(), new double[] { 0.15, 3.6, 4.5 });
+            new HarmonicFitter(new LevenbergMarquardtOptimizer());
         for (double x = 0.0; x < 10.0; x += 0.1) {
-            fitter.addObservedPoint(1.0, x,
+            fitter.addObservedPoint(1, x,
                                    f.value(x) + 0.01 * randomizer.nextGaussian());
         }
 
-        HarmonicFunction fitted = fitter.fit();
-        assertEquals(f.getAmplitude(), fitted.getAmplitude(), 1.2e-3);
-        assertEquals(f.getPulsation(), fitted.getPulsation(), 3.3e-3);
-        assertEquals(f.getPhase(),     MathUtils.normalizeAngle(fitted.getPhase(), f.getPhase()), 1.7e-2);
-
+        final double[] fitted = fitter.fit(new double[] { 0.15, 3.6, 4.5 });
+        assertEquals(a, fitted[0], 1.2e-3);
+        assertEquals(w, fitted[1], 3.3e-3);
+        assertEquals(p, MathUtils.normalizeAngle(fitted[2], p), 1.7e-2);
     }
 
     @Test
-    public void testUnsorted() throws OptimizationException {
+    public void testUnsorted() {
         Random randomizer = new Random(64925784252l);
-        HarmonicFunction f = new HarmonicFunction(0.2, 3.4, 4.1);
+        final double a = 0.2;
+        final double w = 3.4;
+        final double p = 4.1;
+        HarmonicOscillator f = new HarmonicOscillator(a, w, p);
 
         HarmonicFitter fitter =
             new HarmonicFitter(new LevenbergMarquardtOptimizer());
@@ -120,14 +132,12 @@ public class HarmonicFitterTest {
 
         // pass it to the fitter
         for (int i = 0; i < size; ++i) {
-            fitter.addObservedPoint(1.0, xTab[i], yTab[i]);
+            fitter.addObservedPoint(1, xTab[i], yTab[i]);
         }
 
-        HarmonicFunction fitted = fitter.fit();
-        assertEquals(f.getAmplitude(), fitted.getAmplitude(), 7.6e-4);
-        assertEquals(f.getPulsation(), fitted.getPulsation(), 3.5e-3);
-        assertEquals(f.getPhase(),     MathUtils.normalizeAngle(fitted.getPhase(), f.getPhase()), 1.5e-2);
-
+        final double[] fitted = fitter.fit();
+        assertEquals(a, fitted[0], 7.6e-4);
+        assertEquals(w, fitted[1], 3.5e-3);
+        assertEquals(p, MathUtils.normalizeAngle(fitted[2], p), 1.5e-2);
     }
-
 }

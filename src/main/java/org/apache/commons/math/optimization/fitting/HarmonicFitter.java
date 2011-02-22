@@ -17,113 +17,327 @@
 
 package org.apache.commons.math.optimization.fitting;
 
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.analysis.function.HarmonicOscillator;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
-import org.apache.commons.math.optimization.OptimizationException;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
-/** This class implements a curve fitting specialized for sinusoids.
- * <p>Harmonic fitting is a very simple case of curve fitting. The
+/**
+ * Class that implements a curve fitting specialized for sinusoids.
+ *
+ * Harmonic fitting is a very simple case of curve fitting. The
  * estimated coefficients are the amplitude a, the pulsation &omega; and
  * the phase &phi;: <code>f (t) = a cos (&omega; t + &phi;)</code>. They are
  * searched by a least square estimator initialized with a rough guess
- * based on integrals.</p>
+ * based on integrals.
+ *
  * @version $Revision$ $Date$
  * @since 2.0
  */
-public class HarmonicFitter {
-
-    /** Fitter for the coefficients. */
-    private final CurveFitter fitter;
-
-    /** Values for amplitude, pulsation &omega; and phase &phi;. */
-    private double[] parameters;
-
-    /** Simple constructor.
-     * @param optimizer optimizer to use for the fitting
+public class HarmonicFitter extends CurveFitter {
+    /**
+     * Simple constructor.
+     * @param optimizer Optimizer to use for the fitting.
      */
     public HarmonicFitter(final DifferentiableMultivariateVectorialOptimizer optimizer) {
-        this.fitter = new CurveFitter(optimizer);
-        parameters  = null;
-    }
-
-    /** Simple constructor.
-     * <p>This constructor can be used when a first guess of the
-     * coefficients is already known.</p>
-     * @param optimizer optimizer to use for the fitting
-     * @param initialGuess guessed values for amplitude (index 0),
-     * pulsation &omega; (index 1) and phase &phi; (index 2)
-     */
-    public HarmonicFitter(final DifferentiableMultivariateVectorialOptimizer optimizer,
-                          final double[] initialGuess) {
-        this.fitter     = new CurveFitter(optimizer);
-        this.parameters = initialGuess.clone();
-    }
-
-    /** Add an observed weighted (x,y) point to the sample.
-     * @param weight weight of the observed point in the fit
-     * @param x abscissa of the point
-     * @param y observed value of the point at x, after fitting we should
-     * have P(x) as close as possible to this value
-     */
-    public void addObservedPoint(double weight, double x, double y) {
-        fitter.addObservedPoint(weight, x, y);
+        super(optimizer);
     }
 
     /**
      * Fit an harmonic function to the observed points.
      *
-     * @return harmonic Function that best fits the observed points.
-     * @throws NumberIsTooSmallException if the sample is too short or if
-     * the first guess cannot be computed.
-     * @throws OptimizationException
+     * @param initialGuess First guess values in the following order:
+     * <ul>
+     *  <li>Amplitude</li>
+     *  <li>Angular frequency</li>
+     *  <li>Phase</li>
+     * </ul>
+     * @return the parameters of the harmonic function that best fits the
+     * observed points (in the same order as above).
      */
-    public HarmonicFunction fit() throws OptimizationException {
-        // shall we compute the first guess of the parameters ourselves ?
-        if (parameters == null) {
-            final WeightedObservedPoint[] observations = fitter.getObservations();
+    public double[] fit(double[] initialGuess) {
+        return fit(new HarmonicOscillator.Parametric(), initialGuess);
+    }
+
+    /**
+     * Fit an harmonic function to the observed points.
+     * An initial guess will be automatically computed.
+     *
+     * @return the parameters of the harmonic function that best fits the
+     * observed points (see the other {@link #fit(double[]) fit} method.
+     * @throws NumberIsTooSmallException if the sample is too short for the
+     * the first guess to be computed.
+     * @throws ZeroException if the first guess cannot be computed because
+     * the abscissa range is zero.
+     */
+    public double[] fit() {
+        return fit((new ParameterGuesser(getObservations())).guess());
+    }
+
+    /**
+     * This class guesses harmonic coefficients from a sample.
+     * <p>The algorithm used to guess the coefficients is as follows:</p>
+     *
+     * <p>We know f (t) at some sampling points t<sub>i</sub> and want to find a,
+     * &omega; and &phi; such that f (t) = a cos (&omega; t + &phi;).
+     * </p>
+     *
+     * <p>From the analytical expression, we can compute two primitives :
+     * <pre>
+     *     If2  (t) = &int; f<sup>2</sup>  = a<sup>2</sup> &times; [t + S (t)] / 2
+     *     If'2 (t) = &int; f'<sup>2</sup> = a<sup>2</sup> &omega;<sup>2</sup> &times; [t - S (t)] / 2
+     *     where S (t) = sin (2 (&omega; t + &phi;)) / (2 &omega;)
+     * </pre>
+     * </p>
+     *
+     * <p>We can remove S between these expressions :
+     * <pre>
+     *     If'2 (t) = a<sup>2</sup> &omega;<sup>2</sup> t - &omega;<sup>2</sup> If2 (t)
+     * </pre>
+     * </p>
+     *
+     * <p>The preceding expression shows that If'2 (t) is a linear
+     * combination of both t and If2 (t): If'2 (t) = A &times; t + B &times; If2 (t)
+     * </p>
+     *
+     * <p>From the primitive, we can deduce the same form for definite
+     * integrals between t<sub>1</sub> and t<sub>i</sub> for each t<sub>i</sub> :
+     * <pre>
+     *   If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>) = A &times; (t<sub>i</sub> - t<sub>1</sub>) + B &times; (If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>))
+     * </pre>
+     * </p>
+     *
+     * <p>We can find the coefficients A and B that best fit the sample
+     * to this linear expression by computing the definite integrals for
+     * each sample points.
+     * </p>
+     *
+     * <p>For a bilinear expression z (x<sub>i</sub>, y<sub>i</sub>) = A &times; x<sub>i</sub> + B &times; y<sub>i</sub>, the
+     * coefficients A and B that minimize a least square criterion
+     * &sum; (z<sub>i</sub> - z (x<sub>i</sub>, y<sub>i</sub>))<sup>2</sup> are given by these expressions:</p>
+     * <pre>
+     *
+     *         &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+     *     A = ------------------------
+     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
+     *
+     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub>
+     *     B = ------------------------
+     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
+     * </pre>
+     * </p>
+     *
+     *
+     * <p>In fact, we can assume both a and &omega; are positive and
+     * compute them directly, knowing that A = a<sup>2</sup> &omega;<sup>2</sup> and that
+     * B = - &omega;<sup>2</sup>. The complete algorithm is therefore:</p>
+     * <pre>
+     *
+     * for each t<sub>i</sub> from t<sub>1</sub> to t<sub>n-1</sub>, compute:
+     *   f  (t<sub>i</sub>)
+     *   f' (t<sub>i</sub>) = (f (t<sub>i+1</sub>) - f(t<sub>i-1</sub>)) / (t<sub>i+1</sub> - t<sub>i-1</sub>)
+     *   x<sub>i</sub> = t<sub>i</sub> - t<sub>1</sub>
+     *   y<sub>i</sub> = &int; f<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
+     *   z<sub>i</sub> = &int; f'<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
+     *   update the sums &sum;x<sub>i</sub>x<sub>i</sub>, &sum;y<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>z<sub>i</sub> and &sum;y<sub>i</sub>z<sub>i</sub>
+     * end for
+     *
+     *            |--------------------------
+     *         \  | &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+     * a     =  \ | ------------------------
+     *           \| &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+     *
+     *
+     *            |--------------------------
+     *         \  | &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
+     * &omega;     =  \ | ------------------------
+     *           \| &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
+     *
+     * </pre>
+     * </p>
+     *
+     * <p>Once we know &omega;, we can compute:
+     * <pre>
+     *    fc = &omega; f (t) cos (&omega; t) - f' (t) sin (&omega; t)
+     *    fs = &omega; f (t) sin (&omega; t) + f' (t) cos (&omega; t)
+     * </pre>
+     * </p>
+     *
+     * <p>It appears that <code>fc = a &omega; cos (&phi;)</code> and
+     * <code>fs = -a &omega; sin (&phi;)</code>, so we can use these
+     * expressions to compute &phi;. The best estimate over the sample is
+     * given by averaging these expressions.
+     * </p>
+     *
+     * <p>Since integrals and means are involved in the preceding
+     * estimations, these operations run in O(n) time, where n is the
+     * number of measurements.</p>
+     */
+    public static class ParameterGuesser {
+        /** Sampled observations. */
+        private final WeightedObservedPoint[] observations;
+        /** Amplitude. */
+        private double a;
+        /** Angular frequency. */
+        private double omega;
+        /** Phase. */
+        private double phi;
+
+        /**
+         * Simple constructor.
+         * @param observations sampled observations
+         * @throws NumberIsTooSmallException if the sample is too short or if
+         * the first guess cannot be computed.
+         */
+        public ParameterGuesser(WeightedObservedPoint[] observations) {
             if (observations.length < 4) {
                 throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
                                                     observations.length, 4, true);
             }
 
-            HarmonicCoefficientsGuesser guesser = new HarmonicCoefficientsGuesser(observations);
-            guesser.guess();
-            parameters = new double[] {
-                guesser.getGuessedAmplitude(),
-                guesser.getGuessedPulsation(),
-                guesser.getGuessedPhase()
-            };
+            this.observations = observations.clone();
         }
 
-        double[] fitted = fitter.fit(new ParametricHarmonicFunction(), parameters);
-        return new HarmonicFunction(fitted[0], fitted[1], fitted[2]);
+        /**
+         * Estimate a first guess of the coefficients.
+         *
+         * @return the guessed coefficients, in the following order:
+         * <ul>
+         *  <li>Amplitude</li>
+         *  <li>Angular frequency</li>
+         *  <li>Phase</li>
+         * </ul>
+         */
+        public double[] guess() {
+            sortObservations();
+            guessAOmega();
+            guessPhi();
+            return new double[] { a, omega, phi };
+        }
+
+        /**
+         * Sort the observations with respect to the abscissa.
+         */
+        private void sortObservations() {
+            // Since the samples are almost always already sorted, this
+            // method is implemented as an insertion sort that reorders the
+            // elements in place. Insertion sort is very efficient in this case.
+            WeightedObservedPoint curr = observations[0];
+            for (int j = 1; j < observations.length; ++j) {
+                WeightedObservedPoint prec = curr;
+                curr = observations[j];
+                if (curr.getX() < prec.getX()) {
+                    // the current element should be inserted closer to the beginning
+                    int i = j - 1;
+                    WeightedObservedPoint mI = observations[i];
+                    while ((i >= 0) && (curr.getX() < mI.getX())) {
+                        observations[i + 1] = mI;
+                        if (i-- != 0) {
+                            mI = observations[i];
+                        }
+                    }
+                    observations[i + 1] = curr;
+                    curr = observations[j];
+                }
+            }
+        }
+
+        /**
+         * Estimate a first guess of the amplitude and angular frequency.
+         * This method assumes that the {@link #sortObservations()} method
+         * has been called previously.
+         *
+         * @throws ZeroException if the abscissa range is zero.
+         */
+        private void guessAOmega() {
+            // initialize the sums for the linear model between the two integrals
+            double sx2 = 0;
+            double sy2 = 0;
+            double sxy = 0;
+            double sxz = 0;
+            double syz = 0;
+
+            double currentX = observations[0].getX();
+            double currentY = observations[0].getY();
+            double f2Integral = 0;
+            double fPrime2Integral = 0;
+            final double startX = currentX;
+            for (int i = 1; i < observations.length; ++i) {
+                // one step forward
+                final double previousX = currentX;
+                final double previousY = currentY;
+                currentX = observations[i].getX();
+                currentY = observations[i].getY();
+
+                // update the integrals of f<sup>2</sup> and f'<sup>2</sup>
+                // considering a linear model for f (and therefore constant f')
+                final double dx = currentX - previousX;
+                final double dy = currentY - previousY;
+                final double f2StepIntegral =
+                    dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;
+                final double fPrime2StepIntegral = dy * dy / dx;
+
+                final double x = currentX - startX;
+                f2Integral += f2StepIntegral;
+                fPrime2Integral += fPrime2StepIntegral;
+
+                sx2 += x * x;
+                sy2 += f2Integral * f2Integral;
+                sxy += x * f2Integral;
+                sxz += x * fPrime2Integral;
+                syz += f2Integral * fPrime2Integral;
+            }
+
+            // compute the amplitude and pulsation coefficients
+            double c1 = sy2 * sxz - sxy * syz;
+            double c2 = sxy * sxz - sx2 * syz;
+            double c3 = sx2 * sy2 - sxy * sxy;
+            if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
+                a = 0;
+
+                // Range of the observations, assuming that the
+                // observations are sorted.
+                final double range = observations[observations.length - 1].getX() -
+                    observations[0].getX();
+
+                if (range == 0) {
+                    throw new ZeroException();
+                }
+                omega = 2 * Math.PI / range;
+            } else {
+                a = FastMath.sqrt(c1 / c2);
+                omega = FastMath.sqrt(c2 / c3);
+            }
+        }
+
+        /**
+         * Estimate a first guess of the phase.
+         */
+        private void guessPhi() {
+            // initialize the means
+            double fcMean = 0;
+            double fsMean = 0;
+
+            double currentX = observations[0].getX();
+            double currentY = observations[0].getY();
+            for (int i = 1; i < observations.length; ++i) {
+                // one step forward
+                final double previousX = currentX;
+                final double previousY = currentY;
+                currentX = observations[i].getX();
+                currentY = observations[i].getY();
+                final double currentYPrime = (currentY - previousY) / (currentX - previousX);
+
+                double omegaX = omega * currentX;
+                double cosine = FastMath.cos(omegaX);
+                double sine = FastMath.sin(omegaX);
+                fcMean += omega * currentY * cosine - currentYPrime * sine;
+                fsMean += omega * currentY * sine + currentYPrime * cosine;
+            }
+
+            phi = FastMath.atan2(-fsMean, fcMean);
+        }
     }
-
-    /** Parametric harmonic function. */
-    private static class ParametricHarmonicFunction implements ParametricUnivariateRealFunction {
-
-        /** {@inheritDoc} */
-        public double value(double x, double[] parameters) {
-            final double a     = parameters[0];
-            final double omega = parameters[1];
-            final double phi   = parameters[2];
-            return a * FastMath.cos(omega * x + phi);
-        }
-
-        /** {@inheritDoc} */
-        public double[] gradient(double x, double[] parameters) {
-            final double a     = parameters[0];
-            final double omega = parameters[1];
-            final double phi   = parameters[2];
-            final double alpha = omega * x + phi;
-            final double cosAlpha = FastMath.cos(alpha);
-            final double sinAlpha = FastMath.sin(alpha);
-            return new double[] { cosAlpha, -a * x * sinAlpha, -a * sinAlpha };
-        }
-
-    }
-
 }
