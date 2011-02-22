@@ -129,6 +129,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      *
      * @return SSTO - the total sum of squares
      * @see #isNoIntercept()
+     * @since 2.2
      */
     public double calculateTotalSumOfSquares() {
         if (isNoIntercept()) {
@@ -142,6 +143,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * Returns the sum of squared residuals.
      *
      * @return residual sum of squares
+     * @since 2.2
      */
     public double calculateResidualSumOfSquares() {
         final RealVector residuals = calculateResiduals();
@@ -156,6 +158,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * and SSTO is the {@link #calculateTotalSumOfSquares() total sum of squares}
      *
      * @return R-square statistic
+     * @since 2.2
      */
     public double calculateRSquared() {
         return 1 - calculateResidualSumOfSquares() / calculateTotalSumOfSquares();
@@ -175,6 +178,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      *
      * @return adjusted R-Squared statistic
      * @see #isNoIntercept()
+     * @since 2.2
      */
     public double calculateAdjustedRSquared() {
         final double n = X.getRowDimension();
