@@ -215,6 +215,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * {@code false} before they start integration, so a proper lazy
      * initialization is done automatically on the first step.</p>
      * @param stateInitialized new value for the flag
+     * @since 2.2
      */
     protected void setStateInitialized(final boolean stateInitialized) {
         this.statesInitialized = stateInitialized;
@@ -228,6 +229,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param tEnd final integration time
      * @return time at end of step
      * @exception IntegratorException if the value of one event state cannot be evaluated
+     * @since 2.2
      */
     protected double acceptStep(final AbstractStepInterpolator interpolator,
                                 final double[] y, final double[] yDot, final double tEnd)
