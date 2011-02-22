@@ -61,6 +61,7 @@ public class PolynomialFitter {
 
     /**
      * Remove all observations.
+     * @since 2.2
      */
     public void clearObservations() {
         fitter.clearObservations();
