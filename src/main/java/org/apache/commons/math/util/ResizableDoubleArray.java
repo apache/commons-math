@@ -307,6 +307,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Adds several element to the end of this expandable array.
      *
      * @param values to be added to end of array
+     * @since 2.2
      */
     public synchronized void addElements(double[] values) {
         final double[] tempArray = new double[numElements + values.length + 1];
