@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.DimensionMismatchException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
@@ -265,7 +266,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
      */
     @Test
-    public void testSplinePartialDerivatives() {
+    public void testSplinePartialDerivatives() throws FunctionEvaluationException {
         final int N = 4;
         final double[] coeff = new double[16];
 

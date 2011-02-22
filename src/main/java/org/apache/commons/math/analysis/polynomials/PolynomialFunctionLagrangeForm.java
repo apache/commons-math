@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import org.apache.commons.math.DuplicateSampleAbscissaException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -81,11 +81,11 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public double value(double z) throws MathUserException {
+    public double value(double z) throws FunctionEvaluationException {
         try {
             return evaluate(x, y, z);
         } catch (DuplicateSampleAbscissaException e) {
-            throw new MathUserException(e, e.getSpecificPattern(), e.getGeneralPattern(), e.getArguments());
+            throw new FunctionEvaluationException(z, e.getSpecificPattern(), e.getGeneralPattern(), e.getArguments());
         }
     }
 

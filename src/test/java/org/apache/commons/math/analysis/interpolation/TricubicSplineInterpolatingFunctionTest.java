@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.analysis.TrivariateRealFunction;
@@ -275,7 +276,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
      * </p>
      */
     @Test
-    public void testPlane() {
+    public void testPlane() throws FunctionEvaluationException {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 2.5};
@@ -380,7 +381,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
      * with A = 0.2, &omega; = 0.5, k<sub>x</sub> = 2, k<sub>y</sub> = 1.
      */
     @Test
-    public void testWave() {
+    public void testWave() throws FunctionEvaluationException {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 4};

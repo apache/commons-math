@@ -17,6 +17,7 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.DimensionMismatchException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -226,6 +227,7 @@ public class BicubicSplineInterpolatingFunction
      * @param x x-coordinate.
      * @param y y-coordinate.
      * @return the value at point (x, y) of the selected partial derivative.
+     * @throws FunctionEvaluationException
      */
     private double partialDerivative(int which, double x, double y) {
         if (partialDerivatives == null) {
@@ -244,10 +246,13 @@ public class BicubicSplineInterpolatingFunction
         final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
         final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
 
-        double result = Double.NaN;
-        result = partialDerivatives[which][i][j].value(xN, yN);
+        try {
+            return partialDerivatives[which][i][j].value(xN, yN);
+        } catch (FunctionEvaluationException fee) {
+            // this should never happen
+            throw new RuntimeException(fee);
+        }
 
-        return result;
     }
 
     /**

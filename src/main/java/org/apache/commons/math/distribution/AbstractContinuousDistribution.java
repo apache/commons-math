@@ -24,7 +24,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.util.FastMath;
@@ -96,15 +96,15 @@ public abstract class AbstractContinuousDistribution
         // subclasses can override if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
-            public double value(double x) throws MathUserException {
+            public double value(double x) throws FunctionEvaluationException {
                 double ret = Double.NaN;
                 try {
                     ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new MathUserException(ex, ex.getSpecificPattern(), ex.getGeneralPattern(), ex.getArguments());
+                    throw new FunctionEvaluationException(x, ex.getSpecificPattern(), ex.getGeneralPattern(), ex.getArguments());
                 }
                 if (Double.isNaN(ret)) {
-                    throw new MathUserException(LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);
+                    throw new FunctionEvaluationException(x, LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);
                 }
                 return ret;
             }
