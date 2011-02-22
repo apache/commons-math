@@ -37,7 +37,9 @@ public class InvalidMatrixException extends MathRuntimeException {
      * @param pattern format specifier
      * @param arguments format arguments
      * @since 2.0
+     * @deprecated since 2.2 replaced by {@link #InvalidMatrixException(Localizable, Object...)}
      */
+    @Deprecated
     public InvalidMatrixException(final String pattern, final Object ... arguments) {
         this(new DummyLocalizable(pattern), arguments);
     }
