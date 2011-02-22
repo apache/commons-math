@@ -21,10 +21,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.function.Gaussian;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
@@ -57,29 +59,66 @@ import org.apache.commons.math.optimization.fitting.WeightedObservedPoint;
  * @version $Revision$ $Date$
  */
 public class GaussianFitter extends CurveFitter {
-
     /**
      * Constructs an instance using the specified optimizer.
      *
-     * @param optimizer optimizer to use for the fitting
+     * @param optimizer Optimizer to use for the fitting.
      */
     public GaussianFitter(DifferentiableMultivariateVectorialOptimizer optimizer) {
-        super(optimizer);;
+        super(optimizer);
     }
 
+    /**
+     * Fits a Gaussian function to the observed points.
+     *
+     * @param initialGuess First guess values in the following order:
+     * <ul>
+     *  <li>Norm</li>
+     *  <li>Mean</li>
+     *  <li>Sigma</li>
+     * </ul>
+     * @return the parameters of the Gaussian function that best fits the
+     * observed points (in the same order as above).
+     */
+    public double[] fit(double[] initialGuess) {
+        final ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {
+                private final ParametricUnivariateRealFunction g = new Gaussian.Parametric();
+
+                public double value(double x, double[] p) {
+                    double v = Double.POSITIVE_INFINITY;
+                    try {
+                        v = g.value(x, p);
+                    } catch (NotStrictlyPositiveException e) {
+                        // Do nothing.
+                    }
+                    return v;
+                }
+
+                public double[] gradient(double x, double[] p) {
+                    double[] v = { Double.POSITIVE_INFINITY,
+                                   Double.POSITIVE_INFINITY,
+                                   Double.POSITIVE_INFINITY };
+                    try {
+                        v = g.gradient(x, p);
+                    } catch (NotStrictlyPositiveException e) {
+                        // Do nothing.
+                    }
+                    return v;
+                }
+            };
+
+        return fit(f, initialGuess);
+    }
 
     /**
-     * Fits Gaussian function to the observed points.
-     * It will call the base class
-     * {@link CurveFitter#fit(
-     * org.apache.commons.math.analysis.ParametricUnivariateRealFunction,
-     * double[]) fit} method.
+     * Fits a Gaussian function to the observed points.
      *
-     * @return the Gaussian function that best fits the observed points.
+     * @return the parameters of the Gaussian function that best fits the
+     * observed points (in the same order as above).
      */
     public double[] fit() {
-        return fit(new Gaussian.Parametric(),
-                   (new ParameterGuesser(getObservations())).guess());
+        final double[] guess = (new ParameterGuesser(getObservations())).guess();
+        return fit(guess);
     }
 
     /**
@@ -90,7 +129,6 @@ public class GaussianFitter extends CurveFitter {
     public static class ParameterGuesser {
         /** Observed points. */
         private final WeightedObservedPoint[] observations;
-
         /** Resulting guessed parameters. */
         private double[] parameters;
 
@@ -112,7 +150,7 @@ public class GaussianFitter extends CurveFitter {
         /**
          * Guesses the parameters based on the observed points.
          *
-         * @return guessed parameters array <code>{norm, mean, sigma}</code>
+         * @return the guessed parameters: norm, mean and sigma.
          */
         public double[] guess() {
             if (parameters == null) {
@@ -124,14 +162,12 @@ public class GaussianFitter extends CurveFitter {
         /**
          * Guesses the parameters based on the specified observed points.
          *
-         * @param points observed points upon which should base guess
-         *
-         * @return guessed parameters array <code>{norm, mean, sigma}</code>
+         * @param points Observed points upon which should base guess.
+         * @return the guessed parameters: norm, mean and sigma.
          */
         private double[] basicGuess(WeightedObservedPoint[] points) {
             Arrays.sort(points, createWeightedObservedPointComparator());
             double[] params = new double[3];
-
 
             int maxYIdx = findMaxY(points);
             params[0] = points[maxYIdx].getY();
@@ -154,9 +190,8 @@ public class GaussianFitter extends CurveFitter {
         /**
          * Finds index of point in specified points with the largest Y.
          *
-         * @param points points to search
-         *
-         * @return index in specified points array
+         * @param points Points to search.
+         * @return the index in specified points array.
          */
         private int findMaxY(WeightedObservedPoint[] points) {
             int maxYIdx = 0;
@@ -169,20 +204,18 @@ public class GaussianFitter extends CurveFitter {
         }
 
         /**
-         * Interpolates using the specified points to determine X at the specified
-         * Y.
+         * Interpolates using the specified points to determine X at the
+         * specified Y.
          *
-         * @param points points to use for interpolation
-         * @param startIdx index within points from which to start search for
-         *        interpolation bounds points
-         * @param idxStep index step for search for interpolation bounds points
-         * @param y Y value for which X should be determined
-         *
-         * @return value of X at the specified Y
-         *
-         * @throws IllegalArgumentException if idxStep is 0
-         * @throws OutOfRangeException if specified <code>y</code> is not within the
-         *         range of the specified <code>points</code>
+         * @param points Points to use for interpolation.
+         * @param startIdx Index within points from which to start search for
+         *  interpolation bounds points.
+         * @param idxStep Index step for search for interpolation bounds points.
+         * @param y Y value for which X should be determined.
+         * @return the value of X at the specified Y.
+         * @throws ZeroException if {@code idxStep} is 0.
+         * @throws OutOfRangeException if specified {@code y} is not within the
+         * range of the specified {@code points}.
          */
         private double interpolateXAtY(WeightedObservedPoint[] points,
                                        int startIdx, int idxStep, double y)
@@ -208,18 +241,16 @@ public class GaussianFitter extends CurveFitter {
          * Gets the two bounding interpolation points from the specified points
          * suitable for determining X at the specified Y.
          *
-         * @param points points to use for interpolation
-         * @param startIdx index within points from which to start search for
-         *        interpolation bounds points
-         * @param idxStep index step for search for interpolation bounds points
-         * @param y Y value for which X should be determined
-         *
-         * @return array containing two points suitable for determining X at the
-         *         specified Y
-         *
-         * @throws IllegalArgumentException if idxStep is 0
-         * @throws OutOfRangeException if specified <code>y</code> is not within the
-         *         range of the specified <code>points</code>
+         * @param points Points to use for interpolation.
+         * @param startIdx Index within points from which to start search for
+         * interpolation bounds points.
+         * @param idxStep Index step for search for interpolation bounds points.
+         * @param y Y value for which X should be determined.
+         * @return the array containing two points suitable for determining X at
+         * the specified Y.
+         * @throws ZeroException if {@code idxStep} is 0.
+         * @throws OutOfRangeException if specified {@code y} is not within the
+         * range of the specified {@code points}.
          */
         private WeightedObservedPoint[] getInterpolationPointsForY(WeightedObservedPoint[] points,
                                                                    int startIdx, int idxStep, double y)
@@ -244,19 +275,17 @@ public class GaussianFitter extends CurveFitter {
                 maxY = Math.max(maxY, point.getY());
             }
             throw new OutOfRangeException(y, minY, maxY);
-
         }
 
         /**
          * Determines whether a value is between two other values.
          *
-         * @param value value to determine whether is between <code>boundary1</code>
-         *        and <code>boundary2</code>
-         * @param boundary1 one end of the range
-         * @param boundary2 other end of the range
-         *
-         * @return true if <code>value</code> is between <code>boundary1</code> and
-         *         <code>boundary2</code> (inclusive); false otherwise
+         * @param value Value to determine whether is between {@code boundary1}
+         * and {@code boundary2}.
+         * @param boundary1 One end of the range.
+         * @param boundary2 Other end of the range.
+         * @return {@code true} if {@code value} is between {@code boundary1} and
+         * {@code boundary2} (inclusive), {@code false} otherwise.
          */
         private boolean isBetween(double value, double boundary1, double boundary2) {
             return (value >= boundary1 && value <= boundary2) ||
@@ -264,10 +293,10 @@ public class GaussianFitter extends CurveFitter {
         }
 
         /**
-         * Factory method creating <code>Comparator</code> for comparing
-         * <code>WeightedObservedPoint</code> instances.
+         * Factory method creating {@code Comparator} for comparing
+         * {@code WeightedObservedPoint} instances.
          *
-         * @return new <code>Comparator</code> instance
+         * @return the new {@code Comparator} instance.
          */
         private Comparator<WeightedObservedPoint> createWeightedObservedPointComparator() {
             return new Comparator<WeightedObservedPoint>() {
