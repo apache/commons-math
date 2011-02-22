@@ -414,7 +414,7 @@ public final class MathUtils {
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
+     * @deprecated as of 2.2 his method considers that {@code NaN == NaN}. In release
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
      * New methods have been added for those cases wher the old semantics is
@@ -433,6 +433,7 @@ public final class MathUtils {
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal or both are NaN.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(float x, float y) {
         return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, 1);
@@ -446,6 +447,7 @@ public final class MathUtils {
      * @param y second value
      * @param eps the amount of absolute error to allow.
      * @return {@code true} if the values are equal or within range of each other.
+     * @since 2.2
      */
     public static boolean equals(float x, float y, float eps) {
         return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
@@ -460,6 +462,7 @@ public final class MathUtils {
      * @param eps the amount of absolute error to allow.
      * @return {@code true} if the values are equal or within range of each other,
      * or both are NaN.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(float x, float y, float eps) {
         return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
@@ -481,6 +484,7 @@ public final class MathUtils {
      * values between {@code x} and {@code y}.
      * @return {@code true} if there are fewer than {@code maxUlps} floating
      * point values between {@code x} and {@code y}.
+     * @since 2.2
      */
     public static boolean equals(float x, float y, int maxUlps) {
         // Check that "maxUlps" is non-negative and small enough so that
@@ -513,6 +517,7 @@ public final class MathUtils {
      * values between {@code x} and {@code y}.
      * @return {@code true} if both arguments are NaN or if there are less than
      * {@code maxUlps} floating point values between {@code x} and {@code y}.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(float x, float y, int maxUlps) {
         return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, maxUlps);
@@ -527,7 +532,7 @@ public final class MathUtils {
      * @param y second array
      * @return true if the values are both null or have same dimension
      * and equal elements.
-     * @deprecated This method considers that {@code NaN == NaN}. In release
+     * @deprecated as of 2.2 this method considers that {@code NaN == NaN}. In release
      * 3.0, the semantics will change in order to comply with IEEE754 where it
      * is specified that {@code NaN != NaN}.
      * New methods have been added for those cases where the old semantics is
@@ -559,6 +564,7 @@ public final class MathUtils {
      * @param y second array
      * @return true if the values are both null or have same dimension and
      * equal elements
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(float[] x, float[] y) {
         if ((x == null) || (y == null)) {
@@ -602,6 +608,7 @@ public final class MathUtils {
      * @param x first value
      * @param y second value
      * @return {@code true} if the values are equal or both are NaN.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y) {
         return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
@@ -638,6 +645,7 @@ public final class MathUtils {
      * @param eps the amount of absolute error to allow.
      * @return {@code true} if the values are equal or within range of each other,
      * or both are NaN.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y, double eps) {
         return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
@@ -697,6 +705,7 @@ public final class MathUtils {
      * values between {@code x} and {@code y}.
      * @return {@code true} if both arguments are NaN or if there are less than
      * {@code maxUlps} floating point values between {@code x} and {@code y}.
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {
         return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, maxUlps);
@@ -743,6 +752,7 @@ public final class MathUtils {
      * @param y second array
      * @return true if the values are both null or have same dimension and
      * equal elements
+     * @since 2.2
      */
     public static boolean equalsIncludingNaN(double[] x, double[] y) {
         if ((x == null) || (y == null)) {
@@ -2064,6 +2074,7 @@ public final class MathUtils {
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
      * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @since 2.2
      */
     public static void checkOrder(double[] val, OrderDirection dir, boolean strict) {
         double previous = val[0];
@@ -2111,6 +2122,7 @@ public final class MathUtils {
      *
      * @param val Values.
      * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @since 2.2
      */
     public static void checkOrder(double[] val) {
         checkOrder(val, OrderDirection.INCREASING, true);
@@ -2193,6 +2205,7 @@ public final class MathUtils {
      *
      * @param v vector of doubles
      * @return the 2-norm of the vector
+     * @since 2.2
      */
     public static double safeNorm(double[] v) {
     double rdwarf = 3.834e-20;
