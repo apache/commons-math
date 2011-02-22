@@ -52,6 +52,14 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-518">
+        Removed "HarmonicFunction" (in package "optimization.fitting");
+        superseded by class "HarmonicOscillator" (in package "analysis.function").
+      </action>
+      <action dev="erans" type="update" issue="MATH-517">
+        Refactored "HarmonicFitter" (in package "optimization.fitting").
+        "HarmonicCoefficientsGuesser" removed.
+      </action>
       <action dev="erans" type="fix" issue="MATH-516">
         Removed "GaussianFunction" and "GaussianDerivativeFunction" (in package
         "optimization.fitting"); functionality moved to class "Gaussian" (in
