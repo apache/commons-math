@@ -232,6 +232,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * rank of the matrix is reduced.
      * </p>
      * @param threshold threshold for QR ranking
+     * @since 2.2
      */
     public void setQRRankingThreshold(final double threshold) {
         this.qrRankingThreshold = threshold;
