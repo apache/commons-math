@@ -46,7 +46,7 @@ public class MatrixIndexException extends MathRuntimeException {
      * Constructs a new instance with specified formatted detail message.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @since 2.0
+     * @since 2.2
      */
     public MatrixIndexException(final Localizable pattern, final Object ... arguments) {
       super(pattern, arguments);
