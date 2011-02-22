@@ -123,6 +123,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * matrix X.
      *
      * @return error variance
+     * @since 2.2
      */
     @Override
     protected double calculateErrorVariance() {
