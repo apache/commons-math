@@ -635,6 +635,7 @@ public final class StatUtils {
      *
      * @param sample Sample to normalize.
      * @return normalized (standardized) sample.
+     * @since 2.2
      */
     public static double[] normalize(final double[] sample) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
