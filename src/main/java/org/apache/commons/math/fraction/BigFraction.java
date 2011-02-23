@@ -605,7 +605,7 @@ public class BigFraction
      *            the <code>BigInteger</code> to divide by, must not be
      *            <code>null</code>.
      * @return a {@link BigFraction} instance with the resulting values.
-     * @throws NullArgumentException if the {@code BigInteger} is {@code null}.
+     * @throws NullPointerException if the {@code BigInteger} is {@code null}.
      * @throws ArithmeticException
      *             if the fraction to divide by is zero.
      */
