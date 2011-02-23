@@ -88,6 +88,7 @@ public interface UnivariateRealOptimizer extends ConvergingAlgorithm {
      * @throws FunctionEvaluationException if an error occurs evaluating the function.
      * @throws IllegalArgumentException if min > max or the arguments do not
      * satisfy the requirements specified by the optimizer.
+     * @throws IllegalStateException if there are no data.
      */
     double optimize(UnivariateRealFunction f, GoalType goalType,
                     double min, double max, double startValue)

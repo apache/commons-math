@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class NoDataException extends MathIllegalArgumentException {
+public class NoDataException extends MathIllegalStateException {
 
     /** Serializable version Id. */
     private static final long serialVersionUID = -3629324471511904459L;
