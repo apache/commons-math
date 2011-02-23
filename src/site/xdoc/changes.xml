@@ -51,7 +51,7 @@ The <action> type attribute can be add,update,fix,remove.
     with a new-line in the release notes. (These spaces are ignored when displaying HTML).
     If the output is not quite correct, check for invisible trailing spaces!
      -->
-    <release version="2.2" date="2011-02-24" description="
+    <release version="2.2" date="2011-02-27" description="
 This is primarily a maintenance release, but it also includes new features and enhancements.
 
   Users of version 2.1 are encouraged to upgrade to 2.2, as this release includes some important bug fixes.
