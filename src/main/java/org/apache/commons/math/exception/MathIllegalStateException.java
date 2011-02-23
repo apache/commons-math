@@ -40,7 +40,7 @@ public class MathIllegalStateException extends MathRuntimeException {
     public MathIllegalStateException(Localizable specific,
                                      Localizable general,
                                      Object ... args) {
-        super(null, null, specific, general, args);
+        super(null, specific, general, args);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MathIllegalStateException extends MathRuntimeException {
      */
     public MathIllegalStateException(Localizable specific,
                                      Object ... args) {
-        super(null, specific, LocalizedFormats.ILLEGAL_STATE, args);
+        this(specific, LocalizedFormats.ILLEGAL_STATE, args);
     }
 
     /**
