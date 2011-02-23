@@ -295,17 +295,27 @@ public class HarmonicFitter extends CurveFitter {
             double c2 = sxy * sxz - sx2 * syz;
             double c3 = sx2 * sy2 - sxy * sxy;
             if ((c1 / c2 < 0) || (c2 / c3 < 0)) {
-                a = 0;
-
+                final int last = observations.length - 1;
                 // Range of the observations, assuming that the
                 // observations are sorted.
-                final double range = observations[observations.length - 1].getX() -
-                    observations[0].getX();
-
-                if (range == 0) {
+                final double xRange = observations[last].getX() - observations[0].getX();
+                if (xRange == 0) {
                     throw new ZeroException();
                 }
-                omega = 2 * Math.PI / range;
+                omega = 2 * Math.PI / xRange;
+
+                double yMin = Double.POSITIVE_INFINITY;
+                double yMax = Double.NEGATIVE_INFINITY;
+                for (int i = 1; i < observations.length; ++i) {
+                    final double y = observations[i].getY();
+                    if (y < yMin) {
+                        yMin = y;
+                    }
+                    if (y > yMax) {
+                        yMax = y;
+                    }
+                }
+                a = 0.5 * (yMax - yMin);
             } else {
                 a = FastMath.sqrt(c1 / c2);
                 omega = FastMath.sqrt(c2 / c3);
