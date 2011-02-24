@@ -31,7 +31,7 @@ SVN commits. TBA how to use this with SVN.
 To generate the release notes from this file:
 
 mvn changes:announcement-generate
-mv target/announcement/math-release-notes.vm RELEASE_NOTES.txt
+mv target/announcement/RELEASE_NOTES.txt RELEASE_NOTES.txt
 then tweak the formatting 
 (e.g. copy/paste the description to replace the one-line version)
 and commit
