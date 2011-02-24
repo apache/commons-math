@@ -71,10 +71,10 @@ public class GaussianTest {
 
         Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
         Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);
-        Assert.assertEquals(0, f.value(-1e50), 0);
-        Assert.assertEquals(0, f.value(-1e2), 0);
-        Assert.assertEquals(0, f.value(1e2), 0);
-        Assert.assertEquals(0, f.value(1e50), 0);
+        Assert.assertEquals(0, dfdx.value(-1e50), 0);
+        Assert.assertEquals(0, dfdx.value(-1e2), 0);
+        Assert.assertEquals(0, dfdx.value(1e2), 0);
+        Assert.assertEquals(0, dfdx.value(1e50), 0);
         Assert.assertEquals(0, dfdx.value(Double.MAX_VALUE), 0);
         Assert.assertEquals(0, dfdx.value(Double.POSITIVE_INFINITY), 0);        
     }
