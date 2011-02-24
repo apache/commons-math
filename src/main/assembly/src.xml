@@ -22,7 +22,7 @@
     <format>zip</format>
   </formats>
   <baseDirectory>
-     ${project.artifactId}-${project.version}-src
+     ${project.artifactId}-${commons.release.version}-src
   </baseDirectory>
   <fileSets>
     <fileSet>
@@ -33,10 +33,6 @@
     </fileSet>
     <fileSet>
       <directory>src</directory>
-      <excludes>
-        <exclude>**/mantissa/**</exclude>
-        <exclude>**/experimental/**</exclude>
-      </excludes>
     </fileSet>
   </fileSets>
 </assembly>
