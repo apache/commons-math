@@ -3046,8 +3046,8 @@ public class FastMath {
         rb = -(temp - ra - rb);
         ra = temp;
 
-        if (ra == 0 && (y < 0)) { // Fix up the sign so atan works correctly
-            ra = -0.0;
+        if (ra == 0) { // Fix up the sign so atan works correctly
+            ra = copySign(0.0, y);
         }
 
         // Call atan
