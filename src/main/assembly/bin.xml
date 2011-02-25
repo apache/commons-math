@@ -41,11 +41,12 @@
     <fileSet>
       <directory>target/site</directory>
       <outputDirectory>docs</outputDirectory>
-      <excludes>
-        <exclude>**/customsorttypes.js</exclude>
-        <exclude>**/sortabletable.js</exclude>
-        <exclude>**/stringbuilder.js</exclude>
-      </excludes>
+      <includes>
+        <include>apidocs/**</include>
+        <include>css/**</include>
+        <include>images/**</include>
+        <include>userguide/**</include>
+      </includes>
     </fileSet>
   </fileSets>
 </assembly>
