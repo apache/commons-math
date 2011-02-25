@@ -331,8 +331,7 @@
           <template>math-release-notes.vm</template>
           <templateDirectory>templates</templateDirectory>
           <!-- Give the output file its proper name -->
-          <announcementFile>RELEASE-NOTES.txt</announcementFile>
-          <!-- Could use ../../ to overwrite the main copy -->
+          <announcementFile>../../RELEASE-NOTES.txt</announcementFile>
         </configuration>
         <reportSets>
           <reportSet>

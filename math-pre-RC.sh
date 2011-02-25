@@ -26,5 +26,6 @@
 # $Revision$ $Date$
 # ----------------------------------------------------------------------------
 mvn changes:announcement-generate
-mv target/announcement/math-release-notes.vm RELEASE-NOTES.txt
+# No longer needed
+#mv target/announcement/math-release-notes.vm RELEASE-NOTES.txt
 mvn commons:download-page
