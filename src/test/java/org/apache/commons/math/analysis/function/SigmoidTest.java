@@ -18,6 +18,8 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,14 +34,67 @@ public class SigmoidTest {
     public void testSomeValues() {
         final UnivariateRealFunction f = new Sigmoid();
 
-        double x;
-        x = 0;
-        Assert.assertEquals("x=" + x, 0.5, f.value(x), EPS);
+        Assert.assertEquals(0.5, f.value(0), EPS);
+        Assert.assertEquals(0, f.value(Double.NEGATIVE_INFINITY), EPS);
+        Assert.assertEquals(1, f.value(Double.POSITIVE_INFINITY), EPS);
+    }
 
-        x = Double.NEGATIVE_INFINITY;
-        Assert.assertEquals("x=" + x, 0, f.value(x), EPS);
+    @Test
+    public void testDerivative() {
+        final Sigmoid f = new Sigmoid();
+        final UnivariateRealFunction dfdx = f.derivative();
 
-        x = Double.POSITIVE_INFINITY;
-        Assert.assertEquals("x=" + x, 1, f.value(x), EPS);
+        Assert.assertEquals(0.25, dfdx.value(0), 0);
+    }
+
+    @Test
+    public void testDerivativeLargeArguments() {
+        final Sigmoid f = new Sigmoid(1, 2);
+        final UnivariateRealFunction dfdx = f.derivative();
+
+        Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
+        Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);
+        Assert.assertEquals(0, dfdx.value(-1e50), 0);
+        Assert.assertEquals(0, dfdx.value(-1e3), 0);
+        Assert.assertEquals(0, dfdx.value(1e3), 0);
+        Assert.assertEquals(0, dfdx.value(1e50), 0);
+        Assert.assertEquals(0, dfdx.value(Double.MAX_VALUE), 0);
+        Assert.assertEquals(0, dfdx.value(Double.POSITIVE_INFINITY), 0);        
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage1() {
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        g.value(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage2() {
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        g.value(0, new double[] {0});
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage3() {
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        g.gradient(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage4() {
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        g.gradient(0, new double[] {0});
+    }
+
+    @Test
+    public void testParametricValue() {
+        final double lo = 2;
+        final double hi = 3;
+        final Sigmoid f = new Sigmoid(lo, hi);
+
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        Assert.assertEquals(f.value(-1), g.value(-1, new double[] {lo, hi}), 0);
+        Assert.assertEquals(f.value(0), g.value(0, new double[] {lo, hi}), 0);
+        Assert.assertEquals(f.value(2), g.value(2, new double[] {lo, hi}), 0);
     }
 }
