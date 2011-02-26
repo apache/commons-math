@@ -39,7 +39,7 @@ public class MathParseException extends MathRuntimeException {
                               int position,
                               Class<?> type) {
         super(null, null, LocalizedFormats.CANNOT_PARSE_AS_TYPE,
-              wrong, new Integer(position), type.getName());
+              wrong, Integer.valueOf(position), type.getName());
     }
 
     /**
@@ -50,6 +50,6 @@ public class MathParseException extends MathRuntimeException {
     public MathParseException(String wrong,
                               int position) {
         super(null, null, LocalizedFormats.CANNOT_PARSE,
-              wrong, new Integer(position));
+              wrong, Integer.valueOf(position));
     }
 }
