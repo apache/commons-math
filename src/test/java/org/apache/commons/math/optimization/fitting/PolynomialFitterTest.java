@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Random;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
@@ -28,7 +25,9 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialO
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.util.FastMath;
+
 import org.junit.Test;
+import org.junit.Assert;
 
 public class PolynomialFitterTest {
 
@@ -44,16 +43,14 @@ public class PolynomialFitterTest {
                 fitter.addObservedPoint(1.0, i, p.value(i));
             }
 
-            PolynomialFunction fitted = fitter.fit();
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit());
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
                                (1.0 + FastMath.abs(p.value(x)));
-                assertEquals(0.0, error, 1.0e-6);
+                Assert.assertEquals(0.0, error, 1.0e-6);
             }
-
         }
-
     }
 
     @Test
@@ -70,16 +67,16 @@ public class PolynomialFitterTest {
                                         p.value(x) + 0.1 * randomizer.nextGaussian());
             }
 
-            PolynomialFunction fitted = fitter.fit();
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit());
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
                               (1.0 + FastMath.abs(p.value(x)));
                 maxError = FastMath.max(maxError, error);
-                assertTrue(FastMath.abs(error) < 0.1);
+                Assert.assertTrue(FastMath.abs(error) < 0.1);
             }
         }
-        assertTrue(maxError > 0.01);
+        Assert.assertTrue(maxError > 0.01);
 
     }
 
@@ -115,13 +112,11 @@ public class PolynomialFitterTest {
 
             try {
                 fitter.fit();
-                assertTrue(solvable || (degree == 0));
+                Assert.assertTrue(solvable || (degree == 0));
             } catch(ConvergenceException e) {
-                assertTrue((! solvable) && (degree > 0));
+                Assert.assertTrue((! solvable) && (degree > 0));
             }
-
         }
-
     }
 
     private PolynomialFunction buildRandomPolynomial(int degree, Random randomizer) {
@@ -131,5 +126,4 @@ public class PolynomialFitterTest {
         }
         return new PolynomialFunction(coefficients);
     }
-
 }

@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 
 /** This class implements a curve fitting specialized for polynomials.
@@ -29,79 +28,31 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialO
  * @since 2.0
  */
 
-public class PolynomialFitter {
-    /** Fitter for the coefficients. */
-    private final CurveFitter fitter;
+public class PolynomialFitter extends CurveFitter {
     /** Polynomial degree. */
     private final int degree;
 
     /**
      * Simple constructor.
-     *
      * <p>The polynomial fitter built this way are complete polynomials,
      * ie. a n-degree polynomial has n+1 coefficients.</p>
-     * @param degree maximal degree of the polynomial
-     * @param optimizer optimizer to use for the fitting
+     *
+     * @param degree Maximal degree of the polynomial.
+     * @param optimizer Optimizer to use for the fitting.
      */
     public PolynomialFitter(int degree, final DifferentiableMultivariateVectorialOptimizer optimizer) {
-        this.fitter = new CurveFitter(optimizer);
+        super(optimizer);
         this.degree = degree;
-    }
-
-    /**
-     * Add an observed weighted (x,y) point to the sample.
-     *
-     * @param weight weight of the observed point in the fit
-     * @param x abscissa of the point
-     * @param y observed value of the point at x, after fitting we should
-     * have P(x) as close as possible to this value
-     */
-    public void addObservedPoint(double weight, double x, double y) {
-        fitter.addObservedPoint(weight, x, y);
-    }
-
-    /**
-     * Remove all observations.
-     * @since 2.2
-     */
-    public void clearObservations() {
-        fitter.clearObservations();
     }
 
     /**
      * Get the polynomial fitting the weighted (x, y) points.
      *
-     * @return polynomial function best fitting the observed points
+     * @return the coefficients of the polynomial that best fits the observed points.
      * @throws org.apache.commons.math.exception.ConvergenceException
      * if the algorithm failed to converge.
      */
-    public PolynomialFunction fit() {
-        return new PolynomialFunction(fitter.fit(new ParametricPolynomial(), new double[degree + 1]));
-    }
-
-    /**
-     * Dedicated parametric polynomial class.
-     */
-    private static class ParametricPolynomial implements ParametricUnivariateRealFunction {
-
-        /** {@inheritDoc} */
-        public double[] gradient(double x, double[] parameters) {
-            final double[] gradient = new double[parameters.length];
-            double xn = 1.0;
-            for (int i = 0; i < parameters.length; ++i) {
-                gradient[i] = xn;
-                xn *= x;
-            }
-            return gradient;
-        }
-
-        /** {@inheritDoc} */
-        public double value(final double x, final double[] parameters) {
-            double y = 0;
-            for (int i = parameters.length - 1; i >= 0; --i) {
-                y = y * x + parameters[i];
-            }
-            return y;
-        }
+    public double[] fit() {
+        return fit(new PolynomialFunction.Parametric(), new double[degree + 1]);
     }
 }

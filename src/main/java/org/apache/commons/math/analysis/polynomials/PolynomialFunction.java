@@ -23,6 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -124,7 +125,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
         }
         double result = coefficients[n - 1];
-        for (int j = n -2; j >=0; j--) {
+        for (int j = n - 2; j >= 0; j--) {
             result = argument * result + coefficients[j];
         }
         return result;
@@ -281,7 +282,6 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
                 return "0";
             }
         } else {
-            //         s.append(Double.toString(coefficients[0])); XXX
             s.append(toString(coefficients[0]));
         }
 
@@ -301,7 +301,6 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
 
                 double absAi = FastMath.abs(coefficients[i]);
                 if ((absAi - 1) != 0) {
-                    //             s.append(Double.toString(absAi)); XXX
                     s.append(toString(absAi));
                     s.append(' ');
                 }
@@ -355,5 +354,26 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
             return false;
         }
         return true;
+    }
+
+    /**
+     * Dedicated parametric polynomial class.
+     */
+    public static class Parametric implements ParametricUnivariateRealFunction {
+        /** {@inheritDoc} */
+        public double[] gradient(double x, double[] parameters) {
+            final double[] gradient = new double[parameters.length];
+            double xn = 1.0;
+            for (int i = 0; i < parameters.length; ++i) {
+                gradient[i] = xn;
+                xn *= x;
+            }
+            return gradient;
+        }
+
+        /** {@inheritDoc} */
+        public double value(final double x, final double[] parameters) {
+            return PolynomialFunction.evaluate(parameters, x);
+        }
     }
 }

@@ -33,10 +33,8 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
  */
 public class SmoothingPolynomialBicubicSplineInterpolator
     extends BicubicSplineInterpolator {
-
     /** Fitter for x. */
     private final PolynomialFitter xFitter;
-
     /** Fitter for y. */
     private final PolynomialFitter yFitter;
 
@@ -101,7 +99,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
                 xFitter.addObservedPoint(1, xval[i], fval[i][j]);
             }
 
-            yPolyX[j] = xFitter.fit();
+            yPolyX[j] = new PolynomialFunction(xFitter.fit());
         }
 
         // For every knot (xval[i], yval[j]) of the grid, calculate corrected
@@ -123,7 +121,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
                 yFitter.addObservedPoint(1, yval[j], fval_1[i][j]);
             }
 
-            xPolyY[i] = yFitter.fit();
+            xPolyY[i] = new PolynomialFunction(yFitter.fit());
         }
 
         // For every knot (xval[i], yval[j]) of the grid, calculate corrected
