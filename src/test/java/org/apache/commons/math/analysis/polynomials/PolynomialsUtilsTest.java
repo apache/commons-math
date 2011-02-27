@@ -18,38 +18,41 @@ package org.apache.commons.math.analysis.polynomials;
 
 import org.apache.commons.math.util.FastMath;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * Tests the PolynomialsUtils class.
  *
  * @version $Revision$ $Date$
  */
-public class PolynomialsUtilsTest extends TestCase {
+public class PolynomialsUtilsTest {
 
+    @Test
     public void testFirstChebyshevPolynomials() {
-
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(3), "-3.0 x + 4.0 x^3");
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(2), "-1.0 + 2.0 x^2");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(3), "-3 x + 4 x^3");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(2), "-1 + 2 x^2");
         checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(1), "x");
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(0), "1.0");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(0), "1");
 
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(7), "-7.0 x + 56.0 x^3 - 112.0 x^5 + 64.0 x^7");
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(6), "-1.0 + 18.0 x^2 - 48.0 x^4 + 32.0 x^6");
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(5), "5.0 x - 20.0 x^3 + 16.0 x^5");
-        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(4), "1.0 - 8.0 x^2 + 8.0 x^4");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(7), "-7 x + 56 x^3 - 112 x^5 + 64 x^7");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(6), "-1 + 18 x^2 - 48 x^4 + 32 x^6");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(5), "5 x - 20 x^3 + 16 x^5");
+        checkPolynomial(PolynomialsUtils.createChebyshevPolynomial(4), "1 - 8 x^2 + 8 x^4");
 
     }
 
+    @Test
     public void testChebyshevBounds() {
         for (int k = 0; k < 12; ++k) {
             PolynomialFunction Tk = PolynomialsUtils.createChebyshevPolynomial(k);
-            for (double x = -1.0; x <= 1.0; x += 0.02) {
-                assertTrue(k + " " + Tk.value(x), FastMath.abs(Tk.value(x)) < (1.0 + 1.0e-12));
+            for (double x = -1; x <= 1; x += 0.02) {
+                Assert.assertTrue(k + " " + Tk.value(x), FastMath.abs(Tk.value(x)) < (1 + 1e-12));
             }
         }
     }
 
+    @Test
     public void testChebyshevDifferentials() {
         for (int k = 0; k < 12; ++k) {
 
@@ -70,17 +73,17 @@ public class PolynomialsUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testFirstHermitePolynomials() {
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(3), "-12 x + 8 x^3");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(2), "-2 + 4 x^2");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(1), "2 x");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(0), "1");
 
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(3), "-12.0 x + 8.0 x^3");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(2), "-2.0 + 4.0 x^2");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(1), "2.0 x");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(0), "1.0");
-
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(7), "-1680.0 x + 3360.0 x^3 - 1344.0 x^5 + 128.0 x^7");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(6), "-120.0 + 720.0 x^2 - 480.0 x^4 + 64.0 x^6");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(5), "120.0 x - 160.0 x^3 + 32.0 x^5");
-        checkPolynomial(PolynomialsUtils.createHermitePolynomial(4), "12.0 - 48.0 x^2 + 16.0 x^4");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(7), "-1680 x + 3360 x^3 - 1344 x^5 + 128 x^7");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(6), "-120 + 720 x^2 - 480 x^4 + 64 x^6");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(5), "120 x - 160 x^3 + 32 x^5");
+        checkPolynomial(PolynomialsUtils.createHermitePolynomial(4), "12 - 48 x^2 + 16 x^4");
 
     }
 
@@ -104,23 +107,23 @@ public class PolynomialsUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testFirstLaguerrePolynomials() {
-
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(3), 6l, "6.0 - 18.0 x + 9.0 x^2 - x^3");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(2), 2l, "2.0 - 4.0 x + x^2");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(1), 1l, "1.0 - x");
-        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(0), 1l, "1.0");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(3), 6l, "6 - 18 x + 9 x^2 - x^3");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(2), 2l, "2 - 4 x + x^2");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(1), 1l, "1 - x");
+        checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(0), 1l, "1");
 
         checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(7), 5040l,
-                "5040.0 - 35280.0 x + 52920.0 x^2 - 29400.0 x^3"
-                + " + 7350.0 x^4 - 882.0 x^5 + 49.0 x^6 - x^7");
+                "5040 - 35280 x + 52920 x^2 - 29400 x^3"
+                + " + 7350 x^4 - 882 x^5 + 49 x^6 - x^7");
         checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(6),  720l,
-                "720.0 - 4320.0 x + 5400.0 x^2 - 2400.0 x^3 + 450.0 x^4"
-                + " - 36.0 x^5 + x^6");
+                "720 - 4320 x + 5400 x^2 - 2400 x^3 + 450 x^4"
+                + " - 36 x^5 + x^6");
         checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(5),  120l,
-        "120.0 - 600.0 x + 600.0 x^2 - 200.0 x^3 + 25.0 x^4 - x^5");
+        "120 - 600 x + 600 x^2 - 200 x^3 + 25 x^4 - x^5");
         checkPolynomial(PolynomialsUtils.createLaguerrePolynomial(4),   24l,
-        "24.0 - 96.0 x + 72.0 x^2 - 16.0 x^3 + x^4");
+        "24 - 96 x + 72 x^2 - 16 x^3 + x^4");
 
     }
 
@@ -144,20 +147,21 @@ public class PolynomialsUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testFirstLegendrePolynomials() {
-
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(3),  2l, "-3.0 x + 5.0 x^3");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(2),  2l, "-1.0 + 3.0 x^2");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(3),  2l, "-3 x + 5 x^3");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(2),  2l, "-1 + 3 x^2");
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(1),  1l, "x");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(0),  1l, "1.0");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(0),  1l, "1");
 
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(7), 16l, "-35.0 x + 315.0 x^3 - 693.0 x^5 + 429.0 x^7");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(6), 16l, "-5.0 + 105.0 x^2 - 315.0 x^4 + 231.0 x^6");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(5),  8l, "15.0 x - 70.0 x^3 + 63.0 x^5");
-        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(4),  8l, "3.0 - 30.0 x^2 + 35.0 x^4");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(7), 16l, "-35 x + 315 x^3 - 693 x^5 + 429 x^7");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(6), 16l, "-5 + 105 x^2 - 315 x^4 + 231 x^6");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(5),  8l, "15 x - 70 x^3 + 63 x^5");
+        checkPolynomial(PolynomialsUtils.createLegendrePolynomial(4),  8l, "3 - 30 x^2 + 35 x^4");
 
     }
 
+    @Test
     public void testLegendreDifferentials() {
         for (int k = 0; k < 12; ++k) {
 
@@ -178,41 +182,41 @@ public class PolynomialsUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testHighDegreeLegendre() {
         PolynomialsUtils.createLegendrePolynomial(40);
         double[] l40 = PolynomialsUtils.createLegendrePolynomial(40).getCoefficients();
-        double denominator = 274877906944.0;
+        double denominator = 274877906944d;
         double[] numerators = new double[] {
-                          +34461632205.0,            -28258538408100.0,          +3847870979902950.0,        -207785032914759300.0,
-                  +5929294332103310025.0,     -103301483474866556880.0,    +1197358103913226000200.0,    -9763073770369381232400.0,
-              +58171647881784229843050.0,  -260061484647976556945400.0,  +888315281771246239250340.0, -2345767627188139419665400.0,
-            +4819022625419112503443050.0, -7710436200670580005508880.0, +9566652323054238154983240.0, -9104813935044723209570256.0,
-            +6516550296251767619752905.0, -3391858621221953912598660.0, +1211378079007840683070950.0,  -265365894974690562152100.0,
-              +26876802183334044115405.0
+                          +34461632205d,            -28258538408100d,          +3847870979902950d,        -207785032914759300d,
+                  +5929294332103310025d,     -103301483474866556880d,    +1197358103913226000200d,    -9763073770369381232400d,
+              +58171647881784229843050d,  -260061484647976556945400d,  +888315281771246239250340d, -2345767627188139419665400d,
+            +4819022625419112503443050d, -7710436200670580005508880d, +9566652323054238154983240d, -9104813935044723209570256d,
+            +6516550296251767619752905d, -3391858621221953912598660d, +1211378079007840683070950d,  -265365894974690562152100d,
+              +26876802183334044115405d
         };
         for (int i = 0; i < l40.length; ++i) {
             if (i % 2 == 0) {
                 double ci = numerators[i / 2] / denominator;
-                assertEquals(ci, l40[i], FastMath.abs(ci) * 1.0e-15);
+                Assert.assertEquals(ci, l40[i], FastMath.abs(ci) * 1e-15);
             } else {
-                assertEquals(0.0, l40[i], 0.0);
+                Assert.assertEquals(0, l40[i], 0);
             }
         }
     }
 
     private void checkPolynomial(PolynomialFunction p, long denominator, String reference) {
         PolynomialFunction q = new PolynomialFunction(new double[] { denominator});
-        assertEquals(reference, p.multiply(q).toString());
+        Assert.assertEquals(reference, p.multiply(q).toString());
     }
 
     private void checkPolynomial(PolynomialFunction p, String reference) {
-        assertEquals(reference, p.toString());
+        Assert.assertEquals(reference, p.toString());
     }
 
     private void checkNullPolynomial(PolynomialFunction p) {
         for (double coefficient : p.getCoefficients()) {
-            assertEquals(0.0, coefficient, 1.0e-13);
+            Assert.assertEquals(0, coefficient, 1e-13);
         }
     }
-
 }
