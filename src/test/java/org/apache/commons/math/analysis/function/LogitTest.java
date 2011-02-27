@@ -161,10 +161,11 @@ public class LogitTest {
         
         for (int i = 0; i < 10; i++) {
             final double x = lo + Math.random() * (hi - lo);
-            Assert.assertEquals(dfdx.value(x), chain.value(x), 1e-13);
+            final double r = dfdx.value(x);
+            Assert.assertEquals(r, chain.value(x), r * 1e-15);
         }
 
-        Assert.assertEquals(dfdx.value(lo), chain.value(lo), EPS);
-        Assert.assertEquals(dfdx.value(hi), chain.value(hi), EPS);
+        Assert.assertEquals(dfdx.value(lo), chain.value(lo), 0); // -inf
+        Assert.assertEquals(dfdx.value(hi), chain.value(hi), 0); // +inf
     }
 }
