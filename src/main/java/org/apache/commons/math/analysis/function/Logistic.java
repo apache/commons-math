@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.util.FastMath;
 
@@ -28,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  * @since 3.0
  */
-public class Logistic implements UnivariateRealFunction {
+public class Logistic implements DifferentiableUnivariateRealFunction {
     /** Lower asymptote. */
     private final double a;
     /** Upper asymptote. */
@@ -36,7 +37,7 @@ public class Logistic implements UnivariateRealFunction {
     /** Growth rate. */
     private final double b;
     /** Parameter that affects near which asymptote maximum growth occurs. */
-    private final double n;
+    private final double oneOverN;
     /** Parameter that affects the position of the curve along the ordinate axis. */
     private final double q;
     /** Abscissa of maximum growth. */
@@ -70,11 +71,27 @@ public class Logistic implements UnivariateRealFunction {
         this.b = b;
         this.q = q;
         this.a = a;
-        this.n = n;
+        oneOverN = 1 / n;
     }
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * (m - x)), 1 / n);
+        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * (m - x)), oneOverN);
+    }
+
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                final double exp = q * FastMath.exp(b * (m - x));
+                if (Double.isInfinite(exp)) {
+                    // Avoid returning NaN in case of overflow.
+                    return 0;
+                }
+                final double exp1 = exp + 1;
+                return b * oneOverN * exp / FastMath.pow(exp1, oneOverN + 1);
+            }
+        };
     }
 }

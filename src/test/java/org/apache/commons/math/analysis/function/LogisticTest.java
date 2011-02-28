@@ -76,4 +76,25 @@ public class LogisticTest {
         x = Double.POSITIVE_INFINITY;
         Assert.assertEquals("x=" + x, k, f.value(x), EPS);
     }
+
+    @Test
+    public void testCompareDerivativeSigmoid() {
+        final double k = 3;
+        final double a = 2;
+
+        final Logistic f = new Logistic(k, 0, 1, 1, a, 1);
+        final Sigmoid g = new Sigmoid(a, k);
+        
+        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateRealFunction dgdx = g.derivative();
+
+        final double min = -10;
+        final double max = 10;
+        final double n = 20;
+        final double delta = (max - min) / n;
+        for (int i = 0; i < n; i++) {
+            final double x = min + i * delta;
+            Assert.assertEquals("x=" + x, dgdx.value(x), dfdx.value(x), EPS);
+        }
+    }
 }
