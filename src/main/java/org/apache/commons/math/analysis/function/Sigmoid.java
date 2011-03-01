@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Sigmoid_function">
- *  sigmoid</a> function.
+ *  Sigmoid</a> function.
  * It is the inverse of the {@link Logit logit} function.
  * A more flexible version, the generalised logistic, is implemented
  * by the {@link Logistic} class.

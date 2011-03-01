@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Logit">
- *  logit</a> function.
+ *  Logit</a> function.
  * It is the inverse of the {@link Sigmoid sigmoid} function.
  *
  * @version $Revision$ $Date$
