@@ -104,7 +104,7 @@ Removed:
 #else
 #set($dueto="")
 #end
-o#if($!issue != "") $issue. #end ${action} #if($!dueto != "")Thanks to $dueto. #end
+o#if($!issue != "") $issue: #end ${action} #if($!dueto != "")Thanks to $dueto. #end
 
 #set($issue="")
 #set($dueto="")
