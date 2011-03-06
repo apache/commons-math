@@ -827,7 +827,7 @@ public class CMAESOptimizer extends
     private class FitnessFunction {
 
         /** Optional bounds for the objective variables */
-        private double[][] boundaries;
+        private final double[][] boundaries;
         /** Determines the penalty for boundary violations */
         private double valueRange = 1.0;
         /**
@@ -836,7 +836,7 @@ public class CMAESOptimizer extends
          */
         private boolean isRepairMode = true;
         /** Flag indicating the optimization goal. */
-        private boolean isMinimize = true;
+        private final boolean isMinimize;
 
         /**
          * @param boundaries
