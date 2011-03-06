@@ -827,7 +827,7 @@ public class CMAESOptimizer extends
     private class FitnessFunction {
 
         /** Optional bounds for the objective variables */
-        private final double[][] boundaries;
+        private final double[][] _boundaries;
         /** Determines the penalty for boundary violations */
         private double valueRange = 1.0;
         /**
@@ -836,7 +836,7 @@ public class CMAESOptimizer extends
          */
         private boolean isRepairMode = true;
         /** Flag indicating the optimization goal. */
-        private final boolean isMinimize;
+        private final boolean _isMinimize;
 
         /**
          * @param boundaries
@@ -846,8 +846,8 @@ public class CMAESOptimizer extends
          */
         private FitnessFunction(final double[][] boundaries,
                 final boolean isMinimize) {
-            this.boundaries = boundaries;
-            this.isMinimize = isMinimize;
+            this._boundaries = boundaries;
+            this._isMinimize = isMinimize;
         }
 
         /**
@@ -856,12 +856,12 @@ public class CMAESOptimizer extends
          * @return Normalized objective variables.
          */
         private double[] encode(final double[] x) {
-            if (boundaries == null)
+            if (_boundaries == null)
                 return x;
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = (x[i] - boundaries[0][i]) / diff;
+                double diff = _boundaries[1][i] - _boundaries[0][i];
+                res[i] = (x[i] - _boundaries[0][i]) / diff;
             }
             return res;
         }
@@ -872,12 +872,12 @@ public class CMAESOptimizer extends
          * @return Original objective variables.
          */
         private double[] decode(final double[] x) {
-            if (boundaries == null)
+            if (_boundaries == null)
                 return x;
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = diff * x[i] + boundaries[0][i];
+                double diff = _boundaries[1][i] - _boundaries[0][i];
+                res[i] = diff * x[i] + _boundaries[0][i];
             }
             return res;
         }
@@ -889,7 +889,7 @@ public class CMAESOptimizer extends
          */
         private double value(final double[] point) {
             double value;
-            if (boundaries != null && isRepairMode) {
+            if (_boundaries != null && isRepairMode) {
                 double[] repaired = repair(point);
                 value = CMAESOptimizer.this
                         .computeObjectiveValue(decode(repaired)) +
@@ -897,7 +897,7 @@ public class CMAESOptimizer extends
             } else
                 value = CMAESOptimizer.this
                         .computeObjectiveValue(decode(point));
-            return isMinimize ? value : -value;
+            return _isMinimize ? value : -value;
         }
 
         /**
@@ -906,7 +906,7 @@ public class CMAESOptimizer extends
          * @return True if in bounds
          */
         private boolean isFeasible(final double[] x) {
-            if (boundaries == null)
+            if (_boundaries == null)
                 return true;
             for (int i = 0; i < x.length; i++) {
                 if (x[i] < 0)
@@ -956,7 +956,7 @@ public class CMAESOptimizer extends
                 double diff = Math.abs(x[i] - repaired[i]);
                 penalty += diff * valueRange;
             }
-            return isMinimize ? penalty : -penalty;
+            return _isMinimize ? penalty : -penalty;
         }
     }
 
