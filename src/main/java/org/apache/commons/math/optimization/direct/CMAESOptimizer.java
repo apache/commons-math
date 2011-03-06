@@ -340,8 +340,7 @@ public class CMAESOptimizer extends
         checkParameters();
          // -------------------- Initialization --------------------------------
         isMinimize = getGoalType().equals(GoalType.MINIMIZE);
-        final FitnessFunction fitfun = new FitnessFunction(boundaries,
-                isMinimize);
+        final FitnessFunction fitfun = new FitnessFunction();
         final double[] guess = fitfun.encode(getStartPoint());
         // number of objective variables/problem dimension
         dimension = guess.length;
@@ -826,8 +825,6 @@ public class CMAESOptimizer extends
      */
     private class FitnessFunction {
 
-        /** Optional bounds for the objective variables */
-        private final double[][] _boundaries;
         /** Determines the penalty for boundary violations */
         private double valueRange = 1.0;
         /**
@@ -835,20 +832,6 @@ public class CMAESOptimizer extends
          * bounds if defined
          */
         private boolean isRepairMode = true;
-        /** Flag indicating the optimization goal. */
-        private final boolean _isMinimize;
-
-        /**
-         * @param boundaries
-         *            Bounds for the objective variables.
-         * @param isMinimize
-         *            Flag indicating the optimization goal.
-         */
-        private FitnessFunction(final double[][] boundaries,
-                final boolean isMinimize) {
-            this._boundaries = boundaries;
-            this._isMinimize = isMinimize;
-        }
 
         /**
          * @param x
@@ -856,12 +839,12 @@ public class CMAESOptimizer extends
          * @return Normalized objective variables.
          */
         private double[] encode(final double[] x) {
-            if (_boundaries == null)
+            if (boundaries == null)
                 return x;
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                double diff = _boundaries[1][i] - _boundaries[0][i];
-                res[i] = (x[i] - _boundaries[0][i]) / diff;
+                double diff = boundaries[1][i] - boundaries[0][i];
+                res[i] = (x[i] - boundaries[0][i]) / diff;
             }
             return res;
         }
@@ -872,12 +855,12 @@ public class CMAESOptimizer extends
          * @return Original objective variables.
          */
         private double[] decode(final double[] x) {
-            if (_boundaries == null)
+            if (boundaries == null)
                 return x;
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                double diff = _boundaries[1][i] - _boundaries[0][i];
-                res[i] = diff * x[i] + _boundaries[0][i];
+                double diff = boundaries[1][i] - boundaries[0][i];
+                res[i] = diff * x[i] + boundaries[0][i];
             }
             return res;
         }
@@ -889,7 +872,7 @@ public class CMAESOptimizer extends
          */
         private double value(final double[] point) {
             double value;
-            if (_boundaries != null && isRepairMode) {
+            if (boundaries != null && isRepairMode) {
                 double[] repaired = repair(point);
                 value = CMAESOptimizer.this
                         .computeObjectiveValue(decode(repaired)) +
@@ -897,7 +880,7 @@ public class CMAESOptimizer extends
             } else
                 value = CMAESOptimizer.this
                         .computeObjectiveValue(decode(point));
-            return _isMinimize ? value : -value;
+            return isMinimize ? value : -value;
         }
 
         /**
@@ -906,7 +889,7 @@ public class CMAESOptimizer extends
          * @return True if in bounds
          */
         private boolean isFeasible(final double[] x) {
-            if (_boundaries == null)
+            if (boundaries == null)
                 return true;
             for (int i = 0; i < x.length; i++) {
                 if (x[i] < 0)
@@ -956,7 +939,7 @@ public class CMAESOptimizer extends
                 double diff = Math.abs(x[i] - repaired[i]);
                 penalty += diff * valueRange;
             }
-            return _isMinimize ? penalty : -penalty;
+            return isMinimize ? penalty : -penalty;
         }
     }
 
