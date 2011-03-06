@@ -24,8 +24,6 @@ import java.util.Locale;
 import org.junit.Test;
 import org.junit.Assert;
 
-import org.apache.commons.math.exception.MathParseException;
-
 public abstract class Vector3DFormatAbstractTest {
 
     Vector3DFormat vector3DFormat = null;

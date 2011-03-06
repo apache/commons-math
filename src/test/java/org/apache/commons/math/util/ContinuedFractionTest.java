@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.MathException;
-
 import junit.framework.TestCase;
 
 /**

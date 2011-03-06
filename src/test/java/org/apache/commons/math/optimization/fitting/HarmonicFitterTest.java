@@ -22,7 +22,6 @@ import java.util.Random;
 import org.apache.commons.math.analysis.function.HarmonicOscillator;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
-import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
