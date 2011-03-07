@@ -25,10 +25,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NonPositiveDefiniteMatrixException extends MathIllegalArgumentException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = 1641613838113738061L;
-
     /** Index (diagonal element). */
     private final int index;
     /** Threshold. */

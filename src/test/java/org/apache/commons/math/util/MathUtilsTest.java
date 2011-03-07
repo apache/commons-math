@@ -71,8 +71,7 @@ public final class MathUtilsTest extends TestCase {
                 binomialCoefficient(n - 1, k));
         }
         if (result == -1) {
-            throw new MathArithmeticException(
-                "error computing binomial coefficient");
+            throw new MathArithmeticException();
         }
         for (int i = binomialCache.size(); i < n + 1; i++) {
             binomialCache.add(new HashMap<Integer, Long>());

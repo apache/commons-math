@@ -36,7 +36,7 @@ public class MathUserException extends MathRuntimeException {
      * Build an exception with a default message.
      */
     public MathUserException() {
-        this((Throwable) null);
+        addMessage(LocalizedFormats.USER_EXCEPTION, null);
     }
 
     /**
@@ -44,56 +44,32 @@ public class MathUserException extends MathRuntimeException {
      * @param cause Cause of the error (may be null).
      */
     public MathUserException(final Throwable cause) {
-        this(cause, LocalizedFormats.USER_EXCEPTION);
+        super(cause);
+        addMessage(LocalizedFormats.USER_EXCEPTION, null);
     }
 
     /**
-     * Build an exception with a localizable message.
+     * Builds an exception with a localizable message.
+     *
      * @param pattern Format specifier.
      * @param arguments Format arguments.
      */
-    public MathUserException(final Localizable pattern, final Object ... arguments) {
-        this((Throwable) null, pattern, arguments);
+    public MathUserException(final Localizable pattern,
+                             final Object ... arguments) {
+        addMessage(pattern, arguments);
     }
 
     /**
-     * Build an exception with a localizable message.
+     * Builds an exception with a localizable message.
+     *
      * @param cause Cause of the error (may be null).
      * @param pattern Format specifier.
      * @param arguments Format arguments.
      */
     public MathUserException(final Throwable cause,
-                             final Localizable pattern, final Object ... arguments) {
-        this(cause, (Localizable) null, pattern, arguments);
-    }
-
-    /**
-     * Builds an exception from two patterns (specific and general) and
-     * an argument list.
-     *
-     * @param specific Format specifier for the specific part (may be null).
-     * @param general Format specifier for the general part (may be null).
-     * @param arguments Format arguments. They will be substituted in
-     * <em>both</em> the {@code general} and {@code specific} format specifiers.
-     */
-    public MathUserException(final Localizable specific, final Localizable general,
+                             final Localizable pattern,
                              final Object ... arguments) {
-        this((Throwable) null, specific, general, arguments);
-    }
-
-    /**
-     * Builds an exception from two patterns (specific and general) and
-     * an argument list.
-     *
-     * @param cause Cause of the error (may be null).
-     * @param specific Format specifier for the specific part (may be null).
-     * @param general Format specifier for the general part (may be null).
-     * @param arguments Format arguments. They will be substituted in
-     * <em>both</em> the {@code general} and {@code specific} format specifiers.
-     */
-    public MathUserException(final Throwable cause,
-                             final Localizable specific, final Localizable general,
-                             final Object ... arguments) {
-        super(cause, specific, general, arguments);
+        super(cause);
+        addMessage(pattern, arguments);
     }
 }

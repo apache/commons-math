@@ -88,9 +88,7 @@ public abstract class AbstractContinuousDistribution
                 try {
                     ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new MathUserException(ex,
-                                                ex.getSpecificPattern(), ex.getGeneralPattern(),
-                                                ex.getArguments());
+                    throw new MathUserException(ex);
                 }
                 if (Double.isNaN(ret)) {
                     throw new MathUserException(LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);

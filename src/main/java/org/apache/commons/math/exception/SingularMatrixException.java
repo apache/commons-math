@@ -25,7 +25,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class SingularMatrixException extends MathIllegalArgumentException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -4206514844735401070L;
 

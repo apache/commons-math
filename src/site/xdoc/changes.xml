@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-542">
+        All exceptions defined in Commons Math provide a context and a compound
+        message list.
+      </action>
       <action dev="erans" type="update" issue="MATH-534">
         Refactored "PolynomialFitter" (in package "optimization.fitting").
         Added parametric function in "PolynomialFunction" (in package

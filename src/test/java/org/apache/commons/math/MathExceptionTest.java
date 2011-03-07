@@ -40,41 +40,11 @@ public class MathExceptionTest extends TestCase {
         assertEquals("", ex.getMessage(Locale.FRENCH));
     }
 
-    public void testConstructorPatternArguments(){
-        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
-        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
-        MathException ex = new MathException(pattern, arguments);
-        assertNull(ex.getCause());
-        assertEquals(pattern, ex.getGeneralPattern());
-        assertEquals(arguments.length, ex.getArguments().length);
-        for (int i = 0; i < arguments.length; ++i) {
-            assertEquals(arguments[i], ex.getArguments()[i]);
-        }
-        assertFalse(pattern.equals(ex.getMessage()));
-        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
-    }
-
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(cause);
         assertEquals(cause, ex.getCause());
-    }
-
-    public void testConstructorPatternArgumentsCause(){
-        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
-        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
-        String inMsg = "inner message";
-        Exception cause = new Exception(inMsg);
-        MathException ex = new MathException(cause, pattern, arguments);
-        assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getGeneralPattern());
-        assertEquals(arguments.length, ex.getArguments().length);
-        for (int i = 0; i < arguments.length; ++i) {
-            assertEquals(arguments[i], ex.getArguments()[i]);
-        }
-        assertFalse(pattern.equals(ex.getMessage()));
-        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
     /**

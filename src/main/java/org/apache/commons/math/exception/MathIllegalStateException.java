@@ -32,58 +32,33 @@ public class MathIllegalStateException extends MathRuntimeException {
 
     /**
      * Simple constructor.
-     * @param specific Message pattern providing the specific context of
-     * the error.
-     * @param general Message pattern explaining the cause of the error.
+     *
+     * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalStateException(Localizable specific,
-                                     Localizable general,
+    public MathIllegalStateException(Localizable pattern,
                                      Object ... args) {
-        super(null, specific, general, args);
+        addMessage(pattern, args);
     }
 
     /**
      * Simple constructor.
-     * @param cause root cause
-     * @param specific Message pattern providing the specific context of
-     * the error.
-     * @param general Message pattern explaining the cause of the error.
+     *
+     * @param cause Root cause.
+     * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
     public MathIllegalStateException(Throwable cause,
-                                     Localizable specific,
-                                     Localizable general,
+                                     Localizable pattern,
                                      Object ... args) {
-        super(cause, null, specific, general, args);
+        super(cause);
+        addMessage(pattern, args);
     }
 
     /**
-     * Simple constructor.
-     * @param specific Message pattern explaining the cause of the error.
-     * @param args Arguments.
+     * Default constructor.
      */
-    public MathIllegalStateException(Localizable specific,
-                                     Object ... args) {
-        this(specific, LocalizedFormats.ILLEGAL_STATE, args);
-    }
-
-    /**
-     * Simple constructor.
-     * @param cause root cause
-     * @param specific Message pattern explaining the cause of the error.
-     * @param args Arguments.
-     */
-    public MathIllegalStateException(Throwable cause,
-                                     Localizable specific,
-                                     Object ... args) {
-        super(cause, specific, LocalizedFormats.ILLEGAL_STATE, args);
-    }
-
-    /**
-     * @param args Arguments.
-     */
-    public MathIllegalStateException(Object ... args) {
-        this(null, args);
+    public MathIllegalStateException() {
+        addMessage(LocalizedFormats.ILLEGAL_STATE, null);
     }
 }

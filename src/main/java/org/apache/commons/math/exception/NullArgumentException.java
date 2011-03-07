@@ -38,13 +38,15 @@ public class NullArgumentException extends MathIllegalArgumentException {
      * Default constructor.
      */
     public NullArgumentException() {
-        super(LocalizedFormats.NULL_NOT_ALLOWED);
+        this(LocalizedFormats.NULL_NOT_ALLOWED, null);
     }
     /**
-     * @param specific Message pattern providing the specific context of
+     * @param pattern Message pattern providing the specific context of
      * the error.
+     * @param arguments Values for replacing the placeholders in {@code pattern}.
      */
-    public NullArgumentException(Localizable specific) {
-        super(specific, LocalizedFormats.NULL_NOT_ALLOWED);
+    public NullArgumentException(Localizable pattern,
+                                 Object ... arguments) {
+        super(pattern, arguments);
     }
 }

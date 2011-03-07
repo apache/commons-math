@@ -19,6 +19,7 @@ package org.apache.commons.math;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Set;
 import java.util.Locale;
 
 import org.apache.commons.math.exception.MathThrowable;
@@ -131,30 +132,36 @@ public class MathException extends Exception implements MathThrowable {
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
+    /** {@inheritDoc} */
+    public void addMessage(Localizable pat,
+                           Object ... args) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public void setContext(String key, Object value) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public Object getContext(String key) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getContextKeys() {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
     /** Gets the pattern used to build the message of this throwable.
      *
      * @return the pattern used to build the message of this throwable
      * @since 1.2
-     * @deprecated as of 2.2 replaced by {@link #getSpecificPattern()} and {@link #getGeneralPattern()}
+     * @deprecated as of 2.2.
      */
     @Deprecated
     public String getPattern() {
         return pattern.getSourceString();
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return null;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return pattern;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
     }
 
     /** Gets the message in a specified locale.

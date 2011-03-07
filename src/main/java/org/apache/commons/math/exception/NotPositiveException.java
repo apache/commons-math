@@ -25,7 +25,6 @@ import org.apache.commons.math.exception.util.Localizable;
  * @version $Revision$ $Date$
  */
 public class NotPositiveException extends NumberIsTooSmallException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -2250556892093726375L;
 

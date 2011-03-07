@@ -42,7 +42,7 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
      */
     public MultiDimensionMismatchException(Integer[] wrong,
                                            Integer[] expected) {
-        this(null, wrong, expected);
+        this(LocalizedFormats.DIMENSIONS_MISMATCH, wrong, expected);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
     public MultiDimensionMismatchException(Localizable specific,
                                            Integer[] wrong,
                                            Integer[] expected) {
-        super(specific, LocalizedFormats.DIMENSIONS_MISMATCH, wrong, expected);
+        super(specific, wrong, expected);
         this.wrong = wrong.clone();
         this.expected = expected.clone();
     }

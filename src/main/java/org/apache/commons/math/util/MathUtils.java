@@ -1630,12 +1630,11 @@ public final class MathUtils {
      */
     public static long subAndCheck(long a, long b) {
         long ret;
-        String msg = "overflow: subtract";
         if (b == Long.MIN_VALUE) {
             if (a < 0) {
                 ret = a - b;
             } else {
-                throw new MathArithmeticException(msg);
+                throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, a, -b);
             }
         } else {
             // use additive inverse

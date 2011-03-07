@@ -33,18 +33,21 @@ public class MathArithmeticException extends MathRuntimeException {
     private static final long serialVersionUID = -6024911025449780478L;
 
     /**
-     * @param args Arguments.
+     * Default constructor.
      */
-    public MathArithmeticException(Object ... args) {
-        this(null, args);
+    public MathArithmeticException() {
+        addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION, null);
     }
+
     /**
-     * @param specific Message pattern providing the specific context of
+     * Constructor with a specific message.
+     *
+     * @param pattern Message pattern providing the specific context of
      * the error.
      * @param args Arguments.
      */
-    public MathArithmeticException(Localizable specific,
+    public MathArithmeticException(Localizable pattern,
                                    Object ... args) {
-        super(null, specific, LocalizedFormats.ARITHMETIC_EXCEPTION, args);
+        addMessage(pattern, args);
     }
 }

@@ -28,40 +28,22 @@ import org.apache.commons.math.exception.util.Localizable;
  * @version $Revision$ $Date$
  */
 public class MathIllegalNumberException extends MathIllegalArgumentException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -7447085893598031110L;
-
     /** Requested. */
     private final Number argument;
 
     /**
      * Construct an exception.
      *
-     * @param specific Localizable pattern.
-     * @param general Localizable pattern.
+     * @param pattern Localizable pattern.
      * @param wrong Wrong number.
      * @param arguments Arguments.
      */
-    protected MathIllegalNumberException(Localizable specific,
-                                         Localizable general,
+    protected MathIllegalNumberException(Localizable pattern,
                                          Number wrong,
                                          Object ... arguments) {
-        super(specific, general, wrong, arguments);
-        argument = wrong;
-    }
-
-    /**
-     * Construct an exception.
-     *
-     * @param general Localizable pattern.
-     * @param wrong Wrong number.
-     * @param arguments Arguments.
-     */
-    protected MathIllegalNumberException(Localizable general,
-                                         Number wrong,
-                                         Object ... arguments) {
-        super(general, wrong, arguments);
+        super(pattern, wrong, arguments);
         argument = wrong;
     }
 

@@ -17,6 +17,7 @@
 package org.apache.commons.math.exception;
 
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.math.exception.util.Localizable;
 
@@ -27,34 +28,59 @@ import org.apache.commons.math.exception.util.Localizable;
 * @since 2.2
 */
 public interface MathThrowable {
-
-    /** Gets the localizable pattern used to build the specific part of the message of this throwable.
-     * @return localizable pattern used to build the specific part of the message of this throwable
+    /**
+     * Sets a message.
+     *
+     * @param pattern Message pattern.
+     * @param arguments Values for replacing the placeholders in the message
+     * pattern.
      */
-    Localizable getSpecificPattern();
+    void addMessage(Localizable pattern,
+                    Object ... arguments);
 
-    /** Gets the localizable pattern used to build the general part of the message of this throwable.
-     * @return localizable pattern used to build the general part of the message of this throwable
+    /**
+     * Sets the context (key, value) pair.
+     * Keys are assumed to be unique within an instance. If the same key is
+     * assigned a new value, the previous one will be lost.
+     *
+     * @param key Context key (not null).
+     * @param value Context value.
      */
-    Localizable getGeneralPattern();
+    void setContext(String key, Object value);
 
-    /** Gets the arguments used to build the message of this throwable.
-     * @return the arguments used to build the message of this throwable
+    /**
+     * Gets the value associated to the given context key.
+     *
+     * @param key Context key.
+     * @return the context value or {@code null} if the key does not exist.
      */
-    Object[] getArguments();
+    Object getContext(String key);
 
-    /** Gets the message in a specified locale.
+    /**
+     * Gets all the keys stored in the exception
+     *
+     * @return the set of keys.
+     */
+    Set<String> getContextKeys();
+
+    /**
+     * Gets the message in a specified locale.
+     *
      * @param locale Locale in which the message should be translated
      * @return localized message
      */
     String getMessage(final Locale locale);
 
-    /** Gets the message in a conventional US locale.
+    /**
+     * Gets the message in a conventional US locale.
+     *
      * @return localized message
      */
     String getMessage();
 
-    /** Gets the message in the system default locale.
+    /**
+     * Gets the message in the system default locale.
+     *
      * @return localized message
      */
     String getLocalizedMessage();

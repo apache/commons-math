@@ -36,41 +36,10 @@ public class ConvergenceExceptionTest extends TestCase {
         assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
-    public void testConstructorPatternArguments(){
-        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
-        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
-        ConvergenceException ex = new ConvergenceException(pattern, arguments);
-        assertNull(ex.getCause());
-        assertEquals(pattern, ex.getGeneralPattern());
-        assertEquals(arguments.length, ex.getArguments().length);
-        for (int i = 0; i < arguments.length; ++i) {
-            assertEquals(arguments[i], ex.getArguments()[i]);
-        }
-        assertFalse(pattern.equals(ex.getMessage()));
-        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
-    }
-
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         ConvergenceException ex = new ConvergenceException(cause);
         assertEquals(cause, ex.getCause());
     }
-
-    public void testConstructorPatternArgumentsCause(){
-        LocalizedFormats pattern = LocalizedFormats.ROTATION_MATRIX_DIMENSIONS;
-        Object[] arguments = { Integer.valueOf(6), Integer.valueOf(4) };
-        String inMsg = "inner message";
-        Exception cause = new Exception(inMsg);
-        ConvergenceException ex = new ConvergenceException(cause, pattern, arguments);
-        assertEquals(cause, ex.getCause());
-        assertEquals(pattern, ex.getGeneralPattern());
-        assertEquals(arguments.length, ex.getArguments().length);
-        for (int i = 0; i < arguments.length; ++i) {
-            assertEquals(arguments[i], ex.getArguments()[i]);
-        }
-        assertFalse(pattern.equals(ex.getMessage()));
-        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
-    }
-
 }

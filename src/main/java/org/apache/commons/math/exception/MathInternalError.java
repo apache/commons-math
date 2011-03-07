@@ -25,10 +25,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class MathInternalError extends MathIllegalStateException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -6276776513966934846L;
-
     /** URL for reporting problems. */
     private static final String REPORT_URL = "https://issues.apache.org/jira/browse/MATH";
 
@@ -36,7 +34,7 @@ public class MathInternalError extends MathIllegalStateException {
      * Simple constructor.
      */
     public MathInternalError() {
-        super(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+        addMessage(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
     }
 
     /**
@@ -44,7 +42,7 @@ public class MathInternalError extends MathIllegalStateException {
      * @param cause root cause
      */
     public MathInternalError(final Throwable cause) {
-        super(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+        super(cause, LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
     }
 
 }

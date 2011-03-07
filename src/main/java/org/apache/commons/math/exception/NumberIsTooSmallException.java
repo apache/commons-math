@@ -26,10 +26,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NumberIsTooSmallException extends MathIllegalNumberException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -6100997100383932834L;
-
     /**
      * Higher bound.
      */
@@ -49,7 +47,10 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
     public NumberIsTooSmallException(Number wrong,
                                      Number min,
                                      boolean boundIsAllowed) {
-        this(null, wrong, min, boundIsAllowed);
+        this(boundIsAllowed ?
+             LocalizedFormats.NUMBER_TOO_SMALL :
+             LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
+             wrong, min, boundIsAllowed);
     }
 
     /**
@@ -64,11 +65,7 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
                                      Number wrong,
                                      Number min,
                                      boolean boundIsAllowed) {
-        super(specific,
-              boundIsAllowed ?
-              LocalizedFormats.NUMBER_TOO_SMALL :
-              LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,
-              wrong, min);
+        super(specific, wrong, min);
 
         this.min = min;
         this.boundIsAllowed = boundIsAllowed;

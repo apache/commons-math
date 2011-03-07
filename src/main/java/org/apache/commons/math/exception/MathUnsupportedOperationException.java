@@ -33,18 +33,18 @@ public class MathUnsupportedOperationException extends MathRuntimeException {
     private static final long serialVersionUID = -6024911025449780478L;
 
     /**
-     * @param args Arguments.
+     * Default constructor.
      */
-    public MathUnsupportedOperationException(Object ... args) {
-        this(null, args);
+    public MathUnsupportedOperationException() {
+        this(LocalizedFormats.UNSUPPORTED_OPERATION, null);
     }
     /**
-     * @param specific Message pattern providing the specific context of
+     * @param pattern Message pattern providing the specific context of
      * the error.
      * @param args Arguments.
      */
-    public MathUnsupportedOperationException(Localizable specific,
+    public MathUnsupportedOperationException(Localizable pattern,
                                              Object ... args) {
-        super(null, specific, LocalizedFormats.UNSUPPORTED_OPERATION, args);
+        addMessage(pattern, args);
     }
 }

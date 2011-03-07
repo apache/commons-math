@@ -34,7 +34,7 @@ public class ZeroException extends MathIllegalNumberException {
      * Construct the exception.
      */
     public ZeroException() {
-        this(null);
+        this(LocalizedFormats.ZERO_NOT_ALLOWED);
     }
 
     /**
@@ -43,6 +43,6 @@ public class ZeroException extends MathIllegalNumberException {
      * @param specific Specific context pattern.
      */
     public ZeroException(Localizable specific) {
-        super(specific, LocalizedFormats.ZERO_NOT_ALLOWED, 0);
+        super(specific, 0);
     }
 }

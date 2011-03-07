@@ -34,7 +34,7 @@ public class NoDataException extends MathIllegalArgumentException {
      * Construct the exception.
      */
     public NoDataException() {
-        this(null);
+        this(LocalizedFormats.NO_DATA);
     }
     /**
      * Construct the exception with a specific context.
@@ -42,6 +42,6 @@ public class NoDataException extends MathIllegalArgumentException {
      * @param specific Contextual information on what caused the exception.
      */
     public NoDataException(Localizable specific) {
-        super(specific, LocalizedFormats.NO_DATA, (Object[]) null);
+        super(specific, null);
     }
 }

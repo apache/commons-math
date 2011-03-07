@@ -33,22 +33,11 @@ public class MathIllegalArgumentException extends MathRuntimeException {
     private static final long serialVersionUID = -6024911025449780478L;
 
     /**
-     * @param specific Message pattern providing the specific context of
-     * the error.
-     * @param general Message pattern explaining the cause of the error.
+     * @param pattern Message pattern explaining the cause of the error.
      * @param args Arguments.
      */
-    public MathIllegalArgumentException(Localizable specific,
-                                        Localizable general,
+    public MathIllegalArgumentException(Localizable pattern,
                                         Object ... args) {
-        super(null, specific, general, args);
-    }
-    /**
-     * @param general Message pattern explaining the cause of the error.
-     * @param args Arguments.
-     */
-    public MathIllegalArgumentException(Localizable general,
-                                        Object ... args) {
-        this(null, general, args);
+        addMessage(pattern, args);
     }
 }

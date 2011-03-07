@@ -48,7 +48,7 @@ public class NoBracketingException extends MathIllegalArgumentException {
      */
     public NoBracketingException(double lo, double hi,
                                  double fLo, double fHi) {
-        this(null, lo, hi, fLo, fHi);
+        this(LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, lo, hi, fLo, fHi);
     }
 
     /**
@@ -65,7 +65,7 @@ public class NoBracketingException extends MathIllegalArgumentException {
                                  double lo, double hi,
                                  double fLo, double fHi,
                                  Object ... args) {
-        super(specific, LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, lo, hi, fLo, fHi, args);
+        super(specific, lo, hi, fLo, fHi, args);
         this.lo = lo;
         this.hi = hi;
         this.fLo = fLo;

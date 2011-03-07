@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ConcurrentModificationException;
 import java.util.Locale;
+import java.util.Set;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.math.exception.MathThrowable;
@@ -124,6 +125,27 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
         this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
+    /** {@inheritDoc} */
+    public void addMessage(Localizable pat,
+                           Object ... args) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public void setContext(String key, Object value) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public Object getContext(String key) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getContextKeys() {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
     /**
      * Builds a message string by from a pattern and its arguments.
      * @param locale Locale in which the message should be translated
@@ -140,26 +162,11 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
     /** Gets the pattern used to build the message of this throwable.
     *
     * @return the pattern used to build the message of this throwable
-    * @deprecated as of 2.2 replaced by {@link #getSpecificPattern()} and {@link #getGeneralPattern()}
+    * @deprecated as of 2.2
     */
     @Deprecated
     public String getPattern() {
         return pattern.getSourceString();
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return null;
-    }
-
-    /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return pattern;
-    }
-
-    /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
     }
 
     /** Gets the message in a specified locale.

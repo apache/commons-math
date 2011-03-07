@@ -41,9 +41,7 @@ public class DimensionMismatchException extends MathIllegalNumberException {
     public DimensionMismatchException(Localizable specific,
                                       int wrong,
                                       int expected) {
-        super(specific,
-              LocalizedFormats.DIMENSIONS_MISMATCH,
-              wrong, expected);
+        super(specific, wrong, expected);
         dimension = expected;
     }
 

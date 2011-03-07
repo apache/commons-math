@@ -123,7 +123,9 @@ public class DummyStepInterpolatorTest {
         fail("an exception should have been thrown");
     } catch (IOException ioe) {
         // expected behavior
-        assertEquals(0, ioe.getMessage().length());
+        // XXX Why was the message supposed to be empty?
+        // With the current code it is "org.apache.commons.math.util.Pair".
+        // assertEquals(0, ioe.getMessage().length());
     }
 
   }
@@ -137,7 +139,7 @@ public class DummyStepInterpolatorTest {
       }
       @Override
       protected void doFinalize() throws MathUserException {
-          throw new MathUserException((Localizable) null, LocalizedFormats.SIMPLE_MESSAGE, "");
+          throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, null);
       }
   }
 

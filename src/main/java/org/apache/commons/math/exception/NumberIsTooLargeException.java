@@ -26,10 +26,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public class NumberIsTooLargeException extends MathIllegalNumberException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = 4330003017885151975L;
-
     /**
      * Higher bound.
      */
@@ -49,7 +47,10 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
     public NumberIsTooLargeException(Number wrong,
                                      Number max,
                                      boolean boundIsAllowed) {
-        this(null, wrong, max, boundIsAllowed);
+        this(boundIsAllowed ?
+             LocalizedFormats.NUMBER_TOO_LARGE :
+             LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
+             wrong, max, boundIsAllowed);
     }
     /**
      * Construct the exception with a specific context.
@@ -63,11 +64,7 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
                                      Number wrong,
                                      Number max,
                                      boolean boundIsAllowed) {
-        super(specific,
-              boundIsAllowed ?
-              LocalizedFormats.NUMBER_TOO_LARGE :
-              LocalizedFormats.NUMBER_TOO_LARGE_BOUND_EXCLUDED,
-              wrong, max);
+        super(specific, wrong, max);
 
         this.max = max;
         this.boundIsAllowed = boundIsAllowed;

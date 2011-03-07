@@ -16,17 +16,20 @@
  */
 package org.apache.commons.math.exception;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
+import java.text.MessageFormat;
 import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.Localizable;
-import org.apache.commons.math.exception.util.MessageFactory;
+import org.apache.commons.math.util.Pair;
 
 /**
- * This class is primarily intended as a base class for exceptions
- * that must wrap low-level exceptions in order to propagate an
- * exception that better corresponds to the high-level action that
- * triggered the problem.
+ * This class is the base class for all exceptions.
  *
  * @since 3.0
  * @version $Revision$ $Date$
@@ -36,70 +39,70 @@ public class MathRuntimeException extends RuntimeException
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /**
-     * Pattern used to build the specific part of the message (problem description).
+     * Various informations that enrich the informative message.
      */
-    private final Localizable specific;
+    private final List<Pair<Localizable, Object[]>> messages
+        = new ArrayList<Pair<Localizable, Object[]>>();
     /**
-     * Pattern used to build the general part of the message (problem description).
+     * Arbitrary context information.
      */
-    private final Localizable general;
-    /**
-     * Arguments used to build the message.
-     */
-    private final Object[] arguments;
+    private final Map<String, Object> context = new HashMap<String, Object>();
 
     /**
-     * Build an exception from two patterns (specific and general) and
-     * an argument list.
-     *
-     * @param cause Cause of the error (may be null).
-     * @param specific Format specifier for the specific part (may be null).
-     * @param general Format specifier for the general part (may be null).
-     * @param arguments Format arguments. They will be substituted in
-     * <em>both</em> the {@code general} and {@code specific} format specifiers.
+     * Builds an exception.
      */
-    public MathRuntimeException(final Throwable cause,
-                                final Localizable specific,
-                                final Localizable general,
-                                final Object ... arguments) {
-        super(cause);
-        this.specific = specific;
-        this.general = general;
-        this.arguments = ArgUtils.flatten(arguments);
-    }
+    public MathRuntimeException() {}
 
     /**
-     * Wrap an exception.
+     * Builds an exception.
      *
      * @param cause Cause of the error (may be null).
      */
     public MathRuntimeException(final Throwable cause) {
-        this(cause, null, null);
+        super(cause);
     }
 
     /** {@inheritDoc} */
-    public Localizable getSpecificPattern() {
-        return specific;
+    public void addMessage(Localizable pattern,
+                           Object ... arguments) {
+        messages.add(new Pair<Localizable, Object[]>(pattern, ArgUtils.flatten(arguments)));
     }
 
     /** {@inheritDoc} */
-    public Localizable getGeneralPattern() {
-        return general;
+    public void setContext(String key, Object value) {
+        context.put(key, value);
     }
 
     /** {@inheritDoc} */
-    public Object[] getArguments() {
-        return arguments.clone();
+    public Object getContext(String key) {
+        return context.get(key);
+    }
+
+    /** {@inheritDoc} */
+    public Set<String> getContextKeys() {
+        return context.keySet();
     }
 
     /**
-     * Get the message in a specified locale.
+     * Gets the message in a specified locale.
      *
      * @param locale Locale in which the message should be translated.
      * @return the localized message.
      */
     public String getMessage(final Locale locale) {
-        return MessageFactory.buildMessage(locale, specific, general, arguments);
+        return buildMessage(locale, ": ");
+    }
+
+    /**
+     * Gets the message in a specified locale.
+     *
+     * @param locale Locale in which the message should be translated.
+     * @param separator Separator inserted between the message parts.
+     * @return the localized message.
+     */
+    public String getMessage(final Locale locale,
+                             final String separator) {
+        return buildMessage(locale, separator);
     }
 
    /** {@inheritDoc} */
@@ -112,5 +115,29 @@ public class MathRuntimeException extends RuntimeException
     @Override
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
+    }
+
+    /**
+     * Builds a message string.
+     *
+     * @param locale Locale in which the message should be translated.
+     * @param separator Message separator.
+     * @return a localized message string.
+     */
+    private String buildMessage(Locale locale,
+                                String separator) {
+        final StringBuilder sb = new StringBuilder();
+        int count = 0;
+        final int len = messages.size();
+        for (Pair<Localizable, Object[]> pair : messages) {
+            final MessageFormat fmt = new MessageFormat(pair.getKey().getLocalizedString(locale), locale);
+            sb.append(fmt.format(pair.getValue()));
+            if (++count < len) {
+                // Add a separator if there are other messages.
+                sb.append(separator);
+            }
+        }
+
+        return sb.toString();
     }
 }
