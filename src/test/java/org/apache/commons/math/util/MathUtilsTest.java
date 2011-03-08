@@ -28,6 +28,8 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
 
 /**
@@ -1638,6 +1640,24 @@ public final class MathUtilsTest extends TestCase {
         }
         for (int i = source.length; i < source.length + offset; i++) {
             assertEquals(0, dest[i], 0);
+        }
+    }
+
+    public void testCheckNotNull1() {
+        try {
+            Object obj = null;
+            MathUtils.checkNotNull(obj);
+        } catch (NullArgumentException e) {
+            // Expected.
+        }
+    }
+
+    public void testCheckNotNull2() {
+        try {
+            double[] array = null;
+            MathUtils.checkNotNull(array, LocalizedFormats.INPUT_ARRAY, null);
+        } catch (NullArgumentException e) {
+            // Expected.
         }
     }
 }

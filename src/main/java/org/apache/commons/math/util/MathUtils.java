@@ -2274,4 +2274,32 @@ public final class MathUtils {
          System.arraycopy(source, 0, output, 0, FastMath.min(len, source.length));
          return output;
      }
+
+    /**
+     * Checks that an object is not null.
+     *
+     * @param o Object to be checked.
+     * @param pattern Message pattern.
+     * @param args Arguments to replace the placeholders in {@code pattern}.
+     * @throws NullArgumentException if {@code o} is {@code null}.
+     */
+    public static void checkNotNull(Object o,
+                                    Localizable pattern,
+                                    Object ... args) {
+        if (o == null) {
+            throw new NullArgumentException(pattern, args);
+        }
+    }
+
+    /**
+     * Checks that an object is not null.
+     *
+     * @param o Object to be checked.
+     * @throws NullArgumentException if {@code o} is {@code null}.
+     */
+    public static void checkNotNull(Object o) {
+        if (o == null) {
+            throw new NullArgumentException();
+        }
+    }
 }
