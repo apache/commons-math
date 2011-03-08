@@ -139,8 +139,7 @@ public class DummyStepInterpolatorTest {
       }
       @Override
       protected void doFinalize() throws MathUserException {
-          throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, null);
+          throw new MathUserException();
       }
   }
-
 }
