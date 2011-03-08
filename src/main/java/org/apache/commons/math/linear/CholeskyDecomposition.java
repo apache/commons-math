@@ -27,8 +27,7 @@ package org.apache.commons.math.linear;
  * <ul>
  *   <li>a {@link #getLT() getLT} method has been added,</li>
  *   <li>the <code>isspd</code> method has been removed, the constructors of
- *   implementation classes being expected to throw {@link
- *   org.apache.commons.math.exception.NonPositiveDefiniteMatrixException}
+ *   implementation classes being expected to throw {@link NonPositiveDefiniteMatrixException}
  *   when a matrix cannot be decomposed,</li>
  *   <li>a {@link #getDeterminant() getDeterminant} method has been added,</li>
  *   <li>the <code>solve</code> method has been replaced by a {@link
@@ -42,7 +41,6 @@ package org.apache.commons.math.linear;
  * @since 2.0
  */
 public interface CholeskyDecomposition {
-
     /**
      * Returns the matrix L of the decomposition.
      * <p>L is an lower-triangular matrix</p>
@@ -68,5 +66,4 @@ public interface CholeskyDecomposition {
      * @return a solver
      */
     DecompositionSolver getSolver();
-
 }

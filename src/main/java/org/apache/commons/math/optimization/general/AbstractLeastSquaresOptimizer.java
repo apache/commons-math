@@ -172,10 +172,10 @@ public abstract class AbstractLeastSquaresOptimizer
      * Get the covariance matrix of the optimized parameters.
      *
      * @return the covariance matrix.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws org.apache.commons.math.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
-     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
-     * function throws one.
+     * @throws org.apache.commons.math.exception.MathUserException if the
+     * jacobian function throws one.
      */
     public double[][] getCovariances() {
         // set up the jacobian
@@ -205,8 +205,8 @@ public abstract class AbstractLeastSquaresOptimizer
      * Guessing is covariance-based: It only gives a rough order of magnitude.
      *
      * @return errors in optimized parameters
-     * @throws org.apache.commons.math.exception.SingularMatrixException if
-     * the covariances matrix cannot be computed.
+     * @throws org.apache.commons.math.linear.SingularMatrixException
+     * if the covariances matrix cannot be computed.
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.

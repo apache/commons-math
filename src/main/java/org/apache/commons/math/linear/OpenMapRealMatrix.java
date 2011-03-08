@@ -170,7 +170,7 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
      *
      * @param m Matrix to postmultiply by.
      * @return {@code this} * {@code m}.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if the number of rows of {@code m} differ from the number of columns
      * of this matrix.
      */

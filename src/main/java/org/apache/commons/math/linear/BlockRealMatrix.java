@@ -20,7 +20,6 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.exception.MatrixDimensionMismatchException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;

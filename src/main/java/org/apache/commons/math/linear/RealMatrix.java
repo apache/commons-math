@@ -234,7 +234,7 @@ public interface RealMatrix extends AnyMatrix {
     * columns as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException if the
     * specified row index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the matrix dimensions do not match one instance row.
     */
     void setRowMatrix(int row, RealMatrix matrix);
@@ -259,7 +259,7 @@ public interface RealMatrix extends AnyMatrix {
     * of rows as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException if
     * the specified column index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the {@code matrix} dimensions do not match one instance column.
     */
     void setColumnMatrix(int column, RealMatrix matrix);
@@ -284,7 +284,7 @@ public interface RealMatrix extends AnyMatrix {
     * as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException if
     * the specified row index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the vector dimension does not match one instance row.
     */
     void setRowVector(int row, RealVector vector);
@@ -309,7 +309,7 @@ public interface RealMatrix extends AnyMatrix {
     * the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException if the
     * specified column index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the vector dimension does not match one instance column.
     */
     void setColumnVector(int column, RealVector vector);
@@ -334,7 +334,7 @@ public interface RealMatrix extends AnyMatrix {
      * the instance)
      * @throws org.apache.commons.math.exception.OutOfRangeException if the
      * specified row index is invalid.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if the array size does not match one instance row.
      */
     void setRow(int row, double[] array);
@@ -359,7 +359,7 @@ public interface RealMatrix extends AnyMatrix {
      * the instance).
      * @throws org.apache.commons.math.exception.OutOfRangeException if the
      * specified column index is invalid.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if the array size does not match one instance column.
      */
     void setColumn(int column, double[] array);
@@ -427,7 +427,7 @@ public interface RealMatrix extends AnyMatrix {
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return the trace.
-     * @throws org.apache.commons.math.exception.NonSquareMatrixException
+     * @throws NonSquareMatrixException
      * if the matrix is not square.
      */
     double getTrace();

@@ -44,7 +44,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @return a vector X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     T[] solve(final T[] b);
@@ -56,7 +56,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @return a vector X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     FieldVector<T> solve(final FieldVector<T> b);
@@ -68,7 +68,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @return a matrix X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     FieldMatrix<T> solve(final FieldMatrix<T> b);
@@ -81,7 +81,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
 
     /** Get the inverse (or pseudo-inverse) of the decomposed matrix.
      * @return inverse matrix
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     FieldMatrix<T> getInverse();

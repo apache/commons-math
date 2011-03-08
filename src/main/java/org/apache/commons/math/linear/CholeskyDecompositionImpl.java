@@ -18,9 +18,6 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NonSquareMatrixException;
-import org.apache.commons.math.exception.NonSymmetricMatrixException;
-import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -270,8 +267,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * @param b right-hand side of the equation A &times; X = B
          * @return a vector X such that A &times; X = B
          * @throws DimensionMismatchException if the matrices dimensions do not match.
-         * @throws org.apache.commons.math.exception.SingularMatrixException if
-         * the decomposed matrix is singular.
+         * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public ArrayRealVector solve(ArrayRealVector b) {
             return new ArrayRealVector(solve(b.getDataRef()), false);

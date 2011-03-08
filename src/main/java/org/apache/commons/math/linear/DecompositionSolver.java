@@ -42,7 +42,7 @@ public interface DecompositionSolver {
      * @return a vector X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     double[] solve(final double[] b);
@@ -54,7 +54,7 @@ public interface DecompositionSolver {
      * @return a vector X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     RealVector solve(final RealVector b);
@@ -66,7 +66,7 @@ public interface DecompositionSolver {
      * @return a matrix X that minimizes the two norm of A &times; X - B
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     RealMatrix solve(final RealMatrix b);
@@ -79,7 +79,7 @@ public interface DecompositionSolver {
 
     /** Get the inverse (or pseudo-inverse) of the decomposed matrix.
      * @return inverse matrix
-     * @throws org.apache.commons.math.exception.SingularMatrixException
+     * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
     RealMatrix getInverse();

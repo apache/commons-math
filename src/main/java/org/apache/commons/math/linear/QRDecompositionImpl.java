@@ -20,7 +20,6 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.util.FastMath;
 
 

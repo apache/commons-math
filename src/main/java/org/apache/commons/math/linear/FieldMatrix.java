@@ -63,7 +63,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      *
      * @param m Matrix to be added.
      * @return {@code this} + {@code m}.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     FieldMatrix<T> add(FieldMatrix<T> m);
@@ -73,7 +73,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      *
      * @param m Matrix to be subtracted.
      * @return {@code this} - {@code m}.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     FieldMatrix<T> subtract(FieldMatrix<T> m);
@@ -201,7 +201,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * @param subMatrix Array containing the submatrix replacement data.
     * @param row Row coordinate of the top-left element to be replaced.
     * @param column Column coordinate of the top-left element to be replaced.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if {@code subMatrix} does not fit into this matrix from element in
     * {@code (row, column)}.
     * @throws org.apache.commons.math.exception.ZeroException if a row or column
@@ -235,7 +235,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * of columns as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException
     * if the specified row index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the matrix dimensions do not match one instance row.
     */
    void setRowMatrix(int row, FieldMatrix<T> matrix);
@@ -260,7 +260,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * number of rows as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException
     * if the specified column index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the matrix dimensions do not match one instance column.
     */
    void setColumnMatrix(int column, FieldMatrix<T> matrix);
@@ -285,7 +285,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException
     * if the specified row index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the vector dimension does not match one instance row.
     */
    void setRowVector(int row, FieldVector<T> vector);
@@ -310,7 +310,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     * as the instance).
     * @throws org.apache.commons.math.exception.OutOfRangeException
     * if the specified column index is invalid.
-    * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+    * @throws MatrixDimensionMismatchException
     * if the vector dimension does not match one instance column.
     */
    void setColumnVector(int column, FieldVector<T> vector);
@@ -334,7 +334,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * the instance).
      * @throws org.apache.commons.math.exception.OutOfRangeException
      * if the specified row index is invalid.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if the array size does not match one instance row.
      */
     void setRow(int row, T[] array);
@@ -357,7 +357,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param array column array (must have the same number of rows as the instance)
      * @throws org.apache.commons.math.exception.OutOfRangeException
      * if the specified column index is invalid.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if the array size does not match one instance column.
      */
     void setColumn(int column, T[] array);
@@ -423,7 +423,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * trace</a> of the matrix (the sum of the elements on the main diagonal).
      *
      * @return trace
-     * @throws org.apache.commons.math.exception.NonSquareMatrixException
+     * @throws NonSquareMatrixException
      * if the matrix is not square.
      */
     T getTrace();

@@ -168,7 +168,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      *
      * @param m Matrix to be added.
      * @return {@code this} + m.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     public Array2DRowRealMatrix add(final Array2DRowRealMatrix m) {
@@ -195,7 +195,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      *
      * @param m Matrix to be subtracted.
      * @return {@code this} - m.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     public Array2DRowRealMatrix subtract(final Array2DRowRealMatrix m) {

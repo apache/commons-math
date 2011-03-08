@@ -22,8 +22,6 @@ import java.lang.reflect.Array;
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NonSquareMatrixException;
-import org.apache.commons.math.exception.SingularMatrixException;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.

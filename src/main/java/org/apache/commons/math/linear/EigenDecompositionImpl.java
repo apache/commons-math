@@ -18,8 +18,6 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.exception.SingularMatrixException;
-import org.apache.commons.math.exception.NonSymmetricMatrixException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;

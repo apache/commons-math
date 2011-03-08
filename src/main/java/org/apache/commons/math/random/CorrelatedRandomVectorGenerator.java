@@ -18,7 +18,7 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
+import org.apache.commons.math.linear.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.util.FastMath;
@@ -73,17 +73,18 @@ public class CorrelatedRandomVectorGenerator
     /** Rank of the covariance matrix. */
     private int rank;
 
-    /** Simple constructor.
-     * <p>Build a correlated random vector generator from its mean
-     * vector and covariance matrix.</p>
-     * @param mean expected mean values for all components
-     * @param covariance covariance matrix
-     * @param small diagonal elements threshold under which  column are
+    /**
+     * Builds a correlated random vector generator from its mean
+     * vector and covariance matrix.
+     *
+     * @param mean Expected mean values for all components.
+     * @param covariance Covariance matrix.
+     * @param small Diagonal elements threshold under which  column are
      * considered to be dependent on previous ones and are discarded
      * @param generator underlying generator for uncorrelated normalized
-     * components
-     * @throws NonPositiveDefiniteMatrixException if the
-     * covariance matrix is not strictly positive definite
+     * components.
+     * @throws org.apache.commons.math.linear.NonPositiveDefiniteMatrixException
+     * if the covariance matrix is not strictly positive definite.
      * @throws DimensionMismatchException if the mean and covariance
      * arrays dimensions do not match.
      */
@@ -100,19 +101,19 @@ public class CorrelatedRandomVectorGenerator
 
         this.generator = generator;
         normalized = new double[rank];
-
     }
 
-    /** Simple constructor.
-     * <p>Build a null mean random correlated vector generator from its
-     * covariance matrix.</p>
-     * @param covariance covariance matrix
-     * @param small diagonal elements threshold under which  column are
-     * considered to be dependent on previous ones and are discarded
-     * @param generator underlying generator for uncorrelated normalized
-     * components
-     * @exception NonPositiveDefiniteMatrixException if the
-     * covariance matrix is not strictly positive definite
+    /**
+     * Builds a null mean random correlated vector generator from its
+     * covariance matrix.
+     *
+     * @param covariance Covariance matrix.
+     * @param small Diagonal elements threshold under which  column are
+     * considered to be dependent on previous ones and are discarded.
+     * @param generator Underlying generator for uncorrelated normalized
+     * components.
+     * @throws org.apache.commons.math.linear.NonPositiveDefiniteMatrixException
+     * if the covariance matrix is not strictly positive definite.
      */
     public CorrelatedRandomVectorGenerator(RealMatrix covariance, double small,
                                            NormalizedRandomGenerator generator) {
@@ -126,7 +127,6 @@ public class CorrelatedRandomVectorGenerator
 
         this.generator = generator;
         normalized = new double[rank];
-
     }
 
     /** Get the underlying normalized components generator.
@@ -171,8 +171,8 @@ public class CorrelatedRandomVectorGenerator
      * @param covariance covariance matrix
      * @param small diagonal elements threshold under which  column are
      * considered to be dependent on previous ones and are discarded
-     * @throws NonPositiveDefiniteMatrixException if the
-     * covariance matrix is not strictly positive definite.
+     * @throws org.apache.commons.math.linear.NonPositiveDefiniteMatrixException
+     * if the covariance matrix is not strictly positive definite.
      */
     private void decompose(RealMatrix covariance, double small) {
         int order = covariance.getRowDimension();

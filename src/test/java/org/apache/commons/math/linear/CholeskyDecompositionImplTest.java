@@ -17,13 +17,8 @@
 
 package org.apache.commons.math.linear;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.apache.commons.math.exception.NonSquareMatrixException;
-import org.apache.commons.math.exception.NonPositiveDefiniteMatrixException;
-import org.apache.commons.math.exception.NonSymmetricMatrixException;
 import org.junit.Test;
+import org.junit.Assert;
 
 public class CholeskyDecompositionImplTest {
 
@@ -40,10 +35,10 @@ public class CholeskyDecompositionImplTest {
     public void testDimensions() {
         CholeskyDecomposition llt =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
-        assertEquals(testData.length, llt.getL().getRowDimension());
-        assertEquals(testData.length, llt.getL().getColumnDimension());
-        assertEquals(testData.length, llt.getLT().getRowDimension());
-        assertEquals(testData.length, llt.getLT().getColumnDimension());
+        Assert.assertEquals(testData.length, llt.getL().getRowDimension());
+        Assert.assertEquals(testData.length, llt.getL().getColumnDimension());
+        Assert.assertEquals(testData.length, llt.getLT().getRowDimension());
+        Assert.assertEquals(testData.length, llt.getLT().getColumnDimension());
     }
 
     /** test non-square matrix */
@@ -91,7 +86,7 @@ public class CholeskyDecompositionImplTest {
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.multiply(lt).subtract(matrix).getNorm();
-        assertEquals(0, norm, 1.0e-15);
+        Assert.assertEquals(0, norm, 1.0e-15);
     }
 
     /** test that L is lower triangular */
@@ -101,7 +96,7 @@ public class CholeskyDecompositionImplTest {
         RealMatrix l = new CholeskyDecompositionImpl(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             for (int j = i + 1; j < l.getColumnDimension(); j++) {
-                assertEquals(0.0, l.getEntry(i, j), 0.0);
+                Assert.assertEquals(0.0, l.getEntry(i, j), 0.0);
             }
         }
     }
@@ -114,7 +109,7 @@ public class CholeskyDecompositionImplTest {
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.subtract(lt.transpose()).getNorm();
-        assertEquals(0, norm, 1.0e-15);
+        Assert.assertEquals(0, norm, 1.0e-15);
     }
 
     /** test matrices values */
@@ -132,14 +127,12 @@ public class CholeskyDecompositionImplTest {
 
         // check values against known references
         RealMatrix l = llt.getL();
-        assertEquals(0, l.subtract(lRef).getNorm(), 1.0e-13);
+        Assert.assertEquals(0, l.subtract(lRef).getNorm(), 1.0e-13);
         RealMatrix lt = llt.getLT();
-        assertEquals(0, lt.subtract(lRef.transpose()).getNorm(), 1.0e-13);
+        Assert.assertEquals(0, lt.subtract(lRef.transpose()).getNorm(), 1.0e-13);
 
         // check the same cached instance is returned the second time
-        assertTrue(l  == llt.getL());
-        assertTrue(lt == llt.getLT());
-
+        Assert.assertTrue(l  == llt.getL());
+        Assert.assertTrue(lt == llt.getLT());
     }
-
 }

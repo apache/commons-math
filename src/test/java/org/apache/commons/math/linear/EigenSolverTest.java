@@ -20,73 +20,75 @@ package org.apache.commons.math.linear;
 import java.util.Random;
 
 import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.exception.SingularMatrixException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
-public class EigenSolverTest extends TestCase {
-
-    private double[] refValues;
-    private RealMatrix matrix;
-
-    public EigenSolverTest(String name) {
-        super(name);
-    }
+public class EigenSolverTest {
 
     /** test non invertible matrix */
+    @Test
     public void testNonInvertible() {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 });
         DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
-        assertFalse(es.isNonSingular());
+        Assert.assertFalse(es.isNonSingular());
         try {
             es.getInverse();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (SingularMatrixException ime) {
             // expected behavior
         }
     }
 
     /** test invertible matrix */
+    @Test
     public void testInvertible() {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
         DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
-        assertTrue(es.isNonSingular());
+        Assert.assertTrue(es.isNonSingular());
         RealMatrix inverse = es.getInverse();
         RealMatrix error =
             m.multiply(inverse).subtract(MatrixUtils.createRealIdentityMatrix(m.getRowDimension()));
-        assertEquals(0, error.getNorm(), 4.0e-15);
+        Assert.assertEquals(0, error.getNorm(), 4.0e-15);
     }
 
     /** test solve dimension errors */
+    @Test
     public void testSolveDimensionErrors() {
+        final double[] refValues = new double[] {
+            2.003, 2.002, 2.001, 1.001, 1.000, 0.001
+        };
+        final RealMatrix matrix = EigenDecompositionImplTest.createTestMatrix(new Random(35992629946426l), refValues);
+
         DecompositionSolver es = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             es.solve(b);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             es.solve(b.getColumn(0));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             es.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
     }
 
     /** test solve */
+    @Test
     public void testSolve() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {
                 { 91,  5, 29, 32, 40, 14 },
@@ -116,18 +118,18 @@ public class EigenSolverTest extends TestCase {
 
         // using RealMatrix
         RealMatrix solution=es.solve(b);
-        assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
+        Assert.assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          new ArrayRealVector(es.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);
         }
 
         // using Array2DRowRealMatrix
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          es.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);
         }
@@ -136,25 +138,9 @@ public class EigenSolverTest extends TestCase {
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             ArrayRealVectorTest.RealVectorTestImpl v =
                 new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
-            assertEquals(0,
+            Assert.assertEquals(0,
                          es.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);
         }
-
     }
-
-    @Override
-    public void setUp() {
-        refValues = new double[] {
-                2.003, 2.002, 2.001, 1.001, 1.000, 0.001
-        };
-        matrix = EigenDecompositionImplTest.createTestMatrix(new Random(35992629946426l), refValues);
-    }
-
-    @Override
-    public void tearDown() {
-        refValues = null;
-        matrix    = null;
-    }
-
 }

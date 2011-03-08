@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.exception;
+package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -24,46 +25,41 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 3.0
  * @version $Revision$ $Date$
  */
-public class NonSymmetricMatrixException extends MathIllegalArgumentException {
+public class NonPositiveDefiniteMatrixException extends MathIllegalArgumentException {
     /** Serializable version Id. */
-    private static final long serialVersionUID = -7518495577824189882L;
-    /** Row. */
-    private final int row;
-    /** Column. */
-    private final int column;
+    private static final long serialVersionUID = 1641613838113738061L;
+    /** Index (diagonal element). */
+    private final int index;
     /** Threshold. */
     private final double threshold;
 
     /**
      * Construct an exception.
      *
-     * @param row Row index.
-     * @param column Column index.
-     * @param threshold Relative symmetry threshold.
+     * @param index Row (and column) index.
+     * @param threshold Absolute positivity threshold.
      */
-    public NonSymmetricMatrixException(int row,
-                                       int column,
-                                       double threshold) {
-        super(LocalizedFormats.NON_SYMMETRIC_MATRIX, row, column, threshold);
-        this.row = row;
-        this.column = column;
+    public NonPositiveDefiniteMatrixException(int index,
+                                              double threshold) {
+        super(LocalizedFormats.NON_POSITIVE_DEFINITE_MATRIX, index, threshold);
+        this.index = index;
         this.threshold = threshold;
     }
 
     /**
-     * @return the row index of the entry.
+     * @return the row index.
      */
     public int getRow() {
-        return row;
+        return index;
     }
     /**
-     * @return the column index of the entry.
+     * @return the column index.
      */
     public int getColumn() {
-        return column;
+        return index;
     }
     /**
-     * @return the relative symmetry threshold.
+     * @return the absolute positivity threshold.
      */
     public double getThreshold() {
         return threshold;

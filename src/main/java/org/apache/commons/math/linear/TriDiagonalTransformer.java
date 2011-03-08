@@ -19,7 +19,6 @@ package org.apache.commons.math.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.exception.NonSquareMatrixException;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -58,11 +57,12 @@ class TriDiagonalTransformer {
      * Only the upper triangular part of the matrix is used.</p>
      *
      * @param matrix Symmetrical matrix to transform.
-     * @exception NonSquareMatrixException if the matrix is not square.
+     * @throws NonSquareMatrixException if the matrix is not square.
      */
     public TriDiagonalTransformer(RealMatrix matrix) {
         if (!matrix.isSquare()) {
-            throw new NonSquareMatrixException(matrix.getRowDimension(), matrix.getColumnDimension());
+            throw new NonSquareMatrixException(matrix.getRowDimension(),
+                                               matrix.getColumnDimension());
         }
 
         final int m = matrix.getRowDimension();

@@ -162,7 +162,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      *
      * @param m Matrix to be added.
      * @return {@code this} + m.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     public Array2DRowFieldMatrix<T> add(final Array2DRowFieldMatrix<T> m) {
@@ -189,7 +189,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      *
      * @param m Matrix to be subtracted.
      * @return {@code this} + m.
-     * @throws org.apache.commons.math.exception.MatrixDimensionMismatchException
+     * @throws MatrixDimensionMismatchException
      * if {@code m} is not the same size as this matrix.
      */
     public Array2DRowFieldMatrix<T> subtract(final Array2DRowFieldMatrix<T> m) {
