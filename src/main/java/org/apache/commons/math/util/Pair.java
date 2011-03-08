@@ -49,7 +49,7 @@ public class Pair<K, V> {
      *
      * @param entry Entry to copy.
      */
-    Pair(Pair<? extends K, ? extends V> entry) {
+    public Pair(Pair<? extends K, ? extends V> entry) {
         key = entry.getKey();
         value = entry.getValue();
     }

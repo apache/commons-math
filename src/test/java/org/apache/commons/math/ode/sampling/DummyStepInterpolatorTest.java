@@ -123,11 +123,8 @@ public class DummyStepInterpolatorTest {
         fail("an exception should have been thrown");
     } catch (IOException ioe) {
         // expected behavior
-        // XXX Why was the message supposed to be empty?
-        // With the current code it is "org.apache.commons.math.util.Pair".
-        // assertEquals(0, ioe.getMessage().length());
+        assertEquals(0, ioe.getMessage().length());
     }
-
   }
 
   private static class BadStepInterpolator extends DummyStepInterpolator {
@@ -139,7 +136,7 @@ public class DummyStepInterpolatorTest {
       }
       @Override
       protected void doFinalize() throws MathUserException {
-          throw new MathUserException();
+          throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "");
       }
   }
 }

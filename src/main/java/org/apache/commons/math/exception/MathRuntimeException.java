@@ -26,7 +26,7 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.Localizable;
-import org.apache.commons.math.util.Pair;
+import org.apache.commons.math.util.SerializablePair;
 
 /**
  * This class is the base class for all exceptions.
@@ -41,8 +41,8 @@ public class MathRuntimeException extends RuntimeException
     /**
      * Various informations that enrich the informative message.
      */
-    private final List<Pair<Localizable, Object[]>> messages
-        = new ArrayList<Pair<Localizable, Object[]>>();
+    private final List<SerializablePair<Localizable, Object[]>> messages
+        = new ArrayList<SerializablePair<Localizable, Object[]>>();
     /**
      * Arbitrary context information.
      */
@@ -65,7 +65,8 @@ public class MathRuntimeException extends RuntimeException
     /** {@inheritDoc} */
     public void addMessage(Localizable pattern,
                            Object ... arguments) {
-        messages.add(new Pair<Localizable, Object[]>(pattern, ArgUtils.flatten(arguments)));
+        messages.add(new SerializablePair<Localizable, Object[]>(pattern,
+                                                                 ArgUtils.flatten(arguments)));
     }
 
     /** {@inheritDoc} */
@@ -129,8 +130,9 @@ public class MathRuntimeException extends RuntimeException
         final StringBuilder sb = new StringBuilder();
         int count = 0;
         final int len = messages.size();
-        for (Pair<Localizable, Object[]> pair : messages) {
-            final MessageFormat fmt = new MessageFormat(pair.getKey().getLocalizedString(locale), locale);
+        for (SerializablePair<Localizable, Object[]> pair : messages) {
+            final MessageFormat fmt = new MessageFormat(pair.getKey().getLocalizedString(locale),
+                                                        locale);
             sb.append(fmt.format(pair.getValue()));
             if (++count < len) {
                 // Add a separator if there are other messages.
