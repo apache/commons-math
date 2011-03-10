@@ -18,6 +18,11 @@ package org.apache.commons.math.exception;
 
 import java.util.Locale;
 import java.util.Arrays;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -74,5 +79,62 @@ public class MathRuntimeExceptionTest {
 
         // Check behaviour on missing key.
         Assert.assertNull(mre.getContext("xyz"));
+    }
+
+    @Test
+    public void testSerialize()
+        throws IOException,
+               ClassNotFoundException {
+        final MathRuntimeException mreOut = new MathRuntimeException();
+        mreOut.addMessage(LocalizedFormats.COLUMN_INDEX, 0);
+        mreOut.setContext("Key 1", Integer.valueOf(0));
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(mreOut);
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        MathRuntimeException mreIn = (MathRuntimeException) ois.readObject();
+
+        Assert.assertTrue(mreOut.getMessage().equals(mreIn.getMessage()));
+        for (String key : mreIn.getContextKeys()) {
+            Assert.assertTrue(mreOut.getContext(key).equals(mreIn.getContext(key)));
+        }
+    }
+
+    @Test
+    public void testSerializeUnserializable() {
+        final MathRuntimeException mreOut = new MathRuntimeException();
+        mreOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, "OK");
+        mreOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, new Unserializable(0));
+        String key = "Key 1";
+        mreOut.setContext(key, new Unserializable(1));
+
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(mreOut);
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            MathRuntimeException mreIn = (MathRuntimeException) ois.readObject();
+
+            String nsObjStr = (String) mreIn.getContext(key);
+            Assert.assertTrue(nsObjStr.matches(".*could not be serialized.*"));
+        } catch (Exception e) {
+            Assert.fail(e.toString());
+        }
+    }
+
+    /**
+     * Class used by {@link #testSerializeUnserializable()}.
+     */
+    private static class Unserializable {
+        private int k;
+
+        Unserializable(int k) {
+            this.k = k;
+        }
     }
 }

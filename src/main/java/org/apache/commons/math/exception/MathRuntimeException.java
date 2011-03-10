@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Map;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -41,12 +45,12 @@ public class MathRuntimeException extends RuntimeException
     /**
      * Various informations that enrich the informative message.
      */
-    private final List<SerializablePair<Localizable, Object[]>> messages
+    private List<SerializablePair<Localizable, Object[]>> messages
         = new ArrayList<SerializablePair<Localizable, Object[]>>();
     /**
      * Arbitrary context information.
      */
-    private final Map<String, Object> context = new HashMap<String, Object>();
+    private Map<String, Object> context = new HashMap<String, Object>();
 
     /**
      * Builds an exception.
@@ -141,5 +145,148 @@ public class MathRuntimeException extends RuntimeException
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Serialize this object to the given stream.
+     *
+     * @param out Stream.
+     * @throws IOException This should never happen.
+     */
+    private void writeObject(ObjectOutputStream out)
+        throws IOException {
+        serializeMessages(out);
+        serializeContext(out);
+    }
+    /**
+     * Deserialize this object from the given stream.
+     *
+     * @param in Stream.
+     * @throws IOException This should never happen.
+     * @throws ClassNotFoundException This should never happen.
+     */
+    private void readObject(ObjectInputStream in)
+        throws IOException,
+               ClassNotFoundException {
+        deSerializeMessages(in);
+        deSerializeContext(in);
+    }
+
+    /**
+     * Serialize {@link #messages}.
+     *
+     * @param out Stream.
+     * @throws IOException This should never happen.
+     */
+    private void serializeMessages(ObjectOutputStream out)
+        throws IOException {
+        // Step 1.
+        final int len = messages.size();
+        out.writeInt(len);
+        // Step 2.
+        for (int i = 0; i < len; i++) {
+            SerializablePair<Localizable, Object[]> pair = messages.get(i);
+            // Step 3.
+            out.writeObject(pair.getKey());
+            final Object[] args = pair.getValue();
+            final int aLen = args.length;
+            // Step 4.
+            out.writeInt(aLen);
+            for (int j = 0; j < aLen; j++) {
+                if (args[j] instanceof Serializable) {
+                    // Step 5a.
+                    out.writeObject(args[j]);
+                } else {
+                    // Step 5b.
+                    out.writeObject(nonSerializableReplacement(args[j]));
+                }
+            }
+        }
+    }
+
+    /**
+     * Deserialize {@link #messages}.
+     *
+     * @param in Stream.
+     * @throws IOException This should never happen.
+     * @throws ClassNotFoundException This should never happen.
+     */
+    private void deSerializeMessages(ObjectInputStream in)
+        throws IOException,
+               ClassNotFoundException {
+        // Step 1.
+        final int len = in.readInt();
+        messages = new ArrayList<SerializablePair<Localizable, Object[]>>(len);
+        // Step 2.
+        for (int i = 0; i < len; i++) {
+            // Step 3.
+            final Localizable key = (Localizable) in.readObject();
+            // Step 4.
+            final int aLen = in.readInt();
+            final Object[] args = new Object[aLen];
+            for (int j = 0; j < aLen; j++) {
+                // Step 5.
+                args[j] = in.readObject();
+            }
+            messages.add(new SerializablePair<Localizable, Object[]>(key, args));
+        }
+    }
+
+    /**
+     * Serialize {@link #context}.
+     *
+     * @param out Stream.
+     * @throws IOException This should never happen.
+     */
+    private void serializeContext(ObjectOutputStream out)
+        throws IOException {
+        // Step 1.
+        final int len = context.keySet().size();
+        out.writeInt(len);
+        for (String key : context.keySet()) {
+            // Step 2.
+            out.writeObject(key);
+            final Object value = context.get(key);
+            if (value instanceof Serializable) {
+                // Step 3a.
+                out.writeObject(value);
+            } else {
+                // Step 3b.
+                out.writeObject(nonSerializableReplacement(value));
+            }
+        }
+    }
+
+    /**
+     * Deserialize {@link #context}.
+     *
+     * @param in Stream.
+     * @throws IOException This should never happen.
+     * @throws ClassNotFoundException This should never happen.
+     */
+    private void deSerializeContext(ObjectInputStream in)
+        throws IOException,
+               ClassNotFoundException {
+        // Step 1.
+        final int len = in.readInt();
+        context = new HashMap<String, Object>();
+        for (int i = 0; i < len; i++) {
+            // Step 2.
+            final String key = (String) in.readObject();
+            // Step 3.
+            final Object value = in.readObject();
+            context.put(key, value);
+        }
+    }
+
+    /**
+     * Replaces a non-serializable object with an error message string.
+     *
+     * @param obj Object that does not implement the {@code Serializable
+     * interface
+     * @return a string that mentions which class could not be serialized.
+     */
+    private String nonSerializableReplacement(Object obj) {
+        return "[Object could not be serialized: " + obj.getClass().getName() + "]";
     }
 }
