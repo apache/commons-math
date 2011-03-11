@@ -19,6 +19,8 @@ package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
 
 import org.junit.Assert;
@@ -96,5 +98,100 @@ public class LogisticTest {
             final double x = min + i * delta;
             Assert.assertEquals("x=" + x, dgdx.value(x), dfdx.value(x), EPS);
         }
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage1() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.value(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage2() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.value(0, new double[] {0});
+    }
+
+    @Test(expected=NullArgumentException.class)
+    public void testParametricUsage3() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.gradient(0, null);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testParametricUsage4() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.gradient(0, new double[] {0});
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testParametricUsage5() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.value(0, new double[] {1, 0, 1, 1, 0 ,0});
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testParametricUsage6() {
+        final Logistic.Parametric g = new Logistic.Parametric();
+        g.gradient(0, new double[] {1, 0, 1, 1, 0 ,0});
+    }
+
+    @Test
+    public void testGradientComponent0Component4() {
+        final double k = 3;
+        final double a = 2;
+
+        final Logistic.Parametric f = new Logistic.Parametric();
+        // Compare using the "Sigmoid" function.
+        final Sigmoid.Parametric g = new Sigmoid.Parametric();
+        
+        final double x = 0.12345;
+        final double[] gf = f.gradient(x, new double[] {k, 0, 1, 1, a, 1});
+        final double[] gg = g.gradient(x, new double[] {a, k});
+
+        Assert.assertEquals(gg[0], gf[4], EPS);
+        Assert.assertEquals(gg[1], gf[0], EPS);
+    }
+
+    @Test
+    public void testGradientComponent5() {
+        final double m = 1.2;
+        final double k = 3.4;
+        final double a = 2.3;
+        final double q = 0.567;
+        final double b = -FastMath.log(q);
+        final double n = 3.4;
+
+        final Logistic.Parametric f = new Logistic.Parametric();
+        
+        final double x = m - 1;
+        final double qExp1 = 2;
+
+        final double[] gf = f.gradient(x, new double[] {k, m, b, q, a, n});
+
+        Assert.assertEquals((k - a) * FastMath.log(qExp1) / (n * n * FastMath.pow(qExp1, 1 / n)),
+                            gf[5], EPS);
+    }
+
+    @Test
+    public void testGradientComponent1Component2Component3() {
+        final double m = 1.2;
+        final double k = 3.4;
+        final double a = 2.3;
+        final double b = 0.567;
+        final double q = 1 / FastMath.exp(b * m);
+        final double n = 3.4;
+
+        final Logistic.Parametric f = new Logistic.Parametric();
+        
+        final double x = 0;
+        final double qExp1 = 2;
+
+        final double[] gf = f.gradient(x, new double[] {k, m, b, q, a, n});
+
+        final double factor = (a - k) / (n * FastMath.pow(qExp1, 1 / n + 1));
+        Assert.assertEquals(factor * b, gf[1], EPS);
+        Assert.assertEquals(factor * m, gf[2], EPS);
+        Assert.assertEquals(factor / q, gf[3], EPS);
     }
 }

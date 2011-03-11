@@ -19,7 +19,10 @@ package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -76,7 +79,7 @@ public class Logistic implements DifferentiableUnivariateRealFunction {
 
     /** {@inheritDoc} */
     public double value(double x) {
-        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * (m - x)), oneOverN);
+        return value(m - x, k, b, q, a, oneOverN);
     }
 
     /** {@inheritDoc} */
@@ -93,5 +96,114 @@ public class Logistic implements DifferentiableUnivariateRealFunction {
                 return b * oneOverN * exp / FastMath.pow(exp1, oneOverN + 1);
             }
         };
+    }
+
+    /**
+     * Parametric function where the input array contains the parameters of
+     * the logit function, ordered as follows:
+     * <ul>
+     *  <li>Lower asymptote</li>
+     *  <li>Higher asymptote</li>
+     * </ul>
+     */
+    public static class Parametric implements ParametricUnivariateRealFunction {
+        /**
+         * Computes the value of the sigmoid at {@code x}.
+         *
+         * @param x Value for which the function must be computed.
+         * @param param Values for {@code k}, {@code m}, {@code b}, {@code q},
+         * {@code a} and  {@code n}.
+         * @return the value of the function.
+         * @throws NullArgumentException if {@code param} is {@code null}.
+         * @throws DimensionMismatchException if the size of {@code param} is
+         * not 6.
+         */
+        public double value(double x,
+                            double[] param) {
+            validateParameters(param);
+            return Logistic.value(param[1] - x, param[0],
+                                  param[2], param[3],
+                                  param[4], 1 / param[5]);
+        }
+
+        /**
+         * Computes the value of the gradient at {@code x}.
+         * The components of the gradient vector are the partial
+         * derivatives of the function with respect to each of the
+         * <em>parameters</em>.
+         *
+         * @param x Value at which the gradient must be computed.
+         * @param param Values for {@code k}, {@code m}, {@code b}, {@code q},
+         * {@code a} and  {@code n}.
+         * @return the gradient vector at {@code x}.
+         * @throws NullArgumentException if {@code param} is {@code null}.
+         * @throws DimensionMismatchException if the size of {@code param} is
+         * not 6.
+         */
+        public double[] gradient(double x, double[] param) {
+            validateParameters(param);
+
+            final double b = param[2];
+            final double q = param[3];
+
+            final double mMinusX = param[1] - x;
+            final double oneOverN = 1 / param[5];
+            final double exp = FastMath.exp(b * mMinusX);
+            final double qExp = q * exp;
+            final double qExp1 = qExp + 1;
+            final double factor1 = (param[0] - param[4]) * oneOverN / FastMath.pow(qExp1, oneOverN);
+            final double factor2 = -factor1 / qExp1;
+
+            // Components of the gradient.
+            final double gk = Logistic.value(mMinusX, 1, b, q, 0, oneOverN);
+            final double gm = factor2 * b * qExp;
+            final double gb = factor2 * mMinusX * qExp;
+            final double gq = factor2 * exp;
+            final double ga = Logistic.value(mMinusX, 0, b, q, 1, oneOverN);
+            final double gn = factor1 * Math.log(qExp1) * oneOverN;
+
+            return new double[] { gk, gm, gb, gq, ga, gn };
+        }
+
+        /**
+         * Validates parameters to ensure they are appropriate for the evaluation of
+         * the {@link #value(double,double[])} and {@link #gradient(double,double[])}
+         * methods.
+         *
+         * @param param Values for {@code k}, {@code m}, {@code b}, {@code q},
+         * {@code a} and  {@code n}.
+         * @throws NullArgumentException if {@code param} is {@code null}.
+         * @throws DimensionMismatchException if the size of {@code param} is
+         * not 6.
+         */
+        private void validateParameters(double[] param) {
+            if (param == null) {
+                throw new NullArgumentException();
+            }
+            if (param.length != 6) {
+                throw new DimensionMismatchException(param.length, 6);
+            }
+            if (param[5] <= 0) {
+                throw new NotStrictlyPositiveException(param[5]);
+            }
+        }
+    }
+
+    /**
+     * @param mMinusX {@code m - x}.
+     * @param k {@code k}.
+     * @param b {@code b}.
+     * @param q {@code q}.
+     * @param a {@code a}.
+     * @param oneOverN {@code 1 / n}.
+     * @return the value of the function.
+     */
+    private static double value(double mMinusX,
+                                double k,
+                                double b,
+                                double q,
+                                double a,
+                                double oneOverN) {
+        return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * mMinusX), oneOverN);
     }
 }
