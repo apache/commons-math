@@ -38,7 +38,7 @@ public class SerializablePair<K extends Serializable, V extends Serializable>
      * @param k Key.
      * @param v Value.
      */
-    public SerializablePair(K k, V v) {    
+    public SerializablePair(K k, V v) {
         super(k, v);
     }
 
