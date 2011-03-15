@@ -38,7 +38,7 @@ public class MathRuntimeExceptionTest {
     @Test
     public void testMessageChain() {
         final MathRuntimeException mre = new MathRuntimeException();
-        final String sep = ": ";
+        final String sep = " | "; // Non-default separator.
         final String m1 = "column index (0)";
         mre.addMessage(LocalizedFormats.COLUMN_INDEX, 0);
         final String m2 = "got 1x2 but expected 3x4";
@@ -56,6 +56,13 @@ public class MathRuntimeExceptionTest {
             Assert.assertEquals(e.getMessage(Locale.US, sep),
                                 m1 + sep + m2 + sep + m3);
         }
+    }
+
+    @Test
+    public void testNoArgAddMessage() {
+        final MathRuntimeException mre = new MathRuntimeException();
+        mre.addMessage(LocalizedFormats.SIMPLE_MESSAGE);
+        Assert.assertEquals(mre.getMessage(), "{0}");
     }
 
     @Test

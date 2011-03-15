@@ -31,6 +31,13 @@ public interface MathThrowable {
     /**
      * Sets a message.
      *
+     * @param pattern Message.
+     */
+    void addMessage(Localizable pattern);
+
+    /**
+     * Sets a message.
+     *
      * @param pattern Message pattern.
      * @param arguments Values for replacing the placeholders in the message
      * pattern.

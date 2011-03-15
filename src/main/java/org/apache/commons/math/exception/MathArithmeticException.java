@@ -36,7 +36,7 @@ public class MathArithmeticException extends MathRuntimeException {
      * Default constructor.
      */
     public MathArithmeticException() {
-        addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION, null);
+        addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
     }
 
     /**

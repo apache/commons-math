@@ -36,7 +36,7 @@ public class MathUnsupportedOperationException extends MathRuntimeException {
      * Default constructor.
      */
     public MathUnsupportedOperationException() {
-        this(LocalizedFormats.UNSUPPORTED_OPERATION, null);
+        this(LocalizedFormats.UNSUPPORTED_OPERATION);
     }
     /**
      * @param pattern Message pattern providing the specific context of

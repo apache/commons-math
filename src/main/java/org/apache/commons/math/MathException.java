@@ -133,6 +133,11 @@ public class MathException extends Exception implements MathThrowable {
     }
 
     /** {@inheritDoc} */
+    public void addMessage(Localizable pat) {
+        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+    }
+
+    /** {@inheritDoc} */
     public void addMessage(Localizable pat,
                            Object ... args) {
         throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");

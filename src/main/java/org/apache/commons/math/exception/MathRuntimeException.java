@@ -67,6 +67,11 @@ public class MathRuntimeException extends RuntimeException
     }
 
     /** {@inheritDoc} */
+    public void addMessage(Localizable pattern) {
+        messages.add(new SerializablePair<Localizable, Object[]>(pattern, (Object[]) null));
+    }
+
+    /** {@inheritDoc} */
     public void addMessage(Localizable pattern,
                            Object ... arguments) {
         messages.add(new SerializablePair<Localizable, Object[]>(pattern,

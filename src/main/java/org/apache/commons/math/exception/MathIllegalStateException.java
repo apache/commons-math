@@ -59,6 +59,6 @@ public class MathIllegalStateException extends MathRuntimeException {
      * Default constructor.
      */
     public MathIllegalStateException() {
-        addMessage(LocalizedFormats.ILLEGAL_STATE, null);
+        addMessage(LocalizedFormats.ILLEGAL_STATE);
     }
 }

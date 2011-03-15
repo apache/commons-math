@@ -36,7 +36,7 @@ public class MathUserException extends MathRuntimeException {
      * Build an exception with a default message.
      */
     public MathUserException() {
-        addMessage(LocalizedFormats.USER_EXCEPTION, null);
+        addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
     /**
@@ -45,7 +45,7 @@ public class MathUserException extends MathRuntimeException {
      */
     public MathUserException(final Throwable cause) {
         super(cause);
-        addMessage(LocalizedFormats.USER_EXCEPTION, null);
+        addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
     /**
