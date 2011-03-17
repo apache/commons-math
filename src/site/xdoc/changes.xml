@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-545">
+        Added "cosine" method in "RealVector" interface and default implementation
+        in "AbstractRealVector".
+      </action>
       <action dev="erans" type="fix" issue="MATH-546" due-to="Nate Paymer">
         Fixed bug in "KMeansPlusPlusClusterer".
       </action>

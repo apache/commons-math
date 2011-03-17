@@ -27,6 +27,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.function.Abs;
 import org.apache.commons.math.analysis.function.Acos;
 import org.apache.commons.math.analysis.function.Asin;
@@ -219,6 +220,14 @@ public class ArrayRealVectorTest {
                 dot += data[i] * v[i];
             }
             return dot;
+        }
+
+        public double cosine(RealVector v) {
+            throw unsupported();
+        }
+
+        public double cosine(double[] v) {
+            throw unsupported();
         }
 
         public double getNorm() {
@@ -1137,6 +1146,49 @@ public class ArrayRealVectorTest {
         Assert.assertTrue(Double.isNaN(v4.getMaxValue()));
     }
 
+    @Test
+    public void testCosine() {
+        final ArrayRealVector v = new ArrayRealVector(new double[] {1, 0, 0});
+
+        double[] wData = new double[] {1, 1, 0};
+        RealVector w = new ArrayRealVector(wData);
+        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(wData), normTolerance);
+        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(w), normTolerance);
+
+        wData = new double[] {1, 0, 0};
+        w = new ArrayRealVector(wData);
+        Assert.assertEquals(1, v.cosine(wData), normTolerance);
+        Assert.assertEquals(1, v.cosine(w), normTolerance);
+
+        wData = new double[] {0, 1, 0};
+        w = new ArrayRealVector(wData);
+        Assert.assertEquals(0, v.cosine(wData), normTolerance);
+        Assert.assertEquals(0, v.cosine(w), 0);
+
+        wData = new double[] {-1, 0, 0};
+        w = new ArrayRealVector(wData);
+        Assert.assertEquals(-1, v.cosine(wData), normTolerance);
+        Assert.assertEquals(-1, v.cosine(w), normTolerance);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCosinePrecondition1() {
+        final ArrayRealVector v = new ArrayRealVector(new double[] {0, 0, 0});
+        final ArrayRealVector w = new ArrayRealVector(new double[] {1, 0, 0});
+        v.cosine(w);
+    }
+    @Test(expected=MathArithmeticException.class)
+    public void testCosinePrecondition2() {
+        final ArrayRealVector v = new ArrayRealVector(new double[] {0, 0, 0});
+        final ArrayRealVector w = new ArrayRealVector(new double[] {1, 0, 0});
+        w.cosine(v);
+    }
+    @Test(expected=DimensionMismatchException.class)
+    public void testCosinePrecondition3() {
+        final ArrayRealVector v = new ArrayRealVector(new double[] {1, 2, 3});
+        final ArrayRealVector w = new ArrayRealVector(new double[] {1, 2, 3, 4});
+        v.cosine(w);
+    }
 
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,

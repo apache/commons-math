@@ -23,6 +23,7 @@ import java.util.NoSuchElementException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.function.Add;
 import org.apache.commons.math.analysis.function.Multiply;
@@ -181,6 +182,23 @@ public abstract class AbstractRealVector implements RealVector {
             d += e.getValue() * v.getEntry(e.getIndex());
         }
         return d;
+    }
+
+    /** {@inheritDoc} */
+    public double cosine(RealVector v) {
+        final double norm = getNorm();
+        final double vNorm = v.getNorm();
+
+        if (norm == 0 ||
+            vNorm == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
+        return dotProduct(v) / (norm * vNorm);
+    }
+
+    /** {@inheritDoc} */
+    public double cosine(double[] v) {
+        return cosine(new ArrayRealVector(v, false));
     }
 
     /** {@inheritDoc} */

@@ -307,6 +307,24 @@ public interface RealVector {
     double dotProduct(double[] v);
 
     /**
+     * Computes the cosine of the angle between this vector and the
+     * argument.
+     *
+     * @param v Vector.
+     * @return the cosine of the angle between this vector and {@code v}.
+     */
+    double cosine(RealVector v);
+
+    /**
+     * Computes the cosine of the angle between this vector and the
+     * vector whose components are given as argument.
+     *
+     * @param v Components of a vector.
+     * @return the cosine of the angle between this vector and {@code v}.
+     */
+    double cosine(double[] v);
+
+    /**
      * Returns the L<sub>2</sub> norm of the vector.
      * <p>The L<sub>2</sub> norm is the root of the sum of
      * the squared elements.</p>
