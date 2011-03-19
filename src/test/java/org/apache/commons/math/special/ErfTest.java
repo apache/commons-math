@@ -17,104 +17,110 @@
 
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * @version $Revision$ $Date$
  */
-public class ErfTest extends TestCase {
-
-    public void testErf0() throws MathException {
+public class ErfTest {
+    @Test
+    public void testErf0() {
         double actual = Erf.erf(0.0);
         double expected = 0.0;
-        assertEquals(expected, actual, 1.0e-15);
-        assertEquals(1 - expected, Erf.erfc(0.0), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-15);
+        Assert.assertEquals(1 - expected, Erf.erfc(0.0), 1.0e-15);
     }
 
-    public void testErf1960() throws MathException {
+    @Test
+    public void testErf1960() {
         double x = 1.960 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.95;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(x), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(x), 1.0e-15);
 
         actual = Erf.erf(-x);
         expected = -expected;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
     }
 
-    public void testErf2576() throws MathException {
+    @Test
+    public void testErf2576() {
         double x = 2.576 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.99;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(x), 1e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(x), 1e-15);
 
         actual = Erf.erf(-x);
         expected = -expected;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
     }
 
-    public void testErf2807() throws MathException {
+    @Test
+    public void testErf2807() {
         double x = 2.807 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.995;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(x), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(x), 1.0e-15);
 
         actual = Erf.erf(-x);
         expected = -expected;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - actual, Erf.erfc(-x), 1.0e-15);
     }
 
-    public void testErf3291() throws MathException {
+    @Test
+    public void testErf3291() {
         double x = 3.291 / FastMath.sqrt(2.0);
         double actual = Erf.erf(x);
         double expected = 0.999;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - expected, Erf.erfc(x), 1.0e-5);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - expected, Erf.erfc(x), 1.0e-5);
 
         actual = Erf.erf(-x);
         expected = -expected;
-        assertEquals(expected, actual, 1.0e-5);
-        assertEquals(1 - expected, Erf.erfc(-x), 1.0e-5);
+        Assert.assertEquals(expected, actual, 1.0e-5);
+        Assert.assertEquals(1 - expected, Erf.erfc(-x), 1.0e-5);
     }
     
     /**
      * MATH-301, MATH-456
      */
+    @Test
     public void testLargeValues() throws Exception {
         for (int i = 1; i < 200; i*=10) {
             double result = Erf.erf(i);
-            assertFalse(Double.isNaN(result));
-            assertTrue(result > 0 && result <= 1);
+            Assert.assertFalse(Double.isNaN(result));
+            Assert.assertTrue(result > 0 && result <= 1);
             result = Erf.erf(-i);
-            assertFalse(Double.isNaN(result));
-            assertTrue(result >= -1 && result < 0);
+            Assert.assertFalse(Double.isNaN(result));
+            Assert.assertTrue(result >= -1 && result < 0);
             result = Erf.erfc(i);
-            assertFalse(Double.isNaN(result));
-            assertTrue(result >= 0 && result < 1);
+            Assert.assertFalse(Double.isNaN(result));
+            Assert.assertTrue(result >= 0 && result < 1);
             result = Erf.erfc(-i);
-            assertFalse(Double.isNaN(result));
-            assertTrue(result >= 1 && result <= 2);    
+            Assert.assertFalse(Double.isNaN(result));
+            Assert.assertTrue(result >= 1 && result <= 2);    
         }
-        assertEquals(-1, Erf.erf(Double.NEGATIVE_INFINITY), 0);
-        assertEquals(1, Erf.erf(Double.POSITIVE_INFINITY), 0);
-        assertEquals(2, Erf.erfc(Double.NEGATIVE_INFINITY), 0);
-        assertEquals(0, Erf.erfc(Double.POSITIVE_INFINITY), 0);
+        Assert.assertEquals(-1, Erf.erf(Double.NEGATIVE_INFINITY), 0);
+        Assert.assertEquals(1, Erf.erf(Double.POSITIVE_INFINITY), 0);
+        Assert.assertEquals(2, Erf.erfc(Double.NEGATIVE_INFINITY), 0);
+        Assert.assertEquals(0, Erf.erfc(Double.POSITIVE_INFINITY), 0);
     }
     
     /**
      * Compare Erf.erf against reference values computed using GCC 4.2.1 (Apple OSX packaged version)
      * erfl (extended precision erf).
      */
+    @Test
     public void testErfGnu() throws Exception {
         final double tol = 1E-15;
         final double[] gnuValues = new double[] {-1, -1, -1, -1, -1, 
@@ -129,7 +135,7 @@ public class ErfTest extends TestCase {
          1,  1,  1,  1};
         double x = -10d;
         for (int i = 0; i < 41; i++) {
-            assertEquals(gnuValues[i], Erf.erf(x), tol);
+            Assert.assertEquals(gnuValues[i], Erf.erf(x), tol);
             x += 0.5d;
         }
     }
@@ -138,6 +144,7 @@ public class ErfTest extends TestCase {
      * Compare Erf.erfc against reference values computed using GCC 4.2.1 (Apple OSX packaged version)
      * erfcl (extended precision erfc).
      */
+    @Test
     public void testErfcGnu() throws Exception {
         final double tol = 1E-15;
         final double[] gnuValues = new double[] { 2,  2,  2,  2,  2, 
@@ -152,7 +159,7 @@ public class ErfTest extends TestCase {
         2.7623240713337714448E-33, 4.1370317465138102353E-37, 3.7692144856548799402E-41, 2.0884875837625447567E-45};
         double x = -10d;
         for (int i = 0; i < 41; i++) {
-            assertEquals(gnuValues[i], Erf.erfc(x), tol);
+            Assert.assertEquals(gnuValues[i], Erf.erfc(x), tol);
             x += 0.5d;
         }
     }
@@ -162,6 +169,7 @@ public class ErfTest extends TestCase {
      * "Evaluating the Normal Distribution," Journal of Statistical Software, July, 2004.
      * http//www.jstatsoft.org/v11/a05/paper
      */
+    @Test
     public void testErfcMaple() throws Exception {
         double[][] ref = new double[][]
                         {{0.1, 4.60172162722971e-01},
@@ -183,7 +191,7 @@ public class ErfTest extends TestCase {
         };
         for (int i = 0; i < 15; i++) {
             final double result = 0.5*Erf.erfc(ref[i][0]/Math.sqrt(2));
-            assertEquals(ref[i][1], result, 1E-15);
+            Assert.assertEquals(ref[i][1], result, 1E-15);
             TestUtils.assertRelativelyEquals(ref[i][1], result, 1E-13);
         }
     }

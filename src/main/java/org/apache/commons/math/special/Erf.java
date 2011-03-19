@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,32 +25,32 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class Erf {
-
     /**
      * Default constructor.  Prohibit instantiation.
      */
-    private Erf() {
-        super();
-    }
+    private Erf() {}
 
     /**
-     * <p>Returns the error function</p>
+     * Returns the error function.
+     *
      * <p>erf(x) = 2/&radic;&pi; <sub>0</sub>&int;<sup>x</sup> e<sup>-t<sup>2</sup></sup>dt </p>
      *
      * <p>This implementation computes erf(x) using the
      * {@link Gamma#regularizedGammaP(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3)</p>
      *
-     * <p>The value returned is always between -1 and 1 (inclusive).  If {@code abs(x) > 40}, then
-     * {@code erf(x)} is indistinguishable from either 1 or -1 as a double, so the appropriate extreme
-     * value is returned.</p>
+     * <p>The value returned is always between -1 and 1 (inclusive).
+     * If {@code abs(x) > 40}, then {@code erf(x)} is indistinguishable from
+     * either 1 or -1 as a double, so the appropriate extreme value is returned.
+     * </p>
      *
      * @param x the value.
      * @return the error function erf(x)
-     * @throws MathException if the algorithm fails to converge.
+     * @throws org.apache.commons.math.exception.MaxCountExceededException
+     * if the algorithm fails to converge.
      * @see Gamma#regularizedGammaP(double, double, double, int)
      */
-    public static double erf(double x) throws MathException {
+    public static double erf(double x) {
         if (FastMath.abs(x) > 40) {
             return x > 0 ? 1 : -1;
         }
@@ -63,25 +62,29 @@ public class Erf {
     }
 
     /**
-     * <p>Returns the complementary error function</p>
-     * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<sup>2</sup></sup>dt <br/>
+     * Returns the complementary error function.
+     *
+     * <p>erfc(x) = 2/&radic;&pi; <sub>x</sub>&int;<sup>&infin;</sup> e<sup>-t<sup>2</sup></sup>dt
+     * <br/>
      *    = 1 - {@link #erf(double) erf(x)} </p>
      *
      * <p>This implementation computes erfc(x) using the
      * {@link Gamma#regularizedGammaQ(double, double, double, int) regularized gamma function},
      * following <a href="http://mathworld.wolfram.com/Erf.html"> Erf</a>, equation (3).</p>
      *
-     * <p>The value returned is always between 0 and 2 (inclusive).  If {@code abs(x) > 40}, then
-     * {@code erf(x)} is indistinguishable from either 0 or 2 as a double, so the appropriate extreme
-     * value is returned.</p>
+     * <p>The value returned is always between 0 and 2 (inclusive).
+     * If {@code abs(x) > 40}, then {@code erf(x)} is indistinguishable from
+     * either 0 or 2 as a double, so the appropriate extreme value is returned.
+     * </p>
      *
      * @param x the value
      * @return the complementary error function erfc(x)
-     * @throws MathException if the algorithm fails to converge
+     * @throws org.apache.commons.math.exception.MaxCountExceededException
+     * if the algorithm fails to converge.
      * @see Gamma#regularizedGammaQ(double, double, double, int)
      * @since 2.2
      */
-    public static double erfc(double x) throws MathException {
+    public static double erfc(double x) {
         if (FastMath.abs(x) > 40) {
             return x > 0 ? 0 : 2;
         }

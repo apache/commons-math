@@ -16,30 +16,21 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * @version $Revision$ $Date$
  */
-public class GammaTest extends TestCase {
-
-    public GammaTest(String name) {
-        super(name);
-    }
-
+public class GammaTest {
     private void testRegularizedGamma(double expected, double a, double x) {
-        try {
-            double actualP = Gamma.regularizedGammaP(a, x);
-            double actualQ = Gamma.regularizedGammaQ(a, x);
-            TestUtils.assertEquals(expected, actualP, 10e-15);
-            TestUtils.assertEquals(actualP, 1.0 - actualQ, 10e-15);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+        double actualP = Gamma.regularizedGammaP(a, x);
+        double actualQ = Gamma.regularizedGammaQ(a, x);
+        TestUtils.assertEquals(expected, actualP, 10e-15);
+        TestUtils.assertEquals(actualP, 1.0 - actualQ, 10e-15);
     }
 
     private void testLogGamma(double expected, double x) {
@@ -47,65 +38,78 @@ public class GammaTest extends TestCase {
         TestUtils.assertEquals(expected, actual, 10e-15);
     }
 
+    @Test
     public void testRegularizedGammaNanPositive() {
         testRegularizedGamma(Double.NaN, Double.NaN, 1.0);
     }
 
+    @Test
     public void testRegularizedGammaPositiveNan() {
         testRegularizedGamma(Double.NaN, 1.0, Double.NaN);
     }
 
+    @Test
     public void testRegularizedGammaNegativePositive() {
         testRegularizedGamma(Double.NaN, -1.5, 1.0);
     }
 
+    @Test
     public void testRegularizedGammaPositiveNegative() {
         testRegularizedGamma(Double.NaN, 1.0, -1.0);
     }
 
+    @Test
     public void testRegularizedGammaZeroPositive() {
         testRegularizedGamma(Double.NaN, 0.0, 1.0);
     }
 
+    @Test
     public void testRegularizedGammaPositiveZero() {
         testRegularizedGamma(0.0, 1.0, 0.0);
     }
 
+    @Test
     public void testRegularizedGammaPositivePositive() {
         testRegularizedGamma(0.632120558828558, 1.0, 1.0);
     }
 
+    @Test
     public void testLogGammaNan() {
         testLogGamma(Double.NaN, Double.NaN);
     }
 
+    @Test
     public void testLogGammaNegative() {
         testLogGamma(Double.NaN, -1.0);
     }
 
+    @Test
     public void testLogGammaZero() {
         testLogGamma(Double.NaN, 0.0);
     }
 
+    @Test
     public void testLogGammaPositive() {
         testLogGamma(0.6931471805599457, 3.0);
     }
 
+    @Test
     public void testDigammaLargeArgs() {
         double eps = 1e-8;
-        assertEquals(4.6001618527380874002, Gamma.digamma(100), eps);
-        assertEquals(3.9019896734278921970, Gamma.digamma(50), eps);
-        assertEquals(2.9705239922421490509, Gamma.digamma(20), eps);
-        assertEquals(2.9958363947076465821, Gamma.digamma(20.5), eps);
-        assertEquals(2.2622143570941481605, Gamma.digamma(10.1), eps);
-        assertEquals(2.1168588189004379233, Gamma.digamma(8.8), eps);
-        assertEquals(1.8727843350984671394, Gamma.digamma(7), eps);
-        assertEquals(0.42278433509846713939, Gamma.digamma(2), eps);
-        assertEquals(-100.56088545786867450, Gamma.digamma(0.01), eps);
-        assertEquals(-4.0390398965921882955, Gamma.digamma(-0.8), eps);
-        assertEquals(4.2003210041401844726, Gamma.digamma(-6.3), eps);
+        Assert.assertEquals(4.6001618527380874002, Gamma.digamma(100), eps);
+        Assert.assertEquals(3.9019896734278921970, Gamma.digamma(50), eps);
+        Assert.assertEquals(2.9705239922421490509, Gamma.digamma(20), eps);
+        Assert.assertEquals(2.9958363947076465821, Gamma.digamma(20.5), eps);
+        Assert.assertEquals(2.2622143570941481605, Gamma.digamma(10.1), eps);
+        Assert.assertEquals(2.1168588189004379233, Gamma.digamma(8.8), eps);
+        Assert.assertEquals(1.8727843350984671394, Gamma.digamma(7), eps);
+        Assert.assertEquals(0.42278433509846713939, Gamma.digamma(2), eps);
+        Assert.assertEquals(-100.56088545786867450, Gamma.digamma(0.01), eps);
+        Assert.assertEquals(-4.0390398965921882955, Gamma.digamma(-0.8), eps);
+        Assert.assertEquals(4.2003210041401844726, Gamma.digamma(-6.3), eps);
     }
 
+    @Test
     public void testDigammaSmallArgs() {
         // values for negative powers of 10 from 1 to 30 as computed by webMathematica with 20 digits
         // see functions.wolfram.com
@@ -120,6 +124,7 @@ public class GammaTest extends TestCase {
         }
     }
 
+    @Test
     public void testTrigamma() {
         double eps = 1e-8;
         // computed using webMathematica.  For example, to compute trigamma($i) = Polygamma(1, $i), use
@@ -141,11 +146,11 @@ public class GammaTest extends TestCase {
                 100, 0.010050166663333571395
         };
         for (int i = data.length - 2; i >= 0; i -= 2) {
-            assertEquals(String.format("trigamma %.0f", data[i]), data[i + 1], Gamma.trigamma(data[i]), eps);
+            Assert.assertEquals(String.format("trigamma %.0f", data[i]), data[i + 1], Gamma.trigamma(data[i]), eps);
         }
     }
 
     private void checkRelativeError(String msg, double expected, double actual, double tolerance) {
-        assertEquals(msg, expected, actual, FastMath.abs(tolerance * actual));
+        Assert.assertEquals(msg, expected, actual, FastMath.abs(tolerance * actual));
     }
 }

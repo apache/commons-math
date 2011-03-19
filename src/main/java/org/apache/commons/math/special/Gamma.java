@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.util.ContinuedFraction;
 import org.apache.commons.math.util.FastMath;
@@ -28,19 +27,15 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class Gamma {
-
     /**
      * <a href="http://en.wikipedia.org/wiki/Euler-Mascheroni_constant">Euler-Mascheroni constant</a>
      * @since 2.0
      */
     public static final double GAMMA = 0.577215664901532860606512090082;
-
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-15;
-
     /** Lanczos coefficients */
-    private static final double[] LANCZOS =
-    {
+    private static final double[] LANCZOS = {
         0.99999999999999709182,
         57.156235665862923517,
         -59.597960355475491248,
@@ -57,23 +52,18 @@ public class Gamma {
         -.26190838401581408670e-4,
         .36899182659531622704e-5,
     };
-
     /** Avoid repeated computation of log of 2 PI in logGamma */
     private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
-
     // limits for switching algorithm in digamma
     /** C limit. */
     private static final double C_LIMIT = 49;
-
     /** S limit. */
     private static final double S_LIMIT = 1e-5;
 
     /**
      * Default constructor.  Prohibit instantiation.
      */
-    private Gamma() {
-        super();
-    }
+    private Gamma() {}
 
     /**
      * Returns the natural logarithm of the gamma function &#915;(x).
@@ -89,7 +79,7 @@ public class Gamma {
      * </a></li>
      * </ul>
      *
-     * @param x the value.
+     * @param x Value.
      * @return log(&#915;(x))
      */
     public static double logGamma(double x) {
@@ -117,50 +107,47 @@ public class Gamma {
     /**
      * Returns the regularized gamma function P(a, x).
      *
-     * @param a the a parameter.
-     * @param x the value.
-     * @return the regularized gamma function P(a, x)
-     * @throws MathException if the algorithm fails to converge.
+     * @param a Parameter.
+     * @param x Value.
+     * @return the regularized gamma function P(a, x).
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
-    public static double regularizedGammaP(double a, double x)
-        throws MathException
-    {
+    public static double regularizedGammaP(double a, double x) {
         return regularizedGammaP(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
-
 
     /**
      * Returns the regularized gamma function P(a, x).
      *
      * The implementation of this method is based on:
      * <ul>
-     * <li>
-     * <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
-     * Regularized Gamma Function</a>, equation (1).</li>
-     * <li>
-     * <a href="http://mathworld.wolfram.com/IncompleteGammaFunction.html">
-     * Incomplete Gamma Function</a>, equation (4).</li>
-     * <li>
-     * <a href="http://mathworld.wolfram.com/ConfluentHypergeometricFunctionoftheFirstKind.html">
-     * Confluent Hypergeometric Function of the First Kind</a>, equation (1).
-     * </li>
+     *  <li>
+     *   <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
+     *   Regularized Gamma Function</a>, equation (1)
+     *  </li>
+     *  <li>
+     *   <a href="http://mathworld.wolfram.com/IncompleteGammaFunction.html">
+     *   Incomplete Gamma Function</a>, equation (4).
+     *  </li>
+     *  <li>
+     *   <a href="http://mathworld.wolfram.com/ConfluentHypergeometricFunctionoftheFirstKind.html">
+     *   Confluent Hypergeometric Function of the First Kind</a>, equation (1).
+     *  </li>
      * </ul>
      *
      * @param a the a parameter.
      * @param x the value.
      * @param epsilon When the absolute value of the nth item in the
-     *                series is less than epsilon the approximation ceases
-     *                to calculate further elements in the series.
+     * series is less than epsilon the approximation ceases to calculate
+     * further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete.
      * @return the regularized gamma function P(a, x)
-     * @throws MathException if the algorithm fails to converge.
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaP(double a,
                                            double x,
                                            double epsilon,
-                                           int maxIterations)
-        throws MathException
-    {
+                                           int maxIterations) {
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
@@ -176,7 +163,9 @@ public class Gamma {
             double n = 0.0; // current element index
             double an = 1.0 / a; // n-th element in the series
             double sum = an; // partial sum
-            while (FastMath.abs(an/sum) > epsilon && n < maxIterations && sum < Double.POSITIVE_INFINITY) {
+            while (FastMath.abs(an/sum) > epsilon &&
+                   n < maxIterations &&
+                   sum < Double.POSITIVE_INFINITY) {
                 // compute next element in the series
                 n = n + 1.0;
                 an = an * (x / (a + n));
@@ -204,9 +193,7 @@ public class Gamma {
      * @return the regularized gamma function Q(a, x)
      * @throws MathException if the algorithm fails to converge.
      */
-    public static double regularizedGammaQ(double a, double x)
-        throws MathException
-    {
+    public static double regularizedGammaQ(double a, double x) {
         return regularizedGammaQ(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
 
@@ -215,29 +202,30 @@ public class Gamma {
      *
      * The implementation of this method is based on:
      * <ul>
-     * <li>
-     * <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
-     * Regularized Gamma Function</a>, equation (1).</li>
-     * <li>
-     * <a href="http://functions.wolfram.com/GammaBetaErf/GammaRegularized/10/0003/">
-     * Regularized incomplete gamma function: Continued fraction representations  (formula 06.08.10.0003)</a></li>
+     *  <li>
+     *   <a href="http://mathworld.wolfram.com/RegularizedGammaFunction.html">
+     *   Regularized Gamma Function</a>, equation (1).
+     *  </li>
+     *  <li>
+     *   <a href="http://functions.wolfram.com/GammaBetaErf/GammaRegularized/10/0003/">
+     *   Regularized incomplete gamma function: Continued fraction representations
+     *   (formula 06.08.10.0003)</a>
+     *  </li>
      * </ul>
      *
      * @param a the a parameter.
      * @param x the value.
      * @param epsilon When the absolute value of the nth item in the
-     *                series is less than epsilon the approximation ceases
-     *                to calculate further elements in the series.
+     * series is less than epsilon the approximation ceases to calculate
+     * further elements in the series.
      * @param maxIterations Maximum number of "iterations" to complete.
      * @return the regularized gamma function P(a, x)
-     * @throws MathException if the algorithm fails to converge.
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaQ(final double a,
                                            double x,
                                            double epsilon,
-                                           int maxIterations)
-        throws MathException
-    {
+                                           int maxIterations) {
         double ret;
 
         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
@@ -285,10 +273,10 @@ public class Gamma {
      * |x|).  Accuracy for negative values of x should be about 10^-8 absolute for results
      * less than 10^5 and 10^-8 relative for results larger than that.</p>
      *
-     * @param x  the argument
-     * @return   digamma(x) to within 10-8 relative or absolute error whichever is smaller
-     * @see <a href="http://en.wikipedia.org/wiki/Digamma_function"> Digamma at wikipedia </a>
-     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf"> Bernardo&apos;s original article </a>
+     * @param x Argument.
+     * @return digamma(x) to within 10-8 relative or absolute error whichever is smaller.
+     * @see <a href="http://en.wikipedia.org/wiki/Digamma_function">Digamma</a>
+     * @see <a href="http://www.uv.es/~bernardo/1976AppStatist.pdf">Bernardo&apos;s original article </a>
      * @since 2.0
      */
     public static double digamma(double x) {
@@ -311,12 +299,13 @@ public class Gamma {
     }
 
     /**
-     * <p>Computes the trigamma function of x.  This function is derived by taking the derivative of
-     * the implementation of digamma.</p>
+     * Computes the trigamma function of x.
+     * This function is derived by taking the derivative of the implementation
+     * of digamma.
      *
-     * @param x  the argument
-     * @return   trigamma(x) to within 10-8 relative or absolute error whichever is smaller
-     * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function"> Trigamma at wikipedia </a>
+     * @param x Argument.
+     * @return trigamma(x) to within 10-8 relative or absolute error whichever is smaller
+     * @see <a href="http://en.wikipedia.org/wiki/Trigamma_function">Trigamma</a>
      * @see Gamma#digamma(double)
      * @since 2.0
      */

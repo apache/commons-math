@@ -16,32 +16,19 @@
  */
 package org.apache.commons.math.special;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * @version $Revision$ $Date$
  */
-public class BetaTest extends TestCase {
-    /**
-     * Constructor for BetaTest.
-     * @param name
-     */
-    public BetaTest(String name) {
-        super(name);
-    }
-
-    private void testRegularizedBeta(double expected, double x, double a,
-        double b)
-    {
-        try {
-            double actual = Beta.regularizedBeta(x, a, b);
-            TestUtils.assertEquals(expected, actual, 10e-15);
-        } catch(MathException ex){
-            fail(ex.getMessage());
-        }
+public class BetaTest {
+    private void testRegularizedBeta(double expected, double x,
+                                     double a, double b) {
+        double actual = Beta.regularizedBeta(x, a, b);
+        TestUtils.assertEquals(expected, actual, 10e-15);
     }
 
     private void testLogBeta(double expected, double a, double b) {
@@ -49,70 +36,87 @@ public class BetaTest extends TestCase {
         TestUtils.assertEquals(expected, actual, 10e-15);
     }
 
+    @Test
     public void testRegularizedBetaNanPositivePositive() {
         testRegularizedBeta(Double.NaN, Double.NaN, 1.0, 1.0);
     }
 
+    @Test
     public void testRegularizedBetaPositiveNanPositive() {
         testRegularizedBeta(Double.NaN, 0.5, Double.NaN, 1.0);
     }
 
+    @Test
     public void testRegularizedBetaPositivePositiveNan() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, Double.NaN);
     }
 
+    @Test
     public void testRegularizedBetaNegativePositivePositive() {
         testRegularizedBeta(Double.NaN, -0.5, 1.0, 2.0);
     }
 
+    @Test
     public void testRegularizedBetaPositiveNegativePositive() {
         testRegularizedBeta(Double.NaN, 0.5, -1.0, 2.0);
     }
 
+    @Test
     public void testRegularizedBetaPositivePositiveNegative() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, -2.0);
     }
 
+    @Test
     public void testRegularizedBetaZeroPositivePositive() {
         testRegularizedBeta(0.0, 0.0, 1.0, 2.0);
     }
 
+    @Test
     public void testRegularizedBetaPositiveZeroPositive() {
         testRegularizedBeta(Double.NaN, 0.5, 0.0, 2.0);
     }
 
+    @Test
     public void testRegularizedBetaPositivePositiveZero() {
         testRegularizedBeta(Double.NaN, 0.5, 1.0, 0.0);
     }
 
+    @Test
     public void testRegularizedBetaPositivePositivePositive() {
         testRegularizedBeta(0.75, 0.5, 1.0, 2.0);
     }
 
+    @Test
     public void testLogBetaNanPositive() {
         testLogBeta(Double.NaN, Double.NaN, 2.0);
     }
 
+    @Test
     public void testLogBetaPositiveNan() {
         testLogBeta(Double.NaN, 1.0, Double.NaN);
     }
 
+    @Test
     public void testLogBetaNegativePositive() {
         testLogBeta(Double.NaN, -1.0, 2.0);
     }
 
+    @Test
     public void testLogBetaPositiveNegative() {
         testLogBeta(Double.NaN, 1.0, -2.0);
     }
 
+    @Test
     public void testLogBetaZeroPositive() {
         testLogBeta(Double.NaN, 0.0, 2.0);
     }
 
+    @Test
     public void testLogBetaPositiveZero() {
         testLogBeta(Double.NaN, 1.0, 0.0);
     }
 
+    @Test
     public void testLogBetaPositivePositive() {
         testLogBeta(-0.693147180559945, 1.0, 2.0);
     }
