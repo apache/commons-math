@@ -34,28 +34,18 @@ public class ConvergenceException extends MathIllegalStateException {
      * Construct the exception.
      */
     public ConvergenceException() {
-        this(null);
+        addMessage(LocalizedFormats.CONVERGENCE_FAILED);
     }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Specific contexte pattern.
-     */
-    public ConvergenceException(Localizable specific) {
-        this(specific,
-             LocalizedFormats.CONVERGENCE_FAILED,
-             null);
-    }
+
     /**
      * Construct the exception with a specific context and arguments.
      *
-     * @param specific Specific contexte pattern.
+     * @param pattern Message pattern providing the specific context of
+     * the error.
      * @param args Arguments.
      */
-    public ConvergenceException(Localizable specific,
+    public ConvergenceException(Localizable pattern,
                                 Object ... args) {
-        super(specific,
-              LocalizedFormats.CONVERGENCE_FAILED,
-              args);
+        addMessage(pattern, args);
     }
 }
