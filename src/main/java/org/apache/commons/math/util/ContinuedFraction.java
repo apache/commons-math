@@ -16,8 +16,7 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -36,7 +35,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Revision$ $Date$
  */
 public abstract class ContinuedFraction {
-
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-9;
 
@@ -69,9 +67,9 @@ public abstract class ContinuedFraction {
      * Evaluates the continued fraction at the value x.
      * @param x the evaluation point.
      * @return the value of the continued fraction evaluated at x.
-     * @throws MathException if the algorithm fails to converge.
+     * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x) throws MathException {
+    public double evaluate(double x) {
         return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
 
@@ -80,9 +78,9 @@ public abstract class ContinuedFraction {
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.
      * @return the value of the continued fraction evaluated at x.
-     * @throws MathException if the algorithm fails to converge.
+     * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x, double epsilon) throws MathException {
+    public double evaluate(double x, double epsilon) {
         return evaluate(x, epsilon, Integer.MAX_VALUE);
     }
 
@@ -91,9 +89,9 @@ public abstract class ContinuedFraction {
      * @param x the evaluation point.
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x.
-     * @throws MathException if the algorithm fails to converge.
+     * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x, int maxIterations) throws MathException {
+    public double evaluate(double x, int maxIterations) {
         return evaluate(x, DEFAULT_EPSILON, maxIterations);
     }
 
@@ -121,11 +119,9 @@ public abstract class ContinuedFraction {
      * @param epsilon maximum error allowed.
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x.
-     * @throws MathException if the algorithm fails to converge.
+     * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x, double epsilon, int maxIterations)
-        throws MathException
-    {
+    public double evaluate(double x, double epsilon, int maxIterations) {
         double p0 = 1.0;
         double p1 = getA(0, x);
         double q0 = 0.0;
@@ -151,9 +147,8 @@ public abstract class ContinuedFraction {
                 final int maxPower = 5;
                 final double scale = FastMath.max(a,b);
                 if (scale <= 0) {  // Can't scale
-                    throw new ConvergenceException(
-                            LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
-                             x);
+                    throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
+                                                   x);
                 }
                 infinite = true;
                 for (int i = 0; i < maxPower; i++) {
@@ -175,17 +170,15 @@ public abstract class ContinuedFraction {
 
             if (infinite) {
                // Scaling failed
-               throw new ConvergenceException(
-                 LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
-                  x);
+               throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,
+                                              x);
             }
 
             double r = p2 / q2;
 
             if (Double.isNaN(r)) {
-                throw new ConvergenceException(
-                  LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
-                  x);
+                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+                                               x);
             }
             relativeError = FastMath.abs(r / c - 1.0);
 
@@ -199,7 +192,7 @@ public abstract class ContinuedFraction {
 
         if (n >= maxIterations) {
             throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,
-                    maxIterations, x);
+                                                maxIterations, x);
         }
 
         return c;
