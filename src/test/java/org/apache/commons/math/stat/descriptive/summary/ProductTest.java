@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.summary;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -27,13 +29,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Product stat;
-
-    /**
-     * @param name
-     */
-    public ProductTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -64,30 +59,32 @@ public class ProductTest extends StorelessUnivariateStatisticAbstractTest{
         return this.weightedProduct;
     }
 
+    @Test
     public void testSpecialValues() {
         Product product = new Product();
-        assertEquals(1, product.getResult(), 0);
+        Assert.assertEquals(1, product.getResult(), 0);
         product.increment(1);
-        assertEquals(1, product.getResult(), 0);
+        Assert.assertEquals(1, product.getResult(), 0);
         product.increment(Double.POSITIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, product.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, product.getResult(), 0);
         product.increment(Double.NEGATIVE_INFINITY);
-        assertEquals(Double.NEGATIVE_INFINITY, product.getResult(), 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, product.getResult(), 0);
         product.increment(Double.NaN);
-        assertTrue(Double.isNaN(product.getResult()));
+        Assert.assertTrue(Double.isNaN(product.getResult()));
         product.increment(1);
-        assertTrue(Double.isNaN(product.getResult()));
+        Assert.assertTrue(Double.isNaN(product.getResult()));
     }
 
+    @Test
     public void testWeightedProduct() {
         Product product = new Product();
-        assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
-        assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
+        Assert.assertEquals(expectedWeightedValue(), product.evaluate(testArray, testWeightsArray, 0, testArray.length),getTolerance());
+        Assert.assertEquals(expectedValue(), product.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
     
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-        assertEquals(1, statistic.getResult(), 0);
+        Assert.assertEquals(1, statistic.getResult(), 0);
     }
 
 

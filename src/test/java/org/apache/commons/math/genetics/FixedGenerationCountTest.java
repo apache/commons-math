@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class FixedGenerationCountTest {
@@ -55,9 +55,10 @@ public class FixedGenerationCountTest {
             }
         };
 
-        while (!fgc.isSatisfied(pop))
+        while (!fgc.isSatisfied(pop)) {
             cnt++;
-        assertEquals(20, cnt);
+        }
+        Assert.assertEquals(20, cnt);
     }
 
 }

@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math.random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MersenneTwisterTest {
@@ -34,8 +33,8 @@ public class MersenneTwisterTest {
         for (int i = 0; i < 1000; ++i) {
             sample.addValue(mt.nextGaussian());
         }
-        assertEquals(0.0, sample.getMean(), 0.005);
-        assertEquals(1.0, sample.getStandardDeviation(), 0.025);
+        Assert.assertEquals(0.0, sample.getMean(), 0.005);
+        Assert.assertEquals(1.0, sample.getStandardDeviation(), 0.025);
     }
 
     @Test
@@ -45,8 +44,8 @@ public class MersenneTwisterTest {
         for (int i = 0; i < 1000; ++i) {
             sample.addValue(mt.nextDouble());
         }
-        assertEquals(0.5, sample.getMean(), 0.02);
-        assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
+        Assert.assertEquals(0.5, sample.getMean(), 0.02);
+        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(),
                      0.002);
     }
@@ -58,8 +57,8 @@ public class MersenneTwisterTest {
         for (int i = 0; i < 1000; ++i) {
             sample.addValue(mt.nextFloat());
         }
-        assertEquals(0.5, sample.getMean(), 0.01);
-        assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
+        Assert.assertEquals(0.5, sample.getMean(), 0.01);
+        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
                      sample.getStandardDeviation(),
                      0.006);
     }
@@ -77,12 +76,12 @@ public class MersenneTwisterTest {
             for (int k = 0; k < 10000; ++k) {
                 int l = mt.nextInt(n);
                 ++count[l];
-                assertTrue(l >= 0);
-                assertTrue(l <  n);
+                Assert.assertTrue(l >= 0);
+                Assert.assertTrue(l <  n);
             }
             for (int i = 0; i < n; ++i) {
-                assertTrue(n * count[i] >  8600);
-                assertTrue(n * count[i] < 11200);
+                Assert.assertTrue(n * count[i] >  8600);
+                Assert.assertTrue(n * count[i] < 11200);
             }
         }
     }
@@ -98,7 +97,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(FastMath.abs(walk) < 120);
+        Assert.assertTrue(FastMath.abs(walk) < 120);
     }
 
     @Test
@@ -112,7 +111,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(FastMath.abs(walk) < 50);
+        Assert.assertTrue(FastMath.abs(walk) < 50);
     }
 
     @Test
@@ -126,7 +125,7 @@ public class MersenneTwisterTest {
                --walk;
            }
         }
-        assertTrue(FastMath.abs(walk) < 250);
+        Assert.assertTrue(FastMath.abs(walk) < 250);
     }
 
     @Test
@@ -147,8 +146,8 @@ public class MersenneTwisterTest {
             max = FastMath.max(max, c);
         }
         int expected = (100000 * bytes.length) / count.length;
-        assertTrue((expected - 200) < min);
-        assertTrue(max < (expected + 200));
+        Assert.assertTrue((expected - 200) < min);
+        Assert.assertTrue(max < (expected + 200));
     }
 
     @Test
@@ -411,12 +410,12 @@ public class MersenneTwisterTest {
 
         for (int i = 0; i < refInt.length; ++i) {
             int r = mt.nextInt();
-            assertEquals(refInt[i], (r & 0x7fffffffl) | ((r < 0) ? 0x80000000l : 0x0l));
+            Assert.assertEquals(refInt[i], (r & 0x7fffffffl) | ((r < 0) ? 0x80000000l : 0x0l));
         }
 
         for (int i = 0; i < refDouble.length; ++i) {
             int r = mt.nextInt();
-            assertEquals(refDouble[i],
+            Assert.assertEquals(refDouble[i],
                          ((r & 0x7fffffffl) | ((r < 0) ? 0x80000000l : 0x0l)) / 4294967296.0,
                          1.0e-8);
         }

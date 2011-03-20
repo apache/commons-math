@@ -29,16 +29,18 @@ import org.apache.commons.math.Field;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.fraction.FractionField;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
-public class OpenIntToFieldTest extends TestCase {
+public class OpenIntToFieldTest {
 
     private Map<Integer, Fraction> javaMap = new HashMap<Integer, Fraction>();
     private FractionField field = FractionField.getInstance();
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws FractionConversionException {
         javaMap.put(50, new Fraction(100.0));
         javaMap.put(75, new Fraction(75.0));
         javaMap.put(25, new Fraction(500.0));
@@ -79,16 +81,19 @@ public class OpenIntToFieldTest extends TestCase {
         return map;
     }
 
+    @Test
     public void testPutAndGetWith0ExpectedSize() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field,0);
         assertPutAndGet(map);
     }
 
+    @Test
     public void testPutAndGetWithExpectedSize() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field,500);
         assertPutAndGet(map);
     }
 
+    @Test
     public void testPutAndGet() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field);
         assertPutAndGet(map);
@@ -100,58 +105,63 @@ public class OpenIntToFieldTest extends TestCase {
 
     private void assertPutAndGet(OpenIntToFieldHashMap<Fraction> map, int mapSize,
             Set<Integer> keysInMap) {
-        assertEquals(mapSize, map.size());
+        Assert.assertEquals(mapSize, map.size());
         for (Map.Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
             if (!keysInMap.contains(mapEntry.getKey()))
                 ++mapSize;
-            assertEquals(mapSize, map.size());
-            assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
+            Assert.assertEquals(mapSize, map.size());
+            Assert.assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
         }
     }
 
+    @Test
     public void testPutAbsentOnExisting() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         int size = javaMap.size();
         for (Map.Entry<Integer, Fraction> mapEntry : generateAbsent().entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
-            assertEquals(++size, map.size());
-            assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
+            Assert.assertEquals(++size, map.size());
+            Assert.assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
         }
     }
 
+    @Test
     public void testPutOnExisting() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         for (Map.Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
-            assertEquals(javaMap.size(), map.size());
-            assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
+            Assert.assertEquals(javaMap.size(), map.size());
+            Assert.assertEquals(mapEntry.getValue(), map.get(mapEntry.getKey()));
         }
     }
 
+    @Test
     public void testGetAbsent() {
         Map<Integer, Fraction> generated = generateAbsent();
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
 
         for (Map.Entry<Integer, Fraction> mapEntry : generated.entrySet())
-            assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
     }
 
+    @Test
     public void testGetFromEmpty() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field);
-        assertTrue(field.getZero().equals(map.get(5)));
-        assertTrue(field.getZero().equals(map.get(0)));
-        assertTrue(field.getZero().equals(map.get(50)));
+        Assert.assertTrue(field.getZero().equals(map.get(5)));
+        Assert.assertTrue(field.getZero().equals(map.get(0)));
+        Assert.assertTrue(field.getZero().equals(map.get(50)));
     }
 
+    @Test
     public void testRemove() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         int mapSize = javaMap.size();
-        assertEquals(mapSize, map.size());
+        Assert.assertEquals(mapSize, map.size());
         for (Map.Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
             map.remove(mapEntry.getKey());
-            assertEquals(--mapSize, map.size());
-            assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(--mapSize, map.size());
+            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
         }
 
         /* Ensure that put and get still work correctly after removals */
@@ -159,6 +169,7 @@ public class OpenIntToFieldTest extends TestCase {
     }
 
     /* This time only remove some entries */
+    @Test
     public void testRemove2() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         int mapSize = javaMap.size();
@@ -167,8 +178,8 @@ public class OpenIntToFieldTest extends TestCase {
         for (Map.Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
             keysInMap.remove(mapEntry.getKey());
             map.remove(mapEntry.getKey());
-            assertEquals(--mapSize, map.size());
-            assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(--mapSize, map.size());
+            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
             if (count++ > 5)
                 break;
         }
@@ -177,11 +188,13 @@ public class OpenIntToFieldTest extends TestCase {
         assertPutAndGet(map, mapSize, keysInMap);
     }
 
+    @Test
     public void testRemoveFromEmpty() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field);
-        assertTrue(field.getZero().equals(map.remove(50)));
+        Assert.assertTrue(field.getZero().equals(map.remove(50)));
     }
 
+    @Test
     public void testRemoveAbsent() {
         Map<Integer, Fraction> generated = generateAbsent();
 
@@ -190,8 +203,8 @@ public class OpenIntToFieldTest extends TestCase {
 
         for (Map.Entry<Integer, Fraction> mapEntry : generated.entrySet()) {
             map.remove(mapEntry.getKey());
-            assertEquals(mapSize, map.size());
-            assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
+            Assert.assertEquals(mapSize, map.size());
+            Assert.assertTrue(field.getZero().equals(map.get(mapEntry.getKey())));
         }
     }
 
@@ -208,59 +221,63 @@ public class OpenIntToFieldTest extends TestCase {
         return generated;
     }
 
+    @Test
     public void testCopy() {
         OpenIntToFieldHashMap<Fraction> copy =
             new OpenIntToFieldHashMap<Fraction>(createFromJavaMap(field));
-        assertEquals(javaMap.size(), copy.size());
+        Assert.assertEquals(javaMap.size(), copy.size());
 
         for (Map.Entry<Integer, Fraction> mapEntry : javaMap.entrySet())
-            assertEquals(mapEntry.getValue(), copy.get(mapEntry.getKey()));
+            Assert.assertEquals(mapEntry.getValue(), copy.get(mapEntry.getKey()));
     }
 
+    @Test
     public void testContainsKey() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         for (Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
-            assertTrue(map.containsKey(mapEntry.getKey()));
+            Assert.assertTrue(map.containsKey(mapEntry.getKey()));
         }
         for (Map.Entry<Integer, Fraction> mapEntry : generateAbsent().entrySet()) {
-            assertFalse(map.containsKey(mapEntry.getKey()));
+            Assert.assertFalse(map.containsKey(mapEntry.getKey()));
         }
         for (Entry<Integer, Fraction> mapEntry : javaMap.entrySet()) {
             int key = mapEntry.getKey();
-            assertTrue(map.containsKey(key));
+            Assert.assertTrue(map.containsKey(key));
             map.remove(key);
-            assertFalse(map.containsKey(key));
+            Assert.assertFalse(map.containsKey(key));
         }
     }
 
+    @Test
     public void testIterator() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         OpenIntToFieldHashMap<Fraction>.Iterator iterator = map.iterator();
         for (int i = 0; i < map.size(); ++i) {
-            assertTrue(iterator.hasNext());
+            Assert.assertTrue(iterator.hasNext());
             iterator.advance();
             int key = iterator.key();
-            assertTrue(map.containsKey(key));
-            assertEquals(javaMap.get(key), map.get(key));
-            assertEquals(javaMap.get(key), iterator.value());
-            assertTrue(javaMap.containsKey(key));
+            Assert.assertTrue(map.containsKey(key));
+            Assert.assertEquals(javaMap.get(key), map.get(key));
+            Assert.assertEquals(javaMap.get(key), iterator.value());
+            Assert.assertTrue(javaMap.containsKey(key));
         }
-        assertFalse(iterator.hasNext());
+        Assert.assertFalse(iterator.hasNext());
         try {
             iterator.advance();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NoSuchElementException nsee) {
             // expected
         }
     }
 
+    @Test
     public void testConcurrentModification() {
         OpenIntToFieldHashMap<Fraction> map = createFromJavaMap(field);
         OpenIntToFieldHashMap<Fraction>.Iterator iterator = map.iterator();
         map.put(3, new Fraction(3));
         try {
             iterator.advance();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (ConcurrentModificationException cme) {
             // expected
         }
@@ -271,6 +288,7 @@ public class OpenIntToFieldTest extends TestCase {
      * loop was inconsistent with the first causing duplicate keys after the right sequence
      * of puts and removes.
      */
+    @Test
     public void testPutKeysWithCollisions() {
         OpenIntToFieldHashMap<Fraction> map = new OpenIntToFieldHashMap<Fraction>(field);
         int key1 = -1996012590;
@@ -280,20 +298,21 @@ public class OpenIntToFieldTest extends TestCase {
         map.put(key2, value1);
         int key3 = 1008859686;
         map.put(key3, value1);
-        assertEquals(value1, map.get(key3));
-        assertEquals(3, map.size());
+        Assert.assertEquals(value1, map.get(key3));
+        Assert.assertEquals(3, map.size());
 
         map.remove(key2);
         Fraction value2 = new Fraction(2);
         map.put(key3, value2);
-        assertEquals(value2, map.get(key3));
-        assertEquals(2, map.size());
+        Assert.assertEquals(value2, map.get(key3));
+        Assert.assertEquals(2, map.size());
     }
 
     /**
      * Similar to testPutKeysWithCollisions() but exercises the codepaths in a slightly
      * different manner.
      */
+    @Test
     public void testPutKeysWithCollision2() {
         OpenIntToFieldHashMap<Fraction>map = new OpenIntToFieldHashMap<Fraction>(field);
         int key1 = 837989881;
@@ -301,14 +320,14 @@ public class OpenIntToFieldTest extends TestCase {
         map.put(key1, value1);
         int key2 = 476463321;
         map.put(key2, value1);
-        assertEquals(2, map.size());
-        assertEquals(value1, map.get(key2));
+        Assert.assertEquals(2, map.size());
+        Assert.assertEquals(value1, map.get(key2));
 
         map.remove(key1);
         Fraction value2 = new Fraction(2);
         map.put(key2, value2);
-        assertEquals(1, map.size());
-        assertEquals(value2, map.get(key2));
+        Assert.assertEquals(1, map.size());
+        Assert.assertEquals(value2, map.get(key2));
     }
 
 

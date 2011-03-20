@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class RandomKeyMutationTest {
@@ -37,7 +37,7 @@ public class RandomKeyMutationTest {
                     changes++;
                 }
             }
-            assertEquals(1,changes);
+            Assert.assertEquals(1,changes);
         }
     }
 

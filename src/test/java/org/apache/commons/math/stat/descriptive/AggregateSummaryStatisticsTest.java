@@ -20,47 +20,50 @@ package org.apache.commons.math.stat.descriptive;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 
 /**
  * Test cases for {@link AggregateSummaryStatistics}
  *
  */
-public class AggregateSummaryStatisticsTest extends TestCase {
+public class AggregateSummaryStatisticsTest {
 
     /**
      * Tests the standard aggregation behavior
      */
+    @Test
     public void testAggregation() {
         AggregateSummaryStatistics aggregate = new AggregateSummaryStatistics();
         SummaryStatistics setOneStats = aggregate.createContributingStatistics();
         SummaryStatistics setTwoStats = aggregate.createContributingStatistics();
 
-        assertNotNull("The set one contributing stats are null", setOneStats);
-        assertNotNull("The set two contributing stats are null", setTwoStats);
-        assertNotSame("Contributing stats objects are the same", setOneStats, setTwoStats);
+        Assert.assertNotNull("The set one contributing stats are null", setOneStats);
+        Assert.assertNotNull("The set two contributing stats are null", setTwoStats);
+        Assert.assertNotSame("Contributing stats objects are the same", setOneStats, setTwoStats);
 
         setOneStats.addValue(2);
         setOneStats.addValue(3);
         setOneStats.addValue(5);
         setOneStats.addValue(7);
         setOneStats.addValue(11);
-        assertEquals("Wrong number of set one values", 5, setOneStats.getN());
-        assertEquals("Wrong sum of set one values", 28.0, setOneStats.getSum());
+        Assert.assertEquals("Wrong number of set one values", 5, setOneStats.getN());
+        Assert.assertTrue("Wrong sum of set one values", MathUtils.equals(28.0, setOneStats.getSum(), 1));
 
         setTwoStats.addValue(2);
         setTwoStats.addValue(4);
         setTwoStats.addValue(8);
-        assertEquals("Wrong number of set two values", 3, setTwoStats.getN());
-        assertEquals("Wrong sum of set two values", 14.0, setTwoStats.getSum());
+        Assert.assertEquals("Wrong number of set two values", 3, setTwoStats.getN());
+        Assert.assertTrue("Wrong sum of set two values", MathUtils.equals(14.0, setTwoStats.getSum(), 1));
 
-        assertEquals("Wrong number of aggregate values", 8, aggregate.getN());
-        assertEquals("Wrong aggregate sum", 42.0, aggregate.getSum());
+        Assert.assertEquals("Wrong number of aggregate values", 8, aggregate.getN());
+        Assert.assertTrue("Wrong aggregate sum", MathUtils.equals(42.0, aggregate.getSum(), 1));
     }
 
     /**
@@ -76,6 +79,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
      *     returned by a single SummaryStatistics instance that is provided
      *     the full dataset
      */
+    @Test
     public void testAggregationConsistency() throws Exception {
 
         // Generate a random sample and random partition
@@ -113,7 +117,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
          * as <totalStats>.
          *
          */
-        assertEquals(totalStats.getSummary(), aggregate.getSummary());
+        Assert.assertEquals(totalStats.getSummary(), aggregate.getSummary());
 
     }
 
@@ -126,6 +130,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
      *
      * @throws Exception
      */
+    @Test
     public void testAggregate() throws Exception {
 
         // Generate a random sample and random partition
@@ -158,6 +163,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
     }
 
 
+    @Test
     public void testAggregateDegenerate() throws Exception {
         double[] totalSample = {1, 2, 3, 4, 5};
         double[][] subSamples = {{1}, {2}, {3}, {4}, {5}};
@@ -186,6 +192,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
         assertEquals(totalStats.getSummary(), aggregatedStats, 10E-12);
     }
 
+    @Test
     public void testAggregateSpecialValues() throws Exception {
         double[] totalSample = {Double.POSITIVE_INFINITY, 2, 3, Double.NaN, 5};
         double[][] subSamples = {{Double.POSITIVE_INFINITY, 2}, {3}, {Double.NaN}, {5}};
@@ -223,7 +230,7 @@ public class AggregateSummaryStatisticsTest extends TestCase {
     protected static void assertEquals(StatisticalSummary expected, StatisticalSummary observed, double delta) {
         TestUtils.assertEquals(expected.getMax(), observed.getMax(), 0);
         TestUtils.assertEquals(expected.getMin(), observed.getMin(), 0);
-        assertEquals(expected.getN(), observed.getN());
+        Assert.assertEquals(expected.getN(), observed.getN());
         TestUtils.assertEquals(expected.getSum(), observed.getSum(), delta);
         TestUtils.assertEquals(expected.getMean(), observed.getMean(), delta);
         TestUtils.assertEquals(expected.getStandardDeviation(), observed.getStandardDeviation(), delta);

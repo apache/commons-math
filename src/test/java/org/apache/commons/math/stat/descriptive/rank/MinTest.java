@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive.rank;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -26,13 +28,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class MinTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Min stat;
-
-    /**
-     * @param name
-     */
-    public MinTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -50,29 +45,31 @@ public class MinTest extends StorelessUnivariateStatisticAbstractTest{
         return this.min;
     }
 
+    @Test
     public void testSpecialValues() {
         double[] testArray = {0d, Double.NaN, Double.POSITIVE_INFINITY,
                 Double.NEGATIVE_INFINITY};
         Min min = new Min();
-        assertTrue(Double.isNaN(min.getResult()));
+        Assert.assertTrue(Double.isNaN(min.getResult()));
         min.increment(testArray[0]);
-        assertEquals(0d, min.getResult(), 0);
+        Assert.assertEquals(0d, min.getResult(), 0);
         min.increment(testArray[1]);
-        assertEquals(0d, min.getResult(), 0);
+        Assert.assertEquals(0d, min.getResult(), 0);
         min.increment(testArray[2]);
-        assertEquals(0d, min.getResult(), 0);
+        Assert.assertEquals(0d, min.getResult(), 0);
         min.increment(testArray[3]);
-        assertEquals(Double.NEGATIVE_INFINITY, min.getResult(), 0);
-        assertEquals(Double.NEGATIVE_INFINITY, min.evaluate(testArray), 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, min.getResult(), 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, min.evaluate(testArray), 0);
     }
 
+    @Test
     public void testNaNs() {
         Min min = new Min();
         double nan = Double.NaN;
-        assertEquals(2d, min.evaluate(new double[]{nan, 2d, 3d}), 0);
-        assertEquals(1d, min.evaluate(new double[]{1d, nan, 3d}), 0);
-        assertEquals(1d, min.evaluate(new double[]{1d, 2d, nan}), 0);
-        assertTrue(Double.isNaN(min.evaluate(new double[]{nan, nan, nan})));
+        Assert.assertEquals(2d, min.evaluate(new double[]{nan, 2d, 3d}), 0);
+        Assert.assertEquals(1d, min.evaluate(new double[]{1d, nan, 3d}), 0);
+        Assert.assertEquals(1d, min.evaluate(new double[]{1d, 2d, nan}), 0);
+        Assert.assertTrue(Double.isNaN(min.evaluate(new double[]{nan, nan, nan})));
     }
 
 }

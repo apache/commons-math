@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for Laguerre solver.
+ * Test case for Laguerre solver.
  * <p>
  * Laguerre's method is very efficient in solving polynomials. Test runs
  * show that for a default absolute accuracy of 1E-6, it generally takes

@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 /**
  * Test cases for the ChiSquareTestImpl class.
@@ -24,14 +26,11 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 
-public class MannWhitneyUTestTest extends TestCase {
+public class MannWhitneyUTestTest {
 
     protected MannWhitneyUTest testStatistic = new MannWhitneyUTestImpl();
 
-    public MannWhitneyUTestTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testMannWhitneyUSimple() throws Exception {
         /* Target values computed using R version 2.11.1
          * x <- c(19, 22, 16, 29, 24)
@@ -42,24 +41,25 @@ public class MannWhitneyUTestTest extends TestCase {
         final double x[] = {19, 22, 16, 29, 24};
         final double y[] = {20, 11, 17, 12};
         
-        assertEquals(17, testStatistic.mannWhitneyU(x, y), 1e-10);
-        assertEquals(0.08641, testStatistic.mannWhitneyUTest(x, y), 1e-5);
+        Assert.assertEquals(17, testStatistic.mannWhitneyU(x, y), 1e-10);
+        Assert.assertEquals(0.08641, testStatistic.mannWhitneyUTest(x, y), 1e-5);
     }
 
 
+    @Test
     public void testMannWhitneyUInputValidation() throws Exception {
         /* Samples must be present, i.e. length > 0
          */
         try {
             testStatistic.mannWhitneyUTest(new double[] { }, new double[] { 1.0 });
-            fail("x does not contain samples (exact), IllegalArgumentException expected");
+            Assert.fail("x does not contain samples (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.mannWhitneyUTest(new double[] { 1.0 }, new double[] { });
-            fail("y does not contain samples (exact), IllegalArgumentException expected");
+            Assert.fail("y does not contain samples (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -69,14 +69,14 @@ public class MannWhitneyUTestTest extends TestCase {
          */
         try {
             testStatistic.mannWhitneyUTest(null, null);
-            fail("x and y is null (exact), IllegalArgumentException expected");
+            Assert.fail("x and y is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.mannWhitneyUTest(null, null);
-            fail("x and y is null (asymptotic), IllegalArgumentException expected");
+            Assert.fail("x and y is null (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -86,14 +86,14 @@ public class MannWhitneyUTestTest extends TestCase {
          */
         try {
             testStatistic.mannWhitneyUTest(null, new double[] { 1.0 });
-            fail("x is null (exact), IllegalArgumentException expected");
+            Assert.fail("x is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.mannWhitneyUTest(new double[] { 1.0 }, null);
-            fail("y is null (exact), IllegalArgumentException expected");
+            Assert.fail("y is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }

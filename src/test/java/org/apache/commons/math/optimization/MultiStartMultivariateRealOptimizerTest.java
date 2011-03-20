@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
@@ -28,6 +26,7 @@ import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MultiStartMultivariateRealOptimizerTest {
@@ -49,10 +48,10 @@ public class MultiStartMultivariateRealOptimizerTest {
         RealPointValuePair optimum =
             optimizer.optimize(1100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
-        assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
-        assertTrue(optimizer.getEvaluations() > 900);
-        assertTrue(optimizer.getEvaluations() < 1200);
-        assertTrue(optimum.getValue() < 8.0e-4);
+        Assert.assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
+        Assert.assertTrue(optimizer.getEvaluations() > 900);
+        Assert.assertTrue(optimizer.getEvaluations() < 1200);
+        Assert.assertTrue(optimum.getValue() < 8.0e-4);
     }
 
     private static class Rosenbrock implements MultivariateRealFunction {

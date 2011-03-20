@@ -20,6 +20,8 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for WeibullDistribution.
@@ -29,14 +31,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  */
 public class WeibullDistributionTest extends ContinuousDistributionAbstractTest  {
-
-    /**
-     * Constructor for CauchyDistributionTest.
-     * @param arg0
-     */
-    public WeibullDistributionTest(String arg0) {
-        super(arg0);
-    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -69,6 +63,7 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
 
     //---------------------------- Additional test cases -------------------------
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0.0, 1.0});
         setInverseCumulativeTestValues(
@@ -76,42 +71,45 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testAlpha() {
         WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
-        assertEquals(1, dist.getShape(), 0);
+        Assert.assertEquals(1, dist.getShape(), 0);
         try {
             dist = new WeibullDistributionImpl(0, 2);
-            fail("NotStrictlyPositiveException expected");
+            Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
     }
 
+    @Test
     public void testBeta() {
         WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
-        assertEquals(2, dist.getScale(), 0);
+        Assert.assertEquals(2, dist.getScale(), 0);
         try {
             dist = new WeibullDistributionImpl(1, 0);
-            fail("NotStrictlyPositiveException expected");
+            Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         WeibullDistribution dist;
         
         dist = new WeibullDistributionImpl(2.5, 3.5);
         // In R: 3.5*gamma(1+(1/2.5)) (or emperically: mean(rweibull(10000, 2.5, 3.5)))
-        assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(Gamma.logGamma(1 + (1 / 2.5))), tol);
-        assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) * 
+        Assert.assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(Gamma.logGamma(1 + (1 / 2.5))), tol);
+        Assert.assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) * 
                 FastMath.exp(Gamma.logGamma(1 + (2 / 2.5))) -
                 (dist.getNumericalMean() * dist.getNumericalMean()), tol); 
         
         dist = new WeibullDistributionImpl(10.4, 2.222);
-        assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(Gamma.logGamma(1 + (1 / 10.4))), tol);
-        assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) * 
+        Assert.assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(Gamma.logGamma(1 + (1 / 10.4))), tol);
+        Assert.assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) * 
                 FastMath.exp(Gamma.logGamma(1 + (2 / 10.4))) -
                 (dist.getNumericalMean() * dist.getNumericalMean()), tol);
     }

@@ -17,6 +17,8 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for TDistribution.
@@ -26,14 +28,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  */
 public class TDistributionTest extends ContinuousDistributionAbstractTest {
-
-    /**
-     * Constructor for TDistributionTest.
-     * @param name
-     */
-    public TDistributionTest(String name) {
-        super(name);
-    }
 
 //-------------- Implementations for abstract methods -----------------------
 
@@ -67,7 +61,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(1E-9);
     }
@@ -77,12 +71,14 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      * @see <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=27243">
      *      Bug report that prompted this unit test.</a>
      */
+    @Test
     public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
         TDistributionImpl td = new TDistributionImpl(5.);
         td.cumulativeProbability(.1);
         td.cumulativeProbability(.01);
     }
 
+    @Test
     public void testSmallDf() throws Exception {
         setDistribution(new TDistributionImpl(1d));
         // quantiles computed using R version 2.9.2
@@ -98,6 +94,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         verifyDensities();
     }
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
@@ -105,34 +102,37 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testDfAccessors() {
         TDistribution dist = (TDistribution) getDistribution();
-        assertEquals(5d, dist.getDegreesOfFreedom(), Double.MIN_VALUE);
+        Assert.assertEquals(5d, dist.getDegreesOfFreedom(), Double.MIN_VALUE);
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new TDistributionImpl(0);
-            fail("Expecting NotStrictlyPositiveException for df = 0");
+            Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // expected
         }
     }
     
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         TDistribution dist;
         
         dist = new TDistributionImpl(1);
-        assertTrue(Double.isNaN(dist.getNumericalMean()));
-        assertTrue(Double.isNaN(dist.getNumericalVariance()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
         
         dist = new TDistributionImpl(1.5);
-        assertEquals(dist.getNumericalMean(), 0, tol);
-        assertTrue(Double.isInfinite(dist.getNumericalVariance()));
+        Assert.assertEquals(dist.getNumericalMean(), 0, tol);
+        Assert.assertTrue(Double.isInfinite(dist.getNumericalVariance()));
         
         dist = new TDistributionImpl(5);
-        assertEquals(dist.getNumericalMean(), 0, tol);
-        assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);        
+        Assert.assertEquals(dist.getNumericalMean(), 0, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);        
     }
 }

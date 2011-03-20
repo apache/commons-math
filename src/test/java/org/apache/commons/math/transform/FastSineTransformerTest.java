@@ -18,21 +18,23 @@ package org.apache.commons.math.transform;
 
 import org.apache.commons.math.analysis.*;
 import org.apache.commons.math.util.FastMath;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Testcase for fast sine transformer.
+ * Test case for fast sine transformer.
  * <p>
  * FST algorithm is exact, the small tolerance number is used only
  * to account for round-off errors.
  *
  * @version $Revision$ $Date$
  */
-public final class FastSineTransformerTest extends TestCase {
+public final class FastSineTransformerTest {
 
     /**
      * Test of transformer for the ad hoc data.
      */
+    @Test
     public void testAdHocData() {
         FastSineTransformer transformer = new FastSineTransformer();
         double result[], tolerance = 1E-12;
@@ -44,30 +46,31 @@ public final class FastSineTransformerTest extends TestCase {
 
         result = transformer.transform(x);
         for (int i = 0; i < result.length; i++) {
-            assertEquals(y[i], result[i], tolerance);
+            Assert.assertEquals(y[i], result[i], tolerance);
         }
 
         result = transformer.inversetransform(y);
         for (int i = 0; i < result.length; i++) {
-            assertEquals(x[i], result[i], tolerance);
+            Assert.assertEquals(x[i], result[i], tolerance);
         }
 
         FastFourierTransformer.scaleArray(x, FastMath.sqrt(x.length / 2.0));
 
         result = transformer.transform2(y);
         for (int i = 0; i < result.length; i++) {
-            assertEquals(x[i], result[i], tolerance);
+            Assert.assertEquals(x[i], result[i], tolerance);
         }
 
         result = transformer.inversetransform2(x);
         for (int i = 0; i < result.length; i++) {
-            assertEquals(y[i], result[i], tolerance);
+            Assert.assertEquals(y[i], result[i], tolerance);
         }
     }
 
     /**
      * Test of transformer for the sine function.
      */
+    @Test
     public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
@@ -75,22 +78,23 @@ public final class FastSineTransformerTest extends TestCase {
 
         min = 0.0; max = 2.0 * FastMath.PI;
         result = transformer.transform(f, min, max, N);
-        assertEquals(N >> 1, result[2], tolerance);
+        Assert.assertEquals(N >> 1, result[2], tolerance);
         for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
-            assertEquals(0.0, result[i], tolerance);
+            Assert.assertEquals(0.0, result[i], tolerance);
         }
 
         min = -FastMath.PI; max = FastMath.PI;
         result = transformer.transform(f, min, max, N);
-        assertEquals(-(N >> 1), result[2], tolerance);
+        Assert.assertEquals(-(N >> 1), result[2], tolerance);
         for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
-            assertEquals(0.0, result[i], tolerance);
+            Assert.assertEquals(0.0, result[i], tolerance);
         }
     }
 
     /**
      * Test of parameters for the transformer.
      */
+    @Test
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
@@ -98,21 +102,21 @@ public final class FastSineTransformerTest extends TestCase {
         try {
             // bad interval
             transformer.transform(f, 1, -1, 64);
-            fail("Expecting IllegalArgumentException - bad interval");
+            Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 0);
-            fail("Expecting IllegalArgumentException - bad samples number");
+            Assert.fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
             transformer.transform(f, -1, 1, 100);
-            fail("Expecting IllegalArgumentException - bad samples number");
+            Assert.fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
             // expected
         }

@@ -19,22 +19,22 @@ package org.apache.commons.math.linear;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
-import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link ArrayFieldVector} class.
  *
  * @version $Revision$ $Date$
  */
-public class ArrayFieldVectorTest extends TestCase {
+public class ArrayFieldVectorTest {
 
     //
     protected Fraction[][] ma1 = {
@@ -254,77 +254,79 @@ public class ArrayFieldVectorTest extends TestCase {
 
     }
 
+    @Test
     public void testConstructors() {
 
         ArrayFieldVector<Fraction> v0 = new ArrayFieldVector<Fraction>(FractionField.getInstance());
-        assertEquals(0, v0.getDimension());
+        Assert.assertEquals(0, v0.getDimension());
 
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(FractionField.getInstance(), 7);
-        assertEquals(7, v1.getDimension());
-        assertEquals(new Fraction(0), v1.getEntry(6));
+        Assert.assertEquals(7, v1.getDimension());
+        Assert.assertEquals(new Fraction(0), v1.getEntry(6));
 
         ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(5, new Fraction(123, 100));
-        assertEquals(5, v2.getDimension());
-        assertEquals(new Fraction(123, 100), v2.getEntry(4));
+        Assert.assertEquals(5, v2.getDimension());
+        Assert.assertEquals(new Fraction(123, 100), v2.getEntry(4));
 
         ArrayFieldVector<Fraction> v3 = new ArrayFieldVector<Fraction>(vec1);
-        assertEquals(3, v3.getDimension());
-        assertEquals(new Fraction(2), v3.getEntry(1));
+        Assert.assertEquals(3, v3.getDimension());
+        Assert.assertEquals(new Fraction(2), v3.getEntry(1));
 
         ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4, 3, 2);
-        assertEquals(2, v4.getDimension());
-        assertEquals(new Fraction(4), v4.getEntry(0));
+        Assert.assertEquals(2, v4.getDimension());
+        Assert.assertEquals(new Fraction(4), v4.getEntry(0));
         try {
             new ArrayFieldVector<Fraction>(vec4, 8, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         FieldVector<Fraction> v5_i = new ArrayFieldVector<Fraction>(dvec1);
-        assertEquals(9, v5_i.getDimension());
-        assertEquals(new Fraction(9), v5_i.getEntry(8));
+        Assert.assertEquals(9, v5_i.getDimension());
+        Assert.assertEquals(new Fraction(9), v5_i.getEntry(8));
 
         ArrayFieldVector<Fraction> v5 = new ArrayFieldVector<Fraction>(dvec1);
-        assertEquals(9, v5.getDimension());
-        assertEquals(new Fraction(9), v5.getEntry(8));
+        Assert.assertEquals(9, v5.getDimension());
+        Assert.assertEquals(new Fraction(9), v5.getEntry(8));
 
         ArrayFieldVector<Fraction> v6 = new ArrayFieldVector<Fraction>(dvec1, 3, 2);
-        assertEquals(2, v6.getDimension());
-        assertEquals(new Fraction(4), v6.getEntry(0));
+        Assert.assertEquals(2, v6.getDimension());
+        Assert.assertEquals(new Fraction(4), v6.getEntry(0));
         try {
             new ArrayFieldVector<Fraction>(dvec1, 8, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         ArrayFieldVector<Fraction> v7 = new ArrayFieldVector<Fraction>(v1);
-        assertEquals(7, v7.getDimension());
-        assertEquals(new Fraction(0), v7.getEntry(6));
+        Assert.assertEquals(7, v7.getDimension());
+        Assert.assertEquals(new Fraction(0), v7.getEntry(6));
 
         FieldVectorTestImpl<Fraction> v7_i = new FieldVectorTestImpl<Fraction>(vec1);
 
         ArrayFieldVector<Fraction> v7_2 = new ArrayFieldVector<Fraction>(v7_i);
-        assertEquals(3, v7_2.getDimension());
-        assertEquals(new Fraction(2), v7_2.getEntry(1));
+        Assert.assertEquals(3, v7_2.getDimension());
+        Assert.assertEquals(new Fraction(2), v7_2.getEntry(1));
 
         ArrayFieldVector<Fraction> v8 = new ArrayFieldVector<Fraction>(v1, true);
-        assertEquals(7, v8.getDimension());
-        assertEquals(new Fraction(0), v8.getEntry(6));
-        assertNotSame("testData not same object ", v1.data, v8.data);
+        Assert.assertEquals(7, v8.getDimension());
+        Assert.assertEquals(new Fraction(0), v8.getEntry(6));
+        Assert.assertNotSame("testData not same object ", v1.data, v8.data);
 
         ArrayFieldVector<Fraction> v8_2 = new ArrayFieldVector<Fraction>(v1, false);
-        assertEquals(7, v8_2.getDimension());
-        assertEquals(new Fraction(0), v8_2.getEntry(6));
-        assertEquals(v1.data, v8_2.data);
+        Assert.assertEquals(7, v8_2.getDimension());
+        Assert.assertEquals(new Fraction(0), v8_2.getEntry(6));
+        Assert.assertArrayEquals(v1.data, v8_2.data);
 
         ArrayFieldVector<Fraction> v9 = new ArrayFieldVector<Fraction>(v1, v3);
-        assertEquals(10, v9.getDimension());
-        assertEquals(new Fraction(1), v9.getEntry(7));
+        Assert.assertEquals(10, v9.getDimension());
+        Assert.assertEquals(new Fraction(1), v9.getEntry(7));
 
     }
 
+    @Test
     public void testDataInOut() {
 
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
@@ -333,84 +335,84 @@ public class ArrayFieldVectorTest extends TestCase {
         FieldVectorTestImpl<Fraction> v2_t = new FieldVectorTestImpl<Fraction>(vec2);
 
         FieldVector<Fraction> v_append_1 = v1.append(v2);
-        assertEquals(6, v_append_1.getDimension());
-        assertEquals(new Fraction(4), v_append_1.getEntry(3));
+        Assert.assertEquals(6, v_append_1.getDimension());
+        Assert.assertEquals(new Fraction(4), v_append_1.getEntry(3));
 
         FieldVector<Fraction> v_append_2 = v1.append(new Fraction(2));
-        assertEquals(4, v_append_2.getDimension());
-        assertEquals(new Fraction(2), v_append_2.getEntry(3));
+        Assert.assertEquals(4, v_append_2.getDimension());
+        Assert.assertEquals(new Fraction(2), v_append_2.getEntry(3));
 
         FieldVector<Fraction> v_append_3 = v1.append(vec2);
-        assertEquals(6, v_append_3.getDimension());
-        assertEquals(new Fraction(4), v_append_3.getEntry(3));
+        Assert.assertEquals(6, v_append_3.getDimension());
+        Assert.assertEquals(new Fraction(4), v_append_3.getEntry(3));
 
         FieldVector<Fraction> v_append_4 = v1.append(v2_t);
-        assertEquals(6, v_append_4.getDimension());
-        assertEquals(new Fraction(4), v_append_4.getEntry(3));
+        Assert.assertEquals(6, v_append_4.getDimension());
+        Assert.assertEquals(new Fraction(4), v_append_4.getEntry(3));
 
         FieldVector<Fraction> v_copy = v1.copy();
-        assertEquals(3, v_copy.getDimension());
-        assertNotSame("testData not same object ", v1.data, v_copy.getData());
+        Assert.assertEquals(3, v_copy.getDimension());
+        Assert.assertNotSame("testData not same object ", v1.data, v_copy.getData());
 
         Fraction[] a_frac = v1.toArray();
-        assertEquals(3, a_frac.length);
-        assertNotSame("testData not same object ", v1.data, a_frac);
+        Assert.assertEquals(3, a_frac.length);
+        Assert.assertNotSame("testData not same object ", v1.data, a_frac);
 
 
 //      ArrayFieldVector<Fraction> vout4 = (ArrayFieldVector<Fraction>) v1.clone();
-//      assertEquals(3, vout4.getDimension());
-//      assertEquals(v1.data, vout4.data);
+//      Assert.assertEquals(3, vout4.getDimension());
+//      Assert.assertEquals(v1.data, vout4.data);
 
 
         FieldVector<Fraction> vout5 = v4.getSubVector(3, 3);
-        assertEquals(3, vout5.getDimension());
-        assertEquals(new Fraction(5), vout5.getEntry(1));
+        Assert.assertEquals(3, vout5.getDimension());
+        Assert.assertEquals(new Fraction(5), vout5.getEntry(1));
         try {
             v4.getSubVector(3, 7);
-            fail("OutOfRangeException expected");
+            Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
         ArrayFieldVector<Fraction> v_set1 = (ArrayFieldVector<Fraction>) v1.copy();
         v_set1.setEntry(1, new Fraction(11));
-        assertEquals(new Fraction(11), v_set1.getEntry(1));
+        Assert.assertEquals(new Fraction(11), v_set1.getEntry(1));
         try {
             v_set1.setEntry(3, new Fraction(11));
-            fail("OutOfRangeException expected");
+            Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
         ArrayFieldVector<Fraction> v_set2 = (ArrayFieldVector<Fraction>) v4.copy();
         v_set2.set(3, v1);
-        assertEquals(new Fraction(1), v_set2.getEntry(3));
-        assertEquals(new Fraction(7), v_set2.getEntry(6));
+        Assert.assertEquals(new Fraction(1), v_set2.getEntry(3));
+        Assert.assertEquals(new Fraction(7), v_set2.getEntry(6));
         try {
             v_set2.set(7, v1);
-            fail("OutOfRangeException expected");
+            Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
         }
 
         ArrayFieldVector<Fraction> v_set3 = (ArrayFieldVector<Fraction>) v1.copy();
         v_set3.set(new Fraction(13));
-        assertEquals(new Fraction(13), v_set3.getEntry(2));
+        Assert.assertEquals(new Fraction(13), v_set3.getEntry(2));
 
         try {
             v_set3.getEntry(23);
-            fail("ArrayIndexOutOfBoundsException expected");
+            Assert.fail("ArrayIndexOutOfBoundsException expected");
         } catch (ArrayIndexOutOfBoundsException ex) {
             // expected behavior
         }
 
         ArrayFieldVector<Fraction> v_set4 = (ArrayFieldVector<Fraction>) v4.copy();
         v_set4.setSubVector(3, v2_t);
-        assertEquals(new Fraction(4), v_set4.getEntry(3));
-        assertEquals(new Fraction(7), v_set4.getEntry(6));
+        Assert.assertEquals(new Fraction(4), v_set4.getEntry(3));
+        Assert.assertEquals(new Fraction(7), v_set4.getEntry(6));
         try {
             v_set4.setSubVector(7, v2_t);
-            fail("OutOfRangeException expected");
+            Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
         }
@@ -418,12 +420,13 @@ public class ArrayFieldVectorTest extends TestCase {
 
         ArrayFieldVector<Fraction> vout10 = (ArrayFieldVector<Fraction>) v1.copy();
         ArrayFieldVector<Fraction> vout10_2 = (ArrayFieldVector<Fraction>) v1.copy();
-        assertEquals(vout10, vout10_2);
+        Assert.assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, new Fraction(11, 10));
-        assertNotSame(vout10, vout10_2);
+        Assert.assertNotSame(vout10, vout10_2);
 
     }
 
+    @Test
     public void testMapFunctions() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
 
@@ -484,6 +487,7 @@ public class ArrayFieldVectorTest extends TestCase {
 
     }
 
+    @Test
     public void testBasicFunctions() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
         ArrayFieldVector<Fraction> v2 = new ArrayFieldVector<Fraction>(vec2);
@@ -530,17 +534,17 @@ public class ArrayFieldVectorTest extends TestCase {
 
         // octave  dot(v1,v2)
         Fraction dot =  v1.dotProduct(v2);
-        assertEquals("compare val ",new Fraction(32), dot);
+        Assert.assertEquals("compare val ",new Fraction(32), dot);
 
         // octave  dot(v1,v2_t)
         Fraction dot_2 =  v1.dotProduct(v2_t);
-        assertEquals("compare val ",new Fraction(32), dot_2);
+        Assert.assertEquals("compare val ",new Fraction(32), dot_2);
 
         FieldMatrix<Fraction> m_outerProduct = v1.outerProduct(v2);
-        assertEquals("compare val ",new Fraction(4), m_outerProduct.getEntry(0,0));
+        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct.getEntry(0,0));
 
         FieldMatrix<Fraction> m_outerProduct_2 = v1.outerProduct(v2_t);
-        assertEquals("compare val ",new Fraction(4), m_outerProduct_2.getEntry(0,0));
+        Assert.assertEquals("compare val ",new Fraction(4), m_outerProduct_2.getEntry(0,0));
 
         ArrayFieldVector<Fraction> v_projection = v1.projection(v2);
         Fraction[] result_projection = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
@@ -552,82 +556,85 @@ public class ArrayFieldVectorTest extends TestCase {
 
     }
 
+    @Test
     public void testMisc() {
         ArrayFieldVector<Fraction> v1 = new ArrayFieldVector<Fraction>(vec1);
         ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4);
         FieldVector<Fraction> v4_2 = new ArrayFieldVector<Fraction>(vec4);
 
         String out1 = v1.toString();
-        assertTrue("some output ",  out1.length()!=0);
+        Assert.assertTrue("some output ",  out1.length()!=0);
         /*
          Fraction[] dout1 = v1.copyOut();
-        assertEquals(3, dout1.length);
+        Assert.assertEquals(3, dout1.length);
         assertNotSame("testData not same object ", v1.data, dout1);
          */
         try {
             v1.checkVectorDimensions(2);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
        try {
             v1.checkVectorDimensions(v4);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         try {
             v1.checkVectorDimensions(v4_2);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
     }
 
+    @Test
     public void testSerial()  {
         ArrayFieldVector<Fraction> v = new ArrayFieldVector<Fraction>(vec1);
-        assertEquals(v,TestUtils.serializeAndRecover(v));
+        Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
     }
 
+    @Test
     public void testZeroVectors() {
 
         // when the field is not specified, array cannot be empty
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0]);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0], true);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
         try {
             new ArrayFieldVector<Fraction>(new Fraction[0], false);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
 
         // when the field is specified, array can be empty
-        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0]).getDimension());
-        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], true).getDimension());
-        assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], false).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0]).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], true).getDimension());
+        Assert.assertEquals(0, new ArrayFieldVector<Fraction>(FractionField.getInstance(), new Fraction[0], false).getDimension());
 
     }
 
     /** verifies that two vectors are equals */
     protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
         if (m.length != n.length) {
-            fail("vectors have different lengths");
+            Assert.fail("vectors have different lengths");
         }
         for (int i = 0; i < m.length; i++) {
-            assertEquals(msg + " " +  i + " elements differ", m[i],n[i]);
+            Assert.assertEquals(msg + " " +  i + " elements differ", m[i],n[i]);
         }
     }
 

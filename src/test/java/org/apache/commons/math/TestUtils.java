@@ -24,8 +24,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
@@ -35,6 +33,8 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
 
 /**
  * @version $Revision$ $Date$
@@ -52,7 +52,7 @@ public class TestUtils {
      * infinities of the same sign.
      */
     public static void assertEquals(double expected, double actual, double delta) {
-        assertEquals(null, expected, actual, delta);
+        Assert.assertEquals(null, expected, actual, delta);
     }
 
     /**
@@ -74,7 +74,7 @@ public class TestUtils {
      * both NaN or infinities of same sign, or identical floating point values.
      */
     public static void assertSame(double expected, double actual) {
-     assertEquals(expected, actual, 0);
+     Assert.assertEquals(expected, actual, 0);
     }
 
     /**
@@ -91,8 +91,8 @@ public class TestUtils {
      * differ by at most delta.  Also ensures that NaN / infinite components match.
      */
     public static void assertEquals(Complex expected, Complex actual, double delta) {
-        assertEquals(expected.getReal(), actual.getReal(), delta);
-        assertEquals(expected.getImaginary(), actual.getImaginary(), delta);
+        Assert.assertEquals(expected.getReal(), actual.getReal(), delta);
+        Assert.assertEquals(expected.getImaginary(), actual.getImaginary(), delta);
     }
 
     /**
@@ -189,21 +189,13 @@ public class TestUtils {
      */
     public static void assertContains(String msg, Complex[] values,
                                       Complex z, double epsilon) {
-        int i = 0;
-        boolean found = false;
-        while (!found && i < values.length) {
-            try {
-                assertEquals(values[i], z, epsilon);
-                found = true;
-            } catch (AssertionFailedError er) {
-                // no match
+        for (Complex value : values) {
+            if (MathUtils.equals(value.getReal(), z.getReal(), epsilon) &&
+                MathUtils.equals(value.getImaginary(), z.getImaginary(), epsilon)) {
+                return;
             }
-            i++;
         }
-        if (!found) {
-            Assert.fail(msg +
-                        " Unable to find " + (new ComplexFormat()).format(z));
-        }
+        Assert.fail(msg + " Unable to find " + (new ComplexFormat()).format(z));
     }
 
     /**
@@ -228,20 +220,12 @@ public class TestUtils {
      */
     public static void assertContains(String msg, double[] values,
             double x, double epsilon) {
-        int i = 0;
-        boolean found = false;
-        while (!found && i < values.length) {
-            try {
-                assertEquals(values[i], x, epsilon);
-                found = true;
-            } catch (AssertionFailedError er) {
-                // no match
+        for (double value : values) {
+            if (MathUtils.equals(value, x, epsilon)) {
+                return;
             }
-            i++;
         }
-        if (!found) {
-            Assert.fail(msg + " Unable to find" + x);
-        }
+        Assert.fail(msg + " Unable to find " + x);
     }
 
     /**
@@ -257,8 +241,7 @@ public class TestUtils {
     }
 
     /** verifies that two matrices are close (1-norm) */
-    public static void assertEquals(String msg, RealMatrix expected, RealMatrix observed,
-        double tolerance) {
+    public static void assertEquals(String msg, RealMatrix expected, RealMatrix observed, double tolerance) {
 
         Assert.assertNotNull(msg + "\nObserved should not be null",observed);
 
@@ -310,8 +293,7 @@ public class TestUtils {
     }
 
     /** verifies that two arrays are close (sup norm) */
-    public static void assertEquals(String msg, double[] expected, double[] observed,
-        double tolerance) {
+    public static void assertEquals(String msg, double[] expected, double[] observed, double tolerance) {
         StringBuilder out = new StringBuilder(msg);
         if (expected.length != observed.length) {
             out.append("\n Arrays not same length. \n");
@@ -323,9 +305,7 @@ public class TestUtils {
         }
         boolean failure = false;
         for (int i=0; i < expected.length; i++) {
-            try {
-                assertEquals(expected[i], observed[i], tolerance);
-            } catch (AssertionFailedError ex) {
+            if (!MathUtils.equalsIncludingNaN(expected[i], observed[i], tolerance)) {
                 failure = true;
                 out.append("\n Elements at index ");
                 out.append(i);
@@ -378,10 +358,9 @@ public class TestUtils {
      */
     public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) throws Exception {
         ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
-        try {
-            // Fail if we can reject null hypothesis that distributions are the same
-            Assert.assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
-        } catch (AssertionFailedError ex) {
+
+        // Fail if we can reject null hypothesis that distributions are the same
+        if (chiSquareTest.chiSquareTest(expected, observed, alpha)) {
             StringBuilder msgBuffer = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
             msgBuffer.append("Chisquare test failed");

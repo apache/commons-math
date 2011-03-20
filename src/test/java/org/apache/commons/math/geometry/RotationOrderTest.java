@@ -20,16 +20,13 @@ package org.apache.commons.math.geometry;
 import java.lang.reflect.Field;
 
 import org.apache.commons.math.geometry.RotationOrder;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class RotationOrderTest
-  extends TestCase {
+public class RotationOrderTest {
 
-  public RotationOrderTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testName() {
 
     RotationOrder[] orders = {
@@ -40,7 +37,7 @@ public class RotationOrderTest
     };
 
     for (int i = 0; i < orders.length; ++i) {
-      assertEquals(getFieldName(orders[i]), orders[i].toString());
+      Assert.assertEquals(getFieldName(orders[i]), orders[i].toString());
     }
 
   }

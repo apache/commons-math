@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.math.TestUtils;
@@ -183,9 +183,9 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealMatrix combinedCovInv = regression.getOmegaInverse();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        assertEquals(combinedX, regression.X);
-        assertEquals(combinedY, regression.Y);
-        assertEquals(combinedCovInv, regression.getOmegaInverse());
+        Assert.assertEquals(combinedX, regression.X);
+        Assert.assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedCovInv, regression.getOmegaInverse());
     }
     
     /**

@@ -20,10 +20,6 @@ package org.apache.commons.math.stat.descriptive;
  */
 public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsTest {
 
-    public SynchronizedSummaryStatisticsTest(String name) {
-        super(name);
-    }
-
     @Override
     protected SummaryStatistics createSummaryStatistics() {
         return new SynchronizedSummaryStatistics();

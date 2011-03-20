@@ -19,18 +19,19 @@ package org.apache.commons.math.stat.descriptive;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  * @version $Revision$ $Date$
  */
-public abstract class UnivariateStatisticAbstractTest extends TestCase {
+public abstract class UnivariateStatisticAbstractTest {
 
     protected double mean = 12.404545454545455d;
     protected double geoMean = 12.070589161633011d;
@@ -83,11 +84,6 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
            1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,
            1.0,  1.0 };
 
-
-    public UnivariateStatisticAbstractTest(String name) {
-        super(name);
-    }
-
     public abstract UnivariateStatistic getUnivariateStatistic();
 
     public abstract double expectedValue();
@@ -96,17 +92,19 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
         return tolerance;
     }
 
+    @Test
     public void testEvaluation() throws Exception {
-        assertEquals(
+        Assert.assertEquals(
             expectedValue(),
             getUnivariateStatistic().evaluate(testArray),
             getTolerance());
     }
 
+    @Test
     public void testCopy() throws Exception {
         UnivariateStatistic original = getUnivariateStatistic();
         UnivariateStatistic copy = original.copy();
-        assertEquals(
+        Assert.assertEquals(
                 expectedValue(),
                 copy.evaluate(testArray),
                 getTolerance());
@@ -121,6 +119,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
      * in the repeating array.
      */
 
+    @Test
     public void testWeightedConsistency() throws Exception {
 
         // See if this statistic computes weighted statistics
@@ -173,7 +172,7 @@ public abstract class UnivariateStatisticAbstractTest extends TestCase {
                 10E-14);
 
         // Check consistency of weighted evaluation methods
-        assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
+        Assert.assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
                 weightedStatistic.evaluate(values, weights), Double.MIN_VALUE);
 
     }

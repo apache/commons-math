@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class BinaryMutationTest {
@@ -37,7 +37,7 @@ public class BinaryMutationTest {
                 if (original.getRepresentation().get(j) != mutated.getRepresentation().get(j))
                     numDifferent++;
             }
-            assertEquals(1, numDifferent);
+            Assert.assertEquals(1, numDifferent);
         }
     }
 

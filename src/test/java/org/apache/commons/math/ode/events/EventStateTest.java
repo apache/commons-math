@@ -17,12 +17,12 @@
 
 package org.apache.commons.math.ode.events;
 
-import junit.framework.Assert;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class EventStateTest {

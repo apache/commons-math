@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for the tricubic interpolator.
+ * Test case for the tricubic interpolator.
  * 
  * @version $Revision$ $Date$ 
  */

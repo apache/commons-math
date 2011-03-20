@@ -16,13 +16,13 @@
  */
 package org.apache.commons.math.ode.sampling;
 
-import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 
 public class StepInterpolatorTestUtils {
 
@@ -71,7 +71,7 @@ public class StepInterpolatorTestUtils {
                                                32 * (yP3h[i] - yM3h[i]) +
                                              -168 * (yP2h[i] - yM2h[i]) +
                                               672 * (yP1h[i] - yM1h[i])) / (840 * h);
-                    assertEquals(approYDot, yDot[i], threshold);
+                    Assert.assertEquals(approYDot, yDot[i], threshold);
                 }
 
             }

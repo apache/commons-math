@@ -32,16 +32,13 @@ import org.apache.commons.math.ode.sampling.DummyStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class DormandPrince853IntegratorTest
-  extends TestCase {
+public class DormandPrince853IntegratorTest {
 
-  public DormandPrince853IntegratorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testMissedEndEvent() throws IntegratorException, MathUserException {
       final double   t0     = 1878250320.0000029;
       final double   tEvent = 1878250379.9999986;
@@ -98,6 +95,7 @@ public class DormandPrince853IntegratorTest
 
   }
 
+  @Test
   public void testDimensionCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
@@ -106,13 +104,14 @@ public class DormandPrince853IntegratorTest
       integrator.integrate(pb,
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
+  @Test
   public void testNullIntervalCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
@@ -121,13 +120,14 @@ public class DormandPrince853IntegratorTest
       integrator.integrate(pb,
                            0.0, new double[pb.getDimension()],
                            0.0, new double[pb.getDimension()]);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
+  @Test
   public void testMinStep() {
 
     try {
@@ -145,14 +145,15 @@ public class DormandPrince853IntegratorTest
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
 
   }
 
+  @Test
   public void testIncreasingTolerance()
     throws MathUserException, IntegratorException {
 
@@ -176,18 +177,19 @@ public class DormandPrince853IntegratorTest
       // the 1.3 factor is only valid for this test
       // and has been obtained from trial and error
       // there is no general relation between local and global errors
-      assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
-      assertEquals(integ.getEvaluations(), calls);
-      assertTrue(calls <= previousCalls);
+      Assert.assertEquals(integ.getEvaluations(), calls);
+      Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
 
     }
 
   }
 
+  @Test
   public void testBackward()
       throws MathUserException, IntegratorException {
 
@@ -205,12 +207,13 @@ public class DormandPrince853IntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 1.1e-7);
-      assertTrue(handler.getMaximalValueError() < 1.1e-7);
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-      assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
+      Assert.assertTrue(handler.getLastError() < 1.1e-7);
+      Assert.assertTrue(handler.getMaximalValueError() < 1.1e-7);
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
   }
 
+  @Test
   public void testEvents()
     throws MathUserException, IntegratorException {
 
@@ -231,19 +234,20 @@ public class DormandPrince853IntegratorTest
       integ.addEventHandler(functions[l],
                                  Double.POSITIVE_INFINITY, convergence, 1000);
     }
-    assertEquals(functions.length, integ.getEventHandlers().size());
+    Assert.assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertEquals(0, handler.getMaximalValueError(), 1.1e-7);
-    assertEquals(0, handler.getMaximalTimeError(), convergence);
-    assertEquals(12.0, handler.getLastTime(), convergence);
+    Assert.assertEquals(0, handler.getMaximalValueError(), 1.1e-7);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), convergence);
+    Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
-    assertEquals(0, integ.getEventHandlers().size());
+    Assert.assertEquals(0, integ.getEventHandlers().size());
 
   }
 
+  @Test
   public void testKepler()
     throws MathUserException, IntegratorException {
 
@@ -261,11 +265,12 @@ public class DormandPrince853IntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertEquals(integ.getEvaluations(), pb.getCalls());
-    assertTrue(pb.getCalls() < 3300);
+    Assert.assertEquals(integ.getEvaluations(), pb.getCalls());
+    Assert.assertTrue(pb.getCalls() < 3300);
 
   }
 
+  @Test
   public void testVariableSteps()
     throws MathUserException, IntegratorException {
 
@@ -282,10 +287,11 @@ public class DormandPrince853IntegratorTest
     double stopTime = integ.integrate(pb,
                                       pb.getInitialTime(), pb.getInitialState(),
                                       pb.getFinalTime(), new double[pb.getDimension()]);
-    assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
-    assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
+    Assert.assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+    Assert.assertEquals("Dormand-Prince 8 (5, 3)", integ.getName());
   }
 
+  @Test
   public void testNoDenseOutput()
     throws MathUserException, IntegratorException {
     TestProblem1 pb1 = new TestProblem1();
@@ -303,19 +309,20 @@ public class DormandPrince853IntegratorTest
                     pb1.getInitialTime(), pb1.getInitialState(),
                     pb1.getFinalTime(), new double[pb1.getDimension()]);
     int callsWithoutDenseOutput = pb1.getCalls();
-    assertEquals(integ.getEvaluations(), callsWithoutDenseOutput);
+    Assert.assertEquals(integ.getEvaluations(), callsWithoutDenseOutput);
 
     integ.addStepHandler(new InterpolatingStepHandler());
     integ.integrate(pb2,
                     pb2.getInitialTime(), pb2.getInitialState(),
                     pb2.getFinalTime(), new double[pb2.getDimension()]);
     int callsWithDenseOutput = pb2.getCalls();
-    assertEquals(integ.getEvaluations(), callsWithDenseOutput);
+    Assert.assertEquals(integ.getEvaluations(), callsWithDenseOutput);
 
-    assertTrue(callsWithDenseOutput > callsWithoutDenseOutput);
+    Assert.assertTrue(callsWithDenseOutput > callsWithoutDenseOutput);
 
   }
 
+  @Test
   public void testUnstableDerivative()
   throws MathUserException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
@@ -324,7 +331,7 @@ public class DormandPrince853IntegratorTest
     integ.addEventHandler(stepProblem, 1.0, 1.0e-12, 1000);
     double[] y = { Double.NaN };
     integ.integrate(stepProblem, 0.0, new double[] { 0.0 }, 10.0, y);
-    assertEquals(8.0, y[0], 1.0e-12);
+    Assert.assertEquals(8.0, y[0], 1.0e-12);
   }
 
   private static class KeplerHandler implements StepHandler {
@@ -361,8 +368,8 @@ public class DormandPrince853IntegratorTest
         }
       }
       if (isLast) {
-        assertTrue(maxError < 2.4e-10);
-        assertTrue(nbSteps < 150);
+        Assert.assertTrue(maxError < 2.4e-10);
+        Assert.assertTrue(nbSteps < 150);
       }
     }
     private int nbSteps;
@@ -401,8 +408,8 @@ public class DormandPrince853IntegratorTest
       }
 
       if (isLast) {
-        assertTrue(minStep < (1.0 / 100.0));
-        assertTrue(maxStep > (1.0 / 2.0));
+        Assert.assertTrue(minStep < (1.0 / 100.0));
+        Assert.assertTrue(maxStep > (1.0 / 2.0));
       }
     }
     private boolean firstTime = true;

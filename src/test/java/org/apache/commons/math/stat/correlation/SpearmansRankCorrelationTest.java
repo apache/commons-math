@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.correlation;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for Spearman's rank correlation
@@ -28,20 +30,11 @@ import org.apache.commons.math.linear.RealMatrix;
  */
 public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Test Longley dataset against R.
      */
     @Override
+    @Test
     public void testLongly() throws Exception {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
@@ -62,6 +55,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     /**
      * Test R swiss fertility dataset.
      */
+    @Test
     public void testSwiss() throws Exception {
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
@@ -80,42 +74,45 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
      * Constant column
      */
     @Override
+    @Test
     public void testConstant() {
         double[] noVariance = new double[] {1, 1, 1, 1};
         double[] values = new double[] {1, 2, 3, 4};
-        assertTrue(Double.isNaN(new SpearmansCorrelation().correlation(noVariance, values)));
+        Assert.assertTrue(Double.isNaN(new SpearmansCorrelation().correlation(noVariance, values)));
     }
 
     /**
      * Insufficient data
      */
     @Override
+    @Test
     public void testInsufficientData() {
         double[] one = new double[] {1};
         double[] two = new double[] {2};
         try {
             new SpearmansCorrelation().correlation(one, two);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // Expected
         }
         RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new SpearmansCorrelation(matrix);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // Expected
         }
     }
 
     @Override
+    @Test
     public void testConsistency() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
         double[][] data = matrix.getData();
         double[] x = matrix.getColumn(0);
         double[] y = matrix.getColumn(1);
-        assertEquals(new SpearmansCorrelation().correlation(x, y),
+        Assert.assertEquals(new SpearmansCorrelation().correlation(x, y),
                 corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
         TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
                 new SpearmansCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
@@ -123,8 +120,10 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
 
     // Not relevant here
     @Override
+    @Test
     public void testStdErrorConsistency() throws Exception {}
     @Override
+    @Test
     public void testCovarianceConsistency() throws Exception {}
 
 }

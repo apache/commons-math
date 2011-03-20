@@ -19,6 +19,8 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for NormalDistribution.
@@ -28,14 +30,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  */
 public class NormalDistributionTest extends ContinuousDistributionAbstractTest  {
-
-    /**
-     * Constructor for NormalDistributionTest.
-     * @param arg0
-     */
-    public NormalDistributionTest(String arg0) {
-        super(arg0);
-    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -70,7 +64,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(defaultTolerance);
     }
@@ -90,6 +84,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         verifyCumulativeProbabilities();
     }
 
+    @Test
     public void testQuantiles() throws Exception {
         setDensityTestValues(new double[] {0.0385649760808, 0.172836231799, 0.284958771715, 0.172836231799, 0.0385649760808,
                 0.00316560600853, 9.55930184035e-05, 1.06194251052e-06});
@@ -109,6 +104,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         verifyDensities();
     }
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
@@ -116,25 +112,29 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testGetMean() {
         NormalDistribution distribution = (NormalDistribution) getDistribution();
-        assertEquals(2.1, distribution.getMean(), 0);
+        Assert.assertEquals(2.1, distribution.getMean(), 0);
     }
 
+    @Test
     public void testGetStandardDeviation() {
         NormalDistribution distribution = (NormalDistribution) getDistribution();
-        assertEquals(1.4, distribution.getStandardDeviation(), 0);
+        Assert.assertEquals(1.4, distribution.getStandardDeviation(), 0);
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new NormalDistributionImpl(1, 0);
-            fail("Should have generated NotStrictlyPositiveException");
+            Assert.fail("Should have generated NotStrictlyPositiveException");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
     }
 
+    @Test
     public void testDensity() {
         double [] x = new double[]{-2, -1, 0, 1, 2};
         // R 2.5: print(dnorm(c(-2,-1,0,1,2)), digits=10)
@@ -146,7 +146,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
     private void checkDensity(double mean, double sd, double[] x, double[] expected) {
         NormalDistribution d = new NormalDistributionImpl(mean, sd);
         for (int i = 0; i < x.length; i++) {
-            assertEquals(expected[i], d.density(x[i]), 1e-9);
+            Assert.assertEquals(expected[i], d.density(x[i]), 1e-9);
         }
     }
 
@@ -154,6 +154,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
      * Check to make sure top-coding of extreme values works correctly.
      * Verifies fixes for JIRA MATH-167, MATH-414
      */
+    @Test
     public void testExtremeValues() throws Exception {
         NormalDistribution distribution = new NormalDistributionImpl(0, 1);
         for (int i = 0; i < 100; i++) { // make sure no convergence exception
@@ -162,48 +163,50 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
             if (i < 9) { // make sure not top-coded 
                 // For i = 10, due to bad tail precision in erf (MATH-364), 1 is returned
                 // TODO: once MATH-364 is resolved, replace 9 with 30
-                assertTrue(lowerTail > 0.0d);
-                assertTrue(upperTail < 1.0d);
+                Assert.assertTrue(lowerTail > 0.0d);
+                Assert.assertTrue(upperTail < 1.0d);
             }
             else { // make sure top coding not reversed
-                assertTrue(lowerTail < 0.00001);
-                assertTrue(upperTail > 0.99999);
+                Assert.assertTrue(lowerTail < 0.00001);
+                Assert.assertTrue(upperTail > 0.99999);
             }
         }
         
-        assertEquals(distribution.cumulativeProbability(Double.MAX_VALUE), 1, 0);
-        assertEquals(distribution.cumulativeProbability(-Double.MAX_VALUE), 0, 0);
-        assertEquals(distribution.cumulativeProbability(Double.POSITIVE_INFINITY), 1, 0);
-        assertEquals(distribution.cumulativeProbability(Double.NEGATIVE_INFINITY), 0, 0);
+        Assert.assertEquals(distribution.cumulativeProbability(Double.MAX_VALUE), 1, 0);
+        Assert.assertEquals(distribution.cumulativeProbability(-Double.MAX_VALUE), 0, 0);
+        Assert.assertEquals(distribution.cumulativeProbability(Double.POSITIVE_INFINITY), 1, 0);
+        Assert.assertEquals(distribution.cumulativeProbability(Double.NEGATIVE_INFINITY), 0, 0);
         
    }
 
+    @Test
     public void testMath280() throws MathException {
         NormalDistribution normal = new NormalDistributionImpl(0,1);
         double result = normal.inverseCumulativeProbability(0.9986501019683698);
-        assertEquals(3.0, result, defaultTolerance);
+        Assert.assertEquals(3.0, result, defaultTolerance);
         result = normal.inverseCumulativeProbability(0.841344746068543);
-        assertEquals(1.0, result, defaultTolerance);
+        Assert.assertEquals(1.0, result, defaultTolerance);
         result = normal.inverseCumulativeProbability(0.9999683287581673);
-        assertEquals(4.0, result, defaultTolerance);
+        Assert.assertEquals(4.0, result, defaultTolerance);
         result = normal.inverseCumulativeProbability(0.9772498680518209);
-        assertEquals(2.0, result, defaultTolerance);
+        Assert.assertEquals(2.0, result, defaultTolerance);
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         NormalDistribution dist;
         
         dist = new NormalDistributionImpl(0, 1);        
-        assertEquals(dist.getNumericalMean(), 0, tol);
-        assertEquals(dist.getNumericalVariance(), 1, tol);        
+        Assert.assertEquals(dist.getNumericalMean(), 0, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 1, tol);        
  
         dist = new NormalDistributionImpl(2.2, 1.4);
-        assertEquals(dist.getNumericalMean(), 2.2, tol);
-        assertEquals(dist.getNumericalVariance(), 1.4 * 1.4, tol);
+        Assert.assertEquals(dist.getNumericalMean(), 2.2, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 1.4 * 1.4, tol);
         
         dist = new NormalDistributionImpl(-2000.9, 10.4);
-        assertEquals(dist.getNumericalMean(), -2000.9, tol);
-        assertEquals(dist.getNumericalVariance(), 10.4 * 10.4, tol);
+        Assert.assertEquals(dist.getNumericalMean(), -2000.9, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 10.4 * 10.4, tol);
     }
 }

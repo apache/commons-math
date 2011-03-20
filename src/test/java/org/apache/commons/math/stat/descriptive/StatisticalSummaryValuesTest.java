@@ -19,22 +19,19 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
+import org.junit.Assert;
+import org.junit.Test;
 /**
  * Test cases for the {@link StatisticalSummaryValues} class.
  *
  * @version $Revision$ $Date$
  */
 
-public final class StatisticalSummaryValuesTest extends TestCase {
+public final class StatisticalSummaryValuesTest {
 
-
-    public StatisticalSummaryValuesTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testSerialization() {
         StatisticalSummaryValues u = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
         TestUtils.checkSerializedEquality(u);
@@ -42,24 +39,25 @@ public final class StatisticalSummaryValuesTest extends TestCase {
         verifyEquality(u, t);
     }
 
+    @Test
     public void testEqualsAndHashCode() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
         StatisticalSummaryValues t = null;
-        assertTrue("reflexive", u.equals(u));
-        assertFalse("non-null compared to null", u.equals(t));
-        assertFalse("wrong type", u.equals(Double.valueOf(0)));
+        Assert.assertTrue("reflexive", u.equals(u));
+        Assert.assertFalse("non-null compared to null", u.equals(t));
+        Assert.assertFalse("wrong type", u.equals(Double.valueOf(0)));
         t = new StatisticalSummaryValues(1, 2, 3, 4, 5, 6);
-        assertTrue("instances with same data should be equal", t.equals(u));
-        assertEquals("hash code", u.hashCode(), t.hashCode());
+        Assert.assertTrue("instances with same data should be equal", t.equals(u));
+        Assert.assertEquals("hash code", u.hashCode(), t.hashCode());
 
         u = new StatisticalSummaryValues(Double.NaN, 2, 3, 4, 5, 6);
         t = new StatisticalSummaryValues(1, Double.NaN, 3, 4, 5, 6);
-        assertFalse("instances based on different data should be different",
+        Assert.assertFalse("instances based on different data should be different",
                 (u.equals(t) ||t.equals(u)));
     }
 
     private void verifyEquality(StatisticalSummaryValues s, StatisticalSummaryValues u) {
-        assertEquals("N",s.getN(),u.getN());
+        Assert.assertEquals("N",s.getN(),u.getN());
         TestUtils.assertEquals("sum",s.getSum(),u.getSum(), 0);
         TestUtils.assertEquals("var",s.getVariance(),u.getVariance(), 0);
         TestUtils.assertEquals("std",s.getStandardDeviation(),u.getStandardDeviation(), 0);
@@ -68,11 +66,12 @@ public final class StatisticalSummaryValuesTest extends TestCase {
         TestUtils.assertEquals("max",s.getMax(),u.getMax(), 0);
     }
     
+    @Test
     public void testToString() {
         StatisticalSummaryValues u  = new StatisticalSummaryValues(4.5, 16, 10, 5, 4, 45);
         Locale d = Locale.getDefault();
         Locale.setDefault(Locale.US);
-        assertEquals("StatisticalSummaryValues:\n" +
+        Assert.assertEquals("StatisticalSummaryValues:\n" +
                      "n: 10\n" +
                      "min: 4.0\n" +
                      "max: 5.0\n" +

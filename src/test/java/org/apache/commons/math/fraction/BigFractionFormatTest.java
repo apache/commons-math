@@ -24,10 +24,12 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
-public class BigFractionFormatTest extends TestCase {
+public class BigFractionFormatTest {
 
     BigFractionFormat properFormat = null;
     BigFractionFormat improperFormat = null;
@@ -36,272 +38,289 @@ public class BigFractionFormatTest extends TestCase {
         return Locale.getDefault();
     }
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         properFormat = BigFractionFormat.getProperInstance(getLocale());
         improperFormat = BigFractionFormat.getImproperInstance(getLocale());
     }
 
+    @Test
     public void testFormat() {
         BigFraction c = new BigFraction(1, 2);
         String expected = "1 / 2";
 
         String actual = properFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
 
         actual = improperFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testFormatNegative() {
         BigFraction c = new BigFraction(-1, 2);
         String expected = "-1 / 2";
 
         String actual = properFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
 
         actual = improperFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testFormatZero() {
         BigFraction c = new BigFraction(0, 1);
         String expected = "0 / 1";
 
         String actual = properFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
 
         actual = improperFormat.format(c);
-        assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 
+    @Test
     public void testFormatImproper() {
         BigFraction c = new BigFraction(5, 3);
 
         String actual = properFormat.format(c);
-        assertEquals("1 2 / 3", actual);
+        Assert.assertEquals("1 2 / 3", actual);
 
         actual = improperFormat.format(c);
-        assertEquals("5 / 3", actual);
+        Assert.assertEquals("5 / 3", actual);
     }
 
+    @Test
     public void testFormatImproperNegative() {
         BigFraction c = new BigFraction(-5, 3);
 
         String actual = properFormat.format(c);
-        assertEquals("-1 2 / 3", actual);
+        Assert.assertEquals("-1 2 / 3", actual);
 
         actual = improperFormat.format(c);
-        assertEquals("-5 / 3", actual);
+        Assert.assertEquals("-5 / 3", actual);
     }
 
+    @Test
     public void testParse() {
         String source = "1 / 2";
 
         try {
             BigFraction c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(BigInteger.ONE, c.getNumerator());
-            assertEquals(BigInteger.valueOf(2l), c.getDenominator());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(BigInteger.ONE, c.getNumerator());
+            Assert.assertEquals(BigInteger.valueOf(2l), c.getDenominator());
 
             c = improperFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(BigInteger.ONE, c.getNumerator());
-            assertEquals(BigInteger.valueOf(2l), c.getDenominator());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(BigInteger.ONE, c.getNumerator());
+            Assert.assertEquals(BigInteger.valueOf(2l), c.getDenominator());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseInteger() {
         String source = "10";
         try {
             BigFraction c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(BigInteger.TEN, c.getNumerator());
-            assertEquals(BigInteger.ONE, c.getDenominator());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(BigInteger.TEN, c.getNumerator());
+            Assert.assertEquals(BigInteger.ONE, c.getDenominator());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
         try {
             BigFraction c = improperFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(BigInteger.TEN, c.getNumerator());
-            assertEquals(BigInteger.ONE, c.getDenominator());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(BigInteger.TEN, c.getNumerator());
+            Assert.assertEquals(BigInteger.ONE, c.getDenominator());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseInvalid() {
         String source = "a";
         String msg = "should not be able to parse '10 / a'.";
         try {
             properFormat.parse(source);
-            fail(msg);
+            Assert.fail(msg);
         } catch (ParseException ex) {
             // success
         }
         try {
             improperFormat.parse(source);
-            fail(msg);
+            Assert.fail(msg);
         } catch (ParseException ex) {
             // success
         }
     }
 
+    @Test
     public void testParseInvalidDenominator() {
         String source = "10 / a";
         String msg = "should not be able to parse '10 / a'.";
         try {
             properFormat.parse(source);
-            fail(msg);
+            Assert.fail(msg);
         } catch (ParseException ex) {
             // success
         }
         try {
             improperFormat.parse(source);
-            fail(msg);
+            Assert.fail(msg);
         } catch (ParseException ex) {
             // success
         }
     }
 
+    @Test
     public void testParseNegative() {
 
         try {
             String source = "-1 / 2";
             BigFraction c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(-1, c.getNumeratorAsInt());
-            assertEquals(2, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(-1, c.getNumeratorAsInt());
+            Assert.assertEquals(2, c.getDenominatorAsInt());
 
             c = improperFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(-1, c.getNumeratorAsInt());
-            assertEquals(2, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(-1, c.getNumeratorAsInt());
+            Assert.assertEquals(2, c.getDenominatorAsInt());
 
             source = "1 / -2";
             c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(-1, c.getNumeratorAsInt());
-            assertEquals(2, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(-1, c.getNumeratorAsInt());
+            Assert.assertEquals(2, c.getDenominatorAsInt());
 
             c = improperFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(-1, c.getNumeratorAsInt());
-            assertEquals(2, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(-1, c.getNumeratorAsInt());
+            Assert.assertEquals(2, c.getDenominatorAsInt());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
     }
 
+    @Test
     public void testParseProper() {
         String source = "1 2 / 3";
 
         try {
             BigFraction c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(5, c.getNumeratorAsInt());
-            assertEquals(3, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(5, c.getNumeratorAsInt());
+            Assert.assertEquals(3, c.getDenominatorAsInt());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
 
         try {
             improperFormat.parse(source);
-            fail("invalid improper fraction.");
+            Assert.fail("invalid improper fraction.");
         } catch (ParseException ex) {
             // success
         }
     }
 
+    @Test
     public void testParseProperNegative() {
         String source = "-1 2 / 3";
         try {
             BigFraction c = properFormat.parse(source);
-            assertNotNull(c);
-            assertEquals(-5, c.getNumeratorAsInt());
-            assertEquals(3, c.getDenominatorAsInt());
+            Assert.assertNotNull(c);
+            Assert.assertEquals(-5, c.getNumeratorAsInt());
+            Assert.assertEquals(3, c.getDenominatorAsInt());
         } catch (ParseException ex) {
-            fail(ex.getMessage());
+            Assert.fail(ex.getMessage());
         }
 
         try {
             improperFormat.parse(source);
-            fail("invalid improper fraction.");
+            Assert.fail("invalid improper fraction.");
         } catch (ParseException ex) {
             // success
         }
     }
 
+    @Test
     public void testParseProperInvalidMinus() {
         String source = "2 -2 / 3";
         try {
             properFormat.parse(source);
-            fail("invalid minus in improper fraction.");
+            Assert.fail("invalid minus in improper fraction.");
         } catch (ParseException ex) {
             // expected
         }
         source = "2 2 / -3";
         try {
             properFormat.parse(source);
-            fail("invalid minus in improper fraction.");
+            Assert.fail("invalid minus in improper fraction.");
         } catch (ParseException ex) {
             // expected
         }
     }
 
+    @Test
     public void testParseBig() throws ParseException {
         BigFraction f1 =
             improperFormat.parse("167213075789791382630275400487886041651764456874403" +
                                  " / " +
                                  "53225575123090058458126718248444563466137046489291");
-        assertEquals(FastMath.PI, f1.doubleValue(), 0.0);
+        Assert.assertEquals(FastMath.PI, f1.doubleValue(), 0.0);
         BigFraction f2 =
             properFormat.parse("3 " +
                                "7536350420521207255895245742552351253353317406530" +
                                " / " +
                                "53225575123090058458126718248444563466137046489291");
-        assertEquals(FastMath.PI, f2.doubleValue(), 0.0);
-        assertEquals(f1, f2);
+        Assert.assertEquals(FastMath.PI, f2.doubleValue(), 0.0);
+        Assert.assertEquals(f1, f2);
         BigDecimal pi =
             new BigDecimal("3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068");
-        assertEquals(pi, f1.bigDecimalValue(99, BigDecimal.ROUND_HALF_EVEN));
+        Assert.assertEquals(pi, f1.bigDecimalValue(99, BigDecimal.ROUND_HALF_EVEN));
     }
 
+    @Test
     public void testNumeratorFormat() {
         NumberFormat old = properFormat.getNumeratorFormat();
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
         properFormat.setNumeratorFormat(nf);
-        assertEquals(nf, properFormat.getNumeratorFormat());
+        Assert.assertEquals(nf, properFormat.getNumeratorFormat());
         properFormat.setNumeratorFormat(old);
 
         old = improperFormat.getNumeratorFormat();
         nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
         improperFormat.setNumeratorFormat(nf);
-        assertEquals(nf, improperFormat.getNumeratorFormat());
+        Assert.assertEquals(nf, improperFormat.getNumeratorFormat());
         improperFormat.setNumeratorFormat(old);
     }
 
+    @Test
     public void testDenominatorFormat() {
         NumberFormat old = properFormat.getDenominatorFormat();
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
         properFormat.setDenominatorFormat(nf);
-        assertEquals(nf, properFormat.getDenominatorFormat());
+        Assert.assertEquals(nf, properFormat.getDenominatorFormat());
         properFormat.setDenominatorFormat(old);
 
         old = improperFormat.getDenominatorFormat();
         nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
         improperFormat.setDenominatorFormat(nf);
-        assertEquals(nf, improperFormat.getDenominatorFormat());
+        Assert.assertEquals(nf, improperFormat.getDenominatorFormat());
         improperFormat.setDenominatorFormat(old);
     }
 
+    @Test
     public void testWholeFormat() {
         ProperBigFractionFormat format = (ProperBigFractionFormat)properFormat;
 
@@ -309,15 +328,17 @@ public class BigFractionFormatTest extends TestCase {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setParseIntegerOnly(true);
         format.setWholeFormat(nf);
-        assertEquals(nf, format.getWholeFormat());
+        Assert.assertEquals(nf, format.getWholeFormat());
         format.setWholeFormat(old);
     }
 
+    @Test
     public void testLongFormat() {
-        assertEquals("10 / 1", improperFormat.format(10l));
+        Assert.assertEquals("10 / 1", improperFormat.format(10l));
     }
 
+    @Test
     public void testDoubleFormat() {
-        assertEquals("1 / 16", improperFormat.format(0.0625));
+        Assert.assertEquals("1 / 16", improperFormat.format(0.0625));
     }
 }

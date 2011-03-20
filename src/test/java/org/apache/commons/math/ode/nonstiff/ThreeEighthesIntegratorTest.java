@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -34,27 +33,26 @@ import org.apache.commons.math.ode.nonstiff.ThreeEighthesIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class ThreeEighthesIntegratorTest
-  extends TestCase {
+public class ThreeEighthesIntegratorTest {
 
-  public ThreeEighthesIntegratorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDimensionCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
       new ThreeEighthesIntegrator(0.01).integrate(pb,
                                                   0.0, new double[pb.getDimension()+10],
                                                   1.0, new double[pb.getDimension()+10]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
+  @Test
   public void testDecreasingSteps()
     throws MathUserException, IntegratorException  {
 
@@ -79,18 +77,18 @@ public class ThreeEighthesIntegratorTest
         double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                                           pb.getFinalTime(), new double[pb.getDimension()]);
         if (functions.length == 0) {
-            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+            Assert.assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
         }
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(error < FastMath.abs(previousValueError));
+          Assert.assertTrue(error < FastMath.abs(previousValueError));
         }
         previousValueError = error;
 
         double timeError = handler.getMaximalTimeError();
         if (i > 4) {
-          assertTrue(timeError <= FastMath.abs(previousTimeError));
+          Assert.assertTrue(timeError <= FastMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
 
@@ -100,6 +98,7 @@ public class ThreeEighthesIntegratorTest
 
   }
 
+ @Test
  public void testSmallStep()
     throws MathUserException, IntegratorException {
 
@@ -112,13 +111,14 @@ public class ThreeEighthesIntegratorTest
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() < 2.0e-13);
-    assertTrue(handler.getMaximalValueError() < 4.0e-12);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals("3/8", integ.getName());
+    Assert.assertTrue(handler.getLastError() < 2.0e-13);
+    Assert.assertTrue(handler.getMaximalValueError() < 4.0e-12);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertEquals("3/8", integ.getName());
 
   }
 
+  @Test
   public void testBigStep()
     throws MathUserException, IntegratorException {
 
@@ -131,12 +131,13 @@ public class ThreeEighthesIntegratorTest
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() > 0.0004);
-    assertTrue(handler.getMaximalValueError() > 0.005);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertTrue(handler.getLastError() > 0.0004);
+    Assert.assertTrue(handler.getMaximalValueError() > 0.005);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
   }
 
+  @Test
   public void testBackward()
       throws MathUserException, IntegratorException {
 
@@ -149,12 +150,13 @@ public class ThreeEighthesIntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 5.0e-10);
-      assertTrue(handler.getMaximalValueError() < 7.0e-10);
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-      assertEquals("3/8", integ.getName());
+      Assert.assertTrue(handler.getLastError() < 5.0e-10);
+      Assert.assertTrue(handler.getMaximalValueError() < 7.0e-10);
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertEquals("3/8", integ.getName());
   }
 
+  @Test
   public void testKepler()
     throws MathUserException, IntegratorException {
 
@@ -198,7 +200,7 @@ public class ThreeEighthesIntegratorTest
         // even with more than 1000 evaluations per period,
         // RK4 is not able to integrate such an eccentric
         // orbit with a good accuracy
-        assertTrue(maxError > 0.005);
+        Assert.assertTrue(maxError > 0.005);
       }
     }
 
@@ -207,6 +209,7 @@ public class ThreeEighthesIntegratorTest
 
   }
 
+  @Test
   public void testStepSize()
     throws MathUserException, IntegratorException {
       final double step = 1.23456;
@@ -214,7 +217,7 @@ public class ThreeEighthesIntegratorTest
       integ.addStepHandler(new StepHandler() {
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
-                  assertEquals(step,
+                  Assert.assertEquals(step,
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }

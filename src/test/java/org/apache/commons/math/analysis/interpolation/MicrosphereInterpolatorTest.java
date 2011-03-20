@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for the "microsphere projection" interpolator.
+ * Test case for the "microsphere projection" interpolator.
  *
  * @version $Revision$ $Date$
  */

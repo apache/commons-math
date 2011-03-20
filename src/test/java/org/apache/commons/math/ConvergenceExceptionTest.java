@@ -17,29 +17,32 @@
 
 package org.apache.commons.math;
 
-import junit.framework.TestCase;
 
 import java.util.Locale;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public class ConvergenceExceptionTest extends TestCase {
+public class ConvergenceExceptionTest {
 
+    @Test
     public void testConstructor(){
         ConvergenceException ex = new ConvergenceException();
-        assertNull(ex.getCause());
-        assertNotNull(ex.getMessage());
-        assertNotNull(ex.getMessage(Locale.FRENCH));
-        assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
+        Assert.assertNull(ex.getCause());
+        Assert.assertNotNull(ex.getMessage());
+        Assert.assertNotNull(ex.getMessage(Locale.FRENCH));
+        Assert.assertFalse(ex.getMessage().equals(ex.getMessage(Locale.FRENCH)));
     }
 
+    @Test
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         ConvergenceException ex = new ConvergenceException(cause);
-        assertEquals(cause, ex.getCause());
+        Assert.assertEquals(cause, ex.getCause());
     }
 }

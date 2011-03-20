@@ -21,11 +21,12 @@ import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
- * Testcase for Divided Difference interpolator.
+ * Test case for Divided Difference interpolator.
  * <p>
  * The error of polynomial interpolation is
  *     f(z) - p(z) = f^(n)(zeta) * (z-x[0])(z-x[1])...(z-x[n-1]) / n!
@@ -38,13 +39,14 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public final class DividedDifferenceInterpolatorTest extends TestCase {
+public final class DividedDifferenceInterpolatorTest {
 
     /**
      * Test of interpolator for the sine function.
      * <p>
      * |sin^(n)(zeta)| <= 1.0, zeta in [0, 2*PI]
      */
+    @Test
     public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealInterpolator interpolator = new DividedDifferenceInterpolator();
@@ -64,11 +66,11 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
 
         z = FastMath.PI / 4; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         z = FastMath.PI * 1.5; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
@@ -76,6 +78,7 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
      * <p>
      * |expm1^(n)(zeta)| <= e, zeta in [-1, 1]
      */
+    @Test
     public void testExpm1Function() {
         UnivariateRealFunction f = new Expm1Function();
         UnivariateRealInterpolator interpolator = new DividedDifferenceInterpolator();
@@ -95,20 +98,21 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
 
         z = 0.0; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         z = 0.5; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         z = -0.5; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of parameters for the interpolator.
      */
+    @Test
     public void testParameters() throws Exception {
         UnivariateRealInterpolator interpolator = new DividedDifferenceInterpolator();
 
@@ -118,7 +122,7 @@ public final class DividedDifferenceInterpolatorTest extends TestCase {
             double y[] = { 0.0, 4.0, 4.0, 2.5 };
             UnivariateRealFunction p = interpolator.interpolate(x, y);
             p.value(0.0);
-            fail("Expecting NonMonotonousSequenceException - bad abscissas array");
+            Assert.fail("Expecting NonMonotonousSequenceException - bad abscissas array");
         } catch (NonMonotonousSequenceException ex) {
             // expected
         }

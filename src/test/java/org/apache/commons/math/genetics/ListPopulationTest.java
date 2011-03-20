@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ListPopulationTest {
@@ -55,7 +55,7 @@ public class ListPopulationTest {
             }
         };
 
-        assertEquals(c3, population.getFittestChromosome());
+        Assert.assertEquals(c3, population.getFittestChromosome());
     }
 
 }

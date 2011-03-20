@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
@@ -33,6 +30,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class DummyStepInterpolatorTest {
@@ -48,7 +46,7 @@ public class DummyStepInterpolatorTest {
 
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+      Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -66,13 +64,13 @@ public class DummyStepInterpolatorTest {
     interpolator.setInterpolatedTime(0.1);
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
     interpolator.setInterpolatedTime(0.5);
     result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -91,8 +89,8 @@ public class DummyStepInterpolatorTest {
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
     oos.writeObject(interpolator);
 
-    assertTrue(bos.size () > 200);
-    assertTrue(bos.size () < 300);
+    Assert.assertTrue(bos.size () > 200);
+    Assert.assertTrue(bos.size () < 300);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -101,7 +99,7 @@ public class DummyStepInterpolatorTest {
     dsi.setInterpolatedTime(0.5);
     double[] result = dsi.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-        assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+        Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -120,10 +118,10 @@ public class DummyStepInterpolatorTest {
     ObjectOutputStream    oos = new ObjectOutputStream(bos);
     try {
         oos.writeObject(interpolator);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch (IOException ioe) {
         // expected behavior
-        assertEquals(0, ioe.getMessage().length());
+        Assert.assertEquals(0, ioe.getMessage().length());
     }
   }
 

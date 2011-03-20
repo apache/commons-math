@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -33,27 +32,26 @@ import org.apache.commons.math.ode.nonstiff.MidpointIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class MidpointIntegratorTest
-  extends TestCase {
+public class MidpointIntegratorTest {
 
-  public MidpointIntegratorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDimensionCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
       new MidpointIntegrator(0.01).integrate(pb,
                                              0.0, new double[pb.getDimension()+10],
                                              1.0, new double[pb.getDimension()+10]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
+  @Test
   public void testDecreasingSteps()
     throws MathUserException, IntegratorException  {
 
@@ -78,18 +76,18 @@ public class MidpointIntegratorTest
                                           pb.getInitialTime(), pb.getInitialState(),
                                           pb.getFinalTime(), new double[pb.getDimension()]);
         if (functions.length == 0) {
-            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+            Assert.assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
         }
 
         double valueError = handler.getMaximalValueError();
         if (i > 4) {
-          assertTrue(valueError < FastMath.abs(previousValueError));
+          Assert.assertTrue(valueError < FastMath.abs(previousValueError));
         }
         previousValueError = valueError;
 
         double timeError = handler.getMaximalTimeError();
         if (i > 4) {
-          assertTrue(timeError <= FastMath.abs(previousTimeError));
+          Assert.assertTrue(timeError <= FastMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
 
@@ -99,6 +97,7 @@ public class MidpointIntegratorTest
 
   }
 
+  @Test
   public void testSmallStep()
     throws MathUserException, IntegratorException {
 
@@ -112,13 +111,14 @@ public class MidpointIntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() < 2.0e-7);
-    assertTrue(handler.getMaximalValueError() < 1.0e-6);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals("midpoint", integ.getName());
+    Assert.assertTrue(handler.getLastError() < 2.0e-7);
+    Assert.assertTrue(handler.getMaximalValueError() < 1.0e-6);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertEquals("midpoint", integ.getName());
 
   }
 
+  @Test
   public void testBigStep()
     throws MathUserException, IntegratorException {
 
@@ -132,12 +132,13 @@ public class MidpointIntegratorTest
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() > 0.01);
-    assertTrue(handler.getMaximalValueError() > 0.05);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertTrue(handler.getLastError() > 0.01);
+    Assert.assertTrue(handler.getMaximalValueError() > 0.05);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
   }
 
+  @Test
   public void testBackward()
       throws MathUserException, IntegratorException {
 
@@ -150,12 +151,13 @@ public class MidpointIntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 6.0e-4);
-      assertTrue(handler.getMaximalValueError() < 6.0e-4);
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-      assertEquals("midpoint", integ.getName());
+      Assert.assertTrue(handler.getLastError() < 6.0e-4);
+      Assert.assertTrue(handler.getMaximalValueError() < 6.0e-4);
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertEquals("midpoint", integ.getName());
   }
 
+  @Test
   public void testStepSize()
     throws MathUserException, IntegratorException {
       final double step = 1.23456;
@@ -163,7 +165,7 @@ public class MidpointIntegratorTest
       integ.addStepHandler(new StepHandler() {
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
-                  assertEquals(step,
+                  Assert.assertEquals(step,
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }

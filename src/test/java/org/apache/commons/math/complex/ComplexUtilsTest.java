@@ -19,13 +19,14 @@ package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
  */
-public class ComplexUtilsTest extends TestCase {
+public class ComplexUtilsTest {
 
     private double inf = Double.POSITIVE_INFINITY;
     private double negInf = Double.NEGATIVE_INFINITY;
@@ -38,6 +39,7 @@ public class ComplexUtilsTest extends TestCase {
     private Complex negInfNegInf = new Complex(negInf, negInf);
     private Complex infNaN = new Complex(inf, nan);
 
+    @Test
     public void testPolar2Complex() {
         TestUtils.assertEquals(Complex.ONE,
                 ComplexUtils.polar2Complex(1, 0), 10e-12);
@@ -71,15 +73,17 @@ public class ComplexUtilsTest extends TestCase {
         return Complex.I.multiply(new Complex(theta, 0)).exp().multiply(new Complex(r, 0));
     }
 
+    @Test
     public void testPolar2ComplexIllegalModulus() {
         try {
             ComplexUtils.polar2Complex(-1, 0);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testPolar2ComplexNaN() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(nan, 1));
         TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(1, nan));
@@ -87,6 +91,7 @@ public class ComplexUtilsTest extends TestCase {
                 ComplexUtils.polar2Complex(nan, nan));
     }
 
+    @Test
     public void testPolar2ComplexInf() {
         TestUtils.assertSame(Complex.NaN, ComplexUtils.polar2Complex(1, inf));
         TestUtils.assertSame(Complex.NaN,

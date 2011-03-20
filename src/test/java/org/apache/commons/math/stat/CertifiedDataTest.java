@@ -19,83 +19,78 @@ package org.apache.commons.math.stat;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Certified data test cases.
  * @version $Revision$ $Date$
  */
-public class CertifiedDataTest extends TestCase  {
+public class CertifiedDataTest {
 
     protected double mean = Double.NaN;
 
     protected double std = Double.NaN;
 
     /**
-     * Certified Data Test Constructor
-     * @param name
-     */
-    public CertifiedDataTest(String name) {
-        super(name);
-    }
-
-    /**
      * Test SummaryStatistics - implementations that do not store the data
      * and use single pass algorithms to compute statistics
     */
+    @Test
     public void testSummaryStatistics() throws Exception {
         SummaryStatistics u = new SummaryStatistics();
         loadStats("data/PiDigits.txt", u);
-        assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-13);
-        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);
+        Assert.assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-13);
+        Assert.assertEquals("PiDigits: mean", mean, u.getMean(), 1E-13);
 
         loadStats("data/Mavro.txt", u);
-        assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/Michelso.txt", u);
-        assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-13);
-        assertEquals("Michelso: mean", mean, u.getMean(), 1E-13);
+        Assert.assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-13);
+        Assert.assertEquals("Michelso: mean", mean, u.getMean(), 1E-13);
 
         loadStats("data/NumAcc1.txt", u);
-        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/NumAcc2.txt", u);
-        assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
     }
 
     /**
      * Test DescriptiveStatistics - implementations that store full array of
      * values and execute multi-pass algorithms
      */
+    @Test
     public void testDescriptiveStatistics() throws Exception {
 
         DescriptiveStatistics u = new DescriptiveStatistics();
 
         loadStats("data/PiDigits.txt", u);
-        assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("PiDigits: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("PiDigits: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("PiDigits: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/Mavro.txt", u);
-        assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("Mavro: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("Mavro: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/Michelso.txt", u);
-        assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("Michelso: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("Michelso: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("Michelso: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/NumAcc1.txt", u);
-        assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("NumAcc1: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("NumAcc1: mean", mean, u.getMean(), 1E-14);
 
         loadStats("data/NumAcc2.txt", u);
-        assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
-        assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
+        Assert.assertEquals("NumAcc2: std", std, u.getStandardDeviation(), 1E-14);
+        Assert.assertEquals("NumAcc2: mean", mean, u.getMean(), 1E-14);
     }
 
     /**

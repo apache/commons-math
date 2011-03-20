@@ -18,6 +18,8 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for GammaDistribution.
@@ -27,14 +29,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  */
 public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
-
-    /**
-     * Constructor for GammaDistributionTest.
-     * @param name
-     */
-    public GammaDistributionTest(String name) {
-        super(name);
-    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -67,33 +61,36 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(1e-9);
     }
 
     //---------------------------- Additional test cases -------------------------
+    @Test
     public void testParameterAccessors() {
         GammaDistribution distribution = (GammaDistribution) getDistribution();
-        assertEquals(4d, distribution.getAlpha(), 0);
-        assertEquals(2d, distribution.getBeta(), 0);
+        Assert.assertEquals(4d, distribution.getAlpha(), 0);
+        Assert.assertEquals(2d, distribution.getBeta(), 0);
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new GammaDistributionImpl(0, 1);
-            fail("Expecting NotStrictlyPositiveException for alpha = 0");
+            Assert.fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
             new GammaDistributionImpl(1, 0);
-            fail("Expecting NotStrictlyPositiveException for alpha = 0");
+            Assert.fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
     }
 
+    @Test
     public void testProbabilities() throws Exception {
         testProbability(-1.000, 4.0, 2.0, .0000);
         testProbability(15.501, 4.0, 2.0, .9499);
@@ -102,6 +99,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
         testProbability(5.000, 2.0, 2.0, .7127);
     }
 
+    @Test
     public void testValues() throws Exception {
         testValue(15.501, 4.0, 2.0, .9499);
         testValue(0.504, 4.0, 1.0, .0018);
@@ -112,15 +110,16 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     private void testProbability(double x, double a, double b, double expected) throws Exception {
         GammaDistribution distribution = new GammaDistributionImpl( a, b );
         double actual = distribution.cumulativeProbability(x);
-        assertEquals("probability for " + x, expected, actual, 10e-4);
+        Assert.assertEquals("probability for " + x, expected, actual, 10e-4);
     }
 
     private void testValue(double expected, double a, double b, double p) throws Exception {
         GammaDistribution distribution = new GammaDistributionImpl( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
-        assertEquals("critical value for " + p, expected, actual, 10e-4);
+        Assert.assertEquals("critical value for " + p, expected, actual, 10e-4);
     }
 
+    @Test
     public void testDensity() {
         double[] x = new double[]{-0.1, 1e-6, 0.5, 1, 2, 5};
         // R2.5: print(dgamma(x, shape=1, rate=1), digits=10)
@@ -144,26 +143,28 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     private void checkDensity(double alpha, double rate, double[] x, double[] expected) {
         GammaDistribution d = new GammaDistributionImpl(alpha, 1 / rate);
         for (int i = 0; i < x.length; i++) {
-            assertEquals(expected[i], d.density(x[i]), 1e-5);
+            Assert.assertEquals(expected[i], d.density(x[i]), 1e-5);
         }
     }
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         GammaDistribution dist;
         
         dist = new GammaDistributionImpl(1, 2);
-        assertEquals(dist.getNumericalMean(), 2, tol);
-        assertEquals(dist.getNumericalVariance(), 4, tol); 
+        Assert.assertEquals(dist.getNumericalMean(), 2, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 4, tol); 
         
         dist = new GammaDistributionImpl(1.1, 4.2);
-        assertEquals(dist.getNumericalMean(), 1.1d * 4.2d, tol);
-        assertEquals(dist.getNumericalVariance(), 1.1d * 4.2d * 4.2d, tol);
+        Assert.assertEquals(dist.getNumericalMean(), 1.1d * 4.2d, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 1.1d * 4.2d * 4.2d, tol);
     }
 }

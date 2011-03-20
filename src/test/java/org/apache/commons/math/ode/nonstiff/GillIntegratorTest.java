@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.*;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
@@ -34,27 +33,26 @@ import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class GillIntegratorTest
-  extends TestCase {
+public class GillIntegratorTest {
 
-  public GillIntegratorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDimensionCheck() {
     try  {
       TestProblem1 pb = new TestProblem1();
       new GillIntegrator(0.01).integrate(pb,
                                          0.0, new double[pb.getDimension()+10],
                                          1.0, new double[pb.getDimension()+10]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
   }
 
+  @Test
   public void testDecreasingSteps()
     throws MathUserException, IntegratorException  {
 
@@ -79,18 +77,18 @@ public class GillIntegratorTest
         double stopTime = integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                                           pb.getFinalTime(), new double[pb.getDimension()]);
         if (functions.length == 0) {
-            assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
+            Assert.assertEquals(pb.getFinalTime(), stopTime, 1.0e-10);
         }
 
         double valueError = handler.getMaximalValueError();
         if (i > 5) {
-          assertTrue(valueError < FastMath.abs(previousValueError));
+          Assert.assertTrue(valueError < FastMath.abs(previousValueError));
         }
         previousValueError = valueError;
 
         double timeError = handler.getMaximalTimeError();
         if (i > 5) {
-          assertTrue(timeError <= FastMath.abs(previousTimeError));
+          Assert.assertTrue(timeError <= FastMath.abs(previousTimeError));
         }
         previousTimeError = timeError;
 
@@ -100,6 +98,7 @@ public class GillIntegratorTest
 
   }
 
+  @Test
   public void testSmallStep()
     throws MathUserException, IntegratorException {
 
@@ -112,13 +111,14 @@ public class GillIntegratorTest
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() < 2.0e-13);
-    assertTrue(handler.getMaximalValueError() < 4.0e-12);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-    assertEquals("Gill", integ.getName());
+    Assert.assertTrue(handler.getLastError() < 2.0e-13);
+    Assert.assertTrue(handler.getMaximalValueError() < 4.0e-12);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertEquals("Gill", integ.getName());
 
   }
 
+  @Test
   public void testBigStep()
     throws MathUserException, IntegratorException {
 
@@ -131,12 +131,13 @@ public class GillIntegratorTest
     integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getLastError() > 0.0004);
-    assertTrue(handler.getMaximalValueError() > 0.005);
-    assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+    Assert.assertTrue(handler.getLastError() > 0.0004);
+    Assert.assertTrue(handler.getMaximalValueError() > 0.005);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
   }
 
+  @Test
   public void testBackward()
       throws MathUserException, IntegratorException {
 
@@ -149,12 +150,13 @@ public class GillIntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 5.0e-10);
-      assertTrue(handler.getMaximalValueError() < 7.0e-10);
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-      assertEquals("Gill", integ.getName());
+      Assert.assertTrue(handler.getLastError() < 5.0e-10);
+      Assert.assertTrue(handler.getMaximalValueError() < 7.0e-10);
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertEquals("Gill", integ.getName());
   }
 
+  @Test
   public void testKepler()
     throws MathUserException, IntegratorException {
 
@@ -168,6 +170,7 @@ public class GillIntegratorTest
                     pb.getFinalTime(), new double[pb.getDimension()]);
   }
 
+  @Test
   public void testUnstableDerivative()
   throws MathUserException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
@@ -175,7 +178,7 @@ public class GillIntegratorTest
     integ.addEventHandler(stepProblem, 1.0, 1.0e-12, 1000);
     double[] y = { Double.NaN };
     integ.integrate(stepProblem, 0.0, new double[] { 0.0 }, 10.0, y);
-    assertEquals(8.0, y[0], 1.0e-12);
+    Assert.assertEquals(8.0, y[0], 1.0e-12);
   }
 
   private static class KeplerStepHandler implements StepHandler {
@@ -204,13 +207,14 @@ public class GillIntegratorTest
         // even with more than 1000 evaluations per period,
         // RK4 is not able to integrate such an eccentric
         // orbit with a good accuracy
-        assertTrue(maxError > 0.001);
+        Assert.assertTrue(maxError > 0.001);
       }
     }
     private double maxError;
     private TestProblem3 pb;
   }
 
+  @Test
   public void testStepSize()
     throws MathUserException, IntegratorException {
       final double step = 1.23456;
@@ -218,7 +222,7 @@ public class GillIntegratorTest
       integ.addStepHandler(new StepHandler() {
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               if (! isLast) {
-                  assertEquals(step,
+                  Assert.assertEquals(step,
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }

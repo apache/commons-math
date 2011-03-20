@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test cases for the EmpiricalDistribution class
@@ -41,11 +44,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     protected URL url = null;
     protected double[] dataArray = null;
 
-    public EmpiricalDistributionTest(String name) {
-        super(name);
-    }
-
-    @Override
+    @Before
     public void setUp() throws IOException {
         empiricalDistribution = new EmpiricalDistributionImpl(100);
         url = getClass().getResource("testData.txt");
@@ -75,17 +74,16 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
      * Check that the sampleCount, mu and sigma match data in
      * the sample data file.
      */
+    @Test
     public void testLoad() throws Exception {
         empiricalDistribution.load(url);
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
-        assertEquals(empiricalDistribution.getSampleStats().getN(),1000,10E-7);
+        Assert.assertEquals(empiricalDistribution.getSampleStats().getN(),1000,10E-7);
         //TODO: replace with statistical tests
-        assertEquals
-            (empiricalDistribution.getSampleStats().getMean(),
+        Assert.assertEquals(empiricalDistribution.getSampleStats().getMean(),
                 5.069831575018909,10E-7);
-        assertEquals
-          (empiricalDistribution.getSampleStats().getStandardDeviation(),
+        Assert.assertEquals(empiricalDistribution.getSampleStats().getStandardDeviation(),
                 1.0173699343977738,10E-7);
     }
 
@@ -95,22 +93,21 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
      * Check that the sampleCount, mu and sigma match data in
      * the sample data file.
      */
+    @Test
     public void testDoubleLoad() throws Exception {
         empiricalDistribution2.load(dataArray);
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
-        assertEquals(empiricalDistribution2.getSampleStats().getN(),1000,10E-7);
+        Assert.assertEquals(empiricalDistribution2.getSampleStats().getN(),1000,10E-7);
         //TODO: replace with statistical tests
-        assertEquals
-            (empiricalDistribution2.getSampleStats().getMean(),
+        Assert.assertEquals(empiricalDistribution2.getSampleStats().getMean(),
                 5.069831575018909,10E-7);
-        assertEquals
-          (empiricalDistribution2.getSampleStats().getStandardDeviation(),
+        Assert.assertEquals(empiricalDistribution2.getSampleStats().getStandardDeviation(),
                 1.0173699343977738,10E-7);
 
         double[] bounds = ((EmpiricalDistributionImpl) empiricalDistribution2).getGeneratorUpperBounds();
-        assertEquals(bounds.length, 100);
-        assertEquals(bounds[99], 1.0, 10e-12);
+        Assert.assertEquals(bounds.length, 100);
+        Assert.assertEquals(bounds[99], 1.0, 10e-12);
 
     }
 
@@ -119,6 +116,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
       * Note that there is a non-zero (but very small) probability that
       * these tests will fail even if the code is working as designed.
       */
+    @Test
     public void testNext() throws Exception {
         tstGen(0.1);
         tstDoubleGen(0.1);
@@ -128,11 +126,12 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
       * Make sure exception thrown if digest getNext is attempted
       * before loading empiricalDistribution.
      */
+    @Test
     public void testNexFail() {
         try {
             empiricalDistribution.getNextValue();
             empiricalDistribution2.getNextValue();
-            fail("Expecting IllegalStateException");
+            Assert.fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {
             // expected
         }
@@ -141,6 +140,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     /**
      * Make sure we can handle a grid size that is too fine
      */
+    @Test
     public void testGridTooFine() throws Exception {
         empiricalDistribution = new EmpiricalDistributionImpl(1001);
         tstGen(0.1);
@@ -151,6 +151,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     /**
      * How about too fat?
      */
+    @Test
     public void testGridTooFat() throws Exception {
         empiricalDistribution = new EmpiricalDistributionImpl(1);
         tstGen(5); // ridiculous tolerance; but ridiculous grid size
@@ -162,11 +163,13 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     /**
      * Test bin index overflow problem (BZ 36450)
      */
+    @Test
     public void testBinIndexOverflow() throws Exception {
         double[] x = new double[] {9474.94326071674, 2080107.8865462579};
         new EmpiricalDistributionImpl().load(x);
     }
 
+    @Test
     public void testSerialization() {
         // Empty
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();
@@ -179,31 +182,34 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         verifySame(empiricalDistribution2, dist2);
     }
 
+    @Test
     public void testLoadNullDoubleArray() {
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();
         try {
             dist.load((double[]) null);
-            fail("load((double[]) null) expected NullPointerException");
+            Assert.fail("load((double[]) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
         }
     }
 
+    @Test
     public void testLoadNullURL() throws Exception {
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();
         try {
             dist.load((URL) null);
-            fail("load((URL) null) expected NullPointerException");
+            Assert.fail("load((URL) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
         }
     }
 
+    @Test
     public void testLoadNullFile() throws Exception {
         EmpiricalDistribution dist = new EmpiricalDistributionImpl();
         try {
             dist.load((File) null);
-            fail("load((File) null) expected NullPointerException");
+            Assert.fail("load((File) null) expected NullPointerException");
         } catch (NullPointerException e) {
             // expected
         }
@@ -212,6 +218,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     /**
      * MATH-298
      */
+    @Test
     public void testGetBinUpperBounds() {
         double[] testData = {0, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10};
         EmpiricalDistributionImpl dist = new EmpiricalDistributionImpl(5);
@@ -224,14 +231,14 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
     }
 
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {
-        assertEquals(d1.isLoaded(), d2.isLoaded());
-        assertEquals(d1.getBinCount(), d2.getBinCount());
-        assertEquals(d1.getSampleStats(), d2.getSampleStats());
+        Assert.assertEquals(d1.isLoaded(), d2.isLoaded());
+        Assert.assertEquals(d1.getBinCount(), d2.getBinCount());
+        Assert.assertEquals(d1.getSampleStats(), d2.getSampleStats());
         if (d1.isLoaded()) {
             for (int i = 0;  i < d1.getUpperBounds().length; i++) {
-                assertEquals(d1.getUpperBounds()[i], d2.getUpperBounds()[i], 0);
+                Assert.assertEquals(d1.getUpperBounds()[i], d2.getUpperBounds()[i], 0);
             }
-            assertEquals(d1.getBinStats(), d2.getBinStats());
+            Assert.assertEquals(d1.getBinStats(), d2.getBinStats());
         }
     }
 
@@ -241,9 +248,8 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }
-        assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
-        assertEquals
-         ("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
+        Assert.assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
+        Assert.assertEquals("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
     }
 
     private void tstDoubleGen(double tolerance)throws Exception {
@@ -252,8 +258,7 @@ public final class EmpiricalDistributionTest extends RetryTestCase {
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution2.getNextValue());
         }
-        assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
-        assertEquals
-         ("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
+        Assert.assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
+        Assert.assertEquals("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
     }
 }

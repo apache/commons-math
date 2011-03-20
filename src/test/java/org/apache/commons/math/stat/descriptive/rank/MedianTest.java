@@ -28,13 +28,6 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
     protected Median stat;
 
     /**
-     * @param name
-     */
-    public MedianTest(String name) {
-        super(name);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

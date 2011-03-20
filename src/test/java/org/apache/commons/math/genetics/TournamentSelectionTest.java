@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TournamentSelectionTest {
@@ -35,8 +35,8 @@ public class TournamentSelectionTest {
         for (int i=0; i<20; i++) {
             ChromosomePair pair = ts.select(pop);
             // the worst chromosome should NEVER be selected
-            assertTrue(pair.getFirst().getFitness() > 0);
-            assertTrue(pair.getSecond().getFitness() > 0);
+            Assert.assertTrue(pair.getFirst().getFitness() > 0);
+            Assert.assertTrue(pair.getSecond().getFitness() > 0);
         }
     }
 

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.univariate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
@@ -44,12 +42,12 @@ public class MultiStartUnivariateRealOptimizerTest {
         UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
             double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * FastMath.PI);
-            assertTrue (FastMath.abs(d - FastMath.rint(d)) < 1.0e-8);
-            assertEquals(-1.0, f.value(optima[i].getPoint()), 1.0e-10);
-            assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1.0e-10);
+            Assert.assertTrue(FastMath.abs(d - FastMath.rint(d)) < 1.0e-8);
+            Assert.assertEquals(-1.0, f.value(optima[i].getPoint()), 1.0e-10);
+            Assert.assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1.0e-10);
         }
-        assertTrue(optimizer.getEvaluations() > 200);
-        assertTrue(optimizer.getEvaluations() < 300);
+        Assert.assertTrue(optimizer.getEvaluations() > 200);
+        Assert.assertTrue(optimizer.getEvaluations() < 300);
     }
 
     @Test
@@ -65,15 +63,15 @@ public class MultiStartUnivariateRealOptimizerTest {
 
         UnivariateRealPointValuePair optimum
             = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
-        assertEquals(-0.2719561293, optimum.getPoint(), 1e-9);
-        assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
+        Assert.assertEquals(-0.2719561293, optimum.getPoint(), 1e-9);
+        Assert.assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
 
         UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 0; i < optima.length; ++i) {
-            assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1e-9);
+            Assert.assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1e-9);
         }
-        assertTrue(optimizer.getEvaluations() >= 50);
-        assertTrue(optimizer.getEvaluations() <= 100);
+        Assert.assertTrue(optimizer.getEvaluations() >= 50);
+        Assert.assertTrue(optimizer.getEvaluations() <= 100);
     }
 
     @Test

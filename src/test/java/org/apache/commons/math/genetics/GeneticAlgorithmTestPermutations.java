@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -79,7 +79,7 @@ public class GeneticAlgorithmTestPermutations {
         // the only thing we can test is whether the final solution is not worse than the initial one
         // however, for some implementations of GA, this need not be true :)
 
-        assertTrue(bestFinal.compareTo(bestInitial) > 0);
+        Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
 
         //System.out.println(bestInitial);
         //System.out.println(bestFinal);

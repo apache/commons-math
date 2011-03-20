@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -49,7 +50,7 @@ public class GeneticAlgorithmTestBinary {
                 new TournamentSelection(TOURNAMENT_ARITY)
         );
 
-        assertEquals(0, ga.getGenerationsEvolved());
+        Assert.assertEquals(0, ga.getGenerationsEvolved());
 
         // initial population
         Population initial = randomPopulation();
@@ -68,8 +69,8 @@ public class GeneticAlgorithmTestBinary {
         // the only thing we can test is whether the final solution is not worse than the initial one
         // however, for some implementations of GA, this need not be true :)
 
-        assertTrue(bestFinal.compareTo(bestInitial) > 0);
-        assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
+        Assert.assertTrue(bestFinal.compareTo(bestInitial) > 0);
+        Assert.assertEquals(NUM_GENERATIONS, ga.getGenerationsEvolved());
 
     }
 

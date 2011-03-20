@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -33,6 +31,7 @@ import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class MultiStartDifferentiableMultivariateRealOptimizerTest {
@@ -58,17 +57,17 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         BrentSolver solver = new BrentSolver();
         RealPointValuePair optimum =
             optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
-        assertEquals(200, optimizer.getMaxEvaluations());
+        Assert.assertEquals(200, optimizer.getMaxEvaluations());
         RealPointValuePair[] optima = optimizer.getOptima();
         for (RealPointValuePair o : optima) {
             Point2D.Double center = new Point2D.Double(o.getPointRef()[0], o.getPointRef()[1]);
-            assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
-            assertEquals(96.075902096, center.x, 1.0e-8);
-            assertEquals(48.135167894, center.y, 1.0e-8);
+            Assert.assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
+            Assert.assertEquals(96.075902096, center.x, 1.0e-8);
+            Assert.assertEquals(48.135167894, center.y, 1.0e-8);
         }
-        assertTrue(optimizer.getEvaluations() > 70);
-        assertTrue(optimizer.getEvaluations() < 90);
-        assertEquals(3.1267527, optimum.getValue(), 1.0e-8);
+        Assert.assertTrue(optimizer.getEvaluations() > 70);
+        Assert.assertTrue(optimizer.getEvaluations() < 90);
+        Assert.assertEquals(3.1267527, optimum.getValue(), 1.0e-8);
     }
 
     private static class Circle implements DifferentiableMultivariateRealFunction {

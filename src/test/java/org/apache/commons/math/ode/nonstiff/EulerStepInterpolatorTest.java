@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +33,7 @@ import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class EulerStepInterpolatorTest {
@@ -51,7 +51,7 @@ public class EulerStepInterpolatorTest {
 
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+      Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -82,13 +82,13 @@ public class EulerStepInterpolatorTest {
     interpolator.setInterpolatedTime(interpolator.getPreviousTime());
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      assertTrue(FastMath.abs(result[i] - y0[i]) < 1.0e-10);
+      Assert.assertTrue(FastMath.abs(result[i] - y0[i]) < 1.0e-10);
     }
 
     interpolator.setInterpolatedTime(interpolator.getCurrentTime());
     result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
+      Assert.assertTrue(FastMath.abs(result[i] - y[i]) < 1.0e-10);
     }
 
   }
@@ -107,15 +107,15 @@ public class EulerStepInterpolatorTest {
 
     interpolator.setInterpolatedTime(0.1);
     double[] result = interpolator.getInterpolatedState();
-    assertTrue(FastMath.abs(result[0] - 0.1) < 1.0e-10);
-    assertTrue(FastMath.abs(result[1] - 1.2) < 1.0e-10);
-    assertTrue(FastMath.abs(result[2] + 2.2) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[0] - 0.1) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[1] - 1.2) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[2] + 2.2) < 1.0e-10);
 
     interpolator.setInterpolatedTime(0.5);
     result = interpolator.getInterpolatedState();
-    assertTrue(FastMath.abs(result[0] - 0.5) < 1.0e-10);
-    assertTrue(FastMath.abs(result[1] - 2.0) < 1.0e-10);
-    assertTrue(FastMath.abs(result[2] + 3.0) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[0] - 0.5) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[1] - 2.0) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(result[2] + 3.0) < 1.0e-10);
 
   }
 
@@ -166,7 +166,7 @@ public class EulerStepInterpolatorTest {
         maxError = error;
       }
     }
-    assertTrue(maxError < 0.001);
+    Assert.assertTrue(maxError < 0.001);
 
   }
 

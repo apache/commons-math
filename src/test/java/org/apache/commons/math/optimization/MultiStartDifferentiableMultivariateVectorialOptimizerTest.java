@@ -17,9 +17,6 @@
 
 package org.apache.commons.math.optimization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.Serializable;
 
@@ -34,6 +31,7 @@ import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
 import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -118,23 +116,23 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         // no optima before first optimization attempt
         try {
             optimizer.getOptima();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalStateException ise) {
             // expected
         }
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
-        assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
+        Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
         VectorialPointValuePair[] optima = optimizer.getOptima();
-        assertEquals(10, optima.length);
+        Assert.assertEquals(10, optima.length);
         for (int i = 0; i < optima.length; ++i) {
-            assertEquals(1.5, optima[i].getPoint()[0], 1.0e-10);
-            assertEquals(3.0, optima[i].getValue()[0], 1.0e-10);
+            Assert.assertEquals(1.5, optima[i].getPoint()[0], 1.0e-10);
+            Assert.assertEquals(3.0, optima[i].getValue()[0], 1.0e-10);
         }
-        assertTrue(optimizer.getEvaluations() > 20);
-        assertTrue(optimizer.getEvaluations() < 50);
-        assertEquals(100, optimizer.getMaxEvaluations());
+        Assert.assertTrue(optimizer.getEvaluations() > 20);
+        Assert.assertTrue(optimizer.getEvaluations() < 50);
+        Assert.assertEquals(100, optimizer.getMaxEvaluations());
     }
 
     @Test(expected = MathUserException.class)

@@ -15,10 +15,11 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the DescriptiveStatistics class.
@@ -26,38 +27,37 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
  *          2007) $
  */
-public class DescriptiveStatisticsTest extends TestCase {
-
-    public DescriptiveStatisticsTest(String name) {
-        super(name);
-    }
+public class DescriptiveStatisticsTest {
 
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new DescriptiveStatistics();
     }
 
+    @Test
     public void testSetterInjection() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(3);
-        assertEquals(2, stats.getMean(), 1E-10);
+        Assert.assertEquals(2, stats.getMean(), 1E-10);
         // Now lets try some new math
         stats.setMeanImpl(new deepMean());
-        assertEquals(42, stats.getMean(), 1E-10);
+        Assert.assertEquals(42, stats.getMean(), 1E-10);
     }
 
+    @Test
     public void testCopy() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(3);
         DescriptiveStatistics copy = new DescriptiveStatistics(stats);
-        assertEquals(2, copy.getMean(), 1E-10);
+        Assert.assertEquals(2, copy.getMean(), 1E-10);
         // Now lets try some new math
         stats.setMeanImpl(new deepMean());
         copy = stats.copy();
-        assertEquals(42, copy.getMean(), 1E-10);
+        Assert.assertEquals(42, copy.getMean(), 1E-10);
     }
 
+    @Test
     public void testWindowSize() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.setWindowSize(300);
@@ -65,39 +65,41 @@ public class DescriptiveStatisticsTest extends TestCase {
             stats.addValue(i + 1);
         }
         int refSum = (100 * 101) / 2;
-        assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
-        assertEquals(300, stats.getWindowSize());
+        Assert.assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
+        Assert.assertEquals(300, stats.getWindowSize());
         try {
             stats.setWindowSize(-3);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected
         }
-        assertEquals(300, stats.getWindowSize());
+        Assert.assertEquals(300, stats.getWindowSize());
         stats.setWindowSize(50);
-        assertEquals(50, stats.getWindowSize());
+        Assert.assertEquals(50, stats.getWindowSize());
         int refSum2 = refSum - (50 * 51) / 2;
-        assertEquals(refSum2 / 50.0, stats.getMean(), 1E-10);
+        Assert.assertEquals(refSum2 / 50.0, stats.getMean(), 1E-10);
     }
 
+    @Test
     public void testGetValues() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         for (int i = 100; i > 0; --i) {
             stats.addValue(i);
         }
         int refSum = (100 * 101) / 2;
-        assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
+        Assert.assertEquals(refSum / 100.0, stats.getMean(), 1E-10);
         double[] v = stats.getValues();
         for (int i = 0; i < v.length; ++i) {
-            assertEquals(100.0 - i, v[i], 1.0e-10);
+            Assert.assertEquals(100.0 - i, v[i], 1.0e-10);
         }
         double[] s = stats.getSortedValues();
         for (int i = 0; i < s.length; ++i) {
-            assertEquals(i + 1.0, s[i], 1.0e-10);
+            Assert.assertEquals(i + 1.0, s[i], 1.0e-10);
         }
-        assertEquals(12.0, stats.getElement(88), 1.0e-10);
+        Assert.assertEquals(12.0, stats.getElement(88), 1.0e-10);
     }
 
+    @Test
     public void testToString() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
@@ -105,7 +107,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         stats.addValue(3);
         Locale d = Locale.getDefault();
         Locale.setDefault(Locale.US);
-        assertEquals("DescriptiveStatistics:\n" +
+        Assert.assertEquals("DescriptiveStatistics:\n" +
                      "n: 3\n" +
                      "min: 1.0\n" +
                      "max: 3.0\n" +
@@ -117,6 +119,7 @@ public class DescriptiveStatisticsTest extends TestCase {
         Locale.setDefault(d);
     }
 
+    @Test
     public void testShuffledStatistics() {
         // the purpose of this test is only to check the get/set methods
         // we are aware shuffling statistics like this is really not
@@ -140,42 +143,44 @@ public class DescriptiveStatisticsTest extends TestCase {
             shuffled.addValue(i);
         }
 
-        assertEquals(reference.getMean(),          shuffled.getGeometricMean(), 1.0e-10);
-        assertEquals(reference.getKurtosis(),      shuffled.getMean(),          1.0e-10);
-        assertEquals(reference.getSkewness(),      shuffled.getKurtosis(), 1.0e-10);
-        assertEquals(reference.getVariance(),      shuffled.getSkewness(), 1.0e-10);
-        assertEquals(reference.getMax(),           shuffled.getVariance(), 1.0e-10);
-        assertEquals(reference.getMin(),           shuffled.getMax(), 1.0e-10);
-        assertEquals(reference.getSum(),           shuffled.getMin(), 1.0e-10);
-        assertEquals(reference.getSumsq(),         shuffled.getSum(), 1.0e-10);
-        assertEquals(reference.getGeometricMean(), shuffled.getSumsq(), 1.0e-10);
+        Assert.assertEquals(reference.getMean(),          shuffled.getGeometricMean(), 1.0e-10);
+        Assert.assertEquals(reference.getKurtosis(),      shuffled.getMean(),          1.0e-10);
+        Assert.assertEquals(reference.getSkewness(),      shuffled.getKurtosis(), 1.0e-10);
+        Assert.assertEquals(reference.getVariance(),      shuffled.getSkewness(), 1.0e-10);
+        Assert.assertEquals(reference.getMax(),           shuffled.getVariance(), 1.0e-10);
+        Assert.assertEquals(reference.getMin(),           shuffled.getMax(), 1.0e-10);
+        Assert.assertEquals(reference.getSum(),           shuffled.getMin(), 1.0e-10);
+        Assert.assertEquals(reference.getSumsq(),         shuffled.getSum(), 1.0e-10);
+        Assert.assertEquals(reference.getGeometricMean(), shuffled.getSumsq(), 1.0e-10);
 
     }
 
+    @Test
     public void testPercentileSetter() throws Exception {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(2);
         stats.addValue(3);
-        assertEquals(2, stats.getPercentile(50.0), 1E-10);
+        Assert.assertEquals(2, stats.getPercentile(50.0), 1E-10);
 
         // Inject wrapped Percentile impl
         stats.setPercentileImpl(new goodPercentile());
-        assertEquals(2, stats.getPercentile(50.0), 1E-10);
+        Assert.assertEquals(2, stats.getPercentile(50.0), 1E-10);
 
         // Try "new math" impl
         stats.setPercentileImpl(new subPercentile());
-        assertEquals(10.0, stats.getPercentile(10.0), 1E-10);
+        Assert.assertEquals(10.0, stats.getPercentile(10.0), 1E-10);
 
         // Try to set bad impl
         try {
             stats.setPercentileImpl(new badPercentile());
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void test20090720() {
         DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics(100);
         for (int i = 0; i < 161; i++) {
@@ -183,9 +188,10 @@ public class DescriptiveStatisticsTest extends TestCase {
         }
         descriptiveStatistics.clear();
         descriptiveStatistics.addValue(1.2);
-        assertEquals(1, descriptiveStatistics.getN());
+        Assert.assertEquals(1, descriptiveStatistics.getN());
     }
 
+    @Test
     public void testRemoval() {
 
         final DescriptiveStatistics dstat = createDescriptiveStatistics();
@@ -208,11 +214,11 @@ public class DescriptiveStatisticsTest extends TestCase {
             dstat.addValue(i);
         }
 
-        assertTrue(MathUtils.equalsIncludingNaN(mean1, dstat.getMean()));
+        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean1, dstat.getMean()));
         dstat.replaceMostRecentValue(0);
-        assertTrue(MathUtils.equalsIncludingNaN(mean2, dstat.getMean()));
+        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean2, dstat.getMean()));
         dstat.removeMostRecentValue();
-        assertTrue(MathUtils.equalsIncludingNaN(mean3, dstat.getMean()));
+        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean3, dstat.getMean()));
 
     }
 

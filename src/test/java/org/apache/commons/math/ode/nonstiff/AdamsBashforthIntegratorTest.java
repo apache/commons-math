@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -28,6 +26,7 @@ import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblem6;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class AdamsBashforthIntegratorTest {
@@ -86,13 +85,13 @@ public class AdamsBashforthIntegratorTest {
             // the 31 and 36 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            assertTrue(handler.getMaximalValueError() > (31.0 * scalAbsoluteTolerance));
-            assertTrue(handler.getMaximalValueError() < (36.0 * scalAbsoluteTolerance));
-            assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
+            Assert.assertTrue(handler.getMaximalValueError() > (31.0 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() < (36.0 * scalAbsoluteTolerance));
+            Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
             int calls = pb.getCalls();
-            assertEquals(integ.getEvaluations(), calls);
-            assertTrue(calls <= previousCalls);
+            Assert.assertEquals(integ.getEvaluations(), calls);
+            Assert.assertTrue(calls <= previousCalls);
             previousCalls = calls;
 
         }
@@ -127,10 +126,10 @@ public class AdamsBashforthIntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
 
-        assertTrue(handler.getLastError() < 1.0e-8);
-        assertTrue(handler.getMaximalValueError() < 1.0e-8);
-        assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
-        assertEquals("Adams-Bashforth", integ.getName());
+        Assert.assertTrue(handler.getLastError() < 1.0e-8);
+        Assert.assertTrue(handler.getMaximalValueError() < 1.0e-8);
+        Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
+        Assert.assertEquals("Adams-Bashforth", integ.getName());
     }
 
     @Test
@@ -146,9 +145,9 @@ public class AdamsBashforthIntegratorTest {
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
             if (nSteps < 4) {
-                assertTrue(integ.getEvaluations() > 150);
+                Assert.assertTrue(integ.getEvaluations() > 150);
             } else {
-                assertTrue(integ.getEvaluations() < 70);
+                Assert.assertTrue(integ.getEvaluations() < 70);
             }
         }
 

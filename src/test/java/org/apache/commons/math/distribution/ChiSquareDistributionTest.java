@@ -17,6 +17,9 @@
 
 package org.apache.commons.math.distribution;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * Test cases for ChiSquareDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -25,14 +28,6 @@ package org.apache.commons.math.distribution;
  * @version $Revision$ $Date$
  */
 public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTest {
-
-    /**
-     * Constructor for ChiSquareDistributionTest.
-     * @param name
-     */
-    public ChiSquareDistributionTest(String name) {
-        super(name);
-    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -80,13 +75,14 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
 
  // --------------------- Override tolerance  --------------
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(1e-9);
     }
 
  //---------------------------- Additional test cases -------------------------
 
+    @Test
     public void testSmallDf() throws Exception {
         setDistribution(new ChiSquaredDistributionImpl(0.1d));
         setTolerance(1E-4);
@@ -100,11 +96,13 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testDfAccessors() {
         ChiSquaredDistribution distribution = (ChiSquaredDistribution) getDistribution();
-        assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
+        Assert.assertEquals(5d, distribution.getDegreesOfFreedom(), Double.MIN_VALUE);
     }
 
+    @Test
     public void testDensity() {
         double[] x = new double[]{-0.1, 1e-6, 0.5, 1, 2, 5};
         //R 2.5: print(dchisq(x, df=1), digits=10)
@@ -120,21 +118,22 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     private void checkDensity(double df, double[] x, double[] expected) {
         ChiSquaredDistribution d = new ChiSquaredDistributionImpl(df);
         for (int i = 0; i < x.length; i++) {
-            assertEquals(expected[i], d.density(x[i]), 1e-5);
+            Assert.assertEquals(expected[i], d.density(x[i]), 1e-5);
         }
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         ChiSquaredDistribution dist;
         
         dist = new ChiSquaredDistributionImpl(1500);
-        assertEquals(dist.getNumericalMean(), 1500, tol);
-        assertEquals(dist.getNumericalVariance(), 3000, tol); 
+        Assert.assertEquals(dist.getNumericalMean(), 1500, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 3000, tol); 
         
         dist = new ChiSquaredDistributionImpl(1.12);
-        assertEquals(dist.getNumericalMean(), 1.12, tol);
-        assertEquals(dist.getNumericalVariance(), 2.24, tol);
+        Assert.assertEquals(dist.getNumericalMean(), 1.12, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 2.24, tol);
     }
 
 }

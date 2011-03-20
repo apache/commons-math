@@ -18,9 +18,8 @@ package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,26 +42,26 @@ public abstract class MultipleLinearRegressionAbstractTest {
     @Test
     public void canEstimateRegressionParameters(){
         double[] beta = regression.estimateRegressionParameters();
-        assertEquals(getNumberOfRegressors(), beta.length);
+        Assert.assertEquals(getNumberOfRegressors(), beta.length);
     }
 
     @Test
     public void canEstimateResiduals(){
         double[] e = regression.estimateResiduals();
-        assertEquals(getSampleSize(), e.length);
+        Assert.assertEquals(getSampleSize(), e.length);
     }
 
     @Test
     public void canEstimateRegressionParametersVariance(){
         double[][] variance = regression.estimateRegressionParametersVariance();
-        assertEquals(getNumberOfRegressors(), variance.length);
+        Assert.assertEquals(getNumberOfRegressors(), variance.length);
     }
 
     @Test
     public void canEstimateRegressandVariance(){
         if (getSampleSize() > getNumberOfRegressors()) {
             double variance = regression.estimateRegressandVariance();
-            assertTrue(variance > 0.0);
+            Assert.assertTrue(variance > 0.0);
         }
     }
     
@@ -91,8 +90,8 @@ public abstract class MultipleLinearRegressionAbstractTest {
         RealVector flatY = regression.Y.copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        assertEquals(flatX, regression.X);
-        assertEquals(flatY, regression.Y);
+        Assert.assertEquals(flatX, regression.X);
+        Assert.assertEquals(flatY, regression.Y);
         
         // No intercept
         regression.setNoIntercept(true);
@@ -101,8 +100,8 @@ public abstract class MultipleLinearRegressionAbstractTest {
         flatY = regression.Y.copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        assertEquals(flatX, regression.X);
-        assertEquals(flatY, regression.Y);
+        Assert.assertEquals(flatX, regression.X);
+        Assert.assertEquals(flatY, regression.Y);
     }
     
     @Test(expected=IllegalArgumentException.class)

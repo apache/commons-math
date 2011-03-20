@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import junit.framework.AssertionFailedError;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.TestUtils;
@@ -48,6 +47,8 @@ import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the RandomData class.
@@ -58,8 +59,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 public class RandomDataTest extends RetryTestCase {
 
-    public RandomDataTest(String name) {
-        super(name);
+    public RandomDataTest() {
         randomData = new RandomDataImpl();
     }
 
@@ -71,23 +71,26 @@ public class RandomDataTest extends RetryTestCase {
     protected RandomDataImpl randomData = null;
     protected final ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
 
+    @Test
     public void testNextIntExtremeValues() {
         int x = randomData.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
         int y = randomData.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
-        assertFalse(x == y);
+        Assert.assertFalse(x == y);
     }
 
+    @Test
     public void testNextLongExtremeValues() {
         long x = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
         long y = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
-        assertFalse(x == y);
+        Assert.assertFalse(x == y);
     }
 
     /** test dispersion and failure modes for nextInt() */
+    @Test
     public void testNextInt() {
         try {
             randomData.nextInt(4, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -95,7 +98,7 @@ public class RandomDataTest extends RetryTestCase {
         int value = 0;
         for (int i = 0; i < smallSampleSize; i++) {
             value = randomData.nextInt(0, 3);
-            assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
             freq.addValue(value);
         }
         long[] observed = new long[4];
@@ -107,15 +110,16 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 16.27);
     }
 
     /** test dispersion and failure modes for nextLong() */
+    @Test
     public void testNextLong() {
         try {
             randomData.nextLong(4, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -123,7 +127,7 @@ public class RandomDataTest extends RetryTestCase {
         long value = 0;
         for (int i = 0; i < smallSampleSize; i++) {
             value = randomData.nextLong(0, 3);
-            assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
             freq.addValue(value);
         }
         long[] observed = new long[4];
@@ -135,15 +139,16 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 16.27);
     }
 
     /** test dispersion and failure modes for nextSecureLong() */
+    @Test
     public void testNextSecureLong() {
         try {
             randomData.nextSecureLong(4, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -151,7 +156,7 @@ public class RandomDataTest extends RetryTestCase {
         long value = 0;
         for (int i = 0; i < smallSampleSize; i++) {
             value = randomData.nextSecureLong(0, 3);
-            assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
             freq.addValue(value);
         }
         long[] observed = new long[4];
@@ -163,15 +168,16 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 16.27);
     }
 
     /** test dispersion and failure modes for nextSecureInt() */
+    @Test
     public void testNextSecureInt() {
         try {
             randomData.nextSecureInt(4, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -179,7 +185,7 @@ public class RandomDataTest extends RetryTestCase {
         int value = 0;
         for (int i = 0; i < smallSampleSize; i++) {
             value = randomData.nextSecureInt(0, 3);
-            assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
             freq.addValue(value);
         }
         long[] observed = new long[4];
@@ -191,7 +197,7 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 16.27);
     }
 
@@ -201,10 +207,11 @@ public class RandomDataTest extends RetryTestCase {
      * fails when mean is non-positive TODO: replace with statistical test,
      * adding test stat to TestStatistic
      */
+    @Test
     public void testNextPoisson() {
         try {
             randomData.nextPoisson(0);
-            fail("zero mean -- expecting MathIllegalArgumentException");
+            Assert.fail("zero mean -- expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -217,22 +224,23 @@ public class RandomDataTest extends RetryTestCase {
         long sumFreq = f.getSumFreq();
         double cumPct = Double.valueOf(cumFreq).doubleValue()
                 / Double.valueOf(sumFreq).doubleValue();
-        assertEquals("cum Poisson(4)", cumPct, 0.7851, 0.2);
+        Assert.assertEquals("cum Poisson(4)", cumPct, 0.7851, 0.2);
         try {
             randomData.nextPoisson(-1);
-            fail("negative mean supplied -- MathIllegalArgumentException expected");
+            Assert.fail("negative mean supplied -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextPoisson(0);
-            fail("0 mean supplied -- MathIllegalArgumentException expected");
+            Assert.fail("0 mean supplied -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
     }
 
+    @Test
     public void testNextPoissonConsistency() throws Exception {
         
         // Reseed randomGenerator to get fixed sequence
@@ -352,10 +360,8 @@ public class RandomDataTest extends RetryTestCase {
 
         // Use chisquare test to verify that generated values are poisson(mean)-distributed
         ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
-        try {
             // Fail if we can reject null hypothesis that distributions are the same
-            assertFalse(chiSquareTest.chiSquareTest(expected, observed, alpha));
-        } catch (AssertionFailedError ex) {
+        if (chiSquareTest.chiSquareTest(expected, observed, alpha)) {
             StringBuilder msgBuffer = new StringBuilder();
             DecimalFormat df = new DecimalFormat("#.##");
             msgBuffer.append("Chisquare test failed for mean = ");
@@ -381,46 +387,47 @@ public class RandomDataTest extends RetryTestCase {
             msgBuffer.append("This test can fail randomly due to sampling error with probability ");
             msgBuffer.append(alpha);
             msgBuffer.append(".");
-            fail(msgBuffer.toString());
+            Assert.fail(msgBuffer.toString());
         }
     }
 
     /** test dispersion and failure modes for nextHex() */
+    @Test
     public void testNextHex() {
         try {
             randomData.nextHexString(-1);
-            fail("negative length supplied -- MathIllegalArgumentException expected");
+            Assert.fail("negative length supplied -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextHexString(0);
-            fail("zero length supplied -- MathIllegalArgumentException expected");
+            Assert.fail("zero length supplied -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         String hexString = randomData.nextHexString(3);
         if (hexString.length() != 3) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         hexString = randomData.nextHexString(1);
         if (hexString.length() != 1) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         try {
             hexString = randomData.nextHexString(0);
-            fail("zero length requested -- expecting MathIllegalArgumentException");
+            Assert.fail("zero length requested -- expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         if (hexString.length() != 1) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         Frequency f = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             hexString = randomData.nextHexString(100);
             if (hexString.length() != 100) {
-                fail("incorrect length for generated string");
+                Assert.fail("incorrect length for generated string");
             }
             for (int j = 0; j < hexString.length(); j++) {
                 f.addValue(hexString.substring(j, j + 1));
@@ -436,46 +443,47 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 16-1 = 15, alpha = .001 Change to 30.58
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 37.70);
     }
 
     /** test dispersion and failure modes for nextHex() */
+    @Test
     public void testNextSecureHex() {
         try {
             randomData.nextSecureHexString(-1);
-            fail("negative length -- MathIllegalArgumentException expected");
+            Assert.fail("negative length -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextSecureHexString(0);
-            fail("zero length -- MathIllegalArgumentException expected");
+            Assert.fail("zero length -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         String hexString = randomData.nextSecureHexString(3);
         if (hexString.length() != 3) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         hexString = randomData.nextSecureHexString(1);
         if (hexString.length() != 1) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         try {
             hexString = randomData.nextSecureHexString(0);
-            fail("zero length requested -- expecting MathIllegalArgumentException");
+            Assert.fail("zero length requested -- expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         if (hexString.length() != 1) {
-            fail("incorrect length for generated string");
+            Assert.fail("incorrect length for generated string");
         }
         Frequency f = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             hexString = randomData.nextSecureHexString(100);
             if (hexString.length() != 100) {
-                fail("incorrect length for generated string");
+                Assert.fail("incorrect length for generated string");
             }
             for (int j = 0; j < hexString.length(); j++) {
                 f.addValue(hexString.substring(j, j + 1));
@@ -491,21 +499,22 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 16-1 = 15, alpha = .001 Change to 30.58
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 37.70);
     }
 
     /** test failure modes and dispersion of nextUniform() */
+    @Test
     public void testNextUniform() {
         try {
             randomData.nextUniform(4, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextUniform(3, 3);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -518,7 +527,7 @@ public class RandomDataTest extends RetryTestCase {
         for (int i = 0; i < 1000; i++) {
             result = randomData.nextUniform(lower, upper);
             if ((result == lower) || (result == upper)) {
-                fail("generated value equal to an endpoint: " + result);
+                Assert.fail("generated value equal to an endpoint: " + result);
             }
             if (result < midpoint) {
                 observed[0]++;
@@ -530,23 +539,25 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 2-1 = 1, alpha = .001 Change to 6.64 for
          * alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 10.83);
     }
 
     /** test exclusive endpoints of nextUniform **/
+    @Test
     public void testNextUniformExclusiveEndpoints() {
         for (int i = 0; i < 1000; i++) {
             double u = randomData.nextUniform(0.99, 1);
-            assertTrue(u > 0.99 && u < 1);
+            Assert.assertTrue(u > 0.99 && u < 1);
         }
     }
 
     /** test failure modes and distribution of nextGaussian() */
+    @Test
     public void testNextGaussian() {
         try {
             randomData.nextGaussian(0, 0);
-            fail("zero sigma -- MathIllegalArgumentException expected");
+            Assert.fail("zero sigma -- MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -561,20 +572,21 @@ public class RandomDataTest extends RetryTestCase {
          * t-test at .001-level TODO: replace with externalized t-test, with
          * test statistic defined in TestStatistic
          */
-        assertTrue(FastMath.abs(xbar) / (s / FastMath.sqrt(n)) < 3.29);
+        Assert.assertTrue(FastMath.abs(xbar) / (s / FastMath.sqrt(n)) < 3.29);
     }
 
     /** test failure modes and distribution of nextExponential() */
+    @Test
     public void testNextExponential() {
         try {
             randomData.nextExponential(-1);
-            fail("negative mean -- expecting MathIllegalArgumentException");
+            Assert.fail("negative mean -- expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
             randomData.nextExponential(0);
-            fail("zero mean -- expecting MathIllegalArgumentException");
+            Assert.fail("zero mean -- expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -582,7 +594,7 @@ public class RandomDataTest extends RetryTestCase {
         double v = 0;
         for (int i = 0; i < largeSampleSize; i++) {
             v = randomData.nextExponential(1);
-            assertTrue("exponential deviate postive", v > 0);
+            Assert.assertTrue("exponential deviate postive", v > 0);
             if (v < 2)
                 cumFreq++;
         }
@@ -591,41 +603,42 @@ public class RandomDataTest extends RetryTestCase {
          * TestStatistic. Check below compares observed cumulative distribution
          * evaluated at 2 with exponential CDF
          */
-        assertEquals("exponential cumulative distribution", (double) cumFreq
+        Assert.assertEquals("exponential cumulative distribution", (double) cumFreq
                 / (double) largeSampleSize, 0.8646647167633873, .2);
     }
 
     /** test reseeding, algorithm/provider games */
+    @Test
     public void testConfig() {
         randomData.reSeed(1000);
         double v = randomData.nextUniform(0, 1);
         randomData.reSeed();
-        assertTrue("different seeds", Math
+        Assert.assertTrue("different seeds", Math
                 .abs(v - randomData.nextUniform(0, 1)) > 10E-12);
         randomData.reSeed(1000);
-        assertEquals("same seeds", v, randomData.nextUniform(0, 1), 10E-12);
+        Assert.assertEquals("same seeds", v, randomData.nextUniform(0, 1), 10E-12);
         randomData.reSeedSecure(1000);
         String hex = randomData.nextSecureHexString(40);
         randomData.reSeedSecure();
-        assertTrue("different seeds", !hex.equals(randomData
+        Assert.assertTrue("different seeds", !hex.equals(randomData
                 .nextSecureHexString(40)));
         randomData.reSeedSecure(1000);
-        assertTrue("same seeds", !hex
+        Assert.assertTrue("same seeds", !hex
                 .equals(randomData.nextSecureHexString(40)));
 
         /*
          * remove this test back soon, since it takes about 4 seconds
          *
          * try { randomData.setSecureAlgorithm("SHA1PRNG","SUN"); } catch
-         * (NoSuchProviderException ex) { ; } assertTrue("different seeds",
+         * (NoSuchProviderException ex) { ; } Assert.assertTrue("different seeds",
          * !hex.equals(randomData.nextSecureHexString(40))); try {
          * randomData.setSecureAlgorithm("NOSUCHTHING","SUN");
-         * fail("expecting NoSuchAlgorithmException"); } catch
+         * Assert.fail("expecting NoSuchAlgorithmException"); } catch
          * (NoSuchProviderException ex) { ; } catch (NoSuchAlgorithmException
          * ex) { ; }
          *
          * try { randomData.setSecureAlgorithm("SHA1PRNG","NOSUCHPROVIDER");
-         * fail("expecting NoSuchProviderException"); } catch
+         * Assert.fail("expecting NoSuchProviderException"); } catch
          * (NoSuchProviderException ex) { ; }
          */
 
@@ -645,6 +658,7 @@ public class RandomDataTest extends RetryTestCase {
     }
 
     /** tests for nextSample() sampling from Collection */
+    @Test
     public void testNextSample() {
         Object[][] c = { { "0", "1" }, { "0", "2" }, { "0", "3" },
                 { "0", "4" }, { "1", "2" }, { "1", "3" }, { "1", "4" },
@@ -674,7 +688,7 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 10-1 = 9, alpha = .001 Change to 21.67
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 27.88);
 
         // Make sure sample of size = size of collection returns same collection
@@ -683,13 +697,13 @@ public class RandomDataTest extends RetryTestCase {
         Object[] one = randomData.nextSample(hs, 1);
         String oneString = (String) one[0];
         if ((one.length != 1) || !oneString.equals("one")) {
-            fail("bad sample for set size = 1, sample size = 1");
+            Assert.fail("bad sample for set size = 1, sample size = 1");
         }
 
         // Make sure we fail for sample size > collection size
         try {
             one = randomData.nextSample(hs, 2);
-            fail("sample size > set size, expecting MathIllegalArgumentException");
+            Assert.fail("sample size > set size, expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -698,7 +712,7 @@ public class RandomDataTest extends RetryTestCase {
         try {
             hs = new HashSet<Object>();
             one = randomData.nextSample(hs, 0);
-            fail("n = k = 0, expecting MathIllegalArgumentException");
+            Assert.fail("n = k = 0, expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -716,11 +730,12 @@ public class RandomDataTest extends RetryTestCase {
                 return i;
             }
         }
-        fail("sample not found:{" + samp[0] + "," + samp[1] + "}");
+        Assert.fail("sample not found:{" + samp[0] + "," + samp[1] + "}");
         return -1;
     }
 
     /** tests for nextPermutation */
+    @Test
     public void testNextPermutation() {
         int[][] p = { { 0, 1, 2 }, { 0, 2, 1 }, { 1, 0, 2 }, { 1, 2, 0 },
                 { 2, 0, 1 }, { 2, 1, 0 } };
@@ -736,18 +751,18 @@ public class RandomDataTest extends RetryTestCase {
          * Use ChiSquare dist with df = 6-1 = 5, alpha = .001 Change to 15.09
          * for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected, observed) < 20.52);
 
         // Check size = 1 boundary case
         int[] perm = randomData.nextPermutation(1, 1);
         if ((perm.length != 1) || (perm[0] != 0)) {
-            fail("bad permutation for n = 1, sample k = 1");
+            Assert.fail("bad permutation for n = 1, sample k = 1");
 
             // Make sure we fail for k size > n
             try {
                 perm = randomData.nextPermutation(2, 3);
-                fail("permutation k > n, expecting MathIllegalArgumentException");
+                Assert.fail("permutation k > n, expecting MathIllegalArgumentException");
             } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
@@ -755,7 +770,7 @@ public class RandomDataTest extends RetryTestCase {
             // Make sure we fail for n = 0
             try {
                 perm = randomData.nextPermutation(0, 0);
-                fail("permutation k = n = 0, expecting MathIllegalArgumentException");
+                Assert.fail("permutation k = n = 0, expecting MathIllegalArgumentException");
             } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
@@ -763,7 +778,7 @@ public class RandomDataTest extends RetryTestCase {
             // Make sure we fail for k < n < 0
             try {
                 perm = randomData.nextPermutation(-1, -3);
-                fail("permutation k < n < 0, expecting MathIllegalArgumentException");
+                Assert.fail("permutation k < n < 0, expecting MathIllegalArgumentException");
             } catch (MathIllegalArgumentException ex) {
                 // ignored
             }
@@ -773,7 +788,7 @@ public class RandomDataTest extends RetryTestCase {
 
     // Disable until we have equals
     //public void testSerial() {
-    //    assertEquals(randomData, TestUtils.serializeAndRecover(randomData));
+    //    Assert.assertEquals(randomData, TestUtils.serializeAndRecover(randomData));
     //}
 
     private int findPerm(int[][] p, int[] samp) {
@@ -788,10 +803,11 @@ public class RandomDataTest extends RetryTestCase {
                 return i;
             }
         }
-        fail("permutation not found");
+        Assert.fail("permutation not found");
         return -1;
     }
     
+    @Test
     public void testNextInversionDeviate() throws Exception {
         // Set the seed for the default random generator
         randomData.reSeed(100);
@@ -809,10 +825,11 @@ public class RandomDataTest extends RetryTestCase {
          */
         for (int i = 0; i < 10; i++) {
             double value = randomData.nextInversionDeviate(betaDistribution);
-            assertEquals(betaDistribution.cumulativeProbability(value), quantiles[i], 10E-9);
+            Assert.assertEquals(betaDistribution.cumulativeProbability(value), quantiles[i], 10E-9);
         } 
     }
     
+    @Test
     public void testNextBeta() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistributionImpl(2,5));
         long[] counts = new long[4];
@@ -824,6 +841,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextCauchy() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistributionImpl(1.2, 2.1));
         long[] counts = new long[4];
@@ -835,6 +853,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextChiSquare() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new ChiSquaredDistributionImpl(12));
         long[] counts = new long[4];
@@ -846,6 +865,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextF() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new FDistributionImpl(12, 5));
         long[] counts = new long[4];
@@ -857,6 +877,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextGamma() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
         long[] counts = new long[4];
@@ -868,6 +889,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextT() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new TDistributionImpl(10));
         long[] counts = new long[4];
@@ -879,6 +901,7 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextWeibull() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistributionImpl(1.2, 2.1));
         long[] counts = new long[4];
@@ -890,8 +913,9 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
     
+    @Test
     public void testNextBinomial() throws Exception {
-        BinomialDistributionTest testInstance = new BinomialDistributionTest("");
+        BinomialDistributionTest testInstance = new BinomialDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
@@ -915,8 +939,9 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
     
+    @Test
     public void testNextHypergeometric() throws Exception {
-        HypergeometricDistributionTest testInstance = new HypergeometricDistributionTest("");
+        HypergeometricDistributionTest testInstance = new HypergeometricDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
@@ -940,8 +965,9 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
     
+    @Test
     public void testNextPascal() throws Exception {
-        PascalDistributionTest testInstance = new PascalDistributionTest("");
+        PascalDistributionTest testInstance = new PascalDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
@@ -964,8 +990,9 @@ public class RandomDataTest extends RetryTestCase {
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
     
+    @Test
     public void testNextZipf() throws Exception {
-        ZipfDistributionTest testInstance = new ZipfDistributionTest("");
+        ZipfDistributionTest testInstance = new ZipfDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;

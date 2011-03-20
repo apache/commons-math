@@ -21,11 +21,12 @@ import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
- * Testcase for Romberg integrator.
+ * Test case for Romberg integrator.
  * <p>
  * Romberg algorithm is very fast for good behavior integrand. Test runs
  * show that for a default relative accuracy of 1E-6, it generally takes
@@ -33,11 +34,12 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public final class RombergIntegratorTest extends TestCase {
+public final class RombergIntegratorTest {
 
     /**
      * Test of integrator for the sine function.
      */
+    @Test
     public void testSinFunction() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealIntegrator integrator = new RombergIntegrator();
@@ -46,17 +48,18 @@ public final class RombergIntegratorTest extends TestCase {
         min = 0; max = FastMath.PI; expected = 2;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -FastMath.PI/3; max = 0; expected = -0.5;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of integrator for the quintic function.
      */
+    @Test
     public void testQuinticFunction() throws MathException {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator = new RombergIntegrator();
@@ -65,22 +68,23 @@ public final class RombergIntegratorTest extends TestCase {
         min = 0; max = 1; expected = -1.0/48;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
     /**
      * Test of parameters for the integrator.
      */
+    @Test
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealIntegrator integrator = new RombergIntegrator();
@@ -88,7 +92,7 @@ public final class RombergIntegratorTest extends TestCase {
         try {
             // bad interval
             integrator.integrate(f, 1, -1);
-            fail("Expecting IllegalArgumentException - bad interval");
+            Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -97,7 +101,7 @@ public final class RombergIntegratorTest extends TestCase {
             integrator.setMinimalIterationCount(5);
             integrator.setMaximalIterationCount(4);
             integrator.integrate(f, -1, 1);
-            fail("Expecting IllegalArgumentException - bad iteration limits");
+            Assert.fail("Expecting IllegalArgumentException - bad iteration limits");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -106,7 +110,7 @@ public final class RombergIntegratorTest extends TestCase {
             integrator.setMinimalIterationCount(10);
             integrator.setMaximalIterationCount(50);
             integrator.integrate(f, -1, 1);
-            fail("Expecting IllegalArgumentException - bad iteration limits");
+            Assert.fail("Expecting IllegalArgumentException - bad iteration limits");
         } catch (IllegalArgumentException ex) {
             // expected
         }

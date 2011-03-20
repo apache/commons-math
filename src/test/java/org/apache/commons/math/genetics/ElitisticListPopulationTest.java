@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ElitisticListPopulationTest {
@@ -34,7 +34,7 @@ public class ElitisticListPopulationTest {
 
         Population nextGeneration = pop.nextGeneration();
 
-        assertEquals(20, nextGeneration.getPopulationSize());
+        Assert.assertEquals(20, nextGeneration.getPopulationSize());
     }
 
     private static class DummyChromosome extends Chromosome {

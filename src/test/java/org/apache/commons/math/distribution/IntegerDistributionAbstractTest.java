@@ -19,8 +19,11 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * Abstract base class for {@link IntegerDistribution} tests.
@@ -44,7 +47,7 @@ import junit.framework.TestCase;
  *
  * @version $Revision$ $Date$
  */
-public abstract class IntegerDistributionAbstractTest extends TestCase {
+public abstract class IntegerDistributionAbstractTest {
 
 //-------------------- Private test instance data -------------------------
     /** Discrete distribution instance used to perform tests */
@@ -70,16 +73,6 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
 
     /** Values used to test inverse cumulative probability density calculations */
     private int[] inverseCumulativeTestValues;
-
-    //-------------------------------------------------------------------------
-
-    /**
-     * Constructor for IntegerDistributionAbstractTest.
-     * @param name
-     */
-    public IntegerDistributionAbstractTest(String name) {
-        super(name);
-    }
 
     //-------------------- Abstract methods -----------------------------------
 
@@ -109,9 +102,8 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Setup sets all test instance data to default values
      */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() {
         distribution = makeDistribution();
         densityTestPoints = makeDensityTestPoints();
         densityTestValues = makeDensityTestValues();
@@ -124,9 +116,8 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Cleans up test instance data
      */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() {
         distribution = null;
         densityTestPoints = null;
         densityTestValues = null;
@@ -144,7 +135,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      */
     protected void verifyDensities() throws Exception {
         for (int i = 0; i < densityTestPoints.length; i++) {
-            assertEquals("Incorrect density value returned for " + densityTestPoints[i],
+            Assert.assertEquals("Incorrect density value returned for " + densityTestPoints[i],
                     densityTestValues[i],
                     distribution.probability(densityTestPoints[i]), tolerance);
         }
@@ -156,7 +147,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      */
     protected void verifyCumulativeProbabilities() throws Exception {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
-            assertEquals("Incorrect cumulative probability value returned for " + cumulativeTestPoints[i],
+            Assert.assertEquals("Incorrect cumulative probability value returned for " + cumulativeTestPoints[i],
                     cumulativeTestValues[i],
                     distribution.cumulativeProbability(cumulativeTestPoints[i]), tolerance);
         }
@@ -169,7 +160,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      */
     protected void verifyInverseCumulativeProbabilities() throws Exception {
         for (int i = 0; i < inverseCumulativeTestPoints.length; i++) {
-            assertEquals("Incorrect inverse cumulative probability value returned for "
+            Assert.assertEquals("Incorrect inverse cumulative probability value returned for "
                     + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i],
                     distribution.inverseCumulativeProbability(inverseCumulativeTestPoints[i]));
         }
@@ -181,6 +172,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      * Verifies that probability density calculations match expected values
      * using default test instance data
      */
+    @Test
     public void testDensities() throws Exception {
         verifyDensities();
     }
@@ -189,6 +181,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
+    @Test
     public void testCumulativeProbabilities() throws Exception {
         verifyCumulativeProbabilities();
     }
@@ -198,17 +191,18 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      * cumulativeProbablility(-,-)
      * JIRA: MATH-184
      */
+    @Test
     public void testFloatingPointArguments() throws Exception {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             double arg = cumulativeTestPoints[i];
-            assertEquals(
+            Assert.assertEquals(
                     "Incorrect cumulative probability value returned for " +
                     cumulativeTestPoints[i],
                     cumulativeTestValues[i],
                     distribution.cumulativeProbability(arg), tolerance);
             if (i < cumulativeTestPoints.length - 1) {
                 double arg2 = cumulativeTestPoints[i + 1];
-                assertEquals("Inconsistent probability for discrete range " +
+                Assert.assertEquals("Inconsistent probability for discrete range " +
                         "[ " + arg + "," + arg2 + " ]",
                    distribution.cumulativeProbability(
                            cumulativeTestPoints[i],
@@ -216,7 +210,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
                    distribution.cumulativeProbability(arg, arg2), tolerance);
                 arg = arg - FastMath.random();
                 arg2 = arg2 + FastMath.random();
-                assertEquals("Inconsistent probability for discrete range " +
+                Assert.assertEquals("Inconsistent probability for discrete range " +
                         "[ " + arg + "," + arg2 + " ]",
                    distribution.cumulativeProbability(
                            cumulativeTestPoints[i],
@@ -230,14 +224,14 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
         double oned = one;
         double twod = two;
         double tend = ten;
-        assertEquals(distribution.cumulativeProbability(one, two),
+        Assert.assertEquals(distribution.cumulativeProbability(one, two),
                 distribution.cumulativeProbability(oned, twod), tolerance);
-        assertEquals(distribution.cumulativeProbability(one, two),
+        Assert.assertEquals(distribution.cumulativeProbability(one, two),
                 distribution.cumulativeProbability(oned - tolerance,
                         twod + 0.9), tolerance);
-        assertEquals(distribution.cumulativeProbability(two, ten),
+        Assert.assertEquals(distribution.cumulativeProbability(two, ten),
                 distribution.cumulativeProbability(twod, tend), tolerance);
-        assertEquals(distribution.cumulativeProbability(two, ten),
+        Assert.assertEquals(distribution.cumulativeProbability(two, ten),
                 distribution.cumulativeProbability(twod - tolerance,
                         tend + 0.9), tolerance);
     }
@@ -246,6 +240,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
      * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
+    @Test
     public void testInverseCumulativeProbabilities() throws Exception {
         verifyInverseCumulativeProbabilities();
     }
@@ -253,22 +248,23 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Verifies that illegal arguments are correctly handled
      */
+    @Test
     public void testIllegalArguments() throws Exception {
         try {
             distribution.cumulativeProbability(1, 0);
-            fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
+            Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(-1);
-            fail("Expecting MathIllegalArgumentException for p = -1");
+            Assert.fail("Expecting MathIllegalArgumentException for p = -1");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(2);
-            fail("Expecting MathIllegalArgumentException for p = 2");
+            Assert.fail("Expecting MathIllegalArgumentException for p = 2");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -277,6 +273,7 @@ public abstract class IntegerDistributionAbstractTest extends TestCase {
     /**
      * Test sampling
      */
+    @Test
     public void testSampling() throws Exception {
         int[] densityPoints = makeDensityTestPoints();
         double[] densityValues = makeDensityTestValues();

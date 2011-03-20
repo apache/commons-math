@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ChromosomeTest {
@@ -43,10 +43,10 @@ public class ChromosomeTest {
             }
         };
 
-        assertTrue(c1.compareTo(c2) < 0);
-        assertTrue(c2.compareTo(c1) > 0);
-        assertEquals(0,c3.compareTo(c2));
-        assertEquals(0,c2.compareTo(c3));
+        Assert.assertTrue(c1.compareTo(c2) < 0);
+        Assert.assertTrue(c2.compareTo(c1) > 0);
+        Assert.assertEquals(0,c3.compareTo(c2));
+        Assert.assertEquals(0,c2.compareTo(c3));
     }
 
     private abstract static class DummyChromosome extends Chromosome {
@@ -100,11 +100,11 @@ public class ChromosomeTest {
             }
         };
 
-        assertNull(c5.findSameChromosome(pop));
-        assertEquals(c1, c4.findSameChromosome(pop));
+        Assert.assertNull(c5.findSameChromosome(pop));
+        Assert.assertEquals(c1, c4.findSameChromosome(pop));
 
         c4.searchForFitnessUpdate(pop);
-        assertEquals(1, c4.getFitness(),0);
+        Assert.assertEquals(1, c4.getFitness(),0);
     }
 
 }

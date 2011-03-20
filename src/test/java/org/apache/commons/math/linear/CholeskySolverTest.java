@@ -18,10 +18,11 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
-public class CholeskySolverTest extends TestCase {
+public class CholeskySolverTest {
 
     private double[][] testData = new double[][] {
             {  1,  2,   4,   7,  11 },
@@ -31,36 +32,34 @@ public class CholeskySolverTest extends TestCase {
             { 11, 58, 182, 430, 855 }
     };
 
-    public CholeskySolverTest(String name) {
-        super(name);
-    }
-
     /** test solve dimension errors */
+    @Test
     public void testSolveDimensionErrors() {
         DecompositionSolver solver =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(b.getColumn(0));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
         try {
             solver.solve(new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(0)));
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
         }
     }
 
     /** test solve */
+    @Test
     public void testSolve() {
         DecompositionSolver solver =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
@@ -80,18 +79,18 @@ public class CholeskySolverTest extends TestCase {
         });
 
         // using RealMatrix
-        assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 1.0e-13);
+        Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 1.0e-13);
 
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
-            assertEquals(0,
+            Assert.assertEquals(0,
                          solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
@@ -100,7 +99,7 @@ public class CholeskySolverTest extends TestCase {
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             ArrayRealVectorTest.RealVectorTestImpl v =
                 new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));
-            assertEquals(0,
+            Assert.assertEquals(0,
                          solver.solve(v).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
@@ -108,8 +107,9 @@ public class CholeskySolverTest extends TestCase {
     }
 
     /** test determinant */
+    @Test
     public void testDeterminant() {
-        assertEquals(7290000.0, getDeterminant(MatrixUtils.createRealMatrix(testData)), 1.0e-15);
+        Assert.assertEquals(7290000.0, getDeterminant(MatrixUtils.createRealMatrix(testData)), 1.0e-15);
     }
 
     private double getDeterminant(RealMatrix m) {

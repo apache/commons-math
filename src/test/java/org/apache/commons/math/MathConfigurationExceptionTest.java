@@ -17,28 +17,30 @@
 
 package org.apache.commons.math;
 
-import junit.framework.TestCase;
 
 import java.util.Locale;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public class MathConfigurationExceptionTest extends TestCase {
+public class MathConfigurationExceptionTest {
 
+    @Test
     public void testConstructor(){
         MathConfigurationException ex = new MathConfigurationException();
-        assertNull(ex.getCause());
-        assertEquals("", ex.getMessage());
-        assertEquals("", ex.getMessage(Locale.FRENCH));
+        Assert.assertNull(ex.getCause());
+        Assert.assertEquals("", ex.getMessage());
+        Assert.assertEquals("", ex.getMessage(Locale.FRENCH));
     }
 
+    @Test
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathConfigurationException ex = new MathConfigurationException(cause);
-        assertEquals(cause, ex.getCause());
+        Assert.assertEquals(cause, ex.getCause());
     }
 }

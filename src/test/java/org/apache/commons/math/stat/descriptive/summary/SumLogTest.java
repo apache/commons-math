@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.summary;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -27,13 +29,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected SumOfLogs stat;
-
-    /**
-     * @param name
-     */
-    public SumLogTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -51,39 +46,40 @@ public class SumLogTest extends StorelessUnivariateStatisticAbstractTest{
         return this.sumLog;
     }
 
+    @Test
     public void testSpecialValues() {
         SumOfLogs sum = new SumOfLogs();
         // empty
-        assertEquals(0, sum.getResult(), 0);
+        Assert.assertEquals(0, sum.getResult(), 0);
 
         // finite data
         sum.increment(1d);
-        assertFalse(Double.isNaN(sum.getResult()));
+        Assert.assertFalse(Double.isNaN(sum.getResult()));
 
         // add negative infinity
         sum.increment(0d);
-        assertEquals(Double.NEGATIVE_INFINITY, sum.getResult(), 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, sum.getResult(), 0);
 
         // add positive infinity -- should make NaN
         sum.increment(Double.POSITIVE_INFINITY);
-        assertTrue(Double.isNaN(sum.getResult()));
+        Assert.assertTrue(Double.isNaN(sum.getResult()));
 
         // clear
         sum.clear();
-        assertEquals(0, sum.getResult(), 0);
+        Assert.assertEquals(0, sum.getResult(), 0);
 
         // positive infinity by itself
         sum.increment(Double.POSITIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
 
         // negative value -- should make NaN
         sum.increment(-2d);
-        assertTrue(Double.isNaN(sum.getResult()));
+        Assert.assertTrue(Double.isNaN(sum.getResult()));
     }
     
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-        assertEquals(0, statistic.getResult(), 0);
+        Assert.assertEquals(0, statistic.getResult(), 0);
     }
     
 

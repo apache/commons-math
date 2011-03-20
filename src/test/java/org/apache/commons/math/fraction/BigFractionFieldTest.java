@@ -16,29 +16,28 @@
  */
 package org.apache.commons.math.fraction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.TestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class BigFractionFieldTest {
 
     @Test
     public void testZero() {
-        assertEquals(BigFraction.ZERO, BigFractionField.getInstance().getZero());
+        Assert.assertEquals(BigFraction.ZERO, BigFractionField.getInstance().getZero());
     }
 
     @Test
     public void testOne() {
-        assertEquals(BigFraction.ONE, BigFractionField.getInstance().getOne());
+        Assert.assertEquals(BigFraction.ONE, BigFractionField.getInstance().getOne());
     }
 
     @Test
     public void testSerial() {
         // deserializing the singleton should give the singleton itself back
         BigFractionField field = BigFractionField.getInstance();
-        assertTrue(field == TestUtils.serializeAndRecover(field));
+        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
     }
 
 }

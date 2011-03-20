@@ -24,7 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for the smoothing bicubic interpolator.
+ * Test case for the smoothing bicubic interpolator.
  * 
  * @version $Revision$ $Date$
  */

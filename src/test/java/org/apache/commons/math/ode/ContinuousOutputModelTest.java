@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import junit.framework.*;
 import java.util.Random;
 
 import org.apache.commons.math.exception.MathUserException;
@@ -29,16 +28,19 @@ import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ContinuousOutputModelTest
-  extends TestCase {
+public class ContinuousOutputModelTest {
 
-  public ContinuousOutputModelTest(String name) {
-    super(name);
+  public ContinuousOutputModelTest() {
     pb    = null;
     integ = null;
   }
 
+  @Test
   public void testBoundaries()
     throws MathUserException, IntegratorException {
     integ.addStepHandler(new ContinuousOutputModel());
@@ -51,6 +53,7 @@ public class ContinuousOutputModelTest
     cm.setInterpolatedTime(0.5 * (pb.getFinalTime() + pb.getInitialTime()));
   }
 
+  @Test
   public void testRandomAccess()
     throws MathUserException, IntegratorException {
 
@@ -76,10 +79,11 @@ public class ContinuousOutputModelTest
       }
     }
 
-    assertTrue(maxError < 1.0e-9);
+    Assert.assertTrue(maxError < 1.0e-9);
 
   }
 
+  @Test
   public void testModelsMerging()
     throws MathUserException, IntegratorException {
 
@@ -120,18 +124,19 @@ public class ContinuousOutputModelTest
       cm.append(cm1);
 
       // check circle
-      assertEquals(2.0 * FastMath.PI, cm.getInitialTime(), 1.0e-12);
-      assertEquals(0, cm.getFinalTime(), 1.0e-12);
-      assertEquals(cm.getFinalTime(), cm.getInterpolatedTime(), 1.0e-12);
+      Assert.assertEquals(2.0 * FastMath.PI, cm.getInitialTime(), 1.0e-12);
+      Assert.assertEquals(0, cm.getFinalTime(), 1.0e-12);
+      Assert.assertEquals(cm.getFinalTime(), cm.getInterpolatedTime(), 1.0e-12);
       for (double t = 0; t < 2.0 * FastMath.PI; t += 0.1) {
           cm.setInterpolatedTime(t);
           double[] y = cm.getInterpolatedState();
-          assertEquals(FastMath.cos(t), y[0], 1.0e-7);
-          assertEquals(FastMath.sin(t), y[1], 1.0e-7);
+          Assert.assertEquals(FastMath.cos(t), y[0], 1.0e-7);
+          Assert.assertEquals(FastMath.sin(t), y[1], 1.0e-7);
       }
 
   }
 
+  @Test
   public void testErrorConditions()
     throws MathUserException {
 
@@ -139,16 +144,16 @@ public class ContinuousOutputModelTest
       cm.handleStep(buildInterpolator(0, new double[] { 0.0, 1.0, -2.0 }, 1), true);
 
       // dimension mismatch
-      assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0 }, 2.0));
+      Assert.assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0 }, 2.0));
 
       // hole between time ranges
-      assertTrue(checkAppendError(cm, 10.0, new double[] { 0.0, 1.0, -2.0 }, 20.0));
+      Assert.assertTrue(checkAppendError(cm, 10.0, new double[] { 0.0, 1.0, -2.0 }, 20.0));
 
       // propagation direction mismatch
-      assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 0.0));
+      Assert.assertTrue(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 0.0));
 
       // no errors
-      assertFalse(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 2.0));
+      Assert.assertFalse(checkAppendError(cm, 1.0, new double[] { 0.0, 1.0, -2.0 }, 2.0));
 
   }
 
@@ -174,10 +179,10 @@ public class ContinuousOutputModelTest
   }
 
   public void checkValue(double value, double reference) {
-    assertTrue(FastMath.abs(value - reference) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(value - reference) < 1.0e-10);
   }
 
-  @Override
+  @Before
   public void setUp() {
     pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -185,7 +190,7 @@ public class ContinuousOutputModelTest
     integ = new DormandPrince54Integrator(minStep, maxStep, 1.0e-8, 1.0e-8);
   }
 
-  @Override
+  @After
   public void tearDown() {
     pb    = null;
     integ = null;

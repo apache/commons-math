@@ -21,10 +21,6 @@ package org.apache.commons.math.stat.descriptive;
  */
 public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStatisticsTest {
 
-    public SynchronizedDescriptiveStatisticsTest(String name) {
-        super(name);
-    }
-
     @Override
     protected DescriptiveStatistics createDescriptiveStatistics() {
         return new SynchronizedDescriptiveStatistics();

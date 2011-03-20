@@ -16,19 +16,21 @@
  */
 package org.apache.commons.math.stat;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link StatUtils} class.
  * @version $Revision$ $Date$
  */
 
-public final class StatUtilsTest extends TestCase {
+public final class StatUtilsTest {
 
     private double one = 1;
     private float two = 2;
@@ -42,56 +44,55 @@ public final class StatUtilsTest extends TestCase {
     private double tolerance = 10E-15;
     private double nan = Double.NaN;
 
-    public StatUtilsTest(String name) {
-        super(name);
-    }
-
     /** test stats */
+    @Test
     public void testStats() {
         double[] values = new double[] { one, two, two, three };
-        assertEquals("sum", sum, StatUtils.sum(values), tolerance);
-        assertEquals("sumsq", sumSq, StatUtils.sumSq(values), tolerance);
-        assertEquals("var", var, StatUtils.variance(values), tolerance);
-        assertEquals("var with mean", var, StatUtils.variance(values, mean), tolerance);
-        assertEquals("mean", mean, StatUtils.mean(values), tolerance);
-        assertEquals("min", min, StatUtils.min(values), tolerance);
-        assertEquals("max", max, StatUtils.max(values), tolerance);
+        Assert.assertEquals("sum", sum, StatUtils.sum(values), tolerance);
+        Assert.assertEquals("sumsq", sumSq, StatUtils.sumSq(values), tolerance);
+        Assert.assertEquals("var", var, StatUtils.variance(values), tolerance);
+        Assert.assertEquals("var with mean", var, StatUtils.variance(values, mean), tolerance);
+        Assert.assertEquals("mean", mean, StatUtils.mean(values), tolerance);
+        Assert.assertEquals("min", min, StatUtils.min(values), tolerance);
+        Assert.assertEquals("max", max, StatUtils.max(values), tolerance);
     }
 
+    @Test
     public void testN0andN1Conditions() throws Exception {
         double[] values = new double[0];
 
-        assertTrue(
+        Assert.assertTrue(
             "Mean of n = 0 set should be NaN",
             Double.isNaN(StatUtils.mean(values)));
-        assertTrue(
+        Assert.assertTrue(
             "Variance of n = 0 set should be NaN",
             Double.isNaN(StatUtils.variance(values)));
 
         values = new double[] { one };
 
-        assertTrue(
+        Assert.assertTrue(
             "Mean of n = 1 set should be value of single item n1",
             StatUtils.mean(values) == one);
-        assertTrue(
+        Assert.assertTrue(
             "Variance of n = 1 set should be zero",
             StatUtils.variance(values) == 0);
     }
 
+    @Test
     public void testArrayIndexConditions() throws Exception {
         double[] values = { 1.0, 2.0, 3.0, 4.0 };
 
-        assertEquals(
+        Assert.assertEquals(
             "Sum not expected",
             5.0,
             StatUtils.sum(values, 1, 2),
             Double.MIN_VALUE);
-        assertEquals(
+        Assert.assertEquals(
             "Sum not expected",
             3.0,
             StatUtils.sum(values, 0, 2),
             Double.MIN_VALUE);
-        assertEquals(
+        Assert.assertEquals(
             "Sum not expected",
             7.0,
             StatUtils.sum(values, 2, 2),
@@ -99,34 +100,35 @@ public final class StatUtilsTest extends TestCase {
 
         try {
             StatUtils.sum(values, 2, 3);
-            fail("Expected RuntimeException");
+            Assert.fail("Expected RuntimeException");
         } catch (RuntimeException e) {
             // expected
         }
 
         try {
             StatUtils.sum(values, -1, 2);
-            fail("Expected RuntimeException");
+            Assert.fail("Expected RuntimeException");
         } catch (RuntimeException e) {
             // expected
         }
 
     }
 
+    @Test
     public void testSumSq() {
         double[] x = null;
 
         // test null
         try {
             StatUtils.sumSq(x);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumSq(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -147,20 +149,21 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(8, StatUtils.sumSq(x, 1, 2), tolerance);
     }
 
+    @Test
     public void testProduct() {
         double[] x = null;
 
         // test null
         try {
             StatUtils.product(x);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.product(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -181,20 +184,21 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(4, StatUtils.product(x, 1, 2), tolerance);
     }
 
+    @Test
     public void testSumLog() {
         double[] x = null;
 
         // test null
         try {
             StatUtils.sumLog(x);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumLog(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -215,12 +219,13 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(2.0 * FastMath.log(two), StatUtils.sumLog(x, 1, 2), tolerance);
     }
 
+    @Test
     public void testMean() {
         double[] x = null;
 
         try {
             StatUtils.mean(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -238,12 +243,13 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(2.5, StatUtils.mean(x, 2, 2), tolerance);
     }
 
+    @Test
     public void testVariance() {
         double[] x = null;
 
         try {
             StatUtils.variance(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -265,12 +271,13 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(0.5, StatUtils.variance(x,2.5, 2, 2), tolerance);
     }
 
+    @Test
     public void testMax() {
         double[] x = null;
 
         try {
             StatUtils.max(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -304,12 +311,13 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(nan, StatUtils.max(x), tolerance);
     }
 
+    @Test
     public void testMin() {
         double[] x = null;
 
         try {
             StatUtils.min(x, 0, 4);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -343,20 +351,21 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(nan, StatUtils.min(x), tolerance);
     }
 
+    @Test
     public void testPercentile() {
         double[] x = null;
 
         // test null
         try {
             StatUtils.percentile(x, .25);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.percentile(x, 0, 4, 0.25);
-            fail("null is not a valid data array.");
+            Assert.fail("null is not a valid data array.");
         } catch (MathIllegalArgumentException ex) {
             // success
         }
@@ -377,49 +386,51 @@ public final class StatUtilsTest extends TestCase {
         TestUtils.assertEquals(2.5, StatUtils.percentile(x, 1, 3, 62.5), tolerance);
     }
 
+    @Test
     public void testDifferenceStats() throws Exception {
         double sample1[] = {1d, 2d, 3d, 4d};
         double sample2[] = {1d, 3d, 4d, 2d};
         double diff[] = {0d, -1d, -1d, 2d};
         double small[] = {1d, 4d};
         double meanDifference = StatUtils.meanDifference(sample1, sample2);
-        assertEquals(StatUtils.sumDifference(sample1, sample2), StatUtils.sum(diff), tolerance);
-        assertEquals(meanDifference, StatUtils.mean(diff), tolerance);
-        assertEquals(StatUtils.varianceDifference(sample1, sample2, meanDifference),
+        Assert.assertEquals(StatUtils.sumDifference(sample1, sample2), StatUtils.sum(diff), tolerance);
+        Assert.assertEquals(meanDifference, StatUtils.mean(diff), tolerance);
+        Assert.assertEquals(StatUtils.varianceDifference(sample1, sample2, meanDifference),
                 StatUtils.variance(diff), tolerance);
         try {
             StatUtils.meanDifference(sample1, small);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             StatUtils.varianceDifference(sample1, small, meanDifference);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             double[] single = {1.0};
             StatUtils.varianceDifference(single, single, meanDifference);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testGeometricMean() throws Exception {
         double[] test = null;
         try {
             StatUtils.geometricMean(test);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         test = new double[] {2, 4, 6, 8};
-        assertEquals(FastMath.exp(0.25d * StatUtils.sumLog(test)),
+        Assert.assertEquals(FastMath.exp(0.25d * StatUtils.sumLog(test)),
                 StatUtils.geometricMean(test), Double.MIN_VALUE);
-        assertEquals(FastMath.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
+        Assert.assertEquals(FastMath.exp(0.5 * StatUtils.sumLog(test, 0, 2)),
                 StatUtils.geometricMean(test, 0, 2), Double.MIN_VALUE);
     }
     
@@ -428,12 +439,13 @@ public final class StatUtilsTest extends TestCase {
      * Run the test with the values 50 and 100 and assume standardized values    
      */
 
+    @Test
     public void testNormalize1() {
         double sample[] = { 50, 100 };
         double expectedSample[] = { -25 / Math.sqrt(1250), 25 / Math.sqrt(1250) };
         double[] out = StatUtils.normalize(sample);
         for (int i = 0; i < out.length; i++) {
-            assertEquals(out[i], expectedSample[i]);
+            Assert.assertTrue(MathUtils.equals(out[i], expectedSample[i], 1));
         }
 
     }
@@ -443,6 +455,7 @@ public final class StatUtilsTest extends TestCase {
      * precision of 1E-10.
      */
 
+    @Test
     public void testNormalize2() {
         // create an sample with 77 values    
         int length = 77;
@@ -461,8 +474,8 @@ public final class StatUtilsTest extends TestCase {
         // the calculations do have a limited precision    
         double distance = 1E-10;
         // check the mean an standard deviation
-        assertEquals(0.0, stats.getMean(), distance);
-        assertEquals(1.0, stats.getStandardDeviation(), distance);
+        Assert.assertEquals(0.0, stats.getMean(), distance);
+        Assert.assertEquals(1.0, stats.getStandardDeviation(), distance);
 
     }
     

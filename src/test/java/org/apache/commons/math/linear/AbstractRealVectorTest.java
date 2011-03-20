@@ -164,17 +164,16 @@ public class AbstractRealVectorTest {
         }
     }
 
-    private static void assertEquals(double[] d1, double[] d2) {
-        Assert.assertEquals(d1.length, d2.length);
-        for(int i=0; i<d1.length; i++) Assert.assertEquals(d1[i], d2[i], 0);
-    }
-
     @Test
     public void testMap() throws Exception {
         double[] vec1Squared = { 1d, 4d, 9d, 16d, 25d };
         RealVector v = new TestVectorImpl(vec1.clone());
         RealVector w = v.map(new UnivariateRealFunction() { public double value(double x) { return x * x; } });
-        assertEquals(vec1Squared, w.getData());
+        double[] d2 = w.getData();
+        Assert.assertEquals(vec1Squared.length, d2.length);
+        for(int i=0; i<vec1Squared.length; i++) {
+            Assert.assertEquals(vec1Squared[i], d2[i], 0);
+        }
     }
 
     @Test

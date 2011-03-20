@@ -18,97 +18,106 @@
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.TestUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
  */
-public class TransformerMapTest extends TestCase {
+public class TransformerMapTest {
     /**
      *
      */
+    @Test
     public void testPutTransformer(){
         NumberTransformer expected = new DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertEquals(expected, map.getTransformer(TransformerMapTest.class));
+        Assert.assertEquals(expected, map.getTransformer(TransformerMapTest.class));
     }
 
     /**
      *
      */
+    @Test
     public void testContainsClass(){
         NumberTransformer expected = new DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.containsClass(TransformerMapTest.class));
+        Assert.assertTrue(map.containsClass(TransformerMapTest.class));
     }
 
     /**
      *
      */
+    @Test
     public void testContainsTransformer(){
         NumberTransformer expected = new DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.containsTransformer(expected));
+        Assert.assertTrue(map.containsTransformer(expected));
     }
 
     /**
      *
      */
+    @Test
     public void testRemoveTransformer(){
         NumberTransformer expected = new DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.containsClass(TransformerMapTest.class));
-        assertTrue(map.containsTransformer(expected));
+        Assert.assertTrue(map.containsClass(TransformerMapTest.class));
+        Assert.assertTrue(map.containsTransformer(expected));
         map.removeTransformer(TransformerMapTest.class);
-        assertFalse(map.containsClass(TransformerMapTest.class));
-        assertFalse(map.containsTransformer(expected));
+        Assert.assertFalse(map.containsClass(TransformerMapTest.class));
+        Assert.assertFalse(map.containsTransformer(expected));
     }
 
     /**
      *
      */
+    @Test
     public void testClear(){
         NumberTransformer expected = new DefaultTransformer();
 
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.containsClass(TransformerMapTest.class));
+        Assert.assertTrue(map.containsClass(TransformerMapTest.class));
         map.clear();
-        assertFalse(map.containsClass(TransformerMapTest.class));
+        Assert.assertFalse(map.containsClass(TransformerMapTest.class));
     }
 
     /**
      *
      */
+    @Test
     public void testClasses(){
         NumberTransformer expected = new DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.classes().contains(TransformerMapTest.class));
+        Assert.assertTrue(map.classes().contains(TransformerMapTest.class));
     }
 
     /**
      *
      */
+    @Test
     public void testTransformers(){
         NumberTransformer expected = new DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertTrue(map.transformers().contains(expected));
+        Assert.assertTrue(map.transformers().contains(expected));
     }
 
+    @Test
     public void testSerial(){
         NumberTransformer expected = new DefaultTransformer();
         TransformerMap map = new TransformerMap();
         map.putTransformer(TransformerMapTest.class, expected);
-        assertEquals(map, TestUtils.serializeAndRecover(map));
+        Assert.assertEquals(map, TestUtils.serializeAndRecover(map));
     }
 
 }

@@ -17,6 +17,8 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for FDistribution.
@@ -26,14 +28,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  * @version $Revision$ $Date$
  */
 public class FDistributionTest extends ContinuousDistributionAbstractTest {
-
-    /**
-     * Constructor for FDistributionTest.
-     * @param name
-     */
-    public FDistributionTest(String name) {
-        super(name);
-    }
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -66,79 +60,86 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(1e-9);
     }
 
     //---------------------------- Additional test cases -------------------------
 
+    @Test
     public void testCumulativeProbabilityExtremes() throws Exception {
         setCumulativeTestPoints(new double[] {-2, 0});
         setCumulativeTestValues(new double[] {0, 0});
         verifyCumulativeProbabilities();
     }
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testDfAccessors() {
         FDistribution dist = (FDistribution) getDistribution();
-        assertEquals(5d, dist.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
-        assertEquals(6d, dist.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
+        Assert.assertEquals(5d, dist.getNumeratorDegreesOfFreedom(), Double.MIN_VALUE);
+        Assert.assertEquals(6d, dist.getDenominatorDegreesOfFreedom(), Double.MIN_VALUE);
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new FDistributionImpl(0, 1);
-            fail("Expecting NotStrictlyPositiveException for df = 0");
+            Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
             new FDistributionImpl(1, 0);
-            fail("Expecting NotStrictlyPositiveException for df = 0");
+            Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
     }
 
+    @Test
     public void testLargeDegreesOfFreedom() throws Exception {
         FDistributionImpl fd = new FDistributionImpl(100000, 100000);
         double p = fd.cumulativeProbability(.999);
         double x = fd.inverseCumulativeProbability(p);
-        assertEquals(.999, x, 1.0e-5);
+        Assert.assertEquals(.999, x, 1.0e-5);
     }
 
+    @Test
     public void testSmallDegreesOfFreedom() throws Exception {
         FDistributionImpl fd = new FDistributionImpl(1, 1);
         double p = fd.cumulativeProbability(0.975);
         double x = fd.inverseCumulativeProbability(p);
-        assertEquals(0.975, x, 1.0e-5);
+        Assert.assertEquals(0.975, x, 1.0e-5);
 
         fd = new FDistributionImpl(1, 2);
         p = fd.cumulativeProbability(0.975);
         x = fd.inverseCumulativeProbability(p);
-        assertEquals(0.975, x, 1.0e-5);
+        Assert.assertEquals(0.975, x, 1.0e-5);
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         FDistribution dist;
         
         dist = new FDistributionImpl(1, 2);
-        assertTrue(Double.isNaN(dist.getNumericalMean()));
-        assertTrue(Double.isNaN(dist.getNumericalVariance()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
         
         dist = new FDistributionImpl(1, 3);
-        assertEquals(dist.getNumericalMean(), 3d / (3d - 2d), tol);
-        assertTrue(Double.isNaN(dist.getNumericalVariance()));
+        Assert.assertEquals(dist.getNumericalMean(), 3d / (3d - 2d), tol);
+        Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
         
         dist = new FDistributionImpl(1, 5);
-        assertEquals(dist.getNumericalMean(), 5d / (5d - 2d), tol);
-        assertEquals(dist.getNumericalVariance(), (2d * 5d * 5d * 4d) / 9d, tol);        
+        Assert.assertEquals(dist.getNumericalMean(), 5d / (5d - 2d), tol);
+        Assert.assertEquals(dist.getNumericalVariance(), (2d * 5d * 5d * 4d) / 9d, tol);        
     }
 }

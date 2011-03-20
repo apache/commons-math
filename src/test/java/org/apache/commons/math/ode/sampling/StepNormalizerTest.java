@@ -25,18 +25,20 @@ import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepNormalizer;
 import org.apache.commons.math.util.FastMath;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class StepNormalizerTest
-  extends TestCase {
+public class StepNormalizerTest {
 
-  public StepNormalizerTest(String name) {
-    super(name);
+  public StepNormalizerTest() {
     pb    = null;
     integ = null;
   }
 
+  @Test
   public void testBoundaries()
     throws MathUserException, IntegratorException {
     double range = pb.getFinalTime() - pb.getInitialTime();
@@ -62,9 +64,10 @@ public class StepNormalizerTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
-    assertTrue(lastSeen);
+    Assert.assertTrue(lastSeen);
   }
 
+  @Test
   public void testBeforeEnd()
     throws MathUserException, IntegratorException {
     final double range = pb.getFinalTime() - pb.getInitialTime();
@@ -86,18 +89,18 @@ public class StepNormalizerTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
-    assertTrue(lastSeen);
+    Assert.assertTrue(lastSeen);
   }
 
   public void checkValue(double value, double reference) {
-    assertTrue(FastMath.abs(value - reference) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(value - reference) < 1.0e-10);
   }
 
   public void setLastSeen(boolean lastSeen) {
     this.lastSeen = lastSeen;
   }
 
-  @Override
+  @Before
   public void setUp() {
     pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -106,7 +109,7 @@ public class StepNormalizerTest
     lastSeen = false;
   }
 
-  @Override
+  @After
   public void tearDown() {
     pb    = null;
     integ = null;

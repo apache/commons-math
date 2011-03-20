@@ -16,10 +16,12 @@
  */
 package org.apache.commons.math.distribution;
 
-import junit.framework.TestCase;
 import org.apache.commons.math.MathException;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class BetaDistributionTest extends TestCase {
+public class BetaDistributionTest {
+    @Test
     public void testCumulative() throws MathException {
         double[] x = new double[]{-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
         // all test data computed using R 2.5
@@ -142,14 +144,15 @@ public class BetaDistributionTest extends TestCase {
     private void checkCumulative(double alpha, double beta, double[] x, double[] cumes) throws MathException {
         BetaDistribution d = new BetaDistributionImpl(alpha, beta);
         for (int i = 0; i < x.length; i++) {
-            assertEquals(cumes[i], d.cumulativeProbability(x[i]), 1e-8);
+            Assert.assertEquals(cumes[i], d.cumulativeProbability(x[i]), 1e-8);
         }
 
         for (int i = 1; i < x.length - 1; i++) {
-            assertEquals(x[i], d.inverseCumulativeProbability(cumes[i]), 1e-5);
+            Assert.assertEquals(x[i], d.inverseCumulativeProbability(cumes[i]), 1e-5);
         }
     }
 
+    @Test
     public void testDensity() {
         double[] x = new double[]{1e-6, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
         checkDensity(0.1, 0.1,
@@ -283,20 +286,21 @@ public class BetaDistributionTest extends TestCase {
     private void checkDensity(double alpha, double beta, double[] x, double[] expected) {
         BetaDistribution d = new BetaDistributionImpl(alpha, beta);
         for (int i = 0; i < x.length; i++) {
-            assertEquals(String.format("density at x=%.1f for alpha=%.1f, beta=%.1f", x[i], alpha, beta), expected[i], d.density(x[i]), 1e-5);
+            Assert.assertEquals(String.format("density at x=%.1f for alpha=%.1f, beta=%.1f", x[i], alpha, beta), expected[i], d.density(x[i]), 1e-5);
         }
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         BetaDistribution dist;
         
         dist = new BetaDistributionImpl(1, 1);
-        assertEquals(dist.getNumericalMean(), 0.5, tol);
-        assertEquals(dist.getNumericalVariance(), 1.0 / 12.0, tol); 
+        Assert.assertEquals(dist.getNumericalMean(), 0.5, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 1.0 / 12.0, tol); 
         
         dist = new BetaDistributionImpl(2, 5);
-        assertEquals(dist.getNumericalMean(), 2.0 / 7.0, tol);
-        assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol); 
+        Assert.assertEquals(dist.getNumericalMean(), 2.0 / 7.0, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol); 
     }
 }

@@ -18,6 +18,8 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for CauchyDistribution.
@@ -28,18 +30,10 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
  */
 public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  {
 
-    /**
-     * Constructor for CauchyDistributionTest.
-     * @param arg0
-     */
-    public CauchyDistributionTest(String arg0) {
-        super(arg0);
-    }
-
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         setTolerance(defaultTolerance);
     }
@@ -76,6 +70,7 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
 
     //---------------------------- Additional test cases -------------------------
 
+    @Test
     public void testInverseCumulativeProbabilityExtremes() throws Exception {
         setInverseCumulativeTestPoints(new double[] {0.0, 1.0});
         setInverseCumulativeTestValues(
@@ -83,40 +78,44 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testMedian() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        assertEquals(1.2, distribution.getMedian(), 0.0);
+        Assert.assertEquals(1.2, distribution.getMedian(), 0.0);
     }
 
+    @Test
     public void testScale() {
         CauchyDistribution distribution = (CauchyDistribution) getDistribution();
-        assertEquals(2.1, distribution.getScale(), 0.0);
+        Assert.assertEquals(2.1, distribution.getScale(), 0.0);
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new CauchyDistributionImpl(0, 0);
-            fail("Cannot have zero scale");
+            Assert.fail("Cannot have zero scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
             new CauchyDistributionImpl(0, -1);
-            fail("Cannot have negative scale");
+            Assert.fail("Cannot have negative scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
     }
 
+    @Test
     public void testMomonts() {
         CauchyDistribution dist;
         
         dist = new CauchyDistributionImpl(10.2, 0.15);        
-        assertTrue(Double.isNaN(dist.getNumericalMean()));
-        assertTrue(Double.isNaN(dist.getNumericalVariance()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
         
         dist = new CauchyDistributionImpl(23.12, 2.12);
-        assertTrue(Double.isNaN(dist.getNumericalMean()));
-        assertTrue(Double.isNaN(dist.getNumericalVariance()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
+        Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
     }
 }

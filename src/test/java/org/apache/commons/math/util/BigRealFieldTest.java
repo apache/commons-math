@@ -16,29 +16,28 @@
  */
 package org.apache.commons.math.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.TestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class BigRealFieldTest {
 
     @Test
     public void testZero() {
-        assertEquals(BigReal.ZERO, BigRealField.getInstance().getZero());
+        Assert.assertEquals(BigReal.ZERO, BigRealField.getInstance().getZero());
     }
 
     @Test
     public void testOne() {
-        assertEquals(BigReal.ONE, BigRealField.getInstance().getOne());
+        Assert.assertEquals(BigReal.ONE, BigRealField.getInstance().getOne());
     }
 
     @Test
     public void testSerial() {
         // deserializing the singleton should give the singleton itself back
         BigRealField field = BigRealField.getInstance();
-        assertTrue(field == TestUtils.serializeAndRecover(field));
+        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
     }
 
 }

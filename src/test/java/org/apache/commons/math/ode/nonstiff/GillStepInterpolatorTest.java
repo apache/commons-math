@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 import java.io.ByteArrayOutputStream;
@@ -33,6 +32,7 @@ import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.GillIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GillStepInterpolatorTest {
@@ -65,8 +65,8 @@ public class GillStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    assertTrue(bos.size () > 753000);
-    assertTrue(bos.size () < 754000);
+    Assert.assertTrue(bos.size () > 753000);
+    Assert.assertTrue(bos.size () < 754000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -88,7 +88,7 @@ public class GillStepInterpolatorTest {
       }
     }
 
-    assertTrue(maxError < 0.003);
+    Assert.assertTrue(maxError < 0.003);
 
   }
 

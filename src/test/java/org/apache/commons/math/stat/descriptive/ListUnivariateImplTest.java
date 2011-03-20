@@ -19,10 +19,11 @@ package org.apache.commons.math.stat.descriptive;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
@@ -30,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 
-public final class ListUnivariateImplTest extends TestCase {
+public final class ListUnivariateImplTest {
 
     private double one = 1;
     private float two = 2;
@@ -46,49 +47,48 @@ public final class ListUnivariateImplTest extends TestCase {
     private double max = 3;
     private double tolerance = 10E-15;
 
-    public ListUnivariateImplTest(String name) {
-        super(name);
-    }
-
     /** test stats */
+    @Test
     public void testStats() {
         List<Object> externalList = new ArrayList<Object>();
 
         DescriptiveStatistics u = new ListUnivariateImpl( externalList );
 
-        assertEquals("total count",0,u.getN(),tolerance);
+        Assert.assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(two);
         u.addValue(two);
         u.addValue(three);
-        assertEquals("N",n,u.getN(),tolerance);
-        assertEquals("sum",sum,u.getSum(),tolerance);
-        assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
-        assertEquals("var",var,u.getVariance(),tolerance);
-        assertEquals("std",std,u.getStandardDeviation(),tolerance);
-        assertEquals("mean",mean,u.getMean(),tolerance);
-        assertEquals("min",min,u.getMin(),tolerance);
-        assertEquals("max",max,u.getMax(),tolerance);
+        Assert.assertEquals("N",n,u.getN(),tolerance);
+        Assert.assertEquals("sum",sum,u.getSum(),tolerance);
+        Assert.assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
+        Assert.assertEquals("var",var,u.getVariance(),tolerance);
+        Assert.assertEquals("std",std,u.getStandardDeviation(),tolerance);
+        Assert.assertEquals("mean",mean,u.getMean(),tolerance);
+        Assert.assertEquals("min",min,u.getMin(),tolerance);
+        Assert.assertEquals("max",max,u.getMax(),tolerance);
         u.clear();
-        assertEquals("total count",0,u.getN(),tolerance);
+        Assert.assertEquals("total count",0,u.getN(),tolerance);
     }
 
+    @Test
     public void testN0andN1Conditions() throws Exception {
         List<Object> list = new ArrayList<Object>();
 
         DescriptiveStatistics u = new ListUnivariateImpl( list );
 
-        assertTrue("Mean of n = 0 set should be NaN", Double.isNaN( u.getMean() ) );
-        assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
-        assertTrue("Variance of n = 0 set should be NaN", Double.isNaN(u.getVariance() ) );
+        Assert.assertTrue("Mean of n = 0 set should be NaN", Double.isNaN( u.getMean() ) );
+        Assert.assertTrue("Standard Deviation of n = 0 set should be NaN", Double.isNaN( u.getStandardDeviation() ) );
+        Assert.assertTrue("Variance of n = 0 set should be NaN", Double.isNaN(u.getVariance() ) );
 
         list.add( Double.valueOf(one));
 
-        assertTrue( "Mean of n = 1 set should be value of single item n1", u.getMean() == one);
-        assertTrue( "StdDev of n = 1 set should be zero, instead it is: " + u.getStandardDeviation(), u.getStandardDeviation() == 0);
-        assertTrue( "Variance of n = 1 set should be zero", u.getVariance() == 0);
+        Assert.assertTrue( "Mean of n = 1 set should be value of single item n1", u.getMean() == one);
+        Assert.assertTrue( "StdDev of n = 1 set should be zero, instead it is: " + u.getStandardDeviation(), u.getStandardDeviation() == 0);
+        Assert.assertTrue( "Variance of n = 1 set should be zero", u.getVariance() == 0);
     }
 
+    @Test
     public void testSkewAndKurtosis() {
         DescriptiveStatistics u = new DescriptiveStatistics();
 
@@ -98,12 +98,13 @@ public final class ListUnivariateImplTest extends TestCase {
             u.addValue( testArray[i]);
         }
 
-        assertEquals("mean", 12.40455, u.getMean(), 0.0001);
-        assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
-        assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
-        assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
+        Assert.assertEquals("mean", 12.40455, u.getMean(), 0.0001);
+        Assert.assertEquals("variance", 10.00236, u.getVariance(), 0.0001);
+        Assert.assertEquals("skewness", 1.437424, u.getSkewness(), 0.0001);
+        Assert.assertEquals("kurtosis", 2.37719, u.getKurtosis(), 0.0001);
     }
 
+    @Test
     public void testProductAndGeometricMean() throws Exception {
         ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<Object>());
         u.setWindowSize(10);
@@ -113,7 +114,7 @@ public final class ListUnivariateImplTest extends TestCase {
         u.addValue( 3.0 );
         u.addValue( 4.0 );
 
-        assertEquals( "Geometric mean not expected", 2.213364, u.getGeometricMean(), 0.00001 );
+        Assert.assertEquals( "Geometric mean not expected", 2.213364, u.getGeometricMean(), 0.00001 );
 
         // Now test rolling - StorelessDescriptiveStatistics should discount the contribution
         // of a discarded element
@@ -122,17 +123,18 @@ public final class ListUnivariateImplTest extends TestCase {
         }
         // Values should be (2,3,4,5,6,7,8,9,10,11)
 
-        assertEquals( "Geometric mean not expected", 5.755931, u.getGeometricMean(), 0.00001 );
+        Assert.assertEquals( "Geometric mean not expected", 5.755931, u.getGeometricMean(), 0.00001 );
 
 
     }
 
     /** test stats */
+    @Test
     public void testSerialization() {
 
         DescriptiveStatistics u = new ListUnivariateImpl();
 
-        assertEquals("total count",0,u.getN(),tolerance);
+        Assert.assertEquals("total count",0,u.getN(),tolerance);
         u.addValue(one);
         u.addValue(two);
 
@@ -141,17 +143,17 @@ public final class ListUnivariateImplTest extends TestCase {
         u2.addValue(two);
         u2.addValue(three);
 
-        assertEquals("N",n,u2.getN(),tolerance);
-        assertEquals("sum",sum,u2.getSum(),tolerance);
-        assertEquals("sumsq",sumSq,u2.getSumsq(),tolerance);
-        assertEquals("var",var,u2.getVariance(),tolerance);
-        assertEquals("std",std,u2.getStandardDeviation(),tolerance);
-        assertEquals("mean",mean,u2.getMean(),tolerance);
-        assertEquals("min",min,u2.getMin(),tolerance);
-        assertEquals("max",max,u2.getMax(),tolerance);
+        Assert.assertEquals("N",n,u2.getN(),tolerance);
+        Assert.assertEquals("sum",sum,u2.getSum(),tolerance);
+        Assert.assertEquals("sumsq",sumSq,u2.getSumsq(),tolerance);
+        Assert.assertEquals("var",var,u2.getVariance(),tolerance);
+        Assert.assertEquals("std",std,u2.getStandardDeviation(),tolerance);
+        Assert.assertEquals("mean",mean,u2.getMean(),tolerance);
+        Assert.assertEquals("min",min,u2.getMin(),tolerance);
+        Assert.assertEquals("max",max,u2.getMax(),tolerance);
 
         u2.clear();
-        assertEquals("total count",0,u2.getN(),tolerance);
+        Assert.assertEquals("total count",0,u2.getN(),tolerance);
     }
 }
 

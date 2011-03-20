@@ -21,7 +21,6 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.ConvergenceException;
@@ -35,6 +34,8 @@ import org.apache.commons.math.optimization.SimpleVectorialPointChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -98,13 +99,9 @@ import org.apache.commons.math.util.FastMath;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class GaussNewtonOptimizerTest
-extends TestCase {
+public class GaussNewtonOptimizerTest {
 
-    public GaussNewtonOptimizerTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testTrivial() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
@@ -112,11 +109,12 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
+    @Test
     public void testColumnsPermutation() throws MathUserException {
 
         LinearProblem problem =
@@ -127,15 +125,16 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
-        assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
-        assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
+        Assert.assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
 
     }
 
+    @Test
     public void testNoDependency() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
@@ -150,12 +149,13 @@ extends TestCase {
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         for (int i = 0; i < problem.target.length; ++i) {
-            assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
+            Assert.assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
         }
     }
 
+    @Test
     public void testOneSet() throws MathUserException {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -167,13 +167,14 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
 
     }
 
+    @Test
     public void testTwoSets() throws MathUserException {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -190,16 +191,17 @@ extends TestCase {
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
-        assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
-        assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
-        assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
+        Assert.assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
+        Assert.assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
 
     }
 
+    @Test
     public void testNonInversible() throws Exception {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -211,12 +213,13 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
-            fail("an exception should have been caught");
+            Assert.fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
         }
     }
 
+    @Test
     public void testIllConditioned() throws MathUserException {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
@@ -229,11 +232,11 @@ extends TestCase {
         VectorialPointValuePair optimum1 =
             optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[1], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[2], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[3], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[3], 1.0e-10);
 
         LinearProblem problem2 = new LinearProblem(new double[][] {
                 { 10.00, 7.00, 8.10, 7.20 },
@@ -244,14 +247,15 @@ extends TestCase {
         VectorialPointValuePair optimum2 =
             optimizer.optimize(100, problem2, problem2.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
-        assertEquals(137.0, optimum2.getPoint()[1], 1.0e-8);
-        assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-8);
-        assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
+        Assert.assertEquals(137.0, optimum2.getPoint()[1], 1.0e-8);
+        Assert.assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-8);
+        Assert.assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
 
     }
 
+    @Test
     public void testMoreEstimatedParametersSimple() throws Exception {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -265,12 +269,13 @@ extends TestCase {
         try {
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 7, 6, 5, 4 });
-            fail("an exception should have been caught");
+            Assert.fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
         }
     }
 
+    @Test
     public void testMoreEstimatedParametersUnsorted() throws Exception {
         LinearProblem problem = new LinearProblem(new double[][] {
                  { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
@@ -284,12 +289,13 @@ extends TestCase {
         try {
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 2, 2, 2, 2, 2, 2 });
-            fail("an exception should have been caught");
+            Assert.fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
         }
     }
 
+    @Test
     public void testRedundantEquations() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
@@ -302,12 +308,13 @@ extends TestCase {
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
-        assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(2.0, optimum.getPoint()[0], 1.0e-8);
+        Assert.assertEquals(1.0, optimum.getPoint()[1], 1.0e-8);
 
     }
 
+    @Test
     public void testInconsistentEquations() throws MathUserException {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
@@ -318,10 +325,11 @@ extends TestCase {
         GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
-        assertTrue(optimizer.getRMS() > 0.1);
+        Assert.assertTrue(optimizer.getRMS() > 0.1);
 
     }
 
+    @Test
     public void testInconsistentSizes() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
@@ -330,15 +338,15 @@ extends TestCase {
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
 
         try {
             optimizer.optimize(100, problem, problem.target,
                                new double[] { 1 },
                                new double[] { 0, 0 });
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException oe) {
             // expected behavior
         }
@@ -347,13 +355,14 @@ extends TestCase {
             optimizer.optimize(100, problem, new double[] { 1 },
                                new double[] { 1 },
                                new double[] { 0, 0 });
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException oe) {
             // expected behavior
         }
 
     }
 
+    @Test
     public void testMaxEvaluations() throws Exception {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
@@ -367,12 +376,13 @@ extends TestCase {
             optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
-            fail("an exception should have been caught");
+            Assert.fail("an exception should have been caught");
         } catch (TooManyEvaluationsException ee) {
             // expected behavior
         }
     }
 
+    @Test
     public void testCircleFitting() throws MathUserException {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
@@ -386,13 +396,14 @@ extends TestCase {
             optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
-        assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * optimizer.getRMS(),  1.0e-10);
+        Assert.assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * optimizer.getRMS(),  1.0e-10);
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
-        assertEquals(69.96016175359975, circle.getRadius(center), 1.0e-10);
-        assertEquals(96.07590209601095, center.x, 1.0e-10);
-        assertEquals(48.135167894714,   center.y, 1.0e-10);
+        Assert.assertEquals(69.96016175359975, circle.getRadius(center), 1.0e-10);
+        Assert.assertEquals(96.07590209601095, center.x, 1.0e-10);
+        Assert.assertEquals(48.135167894714,   center.y, 1.0e-10);
     }
 
+    @Test
     public void testCircleFittingBadInit() throws MathUserException {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = new double[][] {
@@ -437,16 +448,16 @@ extends TestCase {
         optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         try {
             optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
-            fail("an exception should have been caught");
+            Assert.fail("an exception should have been caught");
         } catch (ConvergenceException ee) {
             // expected behavior
         }
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { 0, 0 });
-        assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-6);
-        assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-6);
-        assertEquals(0.04268731682389561, optimizer.getRMS(),       1.0e-8);
+        Assert.assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-6);
+        Assert.assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-6);
+        Assert.assertEquals(0.04268731682389561, optimizer.getRMS(),       1.0e-8);
 
     }
 

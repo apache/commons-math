@@ -19,7 +19,9 @@ package org.apache.commons.math.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 /**
  * Test cases for the OneWayAnovaImpl class.
@@ -27,7 +29,7 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 
-public class OneWayAnovaTest extends TestCase {
+public class OneWayAnovaTest {
 
     protected OneWayAnova testStatistic = new OneWayAnovaImpl();
 
@@ -40,10 +42,7 @@ public class OneWayAnovaTest extends TestCase {
     private double[] classC =
             {110.0, 115.0, 111.0, 117.0, 128.0, 117.0 };
 
-    public OneWayAnovaTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testAnovaFValue() throws Exception {
         // Target comparison values computed using R version 2.6.0 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
@@ -51,14 +50,14 @@ public class OneWayAnovaTest extends TestCase {
         threeClasses.add(classB);
         threeClasses.add(classC);
 
-        assertEquals("ANOVA F-value",  24.67361709460624,
+        Assert.assertEquals("ANOVA F-value",  24.67361709460624,
                  testStatistic.anovaFValue(threeClasses), 1E-12);
 
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 
-        assertEquals("ANOVA F-value",  0.0150579150579,
+        Assert.assertEquals("ANOVA F-value",  0.0150579150579,
                  testStatistic.anovaFValue(twoClasses), 1E-12);
 
         List<double[]> emptyContents = new ArrayList<double[]>();
@@ -66,7 +65,7 @@ public class OneWayAnovaTest extends TestCase {
         emptyContents.add(classC);
         try {
             testStatistic.anovaFValue(emptyContents);
-            fail("empty array for key classX, IllegalArgumentException expected");
+            Assert.fail("empty array for key classX, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -75,13 +74,14 @@ public class OneWayAnovaTest extends TestCase {
         tooFew.add(classA);
         try {
             testStatistic.anovaFValue(tooFew);
-            fail("less than two classes, IllegalArgumentException expected");
+            Assert.fail("less than two classes, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
 
+    @Test
     public void testAnovaPValue() throws Exception {
         // Target comparison values computed using R version 2.6.0 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
@@ -89,18 +89,19 @@ public class OneWayAnovaTest extends TestCase {
         threeClasses.add(classB);
         threeClasses.add(classC);
 
-        assertEquals("ANOVA P-value", 6.959446E-06,
+        Assert.assertEquals("ANOVA P-value", 6.959446E-06,
                  testStatistic.anovaPValue(threeClasses), 1E-12);
 
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 
-        assertEquals("ANOVA P-value",  0.904212960464,
+        Assert.assertEquals("ANOVA P-value",  0.904212960464,
                  testStatistic.anovaPValue(twoClasses), 1E-12);
 
     }
 
+    @Test
     public void testAnovaTest() throws Exception {
         // Target comparison values computed using R version 2.3.1 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
@@ -108,13 +109,13 @@ public class OneWayAnovaTest extends TestCase {
         threeClasses.add(classB);
         threeClasses.add(classC);
 
-        assertTrue("ANOVA Test P<0.01", testStatistic.anovaTest(threeClasses, 0.01));
+        Assert.assertTrue("ANOVA Test P<0.01", testStatistic.anovaTest(threeClasses, 0.01));
 
         List<double[]> twoClasses = new ArrayList<double[]>();
         twoClasses.add(classA);
         twoClasses.add(classB);
 
-        assertFalse("ANOVA Test P>0.01", testStatistic.anovaTest(twoClasses, 0.01));
+        Assert.assertFalse("ANOVA Test P>0.01", testStatistic.anovaTest(twoClasses, 0.01));
     }
 
 }

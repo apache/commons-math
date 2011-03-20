@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.stat.clustering;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +66,7 @@ public class KMeansPlusPlusClustererTest {
         List<Cluster<EuclideanIntegerPoint>> clusters =
             transformer.cluster(Arrays.asList(points), 3, 10);
 
-        assertEquals(3, clusters.size());
+        Assert.assertEquals(3, clusters.size());
         boolean cluster1Found = false;
         boolean cluster2Found = false;
         boolean cluster3Found = false;
@@ -76,24 +74,24 @@ public class KMeansPlusPlusClustererTest {
             int[] center = cluster.getCenter().getPoint();
             if (center[0] < 0) {
                 cluster1Found = true;
-                assertEquals(8, cluster.getPoints().size());
-                assertEquals(-14, center[0]);
-                assertEquals( 4, center[1]);
+                Assert.assertEquals(8, cluster.getPoints().size());
+                Assert.assertEquals(-14, center[0]);
+                Assert.assertEquals( 4, center[1]);
             } else if (center[1] < 0) {
                 cluster2Found = true;
-                assertEquals(5, cluster.getPoints().size());
-                assertEquals( 0, center[0]);
-                assertEquals(-1, center[1]);
+                Assert.assertEquals(5, cluster.getPoints().size());
+                Assert.assertEquals( 0, center[0]);
+                Assert.assertEquals(-1, center[1]);
             } else {
                 cluster3Found = true;
-                assertEquals(8, cluster.getPoints().size());
-                assertEquals(15, center[0]);
-                assertEquals(5, center[1]);
+                Assert.assertEquals(8, cluster.getPoints().size());
+                Assert.assertEquals(15, center[0]);
+                Assert.assertEquals(5, center[1]);
             }
         }
-        assertTrue(cluster1Found);
-        assertTrue(cluster2Found);
-        assertTrue(cluster3Found);
+        Assert.assertTrue(cluster1Found);
+        Assert.assertTrue(cluster2Found);
+        Assert.assertTrue(cluster3Found);
 
     }
 
@@ -110,12 +108,12 @@ public class KMeansPlusPlusClustererTest {
                 new EuclideanIntegerPoint(new int[] { 1959, 325100 }),
                 new EuclideanIntegerPoint(new int[] { 1960, 373200 }), };
         List<Cluster<EuclideanIntegerPoint>> clusters = transformer.cluster(Arrays.asList(points), 1, 1);
-        assertEquals(1, clusters.size());
-        assertEquals(2, (clusters.get(0).getPoints().size()));
+        Assert.assertEquals(1, clusters.size());
+        Assert.assertEquals(2, (clusters.get(0).getPoints().size()));
         EuclideanIntegerPoint pt1 = new EuclideanIntegerPoint(new int[] { 1959, 325100 });
         EuclideanIntegerPoint pt2 = new EuclideanIntegerPoint(new int[] { 1960, 373200 });
-        assertTrue(clusters.get(0).getPoints().contains(pt1));
-        assertTrue(clusters.get(0).getPoints().contains(pt2));
+        Assert.assertTrue(clusters.get(0).getPoints().contains(pt1));
+        Assert.assertTrue(clusters.get(0).getPoints().contains(pt2));
 
     }
 
@@ -246,6 +244,6 @@ public class KMeansPlusPlusClustererTest {
                 uniquePointIsCenter = true;
             }
         }
-        assertTrue(uniquePointIsCenter);
+        Assert.assertTrue(uniquePointIsCenter);
     }
 }

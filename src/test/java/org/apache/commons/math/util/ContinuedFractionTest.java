@@ -16,20 +16,16 @@
  */
 package org.apache.commons.math.util;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 /**
  * @version $Revision$ $Date$
  */
-public class ContinuedFractionTest extends TestCase {
-    /**
-     * Constructor for ContinuedFractionTest.
-     * @param name
-     */
-    public ContinuedFractionTest(String name) {
-        super(name);
-    }
+public class ContinuedFractionTest {
 
+    @Test
     public void testGoldenRatio() throws Exception {
         ContinuedFraction cf = new ContinuedFraction() {
 
@@ -45,6 +41,6 @@ public class ContinuedFractionTest extends TestCase {
         };
 
         double gr = cf.evaluate(0.0, 10e-9);
-        assertEquals(1.61803399, gr, 10e-9);
+        Assert.assertEquals(1.61803399, gr, 10e-9);
     }
 }

@@ -24,16 +24,13 @@ import org.apache.commons.math.geometry.RotationOrder;
 import org.apache.commons.math.geometry.Vector3D;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class RotationTest
-  extends TestCase {
+public class RotationTest {
 
-  public RotationTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testIdentity() {
 
     Rotation r = Rotation.IDENTITY;
@@ -56,6 +53,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testAxisAngle() {
 
     Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3);
@@ -68,7 +66,7 @@ public class RotationTest
 
     try {
       new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch (ArithmeticException e) {
     }
 
@@ -84,15 +82,17 @@ public class RotationTest
 
   }
 
+  @Test
   public void testRevert() {
     Rotation r = new Rotation(0.001, 0.36, 0.48, 0.8, true);
     Rotation reverted = r.revert();
     checkRotation(r.applyTo(reverted), 1, 0, 0, 0);
     checkRotation(reverted.applyTo(r), 1, 0, 0, 0);
-    assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
-    assertEquals(-1, Vector3D.dotProduct(r.getAxis(), reverted.getAxis()), 1.0e-12);
+    Assert.assertEquals(r.getAngle(), reverted.getAngle(), 1.0e-12);
+    Assert.assertEquals(-1, Vector3D.dotProduct(r.getAxis(), reverted.getAxis()), 1.0e-12);
   }
 
+  @Test
   public void testVectorOnePair() {
 
     Vector3D u = new Vector3D(3, 2, 1);
@@ -104,13 +104,14 @@ public class RotationTest
 
     try {
         new Rotation(u, Vector3D.ZERO);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch (IllegalArgumentException e) {
         // expected behavior
     }
 
   }
 
+  @Test
   public void testVectorTwoPairs() {
 
     Vector3D u1 = new Vector3D(3, 0, 0);
@@ -143,13 +144,14 @@ public class RotationTest
 
     try {
         new Rotation(u1, u2, Vector3D.ZERO, v2);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
     } catch (IllegalArgumentException e) {
       // expected behavior
     }
 
   }
 
+  @Test
   public void testMatrix()
     throws NotARotationMatrixException {
 
@@ -158,7 +160,7 @@ public class RotationTest
                      { 0.0, 1.0, 0.0 },
                      { 1.0, 0.0, 0.0 }
                    }, 1.0e-7);
-      fail("Expecting NotARotationMatrixException");
+      Assert.fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
     }
@@ -169,7 +171,7 @@ public class RotationTest
                      {  0.821760, -0.184320,  0.539200 },
                      { -0.354816,  0.574912,  0.737280 }
                    }, 1.0e-7);
-      fail("Expecting NotARotationMatrixException");
+      Assert.fail("Expecting NotARotationMatrixException");
     } catch (NotARotationMatrixException nrme) {
       // expected behavior
     }
@@ -180,7 +182,7 @@ public class RotationTest
                        { -0.4,  0.6,  0.7 },
                        {  0.8, -0.2,  0.5 }
                      }, 1.0e-15);
-        fail("Expecting NotARotationMatrixException");
+        Assert.fail("Expecting NotARotationMatrixException");
       } catch (NotARotationMatrixException nrme) {
         // expected behavior
       }
@@ -237,25 +239,25 @@ public class RotationTest
     double d21 = m2[2][1] - m3[2][1];
     double d22 = m2[2][2] - m3[2][2];
 
-    assertTrue(FastMath.abs(d00) < 6.0e-6);
-    assertTrue(FastMath.abs(d01) < 6.0e-6);
-    assertTrue(FastMath.abs(d02) < 6.0e-6);
-    assertTrue(FastMath.abs(d10) < 6.0e-6);
-    assertTrue(FastMath.abs(d11) < 6.0e-6);
-    assertTrue(FastMath.abs(d12) < 6.0e-6);
-    assertTrue(FastMath.abs(d20) < 6.0e-6);
-    assertTrue(FastMath.abs(d21) < 6.0e-6);
-    assertTrue(FastMath.abs(d22) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d00) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d01) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d02) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d10) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d11) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d12) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d20) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d21) < 6.0e-6);
+    Assert.assertTrue(FastMath.abs(d22) < 6.0e-6);
 
-    assertTrue(FastMath.abs(d00) > 4.0e-7);
-    assertTrue(FastMath.abs(d01) > 4.0e-7);
-    assertTrue(FastMath.abs(d02) > 4.0e-7);
-    assertTrue(FastMath.abs(d10) > 4.0e-7);
-    assertTrue(FastMath.abs(d11) > 4.0e-7);
-    assertTrue(FastMath.abs(d12) > 4.0e-7);
-    assertTrue(FastMath.abs(d20) > 4.0e-7);
-    assertTrue(FastMath.abs(d21) > 4.0e-7);
-    assertTrue(FastMath.abs(d22) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d00) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d01) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d02) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d10) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d11) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d12) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d20) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d21) > 4.0e-7);
+    Assert.assertTrue(FastMath.abs(d22) > 4.0e-7);
 
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
@@ -263,9 +265,9 @@ public class RotationTest
                      + m3[i][1] * m3[j][1]
                      + m3[i][2] * m3[j][2];
         if (i == j) {
-          assertTrue(FastMath.abs(m3tm3 - 1.0) < 1.0e-10);
+          Assert.assertTrue(FastMath.abs(m3tm3 - 1.0) < 1.0e-10);
         } else {
-          assertTrue(FastMath.abs(m3tm3) < 1.0e-10);
+          Assert.assertTrue(FastMath.abs(m3tm3) < 1.0e-10);
         }
       }
     }
@@ -288,13 +290,14 @@ public class RotationTest
                         { 0.0, 1.0, 0.0 },
                         { 1.0, 0.0, 0.0 } };
       r = new Rotation(m5, 1.0e-7);
-      fail("got " + r + ", should have caught an exception");
+      Assert.fail("got " + r + ", should have caught an exception");
     } catch (NotARotationMatrixException e) {
       // expected
     }
 
   }
 
+  @Test
   public void testAngles()
     throws CardanEulerSingularityException {
 
@@ -339,6 +342,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testSingularities() {
 
     RotationOrder[] CardanOrders = {
@@ -352,7 +356,7 @@ public class RotationTest
         Rotation r = new Rotation(CardanOrders[i], 0.1, singularCardanAngle[j], 0.3);
         try {
           r.getAngles(CardanOrders[i]);
-          fail("an exception should have been caught");
+          Assert.fail("an exception should have been caught");
         } catch (CardanEulerSingularityException cese) {
           // expected behavior
         }
@@ -370,7 +374,7 @@ public class RotationTest
         Rotation r = new Rotation(EulerOrders[i], 0.1, singularEulerAngle[j], 0.3);
         try {
           r.getAngles(EulerOrders[i]);
-          fail("an exception should have been caught");
+          Assert.fail("an exception should have been caught");
         } catch (CardanEulerSingularityException cese) {
           // expected behavior
         }
@@ -380,6 +384,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testQuaternion() {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
@@ -401,6 +406,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testCompose() {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
@@ -418,6 +424,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testComposeInverse() {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
@@ -435,6 +442,7 @@ public class RotationTest
 
   }
 
+  @Test
   public void testApplyInverseTo() {
 
     Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
@@ -474,15 +482,15 @@ public class RotationTest
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {
-    assertTrue(v1.subtract(v2).getNorm() < 1.0e-10);
+    Assert.assertTrue(v1.subtract(v2).getNorm() < 1.0e-10);
   }
 
   private void checkAngle(double a1, double a2) {
-    assertEquals(a1, MathUtils.normalizeAngle(a2, a1), 1.0e-10);
+    Assert.assertEquals(a1, MathUtils.normalizeAngle(a2, a1), 1.0e-10);
   }
 
   private void checkRotation(Rotation r, double q0, double q1, double q2, double q3) {
-    assertEquals(0, Rotation.distance(r, new Rotation(q0, q1, q2, q3, false)), 1.0e-12);
+    Assert.assertEquals(0, Rotation.distance(r, new Rotation(q0, q1, q2, q3, false)), 1.0e-12);
   }
 
 }

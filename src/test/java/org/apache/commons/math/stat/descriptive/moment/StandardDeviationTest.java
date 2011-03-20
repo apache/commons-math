@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -28,13 +30,6 @@ import org.apache.commons.math.util.FastMath;
 public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected StandardDeviation stat;
-
-    /**
-     * @param name
-     */
-    public StandardDeviationTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -56,16 +51,18 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
      * Make sure Double.NaN is returned iff n = 0
      *
      */
+    @Test
     public void testNaN() {
         StandardDeviation std = new StandardDeviation();
-        assertTrue(Double.isNaN(std.getResult()));
+        Assert.assertTrue(Double.isNaN(std.getResult()));
         std.increment(1d);
-        assertEquals(0d, std.getResult(), 0);
+        Assert.assertEquals(0d, std.getResult(), 0);
     }
 
     /**
      * Test population version of variance
      */
+    @Test
     public void testPopulation() {
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         double sigma = populationStandardDeviation(values);
@@ -73,15 +70,15 @@ public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractT
         m.evaluate(values);  // side effect is to add values
         StandardDeviation s1 = new StandardDeviation();
         s1.setBiasCorrected(false);
-        assertEquals(sigma, s1.evaluate(values), 1E-14);
+        Assert.assertEquals(sigma, s1.evaluate(values), 1E-14);
         s1.incrementAll(values);
-        assertEquals(sigma, s1.getResult(), 1E-14);
+        Assert.assertEquals(sigma, s1.getResult(), 1E-14);
         s1 = new StandardDeviation(false, m);
-        assertEquals(sigma, s1.getResult(), 1E-14);
+        Assert.assertEquals(sigma, s1.getResult(), 1E-14);
         s1 = new StandardDeviation(false);
-        assertEquals(sigma, s1.evaluate(values), 1E-14);
+        Assert.assertEquals(sigma, s1.evaluate(values), 1E-14);
         s1.incrementAll(values);
-        assertEquals(sigma, s1.getResult(), 1E-14);
+        Assert.assertEquals(sigma, s1.getResult(), 1E-14);
     }
 
     /**

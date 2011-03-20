@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,6 +33,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GraggBulirschStoerStepInterpolatorTest {
@@ -79,8 +78,8 @@ public class GraggBulirschStoerStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    assertTrue(bos.size () > 34000);
-    assertTrue(bos.size () < 35000);
+    Assert.assertTrue(bos.size () > 34000);
+    Assert.assertTrue(bos.size () < 35000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -102,7 +101,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
       }
     }
 
-    assertTrue(maxError < 5.0e-10);
+    Assert.assertTrue(maxError < 5.0e-10);
 
   }
 
@@ -124,18 +123,18 @@ public class GraggBulirschStoerStepInterpolatorTest {
             double tA = cloned.getPreviousTime();
             double tB = cloned.getCurrentTime();
             double halfStep = FastMath.abs(tB - tA) / 2;
-            assertEquals(interpolator.getPreviousTime(), tA, 1.0e-12);
-            assertEquals(interpolator.getCurrentTime(), tB, 1.0e-12);
+            Assert.assertEquals(interpolator.getPreviousTime(), tA, 1.0e-12);
+            Assert.assertEquals(interpolator.getCurrentTime(), tB, 1.0e-12);
             for (int i = 0; i < 10; ++i) {
                 double t = (i * tB + (9 - i) * tA) / 9;
                 interpolator.setInterpolatedTime(t);
-                assertTrue(FastMath.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
+                Assert.assertTrue(FastMath.abs(cloned.getInterpolatedTime() - t) > (halfStep / 10));
                 cloned.setInterpolatedTime(t);
-                assertEquals(t, cloned.getInterpolatedTime(), 1.0e-12);
+                Assert.assertEquals(t, cloned.getInterpolatedTime(), 1.0e-12);
                 double[] referenceState = interpolator.getInterpolatedState();
                 double[] cloneState     = cloned.getInterpolatedState();
                 for (int j = 0; j < referenceState.length; ++j) {
-                    assertEquals(referenceState[j], cloneState[j], 1.0e-12);
+                    Assert.assertEquals(referenceState[j], cloneState[j], 1.0e-12);
                 }
             }
         }

@@ -18,6 +18,8 @@ package org.apache.commons.math.random;
 
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the AbstractRandomGenerator class
@@ -29,16 +31,16 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
 
     protected TestRandomGenerator testGenerator = new TestRandomGenerator();
 
-    public AbstractRandomGeneratorTest(String name) {
-        super(name);
+    public AbstractRandomGeneratorTest() {
         randomData = new RandomDataImpl(testGenerator);
     }
 
     @Override
+    @Test
     public void testNextInt() {
         try {
             testGenerator.nextInt(-1);
-            fail("MathIllegalArgumentException expected");
+            Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
@@ -46,7 +48,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         int value = 0;
         for (int i=0; i<smallSampleSize; i++) {
             value = testGenerator.nextInt(4);
-            assertTrue("nextInt range",(value >= 0) && (value <= 3));
+            Assert.assertTrue("nextInt range",(value >= 0) && (value <= 3));
             freq.addValue(value);
         }
         long[] observed = new long[4];
@@ -57,11 +59,12 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected,observed) < 16.27);
     }
 
     @Override
+    @Test
     public void testNextLong() {
         long q1 = Long.MAX_VALUE/4;
         long q2 = 2 *  q1;
@@ -91,10 +94,11 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected,observed) < 16.27);
     }
 
+    @Test
     public void testNextBoolean() {
         long halfSampleSize = smallSampleSize / 2;
         double[] expected = {halfSampleSize, halfSampleSize};
@@ -109,10 +113,11 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         /* Use ChiSquare dist with df = 2-1 = 1, alpha = .001
          * Change to 6.635 for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected,observed) < 10.828);
     }
 
+    @Test
     public void testNextFloat() {
         Frequency freq = new Frequency();
         float val = 0;
@@ -138,7 +143,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
         /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
          * Change to 11.34 for alpha = .01
          */
-        assertTrue("chi-square test -- will fail about 1 in 1000 times",
+        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
                 testStatistic.chiSquare(expected,observed) < 16.27);
     }
 }

@@ -19,8 +19,8 @@ package org.apache.commons.math.stat.ranking;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomGenerator;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * Test cases for NaturalRanking class
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * @since 2.0
  * @version $Revision$ $Date$
  */
-public class NaturalRankingTest extends TestCase {
+public class NaturalRankingTest {
 
     private final double[] exampleData = { 20, 17, 30, 42.3, 17, 50,
             Double.NaN, Double.NEGATIVE_INFINITY, 17 };
@@ -38,20 +38,7 @@ public class NaturalRankingTest extends TestCase {
     private final double[] multipleTies = { 3, 2, 5, 5, 6, 6, 1 };
     private final double[] allSame = { 0, 0, 0, 0 };
 
-    public NaturalRankingTest(String arg0) {
-        super(arg0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testDefault() { // Ties averaged, NaNs maximal
         NaturalRanking ranking = new NaturalRanking();
         double[] ranks = ranking.rank(exampleData);
@@ -74,6 +61,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsMaximalTiesMinimum() {
         NaturalRanking ranking = new NaturalRanking(TiesStrategy.MINIMUM);
         double[] ranks = ranking.rank(exampleData);
@@ -96,6 +84,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsRemovedTiesSequential() {
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED,
                 TiesStrategy.SEQUENTIAL);
@@ -119,6 +108,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsMinimalTiesMaximum() {
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.MINIMAL,
                 TiesStrategy.MAXIMUM);
@@ -142,6 +132,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsMinimalTiesAverage() {
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.MINIMAL);
         double[] ranks = ranking.rank(exampleData);
@@ -164,6 +155,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsFixedTiesRandom() {
         RandomGenerator randomGenerator = new JDKRandomGenerator();
         randomGenerator.setSeed(1000);
@@ -189,6 +181,7 @@ public class NaturalRankingTest extends TestCase {
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 
+    @Test
     public void testNaNsAndInfs() {
         double[] data = { 0, Double.POSITIVE_INFINITY, Double.NaN,
                 Double.NEGATIVE_INFINITY };

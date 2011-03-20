@@ -17,7 +17,6 @@
 
 package org.apache.commons.math;
 
-import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -26,30 +25,34 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public class MathExceptionTest extends TestCase {
+public class MathExceptionTest {
 
+    @Test
     public void testConstructor(){
         MathException ex = new MathException();
-        assertNull(ex.getCause());
-        assertEquals("", ex.getMessage());
-        assertEquals("", ex.getMessage(Locale.FRENCH));
+        Assert.assertNull(ex.getCause());
+        Assert.assertEquals("", ex.getMessage());
+        Assert.assertEquals("", ex.getMessage(Locale.FRENCH));
     }
 
+    @Test
     public void testConstructorCause(){
         String inMsg = "inner message";
         Exception cause = new Exception(inMsg);
         MathException ex = new MathException(cause);
-        assertEquals(cause, ex.getCause());
+        Assert.assertEquals(cause, ex.getCause());
     }
 
     /**
      * Tests the printStackTrace() operation.
      */
+    @Test
     public void testPrintStackTrace() {
         Localizable outMsg = new DummyLocalizable("outer message");
         Localizable inMsg = new DummyLocalizable("inner message");
@@ -62,19 +65,20 @@ public class MathExceptionTest extends TestCase {
         String outerMsg = "org.apache.commons.math.MathException: outer message";
         String innerMsg = "Caused by: " +
         "org.apache.commons.math.MathConfigurationException: inner message";
-        assertTrue(stack.startsWith(outerMsg));
-        assertTrue(stack.indexOf(innerMsg) > 0);
+        Assert.assertTrue(stack.startsWith(outerMsg));
+        Assert.assertTrue(stack.indexOf(innerMsg) > 0);
 
         PrintWriter pw = new PrintWriter(ps, true);
         ex.printStackTrace(pw);
         stack = baos.toString();
-        assertTrue(stack.startsWith(outerMsg));
-        assertTrue(stack.indexOf(innerMsg) > 0);
+        Assert.assertTrue(stack.startsWith(outerMsg));
+        Assert.assertTrue(stack.indexOf(innerMsg) > 0);
     }
 
     /**
      * Test serialization
      */
+    @Test
     public void testSerialization() {
         Localizable outMsg = new DummyLocalizable("outer message");
         Localizable inMsg = new DummyLocalizable("inner message");
@@ -103,10 +107,10 @@ public class MathExceptionTest extends TestCase {
         }
 
         if (jdkSupportsNesting) {
-            assertEquals(stack, stack2);
+            Assert.assertEquals(stack, stack2);
         } else {
-            assertTrue(stack2.indexOf(inMsg.getSourceString()) != -1);
-            assertTrue(stack2.indexOf("MathConfigurationException") != -1);
+            Assert.assertTrue(stack2.indexOf(inMsg.getSourceString()) != -1);
+            Assert.assertTrue(stack2.indexOf("MathConfigurationException") != -1);
         }
     }
 }

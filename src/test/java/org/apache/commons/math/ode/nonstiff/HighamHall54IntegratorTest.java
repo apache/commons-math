@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -33,14 +32,12 @@ import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class HighamHall54IntegratorTest
-  extends TestCase {
+public class HighamHall54IntegratorTest {
 
-  public HighamHall54IntegratorTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testWrongDerivative() throws Exception {
       HighamHall54Integrator integrator =
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
@@ -62,20 +59,21 @@ public class HighamHall54IntegratorTest
 
       try  {
         integrator.integrate(equations, -1.0, new double[1], 0.0, new double[1]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch(MathUserException de) {
         // expected behavior
       }
 
       try  {
         integrator.integrate(equations, 0.0, new double[1], 1.0, new double[1]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch(MathUserException de) {
         // expected behavior
       }
 
   }
 
+  @Test
   public void testMinStep() {
 
     try {
@@ -93,14 +91,15 @@ public class HighamHall54IntegratorTest
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch(MathUserException de) {
-      fail("wrong exception caught");
+      Assert.fail("wrong exception caught");
     } catch(IntegratorException ie) {
     }
 
   }
 
+  @Test
   public void testIncreasingTolerance()
     throws MathUserException, IntegratorException {
 
@@ -124,18 +123,19 @@ public class HighamHall54IntegratorTest
       // the 1.3 factor is only valid for this test
       // and has been obtained from trial and error
       // there is no general relation between local and global errors
-      assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertTrue(handler.getMaximalValueError() < (1.3 * scalAbsoluteTolerance));
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
 
       int calls = pb.getCalls();
-      assertEquals(integ.getEvaluations(), calls);
-      assertTrue(calls <= previousCalls);
+      Assert.assertEquals(integ.getEvaluations(), calls);
+      Assert.assertTrue(calls <= previousCalls);
       previousCalls = calls;
 
     }
 
   }
 
+  @Test
   public void testBackward()
       throws MathUserException, IntegratorException {
 
@@ -153,12 +153,13 @@ public class HighamHall54IntegratorTest
       integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
 
-      assertTrue(handler.getLastError() < 5.0e-7);
-      assertTrue(handler.getMaximalValueError() < 5.0e-7);
-      assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
-      assertEquals("Higham-Hall 5(4)", integ.getName());
+      Assert.assertTrue(handler.getLastError() < 5.0e-7);
+      Assert.assertTrue(handler.getMaximalValueError() < 5.0e-7);
+      Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-12);
+      Assert.assertEquals("Higham-Hall 5(4)", integ.getName());
   }
 
+  @Test
   public void testEvents()
     throws MathUserException, IntegratorException {
 
@@ -179,19 +180,20 @@ public class HighamHall54IntegratorTest
       integ.addEventHandler(functions[l],
                                  Double.POSITIVE_INFINITY, convergence, 1000);
     }
-    assertEquals(functions.length, integ.getEventHandlers().size());
+    Assert.assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    assertTrue(handler.getMaximalValueError() < 1.0e-7);
-    assertEquals(0, handler.getMaximalTimeError(), convergence);
-    assertEquals(12.0, handler.getLastTime(), convergence);
+    Assert.assertTrue(handler.getMaximalValueError() < 1.0e-7);
+    Assert.assertEquals(0, handler.getMaximalTimeError(), convergence);
+    Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
-    assertEquals(0, integ.getEventHandlers().size());
+    Assert.assertEquals(0, integ.getEventHandlers().size());
 
   }
 
+  @Test
   public void testEventsErrors() throws Exception {
 
       final TestProblem1 pb = new TestProblem1();
@@ -227,13 +229,14 @@ public class HighamHall54IntegratorTest
         integ.integrate(pb,
                         pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
 
   }
 
+  @Test
   public void testEventsNoConvergence() throws Exception {
 
     final TestProblem1 pb = new TestProblem1();
@@ -266,13 +269,14 @@ public class HighamHall54IntegratorTest
       integ.integrate(pb,
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
-      fail("an exception should have been thrown");
+      Assert.fail("an exception should have been thrown");
     } catch (TooManyEvaluationsException tmee) {
         // Expected.
     }
 
 }
 
+  @Test
   public void testSanityChecks() throws Exception {
       final TestProblem3 pb  = new TestProblem3(0.9);
       double minStep = 0;
@@ -283,7 +287,7 @@ public class HighamHall54IntegratorTest
             new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
         integ.integrate(pb, pb.getInitialTime(), new double[6],
                         pb.getFinalTime(), new double[pb.getDimension()]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
@@ -293,7 +297,7 @@ public class HighamHall54IntegratorTest
             new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[6]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
@@ -303,7 +307,7 @@ public class HighamHall54IntegratorTest
             new HighamHall54Integrator(minStep, maxStep, new double[2], new double[4]);
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
@@ -313,7 +317,7 @@ public class HighamHall54IntegratorTest
             new HighamHall54Integrator(minStep, maxStep, new double[4], new double[2]);
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
@@ -323,13 +327,14 @@ public class HighamHall54IntegratorTest
             new HighamHall54Integrator(minStep, maxStep, new double[4], new double[4]);
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getInitialTime(), new double[pb.getDimension()]);
-        fail("an exception should have been thrown");
+        Assert.fail("an exception should have been thrown");
       } catch (IntegratorException ie) {
         // expected behavior
       }
 
   }
 
+  @Test
   public void testKepler()
     throws MathUserException, IntegratorException {
 
@@ -347,8 +352,8 @@ public class HighamHall54IntegratorTest
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
-    assertEquals(0.0, handler.getMaximalValueError(), 1.5e-4);
-    assertEquals("Higham-Hall 5(4)", integ.getName());
+    Assert.assertEquals(0.0, handler.getMaximalValueError(), 1.5e-4);
+    Assert.assertEquals("Higham-Hall 5(4)", integ.getName());
   }
 
 }

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * Test cases for PascalDistribution.
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
@@ -25,18 +28,10 @@ package org.apache.commons.math.distribution;
  */
 public class PascalDistributionTest extends IntegerDistributionAbstractTest {
 
-    /**
-     * Constructor for PascalDistributionTest.
-     * @param name
-     */
-    public PascalDistributionTest(String name) {
-        super(name);
-    }
-
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(defaultTolerance);
     }
@@ -93,6 +88,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     //----------------- Additional test cases ---------------------------------
 
     /** Test degenerate case p = 0   */
+    @Test
     public void testDegenerate0() throws Exception {
         setDistribution(new PascalDistributionImpl(5,0.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 5, 10 });
@@ -107,6 +103,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     /** Test degenerate case p = 1   */
+    @Test
     public void testDegenerate1() throws Exception {
         setDistribution(new PascalDistributionImpl(5,1.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
@@ -120,16 +117,17 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         PascalDistribution dist;
         
         dist = new PascalDistributionImpl(10, 0.5);
-        assertEquals(dist.getNumericalMean(), ( 10d * 0.5d ) / 0.5d, tol);
-        assertEquals(dist.getNumericalVariance(), ( 10d * 0.5d ) / (0.5d * 0.5d), tol); 
+        Assert.assertEquals(dist.getNumericalMean(), ( 10d * 0.5d ) / 0.5d, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), ( 10d * 0.5d ) / (0.5d * 0.5d), tol); 
         
         dist = new PascalDistributionImpl(25, 0.3);
-        assertEquals(dist.getNumericalMean(), ( 25d * 0.3d ) / 0.7d, tol);
-        assertEquals(dist.getNumericalVariance(), ( 25d * 0.3d ) / (0.7d * 0.7d), tol);
+        Assert.assertEquals(dist.getNumericalMean(), ( 25d * 0.3d ) / 0.7d, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), ( 25d * 0.3d ) / (0.7d * 0.7d), tol);
     }
 }

@@ -17,19 +17,20 @@
 package org.apache.commons.math.analysis.polynomials;
 
 import java.util.Arrays;
-import junit.framework.TestCase;
 
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the PolynomialSplineFunction implementation.
  *
  * @version $Revision$
  */
-public class PolynomialSplineFunctionTest extends TestCase {
+public class PolynomialSplineFunctionTest {
 
     /** Error tolerance for tests */
     protected double tolerance = 1.0e-12;
@@ -58,35 +59,37 @@ public class PolynomialSplineFunctionTest extends TestCase {
         new PolynomialFunction(new double[] {1d, 2d});
 
 
+    @Test
     public void testConstructor() {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
-        assertTrue(Arrays.equals(knots, spline.getKnots()));
-        assertEquals(1d, spline.getPolynomials()[0].getCoefficients()[2], 0);
-        assertEquals(3, spline.getN());
+        Assert.assertTrue(Arrays.equals(knots, spline.getKnots()));
+        Assert.assertEquals(1d, spline.getPolynomials()[0].getCoefficients()[2], 0);
+        Assert.assertEquals(3, spline.getN());
 
         try { // too few knots
             new PolynomialSplineFunction(new double[] {0}, polynomials);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try { // too many knots
             new PolynomialSplineFunction(new double[] {0,1,2,3,4}, polynomials);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
         try { // knots not increasing
             new PolynomialSplineFunction(new double[] {0,1, 3, 2}, polynomials);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testValues() throws Exception {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
@@ -102,30 +105,30 @@ public class PolynomialSplineFunctionTest extends TestCase {
         for (int i = 0; i < 10; i++) {
            x+=0.25;
            index = findKnot(knots, x);
-           assertEquals("spline function evaluation failed for x=" + x,
+           Assert.assertEquals("spline function evaluation failed for x=" + x,
                    polynomials[index].value(x - knots[index]), spline.value(x), tolerance);
-           assertEquals("spline derivative evaluation failed for x=" + x,
+           Assert.assertEquals("spline derivative evaluation failed for x=" + x,
                    dp.value(x - knots[index]), dSpline.value(x), tolerance);
         }
 
         // knot points -- centering should zero arguments
         for (int i = 0; i < 3; i++) {
-            assertEquals("spline function evaluation failed for knot=" + knots[i],
+            Assert.assertEquals("spline function evaluation failed for knot=" + knots[i],
                     polynomials[i].value(0), spline.value(knots[i]), tolerance);
-            assertEquals("spline function evaluation failed for knot=" + knots[i],
+            Assert.assertEquals("spline function evaluation failed for knot=" + knots[i],
                     dp.value(0), dSpline.value(knots[i]), tolerance);
         }
 
         try { //outside of domain -- under min
             x = spline.value(-1.5);
-            fail("Expecting OutOfRangeException");
+            Assert.fail("Expecting OutOfRangeException");
         } catch (OutOfRangeException ex) {
             // expected
         }
 
         try { //outside of domain -- over max
             x = spline.value(2.5);
-            fail("Expecting OutOfRangeException");
+            Assert.fail("Expecting OutOfRangeException");
         } catch (OutOfRangeException ex) {
             // expected
         }

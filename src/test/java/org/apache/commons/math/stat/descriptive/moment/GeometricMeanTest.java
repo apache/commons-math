@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -26,13 +28,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected GeometricMean stat;
-
-    /**
-     * @param name
-     */
-    public GeometricMeanTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -50,34 +45,35 @@ public class GeometricMeanTest extends StorelessUnivariateStatisticAbstractTest{
         return this.geoMean;
     }
 
+    @Test
     public void testSpecialValues() {
         GeometricMean mean = new GeometricMean();
         // empty
-        assertTrue(Double.isNaN(mean.getResult()));
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
 
         // finite data
         mean.increment(1d);
-        assertFalse(Double.isNaN(mean.getResult()));
+        Assert.assertFalse(Double.isNaN(mean.getResult()));
 
         // add 0 -- makes log sum blow to minus infinity, should make 0
         mean.increment(0d);
-        assertEquals(0d, mean.getResult(), 0);
+        Assert.assertEquals(0d, mean.getResult(), 0);
 
         // add positive infinity - note the minus infinity above
         mean.increment(Double.POSITIVE_INFINITY);
-        assertTrue(Double.isNaN(mean.getResult()));
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
 
         // clear
         mean.clear();
-        assertTrue(Double.isNaN(mean.getResult()));
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
 
         // positive infinity by itself
         mean.increment(Double.POSITIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0);
 
         // negative value -- should make NaN
         mean.increment(-2d);
-        assertTrue(Double.isNaN(mean.getResult()));
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
     }
 
 }

@@ -26,16 +26,19 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public abstract class CertifiedDataAbstractTest extends TestCase {
+public abstract class CertifiedDataAbstractTest {
 
     private DescriptiveStatistics descriptives;
 
@@ -43,8 +46,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
 
     private Map<String, Double> certifiedValues;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws IOException {
         descriptives = new DescriptiveStatistics();
         summaries = new SummaryStatistics();
         certifiedValues = new HashMap<String, Double>();
@@ -98,8 +101,8 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         return 1.0e-5;
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         descriptives.clear();
         descriptives = null;
 
@@ -110,6 +113,7 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
         certifiedValues = null;
     }
 
+    @Test
     public void testCertifiedValues() {
         for (String name : certifiedValues.keySet()) {
             Double expectedValue = certifiedValues.get(name);
@@ -142,14 +146,14 @@ public abstract class CertifiedDataAbstractTest extends TestCase {
             } else if (meth.getReturnType().equals(Long.TYPE)) {
                 return Double.valueOf(((Long) property).doubleValue());
             } else {
-                fail("wrong type: " + meth.getReturnType().getName());
+                Assert.fail("wrong type: " + meth.getReturnType().getName());
             }
         } catch (NoSuchMethodException nsme) {
             // ignored
         } catch (InvocationTargetException ite) {
-            fail(ite.getMessage());
+            Assert.fail(ite.getMessage());
         } catch (IllegalAccessException iae) {
-            fail(iae.getMessage());
+            Assert.fail(iae.getMessage());
         }
         return null;
     }

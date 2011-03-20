@@ -17,8 +17,9 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * Test cases for the ChiSquareTestImpl class.
@@ -26,14 +27,11 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 
-public class ChiSquareTestTest extends TestCase {
+public class ChiSquareTestTest {
 
     protected UnknownDistributionChiSquareTest testStatistic = new ChiSquareTestImpl();
 
-    public ChiSquareTestTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testChiSquare() throws Exception {
 
         // Target values computed using R version 1.8.1
@@ -43,19 +41,19 @@ public class ChiSquareTestTest extends TestCase {
 
         long[] observed = {10, 9, 11};
         double[] expected = {10, 10, 10};
-        assertEquals("chi-square statistic", 0.2,  testStatistic.chiSquare(expected, observed), 10E-12);
-        assertEquals("chi-square p-value", 0.904837418036, testStatistic.chiSquareTest(expected, observed), 1E-10);
+        Assert.assertEquals("chi-square statistic", 0.2,  testStatistic.chiSquare(expected, observed), 10E-12);
+        Assert.assertEquals("chi-square p-value", 0.904837418036, testStatistic.chiSquareTest(expected, observed), 1E-10);
 
         long[] observed1 = { 500, 623, 72, 70, 31 };
         double[] expected1 = { 485, 541, 82, 61, 37 };
-        assertEquals( "chi-square test statistic", 9.023307936427388, testStatistic.chiSquare(expected1, observed1), 1E-10);
-        assertEquals("chi-square p-value", 0.06051952647453607, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
-        assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.08));
-        assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.05));
+        Assert.assertEquals( "chi-square test statistic", 9.023307936427388, testStatistic.chiSquare(expected1, observed1), 1E-10);
+        Assert.assertEquals("chi-square p-value", 0.06051952647453607, testStatistic.chiSquareTest(expected1, observed1), 1E-9);
+        Assert.assertTrue("chi-square test reject", testStatistic.chiSquareTest(expected1, observed1, 0.08));
+        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(expected1, observed1, 0.05));
 
         try {
             testStatistic.chiSquareTest(expected1, observed1, 95);
-            fail("alpha out of range, MathIllegalArgumentException expected");
+            Assert.fail("alpha out of range, MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -64,7 +62,7 @@ public class ChiSquareTestTest extends TestCase {
         double[] tooShortEx = { 1 };
         try {
             testStatistic.chiSquare(tooShortEx, tooShortObs);
-            fail("arguments too short, MathIllegalArgumentException expected");
+            Assert.fail("arguments too short, MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -74,7 +72,7 @@ public class ChiSquareTestTest extends TestCase {
         double[] unMatchedEx = { 1, 1, 2 };
         try {
             testStatistic.chiSquare(unMatchedEx, unMatchedObs);
-            fail("arrays have different lengths, MathIllegalArgumentException expected");
+            Assert.fail("arrays have different lengths, MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -83,7 +81,7 @@ public class ChiSquareTestTest extends TestCase {
         expected[0] = 0;
         try {
             testStatistic.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, MathIllegalArgumentException expected");
+            Assert.fail("bad expected count, MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -93,33 +91,34 @@ public class ChiSquareTestTest extends TestCase {
         observed[0] = -1;
         try {
             testStatistic.chiSquareTest(expected, observed, .01);
-            fail("bad expected count, MathIllegalArgumentException expected");
+            Assert.fail("bad expected count, MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
     }
 
+    @Test
     public void testChiSquareIndependence() throws Exception {
 
         // Target values computed using R version 1.8.1
 
         long[][] counts = { {40, 22, 43}, {91, 21, 28}, {60, 10, 22}};
-        assertEquals( "chi-square test statistic", 22.709027688, testStatistic.chiSquare(counts), 1E-9);
-        assertEquals("chi-square p-value", 0.000144751460134, testStatistic.chiSquareTest(counts), 1E-9);
-        assertTrue("chi-square test reject", testStatistic.chiSquareTest(counts, 0.0002));
-        assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts, 0.0001));
+        Assert.assertEquals( "chi-square test statistic", 22.709027688, testStatistic.chiSquare(counts), 1E-9);
+        Assert.assertEquals("chi-square p-value", 0.000144751460134, testStatistic.chiSquareTest(counts), 1E-9);
+        Assert.assertTrue("chi-square test reject", testStatistic.chiSquareTest(counts, 0.0002));
+        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts, 0.0001));
 
         long[][] counts2 = {{10, 15}, {30, 40}, {60, 90} };
-        assertEquals( "chi-square test statistic", 0.168965517241, testStatistic.chiSquare(counts2), 1E-9);
-        assertEquals("chi-square p-value",0.918987499852, testStatistic.chiSquareTest(counts2), 1E-9);
-        assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts2, 0.1));
+        Assert.assertEquals( "chi-square test statistic", 0.168965517241, testStatistic.chiSquare(counts2), 1E-9);
+        Assert.assertEquals("chi-square p-value",0.918987499852, testStatistic.chiSquareTest(counts2), 1E-9);
+        Assert.assertTrue("chi-square test accept", !testStatistic.chiSquareTest(counts2, 0.1));
 
         // ragged input array
         long[][] counts3 = { {40, 22, 43}, {91, 21, 28}, {60, 10}};
         try {
             testStatistic.chiSquare(counts3);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -128,14 +127,14 @@ public class ChiSquareTestTest extends TestCase {
         long[][] counts4 = {{40, 22, 43}};
         try {
             testStatistic.chiSquare(counts4);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         long[][] counts5 = {{40}, {40}, {30}, {10}};
         try {
             testStatistic.chiSquare(counts5);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -144,7 +143,7 @@ public class ChiSquareTestTest extends TestCase {
         long[][] counts6 = {{10, -2}, {30, 40}, {60, 90} };
         try {
             testStatistic.chiSquare(counts6);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -152,12 +151,13 @@ public class ChiSquareTestTest extends TestCase {
         // bad alpha
         try {
             testStatistic.chiSquareTest(counts, 0);
-            fail("Expecting MathIllegalArgumentException");
+            Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testChiSquareLargeTestStatistic() throws Exception {
         double[] exp = new double[] {
             3389119.5, 649136.6, 285745.4, 25357364.76, 11291189.78, 543628.0,
@@ -170,56 +170,60 @@ public class ChiSquareTestTest extends TestCase {
         org.apache.commons.math.stat.inference.ChiSquareTestImpl csti =
             new org.apache.commons.math.stat.inference.ChiSquareTestImpl();
         double cst = csti.chiSquareTest(exp, obs);
-        assertEquals("chi-square p-value", 0.0, cst, 1E-3);
-        assertEquals( "chi-square test statistic",
+        Assert.assertEquals("chi-square p-value", 0.0, cst, 1E-3);
+        Assert.assertEquals( "chi-square test statistic",
                 114875.90421929007, testStatistic.chiSquare(exp, obs), 1E-9);
     }
 
     /** Contingency table containing zeros - PR # 32531 */
+    @Test
     public void testChiSquareZeroCount() throws Exception {
         // Target values computed using R version 1.8.1
         long[][] counts = { {40, 0, 4}, {91, 1, 2}, {60, 2, 0}};
-        assertEquals( "chi-square test statistic", 9.67444662263,
+        Assert.assertEquals( "chi-square test statistic", 9.67444662263,
                 testStatistic.chiSquare(counts), 1E-9);
-        assertEquals("chi-square p-value", 0.0462835770603,
+        Assert.assertEquals("chi-square p-value", 0.0462835770603,
                 testStatistic.chiSquareTest(counts), 1E-9);
     }
 
     /** Target values verified using DATAPLOT version 2006.3 */
+    @Test
     public void testChiSquareDataSetsComparisonEqualCounts()
     throws Exception {
         long[] observed1 = {10, 12, 12, 10};
         long[] observed2 = {5, 15, 14, 10};
-        assertEquals("chi-square p value", 0.541096,
+        Assert.assertEquals("chi-square p value", 0.541096,
                 testStatistic.chiSquareTestDataSetsComparison(
                 observed1, observed2), 1E-6);
-        assertEquals("chi-square test statistic", 2.153846,
+        Assert.assertEquals("chi-square test statistic", 2.153846,
                 testStatistic.chiSquareDataSetsComparison(
                 observed1, observed2), 1E-6);
-        assertFalse("chi-square test result",
+        Assert.assertFalse("chi-square test result",
                 testStatistic.chiSquareTestDataSetsComparison(
                 observed1, observed2, 0.4));
     }
 
     /** Target values verified using DATAPLOT version 2006.3 */
+    @Test
     public void testChiSquareDataSetsComparisonUnEqualCounts()
     throws Exception {
         long[] observed1 = {10, 12, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
-        assertEquals("chi-square p value", 0.124115,
+        Assert.assertEquals("chi-square p value", 0.124115,
                 testStatistic.chiSquareTestDataSetsComparison(
                 observed1, observed2), 1E-6);
-        assertEquals("chi-square test statistic", 7.232189,
+        Assert.assertEquals("chi-square test statistic", 7.232189,
                 testStatistic.chiSquareDataSetsComparison(
                 observed1, observed2), 1E-6);
-        assertTrue("chi-square test result",
+        Assert.assertTrue("chi-square test result",
                 testStatistic.chiSquareTestDataSetsComparison(
                 observed1, observed2, 0.13));
-        assertFalse("chi-square test result",
+        Assert.assertFalse("chi-square test result",
                 testStatistic.chiSquareTestDataSetsComparison(
                 observed1, observed2, 0.12));
     }
 
+    @Test
     public void testChiSquareDataSetsComparisonBadCounts()
     throws Exception {
         long[] observed1 = {10, -1, 12, 10, 15};
@@ -227,7 +231,7 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed1, observed2);
-            fail("Expecting MathIllegalArgumentException - negative count");
+            Assert.fail("Expecting MathIllegalArgumentException - negative count");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -236,7 +240,7 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed3, observed4);
-            fail("Expecting MathIllegalArgumentException - double 0's");
+            Assert.fail("Expecting MathIllegalArgumentException - double 0's");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -245,7 +249,7 @@ public class ChiSquareTestTest extends TestCase {
         try {
             testStatistic.chiSquareTestDataSetsComparison(
                     observed5, observed6);
-            fail("Expecting MathIllegalArgumentException - vanishing counts");
+            Assert.fail("Expecting MathIllegalArgumentException - vanishing counts");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }

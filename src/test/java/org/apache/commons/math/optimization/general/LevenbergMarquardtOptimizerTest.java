@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -38,6 +37,8 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -101,30 +102,27 @@ import org.apache.commons.math.util.FastMath;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class LevenbergMarquardtOptimizerTest
-  extends TestCase {
+public class LevenbergMarquardtOptimizerTest {
 
-    public LevenbergMarquardtOptimizerTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         try {
             optimizer.guessParametersErrors();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NumberIsTooSmallException ee) {
             // expected behavior
         }
-        assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
+        Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
     }
 
+    @Test
     public void testQRColumnsPermutation() {
 
         LinearProblem problem =
@@ -134,14 +132,15 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
-        assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
-        assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(4.0, optimum.getValue()[0], 1.0e-10);
+        Assert.assertEquals(6.0, optimum.getValue()[1], 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getValue()[2], 1.0e-10);
     }
 
+    @Test
     public void testNoDependency() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
@@ -155,12 +154,13 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         for (int i = 0; i < problem.target.length; ++i) {
-            assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
+            Assert.assertEquals(0.55 * i, optimum.getPoint()[i], 1.0e-10);
         }
     }
 
+    @Test
     public void testOneSet() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -171,12 +171,13 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(2.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPoint()[2], 1.0e-10);
     }
 
+    @Test
     public void testTwoSets() {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -192,15 +193,16 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
-        assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
-        assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
-        assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
-        assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
-        assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals( 3.0, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals( 4.0, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(-1.0, optimum.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(-2.0, optimum.getPoint()[3], 1.0e-10);
+        Assert.assertEquals( 1.0 + epsilon, optimum.getPoint()[4], 1.0e-10);
+        Assert.assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
     }
 
+    @Test
     public void testNonInvertible() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -211,15 +213,16 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
-        assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
+        Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
         try {
             optimizer.getCovariances();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (SingularMatrixException ee) {
             // expected behavior
         }
     }
 
+    @Test
     public void testIllConditioned() {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
@@ -231,11 +234,11 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum1 =
             optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[1], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[2], 1.0e-10);
-        assertEquals(1.0, optimum1.getPoint()[3], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[2], 1.0e-10);
+        Assert.assertEquals(1.0, optimum1.getPoint()[3], 1.0e-10);
 
         LinearProblem problem2 = new LinearProblem(new double[][] {
                 { 10.00, 7.00, 8.10, 7.20 },
@@ -246,13 +249,14 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum2 =
             optimizer.optimize(100, problem2, problem2.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
-        assertEquals(137.0, optimum2.getPoint()[1], 1.0e-8);
-        assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-8);
-        assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(-81.0, optimum2.getPoint()[0], 1.0e-8);
+        Assert.assertEquals(137.0, optimum2.getPoint()[1], 1.0e-8);
+        Assert.assertEquals(-34.0, optimum2.getPoint()[2], 1.0e-8);
+        Assert.assertEquals( 22.0, optimum2.getPoint()[3], 1.0e-8);
     }
 
+    @Test
     public void testMoreEstimatedParametersSimple() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
@@ -264,9 +268,10 @@ public class LevenbergMarquardtOptimizerTest
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                 new double[] { 7, 6, 5, 4 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
     }
 
+    @Test
     public void testMoreEstimatedParametersUnsorted() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0, 1.0,  0.0,  0.0, 0.0,  0.0 },
@@ -280,13 +285,14 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 2, 2, 2, 2, 2, 2 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(3.0, optimum.getPointRef()[2], 1.0e-10);
-        assertEquals(4.0, optimum.getPointRef()[3], 1.0e-10);
-        assertEquals(5.0, optimum.getPointRef()[4], 1.0e-10);
-        assertEquals(6.0, optimum.getPointRef()[5], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(3.0, optimum.getPointRef()[2], 1.0e-10);
+        Assert.assertEquals(4.0, optimum.getPointRef()[3], 1.0e-10);
+        Assert.assertEquals(5.0, optimum.getPointRef()[4], 1.0e-10);
+        Assert.assertEquals(6.0, optimum.getPointRef()[5], 1.0e-10);
     }
 
+    @Test
     public void testRedundantEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
@@ -298,11 +304,12 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(2.0, optimum.getPointRef()[0], 1.0e-10);
-        assertEquals(1.0, optimum.getPointRef()[1], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(2.0, optimum.getPointRef()[0], 1.0e-10);
+        Assert.assertEquals(1.0, optimum.getPointRef()[1], 1.0e-10);
     }
 
+    @Test
     public void testInconsistentEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
@@ -312,9 +319,10 @@ public class LevenbergMarquardtOptimizerTest
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
-        assertTrue(optimizer.getRMS() > 0.1);
+        Assert.assertTrue(optimizer.getRMS() > 0.1);
     }
 
+    @Test
     public void testInconsistentSizes() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
@@ -322,15 +330,15 @@ public class LevenbergMarquardtOptimizerTest
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
-        assertEquals(0, optimizer.getRMS(), 1.0e-10);
-        assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
-        assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
+        Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
+        Assert.assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
+        Assert.assertEquals(+1, optimum.getPoint()[1], 1.0e-10);
 
         try {
             optimizer.optimize(100, problem, problem.target,
                                new double[] { 1 },
                                new double[] { 0, 0 });
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException oe) {
             // expected behavior
         }
@@ -339,12 +347,13 @@ public class LevenbergMarquardtOptimizerTest
             optimizer.optimize(100, problem, new double[] { 1 },
                                new double[] { 1 },
                                new double[] { 0, 0 });
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException oe) {
             // expected behavior
         }
     }
 
+    @Test
     public void testControlParameters() {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
@@ -373,14 +382,15 @@ public class LevenbergMarquardtOptimizerTest
             optimizer.optimize(maxCostEval, problem, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
-            assertTrue(!shouldFail);
+            Assert.assertTrue(!shouldFail);
         } catch (DimensionMismatchException ee) {
-            assertTrue(shouldFail);
+            Assert.assertTrue(shouldFail);
         } catch (TooManyEvaluationsException ee) {
-            assertTrue(shouldFail);
+            Assert.assertTrue(shouldFail);
         }
     }
 
+    @Test
     public void testCircleFitting() {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
@@ -392,22 +402,22 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
-        assertTrue(optimizer.getEvaluations() < 10);
-        assertTrue(optimizer.getJacobianEvaluations() < 10);
+        Assert.assertTrue(optimizer.getEvaluations() < 10);
+        Assert.assertTrue(optimizer.getJacobianEvaluations() < 10);
         double rms = optimizer.getRMS();
-        assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * rms,  1.0e-10);
+        Assert.assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * rms,  1.0e-10);
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
-        assertEquals(69.96016176931406, circle.getRadius(center), 1.0e-10);
-        assertEquals(96.07590211815305, center.x,      1.0e-10);
-        assertEquals(48.13516790438953, center.y,      1.0e-10);
+        Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1.0e-10);
+        Assert.assertEquals(96.07590211815305, center.x,      1.0e-10);
+        Assert.assertEquals(48.13516790438953, center.y,      1.0e-10);
         double[][] cov = optimizer.getCovariances();
-        assertEquals(1.839, cov[0][0], 0.001);
-        assertEquals(0.731, cov[0][1], 0.001);
-        assertEquals(cov[0][1], cov[1][0], 1.0e-14);
-        assertEquals(0.786, cov[1][1], 0.001);
+        Assert.assertEquals(1.839, cov[0][0], 0.001);
+        Assert.assertEquals(0.731, cov[0][1], 0.001);
+        Assert.assertEquals(cov[0][1], cov[1][0], 1.0e-14);
+        Assert.assertEquals(0.786, cov[1][1], 0.001);
         double[] errors = optimizer.guessParametersErrors();
-        assertEquals(1.384, errors[0], 0.001);
-        assertEquals(0.905, errors[1], 0.001);
+        Assert.assertEquals(1.384, errors[0], 0.001);
+        Assert.assertEquals(0.905, errors[1], 0.001);
 
         // add perfect measurements and check errors are reduced
         double  r = circle.getRadius(center);
@@ -420,15 +430,16 @@ public class LevenbergMarquardtOptimizerTest
         Arrays.fill(weights, 2.0);
         optimizer.optimize(100, circle, target, weights, new double[] { 98.680, 47.345 });
         cov = optimizer.getCovariances();
-        assertEquals(0.0016, cov[0][0], 0.001);
-        assertEquals(3.2e-7, cov[0][1], 1.0e-9);
-        assertEquals(cov[0][1], cov[1][0], 1.0e-14);
-        assertEquals(0.0016, cov[1][1], 0.001);
+        Assert.assertEquals(0.0016, cov[0][0], 0.001);
+        Assert.assertEquals(3.2e-7, cov[0][1], 1.0e-9);
+        Assert.assertEquals(cov[0][1], cov[1][0], 1.0e-14);
+        Assert.assertEquals(0.0016, cov[1][1], 0.001);
         errors = optimizer.guessParametersErrors();
-        assertEquals(0.004, errors[0], 0.001);
-        assertEquals(0.004, errors[1], 0.001);
+        Assert.assertEquals(0.004, errors[0], 0.001);
+        Assert.assertEquals(0.004, errors[1], 0.001);
     }
 
+    @Test
     public void testCircleFittingBadInit() {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = new double[][] {
@@ -474,14 +485,15 @@ public class LevenbergMarquardtOptimizerTest
         VectorialPointValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
-        assertTrue(optimizer.getEvaluations() < 25);
-        assertTrue(optimizer.getJacobianEvaluations() < 20);
-        assertEquals( 0.043, optimizer.getRMS(), 1.0e-3);
-        assertEquals( 0.292235,  circle.getRadius(center), 1.0e-6);
-        assertEquals(-0.151738,  center.x,      1.0e-6);
-        assertEquals( 0.2075001, center.y,      1.0e-6);
+        Assert.assertTrue(optimizer.getEvaluations() < 25);
+        Assert.assertTrue(optimizer.getJacobianEvaluations() < 20);
+        Assert.assertEquals( 0.043, optimizer.getRMS(), 1.0e-3);
+        Assert.assertEquals( 0.292235,  circle.getRadius(center), 1.0e-6);
+        Assert.assertEquals(-0.151738,  center.x,      1.0e-6);
+        Assert.assertEquals( 0.2075001, center.y,      1.0e-6);
     }
 
+    @Test
     public void testMath199() {
         try {
             QuadraticProblem problem = new QuadraticProblem();
@@ -496,7 +508,7 @@ public class LevenbergMarquardtOptimizerTest
                                new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 0.0, 4.4e-323, 1.0, 4.4e-323, 0.0 },
                                new double[] { 0, 0, 0 });
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (ConvergenceException ee) {
             // expected behavior
         }

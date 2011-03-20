@@ -18,6 +18,9 @@ package org.apache.commons.math.random;
 
 import java.util.Random;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 /**
  * Test cases for the RandomAdaptor class
  *
@@ -26,10 +29,7 @@ import java.util.Random;
 
 public class RandomAdaptorTest extends RandomDataTest {
 
-    public RandomAdaptorTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testAdaptor() {
         ConstantGenerator generator = new ConstantGenerator();
         Random random = RandomAdaptor.createAdaptor(generator);
@@ -41,16 +41,16 @@ public class RandomAdaptorTest extends RandomDataTest {
     private void checkConstant(Random random) {
         byte[] bytes = new byte[] {0};
         random.nextBytes(bytes);
-        assertEquals(0, bytes[0]);
-        assertEquals(false, random.nextBoolean());
-        assertEquals(0, random.nextDouble(), 0);
-        assertEquals(0, random.nextFloat(), 0);
-        assertEquals(0, random.nextGaussian(), 0);
-        assertEquals(0, random.nextInt());
-        assertEquals(0, random.nextInt(1));
-        assertEquals(0, random.nextLong());
+        Assert.assertEquals(0, bytes[0]);
+        Assert.assertEquals(false, random.nextBoolean());
+        Assert.assertEquals(0, random.nextDouble(), 0);
+        Assert.assertEquals(0, random.nextFloat(), 0);
+        Assert.assertEquals(0, random.nextGaussian(), 0);
+        Assert.assertEquals(0, random.nextInt());
+        Assert.assertEquals(0, random.nextInt(1));
+        Assert.assertEquals(0, random.nextLong());
         random.setSeed(100);
-        assertEquals(0, random.nextDouble(), 0);
+        Assert.assertEquals(0, random.nextDouble(), 0);
     }
 
     /*

@@ -29,13 +29,6 @@ public class SecondMomentTest extends StorelessUnivariateStatisticAbstractTest {
     protected SecondMoment stat;
 
     /**
-     * @param name
-     */
-    public SecondMomentTest(String name) {
-        super(name);
-    }
-
-    /**
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     @Override

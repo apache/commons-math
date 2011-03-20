@@ -87,6 +87,7 @@ public class PolynomialsUtilsTest {
 
     }
 
+    @Test
     public void testHermiteDifferentials() {
         for (int k = 0; k < 12; ++k) {
 
@@ -127,6 +128,7 @@ public class PolynomialsUtilsTest {
 
     }
 
+    @Test
     public void testLaguerreDifferentials() {
         for (int k = 0; k < 12; ++k) {
 

@@ -16,29 +16,27 @@
  */
 package org.apache.commons.math.complex;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math.TestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ComplexFieldTest {
 
     @Test
     public void testZero() {
-        assertEquals(Complex.ZERO, ComplexField.getInstance().getZero());
+        Assert.assertEquals(Complex.ZERO, ComplexField.getInstance().getZero());
     }
 
     @Test
     public void testOne() {
-        assertEquals(Complex.ONE, ComplexField.getInstance().getOne());
+        Assert.assertEquals(Complex.ONE, ComplexField.getInstance().getOne());
     }
 
     @Test
     public void testSerial() {
         // deserializing the singleton should give the singleton itself back
         ComplexField field = ComplexField.getInstance();
-        assertTrue(field == TestUtils.serializeAndRecover(field));
+        Assert.assertTrue(field == TestUtils.serializeAndRecover(field));
     }
 
 }

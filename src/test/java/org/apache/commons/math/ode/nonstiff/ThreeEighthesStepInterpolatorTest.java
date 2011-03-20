@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,6 +31,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolatorTestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ThreeEighthesStepInterpolatorTest {
@@ -64,8 +64,8 @@ public class ThreeEighthesStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    assertTrue(bos.size () > 753000);
-    assertTrue(bos.size () < 754000);
+    Assert.assertTrue(bos.size () > 753000);
+    Assert.assertTrue(bos.size () < 754000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -87,7 +87,7 @@ public class ThreeEighthesStepInterpolatorTest {
       }
     }
 
-    assertTrue(maxError > 0.005);
+    Assert.assertTrue(maxError > 0.005);
 
   }
 

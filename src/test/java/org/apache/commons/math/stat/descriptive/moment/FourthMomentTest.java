@@ -29,13 +29,6 @@ public class FourthMomentTest extends StorelessUnivariateStatisticAbstractTest{
     protected FourthMoment stat;
 
     /**
-     * @param name
-     */
-    public FourthMomentTest(String name) {
-        super(name);
-    }
-
-    /**
      * @see org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest#getUnivariateStatistic()
      */
     @Override

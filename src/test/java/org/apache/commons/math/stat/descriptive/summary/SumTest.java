@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.summary;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link Sum} class.
@@ -27,13 +29,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class SumTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Sum stat;
-
-    /**
-     * @param name
-     */
-    public SumTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -56,28 +51,30 @@ public class SumTest extends StorelessUnivariateStatisticAbstractTest{
         return this.weightedSum;
     }
 
+    @Test
     public void testSpecialValues() {
         Sum sum = new Sum();
-        assertEquals(0, sum.getResult(), 0);
+        Assert.assertEquals(0, sum.getResult(), 0);
         sum.increment(1);
-        assertEquals(1, sum.getResult(), 0);
+        Assert.assertEquals(1, sum.getResult(), 0);
         sum.increment(Double.POSITIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, sum.getResult(), 0);
         sum.increment(Double.NEGATIVE_INFINITY);
-        assertTrue(Double.isNaN(sum.getResult()));
+        Assert.assertTrue(Double.isNaN(sum.getResult()));
         sum.increment(1);
-        assertTrue(Double.isNaN(sum.getResult()));
+        Assert.assertTrue(Double.isNaN(sum.getResult()));
     }
 
+    @Test
     public void testWeightedSum() {
         Sum sum = new Sum();
-        assertEquals(expectedWeightedValue(), sum.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
-        assertEquals(expectedValue(), sum.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
+        Assert.assertEquals(expectedWeightedValue(), sum.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
+        Assert.assertEquals(expectedValue(), sum.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
     }
     
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-        assertEquals(0, statistic.getResult(), 0);
+        Assert.assertEquals(0, statistic.getResult(), 0);
     }
 
 

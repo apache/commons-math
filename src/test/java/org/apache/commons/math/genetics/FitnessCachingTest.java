@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -62,7 +63,7 @@ public class FitnessCachingTest {
             POPULATION_SIZE /*initial population*/ +
             (NUM_GENERATIONS - 1) /*for each population*/ * (int)(POPULATION_SIZE * (1.0 - ELITISM_RATE)) /*some chromosomes are copied*/
             ;
-        assertTrue(fitnessCalls <= neededCalls); // some chromosomes after crossover may be the same os old ones
+        Assert.assertTrue(fitnessCalls <= neededCalls); // some chromosomes after crossover may be the same os old ones
     }
 
 

@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -26,13 +28,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Kurtosis stat;
-
-    /**
-     * @param name
-     */
-    public KurtosisTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -54,17 +49,18 @@ public class KurtosisTest extends StorelessUnivariateStatisticAbstractTest{
      * Make sure Double.NaN is returned iff n < 4
      *
      */
+    @Test
     public void testNaN() {
         Kurtosis kurt = new Kurtosis();
-        assertTrue(Double.isNaN(kurt.getResult()));
+        Assert.assertTrue(Double.isNaN(kurt.getResult()));
         kurt.increment(1d);
-        assertTrue(Double.isNaN(kurt.getResult()));
+        Assert.assertTrue(Double.isNaN(kurt.getResult()));
         kurt.increment(1d);
-        assertTrue(Double.isNaN(kurt.getResult()));
+        Assert.assertTrue(Double.isNaN(kurt.getResult()));
         kurt.increment(1d);
-        assertTrue(Double.isNaN(kurt.getResult()));
+        Assert.assertTrue(Double.isNaN(kurt.getResult()));
         kurt.increment(1d);
-        assertFalse(Double.isNaN(kurt.getResult()));
+        Assert.assertFalse(Double.isNaN(kurt.getResult()));
     }
 
 }

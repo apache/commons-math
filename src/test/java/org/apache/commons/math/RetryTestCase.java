@@ -17,40 +17,26 @@
 
 package org.apache.commons.math;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 /**
- * A TestCase that retries tests when assertions fail.
- * <p>
- * If one or more tests throw an AssertionFailedError, all tests are
- * repeated one time.
- * <p>
- * Errors or exceptions other than AssertionFailedError do not lead to retries.
- *
+ * A Test case that retries tests when assertions fail.
  * @version $Revision$ $Date$
  */
-public abstract class RetryTestCase extends TestCase {
+public abstract class RetryTestCase {
 
-    public RetryTestCase() {
-        super();
-    }
+    // TODO implement retry policy using Junit 4  API
 
-    public RetryTestCase(String arg0) {
-        super(arg0);
-    }
-
-    /**
-     *  Override runTest() to catch AssertionFailedError and retry
-     */
-    @Override
-    protected void runTest() throws Throwable {
-        try {
-            super.runTest();
-        } catch (AssertionFailedError err) {
-            // System.out.println("Retrying " + this.getName());
-            super.runTest();
-        }
-    }
+    //    /**
+//     *  Override runTest() to catch AssertionFailedError and retry
+//     */
+//    @Override
+//    protected void runTest() throws Throwable {
+//        try {
+//            super.runTest();
+//        } catch (AssertionFailedError err) {
+//            // System.out.println("Retrying " + this.getName());
+//            super.runTest();
+//        }
+//    }
 
 }

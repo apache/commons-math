@@ -18,16 +18,13 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.stat.StatUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class UniformRandomGeneratorTest
-extends TestCase {
+public class UniformRandomGeneratorTest {
 
-    public UniformRandomGeneratorTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testMeanAndStandardDeviation() {
         RandomGenerator rg = new JDKRandomGenerator();
         rg.setSeed(17399225432l);
@@ -36,8 +33,8 @@ extends TestCase {
         for (int i = 0; i < sample.length; ++i) {
             sample[i] = generator.nextNormalizedDouble();
         }
-        assertEquals(0.0, StatUtils.mean(sample), 0.07);
-        assertEquals(1.0, StatUtils.variance(sample), 0.02);
+        Assert.assertEquals(0.0, StatUtils.mean(sample), 0.07);
+        Assert.assertEquals(1.0, StatUtils.variance(sample), 0.02);
     }
 
 }

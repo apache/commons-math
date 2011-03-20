@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.summary;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link SumOfSquares} class.
@@ -28,13 +30,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected SumOfSquares stat;
-
-    /**
-     * @param name
-     */
-    public SumSqTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -52,24 +47,25 @@ public class SumSqTest extends StorelessUnivariateStatisticAbstractTest{
         return this.sumSq;
     }
 
+    @Test
     public void testSpecialValues() {
         SumOfSquares sumSq = new SumOfSquares();
-        assertEquals(0, sumSq.getResult(), 0);
+        Assert.assertEquals(0, sumSq.getResult(), 0);
         sumSq.increment(2d);
-        assertEquals(4d, sumSq.getResult(), 0);
+        Assert.assertEquals(4d, sumSq.getResult(), 0);
         sumSq.increment(Double.POSITIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
         sumSq.increment(Double.NEGATIVE_INFINITY);
-        assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, sumSq.getResult(), 0);
         sumSq.increment(Double.NaN);
-        assertTrue(Double.isNaN(sumSq.getResult()));
+        Assert.assertTrue(Double.isNaN(sumSq.getResult()));
         sumSq.increment(1);
-        assertTrue(Double.isNaN(sumSq.getResult()));
+        Assert.assertTrue(Double.isNaN(sumSq.getResult()));
     }
     
     @Override
     protected void checkClearValue(StorelessUnivariateStatistic statistic){
-        assertEquals(0, statistic.getResult(), 0);
+        Assert.assertEquals(0, statistic.getResult(), 0);
     }
 
 

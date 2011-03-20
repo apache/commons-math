@@ -19,6 +19,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -28,13 +30,6 @@ import org.apache.commons.math.util.MathUtils;
 public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Variance stat;
-
-    /**
-     * @param name
-     */
-    public VarianceTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -61,31 +56,33 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
      * Make sure Double.NaN is returned iff n = 0
      *
      */
+    @Test
     public void testNaN() {
         StandardDeviation std = new StandardDeviation();
-        assertTrue(Double.isNaN(std.getResult()));
+        Assert.assertTrue(Double.isNaN(std.getResult()));
         std.increment(1d);
-        assertEquals(0d, std.getResult(), 0);
+        Assert.assertEquals(0d, std.getResult(), 0);
     }
 
     /**
      * Test population version of variance
      */
+    @Test
     public void testPopulation() {
         double[] values = {-1.0d, 3.1d, 4.0d, -2.1d, 22d, 11.7d, 3d, 14d};
         SecondMoment m = new SecondMoment();
         m.evaluate(values);  // side effect is to add values
         Variance v1 = new Variance();
         v1.setBiasCorrected(false);
-        assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
+        Assert.assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
         v1.incrementAll(values);
-        assertEquals(populationVariance(values), v1.getResult(), 1E-14);
+        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
         v1 = new Variance(false, m);
-        assertEquals(populationVariance(values), v1.getResult(), 1E-14);
+        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
         v1 = new Variance(false);
-        assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
+        Assert.assertEquals(populationVariance(values), v1.evaluate(values), 1E-14);
         v1.incrementAll(values);
-        assertEquals(populationVariance(values), v1.getResult(), 1E-14);
+        Assert.assertEquals(populationVariance(values), v1.getResult(), 1E-14);
     }
 
     /**
@@ -100,18 +97,19 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         return sum / v.length;
     }
 
+    @Test
     public void testWeightedVariance() {
         Variance variance = new Variance();
-        assertEquals(expectedWeightedValue(),
+        Assert.assertEquals(expectedWeightedValue(),
                 variance.evaluate(testArray, testWeightsArray, 0, testArray.length), getTolerance());
 
         // All weights = 1 -> weighted variance = unweighted variance
-        assertEquals(expectedValue(),
+        Assert.assertEquals(expectedValue(),
                 variance.evaluate(testArray, unitWeightsArray, 0, testArray.length), getTolerance());
 
         // All weights the same -> when weights are normalized to sum to the length of the values array,
         // weighted variance = unweighted value
-        assertEquals(expectedValue(),
+        Assert.assertEquals(expectedValue(),
                 variance.evaluate(testArray, MathUtils.normalizeArray(identicalWeightsArray, testArray.length),
                         0, testArray.length), getTolerance());
 

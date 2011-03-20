@@ -20,6 +20,8 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for {@link ZipfDistribution}.
@@ -29,20 +31,18 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
-    public ZipfDistributionTest(String name) {
-        super(name);
-    }
 
+    @Test
     public void testPreconditions() {
         try {
             new ZipfDistributionImpl(0, 1);
-            fail("NotStrictlyPositiveException expected");
+            Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
         try {
             new ZipfDistributionImpl(1, 0);
-            fail("NotStrictlyPositiveException expected");
+            Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
         }
@@ -95,12 +95,13 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
         return new int[] {0, 0, 0, 0, 0, 0, 1, 9, 9, 9, 8, 7, 10};
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         ZipfDistribution dist;
         
         dist = new ZipfDistributionImpl(2, 0.5);
-        assertEquals(dist.getNumericalMean(), FastMath.sqrt(2), tol);
-        assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol); 
+        Assert.assertEquals(dist.getNumericalMean(), FastMath.sqrt(2), tol);
+        Assert.assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol); 
     }
 }

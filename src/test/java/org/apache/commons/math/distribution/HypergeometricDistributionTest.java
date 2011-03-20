@@ -21,6 +21,8 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for HyperGeometriclDistribution.
@@ -30,14 +32,6 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
  * @version $Revision$ $Date$
  */
 public class HypergeometricDistributionTest extends IntegerDistributionAbstractTest {
-
-    /**
-     * Constructor for ChiSquareDistributionTest.
-     * @param name
-     */
-    public HypergeometricDistributionTest(String name) {
-        super(name);
-    }
 
 //-------------- Implementations for abstract methods -----------------------
 
@@ -89,6 +83,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     //-------------------- Additional test cases ------------------------------
 
     /** Verify that if there are no failures, mass is concentrated on sampleSize */
+    @Test
     public void testDegenerateNoFailures() throws Exception {
         setDistribution(new HypergeometricDistributionImpl(5,5,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
@@ -103,6 +98,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     /** Verify that if there are no successes, mass is concentrated on 0 */
+    @Test
     public void testDegenerateNoSuccesses() throws Exception {
         setDistribution(new HypergeometricDistributionImpl(5,0,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
@@ -117,6 +113,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
+    @Test
     public void testDegenerateFullSample() throws Exception {
         setDistribution(new HypergeometricDistributionImpl(5,3,5));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
@@ -130,46 +127,49 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
     public void testPreconditions() {
         try {
             new HypergeometricDistributionImpl(0, 3, 5);
-            fail("negative population size. NotStrictlyPositiveException expected");
+            Assert.fail("negative population size. NotStrictlyPositiveException expected");
         } catch(NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
             new HypergeometricDistributionImpl(5, -1, 5);
-            fail("negative number of successes. NotPositiveException expected");
+            Assert.fail("negative number of successes. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
             new HypergeometricDistributionImpl(5, 3, -1);
-            fail("negative sample size. NotPositiveException expected");
+            Assert.fail("negative sample size. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
             new HypergeometricDistributionImpl(5, 6, 5);
-            fail("numberOfSuccesses > populationSize. NumberIsTooLargeException expected");
+            Assert.fail("numberOfSuccesses > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.
         }
         try {
             new HypergeometricDistributionImpl(5, 3, 6);
-            fail("sampleSize > populationSize. NumberIsTooLargeException expected");
+            Assert.fail("sampleSize > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.
         }
     }
 
+    @Test
     public void testAccessors() {
         HypergeometricDistribution dist = new HypergeometricDistributionImpl(5, 3, 4);
-        assertEquals(5, dist.getPopulationSize());
-        assertEquals(3, dist.getNumberOfSuccesses());
-        assertEquals(4, dist.getSampleSize());
+        Assert.assertEquals(5, dist.getPopulationSize());
+        Assert.assertEquals(3, dist.getNumberOfSuccesses());
+        Assert.assertEquals(4, dist.getSampleSize());
     }
 
+    @Test
     public void testLargeValues() {
         int populationSize = 3456;
         int sampleSize = 789;
@@ -216,6 +216,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         }
     }
 
+    @Test
     public void testMoreLargeValues() {
         int populationSize = 26896;
         int sampleSize = 895;
@@ -243,16 +244,17 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         testHypergeometricDistributionProbabilities(populationSize, sampleSize, numberOfSucceses, data);
     }
 
+    @Test
     public void testMomonts() {
         final double tol = 1e-9;
         HypergeometricDistribution dist;
         
         dist = new HypergeometricDistributionImpl(1500, 40, 100);
-        assertEquals(dist.getNumericalMean(), 40d * 100d / 1500d, tol);
-        assertEquals(dist.getNumericalVariance(), ( 100d * 40d * (1500d - 100d) * (1500d - 40d) ) / ( (1500d * 1500d * 1499d) ), tol); 
+        Assert.assertEquals(dist.getNumericalMean(), 40d * 100d / 1500d, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), ( 100d * 40d * (1500d - 100d) * (1500d - 40d) ) / ( (1500d * 1500d * 1499d) ), tol); 
         
         dist = new HypergeometricDistributionImpl(3000, 55, 200);
-        assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
-        assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
+        Assert.assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
+        Assert.assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
     }
 }

@@ -16,11 +16,14 @@
  */
 package org.apache.commons.math.distribution;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Abstract base class for {@link ContinuousDistribution} tests.
@@ -56,7 +59,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
  *
  * @version $Revision$ $Date$
  */
-public abstract class ContinuousDistributionAbstractTest extends TestCase {
+public abstract class ContinuousDistributionAbstractTest {
 
 //-------------------- Private test instance data -------------------------
     /**  Distribution instance used to perform tests */
@@ -79,16 +82,6 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
 
     /** Values used to test density calculations */
     private double[] densityTestValues;
-
-    //-------------------------------------------------------------------------
-
-    /**
-     * Constructor for ContinuousDistributionAbstractTest.
-     * @param name
-     */
-    public ContinuousDistributionAbstractTest(String name) {
-        super(name);
-    }
 
     //-------------------- Abstract methods -----------------------------------
 
@@ -121,9 +114,8 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * Setup sets all test instance data to default values
      */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         distribution = makeDistribution();
         cumulativeTestPoints = makeCumulativeTestPoints();
         cumulativeTestValues = makeCumulativeTestValues();
@@ -135,9 +127,8 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * Cleans up test instance data
      */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         distribution = null;
         cumulativeTestPoints = null;
         cumulativeTestValues = null;
@@ -193,6 +184,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
      * Verifies that cumulative probability density calculations match expected values
      * using default test instance data
      */
+    @Test
     public void testCumulativeProbabilities() throws Exception {
         verifyCumulativeProbabilities();
     }
@@ -201,6 +193,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
      * Verifies that inverse cumulative probability density calculations match expected values
      * using default test instance data
      */
+    @Test
     public void testInverseCumulativeProbabilities() throws Exception {
         verifyInverseCumulativeProbabilities();
     }
@@ -209,6 +202,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
      * Verifies that density calculations return expected values
      * for default test instance data
      */
+    @Test
     public void testDensities() throws Exception {
         verifyDensities();
     }
@@ -216,6 +210,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * Verifies that probability computations are consistent
      */
+    @Test
     public void testConsistency() throws Exception {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
 
@@ -238,22 +233,23 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * Verifies that illegal arguments are correctly handled
      */
+    @Test
     public void testIllegalArguments() throws Exception {
         try {
             distribution.cumulativeProbability(1, 0);
-            fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
+            Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(-1);
-            fail("Expecting MathIllegalArgumentException for p = -1");
+            Assert.fail("Expecting MathIllegalArgumentException for p = -1");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
         try {
             distribution.inverseCumulativeProbability(2);
-            fail("Expecting MathIllegalArgumentException for p = 2");
+            Assert.fail("Expecting MathIllegalArgumentException for p = 2");
         } catch (MathIllegalArgumentException ex) {
             // expected
         }
@@ -262,6 +258,7 @@ public abstract class ContinuousDistributionAbstractTest extends TestCase {
     /**
      * Test sampling
      */
+    @Test
     public void testSampling() throws Exception {
         AbstractContinuousDistribution dist = (AbstractContinuousDistribution) makeDistribution();
         final int sampleSize = 1000;

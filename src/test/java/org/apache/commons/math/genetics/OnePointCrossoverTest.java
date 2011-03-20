@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class OnePointCrossoverTest {
@@ -42,17 +42,17 @@ public class OnePointCrossoverTest {
             c2 = ((BinaryChromosome) pair.getSecond()).getRepresentation().toArray(c2);
 
             // first and last values will be the same
-            assertEquals((int) p1[0], (int) c1[0]);
-            assertEquals((int) p2[0], (int) c2[0]);
-            assertEquals((int) p1[p1.length-1], (int) c1[c1.length-1]);
-            assertEquals((int) p2[p2.length-1], (int) c2[c2.length-1]);
+            Assert.assertEquals((int) p1[0], (int) c1[0]);
+            Assert.assertEquals((int) p2[0], (int) c2[0]);
+            Assert.assertEquals((int) p1[p1.length-1], (int) c1[c1.length-1]);
+            Assert.assertEquals((int) p2[p2.length-1], (int) c2[c2.length-1]);
             // moreover, in the above setting, the 2nd, 3rd and 7th values will be the same
-            assertEquals((int) p1[2], (int) c1[2]);
-            assertEquals((int) p2[2], (int) c2[2]);
-            assertEquals((int) p1[3], (int) c1[3]);
-            assertEquals((int) p2[3], (int) c2[3]);
-            assertEquals((int) p1[7], (int) c1[7]);
-            assertEquals((int) p2[7], (int) c2[7]);
+            Assert.assertEquals((int) p1[2], (int) c1[2]);
+            Assert.assertEquals((int) p2[2], (int) c2[2]);
+            Assert.assertEquals((int) p1[3], (int) c1[3]);
+            Assert.assertEquals((int) p2[3], (int) c2[3]);
+            Assert.assertEquals((int) p1[7], (int) c1[7]);
+            Assert.assertEquals((int) p2[7], (int) c2[7]);
         }
     }
 

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.linear.DefaultRealMatrixChangingVisitor;
@@ -25,6 +24,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.stat.StatUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -95,10 +95,10 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 return (row == column) ? 2 * x : x;
             }
         });
-       assertEquals(0.0,
+       Assert.assertEquals(0.0,
                      errors.subtract(referenceVariance).getNorm(),
                      5.0e-16 * referenceVariance.getNorm());
-       assertEquals(1, ((OLSMultipleLinearRegression) regression).calculateRSquared(), 1E-12);
+       Assert.assertEquals(1, ((OLSMultipleLinearRegression) regression).calculateRSquared(), 1E-12);
     }
 
 
@@ -172,11 +172,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                        455.478499142212}, errors, 1E-6);
         
         // Check regression standard error against R
-        assertEquals(304.8540735619638, model.estimateRegressionStandardError(), 1E-10);
+        Assert.assertEquals(304.8540735619638, model.estimateRegressionStandardError(), 1E-10);
         
         // Check R-Square statistics against R
-        assertEquals(0.995479004577296, model.calculateRSquared(), 1E-12);
-        assertEquals(0.992465007628826, model.calculateAdjustedRSquared(), 1E-12);
+        Assert.assertEquals(0.995479004577296, model.calculateRSquared(), 1E-12);
+        Assert.assertEquals(0.992465007628826, model.calculateAdjustedRSquared(), 1E-12);
         
         checkVarianceConsistency(model);
         
@@ -207,11 +207,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                       1E-10);
         
         // Check regression standard error against R
-        assertEquals(475.1655079819517, model.estimateRegressionStandardError(), 1E-10);
+        Assert.assertEquals(475.1655079819517, model.estimateRegressionStandardError(), 1E-10);
         
         // Check R-Square statistics against R
-        assertEquals(0.9999670130706, model.calculateRSquared(), 1E-12);
-        assertEquals(0.999947220913, model.calculateAdjustedRSquared(), 1E-12);
+        Assert.assertEquals(0.9999670130706, model.calculateRSquared(), 1E-12);
+        Assert.assertEquals(0.999947220913, model.calculateAdjustedRSquared(), 1E-12);
          
     }
 
@@ -317,11 +317,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 0.03726654773803}, errors, 1E-10);
         
         // Check regression standard error against R
-        assertEquals(7.73642194433223, model.estimateRegressionStandardError(), 1E-12);
+        Assert.assertEquals(7.73642194433223, model.estimateRegressionStandardError(), 1E-12);
         
         // Check R-Square statistics against R
-        assertEquals(0.649789742860228, model.calculateRSquared(), 1E-12);
-        assertEquals(0.6164363850373927, model.calculateAdjustedRSquared(), 1E-12);
+        Assert.assertEquals(0.649789742860228, model.calculateRSquared(), 1E-12);
+        Assert.assertEquals(0.6164363850373927, model.calculateAdjustedRSquared(), 1E-12);
         
         checkVarianceConsistency(model);
         
@@ -361,11 +361,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
                 0.43370143099691, 0.07694953606522}, errors, 1E-10);
         
         // Check regression standard error against R
-        assertEquals(17.24710630547, model.estimateRegressionStandardError(), 1E-10);
+        Assert.assertEquals(17.24710630547, model.estimateRegressionStandardError(), 1E-10);
         
         // Check R-Square statistics against R
-        assertEquals(0.946350722085, model.calculateRSquared(), 1E-12);
-        assertEquals(0.9413600915813, model.calculateAdjustedRSquared(), 1E-12);
+        Assert.assertEquals(0.946350722085, model.calculateRSquared(), 1E-12);
+        Assert.assertEquals(0.9413600915813, model.calculateAdjustedRSquared(), 1E-12);
     }
 
     /**
@@ -422,8 +422,8 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         int k = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = i; j < 10; j++) {
-                assertEquals(referenceData[k], hat.getEntry(i, j), 10e-3);
-                assertEquals(hat.getEntry(i, j), hat.getEntry(j, i), 10e-12);
+                Assert.assertEquals(referenceData[k], hat.getEntry(i, j), 10e-3);
+                Assert.assertEquals(hat.getEntry(i, j), hat.getEntry(j, i), 10e-12);
                 k++;
             }
         }
@@ -486,8 +486,8 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         RealVector combinedY = regression.Y.copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        assertEquals(combinedX, regression.X);
-        assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedX, regression.X);
+        Assert.assertEquals(combinedY, regression.Y);
         
         // No intercept
         regression.setNoIntercept(true);
@@ -496,8 +496,8 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         combinedY = regression.Y.copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        assertEquals(combinedX, regression.X);
-        assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedX, regression.X);
+        Assert.assertEquals(combinedY, regression.Y);
     }
     
     @Test(expected=IllegalArgumentException.class)

@@ -16,10 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class BinaryChromosomeTest {
@@ -34,7 +32,7 @@ public class BinaryChromosomeTest {
         for (Integer[] repr : reprs) {
             try {
                 new DummyBinaryChromosome(repr);
-                fail("Exception not caught");
+                Assert.fail("Exception not caught");
             } catch (IllegalArgumentException e) {
 
             }
@@ -57,11 +55,11 @@ public class BinaryChromosomeTest {
         Chromosome c5 = new DummyBinaryChromosome(new Integer[] {0,1,0,1,0,0});
         Chromosome c6 = new DummyBinaryChromosome(new Integer[] {0,1,0,1,0,1});
 
-        assertFalse(c1.isSame(c2));
-        assertFalse(c1.isSame(c3));
-        assertFalse(c1.isSame(c4));
-        assertFalse(c1.isSame(c5));
-        assertTrue(c1.isSame(c6));
+        Assert.assertFalse(c1.isSame(c2));
+        Assert.assertFalse(c1.isSame(c3));
+        Assert.assertFalse(c1.isSame(c4));
+        Assert.assertFalse(c1.isSame(c5));
+        Assert.assertTrue(c1.isSame(c6));
     }
 
 }

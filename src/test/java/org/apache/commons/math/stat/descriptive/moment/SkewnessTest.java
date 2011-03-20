@@ -18,6 +18,8 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
@@ -27,13 +29,6 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
 
     protected Skewness stat;
-
-    /**
-     * @param name
-     */
-    public SkewnessTest(String name) {
-        super(name);
-    }
 
     /**
      * {@inheritDoc}
@@ -55,15 +50,16 @@ public class SkewnessTest extends StorelessUnivariateStatisticAbstractTest{
      * Make sure Double.NaN is returned iff n < 3
      *
      */
+    @Test
     public void testNaN() {
         Skewness skew = new Skewness();
-        assertTrue(Double.isNaN(skew.getResult()));
+        Assert.assertTrue(Double.isNaN(skew.getResult()));
         skew.increment(1d);
-        assertTrue(Double.isNaN(skew.getResult()));
+        Assert.assertTrue(Double.isNaN(skew.getResult()));
         skew.increment(1d);
-        assertTrue(Double.isNaN(skew.getResult()));
+        Assert.assertTrue(Double.isNaN(skew.getResult()));
         skew.increment(1d);
-        assertFalse(Double.isNaN(skew.getResult()));
+        Assert.assertFalse(Double.isNaN(skew.getResult()));
     }
 
 }

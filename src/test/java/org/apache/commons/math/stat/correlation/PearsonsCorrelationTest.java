@@ -22,10 +22,11 @@ import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
-public class PearsonsCorrelationTest extends TestCase {
+public class PearsonsCorrelationTest {
 
     protected final double[] longleyData = new double[] {
             60323,83.0,234289,2356,1590,107608,1947,
@@ -100,6 +101,7 @@ public class PearsonsCorrelationTest extends TestCase {
     /**
      * Test Longley dataset against R.
      */
+    @Test
     public void testLongly() throws Exception {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
@@ -138,6 +140,7 @@ public class PearsonsCorrelationTest extends TestCase {
     /**
      * Test R Swiss fertility dataset against R.
      */
+    @Test
     public void testSwissFertility() throws Exception {
          RealMatrix matrix = createRealMatrix(swissData, 47, 5);
          PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
@@ -165,6 +168,7 @@ public class PearsonsCorrelationTest extends TestCase {
     /**
      * Test p-value near 0. JIRA: MATH-371
      */
+    @Test
     public void testPValueNearZero() throws Exception {
         /*
          * Create a dataset that has r -> 1, p -> 0 as dimension increases.
@@ -179,17 +183,18 @@ public class PearsonsCorrelationTest extends TestCase {
             data[i][1] = i + 1/((double)i + 1);
         }
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(data);
-        assertTrue(corrInstance.getCorrelationPValues().getEntry(0, 1) > 0);
+        Assert.assertTrue(corrInstance.getCorrelationPValues().getEntry(0, 1) > 0);
     }
     
 
     /**
      * Constant column
      */
+    @Test
     public void testConstant() {
         double[] noVariance = new double[] {1, 1, 1, 1};
         double[] values = new double[] {1, 2, 3, 4};
-        assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(noVariance, values)));
+        Assert.assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(noVariance, values)));
     }
 
 
@@ -197,19 +202,20 @@ public class PearsonsCorrelationTest extends TestCase {
      * Insufficient data
      */
 
+    @Test
     public void testInsufficientData() {
         double[] one = new double[] {1};
         double[] two = new double[] {2};
         try {
             new PearsonsCorrelation().correlation(one, two);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // Expected
         }
         RealMatrix matrix = new BlockRealMatrix(new double[][] {{0},{1}});
         try {
             new PearsonsCorrelation(matrix);
-            fail("Expecting IllegalArgumentException");
+            Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // Expected
         }
@@ -219,6 +225,7 @@ public class PearsonsCorrelationTest extends TestCase {
      * Verify that direct t-tests using standard error estimates are consistent
      * with reported p-values
      */
+    @Test
     public void testStdErrorConsistency() throws Exception {
         TDistribution tDistribution = new TDistributionImpl(45);
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
@@ -230,7 +237,7 @@ public class PearsonsCorrelationTest extends TestCase {
             for (int j = 0; j < i; j++) {
                 double t = FastMath.abs(rValues.getEntry(i, j)) / stdErrors.getEntry(i, j);
                 double p = 2 * (1 - tDistribution.cumulativeProbability(t));
-                assertEquals(p, pValues.getEntry(i, j), 10E-15);
+                Assert.assertEquals(p, pValues.getEntry(i, j), 10E-15);
             }
         }
     }
@@ -239,6 +246,7 @@ public class PearsonsCorrelationTest extends TestCase {
      * Verify that creating correlation from covariance gives same results as
      * direct computation from the original matrix
      */
+    @Test
     public void testCovarianceConsistency() throws Exception {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
@@ -262,13 +270,14 @@ public class PearsonsCorrelationTest extends TestCase {
     }
 
 
+    @Test
     public void testConsistency() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         double[][] data = matrix.getData();
         double[] x = matrix.getColumn(0);
         double[] y = matrix.getColumn(1);
-        assertEquals(new PearsonsCorrelation().correlation(x, y),
+        Assert.assertEquals(new PearsonsCorrelation().correlation(x, y),
                 corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
         TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
                 new PearsonsCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);

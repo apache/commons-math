@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,6 +31,7 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.AdamsBashforthIntegrator;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class NordsieckStepInterpolatorTest {
@@ -62,8 +62,8 @@ public class NordsieckStepInterpolatorTest {
             oos.writeObject(handler);
         }
 
-        assertTrue(bos.size () >  25500);
-        assertTrue(bos.size () <  26500);
+        Assert.assertTrue(bos.size () >  25500);
+        Assert.assertTrue(bos.size () <  26500);
 
         ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream     ois = new ObjectInputStream(bis);
@@ -85,7 +85,7 @@ public class NordsieckStepInterpolatorTest {
             }
         }
 
-        assertTrue(maxError < 1.0e-6);
+        Assert.assertTrue(maxError < 1.0e-6);
 
     }
 

@@ -19,34 +19,37 @@ package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Revision$ $Date$
  */
-public class DefaultTransformerTest extends TestCase {
+public class DefaultTransformerTest {
     /**
      *
      */
+    @Test
     public void testTransformDouble() throws Exception {
         double expected = 1.0;
         Double input = Double.valueOf(expected);
         DefaultTransformer t = new DefaultTransformer();
-        assertEquals(expected, t.transform(input), 1.0e-4);
+        Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
     /**
      *
      */
+    @Test
     public void testTransformNull() throws Exception {
         DefaultTransformer t = new DefaultTransformer();
         try {
             t.transform(null);
-            fail("Expecting NullArgumentException");
+            Assert.fail("Expecting NullArgumentException");
         } catch (NullArgumentException e) {
             // expected
         }
@@ -55,49 +58,54 @@ public class DefaultTransformerTest extends TestCase {
     /**
      *
      */
+    @Test
     public void testTransformInteger() throws Exception {
         double expected = 1.0;
         Integer input = Integer.valueOf(1);
         DefaultTransformer t = new DefaultTransformer();
-        assertEquals(expected, t.transform(input), 1.0e-4);
+        Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
     /**
      *
      */
+    @Test
     public void testTransformBigDecimal() throws Exception {
         double expected = 1.0;
         BigDecimal input = new BigDecimal("1.0");
         DefaultTransformer t = new DefaultTransformer();
-        assertEquals(expected, t.transform(input), 1.0e-4);
+        Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
     /**
      *
      */
+    @Test
     public void testTransformString() throws Exception {
         double expected = 1.0;
         String input = "1.0";
         DefaultTransformer t = new DefaultTransformer();
-        assertEquals(expected, t.transform(input), 1.0e-4);
+        Assert.assertEquals(expected, t.transform(input), 1.0e-4);
     }
 
     /**
      *
      */
+    @Test
     public void testTransformObject(){
         Boolean input = Boolean.TRUE;
         DefaultTransformer t = new DefaultTransformer();
         try {
             t.transform(input);
-            fail("Expecting MathException");
+            Assert.fail("Expecting MathException");
         } catch (MathException e) {
             // expected
         }
     }
 
+    @Test
     public void testSerial() {
-        assertEquals(new DefaultTransformer(), TestUtils.serializeAndRecover(new DefaultTransformer()));
+        Assert.assertEquals(new DefaultTransformer(), TestUtils.serializeAndRecover(new DefaultTransformer()));
     }
 
 }

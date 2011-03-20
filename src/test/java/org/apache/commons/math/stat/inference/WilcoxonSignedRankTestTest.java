@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 /**
  * Test cases for the ChiSquareTestImpl class.
@@ -24,14 +26,11 @@ import junit.framework.TestCase;
  * @version $Revision$ $Date$
  */
 
-public class WilcoxonSignedRankTestTest extends TestCase {
+public class WilcoxonSignedRankTestTest {
 
     protected WilcoxonSignedRankTest testStatistic = new WilcoxonSignedRankTestImpl();
 
-    public WilcoxonSignedRankTestTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testWilcoxonSignedRankSimple() throws Exception {
         /* Target values computed using R version 2.11.1
          * x <- c(1.83, 0.50, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
@@ -46,8 +45,8 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          * 
          * Corresponds to the value obtained in R.
          */
-        assertEquals(40, testStatistic.wilcoxonSignedRank(x, y), 1e-10);
-        assertEquals(0.03906, testStatistic.wilcoxonSignedRankTest(x, y, true), 1e-5);        
+        Assert.assertEquals(40, testStatistic.wilcoxonSignedRank(x, y), 1e-10);
+        Assert.assertEquals(0.03906, testStatistic.wilcoxonSignedRankTest(x, y, true), 1e-5);        
         
         /* ASYMPTOTIC:
          * wilcox.test(x, y, alternative = "two.sided", mu = 0, paired = TRUE, exact = FALSE, correct = FALSE)
@@ -57,10 +56,11 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          * e.g. http://mlsc.lboro.ac.uk/resources/statistics/wsrt.pdf
          * and src/library/stats/R/wilcox.test.R in the R source
          */
-        assertEquals(40, testStatistic.wilcoxonSignedRank(x, y), 1e-10);
-        assertEquals(0.0329693812, testStatistic.wilcoxonSignedRankTest(x, y, false), 1e-10);
+        Assert.assertEquals(40, testStatistic.wilcoxonSignedRank(x, y), 1e-10);
+        Assert.assertEquals(0.0329693812, testStatistic.wilcoxonSignedRankTest(x, y, false), 1e-10);
     }
     
+    @Test
     public void testWilcoxonSignedRankInputValidation() throws Exception {
         /*
          * Exact only for sample size <= 30
@@ -78,7 +78,7 @@ public class WilcoxonSignedRankTestTest extends TestCase {
         
         try {
             testStatistic.wilcoxonSignedRankTest(x2, y2, true);
-            fail("More than 30 samples and exact chosen, IllegalArgumentException expected");
+            Assert.fail("More than 30 samples and exact chosen, IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -87,28 +87,28 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { }, new double[] { 1.0 }, true);
-            fail("x does not contain samples (exact), IllegalArgumentException expected");
+            Assert.fail("x does not contain samples (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { }, new double[] { 1.0 }, false);
-            fail("x does not contain samples (asymptotic), IllegalArgumentException expected");
+            Assert.fail("x does not contain samples (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, new double[] { }, true);
-            fail("y does not contain samples (exact), IllegalArgumentException expected");
+            Assert.fail("y does not contain samples (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, new double[] { }, false);
-            fail("y does not contain samples (asymptotic), IllegalArgumentException expected");
+            Assert.fail("y does not contain samples (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -117,14 +117,14 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0, 2.0 }, new double[] { 3.0 }, true);
-            fail("x and y not same size (exact), IllegalArgumentException expected");
+            Assert.fail("x and y not same size (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0, 2.0 }, new double[] { 3.0 }, false);
-            fail("x and y not same size (asymptotic), IllegalArgumentException expected");
+            Assert.fail("x and y not same size (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -134,14 +134,14 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(null, null, true);
-            fail("x and y is null (exact), IllegalArgumentException expected");
+            Assert.fail("x and y is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(null, null, false);
-            fail("x and y is null (asymptotic), IllegalArgumentException expected");
+            Assert.fail("x and y is null (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
@@ -151,28 +151,28 @@ public class WilcoxonSignedRankTestTest extends TestCase {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(null, new double[] { 1.0 }, true);
-            fail("x is null (exact), IllegalArgumentException expected");
+            Assert.fail("x is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(null, new double[] { 1.0 }, false);
-            fail("x is null (asymptotic), IllegalArgumentException expected");
+            Assert.fail("x is null (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, null, true);
-            fail("y is null (exact), IllegalArgumentException expected");
+            Assert.fail("y is null (exact), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, null, false);
-            fail("y is null (asymptotic), IllegalArgumentException expected");
+            Assert.fail("y is null (asymptotic), IllegalArgumentException expected");
         } catch (IllegalArgumentException ex) {
             // expected
         }

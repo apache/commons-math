@@ -23,24 +23,22 @@ import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.SecondOrderDifferentialEquations;
 import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class FirstOrderConverterTest
-  extends TestCase {
+public class FirstOrderConverterTest {
 
-  public FirstOrderConverterTest(String name) {
-    super(name);
-  }
-
+  @Test
   public void testDoubleDimension() {
     for (int i = 1; i < 10; ++i) {
       SecondOrderDifferentialEquations eqn2 = new Equations(i, 0.2);
       FirstOrderConverter eqn1 = new FirstOrderConverter(eqn2);
-      assertTrue(eqn1.getDimension() == (2 * eqn2.getDimension()));
+      Assert.assertTrue(eqn1.getDimension() == (2 * eqn2.getDimension()));
     }
   }
 
+  @Test
   public void testDecreasingSteps()
     throws MathUserException, IntegratorException {
 
@@ -51,25 +49,27 @@ public class FirstOrderConverterTest
       double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, step)
                    - FastMath.sin(4.0);
       if (i > 0) {
-        assertTrue(FastMath.abs(error) < FastMath.abs(previousError));
+        Assert.assertTrue(FastMath.abs(error) < FastMath.abs(previousError));
       }
       previousError = error;
 
     }
   }
 
+  @Test
   public void testSmallStep()
     throws MathUserException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 1.0e-4)
                    - FastMath.sin(4.0);
-    assertTrue(FastMath.abs(error) < 1.0e-10);
+    Assert.assertTrue(FastMath.abs(error) < 1.0e-10);
   }
 
+  @Test
   public void testBigStep()
     throws MathUserException, IntegratorException {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 0.5)
                    - FastMath.sin(4.0);
-    assertTrue(FastMath.abs(error) > 0.1);
+    Assert.assertTrue(FastMath.abs(error) > 0.1);
   }
 
   private static class Equations

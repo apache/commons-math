@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for {@link MullerSolver2 Muller} solver.
+ * Test case for {@link MullerSolver2 Muller} solver.
  * <p>
  * Muller's method converges almost quadratically near roots, but it can
  * be very slow in regions far away from zeros. Test runs show that for

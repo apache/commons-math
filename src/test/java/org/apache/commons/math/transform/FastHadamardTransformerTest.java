@@ -16,17 +16,21 @@
  */
 package org.apache.commons.math.transform;
 
-import junit.framework.TestCase;
+import org.apache.commons.math.util.MathUtils;
+import org.junit.Assert;
+import org.junit.Test;
+
 
 /**
  * JUnit Test for HadamardTransformerTest
  * @see org.apache.commons.math.transform.FastHadamardTransformer
  */
-public final class FastHadamardTransformerTest extends TestCase {
+public final class FastHadamardTransformerTest {
 
     /**
      * Test of transformer for the a 8-point FHT (means n=8)
      */
+    @Test
     public void test8Points() {
         checkAllTransforms(new int[] { 1, 4, -2, 3, 0, 1, 4, -1 },
                        new int[] { 10, -4, 2, -4, 2, -12, 6, 8 });
@@ -35,6 +39,7 @@ public final class FastHadamardTransformerTest extends TestCase {
     /**
      * Test of transformer for the a 4-points FHT (means n=4)
      */
+    @Test
     public void test4Points() {
         checkAllTransforms(new int[] { 1, 2, 3, 4 },
                            new int[] { 10, -2, -4, 0 });
@@ -43,22 +48,24 @@ public final class FastHadamardTransformerTest extends TestCase {
     /**
      * Test the inverse transform of an integer vector is not always an integer vector
      */
+    @Test
     public void testNoIntInverse() {
         FastHadamardTransformer transformer = new FastHadamardTransformer();
         double[] x = transformer.inversetransform(new double[] { 0, 1, 0, 1});
-        assertEquals( 0.5, x[0], 0);
-        assertEquals(-0.5, x[1], 0);
-        assertEquals( 0.0, x[2], 0);
-        assertEquals( 0.0, x[3], 0);
+        Assert.assertEquals( 0.5, x[0], 0);
+        Assert.assertEquals(-0.5, x[1], 0);
+        Assert.assertEquals( 0.0, x[2], 0);
+        Assert.assertEquals( 0.0, x[3], 0);
     }
 
     /**
      * Test of transformer for wrong number of points
      */
+    @Test
     public void test3Points() {
         try {
             new FastHadamardTransformer().transform(new double[3]);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (IllegalArgumentException iae) {
             // expected
         }
@@ -82,7 +89,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         double dResult[] = transformer.transform(dX);
         for (int i = 0; i < dResult.length; i++) {
             // compare computed results to precomputed results
-            assertEquals((double) y[i], dResult[i]);
+            Assert.assertTrue(MathUtils.equals((double) y[i], dResult[i], 1));
         }
     }
 
@@ -94,7 +101,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         int iResult[] = transformer.transform(x);
         for (int i = 0; i < iResult.length; i++) {
             // compare computed results to precomputed results
-            assertEquals(y[i], iResult[i]);
+            Assert.assertEquals(y[i], iResult[i]);
         }
 
     }
@@ -111,7 +118,7 @@ public final class FastHadamardTransformerTest extends TestCase {
         double dResult[] = transformer.inversetransform(dY);
         for (int i = 0; i < dResult.length; i++) {
             // compare computed results to precomputed results
-            assertEquals((double) x[i], dResult[i]);
+            Assert.assertTrue(MathUtils.equals((double) x[i], dResult[i], 1));
         }
 
     }

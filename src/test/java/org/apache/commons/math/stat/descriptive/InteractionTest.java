@@ -21,13 +21,14 @@ import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
 import org.apache.commons.math.stat.descriptive.moment.Skewness;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.TestCase;
 
 /**
  * @version $Revision$ $Date$
  */
-public class InteractionTest extends TestCase {
+public class InteractionTest {
 
     protected double mean = 12.40454545454550;
     protected double var = 10.00235930735930;
@@ -61,11 +62,7 @@ public class InteractionTest extends TestCase {
             9,
             12.3 };
 
-    public InteractionTest(String name) {
-        super(name);
-    }
-
-
+    @Test
     public void testInteraction() {
 
         FourthMoment m4 = new FourthMoment();
@@ -78,10 +75,10 @@ public class InteractionTest extends TestCase {
             m4.increment(testArray[i]);
         }
 
-        assertEquals(mean,m.getResult(),tolerance);
-        assertEquals(var,v.getResult(),tolerance);
-        assertEquals(skew ,s.getResult(),tolerance);
-        assertEquals(kurt,k.getResult(),tolerance);
+        Assert.assertEquals(mean,m.getResult(),tolerance);
+        Assert.assertEquals(var,v.getResult(),tolerance);
+        Assert.assertEquals(skew ,s.getResult(),tolerance);
+        Assert.assertEquals(kurt,k.getResult(),tolerance);
 
     }
 

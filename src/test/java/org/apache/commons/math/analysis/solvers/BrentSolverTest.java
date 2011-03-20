@@ -28,7 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for {@link BrentSolver Brent} solver.
+ * Test case for {@link BrentSolver Brent} solver.
  * Because Brent-Dekker is guaranteed to converge in less than the default
  * maximum iteration count due to bisection fallback, it is quite hard to
  * debug. I include measured iteration counts plus one in order to detect

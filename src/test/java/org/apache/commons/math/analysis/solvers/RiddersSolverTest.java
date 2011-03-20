@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcase for {@link RiddersSolver Ridders} solver.
+ * Test case for {@link RiddersSolver Ridders} solver.
  * <p>
  * Ridders' method converges superlinearly, more specific, its rate of
  * convergence is sqrt(2). Test runs show that for a default absolute

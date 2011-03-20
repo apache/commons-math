@@ -26,16 +26,13 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
 
-import junit.framework.*;
 
-public class LegendreGaussIntegratorTest
-extends TestCase {
+public class LegendreGaussIntegratorTest {
 
-    public LegendreGaussIntegratorTest(String name) {
-        super(name);
-    }
-
+    @Test
     public void testSinFunction() throws MathException {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealIntegrator integrator = new LegendreGaussIntegrator(5, 64);
@@ -49,15 +46,16 @@ extends TestCase {
         tolerance = FastMath.max(integrator.getAbsoluteAccuracy(),
                              FastMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
 
         min = -FastMath.PI/3; max = 0; expected = -0.5;
         tolerance = FastMath.max(integrator.getAbsoluteAccuracy(),
                 FastMath.abs(expected * integrator.getRelativeAccuracy()));
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, tolerance);
+        Assert.assertEquals(expected, result, tolerance);
     }
 
+    @Test
     public void testQuinticFunction() throws MathException {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator = new LegendreGaussIntegrator(3, 64);
@@ -65,17 +63,18 @@ extends TestCase {
 
         min = 0; max = 1; expected = -1.0/48;
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, 1.0e-16);
+        Assert.assertEquals(expected, result, 1.0e-16);
 
         min = 0; max = 0.5; expected = 11.0/768;
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, 1.0e-16);
+        Assert.assertEquals(expected, result, 1.0e-16);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
         result = integrator.integrate(f, min, max);
-        assertEquals(expected, result, 1.0e-16);
+        Assert.assertEquals(expected, result, 1.0e-16);
     }
 
+    @Test
     public void testExactIntegration()
         throws ConvergenceException, MathUserException {
         Random random = new Random(86343623467878363l);
@@ -93,7 +92,7 @@ extends TestCase {
                     PolynomialFunction p = new PolynomialFunction(coeff);
                     double result    = integrator.integrate(p, -5.0, 15.0);
                     double reference = exactIntegration(p, -5.0, 15.0);
-                    assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + FastMath.abs(reference)));
+                    Assert.assertEquals(n + " " + degree + " " + i, reference, result, 1.0e-12 * (1.0 + FastMath.abs(reference)));
                 }
             }
 

@@ -21,6 +21,9 @@ import java.net.URL;
 
 import org.apache.commons.math.RetryTestCase;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test cases for the ValueServer class.
@@ -32,11 +35,7 @@ public final class ValueServerTest extends RetryTestCase {
 
     private ValueServer vs = new ValueServer();
 
-    public ValueServerTest(String name) {
-        super(name);
-    }
-
-    @Override
+    @Before
     public void setUp() {
         vs.setMode(ValueServer.DIGEST_MODE);
         URL url = getClass().getResource("testData.txt");
@@ -48,20 +47,20 @@ public final class ValueServerTest extends RetryTestCase {
       * Note that there is a non-zero (but very small) probability that
       * these tests will fail even if the code is working as designed.
       */
+    @Test
     public void testNextDigest() throws Exception{
         double next = 0.0;
         double tolerance = 0.1;
         vs.computeDistribution();
-        assertTrue("empirical distribution property",
+        Assert.assertTrue("empirical distribution property",
             vs.getEmpiricalDistribution() != null);
         SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             next = vs.getNext();
             stats.addValue(next);
         }
-        assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
-        assertEquals
-         ("std dev", 1.0173699343977738, stats.getStandardDeviation(),
+        Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
+        Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
 
         vs.computeDistribution(500);
@@ -70,9 +69,8 @@ public final class ValueServerTest extends RetryTestCase {
             next = vs.getNext();
             stats.addValue(next);
         }
-        assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
-        assertEquals
-         ("std dev", 1.0173699343977738, stats.getStandardDeviation(),
+        Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
+        Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
 
     }
@@ -81,32 +79,35 @@ public final class ValueServerTest extends RetryTestCase {
       * Make sure exception thrown if digest getNext is attempted
       * before loading empiricalDistribution.
       */
+    @Test
     public void testNextDigestFail() throws Exception {
         try {
             vs.getNext();
-            fail("Expecting IllegalStateException");
+            Assert.fail("Expecting IllegalStateException");
         } catch (IllegalStateException ex) {}
     }
 
+    @Test
     public void testEmptyReplayFile() throws Exception {
         try {
             URL url = getClass().getResource("emptyFile.txt");
             vs.setMode(ValueServer.REPLAY_MODE);
             vs.setValuesFileURL(url);
             vs.getNext();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (EOFException eof) {
             // expected behavior
         }
     }
 
+    @Test
     public void testEmptyDigestFile() throws Exception {
         try {
             URL url = getClass().getResource("emptyFile.txt");
             vs.setMode(ValueServer.DIGEST_MODE);
             vs.setValuesFileURL(url);
             vs.computeDistribution();
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (EOFException eof) {
             // expected behavior
         }
@@ -117,6 +118,7 @@ public final class ValueServerTest extends RetryTestCase {
      * Check that the values 1,2,1001,1002 match data file values 1 and 2.
      * the sample data file.
      */
+    @Test
     public void testReplay() throws Exception {
         double firstDataValue = 4.038625496201205;
         double secondDataValue = 3.6485326248346936;
@@ -125,16 +127,16 @@ public final class ValueServerTest extends RetryTestCase {
         vs.setMode(ValueServer.REPLAY_MODE);
         vs.resetReplayFile();
         compareValue = vs.getNext();
-        assertEquals(compareValue,firstDataValue,tolerance);
+        Assert.assertEquals(compareValue,firstDataValue,tolerance);
         compareValue = vs.getNext();
-        assertEquals(compareValue,secondDataValue,tolerance);
+        Assert.assertEquals(compareValue,secondDataValue,tolerance);
         for (int i = 3; i < 1001; i++) {
            compareValue = vs.getNext();
         }
         compareValue = vs.getNext();
-        assertEquals(compareValue,firstDataValue,tolerance);
+        Assert.assertEquals(compareValue,firstDataValue,tolerance);
         compareValue = vs.getNext();
-        assertEquals(compareValue,secondDataValue,tolerance);
+        Assert.assertEquals(compareValue,secondDataValue,tolerance);
         vs.closeReplayFile();
         // make sure no NPE
         vs.closeReplayFile();
@@ -143,26 +145,27 @@ public final class ValueServerTest extends RetryTestCase {
     /**
      * Test other ValueServer modes
      */
+    @Test
     public void testModes() throws Exception {
         vs.setMode(ValueServer.CONSTANT_MODE);
         vs.setMu(0);
-        assertEquals("constant mode test",vs.getMu(),vs.getNext(),Double.MIN_VALUE);
+        Assert.assertEquals("constant mode test",vs.getMu(),vs.getNext(),Double.MIN_VALUE);
         vs.setMode(ValueServer.UNIFORM_MODE);
         vs.setMu(2);
         double val = vs.getNext();
-        assertTrue(val > 0 && val < 4);
+        Assert.assertTrue(val > 0 && val < 4);
         vs.setSigma(1);
         vs.setMode(ValueServer.GAUSSIAN_MODE);
         val = vs.getNext();
-        assertTrue("gaussian value close enough to mean",
+        Assert.assertTrue("gaussian value close enough to mean",
             val < vs.getMu() + 100*vs.getSigma());
         vs.setMode(ValueServer.EXPONENTIAL_MODE);
         val = vs.getNext();
-        assertTrue(val > 0);
+        Assert.assertTrue(val > 0);
         try {
             vs.setMode(1000);
             vs.getNext();
-            fail("bad mode, expecting IllegalStateException");
+            Assert.fail("bad mode, expecting IllegalStateException");
         } catch (IllegalStateException ex) {
             // ignored
         }
@@ -171,29 +174,31 @@ public final class ValueServerTest extends RetryTestCase {
     /**
      * Test fill
      */
+    @Test
     public void testFill() throws Exception {
         vs.setMode(ValueServer.CONSTANT_MODE);
         vs.setMu(2);
         double[] val = new double[5];
         vs.fill(val);
         for (int i = 0; i < 5; i++) {
-            assertEquals("fill test in place",2,val[i],Double.MIN_VALUE);
+            Assert.assertEquals("fill test in place",2,val[i],Double.MIN_VALUE);
         }
         double v2[] = vs.fill(3);
         for (int i = 0; i < 3; i++) {
-            assertEquals("fill test in place",2,v2[i],Double.MIN_VALUE);
+            Assert.assertEquals("fill test in place",2,v2[i],Double.MIN_VALUE);
         }
     }
 
     /**
      * Test getters to make Clover happy
      */
+    @Test
     public void testProperties() throws Exception {
         vs.setMode(ValueServer.CONSTANT_MODE);
-        assertEquals("mode test",ValueServer.CONSTANT_MODE,vs.getMode());
+        Assert.assertEquals("mode test",ValueServer.CONSTANT_MODE,vs.getMode());
         vs.setValuesFileURL("http://www.apache.org");
         URL url = vs.getValuesFileURL();
-        assertEquals("valuesFileURL test","http://www.apache.org",url.toString());
+        Assert.assertEquals("valuesFileURL test","http://www.apache.org",url.toString());
     }
 
 }
