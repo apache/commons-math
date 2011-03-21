@@ -267,7 +267,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     }
     
     /** {@inheritDoc} */
-    @Override
     public FieldMatrix<T> power(final int p) {
         if (p < 0) {
             throw new IllegalArgumentException("p must be >= 0");
