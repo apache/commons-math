@@ -69,7 +69,6 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      *             if algorithm fails to convert h to a BigFraction in
      *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
      */
-    @Override
     public double cdf(double d) throws MathArithmeticException {
         return this.cdf(d, false);
     }
