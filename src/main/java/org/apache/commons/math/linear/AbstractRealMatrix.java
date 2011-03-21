@@ -152,7 +152,6 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }    
 
     /** {@inheritDoc} */
-    @Override
     public RealMatrix power(final int p) {
         if (p < 0) {
             throw new IllegalArgumentException("p must be >= 0");
