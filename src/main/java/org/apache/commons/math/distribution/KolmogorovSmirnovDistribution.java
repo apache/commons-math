@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.exception.MathArithmeticException;
-
 /**
  * Treats the distribution of the two-sided 
  * {@code P(D}<sub>{@code n}</sub>{@code < d)}
