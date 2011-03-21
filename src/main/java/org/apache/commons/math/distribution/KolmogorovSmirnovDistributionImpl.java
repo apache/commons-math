@@ -33,6 +33,37 @@ import org.apache.commons.math.linear.RealMatrix;
 /**
  * The default implementation of {@link KolmogorovSmirnovDistribution}.
  * 
+ * <p>Treats the distribution of the two-sided 
+ * {@code P(D}<sub>{@code n}</sub>{@code < d)}
+ * where {@code D}<sub>{@code n}</sub>{@code = sup_x | G(x) - Gn (x) |} for the 
+ * theoretical cdf G and the emperical cdf Gn.</p>
+ * 
+ * <p>This implementation is based on [1] with certain quick 
+ * decisions for extreme values given in [2].</p>
+ * 
+ * <p>In short, when wanting to evaluate {@code P(D}<sub>{@code n}</sub>{@code < d)}, 
+ * the method in [1] is to write {@code d = (k - h) / n} for positive 
+ * integer {@code k} and {@code 0 <= h < 1}. Then 
+ * {@code P(D}<sub>{@code n}</sub>{@code < d) = (n!/n}<sup>{@code n}</sup>{@code ) * t_kk}
+ * where {@code t_kk} is the {@code (k, k)}'th entry in the special 
+ * matrix {@code H}<sup>{@code n}</sup>, i.e. {@code H} to the {@code n}'th power.</p> 
+ * 
+ * <p>See also <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
+ * Kolmogorov-Smirnov test on Wikipedia</a> for details.</p>
+ * 
+ * <p>References: 
+ * <ul>
+ * <li>[1] <a href="http://www.jstatsoft.org/v08/i18/paper">
+ * Evaluating Kolmogorov's Distribution</a> by George Marsaglia, Wai
+ * Wan Tsang, and Jingbo Wang</li>
+ * <li>[2] <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/ksdist.pdf">
+ * Computing the Two-Sided Kolmogorov-Smirnov Distribution</a> by Richard Simard
+ * and Pierre L'Ecuyer</li>
+ * </ul>
+ * Note that [1] contains an error in computing h, refer to 
+ * <a href="https://issues.apache.org/jira/browse/MATH-437">MATH-437</a> for details.
+ * </p>
+ * 
  * @version $Revision$ $Date$
  */
 public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistribution, Serializable {
@@ -45,7 +76,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
     /**
      * @param n Number of observations
      * @throws NotStrictlyPositiveException
-     *             if n <= 0
+     *             if {@code n <= 0}
      */
     public KolmogorovSmirnovDistributionImpl(int n) {
         if (n <= 0) {
@@ -56,7 +87,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
     }
 
     /**
-     * Calculates {@code P(D<sub>n</sup> &lt; d)} using method described in
+     * Calculates {@code P(D}<sub>n</sub> {@code < d)} using method described in
      * [1] with quick decisions for extreme values given in [2] (see above). The
      * result is not exact as with 
      * {@link KolmogorovSmirnovDistributionImpl#cdfExact(double)} because
@@ -64,17 +95,19 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      * {@link org.apache.commons.math.fraction.BigFraction}.
      * 
      * @param d statistic
-     * @return the two-sided probability of {@code P(D<sub>n</sup> &lt; d)}
+     * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     public double cdf(double d) throws MathArithmeticException {
         return this.cdf(d, false);
     }
 
     /**
-     * Calculates {@code P(D<sub>n</sup> &lt; d)} using method described in
+     * Calculates {@code P(D}<sub>n</sub> {@code < d)} using method described in
      * [1] with quick decisions for extreme values given in [2] (see above). 
      * The result is exact in the sense that BigFraction/BigReal is used everywhere 
      * at the expense of very slow execution time. Almost never choose this in 
@@ -83,17 +116,19 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      * {@link KolmogorovSmirnovDistributionImpl#cdf(double)}
      * 
      * @param d statistic
-     * @return the two-sided probability of {@code P(D<sub>n</sup> &lt; d)}
+     * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     public double cdfExact(double d) throws MathArithmeticException {
         return this.cdf(d, true);
     }
 
     /**
-     * Calculates {@code P(D<sub>n</sup> &lt; d)} using method described in
+     * Calculates {@code P(D}<sub>n</sub> {@code < d)} using method described in
      * [1] with quick decisions for extreme values given in [2] (see above).
      * 
      * @param d statistic
@@ -101,13 +136,15 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      *            whether the probability should be calculated exact using
      *            BigFraction everywhere at the expense of very
      *            slow execution time, or if double should be used convenient
-     *            places to gain speed. Never choose true in real applications
-     *            unless you are very sure; true is almost solely for
-     *            verification purposes.
-     * @return the two-sided probability of {@code P(D<sub>n</sup> &lt; d)}
+     *            places to gain speed. Almost never choose {@code true} in 
+     *            real applications unless you are very sure; {@code true} is 
+     *            almost solely for verification purposes.
+     * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     public double cdf(double d, boolean exact)
             throws MathArithmeticException {
@@ -146,14 +183,16 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
     }
 
     /**
-     * Calculates {@code P(D<sub>n</sup> &lt; d)} exact using method
+     * Calculates {@code P(D}<sub>n</sub> {@code < d)} exact using method
      * described in [1] and BigFraction (see above).
      * 
      * @param d statistic
-     * @return the two-sided probability of {@code P(D<sub>n</sup> &lt; d)}
+     * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     private double exactK(double d)
             throws MathArithmeticException {
@@ -180,14 +219,16 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
     }
 
     /**
-     * Calculates <code>P(D<sub>n</sup> &lt; d)</code> using method described in
+     * Calculates {@code P(D}<sub>n</sub> {@code < d)} using method described in
      * [1] and doubles (see above).
      * 
      * @param d statistic
-     * @return the two-sided probability of {@code P(D<sub>n</sup> &lt; d)}
+     * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing d as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     private double roundedK(double d)
             throws MathArithmeticException {
@@ -221,13 +262,15 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
     }
 
     /***
-     * Creates H of size m x m as described in [1] (see above).
+     * Creates {@code H} of size {@code m x m} as described in [1] (see above).
      * 
      * @param d statistic
      *            
      * @throws MathArithmeticException
-     *             if algorithm fails to convert h to a BigFraction in
-     *             expressing x as (k - h) / m for integer k, m and 0 <= h < 1.
+     *             if algorithm fails to convert {@code h} to a 
+     *             {@link org.apache.commons.math.fraction.BigFraction} in
+     *             expressing {@code d} as {@code (k - h) / m} for integer 
+     *             {@code k, m} and {@code 0 <= h < 1}.
      */
     private FieldMatrix<BigFraction> createH(double d)
             throws MathArithmeticException {
