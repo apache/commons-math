@@ -18,6 +18,7 @@
 package org.apache.commons.math.linear;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.apache.commons.math.Field;
@@ -263,6 +264,65 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     /** {@inheritDoc} */
     public FieldMatrix<T> preMultiply(final FieldMatrix<T> m) {
         return m.multiply(this);
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public FieldMatrix<T> power(final int p) {
+        if (p < 0) {
+            throw new IllegalArgumentException("p must be >= 0");
+        }
+        
+        if (!isSquare()) {
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
+        }
+        
+        if (p == 0) {
+            return MatrixUtils.createFieldIdentityMatrix(this.getField(), this.getRowDimension());
+        }
+        
+        if (p == 1) {
+            return this.copy();
+        }
+
+        final int power = p - 1;
+
+        /*
+         * Only log_2(p) operations is used by doing as follows:
+         * 5^214 = 5^128 * 5^64 * 5^16 * 5^4 * 5^2
+         * 
+         * In general, the same approach is used for A^p.
+         */
+
+        final char[] binaryRepresentation = Integer.toBinaryString(power)
+                .toCharArray();
+        final ArrayList<Integer> nonZeroPositions = new ArrayList<Integer>();
+
+        for (int i = 0; i < binaryRepresentation.length; ++i) {
+            if (binaryRepresentation[i] == '1') {
+                final int pos = binaryRepresentation.length - i - 1;
+                nonZeroPositions.add(pos);
+            }
+        }
+
+        ArrayList<FieldMatrix<T>> results = new ArrayList<FieldMatrix<T>>(
+                binaryRepresentation.length);
+
+        results.add(0, this.copy());
+
+        for (int i = 1; i < binaryRepresentation.length; ++i) {
+            final FieldMatrix<T> s = results.get(i - 1);
+            final FieldMatrix<T> r = s.multiply(s);
+            results.add(i, r);
+        }
+
+        FieldMatrix<T> result = this.copy();
+
+        for (Integer i : nonZeroPositions) {
+            result = result.multiply(results.get(i));
+        }
+
+        return result;
     }
 
     /** {@inheritDoc} */

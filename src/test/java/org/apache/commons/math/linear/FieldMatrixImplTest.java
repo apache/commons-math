@@ -199,6 +199,52 @@ public final class FieldMatrixImplTest {
        TestUtils.assertEquals(m3.multiply(m4), m5);
    }
 
+    @Test
+    public void testPower() {
+        FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> mInv = new Array2DRowFieldMatrix<Fraction>(testDataInv);
+        FieldMatrix<Fraction> mPlusInv = new Array2DRowFieldMatrix<Fraction>(testDataPlusInv);
+        FieldMatrix<Fraction> identity = new Array2DRowFieldMatrix<Fraction>(id);
+        
+        TestUtils.assertEquals(m.power(0), identity);        
+        TestUtils.assertEquals(mInv.power(0), identity);        
+        TestUtils.assertEquals(mPlusInv.power(0), identity);
+        
+        TestUtils.assertEquals(m.power(1), m);        
+        TestUtils.assertEquals(mInv.power(1), mInv);        
+        TestUtils.assertEquals(mPlusInv.power(1), mPlusInv); 
+        
+        FieldMatrix<Fraction> C1 = m.copy();
+        FieldMatrix<Fraction> C2 = mInv.copy();
+        FieldMatrix<Fraction> C3 = mPlusInv.copy();
+        
+        // stop at 5 to avoid overflow
+        for (int i = 2; i <= 5; ++i) {
+            C1 = C1.multiply(m);
+            C2 = C2.multiply(mInv);
+            C3 = C3.multiply(mPlusInv);
+            
+            TestUtils.assertEquals(m.power(i), C1);        
+            TestUtils.assertEquals(mInv.power(i), C2);        
+            TestUtils.assertEquals(mPlusInv.power(i), C3);            
+        }
+        
+        try {
+            FieldMatrix<Fraction> mNotSquare = new Array2DRowFieldMatrix<Fraction>(testData2T);
+            mNotSquare.power(2);
+            Assert.fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ex) {
+            // ignored
+        }
+        
+        try {
+            m.power(-1);
+            Assert.fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // ignored
+        }
+    }
+
     /** test trace */
     @Test
     public void testTrace() {
