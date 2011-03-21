@@ -223,6 +223,7 @@ public final class Array2DRowRealMatrixTest {
        TestUtils.assertEquals("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
    }
 
+    @Test
     public void testPower() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         Array2DRowRealMatrix mInv = new Array2DRowRealMatrix(testDataInv);
