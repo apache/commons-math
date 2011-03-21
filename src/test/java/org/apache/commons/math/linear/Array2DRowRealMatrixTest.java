@@ -96,6 +96,7 @@ public final class Array2DRowRealMatrixTest {
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
+    protected double powerTolerance = 10E-16;
 
     /** test dimensions */
     @Test
@@ -222,6 +223,59 @@ public final class Array2DRowRealMatrixTest {
        TestUtils.assertEquals("m3*m4=m5", m3.multiply(m4), m5, entryTolerance);
    }
 
+    public void testPower() {
+        Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
+        Array2DRowRealMatrix mInv = new Array2DRowRealMatrix(testDataInv);
+        Array2DRowRealMatrix mPlusInv = new Array2DRowRealMatrix(testDataPlusInv);
+        Array2DRowRealMatrix identity = new Array2DRowRealMatrix(id);
+        
+        TestUtils.assertEquals("m^0", m.power(0),
+            identity, entryTolerance);        
+        TestUtils.assertEquals("mInv^0", mInv.power(0),
+                identity, entryTolerance);        
+        TestUtils.assertEquals("mPlusInv^0", mPlusInv.power(0),
+                identity, entryTolerance);
+        
+        TestUtils.assertEquals("m^1", m.power(1),
+                m, entryTolerance);        
+        TestUtils.assertEquals("mInv^1", mInv.power(1),
+                mInv, entryTolerance);        
+        TestUtils.assertEquals("mPlusInv^1", mPlusInv.power(1),
+                mPlusInv, entryTolerance); 
+        
+        RealMatrix C1 = m.copy();
+        RealMatrix C2 = mInv.copy();
+        RealMatrix C3 = mPlusInv.copy();
+        
+        for (int i = 2; i <= 10; ++i) {
+            C1 = C1.multiply(m);
+            C2 = C2.multiply(mInv);
+            C3 = C3.multiply(mPlusInv);
+            
+            TestUtils.assertEquals("m^" + i, m.power(i),
+                    C1, entryTolerance);        
+            TestUtils.assertEquals("mInv^" + i, mInv.power(i),
+                    C2, entryTolerance);        
+            TestUtils.assertEquals("mPlusInv^" + i, mPlusInv.power(i),
+                    C3, entryTolerance);            
+        }
+        
+        try {
+            Array2DRowRealMatrix mNotSquare = new Array2DRowRealMatrix(testData2T);
+            mNotSquare.power(2);
+            Assert.fail("Expecting NonSquareMatrixException");
+        } catch (NonSquareMatrixException ex) {
+            // ignored
+        }
+        
+        try {
+            m.power(-1);
+            Assert.fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // ignored
+        }
+    }
+    
     /** test trace */
     @Test
     public void testTrace() {
