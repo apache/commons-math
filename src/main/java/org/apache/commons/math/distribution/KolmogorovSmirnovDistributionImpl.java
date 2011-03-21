@@ -53,10 +53,10 @@ import org.apache.commons.math.linear.RealMatrix;
  * 
  * <p>References: 
  * <ul>
- * <li>[1] <a href="http://www.jstatsoft.org/v08/i18/paper">
+ * <li>[1] <a href="http://www.jstatsoft.org/v08/i18/">
  * Evaluating Kolmogorov's Distribution</a> by George Marsaglia, Wai
  * Wan Tsang, and Jingbo Wang</li>
- * <li>[2] <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/ksdist.pdf">
+ * <li>[2] <a href="http://www.jstatsoft.org/v39/i11/">
  * Computing the Two-Sided Kolmogorov-Smirnov Distribution</a> by Richard Simard
  * and Pierre L'Ecuyer</li>
  * </ul>
