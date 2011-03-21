@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="mikl" type="add" issue="MATH-437">
+        Added two sided Kolmogorov-Smirnov distribution using modified 
+        Marsaglia et al. (2003) implementation and quick decisions for certain 
+        parameter areas according to Simard et al. (2011).
+      </action>
       <action dev="mikl" type="add" issue="MATH-435">
         Added "power" method in "RealMatrix" and "FieldMatrix&lt;T&gt;" 
         interfaces and their default implementations in "AbstractRealMatrix" 
