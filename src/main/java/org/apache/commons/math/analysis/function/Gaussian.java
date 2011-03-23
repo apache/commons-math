@@ -123,8 +123,7 @@ public class Gaussian implements DifferentiableUnivariateRealFunction {
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
-        public double value(double x,
-                            double[] param) {
+        public double value(double x, double ... param) {
             validateParameters(param);
 
             final double diff = x - param[1];
@@ -146,7 +145,7 @@ public class Gaussian implements DifferentiableUnivariateRealFunction {
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
-        public double[] gradient(double x, double[] param) {
+        public double[] gradient(double x, double ... param) {
             validateParameters(param);
 
             final double norm = param[0];

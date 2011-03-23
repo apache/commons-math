@@ -89,8 +89,7 @@ public class HarmonicOscillator implements DifferentiableUnivariateRealFunction 
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
-        public double value(double x,
-                            double[] param) {
+        public double value(double x, double ... param) {
             validateParameters(param);
             return HarmonicOscillator.value(x * param[1] + param[2], param[0]);
         }
@@ -108,7 +107,7 @@ public class HarmonicOscillator implements DifferentiableUnivariateRealFunction 
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
-        public double[] gradient(double x, double[] param) {
+        public double[] gradient(double x, double ... param) {
             validateParameters(param);
 
             final double amplitude = param[0];

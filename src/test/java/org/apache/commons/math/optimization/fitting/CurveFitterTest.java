@@ -88,7 +88,7 @@ public class CurveFitterTest {
 
         ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {
 
-            public double value(double x, double[] parameters) {
+            public double value(double x, double ... parameters) {
 
                 double a = parameters[0];
                 double b = parameters[1];
@@ -98,7 +98,7 @@ public class CurveFitterTest {
                 return d + ((a - d) / (1 + FastMath.pow(x / c, b)));
             }
 
-            public double[] gradient(double x, double[] parameters) {
+            public double[] gradient(double x, double ... parameters) {
 
                 double a = parameters[0];
                 double b = parameters[1];
@@ -139,11 +139,11 @@ public class CurveFitterTest {
 
     private static class SimpleInverseFunction implements ParametricUnivariateRealFunction {
 
-        public double value(double x, double[] parameters) {
+        public double value(double x, double ... parameters) {
             return parameters[0] / x + (parameters.length < 2 ? 0 : parameters[1]);
         }
 
-        public double[] gradient(double x, double[] doubles) {
+        public double[] gradient(double x, double ... doubles) {
             double[] gradientVector = new double[doubles.length];
             gradientVector[0] = 1 / x;
             if (doubles.length >= 2) {

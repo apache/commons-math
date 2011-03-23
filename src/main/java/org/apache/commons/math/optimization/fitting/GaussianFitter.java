@@ -84,7 +84,7 @@ public class GaussianFitter extends CurveFitter {
         final ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {
                 private final ParametricUnivariateRealFunction g = new Gaussian.Parametric();
 
-                public double value(double x, double[] p) {
+                public double value(double x, double ... p) {
                     double v = Double.POSITIVE_INFINITY;
                     try {
                         v = g.value(x, p);
@@ -94,7 +94,7 @@ public class GaussianFitter extends CurveFitter {
                     return v;
                 }
 
-                public double[] gradient(double x, double[] p) {
+                public double[] gradient(double x, double ... p) {
                     double[] v = { Double.POSITIVE_INFINITY,
                                    Double.POSITIVE_INFINITY,
                                    Double.POSITIVE_INFINITY };

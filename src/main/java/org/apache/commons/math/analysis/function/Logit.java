@@ -93,8 +93,7 @@ public class Logit implements DifferentiableUnivariateRealFunction {
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double value(double x,
-                            double[] param) {
+        public double value(double x, double ... param) {
             validateParameters(param);
             return Logit.value(x, param[0], param[1]);
         }
@@ -112,7 +111,7 @@ public class Logit implements DifferentiableUnivariateRealFunction {
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double[] gradient(double x, double[] param) {
+        public double[] gradient(double x, double ... param) {
             validateParameters(param);
 
             final double lo = param[0];

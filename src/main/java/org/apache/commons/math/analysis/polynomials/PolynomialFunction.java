@@ -361,7 +361,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      */
     public static class Parametric implements ParametricUnivariateRealFunction {
         /** {@inheritDoc} */
-        public double[] gradient(double x, double[] parameters) {
+        public double[] gradient(double x, double ... parameters) {
             final double[] gradient = new double[parameters.length];
             double xn = 1.0;
             for (int i = 0; i < parameters.length; ++i) {
@@ -372,7 +372,7 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
         }
 
         /** {@inheritDoc} */
-        public double value(final double x, final double[] parameters) {
+        public double value(final double x, final double ... parameters) {
             return PolynomialFunction.evaluate(parameters, x);
         }
     }

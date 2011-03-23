@@ -118,8 +118,7 @@ public class Logistic implements DifferentiableUnivariateRealFunction {
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
          */
-        public double value(double x,
-                            double[] param) {
+        public double value(double x, double ... param) {
             validateParameters(param);
             return Logistic.value(param[1] - x, param[0],
                                   param[2], param[3],
@@ -140,7 +139,7 @@ public class Logistic implements DifferentiableUnivariateRealFunction {
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
          */
-        public double[] gradient(double x, double[] param) {
+        public double[] gradient(double x, double ... param) {
             validateParameters(param);
 
             final double b = param[2];
