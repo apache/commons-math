@@ -42,6 +42,6 @@ public class NoDataException extends MathIllegalArgumentException {
      * @param specific Contextual information on what caused the exception.
      */
     public NoDataException(Localizable specific) {
-        super(specific, null);
+        super(specific);
     }
 }

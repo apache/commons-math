@@ -38,7 +38,7 @@ public class NullArgumentException extends MathIllegalArgumentException {
      * Default constructor.
      */
     public NullArgumentException() {
-        this(LocalizedFormats.NULL_NOT_ALLOWED, null);
+        this(LocalizedFormats.NULL_NOT_ALLOWED);
     }
     /**
      * @param pattern Message pattern providing the specific context of
