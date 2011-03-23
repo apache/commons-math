@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -54,7 +53,6 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
         optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
-        BrentSolver solver = new BrentSolver();
         RealPointValuePair optimum =
             optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         Assert.assertEquals(200, optimizer.getMaxEvaluations());

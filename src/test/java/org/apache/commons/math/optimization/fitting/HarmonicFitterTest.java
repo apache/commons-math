@@ -34,7 +34,7 @@ public class HarmonicFitterTest {
         HarmonicFitter fitter =
             new HarmonicFitter(new LevenbergMarquardtOptimizer());
 
-        final double[] fitted = fitter.fit();
+        fitter.fit();
     }
 
     // This test fails (throwing "ConvergenceException" instead).
@@ -108,7 +108,7 @@ public class HarmonicFitterTest {
             fitter.addObservedPoint(1, x, 1e-7 * randomizer.nextGaussian());
         }
 
-        final double[] fitted = fitter.fit();
+        fitter.fit();
         // This test serves to cover the part of the code of "guessAOmega"
         // when the algorithm using integrals fails.
     }

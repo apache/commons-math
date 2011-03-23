@@ -121,8 +121,6 @@ public class Sigmoid implements DifferentiableUnivariateRealFunction {
         public double[] gradient(double x, double ... param) {
             validateParameters(param);
 
-            final double lo = param[0];
-            final double hi = param[1];
             final double invExp1 = 1 / (1 + FastMath.exp(-x));
 
             return new double[] { 1 - invExp1, invExp1 };
