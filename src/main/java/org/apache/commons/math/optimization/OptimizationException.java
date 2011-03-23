@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 
 /**
