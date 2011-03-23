@@ -35,7 +35,7 @@ public class LegendreGaussIntegratorTest {
     @Test
     public void testSinFunction() throws MathException {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new LegendreGaussIntegrator(5, 64);
+        UnivariateRealIntegratorImpl integrator = new LegendreGaussIntegrator(5, 64);
         integrator.setAbsoluteAccuracy(1.0e-10);
         integrator.setRelativeAccuracy(1.0e-14);
         integrator.setMinimalIterationCount(2);

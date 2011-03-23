@@ -40,18 +40,6 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
     private double s;
 
     /**
-     * Construct an integrator for the given function.
-     *
-     * @param f function to integrate
-     * @deprecated as of 2.0 the integrand function is passed as an argument
-     * to the {@link #integrate(UnivariateRealFunction, double, double)}method.
-     */
-    @Deprecated
-    public TrapezoidIntegrator(UnivariateRealFunction f) {
-        super(f, 64);
-    }
-
-    /**
      * Construct an integrator.
      */
     public TrapezoidIntegrator() {
@@ -94,12 +82,6 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
             s = 0.5 * (s + sum * spacing);
             return s;
         }
-    }
-
-    @Deprecated
-    public double integrate(final double min, final double max)
-        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
-        return integrate(f, min, max);
     }
 
     /** {@inheritDoc} */

@@ -26,9 +26,74 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
+public interface UnivariateRealIntegrator {
 
-   /**
+    /**
+     * Set the upper limit for the number of iterations.
+     * <p>
+     * Usually a high iteration count indicates convergence problems. However,
+     * the "reasonable value" varies widely for different algorithms. Users are
+     * advised to use the default value supplied by the algorithm.</p>
+     * <p>
+     * A {@link ConvergenceException} will be thrown if this number
+     * is exceeded.</p>
+     *
+     * @param count maximum number of iterations
+     */
+    public void setMaximalIterationCount(int count);
+
+    /**
+     * Get the upper limit for the number of iterations.
+     *
+     * @return the actual upper limit
+     */
+    public int getMaximalIterationCount();
+
+    /**
+     * Set the absolute accuracy.
+     * <p>
+     * The default is usually chosen so that results in the interval
+     * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
+     * expected absolute value of your results is of much smaller magnitude, set
+     * this to a smaller value.</p>
+     * <p>
+     * Algorithms are advised to do a plausibility check with the relative
+     * accuracy, but clients should not rely on this.</p>
+     *
+     * @param accuracy the accuracy.
+     * @throws IllegalArgumentException if the accuracy can't be achieved by
+     * the solver or is otherwise deemed unreasonable.
+     */
+    public void setAbsoluteAccuracy(double accuracy);
+
+    /**
+     * Get the actual absolute accuracy.
+     *
+     * @return the accuracy
+     */
+    public double getAbsoluteAccuracy();
+
+    /**
+     * Set the relative accuracy.
+     * <p>
+     * This is used to stop iterations if the absolute accuracy can't be
+     * achieved due to large values or short mantissa length.</p>
+     * <p>
+     * If this should be the primary criterion for convergence rather then a
+     * safety measure, set the absolute accuracy to a ridiculously small value,
+     * like {@link org.apache.commons.math.util.MathUtils#SAFE_MIN MathUtils.SAFE_MIN}.</p>
+     *
+     * @param accuracy the relative accuracy.
+     */
+    public void setRelativeAccuracy(double accuracy);
+
+    /**
+     * Get the actual relative accuracy.
+     * @return the accuracy
+     */
+    public double getRelativeAccuracy();
+
+    /**
      * Set the lower limit for the number of iterations.
      * <p>
      * Minimal iteration is needed to avoid false early convergence, e.g.
