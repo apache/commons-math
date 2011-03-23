@@ -31,6 +31,10 @@ import java.io.Serializable;
 public class SerializablePair<K extends Serializable, V extends Serializable>
     extends Pair<K, V>
     implements Serializable {
+
+    /** serializable UID. */
+    private static final long serialVersionUID = 1573515225013398712L;
+
     /**
      * Create an entry representing a mapping from the specified key to the
      * specified value.
