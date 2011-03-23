@@ -114,9 +114,9 @@ public class MathRuntimeExceptionTest {
     public void testSerializeUnserializable() {
         final MathRuntimeException mreOut = new MathRuntimeException();
         mreOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, "OK");
-        mreOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, new Unserializable(0));
+        mreOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, new Unserializable());
         String key = "Key 1";
-        mreOut.setContext(key, new Unserializable(1));
+        mreOut.setContext(key, new Unserializable());
 
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -138,10 +138,7 @@ public class MathRuntimeExceptionTest {
      * Class used by {@link #testSerializeUnserializable()}.
      */
     private static class Unserializable {
-        private int k;
-
-        Unserializable(int k) {
-            this.k = k;
+        Unserializable() {
         }
     }
 }
