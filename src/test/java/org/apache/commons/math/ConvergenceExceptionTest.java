@@ -20,7 +20,6 @@ package org.apache.commons.math;
 
 import java.util.Locale;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 

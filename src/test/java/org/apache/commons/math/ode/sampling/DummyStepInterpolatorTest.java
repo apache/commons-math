@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 
 import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;

@@ -19,7 +19,6 @@ package org.apache.commons.math.special;
 import org.apache.commons.math.TestUtils;
 
 import org.junit.Test;
-import org.junit.Assert;
 
 /**
  * @version $Revision$ $Date$
