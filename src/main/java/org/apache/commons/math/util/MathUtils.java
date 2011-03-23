@@ -1245,21 +1245,6 @@ public final class MathUtils {
     }
 
     /**
-     * Scale a number by 2<sup>scaleFactor</sup>.
-     * <p>If {@code d} is 0 or NaN or Infinite, it is returned unchanged.</p>
-     *
-     * @param d base number
-     * @param scaleFactor power of two by which d should be multiplied
-     * @return d &times; 2<sup>scaleFactor</sup>
-     * @since 2.0
-     * @deprecated as of 2.2, replaced by {@link FastMath#scalb(double, int)}
-     */
-    @Deprecated
-    public static double scalb(final double d, final int scaleFactor) {
-        return FastMath.scalb(d, scaleFactor);
-    }
-
-    /**
      * Normalize an angle in a 2&pi wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>

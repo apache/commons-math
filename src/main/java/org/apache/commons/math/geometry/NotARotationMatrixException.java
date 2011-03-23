@@ -39,18 +39,6 @@ public class NotARotationMatrixException
      * Build an exception by translating and formating a message
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
-     * @deprecated as of 2.2 replaced by {@link #NotARotationMatrixException(Localizable, Object...)}
-     */
-    @Deprecated
-    public NotARotationMatrixException(String specifier, Object ... parts) {
-        super(specifier, parts);
-    }
-
-    /**
-     * Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
      * @since 2.2
      */
     public NotARotationMatrixException(Localizable specifier, Object ... parts) {

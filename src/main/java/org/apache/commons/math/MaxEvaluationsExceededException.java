@@ -17,8 +17,6 @@
 
 package org.apache.commons.math;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -44,20 +42,6 @@ public class MaxEvaluationsExceededException extends ConvergenceException {
     public MaxEvaluationsExceededException(final int maxEvaluations) {
         super(LocalizedFormats.MAX_EVALUATIONS_EXCEEDED, maxEvaluations);
         this.maxEvaluations = maxEvaluations;
-    }
-
-    /**
-     * Constructs an exception with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param maxEvaluations the exceeded maximal number of evaluations
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @deprecated as of 2.2 replaced by {@link #MaxEvaluationsExceededException(int, Localizable, Object...)}
-     */
-    @Deprecated
-    public MaxEvaluationsExceededException(final int maxEvaluations,
-                                          final String pattern, final Object ... arguments) {
-        this(maxEvaluations, new DummyLocalizable(pattern), arguments);
     }
 
     /**

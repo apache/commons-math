@@ -39,18 +39,6 @@ public class OptimizationException extends ConvergenceException {
      * Build an exception by translating and formating a message
      * @param specifier format specifier (to be translated)
      * @param parts to insert in the format (no translation)
-     * @deprecated as of 2.2 replaced by {@link #OptimizationException(Localizable, Object...)}
-     */
-    @Deprecated
-    public OptimizationException(String specifier, Object ... parts) {
-        this(new DummyLocalizable(specifier), parts);
-    }
-
-    /**
-     * Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
      * @since 2.2
      */
     public OptimizationException(Localizable specifier, Object ... parts) {

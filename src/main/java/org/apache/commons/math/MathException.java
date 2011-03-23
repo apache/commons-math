@@ -19,11 +19,10 @@ package org.apache.commons.math;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.util.Set;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.math.exception.MathThrowable;
-import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -67,19 +66,6 @@ public class MathException extends Exception implements MathThrowable {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @deprecated as of 2.2 replaced by {@link #MathException(Localizable, Object...)}
-     */
-    @Deprecated
-    public MathException(String pattern, Object ... arguments) {
-      this(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>MathException</code> with specified
-     * formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
      * @since 2.2
      */
     public MathException(Localizable pattern, Object ... arguments) {
@@ -98,22 +84,6 @@ public class MathException extends Exception implements MathThrowable {
         super(rootCause);
         this.pattern   = LocalizedFormats.SIMPLE_MESSAGE;
         this.arguments = new Object[] { (rootCause == null) ? "" : rootCause.getMessage() };
-    }
-
-    /**
-     * Constructs a new <code>MathException</code> with specified
-     * formatted detail message and nested <code>Throwable</code> root cause.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param rootCause the exception or error that caused this exception
-     * to be thrown.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 1.2
-     * @deprecated as of 2.2 replaced by {@link #MathException(Throwable, Localizable, Object...)}
-     */
-    @Deprecated
-    public MathException(Throwable rootCause, String pattern, Object ... arguments) {
-        this(rootCause, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -151,17 +121,6 @@ public class MathException extends Exception implements MathThrowable {
     /** {@inheritDoc} */
     public Set<String> getContextKeys() {
         throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
-    }
-
-    /** Gets the pattern used to build the message of this throwable.
-     *
-     * @return the pattern used to build the message of this throwable
-     * @since 1.2
-     * @deprecated as of 2.2.
-     */
-    @Deprecated
-    public String getPattern() {
-        return pattern.getSourceString();
     }
 
     /** Gets the message in a specified locale.

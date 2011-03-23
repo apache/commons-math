@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -43,19 +42,6 @@ public class ConvergenceException extends MathException {
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @since 1.2
-     * @deprecated as of 2.2 replaced by {@link #ConvergenceException(Localizable, Object...)}
-     */
-    @Deprecated
-    public ConvergenceException(String pattern, Object ... arguments) {
-        this(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs an exception with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
      * @since 2.2
      */
     public ConvergenceException(Localizable pattern, Object ... arguments) {
@@ -68,20 +54,6 @@ public class ConvergenceException extends MathException {
      */
     public ConvergenceException(Throwable cause) {
         super(cause);
-    }
-
-    /**
-     * Constructs an exception with specified formatted detail message and root cause.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param cause  the exception or error that caused this exception to be thrown
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 1.2
-     * @deprecated as of 2.2 replaced by {@link #ConvergenceException(Throwable, Localizable, Object...)}
-     */
-    @Deprecated
-    public ConvergenceException(Throwable cause, String pattern, Object ... arguments) {
-        this(cause, new DummyLocalizable(pattern), arguments);
     }
 
     /**

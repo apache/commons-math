@@ -24,11 +24,10 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ConcurrentModificationException;
 import java.util.Locale;
-import java.util.Set;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.apache.commons.math.exception.MathThrowable;
-import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -59,19 +58,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * Message formatting is delegated to {@link java.text.MessageFormat}.
      * @param pattern format specifier
      * @param arguments format arguments
-     * @deprecated as of 2.2 replaced by {@link #MathRuntimeException(Localizable, Object...)}
-     */
-    @Deprecated
-    public MathRuntimeException(final String pattern, final Object ... arguments) {
-        this(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>MathRuntimeException</code> with specified
-     * formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
      * @since 2.2
      */
     public MathRuntimeException(final Localizable pattern, final Object ... arguments) {
@@ -90,22 +76,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
         super(rootCause);
         this.pattern   = LocalizedFormats.SIMPLE_MESSAGE;
         this.arguments = new Object[] { (rootCause == null) ? "" : rootCause.getMessage() };
-    }
-
-    /**
-     * Constructs a new <code>MathRuntimeException</code> with specified
-     * formatted detail message and nested <code>Throwable</code> root cause.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param rootCause the exception or error that caused this exception
-     * to be thrown.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @deprecated as of 2.2 replaced by {@link #MathRuntimeException(Throwable, Localizable, Object...)}
-     */
-    @Deprecated
-    public MathRuntimeException(final Throwable rootCause,
-                                final String pattern, final Object ... arguments) {
-        this(rootCause, new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -157,16 +127,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
     private static String buildMessage(final Locale locale, final Localizable pattern,
                                        final Object ... arguments) {
         return new MessageFormat(pattern.getLocalizedString(locale), locale).format(arguments);
-    }
-
-    /** Gets the pattern used to build the message of this throwable.
-    *
-    * @return the pattern used to build the message of this throwable
-    * @deprecated as of 2.2
-    */
-    @Deprecated
-    public String getPattern() {
-        return pattern.getSourceString();
     }
 
     /** Gets the message in a specified locale.
@@ -223,20 +183,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createArithmeticException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static ArithmeticException createArithmeticException(final String pattern,
-                                                                final Object ... arguments) {
-        return createArithmeticException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>ArithmeticException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
      * @since 2.2
      */
     public static ArithmeticException createArithmeticException(final Localizable pattern,
@@ -267,20 +213,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createArrayIndexOutOfBoundsException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final String pattern,
-                                                                                      final Object ... arguments) {
-        return createArrayIndexOutOfBoundsException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>ArrayIndexOutOfBoundsException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
      * @since 2.2
      */
     public static ArrayIndexOutOfBoundsException createArrayIndexOutOfBoundsException(final Localizable pattern,
@@ -303,20 +235,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
             }
 
         };
-    }
-
-    /**
-     * Constructs a new <code>EOFException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createEOFException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static EOFException createEOFException(final String pattern,
-                                                  final Object ... arguments) {
-        return createEOFException(new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -372,20 +290,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createIllegalArgumentException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static IllegalArgumentException createIllegalArgumentException(final String pattern,
-                                                                          final Object ... arguments) {
-        return createIllegalArgumentException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>IllegalArgumentException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
      * @since 2.2
      */
     public static IllegalArgumentException createIllegalArgumentException(final Localizable pattern,
@@ -429,20 +333,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createIllegalStateException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static IllegalStateException createIllegalStateException(final String pattern,
-                                                                    final Object ... arguments) {
-        return createIllegalStateException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>IllegalStateException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
      * @since 2.2
      */
     public static IllegalStateException createIllegalStateException(final Localizable pattern,
@@ -465,20 +355,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
             }
 
         };
-    }
-
-    /**
-     * Constructs a new <code>ConcurrentModificationException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createConcurrentModificationException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static ConcurrentModificationException createConcurrentModificationException(final String pattern,
-                                                                                        final Object ... arguments) {
-        return createConcurrentModificationException(new DummyLocalizable(pattern), arguments);
     }
 
     /**
@@ -517,20 +393,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
      * @param pattern format specifier
      * @param arguments format arguments
      * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createNoSuchElementException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static NoSuchElementException createNoSuchElementException(final String pattern,
-                                                                      final Object ... arguments) {
-        return createNoSuchElementException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>NoSuchElementException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
      * @since 2.2
      */
     public static NoSuchElementException createNoSuchElementException(final Localizable pattern,
@@ -553,102 +415,6 @@ public class MathRuntimeException extends RuntimeException implements MathThrowa
             }
 
         };
-    }
-
-    /**
-     * Constructs a new <code>UnsupportedOperationException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @since 2.2
-     * @deprecated in 2.2. Please use {@link org.apache.commons.math.exception.MathUnsupportedOperationException}
-     * instead.
-     */
-    @Deprecated
-    public static UnsupportedOperationException createUnsupportedOperationException(final Localizable pattern,
-                                                                                    final Object ... arguments) {
-        return new UnsupportedOperationException() {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = -4284649691002411505L;
-
-            /** {@inheritDoc} */
-            @Override
-            public String getMessage() {
-                return buildMessage(Locale.US, pattern, arguments);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public String getLocalizedMessage() {
-                return buildMessage(Locale.getDefault(), pattern, arguments);
-            }
-
-        };
-    }
-
-    /**
-     * Constructs a new <code>NullPointerException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createNullPointerException(Localizable, Object...)}
-     */
-    @Deprecated
-    public static NullPointerException createNullPointerException(final String pattern,
-                                                                  final Object ... arguments) {
-        return createNullPointerException(new DummyLocalizable(pattern), arguments);
-    }
-
-    /**
-     * Constructs a new <code>NullPointerException</code> with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @since 2.2
-     * @deprecated in 2.2. Checks for "null" must not be performed in Commons-Math.
-     */
-    @Deprecated
-    public static NullPointerException createNullPointerException(final Localizable pattern,
-                                                                  final Object ... arguments) {
-        return new NullPointerException() {
-
-            /** Serializable version identifier. */
-            private static final long serialVersionUID = 451965530686593945L;
-
-            /** {@inheritDoc} */
-            @Override
-            public String getMessage() {
-                return buildMessage(Locale.US, pattern, arguments);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public String getLocalizedMessage() {
-                return buildMessage(Locale.getDefault(), pattern, arguments);
-            }
-
-        };
-    }
-
-   /**
-     * Constructs a new <code>ParseException</code> with specified
-     * formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param offset offset at which error occurred
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @return built exception
-     * @deprecated as of 2.2 replaced by {@link #createParseException(int, Localizable, Object...)}
-     */
-    @Deprecated
-    public static ParseException createParseException(final int offset,
-                                                      final String pattern,
-                                                      final Object ... arguments) {
-        return createParseException(offset, new DummyLocalizable(pattern), arguments);
     }
 
     /**
