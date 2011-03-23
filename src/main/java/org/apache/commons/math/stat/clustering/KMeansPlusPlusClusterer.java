@@ -23,8 +23,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
@@ -88,9 +92,21 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      * @param maxIterations the maximum number of iterations to run the algorithm
      *     for.  If negative, no maximum will be used
      * @return a list of clusters containing the points
+     * @throws MathIllegalArgumentException if the data points are null or the number
+     *     of clusters is larger than the number of data points
      */
-    public List<Cluster<T>> cluster(final Collection<T> points,
-                                    final int k, final int maxIterations) {
+    public List<Cluster<T>> cluster(final Collection<T> points, final int k,
+                                    final int maxIterations)
+        throws MathIllegalArgumentException {
+
+        // sanity checks
+        MathUtils.checkNotNull(points);
+        
+        // number of clusters has to be smaller or equal the number of data points
+        if (points.size() < k) {
+            throw new NumberIsTooSmallException(points.size(), k, false);
+        }
+        
         // create the initial clusters
         List<Cluster<T>> clusters = chooseInitialCenters(points, k, random);
         assignPointsToClusters(clusters, points);

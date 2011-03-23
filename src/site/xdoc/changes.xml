@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-436" due-to="Thomas Neidhart">
+        Added a consistency check for number of points with respect to the number
+        of clusters in Kmeans++ clustering
+      </action>
       <action dev="mikl" type="add" issue="MATH-437">
         Added two sided Kolmogorov-Smirnov distribution using modified 
         Marsaglia et al. (2003) implementation and quick decisions for certain 
