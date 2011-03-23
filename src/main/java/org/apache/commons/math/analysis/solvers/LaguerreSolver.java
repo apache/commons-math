@@ -200,31 +200,6 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex[] solveAll(double coefficients[], double initial) {
-            if (coefficients == null) {
-                throw new NullArgumentException();
-            }
-            Complex c[] = new Complex[coefficients.length];
-            Complex z = new Complex(initial, 0);
-            for (int i = 0; i < c.length; i++) {
-                c[i] = new Complex(coefficients[i], 0);
-            }
-            return solveAll(c, z);
-        }
-
-        /**
-         * Find all complex roots for the polynomial with the given
-         * coefficients, starting from the given initial value.
-         *
-         * @param coefficients Polynomial coefficients.
-         * @param initial Start value.
-         * @return the point at which the function value is zero.
-         * @throws org.apache.commons.math.exception.TooManyEvaluationsException
-         * if the maximum number of evaluations is exceeded.
-         * @throws NullArgumentException if the {@code coefficients} is
-         * {@code null}.
-         * @throws NoDataException if the {@code coefficients} array is empty.
-         */
         public Complex[] solveAll(Complex coefficients[], Complex initial) {
             if (coefficients == null) {
                 throw new NullArgumentException();
