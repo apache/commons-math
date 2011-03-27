@@ -81,10 +81,6 @@ public interface MannWhitneyUTest {
      *            the first sample
      * @param y
      *            the second sample
-     * @param exactPValue
-     *            if the exact p-value is wanted (only works for x.length <= 30,
-     *            if true and x.length > 30, this is ignored because
-     *            calculations may take too long)
      * @return asymptotic p-value
      * @throws IllegalArgumentException
      *             if preconditions are not met

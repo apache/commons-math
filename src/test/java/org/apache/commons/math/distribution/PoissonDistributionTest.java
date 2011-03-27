@@ -36,7 +36,6 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Constructor.
-     * @param name
      */
     public PoissonDistributionTest() {
         setTolerance(1e-12);
