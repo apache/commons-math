@@ -29,6 +29,8 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
+
+    /** Ranking algorithm. */
     private NaturalRanking naturalRanking;
 
     /**
@@ -58,8 +60,8 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     /**
      * Ensures that the provided arrays fulfills the assumptions.
      *
-     * @param x
-     * @param y
+     * @param x first sample
+     * @param y second sample
      * @throws IllegalArgumentException
      *             if assumptions are not met
      */
@@ -87,13 +89,11 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     /**
      * Calculates y[i] - x[i] for all i
      *
-     * @param x
-     * @param y
-     * @throws IllegalArgumentException
-     *             if assumptions are not met
+     * @param x first sample
+     * @param y second sample
+     * @return z = y - x
      */
-    private double[] calculateDifferences(final double[] x, final double[] y)
-            throws IllegalArgumentException {
+    private double[] calculateDifferences(final double[] x, final double[] y) {
 
         final double[] z = new double[x.length];
 
@@ -107,7 +107,8 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
     /**
      * Calculates |z[i]| for all i
      *
-     * @param z
+     * @param z sample
+     * @return |z|
      * @throws IllegalArgumentException
      *             if assumptions are not met
      */

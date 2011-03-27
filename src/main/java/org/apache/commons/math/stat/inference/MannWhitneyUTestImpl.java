@@ -30,6 +30,8 @@ import org.apache.commons.math.util.FastMath;
  * @version $Revision$ $Date$
  */
 public class MannWhitneyUTestImpl implements MannWhitneyUTest {
+
+    /** Ranking algorithm. */
     private NaturalRanking naturalRanking;
 
     /**
@@ -59,8 +61,8 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
     /**
      * Ensures that the provided arrays fulfills the assumptions.
      *
-     * @param x
-     * @param y
+     * @param x first sample
+     * @param y second sample
      * @throws IllegalArgumentException
      *             if assumptions are not met
      */
@@ -85,7 +87,12 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
         }
     }
 
-    private double[] concatinateSamples(final double[] x, final double[] y) {
+    /** Concatenate the samples into one array.
+     * @param x first sample
+     * @param y second sample
+     * @return concatenated array
+     */
+    private double[] concatenateSamples(final double[] x, final double[] y) {
         final double[] z = new double[x.length + y.length];
 
         System.arraycopy(x, 0, z, 0, x.length);
@@ -110,7 +117,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
 
         ensureDataConformance(x, y);
 
-        final double[] z = concatinateSamples(x, y);
+        final double[] z = concatenateSamples(x, y);
         final double[] ranks = naturalRanking.rank(z);
 
         double sumRankX = 0;

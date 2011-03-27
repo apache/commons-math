@@ -45,7 +45,6 @@ public class Beta {
      * @return the regularized beta function I(x, a, b).
      * @throws org.apache.commons.math.exception.MaxCountExceededException
      * if the algorithm fails to converge.
-     * @throws MathException if the algorithm fails to converge.
      */
     public static double regularizedBeta(double x, double a, double b) {
         return regularizedBeta(x, a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);

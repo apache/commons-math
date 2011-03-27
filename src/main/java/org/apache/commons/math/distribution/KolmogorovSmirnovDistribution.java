@@ -18,21 +18,21 @@
 package org.apache.commons.math.distribution;
 
 /**
- * Treats the distribution of the two-sided 
+ * Treats the distribution of the two-sided
  * {@code P(D}<sub>{@code n}</sub>{@code < d)}
- * where {@code D}<sub>{@code n}</sub>{@code = sup_x | G(x) - Gn (x) |} for the 
+ * where {@code D}<sub>{@code n}</sub>{@code = sup_x | G(x) - Gn (x) |} for the
  * theoretical cdf G and the emperical cdf Gn.
- * 
+ *
  * @version $Revision$ $Date$
  */
 public interface KolmogorovSmirnovDistribution {
-    
+
     /**
      * Calculates {@code P(D}<sub>n</sub> {@code < d)}.
-     * 
+     *
      * @param d statistic
      * @return the two-sided probability of {@code P(D}<sub>n</sub> {@code < d)}
      */
-    public double cdf(double d);
-    
+    double cdf(double d);
+
 }

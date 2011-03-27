@@ -826,19 +826,26 @@ public class CMAESOptimizer extends
     private class FitnessFunction {
 
         /** Determines the penalty for boundary violations */
-        private double valueRange = 1.0;
+        private double valueRange;
         /**
          * Flag indicating whether the objective variables are forced into their
          * bounds if defined
          */
-        private boolean isRepairMode = true;
+        private boolean isRepairMode;
+
+        /** Simple constructor.
+         */
+        public FitnessFunction() {
+            valueRange = 1.0;
+            isRepairMode = true;
+        }
 
         /**
          * @param x
          *            Original objective variables.
          * @return Normalized objective variables.
          */
-        private double[] encode(final double[] x) {
+        public double[] encode(final double[] x) {
             if (boundaries == null)
                 return x;
             double[] res = new double[x.length];
@@ -854,7 +861,7 @@ public class CMAESOptimizer extends
          *            Normalized objective variables.
          * @return Original objective variables.
          */
-        private double[] decode(final double[] x) {
+        public double[] decode(final double[] x) {
             if (boundaries == null)
                 return x;
             double[] res = new double[x.length];
@@ -870,7 +877,7 @@ public class CMAESOptimizer extends
          *            Normalized objective variables.
          * @return Objective value + penalty for violated bounds.
          */
-        private double value(final double[] point) {
+        public double value(final double[] point) {
             double value;
             if (boundaries != null && isRepairMode) {
                 double[] repaired = repair(point);
@@ -888,7 +895,7 @@ public class CMAESOptimizer extends
          *            Normalized objective variables.
          * @return True if in bounds
          */
-        private boolean isFeasible(final double[] x) {
+        public boolean isFeasible(final double[] x) {
             if (boundaries == null)
                 return true;
             for (int i = 0; i < x.length; i++) {
@@ -904,7 +911,7 @@ public class CMAESOptimizer extends
          * @param valueRange
          *            Adjusts the penalty computation.
          */
-        private void setValueRange(double valueRange) {
+        public void setValueRange(double valueRange) {
             this.valueRange = valueRange;
         }
 

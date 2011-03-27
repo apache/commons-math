@@ -100,12 +100,12 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
         // sanity checks
         MathUtils.checkNotNull(points);
-        
+
         // number of clusters has to be smaller or equal the number of data points
         if (points.size() < k) {
             throw new NumberIsTooSmallException(points.size(), k, false);
         }
-        
+
         // create the initial clusters
         List<Cluster<T>> clusters = chooseInitialCenters(points, k, random);
         assignPointsToClusters(clusters, points);

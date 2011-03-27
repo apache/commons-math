@@ -40,14 +40,14 @@ public interface UnivariateRealIntegrator {
      *
      * @param count maximum number of iterations
      */
-    public void setMaximalIterationCount(int count);
+    void setMaximalIterationCount(int count);
 
     /**
      * Get the upper limit for the number of iterations.
      *
      * @return the actual upper limit
      */
-    public int getMaximalIterationCount();
+    int getMaximalIterationCount();
 
     /**
      * Set the absolute accuracy.
@@ -64,14 +64,14 @@ public interface UnivariateRealIntegrator {
      * @throws IllegalArgumentException if the accuracy can't be achieved by
      * the solver or is otherwise deemed unreasonable.
      */
-    public void setAbsoluteAccuracy(double accuracy);
+    void setAbsoluteAccuracy(double accuracy);
 
     /**
      * Get the actual absolute accuracy.
      *
      * @return the accuracy
      */
-    public double getAbsoluteAccuracy();
+    double getAbsoluteAccuracy();
 
     /**
      * Set the relative accuracy.
@@ -85,13 +85,13 @@ public interface UnivariateRealIntegrator {
      *
      * @param accuracy the relative accuracy.
      */
-    public void setRelativeAccuracy(double accuracy);
+    void setRelativeAccuracy(double accuracy);
 
     /**
      * Get the actual relative accuracy.
      * @return the accuracy
      */
-    public double getRelativeAccuracy();
+    double getRelativeAccuracy();
 
     /**
      * Set the lower limit for the number of iterations.

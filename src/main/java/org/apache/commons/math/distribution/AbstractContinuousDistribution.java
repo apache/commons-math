@@ -39,10 +39,11 @@ import org.apache.commons.math.util.FastMath;
 public abstract class AbstractContinuousDistribution
     extends AbstractDistribution
     implements ContinuousDistribution, Serializable {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -38038050983108802L;
+
     /** Default accuracy. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -38038050983108802L;
     /**
      * RandomData instance used to generate samples from the distribution
      * @since 2.2

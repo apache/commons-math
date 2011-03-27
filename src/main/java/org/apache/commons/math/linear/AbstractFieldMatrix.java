@@ -265,21 +265,21 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public FieldMatrix<T> preMultiply(final FieldMatrix<T> m) {
         return m.multiply(this);
     }
-    
+
     /** {@inheritDoc} */
     public FieldMatrix<T> power(final int p) {
         if (p < 0) {
             throw new IllegalArgumentException("p must be >= 0");
         }
-        
+
         if (!isSquare()) {
             throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
         }
-        
+
         if (p == 0) {
             return MatrixUtils.createFieldIdentityMatrix(this.getField(), this.getRowDimension());
         }
-        
+
         if (p == 1) {
             return this.copy();
         }
@@ -289,7 +289,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         /*
          * Only log_2(p) operations is used by doing as follows:
          * 5^214 = 5^128 * 5^64 * 5^16 * 5^4 * 5^2
-         * 
+         *
          * In general, the same approach is used for A^p.
          */
 

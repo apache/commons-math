@@ -41,6 +41,9 @@ public class MathException extends Exception implements MathThrowable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7428019509644517071L;
 
+    /** Deprecation message. */
+    private static final String DEPRECATION_MESSAGE = "This class is deprecated; calling this method is a bug.";
+
     /**
      * Pattern used to build the message.
      */
@@ -105,22 +108,22 @@ public class MathException extends Exception implements MathThrowable {
     /** {@inheritDoc} */
     public void addMessage(Localizable pat,
                            Object ... args) {
-        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+        throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
     /** {@inheritDoc} */
     public void setContext(String key, Object value) {
-        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+        throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
     /** {@inheritDoc} */
     public Object getContext(String key) {
-        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+        throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
     /** {@inheritDoc} */
     public Set<String> getContextKeys() {
-        throw new UnsupportedOperationException("This class is deprecated; calling this method is a bug.");
+        throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
     /** Gets the message in a specified locale.

@@ -191,7 +191,7 @@ public class Gamma {
      * @param a the a parameter.
      * @param x the value.
      * @return the regularized gamma function Q(a, x)
-     * @throws MathException if the algorithm fails to converge.
+     * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public static double regularizedGammaQ(double a, double x) {
         return regularizedGammaQ(a, x, DEFAULT_EPSILON, Integer.MAX_VALUE);

@@ -116,16 +116,16 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
     FieldMatrix<T> preMultiply(FieldMatrix<T> m);
 
     /**
-     * Returns the result multiplying this with itself <code>p</code> times. 
-     * Depending on the type of the field elements, T, 
-     * instability for high powers might occur. 
+     * Returns the result multiplying this with itself <code>p</code> times.
+     * Depending on the type of the field elements, T,
+     * instability for high powers might occur.
      * @param      p raise this to power p
      * @return     this^p
      * @throws     IllegalArgumentException if p < 0
      *             NonSquareMatrixException if the matrix is not square
      */
     FieldMatrix<T> power(final int p);
-    
+
     /**
      * Returns matrix entries as a two-dimensional array.
      *
