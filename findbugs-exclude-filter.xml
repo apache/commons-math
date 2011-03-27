@@ -40,14 +40,20 @@
   </Match>
   <Match>
     <Class name="org.apache.commons.math.analysis.solvers.BrentSolver" />
-    <Method name="solve" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double,double,double,double,double" returns="double" />
+    <Method name="brent" params="double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math.analysis.solvers.MullerSolver" />
     <Or>
-      <Method name="solve"  params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />
-      <Method name="solve2" params="org.apache.commons.math.analysis.UnivariateRealFunction,double,double" returns="double" />
+      <Method name="solve"  params="double,double,double,double" returns="double" />
+    </Or>
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math.analysis.solvers.MullerSolver2" />
+    <Or>
+      <Method name="doSolve"  params="" returns="double" />
     </Or>
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -249,6 +255,13 @@
   <Match>
     <Class name="org.apache.commons.math.stat.ranking.NaturalRanking$IntDoublePair" />
     <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />
+  </Match>
+
+  <!-- False positive warning from findbugs, the integer division result cast to double is correct here -->
+  <Match>
+    <Class name="org.apache.commons.math.stat.inference.MannWhitneyUTestImpl" />
+    <Method name="mannWhitneyU" params="double[],double[]" returns="double" />
+    <Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
   </Match>
 
 </FindBugsFilter>
