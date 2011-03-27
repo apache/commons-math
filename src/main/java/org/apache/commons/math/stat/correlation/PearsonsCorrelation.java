@@ -225,7 +225,8 @@ public class PearsonsCorrelation {
      * @throws  IllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
-    public double correlation(final double[] xArray, final double[] yArray) throws IllegalArgumentException {
+    public static double correlation(final double[] xArray, final double[] yArray)
+        throws IllegalArgumentException {
         SimpleRegression regression = new SimpleRegression();
         if (xArray.length != yArray.length) {
             throw new DimensionMismatchException(xArray.length, yArray.length);
