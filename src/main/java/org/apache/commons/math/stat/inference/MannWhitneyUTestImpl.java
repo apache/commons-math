@@ -104,13 +104,10 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
     /**
      * {@inheritDoc}
      *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
+     * @param x the first sample
+     * @param y the second sample
      * @return mannWhitneyU statistic U (maximum of U<sup>x</sup> and U<sup>y</sup>)
-     * @throws IllegalArgumentException
-     *             if preconditions are not met
+     * @throws IllegalArgumentException if preconditions are not met
      */
     public double mannWhitneyU(final double[] x, final double[] y)
             throws IllegalArgumentException {
@@ -145,13 +142,11 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
     }
 
     /**
-     * @param Umin
-     *            smallest Mann-Whitney U value
-     * @param N
-     *            number of subjects (corresponding to x.length)
+     * @param Umin smallest Mann-Whitney U value
+     * @param n1 number of subjects in first sample
+     * @param n2 number of subjects in second sample
      * @return two-sided asymptotic p-value
-     * @throws MathException
-     *             if an error occurs computing the p-value
+     * @throws MathException if an error occurs computing the p-value
      */
     private double calculateAsymptoticPValue(final double Umin, final int n1,
             final int n2) throws MathException {
@@ -177,15 +172,11 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      *
      * {@inheritDoc}
      *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
+     * @param x the first sample
+     * @param y the second sample
      * @return asymptotic p-value (biased for samples with ties)
-     * @throws IllegalArgumentException
-     *             if preconditions are not met
-     * @throws MathException
-     *             if an error occurs computing the p-value
+     * @throws IllegalArgumentException if preconditions are not met
+     * @throws MathException if an error occurs computing the p-value
      */
     public double mannWhitneyUTest(final double[] x, final double[] y)
             throws IllegalArgumentException, MathException {
