@@ -19,11 +19,12 @@ package org.apache.commons.math.random;
 import java.io.EOFException;
 import java.net.URL;
 
-import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test cases for the ValueServer class.
@@ -31,7 +32,8 @@ import org.junit.Test;
  * @version $Revision$ $Date$
  */
 
-public final class ValueServerTest extends RetryTestCase {
+@RunWith(RetryRunner.class)
+public final class ValueServerTest {
 
     private ValueServer vs = new ValueServer();
 

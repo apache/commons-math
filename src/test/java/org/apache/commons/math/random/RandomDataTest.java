@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 
 
-import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.BetaDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
@@ -49,6 +49,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test cases for the RandomData class.
@@ -57,7 +58,8 @@ import org.junit.Test;
  *          2009) $
  */
 
-public class RandomDataTest extends RetryTestCase {
+@RunWith(RetryRunner.class)
+public class RandomDataTest {
 
     public RandomDataTest() {
         randomData = new RandomDataImpl();

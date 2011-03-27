@@ -23,12 +23,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.commons.math.RetryTestCase;
+import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test cases for the EmpiricalDistribution class
@@ -36,7 +37,8 @@ import org.junit.Test;
  * @version $Revision$ $Date$
  */
 
-public final class EmpiricalDistributionTest extends RetryTestCase {
+@RunWith(RetryRunner.class)
+public final class EmpiricalDistributionTest {
 
     protected EmpiricalDistribution empiricalDistribution = null;
     protected EmpiricalDistribution empiricalDistribution2 = null;
