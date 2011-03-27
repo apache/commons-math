@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import org.apache.commons.math.exception.util.ArgUtils;
 import org.apache.commons.math.exception.util.Localizable;
-import org.apache.commons.math.util.SerializablePair;
 
 /**
  * This class is the base class for all exceptions.
@@ -45,8 +44,14 @@ public class MathRuntimeException extends RuntimeException
     /**
      * Various informations that enrich the informative message.
      */
-    private List<SerializablePair<Localizable, Object[]>> messages
-        = new ArrayList<SerializablePair<Localizable, Object[]>>();
+    private List<Localizable> msgPatterns = new ArrayList<Localizable>();
+    /**
+     * Various informations that enrich the informative message.
+     * The arguments will replace the corresponding place-holders in
+     * {@link #msgPatterns}.
+     */
+    private List<Object[]> msgArguments = new ArrayList<Object[]>();
+
     /**
      * Arbitrary context information.
      */
@@ -69,8 +74,8 @@ public class MathRuntimeException extends RuntimeException
     /** {@inheritDoc} */
     public void addMessage(Localizable pattern,
                            Object ... arguments) {
-        messages.add(new SerializablePair<Localizable, Object[]>(pattern,
-                                                                 ArgUtils.flatten(arguments)));
+        msgPatterns.add(pattern);
+        msgArguments.add(ArgUtils.flatten(arguments));
     }
 
     /** {@inheritDoc} */
@@ -133,11 +138,13 @@ public class MathRuntimeException extends RuntimeException
                                 String separator) {
         final StringBuilder sb = new StringBuilder();
         int count = 0;
-        final int len = messages.size();
-        for (SerializablePair<Localizable, Object[]> pair : messages) {
-            final MessageFormat fmt = new MessageFormat(pair.getKey().getLocalizedString(locale),
+        final int len = msgPatterns.size();
+        for (int i = 0; i < len; i++) {
+            final Localizable pat = msgPatterns.get(i);
+            final Object[] args = msgArguments.get(i);
+            final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
                                                         locale);
-            sb.append(fmt.format(pair.getValue()));
+            sb.append(fmt.format(args));
             if (++count < len) {
                 // Add a separator if there are other messages.
                 sb.append(separator);
@@ -173,7 +180,7 @@ public class MathRuntimeException extends RuntimeException
     }
 
     /**
-     * Serialize {@link #messages}.
+     * Serialize  {@link #msgPatterns} and {@link #msgArguments}.
      *
      * @param out Stream.
      * @throws IOException This should never happen.
@@ -181,14 +188,14 @@ public class MathRuntimeException extends RuntimeException
     private void serializeMessages(ObjectOutputStream out)
         throws IOException {
         // Step 1.
-        final int len = messages.size();
+        final int len = msgPatterns.size();
         out.writeInt(len);
         // Step 2.
         for (int i = 0; i < len; i++) {
-            SerializablePair<Localizable, Object[]> pair = messages.get(i);
+            final Localizable pat = msgPatterns.get(i);
             // Step 3.
-            out.writeObject(pair.getKey());
-            final Object[] args = pair.getValue();
+            out.writeObject(pat);
+            final Object[] args = msgArguments.get(i);
             final int aLen = args.length;
             // Step 4.
             out.writeInt(aLen);
@@ -205,7 +212,7 @@ public class MathRuntimeException extends RuntimeException
     }
 
     /**
-     * Deserialize {@link #messages}.
+     * Deserialize {@link #msgPatterns} and {@link #msgArguments}.
      *
      * @param in Stream.
      * @throws IOException This should never happen.
@@ -216,11 +223,13 @@ public class MathRuntimeException extends RuntimeException
                ClassNotFoundException {
         // Step 1.
         final int len = in.readInt();
-        messages = new ArrayList<SerializablePair<Localizable, Object[]>>(len);
+        msgPatterns = new ArrayList<Localizable>(len);
+        msgArguments = new ArrayList<Object[]>(len);
         // Step 2.
         for (int i = 0; i < len; i++) {
             // Step 3.
-            final Localizable key = (Localizable) in.readObject();
+            final Localizable pat = (Localizable) in.readObject();
+            msgPatterns.add(pat);
             // Step 4.
             final int aLen = in.readInt();
             final Object[] args = new Object[aLen];
@@ -228,7 +237,7 @@ public class MathRuntimeException extends RuntimeException
                 // Step 5.
                 args[j] = in.readObject();
             }
-            messages.add(new SerializablePair<Localizable, Object[]>(key, args));
+            msgArguments.add(args);
         }
     }
 
