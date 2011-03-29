@@ -28,13 +28,11 @@ import org.junit.runners.model.Statement;
  * @version $Revision$ $Date$
  */
 public class RetryRunner extends BlockJUnit4ClassRunner {
-
-    /** Maximal number of test run attempts. */
-    private static final int MAX_ATTEMPTS = 3;
-
-    /** Simple constructor.
-     * @param testClass class to test
-     * @throws InitializationError if default runner cannot be built
+    /**
+     * Simple constructor.
+     *
+     * @param testClass Class to test.
+     * @throws InitializationError if default runner cannot be built.
      */
     public RetryRunner(final Class<?> testClass)
         throws InitializationError {
@@ -42,37 +40,42 @@ public class RetryRunner extends BlockJUnit4ClassRunner {
     }
 
     @Override
-    public Statement methodInvoker(FrameworkMethod method, Object test) {
+    public Statement methodInvoker(final FrameworkMethod method,
+                                   Object test) {
         final Statement singleTryStatement = super.methodInvoker(method, test);
         return new Statement() {
-
-            /** Evaluate the statement.
+            /**
+             * Evaluate the statement.
              * We attempt several runs for the test, at most MAX_ATTEMPTS.
              * if one attempt succeeds, we succeed, if all attempts fail, we
              * fail with the reason corresponding to the last attempt
              */
             public void evaluate() throws Throwable {
                 Throwable failureReason = null;
-                for (int i = 0; i < MAX_ATTEMPTS; ++i) {
-                    try {
 
-                        // do one test run attempt
-                        singleTryStatement.evaluate();
+                final Retry retry = method.getAnnotation(Retry.class);
+                if (retry == null) {
+                    // Do a single test run attempt.
+                    singleTryStatement.evaluate();
+                } else {
+                    final int numRetries = retry.value();
 
-                        // attempt succeeded, stop evaluation here
-                        return;
-
-                    } catch (Throwable t) {
-                        // attempt failed, store the reason why
-                        failureReason = t;
+                    for (int i = 0; i < numRetries; ++i) {
+                        try {
+                            // Do a single test run attempt.
+                            singleTryStatement.evaluate();
+                            // Attempt succeeded, stop evaluation here.
+                            return;
+                        } catch (Throwable t) {
+                            // Attempt failed, store the reason.
+                            failureReason = t;
+                        }
                     }
+
+                    // All attempts failed.
+                    throw failureReason;
                 }
-
-                // all attempts failed
-                throw failureReason;
-
             }
         };
     }
-
 }
