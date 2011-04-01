@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-552" due-to="James Bence">
+        Fixed bug in "MultidimensionalCounter".
+      </action>
       <action dev="luc" type="fix" issue="MATH-423" due-to="Gilles Sadowski" >
         All unit tests have been converted to Junit 4. They need at least Junit 4.5 to run
         (the ant and maven build systems are currently set to use Junit 4.8.2)
