@@ -194,7 +194,7 @@ public class PearsonsCorrelationTest {
     public void testConstant() {
         double[] noVariance = new double[] {1, 1, 1, 1};
         double[] values = new double[] {1, 2, 3, 4};
-        Assert.assertTrue(Double.isNaN(PearsonsCorrelation.correlation(noVariance, values)));
+        Assert.assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(noVariance, values)));
     }
 
 
@@ -207,7 +207,7 @@ public class PearsonsCorrelationTest {
         double[] one = new double[] {1};
         double[] two = new double[] {2};
         try {
-            PearsonsCorrelation.correlation(one, two);
+            new PearsonsCorrelation().correlation(one, two);
             Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // Expected
@@ -277,7 +277,7 @@ public class PearsonsCorrelationTest {
         double[][] data = matrix.getData();
         double[] x = matrix.getColumn(0);
         double[] y = matrix.getColumn(1);
-        Assert.assertEquals(PearsonsCorrelation.correlation(x, y),
+        Assert.assertEquals(new PearsonsCorrelation().correlation(x, y),
                 corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
         TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
                 new PearsonsCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
