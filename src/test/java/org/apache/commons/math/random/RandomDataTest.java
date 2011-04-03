@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 
 
+import org.apache.commons.math.Retry;
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.BetaDistributionImpl;
@@ -395,6 +396,7 @@ public class RandomDataTest {
 
     /** test dispersion and failure modes for nextHex() */
     @Test
+    @Retry(3)
     public void testNextHex() {
         try {
             randomData.nextHexString(-1);
