@@ -40,19 +40,16 @@ import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * CMA-ES algorithm. This code is translated and adapted from the Matlab version
- * of this algorithm as implemented in module {@code cmaes.m} version 3.51.
- *
- * Implements the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
+ * <p>An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
  * for non-linear, non-convex, non-smooth, global function minimization.
  * The CMA-Evolution Strategy (CMA-ES) is a reliable stochastic optimization method
- * which should be applied, if derivative based methods, e.g. quasi-Newton BFGS or
+ * which should be applied if derivative-based methods, e.g. quasi-Newton BFGS or
  * conjugate gradient, fail due to a rugged search landscape (e.g. noise, local
- * optima, outlier, etc.)  of the objective function. Like a
- * quasi-Newton method the CMA-ES learns and applies a variable metric
- * of the underlying search space. Unlike a quasi-Newton method the
- * CMA-ES does neither estimate nor use gradients, making it considerably more
- * reliable in terms of finding a good, or even close to optimal, solution, finally.
+ * optima, outlier, etc.) of the objective function. Like a
+ * quasi-Newton method, the CMA-ES learns and applies a variable metric
+ * on the underlying search space. Unlike a quasi-Newton method, the
+ * CMA-ES neither estimates nor uses gradients, making it considerably more
+ * reliable in terms of finding a good, or even close to optimal, solution.</p>
  *
  * <p>In general, on smooth objective functions the CMA-ES is roughly ten times
  * slower than BFGS (counting objective function evaluations, no gradients provided).
@@ -61,13 +58,15 @@ import org.apache.commons.math.util.MathUtils;
  * far less reliable than CMA-ES.</p>
  *
  * <p>The CMA-ES is particularly well suited for non-separable
- * and/or badly conditioned problems.
- * To observe the advantage of CMA compared to a conventional
- * evolution strategy, it will usually take about <math>30 N</math> function
- * evaluations. On difficult problems the complete
+ * and/or badly conditioned problems. To observe the advantage of CMA compared
+ * to a conventional evolution strategy, it will usually take about
+ * <math>30 N</math> function evaluations. On difficult problems the complete
  * optimization (a single run) is expected to take <em>roughly</em> between
  * <math>30 N</math> and <math>300 N<sup>2</sup></math>
  * function evaluations.</p>
+ * 
+ * <p>This implementation is translated and adapted from the Matlab version
+ * of the CMA-ES algorithm as implemented in module {@code cmaes.m} version 3.51.</p>
  *
  * For more information, please refer to the following links:
  * <ul>
@@ -102,7 +101,7 @@ public class CMAESOptimizer extends
      * Population size, offspring number. The primary strategy parameter to play
      * with, which can be increased from its default value. Increasing the
      * population size improves global search properties in exchange to speed.
-     * Speed decreases, as a rule, at most linearely with increasing population
+     * Speed decreases, as a rule, at most linearly with increasing population
      * size. It is advisable to begin with the default small population size.
      */
     private int lambda; // population size
@@ -1082,7 +1081,7 @@ public class CMAESOptimizer extends
     /**
      * @param m
      *            Input matrix.
-     * @return Diagonal n X n matrix if m is a column matrix, Rolumn matrix
+     * @return Diagonal n X n matrix if m is a column matrix, Column matrix
      *         representing the diagonal if m is a nXn matrix.
      */
     private static RealMatrix diag(final RealMatrix m) {
