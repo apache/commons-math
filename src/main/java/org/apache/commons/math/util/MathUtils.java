@@ -1367,7 +1367,7 @@ public final class MathUtils {
 
     /**
      * Round the given value to the specified number of decimal places. The
-     * value is rounding using the {@link BigDecimal#ROUND_HALF_UP} method.
+     * value is rounded using the {@link BigDecimal#ROUND_HALF_UP} method.
      *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
@@ -1397,7 +1397,7 @@ public final class MathUtils {
     }
 
     /**
-     * Round the given non-negative, value to the "nearest" integer. Nearest is
+     * Round the given non-negative value to the "nearest" integer. Nearest is
      * determined by the rounding method specified. Rounding methods are defined
      * in {@link BigDecimal}.
      *
@@ -1405,6 +1405,7 @@ public final class MathUtils {
      * @param sign Sign of the original, scaled value.
      * @param roundingMethod Rounding method, as defined in {@link BigDecimal}.
      * @return the rounded value.
+     * @throws MathIllegalArgumentException if {@code roundingMethod} is not a valid rounding method.
      * @since 1.1
      */
     private static double roundUnscaled(double unscaled,
