@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-547" due-to="Thomas Neidhart">
+        Improved robustness of k-means++ algorithm, by tracking changes in points assignments
+        to clusters.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-555">
         Changed MathUtils.round(double,int,int) to propagate rather than
         wrap runtime exceptions.  Instead of MathRuntimeException, this method

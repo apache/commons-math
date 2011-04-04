@@ -108,12 +108,16 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
         // create the initial clusters
         List<Cluster<T>> clusters = chooseInitialCenters(points, k, random);
-        assignPointsToClusters(clusters, points);
+        
+        // create an array containing the latest assignment of a point to a cluster
+        // no need to initialize the array, as it will be filled with the first assignment
+        int[] assignments = new int[points.size()];
+        assignPointsToClusters(clusters, points, assignments);
 
         // iterate through updating the centers until we're done
         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
         for (int count = 0; count < max; count++) {
-            boolean clusteringChanged = false;
+            boolean emptyCluster = false;
             List<Cluster<T>> newClusters = new ArrayList<Cluster<T>>();
             for (final Cluster<T> cluster : clusters) {
                 final T newCenter;
@@ -131,20 +135,20 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
                         default :
                             throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
                     }
-                    clusteringChanged = true;
+                    emptyCluster = true;
                 } else {
                     newCenter = cluster.getCenter().centroidOf(cluster.getPoints());
-                    if (!newCenter.equals(cluster.getCenter())) {
-                        clusteringChanged = true;
-                    }
                 }
                 newClusters.add(new Cluster<T>(newCenter));
             }
-            if (!clusteringChanged) {
+            int changes = assignPointsToClusters(newClusters, points, assignments);
+            clusters = newClusters;
+            
+            // if there were no more changes in the point-to-cluster assignment
+            // and there are no empty clusters left, return the current clusters
+            if (changes == 0 && !emptyCluster) {
                 return clusters;
             }
-            assignPointsToClusters(newClusters, points);
-            clusters = newClusters;
         }
         return clusters;
     }
@@ -155,13 +159,25 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to add the points to
      * @param points the points to add to the given {@link Cluster}s
+     * @return the number of points assigned to different clusters as the iteration before
      */
-    private static <T extends Clusterable<T>> void
-        assignPointsToClusters(final Collection<Cluster<T>> clusters, final Collection<T> points) {
+    private static <T extends Clusterable<T>> int
+        assignPointsToClusters(final List<Cluster<T>> clusters, final Collection<T> points, 
+                               final int[] assignments) {
+        int assignedDifferently = 0;
+        int pointIndex = 0;
         for (final T p : points) {
-            Cluster<T> cluster = getNearestCluster(clusters, p);
+            int clusterIndex = getNearestCluster(clusters, p);
+            if (clusterIndex != assignments[pointIndex]) {
+                assignedDifferently++;
+            }
+            
+            Cluster<T> cluster = clusters.get(clusterIndex);
             cluster.addPoint(p);
+            assignments[pointIndex++] = clusterIndex;
         }
+        
+        return assignedDifferently;
     }
 
     /**
@@ -190,7 +206,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
             double sum = 0;
             for (int i = 0; i < pointSet.size(); i++) {
                 final T p = pointSet.get(i);
-                final Cluster<T> nearest = getNearestCluster(resultSet, p);
+                int nearestClusterIndex = getNearestCluster(resultSet, p);
+                final Cluster<T> nearest = resultSet.get(nearestClusterIndex);
                 final double d = p.distanceFrom(nearest.getCenter());
                 sum += d * d;
                 dx2[i] = sum;
@@ -329,18 +346,20 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to search
      * @param point the point to find the nearest {@link Cluster} for
-     * @return the nearest {@link Cluster} to the given point
+     * @return the index of the nearest {@link Cluster} to the given point
      */
-    private static <T extends Clusterable<T>> Cluster<T>
+    private static <T extends Clusterable<T>> int
         getNearestCluster(final Collection<Cluster<T>> clusters, final T point) {
         double minDistance = Double.MAX_VALUE;
-        Cluster<T> minCluster = null;
+        int clusterIndex = 0;
+        int minCluster = 0;
         for (final Cluster<T> c : clusters) {
             final double distance = point.distanceFrom(c.getCenter());
             if (distance < minDistance) {
                 minDistance = distance;
-                minCluster = c;
+                minCluster = clusterIndex;
             }
+            clusterIndex++;
         }
         return minCluster;
     }
