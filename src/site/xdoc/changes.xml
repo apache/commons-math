@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-555">
+        Changed MathUtils.round(double,int,int) to propagate rather than
+        wrap runtime exceptions.  Instead of MathRuntimeException, this method
+        now throws IllegalArgumentException or ArithmeticException under
+        the conditions specified in the javadoc.
+      </action>
       <action dev="luc" type="fix" issue="MATH-554" >
         Reduced cancellation errors in Vector3D.crossProduct
       </action>

@@ -33,7 +33,6 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 
@@ -1333,15 +1332,22 @@ public final class MathUtils {
     }
 
     /**
-     * Round the given value to the specified number of decimal places. The
+     * <p>Round the given value to the specified number of decimal places. The
      * value is rounded using the given method which is any method defined in
-     * {@link BigDecimal}.
+     * {@link BigDecimal}.</p>
+     *
+     * <p>If {@code x} is infinite or NaN, then the value of {@code x} is
+     * returned unchanged, regardless of the other parameters.</p>
      *
      * @param x the value to round.
      * @param scale the number of digits to the right of the decimal point.
      * @param roundingMethod the rounding method as defined in
      *        {@link BigDecimal}.
      * @return the rounded value.
+     * @throws ArithmeticException if roundingMethod==ROUND_UNNECESSARY and the
+     * specified scaling operation would require rounding.
+     * @throws IllegalArgumentException if roundingMethod does not represent a
+     * valid rounding mode.
      * @since 1.1
      */
     public static double round(double x, int scale, int roundingMethod) {
@@ -1356,8 +1362,6 @@ public final class MathUtils {
             } else {
                 return Double.NaN;
             }
-        } catch (RuntimeException ex) {
-            throw new MathRuntimeException(ex);
         }
     }
 

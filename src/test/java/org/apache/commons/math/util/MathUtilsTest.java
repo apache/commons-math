@@ -1136,8 +1136,8 @@ public final class MathUtilsTest {
         try {
             MathUtils.round(1.234, 2, BigDecimal.ROUND_UNNECESSARY);
             Assert.fail();
-        } catch (MathRuntimeException ex) { // XXX Loosing semantics?
-            // success
+        } catch (ArithmeticException ex) { 
+            // expected
         }
 
         Assert.assertEquals(1.24, MathUtils.round(x, 2, BigDecimal.ROUND_UP), 0.0);
@@ -1150,8 +1150,8 @@ public final class MathUtilsTest {
         try {
             MathUtils.round(1.234, 2, 1923);
             Assert.fail();
-        } catch (MathRuntimeException ex) { // XXX Loosing semantics?
-            // success
+        } catch (IllegalArgumentException ex) {
+            // expected
         }
 
         // MATH-151
