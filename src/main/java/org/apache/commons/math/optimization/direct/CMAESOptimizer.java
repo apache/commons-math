@@ -579,7 +579,7 @@ public class CMAESOptimizer extends
         diagC = square(diagD);
         pc = zeros(dimension, 1); // evolution paths for C and sigma
         ps = zeros(dimension, 1); // B defines the coordinate system
-        normps = norm(ps);
+        normps = ps.getFrobeniusNorm();
 
         B = eye(dimension, dimension);
         D = ones(dimension, 1); // diagonal D defines the scaling
@@ -605,7 +605,7 @@ public class CMAESOptimizer extends
         ps = ps.scalarMultiply(1. - cs).add(
                 B.multiply(zmean).scalarMultiply(
                         Math.sqrt(cs * (2. - cs) * mueff)));
-        normps = norm(ps);
+        normps = ps.getFrobeniusNorm();
         boolean hsig = normps /
             Math.sqrt(1. - Math.pow(1. - cs, 2. * iterations)) /
                 chiN < 1.4 + 2. / (dimension + 1.);
@@ -1054,21 +1054,6 @@ public class CMAESOptimizer extends
             for (int c = 0; c < m.getColumnDimension(); c++)
                 d[r][c] = r <= c - k ? m.getEntry(r, c) : 0;
                 return new Array2DRowRealMatrix(d, false);
-    }
-
-    /**
-     * @param m
-     *            Input matrix.
-     * @return Norm of the matrix.
-     */
-    private static double norm(final RealMatrix m) {
-        double sum = 0;
-        for (int r = 0; r < m.getRowDimension(); r++)
-            for (int c = 0; c < m.getColumnDimension(); c++) {
-                double e = m.getEntry(r, c);
-                sum += e*e;
-            }
-        return Math.sqrt(sum);
     }
 
     /**
