@@ -64,7 +64,7 @@ import org.apache.commons.math.util.MathUtils;
  * optimization (a single run) is expected to take <em>roughly</em> between
  * <math>30 N</math> and <math>300 N<sup>2</sup></math>
  * function evaluations.</p>
- * 
+ *
  * <p>This implementation is translated and adapted from the Matlab version
  * of the CMA-ES algorithm as implemented in module {@code cmaes.m} version 3.51.</p>
  *
