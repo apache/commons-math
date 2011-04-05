@@ -294,8 +294,17 @@ public class CMAESOptimizer extends
             boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
             RandomGenerator random, boolean generateStatistics) {
         this.lambda = lambda;
-        this.inputSigma = inputSigma;
-        this.boundaries = boundaries;
+        this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
+        if (boundaries == null) {
+            this.boundaries = null;
+        } else {
+            final int len = boundaries.length;
+            this.boundaries = new double[len][];
+            for (int i = 0; i < len; i++) {
+                this.boundaries[i] =
+                    boundaries[i] == null ? null : (double[]) boundaries[i].clone();
+            }
+        }
         this.maxIterations = maxIterations;
         this.stopfitness = stopfitness;
         this.isActiveCMA = isActiveCMA;
