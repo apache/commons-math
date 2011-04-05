@@ -1108,7 +1108,7 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * Copies a row from m1 to m2.
+     * Copies a column from m1 to m2.
      *
      * @param m1
      *            Source matrix 1.
