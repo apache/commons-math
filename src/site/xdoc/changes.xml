@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-434" due-to="Thomas Neidhart">
+        Fixed two errors in simplex solver when entries are close together or
+        when variables are not restricted to non-negative.
+      </action>
       <action dev="luc" type="fix" issue="MATH-547" due-to="Thomas Neidhart">
         Improved robustness of k-means++ algorithm, by tracking changes in points assignments
         to clusters.

@@ -33,6 +33,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -65,6 +66,9 @@ class SimplexTableau implements Serializable {
     /** Column label for negative vars. */
     private static final String NEGATIVE_VAR_COLUMN_LABEL = "x-";
 
+    /** Default amount of error to accept in floating point comparisons (as ulps). */
+    private static final int DEFAULT_ULPS = 10;
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
 
@@ -92,8 +96,11 @@ class SimplexTableau implements Serializable {
     /** Number of artificial variables. */
     private int numArtificialVariables;
 
-    /** Amount of error to accept in floating point comparisons. */
+    /** Amount of error to accept when checking for optimality. */
     private final double epsilon;
+
+    /** Amount of error to accept in floating point comparisons. */
+    private final int maxUlps;
 
     /**
      * Build a tableau for a linear problem.
@@ -102,16 +109,35 @@ class SimplexTableau implements Serializable {
      * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
      * or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
-     * @param epsilon amount of error to accept in floating point comparisons
+     * @param epsilon amount of error to accept when checking for optimality
      */
     SimplexTableau(final LinearObjectiveFunction f,
                    final Collection<LinearConstraint> constraints,
                    final GoalType goalType, final boolean restrictToNonNegative,
                    final double epsilon) {
+        this(f, constraints, goalType, restrictToNonNegative, epsilon, DEFAULT_ULPS);
+    }
+    
+    /**
+     * Build a tableau for a linear problem.
+     * @param f linear objective function
+     * @param constraints linear constraints
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
+     * or {@link GoalType#MINIMIZE}
+     * @param restrictToNonNegative whether to restrict the variables to non-negative values
+     * @param epsilon amount of error to accept when checking for optimality
+     * @param maxUlps amount of error to accept in floating point comparisons 
+     */
+    SimplexTableau(final LinearObjectiveFunction f,
+                   final Collection<LinearConstraint> constraints,
+                   final GoalType goalType, final boolean restrictToNonNegative,
+                   final double epsilon,
+                   final int maxUlps) {
         this.f                      = f;
         this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
         this.epsilon                = epsilon;
+        this.maxUlps                = maxUlps;
         this.numDecisionVariables   = f.getCoefficients().getDimension() +
                                       (restrictToNonNegative ? 0 : 1);
         this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +
@@ -172,7 +198,7 @@ class SimplexTableau implements Serializable {
 
         if (!restrictToNonNegative) {
             matrix.setEntry(zIndex, getSlackVariableOffset() - 1,
-                getInvertedCoeffiecientSum(objectiveCoefficients));
+                getInvertedCoefficientSum(objectiveCoefficients));
         }
 
         // initialize the constraint rows
@@ -188,7 +214,7 @@ class SimplexTableau implements Serializable {
             // x-
             if (!restrictToNonNegative) {
                 matrix.setEntry(row, getSlackVariableOffset() - 1,
-                    getInvertedCoeffiecientSum(constraint.getCoefficients()));
+                    getInvertedCoefficientSum(constraint.getCoefficients()));
             }
 
             // RHS
@@ -269,7 +295,7 @@ class SimplexTableau implements Serializable {
      * @param coefficients coefficients to sum
      * @return the -1 times the sum of all coefficients in the given array.
      */
-    protected static double getInvertedCoeffiecientSum(final RealVector coefficients) {
+    protected static double getInvertedCoefficientSum(final RealVector coefficients) {
         double sum = 0;
         for (double coefficient : coefficients.getData()) {
             sum -= coefficient;
@@ -285,9 +311,10 @@ class SimplexTableau implements Serializable {
     protected Integer getBasicRow(final int col) {
         Integer row = null;
         for (int i = 0; i < getHeight(); i++) {
-            if (MathUtils.equals(getEntry(i, col), 1.0, epsilon) && (row == null)) {
+            final double entry = getEntry(i, col);
+            if (MathUtils.equals(entry, 1d, getEpsilon(entry)) && (row == null)) {
                 row = i;
-            } else if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {
+            } else if (!MathUtils.equals(entry, 0d, getEpsilon(entry))) {
                 return null;
             }
         }
@@ -308,9 +335,10 @@ class SimplexTableau implements Serializable {
 
         // positive cost non-artificial variables
         for (int i = getNumObjectiveFunctions(); i < getArtificialVariableOffset(); i++) {
-          if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) > 0) {
-            columnsToDrop.add(i);
-          }
+            final double entry = tableau.getEntry(0, i);
+            if (MathUtils.compareTo(entry, 0d, getEpsilon(entry)) > 0) {
+                columnsToDrop.add(i);
+            }
         }
 
         // non-basic artificial variables
@@ -353,7 +381,8 @@ class SimplexTableau implements Serializable {
      */
     boolean isOptimal() {
         for (int i = getNumObjectiveFunctions(); i < getWidth() - 1; i++) {
-            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
+            final double entry = tableau.getEntry(0, i);
+            if (MathUtils.compareTo(entry, 0d, epsilon) < 0) {
                 return false;
             }
         }
@@ -382,7 +411,7 @@ class SimplexTableau implements Serializable {
           if (basicRows.contains(basicRow)) {
               // if multiple variables can take a given value
               // then we choose the first and set the rest equal to 0
-              coefficients[i] = 0;
+              coefficients[i] = 0 - (restrictToNonNegative ? 0 : mostNegative);
           } else {
               basicRows.add(basicRow);
               coefficients[i] =
@@ -545,6 +574,7 @@ class SimplexTableau implements Serializable {
                  (numSlackVariables      == rhs.numSlackVariables) &&
                  (numArtificialVariables == rhs.numArtificialVariables) &&
                  (epsilon                == rhs.epsilon) &&
+                 (maxUlps                == rhs.maxUlps) &&
                  f.equals(rhs.f) &&
                  constraints.equals(rhs.constraints) &&
                  tableau.equals(rhs.tableau);
@@ -560,6 +590,7 @@ class SimplexTableau implements Serializable {
                numSlackVariables ^
                numArtificialVariables ^
                Double.valueOf(epsilon).hashCode() ^
+               maxUlps ^
                f.hashCode() ^
                constraints.hashCode() ^
                tableau.hashCode();
@@ -585,5 +616,13 @@ class SimplexTableau implements Serializable {
         ois.defaultReadObject();
         MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
     }
-
+    
+    /**
+     * Get an epsilon that is adjusted to the magnitude of the given value.
+     * @param value the value for which to get the epsilon
+     * @return magnitude-adjusted epsilon using {@link FastMath.ulp}
+     */
+    private double getEpsilon(double value) {
+        return FastMath.ulp(value) * (double) maxUlps;
+    }    
 }

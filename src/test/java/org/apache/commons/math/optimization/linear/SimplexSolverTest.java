@@ -25,10 +25,87 @@ import java.util.Collection;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.MathUtils;
 import org.junit.Test;
 
 public class SimplexSolverTest {
 
+    @Test
+    public void test434NegativeVariable() throws OptimizationException
+    {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0, 0.0, 1.0}, 0.0d);
+        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {1, 1, 0}, Relationship.EQ, 5));
+        constraints.add(new LinearConstraint(new double[] {0, 0, 1}, Relationship.GEQ, -10));
+
+        double epsilon = 1e-6;
+        SimplexSolver solver = new SimplexSolver();
+        RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, false);
+
+        Assert.assertEquals(5.0, solution.getPoint()[0] + solution.getPoint()[1], epsilon);
+        Assert.assertEquals(-10.0, solution.getPoint()[2], epsilon);
+        Assert.assertEquals(-10.0, solution.getValue(), epsilon);
+
+    }
+
+    @Test(expected = NoFeasibleSolutionException.class)
+    public void test434UnfeasibleSolution() throws OptimizationException
+    {
+        double epsilon = 1e-6;
+
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0, 0.0}, 0.0);
+        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {epsilon/2, 0.5}, Relationship.EQ, 0));
+        constraints.add(new LinearConstraint(new double[] {1e-3, 0.1}, Relationship.EQ, 10));
+
+        SimplexSolver solver = new SimplexSolver();
+        // allowing only non-negative values, no feasible solution shall be found
+        solver.optimize(f, constraints, GoalType.MINIMIZE, true);
+    }
+
+    @Test
+    public void test434PivotRowSelection() throws OptimizationException
+    {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0}, 0.0);
+
+        double epsilon = 1e-6;
+        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {200}, Relationship.GEQ, 1));
+        constraints.add(new LinearConstraint(new double[] {100}, Relationship.GEQ, 0.499900001));
+
+        SimplexSolver solver = new SimplexSolver();
+        RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, false);
+        
+        Assert.assertTrue(MathUtils.compareTo(solution.getPoint()[0] * 200.d, 1.d, epsilon) >= 0);
+        Assert.assertEquals(0.0050, solution.getValue(), epsilon);
+    }
+
+    @Test
+    public void test434PivotRowSelection2() throws OptimizationException
+    {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0d, 1.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d}, 0.0d);
+
+        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] {1.0d, -0.1d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.EQ, -0.1d));
+        constraints.add(new LinearConstraint(new double[] {1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, -1e-18d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 0.0d, 1.0d, 0.0d, -0.0128588d, 1e-5d}, Relationship.EQ, 0.0d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 0.0d, 0.0d, 1.0d, 1e-5d, -0.0128586d}, Relationship.EQ, 1e-10d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 1.0d, -1.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 1.0d, 1.0d, 0.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 1.0d, 0.0d, -1.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
+        constraints.add(new LinearConstraint(new double[] {0.0d, 0.0d, 1.0d, 0.0d, 1.0d, 0.0d, 0.0d}, Relationship.GEQ, 0.0d));
+
+        double epsilon = 1e-7;
+        SimplexSolver simplex = new SimplexSolver();
+        RealPointValuePair solution = simplex.optimize(f, constraints, GoalType.MINIMIZE, false);
+        
+        Assert.assertTrue(MathUtils.compareTo(solution.getPoint()[0], -1e-18d, epsilon) >= 0);
+        Assert.assertEquals(1.0d, solution.getPoint()[1], epsilon);        
+        Assert.assertEquals(0.0d, solution.getPoint()[2], epsilon);
+        Assert.assertEquals(1.0d, solution.getValue(), epsilon);
+    }
+    
     @Test
     public void testMath272() throws OptimizationException {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 2, 1 }, 0);

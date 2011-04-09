@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 
@@ -31,26 +32,34 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public class SimplexSolver extends AbstractLinearOptimizer {
-
-    /** Default amount of error to accept in floating point comparisons. */
+    
+    /** Default amount of error to accept for algorithm convergence. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
-
-    /** Amount of error to accept in floating point comparisons. */
+     
+    /** Amount of error to accept for algorithm convergence. */
     protected final double epsilon;
+
+    /** Default amount of error to accept in floating point comparisons (as ulps). */
+    private static final int DEFAULT_ULPS = 10;
+
+    /** Amount of error to accept in floating point comparisons (as ulps). */
+    protected final int maxUlps;
 
     /**
      * Build a simplex solver with default settings.
      */
     public SimplexSolver() {
-        this(DEFAULT_EPSILON);
+        this(DEFAULT_EPSILON, DEFAULT_ULPS);
     }
 
     /**
      * Build a simplex solver with a specified accepted amount of error
-     * @param epsilon the amount of error to accept in floating point comparisons
+     * @param epsilon the amount of error to accept for algorithm convergence
+     * @param maxUlps amount of error to accept in floating point comparisons 
      */
-    public SimplexSolver(final double epsilon) {
+    public SimplexSolver(final double epsilon, final int maxUlps) {
         this.epsilon = epsilon;
+        this.maxUlps = maxUlps;
     }
 
     /**
@@ -62,8 +71,9 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         double minValue = 0;
         Integer minPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
-            if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
-                minValue = tableau.getEntry(0, i);
+            final double entry = tableau.getEntry(0, i);
+            if (MathUtils.compareTo(entry, minValue, getEpsilon(entry)) < 0) {
+                minValue = entry;
                 minPos = i;
             }
         }
@@ -83,11 +93,13 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
-            if (MathUtils.compareTo(entry, 0, epsilon) > 0) {
+            
+            if (MathUtils.compareTo(entry, 0d, getEpsilon(entry)) > 0) {
                 final double ratio = rhs / entry;
-                if (MathUtils.equals(ratio, minRatio, epsilon)) {
+                final int cmp = MathUtils.compareTo(ratio, minRatio, getEpsilon(ratio));
+                if (cmp == 0) {
                     minRatioPositions.add(i);
-                } else if (ratio < minRatio) {
+                } else if (cmp < 0) {
                     minRatio = ratio;
                     minRatioPositions = new ArrayList<Integer>();
                     minRatioPositions.add(i);
@@ -103,7 +115,8 @@ public class SimplexSolver extends AbstractLinearOptimizer {
           for (Integer row : minRatioPositions) {
             for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
               int column = i + tableau.getArtificialVariableOffset();
-              if (MathUtils.equals(tableau.getEntry(row, column), 1, epsilon) &&
+              final double entry = tableau.getEntry(row, column);
+              if (MathUtils.equals(entry, 1d, getEpsilon(entry)) &&
                   row.equals(tableau.getBasicRow(column))) {
                 return row;
               }
@@ -162,7 +175,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         }
 
         // if W is not zero then we have no feasible solution
-        if (!MathUtils.equals(tableau.getEntry(0, tableau.getRhsOffset()), 0, epsilon)) {
+        if (!MathUtils.equals(tableau.getEntry(0, tableau.getRhsOffset()), 0d, epsilon)) {
             throw new NoFeasibleSolutionException();
         }
     }
@@ -171,7 +184,8 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     @Override
     public RealPointValuePair doOptimize() throws OptimizationException {
         final SimplexTableau tableau =
-            new SimplexTableau(function, linearConstraints, goal, nonNegative, epsilon);
+            new SimplexTableau(function, linearConstraints, goal, nonNegative, 
+                               epsilon, maxUlps);
 
         solvePhase1(tableau);
         tableau.dropPhase1Objective();
@@ -182,4 +196,12 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         return tableau.getSolution();
     }
 
+    /**
+     * Get an epsilon that is adjusted to the magnitude of the given value.
+     * @param value the value for which to get the epsilon
+     * @return magnitude-adjusted epsilon using {@link FastMath.ulp}
+     */
+    private double getEpsilon(double value) {
+        return FastMath.ulp(value) * (double) maxUlps;
+    }
 }
