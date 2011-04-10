@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 
@@ -72,7 +71,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         Integer minPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
             final double entry = tableau.getEntry(0, i);
-            if (MathUtils.compareTo(entry, minValue, getEpsilon(entry)) < 0) {
+            if (MathUtils.compareTo(entry, minValue, maxUlps) < 0) {
                 minValue = entry;
                 minPos = i;
             }
@@ -94,9 +93,9 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
             
-            if (MathUtils.compareTo(entry, 0d, getEpsilon(entry)) > 0) {
+            if (MathUtils.compareTo(entry, 0d, maxUlps) > 0) {
                 final double ratio = rhs / entry;
-                final int cmp = MathUtils.compareTo(ratio, minRatio, getEpsilon(ratio));
+                final int cmp = MathUtils.compareTo(ratio, minRatio, maxUlps);
                 if (cmp == 0) {
                     minRatioPositions.add(i);
                 } else if (cmp < 0) {
@@ -116,7 +115,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
               int column = i + tableau.getArtificialVariableOffset();
               final double entry = tableau.getEntry(row, column);
-              if (MathUtils.equals(entry, 1d, getEpsilon(entry)) &&
+              if (MathUtils.equals(entry, 1d, maxUlps) &&
                   row.equals(tableau.getBasicRow(column))) {
                 return row;
               }
@@ -196,12 +195,4 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         return tableau.getSolution();
     }
 
-    /**
-     * Get an epsilon that is adjusted to the magnitude of the given value.
-     * @param value the value for which to get the epsilon
-     * @return magnitude-adjusted epsilon using {@link FastMath.ulp}
-     */
-    private double getEpsilon(double value) {
-        return FastMath.ulp(value) * (double) maxUlps;
-    }
 }
