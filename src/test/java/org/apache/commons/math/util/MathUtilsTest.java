@@ -25,7 +25,6 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
-import org.apache.commons.math.exception.MathRuntimeException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -308,10 +307,50 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testCompareTo() {
-      Assert.assertEquals(0, MathUtils.compareTo(152.33, 152.32, .011));
-      Assert.assertTrue(MathUtils.compareTo(152.308, 152.32, .011) < 0);
-      Assert.assertTrue(MathUtils.compareTo(152.33, 152.318, .011) > 0);
+    public void testCompareToEpsilon() {
+        Assert.assertEquals(0, MathUtils.compareTo(152.33, 152.32, .011));
+        Assert.assertTrue(MathUtils.compareTo(152.308, 152.32, .011) < 0);
+        Assert.assertTrue(MathUtils.compareTo(152.33, 152.318, .011) > 0);
+        Assert.assertEquals(0, MathUtils.compareTo(Double.MIN_VALUE, +0.0, Double.MIN_VALUE));
+        Assert.assertEquals(0, MathUtils.compareTo(Double.MIN_VALUE, -0.0, Double.MIN_VALUE));
+    }
+
+    @Test
+    public void testCompareToMaxUlps() {
+        double a     = 152.32;
+        double delta = FastMath.ulp(a);
+        for (int i = 0; i <= 10; ++i) {
+            if (i <= 5) {
+                Assert.assertEquals( 0, MathUtils.compareTo(a, a + i * delta, 5));
+                Assert.assertEquals( 0, MathUtils.compareTo(a, a - i * delta, 5));
+            } else {
+                Assert.assertEquals(-1, MathUtils.compareTo(a, a + i * delta, 5));
+                Assert.assertEquals(+1, MathUtils.compareTo(a, a - i * delta, 5));
+            }
+        }
+
+        Assert.assertEquals( 0, MathUtils.compareTo(-0.0, 0.0, 0));
+
+        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, -0.0, 0));
+        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, -0.0, 1));
+        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, +0.0, 0));
+        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, +0.0, 1));
+
+        Assert.assertEquals(+1, MathUtils.compareTo( Double.MIN_VALUE, -0.0, 0));
+        Assert.assertEquals( 0, MathUtils.compareTo( Double.MIN_VALUE, -0.0, 1));
+        Assert.assertEquals(+1, MathUtils.compareTo( Double.MIN_VALUE, +0.0, 0));
+        Assert.assertEquals( 0, MathUtils.compareTo( Double.MIN_VALUE, +0.0, 1));
+
+        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 0));
+        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 1));
+        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 2));
+
+        Assert.assertEquals( 0, MathUtils.compareTo(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
+        Assert.assertEquals(-1, MathUtils.compareTo(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 0));
+
+        Assert.assertEquals(+1, MathUtils.compareTo(Double.MAX_VALUE, Double.NaN, Integer.MAX_VALUE));
+        Assert.assertEquals(+1, MathUtils.compareTo(Double.NaN, Double.MAX_VALUE, Integer.MAX_VALUE));
+
     }
 
     @Test

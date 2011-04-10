@@ -400,7 +400,33 @@ public final class MathUtils {
         if (equals(x, y, eps)) {
             return 0;
         } else if (x < y) {
-          return -1;
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
+     * Compares two numbers given some amount of allowed error.
+     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
+     * (or fewer) floating point numbers between them, i.e. two adjacent floating
+     * point numbers are considered equal.
+     * Adapted from <a
+     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
+     * Bruce Dawson</a>
+     *
+     * @param x first value
+     * @param y second value
+     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
+     * values between {@code x} and {@code y}.
+     * @return <ul><li>0 if  {@link #equals(double, double, int) equals(x, y, maxUlps)}</li>
+     *       <li>&lt; 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x &lt; y</li>
+     *       <li>> 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x > y</li></ul>
+     */
+    public static int compareTo(final double x, final double y, final int maxUlps) {
+        if (equals(x, y, maxUlps)) {
+            return 0;
+        } else if (x < y) {
+            return -1;
         }
         return 1;
     }

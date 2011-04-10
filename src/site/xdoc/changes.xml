@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-557" >
+        Added a compareTo method to MathUtils that uses a number of ulps as a
+        tolerance error, and works well on all numbers, including normals, subnormals,
+        signed zeroes, infinities and NaNs.
+      </action>
       <action dev="luc" type="fix" issue="MATH-434" due-to="Thomas Neidhart">
         Fixed two errors in simplex solver when entries are close together or
         when variables are not restricted to non-negative.
