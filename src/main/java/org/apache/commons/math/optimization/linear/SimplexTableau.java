@@ -33,7 +33,6 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -312,9 +311,9 @@ class SimplexTableau implements Serializable {
         Integer row = null;
         for (int i = 0; i < getHeight(); i++) {
             final double entry = getEntry(i, col);
-            if (MathUtils.equals(entry, 1d, getEpsilon(entry)) && (row == null)) {
+            if (MathUtils.equals(entry, 1d, maxUlps) && (row == null)) {
                 row = i;
-            } else if (!MathUtils.equals(entry, 0d, getEpsilon(entry))) {
+            } else if (!MathUtils.equals(entry, 0d, maxUlps)) {
                 return null;
             }
         }
@@ -336,7 +335,7 @@ class SimplexTableau implements Serializable {
         // positive cost non-artificial variables
         for (int i = getNumObjectiveFunctions(); i < getArtificialVariableOffset(); i++) {
             final double entry = tableau.getEntry(0, i);
-            if (MathUtils.compareTo(entry, 0d, getEpsilon(entry)) > 0) {
+            if (MathUtils.compareTo(entry, 0d, maxUlps) > 0) {
                 columnsToDrop.add(i);
             }
         }
@@ -615,14 +614,5 @@ class SimplexTableau implements Serializable {
       throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
         MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
-    }
-    
-    /**
-     * Get an epsilon that is adjusted to the magnitude of the given value.
-     * @param value the value for which to get the epsilon
-     * @return magnitude-adjusted epsilon using {@link FastMath.ulp}
-     */
-    private double getEpsilon(double value) {
-        return FastMath.ulp(value) * (double) maxUlps;
     }    
 }

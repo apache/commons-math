@@ -31,7 +31,7 @@ import org.junit.Test;
 public class SimplexSolverTest {
 
     @Test
-    public void test434NegativeVariable() throws OptimizationException
+    public void testMath434NegativeVariable() throws OptimizationException
     {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0, 0.0, 1.0}, 0.0d);
         ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
@@ -49,7 +49,7 @@ public class SimplexSolverTest {
     }
 
     @Test(expected = NoFeasibleSolutionException.class)
-    public void test434UnfeasibleSolution() throws OptimizationException
+    public void testMath434UnfeasibleSolution() throws OptimizationException
     {
         double epsilon = 1e-6;
 
@@ -64,7 +64,7 @@ public class SimplexSolverTest {
     }
 
     @Test
-    public void test434PivotRowSelection() throws OptimizationException
+    public void testMath434PivotRowSelection() throws OptimizationException
     {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {1.0}, 0.0);
 
@@ -81,7 +81,7 @@ public class SimplexSolverTest {
     }
 
     @Test
-    public void test434PivotRowSelection2() throws OptimizationException
+    public void testMath434PivotRowSelection2() throws OptimizationException
     {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] {0.0d, 1.0d, 1.0d, 0.0d, 0.0d, 0.0d, 0.0d}, 0.0d);
 
