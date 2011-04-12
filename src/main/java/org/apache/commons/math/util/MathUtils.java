@@ -75,9 +75,6 @@ public final class MathUtils {
     /** 0.0 cast as a short. */
     private static final short ZS = (short)0;
 
-    /** Gap between NaN and regular numbers. */
-    private static final int NAN_GAP = 4 * 1024 * 1024;
-
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
 
