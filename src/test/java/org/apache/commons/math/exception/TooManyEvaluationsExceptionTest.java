@@ -22,9 +22,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test for {@link MaxCountExceededException}.
+ * Test for {@link TooManyEvaluationsException}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class TooManyEvaluationsExceptionTest {
     @Test
