@@ -17,7 +17,6 @@
 package org.apache.commons.math.exception;
 
 import java.text.MessageFormat;
-import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,13 +31,10 @@ public class TooManyEvaluationsExceptionTest {
     public void testMessage() {
         final int max = 12345;
         final TooManyEvaluationsException e = new TooManyEvaluationsException(max);
-        final String msg = e.getMessage();
-        final MessageFormat usFormat = new MessageFormat("{0}", Locale.US);
+        final String msg = e.getLocalizedMessage();
         Assert.assertTrue(msg,
                           msg.matches(".*?" +
-                                      usFormat.format(new Object[] {max},
-                                                      new StringBuffer(),
-                                                      null) +
+                                      MessageFormat.format("{0}", max) +
                                       ".*"));
     }
 }
