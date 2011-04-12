@@ -31,10 +31,10 @@ import org.apache.commons.math.util.MathUtils;
  * @since 2.0
  */
 public class SimplexSolver extends AbstractLinearOptimizer {
-    
+
     /** Default amount of error to accept for algorithm convergence. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
-     
+
     /** Amount of error to accept for algorithm convergence. */
     protected final double epsilon;
 
@@ -54,7 +54,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /**
      * Build a simplex solver with a specified accepted amount of error
      * @param epsilon the amount of error to accept for algorithm convergence
-     * @param maxUlps amount of error to accept in floating point comparisons 
+     * @param maxUlps amount of error to accept in floating point comparisons
      */
     public SimplexSolver(final double epsilon, final int maxUlps) {
         this.epsilon = epsilon;
@@ -92,7 +92,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
-            
+
             if (MathUtils.compareTo(entry, 0d, maxUlps) > 0) {
                 final double ratio = rhs / entry;
                 final int cmp = MathUtils.compareTo(ratio, minRatio, maxUlps);
@@ -183,7 +183,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     @Override
     public RealPointValuePair doOptimize() throws OptimizationException {
         final SimplexTableau tableau =
-            new SimplexTableau(function, linearConstraints, goal, nonNegative, 
+            new SimplexTableau(function, linearConstraints, goal, nonNegative,
                                epsilon, maxUlps);
 
         solvePhase1(tableau);

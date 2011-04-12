@@ -116,7 +116,7 @@ class SimplexTableau implements Serializable {
                    final double epsilon) {
         this(f, constraints, goalType, restrictToNonNegative, epsilon, DEFAULT_ULPS);
     }
-    
+
     /**
      * Build a tableau for a linear problem.
      * @param f linear objective function
@@ -125,7 +125,7 @@ class SimplexTableau implements Serializable {
      * or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @param epsilon amount of error to accept when checking for optimality
-     * @param maxUlps amount of error to accept in floating point comparisons 
+     * @param maxUlps amount of error to accept in floating point comparisons
      */
     SimplexTableau(final LinearObjectiveFunction f,
                    final Collection<LinearConstraint> constraints,
@@ -614,5 +614,5 @@ class SimplexTableau implements Serializable {
       throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
         MatrixUtils.deserializeRealMatrix(this, "tableau", ois);
-    }    
+    }
 }

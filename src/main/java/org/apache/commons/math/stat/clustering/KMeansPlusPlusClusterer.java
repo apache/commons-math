@@ -108,7 +108,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
         // create the initial clusters
         List<Cluster<T>> clusters = chooseInitialCenters(points, k, random);
-        
+
         // create an array containing the latest assignment of a point to a cluster
         // no need to initialize the array, as it will be filled with the first assignment
         int[] assignments = new int[points.size()];
@@ -143,7 +143,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
             }
             int changes = assignPointsToClusters(newClusters, points, assignments);
             clusters = newClusters;
-            
+
             // if there were no more changes in the point-to-cluster assignment
             // and there are no empty clusters left, return the current clusters
             if (changes == 0 && !emptyCluster) {
@@ -162,7 +162,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      * @return the number of points assigned to different clusters as the iteration before
      */
     private static <T extends Clusterable<T>> int
-        assignPointsToClusters(final List<Cluster<T>> clusters, final Collection<T> points, 
+        assignPointsToClusters(final List<Cluster<T>> clusters, final Collection<T> points,
                                final int[] assignments) {
         int assignedDifferently = 0;
         int pointIndex = 0;
@@ -171,12 +171,12 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
             if (clusterIndex != assignments[pointIndex]) {
                 assignedDifferently++;
             }
-            
+
             Cluster<T> cluster = clusters.get(clusterIndex);
             cluster.addPoint(p);
             assignments[pointIndex++] = clusterIndex;
         }
-        
+
         return assignedDifferently;
     }
 
