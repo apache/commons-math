@@ -515,10 +515,6 @@ public final class MathUtils {
      * @since 2.2
      */
     public static boolean equals(float x, float y, int maxUlps) {
-        // Check that "maxUlps" is non-negative and small enough so that
-        // NaN won't compare as equal to anything (except another NaN).
-        assert maxUlps > 0 && maxUlps < NAN_GAP;
-
         int xInt = Float.floatToIntBits(x);
         int yInt = Float.floatToIntBits(y);
 
@@ -675,10 +671,6 @@ public final class MathUtils {
      * point values between {@code x} and {@code y}.
      */
     public static boolean equals(double x, double y, int maxUlps) {
-        // Check that "maxUlps" is non-negative and small enough so that
-        // NaN won't compare as equal to anything (except another NaN).
-        assert maxUlps > 0 && maxUlps < NAN_GAP;
-
         long xInt = Double.doubleToLongBits(x);
         long yInt = Double.doubleToLongBits(y);
 
