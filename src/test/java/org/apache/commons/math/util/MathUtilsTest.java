@@ -461,6 +461,10 @@ public final class MathUtilsTest {
         Assert.assertTrue(MathUtils.equals(-Float.MAX_VALUE, Float.NEGATIVE_INFINITY, 1));
 
         Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NaN, 1));
+        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NaN, 0));
+        Assert.assertFalse(MathUtils.equals(Float.NaN, 0, 0));
+        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.POSITIVE_INFINITY, 0));
+        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NEGATIVE_INFINITY, 0));
 
         Assert.assertFalse(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 100000));
     }
@@ -500,6 +504,10 @@ public final class MathUtilsTest {
         Assert.assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
 
         Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1));
+        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 0));
+        Assert.assertFalse(MathUtils.equals(Double.NaN, 0, 0));
+        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.POSITIVE_INFINITY, 0));
+        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NEGATIVE_INFINITY, 0));
 
         Assert.assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
