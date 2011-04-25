@@ -23,7 +23,7 @@ package org.apache.commons.math.linear;
  * Cholesky decomposition of a real symmetric positive-definite matrix.
  * <p>The Cholesky decomposition of a real symmetric positive-definite
  * matrix A consists of a lower triangular matrix L with same size such
- * that: A = LL<sup>T</sup>Q = I). In a sense, this is the square root of A.</p>
+ * that: A = LL<sup>T</sup>. In a sense, this is the square root of A.</p>
  * <p>This interface is based on the class with similar name from the
  * <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
  * following changes:</p>
