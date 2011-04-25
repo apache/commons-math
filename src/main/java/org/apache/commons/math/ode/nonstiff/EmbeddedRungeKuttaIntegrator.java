@@ -99,10 +99,12 @@ public abstract class EmbeddedRungeKuttaIntegrator
    * @param a internal weights from Butcher array (without the first empty row)
    * @param b propagation weights for the high order method from Butcher array
    * @param prototype prototype of the step interpolator to use
-   * @param minStep minimal step (must be positive even for backward
-   * integration), the last step can be smaller than this
-   * @param maxStep maximal step (must be positive even for backward
-   * integration)
+   * @param minStep minimal step (sign is irrelevant, regardless of
+   * integration direction, forward or backward), the last step can
+   * be smaller than this
+   * @param maxStep maximal step (sign is irrelevant, regardless of
+   * integration direction, forward or backward), the last step can
+   * be smaller than this
    * @param scalAbsoluteTolerance allowed absolute error
    * @param scalRelativeTolerance allowed relative error
    */
