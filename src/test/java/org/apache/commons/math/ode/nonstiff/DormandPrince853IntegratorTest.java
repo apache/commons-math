@@ -158,16 +158,17 @@ public class DormandPrince853IntegratorTest {
     throws MathUserException, IntegratorException {
 
     int previousCalls = Integer.MAX_VALUE;
+    AdaptiveStepsizeIntegrator integ =
+        new DormandPrince853Integrator(0, Double.POSITIVE_INFINITY,
+                                       Double.NaN, Double.NaN);
     for (int i = -12; i < -2; ++i) {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
       double scalAbsoluteTolerance = FastMath.pow(10.0, i);
       double scalRelativeTolerance = 0.01 * scalAbsoluteTolerance;
+      integ.setStepSizeControl(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
-      FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
-                                                                  scalAbsoluteTolerance,
-                                                                  scalRelativeTolerance);
       TestProblemHandler handler = new TestProblemHandler(pb, integ);
       integ.addStepHandler(handler);
       integ.integrate(pb,
