@@ -52,9 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-541" >
+        Added a "rectangular" Cholesky decomposition for positive semidefinite matrices.
+      </action>
       <action dev="luc" type="add" issue="MATH-563" >
         Added setters allowing to change the step size control parameters of adaptive
-        step size ODE integrators
+        step size ODE integrators.
       </action>
       <action dev="luc" type="add" issue="MATH-557" >
         Added a compareTo method to MathUtils that uses a number of ulps as a

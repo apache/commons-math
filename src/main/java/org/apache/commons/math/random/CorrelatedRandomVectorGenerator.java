@@ -18,10 +18,9 @@
 package org.apache.commons.math.random;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.linear.NonPositiveDefiniteMatrixException;
-import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.linear.RectangularCholeskyDecomposition;
+import org.apache.commons.math.linear.RectangularCholeskyDecompositionImpl;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with
@@ -68,10 +67,8 @@ public class CorrelatedRandomVectorGenerator
     private final NormalizedRandomGenerator generator;
     /** Storage for the normalized vector. */
     private final double[] normalized;
-    /** Permutated Cholesky root of the covariance matrix. */
-    private RealMatrix root;
-    /** Rank of the covariance matrix. */
-    private int rank;
+    /** Root of the covariance matrix. */
+    private final RealMatrix root;
 
     /**
      * Builds a correlated random vector generator from its mean
@@ -97,10 +94,13 @@ public class CorrelatedRandomVectorGenerator
         }
         this.mean = mean.clone();
 
-        decompose(covariance, small);
+        final RectangularCholeskyDecomposition decomposition =
+            new RectangularCholeskyDecompositionImpl(covariance, small);
+        root = decomposition.getRootMatrix();
 
         this.generator = generator;
-        normalized = new double[rank];
+        normalized = new double[decomposition.getRank()];
+
     }
 
     /**
@@ -123,10 +123,13 @@ public class CorrelatedRandomVectorGenerator
             mean[i] = 0;
         }
 
-        decompose(covariance, small);
+        final RectangularCholeskyDecomposition decomposition =
+            new RectangularCholeskyDecompositionImpl(covariance, small);
+        root = decomposition.getRootMatrix();
 
         this.generator = generator;
-        normalized = new double[rank];
+        normalized = new double[decomposition.getRank()];
+
     }
 
     /** Get the underlying normalized components generator.
@@ -134,6 +137,16 @@ public class CorrelatedRandomVectorGenerator
      */
     public NormalizedRandomGenerator getGenerator() {
         return generator;
+    }
+
+    /** Get the rank of the covariance matrix.
+     * The rank is the number of independent rows in the covariance
+     * matrix, it is also the number of columns of the root matrix.
+     * @return rank of the square matrix.
+     * @see #getRootMatrix()
+     */
+    public int getRank() {
+        return normalized.length;
     }
 
     /** Get the root of the covariance matrix.
@@ -146,122 +159,6 @@ public class CorrelatedRandomVectorGenerator
         return root;
     }
 
-    /** Get the rank of the covariance matrix.
-     * The rank is the number of independent rows in the covariance
-     * matrix, it is also the number of columns of the rectangular
-     * matrix of the decomposition.
-     * @return rank of the square matrix.
-     * @see #getRootMatrix()
-     */
-    public int getRank() {
-        return rank;
-    }
-
-    /** Decompose the original square matrix.
-     * <p>The decomposition is based on a Choleski decomposition
-     * where additional transforms are performed:
-     * <ul>
-     *   <li>the rows of the decomposed matrix are permuted</li>
-     *   <li>columns with the too small diagonal element are discarded</li>
-     *   <li>the matrix is permuted</li>
-     * </ul>
-     * This means that rather than computing M = U<sup>T</sup>.U where U
-     * is an upper triangular matrix, this method computed M=B.B<sup>T</sup>
-     * where B is a rectangular matrix.
-     * @param covariance covariance matrix
-     * @param small diagonal elements threshold under which  column are
-     * considered to be dependent on previous ones and are discarded
-     * @throws org.apache.commons.math.linear.NonPositiveDefiniteMatrixException
-     * if the covariance matrix is not strictly positive definite.
-     */
-    private void decompose(RealMatrix covariance, double small) {
-        int order = covariance.getRowDimension();
-        double[][] c = covariance.getData();
-        double[][] b = new double[order][order];
-
-        int[] swap  = new int[order];
-        int[] index = new int[order];
-        for (int i = 0; i < order; ++i) {
-            index[i] = i;
-        }
-
-        rank = 0;
-        for (boolean loop = true; loop;) {
-
-            // find maximal diagonal element
-            swap[rank] = rank;
-            for (int i = rank + 1; i < order; ++i) {
-                int ii  = index[i];
-                int isi = index[swap[i]];
-                if (c[ii][ii] > c[isi][isi]) {
-                    swap[rank] = i;
-                }
-            }
-
-
-            // swap elements
-            if (swap[rank] != rank) {
-                int tmp = index[rank];
-                index[rank] = index[swap[rank]];
-                index[swap[rank]] = tmp;
-            }
-
-            // check diagonal element
-            int ir = index[rank];
-            if (c[ir][ir] < small) {
-
-                if (rank == 0) {
-                    throw new NonPositiveDefiniteMatrixException(ir, small);
-                }
-
-                // check remaining diagonal elements
-                for (int i = rank; i < order; ++i) {
-                    if (c[index[i]][index[i]] < -small) {
-                        // there is at least one sufficiently negative diagonal element,
-                        // the covariance matrix is wrong
-                        throw new NonPositiveDefiniteMatrixException(i, small);
-                    }
-                }
-
-                // all remaining diagonal elements are close to zero,
-                // we consider we have found the rank of the covariance matrix
-                ++rank;
-                loop = false;
-
-            } else {
-
-                // transform the matrix
-                double sqrt = FastMath.sqrt(c[ir][ir]);
-                b[rank][rank] = sqrt;
-                double inverse = 1 / sqrt;
-                for (int i = rank + 1; i < order; ++i) {
-                    int ii = index[i];
-                    double e = inverse * c[ii][ir];
-                    b[i][rank] = e;
-                    c[ii][ii] -= e * e;
-                    for (int j = rank + 1; j < i; ++j) {
-                        int ij = index[j];
-                        double f = c[ii][ij] - e * b[j][rank];
-                        c[ii][ij] = f;
-                        c[ij][ii] = f;
-                    }
-                }
-
-                // prepare next iteration
-                loop = ++rank < order;
-            }
-        }
-
-        // build the root matrix
-        root = MatrixUtils.createRealMatrix(order, rank);
-        for (int i = 0; i < order; ++i) {
-            for (int j = 0; j < rank; ++j) {
-                root.setEntry(index[i], j, b[i][j]);
-            }
-        }
-
-    }
-
     /** Generate a correlated random vector.
      * @return a random vector as an array of double. The returned array
      * is created at each call, the caller can do what it wants with it.
@@ -269,7 +166,7 @@ public class CorrelatedRandomVectorGenerator
     public double[] nextVector() {
 
         // generate uncorrelated vector
-        for (int i = 0; i < rank; ++i) {
+        for (int i = 0; i < normalized.length; ++i) {
             normalized[i] = generator.nextNormalizedDouble();
         }
 
@@ -277,11 +174,13 @@ public class CorrelatedRandomVectorGenerator
         double[] correlated = new double[mean.length];
         for (int i = 0; i < correlated.length; ++i) {
             correlated[i] = mean[i];
-            for (int j = 0; j < rank; ++j) {
+            for (int j = 0; j < root.getColumnDimension(); ++j) {
                 correlated[i] += root.getEntry(i, j) * normalized[j];
             }
         }
 
         return correlated;
+
     }
+
 }
