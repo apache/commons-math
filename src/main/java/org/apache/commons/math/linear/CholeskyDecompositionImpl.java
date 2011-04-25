@@ -24,8 +24,8 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Calculates the Cholesky decomposition of a matrix.
  * <p>The Cholesky decomposition of a real symmetric positive-definite
- * matrix A consists of a lower triangular matrix L with same size that
- * satisfy: A = LL<sup>T</sup>Q = I). In a sense, this is the square root of A.</p>
+ * matrix A consists of a lower triangular matrix L with same size such
+ * that: A = LL<sup>T</sup>Q = I). In a sense, this is the square root of A.</p>
  *
  * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
