@@ -1281,6 +1281,22 @@ public final class MathUtils {
          return a - TWO_PI * FastMath.floor((a + FastMath.PI - center) / TWO_PI);
      }
 
+    /**
+     * Reduce to the primary interval {@code [0 period)}.
+     *
+     * @param a Value to reduce.
+     * @param period Period.
+     * @param offset Value that will be mapped to {@code 0}.
+     * @return the value, within the interval {@code [0 period)},
+     * that corresponds to {@code a}.
+     */
+    public static double reduce(double a,
+                                double period,
+                                double offset) {
+        final double p = Math.abs(period);
+        return a - p * Math.floor((a - offset) / p) - offset;
+    }
+
      /**
       * <p>Normalizes an array to make it sum to a specified value.
       * Returns the result of the transformation <pre>

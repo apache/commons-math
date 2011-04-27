@@ -1054,6 +1054,55 @@ public final class MathUtilsTest {
     }
 
     @Test
+    public void testReduce() {
+        final double period = -12.222;
+        final double offset = 13;
+
+        final double delta = 1.5;
+
+        double orig = offset + 122456789 * period + delta;
+        double expected = delta;
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, period, offset),
+                            1e-7);
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, -period, offset),
+                            1e-7);
+
+        orig = offset - 123356789 * period - delta;
+        expected = Math.abs(period) - delta;
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, period, offset),
+                            1e-6);
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, -period, offset),
+                            1e-6);
+
+        orig = offset - 123446789 * period + delta;
+        expected = delta;
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, period, offset),
+                            1e-6);
+        Assert.assertEquals(expected,
+                            MathUtils.reduce(orig, -period, offset),
+                            1e-6);
+    }
+
+    @Test
+    public void testReduceComparedWithNormalizeAngle() {
+        final double tol = Math.ulp(1d);
+        final double period = 2 * Math.PI;
+        for (double a = -15; a <= 15; a += 0.5) {
+            for (double center = -15; center <= 15; center += 1) {
+                final double nA = MathUtils.normalizeAngle(a, center);
+                final double offset = center - Math.PI;
+                final double r = MathUtils.reduce(a, period, offset);
+                Assert.assertEquals(nA, r + offset, tol);
+            }
+        }
+    }
+
+    @Test
     public void testNormalizeArray() {
         double[] testValues1 = new double[] {1, 1, 2};
         TestUtils.assertEquals(
