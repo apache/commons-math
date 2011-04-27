@@ -1293,8 +1293,8 @@ public final class MathUtils {
     public static double reduce(double a,
                                 double period,
                                 double offset) {
-        final double p = Math.abs(period);
-        return a - p * Math.floor((a - offset) / p) - offset;
+        final double p = FastMath.abs(period);
+        return a - p * FastMath.floor((a - offset) / p) - offset;
     }
 
      /**
