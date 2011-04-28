@@ -131,7 +131,7 @@ DecompositionSolver solver = new LUDecompositionImpl(coefficients).getSolver();
           Next create a <code>RealVector</code> array to represent the constant
           vector B and use <code>solve(RealVector)</code> to solve the system
           <source>
-RealVector constants = new RealVectorImpl(new double[] { 1, -2, 1 }, false);
+RealVector constants = new ArrayRealVector(new double[] { 1, -2, 1 }, false);
 RealVector solution = solver.solve(constants);
           </source>
           The <code>solution</code> vector will contain values for x
