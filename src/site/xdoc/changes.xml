@@ -52,7 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
-      <action dev="erans" type="fix" issue="MATH-562">
+      <action dev="erans" type="add" issue="MATH-562">
         Added an interpolator adapter for data with known period.
       </action>
       <action dev="luc" type="add" issue="MATH-541" >
@@ -305,7 +305,33 @@ The <action> type attribute can be add,update,fix,remove.
         "AbstractScalarDifferentiableOptimizer" inherits from "AbstractScalarOptimizer".
       </action>
     </release>
-    <release version="2.2" date="TBD" description="TBD">
+    <release version="2.2" date="2011-03-02" description="
+This is primarily a maintenance release, but it also includes new features and enhancements.
+
+  Users of version 2.1 are encouraged to upgrade to 2.2, as this release includes some important bug fixes.
+
+  See the detailed list of changes below for full description of all bug fixes and enhancements.
+
+  This release contains some minor compatibility breaks with version 2.1 in some internal classes but none
+  of them are in APIs likely to be accessed by user code:
+  the MessagesResources_fr class has been removed (replaced by a properties file);
+  the arguments of the EventState.reinitializeBegin method have changed;
+  some protected fields which already had public accessors in AbstractStepInterpolator have been replaced.  
+  
+  There is a behavior change that users of the multiple regression classes should be aware of. In version
+  2.1, there was no way to estimate models without intercept terms, and, while this was not clear from
+  the documentation, design (X) matrices needed to include initial unitary columns.  In 2.2, initial 
+  unitary columns are not necessary and whether or not models include intercept terms is configurable.
+  See the change log and javadoc for the classes in org.apache.commons.math.stat.regression for details.
+
+  The major new features are:
+  a new FastMath class, both faster, more accurate and with a few additional functions than StrictMath and Math;
+  a new package for floating point arbitrary precision computing, including high level functions like exponential, sine, square root ...;
+  new linear and tricubic interpolators;
+  a new Gaussian curve fitter;
+  a new erfc function;
+  characteristic support for distributions;
+  a set of new Well Equidistributed Long-period Linear (WELL) random generators.">
       <action dev="luc" type="fix" issue="MATH-498">
           FastMath is not an exact replacement for StrictMath
           (partially fixed) added scalb(double, int), scalb(float, int)
