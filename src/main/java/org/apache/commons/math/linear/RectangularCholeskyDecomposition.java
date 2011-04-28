@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
-
 
 /**
  * An interface to classes that implement an algorithm to calculate a
@@ -32,10 +30,10 @@ import org.apache.commons.math.random.CorrelatedRandomVectorGenerator;
  * is that rows/columns may be permuted (hence the rectangular shape instead
  * of the traditional triangular shape) and there is a threshold to ignore
  * small diagonal elements. This is used for example to generate {@link
- * CorrelatedRandomVectorGenerator correlated random n-dimensions vectors}
- * in a p-dimension subspace (p < n). In other words, it allows generating
- * random vectors from a covariance matrix that is only positive semidefinite,
- * and not positive definite.</p>
+ * org.apache.commons.math.random.CorrelatedRandomVectorGenerator correlated
+ * random n-dimensions vectors} in a p-dimension subspace (p < n).
+ * In other words, it allows generating random vectors from a covariance
+ * matrix that is only positive semidefinite, and not positive definite.</p>
  * <p>Rectangular Cholesky decomposition is <em>not</em> suited for solving
  * linear systems, so it does not provide any {@link DecompositionSolver
  * decomposition solver}.</p>
