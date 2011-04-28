@@ -18,6 +18,10 @@ package org.apache.commons.math.random;
 
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.Retry;
+import org.apache.commons.math.RetryRunner;
+
+import org.junit.runner.RunWith;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,6 +31,7 @@ import org.junit.Test;
  * @version $Revision$ $Date$
  */
 
+@RunWith(RetryRunner.class)
 public class AbstractRandomGeneratorTest extends RandomDataTest {
 
     protected TestRandomGenerator testGenerator = new TestRandomGenerator();
@@ -37,6 +42,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
 
     @Override
     @Test
+    @Retry(2)
     public void testNextInt() {
         try {
             testGenerator.nextInt(-1);
@@ -65,6 +71,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
 
     @Override
     @Test
+    @Retry(2)
     public void testNextLong() {
         long q1 = Long.MAX_VALUE/4;
         long q2 = 2 *  q1;
@@ -99,6 +106,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
     }
 
     @Test
+    @Retry(2)
     public void testNextBoolean() {
         long halfSampleSize = smallSampleSize / 2;
         double[] expected = {halfSampleSize, halfSampleSize};
@@ -118,6 +126,7 @@ public class AbstractRandomGeneratorTest extends RandomDataTest {
     }
 
     @Test
+    @Retry(2)
     public void testNextFloat() {
         Frequency freq = new Frequency();
         float val = 0;
