@@ -37,8 +37,9 @@ package org.apache.commons.math.linear;
  * <p>Rectangular Cholesky decomposition is <em>not</em> suited for solving
  * linear systems, so it does not provide any {@link DecompositionSolver
  * decomposition solver}.</p>
+ *
  * @see CholeskyDecomposition
- * @see CorrelatedRandomVectorGenerator
+ * @see org.apache.commons.math.random.CorrelatedRandomVectorGenerator
  * @version $Revision$ $Date$
  * @since 3.0
  */
