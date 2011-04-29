@@ -21,7 +21,6 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -37,7 +36,7 @@ import org.apache.commons.math.util.FastMath;
  * s<sub>2</sub>(n) = h<sup>2</sup>/2 y''<sub>n</sub> for second derivative
  * s<sub>3</sub>(n) = h<sup>3</sup>/6 y'''<sub>n</sub> for third derivative
  * ...
- * s<sub>k</sub>(n) = h<sup>k</sup>/k! y(k)<sub>n</sub> for k<sup>th</sup> derivative
+ * s<sub>k</sub>(n) = h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub> for k<sup>th</sup> derivative
  * </pre></p>
  * <p>Rather than storing several previous steps separately, this implementation uses
  * the Nordsieck vector with higher degrees scaled derivatives all taken at the same
@@ -48,7 +47,7 @@ import org.apache.commons.math.util.FastMath;
  * (we omit the k index in the notation for clarity)</p>
  * <p>
  * Multistep integrators with Nordsieck representation are highly sensitive to
- * large step changes because when the step is multiplied by a factor a, the
+ * large step changes because when the step is multiplied by factor a, the
  * k<sup>th</sup> component of the Nordsieck vector is multiplied by a<sup>k</sup>
  * and the last components are the least accurate ones. The default max growth
  * factor is therefore set to a quite low value: 2<sup>1/order</sup>.
@@ -65,7 +64,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     protected double[] scaled;
 
     /** Nordsieck matrix of the higher scaled derivatives.
-     * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y(k))</p>
+     * <p>(h<sup>2</sup>/2 y'', h<sup>3</sup>/6 y''' ..., h<sup>k</sup>/k! y<sup>(k)</sup>)</p>
      */
     protected Array2DRowRealMatrix nordsieck;
 
@@ -114,9 +113,9 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
-        if (nSteps <= 0) {
+        if (nSteps <= 1) {
             throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_ONE_PREVIOUS_POINT,
+                  LocalizedFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS,
                   name);
         }
 
@@ -219,17 +218,14 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         starter.clearStepHandlers();
 
         // set up one specific step handler to extract initial Nordsieck vector
-        starter.addStepHandler(new NordsieckInitializer(y0.length));
+        starter.addStepHandler(new NordsieckInitializer(nSteps, y0.length));
 
         // start integration, expecting a InitializationCompletedMarkerException
         try {
             starter.integrate(new CountingDifferentialEquations(y0.length),
                               t0, y0, t, new double[y0.length]);
-        } catch (MathUserException mue) {
-            if (!(mue instanceof InitializationCompletedMarkerException)) {
-                // this is not the expected nominal interruption of the start integrator
-                throw mue;
-            }
+        } catch (InitializationCompletedMarkerException icme) {
+            // this is the expected nominal interruption of the start integrator
         }
 
         // remove the specific step handler
@@ -238,13 +234,16 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     /** Initialize the high order scaled derivatives at step start.
-     * @param first first scaled derivative at step start
-     * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
-     * will be modified
-     * @return high order scaled derivatives at step start
+     * @param h step size to use for scaling
+     * @param t first steps times
+     * @param y first steps states
+     * @param yDot first steps derivatives
+     * @return Nordieck vector at first step (h<sup>2</sup>/2 y''<sub>n</sub>,
+     * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
      */
-    protected abstract Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
-                                                                           final double[][] multistep);
+    protected abstract Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
+                                                                           final double[][] y,
+                                                                           final double[][] yDot);
 
     /** Get the minimal reduction factor for stepsize control.
      * @return minimal reduction factor
@@ -299,57 +298,88 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     /** Transformer used to convert the first step to Nordsieck representation. */
     public static interface NordsieckTransformer {
         /** Initialize the high order scaled derivatives at step start.
-         * @param first first scaled derivative at step start
-         * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
-         * will be modified
-         * @return high order derivatives at step start
+         * @param h step size to use for scaling
+         * @param t first steps times
+         * @param y first steps states
+         * @param yDot first steps derivatives
+         * @return Nordieck vector at first step (h<sup>2</sup>/2 y''<sub>n</sub>,
+         * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
          */
-        RealMatrix initializeHighOrderDerivatives(double[] first, double[][] multistep);
+        Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
+                                                            final double[][] y,
+                                                            final double[][] yDot);
     }
 
     /** Specialized step handler storing the first step. */
     private class NordsieckInitializer implements StepHandler {
 
-        /** Problem dimension. */
-        private final int n;
+        /** Steps counter. */
+        int count;
+
+        /** First steps times. */
+        final double[] t;
+
+        /** First steps states. */
+        final double[][] y;
+
+        /** First steps derivatives. */
+        final double[][] yDot;
 
         /** Simple constructor.
+         * @param nSteps number of steps of the multistep method (excluding the one being computed)
          * @param n problem dimension
          */
-        public NordsieckInitializer(final int n) {
-            this.n = n;
+        public NordsieckInitializer(final int nSteps, final int n) {
+            this.count = 0;
+            this.t     = new double[nSteps];
+            this.y     = new double[nSteps][n];
+            this.yDot  = new double[nSteps][n];
         }
 
         /** {@inheritDoc} */
-        public void handleStep(StepInterpolator interpolator, boolean isLast)
-            throws MathUserException {
+        public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
             final double prev = interpolator.getPreviousTime();
             final double curr = interpolator.getCurrentTime();
-            stepStart = prev;
-            stepSize  = (curr - prev) / (nSteps + 1);
 
-            // compute the first scaled derivative
-            interpolator.setInterpolatedTime(prev);
-            scaled = interpolator.getInterpolatedDerivatives().clone();
-            for (int j = 0; j < n; ++j) {
-                scaled[j] *= stepSize;
+            if (count == 0) {
+                // first step, we need to store also the beginning of the step
+                interpolator.setInterpolatedTime(prev);
+                t[0] = prev;
+                System.arraycopy(interpolator.getInterpolatedState(), 0,
+                                 y[0],    0, y[0].length);
+                System.arraycopy(interpolator.getInterpolatedDerivatives(), 0,
+                                 yDot[0], 0, yDot[0].length);
             }
 
-            // compute the high order scaled derivatives
-            final double[][] multistep = new double[nSteps][];
-            for (int i = 1; i <= nSteps; ++i) {
-                interpolator.setInterpolatedTime(prev + stepSize * i);
-                final double[] msI = interpolator.getInterpolatedDerivatives().clone();
-                for (int j = 0; j < n; ++j) {
-                    msI[j] *= stepSize;
+            // store the end of the step
+            ++count;
+            interpolator.setInterpolatedTime(curr);
+            t[count] = curr;
+            System.arraycopy(interpolator.getInterpolatedState(), 0,
+                             y[count],    0, y[count].length);
+            System.arraycopy(interpolator.getInterpolatedDerivatives(), 0,
+                             yDot[count], 0, yDot[count].length);
+
+            if (count == t.length - 1) {
+
+                // this was the last step we needed, we can compute the derivatives
+                stepStart = t[0];
+                stepSize  = (t[t.length - 1] - t[0]) / (t.length - 1);
+
+                // first scaled derivative
+                scaled = yDot[0].clone();
+                for (int j = 0; j < scaled.length; ++j) {
+                    scaled[j] *= stepSize;
                 }
-                multistep[i - 1] = msI;
-            }
-            nordsieck = initializeHighOrderDerivatives(scaled, multistep);
 
-            // stop the integrator after the first step has been handled
-            throw new InitializationCompletedMarkerException();
+                // higher order derivatives
+                nordsieck = initializeHighOrderDerivatives(stepSize, t, y, yDot);
+
+                // stop the integrator now that all needed steps have been handled
+                throw new InitializationCompletedMarkerException();
+
+            }
 
         }
 
@@ -367,10 +397,10 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
     private static class InitializationCompletedMarkerException
-        extends MathUserException {
+        extends MathRuntimeException {
 
         /** Serializable version identifier. */
-        private static final long serialVersionUID = -4105805787353488365L;
+        private static final long serialVersionUID = -1914085471038046418L;
 
         /** Simple constructor. */
         public InitializationCompletedMarkerException() {

@@ -82,11 +82,11 @@ public class AdamsBashforthIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 31 and 36 factors are only valid for this test
+            // the 50 and 300 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            Assert.assertTrue(handler.getMaximalValueError() > (31.0 * scalAbsoluteTolerance));
-            Assert.assertTrue(handler.getMaximalValueError() < (36.0 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() > (50.0 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() < (300.0 * scalAbsoluteTolerance));
             Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
             int calls = pb.getCalls();
@@ -126,8 +126,8 @@ public class AdamsBashforthIntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
 
-        Assert.assertTrue(handler.getLastError() < 1.0e-8);
-        Assert.assertTrue(handler.getMaximalValueError() < 1.0e-8);
+        Assert.assertTrue(handler.getLastError() < 1.5e-8);
+        Assert.assertTrue(handler.getMaximalValueError() < 1.5e-8);
         Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
         Assert.assertEquals("Adams-Bashforth", integ.getName());
     }
@@ -137,17 +137,17 @@ public class AdamsBashforthIntegratorTest {
         TestProblem6 pb = new TestProblem6();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
-        for (int nSteps = 1; nSteps < 8; ++nSteps) {
+        for (int nSteps = 2; nSteps < 8; ++nSteps) {
             AdamsBashforthIntegrator integ =
-                new AdamsBashforthIntegrator(nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-10, 1.0e-10);
+                new AdamsBashforthIntegrator(nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-5, 1.0e-5);
             TestProblemHandler handler = new TestProblemHandler(pb, integ);
             integ.addStepHandler(handler);
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
             if (nSteps < 4) {
-                Assert.assertTrue(integ.getEvaluations() > 150);
+                Assert.assertTrue(handler.getMaximalValueError() > 1.0e-03);
             } else {
-                Assert.assertTrue(integ.getEvaluations() < 70);
+                Assert.assertTrue(handler.getMaximalValueError() < 4.0e-12);
             }
         }
 

@@ -128,7 +128,7 @@ public enum LocalizedFormats implements Localizable {
     DIMENSION("dimension ({0})"), /* keep */
     INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE("sample contains {0} observed points, at least {1} are required"),
     INSUFFICIENT_ROWS_AND_COLUMNS("insufficient data: only {0} rows and {1} columns."),
-    INTEGRATION_METHOD_NEEDS_AT_LEAST_ONE_PREVIOUS_POINT("{0} method needs at least one previous point"),
+    INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS("{0} method needs at least two previous points"),
     INTERNAL_ERROR("internal error, please fill a bug report at {0}"),
     INVALID_BRACKETING_PARAMETERS("invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}"),
     INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS("invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}"),

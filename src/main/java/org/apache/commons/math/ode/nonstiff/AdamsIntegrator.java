@@ -35,7 +35,7 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
     private final AdamsNordsieckTransformer transformer;
 
     /**
-     * Build an Adams integrator with the given order and step control prameters.
+     * Build an Adams integrator with the given order and step control parameters.
      * @param name name of the method
      * @param nSteps number of steps of the method excluding the one being computed
      * @param order order of the method
@@ -93,9 +93,10 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    protected Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
-                                                        final double[][] multistep) {
-        return transformer.initializeHighOrderDerivatives(first, multistep);
+    protected Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
+                                                                  final double[][] y,
+                                                                  final double[][] yDot) {
+        return transformer.initializeHighOrderDerivatives(h, t, y, yDot);
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).

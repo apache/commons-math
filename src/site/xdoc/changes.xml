@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" >
+        Fixed initialization of multistep ODE integrators. Relying on the interpolation model
+        of the starter integrator inside only one step was wrong. The model may have a too
+        low order to compute high degrees derivatives in the Nordsieck vector. Now we use several
+        steps and use only grid points instead of interpolated points.
+      </action>
       <action dev="luc" type="add" issue="MATH-564">
         Added solve methods using double[][] to linear algebra decomposition solvers.
       </action>

@@ -24,14 +24,15 @@ import java.util.Map;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DefaultFieldMatrixChangingVisitor;
 import org.apache.commons.math.linear.FieldDecompositionSolver;
 import org.apache.commons.math.linear.FieldLUDecompositionImpl;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.QRDecomposition;
+import org.apache.commons.math.linear.QRDecompositionImpl;
 
 /** Transformer to Nordsieck vectors for Adams integrators.
- * <p>This class i used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
+ * <p>This class is used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
  * {@link AdamsMoultonIntegrator Adams-Moulton} integrators to convert between
  * classical representation with several previous first derivatives and Nordsieck
  * representation with higher order scaled derivatives.</p>
@@ -42,7 +43,7 @@ import org.apache.commons.math.linear.MatrixUtils;
  * s<sub>2</sub>(n) = h<sup>2</sup>/2 y''<sub>n</sub> for second derivative
  * s<sub>3</sub>(n) = h<sup>3</sup>/6 y'''<sub>n</sub> for third derivative
  * ...
- * s<sub>k</sub>(n) = h<sup>k</sup>/k! y(k)<sub>n</sub> for k<sup>th</sup> derivative
+ * s<sub>k</sub>(n) = h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub> for k<sup>th</sup> derivative
  * </pre></p>
  *
  * <p>With the previous definition, the classical representation of multistep methods
@@ -136,9 +137,6 @@ public class AdamsNordsieckTransformer {
     private static final Map<Integer, AdamsNordsieckTransformer> CACHE =
         new HashMap<Integer, AdamsNordsieckTransformer>();
 
-    /** Initialization matrix for the higher order derivatives wrt y'', y''' ... */
-    private final Array2DRowRealMatrix initialization;
-
     /** Update matrix for the higher order derivatives h<sup>2</sup>/2y'', h<sup>3</sup>/6 y''' ... */
     private final Array2DRowRealMatrix update;
 
@@ -173,19 +171,7 @@ public class AdamsNordsieckTransformer {
         FieldMatrix<BigFraction> bigMSupdate =
             pSolver.solve(new Array2DRowFieldMatrix<BigFraction>(shiftedP, false));
 
-        // initialization coefficients, computed from a R matrix = abs(P)
-        bigP.walkInOptimizedOrder(new DefaultFieldMatrixChangingVisitor<BigFraction>(BigFraction.ZERO) {
-            /** {@inheritDoc} */
-            @Override
-            public BigFraction visit(int row, int column, BigFraction value) {
-                return ((column & 0x1) == 0x1) ? value : value.negate();
-            }
-        });
-        FieldMatrix<BigFraction> bigRInverse =
-            new FieldLUDecompositionImpl<BigFraction>(bigP).getSolver().getInverse();
-
         // convert coefficients to double
-        initialization = MatrixUtils.bigFractionMatrixToRealMatrix(bigRInverse);
         update         = MatrixUtils.bigFractionMatrixToRealMatrix(bigMSupdate);
         c1             = new double[nSteps];
         for (int i = 0; i < nSteps; ++i) {
@@ -251,21 +237,53 @@ public class AdamsNordsieckTransformer {
 
     }
 
-    /** Initialize the high order scaled derivatives at step start.
-     * @param first first scaled derivative at step start
-     * @param multistep scaled derivatives after step start (hy'1, ..., hy'k-1)
-     * will be modified
-     * @return high order derivatives at step start
-     */
-    public Array2DRowRealMatrix initializeHighOrderDerivatives(final double[] first,
-                                                     final double[][] multistep) {
-        for (int i = 0; i < multistep.length; ++i) {
-            final double[] msI = multistep[i];
-            for (int j = 0; j < first.length; ++j) {
-                msI[j] -= first[j];
+    /** {@inheritDoc} */
+    public Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
+                                                               final double[][] y,
+                                                               final double[][] yDot) {
+
+        // using Taylor series with di = ti - t0, we get:
+        //  y(ti)  - y(t0)  - di y'(t0) =   di^2 / h^2 s2 + ... +   di^k     / h^k sk + O(h^(k+1))
+        //  y'(ti) - y'(t0)             = 2 di   / h^2 s2 + ... + k di^(k-1) / h^k sk + O(h^k)
+        // we write these relations for i = 1 to i= n-1 as a set of 2(n-1) linear
+        // equations depending on the Nordsieck vector [s2 ... sk]
+        final double[][] a     = new double[2 * (y.length - 1)][c1.length];
+        final double[][] b     = new double[2 * (y.length - 1)][y[0].length];
+        final double[]   y0    = y[0];
+        final double[]   yDot0 = yDot[0];
+        for (int i = 1; i < y.length; ++i) {
+
+            final double di    = t[i] - t[0];
+            final double ratio = di / h;
+            double dikM1Ohk    =  1 / h;
+
+            // linear coefficients of equations
+            // y(ti) - y(t0) - di y'(t0) and y'(ti) - y'(t0)
+            final double[] aI    = a[2 * i - 2];
+            final double[] aDotI = a[2 * i - 1];
+            for (int j = 0; j < aI.length; ++j) {
+                dikM1Ohk *= ratio;
+                aI[j]     = di      * dikM1Ohk;
+                aDotI[j]  = (j + 2) * dikM1Ohk;
             }
+
+            // expected value of the previous equations
+            final double[] yI    = y[i];
+            final double[] yDotI = yDot[i];
+            final double[] bI    = b[2 * i - 2];
+            final double[] bDotI = b[2 * i - 1];
+            for (int j = 0; j < yI.length; ++j) {
+                bI[j]    = yI[j] - y0[j] - di * yDot0[j];
+                bDotI[j] = yDotI[j] - yDot0[j];
+            }
+
         }
-        return initialization.multiply(new Array2DRowRealMatrix(multistep, false));
+
+        // solve the rectangular system in the least square sense
+        // to get the best estimate of the Nordsieck vector [s2 ... sk]
+        QRDecomposition decomposition = new QRDecompositionImpl(new Array2DRowRealMatrix(a, false));
+        return new Array2DRowRealMatrix(decomposition.getSolver().solve(b), false);
+
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).

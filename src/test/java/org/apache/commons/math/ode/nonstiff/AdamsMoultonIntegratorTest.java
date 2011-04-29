@@ -82,11 +82,11 @@ public class AdamsMoultonIntegratorTest {
                             pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
 
-            // the 0.15 and 3.0 factors are only valid for this test
+            // the 0.5 and 11.0 factors are only valid for this test
             // and has been obtained from trial and error
             // there is no general relation between local and global errors
-            Assert.assertTrue(handler.getMaximalValueError() > (0.15 * scalAbsoluteTolerance));
-            Assert.assertTrue(handler.getMaximalValueError() < (3.0 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() > ( 0.5 * scalAbsoluteTolerance));
+            Assert.assertTrue(handler.getMaximalValueError() < (11.0 * scalAbsoluteTolerance));
             Assert.assertEquals(0, handler.getMaximalTimeError(), 1.0e-16);
 
             int calls = pb.getCalls();
@@ -137,17 +137,17 @@ public class AdamsMoultonIntegratorTest {
         TestProblem6 pb = new TestProblem6();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 
-        for (int nSteps = 1; nSteps < 7; ++nSteps) {
+        for (int nSteps = 2; nSteps < 8; ++nSteps) {
             AdamsMoultonIntegrator integ =
-                new AdamsMoultonIntegrator(nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-9, 1.0e-9);
+                new AdamsMoultonIntegrator(nSteps, 1.0e-6 * range, 0.1 * range, 1.0e-5, 1.0e-5);
             TestProblemHandler handler = new TestProblemHandler(pb, integ);
             integ.addStepHandler(handler);
             integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                             pb.getFinalTime(), new double[pb.getDimension()]);
             if (nSteps < 4) {
-                Assert.assertTrue(integ.getEvaluations() > 140);
+                Assert.assertTrue(handler.getMaximalValueError() > 7.0e-04);
             } else {
-                Assert.assertTrue(integ.getEvaluations() < 90);
+                Assert.assertTrue(handler.getMaximalValueError() < 3.0e-13);
             }
         }
 
