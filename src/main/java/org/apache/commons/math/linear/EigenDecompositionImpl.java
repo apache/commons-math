@@ -342,7 +342,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * <p>The A matrix is implicit, it is provided by the underlying
          * decomposition algorithm.</p>
          * @param b right-hand side of the equation A &times; X = B
-         * @param reUseB if true, the b array will be reused and returned,
+         * @param reuseB if true, the b array will be reused and returned,
          * instead of being copied
          * @return a matrix X that minimizes the two norm of A &times; X - B
          * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -350,7 +350,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * @throws SingularMatrixException
          * if the decomposed matrix is singular.
          */
-        private double[][] solve(double[][] b, boolean reUseB) {
+        private double[][] solve(double[][] b, boolean reuseB) {
 
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
@@ -363,7 +363,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 
             final int nColB = b[0].length;
             final double[][] bp;
-            if (reUseB) {
+            if (reuseB) {
                 bp = b;
             } else {
                 bp = new double[m][nColB];

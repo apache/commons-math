@@ -277,7 +277,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * <p>The A matrix is implicit, it is provided by the underlying
          * decomposition algorithm.</p>
          * @param b right-hand side of the equation A &times; X = B
-         * @param reUseB if true, the b array will be reused and returned,
+         * @param reuseB if true, the b array will be reused and returned,
          * instead of being copied
          * @return a matrix X that minimizes the two norm of A &times; X - B
          * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -285,7 +285,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
          * @throws SingularMatrixException
          * if the decomposed matrix is singular.
          */
-        private double[][] solve(double[][] b, boolean reUseB) {
+        private double[][] solve(double[][] b, boolean reuseB) {
             final int m = lTData.length;
             if (b.length != m) {
                 throw new DimensionMismatchException(b.length, m);
@@ -293,7 +293,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
             final int nColB = b[0].length;
             final double[][] x;
-            if (reUseB) {
+            if (reuseB) {
                 x = b;
             } else {
                 x = new double[b.length][nColB];
