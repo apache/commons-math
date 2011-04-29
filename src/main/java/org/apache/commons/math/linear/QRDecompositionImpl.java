@@ -338,6 +338,11 @@ public class QRDecompositionImpl implements QRDecomposition {
         }
 
         /** {@inheritDoc} */
+        public double[][] solve(double[][] b) {
+            return solve(new BlockRealMatrix(b)).getData();
+        }
+
+        /** {@inheritDoc} */
         public RealMatrix solve(RealMatrix b) {
             final int n = qrt.length;
             final int m = qrt[0].length;

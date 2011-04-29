@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-564">
+        Added solve methods using double[][] to linear algebra decomposition solvers.
+      </action>
       <action dev="erans" type="add" issue="MATH-562">
         Added an interpolator adapter for data with known period.
       </action>

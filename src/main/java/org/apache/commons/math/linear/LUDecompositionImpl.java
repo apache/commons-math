@@ -337,17 +337,17 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         /** {@inheritDoc} */
-        public RealMatrix solve(RealMatrix b) {
+        public double[][] solve(double[][] b) {
 
             final int m = pivot.length;
-            if (b.getRowDimension() != m) {
-                throw new DimensionMismatchException(b.getRowDimension(), m);
+            if (b.length != m) {
+                throw new DimensionMismatchException(b.length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
             }
 
-            final int nColB = b.getColumnDimension();
+            final int nColB = b[0].length;
 
             // Apply permutations to b
             final double[][] bp = new double[m][nColB];
@@ -355,7 +355,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 final double[] bpRow = bp[row];
                 final int pRow = pivot[row];
                 for (int col = 0; col < nColB; col++) {
-                    bpRow[col] = b.getEntry(pRow, col);
+                    bpRow[col] = b[pRow][col];
                 }
             }
 
@@ -387,7 +387,13 @@ public class LUDecompositionImpl implements LUDecomposition {
                 }
             }
 
-            return new Array2DRowRealMatrix(bp, false);
+            return bp;
+
+        }
+
+        /** {@inheritDoc} */
+        public RealMatrix solve(RealMatrix b) {
+            return new Array2DRowRealMatrix(solve(b.getData()), false);
         }
 
         /** {@inheritDoc} */

@@ -81,6 +81,9 @@ public class CholeskySolverTest {
         // using RealMatrix
         Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 1.0e-13);
 
+        // using double[][]
+        Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), 1.0e-13);
+
         // using double[]
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             Assert.assertEquals(0,
