@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-567" due-to="Michel">
+        Fixed conversion problems to/from 0 in Decimal Floating Point (Dfp) class.
+      </action>
       <action dev="luc" type="fix" >
         Fixed initialization of multistep ODE integrators. Relying on the interpolation model
         of the starter integrator inside only one step was wrong. The model may have a too
