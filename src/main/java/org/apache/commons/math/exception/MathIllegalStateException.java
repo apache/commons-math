@@ -18,6 +18,8 @@ package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.ExceptionContext;
+import org.apache.commons.math.exception.util.ExceptionContextProvider;
 
 /**
  * Base class for all exceptions that signal a mismatch between the
@@ -26,9 +28,12 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathIllegalStateException extends MathRuntimeException {
+public class MathIllegalStateException extends IllegalStateException
+    implements ExceptionContextProvider {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
+    /** Context. */
+    private final ExceptionContext context = new ExceptionContext();
 
     /**
      * Simple constructor.
@@ -38,7 +43,7 @@ public class MathIllegalStateException extends MathRuntimeException {
      */
     public MathIllegalStateException(Localizable pattern,
                                      Object ... args) {
-        addMessage(pattern, args);
+        context.addMessage(pattern, args);
     }
 
     /**
@@ -52,13 +57,30 @@ public class MathIllegalStateException extends MathRuntimeException {
                                      Localizable pattern,
                                      Object ... args) {
         super(cause);
-        addMessage(pattern, args);
+        context.addMessage(pattern, args);
     }
 
     /**
      * Default constructor.
      */
     public MathIllegalStateException() {
-        addMessage(LocalizedFormats.ILLEGAL_STATE);
+        this(LocalizedFormats.ILLEGAL_STATE);
+    }
+
+    /** {@inheritDoc} */
+    public ExceptionContext getContext() {
+        return context;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return context.getMessage();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return context.getLocalizedMessage();
     }
 }

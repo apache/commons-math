@@ -50,7 +50,7 @@ public class MathIllegalArgumentException extends IllegalArgumentException
         return context;
     }
 
-   /** {@inheritDoc} */
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return context.getMessage();

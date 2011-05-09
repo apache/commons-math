@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-566">
+        Created an "ExceptionContext" class: It provides the customization feature of
+        "MathRuntimeException" without imposing a singly rooted hierarchy of the Comons
+        Math exceptions.
+        Thus, those exceptions now inherit from their Java standard counterparts (e.g.
+        "MathIllegalArgumentException" inherits from "IllegalArgumentException").
+      </action>
       <action dev="luc" type="add" issue="MATH-567" due-to="Michel">
         Fixed conversion problems to/from 0 in Decimal Floating Point (Dfp) class.
       </action>

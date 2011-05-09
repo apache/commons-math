@@ -18,19 +18,24 @@ package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.ExceptionContext;
+import org.apache.commons.math.exception.util.ExceptionContextProvider;
 
 /**
  * Base class for all unsupported features.
- * It is used for all the exceptions that share the semantics of the standard
+ * It is used for all the exceptions that have the semantics of the standard
  * {@link UnsupportedOperationException}, but must also provide a localized
  * message.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUnsupportedOperationException extends MathRuntimeException {
+public class MathUnsupportedOperationException extends UnsupportedOperationException
+    implements ExceptionContextProvider {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
+    /** Context. */
+    private final ExceptionContext context = new ExceptionContext();
 
     /**
      * Default constructor.
@@ -45,6 +50,23 @@ public class MathUnsupportedOperationException extends MathRuntimeException {
      */
     public MathUnsupportedOperationException(Localizable pattern,
                                              Object ... args) {
-        addMessage(pattern, args);
+        context.addMessage(pattern, args);
+    }
+
+    /** {@inheritDoc} */
+    public ExceptionContext getContext() {
+        return context;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return context.getMessage();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return context.getLocalizedMessage();
     }
 }

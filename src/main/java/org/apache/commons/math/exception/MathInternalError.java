@@ -34,7 +34,7 @@ public class MathInternalError extends MathIllegalStateException {
      * Simple constructor.
      */
     public MathInternalError() {
-        addMessage(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+        getContext().addMessage(LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
     }
 
     /**
@@ -44,5 +44,4 @@ public class MathInternalError extends MathIllegalStateException {
     public MathInternalError(final Throwable cause) {
         super(cause, LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
     }
-
 }

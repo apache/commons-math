@@ -18,25 +18,30 @@ package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.ExceptionContext;
+import org.apache.commons.math.exception.util.ExceptionContextProvider;
 
 /**
  * Base class for arithmetic exceptions.
- * It is used for all the exceptions that share the semantics of the standard
+ * It is used for all the exceptions that have the semantics of the standard
  * {@link ArithmeticException}, but must also provide a localized
  * message.
  *
  * @since 3.0
  * @version $Revision$ $Date$
  */
-public class MathArithmeticException extends MathRuntimeException {
+public class MathArithmeticException extends ArithmeticException
+    implements ExceptionContextProvider {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
+    /** Context. */
+    private final ExceptionContext context = new ExceptionContext();
 
     /**
      * Default constructor.
      */
     public MathArithmeticException() {
-        addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
+        context.addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
     }
 
     /**
@@ -48,6 +53,23 @@ public class MathArithmeticException extends MathRuntimeException {
      */
     public MathArithmeticException(Localizable pattern,
                                    Object ... args) {
-        addMessage(pattern, args);
+        context.addMessage(pattern, args);
+    }
+
+    /** {@inheritDoc} */
+    public ExceptionContext getContext() {
+        return context;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return context.getMessage();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return context.getLocalizedMessage();
     }
 }

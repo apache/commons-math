@@ -34,6 +34,7 @@ public class TooManyEvaluationsException extends MaxCountExceededException {
      * @param max Maximum number of evaluations.
      */
     public TooManyEvaluationsException(Number max) {
-        super(LocalizedFormats.EVALUATIONS, max);
+        super(max);
+        getContext().addMessage(LocalizedFormats.EVALUATIONS);
     }
 }

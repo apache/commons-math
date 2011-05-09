@@ -34,7 +34,7 @@ public class ConvergenceException extends MathIllegalStateException {
      * Construct the exception.
      */
     public ConvergenceException() {
-        addMessage(LocalizedFormats.CONVERGENCE_FAILED);
+        this(LocalizedFormats.CONVERGENCE_FAILED);
     }
 
     /**
@@ -46,6 +46,6 @@ public class ConvergenceException extends MathIllegalStateException {
      */
     public ConvergenceException(Localizable pattern,
                                 Object ... args) {
-        addMessage(pattern, args);
+        getContext().addMessage(pattern, args);
     }
 }

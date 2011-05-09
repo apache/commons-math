@@ -18,6 +18,8 @@ package org.apache.commons.math.exception;
 
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.ExceptionContext;
+import org.apache.commons.math.exception.util.ExceptionContextProvider;
 
 /**
  * This class is intended as a sort of communication channel between
@@ -28,15 +30,18 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 2.2
  * @version $Revision$ $Date$
  */
-public class MathUserException extends MathRuntimeException {
+public class MathUserException extends RuntimeException
+    implements ExceptionContextProvider {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
+    /** Context. */
+    private final ExceptionContext context = new ExceptionContext();
 
     /**
      * Build an exception with a default message.
      */
     public MathUserException() {
-        addMessage(LocalizedFormats.USER_EXCEPTION);
+        context.addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
     /**
@@ -45,7 +50,7 @@ public class MathUserException extends MathRuntimeException {
      */
     public MathUserException(final Throwable cause) {
         super(cause);
-        addMessage(LocalizedFormats.USER_EXCEPTION);
+        context.addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
     /**
@@ -56,7 +61,7 @@ public class MathUserException extends MathRuntimeException {
      */
     public MathUserException(final Localizable pattern,
                              final Object ... arguments) {
-        addMessage(pattern, arguments);
+        context.addMessage(pattern, arguments);
     }
 
     /**
@@ -70,6 +75,23 @@ public class MathUserException extends MathRuntimeException {
                              final Localizable pattern,
                              final Object ... arguments) {
         super(cause);
-        addMessage(pattern, arguments);
+        context.addMessage(pattern, arguments);
+    }
+
+    /** {@inheritDoc} */
+    public ExceptionContext getContext() {
+        return context;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return context.getMessage();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return context.getLocalizedMessage();
     }
 }
