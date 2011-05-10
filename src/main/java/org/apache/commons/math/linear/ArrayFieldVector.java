@@ -349,7 +349,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         data = buildArray(v1.length + v2.length);
         System.arraycopy(v1, 0, data, 0, v1.length);
         System.arraycopy(v2, 0, data, v1.length, v2.length);
-        this.field = data[0].getField();
+        this.field = field;
     }
 
     /**
