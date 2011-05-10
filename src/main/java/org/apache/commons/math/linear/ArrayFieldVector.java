@@ -383,7 +383,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].add(v.getEntry(i));
             }
-            return new ArrayFieldVector<T>(out);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 
@@ -394,7 +394,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].add(v[i]);
         }
-        return new ArrayFieldVector<T>(out);
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /**
@@ -417,7 +417,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             for (int i = 0; i < data.length; i++) {
                 out[i] = data[i].subtract(v.getEntry(i));
             }
-            return new ArrayFieldVector<T>(out);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 
@@ -428,7 +428,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].subtract(v[i]);
         }
-        return new ArrayFieldVector<T>(out);
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /**

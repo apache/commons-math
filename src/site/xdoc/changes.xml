@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-573">
+        Avoid some array copying in add and subtract ArrayFieldVector.
+      </action>
       <action dev="luc" type="fix" issue="MATH-572">
         Fixed an unused constructor parameter in ArrayFieldVector.
       </action>
