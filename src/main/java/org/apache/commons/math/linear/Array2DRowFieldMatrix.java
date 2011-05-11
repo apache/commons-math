@@ -84,7 +84,26 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      * @see #Array2DRowFieldMatrix(FieldElement[][], boolean)
      */
     public Array2DRowFieldMatrix(final T[][] d) {
-        super(extractField(d));
+        this(extractField(d), d);
+    }
+
+    /**
+     * Create a new {@code FieldMatrix<T>} using the input array as the underlying
+     * data array.
+     * <p>The input array is copied, not referenced. This constructor has
+     * the same effect as calling {@link #Array2DRowFieldMatrix(FieldElement[][], boolean)}
+     * with the second argument set to {@code true}.</p>
+     *
+     * @param field Field to which the elements belong.
+     * @param d Data for the new matrix.
+     * @throws DimensionMismatchException if {@code d} is not rectangular.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * {@code d} is {@code null}.
+     * @throws NoDataException if there are not at least one row and one column.
+     * @see #Array2DRowFieldMatrix(FieldElement[][], boolean)
+     */
+    public Array2DRowFieldMatrix(final Field<T> field, final T[][] d) {
+        super(field);
         copyIn(d);
     }
 
@@ -105,7 +124,28 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      * @see #Array2DRowFieldMatrix(FieldElement[][])
      */
     public Array2DRowFieldMatrix(final T[][] d, final boolean copyArray) {
-        super(extractField(d));
+        this(extractField(d), d, copyArray);
+    }
+
+    /**
+     * Create a new {@code FieldMatrix<T>} using the input array as the underlying
+     * data array.
+     * <p>If an array is built specially in order to be embedded in a
+     * {@code FieldMatrix<T>} and not used directly, the {@code copyArray} may be
+     * set to {@code false}. This will prevent the copying and improve
+     * performance as no new array will be built and no data will be copied.</p>
+     *
+     * @param field Field to which the elements belong.
+     * @param d Data for the new matrix.
+     * @param copyArray Whether to copy or reference the input array.
+     * @throws DimensionMismatchException if {@code d} is not rectangular.
+     * @throws NoDataException if there are not at least one row and one column.
+     * @throws org.apache.commons.math.exception.NullArgumentException
+     * if {@code d} is {@code null}.
+     * @see #Array2DRowFieldMatrix(FieldElement[][])
+     */
+    public Array2DRowFieldMatrix(final Field<T> field, final T[][] d, final boolean copyArray) {
+        super(field);
         if (copyArray) {
             copyIn(d);
         } else {
@@ -137,7 +177,19 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      * @param v Column vector holding data for new matrix.
      */
     public Array2DRowFieldMatrix(final T[] v) {
-        super(extractField(v));
+        this(extractField(v), v);
+    }
+
+    /**
+     * Create a new (column) {@code FieldMatrix<T>} using {@code v} as the
+     * data for the unique column of the created matrix.
+     * The input array is copied.
+     *
+     * @param field Field to which the elements belong.
+     * @param v Column vector holding data for new matrix.
+     */
+    public Array2DRowFieldMatrix(final Field<T> field, final T[] v) {
+        super(field);
         final int nRows = v.length;
         data = buildArray(getField(), nRows, 1);
         for (int row = 0; row < nRows; row++) {
@@ -154,7 +206,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     /** {@inheritDoc} */
     @Override
     public FieldMatrix<T> copy() {
-        return new Array2DRowFieldMatrix<T>(copyOut(), false);
+        return new Array2DRowFieldMatrix<T>(getField(), copyOut(), false);
     }
 
     /**
@@ -181,7 +233,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
             }
         }
 
-        return new Array2DRowFieldMatrix<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(getField(), outData, false);
     }
 
     /**
