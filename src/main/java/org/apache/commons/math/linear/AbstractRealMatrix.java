@@ -693,7 +693,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
                 out[col] = sum;
             }
 
-            return new ArrayRealVector(out);
+            return new ArrayRealVector(out, false);
         }
     }
 

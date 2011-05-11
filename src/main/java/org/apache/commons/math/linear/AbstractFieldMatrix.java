@@ -764,7 +764,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 out[col] = sum;
             }
 
-            return new ArrayFieldVector<T>(out);
+            return new ArrayFieldVector<T>(out, false);
         }
     }
 
