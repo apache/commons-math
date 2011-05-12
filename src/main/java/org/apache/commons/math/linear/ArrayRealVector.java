@@ -763,11 +763,11 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         if (v instanceof ArrayRealVector) {
             return outerProduct((ArrayRealVector) v);
         } else {
-            checkVectorDimensions(v);
             final int m = data.length;
-            final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data.length; j++) {
+            final int n = v.getDimension();
+            final RealMatrix out = MatrixUtils.createRealMatrix(m, n);
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     out.setEntry(i, j, data[i] * v.getEntry(j));
                 }
             }
@@ -789,11 +789,11 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     @Override
     public RealMatrix outerProduct(double[] v) {
-        checkVectorDimensions(v.length);
         final int m = data.length;
-        final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
+        final int n = v.length;
+        final RealMatrix out = MatrixUtils.createRealMatrix(m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 out.setEntry(i, j, data[i] * v[j]);
             }
         }

@@ -1190,6 +1190,22 @@ public class ArrayRealVectorTest {
         v.cosine(w);
     }
 
+    @Test
+    public void testOuterProduct() {
+        final ArrayRealVector u = new ArrayRealVector(new double[] {1, 2, -3});
+        final ArrayRealVector v = new ArrayRealVector(new double[] {4, -2});
+
+        final RealMatrix uv = u.outerProduct(v);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(4, uv.getEntry(0, 0), tol);
+        Assert.assertEquals(-2, uv.getEntry(0, 1), tol);
+        Assert.assertEquals(8, uv.getEntry(1, 0), tol);
+        Assert.assertEquals(-4, uv.getEntry(1, 1), tol);
+        Assert.assertEquals(-12, uv.getEntry(2, 0), tol);
+        Assert.assertEquals(6, uv.getEntry(2, 1), tol);
+    }
+
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {
