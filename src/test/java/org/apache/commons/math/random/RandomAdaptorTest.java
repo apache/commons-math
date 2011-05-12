@@ -27,7 +27,7 @@ import org.junit.Test;
  * @version $Revision$ $Date$
  */
 
-public class RandomAdaptorTest extends RandomDataTest {
+public class RandomAdaptorTest {
 
     @Test
     public void testAdaptor() {
