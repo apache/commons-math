@@ -668,11 +668,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         try {
             return outerProduct((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
-            checkVectorDimensions(v);
             final int m = data.length;
-            final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, m);
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data.length; j++) {
+            final int n = v.getDimension();
+            final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, n);
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     out.setEntry(i, j, data[i].multiply(v.getEntry(j)));
                 }
             }
@@ -692,11 +692,11 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
 
     /** {@inheritDoc} */
     public FieldMatrix<T> outerProduct(T[] v) {
-        checkVectorDimensions(v.length);
         final int m = data.length;
-        final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, m);
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
+        final int n = v.length;
+        final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 out.setEntry(i, j, data[i].multiply(v[j]));
             }
         }

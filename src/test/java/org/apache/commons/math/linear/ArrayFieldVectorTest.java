@@ -628,6 +628,29 @@ public class ArrayFieldVectorTest {
 
     }
 
+    @Test
+    public void testOuterProduct() {
+        final ArrayFieldVector<Fraction> u
+            = new ArrayFieldVector<Fraction>(FractionField.getInstance(),
+                                             new Fraction[] {new Fraction(1),
+                                                             new Fraction(2),
+                                                             new Fraction(-3)});
+        final ArrayFieldVector<Fraction> v
+            = new ArrayFieldVector<Fraction>(FractionField.getInstance(),
+                                             new Fraction[] {new Fraction(4),
+                                                             new Fraction(-2)});
+
+        final FieldMatrix<Fraction> uv = u.outerProduct(v);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(new Fraction(4).doubleValue(), uv.getEntry(0, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-2).doubleValue(), uv.getEntry(0, 1).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(8).doubleValue(), uv.getEntry(1, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-4).doubleValue(), uv.getEntry(1, 1).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-12).doubleValue(), uv.getEntry(2, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(6).doubleValue(), uv.getEntry(2, 1).doubleValue(), tol);
+    }
+
     /** verifies that two vectors are equals */
     protected void checkArray(String msg, Fraction[] m, Fraction[] n) {
         if (m.length != n.length) {
