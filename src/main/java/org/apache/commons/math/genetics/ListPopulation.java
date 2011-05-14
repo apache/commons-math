@@ -35,7 +35,7 @@ public abstract class ListPopulation implements Population {
     /** List of chromosomes */
     private List<Chromosome> chromosomes;
 
-    /** maximial size of the population */
+    /** maximal size of the population */
     private int populationLimit;
 
 
