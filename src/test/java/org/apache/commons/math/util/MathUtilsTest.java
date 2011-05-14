@@ -1086,6 +1086,24 @@ public final class MathUtilsTest {
         Assert.assertEquals(expected,
                             MathUtils.reduce(orig, -period, offset),
                             1e-6);
+        
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig, Double.NaN, offset)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.NaN, period, offset)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig, period, Double.NaN)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig, period,
+                Double.POSITIVE_INFINITY)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
+                period, offset)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig,
+                Double.POSITIVE_INFINITY, offset)));   
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig,
+                Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
+                period, Double.POSITIVE_INFINITY)));
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
+                Double.POSITIVE_INFINITY, offset))); 
+        Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
+                Double.POSITIVE_INFINITY,  Double.POSITIVE_INFINITY)));
     }
 
     @Test

@@ -1282,12 +1282,19 @@ public final class MathUtils {
      }
 
     /**
-     * Reduce to the primary interval {@code [0 period)}.
+     * <p>Reduce {@code |a - offset|} to the primary interval 
+     * {@code [0, |period|)}.</p>
+     * 
+     * <p>Specifically, the value returned is <br/>
+     * {@code a - |period| * floor((a - offset) / |period|) - offset}.</p>
+     * 
+     * <p>If any of the parameters are {@code NaN} or infinite, the result is
+     * {@code NaN}.</p>
      *
      * @param a Value to reduce.
      * @param period Period.
      * @param offset Value that will be mapped to {@code 0}.
-     * @return the value, within the interval {@code [0 period)},
+     * @return the value, within the interval {@code [0 |period|)},
      * that corresponds to {@code a}.
      */
     public static double reduce(double a,
