@@ -204,7 +204,7 @@ public class SparseFieldMatrixTest {
         SparseFieldMatrix<Fraction> m2 = createSparseMatrix(testData2);
         assertClose("inverse multiply", m.multiply(mInv), identity,
                 entryTolerance);
-        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<Fraction>(testDataInv)), identity,
+        assertClose("inverse multiply", m.multiply(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testDataInv)), identity,
                     entryTolerance);
         assertClose("inverse multiply", mInv.multiply(m), identity,
                 entryTolerance);

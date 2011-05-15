@@ -333,7 +333,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
                     }
                 }
 
-                return new ArrayFieldVector<T>(bp, false);
+                return new ArrayFieldVector<T>(field, bp, false);
 
             }
         }
@@ -346,7 +346,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
-            return new ArrayFieldVector<T>(solve(b.getDataRef()), false);
+            return new ArrayFieldVector<T>(field, solve(b.getDataRef()), false);
         }
 
         /** {@inheritDoc} */
@@ -400,7 +400,7 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
                 }
             }
 
-            return new Array2DRowFieldMatrix<T>(bp, false);
+            return new Array2DRowFieldMatrix<T>(field, bp, false);
 
         }
 

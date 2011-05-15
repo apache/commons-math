@@ -538,7 +538,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     public FieldVector<T> getRowVector(final int row) {
-        return new ArrayFieldVector<T>(getRow(row), false);
+        return new ArrayFieldVector<T>(field, getRow(row), false);
     }
 
     /** {@inheritDoc} */
@@ -557,7 +557,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     public FieldVector<T> getColumnVector(final int column) {
-        return new ArrayFieldVector<T>(getColumn(column), false);
+        return new ArrayFieldVector<T>(field, getColumn(column), false);
     }
 
     /** {@inheritDoc} */
@@ -702,7 +702,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     /** {@inheritDoc} */
     public FieldVector<T> operate(final FieldVector<T> v) {
         try {
-            return new ArrayFieldVector<T>(operate(((ArrayFieldVector<T>) v).getDataRef()), false);
+            return new ArrayFieldVector<T>(field, operate(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -719,7 +719,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 out[row] = sum;
             }
 
-            return new ArrayFieldVector<T>(out, false);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 
@@ -747,7 +747,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     /** {@inheritDoc} */
     public FieldVector<T> preMultiply(final FieldVector<T> v) {
         try {
-            return new ArrayFieldVector<T>(preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
+            return new ArrayFieldVector<T>(field, preMultiply(((ArrayFieldVector<T>) v).getDataRef()), false);
         } catch (ClassCastException cce) {
             final int nRows = getRowDimension();
             final int nCols = getColumnDimension();
@@ -764,7 +764,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 out[col] = sum;
             }
 
-            return new ArrayFieldVector<T>(out, false);
+            return new ArrayFieldVector<T>(field, out, false);
         }
     }
 

@@ -24,6 +24,7 @@ import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
+import org.apache.commons.math.fraction.BigFractionField;
 import org.apache.commons.math.fraction.FractionConversionException;
 import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -359,6 +360,6 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
             }
         }
 
-        return new Array2DRowFieldMatrix<BigFraction>(Hdata);
+        return new Array2DRowFieldMatrix<BigFraction>(BigFractionField.getInstance(), Hdata);
     }
 }

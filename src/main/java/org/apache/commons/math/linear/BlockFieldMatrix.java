@@ -985,7 +985,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             outIndex += jWidth;
         }
 
-        return new ArrayFieldVector<T>(outData, false);
+        return new ArrayFieldVector<T>(getField(), outData, false);
     }
 
     /** {@inheritDoc} */
@@ -1017,7 +1017,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
             }
         }
 
-        return new ArrayFieldVector<T>(outData, false);
+        return new ArrayFieldVector<T>(getField(), outData, false);
     }
 
     /** {@inheritDoc} */

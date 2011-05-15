@@ -56,7 +56,8 @@ public class FieldLUDecompositionImplTest {
     /** test dimensions */
     @Test
     public void testDimensions() {
-        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> matrix =
+            new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData);
         FieldLUDecomposition<Fraction> LU = new FieldLUDecompositionImpl<Fraction>(matrix);
         Assert.assertEquals(testData.length, LU.getL().getRowDimension());
         Assert.assertEquals(testData.length, LU.getL().getColumnDimension());
@@ -71,6 +72,7 @@ public class FieldLUDecompositionImplTest {
     @Test
     public void testNonSquare() {
         try {
+            // we don't use FractionField.getInstance() for testing purposes
             new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
                     { Fraction.ZERO, Fraction.ZERO },
                     { Fraction.ZERO, Fraction.ZERO },
@@ -85,14 +87,14 @@ public class FieldLUDecompositionImplTest {
     /** test PA = LU */
     @Test
     public void testPAEqualLU() {
-        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData);
         FieldLUDecomposition<Fraction> lu = new FieldLUDecompositionImpl<Fraction>(matrix);
         FieldMatrix<Fraction> l = lu.getL();
         FieldMatrix<Fraction> u = lu.getU();
         FieldMatrix<Fraction> p = lu.getP();
         TestUtils.assertEquals(p.multiply(matrix), l.multiply(u));
 
-        matrix = new Array2DRowFieldMatrix<Fraction>(testDataMinus);
+        matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testDataMinus);
         lu = new FieldLUDecompositionImpl<Fraction>(matrix);
         l = lu.getL();
         u = lu.getU();
@@ -109,14 +111,14 @@ public class FieldLUDecompositionImplTest {
         p = lu.getP();
         TestUtils.assertEquals(p.multiply(matrix), l.multiply(u));
 
-        matrix = new Array2DRowFieldMatrix<Fraction>(singular);
+        matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), singular);
         lu = new FieldLUDecompositionImpl<Fraction>(matrix);
         Assert.assertFalse(lu.getSolver().isNonSingular());
         Assert.assertNull(lu.getL());
         Assert.assertNull(lu.getU());
         Assert.assertNull(lu.getP());
 
-        matrix = new Array2DRowFieldMatrix<Fraction>(bigSingular);
+        matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), bigSingular);
         lu = new FieldLUDecompositionImpl<Fraction>(matrix);
         Assert.assertFalse(lu.getSolver().isNonSingular());
         Assert.assertNull(lu.getL());
@@ -128,7 +130,7 @@ public class FieldLUDecompositionImplTest {
     /** test that L is lower triangular with unit diagonal */
     @Test
     public void testLLowerTriangular() {
-        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData);
         FieldMatrix<Fraction> l = new FieldLUDecompositionImpl<Fraction>(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             Assert.assertEquals(Fraction.ONE, l.getEntry(i, i));
@@ -141,7 +143,7 @@ public class FieldLUDecompositionImplTest {
     /** test that U is upper triangular */
     @Test
     public void testUUpperTriangular() {
-        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData);
         FieldMatrix<Fraction> u = new FieldLUDecompositionImpl<Fraction>(matrix).getU();
         for (int i = 0; i < u.getRowDimension(); i++) {
             for (int j = 0; j < i; j++) {
@@ -153,7 +155,7 @@ public class FieldLUDecompositionImplTest {
     /** test that P is a permutation matrix */
     @Test
     public void testPPermutation() {
-        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(testData);
+        FieldMatrix<Fraction> matrix = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData);
         FieldMatrix<Fraction> p   = new FieldLUDecompositionImpl<Fraction>(matrix).getP();
 
         FieldMatrix<Fraction> ppT = p.multiply(p.transpose());
@@ -210,11 +212,11 @@ public class FieldLUDecompositionImplTest {
     @Test
     public void testSingular() {
         FieldLUDecomposition<Fraction> lu =
-            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(testData));
+            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData));
         Assert.assertTrue(lu.getSolver().isNonSingular());
-        lu = new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(singular));
+        lu = new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), singular));
         Assert.assertFalse(lu.getSolver().isNonSingular());
-        lu = new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(bigSingular));
+        lu = new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), bigSingular));
         Assert.assertFalse(lu.getSolver().isNonSingular());
     }
 
@@ -222,18 +224,18 @@ public class FieldLUDecompositionImplTest {
     @Test
     public void testMatricesValues1() {
        FieldLUDecomposition<Fraction> lu =
-            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(testData));
-        FieldMatrix<Fraction> lRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), testData));
+        FieldMatrix<Fraction> lRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(1), new Fraction(0), new Fraction(0) },
                 { new Fraction(2), new Fraction(1), new Fraction(0) },
                 { new Fraction(1), new Fraction(-2), new Fraction(1) }
         });
-        FieldMatrix<Fraction> uRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+        FieldMatrix<Fraction> uRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(1),  new Fraction(2), new Fraction(3) },
                 { new Fraction(0), new Fraction(1), new Fraction(-3) },
                 { new Fraction(0),  new Fraction(0), new Fraction(-1) }
         });
-        FieldMatrix<Fraction> pRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+        FieldMatrix<Fraction> pRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(1), new Fraction(0), new Fraction(0) },
                 { new Fraction(0), new Fraction(1), new Fraction(0) },
                 { new Fraction(0), new Fraction(0), new Fraction(1) }
@@ -263,18 +265,18 @@ public class FieldLUDecompositionImplTest {
     @Test
     public void testMatricesValues2() {
        FieldLUDecomposition<Fraction> lu =
-            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(luData));
-        FieldMatrix<Fraction> lRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+            new FieldLUDecompositionImpl<Fraction>(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), luData));
+        FieldMatrix<Fraction> lRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(1), new Fraction(0), new Fraction(0) },
                 { new Fraction(3), new Fraction(1), new Fraction(0) },
                 { new Fraction(1), new Fraction(0), new Fraction(1) }
         });
-        FieldMatrix<Fraction> uRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+        FieldMatrix<Fraction> uRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(2), new Fraction(3), new Fraction(3)    },
                 { new Fraction(0), new Fraction(-3), new Fraction(-1)  },
                 { new Fraction(0), new Fraction(0), new Fraction(4) }
         });
-        FieldMatrix<Fraction> pRef = new Array2DRowFieldMatrix<Fraction>(new Fraction[][] {
+        FieldMatrix<Fraction> pRef = new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), new Fraction[][] {
                 { new Fraction(1), new Fraction(0), new Fraction(0) },
                 { new Fraction(0), new Fraction(0), new Fraction(1) },
                 { new Fraction(0), new Fraction(1), new Fraction(0) }

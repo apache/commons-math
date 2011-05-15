@@ -260,7 +260,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
             }
         }
 
-        return new Array2DRowFieldMatrix<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(getField(), outData, false);
 
     }
 
@@ -292,7 +292,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
             }
         }
 
-        return new Array2DRowFieldMatrix<T>(outData, false);
+        return new Array2DRowFieldMatrix<T>(getField(), outData, false);
 
     }
 

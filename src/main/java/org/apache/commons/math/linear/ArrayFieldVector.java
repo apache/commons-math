@@ -199,6 +199,29 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /**
+     * Construct a vector from part of a array.
+     *
+     * @param field Field to which the elements belong.
+     * @param d Array.
+     * @param pos Position of the first entry.
+     * @param size Number of entries to copy.
+     * @throws NullArgumentException if {@code d} is {@code null}.
+     * @throws NumberIsTooLargeException if the size of {@code d} is less
+     * than {@code pos + size}.
+     */
+    public ArrayFieldVector(Field<T> field, T[] d, int pos, int size) {
+        if (d == null) {
+            throw new NullArgumentException();
+        }
+        if (d.length < pos + size) {
+            throw new NumberIsTooLargeException(pos + size, d.length, true);
+        }
+        this.field = field;
+        data = buildArray(size);
+        System.arraycopy(d, pos, data, 0, size);
+    }
+
+    /**
      * Construct a vector from another vector, using a deep copy.
      *
      * @param v Vector to copy.
@@ -651,7 +674,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
 
     /** {@inheritDoc} */
     public FieldVector<T> projection(T[] v) {
-        return projection(new ArrayFieldVector<T>(v, false));
+        return projection(new ArrayFieldVector<T>(getField(), v, false));
     }
 
    /** Find the orthogonal projection of this vector onto another vector.

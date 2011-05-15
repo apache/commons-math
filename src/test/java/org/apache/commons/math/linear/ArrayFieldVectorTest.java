@@ -268,11 +268,11 @@ public class ArrayFieldVectorTest {
         Assert.assertEquals(5, v2.getDimension());
         Assert.assertEquals(new Fraction(123, 100), v2.getEntry(4));
 
-        ArrayFieldVector<Fraction> v3 = new ArrayFieldVector<Fraction>(vec1);
+        ArrayFieldVector<Fraction> v3 = new ArrayFieldVector<Fraction>(FractionField.getInstance(), vec1);
         Assert.assertEquals(3, v3.getDimension());
         Assert.assertEquals(new Fraction(2), v3.getEntry(1));
 
-        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(vec4, 3, 2);
+        ArrayFieldVector<Fraction> v4 = new ArrayFieldVector<Fraction>(FractionField.getInstance(), vec4, 3, 2);
         Assert.assertEquals(2, v4.getDimension());
         Assert.assertEquals(new Fraction(4), v4.getEntry(0));
         try {

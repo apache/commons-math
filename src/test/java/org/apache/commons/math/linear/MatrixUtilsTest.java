@@ -93,7 +93,7 @@ public final class MatrixUtilsTest {
     public void testcreateFieldMatrix() {
         Assert.assertEquals(new Array2DRowFieldMatrix<Fraction>(asFraction(testData)),
                      MatrixUtils.createFieldMatrix(asFraction(testData)));
-        Assert.assertEquals(new Array2DRowFieldMatrix<Fraction>(fractionColMatrix),
+        Assert.assertEquals(new Array2DRowFieldMatrix<Fraction>(FractionField.getInstance(), fractionColMatrix),
                      MatrixUtils.createFieldMatrix(fractionColMatrix));
         try {
             MatrixUtils.createFieldMatrix(asFraction(new double[][] {{1}, {1,2}}));  // ragged
