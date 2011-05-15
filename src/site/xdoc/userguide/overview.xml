@@ -83,7 +83,7 @@
       <li><a href="distribution.html">org.apache.commons.math.distribution</a> - probability distributions</li>
       <li><a href="fraction.html">org.apache.commons.math.fraction</a> - rational numbers</li>
       <li><a href="transform.html">org.apache.commons.math.transform</a> - transform methods (Fast Fourier)</li>
-      <li><a href="geometry.html">org.apache.commons.math.geometry</a> - 3D geometry (vectors and rotations)</li>
+      <li><a href="geometry.html">org.apache.commons.math.geometry</a> - geometry (Euclidean spaces and Binary Space Partitioning)</li>
       <li><a href="optimization.html">org.apache.commons.math.optimization</a> - function maximization or minimization</li>
       <li><a href="ode.html">org.apache.commons.math.ode</a> - Ordinary Differential Equations integration</li>
       <li><a href="genetics.html">org.apache.commons.math.genetics</a> - Genetic Algorithms</li>

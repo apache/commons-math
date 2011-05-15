@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry;
+package org.apache.commons.math.geometry.euclidean.threeD;
 
 /**
  * This class is a utility representing a rotation order specification

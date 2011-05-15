@@ -14,35 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.commons.math.geometry.partitioning;
 
-package org.apache.commons.math.geometry;
-
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.util.Localizable;
-
-/**
- * This class represents exceptions thrown while building rotations
- * from matrices.
- *
+/** This interface represents a generic point to be used in a space partition.
+ * <p>Points are completely virtual entities with no specification at
+ * all, so this class is essentially a marker interface with no
+ * methods. This allows to perform partition in traditional euclidean
+ * n-dimensions spaces, but also in more exotic universes like for
+ * example the surface of the unit sphere.</p>
  * @version $Revision$ $Date$
- * @since 1.2
  */
-
-public class NotARotationMatrixException
-  extends MathException {
-
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 5647178478658937642L;
-
-    /**
-     * Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
-     * @since 2.2
-     */
-    public NotARotationMatrixException(Localizable specifier, Object ... parts) {
-        super(specifier, parts);
-    }
-
+public interface Point {
+    // nothing here, this is only a marker interface
 }

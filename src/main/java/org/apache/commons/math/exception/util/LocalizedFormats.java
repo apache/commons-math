@@ -77,6 +77,7 @@ public enum LocalizedFormats implements Localizable {
     CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR("contraction criteria ({0}) smaller than the expansion factor ({1}).  This would lead to a never ending loop of expansion and contraction as a newly expanded internal storage array would immediately satisfy the criteria for contraction."),
     CONTRACTION_CRITERIA_SMALLER_THAN_ONE("contraction criteria smaller than one ({0}).  This would lead to a never ending loop of expansion and contraction as an internal storage array length equal to the number of elements would satisfy the contraction criteria."),
     CONVERGENCE_FAILED("convergence failed"), /* keep */
+    CROSSING_BOUNDARY_LOOPS("some outline boundary loops cross each other"),
     CUMULATIVE_PROBABILITY_RETURNED_NAN("Cumulative probability function returned NaN for argument {0} p = {1}"),
     DIFFERENT_ROWS_LENGTHS("some rows have length {0} while others have length {1}"),
     DIGEST_NOT_INITIALIZED("digest not initialized"),
@@ -163,6 +164,7 @@ public enum LocalizedFormats implements Localizable {
     ROBUSTNESS_ITERATIONS("number of robustness iterations ({0})"),
     START_POSITION("start position ({0})"), /* keep */
     NON_CONVERGENT_CONTINUED_FRACTION("Continued fraction convergents failed to converge (in less than {0} iterations) for value {1}"),
+    NON_INVERTIBLE_TRANSFORM("non-invertible affine transform collapses some lines into single points"),
     NON_POSITIVE_MICROSPHERE_ELEMENTS("number of microsphere elements must be positive, but got {0}"),
     NON_POSITIVE_POLYNOMIAL_DEGREE("polynomial degree must be positive: degree={0}"),
     NON_REAL_FINITE_ABSCISSA("all abscissae must be finite real numbers, but {0}-th is {1}"),
@@ -219,6 +221,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not strictly increasing ({2} >= {3})"),
     NOT_STRICTLY_INCREASING_SEQUENCE("points {3} and {2} are not strictly increasing ({1} >= {0})"), /* keep */
     NOT_SUBTRACTION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not subtraction compatible"),
+    NOT_SUPPORTED_IN_DIMENSION_N("method not supported in dimension {0}"),
     NOT_SYMMETRIC_MATRIX("not symmetric matrix"),
     NON_SYMMETRIC_MATRIX("non symmetric matrix: the difference between entries at ({0},{1}) and ({1},{0}) is larger than {2}"), /* keep */
     NO_BIN_SELECTED("no bin selected"),
@@ -259,6 +262,7 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE("out of range"), /* keep */
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
+    OUTLINE_BOUNDARY_LOOP_OPEN("an outline boundary loop is open"),
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
     OVERFLOW_IN_ADDITION("overflow in addition: {0} + {1}"),
     OVERFLOW_IN_SUBTRACTION("overflow in subtraction: {0} - {1}"),

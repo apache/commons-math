@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry;
+package org.apache.commons.math.geometry.euclidean.threeD;
 
-import org.apache.commons.math.geometry.CardanEulerSingularityException;
-import org.apache.commons.math.geometry.NotARotationMatrixException;
-import org.apache.commons.math.geometry.Rotation;
-import org.apache.commons.math.geometry.RotationOrder;
-import org.apache.commons.math.geometry.Vector3D;
+import org.apache.commons.math.geometry.euclidean.threeD.CardanEulerSingularityException;
+import org.apache.commons.math.geometry.euclidean.threeD.NotARotationMatrixException;
+import org.apache.commons.math.geometry.euclidean.threeD.Rotation;
+import org.apache.commons.math.geometry.euclidean.threeD.RotationOrder;
+import org.apache.commons.math.geometry.euclidean.threeD.Vector3D;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 import org.junit.Assert;

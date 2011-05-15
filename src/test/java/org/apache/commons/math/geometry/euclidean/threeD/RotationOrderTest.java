@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry;
+package org.apache.commons.math.geometry.euclidean.threeD;
 
 import java.lang.reflect.Field;
 
-import org.apache.commons.math.geometry.RotationOrder;
+import org.apache.commons.math.geometry.euclidean.threeD.RotationOrder;
 import org.junit.Assert;
 import org.junit.Test;
 

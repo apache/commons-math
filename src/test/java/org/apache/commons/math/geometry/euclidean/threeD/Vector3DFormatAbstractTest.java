@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry;
+package org.apache.commons.math.geometry.euclidean.threeD;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.apache.commons.math.geometry.euclidean.threeD.Vector3D;
+import org.apache.commons.math.geometry.euclidean.threeD.Vector3DFormat;
 import org.junit.Test;
 import org.junit.Assert;
 

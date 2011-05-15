@@ -15,31 +15,34 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry;
+package org.apache.commons.math.geometry.euclidean.threeD;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.Localizable;
 
-/** This class represents exceptions thrown while extractiong Cardan
- * or Euler angles from a rotation.
-
+/**
+ * This class represents exceptions thrown while building rotations
+ * from matrices.
+ *
  * @version $Revision$ $Date$
  * @since 1.2
  */
-public class CardanEulerSingularityException
+
+public class NotARotationMatrixException
   extends MathException {
 
     /** Serializable version identifier */
-    private static final long serialVersionUID = -1360952845582206770L;
+    private static final long serialVersionUID = 5647178478658937642L;
 
     /**
      * Simple constructor.
-     * build an exception with a default message.
-     * @param isCardan if true, the rotation is related to Cardan angles,
-     * if false it is related to EulerAngles
+     * Build an exception by translating and formating a message
+     * @param specifier format specifier (to be translated)
+     * @param parts to insert in the format (no translation)
+     * @since 2.2
      */
-    public CardanEulerSingularityException(boolean isCardan) {
-        super(isCardan ? LocalizedFormats.CARDAN_ANGLES_SINGULARITY : LocalizedFormats.EULER_ANGLES_SINGULARITY);
+    public NotARotationMatrixException(Localizable specifier, Object ... parts) {
+        super(specifier, parts);
     }
 
 }

@@ -30,12 +30,41 @@
       <subsection name="11.1 Overview" href="overview">
         <p>
            The geometry package provides classes useful for many physical simulations
-           in the real 3D space, namely vectors and rotations.
+           in Euclidean spaces, like vectors and rotations in 3D, as well as a general
+           implentation of Binary Space Partitioning Trees (BSP trees).
         </p>
       </subsection>
-      <subsection name="11.2 Vectors" href="vectors">
+      <subsection name="11.2 Euclidean spaces" href="euclidean">
+      <p>
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oneD/Interval.html">
+          Interval</a> and <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oneD/IntervalsSet.html">
+          IntervalsSet</a> represent one dimensional regions. All classical set operations are available
+          for intervals sets: union, intersection, symmetric difference (exclusive or), difference, complement,
+          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
+          It is also possible to compute geometrical properties like size, barycenter or boundary size.
+          Intervals sets can be built by constructive geometry (union, intersection ...) or from a boundary
+          representation.
+      </p>
+      <p>
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/twoD/PolygonsSet.html">
+          PolygonsSet</a> represent two dimensional regions. All classical set operations are available
+          for polygons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
+          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
+          It is also possible to compute geometrical properties like size, barycenter or boundary size and
+          to extract the vertices. Polygons sets can be built by constructive geometry (union, intersection ...)
+          or from a boundary representation.
+      </p>
+      <p>
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/PolyhedronsSet.html">
+          PolyhedronsSet</a> represent three dimensional regions. All classical set operations are available
+          for polyhedrons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
+          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
+          It is also possible to compute geometrical properties like size, barycenter or boundary size and
+          to extract the vertices. Polyhedrons sets can be built by constructive geometry (union, intersection ...)
+          or from a boundary representation.
+      </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/Vector3D.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Vector3D.html">
           Vector3D</a> provides a simple vector type. One important feature is
           that instances of this class are guaranteed
           to be immutable, this greatly simplifies modelling dynamical systems
@@ -57,14 +86,12 @@
           is of course also implemented.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/Vector3DFormat.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Vector3DFormat.html">
           Vector3DFormat</a> is a specialized format for formatting output or parsing
           input with text representation of 3D vectors.
         </p>
-      </subsection>
-      <subsection name="11.3 Rotations" href="rotations">
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/Rotation.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Rotation.html">
           Rotation</a> represents 3D rotations.
           Rotation instances are also immutable objects, as Vector3D instances.
         </p>
@@ -136,6 +163,41 @@
           <code>applyInverseTo(Rotation)</code>.
         </p>
       </subsection>
+      <subsection name="11.3 Binary Space Partitioning" href="partitioning">
+	    <p>
+          <a href="../apidocs/org/apache/commons/math/geometry/partitioning/BSPTree.html">
+          BSP trees</a> are an efficient way to represent space partitions and
+          to associate attributes with each cell. Each node in a BSP tree
+          represents a convex region which is partitioned in two convex
+          sub-regions at each side of a cut hyperplane. The root tree
+          contains the complete space.
+        </p>
+
+        <p>
+          The main use of such partitions is to use a boolean attribute to
+          define an inside/outside property, hence representing arbitrary
+          polytopes (line segments in 1D, polygons in 2D and polyhedrons in
+          3D) and to operate on them.
+        </p>
+
+        <p>
+          Another example would be to represent Voronoi tesselations, the
+          attribute of each cell holding the defining point of the cell.
+        </p>
+
+        <p>
+          The application-defined attributes are shared among copied
+          instances and propagated to split parts. These attributes are not
+          used by the BSP-tree algorithms themselves, so the application can
+          use them for any purpose. Since the tree visiting method holds
+          internal and leaf nodes differently, it is possible to use
+          different classes for internal nodes attributes and leaf nodes
+          attributes. This should be used with care, though, because if the
+          tree is modified in any way after attributes have been set, some
+          internal nodes may become leaf nodes and some leaf nodes may become
+          internal nodes.
+        </p>
+       </subsection>
      </section>
   </body>
 </document>

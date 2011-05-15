@@ -52,6 +52,16 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-576">
+        A complete generic implementation of Binary Space Partitioning Trees (BSP trees)
+        has been added. A few specializations of this implementation are also provided
+        for 1D, 2D and 3D Euclidean geometry. This allows support for arbitrary
+        intervals sets (1D), polygons sets (2D) and polyhedrons sets (3D) with all
+        sets operations (union, intersection, symmetric difference, difference, complement),
+        with predicates (point inside/outside/on boundary, emptiness, other region contained),
+        with geometrical computation (barycenter, size, boundary size) and with conversions
+        from and to boundary representation.
+      </action>
       <action dev="luc" type="fix" issue="MATH-573">
         Avoid some array copying in add and subtract ArrayFieldVector.
       </action>
