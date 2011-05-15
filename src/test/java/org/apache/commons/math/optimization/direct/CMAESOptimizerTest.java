@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.Retry;
+import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MultiDimensionMismatchException;
@@ -32,10 +34,12 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.random.MersenneTwister;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test for {@link CMAESOptimizer}.
  */
+@RunWith(RetryRunner.class)
 public class CMAESOptimizerTest {
 
     static final int DIM = 13;
@@ -130,6 +134,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
+    @Retry(3)
     public void testMaximize() throws MathException {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
