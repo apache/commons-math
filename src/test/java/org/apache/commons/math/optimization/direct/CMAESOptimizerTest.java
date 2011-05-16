@@ -110,7 +110,7 @@ public class CMAESOptimizerTest {
     public void testInputSigmaDimensionMismatch() throws MathUserException, MathException {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM+1,-0.5);
-        double[][] boundaries = null;;
+        double[][] boundaries = null;
         RealPointValuePair expected =
             new RealPointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
@@ -119,6 +119,7 @@ public class CMAESOptimizerTest {
     }
     
     @Test
+    @Retry(3)
     public void testRosen() throws MathException {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
