@@ -19,11 +19,9 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.Retry;
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MultiDimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotPositiveException;
@@ -46,7 +44,7 @@ public class CMAESOptimizerTest {
     static final int LAMBDA = 4 + (int)(3.*Math.log(DIM));
    
     @Test(expected = OutOfRangeException.class)
-    public void testInitOutofbounds() throws MathUserException, MathException {
+    public void testInitOutofbounds() {
         double[] startPoint = point(DIM,3);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM,-1,2);
@@ -58,7 +56,7 @@ public class CMAESOptimizerTest {
     }
     
     @Test(expected = MultiDimensionMismatchException.class)
-    public void testBoundariesDimensionMismatch() throws MathUserException, MathException {
+    public void testBoundariesDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM+1,-1,2);
@@ -70,7 +68,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test(expected = NoDataException.class)
-    public void testBoundariesNoData() throws MathUserException, MathException {
+    public void testBoundariesNoData() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM,-1,2);
@@ -83,7 +81,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test(expected = NotPositiveException.class)
-    public void testInputSigmaNegative() throws MathUserException, MathException {
+    public void testInputSigmaNegative() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM,-0.5);
         double[][] boundaries = null;
@@ -95,7 +93,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void testInputSigmaOutOfRange() throws MathUserException, MathException {
+    public void testInputSigmaOutOfRange() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM, 1.1);
         double[][] boundaries = boundaries(DIM,-1,2);
@@ -107,7 +105,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test(expected = MultiDimensionMismatchException.class)
-    public void testInputSigmaDimensionMismatch() throws MathUserException, MathException {
+    public void testInputSigmaDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM+1,-0.5);
         double[][] boundaries = null;
@@ -120,7 +118,7 @@ public class CMAESOptimizerTest {
     
     @Test
     @Retry(3)
-    public void testRosen() throws MathException {
+    public void testRosen() {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -136,7 +134,7 @@ public class CMAESOptimizerTest {
 
     @Test
     @Retry(3)
-    public void testMaximize() throws MathException {
+    public void testMaximize() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -156,7 +154,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testEllipse() throws MathException {
+    public void testEllipse() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -171,7 +169,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testElliRotated() throws MathException {
+    public void testElliRotated() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -186,7 +184,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testCigar() throws MathException {
+    public void testCigar() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -201,7 +199,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testTwoAxes() throws MathException {
+    public void testTwoAxes() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -216,7 +214,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testCigTab() throws MathException {
+    public void testCigTab() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.3);
         double[][] boundaries = null;
@@ -231,7 +229,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testSphere() throws MathException {
+    public void testSphere() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -246,7 +244,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testTablet() throws MathException {
+    public void testTablet() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -261,7 +259,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testDiffPow() throws MathException {
+    public void testDiffPow() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -276,7 +274,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testSsDiffPow() throws MathException {
+    public void testSsDiffPow() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -291,7 +289,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testAckley() throws MathException {
+    public void testAckley() {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,1.0);
         double[][] boundaries = null;
@@ -306,7 +304,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testRastrigin() throws MathException {
+    public void testRastrigin() {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -321,7 +319,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testConstrainedRosen() throws MathException {
+    public void testConstrainedRosen() {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = boundaries(DIM,-1,2);
@@ -336,7 +334,7 @@ public class CMAESOptimizerTest {
     }
 
     @Test
-    public void testDiagonalRosen() throws MathException {
+    public void testDiagonalRosen() {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
@@ -374,8 +372,7 @@ public class CMAESOptimizerTest {
             double fTol,
             double pointTol,
             int maxEvaluations,
-            RealPointValuePair expected)
-    throws MathException {
+            RealPointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
         MultivariateRealOptimizer optim =
