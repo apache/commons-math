@@ -631,14 +631,14 @@ public class OpenMapRealVector extends AbstractRealVector
      /** {@inheritDoc} */
     @Override
     public RealMatrix outerProduct(double[] v) {
-        checkVectorDimensions(v.length);
-        RealMatrix res = new OpenMapRealMatrix(virtualSize, virtualSize);
+        final int n = v.length;
+        RealMatrix res = new OpenMapRealMatrix(virtualSize, n);
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
             int row = iter.key();
             double value = iter.value();
-            for (int col = 0; col < virtualSize; col++) {
+            for (int col = 0; col < n; col++) {
                 res.setEntry(row, col, value * v[col]);
             }
         }
