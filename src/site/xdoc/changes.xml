@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-574">
+        Allow outer product of vectors of different sizes.
+      </action>
       <action dev="luc" type="add" issue="MATH-576">
         A complete generic implementation of Binary Space Partitioning Trees (BSP trees)
         has been added. A few specializations of this implementation are also provided

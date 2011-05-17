@@ -480,18 +480,14 @@ public interface RealVector {
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
-     * @return the square matrix outer product between instance and v
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
+     * @return the matrix outer product between instance and v
      */
     RealMatrix outerProduct(RealVector v);
 
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
-     * @return the square matrix outer product between instance and v
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
+     * @return the matrix outer product between instance and v
      */
     RealMatrix outerProduct(double[] v);
 

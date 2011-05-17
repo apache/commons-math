@@ -241,20 +241,16 @@ public interface FieldVector<T extends FieldElement<T>>  {
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
-     * @return the square matrix outer product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @return the matrix outer product between instance and v
      */
-    FieldMatrix<T> outerProduct(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldMatrix<T> outerProduct(FieldVector<T> v);
 
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
-     * @return the square matrix outer product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @return the matrix outer product between instance and v
      */
-    FieldMatrix<T> outerProduct(T[] v)
-        throws IllegalArgumentException;
+    FieldMatrix<T> outerProduct(T[] v);
 
     /**
      * Returns the entry in the specified index.
