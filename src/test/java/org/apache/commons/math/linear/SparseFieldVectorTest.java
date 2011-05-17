@@ -170,6 +170,28 @@ public class SparseFieldVectorTest {
 
     }
 
+    @Test
+    public void testOuterProduct() {
+        final SparseFieldVector<Fraction> u
+            = new SparseFieldVector<Fraction>(FractionField.getInstance(),
+                                              new Fraction[] {new Fraction(1),
+                                                              new Fraction(2),
+                                                              new Fraction(-3)});
+        final SparseFieldVector<Fraction> v
+            = new SparseFieldVector<Fraction>(FractionField.getInstance(),
+                                              new Fraction[] {new Fraction(4),
+                                                              new Fraction(-2)});
+
+        final FieldMatrix<Fraction> uv = u.outerProduct(v);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(new Fraction(4).doubleValue(), uv.getEntry(0, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-2).doubleValue(), uv.getEntry(0, 1).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(8).doubleValue(), uv.getEntry(1, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-4).doubleValue(), uv.getEntry(1, 1).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(-12).doubleValue(), uv.getEntry(2, 0).doubleValue(), tol);
+        Assert.assertEquals(new Fraction(6).doubleValue(), uv.getEntry(2, 1).doubleValue(), tol);
+    }
 
     @Test
     public void testMisc() {

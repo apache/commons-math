@@ -409,8 +409,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * if the dimensions do not match.
      */
     public FieldMatrix<T> outerProduct(SparseFieldVector<T> v) {
-        checkVectorDimensions(v.getDimension());
-        SparseFieldMatrix<T> res = new SparseFieldMatrix<T>(field, virtualSize, virtualSize);
+        final int n = v.getDimension();
+        SparseFieldMatrix<T> res = new SparseFieldMatrix<T>(field, virtualSize, n);
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -425,14 +425,14 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldMatrix<T> outerProduct(T[] v) {
-        checkVectorDimensions(v.length);
-        FieldMatrix<T> res = new SparseFieldMatrix<T>(field, virtualSize, virtualSize);
+        final int n = v.length;
+        FieldMatrix<T> res = new SparseFieldMatrix<T>(field, virtualSize, n);
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
             int row = iter.key();
             FieldElement<T>value = iter.value();
-            for (int col = 0; col < virtualSize; col++) {
+            for (int col = 0; col < n; col++) {
                 res.setEntry(row, col, value.multiply(v[col]));
             }
         }
