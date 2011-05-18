@@ -17,7 +17,30 @@
 package org.apache.commons.math.util;
 
 /**
- * Faster, more accurate, portable alternative to {@link StrictMath}.
+ * Faster, more accurate, portable alternative to {@link StrictMath}
+ * for large scale computation.
+ * <p>
+ * FastMath speed is achieved by relying heavily on optimizing compilers
+ * to native code present in many JVM todays and use of large tables that
+ * are computed once at class loading (regardless of the number of subsequent
+ * calls to computation methods). This implies that FastMath is targeted
+ * more towards large scale computation (i.e. computation that take at least
+ * a handful of seconds to complete) on desktop or server machines rather
+ * than very small utilities on devices with limited power (i.e. computation
+ * that should return a result almost instantly). Note that FastMath is
+ * extensively used inside Apache Commons Math, so by calling some algorithms,
+ * the one-shot overhead will occur regardless of the end-user calling FastMath
+ * methods directly or not.
+ * <p>
+ * <p>
+ * FastMath accuracy should be mostly independent of the JVM as it relies only
+ * on IEEE-754 basic operations and on embedded tables. Almost all operations
+ * are accurate to about 0.5 ulp throughout the domain range. This statement,
+ * of course is only a rough global observed behavior, it is <em>not</em> a
+ * guarantee for <em>every</em> double numbers input (see William Kahan's <a
+ * href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">Table
+ * Maker's Dilemma</a>).
+ * </p>
  * <p>
  * Additionally implements the following methods not found in StrictMath:
  * <ul>
