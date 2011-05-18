@@ -31,9 +31,9 @@ package org.apache.commons.math.util;
  * extensively used inside Apache Commons Math, so by calling some algorithms,
  * the one-shot overhead will occur regardless of the end-user calling FastMath
  * methods directly or not. Performance figures for a specific JVM and hardware
- * can be evaluated by running the FastMathTestPerformance tests in the tests
+ * can be evaluated by running the FastMathTestPerformance tests in the test
  * directory of the source distribution.
- * <p>
+ * </p>
  * <p>
  * FastMath accuracy should be mostly independent of the JVM as it relies only
  * on IEEE-754 basic operations and on embedded tables. Almost all operations
