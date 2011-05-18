@@ -17,8 +17,8 @@
 package org.apache.commons.math.util;
 
 /**
- * Faster, more accurate, portable alternative to {@link StrictMath}
- * for large scale computation.
+ * Faster, more accurate, portable alternative to {@link Math} and
+ * {@link StrictMath} for large scale computation.
  * <p>
  * FastMath speed is achieved by relying heavily on optimizing compilers
  * to native code present in many JVM todays and use of large tables that
@@ -30,7 +30,9 @@ package org.apache.commons.math.util;
  * that should return a result almost instantly). Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
  * the one-shot overhead will occur regardless of the end-user calling FastMath
- * methods directly or not.
+ * methods directly or not. Performance figures for a specific JVM and hardware
+ * can be evaluated by running the FastMathTestPerformance tests in the tests
+ * directory of the source distribution.
  * <p>
  * <p>
  * FastMath accuracy should be mostly independent of the JVM as it relies only
