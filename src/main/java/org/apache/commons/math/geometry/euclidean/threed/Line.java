@@ -76,6 +76,13 @@ public class Line implements SubSpace {
         return direction;
     }
 
+    /** Get the line point closest to the origin.
+     * @return line point closest to the origin
+     */
+    public Vector3D getOrigin() {
+        return zero;
+    }
+
     /** Get the abscissa of a point with respect to the line.
      * <p>The abscissa is 0 if the projection of the point and the
      * projection of the frame origin on the line are the same
