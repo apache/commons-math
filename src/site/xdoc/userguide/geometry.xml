@@ -36,8 +36,8 @@
       </subsection>
       <subsection name="11.2 Euclidean spaces" href="euclidean">
       <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oneD/Interval.html">
-          Interval</a> and <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oneD/IntervalsSet.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oned/Interval.html">
+          Interval</a> and <a href="../apidocs/org/apache/commons/math/geometry/euclidean/oned/IntervalsSet.html">
           IntervalsSet</a> represent one dimensional regions. All classical set operations are available
           for intervals sets: union, intersection, symmetric difference (exclusive or), difference, complement,
           as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
@@ -46,7 +46,7 @@
           representation.
       </p>
       <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/twoD/PolygonsSet.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/twod/PolygonsSet.html">
           PolygonsSet</a> represent two dimensional regions. All classical set operations are available
           for polygons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
           as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
@@ -55,7 +55,7 @@
           or from a boundary representation.
       </p>
       <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/PolyhedronsSet.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threed/PolyhedronsSet.html">
           PolyhedronsSet</a> represent three dimensional regions. All classical set operations are available
           for polyhedrons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
           as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
@@ -64,7 +64,7 @@
           or from a boundary representation.
       </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Vector3D.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threed/Vector3D.html">
           Vector3D</a> provides a simple vector type. One important feature is
           that instances of this class are guaranteed
           to be immutable, this greatly simplifies modelling dynamical systems
@@ -86,12 +86,12 @@
           is of course also implemented.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Vector3DFormat.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threed/Vector3DFormat.html">
           Vector3DFormat</a> is a specialized format for formatting output or parsing
           input with text representation of 3D vectors.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threeD/Rotation.html">
+          <a href="../apidocs/org/apache/commons/math/geometry/euclidean/threed/Rotation.html">
           Rotation</a> represents 3D rotations.
           Rotation instances are also immutable objects, as Vector3D instances.
         </p>
