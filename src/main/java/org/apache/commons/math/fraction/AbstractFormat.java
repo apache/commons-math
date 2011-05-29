@@ -73,8 +73,8 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
 
     /**
      * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of BigFraction digits, which is set to 0.
+     * {@link NumberFormat#getNumberInstance(java.util.Locale)}. The only
+     * customization is the maximum number of BigFraction digits, which is set to 0.
      * @return the default number format.
      */
     protected static NumberFormat getDefaultNumberFormat() {
@@ -83,8 +83,8 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
 
     /**
      * Create a default number format.  The default number format is based on
-     * {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only
-     * customizing is the maximum number of BigFraction digits, which is set to 0.
+     * {@link NumberFormat#getNumberInstance(java.util.Locale)}. The only
+     * customization is the maximum number of BigFraction digits, which is set to 0.
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
@@ -138,7 +138,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Parses <code>source</code> until a non-whitespace character is found.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.  On output, <code>pos</code>
+     * @param pos input/output parsing parameter.  On output, <code>pos</code>
      *        holds the index of the next non-whitespace character.
      */
     protected static void parseAndIgnoreWhitespace(final String source,
@@ -150,7 +150,7 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     /**
      * Parses <code>source</code> until a non-whitespace character is found.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the first non-whitespace character.
      */
     protected static char parseNextCharacter(final String source,

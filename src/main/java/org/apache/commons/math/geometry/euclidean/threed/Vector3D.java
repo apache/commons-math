@@ -205,14 +205,14 @@ public class Vector3D implements Serializable {
   }
 
   /** Get the L<sub>2</sub> norm for the vector.
-   * @return euclidian norm for the vector
+   * @return euclidean norm for the vector
    */
   public double getNorm() {
     return FastMath.sqrt (x * x + y * y + z * z);
   }
 
   /** Get the square of the norm for the vector.
-   * @return square of the euclidian norm for the vector
+   * @return square of the euclidean norm for the vector
    */
   public double getNormSq() {
     return x * x + y * y + z * z;

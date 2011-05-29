@@ -110,8 +110,9 @@ public class BigFraction
      * {@code BigInteger}. The {@link BigFraction} is reduced to lowest terms.
      *
      * @param num the numerator, must not be {@code null}.
-     * @param den the denominator, must not be {@code null}..
+     * @param den the denominator, must not be {@code null}.
      * @throws ArithmeticException if the denominator is zero.
+     * @throws NullArgumentException if either of the arguments is null
      */
     public BigFraction(BigInteger num, BigInteger den) {
         if (num == null) {
@@ -152,16 +153,16 @@ public class BigFraction
      * Create a fraction given the double value.
      * <p>
      * This constructor behaves <em>differently</em> from
-     * {@link #BigFraction(double, double, int)}. It converts the
-     * double value exactly, considering its internal bits representation.
-     * This does work for all values except NaN and infinities and does
-     * not requires any loop or convergence threshold.
+     * {@link #BigFraction(double, double, int)}. It converts the double value
+     * exactly, considering its internal bits representation. This works for all
+     * values except NaN and infinities and does not requires any loop or
+     * convergence threshold.
      * </p>
      * <p>
      * Since this conversion is exact and since double numbers are sometimes
-     * approximated, the fraction created may seem strange in some cases. For example
+     * approximated, the fraction created may seem strange in some cases. For example,
      * calling <code>new BigFraction(1.0 / 3.0)</code> does <em>not</em> create
-     * the fraction 1/3 but the fraction 6004799503160661 / 18014398509481984
+     * the fraction 1/3, but the fraction 6004799503160661 / 18014398509481984
      * because the double number passed to the constructor is not exactly 1/3
      * (this number cannot be stored exactly in IEEE754).
      * </p>
@@ -929,12 +930,12 @@ public class BigFraction
 
     /**
      * <p>
-     * Returns a <tt>integer</tt> whose value is
-     * <tt>(this<sup>exponent</sup>)</tt>, returning the result in reduced form.
+     * Returns a {@code BigFraction} whose value is
+     * {@code (this<sup>exponent</sup>)}, returning the result in reduced form.
      * </p>
      *
      * @param exponent
-     *            exponent to which this <code>BigInteger</code> is to be
+     *            exponent to which this {@code BigFraction} is to be
      *            raised.
      * @return <tt>this<sup>exponent</sup></tt>.
      */
@@ -1025,8 +1026,8 @@ public class BigFraction
 
     /**
      * <p>
-     * Subtracts the value of an {@link BigInteger} from the value of this one,
-     * returning the result in reduced form.
+     * Subtracts the value of an {@link BigInteger} from the value of this
+     * {@code BigFraction}, returning the result in reduced form.
      * </p>
      *
      * @param bg the {@link BigInteger} to subtract, cannot be {@code null}.
@@ -1042,13 +1043,12 @@ public class BigFraction
 
     /**
      * <p>
-     * Subtracts the value of an <tt>integer</tt> from the value of this one,
-     * returning the result in reduced form.
+     * Subtracts the value of an {@code integer} from the value of this
+     * {@code BigFraction}, returning the result in reduced form.
      * </p>
      *
-     * @param i
-     *            the <tt>integer</tt> to subtract.
-     * @return a <code>BigFraction</code> instance with the resulting values.
+     * @param i the {@code integer} to subtract.
+     * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction subtract(final int i) {
         return subtract(BigInteger.valueOf(i));
@@ -1056,14 +1056,12 @@ public class BigFraction
 
     /**
      * <p>
-     * Subtracts the value of an <tt>integer</tt> from the value of this one,
-     * returning the result in reduced form.
+     * Subtracts the value of a {@code long} from the value of this 
+     * {@code BigFraction}, returning the result in reduced form.
      * </p>
      *
-     * @param l
-     *            the <tt>long</tt> to subtract.
-     * @return a <code>BigFraction</code> instance with the resulting values, or
-     *         this object if the <tt>long</tt> is zero.
+     * @param l the {@code long} to subtract.
+     * @return a {@ code BigFraction} instance with the resulting values.
      */
     public BigFraction subtract(final long l) {
         return subtract(BigInteger.valueOf(l));
