@@ -244,7 +244,7 @@
 
   <properties>
     <commons.componentid>math</commons.componentid>
-    <commons.release.version>2.1</commons.release.version>
+    <commons.release.version>2.2</commons.release.version>
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>

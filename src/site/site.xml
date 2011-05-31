@@ -28,6 +28,8 @@
       <item name="Proposal" href="/proposal.html"/>
       <item name="Developers Guide" href="/developers.html"/>
       <item name="Javadoc (3.0-SNAPSHOT)" href="apidocs/index.html"/>
+      <item name="Javadoc (2.2 release)"
+         href="http://commons.apache.org/math/api-2.2/index.html"/>
       <item name="Javadoc (2.1 release)"
          href="http://commons.apache.org/math/api-2.1/index.html"/>
       <item name="Javadoc (2.0 release)"
