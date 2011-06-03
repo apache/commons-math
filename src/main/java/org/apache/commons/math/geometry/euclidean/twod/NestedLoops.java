@@ -17,44 +17,43 @@
 package org.apache.commons.math.geometry.euclidean.twod;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.geometry.euclidean.oned.OrientedPoint;
-import org.apache.commons.math.geometry.euclidean.oned.Point1D;
-import org.apache.commons.math.geometry.partitioning.Hyperplane;
+import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math.geometry.partitioning.Region;
+import org.apache.commons.math.geometry.partitioning.RegionFactory;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 
 /** This class represent a tree of nested 2D boundary loops.
 
- * <p>This class is used during Piece instances construction.
- * Beams are built using the outline edges as
- * representative of facets, the orientation of these facets are
+ * <p>This class is used for piecewise polygons construction.
+ * Polygons are built using the outline edges as
+ * representative of boundaries, the orientation of these lines are
  * meaningful. However, we want to allow the user to specify its
  * outline loops without having to take care of this orientation. This
  * class is devoted to correct mis-oriented loops.<p>
 
- * <p>Orientation is computed assuming the piece is finite, i.e. the
- * outermost loops have their exterior side facing points at infinity,
- * and hence are oriented counter-clockwise. The orientation of
+ * <p>Orientation is computed assuming the piecewise polygon is finite,
+ * i.e. the outermost loops have their exterior side facing points at
+ * infinity, and hence are oriented counter-clockwise. The orientation of
  * internal loops is computed as the reverse of the orientation of
  * their immediate surrounding loop.</p>
 
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
 class NestedLoops {
 
     /** Boundary loop. */
-    private Point2D[] loop;
+    private Vector2D[] loop;
 
     /** Surrounded loops. */
     private ArrayList<NestedLoops> surrounded;
 
     /** Polygon enclosing a finite region. */
-    private Region polygon;
+    private Region<Euclidean2D> polygon;
 
     /** Indicator for original loop orientation. */
     private boolean originalIsClockwise;
@@ -74,7 +73,7 @@ class NestedLoops {
      * @param loop boundary loop (will be reversed in place if needed)
      * @exception MathIllegalArgumentException if an outline has an open boundary loop
      */
-    private NestedLoops(final Point2D[] loop) throws MathIllegalArgumentException {
+    private NestedLoops(final Vector2D[] loop) throws MathIllegalArgumentException {
 
         if (loop[0] == null) {
             throw new MathIllegalArgumentException(LocalizedFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
@@ -84,23 +83,21 @@ class NestedLoops {
         surrounded = new ArrayList<NestedLoops>();
 
         // build the polygon defined by the loop
-        final ArrayList<SubHyperplane> edges = new ArrayList<SubHyperplane>();
-        Point2D current = loop[loop.length - 1];
+        final ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
+        Vector2D current = loop[loop.length - 1];
         for (int i = 0; i < loop.length; ++i) {
-            final Point2D previous = current;
+            final Vector2D previous = current;
             current = loop[i];
             final Line   line   = new Line(previous, current);
-            final Region region =  Region.buildConvex(Arrays.asList(new Hyperplane[] {
-                new OrientedPoint((Point1D) line.toSubSpace(previous), false),
-                new OrientedPoint((Point1D) line.toSubSpace(current),  true)
-            }));
-            edges.add(new SubHyperplane(line, region));
+            final IntervalsSet region = 
+                new IntervalsSet(line.toSubSpace(previous).getX(), line.toSubSpace(current).getX());
+            edges.add(new SubLine(line, region));
         }
         polygon = new PolygonsSet(edges);
 
         // ensure the polygon encloses a finite region of the plane
         if (Double.isInfinite(polygon.getSize())) {
-            polygon = polygon.getComplement();
+            polygon = new RegionFactory<Euclidean2D>().getComplement(polygon);
             originalIsClockwise = false;
         } else {
             originalIsClockwise = true;
@@ -113,7 +110,7 @@ class NestedLoops {
      * @exception MathIllegalArgumentException if an outline has crossing
      * boundary loops or open boundary loops
      */
-    public void add(final Point2D[] bLoop) throws MathIllegalArgumentException {
+    public void add(final Vector2D[] bLoop) throws MathIllegalArgumentException {
         add(new NestedLoops(bLoop));
     }
 
@@ -142,8 +139,9 @@ class NestedLoops {
         }
 
         // we should be separate from the remaining children
+        RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
         for (final NestedLoops child : surrounded) {
-            if (!Region.intersection(node.polygon, child.polygon).isEmpty()) {
+            if (!factory.intersection(node.polygon, child.polygon).isEmpty()) {
                 throw new MathIllegalArgumentException(LocalizedFormats.CROSSING_BOUNDARY_LOOPS);
             }
         }
@@ -154,7 +152,7 @@ class NestedLoops {
 
     /** Correct the orientation of the loops contained in the tree.
      * <p>This is this method that really inverts the loops that where
-     * provided through the {@link #add(Point2D[]) add} method if
+     * provided through the {@link #add(Vector2D[]) add} method if
      * they are mis-oriented</p>
      */
     public void correctOrientation() {
@@ -174,7 +172,7 @@ class NestedLoops {
             int min = -1;
             int max = loop.length;
             while (++min < --max) {
-                final Point2D tmp = loop[min];
+                final Vector2D tmp = loop[min];
                 loop[min] = loop[max];
                 loop[max] = tmp;
             }

@@ -19,7 +19,8 @@ package org.apache.commons.math.geometry.euclidean.oned;
 
 /** This class represents a 1D interval.
  * @see IntervalsSet
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
 public class Interval {
 

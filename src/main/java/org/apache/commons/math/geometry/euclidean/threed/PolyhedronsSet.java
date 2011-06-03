@@ -17,23 +17,29 @@
 package org.apache.commons.math.geometry.euclidean.threed;
 
 import java.awt.geom.AffineTransform;
-import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.math.geometry.euclidean.twod.Point2D;
+import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math.geometry.euclidean.twod.SubLine;
+import org.apache.commons.math.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
 import org.apache.commons.math.geometry.partitioning.BSPTreeVisitor;
+import org.apache.commons.math.geometry.partitioning.BoundaryAttribute;
 import org.apache.commons.math.geometry.partitioning.Hyperplane;
-import org.apache.commons.math.geometry.partitioning.Point;
 import org.apache.commons.math.geometry.partitioning.Region;
+import org.apache.commons.math.geometry.partitioning.RegionFactory;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.geometry.partitioning.Transform;
+import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.util.FastMath;
 
 /** This class represents a 3D region: a set of polyhedrons.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-public class PolyhedronsSet extends Region {
+public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
     /** Build a polyhedrons set representing the whole real line.
      */
@@ -50,7 +56,7 @@ public class PolyhedronsSet extends Region {
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the region
      */
-    public PolyhedronsSet(final BSPTree tree) {
+    public PolyhedronsSet(final BSPTree<Euclidean3D> tree) {
         super(tree);
     }
 
@@ -61,19 +67,19 @@ public class PolyhedronsSet extends Region {
      * its plus side.</p>
      * <p>The boundary elements can be in any order, and can form
      * several non-connected sets (like for example polyhedrons with holes
-     * or a set of disjoints polyhedrons considered as a whole). In
+     * or a set of disjoint polyhedrons considered as a whole). In
      * fact, the elements do not even need to be connected together
      * (their topological connections are not used here). However, if the
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
-     * calls to the {@link Region#checkPoint(Point) checkPoint} method will
+     * calls to the {@link Region#checkPoint(Vector) checkPoint} method will
      * not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
      * @param boundary collection of boundary elements, as a
      * collection of {@link SubHyperplane SubHyperplane} objects
      */
-    public PolyhedronsSet(final Collection<SubHyperplane> boundary) {
+    public PolyhedronsSet(final Collection<SubHyperplane<Euclidean3D>> boundary) {
         super(boundary);
     }
 
@@ -85,21 +91,21 @@ public class PolyhedronsSet extends Region {
      * @param zMin low bound along the z direction
      * @param zMax high bound along the z direction
      */
+    @SuppressWarnings("unchecked")
     public PolyhedronsSet(final double xMin, final double xMax,
                           final double yMin, final double yMax,
                           final double zMin, final double zMax) {
-        this(buildConvex(Arrays.asList(new Hyperplane[] {
+        this(new RegionFactory<Euclidean3D>().buildConvex(
             new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I),
             new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I),
             new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J),
             new Plane(new Vector3D(0,    yMax, 0),   Vector3D.PLUS_J),
             new Plane(new Vector3D(0,    0,   zMin), Vector3D.MINUS_K),
-            new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K)
-        })).getTree(false));
+            new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K)).getTree(false));
     }
 
     /** {@inheritDoc} */
-    public Region buildNew(final BSPTree tree) {
+    public PolyhedronsSet buildNew(final BSPTree<Euclidean3D> tree) {
         return new PolyhedronsSet(tree);
     }
 
@@ -113,32 +119,34 @@ public class PolyhedronsSet extends Region {
             // the polyhedrons set as a finite outside
             // surrounded by an infinite inside
             setSize(Double.POSITIVE_INFINITY);
-            setBarycenter(Point3D.UNDEFINED);
+            setBarycenter(Vector3D.NaN);
         } else {
             // the polyhedrons set is finite, apply the remaining scaling factors
             setSize(getSize() / 3.0);
-            setBarycenter(new Point3D(1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
+            setBarycenter(new Vector3D(1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
         }
 
     }
 
     /** Visitor computing geometrical properties. */
-    private class FacetsContributionVisitor implements BSPTreeVisitor {
+    private class FacetsContributionVisitor implements BSPTreeVisitor<Euclidean3D> {
 
         /** Simple constructor. */
         public FacetsContributionVisitor() {
             setSize(0);
-            setBarycenter(new Point3D(0, 0, 0));
+            setBarycenter(new Vector3D(0, 0, 0));
         }
 
         /** {@inheritDoc} */
-        public Order visitOrder(final BSPTree node) {
+        public Order visitOrder(final BSPTree<Euclidean3D> node) {
             return Order.MINUS_SUB_PLUS;
         }
 
         /** {@inheritDoc} */
-        public void visitInternalNode(final BSPTree node) {
-            final BoundaryAttribute attribute = (BoundaryAttribute) node.getAttribute();
+        public void visitInternalNode(final BSPTree<Euclidean3D> node) {
+            @SuppressWarnings("unchecked")
+            final BoundaryAttribute<Euclidean3D> attribute =
+                (BoundaryAttribute<Euclidean3D>) node.getAttribute();
             if (attribute.getPlusOutside() != null) {
                 addContribution(attribute.getPlusOutside(), false);
             }
@@ -148,32 +156,32 @@ public class PolyhedronsSet extends Region {
         }
 
         /** {@inheritDoc} */
-        public void visitLeafNode(final BSPTree node) {
+        public void visitLeafNode(final BSPTree<Euclidean3D> node) {
         }
 
         /** Add he contribution of a boundary facet.
          * @param facet boundary facet
          * @param reversed if true, the facet has the inside on its plus side
          */
-        private void addContribution(final SubHyperplane facet, final boolean reversed) {
+        private void addContribution(final SubHyperplane<Euclidean3D> facet, final boolean reversed) {
 
-            final Region polygon = facet.getRemainingRegion();
+            final Region<Euclidean2D> polygon = ((SubPlane) facet).getRemainingRegion();
             final double area    = polygon.getSize();
 
             if (Double.isInfinite(area)) {
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Point3D.UNDEFINED);
+                setBarycenter(Vector3D.NaN);
             } else {
 
                 final Plane    plane  = (Plane) facet.getHyperplane();
-                final Vector3D facetB = (Point3D) plane.toSpace(polygon.getBarycenter());
+                final Vector3D facetB = plane.toSpace(polygon.getBarycenter());
                 double   scaled = area * Vector3D.dotProduct(facetB, plane.getNormal());
                 if (reversed) {
                     scaled = -scaled;
                 }
 
                 setSize(getSize() + scaled);
-                setBarycenter(new Point3D(1.0, (Point3D) getBarycenter(), scaled, facetB));
+                setBarycenter(new Vector3D(1.0, (Vector3D) getBarycenter(), scaled, facetB));
 
             }
 
@@ -188,7 +196,7 @@ public class PolyhedronsSet extends Region {
      * given point, or null if the line does not intersect any
      * sub-hyperplaned
      */
-    public SubHyperplane firstIntersection(final Vector3D point, final Line line) {
+    public SubHyperplane<Euclidean3D> firstIntersection(final Vector3D point, final Line line) {
         return recurseFirstIntersection(getTree(true), point, line);
     }
 
@@ -200,23 +208,23 @@ public class PolyhedronsSet extends Region {
      * given point, or null if the line does not intersect any
      * sub-hyperplaned
      */
-    private SubHyperplane recurseFirstIntersection(final BSPTree node,
-                                                   final Vector3D point,
-                                                   final Line line) {
+    private SubHyperplane<Euclidean3D> recurseFirstIntersection(final BSPTree<Euclidean3D> node,
+                                                                final Vector3D point,
+                                                                final Line line) {
 
-        final SubHyperplane cut = node.getCut();
+        final SubHyperplane<Euclidean3D> cut = node.getCut();
         if (cut == null) {
             return null;
         }
-        final BSPTree minus = node.getMinus();
-        final BSPTree plus  = node.getPlus();
-        final Plane   plane = (Plane) cut.getHyperplane();
+        final BSPTree<Euclidean3D> minus = node.getMinus();
+        final BSPTree<Euclidean3D> plus  = node.getPlus();
+        final Plane               plane = (Plane) cut.getHyperplane();
 
         // establish search order
-        final double offset = plane.getOffset((Point) point);
+        final double offset = plane.getOffset(point);
         final boolean in    = FastMath.abs(offset) < 1.0e-10;
-        final BSPTree near;
-        final BSPTree far;
+        final BSPTree<Euclidean3D> near;
+        final BSPTree<Euclidean3D> far;
         if (offset < 0) {
             near = minus;
             far  = plus;
@@ -227,14 +235,14 @@ public class PolyhedronsSet extends Region {
 
         if (in) {
             // search in the cut hyperplane
-            final SubHyperplane facet = boundaryFacet(point, node);
+            final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
             if (facet != null) {
                 return facet;
             }
         }
 
         // search in the near branch
-        final SubHyperplane crossed = recurseFirstIntersection(near, point, line);
+        final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
         if (crossed != null) {
             return crossed;
         }
@@ -243,7 +251,7 @@ public class PolyhedronsSet extends Region {
             // search in the cut hyperplane
             final Vector3D hit3D = plane.intersection(line);
             if (hit3D != null) {
-                final SubHyperplane facet = boundaryFacet(hit3D, node);
+                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
                 if (facet != null) {
                     return facet;
                 }
@@ -261,15 +269,18 @@ public class PolyhedronsSet extends Region {
      * @return the boundary facet this points belongs to (or null if it
      * does not belong to any boundary facet)
      */
-    private SubHyperplane boundaryFacet(final Vector3D point, final BSPTree node) {
-        final Point point2D = node.getCut().getHyperplane().toSubSpace((Point) point);
-        final BoundaryAttribute attribute = (BoundaryAttribute) node.getAttribute();
+    private SubHyperplane<Euclidean3D> boundaryFacet(final Vector3D point,
+                                                     final BSPTree<Euclidean3D> node) {
+        final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace(point);
+        @SuppressWarnings("unchecked")
+        final BoundaryAttribute<Euclidean3D> attribute =
+            (BoundaryAttribute<Euclidean3D>) node.getAttribute();
         if ((attribute.getPlusOutside() != null) &&
-            (attribute.getPlusOutside().getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+            (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
             return attribute.getPlusOutside();
         }
         if ((attribute.getPlusInside() != null) &&
-            (attribute.getPlusInside().getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+            (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
             return attribute.getPlusInside();
         }
         return null;
@@ -286,7 +297,7 @@ public class PolyhedronsSet extends Region {
     }
 
     /** 3D rotation as a Transform. */
-    private static class RotationTransform implements Transform {
+    private static class RotationTransform implements Transform<Euclidean3D, Euclidean2D> {
 
         /** Center point of the rotation. */
         private Vector3D   center;
@@ -295,10 +306,10 @@ public class PolyhedronsSet extends Region {
         private Rotation   rotation;
 
         /** Cached original hyperplane. */
-        private Hyperplane cachedOriginal;
+        private Plane cachedOriginal;
 
         /** Cached 2D transform valid inside the cached original hyperplane. */
-        private Transform  cachedTransform;
+        private Transform<Euclidean2D, Euclidean1D>  cachedTransform;
 
         /** Build a rotation transform.
          * @param center center point of the rotation
@@ -310,40 +321,41 @@ public class PolyhedronsSet extends Region {
         }
 
         /** {@inheritDoc} */
-        public Point apply(final Point point) {
+        public Vector3D apply(final Vector<Euclidean3D> point) {
             final Vector3D delta = ((Vector3D) point).subtract(center);
-            return new Point3D(1.0, center, 1.0, rotation.applyTo(delta));
+            return new Vector3D(1.0, center, 1.0, rotation.applyTo(delta));
         }
 
         /** {@inheritDoc} */
-        public Hyperplane apply(final Hyperplane hyperplane) {
+        public Plane apply(final Hyperplane<Euclidean3D> hyperplane) {
             return ((Plane) hyperplane).rotate(center, rotation);
         }
 
         /** {@inheritDoc} */
-        public SubHyperplane apply(final SubHyperplane sub,
-                                   final Hyperplane original, final Hyperplane transformed) {
+        public SubHyperplane<Euclidean2D> apply(final SubHyperplane<Euclidean2D> sub,
+                                                final Hyperplane<Euclidean3D> original,
+                                                final Hyperplane<Euclidean3D> transformed) {
             if (original != cachedOriginal) {
                 // we have changed hyperplane, reset the in-hyperplane transform
 
                 final Plane    oPlane = (Plane) original;
                 final Plane    tPlane = (Plane) transformed;
                 final Vector3D p00    = oPlane.getOrigin();
-                final Vector3D p10    = (Vector3D) oPlane.toSpace(new Point2D(1.0, 0.0));
-                final Vector3D p01    = (Vector3D) oPlane.toSpace(new Point2D(0.0, 1.0));
-                final Point2D  tP00   = (Point2D) tPlane.toSubSpace(apply((Point) p00));
-                final Point2D  tP10   = (Point2D) tPlane.toSubSpace(apply((Point) p10));
-                final Point2D  tP01   = (Point2D) tPlane.toSubSpace(apply((Point) p01));
+                final Vector3D p10    = (Vector3D) oPlane.toSpace(new Vector2D(1.0, 0.0));
+                final Vector3D p01    = (Vector3D) oPlane.toSpace(new Vector2D(0.0, 1.0));
+                final Vector2D  tP00   = (Vector2D) tPlane.toSubSpace(apply(p00));
+                final Vector2D  tP10   = (Vector2D) tPlane.toSubSpace(apply(p10));
+                final Vector2D  tP01   = (Vector2D) tPlane.toSubSpace(apply(p01));
                 final AffineTransform at =
                     new AffineTransform(tP10.getX() - tP00.getX(), tP10.getY() - tP00.getY(),
                                         tP01.getX() - tP00.getX(), tP01.getY() - tP00.getY(),
                                         tP00.getX(), tP00.getY());
 
-                cachedOriginal  = original;
+                cachedOriginal  = (Plane) original;
                 cachedTransform = org.apache.commons.math.geometry.euclidean.twod.Line.getTransform(at);
 
             }
-            return sub.applyTransform(cachedTransform);
+            return ((SubLine) sub).applyTransform(cachedTransform);
         }
 
     }
@@ -358,16 +370,16 @@ public class PolyhedronsSet extends Region {
     }
 
     /** 3D translation as a transform. */
-    private static class TranslationTransform implements Transform {
+    private static class TranslationTransform implements Transform<Euclidean3D, Euclidean2D> {
 
         /** Translation vector. */
         private Vector3D   translation;
 
         /** Cached original hyperplane. */
-        private Hyperplane cachedOriginal;
+        private Plane cachedOriginal;
 
         /** Cached 2D transform valid inside the cached original hyperplane. */
-        private Transform  cachedTransform;
+        private Transform<Euclidean2D, Euclidean1D>  cachedTransform;
 
         /** Build a translation transform.
          * @param translation translation vector
@@ -377,34 +389,35 @@ public class PolyhedronsSet extends Region {
         }
 
         /** {@inheritDoc} */
-        public Point apply(final Point point) {
-            return new Point3D(1.0, (Vector3D) point, 1.0, translation);
+        public Vector3D apply(final Vector<Euclidean3D> point) {
+            return new Vector3D(1.0, (Vector3D) point, 1.0, translation);
         }
 
         /** {@inheritDoc} */
-        public Hyperplane apply(final Hyperplane hyperplane) {
+        public Plane apply(final Hyperplane<Euclidean3D> hyperplane) {
             return ((Plane) hyperplane).translate(translation);
         }
 
         /** {@inheritDoc} */
-        public SubHyperplane apply(final SubHyperplane sub,
-                                   final Hyperplane original, final Hyperplane transformed) {
+        public SubHyperplane<Euclidean2D> apply(final SubHyperplane<Euclidean2D> sub,
+                                                final Hyperplane<Euclidean3D> original,
+                                                final Hyperplane<Euclidean3D> transformed) {
             if (original != cachedOriginal) {
                 // we have changed hyperplane, reset the in-hyperplane transform
 
                 final Plane   oPlane = (Plane) original;
                 final Plane   tPlane = (Plane) transformed;
-                final Point2D shift  = (Point2D) tPlane.toSubSpace(apply((Point) oPlane.getOrigin()));
+                final Vector2D shift  = (Vector2D) tPlane.toSubSpace(apply(oPlane.getOrigin()));
                 final AffineTransform at =
                     AffineTransform.getTranslateInstance(shift.getX(), shift.getY());
 
-                cachedOriginal  = original;
+                cachedOriginal  = (Plane) original;
                 cachedTransform =
                     org.apache.commons.math.geometry.euclidean.twod.Line.getTransform(at);
 
             }
 
-            return sub.applyTransform(cachedTransform);
+            return ((SubLine) sub).applyTransform(cachedTransform);
 
         }
 

@@ -19,15 +19,16 @@ package org.apache.commons.math.geometry.euclidean.twod;
 import org.apache.commons.math.geometry.partitioning.utilities.OrderedTuple;
 
 /** This class holds segments information before they are connected.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
 class Segment implements Comparable<Segment> {
 
     /** Start point of the segment. */
-    private final Point2D      start;
+    private final Vector2D      start;
 
     /** End point of the segments. */
-    private final Point2D      end;
+    private final Vector2D      end;
 
     /** Line containing the segment. */
     private final Line         line;
@@ -40,13 +41,13 @@ class Segment implements Comparable<Segment> {
      * @param end end point of the segment
      * @param line line containing the segment
      */
-    public Segment(final Point2D start, final Point2D end, final Line line) {
+    public Segment(final Vector2D start, final Vector2D end, final Line line) {
         this.start  = start;
         this.end    = end;
         this.line   = line;
         sortingKey = (start == null) ?
                      new OrderedTuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY) :
-                     new OrderedTuple(start.x, start.y);
+                     new OrderedTuple(start.getX(), start.getY());
     }
 
     /** Build a dummy segment.
@@ -58,24 +59,24 @@ class Segment implements Comparable<Segment> {
      * @param dx abscissa offset from the start point
      * @param dy ordinate offset from the start point
      */
-    public Segment(final Point2D start, final double dx, final double dy) {
+    public Segment(final Vector2D start, final double dx, final double dy) {
         this.start = null;
         this.end   = null;
         this.line  = null;
-        sortingKey = new OrderedTuple(start.x + dx, start.y + dy);
+        sortingKey = new OrderedTuple(start.getX() + dx, start.getY() + dy);
     }
 
     /** Get the start point of the segment.
      * @return start point of the segment
      */
-    public Point2D getStart() {
+    public Vector2D getStart() {
         return start;
     }
 
     /** Get the end point of the segment.
      * @return end point of the segment
      */
-    public Point2D getEnd() {
+    public Vector2D getEnd() {
         return end;
     }
 

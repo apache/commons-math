@@ -16,20 +16,13 @@
  */
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import java.util.Arrays;
-
-import org.apache.commons.math.geometry.euclidean.threed.Plane;
-import org.apache.commons.math.geometry.euclidean.threed.Point3D;
-import org.apache.commons.math.geometry.euclidean.threed.PolyhedronsSet;
-import org.apache.commons.math.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math.geometry.euclidean.twod.Point2D;
 import org.apache.commons.math.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
 import org.apache.commons.math.geometry.partitioning.BSPTreeVisitor;
-import org.apache.commons.math.geometry.partitioning.Hyperplane;
+import org.apache.commons.math.geometry.partitioning.BoundaryAttribute;
 import org.apache.commons.math.geometry.partitioning.Region;
-import org.apache.commons.math.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math.geometry.partitioning.RegionFactory;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,41 +46,41 @@ public class PolyhedronsSetTest {
                     boolean zOK = (z >= 0.0) && (z <= 1.0);
                     Region.Location expected =
                         (xOK && yOK && zOK) ? Region.Location.INSIDE : Region.Location.OUTSIDE;
-                    Assert.assertEquals(expected, tree.checkPoint(new Point3D(x, y, z)));
+                    Assert.assertEquals(expected, tree.checkPoint(new Vector3D(x, y, z)));
                 }
             }
         }
-        checkPoints(Region.Location.BOUNDARY, tree, new Point3D[] {
-            new Point3D(0.0, 0.5, 0.5),
-            new Point3D(1.0, 0.5, 0.5),
-            new Point3D(0.5, 0.0, 0.5),
-            new Point3D(0.5, 1.0, 0.5),
-            new Point3D(0.5, 0.5, 0.0),
-            new Point3D(0.5, 0.5, 1.0)
+        checkPoints(Region.Location.BOUNDARY, tree, new Vector3D[] {
+            new Vector3D(0.0, 0.5, 0.5),
+            new Vector3D(1.0, 0.5, 0.5),
+            new Vector3D(0.5, 0.0, 0.5),
+            new Vector3D(0.5, 1.0, 0.5),
+            new Vector3D(0.5, 0.5, 0.0),
+            new Vector3D(0.5, 0.5, 1.0)
         });
-        checkPoints(Region.Location.OUTSIDE, tree, new Point3D[] {
-            new Point3D(0.0, 1.2, 1.2),
-            new Point3D(1.0, 1.2, 1.2),
-            new Point3D(1.2, 0.0, 1.2),
-            new Point3D(1.2, 1.0, 1.2),
-            new Point3D(1.2, 1.2, 0.0),
-            new Point3D(1.2, 1.2, 1.0)
+        checkPoints(Region.Location.OUTSIDE, tree, new Vector3D[] {
+            new Vector3D(0.0, 1.2, 1.2),
+            new Vector3D(1.0, 1.2, 1.2),
+            new Vector3D(1.2, 0.0, 1.2),
+            new Vector3D(1.2, 1.0, 1.2),
+            new Vector3D(1.2, 1.2, 0.0),
+            new Vector3D(1.2, 1.2, 1.0)
         });
     }
 
     @Test
     public void testTetrahedron() {
-        Point3D vertex1 = new Point3D(1, 2, 3);
-        Point3D vertex2 = new Point3D(2, 2, 4);
-        Point3D vertex3 = new Point3D(2, 3, 3);
-        Point3D vertex4 = new Point3D(1, 3, 4);
+        Vector3D vertex1 = new Vector3D(1, 2, 3);
+        Vector3D vertex2 = new Vector3D(2, 2, 4);
+        Vector3D vertex3 = new Vector3D(2, 3, 3);
+        Vector3D vertex4 = new Vector3D(1, 3, 4);
+        @SuppressWarnings("unchecked")
         PolyhedronsSet tree =
-            (PolyhedronsSet) Region.buildConvex(Arrays.asList(new Hyperplane[] {
+            (PolyhedronsSet) new RegionFactory<Euclidean3D>().buildConvex(
                 new Plane(vertex3, vertex2, vertex1),
                 new Plane(vertex2, vertex3, vertex4),
                 new Plane(vertex4, vertex3, vertex1),
-                new Plane(vertex1, vertex2, vertex4)
-            }));
+                new Plane(vertex1, vertex2, vertex4));
         Assert.assertEquals(1.0 / 3.0, tree.getSize(), 1.0e-10);
         Assert.assertEquals(2.0 * FastMath.sqrt(3.0), tree.getBoundarySize(), 1.0e-10);
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
@@ -95,18 +88,18 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(2.5, barycenter.getY(), 1.0e-10);
         Assert.assertEquals(3.5, barycenter.getZ(), 1.0e-10);
         double third = 1.0 / 3.0;
-        checkPoints(Region.Location.BOUNDARY, tree, new Point3D[] {
+        checkPoints(Region.Location.BOUNDARY, tree, new Vector3D[] {
             vertex1, vertex2, vertex3, vertex4,
-            new Point3D(third, vertex1, third, vertex2, third, vertex3),
-            new Point3D(third, vertex2, third, vertex3, third, vertex4),
-            new Point3D(third, vertex3, third, vertex4, third, vertex1),
-            new Point3D(third, vertex4, third, vertex1, third, vertex2)
+            new Vector3D(third, vertex1, third, vertex2, third, vertex3),
+            new Vector3D(third, vertex2, third, vertex3, third, vertex4),
+            new Vector3D(third, vertex3, third, vertex4, third, vertex1),
+            new Vector3D(third, vertex4, third, vertex1, third, vertex2)
         });
-        checkPoints(Region.Location.OUTSIDE, tree, new Point3D[] {
-            new Point3D(1, 2, 4),
-            new Point3D(2, 2, 3),
-            new Point3D(2, 3, 4),
-            new Point3D(1, 3, 3)
+        checkPoints(Region.Location.OUTSIDE, tree, new Vector3D[] {
+            new Vector3D(1, 2, 4),
+            new Vector3D(2, 2, 3),
+            new Vector3D(2, 3, 4),
+            new Vector3D(1, 3, 3)
         });
     }
 
@@ -116,13 +109,13 @@ public class PolyhedronsSetTest {
         Vector3D vertex2 = new Vector3D(2.0, 2.4, 4.2);
         Vector3D vertex3 = new Vector3D(2.8, 3.3, 3.7);
         Vector3D vertex4 = new Vector3D(1.0, 3.6, 4.5);
+        @SuppressWarnings("unchecked")
         PolyhedronsSet tree =
-            (PolyhedronsSet) Region.buildConvex(Arrays.asList(new Hyperplane[] {
+            (PolyhedronsSet) new RegionFactory<Euclidean3D>().buildConvex(
                 new Plane(vertex3, vertex2, vertex1),
                 new Plane(vertex2, vertex3, vertex4),
                 new Plane(vertex4, vertex3, vertex1),
-                new Plane(vertex1, vertex2, vertex4)
-            }));
+                new Plane(vertex1, vertex2, vertex4));
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
         Vector3D s = new Vector3D(10.2, 4.3, -6.7);
         Vector3D c = new Vector3D(-0.2, 2.1, -3.2);
@@ -152,29 +145,30 @@ public class PolyhedronsSetTest {
                                                                 1.0, c,
                                                                 1.0, r.applyTo(vertex4.subtract(c)))
         };
-        tree.getTree(true).visit(new BSPTreeVisitor() {
+        tree.getTree(true).visit(new BSPTreeVisitor<Euclidean3D>() {
 
-            public Order visitOrder(BSPTree node) {
+            public Order visitOrder(BSPTree<Euclidean3D> node) {
                 return Order.MINUS_SUB_PLUS;
             }
 
-            public void visitInternalNode(BSPTree node) {
-                Region.BoundaryAttribute attribute =
-                    (Region.BoundaryAttribute) node.getAttribute();
+            public void visitInternalNode(BSPTree<Euclidean3D> node) {
+                @SuppressWarnings("unchecked")
+                BoundaryAttribute<Euclidean3D> attribute =
+                    (BoundaryAttribute<Euclidean3D>) node.getAttribute();
                 if (attribute.getPlusOutside() != null) {
-                    checkFacet(attribute.getPlusOutside());
+                    checkFacet((SubPlane) attribute.getPlusOutside());
                 }
                 if (attribute.getPlusInside() != null) {
-                    checkFacet(attribute.getPlusInside());
+                    checkFacet((SubPlane) attribute.getPlusInside());
                 }
             }
 
-            public void visitLeafNode(BSPTree node) {
+            public void visitLeafNode(BSPTree<Euclidean3D> node) {
             }
 
-            private void checkFacet(SubHyperplane facet) {
+            private void checkFacet(SubPlane facet) {
                 Plane plane = (Plane) facet.getHyperplane();
-                Point2D[][] vertices =
+                Vector2D[][] vertices =
                     ((PolygonsSet) facet.getRemainingRegion()).getVertices();
                 Assert.assertEquals(1, vertices.length);
                 for (int i = 0; i < vertices[0].length; ++i) {
@@ -222,8 +216,8 @@ public class PolyhedronsSetTest {
             new PolyhedronsSet(x - w, x + w, y - l, y + l, z - w, z + w);
         PolyhedronsSet zBeam =
             new PolyhedronsSet(x - w, x + w, y - w, y + w, z - l, z + l);
-        PolyhedronsSet tree =
-            (PolyhedronsSet) Region.union(xBeam, Region.union(yBeam, zBeam));
+        RegionFactory<Euclidean3D> factory = new RegionFactory<Euclidean3D>();
+        PolyhedronsSet tree = (PolyhedronsSet) factory.union(xBeam, factory.union(yBeam, zBeam));
         Vector3D barycenter = (Vector3D) tree.getBarycenter();
 
         Assert.assertEquals(x, barycenter.getX(), 1.0e-10);
@@ -234,7 +228,7 @@ public class PolyhedronsSetTest {
 
     }
 
-    private void checkPoints(Region.Location expected, PolyhedronsSet tree, Point3D[] points) {
+    private void checkPoints(Region.Location expected, PolyhedronsSet tree, Vector3D[] points) {
         for (int i = 0; i < points.length; ++i) {
             Assert.assertEquals(expected, tree.checkPoint(points[i]));
         }

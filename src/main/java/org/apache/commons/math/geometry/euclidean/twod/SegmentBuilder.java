@@ -18,19 +18,22 @@ package org.apache.commons.math.geometry.euclidean.twod;
 
 import java.util.List;
 
+import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math.geometry.euclidean.oned.Interval;
 import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
-import org.apache.commons.math.geometry.euclidean.oned.Point1D;
+import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
 import org.apache.commons.math.geometry.partitioning.BSPTreeVisitor;
-import org.apache.commons.math.geometry.partitioning.Region.BoundaryAttribute;
+import org.apache.commons.math.geometry.partitioning.BoundaryAttribute;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.geometry.partitioning.utilities.AVLTree;
 
 /** Visitor building segments.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-class SegmentsBuilder implements BSPTreeVisitor {
+class SegmentsBuilder implements BSPTreeVisitor<Euclidean2D> {
 
     /** Sorted segments. */
     private AVLTree<Segment> sorted;
@@ -41,13 +44,14 @@ class SegmentsBuilder implements BSPTreeVisitor {
     }
 
     /** {@inheritDoc} */
-    public Order visitOrder(final BSPTree node) {
+    public Order visitOrder(final BSPTree<Euclidean2D> node) {
         return Order.MINUS_SUB_PLUS;
     }
 
     /** {@inheritDoc} */
-    public void visitInternalNode(final BSPTree node) {
-        final BoundaryAttribute attribute = (BoundaryAttribute) node.getAttribute();
+    public void visitInternalNode(final BSPTree<Euclidean2D> node) {
+        @SuppressWarnings("unchecked")
+        final BoundaryAttribute<Euclidean2D> attribute = (BoundaryAttribute<Euclidean2D>) node.getAttribute();
         if (attribute.getPlusOutside() != null) {
             addContribution(attribute.getPlusOutside(), false);
         }
@@ -57,21 +61,24 @@ class SegmentsBuilder implements BSPTreeVisitor {
     }
 
     /** {@inheritDoc} */
-    public void visitLeafNode(final BSPTree node) {
+    public void visitLeafNode(final BSPTree<Euclidean2D> node) {
     }
 
     /** Add he contribution of a boundary facet.
      * @param sub boundary facet
      * @param reversed if true, the facet has the inside on its plus side
      */
-    private void addContribution(final SubHyperplane sub, final boolean reversed) {
+    private void addContribution(final SubHyperplane<Euclidean2D> sub, final boolean reversed) {
+        @SuppressWarnings("unchecked")
+        final AbstractSubHyperplane<Euclidean2D, Euclidean1D> absSub =
+            (AbstractSubHyperplane<Euclidean2D, Euclidean1D>) sub;
         final Line line      = (Line) sub.getHyperplane();
-        final List<Interval> intervals = ((IntervalsSet) sub.getRemainingRegion()).asList();
+        final List<Interval> intervals = ((IntervalsSet) absSub.getRemainingRegion()).asList();
         for (final Interval i : intervals) {
-            final Point2D start = Double.isInfinite(i.getLower()) ?
-                                  null : (Point2D) line.toSpace(new Point1D(i.getLower()));
-            final Point2D end   = Double.isInfinite(i.getUpper()) ?
-                                  null : (Point2D) line.toSpace(new Point1D(i.getUpper()));
+            final Vector2D start = Double.isInfinite(i.getLower()) ?
+                                  null : (Vector2D) line.toSpace(new Vector1D(i.getLower()));
+            final Vector2D end   = Double.isInfinite(i.getUpper()) ?
+                                  null : (Vector2D) line.toSpace(new Vector1D(i.getUpper()));
             if (reversed) {
                 sorted.insert(new Segment(end, start, line.getReverse()));
             } else {

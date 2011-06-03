@@ -20,14 +20,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
 import org.apache.commons.math.geometry.partitioning.Region;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 
 /** This class represents a 1D region: a set of intervals.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-public class IntervalsSet extends Region {
+public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
 
     /** Build an intervals set representing the whole real line.
      */
@@ -54,7 +56,7 @@ public class IntervalsSet extends Region {
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the intervals set
      */
-    public IntervalsSet(final BSPTree tree) {
+    public IntervalsSet(final BSPTree<Euclidean1D> tree) {
         super(tree);
     }
 
@@ -77,7 +79,7 @@ public class IntervalsSet extends Region {
      * space.</p>
      * @param boundary collection of boundary elements
      */
-    public IntervalsSet(final Collection<SubHyperplane> boundary) {
+    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary) {
         super(boundary);
     }
 
@@ -88,52 +90,52 @@ public class IntervalsSet extends Region {
      * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
      * @return the built tree
      */
-    private static BSPTree buildTree(final double lower, final double upper) {
+    private static BSPTree<Euclidean1D> buildTree(final double lower, final double upper) {
         if (Double.isInfinite(lower) && (lower < 0)) {
             if (Double.isInfinite(upper) && (upper > 0)) {
                 // the tree must cover the whole real line
-                return new BSPTree(Boolean.TRUE);
+                return new BSPTree<Euclidean1D>(Boolean.TRUE);
             }
             // the tree must be open on the negative infinity side
-            final SubHyperplane upperCut =
-                new SubHyperplane(new OrientedPoint(new Point1D(upper), true));
-            return new BSPTree(upperCut,
-                               new BSPTree(Boolean.FALSE),
-                               new BSPTree(Boolean.TRUE),
+            final SubHyperplane<Euclidean1D> upperCut =
+                new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();
+            return new BSPTree<Euclidean1D>(upperCut,
+                               new BSPTree<Euclidean1D>(Boolean.FALSE),
+                               new BSPTree<Euclidean1D>(Boolean.TRUE),
                                null);
         }
-        final SubHyperplane lowerCut =
-            new SubHyperplane(new OrientedPoint(new Point1D(lower), false));
+        final SubHyperplane<Euclidean1D> lowerCut =
+            new OrientedPoint(new Vector1D(lower), false).wholeHyperplane();
         if (Double.isInfinite(upper) && (upper > 0)) {
             // the tree must be open on the positive infinity side
-            return new BSPTree(lowerCut,
-                               new BSPTree(Boolean.FALSE),
-                               new BSPTree(Boolean.TRUE),
+            return new BSPTree<Euclidean1D>(lowerCut,
+                               new BSPTree<Euclidean1D>(Boolean.FALSE),
+                               new BSPTree<Euclidean1D>(Boolean.TRUE),
                                null);
         }
 
         // the tree must be bounded on the two sides
-        final SubHyperplane upperCut =
-            new SubHyperplane(new OrientedPoint(new Point1D(upper), true));
-        return new BSPTree(lowerCut,
-                           new BSPTree(Boolean.FALSE),
-                           new BSPTree(upperCut,
-                                       new BSPTree(Boolean.FALSE),
-                                       new BSPTree(Boolean.TRUE),
+        final SubHyperplane<Euclidean1D> upperCut =
+            new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();
+        return new BSPTree<Euclidean1D>(lowerCut,
+                           new BSPTree<Euclidean1D>(Boolean.FALSE),
+                           new BSPTree<Euclidean1D>(upperCut,
+                                       new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                       new BSPTree<Euclidean1D>(Boolean.TRUE),
                                        null),
                                        null);
 
     }
 
     /** {@inheritDoc} */
-    public Region buildNew(final BSPTree tree) {
+    public IntervalsSet buildNew(final BSPTree<Euclidean1D> tree) {
         return new IntervalsSet(tree);
     }
 
     /** {@inheritDoc} */
     protected void computeGeometricalProperties() {
         if (getTree(false).getCut() == null) {
-            setBarycenter(Point1D.UNDEFINED);
+            setBarycenter(Vector1D.NaN);
             setSize(((Boolean) getTree(false).getAttribute()) ? Double.POSITIVE_INFINITY : 0);
         } else {
             double size = 0.0;
@@ -143,7 +145,7 @@ public class IntervalsSet extends Region {
                 sum  += interval.getLength() * interval.getMidPoint();
             }
             setSize(size);
-            setBarycenter(Double.isInfinite(size) ? Point1D.UNDEFINED : new Point1D(sum / size));
+            setBarycenter(Double.isInfinite(size) ? Vector1D.NaN : new Vector1D(sum / size));
         }
     }
 
@@ -154,11 +156,11 @@ public class IntervalsSet extends Region {
      * instance is empty)
      */
     public double getInf() {
-        BSPTree node = getTree(false);
+        BSPTree<Euclidean1D> node = getTree(false);
         double  inf  = Double.POSITIVE_INFINITY;
         while (node.getCut() != null) {
             final OrientedPoint op = (OrientedPoint) node.getCut().getHyperplane();
-            inf  = op.getLocation().getAbscissa();
+            inf  = op.getLocation().getX();
             node = op.isDirect() ? node.getMinus() : node.getPlus();
         }
         return ((Boolean) node.getAttribute()) ? Double.NEGATIVE_INFINITY : inf;
@@ -171,11 +173,11 @@ public class IntervalsSet extends Region {
      * instance is empty)
      */
     public double getSup() {
-        BSPTree node = getTree(false);
+        BSPTree<Euclidean1D> node = getTree(false);
         double  sup  = Double.NEGATIVE_INFINITY;
         while (node.getCut() != null) {
             final OrientedPoint op = (OrientedPoint) node.getCut().getHyperplane();
-            sup  = op.getLocation().getAbscissa();
+            sup  = op.getLocation().getX();
             node = op.isDirect() ? node.getPlus() : node.getMinus();
         }
         return ((Boolean) node.getAttribute()) ? Double.POSITIVE_INFINITY : sup;
@@ -207,7 +209,8 @@ public class IntervalsSet extends Region {
      * @param lower lower bound of the current convex cell
      * @param upper upper bound of the current convex cell
      */
-    private void recurseList(final BSPTree node, final List<Interval> list,
+    private void recurseList(final BSPTree<Euclidean1D> node,
+                             final List<Interval> list,
                              final double lower, final double upper) {
 
         if (node.getCut() == null) {
@@ -217,12 +220,14 @@ public class IntervalsSet extends Region {
             }
         } else {
             final OrientedPoint op  = (OrientedPoint) node.getCut().getHyperplane();
-            final Point1D       loc = op.getLocation();
-            double        x   = loc.getAbscissa();
+            final Vector1D       loc = op.getLocation();
+            double              x   = loc.getX();
 
             // make sure we explore the tree in increasing order
-            final BSPTree low       = op.isDirect() ? node.getMinus() : node.getPlus();
-            final BSPTree high      = op.isDirect() ? node.getPlus()  : node.getMinus();
+            final BSPTree<Euclidean1D> low  =
+                op.isDirect() ? node.getMinus() : node.getPlus();
+            final BSPTree<Euclidean1D> high =
+                op.isDirect() ? node.getPlus()  : node.getMinus();
 
             recurseList(low, list, lower, x);
             if ((checkPoint(low,  loc) == Location.INSIDE) &&

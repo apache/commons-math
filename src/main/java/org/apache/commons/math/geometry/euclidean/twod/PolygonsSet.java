@@ -17,25 +17,27 @@
 package org.apache.commons.math.geometry.euclidean.twod;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math.geometry.euclidean.oned.Point1D;
+import org.apache.commons.math.exception.MathInternalError;
+import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
-import org.apache.commons.math.geometry.partitioning.Hyperplane;
 import org.apache.commons.math.geometry.partitioning.Region;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.geometry.partitioning.utilities.AVLTree;
 import org.apache.commons.math.util.FastMath;
 
 /** This class represents a 2D region: a set of polygons.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-public class PolygonsSet extends Region {
+public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
     /** Vertices organized as boundary loops. */
-    private Point2D[][] vertices;
+    private Vector2D[][] vertices;
 
     /** Build a polygons set representing the whole real line.
      */
@@ -52,7 +54,7 @@ public class PolygonsSet extends Region {
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the region
      */
-    public PolygonsSet(final BSPTree tree) {
+    public PolygonsSet(final BSPTree<Euclidean2D> tree) {
         super(tree);
     }
 
@@ -63,7 +65,7 @@ public class PolygonsSet extends Region {
      * its plus side.</p>
      * <p>The boundary elements can be in any order, and can form
      * several non-connected sets (like for example polygons with holes
-     * or a set of disjoints polyhedrons considered as a whole). In
+     * or a set of disjoint polyhedrons considered as a whole). In
      * fact, the elements do not even need to be connected together
      * (their topological connections are not used here). However, if the
      * boundary does not really separate an inside open from an outside
@@ -76,7 +78,7 @@ public class PolygonsSet extends Region {
      * @param boundary collection of boundary elements, as a
      * collection of {@link SubHyperplane SubHyperplane} objects
      */
-    public PolygonsSet(final Collection<SubHyperplane> boundary) {
+    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary) {
         super(boundary);
     }
 
@@ -88,7 +90,7 @@ public class PolygonsSet extends Region {
      */
     public PolygonsSet(final double xMin, final double xMax,
                        final double yMin, final double yMax) {
-        this(buildConvex(boxBoundary(xMin, xMax, yMin, yMax)).getTree(false));
+        super(boxBoundary(xMin, xMax, yMin, yMax));
     }
 
     /** Create a list of hyperplanes representing the boundary of a box.
@@ -98,42 +100,42 @@ public class PolygonsSet extends Region {
      * @param yMax high bound along the y direction
      * @return boundary of the box
      */
-    private static List<Hyperplane> boxBoundary(final double xMin, final double xMax,
-                                                final double yMin, final double yMax) {
-        final Point2D minMin = new Point2D(xMin, yMin);
-        final Point2D minMax = new Point2D(xMin, yMax);
-        final Point2D maxMin = new Point2D(xMax, yMin);
-        final Point2D maxMax = new Point2D(xMax, yMax);
-        return Arrays.asList(new Hyperplane[] {
+    private static Line[] boxBoundary(final double xMin, final double xMax,
+                                      final double yMin, final double yMax) {
+        final Vector2D minMin = new Vector2D(xMin, yMin);
+        final Vector2D minMax = new Vector2D(xMin, yMax);
+        final Vector2D maxMin = new Vector2D(xMax, yMin);
+        final Vector2D maxMax = new Vector2D(xMax, yMax);
+        return new Line[] {
             new Line(minMin, maxMin),
             new Line(maxMin, maxMax),
             new Line(maxMax, minMax),
             new Line(minMax, minMin)
-        });
+        };
     }
 
     /** {@inheritDoc} */
-    public Region buildNew(final BSPTree tree) {
+    public PolygonsSet buildNew(final BSPTree<Euclidean2D> tree) {
         return new PolygonsSet(tree);
     }
 
     /** {@inheritDoc} */
     protected void computeGeometricalProperties() {
 
-        final Point2D[][] v = getVertices();
+        final Vector2D[][] v = getVertices();
 
         if (v.length == 0) {
             if ((Boolean) getTree(false).getAttribute()) {
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Point2D.UNDEFINED);
+                setBarycenter(Vector2D.NaN);
             } else {
                 setSize(0);
-                setBarycenter(new Point2D(0, 0));
+                setBarycenter(new Vector2D(0, 0));
             }
         } else if (v[0][0] == null) {
             // there is at least one open-loop: the polygon is infinite
             setSize(Double.POSITIVE_INFINITY);
-            setBarycenter(Point2D.UNDEFINED);
+            setBarycenter(Vector2D.NaN);
         } else {
             // all loops are closed, we compute some integrals around the shape
 
@@ -141,14 +143,14 @@ public class PolygonsSet extends Region {
             double sumX = 0;
             double sumY = 0;
 
-            for (Point2D[] loop : v) {
-                double x1 = loop[loop.length - 1].x;
-                double y1 = loop[loop.length - 1].y;
-                for (final Point2D point : loop) {
+            for (Vector2D[] loop : v) {
+                double x1 = loop[loop.length - 1].getX();
+                double y1 = loop[loop.length - 1].getY();
+                for (final Vector2D point : loop) {
                     final double x0 = x1;
                     final double y0 = y1;
-                    x1 = point.x;
-                    y1 = point.y;
+                    x1 = point.getX();
+                    y1 = point.getY();
                     final double factor = x0 * y1 - y0 * x1;
                     sum  += factor;
                     sumX += factor * (x0 + x1);
@@ -159,10 +161,10 @@ public class PolygonsSet extends Region {
             if (sum < 0) {
                 // the polygon as a finite outside surrounded by an infinite inside
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Point2D.UNDEFINED);
+                setBarycenter(Vector2D.NaN);
             } else {
                 setSize(sum / 2);
-                setBarycenter(new Point2D(sumX / (3 * sum), sumY / (3 * sum)));
+                setBarycenter(new Vector2D(sumX / (3 * sum), sumY / (3 * sum)));
             }
 
         }
@@ -192,19 +194,19 @@ public class PolygonsSet extends Region {
      * loops with the open loops first (the returned value is guaranteed
      * to be non-null)
      */
-    public Point2D[][] getVertices() {
+    public Vector2D[][] getVertices() {
         if (vertices == null) {
             if (getTree(false).getCut() == null) {
-                vertices = new Point2D[0][];
+                vertices = new Vector2D[0][];
             } else {
 
-                // sort the segmfinal ents according to their start point
+                // sort the segments according to their start point
                 final SegmentsBuilder visitor = new SegmentsBuilder();
                 getTree(true).visit(visitor);
                 final AVLTree<Segment> sorted = visitor.getSorted();
 
                 // identify the loops, starting from the open ones
-                // (their start segments final are naturally at the sorted set beginning)
+                // (their start segments are naturally at the sorted set beginning)
                 final ArrayList<List<Segment>> loops = new ArrayList<List<Segment>>();
                 while (!sorted.isEmpty()) {
                     final AVLTree<Segment>.Node node = sorted.getSmallest();
@@ -215,31 +217,30 @@ public class PolygonsSet extends Region {
                 }
 
                 // tranform the loops in an array of arrays of points
-                vertices = new Point2D[loops.size()][];
+                vertices = new Vector2D[loops.size()][];
                 int i = 0;
 
                 for (final List<Segment> loop : loops) {
                     if (loop.size() < 2) {
-                        // sifinal ngle infinite line
-                        final Line line = ((Segment) loop.get(0)).getLine();
-                        vertices[i++] = new Point2D[] {
+                        // single infinite line
+                        final Line line = loop.get(0).getLine();
+                        vertices[i++] = new Vector2D[] {
                             null,
-                            (Point2D) line.toSpace(new Point1D(-Float.MAX_VALUE)),
-                            (Point2D) line.toSpace(new Point1D(+Float.MAX_VALUE))
+                            line.toSpace(new Vector1D(-Float.MAX_VALUE)),
+                            line.toSpace(new Vector1D(+Float.MAX_VALUE))
                         };
-                    } else if (((Segment) loop.get(0)).getStart() == null) {
-                        // open lofinal op with at least one real point
-                        final Point2D[] array = new Point2D[loop.size() + 2];
+                    } else if (loop.get(0).getStart() == null) {
+                        // open loop with at least one real point
+                        final Vector2D[] array = new Vector2D[loop.size() + 2];
                         int j = 0;
                         for (Segment segment : loop) {
 
                             if (j == 0) {
                                 // null point and first dummy point
-                                double x =
-                                    ((Point1D) segment.getLine().toSubSpace(segment.getEnd())).getAbscissa();
+                                double x = segment.getLine().toSubSpace(segment.getEnd()).getX();
                                 x -= FastMath.max(1.0, FastMath.abs(x / 2));
                                 array[j++] = null;
-                                array[j++] = (Point2D) segment.getLine().toSpace(new Point1D(x));
+                                array[j++] = segment.getLine().toSpace(new Vector1D(x));
                             }
 
                             if (j < (array.length - 1)) {
@@ -249,16 +250,15 @@ public class PolygonsSet extends Region {
 
                             if (j == (array.length - 1)) {
                                 // last dummy point
-                                double x =
-                                    ((Point1D) segment.getLine().toSubSpace(segment.getStart())).getAbscissa();
+                                double x = segment.getLine().toSubSpace(segment.getStart()).getX();
                                 x += FastMath.max(1.0, FastMath.abs(x / 2));
-                                array[j++] = (Point2D) segment.getLine().toSpace(new Point1D(x));
+                                array[j++] = segment.getLine().toSpace(new Vector1D(x));
                             }
 
                         }
                         vertices[i++] = array;
                     } else {
-                        final Point2D[] array = new Point2D[loop.size()];
+                        final Vector2D[] array = new Vector2D[loop.size()];
                         int j = 0;
                         for (Segment segment : loop) {
                             array[j++] = segment.getStart();
@@ -285,10 +285,10 @@ public class PolygonsSet extends Region {
                                      final AVLTree<Segment> sorted) {
 
         final ArrayList<Segment> loop = new ArrayList<Segment>();
-        Segment segment = (Segment) node.getElement();
+        Segment segment = node.getElement();
         loop.add(segment);
-        final Point2D globalStart = segment.getStart();
-        Point2D end = segment.getEnd();
+        final Vector2D globalStart = segment.getStart();
+        Vector2D end = segment.getEnd();
         node.delete();
 
         // is this an open or a closed loop ?
@@ -333,7 +333,7 @@ public class PolygonsSet extends Region {
         }
 
         if ((end == null) && !open) {
-            throw new RuntimeException("internal error");
+            throw new MathInternalError();
         }
 
         return loop;

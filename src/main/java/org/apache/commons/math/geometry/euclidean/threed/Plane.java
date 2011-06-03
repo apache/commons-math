@@ -16,27 +16,26 @@
  */
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.geometry.euclidean.oned.Point1D;
-import org.apache.commons.math.geometry.euclidean.twod.Point2D;
+import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math.geometry.partitioning.BSPTree;
+import org.apache.commons.math.geometry.partitioning.Embedding;
 import org.apache.commons.math.geometry.partitioning.Hyperplane;
-import org.apache.commons.math.geometry.partitioning.Point;
-import org.apache.commons.math.geometry.partitioning.Region;
-import org.apache.commons.math.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math.geometry.partitioning.SubSpace;
 import org.apache.commons.math.util.FastMath;
 
 /** The class represent planes in a three dimensional space.
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-public class Plane implements Hyperplane {
+public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Euclidean2D> {
 
     /** Offset of the origin with respect to the plane. */
     private double originOffset;
 
     /** Origin of the plane frame. */
-    private Point3D origin;
+    private Vector3D origin;
 
     /** First vector of the plane frame (in plane). */
     private Vector3D u;
@@ -100,7 +99,7 @@ public class Plane implements Hyperplane {
      * shared (except for immutable objects).</p>
      * @return a new hyperplane, copy of the instance
      */
-    public Hyperplane copySelf() {
+    public Plane copySelf() {
         return new Plane(this);
     }
 
@@ -143,7 +142,7 @@ public class Plane implements Hyperplane {
     /** Reset the plane frame.
      */
     private void setFrame() {
-        origin = new Point3D(-originOffset, w);
+        origin = new Vector3D(-originOffset, w);
         u = w.orthogonal();
         v = Vector3D.crossProduct(w, u);
     }
@@ -154,7 +153,7 @@ public class Plane implements Hyperplane {
      * @return the origin point of the plane frame (point closest to the
      * 3D-space origin)
      */
-    public Point3D getOrigin() {
+    public Vector3D getOrigin() {
         return origin;
     }
 
@@ -217,24 +216,24 @@ public class Plane implements Hyperplane {
      * @param point point of the space (must be a {@link Vector3D
      * Vector3D} instance)
      * @return in-plane point (really a {@link
-     * org.apache.commons.math.geometry.euclidean.twod.Point2D Point2D} instance)
+     * org.apache.commons.math.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @see #toSpace
      */
-    public Point toSubSpace(final Point point) {
+    public Vector2D toSubSpace(final Vector<Euclidean3D> point) {
         final Vector3D p3D = (Vector3D) point;
-        return new Point2D(Vector3D.dotProduct(p3D, u),
+        return new Vector2D(Vector3D.dotProduct(p3D, u),
                            Vector3D.dotProduct(p3D, v));
     }
 
     /** Transform an in-plane point into a 3D space point.
      * @param point in-plane point (must be a {@link
-     * org.apache.commons.math.geometry.euclidean.twod.Point2D Point2D} instance)
+     * org.apache.commons.math.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @return 3D space point (really a {@link Vector3D Vector3D} instance)
      * @see #toSubSpace
      */
-    public Point toSpace(final Point point) {
-        final Point2D p2D = (Point2D) point;
-        return new Point3D(p2D.x, u, p2D.y, v, -originOffset, w);
+    public Vector3D toSpace(final Vector<Euclidean2D> point) {
+        final Vector2D p2D = (Vector2D) point;
+        return new Vector3D(p2D.getX(), u, p2D.getY(), v, -originOffset, w);
     }
 
     /** Get one point from the 3D-space.
@@ -244,8 +243,8 @@ public class Plane implements Hyperplane {
      * @return one point in the 3D-space, with given coordinates and offset
      * relative to the plane
      */
-    public Vector3D getPointAt(final Point2D inPlane, final double offset) {
-        return new Vector3D(inPlane.x, u, inPlane.y, v, offset - originOffset, w);
+    public Vector3D getPointAt(final Vector2D inPlane, final double offset) {
+        return new Vector3D(inPlane.getX(), u, inPlane.getY(), v, offset - originOffset, w);
     }
 
     /** Check if the instance is similar to another plane.
@@ -303,15 +302,15 @@ public class Plane implements Hyperplane {
      * @return intersection point between between the line and the
      * instance (null if the line is parallel to the instance)
      */
-    public Point3D intersection(final Line line) {
+    public Vector3D intersection(final Line line) {
         final Vector3D direction = line.getDirection();
         final double   dot       = Vector3D.dotProduct(w, direction);
         if (FastMath.abs(dot) < 1.0e-10) {
             return null;
         }
-        final Vector3D point = (Vector3D) line.toSpace(Point1D.ZERO);
+        final Vector3D point = (Vector3D) line.toSpace(Vector1D.ZERO);
         final double   k     = -(originOffset + Vector3D.dotProduct(w, point)) / dot;
-        return new Point3D(1.0, point, k, direction);
+        return new Vector3D(1.0, point, k, direction);
     }
 
     /** Build the line shared by the instance and another plane.
@@ -319,13 +318,12 @@ public class Plane implements Hyperplane {
      * @return line at the intersection of the instance and the
      * other plane (really a {@link Line Line} instance)
      */
-    public SubSpace intersection(final Hyperplane other) {
-        final Plane otherP = (Plane) other;
-        final Vector3D direction = Vector3D.crossProduct(w, otherP.w);
+    public Line intersection(final Plane other) {
+        final Vector3D direction = Vector3D.crossProduct(w, other.w);
         if (direction.getNorm() < 1.0e-10) {
             return null;
         }
-        return new Line(intersection(this, otherP, new Plane(direction)),
+        return new Line(intersection(this, other, new Plane(direction)),
                         direction);
     }
 
@@ -374,15 +372,15 @@ public class Plane implements Hyperplane {
     /** Build a region covering the whole hyperplane.
      * @return a region covering the whole hyperplane
      */
-    public Region wholeHyperplane() {
-        return new PolygonsSet();
+    public SubPlane wholeHyperplane() {
+        return new SubPlane(this, new PolygonsSet());
     }
 
     /** Build a region covering the whole space.
      * @return a region containing the instance (really a {@link
      * PolyhedronsSet PolyhedronsSet} instance)
      */
-    public Region wholeSpace() {
+    public PolyhedronsSet wholeSpace() {
         return new PolyhedronsSet();
     }
 
@@ -390,7 +388,7 @@ public class Plane implements Hyperplane {
      * @param p point to check
      * @return true if p belongs to the plane
      */
-    public boolean contains(final Point3D p) {
+    public boolean contains(final Vector3D p) {
         return FastMath.abs(getOffset(p)) < 1.0e-10;
     }
 
@@ -416,7 +414,7 @@ public class Plane implements Hyperplane {
      * @param point point to check
      * @return offset of the point
      */
-    public double getOffset(final Point point) {
+    public double getOffset(final Vector<Euclidean3D> point) {
         return Vector3D.dotProduct((Vector3D) point, w) + originOffset;
     }
 
@@ -425,102 +423,8 @@ public class Plane implements Hyperplane {
      * @return true if the instance and the other hyperplane have
      * the same orientation
      */
-    public boolean sameOrientationAs(final Hyperplane other) {
+    public boolean sameOrientationAs(final Hyperplane<Euclidean3D> other) {
         return Vector3D.dotProduct(((Plane) other).w, w) > 0.0;
-    }
-
-    /** Compute the relative position of a sub-hyperplane with respect
-     * to the instance.
-     * @param sub sub-hyperplane to check
-     * @return one of {@link org.apache.commons.math.geometry.partitioning.Hyperplane.Side#PLUS PLUS},
-     * {@link org.apache.commons.math.geometry.partitioning.Hyperplane.Side#MINUS MINUS},
-     * {@link org.apache.commons.math.geometry.partitioning.Hyperplane.Side#BOTH BOTH},
-     * {@link org.apache.commons.math.geometry.partitioning.Hyperplane.Side#HYPER HYPER}
-     */
-    public Side side(final SubHyperplane sub) {
-
-        final Plane otherPlane = (Plane) sub.getHyperplane();
-        final Line  inter      = (Line) intersection(otherPlane);
-
-        if (inter == null) {
-            // the hyperplanes are parallel,
-            // any point can be used to check their relative position
-            final double global = getOffset(otherPlane);
-            return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
-        }
-
-        // create a 2D line in the otherPlane canonical 2D frame such that:
-        //   - the line is the crossing line of the two planes in 3D
-        //   - the line splits the otherPlane in two half planes with an
-        //     orientation consistent with the orientation of the instance
-        //     (i.e. the 3D half space on the plus side (resp. minus side)
-        //      of the instance contains the 2D half plane on the plus side
-        //      (resp. minus side) of the 2D line
-        Point2D p = (Point2D) otherPlane.toSubSpace(inter.toSpace(Point1D.ZERO));
-        Point2D q = (Point2D) otherPlane.toSubSpace(inter.toSpace(Point1D.ONE));
-        if (Vector3D.dotProduct(Vector3D.crossProduct(inter.getDirection(),
-                                                      otherPlane.getNormal()),
-                                                      w) < 0) {
-            final Point2D tmp = p;
-            p           = q;
-            q           = tmp;
-        }
-        final Hyperplane line2D = new org.apache.commons.math.geometry.euclidean.twod.Line(p, q);
-
-        // check the side on the 2D plane
-        return sub.getRemainingRegion().side(line2D);
-
-    }
-
-    /** Split a sub-hyperplane in two parts by the instance.
-     * @param sub sub-hyperplane to split
-     * @return an object containing both the part of the sub-hyperplane
-     * on the plus side of the instance and the part of the
-     * sub-hyperplane on the minus side of the instance
-     */
-    public SplitSubHyperplane split(final SubHyperplane sub) {
-
-        final Plane otherPlane = (Plane) sub.getHyperplane();
-        final Line  inter      = (Line) intersection(otherPlane);
-
-        if (inter == null) {
-            // the hyperplanes are parallel
-            final double global = getOffset(otherPlane);
-            return (global < -1.0e-10) ? new SplitSubHyperplane(null, sub) : new SplitSubHyperplane(sub, null);
-        }
-
-        // the hyperplanes do intersect
-        Point2D p = (Point2D) otherPlane.toSubSpace(inter.toSpace(Point1D.ZERO));
-        Point2D q = (Point2D) otherPlane.toSubSpace(inter.toSpace(Point1D.ONE));
-        if (Vector3D.dotProduct(Vector3D.crossProduct(inter.getDirection(),
-                                                      otherPlane.getNormal()),
-                                                      w) < 0) {
-            final Point2D tmp = p;
-            p           = q;
-            q           = tmp;
-        }
-        final SubHyperplane l2DMinus =
-            new SubHyperplane(new org.apache.commons.math.geometry.euclidean.twod.Line(p, q));
-        final SubHyperplane l2DPlus =
-            new SubHyperplane(new org.apache.commons.math.geometry.euclidean.twod.Line(q, p));
-
-        final BSPTree splitTree =
-            sub.getRemainingRegion().getTree(false).split(l2DMinus);
-        final BSPTree plusTree  = Region.isEmpty(splitTree.getPlus()) ?
-                                  new BSPTree(Boolean.FALSE) :
-                                  new BSPTree(l2DPlus, new BSPTree(Boolean.FALSE),
-                                              splitTree.getPlus(), null);
-
-        final BSPTree minusTree = Region.isEmpty(splitTree.getMinus()) ?
-                                  new BSPTree(Boolean.FALSE) :
-                                  new BSPTree(l2DMinus, new BSPTree(Boolean.FALSE),
-                                              splitTree.getMinus(), null);
-
-        return new SplitSubHyperplane(new SubHyperplane(otherPlane.copySelf(),
-                                                        new PolygonsSet(plusTree)),
-                                                        new SubHyperplane(otherPlane.copySelf(),
-                                                                          new PolygonsSet(minusTree)));
-
     }
 
 }

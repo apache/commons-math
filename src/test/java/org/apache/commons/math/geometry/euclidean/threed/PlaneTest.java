@@ -18,7 +18,6 @@ package org.apache.commons.math.geometry.euclidean.threed;
 
 import org.apache.commons.math.geometry.euclidean.threed.Line;
 import org.apache.commons.math.geometry.euclidean.threed.Plane;
-import org.apache.commons.math.geometry.euclidean.threed.Point3D;
 import org.apache.commons.math.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math.geometry.euclidean.threed.Vector3D;
 import org.junit.Assert;
@@ -29,22 +28,22 @@ public class PlaneTest {
     @Test
     public void testContains() {
         Plane p = new Plane(new Vector3D(0, 0, 1), new Vector3D(0, 0, 1));
-        Assert.assertTrue(p.contains(new Point3D(0, 0, 1)));
-        Assert.assertTrue(p.contains(new Point3D(17, -32, 1)));
-        Assert.assertTrue(! p.contains(new Point3D(17, -32, 1.001)));
+        Assert.assertTrue(p.contains(new Vector3D(0, 0, 1)));
+        Assert.assertTrue(p.contains(new Vector3D(17, -32, 1)));
+        Assert.assertTrue(! p.contains(new Vector3D(17, -32, 1.001)));
     }
 
     @Test
     public void testOffset() {
         Vector3D p1 = new Vector3D(1, 1, 1);
         Plane p = new Plane(p1, new Vector3D(0.2, 0, 0));
-        Assert.assertEquals(-5.0, p.getOffset(new Point3D(-4, 0, 0)), 1.0e-10);
-        Assert.assertEquals(+5.0, p.getOffset(new Point3D(6, 10, -12)), 1.0e-10);
+        Assert.assertEquals(-5.0, p.getOffset(new Vector3D(-4, 0, 0)), 1.0e-10);
+        Assert.assertEquals(+5.0, p.getOffset(new Vector3D(6, 10, -12)), 1.0e-10);
         Assert.assertEquals(0.3,
-                            p.getOffset(new Point3D(1.0, p1, 0.3, p.getNormal())),
+                            p.getOffset(new Vector3D(1.0, p1, 0.3, p.getNormal())),
                             1.0e-10);
         Assert.assertEquals(-0.3,
-                            p.getOffset(new Point3D(1.0, p1, -0.3, p.getNormal())),
+                            p.getOffset(new Vector3D(1.0, p1, -0.3, p.getNormal())),
                             1.0e-10);
     }
 
@@ -56,9 +55,9 @@ public class PlaneTest {
 
     @Test
     public void testThreePoints() {
-        Point3D p1 = new Point3D(1.2, 3.4, -5.8);
-        Point3D p2 = new Point3D(3.4, -5.8, 1.2);
-        Point3D p3 = new Point3D(-2.0, 4.3, 0.7);
+        Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
+        Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
+        Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
         Plane    p  = new Plane(p1, p2, p3);
         Assert.assertTrue(p.contains(p1));
         Assert.assertTrue(p.contains(p2));
@@ -67,9 +66,9 @@ public class PlaneTest {
 
     @Test
     public void testRotate() {
-        Point3D p1 = new Point3D(1.2, 3.4, -5.8);
-        Point3D p2 = new Point3D(3.4, -5.8, 1.2);
-        Point3D p3 = new Point3D(-2.0, 4.3, 0.7);
+        Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
+        Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
+        Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
         Plane    p  = new Plane(p1, p2, p3);
         Vector3D oldNormal = p.getNormal();
 
@@ -92,9 +91,9 @@ public class PlaneTest {
 
     @Test
     public void testTranslate() {
-        Point3D p1 = new Point3D(1.2, 3.4, -5.8);
-        Point3D p2 = new Point3D(3.4, -5.8, 1.2);
-        Point3D p3 = new Point3D(-2.0, 4.3, 0.7);
+        Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
+        Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
+        Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
         Plane    p  = new Plane(p1, p2, p3);
 
         p = p.translate(new Vector3D(2.0, p.getU(), -1.5, p.getV()));
@@ -118,7 +117,7 @@ public class PlaneTest {
     public void testIntersection() {
         Plane p = new Plane(new Vector3D(1, 2, 3), new Vector3D(-4, 1, -5));
         Line  l = new Line(new Vector3D(0.2, -3.5, 0.7), new Vector3D(1, 1, -1));
-        Point3D point = p.intersection(l);
+        Vector3D point = p.intersection(l);
         Assert.assertTrue(p.contains(point));
         Assert.assertTrue(l.contains(point));
         Assert.assertNull(p.intersection(new Line(new Vector3D(10, 10, 10),

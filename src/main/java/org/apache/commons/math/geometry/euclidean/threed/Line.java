@@ -16,9 +16,10 @@
  */
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.geometry.euclidean.oned.Point1D;
-import org.apache.commons.math.geometry.partitioning.Point;
-import org.apache.commons.math.geometry.partitioning.SubSpace;
+import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math.geometry.partitioning.Embedding;
 import org.apache.commons.math.util.FastMath;
 
 /** The class represent lines in a three dimensional space.
@@ -30,15 +31,16 @@ import org.apache.commons.math.util.FastMath;
  * which is closest to the origin. Abscissa increases in the line
  * direction.</p>
 
- * @version $Revision$ $Date$
+ * @version $Id:$
+ * @since 3.0
  */
-public class Line implements SubSpace {
+public class Line implements Embedding<Euclidean3D, Euclidean1D> {
 
     /** Line direction. */
     private Vector3D direction;
 
     /** Line point closest to the origin. */
-    private Point3D zero;
+    private Vector3D zero;
 
     /** Build a line from a point and a direction.
      * @param p point belonging to the line (this can be any point)
@@ -60,13 +62,14 @@ public class Line implements SubSpace {
             throw new IllegalArgumentException("null norm");
         }
         this.direction = new Vector3D(1.0 / norm, dir);
-        zero = new Point3D(1.0, p, -Vector3D.dotProduct(p, this.direction), this.direction);
+        zero = new Vector3D(1.0, p, -Vector3D.dotProduct(p, this.direction), this.direction);
     }
 
-    /** Revert the line direction.
+    /** Get a line with reversed direction.
+     * @return a new instance, with reversed direction
      */
-    public void revertSelf() {
-        direction = direction.negate();
+    public Line revert() {
+        return new Line(zero, direction.negate());
     }
 
     /** Get the normalized direction vector.
@@ -90,21 +93,22 @@ public class Line implements SubSpace {
      * @param point point to check (must be a {@link Vector3D Vector3D}
      * instance)
      * @return abscissa of the point (really a
-     * {org.apache.commons.math.geometry.euclidean.oned.Point1D Point1D} instance)
+     * {org.apache.commons.math.geometry.euclidean.oned.Vector1D Vector1D} instance)
      */
-    public Point toSubSpace(final Point point) {
-        final double x = Vector3D.dotProduct(((Vector3D) point).subtract(zero), direction);
-        return new Point1D(x);
+    public Vector1D toSubSpace(final Vector<Euclidean3D> point) {
+        Vector3D p3 = (Vector3D) point;
+        return new Vector1D(Vector3D.dotProduct(p3.subtract(zero), direction));
     }
 
     /** Get one point from the line.
      * @param point desired abscissa for the point (must be a
-     * {org.apache.commons.math.geometry.euclidean.oned.Point1D Point1D} instance)
+     * {org.apache.commons.math.geometry.euclidean.oned.Vector1D Vector1D} instance)
      * @return one point belonging to the line, at specified abscissa
      * (really a {@link Vector3D Vector3D} instance)
      */
-    public Point toSpace(final Point point) {
-        return new Point3D(1.0, zero, ((Point1D) point).getAbscissa(), direction);
+    public Vector3D toSpace(final Vector<Euclidean1D> point) {
+        Vector1D p1 = (Vector1D) point;
+        return new Vector3D(1.0, zero, p1.getX(), direction);
     }
 
     /** Check if the instance is similar to another line.
