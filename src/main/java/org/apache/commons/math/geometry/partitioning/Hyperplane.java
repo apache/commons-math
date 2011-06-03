@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.geometry.partitioning;
 
+import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.geometry.Space;
+
 /** This interface represents an hyperplane of a space.
 
  * <p>The most prominent place where hyperplane appears in space
@@ -27,26 +30,12 @@ package org.apache.commons.math.geometry.partitioning;
  * space). They can be more exotic objects in specific fields, for
  * example a circle on the surface of the unit sphere.</p>
 
- * @version $Revision$ $Date$
+ * @param <SpacePoint> Type of the space points.
+
+ * @version $Id:$
+ * @since 3.0
  */
-public interface Hyperplane extends SubSpace {
-
-    /** Enumerate for specifying sides of the hyperplane. */
-    enum Side {
-
-        /** Code for the plus side of the hyperplane. */
-        PLUS,
-
-        /** Code for the minus side of the hyperplane. */
-        MINUS,
-
-        /** Code for elements crossing the hyperplane from plus to minus side. */
-        BOTH,
-
-        /** Code for the hyperplane itself. */
-        HYPER;
-
-    }
+public interface Hyperplane<S extends Space> {
 
     /** Copy the instance.
      * <p>The instance created is completely independant of the original
@@ -54,7 +43,7 @@ public interface Hyperplane extends SubSpace {
      * shared (except for immutable objects).</p>
      * @return a new hyperplane, copy of the instance
      */
-    Hyperplane copySelf();
+    Hyperplane<S> copySelf();
 
     /** Get the offset (oriented distance) of a point.
      * <p>The offset is 0 if the point is on the underlying hyperplane,
@@ -64,7 +53,7 @@ public interface Hyperplane extends SubSpace {
      * @param point point to check
      * @return offset of the point
      */
-    double getOffset(Point point);
+    double getOffset(Vector<S> point);
 
     /** Check if the instance has the same orientation as another hyperplane.
      * <p>This method is expected to be called on parallel hyperplanes
@@ -78,82 +67,16 @@ public interface Hyperplane extends SubSpace {
      * @return true if the instance and the other hyperplane have
      * the same orientation
      */
-    boolean sameOrientationAs(Hyperplane other);
+    boolean sameOrientationAs(Hyperplane<S> other);
 
-    /** Build the sub-space shared by the instance and another hyperplane.
-     * @param other other hyperplane
-     * @return a sub-space at the intersection of the instance and the
-     * other sub-space (it has a dimension one unit less than the
-     * instance)
+    /** Build a sub-hyperplane covering the whole hyperplane.
+     * @return a sub-hyperplane covering the whole hyperplane
      */
-    SubSpace intersection(Hyperplane other);
-
-    /** Build a region covering the whole hyperplane.
-     * <p>The region build is restricted to the sub-space defined by the
-     * hyperplane. This means that the regions points are consistent
-     * with the argument of the {@link SubSpace#toSpace toSpace} method
-     * and with the return value of the {@link SubSpace#toSubSpace
-     * toSubSpace} method.<p>
-     * @return a region covering the whole hyperplane
-     */
-    Region wholeHyperplane();
+    SubHyperplane<S> wholeHyperplane();
 
     /** Build a region covering the whole space.
      * @return a region containing the instance
      */
-    Region wholeSpace();
-
-    /** Compute the relative position of a sub-hyperplane with respect
-     * to the instance.
-     * @param sub sub-hyperplane to check
-     * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH},
-     * {@link Side#HYPER}
-     */
-    Side side(SubHyperplane sub);
-
-    /** Split a sub-hyperplane in two parts by the instance.
-     * @param sub sub-hyperplane to split
-     * @return an object containing both the part of the sub-hyperplane
-     * on the plus side of the instance and the part of the
-     * sub-hyperplane on the minus side of the instance
-     */
-    SplitSubHyperplane split(SubHyperplane sub);
-
-    /** Class holding the results of the {@link Hyperplane#split Hyperplane.split}
-     * method. */
-    class SplitSubHyperplane {
-
-        /** Part of the sub-hyperplane on the plus side of the splitting hyperplane. */
-        private final SubHyperplane plus;
-
-        /** Part of the sub-hyperplane on the minus side of the splitting hyperplane. */
-        private final SubHyperplane minus;
-
-        /** Build a SplitSubHyperplane from its parts.
-         * @param plus part of the sub-hyperplane on the plus side of the
-         * splitting hyperplane
-         * @param minus part of the sub-hyperplane on the minus side of the
-         * splitting hyperplane
-         */
-        public SplitSubHyperplane(final SubHyperplane plus, final SubHyperplane minus) {
-            this.plus  = plus;
-            this.minus = minus;
-        }
-
-        /** Get the part of the sub-hyperplane on the plus side of the splitting hyperplane.
-         * @return part of the sub-hyperplane on the plus side of the splitting hyperplane
-         */
-        public SubHyperplane getPlus() {
-            return plus;
-        }
-
-        /** Get the part of the sub-hyperplane on the minus side of the splitting hyperplane.
-         * @return part of the sub-hyperplane on the minus side of the splitting hyperplane
-         */
-        public SubHyperplane getMinus() {
-            return minus;
-        }
-
-    }
+    Region<S> wholeSpace();
 
 }

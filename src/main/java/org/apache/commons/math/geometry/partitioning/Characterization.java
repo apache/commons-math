@@ -16,16 +16,20 @@
  */
 package org.apache.commons.math.geometry.partitioning;
 
+import org.apache.commons.math.geometry.Space;
+
 /** Characterization of a sub-hyperplane.
- * @version $Revision$ $Date$
+ * @param <S> Type of the space.
+ * @version $Id:$
+ * @since 3.0
  */
-class Characterization {
+class Characterization<S extends Space> {
 
     /** Parts of the sub-hyperplane that have inside cells on the tested side. */
-    private SubHyperplane in;
+    private SubHyperplane<S> in;
 
     /** Parts of the sub-hyperplane that have outside cells on the tested side. */
-    private SubHyperplane out;
+    private SubHyperplane<S> out;
 
     /** Create an empty characterization of a sub-hyperplane.
      */
@@ -38,13 +42,13 @@ class Characterization {
      * @return true if the sub-hyperplane that have inside cells on the tested side
      */
     public boolean hasIn() {
-        return (in != null) && (!in.getRemainingRegion().isEmpty());
+        return (in != null) && (!in.isEmpty());
     }
 
     /** Get the parts of the sub-hyperplane that have inside cells on the tested side.
      * @return parts of the sub-hyperplane that have inside cells on the tested side
      */
-    public SubHyperplane getIn() {
+    public SubHyperplane<S> getIn() {
         return in;
     }
 
@@ -52,13 +56,13 @@ class Characterization {
      * @return true if the sub-hyperplane that have outside cells on the tested side
      */
     public boolean hasOut() {
-        return (out != null) && (!out.getRemainingRegion().isEmpty());
+        return (out != null) && (!out.isEmpty());
     }
 
     /** Get the parts of the sub-hyperplane that have outside cells on the tested side.
      * @return parts of the sub-hyperplane that have outside cells on the tested side
      */
-    public SubHyperplane getOut() {
+    public SubHyperplane<S> getOut() {
         return out;
     }
 
@@ -67,22 +71,18 @@ class Characterization {
      * @param inside if true, the part added as an inside cell on the tested side, otherwise
      * it has an outside cell on the tested side
      */
-    public void add(final SubHyperplane sub, final boolean inside) {
+    public void add(final SubHyperplane<S> sub, final boolean inside) {
         if (inside) {
             if (in == null) {
                 in = sub;
             } else {
-                in = new SubHyperplane(in.getHyperplane(),
-                                       Region.union(in.getRemainingRegion(),
-                                                    sub.getRemainingRegion()));
+                in = in.reunite(sub);
             }
         } else {
             if (out == null) {
                 out = sub;
             } else {
-                out = new SubHyperplane(out.getHyperplane(),
-                                        Region.union(out.getRemainingRegion(),
-                                                     sub.getRemainingRegion()));
+                out = out.reunite(sub);
             }
         }
     }

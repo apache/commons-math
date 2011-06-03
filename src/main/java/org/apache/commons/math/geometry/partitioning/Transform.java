@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.geometry.partitioning;
 
+import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.geometry.Space;
+
 
 /** This interface represents an inversible affine transform in a space.
  * <p>Inversible affine transform include for example scalings,
@@ -27,7 +30,7 @@ package org.apache.commons.math.geometry.partitioning;
  * <ul>
  *   <li>
  *     the transform can be applied to a point in the
- *     D-dimension space using its {@link #apply(Point)}
+ *     D-dimension space using its {@link #apply(Vector)}
  *     method
  *   </li>
  *   <li>
@@ -43,21 +46,25 @@ package org.apache.commons.math.geometry.partitioning;
  *   </li>
  * </ul>
 
- * @version $Revision$ $Date$
+ * @param <S> Type of the embedding space.
+ * @param <T> Type of the embedded sub-space.
+
+ * @version $Id:$
+ * @since 3.0
  */
-public interface Transform {
+public interface Transform<S extends Space, T extends Space> {
 
     /** Transform a point of a space.
      * @param point point to transform
      * @return a new object representing the transformed point
      */
-    Point apply(Point point);
+    Vector<S> apply(Vector<S> point);
 
     /** Transform an hyperplane of a space.
      * @param hyperplane hyperplane to transform
      * @return a new object representing the transformed hyperplane
      */
-    Hyperplane apply(Hyperplane hyperplane);
+    Hyperplane<S> apply(Hyperplane<S> hyperplane);
 
     /** Transform a sub-hyperplane embedded in an hyperplane.
      * @param sub sub-hyperplane to transform
@@ -69,6 +76,6 @@ public interface Transform {
      * <em>has</em> been applied to it)
      * @return a new object representing the transformed sub-hyperplane
      */
-    SubHyperplane apply(SubHyperplane sub, Hyperplane original, Hyperplane transformed);
+    SubHyperplane<T> apply(SubHyperplane<T> sub, Hyperplane<S> original, Hyperplane<S> transformed);
 
 }

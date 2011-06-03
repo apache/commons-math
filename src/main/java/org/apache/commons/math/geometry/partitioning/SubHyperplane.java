@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.geometry.partitioning;
 
+import org.apache.commons.math.geometry.Space;
+
 /** This interface represents the remaining parts of an hyperplane after
  * other parts have been chopped off.
 
@@ -26,32 +28,12 @@ package org.apache.commons.math.geometry.partitioning;
  * hyperplane with the convex region which it splits, the chopping
  * hyperplanes are the cut hyperplanes closer to the tree root.</p>
 
- * @version $Revision$ $Date$
+ * @param <S> Type of the embedding space.
+
+ * @version $Id:$
+ * @since 3.0
  */
-public class SubHyperplane {
-
-    /** Underlying hyperplane. */
-    private final Hyperplane hyperplane;
-
-    /** Remaining region of the hyperplane. */
-    private final Region remainingRegion;
-
-    /** Build a chopped hyperplane that is not chopped at all.
-     * @param hyperplane underlying hyperplane
-     */
-    public SubHyperplane(final Hyperplane hyperplane) {
-        this.hyperplane = hyperplane;
-        remainingRegion = hyperplane.wholeHyperplane();
-    }
-
-    /** Build a sub-hyperplane from an hyperplane and a region.
-     * @param hyperplane underlying hyperplane
-     * @param remainingRegion remaining region of the hyperplane
-     */
-    public SubHyperplane(final Hyperplane hyperplane, final Region remainingRegion) {
-        this.hyperplane      = hyperplane;
-        this.remainingRegion = remainingRegion;
-    }
+public interface SubHyperplane<S extends Space> {
 
     /** Copy the instance.
      * <p>The instance created is completely independant of the original
@@ -60,78 +42,85 @@ public class SubHyperplane {
      * objects).</p>
      * @return a new sub-hyperplane, copy of the instance
      */
-    public SubHyperplane copySelf() {
-        return new SubHyperplane(hyperplane.copySelf(), remainingRegion.copySelf());
-    }
+    SubHyperplane<S> copySelf();
 
     /** Get the underlying hyperplane.
      * @return underlying hyperplane
      */
-    public Hyperplane getHyperplane() {
-        return hyperplane;
-    }
+    Hyperplane<S> getHyperplane();
 
-    /** Get the remaining region of the hyperplane.
-     * <p>The returned region is expressed in the canonical hyperplane
-     * frame and has the hyperplane dimension. For example a chopped
-     * hyperplane in the 3D euclidean is a 2D plane and the
-     * corresponding region is a convex 2D polygon.</p>
-     * @return remaining region of the hyperplane
+    /** Check if the instance is empty.
+     * @return true if the instance is empty
      */
-    public Region getRemainingRegion() {
-        return remainingRegion;
-    }
+    boolean isEmpty();
 
-    /** Apply a transform to the instance.
-     * <p>The instance must be a (D-1)-dimension sub-hyperplane with
-     * respect to the transform <em>not</em> a (D-2)-dimension
-     * sub-hyperplane the transform knows how to transform by
-     * itself. The transform will consist in transforming first the
-     * hyperplane and then the all region using the various methods
-     * provided by the transform.</p>
-     * @param transform D-dimension transform to apply
-     * @return the transformed instance
+    /** Get the size of the instance.
+     * @return the size of the instance (this is a length in 1D, an area
+     * in 2D, a volume in 3D ...)
      */
-    public SubHyperplane applyTransform(final Transform transform) {
-        final Hyperplane tHyperplane = transform.apply(hyperplane);
-        final BSPTree tTree =
-            recurseTransform(remainingRegion.getTree(false), tHyperplane, transform);
-        return new SubHyperplane(tHyperplane, remainingRegion.buildNew(tTree));
-    }
+    double getSize();
 
-    /** Recursively transform a BSP-tree from a sub-hyperplane.
-     * @param node current BSP tree node
-     * @param transformed image of the instance hyperplane by the transform
-     * @param transform transform to apply
-     * @return a new tree
+    /** Compute the relative position of the instance with respect
+     * to an hyperplane.
+     * @param hyperplane hyperplane to check instane against
+     * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH},
+     * {@link Side#HYPER}
      */
-    private BSPTree recurseTransform(final BSPTree node, final Hyperplane transformed,
-                                     final Transform transform) {
-        if (node.getCut() == null) {
-            return new BSPTree(node.getAttribute());
+    Side side(Hyperplane<S> hyperplane);
+
+    /** Split the instance in two parts by an hyperplane.
+     * @param hyperplane splitting hyperplane
+     * @return an object containing both the part of the instance
+     * on the plus side of the instance and the part of the
+     * instance on the minus side of the instance
+     */
+    SplitSubHyperplane<S> split(Hyperplane<S> hyperplane);
+
+    /** Compute the union of the instance and another sub-hyperplane.
+     * @param other other sub-hyperplane to union (<em>must</em> be in the
+     * same hyperplane as the instance)
+     * @return a new sub-hyperplane, union of the instane and other
+     */
+    SubHyperplane<S> reunite(SubHyperplane<S> other);
+
+    /** Class holding the results of the {@link Hyperplane#split Hyperplane.split}
+     * method.
+     * @param <S> Type of the embedding space.
+     * @param <T> Type of the embedded sub-space.
+     */
+    public static class SplitSubHyperplane<U extends Space> {
+
+        /** Part of the sub-hyperplane on the plus side of the splitting hyperplane. */
+        private final SubHyperplane<U> plus;
+
+        /** Part of the sub-hyperplane on the minus side of the splitting hyperplane. */
+        private final SubHyperplane<U> minus;
+
+        /** Build a SplitSubHyperplane from its parts.
+         * @param plus part of the sub-hyperplane on the plus side of the
+         * splitting hyperplane
+         * @param minus part of the sub-hyperplane on the minus side of the
+         * splitting hyperplane
+         */
+        public SplitSubHyperplane(final SubHyperplane<U> plus,
+                                  final SubHyperplane<U> minus) {
+            this.plus  = plus;
+            this.minus = minus;
         }
 
-        Region.BoundaryAttribute attribute =
-            (Region.BoundaryAttribute) node.getAttribute();
-        if (attribute != null) {
-            final SubHyperplane tPO = (attribute.getPlusOutside() == null) ?
-                                      null :
-                                      transform.apply(attribute.getPlusOutside(),
-                                                      hyperplane, transformed);
-            final SubHyperplane tPI = (attribute.getPlusInside() == null) ?
-                                      null :
-                                      transform.apply(attribute.getPlusInside(),
-                                                      hyperplane, transformed);
-            attribute = new Region.BoundaryAttribute(tPO, tPI);
+        /** Get the part of the sub-hyperplane on the plus side of the splitting hyperplane.
+         * @return part of the sub-hyperplane on the plus side of the splitting hyperplane
+         */
+        public SubHyperplane<U> getPlus() {
+            return plus;
         }
 
-        return new BSPTree(transform.apply(node.getCut(),
-                                           hyperplane, transformed),
-                                           recurseTransform(node.getPlus(), transformed,
-                                                            transform),
-                                                            recurseTransform(node.getMinus(), transformed,
-                                                                             transform),
-                                                                             attribute);
+        /** Get the part of the sub-hyperplane on the minus side of the splitting hyperplane.
+         * @return part of the sub-hyperplane on the minus side of the splitting hyperplane
+         */
+        public SubHyperplane<U> getMinus() {
+            return minus;
+        }
 
     }
 
