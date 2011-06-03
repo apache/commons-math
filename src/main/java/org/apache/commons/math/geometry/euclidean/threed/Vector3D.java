@@ -35,9 +35,6 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class Vector3D implements Serializable, Vector<Euclidean3D> {
 
-    /** Serializable version id. */
-    private static final long serialVersionUID = 1313493323784566947L;
-
     /** Null vector (coordinates: 0, 0, 0). */
     public static final Vector3D ZERO   = new Vector3D(0, 0, 0);
 
@@ -73,7 +70,8 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         new Vector3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 
     /** Serializable version identifier. */
- 
+    private static final long serialVersionUID = 1313493323784566947L;
+
     /** Abscissa. */
     private final double x;
 
@@ -424,7 +422,10 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         return x * v3.x + y * v3.y + z * v3.z;
     }
 
-    /** {@inheritDoc} */
+    /** Compute the cross-product of the instance with another vector.
+     * @param v other vectorvector
+     * @return the cross product this ^ v as a new Vector3D
+     */
     public Vector3D crossProduct(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
 

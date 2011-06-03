@@ -18,6 +18,8 @@ package org.apache.commons.math.geometry.euclidean.twod;
 
 import java.text.NumberFormat;
 
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.geometry.Space;
 import org.apache.commons.math.geometry.Vector;
 import org.apache.commons.math.util.FastMath;
@@ -25,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /** This class represents a 2D vector.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Vector2D implements Vector<Euclidean2D> {
@@ -152,11 +154,6 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
-    public Vector2D toVector() {
-        return new Vector2D(x, y);
-    }
-
-    /** {@inheritDoc} */
     public double getNorm1() {
         return FastMath.abs(x) + FastMath.abs(y);
     }
@@ -201,6 +198,24 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    public Vector2D normalize() {
+        double s = getNorm();
+        if (s == 0) {
+            throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
+        }
+        return scalarMultiply(1 / s);
+    }
+    /** {@inheritDoc} */
+    public Vector2D negate() {
+        return new Vector2D(-x, -y);
+    }
+
+    /** {@inheritDoc} */
+    public Vector2D scalarMultiply(double a) {
+        return new Vector2D(a * x, a * y);
+    }
+
+    /** {@inheritDoc} */
     public boolean isNaN() {
         return Double.isNaN(x) || Double.isNaN(y);
     }
@@ -240,6 +255,12 @@ public class Vector2D implements Vector<Euclidean2D> {
         final double dx = p3.x - x;
         final double dy = p3.y - y;
         return dx * dx + dy * dy;
+    }
+
+    /** {@inheritDoc} */
+    public double dotProduct(final Vector<Euclidean2D> v) {
+        final Vector2D v2 = (Vector2D) v;
+        return x * v2.x + y * v2.y;
     }
 
     /** Compute the distance between two vectors according to the L<sub>2</sub> norm.

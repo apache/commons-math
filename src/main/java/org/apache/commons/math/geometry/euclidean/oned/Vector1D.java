@@ -18,14 +18,16 @@ package org.apache.commons.math.geometry.euclidean.oned;
 
 import java.text.NumberFormat;
 
-import org.apache.commons.math.geometry.Vector;
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.geometry.Space;
+import org.apache.commons.math.geometry.Vector;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /** This class represents a 1D vector.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Vector1D implements Vector<Euclidean1D> {
@@ -181,6 +183,24 @@ public class Vector1D implements Vector<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    public Vector1D normalize() {
+        double s = getNorm();
+        if (s == 0) {
+            throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
+        }
+        return scalarMultiply(1 / s);
+    }
+    /** {@inheritDoc} */
+    public Vector1D negate() {
+        return new Vector1D(-x);
+    }
+
+    /** {@inheritDoc} */
+    public Vector1D scalarMultiply(double a) {
+        return new Vector1D(a * x);
+    }
+
+    /** {@inheritDoc} */
     public boolean isNaN() {
         return Double.isNaN(x);
     }
@@ -216,6 +236,12 @@ public class Vector1D implements Vector<Euclidean1D> {
         Vector1D p3 = (Vector1D) p;
         final double dx = p3.x - x;
         return dx * dx;
+    }
+
+    /** {@inheritDoc} */
+    public double dotProduct(final Vector<Euclidean1D> v) {
+        final Vector1D v1 = (Vector1D) v;
+        return x * v1.x;
     }
 
     /** Compute the distance between two vectors according to the L<sub>2</sub> norm.

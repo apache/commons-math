@@ -20,7 +20,8 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 
 /** This interface represents a generic vector in a vectorial space or a point in an affine space.
- * @version $Id:$
+ * @param <S> Type of the space.
+ * @version $Id$
  * @see Space
  * @see Vector
  * @since 3.0
@@ -83,6 +84,23 @@ public interface Vector<S extends Space> extends Serializable {
      */
     Vector<S> subtract(double factor, Vector<S> v);
 
+    /** Get the opposite of the instance.
+     * @return a new vector which is opposite to the instance
+     */
+    Vector<S> negate();
+
+    /** Get a normalized vector aligned with the instance.
+     * @return a new normalized vector
+     * @exception ArithmeticException if the norm is zero
+     */
+    Vector<S> normalize();
+
+    /** Multiply the instance by a scalar.
+     * @param a scalar
+     * @return a new vector
+     */
+    Vector<S> scalarMultiply(double a);
+
     /**
      * Returns true if any coordinate of this vector is NaN; false otherwise
      * @return  true if any coordinate of this vector is NaN; false otherwise
@@ -133,9 +151,16 @@ public interface Vector<S extends Space> extends Serializable {
      */
     double distanceSq(Vector<S> v);
 
-    /** Get a string representation of this vector.
-     * @param format the custom format for components.
+    /** Compute the dot-product of the instance and another vector.
+     * @param v second vector
+     * @return the dot product this.v
      */
-    public String toString(final NumberFormat format);
+    double dotProduct(Vector<S> v);
+
+    /** Get a string representation of this vector.
+     * @param format the custom format for components
+     * @return a string representation of this vector
+     */
+    String toString(final NumberFormat format);
 
 }
