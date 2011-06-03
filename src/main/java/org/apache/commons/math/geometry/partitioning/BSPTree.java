@@ -56,7 +56,7 @@ import org.apache.commons.math.util.FastMath;
 
  * @param <S> Type of the space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class BSPTree<S extends Space> {
@@ -427,9 +427,7 @@ public class BSPTree<S extends Space> {
      * cells would use four different objects to implement the final
      * merging phase of the four set operations union, intersection,
      * difference and symmetric difference (exclusive or).</p>
-     * @param <SpacePoint> Type of the space points.
-     * @param <SubSpacePoint> Type of the sub-space points.
-     * @version $Revision$ $Date$
+     * @param <S> Type of the space.
      */
     public static interface LeafMerger<S extends Space> {
 

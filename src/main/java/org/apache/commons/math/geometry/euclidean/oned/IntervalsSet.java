@@ -22,11 +22,10 @@ import java.util.List;
 
 import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
-import org.apache.commons.math.geometry.partitioning.Region;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 
 /** This class represents a 1D region: a set of intervals.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
@@ -73,7 +72,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * Region#checkPoint(org.apache.commons.math.geometry.partitioning.Point)
+     * org.apache.commons.math.geometry.partitioning.Region#checkPoint(org.apache.commons.math.geometry.Vector)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>

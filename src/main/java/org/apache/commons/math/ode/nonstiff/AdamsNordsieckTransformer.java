@@ -237,7 +237,14 @@ public class AdamsNordsieckTransformer {
 
     }
 
-    /** {@inheritDoc} */
+    /** Initialize the high order scaled derivatives at step start.
+     * @param h step size to use for scaling
+     * @param t first steps times
+     * @param y first steps states
+     * @param yDot first steps derivatives
+     * @return Nordieck vector at first step (h<sup>2</sup>/2 y''<sub>n</sub>,
+     * h<sup>3</sup>/6 y'''<sub>n</sub> ... h<sup>k</sup>/k! y<sup>(k)</sup><sub>n</sub>)
+     */
     public Array2DRowRealMatrix initializeHighOrderDerivatives(final double h, final double[] t,
                                                                final double[][] y,
                                                                final double[][] yDot) {

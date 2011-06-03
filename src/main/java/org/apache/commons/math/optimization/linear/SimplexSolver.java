@@ -35,11 +35,11 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /** Default amount of error to accept for algorithm convergence. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
 
-    /** Amount of error to accept for algorithm convergence. */
-    protected final double epsilon;
-
     /** Default amount of error to accept in floating point comparisons (as ulps). */
     private static final int DEFAULT_ULPS = 10;
+
+    /** Amount of error to accept for algorithm convergence. */
+    protected final double epsilon;
 
     /** Amount of error to accept in floating point comparisons (as ulps). */
     protected final int maxUlps;

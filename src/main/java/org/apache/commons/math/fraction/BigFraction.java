@@ -1056,12 +1056,12 @@ public class BigFraction
 
     /**
      * <p>
-     * Subtracts the value of a {@code long} from the value of this 
+     * Subtracts the value of a {@code long} from the value of this
      * {@code BigFraction}, returning the result in reduced form.
      * </p>
      *
      * @param l the {@code long} to subtract.
-     * @return a {@ code BigFraction} instance with the resulting values.
+     * @return a {@code BigFraction} instance with the resulting values.
      */
     public BigFraction subtract(final long l) {
         return subtract(BigInteger.valueOf(l));

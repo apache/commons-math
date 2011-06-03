@@ -29,6 +29,7 @@ import org.apache.commons.math.geometry.partitioning.SubHyperplane;
  * hyperplanes are the cut hyperplanes closer to the tree root.</p>
 
  * @param <S> Type of the embedding space.
+ * @param <T> Type of the embedded sub-space.
 
  * @version $Revision$
  * @since 3.0
@@ -53,11 +54,12 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
     }
 
     /** Build a sub-hyperplane from an hyperplane and a region.
-     * @param hyperplane underlying hyperplane
-     * @param remainingRegion remaining region of the hyperplane
+     * @param hyper underlying hyperplane
+     * @param remaining remaining region of the hyperplane
+     * @return a new sub-hyperplane
      */
-    protected abstract AbstractSubHyperplane<S, T> buildNew(final Hyperplane<S> hyperplane,
-                                                            final Region<T> remainingRegion);
+    protected abstract AbstractSubHyperplane<S, T> buildNew(final Hyperplane<S> hyper,
+                                                            final Region<T> remaining);
 
     /** {@inheritDoc} */
     public AbstractSubHyperplane<S, T> copySelf() {
@@ -144,10 +146,10 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
     }
 
     /** {@inheritDoc} */
-    public abstract Side side(Hyperplane<S> hyperplane);
+    public abstract Side side(Hyperplane<S> hyper);
 
     /** {@inheritDoc} */
-    public abstract SplitSubHyperplane<S> split(Hyperplane<S> hyperplane);
+    public abstract SplitSubHyperplane<S> split(Hyperplane<S> hyper);
 
     /** {@inheritDoc} */
     public boolean isEmpty() {

@@ -36,7 +36,8 @@ import org.apache.commons.math.exception.MathParseException;
  * returned. In the second case, however, the parse position after parsing will be
  * just after the closing curly brace, i.e. just before the trailing space.</p>
  *
- * @version $Id:$
+ * @param <S> Type of the space.
+ * @version $Id$
  * @since 3.0
  */
 public abstract class VectorFormat<S extends Space> {
@@ -219,7 +220,7 @@ public abstract class VectorFormat<S extends Space> {
      * @throws MathParseException if the beginning of the specified string
      * cannot be parsed.
      */
-    public abstract Vector<S> parse(String source);
+    public abstract Vector<S> parse(String source) throws MathParseException;
 
     /**
      * Parses a string to produce a {@link Vector} object.

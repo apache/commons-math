@@ -65,7 +65,11 @@
 
   <!-- The following equality test is intentional and needed for semantic purposes -->
   <Match>
-    <Class name="org.apache.commons.math.geometry.euclidean.threed.Vector3D" />
+    <Or>
+      <Class name="org.apache.commons.math.geometry.euclidean.oned.Vector1D" />
+      <Class name="org.apache.commons.math.geometry.euclidean.twod.Vector2D" />
+      <Class name="org.apache.commons.math.geometry.euclidean.threed.Vector3D" />
+    </Or>
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -192,7 +196,7 @@
   </Match>
   <Match>
     <Class name="org.apache.commons.math.linear.Array2DRowFieldMatrix"/>
-    <Method name="&lt;init>" params="org.apache.commons.math.FieldElement[][],boolean" returns="void" />
+    <Method name="&lt;init>" params="org.apache.commons.math.Field,org.apache.commons.math.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>

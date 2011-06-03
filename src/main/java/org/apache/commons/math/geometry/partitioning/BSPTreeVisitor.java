@@ -40,13 +40,12 @@ import org.apache.commons.math.geometry.Space;
  *   </li>
  * </ul>
 
- * @param <SpacePoint> Type of the space points.
- * @param <SubSpacePoint> Type of the sub-space points.
+ * @param <S> Type of the space.
 
  * @see BSPTree
  * @see SubHyperplane
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public interface BSPTreeVisitor<S extends Space> {

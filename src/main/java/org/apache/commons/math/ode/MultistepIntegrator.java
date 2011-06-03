@@ -314,16 +314,16 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     private class NordsieckInitializer implements StepHandler {
 
         /** Steps counter. */
-        int count;
+        private int count;
 
         /** First steps times. */
-        final double[] t;
+        private final double[] t;
 
         /** First steps states. */
-        final double[][] y;
+        private final double[][] y;
 
         /** First steps derivatives. */
-        final double[][] yDot;
+        private final double[][] yDot;
 
         /** Simple constructor.
          * @param nSteps number of steps of the multistep method (excluding the one being computed)

@@ -30,7 +30,7 @@ import org.apache.commons.math.geometry.Vector;
  * @param <S> Type of the space.
  * @param <T> Type of the sub-space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractRegion<S extends Space, T extends Space> implements Region<S> {
@@ -136,6 +136,34 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     /** {@inheritDoc} */
     public abstract AbstractRegion<S, T> buildNew(BSPTree<S> newTree);
 
+    /** Build a convex region from an array of bounding hyperplanes.
+     * @param hyperplanes array of bounding hyperplanes (if null, an
+     * empty region will be built)
+     */
+    public AbstractRegion(final Hyperplane<S>[] hyperplanes) {
+        if ((hyperplanes == null) || (hyperplanes.length == 0)) {
+            tree = new BSPTree<S>(Boolean.FALSE);
+        } else {
+
+            // use the first hyperplane to build the right class
+            tree = hyperplanes[0].wholeSpace().getTree(false);
+
+            // chop off parts of the space
+            BSPTree<S> node = tree;
+            node.setAttribute(Boolean.TRUE);
+            for (final Hyperplane<S> hyperplane : hyperplanes) {
+                if (node.insertCut(hyperplane)) {
+                    node.setAttribute(null);
+                    node.getPlus().setAttribute(Boolean.FALSE);
+                    node = node.getMinus();
+                    node.setAttribute(Boolean.TRUE);
+                }
+            }
+
+        }
+
+    }
+
     /** Recursively build a tree by inserting cut sub-hyperplanes.
      * @param node current tree node (it is a leaf node at the beginning
      * of the call)
@@ -187,35 +215,6 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
     }
 
-    /** Build a convex region from an array of bounding hyperplanes.
-     * @param hyperplanes array of bounding hyperplanes (if null, an
-     * empty region will be built)
-     * @return a new convex region, or null if the collection is empty
-     */
-    public AbstractRegion(final Hyperplane<S>[] hyperplanes) {
-        if ((hyperplanes == null) || (hyperplanes.length == 0)) {
-            tree = new BSPTree<S>(Boolean.FALSE);
-        } else {
-
-            // use the first hyperplane to build the right class
-            tree = hyperplanes[0].wholeSpace().getTree(false);
-
-            // chop off parts of the space
-            BSPTree<S> node = tree;
-            node.setAttribute(Boolean.TRUE);
-            for (final Hyperplane<S> hyperplane : hyperplanes) {
-                if (node.insertCut(hyperplane)) {
-                    node.setAttribute(null);
-                    node.getPlus().setAttribute(Boolean.FALSE);
-                    node = node.getMinus();
-                    node.setAttribute(Boolean.TRUE);
-                }
-            }
-
-        }
-
-    }
-
     /** {@inheritDoc} */
     public AbstractRegion<S, T> copySelf() {
         return buildNew(tree.copySelf());
@@ -257,7 +256,8 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * @param node root node of the region
      * @param point point to check
      * @return a code representing the point status: either {@link
-     * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
+     * Region.Location#INSIDE INSIDE}, {@link Region.Location#OUTSIDE
+     * OUTSIDE} or {@link Region.Location#BOUNDARY BOUNDARY}
      */
     protected Location checkPoint(final BSPTree<S> node, final Vector<S> point) {
         final BSPTree<S> cell = node.getCell(point);

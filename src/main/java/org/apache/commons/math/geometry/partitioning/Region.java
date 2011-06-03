@@ -41,7 +41,7 @@ import org.apache.commons.math.geometry.Vector;
 
  * @param <S> Type of the space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public interface Region<S extends Space> {
@@ -173,11 +173,10 @@ public interface Region<S extends Space> {
     /** Compute the relative position of the instance with respect to an
      * hyperplane.
      * @param hyperplane reference hyperplane
-     * @return one of {@link Hyperplane.Side#PLUS Hyperplane.Side.PLUS}, {@link
-     * Hyperplane.Side#MINUS Hyperplane.Side.MINUS}, {@link Hyperplane.Side#BOTH
-     * Hyperplane.Side.BOTH} or {@link Hyperplane.Side#HYPER Hyperplane.Side.HYPER}
-     * (the latter result can occur only if the tree contains only one
-     * cut hyperplane)
+     * @return one of {@link Side#PLUS Side.PLUS}, {@link Side#MINUS
+     * Side.MINUS}, {@link Side#BOTH Side.BOTH} or {@link Side#HYPER
+     * Side.HYPER} (the latter result can occur only if the tree
+     * contains only one cut hyperplane)
      */
     Side side(final Hyperplane<S> hyperplane);
 

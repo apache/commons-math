@@ -24,14 +24,13 @@ import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
-import org.apache.commons.math.geometry.partitioning.Region;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.geometry.partitioning.utilities.AVLTree;
 import org.apache.commons.math.util.FastMath;
 
 /** This class represents a 2D region: a set of polygons.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
@@ -71,7 +70,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * Region#checkPoint(org.apache.commons.math.geometry.partitioning.Point)
+     * org.apache.commons.math.geometry.partitioning.Region#checkPoint(org.apache.commons.math.geometry.Vector)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>

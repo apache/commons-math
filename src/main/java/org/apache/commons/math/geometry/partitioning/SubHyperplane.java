@@ -30,7 +30,7 @@ import org.apache.commons.math.geometry.Space;
 
  * @param <S> Type of the embedding space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public interface SubHyperplane<S extends Space> {
@@ -83,10 +83,8 @@ public interface SubHyperplane<S extends Space> {
      */
     SubHyperplane<S> reunite(SubHyperplane<S> other);
 
-    /** Class holding the results of the {@link Hyperplane#split Hyperplane.split}
-     * method.
-     * @param <S> Type of the embedding space.
-     * @param <T> Type of the embedded sub-space.
+    /** Class holding the results of the {@link #split split} method.
+     * @param <U> Type of the embedding space.
      */
     public static class SplitSubHyperplane<U extends Space> {
 

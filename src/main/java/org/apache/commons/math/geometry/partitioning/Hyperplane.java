@@ -30,9 +30,9 @@ import org.apache.commons.math.geometry.Space;
  * space). They can be more exotic objects in specific fields, for
  * example a circle on the surface of the unit sphere.</p>
 
- * @param <SpacePoint> Type of the space points.
+ * @param <S> Type of the space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public interface Hyperplane<S extends Space> {
@@ -56,13 +56,10 @@ public interface Hyperplane<S extends Space> {
     double getOffset(Vector<S> point);
 
     /** Check if the instance has the same orientation as another hyperplane.
-     * <p>This method is expected to be called on parallel hyperplanes
-     * (i.e. when the {@link #side side} method would return {@link
-     * Side#HYPER} for some sub-hyperplane having the specified hyperplane
-     * as its underlying hyperplane). The method should <em>not</em>
-     * re-check for parallelism, only for orientation, typically by
-     * testing something like the sign of the dot-products of
-     * normals.</p>
+     * <p>This method is expected to be called on parallel hyperplanes. The
+     * method should <em>not</em> re-check for parallelism, only for
+     * orientation, typically by testing something like the sign of the
+     * dot-products of normals.</p>
      * @param other other hyperplane to check against the instance
      * @return true if the instance and the other hyperplane have
      * the same orientation

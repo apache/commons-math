@@ -20,7 +20,7 @@ import org.apache.commons.math.geometry.Space;
 
 /** Visitor computing the boundary size.
  * @param <S> Type of the space.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 class BoundarySizeVisitor<S extends Space> implements BSPTreeVisitor<S> {
@@ -44,11 +44,11 @@ class BoundarySizeVisitor<S extends Space> implements BSPTreeVisitor<S> {
         @SuppressWarnings("unchecked")
         final BoundaryAttribute<S> attribute =
             (BoundaryAttribute<S>) node.getAttribute();
-        if (attribute.plusOutside != null) {
-            boundarySize += attribute.plusOutside.getSize();
+        if (attribute.getPlusOutside() != null) {
+            boundarySize += attribute.getPlusOutside().getSize();
         }
-        if (attribute.plusInside != null) {
-            boundarySize += attribute.plusInside.getSize();
+        if (attribute.getPlusInside() != null) {
+            boundarySize += attribute.getPlusInside().getSize();
         }
     }
 

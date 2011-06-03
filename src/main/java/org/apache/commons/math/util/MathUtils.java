@@ -1282,12 +1282,12 @@ public final class MathUtils {
      }
 
     /**
-     * <p>Reduce {@code |a - offset|} to the primary interval 
+     * <p>Reduce {@code |a - offset|} to the primary interval
      * {@code [0, |period|)}.</p>
-     * 
+     *
      * <p>Specifically, the value returned is <br/>
      * {@code a - |period| * floor((a - offset) / |period|) - offset}.</p>
-     * 
+     *
      * <p>If any of the parameters are {@code NaN} or infinite, the result is
      * {@code NaN}.</p>
      *

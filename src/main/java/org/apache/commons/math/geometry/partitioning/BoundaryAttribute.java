@@ -28,7 +28,7 @@ import org.apache.commons.math.geometry.Space;
  * processing methods.</p>
  * @param <S> Type of the space.
  * @see Region#getTree
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class BoundaryAttribute<S extends Space> {
@@ -37,13 +37,13 @@ public class BoundaryAttribute<S extends Space> {
      * boundary and has the outside of the region on the plus side of
      * its underlying hyperplane (may be null).
      */
-    final SubHyperplane<S> plusOutside;
+    private final SubHyperplane<S> plusOutside;
 
     /** Part of the node cut sub-hyperplane that belongs to the
      * boundary and has the inside of the region on the plus side of
      * its underlying hyperplane (may be null).
      */
-    final SubHyperplane<S> plusInside;
+    private final SubHyperplane<S> plusInside;
 
     /** Simple constructor.
      * @param plusOutside part of the node cut sub-hyperplane that

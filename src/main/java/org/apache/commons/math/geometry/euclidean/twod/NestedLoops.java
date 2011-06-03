@@ -41,7 +41,7 @@ import org.apache.commons.math.geometry.partitioning.SubHyperplane;
  * internal loops is computed as the reverse of the orientation of
  * their immediate surrounding loop.</p>
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 class NestedLoops {
@@ -89,7 +89,7 @@ class NestedLoops {
             final Vector2D previous = current;
             current = loop[i];
             final Line   line   = new Line(previous, current);
-            final IntervalsSet region = 
+            final IntervalsSet region =
                 new IntervalsSet(line.toSubSpace(previous).getX(), line.toSubSpace(current).getX());
             edges.add(new SubLine(line, region));
         }

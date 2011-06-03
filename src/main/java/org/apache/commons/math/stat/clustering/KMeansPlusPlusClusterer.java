@@ -159,6 +159,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      * @param <T> type of the points to cluster
      * @param clusters the {@link Cluster}s to add the points to
      * @param points the points to add to the given {@link Cluster}s
+     * @param assignments points assignments to clusters
      * @return the number of points assigned to different clusters as the iteration before
      */
     private static <T extends Clusterable<T>> int

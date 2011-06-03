@@ -21,11 +21,11 @@ import org.apache.commons.math.geometry.partitioning.Hyperplane;
 import org.apache.commons.math.geometry.partitioning.Region;
 import org.apache.commons.math.geometry.partitioning.Side;
 
-/** This class represents sub-hyperplane for {@link OrOrientedPoint}.
+/** This class represents sub-hyperplane for {@link OrientedPoint}.
  * <p>An hyperplane in 1D is a simple point, its orientation being a
  * boolean.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclidean1D> {

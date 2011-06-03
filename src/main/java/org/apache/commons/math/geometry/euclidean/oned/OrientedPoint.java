@@ -18,14 +18,12 @@ package org.apache.commons.math.geometry.euclidean.oned;
 
 import org.apache.commons.math.geometry.Vector;
 import org.apache.commons.math.geometry.partitioning.Hyperplane;
-import org.apache.commons.math.geometry.partitioning.Region;
-import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 
 /** This class represents a 1D oriented hyperplane.
  * <p>An hyperplane in 1D is a simple point, its orientation being a
  * boolean.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class OrientedPoint implements Hyperplane<Euclidean1D> {
@@ -64,10 +62,13 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** Build a region covering the whole hyperplane.
      * <p>Since this class represent zero dimension spaces which does
      * not have lower dimension sub-spaces, this method returns a dummy
-     * implementation of a {@link Region Region} (always the same
-     * instance). This implementation is only used to allow the {@link
-     * SubHyperplane SubHyperplane} class implementation to work
-     * properly, it should <em>not</em> be used otherwise.</p>
+     * implementation of a {@link
+     * org.apache.commons.math.geometry.partitioning.Region Region}
+     * (always the same instance). This implementation is only used to
+     * allow the {@link
+     * org.apache.commons.math.geometry.partitioning.SubHyperplane
+     * SubHyperplane} class implementation to work properly, it should
+     * <em>not</em> be used otherwise.</p>
      * @return a dummy region
      */
     public SubOrientedPoint wholeHyperplane() {
@@ -82,19 +83,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
         return new IntervalsSet();
     }
 
-    /** Check if the instance has the same orientation as another hyperplane.
-     * <p>This method is expected to be called on parallel hyperplanes
-     * (i.e. when the {@link #side side} method would return {@link
-     * org.apache.commons.math.geometry.partitioning.Hyperplane.Side#HYPER}
-     * for some sub-hyperplane having the specified hyperplane
-     * as its underlying hyperplane). The method should <em>not</em>
-     * re-check for parallelism, only for orientation, typically by
-     * testing something like the sign of the dot-products of
-     * normals.</p>
-     * @param other other hyperplane to check against the instance
-     * @return true if the instance and the other hyperplane have
-     * the same orientation
-     */
+    /** {@inheritDoc} */
     public boolean sameOrientationAs(final Hyperplane<Euclidean1D> other) {
         return !(direct ^ ((OrientedPoint) other).direct);
     }

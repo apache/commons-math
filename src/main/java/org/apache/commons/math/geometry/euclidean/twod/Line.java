@@ -56,7 +56,7 @@ import org.apache.commons.math.util.MathUtils;
  * left half plane is the set of points with negative offsets and the
  * right half plane is the set of points with positive offsets.</p>
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euclidean1D> {
@@ -227,38 +227,18 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param line line to check
      * @return offset of the line
      */
-    public double getOffset(final Hyperplane<Euclidean2D> hyperplane) {
-        Line line = (Line) hyperplane;
+    public double getOffset(final Line line) {
         return originOffset +
                ((cos * line.cos + sin * line.sin > 0) ? -line.originOffset : line.originOffset);
     }
 
-    /** Get the offset (oriented distance) of a point to the line.
-     * <p>The offset is 0 if the point belongs to the line, it is
-     * positive if the point is on the right side of the line and
-     * negative if it is on the left side, according to its natural
-     * orientation.</p>
-     * @param point point to check (must be a {@link Vector2D Vector2D} instance)
-     * @return offset of the point
-     */
+    /** {@inheritDoc} */
     public double getOffset(final Vector<Euclidean2D> point) {
         Vector2D p2 = (Vector2D) point;
         return sin * p2.getX() - cos * p2.getY() + originOffset;
     }
 
-    /** Check if the instance has the same orientation as another hyperplane.
-     * <p>This method is expected to be called on parallel hyperplanes
-     * (i.e. when the {@link #side side} method would return {@link
-     * org.apache.commons.math.geometry.partitioning.Hyperplane.Side#HYPER HYPER}
-     * for some sub-hyperplane having the specified hyperplane
-     * as its underlying hyperplane). The method should <em>not</em>
-     * re-check for parallelism, only for orientation, typically by
-     * testing something like the sign of the dot-products of
-     * normals.</p>
-     * @param other other hyperplane to check against the instance
-     * @return true if the instance and the other hyperplane have
-     * the same orientation
-     */
+    /** {@inheritDoc} */
     public boolean sameOrientationAs(final Hyperplane<Euclidean2D> other) {
         final Line otherL = (Line) other;
         return (sin * otherL.sin + cos * otherL.cos) >= 0.0;

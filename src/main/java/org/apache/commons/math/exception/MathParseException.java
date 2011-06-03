@@ -16,9 +16,8 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.util.ExceptionContext;
 import org.apache.commons.math.exception.util.ExceptionContextProvider;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Class to signal parse failures.
