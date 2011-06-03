@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math.geometry.euclidean.threed;
+package org.apache.commons.math.geometry.euclidean.twod;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
@@ -28,26 +28,27 @@ import org.apache.commons.math.geometry.VectorFormat;
 import org.apache.commons.math.util.CompositeFormat;
 
 /**
- * Formats a 3D vector in components list format "{x; y; z}".
+ * Formats a 2D vector in components list format "{x; y}".
  * <p>The prefix and suffix "{" and "}" and the separator "; " can be replaced by
  * any user-defined strings. The number format for components can be configured.</p>
  * <p>White space is ignored at parse time, even if it is in the prefix, suffix
  * or separator specifications. So even if the default separator does include a space
- * character that is used at format time, both input string "{1;1;1}" and
- * " { 1 ; 1 ; 1 } " will be parsed without error and the same vector will be
+ * character that is used at format time, both input string "{1;1}" and
+ * " { 1 ; 1 } " will be parsed without error and the same vector will be
  * returned. In the second case, however, the parse position after parsing will be
  * just after the closing curly brace, i.e. just before the trailing space.</p>
  *
  * @version $Id:$
+ * @since 3.0
  */
-public class Vector3DFormat extends VectorFormat<Euclidean3D> {
+public class Vector2DFormat extends VectorFormat<Euclidean2D> {
 
     /**
      * Create an instance with default settings.
      * <p>The instance uses the default prefix, suffix and separator:
      * "{", "}", and "; " and the default number format for components.</p>
      */
-    public Vector3DFormat() {
+    public Vector2DFormat() {
         super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR,
               CompositeFormat.getDefaultNumberFormat());
     }
@@ -56,7 +57,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
      * Create an instance with a custom number format for components.
      * @param format the custom format for components.
      */
-    public Vector3DFormat(final NumberFormat format) {
+    public Vector2DFormat(final NumberFormat format) {
         super(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, format);
     }
 
@@ -66,7 +67,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
      * @param suffix suffix to use instead of the default "}"
      * @param separator separator to use instead of the default "; "
      */
-    public Vector3DFormat(final String prefix, final String suffix,
+    public Vector2DFormat(final String prefix, final String suffix,
                          final String separator) {
         super(prefix, suffix, separator, CompositeFormat.getDefaultNumberFormat());
     }
@@ -79,72 +80,54 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
      * @param separator separator to use instead of the default "; "
      * @param format the custom format for components.
      */
-    public Vector3DFormat(final String prefix, final String suffix,
+    public Vector2DFormat(final String prefix, final String suffix,
                          final String separator, final NumberFormat format) {
         super(prefix, suffix, separator, format);
     }
 
     /**
-     * Returns the default 3D vector format for the current locale.
-     * @return the default 3D vector format.
+     * Returns the default 2D vector format for the current locale.
+     * @return the default 2D vector format.
      */
-    public static Vector3DFormat getInstance() {
+    public static Vector2DFormat getInstance() {
         return getInstance(Locale.getDefault());
     }
 
     /**
-     * Returns the default 3D vector format for the given locale.
+     * Returns the default 2D vector format for the given locale.
      * @param locale the specific locale used by the format.
-     * @return the 3D vector format specific to the given locale.
+     * @return the 2D vector format specific to the given locale.
      */
-    public static Vector3DFormat getInstance(final Locale locale) {
-        return new Vector3DFormat(CompositeFormat.getDefaultNumberFormat(locale));
+    public static Vector2DFormat getInstance(final Locale locale) {
+        return new Vector2DFormat(CompositeFormat.getDefaultNumberFormat(locale));
     }
 
-    /**
-     * Formats a {@link Vector3D} object to produce a string.
-     * @param vector the object to format.
-     * @param toAppendTo where the text is to be appended
-     * @param pos On input: an alignment field, if desired. On output: the
-     *            offsets of the alignment field
-     * @return the value passed in as toAppendTo.
-     */
-    public StringBuffer format(final Vector<Euclidean3D> vector, final StringBuffer toAppendTo,
+    /** {@inheritDoc} */
+    public StringBuffer format(final Vector<Euclidean2D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
-        final Vector3D v3 = (Vector3D) vector;
-        return format(toAppendTo, pos, v3.getX(), v3.getY(), v3.getZ());
+        final Vector2D p2 = (Vector2D) vector;
+        return format(toAppendTo, pos, p2.getX(), p2.getY());
     }
 
-    /**
-     * Parses a string to produce a {@link Vector3D} object.
-     * @param source the string to parse
-     * @return the parsed {@link Vector3D} object.
-     * @throws MathParseException if the beginning of the specified string
-     * cannot be parsed.
-     */
-    public Vector3D parse(final String source) {
+    /** {@inheritDoc} */
+    public Vector2D parse(final String source) {
         ParsePosition parsePosition = new ParsePosition(0);
-        Vector3D result = parse(source, parsePosition);
+        Vector2D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
             throw new MathParseException(source,
                                          parsePosition.getErrorIndex(),
-                                         Vector3D.class);
+                                         Vector2D.class);
         }
         return result;
     }
 
-    /**
-     * Parses a string to produce a {@link Vector3D} object.
-     * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
-     * @return the parsed {@link Vector3D} object.
-     */
-    public Vector3D parse(final String source, final ParsePosition pos) {
-        final double[] coordinates = parseCoordinates(3, source, pos);
+    /** {@inheritDoc} */
+    public Vector2D parse(final String source, final ParsePosition pos) {
+        final double[] coordinates = parseCoordinates(2, source, pos);
         if (coordinates == null) {
             return null;
         }
-        return new Vector3D(coordinates[0], coordinates[1], coordinates[2]);
+        return new Vector2D(coordinates[0], coordinates[1]);
     }
 
 }

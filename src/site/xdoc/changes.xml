@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add">
+        Added a consistent classes hierarchy for Euclidean spaces in dimension 1, 2 and 3.
+      </action>
       <action dev="luc" type="fix" issue="MATH-579">
         Improved javadoc for FastMath explaining the overhead at class loading and
         the targeted use cases.

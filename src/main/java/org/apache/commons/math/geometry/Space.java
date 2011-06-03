@@ -14,16 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.geometry.partitioning;
+package org.apache.commons.math.geometry;
 
-/** This interface represents a generic point to be used in a space partition.
- * <p>Points are completely virtual entities with no specification at
- * all, so this class is essentially a marker interface with no
- * methods. This allows to perform partition in traditional euclidean
- * n-dimensions spaces, but also in more exotic universes like for
- * example the surface of the unit sphere.</p>
- * @version $Revision$ $Date$
+import java.io.Serializable;
+
+/** This interface represents a generic space, with affine and vectorial counterparts.
+ * @version $Id:$
+ * @see Vector
+ * @since 3.0
  */
-public interface Point {
-    // nothing here, this is only a marker interface
+public interface Space extends Serializable {
+
+    /** Get the dimension of the space.
+     * @return dimension of the space
+     */
+    int getDimension();
+
+    /** Get the n-1 dimension subspace of this space.
+     * @return n-1 dimension sub-space of this space
+     * @see #getDimension()
+     */
+    Space getSubSpace();
+
 }
