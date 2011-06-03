@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Implementation for the {@link ZipfDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ZipfDistributionImpl extends AbstractIntegerDistribution
     implements ZipfDistribution, Serializable {

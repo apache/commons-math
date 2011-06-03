@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis;
 /**
  * Auxiliary class for testing solvers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class QuinticFunction implements DifferentiableUnivariateRealFunction {
 

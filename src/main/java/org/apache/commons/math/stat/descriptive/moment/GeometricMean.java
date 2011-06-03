@@ -47,7 +47,7 @@ import org.apache.commons.math.util.FastMath;
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GeometricMean extends AbstractStorelessUnivariateStatistic implements Serializable {
 

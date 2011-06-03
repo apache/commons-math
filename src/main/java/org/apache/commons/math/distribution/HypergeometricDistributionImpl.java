@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * The default implementation of {@link HypergeometricDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
     implements HypergeometricDistribution, Serializable {

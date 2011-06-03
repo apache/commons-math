@@ -33,7 +33,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 /**
  * Test cases for the {@link BlockRealMatrix} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class BlockRealMatrixTest {

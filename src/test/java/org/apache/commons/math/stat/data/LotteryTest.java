@@ -18,7 +18,7 @@
 package org.apache.commons.math.stat.data;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class LotteryTest extends CertifiedDataAbstractTest {
 

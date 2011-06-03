@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * which is closest to the origin. Abscissa increases in the line
  * direction.</p>
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Line implements Embedding<Euclidean3D, Euclidean1D> {

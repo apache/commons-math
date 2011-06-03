@@ -40,7 +40,7 @@
 
     <!-- Must have class / interface header comments including scm version -->
     <module name="JavadocType">
-        <property name="versionFormat" value="\$Revision.*\$ \$Date.*\$"/>
+        <property name="versionFormat" value="\$Id.*\$"/>
     </module>
         
      <!-- Require method javadocs, allow undeclared RTE -->

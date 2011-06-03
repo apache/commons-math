@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
     /** Default absolute accuracy. */

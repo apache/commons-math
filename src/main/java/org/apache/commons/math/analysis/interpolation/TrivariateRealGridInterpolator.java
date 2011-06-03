@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.TrivariateRealFunction;
  * Interface representing a trivariate real interpolating function where the
  * sample points must be specified on a regular grid.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public interface TrivariateRealGridInterpolator {

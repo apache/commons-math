@@ -40,7 +40,7 @@ import org.apache.commons.math.util.FastMath;
  * where <code>E(X)</code> is the mean of <code>X</code>, <code>E(Y)</code>
  * is the mean of the <code>Y</code> values and s(X), s(Y) are standard deviations.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class PearsonsCorrelation {

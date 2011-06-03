@@ -31,7 +31,7 @@ import java.io.ObjectOutput;
  *
  * @see StepHandler
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

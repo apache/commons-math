@@ -29,7 +29,7 @@ package org.apache.commons.math.optimization;
  * @see org.apache.commons.math.optimization.SimpleScalarValueChecker
  * @see org.apache.commons.math.optimization.SimpleRealPointChecker
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface ConvergenceChecker<PAIR> {

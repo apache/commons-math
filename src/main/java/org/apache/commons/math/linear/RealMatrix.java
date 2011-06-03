@@ -23,7 +23,7 @@ package org.apache.commons.math.linear;
  * Matrix element indexing is 0-based -- e.g., <code>getEntry(0, 0)</code>
  * returns the element in the first row, first column of the matrix.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface RealMatrix extends AnyMatrix {
     /**

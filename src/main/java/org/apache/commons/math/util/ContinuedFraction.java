@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * </ul>
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class ContinuedFraction {
     /** Maximum allowed numerical error. */

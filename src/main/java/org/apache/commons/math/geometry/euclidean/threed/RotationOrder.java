@@ -26,7 +26,7 @@ package org.apache.commons.math.geometry.euclidean.threed;
  * the {@link Rotation#Rotation(RotationOrder,double,double,double)}
  * constructor or the {@link Rotation#getAngles} method.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public final class RotationOrder {

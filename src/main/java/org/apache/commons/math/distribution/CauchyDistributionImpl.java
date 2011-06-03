@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * {@link org.apache.commons.math.distribution.CauchyDistribution}.
  *
  * @since 1.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class CauchyDistributionImpl extends AbstractContinuousDistribution
     implements CauchyDistribution, Serializable {

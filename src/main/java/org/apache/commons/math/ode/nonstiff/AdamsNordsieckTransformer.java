@@ -128,7 +128,7 @@ import org.apache.commons.math.linear.QRDecompositionImpl;
  * vector and a P<sup>-1</sup> A P matrix are used that do not depend on the state,
  * they only depend on k. This class handles these transformations.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class AdamsNordsieckTransformer {

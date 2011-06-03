@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatisticAbstractTest;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MedianTest extends UnivariateStatisticAbstractTest{
 

@@ -30,7 +30,7 @@ import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.geometry.partitioning.utilities.AVLTree;
 
 /** Visitor building segments.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 class SegmentsBuilder implements BSPTreeVisitor<Euclidean2D> {

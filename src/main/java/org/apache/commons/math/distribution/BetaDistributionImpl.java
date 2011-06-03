@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * Beta distribution</a></li>
  * </ul>
  * </p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class BetaDistributionImpl

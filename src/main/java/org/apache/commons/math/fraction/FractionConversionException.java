@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Error thrown when a double value cannot be converted to a fraction
  * in the allowed number of iterations.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class FractionConversionException extends ConvergenceException {

@@ -42,7 +42,7 @@ package org.apache.commons.math.ode.nonstiff;
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
  * @see ThreeEighthesIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

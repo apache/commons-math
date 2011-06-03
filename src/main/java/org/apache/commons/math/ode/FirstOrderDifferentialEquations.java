@@ -43,7 +43,7 @@ import org.apache.commons.math.exception.MathUserException;
  * @see FirstOrderConverter
  * @see SecondOrderDifferentialEquations
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

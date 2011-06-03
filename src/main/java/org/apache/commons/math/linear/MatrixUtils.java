@@ -38,7 +38,7 @@ import org.apache.commons.math.fraction.Fraction;
 /**
  * A collection of static methods that operate on or return matrices.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MatrixUtils {
 

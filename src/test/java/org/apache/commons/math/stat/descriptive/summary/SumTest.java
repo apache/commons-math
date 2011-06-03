@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link Sum} class.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SumTest extends StorelessUnivariateStatisticAbstractTest{
 

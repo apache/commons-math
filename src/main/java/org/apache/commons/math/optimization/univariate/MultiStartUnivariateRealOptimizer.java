@@ -40,7 +40,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  *
  * @param <FUNC> Type of the objective function to be optimized.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFunction>

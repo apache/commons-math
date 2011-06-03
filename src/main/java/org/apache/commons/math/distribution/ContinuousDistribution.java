@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * Base interface for continuous distributions.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface ContinuousDistribution extends Distribution {
     /**

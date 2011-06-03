@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.MathUserException;
  * An interface representing a bivariate real function.
  *
  * @since 2.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface BivariateRealFunction {
     /**

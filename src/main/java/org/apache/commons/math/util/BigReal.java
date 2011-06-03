@@ -33,7 +33,7 @@ import org.apache.commons.math.FieldElement;
  * in order to implement the {@link FieldElement} interface.
  * </p>
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Serializable {
 

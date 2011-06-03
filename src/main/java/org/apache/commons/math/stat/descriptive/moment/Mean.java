@@ -54,7 +54,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Mean extends AbstractStorelessUnivariateStatistic
     implements Serializable, WeightedEvaluation {

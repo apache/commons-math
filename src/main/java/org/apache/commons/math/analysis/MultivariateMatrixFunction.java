@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.MathUserException;
 
 /**
  * An interface representing a multivariate matrix function.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface MultivariateMatrixFunction {

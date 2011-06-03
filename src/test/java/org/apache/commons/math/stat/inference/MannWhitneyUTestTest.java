@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * Test cases for the ChiSquareTestImpl class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public class MannWhitneyUTestTest {

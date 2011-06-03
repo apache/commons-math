@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Implementation for the {@link PoissonDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class PoissonDistributionImpl extends AbstractIntegerDistribution
     implements PoissonDistribution, Serializable {

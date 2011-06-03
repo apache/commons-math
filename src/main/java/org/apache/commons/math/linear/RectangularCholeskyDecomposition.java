@@ -40,7 +40,7 @@ package org.apache.commons.math.linear;
  *
  * @see CholeskyDecomposition
  * @see org.apache.commons.math.random.CorrelatedRandomVectorGenerator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface RectangularCholeskyDecomposition {

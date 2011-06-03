@@ -47,7 +47,7 @@ import org.apache.commons.math.util.FastMath;
  * &prod; (x-x<sub>k</sub>)/(x<sub>i</sub>-x<sub>k</sub>) for k != i.
  * </p>
  * <p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

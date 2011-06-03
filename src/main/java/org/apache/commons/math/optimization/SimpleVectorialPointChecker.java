@@ -26,7 +26,7 @@ package org.apache.commons.math.optimization;
  * or if either the absolute difference between the point coordinates are
  * smaller than another threshold.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class SimpleVectorialPointChecker

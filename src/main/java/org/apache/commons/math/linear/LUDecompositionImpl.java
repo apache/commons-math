@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>As shown by the presence of the P matrix, this decomposition is
  * implemented using partial pivoting.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class LUDecompositionImpl implements LUDecomposition {

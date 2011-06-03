@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  *
  * @param <FUNC> Type of the objective function to be optimized
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealFunction>

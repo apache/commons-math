@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 /** This class represents exceptions thrown while extractiong Cardan
  * or Euler angles from a rotation.
 
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class CardanEulerSingularityException

@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * The default implementation of {@link BinomialDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class BinomialDistributionImpl extends AbstractIntegerDistribution
         implements BinomialDistribution, Serializable {

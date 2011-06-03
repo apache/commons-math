@@ -24,7 +24,7 @@ import org.apache.commons.math.util.OpenIntToDoubleHashMap;
 /**
  * Sparse matrix implementation based on an open addressed map.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class OpenMapRealMatrix extends AbstractRealMatrix

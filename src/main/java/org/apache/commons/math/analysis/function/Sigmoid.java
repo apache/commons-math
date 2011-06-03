@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * A more flexible version, the generalised logistic, is implemented
  * by the {@link Logistic} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Sigmoid implements DifferentiableUnivariateRealFunction {

@@ -29,7 +29,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @param <FUNC> Type of function to solve.
  *
- * @version $Revision: 1030464 $ $Date: 2010-11-03 14:46:04 +0100 (Wed, 03 Nov 2010) $
+ * @version $Id$
  * @since 2.0
  */
 public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRealFunction>

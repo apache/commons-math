@@ -29,7 +29,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  * Provide a default implementation for several functions useful to generic
  * optimizers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public abstract class AbstractUnivariateRealOptimizer

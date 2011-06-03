@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Test cases for the AbstractRandomGenerator class
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 @RunWith(RetryRunner.class)

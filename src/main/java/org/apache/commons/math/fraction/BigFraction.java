@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * Representation of a rational number without any overflow. This class is
  * immutable.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class BigFraction

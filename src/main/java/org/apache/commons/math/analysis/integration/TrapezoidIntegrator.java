@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * The function should be integrable.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {

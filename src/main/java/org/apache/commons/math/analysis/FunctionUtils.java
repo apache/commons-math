@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.function.Identity;
 /**
  * Utilities for manipulating function objects.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class FunctionUtils {

@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Exception to be thrown when a square matrix is expected.
  *
  * @since 3.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class NonSquareMatrixException extends DimensionMismatchException {
 

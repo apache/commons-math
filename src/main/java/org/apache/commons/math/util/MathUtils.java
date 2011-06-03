@@ -38,7 +38,7 @@ import org.apache.commons.math.exception.NotFiniteNumberException;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class MathUtils {
 

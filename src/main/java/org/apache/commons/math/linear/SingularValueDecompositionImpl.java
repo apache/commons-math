@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * n orthogonal matrix (hence V<sup>T</sup> is also orthogonal) where
  * p=min(m,n).
  * </p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class SingularValueDecompositionImpl implements SingularValueDecomposition {

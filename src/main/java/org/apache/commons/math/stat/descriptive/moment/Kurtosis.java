@@ -42,7 +42,7 @@ import org.apache.commons.math.util.FastMath;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements Serializable {
 

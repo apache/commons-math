@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.MathUserException;
  *
  * @see StepHandler
  * @see StepNormalizer
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

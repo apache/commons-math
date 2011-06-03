@@ -25,7 +25,7 @@ import org.apache.commons.math.geometry.Space;
 
 /**
  * This class implements a one-dimensional space.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Euclidean1D implements Serializable, Space {

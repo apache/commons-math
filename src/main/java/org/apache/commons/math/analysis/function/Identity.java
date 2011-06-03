@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Identity function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Identity implements UnivariateRealFunction {

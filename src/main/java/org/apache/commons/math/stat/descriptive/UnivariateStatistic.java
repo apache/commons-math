@@ -20,7 +20,7 @@ package org.apache.commons.math.stat.descriptive;
 /**
  * Base interface implemented by all statistics.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface UnivariateStatistic {
 

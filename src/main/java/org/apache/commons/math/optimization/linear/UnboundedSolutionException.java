@@ -23,7 +23,7 @@ import org.apache.commons.math.optimization.OptimizationException;
 /**
  * This class represents exceptions thrown by optimizers when a solution
  * escapes to infinity.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class UnboundedSolutionException extends OptimizationException {

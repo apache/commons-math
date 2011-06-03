@@ -50,7 +50,7 @@ import org.apache.commons.math.linear.RealMatrix;
   *
  * @see MultivariateRealFunction
  * @see MultivariateVectorialFunction
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 

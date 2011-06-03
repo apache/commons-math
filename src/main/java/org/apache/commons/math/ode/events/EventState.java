@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
  * decide if the handler should trigger an event or not during the
  * proposed step.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class EventState {

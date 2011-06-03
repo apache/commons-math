@@ -19,7 +19,7 @@ package org.apache.commons.math.geometry.euclidean.twod;
 import org.apache.commons.math.geometry.partitioning.utilities.OrderedTuple;
 
 /** This class holds segments information before they are connected.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 class Segment implements Comparable<Segment> {

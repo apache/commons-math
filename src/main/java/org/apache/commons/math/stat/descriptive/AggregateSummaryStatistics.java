@@ -46,7 +46,7 @@ import java.util.Iterator;
  * to avoid unnecessary computation and synchronization delays.</p>
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  *
  */
 public class AggregateSummaryStatistics implements StatisticalSummary,

@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * This implementation employs basic trapezoid rule as building blocks to
  * calculate the Simpson's rule of alternating 2/3 and 4/3.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {

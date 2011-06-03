@@ -20,7 +20,7 @@ package org.apache.commons.math.genetics;
  * A pair of {@link Chromosome} objects.
  * @since 2.0
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ChromosomePair {
     /** the first chromosome in the pair. */

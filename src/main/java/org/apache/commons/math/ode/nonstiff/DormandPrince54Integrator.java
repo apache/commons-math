@@ -42,7 +42,7 @@ import org.apache.commons.math.util.FastMath;
  *  volume 6, no 1, 1980, pp. 19-26
  * </pre></p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

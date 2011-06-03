@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Test case for {@link SecantSolver}.
  *
- * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
+ * @version $Id$
  */
 public final class SecantSolverTest {
     @Test

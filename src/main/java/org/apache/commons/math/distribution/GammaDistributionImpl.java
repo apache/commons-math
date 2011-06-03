@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * The default implementation of {@link GammaDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GammaDistributionImpl extends AbstractContinuousDistribution
     implements GammaDistribution, Serializable  {

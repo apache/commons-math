@@ -23,7 +23,7 @@ package org.apache.commons.math.util;
  * @param <K> Key type.
  * @param <V> Value type.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Pair<K, V> {

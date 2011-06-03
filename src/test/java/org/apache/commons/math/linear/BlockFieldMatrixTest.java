@@ -35,7 +35,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 /**
  * Test cases for the {@link BlockFieldMatrix} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class BlockFieldMatrixTest {

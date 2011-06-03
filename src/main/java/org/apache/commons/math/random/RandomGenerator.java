@@ -22,7 +22,7 @@ package org.apache.commons.math.random;
  * implemented by {@link AbstractRandomGenerator}.
  *
  * @since 1.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface RandomGenerator {
 

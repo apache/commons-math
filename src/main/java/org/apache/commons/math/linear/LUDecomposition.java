@@ -40,7 +40,7 @@ package org.apache.commons.math.linear;
  *
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface LUDecomposition {

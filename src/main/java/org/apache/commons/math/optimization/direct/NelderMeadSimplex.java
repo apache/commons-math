@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.MathUserException;
 /**
  * This class implements the Nelder-Mead simplex algorithm.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class NelderMeadSimplex extends AbstractSimplex {

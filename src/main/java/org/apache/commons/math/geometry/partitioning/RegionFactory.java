@@ -22,7 +22,7 @@ import org.apache.commons.math.geometry.Space;
 
  * @param <S> Type of the space.
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class RegionFactory<S extends Space> {

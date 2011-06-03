@@ -45,7 +45,7 @@ import org.junit.Test;
  *  use the setXxx methods for the instance data in test cases and call the verifyXxx methods
  *  to verify results.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class IntegerDistributionAbstractTest {
 

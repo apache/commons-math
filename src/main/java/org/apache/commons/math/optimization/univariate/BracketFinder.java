@@ -29,7 +29,7 @@ import org.apache.commons.math.optimization.GoalType;
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class BracketFinder {

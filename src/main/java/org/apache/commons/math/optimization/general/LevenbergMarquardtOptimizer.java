@@ -101,7 +101,7 @@ import org.apache.commons.math.util.FastMath;
  *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
  * <ol></td></tr>
  * </table>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  *
  */

@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
  * provided for some of the methods that do not vary from distribution to
  * distribution.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class AbstractContinuousDistribution
     extends AbstractDistribution

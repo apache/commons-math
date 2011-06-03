@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Exception to be thrown when a number is not finite.
  *
  * @since 3.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class NotFiniteNumberException extends MathIllegalNumberException {
     /** Serializable version Id. */

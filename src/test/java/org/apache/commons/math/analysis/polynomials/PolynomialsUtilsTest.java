@@ -24,7 +24,7 @@ import org.junit.Assert;
 /**
  * Tests the PolynomialsUtils class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class PolynomialsUtilsTest {
 

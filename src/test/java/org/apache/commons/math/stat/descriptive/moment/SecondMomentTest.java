@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 
 /**
  * Test cases for the {@link SecondMoment} class.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SecondMomentTest extends StorelessUnivariateStatisticAbstractTest {
 

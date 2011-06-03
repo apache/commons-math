@@ -43,7 +43,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *                       standard deviation = <code>sigma</code></li>
  * <li> CONSTANT_MODE -- returns <code>mu</code> every time.</li></ul></p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  *
  */
 public class ValueServer {

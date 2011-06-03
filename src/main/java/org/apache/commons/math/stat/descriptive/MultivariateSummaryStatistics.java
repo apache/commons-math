@@ -65,7 +65,7 @@ import org.apache.commons.math.util.FastMath;
  * threads is required.</p>
  *
  * @since 1.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MultivariateSummaryStatistics
     implements StatisticalMultivariateSummary, Serializable {

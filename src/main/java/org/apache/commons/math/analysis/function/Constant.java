@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Constant function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Constant implements UnivariateRealFunction {

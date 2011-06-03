@@ -86,7 +86,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * <p>Rotations are guaranteed to be immutable objects.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @see Vector3D
  * @see RotationOrder
  * @since 1.2

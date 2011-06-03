@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
  * Population of chromosomes represented by a {@link List}.
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class ListPopulation implements Population {
 

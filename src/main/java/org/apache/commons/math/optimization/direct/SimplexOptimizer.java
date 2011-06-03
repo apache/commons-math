@@ -73,7 +73,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * </p>
  *
  * @see AbstractSimplex
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class SimplexOptimizer

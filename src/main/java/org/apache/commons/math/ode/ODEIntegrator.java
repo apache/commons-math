@@ -27,7 +27,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
  * for first and second order differential equations.
  * @see FirstOrderIntegrator
  * @see SecondOrderIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface ODEIntegrator  {

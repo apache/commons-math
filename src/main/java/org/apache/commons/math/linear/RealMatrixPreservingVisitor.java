@@ -21,7 +21,7 @@ package org.apache.commons.math.linear;
  * Interface defining a visitor for matrix entries.
  *
  * @see DefaultRealMatrixPreservingVisitor
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface RealMatrixPreservingVisitor {

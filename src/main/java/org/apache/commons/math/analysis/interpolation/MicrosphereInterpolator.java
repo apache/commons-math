@@ -27,7 +27,7 @@ import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
  * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
  * @since 2.1
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MicrosphereInterpolator
     implements MultivariateRealInterpolator {

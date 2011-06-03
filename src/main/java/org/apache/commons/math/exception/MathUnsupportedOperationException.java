@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.util.ExceptionContextProvider;
  * message.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathUnsupportedOperationException extends UnsupportedOperationException
     implements ExceptionContextProvider {

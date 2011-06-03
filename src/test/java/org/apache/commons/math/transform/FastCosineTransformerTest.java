@@ -27,7 +27,7 @@ import org.junit.Test;
  * FCT algorithm is exact, the small tolerance number is used only
  * to account for round-off errors.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class FastCosineTransformerTest {
 

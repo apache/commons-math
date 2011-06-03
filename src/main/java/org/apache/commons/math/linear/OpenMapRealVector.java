@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * This class implements the {@link RealVector} interface with a
  * {@link OpenIntToDoubleHashMap} backing store.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
 */
 public class OpenMapRealVector extends AbstractRealVector

@@ -100,7 +100,7 @@ import org.apache.commons.math.util.MathUtils;
  * </ul>
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class RandomDataImpl implements RandomData, Serializable {
 

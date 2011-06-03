@@ -25,7 +25,7 @@ import java.io.Serializable;
  * <p>This is a simple immutable container.</p>
  * @see VectorialPointValuePair
  * @see org.apache.commons.math.analysis.MultivariateRealFunction
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class RealPointValuePair implements Serializable {

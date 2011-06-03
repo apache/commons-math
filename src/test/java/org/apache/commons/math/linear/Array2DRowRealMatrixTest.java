@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.MathIllegalStateException;
 /**
  * Test cases for the {@link Array2DRowRealMatrix} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class Array2DRowRealMatrixTest {

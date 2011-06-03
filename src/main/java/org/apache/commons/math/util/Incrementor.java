@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.MaxCountExceededException;
  * Utility that increments a counter until a maximum is reached, at which
  * point it will throw an exception.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Incrementor {

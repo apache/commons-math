@@ -28,7 +28,7 @@ import org.junit.Test;
  * Tests {@link GaussianFitter}.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GaussianFitterTest {
     /** Good data. */

@@ -42,7 +42,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * step.</p>
  *
  * @see ThreeEighthesIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

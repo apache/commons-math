@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Error thrown when a numerical computation exceeds its allowed
  * number of functions evaluations.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class MaxEvaluationsExceededException extends ConvergenceException {

@@ -30,7 +30,7 @@ import org.apache.commons.math.exception.MathUserException;
  * @see FirstOrderDifferentialEquations
  * @see org.apache.commons.math.ode.sampling.StepHandler
  * @see org.apache.commons.math.ode.events.EventHandler
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

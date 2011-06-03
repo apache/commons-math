@@ -27,7 +27,7 @@ import org.apache.commons.math.exception.util.ExceptionContextProvider;
  * of the standard {@link IllegalArgumentException}.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathIllegalArgumentException extends IllegalArgumentException
     implements ExceptionContextProvider {

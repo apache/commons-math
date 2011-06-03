@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * <a href="http://mathworld.wolfram.com/HornersMethod.html">Horner's Method</a>
  * is used to evaluate the function.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class PolynomialFunction implements DifferentiableUnivariateRealFunction, Serializable {
     /**

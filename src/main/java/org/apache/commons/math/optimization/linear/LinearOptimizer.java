@@ -47,7 +47,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * the constraints, the x<sub>i</sub> are the coordinates of the current point and
  * v is the value of the constraint.
  * </p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface LinearOptimizer {

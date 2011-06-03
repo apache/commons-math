@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  *  Logit</a> function.
  * It is the inverse of the {@link Sigmoid sigmoid} function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Logit implements DifferentiableUnivariateRealFunction {

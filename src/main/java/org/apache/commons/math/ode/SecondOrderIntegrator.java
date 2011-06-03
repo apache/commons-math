@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.MathUserException;
  * SecondOrderDifferentialEquations} interface.</p>
  *
  * @see SecondOrderDifferentialEquations
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

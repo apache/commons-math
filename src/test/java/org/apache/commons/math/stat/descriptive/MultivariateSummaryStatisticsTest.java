@@ -30,7 +30,7 @@ import org.junit.Assert;
 /**
  * Test cases for the {@link MultivariateSummaryStatistics} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public class MultivariateSummaryStatisticsTest {

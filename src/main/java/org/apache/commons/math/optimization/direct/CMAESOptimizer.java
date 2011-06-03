@@ -75,7 +75,7 @@ import org.apache.commons.math.util.MathUtils;
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 

@@ -37,7 +37,7 @@ import org.apache.commons.math.util.FastMath;
  * transformation after sampling.</p>
  * <p>As of version 2.0 this no longer implements Serializable</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class FastSineTransformer implements RealTransformer {

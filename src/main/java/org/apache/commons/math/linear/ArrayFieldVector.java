@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 /**
  * This class implements the {@link FieldVector} interface with a {@link FieldElement} array.
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {

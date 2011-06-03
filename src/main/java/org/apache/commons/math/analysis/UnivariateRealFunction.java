@@ -21,7 +21,7 @@ import org.apache.commons.math.exception.MathUserException;
 /**
  * An interface representing a univariate real function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface UnivariateRealFunction {
     /**

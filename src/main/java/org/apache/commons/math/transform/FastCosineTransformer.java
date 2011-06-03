@@ -37,7 +37,7 @@ import org.apache.commons.math.util.FastMath;
  * function transformation on how this affects the sampling.</p>
  * <p>As of version 2.0 this no longer implements Serializable</p>
  *
- * @version $Revision:670469 $ $Date:2008-06-23 10:01:38 +0200 (lun., 23 juin 2008) $
+ * @version $Id$
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer {

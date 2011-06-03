@@ -25,7 +25,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Generates a bicubic interpolating function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class BicubicSplineInterpolator

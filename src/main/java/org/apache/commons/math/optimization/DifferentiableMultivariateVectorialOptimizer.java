@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunct
  * {@link DifferentiableMultivariateVectorialFunction vectorial differentiable
  * objective functions}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface DifferentiableMultivariateVectorialOptimizer

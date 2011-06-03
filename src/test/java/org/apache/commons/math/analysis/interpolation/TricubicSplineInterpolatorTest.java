@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Test case for the tricubic interpolator.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public final class TricubicSplineInterpolatorTest {
     /**

@@ -63,7 +63,7 @@ package org.apache.commons.math.util;
  * <li>{@link #nextUp(float)}</li>
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class FastMath {

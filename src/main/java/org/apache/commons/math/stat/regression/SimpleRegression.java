@@ -53,7 +53,7 @@ import org.apache.commons.math.util.FastMath;
  * the necessary computations to return the requested statistic.</li>
  * </ul></p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SimpleRegression implements Serializable {
 

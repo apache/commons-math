@@ -29,7 +29,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link Frequency} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class FrequencyTest {

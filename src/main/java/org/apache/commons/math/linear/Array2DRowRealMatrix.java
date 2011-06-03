@@ -51,7 +51,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * returns the element in the first row, first column of the matrix.</li></ul>
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializable {
     /** Serializable version identifier. */

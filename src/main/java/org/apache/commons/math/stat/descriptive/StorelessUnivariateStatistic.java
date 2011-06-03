@@ -25,7 +25,7 @@ package org.apache.commons.math.stat.descriptive;
  * computed in one pass through the data without storing the full array of
  * sample values.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

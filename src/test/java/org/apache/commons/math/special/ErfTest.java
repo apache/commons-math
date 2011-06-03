@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ErfTest {
     @Test

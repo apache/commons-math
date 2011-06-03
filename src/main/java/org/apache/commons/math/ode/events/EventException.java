@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.Localizable;
 /**
  * This exception is made available to users to report
  * the error conditions that are triggered by {@link EventHandler}
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class EventException extends MathException {

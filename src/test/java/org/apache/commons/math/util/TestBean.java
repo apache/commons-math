@@ -21,7 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class TestBean {
     private Double x = Double.valueOf(1.0);

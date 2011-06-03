@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Inverse function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Inverse implements UnivariateRealFunction {

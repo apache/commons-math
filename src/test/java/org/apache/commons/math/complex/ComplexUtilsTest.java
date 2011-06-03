@@ -24,7 +24,7 @@ import org.junit.Test;
 
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ComplexUtilsTest {
 

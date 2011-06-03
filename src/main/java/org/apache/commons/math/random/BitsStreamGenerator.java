@@ -21,7 +21,7 @@ import org.apache.commons.math.util.FastMath;
 
 /** Base class for random number generators that generates bits streams.
 
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
 
  */

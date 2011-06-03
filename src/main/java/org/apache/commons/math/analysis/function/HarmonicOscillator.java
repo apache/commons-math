@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">
  *  simple harmonic oscillator</a> function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class HarmonicOscillator implements DifferentiableUnivariateRealFunction {

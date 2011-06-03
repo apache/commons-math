@@ -41,7 +41,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *   RealVector result = v.mapAddToSelf(3.4).mapToSelf(new Tan()).mapToSelf(new Power(2.3));
  * </pre>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface RealVector {

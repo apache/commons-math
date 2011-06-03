@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.Localizable;
 /**
 * Interface for commons-math throwables.
 *
-* @version $Revision$ $Date$
+* @version $Id$
 * @since 2.2
 */
 public interface MathThrowable {

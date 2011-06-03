@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Test for {@link NotPositiveException}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class NotPositiveExceptionTest {
     @Test

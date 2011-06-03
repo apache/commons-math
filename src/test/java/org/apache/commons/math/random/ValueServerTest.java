@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 /**
  * Test cases for the ValueServer class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 @RunWith(RetryRunner.class)

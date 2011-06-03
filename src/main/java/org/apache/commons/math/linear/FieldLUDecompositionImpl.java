@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  * a zero pivot element, no attempt is done to get the largest pivot element.</p>
  *
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements FieldLUDecomposition<T> {

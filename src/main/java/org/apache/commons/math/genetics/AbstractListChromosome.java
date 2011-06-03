@@ -25,7 +25,7 @@ import java.util.List;
  * Chromosome represented by an immutable list of a fixed length.
  *
  * @param <T> type of the representation list
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public abstract class AbstractListChromosome<T> extends Chromosome {

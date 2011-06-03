@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 /**
  * Goal type for an optimization problem.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public enum GoalType implements Serializable {

@@ -63,7 +63,7 @@ import org.apache.commons.math.util.FastMath;
  * to up to 3-fold improvements for matrices of moderate to large size.
  * </p>
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> implements Serializable {

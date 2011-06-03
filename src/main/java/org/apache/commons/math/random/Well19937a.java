@@ -28,7 +28,7 @@ package org.apache.commons.math.random;
  * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
 
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
 
  */

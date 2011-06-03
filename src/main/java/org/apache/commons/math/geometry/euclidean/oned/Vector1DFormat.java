@@ -38,7 +38,7 @@ import org.apache.commons.math.util.CompositeFormat;
  * returned. In the second case, however, the parse position after parsing will be
  * just after the closing curly brace, i.e. just before the trailing space.</p>
  *
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class Vector1DFormat extends VectorFormat<Euclidean1D> {

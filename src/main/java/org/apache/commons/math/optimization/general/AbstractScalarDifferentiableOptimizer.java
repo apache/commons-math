@@ -31,7 +31,7 @@ import org.apache.commons.math.optimization.direct.BaseAbstractScalarOptimizer;
  * differentiable functions.
  * It contains boiler-plate code for dealing with gradient evaluation.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public abstract class AbstractScalarDifferentiableOptimizer

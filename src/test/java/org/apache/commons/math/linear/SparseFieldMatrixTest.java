@@ -32,7 +32,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 /**
  * Test cases for the {@link SparseFieldMatrix} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SparseFieldMatrixTest {
     // 3 x 3 identity matrix

@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * numerical result failed to converge to a finite value.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ConvergenceException extends MathIllegalStateException {
     /** Serializable version Id. */

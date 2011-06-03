@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 /**
  * Base class for solvers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractPolynomialSolver

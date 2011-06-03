@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 /**
  * Base class for probability distributions.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class AbstractDistribution
     implements Distribution, Serializable {

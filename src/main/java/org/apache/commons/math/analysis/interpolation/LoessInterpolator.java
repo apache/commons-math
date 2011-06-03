@@ -42,7 +42,7 @@ import org.apache.commons.math.util.MathUtils;
  * This class implements both the loess method and serves as an interpolation
  * adapter to it, allowing to build a spline on the obtained loess fit.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class LoessInterpolator

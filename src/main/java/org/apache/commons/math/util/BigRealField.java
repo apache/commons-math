@@ -27,7 +27,7 @@ import org.apache.commons.math.Field;
  * This class is a singleton.
  * </p>
  * @see BigReal
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class BigRealField implements Field<BigReal>, Serializable  {

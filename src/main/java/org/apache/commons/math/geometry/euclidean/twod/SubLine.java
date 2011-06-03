@@ -29,7 +29,7 @@ import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.util.FastMath;
 
 /** This class represents a sub-hyperplane for {@link Line}.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {

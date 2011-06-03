@@ -90,7 +90,7 @@ import org.apache.commons.math.FieldElement;
  *  detail and is really only a matter of definition.  Any side effects of
  *  this can be rendered invisible by a subclass.</p>
  * @see DfpField
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class Dfp implements FieldElement<Dfp> {

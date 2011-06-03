@@ -56,7 +56,7 @@ import org.apache.commons.math.optimization.fitting.WeightedObservedPoint;
  * </pre>
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GaussianFitter extends CurveFitter {
     /**

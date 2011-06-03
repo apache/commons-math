@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 * <p>
 * Adapted from <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/FunctorException.html"/>.</p>
 *
-* @version $Revision$ $Date$
+* @version $Id$
 */
 public class MathException extends Exception implements MathThrowable {
 

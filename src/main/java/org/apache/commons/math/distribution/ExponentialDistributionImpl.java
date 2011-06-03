@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * The default implementation of {@link ExponentialDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     implements ExponentialDistribution, Serializable {

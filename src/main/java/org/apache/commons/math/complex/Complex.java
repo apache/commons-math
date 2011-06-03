@@ -43,7 +43,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * implements Serializable since 2.0
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Complex implements FieldElement<Complex>, Serializable  {
 

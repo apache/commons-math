@@ -20,7 +20,7 @@ package org.apache.commons.math.genetics;
  * Algorithm used to mutate a chrommosome.
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface MutationPolicy {
 

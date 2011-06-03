@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.general;
 /**
  * This interface represents a preconditioner for differentiable scalar
  * objective function optimizers.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface Preconditioner {

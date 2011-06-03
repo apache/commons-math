@@ -48,7 +48,7 @@ import org.apache.commons.math.util.FastMath;
  * Handbook for automatic computation, vol. 2, Linear algebra, Springer-Verlag,
  * New-York
  * </p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class EigenDecompositionImpl implements EigenDecomposition {

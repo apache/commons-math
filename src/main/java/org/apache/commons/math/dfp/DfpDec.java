@@ -21,7 +21,7 @@ package org.apache.commons.math.dfp;
  * This should give outward appearances of being a decimal number with DIGITS*4-3
  * decimal digits. This class can be subclassed to appear to be an arbitrary number
  * of decimal digits less than DIGITS*4-3.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class DfpDec extends Dfp {

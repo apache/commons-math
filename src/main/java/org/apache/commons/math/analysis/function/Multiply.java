@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
 /**
  * Multiply the two operands.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Multiply implements BivariateRealFunction {

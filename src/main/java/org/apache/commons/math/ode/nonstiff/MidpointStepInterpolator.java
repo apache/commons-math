@@ -37,7 +37,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * step.</p>
  *
  * @see MidpointIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

@@ -25,7 +25,7 @@ import org.junit.runners.model.Statement;
 
 /**
  * A test runner that retries tests when assertions fail.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class RetryRunner extends BlockJUnit4ClassRunner {
     /**

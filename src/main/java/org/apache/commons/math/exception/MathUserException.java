@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.util.ExceptionContextProvider;
  * The Commons-Math code will never catch such an exception.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathUserException extends RuntimeException
     implements ExceptionContextProvider {

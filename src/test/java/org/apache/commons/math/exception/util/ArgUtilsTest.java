@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Test for {@link ArgUtils}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class ArgUtilsTest {
     @Test

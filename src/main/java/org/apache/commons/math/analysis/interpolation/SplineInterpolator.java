@@ -47,7 +47,7 @@ import org.apache.commons.math.util.MathUtils;
  * <u>Numerical Analysis</u>, 4th Ed., 1989, PWS-Kent, ISBN 0-53491-585-X, pp 126-131.
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  *
  */
 public class SplineInterpolator implements UnivariateRealInterpolator {

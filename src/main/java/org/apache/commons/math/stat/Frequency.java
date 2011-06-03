@@ -44,7 +44,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * The values are ordered using the default (natural order), unless a
  * <code>Comparator</code> is supplied in the constructor.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Frequency implements Serializable {
 

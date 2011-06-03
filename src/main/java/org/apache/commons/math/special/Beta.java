@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Beta {
     /** Maximum allowed numerical error. */

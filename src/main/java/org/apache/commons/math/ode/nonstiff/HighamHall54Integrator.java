@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * (and automatic step initialization) and continuous output. This
  * method uses 7 functions evaluations per step.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

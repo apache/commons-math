@@ -29,7 +29,7 @@ import org.apache.commons.math.util.MathUtils;
  * <p>
  * <strong>Note that these implementations are not synchronized.</strong></p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class AbstractStorelessUnivariateStatistic
     extends AbstractUnivariateStatistic

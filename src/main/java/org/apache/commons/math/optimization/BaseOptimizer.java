@@ -30,7 +30,7 @@ package org.apache.commons.math.optimization;
  *
  * @param <PAIR> Type of the point/objective pair.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface BaseOptimizer<PAIR> {

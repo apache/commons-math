@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.NoDataException;
  * be replaced with 'j' (or anything else), and the number format for both real
  * and imaginary parts can be configured.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ComplexFormat {
     /** Serializable version identifier */

@@ -21,7 +21,7 @@ import org.apache.commons.math.exception.MathUserException;
 /**
  * Auxiliary class for testing optimizers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SumSincFunction implements DifferentiableMultivariateRealFunction {
     private static final DifferentiableUnivariateRealFunction sinc = new SincFunction();

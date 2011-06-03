@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @since 1.2
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public class UniformRandomGenerator implements NormalizedRandomGenerator {

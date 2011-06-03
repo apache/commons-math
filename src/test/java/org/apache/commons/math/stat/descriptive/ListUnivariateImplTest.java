@@ -28,7 +28,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class ListUnivariateImplTest {

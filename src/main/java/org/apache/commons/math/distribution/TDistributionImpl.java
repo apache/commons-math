@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * Default implementation of
  * {@link org.apache.commons.math.distribution.TDistribution}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class TDistributionImpl
     extends AbstractContinuousDistribution

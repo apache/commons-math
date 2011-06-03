@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.NumberTransformer;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ListUnivariateImpl extends DescriptiveStatistics implements Serializable {
 

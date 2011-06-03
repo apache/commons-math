@@ -22,7 +22,7 @@ package org.apache.commons.math.util;
  * array implementations to support various storage mechanisms
  * such as automatic expansion, contraction, and array "rolling".
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface DoubleArray {
 

@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
  *
  * @param <FUNC> the type of the objective function to be optimized
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVectorialFunction>

@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
 /**
  * Subtract the second operand from the first.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Subtract implements BivariateRealFunction {

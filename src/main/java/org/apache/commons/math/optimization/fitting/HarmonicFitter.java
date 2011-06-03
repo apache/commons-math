@@ -33,7 +33,7 @@ import org.apache.commons.math.util.FastMath;
  * searched by a least square estimator initialized with a rough guess
  * based on integrals.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class HarmonicFitter extends CurveFitter {

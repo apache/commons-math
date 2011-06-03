@@ -21,7 +21,7 @@ package org.apache.commons.math.random;
 /** This interface represents a random generator for whole vectors.
  *
  * @since 1.2
- * @version $Revision$ $Date$
+ * @version $Id$
  *
  */
 

@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * Certified data test cases.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class CertifiedDataTest {
 

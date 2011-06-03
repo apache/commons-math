@@ -20,7 +20,7 @@ import java.util.Collection;
 
 /**
  * Random data generation utilities.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface RandomData {
     /**

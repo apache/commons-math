@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Test for {@link NumberIsTooSmallException}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class NumberIsTooSmallExceptionTest {
     @Test

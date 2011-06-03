@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  * which means linear approximation (Regula Falsi) will converge
  * quadratically.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SinFunction implements DifferentiableUnivariateRealFunction {
 

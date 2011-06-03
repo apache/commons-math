@@ -37,7 +37,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * <code>ConcurrentModificationException</code> when they detect the map has been
  * modified during iteration.</p>
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Serializable {

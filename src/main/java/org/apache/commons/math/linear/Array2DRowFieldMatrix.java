@@ -35,7 +35,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * </p>
  *
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     extends AbstractFieldMatrix<T>

@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Test cases for the TestStatistic class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public final class SimpleRegressionTest {

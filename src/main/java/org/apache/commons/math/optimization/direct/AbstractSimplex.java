@@ -45,7 +45,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * this class.
  *
  * @see SimplexOptimizer
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractSimplex {

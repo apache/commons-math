@@ -38,7 +38,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  * is faster but QR decomposition is more robust for difficult problems.
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  *
  */

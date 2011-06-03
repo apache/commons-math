@@ -28,7 +28,7 @@ import org.apache.commons.math.geometry.partitioning.Side;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 
 /** This class represents a sub-hyperplane for {@link Plane}.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {

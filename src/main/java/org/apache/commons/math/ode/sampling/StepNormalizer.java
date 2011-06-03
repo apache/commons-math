@@ -44,7 +44,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @see StepHandler
  * @see FixedStepHandler
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

@@ -47,7 +47,7 @@ import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
  * more of these threads invoke property setters, external synchronization must
  * be provided to ensure correct results.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.1
  */
 

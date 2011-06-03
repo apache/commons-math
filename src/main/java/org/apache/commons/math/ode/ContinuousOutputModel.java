@@ -82,7 +82,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @see StepHandler
  * @see StepInterpolator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

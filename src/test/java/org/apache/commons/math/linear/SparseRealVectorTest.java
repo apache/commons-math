@@ -55,7 +55,7 @@ import org.apache.commons.math.analysis.function.Power;
 /**
  * Test cases for the {@link OpenMapRealVector} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SparseRealVectorTest {
 

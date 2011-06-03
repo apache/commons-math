@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Utility routines for {@link UnivariateRealSolver} objects.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class UnivariateRealSolverUtils {
     /**

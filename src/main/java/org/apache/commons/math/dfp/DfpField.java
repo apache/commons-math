@@ -20,7 +20,7 @@ package org.apache.commons.math.dfp;
 import org.apache.commons.math.Field;
 
 /** Field for Decimal floating point instances.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class DfpField implements Field<Dfp> {

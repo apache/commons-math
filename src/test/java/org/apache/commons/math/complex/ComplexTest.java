@@ -26,7 +26,7 @@ import java.util.List;
 
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ComplexTest {
 

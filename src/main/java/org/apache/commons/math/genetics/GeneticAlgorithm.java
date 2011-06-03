@@ -24,7 +24,7 @@ import org.apache.commons.math.random.JDKRandomGenerator;
  * of the algorithm can be configured for a specific problem.
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GeneticAlgorithm {
 

@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class DefaultTransformerTest {
     /**

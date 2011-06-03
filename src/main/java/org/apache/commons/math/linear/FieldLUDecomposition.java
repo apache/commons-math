@@ -42,7 +42,7 @@ import org.apache.commons.math.FieldElement;
  * @param <T> the type of the field elements
  * @see <a href="http://mathworld.wolfram.com/LUDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface FieldLUDecomposition<T extends FieldElement<T>> {

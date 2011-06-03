@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
 
 /**
  * Solves a linear problem using the Two-Phase Simplex Method.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class SimplexSolver extends AbstractLinearOptimizer {

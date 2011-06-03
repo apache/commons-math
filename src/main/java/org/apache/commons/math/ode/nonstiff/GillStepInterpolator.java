@@ -41,7 +41,7 @@ import org.apache.commons.math.util.FastMath;
  * the step.</p>
  *
  * @see GillIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

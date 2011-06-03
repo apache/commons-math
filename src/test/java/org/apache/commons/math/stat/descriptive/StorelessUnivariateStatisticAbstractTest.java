@@ -24,7 +24,7 @@ import org.junit.Test;
 
 /**
  * Test cases for {@link StorelessUnivariateStatistic} classes.
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class StorelessUnivariateStatisticAbstractTest
     extends UnivariateStatisticAbstractTest {

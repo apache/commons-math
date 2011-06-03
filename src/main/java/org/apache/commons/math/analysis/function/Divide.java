@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
 /**
  * Divide the first operand by the second.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Divide implements BivariateRealFunction {

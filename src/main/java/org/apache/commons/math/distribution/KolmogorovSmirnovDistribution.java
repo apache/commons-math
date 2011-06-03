@@ -23,7 +23,7 @@ package org.apache.commons.math.distribution;
  * where {@code D}<sub>{@code n}</sub>{@code = sup_x | G(x) - Gn (x) |} for the
  * theoretical cdf G and the emperical cdf Gn.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface KolmogorovSmirnovDistribution {
 

@@ -36,7 +36,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class CertifiedDataAbstractTest {
 

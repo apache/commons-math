@@ -24,7 +24,7 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialO
  * <p>Polynomial fitting is a very simple case of curve fitting. The
  * estimated coefficients are the polynomial coefficients. They are
  * searched by a least square estimator.</p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 

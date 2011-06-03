@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathUtils;
  * <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">
  * bicubic spline interpolation</a>.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.1
  */
 public class BicubicSplineInterpolatingFunction
@@ -332,7 +332,7 @@ public class BicubicSplineInterpolatingFunction
 /**
  * 2D-spline function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 class BicubicSplineFunction
     implements BivariateRealFunction {

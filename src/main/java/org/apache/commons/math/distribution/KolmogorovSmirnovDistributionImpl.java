@@ -65,7 +65,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * <a href="https://issues.apache.org/jira/browse/MATH-437">MATH-437</a> for details.
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistribution, Serializable {
 

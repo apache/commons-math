@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.MathUserException;
  * An interface representing a trivariate real function.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface TrivariateRealFunction {
     /**

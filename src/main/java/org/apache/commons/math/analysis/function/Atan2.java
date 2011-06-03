@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Arc-tangent function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Atan2 implements BivariateRealFunction {

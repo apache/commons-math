@@ -43,7 +43,7 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * #setConvergenceChecker(ConvergenceChecker) setConvergenceChecker}
  * prior to using the optimizer.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class PowellOptimizer

@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * precondition is violated by a number argument.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathIllegalNumberException extends MathIllegalArgumentException {
     /** Serializable version Id. */

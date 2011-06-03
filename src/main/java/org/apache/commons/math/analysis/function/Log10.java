@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Base 10 logarithm function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Log10 implements UnivariateRealFunction {

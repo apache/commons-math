@@ -29,7 +29,7 @@ import java.util.Collection;
  * </p>
  *
  * @since 1.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface OneWayAnova {
 

@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * Exception triggered when something that shouldn't happen does happen.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathInternalError extends MathIllegalStateException {
     /** Serializable version Id. */

@@ -37,7 +37,7 @@ import org.apache.commons.math.optimization.GoalType;
  * #setConvergenceChecker(ConvergenceChecker) ConvergenceChecker}
  * prior to using the optimizer.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class BrentOptimizer extends AbstractUnivariateRealOptimizer {

@@ -22,7 +22,7 @@ import org.apache.commons.math.linear.RealMatrix;
  *  Reporting interface for basic multivariate statistics.
  *
  * @since 1.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface StatisticalMultivariateSummary {
 

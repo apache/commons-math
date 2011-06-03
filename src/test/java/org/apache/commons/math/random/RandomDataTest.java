@@ -55,7 +55,7 @@ import org.junit.runner.RunWith;
 /**
  * Test cases for the RandomData class.
  *
- * @version $Revision$ $Date: 2009-04-05 11:55:59 -0500 (Sun, 05 Apr
+ * @version $Id$
  *          2009) $
  */
 

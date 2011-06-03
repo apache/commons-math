@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 /**
  * Marker interface for {@link RealMatrix} implementations that require sparse backing storage
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  *
  */

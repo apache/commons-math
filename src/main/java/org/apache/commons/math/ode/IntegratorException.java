@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.util.Localizable;
 /**
  * This exception is made available to users to report
  * the error conditions that are triggered during integration
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class IntegratorException

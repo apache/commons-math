@@ -42,7 +42,7 @@ import org.apache.commons.math.util.FastMath;
  * <i>On computing the discrete Fourier transform</i>, Mathematics of Computation,
  * 32 (1978), 175 - 199.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class FastFourierTransformer implements Serializable {

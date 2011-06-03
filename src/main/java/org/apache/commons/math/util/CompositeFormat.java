@@ -24,7 +24,7 @@ import java.util.Locale;
 /**
  * Base class for formatters of composite objects (complex numbers, vectors ...).
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class CompositeFormat {
     /** Serializable version identifier. */

@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * construed to be a bug.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class NullArgumentException extends MathIllegalArgumentException {
     /** Serializable version Id. */

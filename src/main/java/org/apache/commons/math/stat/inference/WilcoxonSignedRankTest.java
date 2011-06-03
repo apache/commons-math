@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * An interface for Wilcoxon signed-rank test.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface WilcoxonSignedRankTest {
 

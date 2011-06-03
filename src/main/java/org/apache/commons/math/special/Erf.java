@@ -22,7 +22,7 @@ import org.apache.commons.math.util.FastMath;
  * This is a utility class that provides computation methods related to the
  * error functions.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Erf {
     /**

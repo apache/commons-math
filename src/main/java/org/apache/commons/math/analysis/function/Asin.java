@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Arc-sine function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Asin implements UnivariateRealFunction {

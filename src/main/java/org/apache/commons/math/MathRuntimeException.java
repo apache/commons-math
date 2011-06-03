@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 /**
 * Base class for commons-math unchecked exceptions.
 *
-* @version $Revision$ $Date$
+* @version $Id$
 * @since 2.0
 */
 public class MathRuntimeException extends RuntimeException implements MathThrowable {

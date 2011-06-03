@@ -44,7 +44,7 @@ package org.apache.commons.math.ode;
  *
  * @see FirstOrderDifferentialEquations
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 

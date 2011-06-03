@@ -44,7 +44,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
  * </pre>
  *
  * @since 1.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class OneWayAnovaImpl implements OneWayAnova  {
 

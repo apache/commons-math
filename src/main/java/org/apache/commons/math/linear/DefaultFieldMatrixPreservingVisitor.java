@@ -27,7 +27,7 @@ import org.apache.commons.math.FieldElement;
  * </p>
  *
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class DefaultFieldMatrixPreservingVisitor<T extends FieldElement<T>>

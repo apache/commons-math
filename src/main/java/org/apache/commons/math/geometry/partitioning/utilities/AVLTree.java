@@ -41,7 +41,7 @@ package org.apache.commons.math.geometry.partitioning.utilities;
 
  * @param <T> the type of the elements
 
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 public class AVLTree<T extends Comparable<T>> {

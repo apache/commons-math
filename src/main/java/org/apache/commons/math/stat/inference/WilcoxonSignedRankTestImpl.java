@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * An implementation of the Wilcoxon signed-rank test.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 

@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link UnivariateStatistic} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class StandardDeviationTest extends StorelessUnivariateStatisticAbstractTest{
 

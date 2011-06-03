@@ -21,7 +21,7 @@ import org.apache.commons.math.exception.MathUserException;
 /**
  * An interface representing a univariate vectorial function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface UnivariateVectorialFunction {

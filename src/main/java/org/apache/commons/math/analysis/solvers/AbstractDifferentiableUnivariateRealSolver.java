@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractDifferentiableUnivariateRealSolver

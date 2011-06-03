@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Cubic-root function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Cbrt implements UnivariateRealFunction {

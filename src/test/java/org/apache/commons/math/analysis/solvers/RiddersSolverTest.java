@@ -35,7 +35,7 @@ import org.junit.Test;
  * initial bracket and 5 to 10 iterations for distant initial bracket
  * to converge.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class RiddersSolverTest {
     /**

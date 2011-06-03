@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 /**
  *  Reporting interface for basic univariate statistics.
  *
-  * @version $Revision$ $Date$
+  * @version $Id$
  */
 public interface StatisticalSummary {
 

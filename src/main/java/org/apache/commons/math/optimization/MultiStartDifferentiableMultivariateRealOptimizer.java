@@ -28,7 +28,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * turn with different starting points in order to avoid being trapped
  * into a local extremum when looking for a global one.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class MultiStartDifferentiableMultivariateRealOptimizer

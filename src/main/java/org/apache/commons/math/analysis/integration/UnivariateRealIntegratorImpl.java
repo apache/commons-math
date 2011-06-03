@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.MaxCountExceededException;
 /**
  * Provide a default implementation for several generic functions.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public abstract class UnivariateRealIntegratorImpl implements UnivariateRealIntegrator {

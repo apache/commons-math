@@ -30,7 +30,7 @@ package org.apache.commons.math.distribution;
  * </p>
  *
  * @since 1.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface CauchyDistribution extends ContinuousDistribution {
     /**

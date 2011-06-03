@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Base class for solvers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractUnivariateRealSolver

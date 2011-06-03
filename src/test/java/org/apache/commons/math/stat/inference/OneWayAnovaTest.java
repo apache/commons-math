@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Test cases for the OneWayAnovaImpl class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public class OneWayAnovaTest {

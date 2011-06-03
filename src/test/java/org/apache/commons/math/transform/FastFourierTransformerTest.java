@@ -28,7 +28,7 @@ import org.junit.Test;
  * FFT algorithm is exact, the small tolerance number is used only
  * to account for round-off errors.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class FastFourierTransformerTest {
 

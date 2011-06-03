@@ -41,7 +41,7 @@ import org.apache.commons.math.util.MathUtils;
  * <p>
  * The formulas here use divided differences directly.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  * @see MullerSolver2
  */

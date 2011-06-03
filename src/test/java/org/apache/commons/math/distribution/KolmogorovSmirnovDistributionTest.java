@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * Test cases for {@link KolmogorovSmirnovDistributionImpl}.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class KolmogorovSmirnovDistributionTest {
     

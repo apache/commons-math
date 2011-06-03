@@ -21,7 +21,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Auxillary class for testing purposes.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class Expm1Function implements DifferentiableUnivariateRealFunction {
 

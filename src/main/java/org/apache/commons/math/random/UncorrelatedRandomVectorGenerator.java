@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  * components. Components of generated vectors follow (independent) Gaussian
  * distributions, with parameters supplied in the constructor.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

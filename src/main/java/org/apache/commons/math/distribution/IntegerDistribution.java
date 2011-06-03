@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * Interface for discrete distributions of integer-valued random variables.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface IntegerDistribution extends DiscreteDistribution {
     /**

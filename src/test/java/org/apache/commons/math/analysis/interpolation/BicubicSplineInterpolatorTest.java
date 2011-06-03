@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * Test case for the bicubic interpolator.
  * 
- * @version $Revision: 821626 $ $Date: 2009-10-04 23:57:30 +0200 (Sun, 04 Oct 2009) $ 
+ * @version $Id$
  */
 public final class BicubicSplineInterpolatorTest {
     /**

@@ -19,7 +19,7 @@ package org.apache.commons.math.geometry;
 import java.io.Serializable;
 
 /** This interface represents a generic space, with affine and vectorial counterparts.
- * @version $Id:$
+ * @version $Id$
  * @see Vector
  * @since 3.0
  */

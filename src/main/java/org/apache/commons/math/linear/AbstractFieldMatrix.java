@@ -38,7 +38,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @param <T> Type of the field elements.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public abstract class AbstractFieldMatrix<T extends FieldElement<T>>

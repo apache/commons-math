@@ -22,7 +22,7 @@ import java.util.Collection;
 /**
  * Interface for points that can be clustered together.
  * @param <T> the type of point that can be clustered
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface Clusterable<T> {

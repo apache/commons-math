@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * or if either the absolute difference between the point coordinates are
  * smaller than another threshold.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class SimpleRealPointChecker

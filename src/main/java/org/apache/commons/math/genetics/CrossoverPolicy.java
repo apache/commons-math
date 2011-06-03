@@ -21,7 +21,7 @@ package org.apache.commons.math.genetics;
  * operation on a source pair of chromosomes.
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface CrossoverPolicy {
     /**

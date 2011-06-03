@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * @param <FUNC> Type of function to solve.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {

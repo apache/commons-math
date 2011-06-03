@@ -28,7 +28,7 @@ import org.apache.commons.math.util.MathUtils;
  * <a href="http://en.wikipedia.org/wiki/Step_function">
  *  Step function</a>.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class StepFunction implements UnivariateRealFunction {

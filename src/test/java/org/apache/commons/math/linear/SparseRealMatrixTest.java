@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 /**
  * Test cases for the {@link OpenMapRealMatrix} class.
  *
- * @version $Revision$ $Date: 2008-11-07 06:48:13 -0800 (Fri, 07 Nov
+ * @version $Id$
  *          2008) $
  */
 public final class SparseRealMatrixTest {

@@ -25,7 +25,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * perform inference tests.
  *
  * @since 1.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class TestUtils  {
 

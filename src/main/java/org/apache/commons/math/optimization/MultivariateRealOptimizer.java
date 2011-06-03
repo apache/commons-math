@@ -27,7 +27,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  *
  * @see DifferentiableMultivariateRealOptimizer
  * @see DifferentiableMultivariateVectorialOptimizer
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface MultivariateRealOptimizer

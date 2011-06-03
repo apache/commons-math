@@ -31,7 +31,7 @@ import org.junit.Test;
  * less than 5 iterations to find one root, provided solveAll() is not
  * invoked, and 15 to 20 iterations to find all roots for quintic function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class LaguerreSolverTest {
     /**

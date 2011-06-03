@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface for univariate real integration algorithms.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public interface UnivariateRealIntegrator {

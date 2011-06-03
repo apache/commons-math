@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * Exception to be thrown when the argument is negative.
  *
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class NotStrictlyPositiveException extends NumberIsTooSmallException {
 

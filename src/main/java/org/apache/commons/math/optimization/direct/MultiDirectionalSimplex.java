@@ -26,7 +26,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
 /**
  * This class implements the multi-directional direct search method.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class MultiDirectionalSimplex extends AbstractSimplex {

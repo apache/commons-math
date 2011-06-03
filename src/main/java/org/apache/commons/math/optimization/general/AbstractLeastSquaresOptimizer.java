@@ -36,7 +36,7 @@ import org.apache.commons.math.util.FastMath;
  * It handles the boilerplate methods associated to thresholds settings,
  * jacobian and error estimation.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  *
  */

@@ -19,7 +19,7 @@ package org.apache.commons.math.dfp;
 
 /** Mathematical routines for use with {@link Dfp}.
  * The constants are defined in {@link DfpField}
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class DfpMath {

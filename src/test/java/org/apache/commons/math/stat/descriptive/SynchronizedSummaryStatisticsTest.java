@@ -15,7 +15,7 @@ package org.apache.commons.math.stat.descriptive;
 
 /**
  * Test cases for the {@link SynchronizedSummaryStatisticsTest} class.
- * @version $Revision$ $Date: 2007-08-16 15:36:33 -0500 (Thu, 16 Aug
+ * @version $Id$
  *          2007) $
  */
 public final class SynchronizedSummaryStatisticsTest extends SummaryStatisticsTest {

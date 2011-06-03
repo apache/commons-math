@@ -42,7 +42,7 @@ import org.apache.commons.math.exception.MathUserException;
  * @see org.apache.commons.math.ode.FirstOrderIntegrator
  * @see org.apache.commons.math.ode.SecondOrderIntegrator
  * @see StepHandler
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

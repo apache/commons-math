@@ -32,7 +32,7 @@ import org.apache.commons.math.util.MathUtils;
  *  <em>Int. J. Numer. Meth. Engng</em> 2005; <b>63</b>:455-471
  * </quote>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class TricubicSplineInterpolatingFunction
@@ -418,7 +418,7 @@ public class TricubicSplineInterpolatingFunction
 /**
  * 3D-spline function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 class TricubicSplineFunction
     implements TrivariateRealFunction {

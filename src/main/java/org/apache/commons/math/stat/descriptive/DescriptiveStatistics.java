@@ -53,7 +53,7 @@ import org.apache.commons.math.util.FastMath;
  * {@link SynchronizedDescriptiveStatistics} if concurrent access from multiple
  * threads is required.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 

@@ -35,7 +35,7 @@ import org.apache.commons.math.exception.MathUserException;
  * @see org.apache.commons.math.ode.FirstOrderIntegrator
  * @see org.apache.commons.math.ode.SecondOrderIntegrator
  * @see StepInterpolator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

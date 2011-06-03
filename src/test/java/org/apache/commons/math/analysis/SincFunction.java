@@ -20,7 +20,7 @@ package org.apache.commons.math.analysis;
 /**
  * Auxiliary class for testing optimizers.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SincFunction implements DifferentiableUnivariateRealFunction {
     private static final double EPS = 1e-12;

@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
  * Population of chromosomes which uses elitism (certain percentace of the best
  * chromosomes is directly copied to the next generation).
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class ElitisticListPopulation extends ListPopulation {

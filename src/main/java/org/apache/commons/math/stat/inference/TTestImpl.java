@@ -33,7 +33,7 @@ import org.apache.commons.math.util.FastMath;
  * Uses commons-math {@link org.apache.commons.math.distribution.TDistributionImpl}
  * implementation to estimate exact p-values.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class TTestImpl implements TTest  {
     /**

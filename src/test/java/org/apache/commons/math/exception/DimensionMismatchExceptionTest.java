@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Test for {@link DimensionMismatchException}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class DimensionMismatchExceptionTest {
     @Test

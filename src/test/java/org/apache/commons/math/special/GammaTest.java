@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class GammaTest {
     private void testRegularizedGamma(double expected, double a, double x) {

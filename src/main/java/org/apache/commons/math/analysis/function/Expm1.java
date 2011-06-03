@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * <code>e<sup>x</sup>-1</code> function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Expm1 implements UnivariateRealFunction {

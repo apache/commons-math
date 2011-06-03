@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * Test for {@link NumberIsTooLargeException}.
  * 
- * @version $Revision$ $Date$ 
+ * @version $Id$
  */
 public class NumberIsTooLargeExceptionTest {
     @Test

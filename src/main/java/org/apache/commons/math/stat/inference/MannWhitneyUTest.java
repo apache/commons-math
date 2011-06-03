@@ -21,7 +21,7 @@ import org.apache.commons.math.MathException;
 /**
  * An interface for Mann-Whitney U test (also called Wilcoxon rank-sum test).
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface MannWhitneyUTest {
 

@@ -40,7 +40,7 @@ import org.apache.commons.math.FieldElement;
  * </pre>
  *
  * @param <T> the type of the field elements
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface FieldVector<T extends FieldElement<T>>  {

@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 @RunWith(RetryRunner.class)

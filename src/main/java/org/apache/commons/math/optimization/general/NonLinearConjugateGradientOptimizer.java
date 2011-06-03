@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
  * optional preconditioning.
  * </p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  *
  */

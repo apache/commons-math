@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * {@link org.apache.commons.math.distribution.WeibullDistribution}.
  *
  * @since 1.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class WeibullDistributionImpl extends AbstractContinuousDistribution
     implements WeibullDistribution, Serializable {

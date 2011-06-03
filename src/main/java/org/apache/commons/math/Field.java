@@ -23,7 +23,7 @@ package org.apache.commons.math;
  * </p>
  * @param <T> the type of the field elements
  * @see FieldElement
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public interface Field<T> {

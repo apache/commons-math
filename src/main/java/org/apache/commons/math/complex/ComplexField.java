@@ -27,7 +27,7 @@ import org.apache.commons.math.Field;
  * This class is a singleton.
  * </p>
  * @see Complex
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 public class ComplexField implements Field<Complex>, Serializable  {

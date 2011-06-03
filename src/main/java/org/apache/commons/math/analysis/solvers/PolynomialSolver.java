@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
  * Interface for (polynomial) root-finding algorithms.
  * Implementations will search for only one zero in the given interval.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface PolynomialSolver

@@ -58,7 +58,7 @@ import org.apache.commons.math.util.FastMath;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 

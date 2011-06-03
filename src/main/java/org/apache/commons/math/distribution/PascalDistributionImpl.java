@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * The default implementation of {@link PascalDistribution}.
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 public class PascalDistributionImpl extends AbstractIntegerDistribution

@@ -24,7 +24,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class BisectionSolver extends AbstractUnivariateRealSolver {
     /** Default absolute accuracy. */

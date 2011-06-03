@@ -35,7 +35,7 @@ import org.apache.commons.math.exception.util.Localizable;
  * This class is the base class for all exceptions.
  *
  * @since 3.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class MathRuntimeException extends RuntimeException
     implements MathThrowable {

@@ -42,7 +42,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  * {@link StatisticalSummary} instances.</p>
  *
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface TTest {
     /**

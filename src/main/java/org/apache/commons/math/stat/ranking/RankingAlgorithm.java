@@ -21,7 +21,7 @@ package org.apache.commons.math.stat.ranking;
  * Interface representing a rank transformation.
  *
  * @since 2.0
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface RankingAlgorithm {
     /**

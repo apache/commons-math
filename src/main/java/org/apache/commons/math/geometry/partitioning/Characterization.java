@@ -20,7 +20,7 @@ import org.apache.commons.math.geometry.Space;
 
 /** Characterization of a sub-hyperplane.
  * @param <S> Type of the space.
- * @version $Id:$
+ * @version $Id$
  * @since 3.0
  */
 class Characterization<S extends Space> {

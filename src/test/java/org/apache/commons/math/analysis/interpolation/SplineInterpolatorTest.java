@@ -30,7 +30,7 @@ import org.junit.Test;
 /**
  * Test the SplineInterpolator.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SplineInterpolatorTest {
 

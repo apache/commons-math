@@ -70,7 +70,7 @@ import org.apache.commons.math.util.FastMath;
  * </table>
  *
  * @see GraggBulirschStoerIntegrator
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

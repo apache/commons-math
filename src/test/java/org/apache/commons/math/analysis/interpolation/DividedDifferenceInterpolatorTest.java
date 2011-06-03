@@ -37,7 +37,7 @@ import org.junit.Test;
  * it and use the absolute value upper bound for estimates. For reference,
  * see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X, chapter 2.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public final class DividedDifferenceInterpolatorTest {
 

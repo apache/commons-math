@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (Sat, 05 Sep 2009) $
+ * @version $Id$
  */
 public final class BrentOptimizerTest {
 

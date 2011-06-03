@@ -28,7 +28,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * Base class for implementing linear optimizers.
  * <p>This base class handles the boilerplate methods associated to thresholds
  * settings and iterations counters.</p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  *
  */

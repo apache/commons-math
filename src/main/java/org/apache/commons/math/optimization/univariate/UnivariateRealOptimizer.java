@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface for univariate optimization algorithms.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public interface UnivariateRealOptimizer

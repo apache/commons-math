@@ -37,7 +37,7 @@ import org.apache.commons.math.util.MathUtils;
 import org.junit.Assert;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class TestUtils {
     /**

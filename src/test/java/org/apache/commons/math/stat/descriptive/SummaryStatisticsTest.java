@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link SummaryStatistics} class.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 
 public class SummaryStatisticsTest {

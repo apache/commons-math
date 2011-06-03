@@ -57,7 +57,7 @@ import org.apache.commons.math.util.MathUtils;
  * a1: Artificial variable</br>
  * RHS: Right hand side</br>
  * </p>
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.0
  */
 class SimplexTableau implements Serializable {

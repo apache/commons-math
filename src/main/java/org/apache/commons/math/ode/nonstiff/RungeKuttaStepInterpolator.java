@@ -30,7 +30,7 @@ import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
  * @see RungeKuttaIntegrator
  * @see EmbeddedRungeKuttaIntegrator
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

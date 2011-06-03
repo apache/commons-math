@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  * translation is missing.
  * </p>
  * @since 2.2
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public enum LocalizedFormats implements Localizable {
 

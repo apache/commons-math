@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * The function is assumed to be continuous but not necessarily smooth.</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class SecantSolver extends AbstractUnivariateRealSolver {
     /** Default absolute accuracy. */

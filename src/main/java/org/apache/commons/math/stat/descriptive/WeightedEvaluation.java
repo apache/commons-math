@@ -20,7 +20,7 @@ package org.apache.commons.math.stat.descriptive;
  * Weighted evaluation for statistics.
  *
  * @since 2.1
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public interface WeightedEvaluation {
 

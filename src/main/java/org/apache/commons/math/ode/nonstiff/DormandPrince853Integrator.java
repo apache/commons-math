@@ -50,7 +50,7 @@ import org.apache.commons.math.util.FastMath;
  * <i>Solving Ordinary Differential Equations</i> (Springer-Verlag,
  * ISBN 3-540-56670-8).</p>
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 1.2
  */
 

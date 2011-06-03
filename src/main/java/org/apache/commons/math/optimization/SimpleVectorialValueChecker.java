@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold for all vectors elements.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class SimpleVectorialValueChecker

@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * <a href="http://en.wikipedia.org/wiki/Generalised_logistic_function">
  *  Generalised logistic</a> function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Logistic implements DifferentiableUnivariateRealFunction {

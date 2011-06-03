@@ -23,7 +23,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Sine function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 3.0
  */
 public class Sin implements UnivariateRealFunction {

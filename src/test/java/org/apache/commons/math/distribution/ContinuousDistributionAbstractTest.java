@@ -57,7 +57,7 @@ import org.junit.Test;
  * See {@link NormalDistributionTest} and {@link ChiSquareDistributionTest}
  * for examples.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public abstract class ContinuousDistributionAbstractTest {
 

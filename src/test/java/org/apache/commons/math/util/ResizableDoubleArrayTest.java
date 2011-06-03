@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * This class contains test cases for the ResizableDoubleArray.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 

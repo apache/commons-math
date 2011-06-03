@@ -23,7 +23,7 @@ import org.apache.commons.math.util.MathUtils;
 /**
  * Generates a tricubic interpolating function.
  *
- * @version $Revision$ $Date$
+ * @version $Id$
  * @since 2.2
  */
 public class TricubicSplineInterpolator

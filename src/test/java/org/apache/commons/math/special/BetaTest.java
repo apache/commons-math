@@ -21,7 +21,7 @@ import org.apache.commons.math.TestUtils;
 import org.junit.Test;
 
 /**
- * @version $Revision$ $Date$
+ * @version $Id$
  */
 public class BetaTest {
     private void testRegularizedBeta(double expected, double x,
