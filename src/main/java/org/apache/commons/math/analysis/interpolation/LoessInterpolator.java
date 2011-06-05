@@ -427,10 +427,14 @@ public class LoessInterpolator
      * weight function
      *
      * @param x Argument.
-     * @return <code>(1 - |x|<sup>3</sup>)<sup>3</sup></code>.
+     * @return <code>(1 - |x|<sup>3</sup>)<sup>3</sup></code> for |x| &lt; 1, 0 otherwise.
      */
     private static double tricube(final double x) {
-        final double tmp = 1 - x * x * x;
+        final double absX = FastMath.abs(x);
+        if (absX >= 1.0) {
+            return 0.0;
+        }
+        final double tmp = 1 - absX * absX * absX;
         return tmp * tmp * tmp;
     }
 
