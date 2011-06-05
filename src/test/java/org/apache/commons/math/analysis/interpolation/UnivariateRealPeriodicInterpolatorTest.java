@@ -147,7 +147,7 @@ public class UnivariateRealPeriodicInterpolatorTest {
 
         final UnivariateRealInterpolator interpolator
             = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(), period);
-        final UnivariateRealFunction f = interpolator.interpolate(xval, yval);
+        interpolator.interpolate(xval, yval);
     }
 
     @Test(expected=NonMonotonousSequenceException.class)
@@ -158,6 +158,6 @@ public class UnivariateRealPeriodicInterpolatorTest {
 
         final UnivariateRealInterpolator interpolator
             = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(), period);
-        final UnivariateRealFunction f = interpolator.interpolate(xval, yval);
+        interpolator.interpolate(xval, yval);
     }
 }
