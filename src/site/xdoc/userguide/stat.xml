@@ -169,7 +169,7 @@ for( int i = 0; i &lt; inputArray.length; i++) {
 // Compute some statistics
 double mean = stats.getMean();
 double std = stats.getStandardDeviation();
-double median = stats.getMedian();
+double median = stats.getPercentile(50);
         </source>
         </dd>
         <dd>Using the <code>SummaryStatistics</code> aggregate (values are
@@ -198,7 +198,7 @@ double std = stats.getStandardDeviation();
 // assume values is a double[] array
 double mean = StatUtils.mean(values);
 double std = StatUtils.variance(values);
-double median = StatUtils.percentile(50);
+double median = StatUtils.percentile(values, 50);
 
 // Compute the mean of the first three values in the array
 mean = StatUtils.mean(values, 0, 3);
