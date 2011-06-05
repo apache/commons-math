@@ -16,7 +16,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-  
+
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
 <!-- $Revision$ $Date$ -->
 <document url="optimization.html">
@@ -201,6 +201,330 @@
           <code>estimate</code> method is the point from which the optimizer will start its
           search for the optimal point.
         </p>
+
+    <dl>
+    <dt>Quadratic Problem Example</dt>
+    <dd>
+	
+	
+	We are looking to find the best parameters [a, b, c] for the quadratic function <b><tt> f(x)=a*x^2 + b*x + c </tt></b>.
+	The data set below was generated using [a = 8, b = 10, c = 16].  A random number between zero and one was added
+	to each y value calculated.
+
+    <table cellspacing="0" cellpadding="3">
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;"><b>X</b></td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;"><b>Y</b></td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">34.234064369</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">2</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">68.2681162306108</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">3</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">118.615899084602</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">4</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">184.138197238557</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">5</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">266.599877916276</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">6</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">364.147735251579</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">7</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">478.019226091914</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">8</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">608.140949270688</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">9</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">754.598868667148</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">10</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">916.128818085883</td>
+</tr>
+</table>
+
+<p>
+First we need to implement the interface <a href="../apidocs/org/apache/commons/math/analysis/DifferentiableMultivariateVectorialFunction.html">DifferentiableMultivariateVectorialFunction</a>.
+This requires the implementation of the method signatures:
+</p>
+
+
+<ul>
+<li><b>MultivariateMatrixFunction jacobian()</b></li>
+<li><b>double[] value(double[] point)</b></li>
+</ul>
+
+<p>
+We'll tackle the implementation of the <code>MultivariateMatrixFunction jacobian()</code> method first.  You may wish to familiarize yourself with what a <a href="http://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant"> Jacobian Matrix</a> is.
+In this case the Jacobian is the partial derivative of the function with respect
+to the parameters a, b and c.  These derivatives are computed as follows:
+<ul>
+	<li>d(ax^2+bx+c)/da = x2</li>
+	<li>d(ax^2+bx+c)/db = x</li>
+	<li>d(ax^2+bx+c)/dc = 1</li>
+</ul>
+</p>
+
+<p>
+For a quadratic which has three variables the Jacobian Matrix will have three columns, one for each variable, and the number
+of rows will equal the number of rows in our data set, which in this case is ten.  So for example for <b><tt>[a = 1, b=1, c=1]</tt></b>
+the Jacobian Matrix is (Exluding the first column which shows the value of x):
+</p>
+
+<table cellspacing="0" cellpadding="3">
+<tr>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>x</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/da</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/db</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/dc</b></td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">2</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">4</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">2</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">3</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">9</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">3</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">4</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">16</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">4</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">5</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">25</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">5</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">6</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">36</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">6</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">7</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">49</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">7</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">8</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">64</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">8</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">9</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">81</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">9</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+<tr>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">10</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">100</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">10</td>
+<td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
+</tr>
+</table>
+
+<p>
+The implementation of the <code>MultivariateMatrixFunction jacobian()</code> for this problem looks like this (The <code>x</code>
+parameter is an ArrayList containing the independent values of the data set):
+</p>
+
+<source>
+ private double[][] jacobian(double[] variables)
+ {
+     double[][] jacobian = new double[x.size()][3];
+     for (int i = 0; i &lt; jacobian.length; ++i) {
+         jacobian[i][0] = x.get(i) * x.get(i);
+         jacobian[i][1] = x.get(i);
+         jacobian[i][2] = 1.0;
+     }
+     return jacobian;
+ }
+
+ public MultivariateMatrixFunction jacobian()
+ {
+     return new MultivariateMatrixFunction() {
+         private static final long serialVersionUID = -8673650298627399464L;
+         public double[][] value(double[] point) {
+             return jacobian(point);
+         }
+     };
+ }
+</source>
+
+<p>
+Note that if for some reason the derivative of the objective function with respect
+to its variables is difficult to obtain,
+<a href="http://en.wikipedia.org/wiki/Numerical_differentiation">Numerical differentiation</a> can be used.
+</p>
+
+
+<p>
+The implementation of the <code>double[] value(double[] point)</code> method, which returns
+ a <code>double</code> array containing the
+values the objective function returns per given independent value
+and the current set of variables or parameters,
+can be seen below:
+</p>
+
+<source>
+    public double[] value(double[] variables) {
+        double[] values = new double[x.size()];
+        for (int i = 0; i &lt; values.length; ++i) {
+            values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
+        }
+        return values;
+    }
+</source>
+
+<p>
+Below is the the class containing all the implementation details
+(Taken from the Apache Commons Math <b>org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizerTest</b>):
+</p>
+
+<source>
+private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+
+    private static final long serialVersionUID = 7072187082052755854L;
+    private List&lt;Double&gt; x;
+    private List&lt;Double&gt; y;
+
+    public QuadraticProblem() {
+        x = new ArrayList&lt;Double&gt;();
+        y = new ArrayList&lt;Double&gt;();
+    }
+
+    public void addPoint(double x, double y) {
+        this.x.add(x);
+        this.y.add(y);
+    }
+
+    public double[] calculateTarget()
+    {
+    	double[] target = new double[y.size()];
+    	for (int i = 0; i &lt; y.size(); i++)
+    	{
+    		target[i] = y.get(i).doubleValue();
+    	}
+    	return target;
+    }
+
+    private double[][] jacobian(double[] variables) {
+        double[][] jacobian = new double[x.size()][3];
+        for (int i = 0; i &lt; jacobian.length; ++i) {
+            jacobian[i][0] = x.get(i) * x.get(i);
+            jacobian[i][1] = x.get(i);
+            jacobian[i][2] = 1.0;
+        }
+        return jacobian;
+    }
+
+    public double[] value(double[] variables) {
+        double[] values = new double[x.size()];
+        for (int i = 0; i &lt; values.length; ++i) {
+            values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
+        }
+        return values;
+    }
+
+    public MultivariateMatrixFunction jacobian() {
+        return new MultivariateMatrixFunction() {
+            private static final long serialVersionUID = -8673650298627399464L;
+            public double[][] value(double[] point) {
+                return jacobian(point);
+            }
+        };
+    }
+}
+</source>
+
+<p>
+The below code shows how to go about using the above class
+and a LevenbergMarquardtOptimizer instance to produce an
+optimal set of quadratic curve fitting parameters:
+</p>
+
+    <source>
+ QuadraticProblem problem = new QuadraticProblem();
+
+ problem.addPoint (1, 34.234064369);
+ problem.addPoint (2, 68.2681162306);
+ problem.addPoint (3, 118.6158990846);
+ problem.addPoint (4, 184.1381972386);
+ problem.addPoint (5, 266.5998779163);
+ problem.addPoint (6, 364.1477352516);
+ problem.addPoint (7, 478.0192260919);
+ problem.addPoint (8, 608.1409492707);
+ problem.addPoint (9, 754.5988686671);
+ problem.addPoint (10, 916.1288180859);
+
+ LevenbergMarquardtOptimizer optimizer
+     = new LevenbergMarquardtOptimizer();
+
+ double[] weights =
+ 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+
+ double[] initialSolution = {1, 1, 1};
+
+ VectorialPointValuePair optimum =
+ 	optimizer.optimize(
+ 		100,
+ 		problem,
+ 		problem.calculateTarget(),
+ 		weights,
+ 		initialSolution);
+
+ double[] optimalValues = optimum.getPoint();
+
+ System.out.println(&quot;A: &quot; + optimalValues[0]);
+ System.out.println(&quot;B: &quot; + optimalValues[1]);
+ System.out.println(&quot;C: &quot; + optimalValues[2]);
+
+    </source>
+
+<p>
+If you run the above sample you will see
+the following printed by the console:
+</p>
+
+<pre>
+A: 7.998832172372726
+B: 10.001841530162448
+C: 16.324008168386605
+</pre>
+
+    </dd></dl>
         <p>
           In addition to least squares solving, the <a
           href="../apidocs/org/apache/commons/math/optimization/general/NonLinearConjugateGradientOptimizer.html">
