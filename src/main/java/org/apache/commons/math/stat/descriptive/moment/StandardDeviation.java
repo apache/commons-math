@@ -18,8 +18,10 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Computes the sample standard deviation.  The standard deviation
@@ -261,9 +263,12 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      *
      * @param source StandardDeviation to copy
      * @param dest StandardDeviation to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(StandardDeviation source, StandardDeviation dest) {
+    public static void copy(StandardDeviation source, StandardDeviation dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.variance = source.variance.copy();
     }

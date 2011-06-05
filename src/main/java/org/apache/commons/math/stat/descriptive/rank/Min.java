@@ -18,7 +18,9 @@ package org.apache.commons.math.stat.descriptive.rank;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Returns the minimum of the available values.
@@ -153,9 +155,12 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      *
      * @param source Min to copy
      * @param dest Min to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Min source, Min dest) {
+    public static void copy(Min source, Min dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;

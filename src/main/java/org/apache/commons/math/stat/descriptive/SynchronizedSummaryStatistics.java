@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.MathUtils;
+
 /**
  * Implementation of
  * {@link org.apache.commons.math.stat.descriptive.SummaryStatistics} that
@@ -319,10 +322,13 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      *
      * @param source SynchronizedSummaryStatistics to copy
      * @param dest SynchronizedSummaryStatistics to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
     public static void copy(SynchronizedSummaryStatistics source,
-            SynchronizedSummaryStatistics dest) {
+                            SynchronizedSummaryStatistics dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         synchronized (source) {
             synchronized (dest) {
                 SummaryStatistics.copy(source, dest);

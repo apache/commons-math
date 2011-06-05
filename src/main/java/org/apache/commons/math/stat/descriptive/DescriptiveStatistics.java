@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
@@ -32,6 +33,7 @@ import org.apache.commons.math.stat.descriptive.rank.Min;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.ResizableDoubleArray;
 import org.apache.commons.math.util.FastMath;
 
@@ -699,9 +701,12 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      *
      * @param source DescriptiveStatistics to copy
      * @param dest DescriptiveStatistics to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(DescriptiveStatistics source, DescriptiveStatistics dest) {
+    public static void copy(DescriptiveStatistics source, DescriptiveStatistics dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         // Copy data and window size
         dest.eDA = source.eDA.copy();
         dest.windowSize = source.windowSize;

@@ -25,6 +25,7 @@ import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Cache-friendly implementation of FieldMatrix using a flat arrays to store
@@ -759,6 +760,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public void setSubMatrix(final T[][] subMatrix, final int row, final int column) {
         // safety checks
+        MathUtils.checkNotNull(subMatrix);
         final int refLength = subMatrix[0].length;
         if (refLength == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);

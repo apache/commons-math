@@ -18,7 +18,9 @@ package org.apache.commons.math.stat.descriptive.rank;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Returns the maximum of the available values.
@@ -153,9 +155,12 @@ public class Max extends AbstractStorelessUnivariateStatistic implements Seriali
      *
      * @param source Max to copy
      * @param dest Max to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Max source, Max dest) {
+    public static void copy(Max source, Max dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;

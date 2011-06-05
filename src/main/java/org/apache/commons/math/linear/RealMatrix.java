@@ -17,6 +17,11 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.ZeroException;
+
 /**
  * Interface defining a real-valued matrix with basic algebraic operations.
  * <p>
@@ -210,19 +215,16 @@ public interface RealMatrix extends AnyMatrix {
     * @param subMatrix  array containing the submatrix replacement data
     * @param row  row coordinate of the top, left element to be replaced
     * @param column  column coordinate of the top, left element to be replaced
-    * @throws org.apache.commons.math.exception.ZeroException if
-    * {@code subMatrix} does not contain at least one column.
-    * @throws org.apache.commons.math.exception.OutOfRangeException if
-    * {@code subMatrix} does not fit into this matrix from element in
-    * {@code (row, column)}.
-    * @throws org.apache.commons.math.exception.DimensionMismatchException
-    * if {@code subMatrix} is not rectangular.
+    * @throws ZeroException if {@code subMatrix} does not contain at least one column.
+    * @throws OutOfRangeException if {@code subMatrix} does not fit into
+    * this matrix from element in {@code (row, column)}.
+    * @throws DimensionMismatchException if {@code subMatrix} is not rectangular.
     * (not all rows have the same length) or empty.
-    * @throws org.apache.commons.math.exception.NullArgumentException if
-    * {@code subMatrix} is {@code null}.
+    * @throws NullArgumentException if {@code subMatrix} is {@code null}.
     * @since 2.0
     */
-    void setSubMatrix(double[][] subMatrix, int row, int column);
+    void setSubMatrix(double[][] subMatrix, int row, int column)
+        throws ZeroException, OutOfRangeException, DimensionMismatchException, NullArgumentException;
 
    /**
     * Geet the entries at the given row index

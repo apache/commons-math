@@ -18,6 +18,9 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.MathUtils;
+
 /**
  * Computes a statistic related to the Second Central Moment.  Specifically,
  * what is computed is the sum of squared deviations from the sample mean.
@@ -114,9 +117,12 @@ public class SecondMoment extends FirstMoment implements Serializable {
      *
      * @param source SecondMoment to copy
      * @param dest SecondMoment to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(SecondMoment source, SecondMoment dest) {
+    public static void copy(SecondMoment source, SecondMoment dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         FirstMoment.copy(source, dest);
         dest.m2 = source.m2;
     }

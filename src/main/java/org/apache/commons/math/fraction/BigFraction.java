@@ -458,10 +458,11 @@ public class BigFraction
      * @param bg
      *            the {@link BigInteger} to add, must'nt be <code>null</code>.
      * @return a <code>BigFraction</code> instance with the resulting values.
-     * @throws NullPointerException
+     * @throws NullArgumentException
      *             if the {@link BigInteger} is <code>null</code>.
      */
-    public BigFraction add(final BigInteger bg) {
+    public BigFraction add(final BigInteger bg) throws NullArgumentException {
+        MathUtils.checkNotNull(bg);
         return new BigFraction(numerator.add(denominator.multiply(bg)), denominator);
     }
 

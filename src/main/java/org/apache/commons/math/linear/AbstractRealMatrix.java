@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -385,7 +386,9 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) {
+    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
+        throws NoDataException, DimensionMismatchException, NullArgumentException {
+        MathUtils.checkNotNull(subMatrix);
         final int nRows = subMatrix.length;
         if (nRows == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);

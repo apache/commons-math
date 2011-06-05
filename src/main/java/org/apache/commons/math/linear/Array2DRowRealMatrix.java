@@ -24,6 +24,7 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implementation of RealMatrix using a double[][] array to store entries and
@@ -87,10 +88,11 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @param d Data for the new matrix.
      * @throws DimensionMismatchException if {@code d} is not rectangular.
      * @throws NoDataException if {@code d} row or colum dimension is zero.
-     * @throws NullPointerException if {@code d} is {@code null}.
+     * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowRealMatrix(double[][], boolean)
      */
-    public Array2DRowRealMatrix(final double[][] d) {
+    public Array2DRowRealMatrix(final double[][] d)
+        throws DimensionMismatchException, NoDataException, NullArgumentException {
         copyIn(d);
     }
 
@@ -275,6 +277,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
             if (column > 0) {
                 throw new MathIllegalStateException(LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET, column);
             }
+            MathUtils.checkNotNull(subMatrix);
             final int nRows = subMatrix.length;
             if (nRows == 0) {
                 throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
@@ -526,10 +529,11 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @param in Data to copy.
      * @throws NoDataException if the input array is empty.
      * @throws DimensionMismatchException if the input array is not rectangular.
-     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * @throws NullArgumentException if
      * the input array is {@code null}.
      */
-    private void copyIn(final double[][] in) {
+    private void copyIn(final double[][] in)
+        throws DimensionMismatchException, NoDataException, NullArgumentException {
         setSubMatrix(in, 0, 0);
     }
 }

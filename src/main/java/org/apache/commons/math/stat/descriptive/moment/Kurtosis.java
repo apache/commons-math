@@ -19,9 +19,11 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 
 /**
@@ -211,9 +213,12 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      *
      * @param source Kurtosis to copy
      * @param dest Kurtosis to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Kurtosis source, Kurtosis dest) {
+    public static void copy(Kurtosis source, Kurtosis dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.moment = source.moment.copy();
         dest.incMoment = source.incMoment;

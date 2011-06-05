@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -652,9 +653,12 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      *
      * @param source SummaryStatistics to copy
      * @param dest SummaryStatistics to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(SummaryStatistics source, SummaryStatistics dest) {
+    public static void copy(SummaryStatistics source, SummaryStatistics dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.maxImpl = source.maxImpl.copy();
         dest.meanImpl = source.meanImpl.copy();
         dest.minImpl = source.minImpl.copy();

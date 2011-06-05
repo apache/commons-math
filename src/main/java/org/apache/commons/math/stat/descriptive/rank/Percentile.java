@@ -19,10 +19,12 @@ package org.apache.commons.math.stat.descriptive.rank;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Provides percentile computation.
@@ -482,9 +484,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *
      * @param source Percentile to copy
      * @param dest Percentile to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Percentile source, Percentile dest) {
+    public static void copy(Percentile source, Percentile dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         if (source.cachedPivots != null) {
             System.arraycopy(source.cachedPivots, 0, dest.cachedPivots, 0, source.cachedPivots.length);

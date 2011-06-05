@@ -22,8 +22,10 @@ import java.util.Arrays;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Cache-friendly implementation of RealMatrix using a flat arrays to store
@@ -764,8 +766,10 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
 
     /** {@inheritDoc} */
     @Override
-    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) {
+    public void setSubMatrix(final double[][] subMatrix, final int row, final int column)
+        throws NoDataException, NullArgumentException {
         // safety checks
+        MathUtils.checkNotNull(subMatrix);
         final int refLength = subMatrix[0].length;
         if (refLength == 0) {
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);

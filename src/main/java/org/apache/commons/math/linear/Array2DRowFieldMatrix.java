@@ -24,7 +24,9 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implementation of FieldMatrix<T> using a {@link FieldElement}[][] array to store entries.
@@ -140,18 +142,16 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      * @param copyArray Whether to copy or reference the input array.
      * @throws DimensionMismatchException if {@code d} is not rectangular.
      * @throws NoDataException if there are not at least one row and one column.
-     * @throws org.apache.commons.math.exception.NullArgumentException
-     * if {@code d} is {@code null}.
+     * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowFieldMatrix(FieldElement[][])
      */
-    public Array2DRowFieldMatrix(final Field<T> field, final T[][] d, final boolean copyArray) {
+    public Array2DRowFieldMatrix(final Field<T> field, final T[][] d, final boolean copyArray)
+        throws DimensionMismatchException, NoDataException, NullArgumentException {
         super(field);
         if (copyArray) {
             copyIn(d);
         } else {
-            if (d == null) {
-                throw new NullPointerException();
-            }
+            MathUtils.checkNotNull(d);
             final int nRows = d.length;
             if (nRows == 0) {
                 throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);

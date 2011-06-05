@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -1113,8 +1114,8 @@ public final class BlockRealMatrixTest {
         // null
         try {
             m.setSubMatrix(null,1,1);
-            Assert.fail("expecting NullPointerException");
-        } catch (NullPointerException e) {
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException e) {
             // expected
         }
 

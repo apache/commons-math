@@ -2325,7 +2325,8 @@ public final class MathUtils {
      * @param o Object to be checked.
      * @throws NullArgumentException if {@code o} is {@code null}.
      */
-    public static void checkNotNull(Object o) {
+    public static void checkNotNull(Object o)
+        throws NullArgumentException {
         if (o == null) {
             throw new NullArgumentException();
         }

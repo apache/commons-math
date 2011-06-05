@@ -18,7 +18,9 @@ package org.apache.commons.math.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 
 /**
@@ -206,9 +208,12 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      *
      * @param source Sum to copy
      * @param dest Sum to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Sum source, Sum dest) {
+    public static void copy(Sum source, Sum dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;

@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -277,13 +278,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Copy constructor.  Creates a new ResizableDoubleArray that is a deep,
      * fresh copy of the original. Needs to acquire synchronization lock
-     * on original.  Original may not be null; otherwise a NullPointerException
+     * on original.  Original may not be null; otherwise a {@link NullArgumentException}
      * is thrown.
      *
      * @param original array to copy
+     * @exception NullArgumentException if original is null
      * @since 2.0
      */
-    public ResizableDoubleArray(ResizableDoubleArray original) {
+    public ResizableDoubleArray(ResizableDoubleArray original)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(original);
         copy(original, this);
     }
 
@@ -823,16 +827,20 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <p>Obtains synchronization locks on both source and dest
      * (in that order) before performing the copy.</p>
      *
-     * <p>Neither source nor dest may be null; otherwise a NullPointerException
+     * <p>Neither source nor dest may be null; otherwise a {@link NullArgumentException}
      * is thrown</p>
      *
      * @param source ResizableDoubleArray to copy
      * @param dest ResizableArray to replace with a copy of the source array
+     * @exception NullArgumentException if either source or dest is null
      * @since 2.0
      *
      */
-    public static void copy(ResizableDoubleArray source, ResizableDoubleArray dest) {
-       synchronized(source) {
+    public static void copy(ResizableDoubleArray source, ResizableDoubleArray dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
+        synchronized(source) {
            synchronized(dest) {
                dest.initialCapacity = source.initialCapacity;
                dest.contractionCriteria = source.contractionCriteria;

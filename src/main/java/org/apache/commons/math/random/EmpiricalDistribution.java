@@ -22,6 +22,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
@@ -62,6 +63,7 @@ public interface EmpiricalDistribution {
      *
      * @param file the input file
      * @throws IOException if an IO error occurs
+     * @throws NullArgumentException if file is null
      */
     void load(File file) throws IOException;
 
@@ -70,8 +72,9 @@ public interface EmpiricalDistribution {
      *
      * @param url url of the input file
      * @throws IOException if an IO error occurs
+     * @throws NullArgumentException if url is null
      */
-    void load(URL url) throws IOException;
+    void load(URL url) throws IOException, NullArgumentException;
 
     /**
      * Generates a random value from this distribution.

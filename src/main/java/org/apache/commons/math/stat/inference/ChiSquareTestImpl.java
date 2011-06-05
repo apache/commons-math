@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.inference;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -27,6 +28,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implements Chi-Square test statistics defined in the
@@ -337,10 +339,12 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * Throws MathIllegalArgumentException if the input array is not rectangular.
      *
      * @param in array to be tested
-     * @throws NullPointerException if input array is null
+     * @throws NullArgumentException if input array is null
      * @throws MathIllegalArgumentException if input array is not rectangular
      */
-    private void checkRectangular(long[][] in) {
+    private void checkRectangular(long[][] in)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(in);
         for (int i = 1; i < in.length; i++) {
             if (in[i].length != in[0].length) {
                 throw new DimensionMismatchException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS,

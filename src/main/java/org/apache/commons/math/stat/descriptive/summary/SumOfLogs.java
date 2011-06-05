@@ -18,8 +18,10 @@ package org.apache.commons.math.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Returns the sum of the natural logs for this collection of values.
@@ -152,9 +154,12 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      *
      * @param source SumOfLogs to copy
      * @param dest SumOfLogs to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(SumOfLogs source, SumOfLogs dest) {
+    public static void copy(SumOfLogs source, SumOfLogs dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;

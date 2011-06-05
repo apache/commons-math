@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.
@@ -156,9 +157,12 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
      *
      * @param source SemiVariance to copy
      * @param dest SemiVariance to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(final SemiVariance source, SemiVariance dest) {
+    public static void copy(final SemiVariance source, SemiVariance dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.biasCorrected = source.biasCorrected;
         dest.varianceDirection = source.varianceDirection;

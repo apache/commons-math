@@ -19,11 +19,13 @@ package org.apache.commons.math.stat.descriptive.moment;
 import java.io.Serializable;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Returns the <a href="http://www.xycoon.com/geometric_mean.htm">
@@ -183,9 +185,12 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      *
      * @param source GeometricMean to copy
      * @param dest GeometricMean to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(GeometricMean source, GeometricMean dest) {
+    public static void copy(GeometricMean source, GeometricMean dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.sumOfLogs = source.sumOfLogs.copy();
     }

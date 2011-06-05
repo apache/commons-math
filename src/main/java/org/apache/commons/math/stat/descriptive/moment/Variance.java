@@ -22,6 +22,7 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Computes the variance of the available values.  By default, the unbiased
@@ -595,13 +596,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      *
      * @param source Variance to copy
      * @param dest Variance to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(Variance source, Variance dest) {
-        if (source == null ||
-            dest == null) {
-            throw new NullArgumentException();
-        }
+    public static void copy(Variance source, Variance dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.moment = source.moment.copy();
         dest.isBiasCorrected = source.isBiasCorrected;

@@ -18,6 +18,7 @@
 package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -632,14 +633,9 @@ public class ComplexTest {
                new Complex(-1, 3).pow(Complex.ZERO), 10e-12);
    }
 
-    @Test
+    @Test(expected=NullArgumentException.class)
     public void testpowNull() {
-        try {
-            Complex.ONE.pow(null);
-            Assert.fail("Expecting NullPointerException");
-        } catch (NullPointerException ex) {
-            // expected
-        }
+        Complex.ONE.pow(null);
     }
 
     @Test

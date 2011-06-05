@@ -23,6 +23,7 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -930,8 +931,8 @@ public final class Array2DRowRealMatrixTest {
         // null
         try {
             m.setSubMatrix(null,1,1);
-            Assert.fail("expecting NullPointerException");
-        } catch (NullPointerException e) {
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException e) {
             // expected
         }
         Array2DRowRealMatrix m2 = new Array2DRowRealMatrix();

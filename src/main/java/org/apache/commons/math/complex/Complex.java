@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
@@ -144,9 +145,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param rhs the other complex number
      * @return the complex number sum
-     * @throws NullPointerException if <code>rhs</code> is null
+     * @throws NullArgumentException if <code>rhs</code> is null
      */
-    public Complex add(Complex rhs) {
+    public Complex add(Complex rhs)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(rhs);
         return createComplex(real + rhs.getReal(),
             imaginary + rhs.getImaginary());
     }
@@ -205,9 +208,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param rhs the other complex number
      * @return the complex number quotient
-     * @throws NullPointerException if <code>rhs</code> is null
+     * @throws NullArgumentException if <code>rhs</code> is null
      */
-    public Complex divide(Complex rhs) {
+    public Complex divide(Complex rhs)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(rhs);
         if (isNaN() || rhs.isNaN()) {
             return NaN;
         }
@@ -352,9 +357,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param rhs the other complex number
      * @return the complex number product
-     * @throws NullPointerException if <code>rhs</code> is null
+     * @throws NullArgumentException if <code>rhs</code> is null
      */
-    public Complex multiply(Complex rhs) {
+    public Complex multiply(Complex rhs)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(rhs);
         if (isNaN() || rhs.isNaN()) {
             return NaN;
         }
@@ -437,9 +444,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param rhs the other complex number
      * @return the complex number difference
-     * @throws NullPointerException if <code>rhs</code> is null
+     * @throws NullArgumentException if <code>rhs</code> is null
      */
-    public Complex subtract(Complex rhs) {
+    public Complex subtract(Complex rhs)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(rhs);
         if (isNaN() || rhs.isNaN()) {
             return NaN;
         }
@@ -673,13 +682,12 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param x the exponent.
      * @return <code>this</code><sup><code>x</code></sup>
-     * @throws NullPointerException if x is null
+     * @throws NullArgumentException if x is null
      * @since 1.2
      */
-    public Complex pow(Complex x) {
-        if (x == null) {
-            throw new NullPointerException();
-        }
+    public Complex pow(Complex x)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(x);
         return this.log().multiply(x).exp();
     }
 

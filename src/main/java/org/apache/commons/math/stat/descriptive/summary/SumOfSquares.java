@@ -18,7 +18,9 @@ package org.apache.commons.math.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Returns the sum of the squares of the available values.
@@ -140,9 +142,12 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      *
      * @param source SumOfSquares to copy
      * @param dest SumOfSquares to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(SumOfSquares source, SumOfSquares dest) {
+    public static void copy(SumOfSquares source, SumOfSquares dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         dest.setData(source.getDataRef());
         dest.n = source.n;
         dest.value = source.value;

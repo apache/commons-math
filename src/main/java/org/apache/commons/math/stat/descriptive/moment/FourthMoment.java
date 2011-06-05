@@ -18,6 +18,9 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.MathUtils;
+
 /**
  * Computes a statistic related to the Fourth Central Moment.  Specifically,
  * what is computed is the sum of
@@ -133,9 +136,12 @@ public class FourthMoment extends ThirdMoment implements Serializable{
      *
      * @param source FourthMoment to copy
      * @param dest FourthMoment to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(FourthMoment source, FourthMoment dest) {
+    public static void copy(FourthMoment source, FourthMoment dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         ThirdMoment.copy(source, dest);
         dest.m4 = source.m4;
     }

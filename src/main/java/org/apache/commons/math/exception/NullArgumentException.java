@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * this exception.
  * This class is meant to signal a precondition violation ("null is an illegal
  * argument") and so does not extend the standard {@code NullPointerException}.
- * Proagation of {@code NullPointerException} from within Commons-Math is
+ * Propagation of {@code NullPointerException} from within Commons-Math is
  * construed to be a bug.
  *
  * @since 2.2

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
@@ -184,37 +185,19 @@ public final class EmpiricalDistributionTest {
         verifySame(empiricalDistribution2, dist2);
     }
 
-    @Test
+    @Test(expected=NullArgumentException.class)
     public void testLoadNullDoubleArray() {
-        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
-        try {
-            dist.load((double[]) null);
-            Assert.fail("load((double[]) null) expected NullPointerException");
-        } catch (NullPointerException e) {
-            // expected
-        }
+       new EmpiricalDistributionImpl().load((double[]) null);
     }
 
-    @Test
+    @Test(expected=NullArgumentException.class)
     public void testLoadNullURL() throws Exception {
-        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
-        try {
-            dist.load((URL) null);
-            Assert.fail("load((URL) null) expected NullPointerException");
-        } catch (NullPointerException e) {
-            // expected
-        }
+        new EmpiricalDistributionImpl().load((URL) null);
     }
 
-    @Test
+    @Test(expected=NullArgumentException.class)
     public void testLoadNullFile() throws Exception {
-        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
-        try {
-            dist.load((File) null);
-            Assert.fail("load((File) null) expected NullPointerException");
-        } catch (NullPointerException e) {
-            // expected
-        }
+        new EmpiricalDistributionImpl().load((File) null);
     }
 
     /**

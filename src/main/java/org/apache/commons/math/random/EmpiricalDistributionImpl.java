@@ -28,10 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Implements <code>EmpiricalDistribution</code> interface.  This implementation
@@ -115,8 +117,9 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * array of numbers.
      *
      * @param in the input data array
+     * @exception NullArgumentException if in is null
      */
-    public void load(double[] in) {
+    public void load(double[] in) throws NullArgumentException {
         DataAdapter da = new ArrayDataAdapter(in);
         try {
             da.computeStats();
@@ -133,8 +136,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @param url  url of the input file
      *
      * @throws IOException if an IO error occurs
+     * @throws NullArgumentException if url is null
      */
-    public void load(URL url) throws IOException {
+    public void load(URL url) throws IOException, NullArgumentException {
+        MathUtils.checkNotNull(url);
         BufferedReader in =
             new BufferedReader(new InputStreamReader(url.openStream()));
         try {
@@ -161,8 +166,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      *
      * @param file the input file
      * @throws IOException if an IO error occurs
+     * @throws NullArgumentException if file is null
      */
-    public void load(File file) throws IOException {
+    public void load(File file) throws IOException, NullArgumentException {
+        MathUtils.checkNotNull(file);
         BufferedReader in = new BufferedReader(new FileReader(file));
         try {
             DataAdapter da = new StreamDataAdapter(in);
@@ -288,9 +295,11 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
          * Construct an ArrayDataAdapter from a double[] array
          *
          * @param in double[] array holding the data
+         * @throws NullArgumentException if in is null
          */
-        public ArrayDataAdapter(double[] in){
+        public ArrayDataAdapter(double[] in) throws NullArgumentException {
             super();
+            MathUtils.checkNotNull(in);
             inputArray = in;
         }
 

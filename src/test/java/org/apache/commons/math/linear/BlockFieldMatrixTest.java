@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
 import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -1213,8 +1214,8 @@ public final class BlockFieldMatrixTest {
         // null
         try {
             m.setSubMatrix(null,1,1);
-            Assert.fail("expecting NullPointerException");
-        } catch (NullPointerException e) {
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException e) {
             // expected
         }
 

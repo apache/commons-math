@@ -21,10 +21,12 @@ import java.util.Arrays;
 
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.
@@ -57,11 +59,13 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * the coefficients property.</p>
      *
      * @param c Polynomial coefficients.
-     * @throws NullPointerException if {@code c} is {@code null}.
+     * @throws NullArgumentException if {@code c} is {@code null}.
      * @throws NoDataException if {@code c} is empty.
      */
-    public PolynomialFunction(double c[]) {
+    public PolynomialFunction(double c[])
+        throws NullArgumentException, NoDataException {
         super();
+        MathUtils.checkNotNull(c);
         int n = c.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
@@ -117,9 +121,11 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @param argument Input value.
      * @return the value of the polynomial.
      * @throws NoDataException if {@code coefficients} is empty.
-     * @throws NullPointerException if {@code coefficients} is {@code null}.
+     * @throws NullArgumentException if {@code coefficients} is {@code null}.
      */
-    protected static double evaluate(double[] coefficients, double argument) {
+    protected static double evaluate(double[] coefficients, double argument)
+        throws NullArgumentException, NoDataException {
+        MathUtils.checkNotNull(coefficients);
         int n = coefficients.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
@@ -224,9 +230,11 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
      * @param coefficients Coefficients of the polynomial to differentiate.
      * @return the coefficients of the derivative or {@code null} if coefficients has length 1.
      * @throws NoDataException if {@code coefficients} is empty.
-     * @throws NullPointerException if {@code coefficients} is {@code null}.
+     * @throws NullArgumentException if {@code coefficients} is {@code null}.
      */
-    protected static double[] differentiate(double[] coefficients) {
+    protected static double[] differentiate(double[] coefficients)
+        throws NullArgumentException, NoDataException {
+        MathUtils.checkNotNull(coefficients);
         int n = coefficients.length;
         if (n == 0) {
             throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);

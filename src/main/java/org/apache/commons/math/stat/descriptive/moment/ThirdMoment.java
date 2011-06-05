@@ -18,6 +18,9 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.MathUtils;
+
 
 /**
  * Computes a statistic related to the Third Central Moment.  Specifically,
@@ -128,9 +131,12 @@ public class ThirdMoment extends SecondMoment implements Serializable {
      *
      * @param source ThirdMoment to copy
      * @param dest ThirdMoment to copy to
-     * @throws NullPointerException if either source or dest is null
+     * @throws NullArgumentException if either source or dest is null
      */
-    public static void copy(ThirdMoment source, ThirdMoment dest) {
+    public static void copy(ThirdMoment source, ThirdMoment dest)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(source);
+        MathUtils.checkNotNull(dest);
         SecondMoment.copy(source, dest);
         dest.m3 = source.m3;
         dest.nDevSq = source.nDevSq;
