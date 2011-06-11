@@ -52,6 +52,13 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         Percentile p = new Percentile(75);
         Assert.assertEquals(3.0, p.evaluate(d), 1.0e-5);
     }
+    
+    @Test
+    public void testLowPercentile() {
+        double[] d = new double[] {0, 1};
+        Percentile p = new Percentile(25);
+        Assert.assertEquals(0d, p.evaluate(d), Double.MIN_VALUE);
+    }
 
     @Test
     public void testPercentile() {

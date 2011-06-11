@@ -41,9 +41,10 @@ import org.apache.commons.math.util.MathUtils;
  * <li>Compute the estimated percentile position
  * <code> pos = p * (n + 1) / 100</code> and the difference, <code>d</code>
  * between <code>pos</code> and <code>floor(pos)</code> (i.e. the fractional
- * part of <code>pos</code>).  If <code>pos >= n</code> return the largest
- * element in the array; otherwise</li>
- * <li>Let <code>lower</code> be the element in position
+ * part of <code>pos</code>).</li>
+ * <li> If <code>pos < 1</code> return the smallest element in the array.</li>
+ * <li> Else if <code>pos >= n</code> return the largest element in the array.</li>
+ * <li> Else let <code>lower</code> be the element in position
  * <code>floor(pos)</code> in the array and let <code>upper</code> be the
  * next element in the array.  Return <code>lower + d * (upper - lower)</code>
  * </li>
