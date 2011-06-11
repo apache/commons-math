@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="add" due-to="Thomas Neidhart">
+        New "filter" package. Initial implementation of Kalman filter.
+      </action>
       <action dev="luc" type="fix" issue="MATH-584" due-to="Randall Scarberry">
         Improved k-means++ clustering performances and initial cluster center choice.
       </action>
