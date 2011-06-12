@@ -37,7 +37,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
 
     /**
      * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(X < x)}.  In other
+     * to this distribution, this method returns {@code P(X <= x)}.  In other
      * words, this method represents the probability distribution function, or
      * PDF for the distribution.
      *
@@ -50,7 +50,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
 
     /**
      * For this distribution, {@code X}, this method returns
-     * {@code P(x0 < X < x1)}.
+     * {@code P(x0 <= X <= x1)}.
      *
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
@@ -63,7 +63,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
 
     /**
      * For this distribution, {@code X}, this method returns the largest
-     * {@code x} such that {@code P(X < x) <= p}.
+     * {@code x} such that {@code P(X <= x) <= p}.
      * <br/>
      * Note that this definition implies:
      * <ul>
@@ -73,7 +73,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
      *   no such value {@code m},  {@code Integer.MIN_VALUE} is returned.
      *  </li>
      *  <li> If there is a maximum value, {@code M}, such that
-     *   {@code P(X < M) = 1}, then {@code M} is returned by
+     *   {@code P(X <= M) = 1}, then {@code M} is returned by
      *   {@code inverseCumulativeProbability(1)}.
      *   If there is no such value, {@code M}, {@code Integer.MAX_VALUE} is
      *   returned.

@@ -100,7 +100,7 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     * For this distribution, {@code X}, this method returns {@code P(X <= x)}.
      *
      * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.

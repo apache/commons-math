@@ -100,7 +100,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     * For this distribution, {@code X}, this method returns {@code P(X <= x)}.
      *
      * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
@@ -140,11 +140,11 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 
     /**
      * For this distribution, {@code X}, this method returns the largest
-     * {@code x}, such that {@code P(X < x) p}.
+     * {@code x}, such that {@code P(X <= x) <= p}.
      * It will return -1 when p = 0 and {@code Integer.MAX_VALUE} when p = 1.
      *
      * @param p Desired probability.
-     * @return the largest {@code x} such that {@code P(X < x) <= p}.
+     * @return the largest {@code x} such that {@code P(X <= x) <= p}.
      * @throws MathException if the inverse cumulative probability can not be
      * computed due to convergence or other numerical errors.
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.

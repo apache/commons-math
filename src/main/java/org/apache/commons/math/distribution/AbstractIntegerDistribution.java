@@ -51,7 +51,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 
     /**
      * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(X < x)}.  In other
+     * to this distribution, this method returns {@code P(X <= x)}.  In other
      * words, this method represents the (cumulative) distribution function,
      * or CDF, for this distribution.
      * If {@code x} does not represent an integer value, the CDF is
@@ -70,7 +70,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     /**
      * For a random variable {@code X} whose values are distributed
      * according to this distribution, this method returns
-     * {@code P(x0 < X < x1)}.
+     * {@code P(x0 <= X <= x1)}.
      *
      * @param x0 Inclusive lower bound.
      * @param x1 Inclusive upper bound.
@@ -99,7 +99,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 
     /**
      * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(X < x)}. In other
+     * to this distribution, this method returns {@code P(X <= x)}. In other
      * words, this method represents the probability distribution function,
      * or PDF, for this distribution.
      *
