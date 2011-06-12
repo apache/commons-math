@@ -54,7 +54,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
 
     /**
      * Clears the cache used by the default implementation of
-     * {@link #nextGaussian}. Implemementations that do not override the
+     * {@link #nextGaussian}. Implementations that do not override the
      * default implementation of {@code nextGaussian} should call this
      * method in the implementation of {@link #setSeed(long)}
      */
@@ -80,7 +80,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
     }
 
     /**
-     * Sets the seed of the underyling random number generator using a
+     * Sets the seed of the underlying random number generator using a
      * {@code long} seed.  Sequences of values generated starting with the
      * same seeds should be identical.
      * <p>
