@@ -61,18 +61,16 @@ import org.apache.commons.math.util.MathUtils;
  * <p>
  * Since percentile estimation usually involves interpolation between array
  * elements, arrays containing  <code>NaN</code> or infinite values will often
- * result in <code>NaN<code> or infinite values returned.</p>
+ * result in <code>NaN</code> or infinite values returned.</p>
  * <p>
- * Since 2.2, Percentile implementation uses only selection instead of complete
- * sorting and caches selection algorithm state between calls to the various
- * {@code evaluate} methods when several percentiles are to be computed on the same data.
- * This greatly improves efficiency, both for single percentile and multiple
- * percentiles computations. However, it also induces a need to be sure the data
- * at one call to {@code evaluate} is the same as the data with the cached algorithm
- * state from the previous calls. Percentile does this by checking the array reference
- * itself and a checksum of its content by default. If the user already knows he calls
- * {@code evaluate} on an immutable array, he can save the checking time by calling the
- * {@code evaluate} methods that do <em>not</em>
+ * Since 2.2, Percentile uses only selection instead of complete sorting
+ * and caches selection algorithm state between calls to the various
+ * {@code evaluate} methods. This greatly improves efficiency, both for a single
+ * percentile and multiple percentile computations. To maximize performance when
+ * multiple percentiles are computed based on the same data, users should set the
+ * data array once using either one of the {@link #evaluate(double[], double)} or
+ * {@link #setData(double[])} methods and thereafter {@link #evaluate(double)}
+ * with just the percentile provided. 
  * </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
