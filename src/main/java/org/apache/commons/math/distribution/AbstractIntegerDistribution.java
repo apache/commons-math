@@ -151,7 +151,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns the largest {@code x}, such
-     * that {@code P(X < x) < p}.
+     * that {@code P(X <= x) <= p}.
      *
      * @param p Desired probability.
      * @return the largest {@code x} such that {@code P(X < x) <= p}.
