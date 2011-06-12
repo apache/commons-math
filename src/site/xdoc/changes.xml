@@ -52,10 +52,6 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
-      <action dev="psteitz" type="fix" issue="MATH-540">
-        Fixed error in javadoc describing Integer distribution inverse cumulative
-        probability API.
-      </action>
       <action dev="psteitz" type="fix" issue="MATH-582" due-to="Christopher Nix">
         Fixed error in javadoc describing the behavior of the Percentile algorithm for
         small percentiles in small datasets.
