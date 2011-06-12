@@ -44,7 +44,7 @@ public class MaxCountExceededException extends MathIllegalStateException {
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific contexte pattern.
+     * @param specific Specific context pattern.
      * @param max Maximum.
      * @param args Additional arguments.
      */

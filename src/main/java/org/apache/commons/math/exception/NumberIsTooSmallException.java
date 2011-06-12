@@ -56,7 +56,7 @@ public class NumberIsTooSmallException extends MathIllegalNumberException {
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific contexte pattern.
+     * @param specific Specific context pattern.
      * @param wrong Value that is smaller than the minimum.
      * @param min Minimum.
      * @param boundIsAllowed Whether {@code min} is included in the allowed range.

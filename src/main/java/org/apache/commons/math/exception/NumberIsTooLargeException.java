@@ -55,7 +55,7 @@ public class NumberIsTooLargeException extends MathIllegalNumberException {
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific contexte pattern.
+     * @param specific Specific context pattern.
      * @param wrong Value that is larger than the maximum.
      * @param max Maximum.
      * @param boundIsAllowed if true the maximum is included in the allowed range.

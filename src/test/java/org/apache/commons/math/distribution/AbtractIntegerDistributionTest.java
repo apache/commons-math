@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases for AbstractIntegerDistribution default implementations
+ * Test cases for AbstractIntegerDistribution default implementations.
  *
  * @version $Id$
  */

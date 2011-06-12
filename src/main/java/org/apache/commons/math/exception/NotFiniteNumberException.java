@@ -43,7 +43,7 @@ public class NotFiniteNumberException extends MathIllegalNumberException {
     /**
      * Construct the exception with a specific context.
      *
-     * @param specific Specific contexte pattern.
+     * @param specific Specific context pattern.
      * @param wrong Value that is infinite or NaN.
      * @param args Optional arguments.
      */
