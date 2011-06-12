@@ -20,7 +20,6 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -321,11 +320,13 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     private void checkArray(long[][] in) {
         if (in.length < 2) {
-            throw new NumberIsTooSmallException(in.length, 2, true);
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.INSUFFICIENT_DIMENSION, in.length, 2);
         }
 
         if (in[0].length < 2) {
-            throw new NumberIsTooSmallException(in[0].length, 2, true);
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.INSUFFICIENT_DIMENSION, in[0].length, 2);
         }
 
         checkRectangular(in);
@@ -354,7 +355,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     }
 
     /**
-     * Check all entries of the input array are strictly postive.
+     * Check all entries of the input array are strictly positive.
      *
      * @param in Array to be tested.
      * @exception NotStrictlyPositiveException if one entry is not positive.
@@ -362,7 +363,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     private void checkPositive(double[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] <= 0) {
-                throw new NotStrictlyPositiveException(in[i]);
+                throw new MathIllegalArgumentException(
+                        LocalizedFormats.NOT_POSITIVE_ELEMENT_AT_INDEX,
+                        i, in[i]);
             }
         }
     }
@@ -376,7 +379,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     private void checkNonNegative(long[] in) {
         for (int i = 0; i < in.length; i++) {
             if (in[i] < 0) {
-                throw new NotPositiveException(in[i]);
+                throw new MathIllegalArgumentException(
+                        LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
+                        i, in[i]);
             }
         }
     }
@@ -391,7 +396,9 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
         for (int i = 0; i < in.length; i ++) {
             for (int j = 0; j < in[i].length; j++) {
                 if (in[i][j] < 0) {
-                    throw new NotPositiveException(in[i][j]);
+                    throw new MathIllegalArgumentException(
+                            LocalizedFormats.NEGATIVE_ELEMENT_AT_2D_INDEX,
+                            i, j, in[i][j]);
                 }
             }
         }
