@@ -18,6 +18,7 @@ package org.apache.commons.math.genetics;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 
 /**
@@ -51,7 +52,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     protected void checkValidity(List<Integer> chromosomeRepresentation) throws InvalidRepresentationException {
         for (int i : chromosomeRepresentation) {
             if (i < 0 || i >1)
-                throw new InvalidRepresentationException("Elements can be only 0 or 1.");
+                throw new InvalidRepresentationException(
+                        LocalizedFormats.INVALID_BINARY_DIGIT, i);
         }
     }
 

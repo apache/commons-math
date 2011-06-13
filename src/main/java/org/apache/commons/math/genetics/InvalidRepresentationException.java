@@ -16,48 +16,29 @@
  */
 package org.apache.commons.math.genetics;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.util.Localizable;
+
 /**
  * Exception indicating that the representation of a chromosome is not valid.
  *
  * @version $Id$
  * @since 2.0
  */
-public class InvalidRepresentationException extends Exception {
+public class InvalidRepresentationException extends MathIllegalArgumentException {
 
     /** Serialization version id */
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructor
-     */
-    public InvalidRepresentationException() {
-        super();
-    }
-
-    /**
-     * Construct an InvalidRepresentationException
-     * @param arg0 exception message
-     */
-    public InvalidRepresentationException(String arg0) {
-        super(arg0);
-    }
-
-    /**
-     * Construct an InvalidRepresentationException
-     * @param arg0 cause
-     */
-    public InvalidRepresentationException(Throwable arg0) {
-        super(arg0);
-    }
-
-    /**
-     * Construct an InvalidRepresentationException
+     * Construct an InvalidRepresentationException with a specialized message.
      *
-     * @param arg0 exception message
-     * @param arg1 cause
+     * @param specialized Message pattern.
+     * @param args Arguments.
      */
-    public InvalidRepresentationException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
+    public InvalidRepresentationException(Localizable pattern,
+            Object ... args) {
+       super(pattern, args);
     }
 
 }

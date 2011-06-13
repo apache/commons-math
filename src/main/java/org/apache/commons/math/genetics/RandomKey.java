@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * <p>
@@ -175,7 +177,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     protected void checkValidity(java.util.List<Double> chromosomeRepresentation) throws InvalidRepresentationException {
         for (double val : chromosomeRepresentation) {
             if (val < 0 || val > 1) {
-                throw new InvalidRepresentationException("Values of representation must be in [0,1] interval");
+                throw new InvalidRepresentationException(
+                        LocalizedFormats.OUT_OF_RANGE_SIMPLE, val, 0, 1);
             }
         }
     }

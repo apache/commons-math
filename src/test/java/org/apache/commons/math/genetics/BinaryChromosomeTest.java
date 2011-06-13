@@ -34,7 +34,7 @@ public class BinaryChromosomeTest {
                 new DummyBinaryChromosome(repr);
                 Assert.fail("Exception not caught");
             } catch (IllegalArgumentException e) {
-
+                // Expected
             }
         }
     }

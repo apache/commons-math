@@ -61,6 +61,16 @@ public class RandomKeyTest {
         Assert.assertEquals("c", decoded.get(3));
         Assert.assertEquals("d", decoded.get(4));
     }
+    
+    @Test
+    public void testInvalidRepresentation() {
+        try {
+            DummyRandomKey drk = new DummyRandomKey(new Double[] {0.1, 0.1, 2d, 0.8, 0.2});
+            Assert.fail("Expecting InvalidRepresentationException");
+        } catch (IllegalArgumentException ex) {
+            // Expected
+        }
+    }
 
     @Test
     public void testRandomPermutation() {

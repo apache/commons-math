@@ -38,11 +38,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      * @param representation inner representation of the chromosome
      */
     public AbstractListChromosome(final List<T> representation) {
-        try {
-            checkValidity(representation);
-        } catch (InvalidRepresentationException e) {
-            throw new IllegalArgumentException(String.format("Invalid representation for %s", getClass().getSimpleName()), e);
-        }
+        checkValidity(representation);
         this.representation = Collections.unmodifiableList(new ArrayList<T> (representation));
     }
 
