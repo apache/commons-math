@@ -55,7 +55,7 @@ public class ExceptionContext implements Serializable {
     private Map<String, Object> context = new HashMap<String, Object>();
 
     /**
-     * Sets a message.
+     * Adds a message.
      *
      * @param pattern Message pattern.
      * @param arguments Values for replacing the placeholders in the message
