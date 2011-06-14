@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.solvers.BrentSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -81,6 +81,9 @@ public class EventState {
     /** Next action indicator. */
     private int nextAction;
 
+    /** Root-finding algorithm to use to detect state events. */
+    private final UnivariateRealSolver solver;
+
     /** Simple constructor.
      * @param handler event handler
      * @param maxCheckInterval maximal time interval between switching
@@ -89,13 +92,16 @@ public class EventState {
      * @param convergence convergence threshold in the event time search
      * @param maxIterationCount upper limit of the iteration count in
      * the event time search
+     * @param solver Root-finding algorithm to use to detect state events
      */
     public EventState(final EventHandler handler, final double maxCheckInterval,
-                      final double convergence, final int maxIterationCount) {
+                      final double convergence, final int maxIterationCount,
+                      final UnivariateRealSolver solver) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
         this.convergence       = FastMath.abs(convergence);
         this.maxIterationCount = maxIterationCount;
+        this.solver            = solver;
 
         // some dummy values ...
         t0                = Double.NaN;
@@ -235,7 +241,6 @@ public class EventState {
                             }
                         }
                     };
-                    final BrentSolver solver = new BrentSolver(convergence);
 
                     if (ga * gb >= 0) {
                         // this is a corner case:

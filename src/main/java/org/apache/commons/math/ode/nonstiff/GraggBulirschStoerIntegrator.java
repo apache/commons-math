@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
@@ -347,8 +348,10 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   public void addEventHandler(final EventHandler function,
                               final double maxCheckInterval,
                               final double convergence,
-                              final int maxIterationCount) {
-    super.addEventHandler(function, maxCheckInterval, convergence, maxIterationCount);
+                              final int maxIterationCount,
+                              final UnivariateRealSolver solver) {
+    super.addEventHandler(function, maxCheckInterval, convergence,
+                          maxIterationCount, solver);
 
     // reinitialize the arrays
     initializeArrays();

@@ -28,6 +28,8 @@ import java.util.TreeSet;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.analysis.solvers.BrentSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.events.EventException;
@@ -123,7 +125,18 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount) {
-        eventsStates.add(new EventState(handler, maxCheckInterval, convergence, maxIterationCount));
+        addEventHandler(handler, maxCheckInterval, convergence,
+                        maxIterationCount, new BrentSolver(convergence));
+    }
+
+    /** {@inheritDoc} */
+    public void addEventHandler(final EventHandler handler,
+                                final double maxCheckInterval,
+                                final double convergence,
+                                final int maxIterationCount,
+                                final UnivariateRealSolver solver) {
+        eventsStates.add(new EventState(handler, maxCheckInterval, convergence,
+                                        maxIterationCount, solver));
     }
 
     /** {@inheritDoc} */

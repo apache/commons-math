@@ -19,6 +19,7 @@ package org.apache.commons.math.ode.events;
 
 
 import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
@@ -47,7 +48,9 @@ public class EventStateTest {
         };
 
         final double tolerance = 0.1;
-        EventState es = new EventState(closeEventsGenerator, 1.5 * gap, tolerance, 10);
+        EventState es = new EventState(closeEventsGenerator, 1.5 * gap,
+                                       tolerance, 10,
+                                       new BrentSolver(tolerance));
 
         AbstractStepInterpolator interpolator =
             new DummyStepInterpolator(new double[0], new double[0], true);

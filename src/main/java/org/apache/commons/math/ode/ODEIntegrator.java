@@ -19,6 +19,8 @@ package org.apache.commons.math.ode;
 
 import java.util.Collection;
 
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
@@ -62,7 +64,9 @@ public interface ODEIntegrator  {
      */
     void clearStepHandlers();
 
-    /** Add an event handler to the integrator.
+    /** Add an event handler to the integrator. Uses a {@link BrentSolver}
+     * with an absolute accuracy equal to the given convergence threshold,
+     * as root-finding algorithm to detect the state events.
      * @param handler event handler
      * @param maxCheckInterval maximal time interval between switching
      * function checks (this interval prevents missing sign changes in
@@ -75,6 +79,23 @@ public interface ODEIntegrator  {
      */
     void addEventHandler(EventHandler handler, double maxCheckInterval,
                          double convergence, int maxIterationCount);
+
+    /** Add an event handler to the integrator.
+     * @param handler event handler
+     * @param maxCheckInterval maximal time interval between switching
+     * function checks (this interval prevents missing sign changes in
+     * case the integration steps becomes very large)
+     * @param convergence convergence threshold in the event time search
+     * @param maxIterationCount upper limit of the iteration count in
+     * the event time search
+     * @param solver The root-finding algorithm to use to detect the state
+     * events.
+     * @see #getEventHandlers()
+     * @see #clearEventHandlers()
+     */
+    void addEventHandler(EventHandler handler, double maxCheckInterval,
+                         double convergence, int maxIterationCount,
+                         UnivariateRealSolver solver);
 
     /** Get all the event handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers
