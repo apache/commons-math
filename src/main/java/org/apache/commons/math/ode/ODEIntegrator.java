@@ -20,7 +20,6 @@ package org.apache.commons.math.ode;
 import java.util.Collection;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
