@@ -16,7 +16,11 @@
  */
 package org.apache.commons.math.geometry.euclidean.twod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.oned.Interval;
 import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math.geometry.euclidean.oned.OrientedPoint;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
@@ -41,6 +45,55 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
     public SubLine(final Hyperplane<Euclidean2D> hyperplane,
                    final Region<Euclidean1D> remainingRegion) {
         super(hyperplane, remainingRegion);
+    }
+
+    /** Create a sub-line from two endpoints.
+     * @param start start point
+     * @param end end point
+     */
+    public SubLine(final Vector2D start, final Vector2D end) {
+        super(new Line(start, end), buildIntervalSet(start, end));
+    }
+
+    /** Get the endpoints of the sub-line.
+     * <p>
+     * A subline may be any arbitrary number of disjoints segments, so the endpoints
+     * are provided as a list of endpoint pairs. Each element of the list represents
+     * one segment, and each segment contains a start point at index 0 and an end point
+     * at index 1. If the sub-line is unbounded in the negative infinity direction,
+     * the start point of the first segment will have infinite coordinates. If the
+     * sub-line is unbounded in the positive infinity direction, the end point of the
+     * last segment will have infinite coordinates. So a sub-line covering the whole
+     * line will contain just one row and both elements of this row will have infinite
+     * coordinates. If the sub-line is empty, the returned list will contain 0 segments.
+     * </p>
+     * @return list of segments endpoints
+     */
+    public List<Vector2D[]> getSegments() {
+
+        final Line line = (Line) getHyperplane();
+        final List<Interval> list = ((IntervalsSet) getRemainingRegion()).asList();
+        final List<Vector2D[]> segments = new ArrayList<Vector2D[]>();
+
+        for (final Interval interval : list) {
+            final Vector2D start = line.toSpace(new Vector1D(interval.getLower()));
+            final Vector2D end   = line.toSpace(new Vector1D(interval.getUpper()));
+            segments.add(new Vector2D[] { start, end });
+        }
+
+        return segments;
+
+    }
+
+    /** Build an interval set from two points.
+     * @param start start point
+     * @param end end point
+     * @return an interval set
+     */
+    private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end) {
+        final Line line = new Line(start, end);
+        return new IntervalsSet(line.toSubSpace(start).getX(),
+                                line.toSubSpace(end).getX());
     }
 
     /** {@inheritDoc} */

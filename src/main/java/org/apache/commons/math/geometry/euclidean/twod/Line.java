@@ -186,7 +186,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     public Vector2D toSpace(final Vector<Euclidean1D> point) {
         final double abscissa = ((Vector1D) point).getX();
         return new Vector2D(abscissa * cos - originOffset * sin,
-                           abscissa * sin + originOffset * cos);
+                            abscissa * sin + originOffset * cos);
     }
 
     /** Get the intersection point of the instance and another line.
