@@ -28,7 +28,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 
 /**
- * Implements one-way ANOVA statistics defined in the {@link OneWayAnovaImpl}
+ * Implements one-way ANOVA statistics defined in the {@link OneWayAnova}
  * interface.
  *
  * <p>Uses the
