@@ -17,8 +17,6 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.exception.NotPositiveException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
