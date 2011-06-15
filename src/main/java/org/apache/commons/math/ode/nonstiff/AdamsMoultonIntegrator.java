@@ -39,7 +39,7 @@ import org.apache.commons.math.util.FastMath;
  * classical implementations are fixed step size. The value of state vector
  * at step n+1 is a simple combination of the value at step n and of the
  * derivatives at steps n+1, n, n-1 ... Since y'<sub>n+1</sub> is needed to
- * compute y<sub>n+1</sub>,another method must be used to compute a first
+ * compute y<sub>n+1</sub>, another method must be used to compute a first
  * estimate of y<sub>n+1</sub>, then compute y'<sub>n+1</sub>, then compute
  * a final estimate of y<sub>n+1</sub> using the following formulas. Depending
  * on the number k of previous steps one wants to use for computing the next
