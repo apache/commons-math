@@ -70,7 +70,7 @@ import org.apache.commons.math.util.MathUtils;
  * multiple percentiles are computed based on the same data, users should set the
  * data array once using either one of the {@link #evaluate(double[], double)} or
  * {@link #setData(double[])} methods and thereafter {@link #evaluate(double)}
- * with just the percentile provided. 
+ * with just the percentile provided.
  * </p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
