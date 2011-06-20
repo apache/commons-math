@@ -65,7 +65,7 @@ public class KMeansPlusPlusClustererTest {
 
         };
         List<Cluster<EuclideanIntegerPoint>> clusters =
-            transformer.cluster(Arrays.asList(points), 3, 10);
+            transformer.cluster(Arrays.asList(points), 3, 5, 10);
 
         Assert.assertEquals(3, clusters.size());
         boolean cluster1Found = false;

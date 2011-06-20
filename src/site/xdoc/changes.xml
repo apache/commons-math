@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-548">
+        K-means++ clustering can now run multiple trials
+      </action>
       <action dev="luc" type="add" issue="MATH-591">
         Added a way to compute sub-lines intersections, considering sub-lines either
         as open sets or closed sets

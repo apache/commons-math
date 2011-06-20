@@ -96,6 +96,60 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      *     of clusters is larger than the number of data points
      */
     public List<Cluster<T>> cluster(final Collection<T> points, final int k,
+                                    int numTrials, int maxIterationsPerTrial)
+        throws MathIllegalArgumentException {
+
+        // at first, we have not found any clusters list yet
+        List<Cluster<T>> best = null;
+        double bestVarianceSum = Double.POSITIVE_INFINITY;
+
+        // do several clustering trials
+        for (int i = 0; i < numTrials; ++i) {
+
+            // compute a clusters list
+            List<Cluster<T>> clusters = cluster(points, k, maxIterationsPerTrial);
+
+            // compute the variance of the current list
+            double varianceSum = 0.0;
+            for (final Cluster<T> cluster : clusters) {
+                if (!cluster.getPoints().isEmpty()) {
+
+                    // compute the distance variance of the current cluster
+                    final T center = cluster.getCenter();
+                    final Variance stat = new Variance();
+                    for (final T point : cluster.getPoints()) {
+                        stat.increment(point.distanceFrom(center));
+                    }
+                    varianceSum += stat.getResult();
+
+                }
+            }
+
+            if (varianceSum <= bestVarianceSum) {
+                // this one is the best we have found so far, remember it
+                best            = clusters;
+                bestVarianceSum = varianceSum;
+            }
+
+        }
+
+        // return the best clusters list found
+        return best;
+
+    }
+
+    /**
+     * Runs the K-means++ clustering algorithm.
+     *
+     * @param points the points to cluster
+     * @param k the number of clusters to split the data into
+     * @param maxIterations the maximum number of iterations to run the algorithm
+     *     for.  If negative, no maximum will be used
+     * @return a list of clusters containing the points
+     * @throws MathIllegalArgumentException if the data points are null or the number
+     *     of clusters is larger than the number of data points
+     */
+    public List<Cluster<T>> cluster(final Collection<T> points, final int k,
                                     final int maxIterations)
         throws MathIllegalArgumentException {
 
