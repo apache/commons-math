@@ -31,7 +31,7 @@ import org.apache.commons.math.FieldElement;
  *  <ol>
  *    <li>Decimal math, or close to it</li>
  *    <li>Settable precision (but no mix between numbers using different settings)</li>
- *    <li>Portability.  Code should be keep as portable as possible.</li>
+ *    <li>Portability.  Code should be kept as portable as possible.</li>
  *    <li>Performance</li>
  *    <li>Accuracy  - Results should always be +/- 1 ULP for basic
  *         algebraic operation</li>
@@ -66,7 +66,7 @@ import org.apache.commons.math.FieldElement;
  *
  *  <p>The radix of 10000 was chosen because it should be faster to operate
  *  on 4 decimal digits at once instead of one at a time.  Radix 10 behavior
- *  can be realized by add an additional rounding step to ensure that
+ *  can be realized by adding an additional rounding step to ensure that
  *  the number of decimal digits represented is constant.</p>
  *
  *  <p>The IEEE standard specifically leaves out internal data encoding,
