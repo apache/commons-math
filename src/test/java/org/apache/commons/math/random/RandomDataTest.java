@@ -30,6 +30,7 @@ import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math.distribution.ExponentialDistributionImpl;
 import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.distribution.GammaDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
@@ -245,10 +246,10 @@ public class RandomDataTest {
 
     @Test
     public void testNextPoissonConsistency() throws Exception {
-        
+
         // Reseed randomGenerator to get fixed sequence
-        randomData.reSeed(1000);  
-        
+        randomData.reSeed(1000);
+
         // Small integral means
         for (int i = 1; i < 100; i++) {
             checkNextPoissonConsistency(i);
@@ -581,7 +582,7 @@ public class RandomDataTest {
 
     /** test failure modes and distribution of nextExponential() */
     @Test
-    public void testNextExponential() {
+    public void testNextExponential() throws Exception {
         try {
             randomData.nextExponential(-1);
             Assert.fail("negative mean -- expecting MathIllegalArgumentException");
@@ -609,6 +610,32 @@ public class RandomDataTest {
          */
         Assert.assertEquals("exponential cumulative distribution", (double) cumFreq
                 / (double) largeSampleSize, 0.8646647167633873, .2);
+
+        /**
+         * Proposal on improving the test of generating exponentials
+         */
+        double[] quartiles;
+        long[] counts;
+
+        // Mean 1
+        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistributionImpl(1));
+        counts = new long[4];
+        randomData.reSeed(1000);
+        for (int i = 0; i < 1000; i++) {
+            double value = randomData.nextExponential(1);
+            TestUtils.updateCounts(value, counts, quartiles);
+        }
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
+
+        // Mean 5
+        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistributionImpl(5));
+        counts = new long[4];
+        randomData.reSeed(1000);
+        for (int i = 0; i < 1000; i++) {
+            double value = randomData.nextExponential(5);
+            TestUtils.updateCounts(value, counts, quartiles);
+        }
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
 
     /** test reseeding, algorithm/provider games */
@@ -810,7 +837,7 @@ public class RandomDataTest {
         Assert.fail("permutation not found");
         return -1;
     }
-    
+
     @Test
     public void testNextInversionDeviate() throws Exception {
         // Set the seed for the default random generator
@@ -830,9 +857,9 @@ public class RandomDataTest {
         for (int i = 0; i < 10; i++) {
             double value = randomData.nextInversionDeviate(betaDistribution);
             Assert.assertEquals(betaDistribution.cumulativeProbability(value), quantiles[i], 10E-9);
-        } 
+        }
     }
-    
+
     @Test
     public void testNextBeta() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistributionImpl(2,5));
@@ -844,7 +871,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextCauchy() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistributionImpl(1.2, 2.1));
@@ -856,7 +883,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextChiSquare() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new ChiSquaredDistributionImpl(12));
@@ -868,7 +895,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextF() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new FDistributionImpl(12, 5));
@@ -880,7 +907,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextGamma() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
@@ -892,7 +919,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextT() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new TDistributionImpl(10));
@@ -904,7 +931,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextWeibull() throws Exception {
         double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistributionImpl(1.2, 2.1));
@@ -916,7 +943,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
-    
+
     @Test
     public void testNextBinomial() throws Exception {
         BinomialDistributionTest testInstance = new BinomialDistributionTest();
@@ -942,7 +969,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
+
     @Test
     public void testNextHypergeometric() throws Exception {
         HypergeometricDistributionTest testInstance = new HypergeometricDistributionTest();
@@ -968,7 +995,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
+
     @Test
     public void testNextPascal() throws Exception {
         PascalDistributionTest testInstance = new PascalDistributionTest();
@@ -993,7 +1020,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
+
     @Test
     public void testNextZipf() throws Exception {
         ZipfDistributionTest testInstance = new ZipfDistributionTest();
@@ -1018,5 +1045,5 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
+
 }

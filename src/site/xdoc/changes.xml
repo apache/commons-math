@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="mikl" type="fix" issue="MATH-597">
+        Implemented faster generation of random exponential distributed values with
+        algorithm from Ahrens and Dieter (1972): Computer methods for sampling 
+        from the exponential and normal distributions.
+      </action>
       <action dev="luc" type="add" issue="MATH-548">
         K-means++ clustering can now run multiple trials
       </action>

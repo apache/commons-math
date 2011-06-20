@@ -44,6 +44,7 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.ResizableDoubleArray;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -107,11 +108,55 @@ public class RandomDataImpl implements RandomData, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -626730818244969716L;
 
+    /** Used when generating Exponential samples
+     * [1] writes:
+     * One table containing the constants
+     * q_i = sum_{j=1}^i (ln 2)^j/j! = ln 2 + (ln 2)^2/2 + ... + (ln 2)^i/i!
+     * until the largest representable fraction below 1 is exceeded.
+     *
+     * Note that
+     * 1 = 2 - 1 = exp(ln 2) - 1 = sum_{n=1}^infty (ln 2)^n / n!
+     * thus q_i -> 1 as i -> infty,
+     * so the higher 1, the closer to one we get (the series is not alternating).
+     *
+     * By trying, n = 16 in Java is enough to reach 1.0.
+     */
+    private static double[] EXPONENTIAL_SA_QI = null;
+
     /** underlying random number generator */
     private RandomGenerator rand = null;
 
     /** underlying secure random number generator */
     private SecureRandom secRand = null;
+
+    /**
+     * Initialize tables
+     */
+    static {
+        /**
+         * Filling EXPONENTIAL_SA_QI table.
+         * Note that we don't want qi = 0 in the table.
+         */
+        final double LN2 = FastMath.log(2);
+        double qi = 0;
+        int i = 1;
+
+        /**
+         * MathUtils provides factorials up to 20, so let's use that limit together
+         * with MathUtils.EPSILON to generate the following code (a priori, we know that
+         * there will be 16 elements, but instead of hardcoding that, this is
+         * prettier):
+         */
+        final ResizableDoubleArray ra = new ResizableDoubleArray(20);
+
+        while (qi < 1) {
+            qi += FastMath.pow(LN2, i) / MathUtils.factorial(i);
+            ra.addElement(qi);
+            ++i;
+        }
+
+        EXPONENTIAL_SA_QI = ra.getElements();
+    }
 
     /**
      * Construct a RandomDataImpl.
@@ -469,10 +514,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Returns a random value from an Exponential distribution with the given
      * mean.
      * <p>
-     * <strong>Algorithm Description</strong>: Uses the <a
-     * href="http://www.jesus.ox.ac.uk/~clifford/a5/chap1/node5.html"> Inversion
-     * Method</a> to generate exponentially distributed random values from
-     * uniform deviates.
+     * <strong>Algorithm Description</strong>: Uses the Algorithm SA (Ahrens)
+     * from p. 876 in:
+     * [1]: Ahrens, J. H. and Dieter, U. (1972). Computer methods for
+     * sampling from the exponential and normal distributions.
+     * Communications of the ACM, 15, 873-882.
      * </p>
      *
      * @param mean the mean of the distribution
@@ -483,12 +529,43 @@ public class RandomDataImpl implements RandomData, Serializable {
         if (mean <= 0.0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
-        final RandomGenerator generator = getRan();
-        double unif = generator.nextDouble();
-        while (unif == 0.0d) {
-            unif = generator.nextDouble();
+
+        // Step 1:
+        double a = 0;
+        double u = this.nextUniform(0, 1);
+
+        // Step 2 and 3:
+        while (u < 0.5) {
+            a += EXPONENTIAL_SA_QI[0];
+            u *= 2;
         }
-        return -mean * FastMath.log(unif);
+
+        // Step 4 (now u >= 0.5):
+        u += u - 1;
+
+        // Step 5:
+        if (u <= EXPONENTIAL_SA_QI[0]) {
+            return mean * (a + u);
+        }
+
+        // Step 6:
+        int i = 0; // Should be 1, be we iterate before it in while using 0
+        double u2 = this.nextUniform(0, 1);
+        double umin = u2;
+
+        // Step 7 and 8:
+        do {
+            ++i;
+            u2 = this.nextUniform(0, 1);
+
+            if (u2 < umin) {
+                umin = u2;
+            }
+
+            // Step 8:
+        } while (u > EXPONENTIAL_SA_QI[i]); // Ensured to exit since EXPONENTIAL_SA_QI[MAX] = 1
+
+        return mean * (a + umin * EXPONENTIAL_SA_QI[0]);
     }
 
     /**
