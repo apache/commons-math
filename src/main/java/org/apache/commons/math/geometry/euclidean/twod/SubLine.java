@@ -28,6 +28,7 @@ import org.apache.commons.math.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
 import org.apache.commons.math.geometry.partitioning.Hyperplane;
 import org.apache.commons.math.geometry.partitioning.Region;
+import org.apache.commons.math.geometry.partitioning.Region.Location;
 import org.apache.commons.math.geometry.partitioning.Side;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.util.FastMath;
@@ -82,6 +83,43 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         }
 
         return segments;
+
+    }
+
+    /** Get the intersection of the instance and another sub-line.
+     * <p>
+     * This method is related to the {@link Line#intersection(Hyperplane)
+     * intersection} method in the {@link Line Line} class, but in addition
+     * to compute the point along infinite lines, it also checks the point
+     * lies on both sub-line ranges.
+     * </p>
+     * @param subLine other sub-line which may intersect instance
+     * @param includeEndPoints if true, endpoints are considered to belong to
+     * instance (i.e. they are closed sets) and may be returned, otherwise endpoints
+     * are considered to not belong to instance (i.e. they are open sets) and intersection
+     * occurring on endpoints lead to null being returned
+     * @return the intersection point if there is one, null if the sub-lines don't intersect
+     */
+    public Vector2D intersection(final SubLine subLine, final boolean includeEndPoints) {
+
+        // retrieve the underlying lines
+        Line line1 = (Line) getHyperplane();
+        Line line2 = (Line) subLine.getHyperplane();
+
+        // compute the intersection on infinite line
+        Vector2D v2D = line1.intersection(line2);
+
+        // check location of point with respect to first sub-line
+        Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace(v2D));
+
+        // check location of point with respect to second sub-line
+        Location loc2 = subLine.getRemainingRegion().checkPoint(line2.toSubSpace(v2D));
+
+        if (includeEndPoints) {
+            return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v2D : null;
+        } else {
+            return ((loc1 == Location.INSIDE) && (loc2 == Location.INSIDE)) ? v2D : null;
+        }
 
     }
 

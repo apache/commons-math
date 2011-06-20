@@ -97,4 +97,52 @@ public class SubLineTest {
                           segments.get(0)[1].getY() > 0);
     }
 
+    @Test
+    public void testIntersectionInsideInside() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(3, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 2));
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, false)), 1.0e-12);
+    }
+
+    @Test
+    public void testIntersectionInsideBoundary() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(3, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 1));
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
+    @Test
+    public void testIntersectionInsideOutside() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(3, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 0.5));
+        Assert.assertNull(sub1.intersection(sub2, true));
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
+    @Test
+    public void testIntersectionBoundaryBoundary() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(2, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 1));
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
+    @Test
+    public void testIntersectionBoundaryOutside() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(2, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 0.5));
+        Assert.assertNull(sub1.intersection(sub2, true));
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
+    @Test
+    public void testIntersectionOutsideOutside() {
+        SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(1.5, 1));
+        SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 0.5));
+        Assert.assertNull(sub1.intersection(sub2, true));
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
 }
