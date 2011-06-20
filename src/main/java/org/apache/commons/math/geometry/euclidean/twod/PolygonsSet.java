@@ -22,11 +22,17 @@ import java.util.List;
 
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.oned.Interval;
+import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math.geometry.partitioning.BSPTree;
+import org.apache.commons.math.geometry.partitioning.BSPTreeVisitor;
+import org.apache.commons.math.geometry.partitioning.BoundaryAttribute;
 import org.apache.commons.math.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math.geometry.partitioning.utilities.AVLTree;
+import org.apache.commons.math.geometry.partitioning.utilities.OrderedTuple;
 import org.apache.commons.math.util.FastMath;
 
 /** This class represents a 2D region: a set of polygons.
@@ -202,14 +208,14 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 // sort the segments according to their start point
                 final SegmentsBuilder visitor = new SegmentsBuilder();
                 getTree(true).visit(visitor);
-                final AVLTree<Segment> sorted = visitor.getSorted();
+                final AVLTree<ComparableSegment> sorted = visitor.getSorted();
 
                 // identify the loops, starting from the open ones
                 // (their start segments are naturally at the sorted set beginning)
-                final ArrayList<List<Segment>> loops = new ArrayList<List<Segment>>();
+                final ArrayList<List<ComparableSegment>> loops = new ArrayList<List<ComparableSegment>>();
                 while (!sorted.isEmpty()) {
-                    final AVLTree<Segment>.Node node = sorted.getSmallest();
-                    final List<Segment> loop = followLoop(node, sorted);
+                    final AVLTree<ComparableSegment>.Node node = sorted.getSmallest();
+                    final List<ComparableSegment> loop = followLoop(node, sorted);
                     if (loop != null) {
                         loops.add(loop);
                     }
@@ -219,7 +225,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 vertices = new Vector2D[loops.size()][];
                 int i = 0;
 
-                for (final List<Segment> loop : loops) {
+                for (final List<ComparableSegment> loop : loops) {
                     if (loop.size() < 2) {
                         // single infinite line
                         final Line line = loop.get(0).getLine();
@@ -280,11 +286,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @return a list of connected sub-hyperplanes starting at
      * {@code node}
      */
-    private List<Segment> followLoop(final AVLTree<Segment>.Node node,
-                                     final AVLTree<Segment> sorted) {
+    private List<ComparableSegment> followLoop(final AVLTree<ComparableSegment>.Node node,
+                                               final AVLTree<ComparableSegment> sorted) {
 
-        final ArrayList<Segment> loop = new ArrayList<Segment>();
-        Segment segment = node.getElement();
+        final ArrayList<ComparableSegment> loop = new ArrayList<ComparableSegment>();
+        ComparableSegment segment = node.getElement();
         loop.add(segment);
         final Vector2D globalStart = segment.getStart();
         Vector2D end = segment.getEnd();
@@ -296,15 +302,15 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         while ((end != null) && (open || (globalStart.distance(end) > 1.0e-10))) {
 
             // search the sub-hyperplane starting where the previous one ended
-            AVLTree<Segment>.Node selectedNode = null;
-            Segment       selectedSegment  = null;
-            double        selectedDistance = Double.POSITIVE_INFINITY;
-            final Segment lowerLeft        = new Segment(end, -1.0e-10, -1.0e-10);
-            final Segment upperRight       = new Segment(end, +1.0e-10, +1.0e-10);
-            for (AVLTree<Segment>.Node n = sorted.getNotSmaller(lowerLeft);
+            AVLTree<ComparableSegment>.Node selectedNode = null;
+            ComparableSegment       selectedSegment  = null;
+            double                  selectedDistance = Double.POSITIVE_INFINITY;
+            final ComparableSegment lowerLeft        = new ComparableSegment(end, -1.0e-10, -1.0e-10);
+            final ComparableSegment upperRight       = new ComparableSegment(end, +1.0e-10, +1.0e-10);
+            for (AVLTree<ComparableSegment>.Node n = sorted.getNotSmaller(lowerLeft);
                  (n != null) && (n.getElement().compareTo(upperRight) <= 0);
                  n = n.getNext()) {
-                segment = (Segment) n.getElement();
+                segment = n.getElement();
                 final double distance = end.distance(segment.getStart());
                 if (distance < selectedDistance) {
                     selectedNode     = n;
@@ -336,6 +342,127 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         return loop;
+
+    }
+
+    private static class ComparableSegment extends Segment implements Comparable<ComparableSegment> {
+
+        /** Sorting key. */
+        private OrderedTuple sortingKey;
+
+        /** Build a segment.
+         * @param start start point of the segment
+         * @param end end point of the segment
+         * @param line line containing the segment
+         */
+        public ComparableSegment(final Vector2D start, final Vector2D end, final Line line) {
+            super(start, end, line);
+            sortingKey = (start == null) ?
+                         new OrderedTuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY) :
+                         new OrderedTuple(start.getX(), start.getY());
+        }
+
+        /** Build a dummy segment.
+         * <p>
+         * The object built is not a real segment, only the sorting key is used to
+         * allow searching in the neighborhood of a point. This is an horrible hack ...
+         * </p>
+         * @param start start point of the segment
+         * @param dx abscissa offset from the start point
+         * @param dy ordinate offset from the start point
+         */
+        public ComparableSegment(final Vector2D start, final double dx, final double dy) {
+            super(null, null, null);
+            sortingKey = new OrderedTuple(start.getX() + dx, start.getY() + dy);
+        }
+
+        /** {@inheritDoc} */
+        public int compareTo(final ComparableSegment o) {
+            return sortingKey.compareTo(o.sortingKey);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean equals(final Object other) {
+            if (this == other) {
+                return true;
+            } else if (other instanceof ComparableSegment) {
+                return compareTo((ComparableSegment) other) == 0;
+            } else {
+                return false;
+            }
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int hashCode() {
+            return getStart().hashCode() ^ getEnd().hashCode() ^
+                   getLine().hashCode() ^ sortingKey.hashCode();
+        }
+
+    }
+
+    /** Visitor building segments. */
+    private static class SegmentsBuilder implements BSPTreeVisitor<Euclidean2D> {
+
+        /** Sorted segments. */
+        private AVLTree<ComparableSegment> sorted;
+
+        /** Simple constructor. */
+        public SegmentsBuilder() {
+            sorted = new AVLTree<ComparableSegment>();
+        }
+
+        /** {@inheritDoc} */
+        public Order visitOrder(final BSPTree<Euclidean2D> node) {
+            return Order.MINUS_SUB_PLUS;
+        }
+
+        /** {@inheritDoc} */
+        public void visitInternalNode(final BSPTree<Euclidean2D> node) {
+            @SuppressWarnings("unchecked")
+            final BoundaryAttribute<Euclidean2D> attribute = (BoundaryAttribute<Euclidean2D>) node.getAttribute();
+            if (attribute.getPlusOutside() != null) {
+                addContribution(attribute.getPlusOutside(), false);
+            }
+            if (attribute.getPlusInside() != null) {
+                addContribution(attribute.getPlusInside(), true);
+            }
+        }
+
+        /** {@inheritDoc} */
+        public void visitLeafNode(final BSPTree<Euclidean2D> node) {
+        }
+
+        /** Add he contribution of a boundary facet.
+         * @param sub boundary facet
+         * @param reversed if true, the facet has the inside on its plus side
+         */
+        private void addContribution(final SubHyperplane<Euclidean2D> sub, final boolean reversed) {
+            @SuppressWarnings("unchecked")
+            final AbstractSubHyperplane<Euclidean2D, Euclidean1D> absSub =
+                (AbstractSubHyperplane<Euclidean2D, Euclidean1D>) sub;
+            final Line line      = (Line) sub.getHyperplane();
+            final List<Interval> intervals = ((IntervalsSet) absSub.getRemainingRegion()).asList();
+            for (final Interval i : intervals) {
+                final Vector2D start = Double.isInfinite(i.getLower()) ?
+                                      null : (Vector2D) line.toSpace(new Vector1D(i.getLower()));
+                final Vector2D end   = Double.isInfinite(i.getUpper()) ?
+                                      null : (Vector2D) line.toSpace(new Vector1D(i.getUpper()));
+                if (reversed) {
+                    sorted.insert(new ComparableSegment(end, start, line.getReverse()));
+                } else {
+                    sorted.insert(new ComparableSegment(start, end, line));
+                }
+            }
+        }
+
+        /** Get the sorted segments.
+         * @return sorted segments
+         */
+        public AVLTree<ComparableSegment> getSorted() {
+            return sorted;
+        }
 
     }
 

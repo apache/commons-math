@@ -16,25 +16,21 @@
  */
 package org.apache.commons.math.geometry.euclidean.twod;
 
-import org.apache.commons.math.geometry.partitioning.utilities.OrderedTuple;
 
-/** This class holds segments information before they are connected.
+/** Simple container for a two-points segment.
  * @version $Id$
  * @since 3.0
  */
-class Segment implements Comparable<Segment> {
+public class Segment {
 
     /** Start point of the segment. */
-    private final Vector2D      start;
+    private final Vector2D start;
 
     /** End point of the segments. */
-    private final Vector2D      end;
+    private final Vector2D end;
 
     /** Line containing the segment. */
-    private final Line         line;
-
-    /** Sorting key. */
-    private      OrderedTuple sortingKey;
+    private final Line     line;
 
     /** Build a segment.
      * @param start start point of the segment
@@ -45,25 +41,6 @@ class Segment implements Comparable<Segment> {
         this.start  = start;
         this.end    = end;
         this.line   = line;
-        sortingKey = (start == null) ?
-                     new OrderedTuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY) :
-                     new OrderedTuple(start.getX(), start.getY());
-    }
-
-    /** Build a dummy segment.
-     * <p>
-     * The object built is not a real segment, only the sorting key is used to
-     * allow searching in the neighborhood of a point. This is an horrible hack ...
-     * </p>
-     * @param start start point of the segment
-     * @param dx abscissa offset from the start point
-     * @param dy ordinate offset from the start point
-     */
-    public Segment(final Vector2D start, final double dx, final double dy) {
-        this.start = null;
-        this.end   = null;
-        this.line  = null;
-        sortingKey = new OrderedTuple(start.getX() + dx, start.getY() + dy);
     }
 
     /** Get the start point of the segment.
@@ -85,29 +62,6 @@ class Segment implements Comparable<Segment> {
      */
     public Line getLine() {
         return line;
-    }
-
-    /** {@inheritDoc} */
-    public int compareTo(final Segment o) {
-        return sortingKey.compareTo(o.sortingKey);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean equals(final Object other) {
-        if (this == other) {
-            return true;
-        } else if (other instanceof Segment) {
-            return compareTo((Segment) other) == 0;
-        } else {
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int hashCode() {
-        return start.hashCode() ^ end.hashCode() ^ line.hashCode() ^ sortingKey.hashCode();
     }
 
 }

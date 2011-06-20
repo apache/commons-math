@@ -56,6 +56,13 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         super(new Line(start, end), buildIntervalSet(start, end));
     }
 
+    /** Create a sub-line from a segment.
+     * @param segment single segment forming the sub-line
+     */
+    public SubLine(final Segment segment) {
+        super(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd()));
+    }
+
     /** Get the endpoints of the sub-line.
      * <p>
      * A subline may be any arbitrary number of disjoints segments, so the endpoints
@@ -70,16 +77,16 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
      * </p>
      * @return list of segments endpoints
      */
-    public List<Vector2D[]> getSegments() {
+    public List<Segment> getSegments() {
 
         final Line line = (Line) getHyperplane();
         final List<Interval> list = ((IntervalsSet) getRemainingRegion()).asList();
-        final List<Vector2D[]> segments = new ArrayList<Vector2D[]>();
+        final List<Segment> segments = new ArrayList<Segment>();
 
         for (final Interval interval : list) {
             final Vector2D start = line.toSpace(new Vector1D(interval.getLower()));
             final Vector2D end   = line.toSpace(new Vector1D(interval.getUpper()));
-            segments.add(new Vector2D[] { start, end });
+            segments.add(new Segment(start, end, line));
         }
 
         return segments;
