@@ -57,7 +57,7 @@ The <action> type attribute can be add,update,fix,remove.
         as open sets or closed sets
       </action>
       <action dev="luc" type="add" issue="MATH-592">
-        Added a way to build a sub-line from its endpoints, and to retrieve the enpoints
+        Added a way to build a sub-line from its endpoints, and to retrieve the endpoints
         from a sub-line
       </action>
       <action dev="luc" type="fix" issue="MATH-594" due-to="Dennis Hendriks">
