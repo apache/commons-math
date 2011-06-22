@@ -17,7 +17,6 @@
 package org.apache.commons.math.filter;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.CholeskyDecompositionImpl;
@@ -27,27 +26,26 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.NonSquareMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * Implementation of a Kalman filter to estimate the state <i>x<sub>k</sub> of a
- * discrete-time controlled process that is governed by the linear stochastic
- * difference equation:
+ * Implementation of a Kalman filter to estimate the state <i>x<sub>k</sub></i>
+ * of a discrete-time controlled process that is governed by the linear
+ * stochastic difference equation:
  *
  * <pre>
- * <i>x<sub>k</sub> = <b>A</b><i>x<sub>k-1</sub> + <b>B</b><i>u<sub>k-1</sub> + <i>w<sub>k-1</sub>
+ * <i>x<sub>k</sub></i> = <b>A</b><i>x<sub>k-1</sub></i> + <b>B</b><i>u<sub>k-1</sub></i> + <i>w<sub>k-1</sub></i>
  * </pre>
  *
- * with a measurement <i>x<sub>k</sub> that is
+ * with a measurement <i>x<sub>k</sub></i> that is
  *
  * <pre>
- * <i>z<sub>k</sub> = <b>H</b><i>x<sub>k</sub> + <i>v<sub>k</sub>.
+ * <i>z<sub>k</sub></i> = <b>H</b><i>x<sub>k</sub></i> + <i>v<sub>k</sub></i>.
  * </pre>
  *
- * The random variables <i>w<sub>k</sub> and <i>v<sub>k</sub> represent the
- * process and measurement noise and are assumed to be independent of each other
- * and distributed with normal probability (white noise).
+ * The random variables <i>w<sub>k</sub></i> and <i>v<sub>k</sub></i> represent
+ * the process and measurement noise and are assumed to be independent of each
+ * other and distributed with normal probability (white noise).
  * <p>
  * The Kalman filter cycle involves the following steps:
  * <ol>
@@ -55,48 +53,64 @@ import org.apache.commons.math.util.MathUtils;
  * <li>correct: adjust the projected estimate by an actual measurement</li>
  * </ol>
  * </p>
+ * <br/>
+ * <p>
+ * The Kalman filter is initialized with a {@link ProcessModel} and a
+ * {@link MeasurementModel}, which contain the corresponding transformation and
+ * noise covariance matrices. The parameter names used in the respective models
+ * correspond to the following names commonly used in the mathematical
+ * literature:
+ * <ul>
+ * <li>A - state transition matrix</li>
+ * <li>B - control input matrix</li>
+ * <li>H - measurement matrix</li>
+ * <li>Q - process noise covariance matrix</li>
+ * <li>R - measurement noise covariance matrix</li>
+ * <li>P - error covariance matrix</li>
+ * </ul>
+ * </p>
  *
  * @see <a href="http://www.cs.unc.edu/~welch/kalman/">Kalman filter
  *      resources</a>
  * @see <a href="http://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf">An
  *      introduction to the Kalman filter by Greg Welch and Gary Bishop</a>
- * @see <a
- *      href="http://academic.csuohio.edu/simond/courses/eec644/kalman.pdf">Kalman
- *      filter example by Dan Simon</a>
- *
+ * @see <a href="http://academic.csuohio.edu/simond/courses/eec644/kalman.pdf">
+ *      Kalman filter example by Dan Simon</a>
+ * @see ProcessModel
+ * @see MeasurementModel
  * @version $Id$
  */
 public class KalmanFilter {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 4878026651422612760L;
-    /** The transition matrix, equivalent to A */
-    private transient RealMatrix transitionMatrix;
-    /** The transposed transition matrix */
-    private transient RealMatrix transitionMatrixT;
-    /** The control matrix, equivalent to B */
-    private transient RealMatrix controlMatrix;
-    /** The measurement matrix, equivalent to H */
-    private transient RealMatrix measurementMatrix;
-    /** The transposed measurement matrix */
-    private transient RealMatrix measurementMatrixT;
-    /** The internal state estimation vector, equivalent to x hat */
-    private transient RealVector stateEstimation;
-    /** The process noise covariance matrix, equivalent to Q */
-    private transient RealMatrix processNoise;
-    /** The measurement noise covariance matrix, equivalent to R */
-    private transient RealMatrix measurementNoise;
-    /** The error covariance matrix, equivalent to P */
-    private transient RealMatrix errorCovariance;
+    /** The process model used by this filter instance. */
+    private final ProcessModel processModel;
+    /** The measurement model used by this filter instance. */
+    private final MeasurementModel measurementModel;
+    /** The transition matrix, equivalent to A. */
+    private RealMatrix transitionMatrix;
+    /** The transposed transition matrix. */
+    private RealMatrix transitionMatrixT;
+    /** The control matrix, equivalent to B. */
+    private RealMatrix controlMatrix;
+    /** The measurement matrix, equivalent to H. */
+    private RealMatrix measurementMatrix;
+    /** The transposed measurement matrix. */
+    private RealMatrix measurementMatrixT;
+    /** The internal state estimation vector, equivalent to x hat. */
+    private RealVector stateEstimation;
+    /** The error covariance matrix, equivalent to P. */
+    private RealMatrix errorCovariance;
 
     /**
      * Creates a new Kalman filter with the given process and measurement
      * models.
      *
-     * @param processModel
+     * @param process
      *            the model defining the underlying process dynamics
-     * @param measurementModel
+     * @param measurement
      *            the model defining the given measurement characteristics
-     * @throws NullArgumentException
+     * @throws org.apache.commons.math.exception.NullArgumentException
      *             if any of the given inputs is null (except for the control
      *             matrix)
      * @throws NonSquareMatrixException
@@ -104,39 +118,46 @@ public class KalmanFilter {
      * @throws MatrixDimensionMismatchException
      *             if the matrix dimensions do not fit together
      */
-    public KalmanFilter(final ProcessModel processModel,
-            final MeasurementModel measurementModel)
-            throws NullArgumentException, NonSquareMatrixException,
-            MatrixDimensionMismatchException {
+    public KalmanFilter(final ProcessModel process,
+                        final MeasurementModel measurement) {
 
-        MathUtils.checkNotNull(processModel);
-        MathUtils.checkNotNull(measurementModel);
+        MathUtils.checkNotNull(process);
+        MathUtils.checkNotNull(measurement);
+
+        this.processModel = process;
+        this.measurementModel = measurement;
 
         transitionMatrix = processModel.getStateTransitionMatrix();
         MathUtils.checkNotNull(transitionMatrix);
         transitionMatrixT = transitionMatrix.transpose();
 
         // create an empty matrix if no control matrix was given
-        controlMatrix = (processModel.getControlMatrix() == null) ?
-            new Array2DRowRealMatrix() :
-            processModel.getControlMatrix();
+        if (processModel.getControlMatrix() == null) {
+            controlMatrix = new Array2DRowRealMatrix();
+        } else {
+            controlMatrix = processModel.getControlMatrix();
+        }
 
         measurementMatrix = measurementModel.getMeasurementMatrix();
         MathUtils.checkNotNull(measurementMatrix);
         measurementMatrixT = measurementMatrix.transpose();
 
-        processNoise = processModel.getProcessNoise();
+        // check that the process and measurement noise matrices are not null
+        // they will be directly accessed from the model as they may change
+        // over time
+        RealMatrix processNoise = processModel.getProcessNoise();
         MathUtils.checkNotNull(processNoise);
-
-        measurementNoise = measurementModel.getMeasurementNoise();
-        MathUtils.checkNotNull(measurementNoise);
+        RealMatrix measNoise = measurementModel.getMeasurementNoise();
+        MathUtils.checkNotNull(measNoise);
 
         // set the initial state estimate to a zero vector if it is not
-        // available
-        stateEstimation = (processModel.getInitialStateEstimate() == null) ?
-            new ArrayRealVector(transitionMatrix.getColumnDimension()) :
-            processModel.getInitialStateEstimate();
-        MathUtils.checkNotNull(stateEstimation);
+        // available from the process model
+        if (processModel.getInitialStateEstimate() == null) {
+            stateEstimation =
+                new ArrayRealVector(transitionMatrix.getColumnDimension());
+        } else {
+            stateEstimation = processModel.getInitialStateEstimate();
+        }
 
         if (transitionMatrix.getColumnDimension() != stateEstimation.getDimension()) {
             throw new DimensionMismatchException(transitionMatrix.getColumnDimension(),
@@ -144,10 +165,12 @@ public class KalmanFilter {
         }
 
         // initialize the error covariance to the process noise if it is not
-        // available
-        errorCovariance = (processModel.getInitialErrorCovariance() == null) ? processNoise
-                .copy() : processModel.getInitialErrorCovariance();
-        MathUtils.checkNotNull(errorCovariance);
+        // available from the process model
+        if (processModel.getInitialErrorCovariance() == null) {
+            errorCovariance = processNoise.copy();
+        } else {
+            errorCovariance = processModel.getInitialErrorCovariance();
+        }
 
         // sanity checks, the control matrix B may be null
 
@@ -181,10 +204,10 @@ public class KalmanFilter {
         }
 
         // row dimension of R must be equal to row dimension of H
-        if (measurementNoise.getRowDimension() != measurementMatrix.getRowDimension() ||
-            measurementNoise.getColumnDimension() != 1) {
-            throw new MatrixDimensionMismatchException(measurementNoise.getRowDimension(),
-                                                       measurementNoise.getColumnDimension(),
+        if (measNoise.getRowDimension() != measurementMatrix.getRowDimension() ||
+            measNoise.getColumnDimension() != 1) {
+            throw new MatrixDimensionMismatchException(measNoise.getRowDimension(),
+                                                       measNoise.getColumnDimension(),
                                                        measurementMatrix.getRowDimension(), 1);
         }
     }
@@ -258,7 +281,7 @@ public class KalmanFilter {
      * @throws DimensionMismatchException
      *             if the dimension of the control vector does not fit
      */
-    public void predict(final double[] u) throws DimensionMismatchException {
+    public void predict(final double[] u) {
         predict(new ArrayRealVector(u));
     }
 
@@ -270,7 +293,7 @@ public class KalmanFilter {
      * @throws DimensionMismatchException
      *             if the dimension of the control vector does not fit
      */
-    public void predict(final RealVector u) throws DimensionMismatchException {
+    public void predict(final RealVector u) {
         // sanity checks
         if (u != null &&
             u.getDimension() != controlMatrix.getColumnDimension()) {
@@ -290,7 +313,8 @@ public class KalmanFilter {
         // project the error covariance ahead
         // P(k)- = A * P(k-1) * A' + Q
         errorCovariance = transitionMatrix.multiply(errorCovariance)
-                .multiply(transitionMatrixT).add(processNoise);
+                .multiply(transitionMatrixT)
+                .add(processModel.getProcessNoise());
     }
 
     /**
@@ -300,11 +324,10 @@ public class KalmanFilter {
      *            the measurement vector
      * @throws DimensionMismatchException
      *             if the dimension of the measurement vector does not fit
-     * @throws SingularMatrixException
+     * @throws org.apache.commons.math.linear.SingularMatrixException
      *             if the covariance matrix could not be inverted
      */
-    public void correct(final double[] z) throws DimensionMismatchException,
-                                                 SingularMatrixException {
+    public void correct(final double[] z) {
         correct(new ArrayRealVector(z));
     }
 
@@ -315,11 +338,10 @@ public class KalmanFilter {
      *            the measurement vector
      * @throws DimensionMismatchException
      *             if the dimension of the measurement vector does not fit
-     * @throws SingularMatrixException
+     * @throws org.apache.commons.math.linear.SingularMatrixException
      *             if the covariance matrix could not be inverted
      */
-    public void correct(final RealVector z) throws DimensionMismatchException,
-                                                   SingularMatrixException {
+    public void correct(final RealVector z) {
         // sanity checks
         if (z != null &&
             z.getDimension() != measurementMatrix.getRowDimension()) {
@@ -328,13 +350,14 @@ public class KalmanFilter {
         }
 
         // S = H * P(k) - * H' + R
-        RealMatrix S = measurementMatrix.multiply(errorCovariance)
-            .multiply(measurementMatrixT).add(measurementNoise);
+        RealMatrix s = measurementMatrix.multiply(errorCovariance)
+            .multiply(measurementMatrixT)
+            .add(measurementModel.getMeasurementNoise());
 
         // invert S
         // as the error covariance matrix is a symmetric positive
         // semi-definite matrix, we can use the cholesky decomposition
-        DecompositionSolver solver = new CholeskyDecompositionImpl(S).getSolver();
+        DecompositionSolver solver = new CholeskyDecompositionImpl(s).getSolver();
         RealMatrix invertedS = solver.getInverse();
 
         // Inn = z(k) - H * xHat(k)-
@@ -351,7 +374,7 @@ public class KalmanFilter {
 
         // update covariance of prediction error
         // P(k) = (I - K * H) * P(k)-
-        RealMatrix Identity = MatrixUtils.createRealIdentityMatrix(kalmanGain.getRowDimension());
-        errorCovariance = Identity.subtract(kalmanGain.multiply(measurementMatrix)).multiply(errorCovariance);
+        RealMatrix identity = MatrixUtils.createRealIdentityMatrix(kalmanGain.getRowDimension());
+        errorCovariance = identity.subtract(kalmanGain.multiply(measurementMatrix)).multiply(errorCovariance);
     }
 }

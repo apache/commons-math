@@ -40,9 +40,15 @@ public interface ProcessModel {
     RealMatrix getControlMatrix();
 
     /**
-     * Returns the process noise matrix.
+     * Returns the process noise matrix. This method is called by the
+     * {@link KalmanFilter} every predict step, so implementations of this
+     * interface may return a modified process noise depending on current
+     * iteration step.
      *
      * @return the process noise matrix
+     * @see KalmanFilter#predict()
+     * @see KalmanFilter#predict(double[])
+     * @see KalmanFilter#predict(RealVector)
      */
     RealMatrix getProcessNoise();
 
