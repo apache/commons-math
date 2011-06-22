@@ -63,7 +63,8 @@ public interface ODEIntegrator  {
      */
     void clearStepHandlers();
 
-    /** Add an event handler to the integrator. Uses a {@link BrentSolver}
+    /** Add an event handler to the integrator.
+     * Uses a default {@link UnivariateRealSolver}
      * with an absolute accuracy equal to the given convergence threshold,
      * as root-finding algorithm to detect the state events.
      * @param handler event handler
