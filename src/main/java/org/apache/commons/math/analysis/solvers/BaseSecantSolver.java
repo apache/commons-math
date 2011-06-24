@@ -86,8 +86,12 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
         // If one of the bounds is the exact root, return it. Since these are
         // not under-approximations or over-approximations, we can return them
         // regardless of the allowed solutions.
-        if (f0 == 0.0) return x0;
-        if (f1 == 0.0) return x1;
+        if (f0 == 0.0) {
+            return x0;
+        }
+        if (f1 == 0.0) {
+            return x1;
+        }
 
         // Verify bracketing of initial solution.
         verifyBracketing(x0, x1);
@@ -115,7 +119,9 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
             // If the new approximation is the exact root, return it. Since
             // this is not an under-approximation or an over-approximation,
             // we can return it regardless of the allowed solutions.
-            if (fx == 0.0) return x;
+            if (fx == 0.0) {
+                return x;
+            }
 
             // Update the bounds with the new approximation.
             if (method == Method.SECANT) {
@@ -134,8 +140,12 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
                 inverted = !inverted;
             } else {
                 // We had [x0..x1]. We update it to [x0, x].
-                if (method == Method.ILLINOIS) f0 *= 0.5;
-                if (method == Method.PEGASUS) f0 *= f1 / (f1 + fx);
+                if (method == Method.ILLINOIS) {
+                    f0 *= 0.5;
+                }
+                if (method == Method.PEGASUS) {
+                    f0 *= f1 / (f1 + fx);
+                }
                 x1 = x;
                 f1 = fx;
             }
