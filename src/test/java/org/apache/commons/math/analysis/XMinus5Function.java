@@ -14,25 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.commons.math.analysis.solvers;
+package org.apache.commons.math.analysis;
 
 /**
- * Test case for {@link SecantSolver Secant} solver.
+ * Auxiliary class for testing solvers.
  *
  * @version $Id$
  */
-public final class SecantSolverTest extends SecantBaseTest {
-    /** {@inheritDoc} */
-    protected UnivariateRealSolver getSolver() {
-        return new SecantSolver();
+public class XMinus5Function implements DifferentiableUnivariateRealFunction {
+
+    /* Evaluate x - 5 fuction.
+     * @see org.apache.commons.math.UnivariateRealFunction#value(double)
+     */
+    public double value(double x) {
+        return x - 5;
     }
 
-    /** {@inheritDoc} */
-    protected int[] getQuinticEvalCounts() {
-        // As the Secant method does not maintain a bracketed solution,
-        // convergence is not guaranteed. Two test cases are disabled (-1) due
-        // to bad solutions.
-        return new int[] {3, 7, -1, 8, 9, 8, 11, 12, 14, -1, 16};
+    /* First derivative of x - 5 function
+     */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            public double value(double x) {
+                return 1.0;
+            }
+        };
     }
 }

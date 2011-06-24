@@ -18,28 +18,30 @@
 package org.apache.commons.math.analysis.solvers;
 
 /**
- * Implements the <em>Secant</em> method for root-finding (approximating a
- * zero of a univariate real function). The solution that is maintained is
- * not bracketed, and as such convergence is not guaranteed.
+ * Implements the <em>Illinois</em> method for root-finding (approximating
+ * a zero of a univariate real function). It is a modified
+ * {@link RegulaFalsiSolver <em>Regula Falsi</em>} method.
+ *
+ * <p>Like the <em>Regula Falsi</em> method, convergence is guaranteed by
+ * maintaining a bracketed solution. The <em>Illinois</em> method however,
+ * should converge much faster than the original <em>Regula Falsi</em>
+ * method.</p>
+ *
+ * <p>The <em>Illinois</em> method assumes that the function is continuous,
+ * but not necessarily smooth.</p>
  *
  * <p>Implementation based on the following article: M. Dowell and P. Jarratt,
  * <em>A modified regula falsi method for computing the root of an
  * equation</em>, BIT Numerical Mathematics, volume 11, number 2,
  * pages 168-174, Springer, 1971.</p>
  *
- * <p>Note that since release 3.0 this class implements the actual
- * <em>Secant</em> algorithm, and not a modified one. As such, the 3.0 version
- * is not backwards compatible with previous versions. To use an algorithm
- * similar to the pre-3.0 releases, use the
- * {@link IllinoisSolver <em>Illinois</em>} algorithm or the
- * {@link PegasusSolver <em>Pegasus</em>} algorithm.</p>
- *
+ * @since 3.0
  * @version $Id$
  */
-public class SecantSolver extends SecantBase {
+public class IllinoisSolver extends SecantBase implements BracketedSolution {
     /** Construct a solver with default accuracy (1e-6). */
-    public SecantSolver() {
-        super(DEFAULT_ABSOLUTE_ACCURACY, Method.SECANT);
+    public IllinoisSolver() {
+        super(DEFAULT_ABSOLUTE_ACCURACY, Method.ILLINOIS);
     }
 
     /**
@@ -47,8 +49,8 @@ public class SecantSolver extends SecantBase {
      *
      * @param absoluteAccuracy absolute accuracy
      */
-    public SecantSolver(final double absoluteAccuracy) {
-        super(absoluteAccuracy, Method.SECANT);
+    public IllinoisSolver(final double absoluteAccuracy) {
+        super(absoluteAccuracy, Method.ILLINOIS);
     }
 
     /**
@@ -57,8 +59,20 @@ public class SecantSolver extends SecantBase {
      * @param relativeAccuracy relative accuracy
      * @param absoluteAccuracy absolute accuracy
      */
-    public SecantSolver(final double relativeAccuracy,
-                        final double absoluteAccuracy) {
-        super(relativeAccuracy, absoluteAccuracy, Method.SECANT);
+    public IllinoisSolver(final double relativeAccuracy,
+                          final double absoluteAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy, Method.ILLINOIS);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public AllowedSolutions getAllowedSolutions() {
+        return allowedSolutions;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setAllowedSolutions(final AllowedSolutions allowedSolutions) {
+        this.allowedSolutions = allowedSolutions;
     }
 }

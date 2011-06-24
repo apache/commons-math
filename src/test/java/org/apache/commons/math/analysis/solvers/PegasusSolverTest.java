@@ -18,21 +18,18 @@
 package org.apache.commons.math.analysis.solvers;
 
 /**
- * Test case for {@link SecantSolver Secant} solver.
+ * Test case for {@link PegasusSolver Pegasus} solver.
  *
  * @version $Id$
  */
-public final class SecantSolverTest extends SecantBaseTest {
+public final class PegasusSolverTest extends SecantBaseTest {
     /** {@inheritDoc} */
     protected UnivariateRealSolver getSolver() {
-        return new SecantSolver();
+        return new PegasusSolver();
     }
 
     /** {@inheritDoc} */
     protected int[] getQuinticEvalCounts() {
-        // As the Secant method does not maintain a bracketed solution,
-        // convergence is not guaranteed. Two test cases are disabled (-1) due
-        // to bad solutions.
-        return new int[] {3, 7, -1, 8, 9, 8, 11, 12, 14, -1, 16};
+        return new int[] {3, 7, 9, 8, 9, 8, 10, 10, 12, 16, 18};
     }
 }

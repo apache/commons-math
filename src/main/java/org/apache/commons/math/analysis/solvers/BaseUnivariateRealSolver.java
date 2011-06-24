@@ -65,10 +65,10 @@ public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.
      *
+     * @param maxEval Maximum number of evaluations.
      * @param f Function to solve.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
-     * @param maxEval Maximum number of evaluations.
      * @return a value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
@@ -83,11 +83,11 @@ public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
      * Solvers that do require bracketing should be able to handle the case
      * where one of the endpoints is itself a root.
      *
+     * @param maxEval Maximum number of evaluations.
      * @param f Function to solve.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
-     * @param maxEval Maximum number of evaluations.
      * @return a value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.

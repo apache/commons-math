@@ -18,21 +18,21 @@
 package org.apache.commons.math.analysis.solvers;
 
 /**
- * Test case for {@link SecantSolver Secant} solver.
+ * Test case for {@link RegulaFalsiSolver Regula Falsi} solver.
  *
  * @version $Id$
  */
-public final class SecantSolverTest extends SecantBaseTest {
+public final class RegulaFalsiSolverTest extends SecantBaseTest {
     /** {@inheritDoc} */
     protected UnivariateRealSolver getSolver() {
-        return new SecantSolver();
+        return new RegulaFalsiSolver();
     }
 
     /** {@inheritDoc} */
     protected int[] getQuinticEvalCounts() {
-        // As the Secant method does not maintain a bracketed solution,
-        // convergence is not guaranteed. Two test cases are disabled (-1) due
-        // to bad solutions.
-        return new int[] {3, 7, -1, 8, 9, 8, 11, 12, 14, -1, 16};
+        // While the Regula Falsi method guarantees convergence, convergence
+        // may be extremely slow. The last test case does not converge within
+        // even a million iterations. As such, it was disabled.
+        return new int[] {3, 7, 8, 19, 18, 11, 67, 55, 288, 151, -1};
     }
 }

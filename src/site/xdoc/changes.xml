@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="eran" type="add" issue="MATH-599" due-to="Dennis Hendriks">
+        Modified "SecantSolver" to comply with the original algorithm. Added several
+        secant-based solvers.
+      </action>
       <action dev="luc" type="fix" issue="MATH-600">
         Fixed javadoc for ODEIntegrator interface
       </action>
