@@ -40,7 +40,7 @@ package org.apache.commons.math.analysis.solvers;
  * @since 3.0
  * @version $Id$
  */
-public class PegasusSolver extends SecantBase implements BracketedSolution {
+public class PegasusSolver extends BaseBracketedSecantSolver {
     /** Construct a solver with default accuracy (1e-6). */
     public PegasusSolver() {
         super(DEFAULT_ABSOLUTE_ACCURACY, Method.PEGASUS);
@@ -64,15 +64,5 @@ public class PegasusSolver extends SecantBase implements BracketedSolution {
     public PegasusSolver(final double relativeAccuracy,
                          final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, Method.PEGASUS);
-    }
-
-    /** {@inheritDoc} */
-    public AllowedSolutions getAllowedSolutions() {
-        return allowedSolutions;
-    }
-
-    /** {@inheritDoc} */
-    public void setAllowedSolutions(final AllowedSolutions allowedSolutions) {
-        this.allowedSolutions = allowedSolutions;
     }
 }

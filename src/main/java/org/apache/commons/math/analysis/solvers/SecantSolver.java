@@ -36,7 +36,7 @@ package org.apache.commons.math.analysis.solvers;
  *
  * @version $Id$
  */
-public class SecantSolver extends SecantBase {
+public class SecantSolver extends BaseSecantSolver {
     /** Construct a solver with default accuracy (1e-6). */
     public SecantSolver() {
         super(DEFAULT_ABSOLUTE_ACCURACY, Method.SECANT);

@@ -38,7 +38,7 @@ package org.apache.commons.math.analysis.solvers;
  * @since 3.0
  * @version $Id$
  */
-public class IllinoisSolver extends SecantBase implements BracketedSolution {
+public class IllinoisSolver extends BaseBracketedSecantSolver {
     /** Construct a solver with default accuracy (1e-6). */
     public IllinoisSolver() {
         super(DEFAULT_ABSOLUTE_ACCURACY, Method.ILLINOIS);
@@ -62,15 +62,5 @@ public class IllinoisSolver extends SecantBase implements BracketedSolution {
     public IllinoisSolver(final double relativeAccuracy,
                           final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, Method.ILLINOIS);
-    }
-
-    /** {@inheritDoc} */
-    public AllowedSolutions getAllowedSolutions() {
-        return allowedSolutions;
-    }
-
-    /** {@inheritDoc} */
-    public void setAllowedSolutions(final AllowedSolutions allowedSolutions) {
-        this.allowedSolutions = allowedSolutions;
     }
 }

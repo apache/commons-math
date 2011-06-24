@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis.solvers;
  *
  * @version $Id$
  */
-public final class SecantSolverTest extends SecantBaseTest {
+public final class SecantSolverTest extends BaseSecantSolverTest {
     /** {@inheritDoc} */
     protected UnivariateRealSolver getSolver() {
         return new SecantSolver();

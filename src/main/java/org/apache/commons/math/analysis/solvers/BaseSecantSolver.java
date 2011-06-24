@@ -41,7 +41,7 @@ import org.apache.commons.math.exception.MathInternalError;
  * @since 3.0
  * @version $Id$
  */
-public abstract class SecantBase extends AbstractUnivariateRealSolver {
+public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
     /** Default absolute accuracy. */
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** The kinds of solutions that the algorithm may accept. */
@@ -55,7 +55,7 @@ public abstract class SecantBase extends AbstractUnivariateRealSolver {
      * @param absoluteAccuracy absolute accuracy
      * @param method <em>Secant</em>-based root-finding method to use
      */
-    protected SecantBase(final double absoluteAccuracy, final Method method) {
+    protected BaseSecantSolver(final double absoluteAccuracy, final Method method) {
         super(absoluteAccuracy);
         this.method = method;
     }
@@ -67,9 +67,9 @@ public abstract class SecantBase extends AbstractUnivariateRealSolver {
      * @param absoluteAccuracy absolute accuracy
      * @param method <em>Secant</em>-based root-finding method to use
      */
-    protected SecantBase(final double relativeAccuracy,
-                         final double absoluteAccuracy,
-                         final Method method) {
+    protected BaseSecantSolver(final double relativeAccuracy,
+                               final double absoluteAccuracy,
+                               final Method method) {
         super(relativeAccuracy, absoluteAccuracy);
         this.method = method;
     }

@@ -27,11 +27,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Base class for {@link SecantBase} derived root-finding algorithms tests.
+ * Base class for root-finding algorithms tests derived from
+ * {@link BaseSecantSolver}.
  *
  * @version $Id$
  */
-public abstract class SecantBaseTest {
+public abstract class BaseSecantSolverTest {
     /** Returns the solver to use to perform the tests.
      * @return the solver to use to perform the tests
      */

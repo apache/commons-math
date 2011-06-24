@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis.solvers;
  *
  * @version $Id$
  */
-public final class PegasusSolverTest extends SecantBaseTest {
+public final class PegasusSolverTest extends BaseSecantSolverTest {
     /** {@inheritDoc} */
     protected UnivariateRealSolver getSolver() {
         return new PegasusSolver();
