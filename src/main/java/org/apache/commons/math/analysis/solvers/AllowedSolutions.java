@@ -28,8 +28,8 @@ package org.apache.commons.math.analysis.solvers;
  * or slightly larger than the actual root. Root-finding algorithms generally
  * only guarantee that the returned solution is within the requested
  * tolerances. In certain cases however, in particular for
- * {@link org.apache.commons.math.ode.eventsEventHandler state events} of
- * {@link org.apache.commons.math.odeODEIntegrator ODE solvers}, it
+ * {@link org.apache.commons.math.ode.events.EventHandler state events} of
+ * {@link org.apache.commons.math.ode.ODEIntegrator ODE solvers}, it
  * may be necessary to guarantee that a solution is returned that does not
  * under-approximate the solution.</p>
  *
