@@ -65,13 +65,11 @@ public class IllinoisSolver extends SecantBase implements BracketedSolution {
     }
 
     /** {@inheritDoc} */
-    @Override
     public AllowedSolutions getAllowedSolutions() {
         return allowedSolutions;
     }
 
     /** {@inheritDoc} */
-    @Override
     public void setAllowedSolutions(final AllowedSolutions allowedSolutions) {
         this.allowedSolutions = allowedSolutions;
     }
