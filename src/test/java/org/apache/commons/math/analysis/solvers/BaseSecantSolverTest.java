@@ -46,6 +46,11 @@ public abstract class BaseSecantSolverTest {
      */
     protected abstract int[] getQuinticEvalCounts();
 
+    /**
+     * Tests can be run only from subclasses.
+     */
+    protected BaseSecantSolverTest() {}
+
     @Test
     public void testSinZero() {
         // The sinus function is behaved well around the root at pi. The second
@@ -163,8 +168,7 @@ public abstract class BaseSecantSolverTest {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         if (!(solver instanceof BracketedSolution)) return;
-        ((BracketedSolution)solver).setAllowedSolutions(
-                                                AllowedSolutions.LEFT_SIDE);
+        ((BracketedSolution)solver).setAllowedSolutions(AllowedSolutions.LEFT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
@@ -183,8 +187,7 @@ public abstract class BaseSecantSolverTest {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         if (!(solver instanceof BracketedSolution)) return;
-        ((BracketedSolution)solver).setAllowedSolutions(
-                                                AllowedSolutions.RIGHT_SIDE);
+        ((BracketedSolution)solver).setAllowedSolutions(AllowedSolutions.RIGHT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
