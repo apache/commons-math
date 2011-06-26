@@ -186,9 +186,6 @@ public class GillIntegratorTest {
       this.pb = pb;
       reset();
     }
-    public boolean requiresDenseOutput() {
-      return false;
-    }
     public void reset() {
       maxError = 0;
     }
@@ -226,9 +223,6 @@ public class GillIntegratorTest {
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }
-          }
-          public boolean requiresDenseOutput() {
-              return false;
           }
           public void reset() {
           }

@@ -171,16 +171,6 @@ public class StepNormalizer implements StepHandler {
         reset();
     }
 
-    /** Determines whether this handler needs dense output.
-     * This handler needs dense output in order to provide data at
-     * regularly spaced steps regardless of the steps the integrator
-     * uses, so this method always returns true.
-     * @return always true
-     */
-    public boolean requiresDenseOutput() {
-        return true;
-    }
-
     /** Reset the step handler.
      * Initialize the internal data as required before the first step is
      * handled.

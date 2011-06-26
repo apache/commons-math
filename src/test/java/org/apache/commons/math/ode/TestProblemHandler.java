@@ -60,10 +60,6 @@ public class TestProblemHandler
     reset();
   }
 
-  public boolean requiresDenseOutput() {
-    return true;
-  }
-
   public void reset() {
     maxValueError = 0;
     maxTimeError  = 0;

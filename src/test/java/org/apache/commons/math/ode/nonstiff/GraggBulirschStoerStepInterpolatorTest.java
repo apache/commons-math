@@ -138,9 +138,6 @@ public class GraggBulirschStoerStepInterpolatorTest {
                 }
             }
         }
-        public boolean requiresDenseOutput() {
-            return true;
-        }
         public void reset() {
         }
     });

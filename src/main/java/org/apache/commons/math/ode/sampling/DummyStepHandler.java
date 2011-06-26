@@ -50,14 +50,6 @@ public class DummyStepHandler implements StepHandler {
         return LazyHolder.INSTANCE;
     }
 
-    /** Determines whether this handler needs dense output.
-     * Since this handler does nothing, it does not require dense output.
-     * @return always false
-     */
-    public boolean requiresDenseOutput() {
-        return false;
-    }
-
     /** Reset the step handler.
      * Initialize the internal data as required before the first step is
      * handled.

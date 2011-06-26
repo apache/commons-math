@@ -41,16 +41,6 @@ import org.apache.commons.math.exception.MathUserException;
 
 public interface StepHandler {
 
-  /** Determines whether this handler needs dense output.
-   * <p>This method allows the integrator to avoid performing extra
-   * computation if the handler does not need dense output. If this
-   * method returns false, the integrator will call the {@link
-   * #handleStep} method with a {@link DummyStepInterpolator} rather
-   * than a custom interpolator.</p>
-   * @return true if the handler needs dense output
-   */
-  boolean requiresDenseOutput();
-
   /** Reset the step handler.
    * Initialize the internal data as required before the first step is
    * handled.

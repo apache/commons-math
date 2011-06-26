@@ -136,9 +136,6 @@ public class HighamHall54StepInterpolatorTest {
                 }
             }
         }
-        public boolean requiresDenseOutput() {
-            return true;
-        }
         public void reset() {
         }
     });

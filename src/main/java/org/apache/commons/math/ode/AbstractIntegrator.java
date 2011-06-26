@@ -153,22 +153,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         eventsStates.clear();
     }
 
-    /** Check if dense output is needed.
-     * @return true if there is at least one event handler or if
-     * one of the step handlers requires dense output
-     */
-    protected boolean requiresDenseOutput() {
-        if (!eventsStates.isEmpty()) {
-            return true;
-        }
-        for (StepHandler handler : stepHandlers) {
-            if (handler.requiresDenseOutput()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /** {@inheritDoc} */
     public double getCurrentStepStart() {
         return stepStart;

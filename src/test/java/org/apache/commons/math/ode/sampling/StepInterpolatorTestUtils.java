@@ -32,10 +32,6 @@ public class StepInterpolatorTestUtils {
         throws MathUserException, IntegratorException {
         integrator.addStepHandler(new StepHandler() {
 
-            public boolean requiresDenseOutput() {
-                return true;
-            }
-
             public void handleStep(StepInterpolator interpolator, boolean isLast)
                 throws MathUserException {
 

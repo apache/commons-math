@@ -384,11 +384,6 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         /** {@inheritDoc} */
-        public boolean requiresDenseOutput() {
-            return true;
-        }
-
-        /** {@inheritDoc} */
         public void reset() {
             // nothing to do
         }

@@ -137,10 +137,6 @@ public class DormandPrince54IntegratorTest {
       this.minStep = minStep;
     }
 
-    public boolean requiresDenseOutput() {
-      return false;
-    }
-
     public void reset() {
     }
 
@@ -284,9 +280,6 @@ public class DormandPrince54IntegratorTest {
       this.pb = pb;
       reset();
     }
-    public boolean requiresDenseOutput() {
-      return true;
-    }
     public void reset() {
       nbSteps = 0;
       maxError = 0;
@@ -327,9 +320,6 @@ public class DormandPrince54IntegratorTest {
       firstTime = true;
       minStep = 0;
       maxStep = 0;
-    }
-    public boolean requiresDenseOutput() {
-      return false;
     }
     public void reset() {
       firstTime = true;

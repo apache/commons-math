@@ -27,8 +27,6 @@ import org.apache.commons.math.ode.TestProblem4;
 import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
-import org.apache.commons.math.ode.sampling.DummyStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -293,37 +291,6 @@ public class DormandPrince853IntegratorTest {
   }
 
   @Test
-  public void testNoDenseOutput()
-    throws MathUserException, IntegratorException {
-    TestProblem1 pb1 = new TestProblem1();
-    TestProblem1 pb2 = pb1.copy();
-    double minStep = 0.1 * (pb1.getFinalTime() - pb1.getInitialTime());
-    double maxStep = pb1.getFinalTime() - pb1.getInitialTime();
-    double scalAbsoluteTolerance = 1.0e-4;
-    double scalRelativeTolerance = 1.0e-4;
-
-    FirstOrderIntegrator integ = new DormandPrince853Integrator(minStep, maxStep,
-                                                                scalAbsoluteTolerance,
-                                                                scalRelativeTolerance);
-    integ.addStepHandler(DummyStepHandler.getInstance());
-    integ.integrate(pb1,
-                    pb1.getInitialTime(), pb1.getInitialState(),
-                    pb1.getFinalTime(), new double[pb1.getDimension()]);
-    int callsWithoutDenseOutput = pb1.getCalls();
-    Assert.assertEquals(integ.getEvaluations(), callsWithoutDenseOutput);
-
-    integ.addStepHandler(new InterpolatingStepHandler());
-    integ.integrate(pb2,
-                    pb2.getInitialTime(), pb2.getInitialState(),
-                    pb2.getFinalTime(), new double[pb2.getDimension()]);
-    int callsWithDenseOutput = pb2.getCalls();
-    Assert.assertEquals(integ.getEvaluations(), callsWithDenseOutput);
-
-    Assert.assertTrue(callsWithDenseOutput > callsWithoutDenseOutput);
-
-  }
-
-  @Test
   public void testUnstableDerivative()
   throws MathUserException, IntegratorException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
@@ -339,9 +306,6 @@ public class DormandPrince853IntegratorTest {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
-    }
-    public boolean requiresDenseOutput() {
-      return true;
     }
     public void reset() {
       nbSteps = 0;
@@ -382,9 +346,6 @@ public class DormandPrince853IntegratorTest {
     public VariableHandler() {
       reset();
     }
-    public boolean requiresDenseOutput() {
-      return false;
-    }
     public void reset() {
       firstTime = true;
       minStep = 0;
@@ -416,21 +377,6 @@ public class DormandPrince853IntegratorTest {
     private boolean firstTime = true;
     private double  minStep = 0;
     private double  maxStep = 0;
-  }
-
-  private static class InterpolatingStepHandler implements StepHandler {
-    public boolean requiresDenseOutput() {
-      return true;
-    }
-    public void reset() {
-    }
-    public void handleStep(StepInterpolator interpolator,
-                           boolean isLast)
-    throws MathUserException {
-      double prev = interpolator.getPreviousTime();
-      double curr = interpolator.getCurrentTime();
-      interpolator.setInterpolatedTime(0.5*(prev + curr));
-    }
   }
 
 }

@@ -177,10 +177,6 @@ public class ThreeEighthesIntegratorTest {
       maxError = 0;
     }
 
-    public boolean requiresDenseOutput() {
-      return false;
-    }
-
     public void reset() {
       maxError = 0;
     }
@@ -221,9 +217,6 @@ public class ThreeEighthesIntegratorTest {
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }
-          }
-          public boolean requiresDenseOutput() {
-              return false;
           }
           public void reset() {
           }

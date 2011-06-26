@@ -20,8 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
@@ -211,14 +209,8 @@ public abstract class EmbeddedRungeKuttaIntegrator
     final double[] yDotTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
-    AbstractStepInterpolator interpolator;
-    if (requiresDenseOutput()) {
-      final RungeKuttaStepInterpolator rki = (RungeKuttaStepInterpolator) prototype.copy();
-      rki.reinitialize(this, yTmp, yDotK, forward);
-      interpolator = rki;
-    } else {
-      interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
-    }
+    final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+    interpolator.reinitialize(this, yTmp, yDotK, forward);
     interpolator.storeTime(t0);
 
     // set up integration control objects

@@ -167,16 +167,6 @@ public class ContinuousOutputModel
 
   }
 
-  /** Determines whether this handler needs dense output.
-   * <p>The essence of this class is to provide dense output over all
-   * steps, hence it requires the internal steps to provide themselves
-   * dense output. The method therefore returns always true.</p>
-   * @return always true
-   */
-  public boolean requiresDenseOutput() {
-    return true;
-  }
-
   /** Reset the step handler.
    * Initialize the internal data as required before the first step is
    * handled.

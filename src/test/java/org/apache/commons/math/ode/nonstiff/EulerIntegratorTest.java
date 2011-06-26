@@ -170,9 +170,6 @@ public class EulerIntegratorTest {
                              1.0e-12);
             }
         }
-        public boolean requiresDenseOutput() {
-            return false;
-        }
         public void reset() {
         }
       });

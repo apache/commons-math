@@ -23,7 +23,6 @@ import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
@@ -372,16 +371,9 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       optimalStep     = new double[size];
     }
 
-    if (requiresDenseOutput()) {
-      // step size sequence: 2, 6, 10, 14, ...
-      for (int k = 0; k < size; ++k) {
+    // step size sequence: 2, 6, 10, 14, ...
+    for (int k = 0; k < size; ++k) {
         sequence[k] = 4 * k + 2;
-      }
-    } else {
-      // step size sequence: 2, 4, 6, 8, ...
-      for (int k = 0; k < size; ++k) {
-        sequence[k] = 2 * (k + 1);
-      }
     }
 
     // initialize the order selection cost array
@@ -592,18 +584,8 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
       System.arraycopy(y0, 0, y, 0, y0.length);
     }
 
-    double[] yDot1      = new double[y0.length];
-    double[][] yMidDots = null;
-    final boolean denseOutput = requiresDenseOutput();
-    if (denseOutput) {
-      yMidDots = new double[1 + 2 * sequence.length][];
-      for (int j = 0; j < yMidDots.length; ++j) {
-        yMidDots[j] = new double[y0.length];
-      }
-    } else {
-      yMidDots    = new double[1][];
-      yMidDots[0] = new double[y0.length];
-    }
+    final double[] yDot1 = new double[y0.length];
+    final double[][] yMidDots = new double[1 + 2 * sequence.length][y0.length];
 
     // initial scaling
     final double[] scale = new double[mainSetDimension];
@@ -618,14 +600,10 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
                                        (int) FastMath.floor(0.5 - 0.6 * log10R)));
 
     // set up an interpolator sharing the integrator arrays
-    AbstractStepInterpolator interpolator = null;
-    if (denseOutput) {
-      interpolator = new GraggBulirschStoerStepInterpolator(y, yDot0,
-                                                            y1, yDot1,
-                                                            yMidDots, forward);
-    } else {
-      interpolator = new DummyStepInterpolator(y, yDot1, forward);
-    }
+    final AbstractStepInterpolator interpolator =
+            new GraggBulirschStoerStepInterpolator(y, yDot0,
+                                                   y1, yDot1,
+                                                   yMidDots, forward);
     interpolator.storeTime(t0);
 
     stepStart = t0;
@@ -817,7 +795,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
       // dense output handling
       double hInt = getMaxStep();
-      if (denseOutput && ! reject) {
+      if (! reject) {
 
         // extrapolate state at middle point of the step
         for (int j = 1; j <= k; ++j) {

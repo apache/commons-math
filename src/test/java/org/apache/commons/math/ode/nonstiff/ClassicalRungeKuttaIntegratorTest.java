@@ -251,9 +251,6 @@ public class ClassicalRungeKuttaIntegratorTest {
       this.pb = pb;
       reset();
     }
-    public boolean requiresDenseOutput() {
-      return false;
-    }
     public void reset() {
       maxError = 0;
     }
@@ -291,9 +288,6 @@ public class ClassicalRungeKuttaIntegratorTest {
                                interpolator.getCurrentTime() - interpolator.getPreviousTime(),
                                1.0e-12);
               }
-          }
-          public boolean requiresDenseOutput() {
-              return false;
           }
           public void reset() {
           }

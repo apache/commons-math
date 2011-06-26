@@ -136,9 +136,6 @@ public class DormandPrince853StepInterpolatorTest {
                 }
             }
         }
-        public boolean requiresDenseOutput() {
-            return true;
-        }
         public void reset() {
         }
     });

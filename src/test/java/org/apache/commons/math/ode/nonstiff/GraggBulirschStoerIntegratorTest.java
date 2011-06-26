@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
@@ -285,13 +286,41 @@ public class GraggBulirschStoerIntegratorTest {
     Assert.assertEquals(8.0, y[0], 1.0e-12);
   }
 
+  @Test
+  public void testIssue596() throws MathUserException, IntegratorException {
+    FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(1e-10, 100.0, 1e-7, 1e-7);
+      integ.addStepHandler(new StepHandler() {
+
+          public void reset() {}
+
+          public void handleStep(StepInterpolator interpolator, boolean isLast) throws MathUserException {
+              double t = interpolator.getCurrentTime();
+              interpolator.setInterpolatedTime(t);
+              double[] y = interpolator.getInterpolatedState();
+              double[] yDot = interpolator.getInterpolatedDerivatives();
+              Assert.assertEquals(3.0 * t - 5.0, y[0], 1.0e-14);
+              Assert.assertEquals(3.0, yDot[0], 1.0e-14);
+          }
+      });
+      double[] y = {4.0};
+      double t0 = 3.0;
+      double tend = 10.0;
+      integ.integrate(new FirstOrderDifferentialEquations() {
+          public int getDimension() {
+              return 1;
+          }
+
+          public void computeDerivatives(double t, double[] y, double[] yDot) {
+              yDot[0] = 3.0;
+          }
+      }, t0, y, tend, y);
+
+  }
+
   private static class KeplerStepHandler implements StepHandler {
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
       reset();
-    }
-    public boolean requiresDenseOutput() {
-      return true;
     }
     public void reset() {
       nbSteps = 0;
@@ -332,9 +361,6 @@ public class GraggBulirschStoerIntegratorTest {
     public VariableStepHandler() {
       reset();
     }
-    public boolean requiresDenseOutput() {
-      return false;
-    }
     public void reset() {
       firstTime = true;
       minStep = 0;
@@ -360,7 +386,7 @@ public class GraggBulirschStoerIntegratorTest {
 
       if (isLast) {
         Assert.assertTrue(minStep < 8.2e-3);
-        Assert.assertTrue(maxStep > 1.7);
+        Assert.assertTrue(maxStep > 1.5);
       }
     }
     private boolean firstTime;
