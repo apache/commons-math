@@ -81,8 +81,6 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  */
 public class KalmanFilter {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 4878026651422612760L;
     /** The process model used by this filter instance. */
     private final ProcessModel processModel;
     /** The measurement model used by this filter instance. */
@@ -343,8 +341,8 @@ public class KalmanFilter {
      */
     public void correct(final RealVector z) {
         // sanity checks
-        if (z != null &&
-            z.getDimension() != measurementMatrix.getRowDimension()) {
+        MathUtils.checkNotNull(z);
+        if (z.getDimension() != measurementMatrix.getRowDimension()) {
             throw new DimensionMismatchException(z.getDimension(),
                                                  measurementMatrix.getRowDimension());
         }

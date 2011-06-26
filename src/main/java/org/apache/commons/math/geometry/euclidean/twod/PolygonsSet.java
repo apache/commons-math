@@ -345,6 +345,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
     }
 
+    /** Private extension of Segment allowing comparison. */
     private static class ComparableSegment extends Segment implements Comparable<ComparableSegment> {
 
         /** Sorting key. */

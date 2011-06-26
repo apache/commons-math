@@ -89,8 +89,9 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
      *
      * @param points the points to cluster
      * @param k the number of clusters to split the data into
-     * @param maxIterations the maximum number of iterations to run the algorithm
-     *     for.  If negative, no maximum will be used
+     * @param numTrials number of trial runs
+     * @param maxIterationsPerTrial the maximum number of iterations to run the algorithm
+     *     for at each trial run.  If negative, no maximum will be used
      * @return a list of clusters containing the points
      * @throws MathIllegalArgumentException if the data points are null or the number
      *     of clusters is larger than the number of data points

@@ -855,6 +855,30 @@ public class CMAESOptimizer extends
         public int compareTo(DoubleIndex o) {
             return Double.compare(value, o.value);
         }
+
+        /** {@inheritDoc} */
+        @Override
+        public boolean equals(Object other) {
+
+            if (this == other) {
+                return true;
+            }
+
+            if (other instanceof DoubleIndex) {
+                return Double.compare(value, ((DoubleIndex) other).value) == 0;
+            }
+
+            return false;
+
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public int hashCode() {
+            long bits = Double.doubleToLongBits(value);
+            return (int) ((1438542 ^ (bits >>> 32) ^ bits) & 0xffffffff);
+        }
+
     }
 
     /**

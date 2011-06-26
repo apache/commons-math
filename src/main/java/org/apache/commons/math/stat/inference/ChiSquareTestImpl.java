@@ -356,7 +356,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * Check all entries of the input array are strictly positive.
      *
      * @param in Array to be tested.
-     * @exception NotStrictlyPositiveException if one entry is not positive.
+     * @exception MathIllegalArgumentException if one entry is not positive.
      */
     private void checkPositive(double[] in) {
         for (int i = 0; i < in.length; i++) {
@@ -372,7 +372,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * Check all entries of the input array are >= 0.
      *
      * @param in Array to be tested.
-     * @exception NotPositiveException if one entry is negative.
+     * @exception MathIllegalArgumentException if one entry is negative.
      */
     private void checkNonNegative(long[] in) {
         for (int i = 0; i < in.length; i++) {
@@ -388,7 +388,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      * Check all entries of the input array are >= 0.
      *
      * @param in Array to be tested.
-     * @exception NotPositiveException if one entry is negative.
+     * @exception MathIllegalArgumentException if one entry is negative.
      */
     private void checkNonNegative(long[][] in) {
         for (int i = 0; i < in.length; i ++) {

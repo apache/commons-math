@@ -133,9 +133,6 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
     }
 
-    /** {@inheritDoc} */
-    public abstract AbstractRegion<S, T> buildNew(BSPTree<S> newTree);
-
     /** Build a convex region from an array of bounding hyperplanes.
      * @param hyperplanes array of bounding hyperplanes (if null, an
      * empty region will be built)
@@ -163,6 +160,9 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
         }
 
     }
+
+    /** {@inheritDoc} */
+    public abstract AbstractRegion<S, T> buildNew(BSPTree<S> newTree);
 
     /** Recursively build a tree by inserting cut sub-hyperplanes.
      * @param node current tree node (it is a leaf node at the beginning
