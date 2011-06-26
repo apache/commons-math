@@ -39,8 +39,9 @@ public class FixedGenerationCount implements StoppingCondition {
      * @param maxGenerations number of generations to evolve
      */
     public FixedGenerationCount(int maxGenerations) {
-        if (maxGenerations <= 0)
+        if (maxGenerations <= 0) {
             throw new IllegalArgumentException("The number of generations has to be >= 0");
+        }
         this.maxGenerations = maxGenerations;
     }
 

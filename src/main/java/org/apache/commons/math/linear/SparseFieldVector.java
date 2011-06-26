@@ -441,10 +441,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldMatrix<T> outerProduct(FieldVector<T> v) {
-        if(v instanceof SparseFieldVector<?>)
+        if (v instanceof SparseFieldVector<?>) {
             return outerProduct((SparseFieldVector<T>)v);
-        else
+        } else {
             return outerProduct(v.toArray());
+        }
     }
 
     /** {@inheritDoc} */
@@ -515,10 +516,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public FieldVector<T> subtract(FieldVector<T> v) {
-        if(v instanceof SparseFieldVector<?>)
+        if (v instanceof SparseFieldVector<?>) {
             return subtract((SparseFieldVector<T>)v);
-        else
+        } else {
             return subtract(v.toArray());
+        }
     }
 
     /** {@inheritDoc} */

@@ -305,10 +305,11 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
          */
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < m; ++j) {
-                if (i - j + 1 < 0)
+                if (i - j + 1 < 0) {
                     Hdata[i][j] = BigFraction.ZERO;
-                else
+                } else {
                     Hdata[i][j] = BigFraction.ONE;
+                }
             }
         }
 

@@ -149,12 +149,14 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     @Override
     protected boolean isSame(Chromosome another) {
         // type check
-        if (! (another instanceof RandomKey<?>))
+        if (! (another instanceof RandomKey<?>)) {
             return false;
+        }
         RandomKey<?> anotherRk = (RandomKey<?>) another;
         // size check
-        if (getLength() != anotherRk.getLength())
+        if (getLength() != anotherRk.getLength()) {
             return false;
+        }
 
         // two different representations can still encode the same permutation
         // the ordering is what counts
@@ -162,8 +164,9 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         List<Integer> anotherPerm = anotherRk.baseSeqPermutation;
 
         for (int i=0; i<getLength(); i++) {
-            if (thisPerm.get(i) != anotherPerm.get(i))
+            if (thisPerm.get(i) != anotherPerm.get(i)) {
                 return false;
+            }
         }
         // the permutations are the same
         return true;

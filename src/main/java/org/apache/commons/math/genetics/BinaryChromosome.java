@@ -49,11 +49,13 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      * {@inheritDoc}
      */
     @Override
-    protected void checkValidity(List<Integer> chromosomeRepresentation) throws InvalidRepresentationException {
+    protected void checkValidity(List<Integer> chromosomeRepresentation)
+        throws InvalidRepresentationException {
         for (int i : chromosomeRepresentation) {
-            if (i < 0 || i >1)
-                throw new InvalidRepresentationException(
-                        LocalizedFormats.INVALID_BINARY_DIGIT, i);
+            if (i < 0 || i >1) {
+                throw new InvalidRepresentationException(LocalizedFormats.INVALID_BINARY_DIGIT,
+                                                         i);
+            }
         }
     }
 
@@ -77,16 +79,19 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     @Override
     protected boolean isSame(Chromosome another) {
         // type check
-        if (! (another instanceof BinaryChromosome))
+        if (! (another instanceof BinaryChromosome)) {
             return false;
+        }
         BinaryChromosome anotherBc = (BinaryChromosome) another;
         // size check
-        if (getLength() != anotherBc.getLength())
+        if (getLength() != anotherBc.getLength()) {
             return false;
+        }
 
         for (int i=0; i< getRepresentation().size(); i++) {
-            if (!(getRepresentation().get(i).equals(anotherBc.getRepresentation().get(i))))
+            if (!(getRepresentation().get(i).equals(anotherBc.getRepresentation().get(i)))) {
                 return false;
+            }
         }
         // all is ok
         return true;

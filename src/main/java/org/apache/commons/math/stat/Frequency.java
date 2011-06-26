@@ -491,16 +491,20 @@ public class Frequency implements Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof Frequency))
+        }
+        if (!(obj instanceof Frequency)) {
             return false;
+        }
         Frequency other = (Frequency) obj;
         if (freqTable == null) {
-            if (other.freqTable != null)
+            if (other.freqTable != null) {
                 return false;
-        } else if (!freqTable.equals(other.freqTable))
+            }
+        } else if (!freqTable.equals(other.freqTable)) {
             return false;
+        }
         return true;
     }
 

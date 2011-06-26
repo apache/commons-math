@@ -1608,8 +1608,9 @@ public class FastMath {
         }
 
         if (y == Double.POSITIVE_INFINITY) {
-            if (x * x == 1.0)
-              return Double.NaN;
+            if (x * x == 1.0) {
+                return Double.NaN;
+            }
 
             if (x * x > 1.0) {
                 return Double.POSITIVE_INFINITY;
@@ -2577,8 +2578,9 @@ public class FastMath {
                 remA = a + b;
                 remB += -(remA - b - a);
 
-                if (remA > 0.0)
+                if (remA > 0.0) {
                     break;
+                }
 
                 // Remainder is negative, so decrement k and try again.
                 // This should only happen if the input is very close
@@ -2662,8 +2664,9 @@ public class FastMath {
                 remA = a + b;
                 remB += -(remA - b - a);
 
-                if (remA > 0.0)
+                if (remA > 0.0) {
                     break;
+                }
 
                 // Remainder is negative, so decrement k and try again.
                 // This should only happen if the input is very close
@@ -2757,8 +2760,9 @@ public class FastMath {
                 remA = a + b;
                 remB += -(remA - b - a);
 
-                if (remA > 0.0)
+                if (remA > 0.0) {
                     break;
+                }
 
                 // Remainder is negative, so decrement k and try again.
                 // This should only happen if the input is very close

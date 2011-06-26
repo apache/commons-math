@@ -208,7 +208,9 @@ public class StepNormalizer implements StepHandler {
 
             // Take the integration direction into account.
             forward = interpolator.getCurrentTime() >= lastTime;
-            if (!forward) h = -h;
+            if (!forward) {
+                h = -h;
+            }
         }
 
         double nextTime = (mode == StepNormalizerMode.INCREMENT) ?
@@ -252,8 +254,9 @@ public class StepNormalizer implements StepHandler {
      */
     private boolean isNextInStep(double nextTime,
                                  StepInterpolator interpolator) {
-        return forward ? nextTime <= interpolator.getCurrentTime()
-                       : nextTime >= interpolator.getCurrentTime();
+        return forward ?
+               nextTime <= interpolator.getCurrentTime() :
+               nextTime >= interpolator.getCurrentTime();
     }
 
     /**
@@ -263,7 +266,9 @@ public class StepNormalizer implements StepHandler {
      * caller if the underlying user function triggers one
      */
     private void doNormalizedStep(boolean isLast) throws MathUserException {
-        if (!bounds.firstIncluded() && firstTime == lastTime) return;
+        if (!bounds.firstIncluded() && firstTime == lastTime) {
+            return;
+        }
         handler.handleStep(lastTime, lastState, lastDerivatives, isLast);
     }
 

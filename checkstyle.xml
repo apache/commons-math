@@ -34,7 +34,10 @@
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
     </module>
-    
+
+    <!-- No if/else/do/for/while without braces -->
+    <module name="NeedBraces"/>
+
     <!-- Interfaces must be types (not just constants) -->
     <module name="InterfaceIsType"/>
 
@@ -58,7 +61,7 @@
     <module name="VisibilityModifier">
        <property name="protectedAllowed" value="true"/>
     </module>
-    
+
     <!-- Require hash code override when equals is -->
     <module name="EqualsHashCode"/>
     

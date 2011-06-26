@@ -576,10 +576,11 @@ public class FastFourierTransformer implements Serializable {
                 temp[i] = mdcm.get(subVector);
             }
 
-            if (forward)
+            if (forward) {
                 temp = transform2(temp);
-            else
+            } else {
                 temp = inversetransform2(temp);
+            }
 
             for (int i = 0; i < dimensionSize[d]; i++) {
                 subVector[d] = i;

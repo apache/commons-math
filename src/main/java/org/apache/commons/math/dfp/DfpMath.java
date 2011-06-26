@@ -684,8 +684,9 @@ public class DfpMath {
 
             fact = fact.divide((i-1)*i);  // 1 over fact
             y = y.add(x.multiply(fact));
-            if (y.equals(py))
+            if (y.equals(py)) {
                 break;
+            }
             py = new Dfp(y);
         }
 

@@ -385,8 +385,9 @@ public class Dfp implements FieldElement<Dfp> {
                     negative = true;
                     continue;
                 }
-                if (fpexp.charAt(i) >= '0' && fpexp.charAt(i) <= '9')
+                if (fpexp.charAt(i) >= '0' && fpexp.charAt(i) <= '9') {
                     sciexp = sciexp * 10 + fpexp.charAt(i) - '0';
+                }
             }
 
             if (negative) {

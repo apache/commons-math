@@ -94,8 +94,9 @@ public class ElitisticListPopulation extends ListPopulation {
      *            next generation [in %]
      */
     public void setElitismRate(double elitismRate) {
-        if (elitismRate < 0 || elitismRate > 1)
+        if (elitismRate < 0 || elitismRate > 1) {
             throw new IllegalArgumentException("Elitism rate has to be in [0,1]");
+        }
         this.elitismRate = elitismRate;
     }
 

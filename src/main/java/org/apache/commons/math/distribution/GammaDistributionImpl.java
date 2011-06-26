@@ -154,9 +154,11 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      */
     @Override
     public double density(double x) {
-        if (x < 0) return 0;
+        if (x < 0) {
+            return 0;
+        }
         return FastMath.pow(x / beta, alpha - 1) / beta *
-            FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
+               FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
     }
 
     /**

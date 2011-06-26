@@ -133,19 +133,25 @@ public class VectorialCovariance implements Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof VectorialCovariance))
+        }
+        if (!(obj instanceof VectorialCovariance)) {
             return false;
+        }
         VectorialCovariance other = (VectorialCovariance) obj;
-        if (isBiasCorrected != other.isBiasCorrected)
+        if (isBiasCorrected != other.isBiasCorrected) {
             return false;
-        if (n != other.n)
+        }
+        if (n != other.n) {
             return false;
-        if (!Arrays.equals(productsSums, other.productsSums))
+        }
+        if (!Arrays.equals(productsSums, other.productsSums)) {
             return false;
-        if (!Arrays.equals(sums, other.sums))
+        }
+        if (!Arrays.equals(sums, other.sums)) {
             return false;
+        }
         return true;
     }
 

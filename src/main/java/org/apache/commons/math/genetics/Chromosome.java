@@ -88,8 +88,9 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
      */
     protected Chromosome findSameChromosome(Population population) {
         for (Chromosome anotherChr : population) {
-            if (this.isSame(anotherChr))
+            if (this.isSame(anotherChr)) {
                 return anotherChr;
+            }
         }
         return null;
     }

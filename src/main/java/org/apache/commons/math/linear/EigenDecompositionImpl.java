@@ -556,8 +556,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
                             z[ia][i] = c * z[ia][i] - s * p;
                         }
                     }
-                    if (t == 0.0 && i >= j)
+                    if (t == 0.0 && i >= j) {
                         continue;
+                    }
                     realEigenvalues[j] -= u;
                     e[j] = q;
                     e[m] = 0.0;

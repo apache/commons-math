@@ -1018,8 +1018,9 @@ public class Rotation implements Serializable {
             corr20 * corr20 + corr21 * corr21 + corr22 * corr22;
 
       // convergence test
-      if (FastMath.abs(fn1 - fn) <= threshold)
-        return o;
+      if (FastMath.abs(fn1 - fn) <= threshold) {
+          return o;
+      }
 
       // prepare next iteration
       x00 = o0[0];

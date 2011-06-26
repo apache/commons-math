@@ -90,13 +90,16 @@ public class VectorialMean implements Serializable {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!(obj instanceof VectorialMean))
+        }
+        if (!(obj instanceof VectorialMean)) {
             return false;
+        }
         VectorialMean other = (VectorialMean) obj;
-        if (!Arrays.equals(means, other.means))
+        if (!Arrays.equals(means, other.means)) {
             return false;
+        }
         return true;
     }
 
