@@ -32,7 +32,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public abstract class BaseSecantSolverTest {
+public abstract class BaseSecantSolverAbstractTest {
     /** Returns the solver to use to perform the tests.
      * @return the solver to use to perform the tests
      */
@@ -45,11 +45,6 @@ public abstract class BaseSecantSolverTest {
      * {@link #testQuinticZero} unit test
      */
     protected abstract int[] getQuinticEvalCounts();
-
-    /**
-     * Tests can be run only from subclasses.
-     */
-    protected BaseSecantSolverTest() {}
 
     @Test
     public void testSinZero() {

@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis.solvers;
  *
  * @version $Id$
  */
-public final class IllinoisSolverTest extends BaseSecantSolverTest {
+public final class IllinoisSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     protected UnivariateRealSolver getSolver() {
         return new IllinoisSolver();
