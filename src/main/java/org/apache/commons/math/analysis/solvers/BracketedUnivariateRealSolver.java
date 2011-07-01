@@ -41,7 +41,7 @@ package org.apache.commons.math.analysis.solvers;
  * @since 3.0
  * @version $Id$
  */
-public interface BracketedSolution {
+public interface BracketedUnivariateRealSolver extends UnivariateRealSolver {
     /** Returns the kind of solutions that the root-finding algorithm may
      * accept as solutions.
      *

@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis.solvers;
  * root-finding (approximating a zero of a univariate real function). It is a
  * modified {@link SecantSolver <em>Secant</em>} method. Unlike the
  * <em>Secant</em> method, convergence is guaranteed by maintaining a
- * {@link BracketedSolution bracketed solution}.
+ * bracketed solution.
  *
  * <p>The <em>Regula Falsi</em> method assumes that the function is continuous,
  * but not necessarily smooth.</p>

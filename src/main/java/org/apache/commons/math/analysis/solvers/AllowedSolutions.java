@@ -33,7 +33,7 @@ package org.apache.commons.math.analysis.solvers;
  * may be necessary to guarantee that a solution is returned that does not
  * under-approximate the solution.</p>
  *
- * @see BracketedSolution
+ * @see BracketedUnivariateRealSolver
  * @since 3.0
  * @version $Id$
  */

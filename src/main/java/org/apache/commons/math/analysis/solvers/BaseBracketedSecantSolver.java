@@ -19,13 +19,13 @@ package org.apache.commons.math.analysis.solvers;
 
 /**
  * Base class for <em>Secant</em> methods that guarantee convergence
- * by maintaining a {@link BracketedSolution bracketed solution}.
+ * by maintaining a {@link BracketedUnivariateRealSolver bracketed solution}.
  *
  * @since 3.0
  * @version $Id$
  */
 public class BaseBracketedSecantSolver extends BaseSecantSolver
-    implements BracketedSolution {
+    implements BracketedUnivariateRealSolver {
     /**
      * Construct a solver with default accuracy (1e-6).
      *
