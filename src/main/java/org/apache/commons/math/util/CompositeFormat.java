@@ -27,8 +27,6 @@ import java.util.Locale;
  * @version $Id$
  */
 public class CompositeFormat {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 5358685519349262494L;
 
     /**
      * Class contains only static methods.

@@ -220,9 +220,6 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
     /** Specialized solver. */
     private static class Solver<T extends FieldElement<T>> implements FieldDecompositionSolver<T> {
 
-        /** Serializable version identifier. */
-        private static final long serialVersionUID = -6353105415121373022L;
-
         /** Field to which the elements belong. */
         private final Field<T> field;
 

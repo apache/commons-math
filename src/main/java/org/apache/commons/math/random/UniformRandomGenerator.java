@@ -33,9 +33,6 @@ import org.apache.commons.math.util.FastMath;
 
 public class UniformRandomGenerator implements NormalizedRandomGenerator {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1569292426375546027L;
-
     /** Square root of three. */
     private static final double SQRT3 = FastMath.sqrt(3.0);
 

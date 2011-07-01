@@ -37,8 +37,7 @@ import org.apache.commons.math.exception.NoDataException;
  * @version $Id$
  */
 public class ComplexFormat {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -3343698360149467646L;
+
      /** The default imaginary character. */
     private static final String DEFAULT_IMAGINARY_CHARACTER = "i";
     /** The notation used to signify the imaginary part of the complex number. */

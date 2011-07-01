@@ -28,8 +28,7 @@ import org.apache.commons.math.util.OpenIntToFieldHashMap;
  * @since 2.0
  */
 public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
-    /** Serialization identifier. */
-    private static final long serialVersionUID = 9078068119297757342L;
+
     /** Storage for (sparse) matrix elements. */
     private final OpenIntToFieldHashMap<T> entries;
     /** Row dimension. */

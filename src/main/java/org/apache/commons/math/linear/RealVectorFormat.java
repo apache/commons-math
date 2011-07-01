@@ -42,8 +42,7 @@ import org.apache.commons.math.util.CompositeFormat;
  * @since 2.0
  */
 public class RealVectorFormat {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -708767813036157690L;
+
     /** The default prefix: "{". */
     private static final String DEFAULT_PREFIX = "{";
     /** The default suffix: "}". */
