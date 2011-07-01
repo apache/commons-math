@@ -376,7 +376,6 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         public MultivariateVectorialFunction gradient() {
             return new MultivariateVectorialFunction() {
-                private static final long serialVersionUID = 2621997811350805819L;
                 public double[] value(double[] point) {
                     return gradient(point);
                 }
@@ -385,7 +384,6 @@ public class NonLinearConjugateGradientOptimizerTest {
 
         public MultivariateRealFunction partialDerivative(final int k) {
             return new MultivariateRealFunction() {
-                private static final long serialVersionUID = -6186178619133562011L;
                 public double value(double[] point) {
                     return gradient(point)[k];
                 }

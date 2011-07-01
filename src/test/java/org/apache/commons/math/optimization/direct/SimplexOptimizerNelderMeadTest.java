@@ -43,7 +43,6 @@ public class SimplexOptimizerNelderMeadTest {
         final double valueXpYm = -0.7290400707055187115322; // global minimum
         final double valueXpYp = -valueXpYm;                // global maximum
         MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
-                private static final long serialVersionUID = -7039124064449091152L;
                 public double value(double[] variables) {
                     final double x = variables[0];
                     final double y = variables[1];

@@ -35,9 +35,6 @@ package org.apache.commons.math.ode;
 public class TestProblem6
   extends TestProblemAbstract {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1353409119804352378L;
-
     /** theoretical state */
     private double[] y;
 

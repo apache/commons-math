@@ -38,9 +38,6 @@ import org.apache.commons.math.util.FastMath;
 public class TestProblem4
   extends TestProblemAbstract {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = -5910438521889015745L;
-
   /** Time offset. */
   private double a;
 
@@ -112,7 +109,6 @@ public TestProblem4 copy() {
 
   private static class Bounce implements EventHandler {
 
-    private static final long serialVersionUID = 1356097180027801200L;
     private int sign;
 
     public Bounce() {
@@ -137,8 +133,6 @@ public TestProblem4 copy() {
   }
 
   private static class Stop implements EventHandler {
-
-    private static final long serialVersionUID = 6975050568227951931L;
 
     public Stop() {
     }

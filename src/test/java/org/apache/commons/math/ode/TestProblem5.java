@@ -25,9 +25,6 @@ package org.apache.commons.math.ode;
 public class TestProblem5
   extends TestProblem1 {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 7579233102411804237L;
-
   /**
    * Simple constructor.
    */

@@ -174,7 +174,6 @@ public class EulerIntegratorTest {
         }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {
-                          private static final long serialVersionUID = 0L;
                           public void computeDerivatives(double t, double[] y, double[] dot) {
                               dot[0] = 1.0;
                           }

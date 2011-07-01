@@ -38,7 +38,6 @@ public class SimplexOptimizerMultiDirectionalTest {
         final double valueXpYm = -0.7290400707055187115322; // global minimum
         final double valueXpYp = -valueXpYm;                // global maximum
         MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
-                private static final long serialVersionUID = -7039124064449091152L;
                 public double value(double[] variables) {
                     final double x = variables[0];
                     final double y = variables[1];
@@ -87,7 +86,6 @@ public class SimplexOptimizerMultiDirectionalTest {
     public void testRosenbrock() {
         MultivariateRealFunction rosenbrock =
             new MultivariateRealFunction() {
-                private static final long serialVersionUID = -9044950469615237490L;
                 public double value(double[] x) {
                     ++count;
                     double a = x[1] - x[0] * x[0];
@@ -114,7 +112,6 @@ public class SimplexOptimizerMultiDirectionalTest {
     public void testPowell() {
         MultivariateRealFunction powell =
             new MultivariateRealFunction() {
-                private static final long serialVersionUID = -832162886102041840L;
                 public double value(double[] x) {
                     ++count;
                     double a = x[0] + 10 * x[1];

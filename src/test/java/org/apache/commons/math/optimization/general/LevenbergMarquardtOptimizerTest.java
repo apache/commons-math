@@ -530,7 +530,6 @@ public class LevenbergMarquardtOptimizerTest {
 
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = 556396458721526234L;
                 public double[][] value(double[] point) {
                     return factors.getData();
                 }
@@ -574,7 +573,6 @@ public class LevenbergMarquardtOptimizerTest {
 
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = -8673650298627399464L;
                 public double[][] value(double[] point) {
                     return jacobian(point);
                 }

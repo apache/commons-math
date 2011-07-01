@@ -89,7 +89,6 @@ class CircleVectorial implements DifferentiableMultivariateVectorialFunction {
 
     public MultivariateMatrixFunction jacobian() {
         return new MultivariateMatrixFunction() {
-            private static final long serialVersionUID = -4340046230875165095L;
             public double[][] value(double[] point) {
                 return jacobian(point);
             }

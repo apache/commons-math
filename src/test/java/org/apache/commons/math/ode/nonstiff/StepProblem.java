@@ -59,6 +59,4 @@ public class StepProblem
   private double rateAfter;
   private double switchTime;
 
-  private static final long serialVersionUID = 7590601995477504318L;
-
 }

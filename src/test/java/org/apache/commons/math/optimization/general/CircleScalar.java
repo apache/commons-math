@@ -79,7 +79,6 @@ class CircleScalar implements DifferentiableMultivariateRealFunction {
 
     public MultivariateVectorialFunction gradient() {
         return new MultivariateVectorialFunction() {
-            private static final long serialVersionUID = 3174909643301201710L;
             public double[] value(double[] point) {
                 return gradient(point);
             }
@@ -88,7 +87,6 @@ class CircleScalar implements DifferentiableMultivariateRealFunction {
 
     public MultivariateRealFunction partialDerivative(final int k) {
         return new MultivariateRealFunction() {
-            private static final long serialVersionUID = 3073956364104833888L;
             public double value(double[] point) {
                 return gradient(point)[k];
             }

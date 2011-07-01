@@ -477,7 +477,6 @@ public class GaussNewtonOptimizerTest {
 
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = -8387467946663627585L;
                 public double[][] value(double[] point) {
                     return factors.getData();
                 }

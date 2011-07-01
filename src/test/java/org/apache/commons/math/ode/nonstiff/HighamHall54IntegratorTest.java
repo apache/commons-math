@@ -43,7 +43,6 @@ public class HighamHall54IntegratorTest {
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
           new FirstOrderDifferentialEquations() {
-            private static final long serialVersionUID = -1157081786301178032L;
             public void computeDerivatives(double t, double[] y, double[] dot)
             throws MathUserException {
             if (t < -0.5) {
@@ -222,7 +221,6 @@ public class HighamHall54IntegratorTest {
         }
         public void resetState(double t, double[] y) {
         }
-        private static final long serialVersionUID = 935652725339916361L;
       }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
 
       try {
@@ -262,7 +260,6 @@ public class HighamHall54IntegratorTest {
       }
       public void resetState(double t, double[] y) {
       }
-      private static final long serialVersionUID = 935652725339916361L;
     }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 3);
 
     try {

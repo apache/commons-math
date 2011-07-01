@@ -18,12 +18,10 @@
 package org.apache.commons.math.optimization;
 
 
-import java.io.Serializable;
-
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
@@ -157,9 +155,8 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
             }, new double[] { 2 }, new double[] { 1 }, new double[] { 0 });
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
 
-        private static final long serialVersionUID = -8804268799379350190L;
         final RealMatrix factors;
         final double[] target;
         public LinearProblem(double[][] factors, double[] target) {
@@ -173,7 +170,6 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
 
         public MultivariateMatrixFunction jacobian() {
             return new MultivariateMatrixFunction() {
-                private static final long serialVersionUID = -8387467946663627585L;
                 public double[][] value(double[] point) {
                     return factors.getData();
                 }

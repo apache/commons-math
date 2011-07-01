@@ -36,9 +36,6 @@ import org.apache.commons.math.util.FastMath;
 public class TestProblem1
   extends TestProblemAbstract {
 
-  /** Serializable version identifier. */
-  private static final long serialVersionUID = 1977870815289373164L;
-
   /** theoretical state */
   private double[] y;
 

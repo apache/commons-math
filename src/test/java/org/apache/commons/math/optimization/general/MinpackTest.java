@@ -595,7 +595,6 @@ public class MinpackTest {
 
       public MultivariateMatrixFunction jacobian() {
           return new MultivariateMatrixFunction() {
-            private static final long serialVersionUID = -2435076097232923678L;
             public double[][] value(double[] point) {
                   return jacobian(point);
               }
