@@ -28,9 +28,6 @@ import org.apache.commons.math.exception.MaxCountExceededException;
  */
 public abstract class UnivariateRealIntegratorImpl implements UnivariateRealIntegrator {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 6248808456637441533L;
-
     /** Maximum absolute error. */
     protected double absoluteAccuracy;
 
