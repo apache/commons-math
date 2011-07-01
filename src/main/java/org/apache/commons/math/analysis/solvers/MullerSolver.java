@@ -46,8 +46,7 @@ import org.apache.commons.math.util.MathUtils;
  * @see MullerSolver2
  */
 public class MullerSolver extends AbstractUnivariateRealSolver {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 7694577816772532779L;
+
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
