@@ -162,8 +162,8 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionLeftSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedSolution)) return;
-        ((BracketedSolution)solver).setAllowedSolutions(AllowedSolutions.LEFT_SIDE);
+        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
+        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.LEFT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
@@ -181,8 +181,8 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionRightSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedSolution)) return;
-        ((BracketedSolution)solver).setAllowedSolutions(AllowedSolutions.RIGHT_SIDE);
+        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
+        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.RIGHT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
