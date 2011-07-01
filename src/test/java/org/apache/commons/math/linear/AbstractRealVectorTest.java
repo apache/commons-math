@@ -214,17 +214,6 @@ public class AbstractRealVectorTest {
         Assert.assertNotSame(c[0], d[0]);
         d[0] = 1;
         Assert.assertEquals(new ArrayRealVector(d).getNorm(), new ArrayRealVector(c).getNorm(), 0);
-        long cloneTime = 0;
-        long setAndAddTime = 0;
-        for(int i=0; i<10; i++) {
-          long start = System.nanoTime();
-          double[] v = d.clone();
-          for(int j=0; j<v.length; j++) v[j] += 1234.5678;
-          if(i > 4) cloneTime += System.nanoTime() - start;
-          start = System.nanoTime();
-          v = new double[d.length];
-          for(int j=0; j<v.length; j++) v[j] = d[j] + 1234.5678;
-          if(i > 4) setAndAddTime += System.nanoTime() - start;
-        }
     }
+
 }
