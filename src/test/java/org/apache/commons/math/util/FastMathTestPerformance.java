@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.util;
 
+import junit.framework.Assert;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -79,6 +81,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log",strictMath,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -102,6 +105,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log10",strictMath,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -125,6 +129,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("log1p",strictMath,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -147,6 +152,7 @@ public class FastMathTestPerformance {
             x += Math.pow(Math.PI + i * F1, i * F1);
         long mathTime = System.nanoTime() - time;
         report("pow",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -170,6 +176,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("exp",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -193,6 +200,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sin",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -216,6 +224,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("asin",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -239,6 +248,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cos",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
             
     @Test
@@ -261,6 +271,7 @@ public class FastMathTestPerformance {
             x += Math.acos(i / 10000000.0);
         long mathTime = System.nanoTime() - time;
         report("acos",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -284,6 +295,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("tan",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -307,6 +319,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("atan",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -330,6 +343,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("atan2",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -353,6 +367,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("hypot",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
      
     @Test
@@ -376,6 +391,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cbrt",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -399,6 +415,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sqrt",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -422,6 +439,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("cosh",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -445,6 +463,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("sinh",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -468,6 +487,7 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("tanh",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
      
     @Test
@@ -490,6 +510,7 @@ public class FastMathTestPerformance {
             x += Math.expm1(-i * F1);
         long mathTime = System.nanoTime() - time;
         report("expm1",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 
     @Test
@@ -513,5 +534,6 @@ public class FastMathTestPerformance {
         long mathTime = System.nanoTime() - time;
 
         report("abs",strictTime,fastTime,mathTime);
+        Assert.assertTrue(!Double.isNaN(x));
     }
 }
