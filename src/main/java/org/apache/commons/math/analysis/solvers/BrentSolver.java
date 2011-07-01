@@ -120,7 +120,7 @@ public class BrentSolver extends AbstractUnivariateRealSolver {
 
     /**
      * Search for a zero inside the provided interval.
-     * This implemenation is based on the algorithm described at page 58 of
+     * This implementation is based on the algorithm described at page 58 of
      * the book
      * <quote>
      *  <b>Algorithms for Minimization Without Derivatives</b>
