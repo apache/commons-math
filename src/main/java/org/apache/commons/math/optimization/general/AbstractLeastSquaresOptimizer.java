@@ -134,12 +134,10 @@ public abstract class AbstractLeastSquaresOptimizer
         final double[] residualsWeights = getWeightRef();
 
         cost = 0;
-        int index = 0;
         for (int i = 0; i < rows; i++) {
             final double residual = targetValues[i] - objective[i];
             weightedResiduals[i]= residual*FastMath.sqrt(residualsWeights[i]);
             cost += residualsWeights[i] * residual * residual;
-            index += cols;
         }
         cost = FastMath.sqrt(cost);
     }
