@@ -149,15 +149,10 @@ public class NonLinearConjugateGradientOptimizer
                 }
             }
 
-            double dTd = 0;
-            for (final double di : searchDirection) {
-                dTd += di * di;
-            }
-
             // Find the optimal step in the search direction.
             final UnivariateRealFunction lsf = new LineSearchFunction(searchDirection);
             final double uB = findUpperBound(lsf, 0, initialStep);
-            // XXX Last parameters is set to a value clode to zero in order to
+            // XXX Last parameters is set to a value close to zero in order to
             // work around the divergence problem in the "testCircleFitting"
             // unit test (see MATH-439).
             final double step = solver.solve(maxEval, lsf, 0, uB, 1e-15);
