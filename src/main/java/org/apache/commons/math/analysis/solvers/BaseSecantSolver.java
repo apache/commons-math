@@ -101,10 +101,6 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
         final double atol = getAbsoluteAccuracy();
         final double rtol = getRelativeAccuracy();
 
-        // Variables to hold new bounds.
-        double x;
-        double fx;
-
         // Keep track of inverted intervals, meaning that the left bound is
         // larger than the right bound. Not used for the original Secant
         // method.
@@ -113,8 +109,8 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
         // Keep finding better approximations.
         while (true) {
             // Calculate the next approximation.
-            x = x1 - ((f1 * (x1 - x0)) / (f1 - f0));
-            fx = computeObjectiveValue(x);
+            final double x = x1 - ((f1 * (x1 - x0)) / (f1 - f0));
+            final double fx = computeObjectiveValue(x);
 
             // If the new approximation is the exact root, return it. Since
             // this is not an under-approximation or an over-approximation,
@@ -151,7 +147,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
             }
 
             // If the function value of the last approximation is too small,
-            // given the function value accuracy, then we can't get close to
+            // given the function value accuracy, then we can't get closer to
             // the root than we already are.
             if (FastMath.abs(f1) <= ftol) {
                 switch (allowedSolutions) {
@@ -164,6 +160,16 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
                     break;
                 case RIGHT_SIDE:
                     if (!inverted) {
+                        return x1;
+                    }
+                    break;
+                case BELOW_SIDE:
+                    if (f1 <= 0) {
+                        return x1;
+                    }
+                    break;
+                case ABOVE_SIDE:
+                    if (f1 >= 0) {
                         return x1;
                     }
                     break;
@@ -183,6 +189,10 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
                     return inverted ? x1 : x0;
                 case RIGHT_SIDE:
                     return inverted ? x0 : x1;
+                case BELOW_SIDE:
+                    return (f1 <= 0) ? x1 : x0;
+                case ABOVE_SIDE:
+                    return (f1 >= 0) ? x1 : x0;
                 default:
                     throw new MathInternalError();
                 }

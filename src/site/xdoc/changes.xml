@@ -59,7 +59,8 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="eran" type="add" issue="MATH-599" due-to="Dennis Hendriks">
         Modified "SecantSolver" to comply with the original algorithm. Added several
-        secant-based solvers.
+        secant-based solvers. Added a way to select the side of the root with bracketing
+        solvers.
       </action>
       <action dev="luc" type="fix" issue="MATH-600">
         Fixed javadoc for ODEIntegrator interface

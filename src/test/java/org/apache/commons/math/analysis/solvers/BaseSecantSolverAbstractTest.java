@@ -195,4 +195,42 @@ public abstract class BaseSecantSolverAbstractTest {
             right += 0.3;
         }
     }
+    @Test
+    public void testSolutionBelowSide() {
+        UnivariateRealFunction f = new SinFunction();
+        UnivariateRealSolver solver = getSolver();
+        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
+        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.BELOW_SIDE);
+        double left = -1.5;
+        double right = 0.05;
+        for(int i = 0; i < 10; i++) {
+            // Test whether the allowed solutions are taken into account.
+            double solution = solver.solve(100, f, left, right);
+            Assert.assertTrue(f.value(solution) <= 0.0);
+
+            // Prepare for next test.
+            left -= 0.1;
+            right += 0.3;
+        }
+    }
+
+    @Test
+    public void testSolutionAboveSide() {
+        UnivariateRealFunction f = new SinFunction();
+        UnivariateRealSolver solver = getSolver();
+        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
+        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.ABOVE_SIDE);
+        double left = -1.5;
+        double right = 0.05;
+        for(int i = 0; i < 10; i++) {
+            // Test whether the allowed solutions are taken into account.
+            double solution = solver.solve(100, f, left, right);
+            Assert.assertTrue(f.value(solution) >= 0.0);
+
+            // Prepare for next test.
+            left -= 0.1;
+            right += 0.3;
+        }
+    }
+
 }
