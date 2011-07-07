@@ -51,7 +51,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
      * Find a zero near the midpoint of {@code min} and {@code max}.
      *
      * @param f Function to solve.
-     * @param min Lower bound for the interval?
+     * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param maxEval Maximum number of evaluations.
      * @return the value where the function is zero.
