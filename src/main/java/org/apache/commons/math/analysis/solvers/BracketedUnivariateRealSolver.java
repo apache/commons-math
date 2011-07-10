@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+
 /** Interface for {@link UnivariateRealSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
  * to having such root-finding algorithms:
@@ -34,27 +36,57 @@ package org.apache.commons.math.analysis.solvers;
  * </ul>
  *
  * <p>For backwards compatibility, all root-finding algorithms must have
- * {@link AllowedSolutions#EITHER_SIDE EITHER_SIDE} as default for the allowed
+ * {@link AllowedSolutions#ANY_SIDE ANY_SIDE} as default for the allowed
  * solutions.</p>
  *
  * @see AllowedSolutions
  * @since 3.0
  * @version $Id$
  */
-public interface BracketedUnivariateRealSolver extends UnivariateRealSolver {
-    /** Returns the kind of solutions that the root-finding algorithm may
-     * accept as solutions.
-     *
-     * @return the kind of solutions that the root-finding algorithm may
-     * accept as solutions
-     */
-    AllowedSolutions getAllowedSolutions();
+public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFunction>
+    extends BaseUnivariateRealSolver<FUNC> {
 
-    /** Sets the kind of solutions that the root-finding algorithm may accept
-     * as solutions.
+    /**
+     * Solve for a zero in the given interval.
+     * A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.
      *
-     * @param allowedSolutions the kind of solutions that the root-finding
-     * algorithm may accept as solutions
+     * @param maxEval Maximum number of evaluations.
+     * @param f Function to solve.
+     * @param min Lower bound for the interval.
+     * @param max Upper bound for the interval.
+     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * accept as solutions.
+     * @return a value where the function is zero.
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the allowed number of evaluations is exceeded.
      */
-    void setAllowedSolutions(AllowedSolutions allowedSolutions);
+    double solve(int maxEval, FUNC f, double min, double max,
+                 AllowedSolutions allowedSolutions);
+
+    /**
+     * Solve for a zero in the given interval, start at {@code startValue}.
+     * A solver may require that the interval brackets a single zero root.
+     * Solvers that do require bracketing should be able to handle the case
+     * where one of the endpoints is itself a root.
+     *
+     * @param maxEval Maximum number of evaluations.
+     * @param f Function to solve.
+     * @param min Lower bound for the interval.
+     * @param max Upper bound for the interval.
+     * @param startValue Start value to use.
+     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * accept as solutions.
+     * @return a value where the function is zero.
+     * @throws org.apache.commons.math.exception.MathIllegalArgumentException
+     * if the arguments do not satisfy the requirements specified by the solver.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
+     * the allowed number of evaluations is exceeded.
+     */
+    double solve(int maxEval, FUNC f, double min, double max, double startValue,
+                 AllowedSolutions allowedSolutions);
+
 }

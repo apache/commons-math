@@ -162,14 +162,14 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionLeftSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
-        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.LEFT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = solver.solve(100, f, left, right);
-            Assert.assertTrue(solution <= 0.0);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.LEFT_SIDE);
+            if (!Double.isNaN(solution)) {
+                Assert.assertTrue(solution <= 0.0);
+            }
 
             // Prepare for next test.
             left -= 0.1;
@@ -181,14 +181,14 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionRightSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
-        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.RIGHT_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = solver.solve(100, f, left, right);
-            Assert.assertTrue(solution >= 0.0);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.RIGHT_SIDE);
+            if (!Double.isNaN(solution)) {
+                Assert.assertTrue(solution >= 0.0);
+            }
 
             // Prepare for next test.
             left -= 0.1;
@@ -199,14 +199,14 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionBelowSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
-        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.BELOW_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = solver.solve(100, f, left, right);
-            Assert.assertTrue(f.value(solution) <= 0.0);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.BELOW_SIDE);
+            if (!Double.isNaN(solution)) {
+                Assert.assertTrue(f.value(solution) <= 0.0);
+            }
 
             // Prepare for next test.
             left -= 0.1;
@@ -218,18 +218,39 @@ public abstract class BaseSecantSolverAbstractTest {
     public void testSolutionAboveSide() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
-        if (!(solver instanceof BracketedUnivariateRealSolver)) return;
-        ((BracketedUnivariateRealSolver)solver).setAllowedSolutions(AllowedSolutions.ABOVE_SIDE);
         double left = -1.5;
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = solver.solve(100, f, left, right);
-            Assert.assertTrue(f.value(solution) >= 0.0);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.ABOVE_SIDE);
+            if (!Double.isNaN(solution)) {
+                Assert.assertTrue(f.value(solution) >= 0.0);
+            }
 
             // Prepare for next test.
             left -= 0.1;
             right += 0.3;
+        }
+    }
+
+    private double getSolution(UnivariateRealSolver solver, int maxEval, UnivariateRealFunction f,
+                               double left, double right, AllowedSolutions allowedSolutions) {
+        try {
+            @SuppressWarnings("unchecked")
+            BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
+            (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
+            return bracketing.solve(100, f, left, right, allowedSolutions);
+        } catch (ClassCastException cce) {
+            double baseRoot = solver.solve(maxEval, f, left, right);
+            if ((baseRoot <= left) || (baseRoot >= right)) {
+                // the solution slipped out of interval
+                return Double.NaN;
+            }
+            PegasusSolver bracketing =
+                    new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
+            return UnivariateRealSolverUtils.forceSide(maxEval - solver.getEvaluations(),
+                                                       f, bracketing, baseRoot, left, right,
+                                                       allowedSolutions);
         }
     }
 

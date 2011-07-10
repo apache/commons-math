@@ -23,7 +23,7 @@ package org.apache.commons.math.analysis.solvers;
  * This basically controls whether or not under-approximations and
  * over-approximations are allowed.
  *
- * <p>If all solutions are accepted ({@link #EITHER_SIDE}), then the solution
+ * <p>If all solutions are accepted ({@link #ANY_SIDE}), then the solution
  * that the root-finding algorithm returns for a given root may be equal to the
  * actual root, but it may also be an approximation that is slightly smaller
  * or slightly larger than the actual root. Root-finding algorithms generally
@@ -45,7 +45,7 @@ public enum AllowedSolutions {
      * root-finding result s may be smaller than x0, equal to x0, or greater
      * than x0.
      */
-    EITHER_SIDE,
+    ANY_SIDE,
 
     /** Only solutions that are less than or equal to the actual root are
      * acceptable as solutions for root-finding. In other words,

@@ -35,7 +35,8 @@ package org.apache.commons.math.analysis.solvers;
  * @since 3.0
  * @version $Id$
  */
-public class RegulaFalsiSolver extends BaseBracketedSecantSolver {
+public class RegulaFalsiSolver extends BaseSecantSolver {
+
     /** Construct a solver with default accuracy (1e-6). */
     public RegulaFalsiSolver() {
         super(DEFAULT_ABSOLUTE_ACCURACY, Method.REGULA_FALSI);
