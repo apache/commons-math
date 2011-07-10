@@ -230,15 +230,14 @@ public class DormandPrince853IntegratorTest {
     EventHandler[] functions = pb.getEventsHandlers();
     double convergence = 1.0e-8 * maxStep;
     for (int l = 0; l < functions.length; ++l) {
-      integ.addEventHandler(functions[l],
-                                 Double.POSITIVE_INFINITY, convergence, 1000);
+      integ.addEventHandler(functions[l], Double.POSITIVE_INFINITY, convergence, 1000);
     }
     Assert.assertEquals(functions.length, integ.getEventHandlers().size());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    Assert.assertEquals(0, handler.getMaximalValueError(), 1.1e-7);
+    Assert.assertEquals(0, handler.getMaximalValueError(), 2.1e-7);
     Assert.assertEquals(0, handler.getMaximalTimeError(), convergence);
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();

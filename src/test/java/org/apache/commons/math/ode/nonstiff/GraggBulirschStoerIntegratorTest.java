@@ -223,7 +223,7 @@ public class GraggBulirschStoerIntegratorTest {
                     pb.getInitialTime(), pb.getInitialState(),
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
-    Assert.assertTrue(handler.getMaximalValueError() < 5.0e-8);
+    Assert.assertTrue(handler.getMaximalValueError() < 4.0e-7);
     Assert.assertEquals(0, handler.getMaximalTimeError(), convergence);
     Assert.assertEquals(12.0, handler.getLastTime(), convergence);
     integ.clearEventHandlers();
