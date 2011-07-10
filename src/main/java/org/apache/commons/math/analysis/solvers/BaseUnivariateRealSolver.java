@@ -23,10 +23,17 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * Interface for (univariate real) rootfinding algorithms.
  * Implementations will search for only one zero in the given interval.
  *
+ * This class is not intended for use outside of the Apache Commons Math
+ * library, regular user should rely on more specific interfaces like
+ * {@link UnivariateRealSolver}, {link PolynomialSolver} or {@link
+ * DifferentiableUnivariateRealSolver}.
  * @param <FUNC> Type of function to solve.
  *
  * @version $Id$
  * @since 3.0
+ * @see UnivariateRealSolver
+ * @see PolynomialSolver
+ * @see DifferentiableUnivariateRealSolver
  */
 public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
     /**
