@@ -17,11 +17,11 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoBracketingException;
-import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -77,9 +77,93 @@ public class UnivariateRealSolverUtils {
         return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
+    /** Force a root found by a non-bracketing solver to lie on a specified side,
+     * as if the solver was a bracketing one.
+     * @param maxEval maximal number of new evaluations of the function
+     * (evaluations already done for finding the root should have already been subtracted
+     * from this number)
+     * @param f function to solve
+     * @param bracketing bracketing solver to use for shifting the root
+     * @param baseRoot original root found by a previous non-bracketing solver
+     * @param min minimal bound of the search interval
+     * @param max maximal bound of the search interval
+     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * accept as solutions.
+     */
+    public static double forceSide(final int maxEval, final UnivariateRealFunction f,
+                                   final BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing,
+                                   final double baseRoot, final double min, final double max,
+                                   final AllowedSolutions allowedSolutions) {
+
+        if (allowedSolutions == AllowedSolutions.ANY_SIDE) {
+            // no further bracketing required
+            return baseRoot;
+        }
+
+        // find a very small interval bracketing the root
+        final double step = FastMath.max(bracketing.getAbsoluteAccuracy(),
+                                         FastMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
+        double xLo        = baseRoot - step;
+        double fLo        = f.value(xLo);
+        double xHi        = baseRoot + step;
+        double fHi        = f.value(xHi);
+        int remainingEval = maxEval - 2;
+        while ((remainingEval > 0) && (xLo >= min) && (xHi <= max)) {
+
+            if ((fLo > 0 && fHi < 0) || (fLo < 0 && fHi > 0)) {
+                // compute the root on the selected side
+                return bracketing.solve(remainingEval, f, xLo, xHi, baseRoot, allowedSolutions);
+            }
+
+            // try increasing the interval
+            boolean changeLo = false;
+            boolean changeHi = false;
+            if (fLo < fHi) {
+                // increasing function
+                if (fLo >= 0) {
+                    changeLo = true;
+                } else {
+                    changeHi = true;
+                }
+            } else if (fLo > fHi) {
+                // decreasing function
+                if (fLo <= 0) {
+                    changeLo = true;
+                } else {
+                    changeHi = true;
+                }
+            } else {
+                // unknown variation
+                changeLo = true;
+                changeHi = true;
+            }
+
+            // update the lower bound
+            if (changeLo) {
+                xLo -= step;
+                fLo  = f.value(xLo);
+                remainingEval--;
+            }
+
+            // update the higher bound
+            if (changeHi) {
+                xHi += step;
+                fHi  = f.value(xHi);
+                remainingEval--;
+            }
+
+        }
+
+        throw new NoBracketingException(LocalizedFormats.FAILED_BRACKETING,
+                                        xLo, xHi, fLo, fHi,
+                                        maxEval - remainingEval, maxEval, baseRoot,
+                                        min, max);
+
+    }
+
     /**
      * This method attempts to find two values a and b satisfying <ul>
-    * <li> <code> lowerBound <= a < initial < b <= upperBound</code> </li>
+     * <li> <code> lowerBound <= a < initial < b <= upperBound</code> </li>
      * <li> <code> f(a) * f(b) < 0 </code></li>
      * </ul>
      * If f is continuous on <code>[a,b],</code> this means that <code>a</code>
