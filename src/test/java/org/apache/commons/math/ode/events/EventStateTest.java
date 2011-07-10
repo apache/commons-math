@@ -49,7 +49,7 @@ public class EventStateTest {
 
         final double tolerance = 0.1;
         EventState es = new EventState(closeEventsGenerator, 1.5 * gap,
-                                       tolerance, 10,
+                                       tolerance, 100,
                                        new BrentSolver(tolerance));
 
         AbstractStepInterpolator interpolator =
