@@ -18,14 +18,14 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MathInternalError;
 
 /**
- * Base class for all <em>Secant</em>-based methods for root-finding
+ * Base class for all bracketing <em>Secant</em>-based methods for root-finding
  * (approximating a zero of a univariate real function).
  *
- * <p>Implementation of the {@link SecantSolver <em>Secant</em>},
- * {@link RegulaFalsiSolver <em>Regula Falsi</em>}, and
+ * <p>Implementation of the {@link RegulaFalsiSolver <em>Regula Falsi</em>}, and
  * {@link IllinoisSolver <em>Illinois</em>} methods is based on the
  * following article: M. Dowell and P. Jarratt,
  * <em>A modified regula falsi method for computing the root of an
@@ -38,14 +38,23 @@ import org.apache.commons.math.exception.MathInternalError;
  * BIT Numerical Mathematics, volume 12, number 4, pages 503-508, Springer,
  * 1972.</p>
  *
+ * <p>The  {@link SecantSolver <em>secant<em>} method is <em>not</emp> a
+ * bracketing method so it is not implemented here. It has a separate
+ * implementation.</p>
+ *
  * @since 3.0
  * @version $Id$
  */
-public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
+public abstract class BaseSecantSolver
+    extends AbstractUnivariateRealSolver
+    implements BracketedUnivariateRealSolver<UnivariateRealFunction> {
+
     /** Default absolute accuracy. */
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+
     /** The kinds of solutions that the algorithm may accept. */
-    protected AllowedSolutions allowedSolutions = AllowedSolutions.EITHER_SIDE;
+    private AllowedSolutions allowedSolutions;
+
     /** The <em>Secant</em>-based root-finding method to use. */
     private final Method method;
 
@@ -57,6 +66,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
      */
     protected BaseSecantSolver(final double absoluteAccuracy, final Method method) {
         super(absoluteAccuracy);
+        this.allowedSolutions = AllowedSolutions.ANY_SIDE;
         this.method = method;
     }
 
@@ -71,11 +81,33 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
                                final double absoluteAccuracy,
                                final Method method) {
         super(relativeAccuracy, absoluteAccuracy);
+        this.allowedSolutions = AllowedSolutions.ANY_SIDE;
         this.method = method;
     }
 
     /** {@inheritDoc} */
+    public double solve(final int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max,
+                        final AllowedSolutions allowedSolutions) {
+        return solve(maxEval, f, min, max, min + 0.5 * (max - min), allowedSolutions);
+    }
+
+    /** {@inheritDoc} */
+    public double solve(final int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double startValue,
+                        final AllowedSolutions allowedSolutions) {
+        this.allowedSolutions = allowedSolutions;
+        return super.solve(maxEval, f, min, max, startValue);
+    }
+
+    /** {@inheritDoc} */
     @Override
+    public double solve(final int maxEval, final UnivariateRealFunction f,
+                        final double min, final double max, final double startValue) {
+        return solve(maxEval, f, min, max, startValue, AllowedSolutions.ANY_SIDE);
+    }
+
+    /** {@inheritDoc} */
     protected final double doSolve() {
         // Get initial solution
         double x0 = getMin();
@@ -102,8 +134,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
         final double rtol = getRelativeAccuracy();
 
         // Keep track of inverted intervals, meaning that the left bound is
-        // larger than the right bound. Not used for the original Secant
-        // method.
+        // larger than the right bound.
         boolean inverted = false;
 
         // Keep finding better approximations.
@@ -120,12 +151,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
             }
 
             // Update the bounds with the new approximation.
-            if (method == Method.SECANT) {
-                x0 = x1;
-                f0 = f1;
-                x1 = x;
-                f1 = fx;
-            } else if (f1 * fx < 0) {
+            if (f1 * fx < 0) {
                 // We had [x0..x1]. We update it to [x1, x]. Note that the
                 // value of x1 has switched to the other bound, thus inverting
                 // the interval.
@@ -151,7 +177,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
             // the root than we already are.
             if (FastMath.abs(f1) <= ftol) {
                 switch (allowedSolutions) {
-                case EITHER_SIDE:
+                case ANY_SIDE:
                     return x1;
                 case LEFT_SIDE:
                     if (inverted) {
@@ -183,7 +209,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
             if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1),
                                                      atol)) {
                 switch (allowedSolutions) {
-                case EITHER_SIDE:
+                case ANY_SIDE:
                     return x1;
                 case LEFT_SIDE:
                     return inverted ? x1 : x0;
@@ -202,8 +228,6 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
 
     /** <em>Secant</em>-based root-finding methods. */
     protected enum Method {
-        /** The original {@link SecantSolver <em>Secant</em>} method. */
-        SECANT,
 
         /**
          * The {@link RegulaFalsiSolver <em>Regula Falsi</em>} or
@@ -215,6 +239,7 @@ public abstract class BaseSecantSolver extends AbstractUnivariateRealSolver {
         ILLINOIS,
 
         /** The {@link PegasusSolver <em>Pegasus</em>} method. */
-        PEGASUS,
+        PEGASUS;
+
     }
 }
