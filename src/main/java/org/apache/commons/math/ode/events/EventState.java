@@ -19,8 +19,11 @@ package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.solvers.AllowedSolutions;
+import org.apache.commons.math.analysis.solvers.BracketedUnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.PegasusSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.exception.MathInternalError;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -151,38 +154,31 @@ public class EventState {
     public void reinitializeBegin(final StepInterpolator interpolator)
         throws EventException {
         try {
-            // excerpt from MATH-421 issue:
-            // If an ODE solver is setup with an EventHandler that return STOP
-            // when the even is triggered, the integrator stops (which is exactly
-            // the expected behavior). If however the user want to restart the
-            // solver from the final state reached at the event with the same
-            // configuration (expecting the event to be triggered again at a
-            // later time), then the integrator may fail to start. It can get stuck
-            // at the previous event.
 
-            // The use case for the bug MATH-421 is fairly general, so events occurring
-            // less than epsilon after the solver start in the first step should be ignored,
-            // where epsilon is the convergence threshold of the event. The sign of the g
-            // function should be evaluated after this initial ignore zone, not exactly at
-            // beginning (if there are no event at the very beginning g(t0) and g(t0+epsilon)
-            // have the same sign, so this does not hurt ; if there is an event at the very
-            // beginning, g(t0) and g(t0+epsilon) have opposite signs and we want to start
-            // with the second one. Of course, the sign of epsilon depend on the integration
-            // direction (forward or backward). This explains what is done below.
-
-            final double ignoreZone = interpolator.isForward() ? getConvergence() : -getConvergence();
-            t0 = interpolator.getPreviousTime() + ignoreZone;
+            t0 = interpolator.getPreviousTime();
             interpolator.setInterpolatedTime(t0);
             g0 = handler.g(t0, interpolator.getInterpolatedState());
             if (g0 == 0) {
-                // extremely rare case: there is a zero EXACTLY at end of ignore zone
-                // we will use the opposite of sign at step beginning to force ignoring this zero
-                final double tStart = interpolator.getPreviousTime();
+                // excerpt from MATH-421 issue:
+                // If an ODE solver is setup with an EventHandler that return STOP
+                // when the even is triggered, the integrator stops (which is exactly
+                // the expected behavior). If however the user wants to restart the
+                // solver from the final state reached at the event with the same
+                // configuration (expecting the event to be triggered again at a
+                // later time), then the integrator may fail to start. It can get stuck
+                // at the previous event. The use case for the bug MATH-421 is fairly
+                // general, so events occurring exactly at start in the first step should
+                // be ignored.
+
+                // extremely rare case: there is a zero EXACTLY at interval start
+                // we will use the sign slightly after step beginning to force ignoring this zero
+                final double epsilon = FastMath.max(solver.getAbsoluteAccuracy(),
+                                                    FastMath.abs(solver.getRelativeAccuracy() * t0));
+                final double tStart = t0 + 0.5 * epsilon;
                 interpolator.setInterpolatedTime(tStart);
-                g0Positive = handler.g(tStart, interpolator.getInterpolatedState()) <= 0;
-            } else {
-                g0Positive = g0 >= 0;
+                g0 = handler.g(tStart, interpolator.getInterpolatedState());
             }
+            g0Positive = g0 >= 0;
 
         } catch (MathUserException mue) {
             throw new EventException(mue);
@@ -206,21 +202,31 @@ public class EventState {
 
             forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
-            if (FastMath.abs(t1 - t0) < convergence) {
+            final double dt = t1 - t0;
+            if (FastMath.abs(dt) < convergence) {
                 // we cannot do anything on such a small step, don't trigger any events
                 return false;
             }
-            final double start = forward ? (t0 + convergence) : t0 - convergence;
-            final double dt    = t1 - start;
-            final int    n     = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt) / maxCheckInterval));
-            final double h     = dt / n;
+            final int    n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt) / maxCheckInterval));
+            final double h = dt / n;
+
+            final UnivariateRealFunction f = new UnivariateRealFunction() {
+                public double value(final double t) {
+                    try {
+                        interpolator.setInterpolatedTime(t);
+                        return handler.g(t, interpolator.getInterpolatedState());
+                    } catch (EventException e) {
+                        throw new ConveyedException(e);
+                    }
+                }
+            };
 
             double ta = t0;
             double ga = g0;
             for (int i = 0; i < n; ++i) {
 
                 // evaluate handler value at the end of the substep
-                final double tb = start + (i + 1) * h;
+                final double tb = t0 + (i + 1) * h;
                 interpolator.setInterpolatedTime(tb);
                 final double gb = handler.g(tb, interpolator.getInterpolatedState());
 
@@ -231,46 +237,37 @@ public class EventState {
                     // variation direction, with respect to the integration direction
                     increasing = gb >= ga;
 
-                    final UnivariateRealFunction f = new UnivariateRealFunction() {
-                        public double value(final double t) throws MathUserException {
-                            try {
-                                interpolator.setInterpolatedTime(t);
-                                return handler.g(t, interpolator.getInterpolatedState());
-                            } catch (EventException e) {
-                                throw new MathUserException(e);
-                            }
-                        }
-                    };
-
-                    if (ga * gb >= 0) {
-                        // this is a corner case:
-                        // - there was an event near ta,
-                        // - there is another event between ta and tb
-                        // - when ta was computed, convergence was reached on the "wrong side" of the interval
-                        // this implies that the real sign of ga is the same as gb, so we need to slightly
-                        // shift ta to make sure ga and gb get opposite signs and the solver won't complain
-                        // about bracketing
-                        final double epsilon = (forward ? 0.25 : -0.25) * convergence;
-                        for (int k = 0; (k < 4) && (ga * gb > 0); ++k) {
-                            ta += epsilon;
-                            ga = f.value(ta);
-                        }
-                        if (ga * gb > 0) {
-                            // this should never happen
-                            throw new MathInternalError();
-                        }
+                    // find the event time making sure we select a solution just at or past the exact root
+                    final double root;
+                    if (solver instanceof BracketedUnivariateRealSolver<?>) {
+                        @SuppressWarnings("unchecked")
+                        BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
+                                (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
+                        root = forward ?
+                               bracketing.solve(maxIterationCount, f, ta, tb, AllowedSolutions.RIGHT_SIDE) :
+                               bracketing.solve(maxIterationCount, f, tb, ta, AllowedSolutions.LEFT_SIDE);
+                    } else {
+                        final double baseRoot = forward ?
+                                                solver.solve(maxIterationCount, f, ta, tb) :
+                                                solver.solve(maxIterationCount, f, tb, ta);
+                        final int remainingEval = maxIterationCount - solver.getEvaluations();
+                        BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
+                                new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
+                        root = forward ?
+                               UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
+                                                                   baseRoot, ta, tb, AllowedSolutions.RIGHT_SIDE) :
+                               UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
+                                                                   baseRoot, tb, ta, AllowedSolutions.LEFT_SIDE);
                     }
-
-                    final double root = (ta <= tb) ?
-                                        solver.solve(maxIterationCount, f, ta, tb) :
-                                        solver.solve(maxIterationCount, f, tb, ta);
 
                     if ((!Double.isNaN(previousEventTime)) &&
                         (FastMath.abs(root - ta) <= convergence) &&
                         (FastMath.abs(root - previousEventTime) <= convergence)) {
-                        // we have either found nothing or found (again ?) a past event, we simply ignore it
-                        ta = tb;
-                        ga = gb;
+                        // we have either found nothing or found (again ?) a past event,
+                        // retry the substep excluding this value
+                        ta = forward ? ta + convergence : ta - convergence;
+                        ga = f.value(ta);
+                        --i;
                     } else if (Double.isNaN(previousEventTime) ||
                                (FastMath.abs(previousEventTime - root) > convergence)) {
                         pendingEventTime = root;
@@ -295,22 +292,20 @@ public class EventState {
             pendingEventTime = Double.NaN;
             return false;
 
-        } catch (MathUserException mue) {
-            final Throwable cause = mue.getCause();
-            if ((cause != null) && (cause instanceof EventException)) {
-                throw (EventException) cause;
-            }
-            throw mue;
+        } catch (ConveyedException ce) {
+            throw ce.getConveyedException();
         }
 
     }
 
     /** Get the occurrence time of the event triggered in the current step.
      * @return occurrence time of the event triggered in the current
-     * step or positive infinity if no events are triggered
+     * step or infinity if no events are triggered
      */
     public double getEventTime() {
-        return pendingEvent ? pendingEventTime : Double.POSITIVE_INFINITY;
+        return pendingEvent ?
+               pendingEventTime :
+               (forward ? Double.POSITIVE_INFINITY : Double.NEGATIVE_INFINITY);
     }
 
     /** Acknowledge the fact the step has been accepted by the integrator.
@@ -370,6 +365,31 @@ public class EventState {
 
         return (nextAction == EventHandler.RESET_STATE) ||
                (nextAction == EventHandler.RESET_DERIVATIVES);
+
+    }
+
+    /** Local exception to convey EventException instances through root finding algorithms. */
+    private static class ConveyedException extends RuntimeException {
+
+        /** Serializable uid. */
+        private static final long serialVersionUID = 2668348550531980574L;
+
+        /** Conveyed exception. */
+        private final EventException conveyedException;
+
+        /** Simple constructor.
+         * @param conveyedException conveyed exception
+         */
+        public ConveyedException(final EventException conveyedException) {
+            this.conveyedException = conveyedException;
+        }
+
+        /** Get the conveyed exception.
+         * @return conveyed exception
+         */
+        public EventException getConveyedException() {
+            return conveyedException;
+        }
 
     }
 
