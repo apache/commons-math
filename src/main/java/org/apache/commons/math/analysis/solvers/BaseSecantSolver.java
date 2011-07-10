@@ -53,7 +53,7 @@ public abstract class BaseSecantSolver
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /** The kinds of solutions that the algorithm may accept. */
-    private AllowedSolutions allowedSolutions;
+    private AllowedSolutions allowed;
 
     /** The <em>Secant</em>-based root-finding method to use. */
     private final Method method;
@@ -66,7 +66,7 @@ public abstract class BaseSecantSolver
      */
     protected BaseSecantSolver(final double absoluteAccuracy, final Method method) {
         super(absoluteAccuracy);
-        this.allowedSolutions = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolutions.ANY_SIDE;
         this.method = method;
     }
 
@@ -81,7 +81,7 @@ public abstract class BaseSecantSolver
                                final double absoluteAccuracy,
                                final Method method) {
         super(relativeAccuracy, absoluteAccuracy);
-        this.allowedSolutions = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolutions.ANY_SIDE;
         this.method = method;
     }
 
@@ -96,7 +96,7 @@ public abstract class BaseSecantSolver
     public double solve(final int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double startValue,
                         final AllowedSolutions allowedSolutions) {
-        this.allowedSolutions = allowedSolutions;
+        this.allowed = allowedSolutions;
         return super.solve(maxEval, f, min, max, startValue);
     }
 
@@ -176,7 +176,7 @@ public abstract class BaseSecantSolver
             // given the function value accuracy, then we can't get closer to
             // the root than we already are.
             if (FastMath.abs(f1) <= ftol) {
-                switch (allowedSolutions) {
+                switch (allowed) {
                 case ANY_SIDE:
                     return x1;
                 case LEFT_SIDE:
@@ -208,7 +208,7 @@ public abstract class BaseSecantSolver
             // are satisfied with the current approximation.
             if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1),
                                                      atol)) {
-                switch (allowedSolutions) {
+                switch (allowed) {
                 case ANY_SIDE:
                     return x1;
                 case LEFT_SIDE:

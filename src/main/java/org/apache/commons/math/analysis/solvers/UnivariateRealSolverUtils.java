@@ -89,6 +89,7 @@ public class UnivariateRealSolverUtils {
      * @param max maximal bound of the search interval
      * @param allowedSolutions the kind of solutions that the root-finding algorithm may
      * accept as solutions.
+     * @return a root approximation, on the specified side of the exact root
      */
     public static double forceSide(final int maxEval, final UnivariateRealFunction f,
                                    final BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing,

@@ -38,6 +38,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * <p>For backwards compatibility, all root-finding algorithms must have
  * {@link AllowedSolutions#ANY_SIDE ANY_SIDE} as default for the allowed
  * solutions.</p>
+ * @param <FUNC> Type of function to solve.
  *
  * @see AllowedSolutions
  * @since 3.0
