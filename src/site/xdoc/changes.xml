@@ -52,12 +52,15 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-603" due-to="Dennis Hendriks">
+        Prevent step normalizer to output twice the last point in MULTIPLES mode.
+      </action>
       <action dev="luc" type="fix" issue="MATH-596,MATH-604">
         Removed the requiresDenseOutput method from the StepHandler interface. Now integrators always
         consider dense output is required and set up the appropriate state interpolators, so step
         handlers can rely on them.
       </action>
-      <action dev="eran" type="add" issue="MATH-599" due-to="Dennis Hendriks">
+      <action dev="erans" type="add" issue="MATH-599" due-to="Dennis Hendriks">
         Modified "SecantSolver" to comply with the original algorithm. Added several
         secant-based solvers. Added a way to select the side of the root with bracketing
         solvers.

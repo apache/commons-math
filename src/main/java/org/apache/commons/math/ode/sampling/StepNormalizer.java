@@ -22,6 +22,7 @@ import org.apache.commons.math.ode.sampling.FixedStepHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * This class wraps an object implementing {@link FixedStepHandler}
@@ -213,9 +214,14 @@ public class StepNormalizer implements StepHandler {
             }
         }
 
+        // Calculate next normalized step time.
         double nextTime = (mode == StepNormalizerMode.INCREMENT) ?
                           lastTime + h :
                           (FastMath.floor(lastTime / h) + 1) * h;
+        if (mode == StepNormalizerMode.MULTIPLES &&
+            MathUtils.equals(nextTime, lastTime, 1)) {
+            nextTime += h;
+        }
         boolean nextInStep = isNextInStep(nextTime, interpolator);
         while (nextInStep) {
             // Output the stored previous step.
