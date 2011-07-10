@@ -85,6 +85,23 @@ public abstract class BaseSecantSolver
         this.method = method;
     }
 
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy Maximum relative error.
+     * @param absoluteAccuracy Maximum absolute error.
+     * @param functionValueAccuracy Maximum function value error.
+     * @param method <em>Secant</em>-based root-finding method to use
+     */
+    protected BaseSecantSolver(final double relativeAccuracy,
+                               final double absoluteAccuracy,
+                               final double functionValueAccuracy,
+                               final Method method) {
+        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
+        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.method = method;
+    }
+
     /** {@inheritDoc} */
     public double solve(final int maxEval, final UnivariateRealFunction f,
                         final double min, final double max,

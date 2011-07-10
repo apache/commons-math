@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+
 /**
  * Implements the <em>Illinois</em> method for root-finding (approximating
  * a zero of a univariate real function). It is a modified
@@ -64,4 +65,18 @@ public class IllinoisSolver extends BaseSecantSolver {
                           final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, Method.ILLINOIS);
     }
+
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy relative accuracy
+     * @param absoluteAccuracy absolute accuracy
+     * @param functionValueAccuracy Maximum function value error.
+     */
+    public IllinoisSolver(final double relativeAccuracy,
+                          final double absoluteAccuracy,
+                          final double functionValueAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy, Method.PEGASUS);
+    }
+
 }

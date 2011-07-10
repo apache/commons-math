@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
+
 /**
  * Implements the <em>Regula Falsi</em> or <em>False position</em> method for
  * root-finding (approximating a zero of a univariate real function). It is a
@@ -61,4 +62,18 @@ public class RegulaFalsiSolver extends BaseSecantSolver {
                              final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, Method.REGULA_FALSI);
     }
+
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy relative accuracy
+     * @param absoluteAccuracy absolute accuracy
+     * @param functionValueAccuracy Maximum function value error.
+     */
+    public RegulaFalsiSolver(final double relativeAccuracy,
+                             final double absoluteAccuracy,
+                             final double functionValueAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy, Method.PEGASUS);
+    }
+
 }

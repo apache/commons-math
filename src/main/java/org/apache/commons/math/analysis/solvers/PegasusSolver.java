@@ -66,4 +66,18 @@ public class PegasusSolver extends BaseSecantSolver {
                          final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, Method.PEGASUS);
     }
+
+    /**
+     * Construct a solver.
+     *
+     * @param relativeAccuracy relative accuracy
+     * @param absoluteAccuracy absolute accuracy
+     * @param functionValueAccuracy Maximum function value error.
+     */
+    public PegasusSolver(final double relativeAccuracy,
+                         final double absoluteAccuracy,
+                         final double functionValueAccuracy) {
+        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy, Method.PEGASUS);
+    }
+
 }

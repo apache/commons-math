@@ -247,7 +247,8 @@ public abstract class BaseSecantSolverAbstractTest {
                 return Double.NaN;
             }
             PegasusSolver bracketing =
-                    new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
+                    new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy(),
+                                      solver.getFunctionValueAccuracy());
             return UnivariateRealSolverUtils.forceSide(maxEval - solver.getEvaluations(),
                                                        f, bracketing, baseRoot, left, right,
                                                        allowedSolutions);
