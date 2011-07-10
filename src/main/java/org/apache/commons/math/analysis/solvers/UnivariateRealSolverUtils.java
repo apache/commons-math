@@ -104,14 +104,14 @@ public class UnivariateRealSolverUtils {
         // find a very small interval bracketing the root
         final double step = FastMath.max(bracketing.getAbsoluteAccuracy(),
                                          FastMath.abs(baseRoot * bracketing.getRelativeAccuracy()));
-        double xLo        = baseRoot - step;
+        double xLo        = FastMath.max(min, baseRoot - step);
         double fLo        = f.value(xLo);
-        double xHi        = baseRoot + step;
+        double xHi        = FastMath.min(max, baseRoot + step);
         double fHi        = f.value(xHi);
         int remainingEval = maxEval - 2;
-        while ((remainingEval > 0) && (xLo >= min) && (xHi <= max)) {
+        while (remainingEval > 0) {
 
-            if ((fLo > 0 && fHi < 0) || (fLo < 0 && fHi > 0)) {
+            if ((fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0)) {
                 // compute the root on the selected side
                 return bracketing.solve(remainingEval, f, xLo, xHi, baseRoot, allowedSolutions);
             }
@@ -141,14 +141,14 @@ public class UnivariateRealSolverUtils {
 
             // update the lower bound
             if (changeLo) {
-                xLo -= step;
+                xLo = FastMath.max(min, xLo - step);
                 fLo  = f.value(xLo);
                 remainingEval--;
             }
 
             // update the higher bound
             if (changeHi) {
-                xHi += step;
+                xHi = FastMath.min(max, xHi + step);
                 fHi  = f.value(xHi);
                 remainingEval--;
             }
