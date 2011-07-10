@@ -46,26 +46,108 @@
       </subsection>
       <subsection name="4.2 Root-finding" href="rootfinding">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
-          UnivariateRealSolver</a> provides the means to find roots of
-          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>.
+          <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
+          UnivariateRealSolver</a>, <a href="../apidocs/org/apache/commons/math/analysis/solvers/DifferentiableUnivariateRealSolver.html">
+          DifferentiableUnivariateRealSolver</a> and <a href="../apidocs/org/apache/commons/math/analysis/solvers/PolynomialSolver.html">
+          PolynomialSolver</a> provide means to find roots of
+          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>,
+          <a href="../apidocs/org/apache/commons/math/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a>,
+          and <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
           A root is the value where the function takes the value 0.  Commons-Math
-          includes implementations of the following root-finding algorithms: <ul>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/BisectionSolver.html">
-          Bisection</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/BrentSolver.html">
-          Brent-Dekker</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/NewtonSolver.html">
-          Newton's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/SecantSolver.html">
-          Secant Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver.html">
-          Muller's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/LaguerreSolver.html">
-          Laguerre's Method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/solvers/RidderSolver.html">
-          Ridder's Method</a></li>
-          </ul>      
+          includes implementations of the several root-finding algorithms:
+        </p>
+          <table border="1" align="center">
+            <tr BGCOLOR="#CCCCFF"><td colspan="5"><font size="+2">Root solvers</font></td></tr>
+            <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Function type</td><td>Convergence</td><td>Needs initial bracketing</td><td>Bracket side selection</td></font></tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BisectionSolver.html">Bisection</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>linear, guaranteed</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BrentSolver.html">Brent-Dekker</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>super-linear, guaranteed</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>super-linear, guaranteed</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/LaguerreSolver.html">Laguerre's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">polynomial functions</a></td>
+              <td>cubic for simple root, linear for multiple root</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver.html">Muller's Method</a> using bracketing to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>quadratic close to roots</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver2.html">Muller's Method</a> using modulus to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>quadratic close to root</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/NewtonSolver.html">Newton's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a></td>
+              <td>quadratic, non-guaranteed</td>
+              <td>no</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/PegasusSolver.html">Pegasus Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>super-linear, guaranteed</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/RegulaFalsiSolver.html">Regula Falsi (false position) Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>linear, guaranteed</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/RiddersSolver.html">Ridder's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>super-linear</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+            <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/SecantSolver.html">Secant Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td>super-linear, non-guaranteed</td>
+              <td>yes</td>
+              <td>no</td>
+            </tr>
+          </table>
+        <p>
+          Some algorithms require that the initial search interval brackets the root
+          (i.e. the function values at interval end points have opposite signs).  Some
+          algorithms preserve bracketing throughout computation and allow user to
+          specify which side of the convergence interval to select as the root.  It is
+          also possible to force a side selection after a root has been found even
+          for algorithms that do not provide this feature by themselves.  This is
+          useful for example in sequential search, for which a new search interval is
+          started after a root has been found in order to find the next root.  In this
+          case, user must select a side to ensure his loop is not stuck on one root
+          and always return the same solution without making any progress.
         </p>
         <p>
           There are numerous non-obvious traps and pitfalls in root finding.
@@ -92,61 +174,56 @@
         </p>
         <p>
           In order to use the root-finding features, first a solver object must
-          be created.  It is encouraged that all solver object creation occurs
-          via the <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolverFactory.html">
-          UnivariateRealSolverFactory</a> class. <code>UnivariateRealSolverFactory</code>
-          is a simple factory used to create all of the solver objects supported by
-          Commons-Math.  
-          The typical usage of <code>UnivariateRealSolverFactory</code> to create a
-          solver object would be:
-        </p>
-        <source>UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-UnivariateRealSolver solver = factory.newDefaultSolver();</source>
-        <p>
-          The solvers that can be instantiated via the 
-          <code>UnivariateRealSolverFactory</code> are detailed below:
-          <table>
-            <tr><th>Solver</th><th>Factory Method</th><th>Notes on Use</th></tr>
-            <tr><td>Bisection</td><td>newBisectionSolver</td><td><div>Root must be
-                  bracketted.</div><div>Linear, guaranteed convergence</div></td></tr>
-            <tr><td>Brent</td><td>newBrentSolver</td><td><div>Root must be bracketted.</div>
-                <div>Super-linear, guaranteed convergence</div></td></tr>
-            <tr><td>Newton</td><td>newNewtonSolver</td><td><div>Uses single value for
-                  initialization.</div><div>Super-linear, non-guaranteed convergence</div>
-                <div>Function must be differentiable</div></td></tr>
-            <tr><td>Secant</td><td>newSecantSolver</td><td><div>Root must be bracketted.</div>
-                <div>Super-linear, non-guaranteed convergence</div></td></tr>
-            <tr><td>Muller</td><td>newMullerSolver</td><td><div>Root must be bracketted.</div>
-                <div>We restrict ourselves to real valued functions, not complex ones</div>
-            </td></tr>
-            <tr><td>Laguerre</td><td>newLaguerreSolver</td><td><div>Root must be bracketted.</div>
-                <div>Function must be a polynomial</div></td></tr>
-            <tr><td>Ridder</td><td>newRidderSolver</td><td><div>Root must be bracketted.</div>
-                <div></div></td></tr>
-          </table>
-        </p>
-        <p>
-          Using a solver object, roots of functions are easily found using the <code>solve</code>
-          methods.  For a function <code>f</code>, and two domain values, <code>min</code> and
-          <code>max</code>, <code>solve</code> computes a value <code>c</code> such that:
+          be created by calling its constructor, often providing relative and absolute
+          accuracy. Using a solver object, roots of functions
+          are easily found using the <code>solve</code> methods.  These methods takes
+          a maximum iteration count <code>maxEval</code>, a function <code>f</code>,
+          and either two domain values, <code>min</code> and <code>max</code> or a
+          <code>startValue</code> as parameters. If the maximal number of iterations
+          count is exceeded, non-convergence is assumed and a <code>ConvergenceException</code>
+          exception is thrown.  A suggested value is 100, which should be plenty, given that a
+          bisection algorithm can't get any more accurate after 52 iterations because of the
+          number of mantissa bits in a double precision floating point number. If a number of
+          ill-conditioned problems is to be solved, this number can be decreased in order
+          to avoid wasting time.
+          <a
+          href="../apidocs/org/apache/commons/math/analysis/solvers/BracketedUnivariateRealSolver.html">bracketed
+          solvers</a> also take an <a
+          href="../apidocs/org/apache/commons/math/analysis/solvers/AllowedSolutions.html">allowedSolutions</a>
+          enum parameter to specify which side of the final convergence interval should be
+          selected as the root. It can be <code>ANY_SIDE</code>, <code>LEFT_SIDE</code>, <code>RIGHT_SIDE</code>,
+          <code>BELOW_SIDE</code> or <code>ABOVE_SIDE</code>. Left and right are used to specify the root along
+          the function parameter axis while below and above refer to the function value axis. The solve methods
+          compute a value <code>c</code> such that:
           <ul>
             <li><code>f(c) = 0.0</code> (see "function value accuracy")</li>
-            <li><code>min &lt;= c &lt;= max</code></li>
+            <li><code>min &lt;= c &lt;= max</code> (except for the secant method, which may find a solution outside the interval)</li>
           </ul>
         </p>
         <p>
           Typical usage:
         </p>
         <source>UnivariateRealFunction function = // some user defined function object
-UnivariateRealSolverFactory factory = UnivariateRealSolverFactory.newInstance();
-UnivariateRealSolver solver = factory.newBisectionSolver();
-double c = solver.solve(function, 1.0, 5.0);</source>
+final double relativeAccuracy = 1.0e-12;
+final double absoluteAccuracy = 1.0e-8;
+UnivariateRealSolver solver   = new PegasusSolver(relativeAccuracy, absoluteAccuracy);
+double c = solver.solve(100, function, 1.0, 5.0, AllowedSolutions.LEFT_SIDE);</source>
+        <p>
+          Force bracketing, by refining a base solution found by a non-bracketing solver:
+        </p>
+        <source>UnivariateRealFunction function = // some user defined function object
+final double relativeAccuracy = 1.0e-12;
+final double absoluteAccuracy = 1.0e-8;
+UnivariateRealSolver nonBracketing = new BrentSolver(relativeAccuracy, absoluteAccuracy);
+double baseRoot = nonBracketing.solve(100, function, 1.0, 5.0);
+double c = UnivariateRealSolverUtils.forceSide(100, function,
+                                               new PegasusSolver(relativeAccuracy, absoluteAccuracy),
+                                               baseRoot, 1.0, 5.0, AllowedSolutions.LEFT_SIDE);
+</source>
         <p>
           The <code>BrentSolve</code> uses the Brent-Dekker algorithm which is
-          fast and robust.  This algorithm is recommended for most users and  the 
-          <code>BrentSolver</code> is the default solver provided by the 
-          <code>UnivariateRealSolverFactory</code>.  If there are multiple roots
-          in the interval, or there is a large domain of indeterminacy, the
+          fast and robust.  This algorithm is recommended for most users.  If there
+          are multiple roots in the interval, or there is a large domain of indeterminacy, the
           algorithm will converge to a random root in the interval without
           indication that there are problems.  Interestingly, the examined text
           book implementations all disagree in details of the convergence
@@ -156,9 +233,24 @@ double c = solver.solve(function, 1.0, 5.0);</source>
           algorithm.
         </p>
         <p>
-          The <code>SecantSolver</code> uses a variant of the well known secant
-          algorithm.  It may be a bit faster than the Brent solver for a class
-          of well-behaved functions.
+          The <code>SecantSolver</code> uses a straightforward secant
+          algorithm which does not bracket the search and therefore does not
+          guarantee convergence.  It may be faster than Brent on some well-behaved
+          functions.
+        </p>
+        <p>
+          The <code>RegulaFalsiSolver</code> is variation of secant preserving
+          bracketing, but then it may be slow, as one end point of the search interval
+          will become fixed after and only the other end point will converge to the root,
+          hence resulting in a search interval size that does not decrease to zero.
+        </p>
+        <p>
+          The <code>IllinoisSolver</code> and <code>PegasusSolver</code> are
+          well-known variations of regula falsi that fix the problem of stuck
+          end points by slightly weighting one endpoint to balance the interval
+          at next iteration. Pegasus is often faster than Illinois. Pegasus may
+          be the algorithm of choice for selecting a specific side of the convergence
+          interval.
         </p>
         <p>
           The <code>BisectionSolver</code> is included for completeness and for
@@ -170,20 +262,13 @@ double c = solver.solve(function, 1.0, 5.0);</source>
         </p>
         <p>
           The <code>UnivariateRealSolver</code> interface exposes many
-          properties to control the convergence of a solver.  For the most part,
-          these properties should not have to change from their default values
-          to produce good results.  In the circumstances where changing these
-          property values is needed, it is easily done through getter and setter
-          methods on <code>UnivariateRealSolver</code>:
+          properties to control the convergence of a solver.  The accuracy properties
+          are set at solver instance creation and cannot be changed afterwards,
+          there are only getters to retriveve their values, no setters are available.
           <table>
-            <tr><th>Property</th><th>Methods</th><th>Purpose</th></tr>
+            <tr><th>Property</th><th>Purpose</th></tr>
             <tr>
               <td>Absolute accuracy</td>
-              <td>
-                <div>getAbsoluteAccuracy</div>
-                <div>resetAbsoluteAccuracy</div>
-                <div>setAbsoluteAccuracy</div>
-              </td>
               <td>
                 The Absolute Accuracy is (estimated) maximal difference between
                 the computed root and the true root of the function.  This is
@@ -200,11 +285,6 @@ double c = solver.solve(function, 1.0, 5.0);</source>
               <tr>
               <td>Relative accuracy</td>
               <td>
-                <div>getRelativeAccuracy</div>
-                <div>resetRelativeAccuracy</div>
-                <div>setRelativeAccuracy</div>
-              </td>
-              <td>
                 The Relative Accuracy is the maximal difference between the
                 computed root and the true root, divided by the maximum of the
                 absolute values of the numbers. This accuracy measurement is
@@ -218,11 +298,6 @@ double c = solver.solve(function, 1.0, 5.0);</source>
             <tr>
               <td>Function value accuracy</td>
               <td>
-                <div>getFunctionValueAccuracy</div>
-                <div>resetFunctionValueAccuracy</div>
-                <div>setFunctionValueAccuracy</div>
-              </td>
-              <td>
                 This value is used by some algorithms in order to prevent
                 numerical instabilities. If the function is evaluated to an
                 absolute value smaller than the Function Value Accuracy, the
@@ -231,25 +306,6 @@ double c = solver.solve(function, 1.0, 5.0);</source>
                 goal is to get a near zero function value rather than an accurate
                 root, computation may be sped up by setting this value
                 appropriately.
-              </td>
-            </tr>
-            <tr>
-              <td>Maximum iteration count</td>
-              <td>
-                <div>getMaximumIterationCount</div>
-                <div>resetMaximumIterationCount</div>
-                <div>setMaximumIterationCount</div>
-              </td>
-              <td>
-                This is the maximal number of iterations the algorithm will try.
-                If this number is exceeded, non-convergence is assumed and a
-                <code>ConvergenceException</code> exception is thrown.  The
-                default value is 100, which should be plenty, given that a
-                bisection algorithm can't get any more accurate after 52 
-                iterations because of the number of mantissa bits in a double
-                precision floating point number. If a number of ill-conditioned
-                problems is to be solved, this number can be decreased in order
-                to avoid wasting time.
               </td>
             </tr>
           </table>
