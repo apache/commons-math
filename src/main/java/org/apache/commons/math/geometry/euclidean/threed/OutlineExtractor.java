@@ -163,11 +163,11 @@ public class OutlineExtractor {
             final AbstractSubHyperplane<Euclidean3D, Euclidean2D> absFacet =
                 (AbstractSubHyperplane<Euclidean3D, Euclidean2D>) facet;
             final Plane plane    = (Plane) facet.getHyperplane();
-            Vector2D[][] vertices =
-                ((PolygonsSet) absFacet.getRemainingRegion()).getVertices();
 
             final double scal = Vector3D.dotProduct(plane.getNormal(), w);
             if (FastMath.abs(scal) > 1.0e-3) {
+                Vector2D[][] vertices =
+                    ((PolygonsSet) absFacet.getRemainingRegion()).getVertices();
 
                 if ((scal < 0) ^ reversed) {
                     // the facet is seen from the inside,
