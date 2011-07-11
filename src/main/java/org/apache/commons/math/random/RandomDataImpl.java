@@ -404,10 +404,9 @@ public class RandomDataImpl implements RandomData, Serializable {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
 
-        final RandomGenerator generator = getRan();
-
         final double pivot = 40.0d;
         if (mean < pivot) {
+            final RandomGenerator generator = getRan();
             double p = FastMath.exp(-mean);
             long n = 0;
             double r = 1.0d;

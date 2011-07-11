@@ -1489,8 +1489,6 @@ public class FastMath {
      * @return log(1 + x)
      */
     public static double log1p(final double x) {
-        double xpa = 1.0 + x;
-        double xpb = -(xpa - 1.0 - x);
 
         if (x == -1) {
             return x/0.0;   // -Infinity
@@ -1501,6 +1499,9 @@ public class FastMath {
         }
 
         if (x>1e-6 || x<-1e-6) {
+            double xpa = 1.0 + x;
+            double xpb = -(xpa - 1.0 - x);
+
             double hiPrec[] = new double[2];
 
             final double lores = log(xpa, hiPrec);
