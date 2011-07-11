@@ -65,10 +65,12 @@ public class RegressionResults implements Serializable {
             final boolean containsConstant,
             final boolean copyData) {
         if (copyData) {
-            this.parameters = Arrays.copyOf(parameters, parameters.length);
+            this.parameters = new double[parameters.length];
+            System.arraycopy(parameters, 0, this.parameters, 0, parameters.length);
             this.varCovData = new double[varcov.length][];
             for (int i = 0; i < varcov.length; i++) {
-                this.varCovData[i] = Arrays.copyOf(varcov[i], varcov[i].length);
+                this.varCovData[i] = new double[varcov[i].length];
+                System.arraycopy(varcov[i], 0, this.varCovData[i], 0, varcov[i].length);
             }
         } else {
             this.parameters = parameters;
@@ -135,7 +137,9 @@ public class RegressionResults implements Serializable {
         if (this.parameters == null) {
             return null;
         }
-        return Arrays.copyOf(parameters, parameters.length);
+        double[] out = new double[parameters.length];
+        System.arraycopy(parameters, 0, out, 0, parameters.length);
+        return out;
     }
 
     /**
