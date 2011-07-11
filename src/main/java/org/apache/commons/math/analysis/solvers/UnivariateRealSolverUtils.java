@@ -289,7 +289,9 @@ public class UnivariateRealSolverUtils {
     }
 
     /**
-     * Check whether the function takes opposite signs at the endpoints.
+     * Check whether the interval bounds bracket a root. That is, if the
+     * values at the endpoints are not equal to zero, then the function takes
+     * opposite signs at the endpoints.
      *
      * @param function Function.
      * @param lower Lower endpoint.
@@ -305,7 +307,7 @@ public class UnivariateRealSolverUtils {
         }
         final double fLo = function.value(lower);
         final double fHi = function.value(upper);
-        return (fLo > 0 && fHi < 0) || (fLo < 0 && fHi > 0);
+        return (fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0);
     }
 
     /**
@@ -354,8 +356,8 @@ public class UnivariateRealSolverUtils {
     }
 
     /**
-     * Check that the endpoints specify an interval and the function takes
-     * opposite signs at the endpoints.
+     * Check that the endpoints specify an interval and the end points
+     * bracket a root.
      *
      * @param function Function.
      * @param lower Lower endpoint.

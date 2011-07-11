@@ -158,7 +158,7 @@
           return bogus values. There will not necessarily be an indication that
           the computed root is way off the true value.  Secondly, the root finding
           problem itself may be inherently ill-conditioned.  There is a
-           "domain of indeterminacy", the interval for which the function has
+          "domain of indeterminacy", the interval for which the function has
           near zero absolute values around the true root,  which may be large.
           Even worse, small problems like roundoff error may cause the function
           value to "numerically oscillate" between negative and positive values.
@@ -178,7 +178,7 @@
           accuracy. Using a solver object, roots of functions
           are easily found using the <code>solve</code> methods.  These methods takes
           a maximum iteration count <code>maxEval</code>, a function <code>f</code>,
-          and either two domain values, <code>min</code> and <code>max</code> or a
+          and either two domain values, <code>min</code> and <code>max</code>, or a
           <code>startValue</code> as parameters. If the maximal number of iterations
           count is exceeded, non-convergence is assumed and a <code>ConvergenceException</code>
           exception is thrown.  A suggested value is 100, which should be plenty, given that a
@@ -187,7 +187,7 @@
           ill-conditioned problems is to be solved, this number can be decreased in order
           to avoid wasting time.
           <a
-          href="../apidocs/org/apache/commons/math/analysis/solvers/BracketedUnivariateRealSolver.html">bracketed
+          href="../apidocs/org/apache/commons/math/analysis/solvers/BracketedUnivariateRealSolver.html">Bracketed
           solvers</a> also take an <a
           href="../apidocs/org/apache/commons/math/analysis/solvers/AllowedSolutions.html">allowedSolutions</a>
           enum parameter to specify which side of the final convergence interval should be

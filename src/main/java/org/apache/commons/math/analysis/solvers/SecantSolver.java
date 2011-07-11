@@ -97,7 +97,6 @@ public class SecantSolver extends AbstractUnivariateRealSolver {
 
         // Keep finding better approximations.
         while (true) {
-
             // Calculate the next approximation.
             final double x = x1 - ((f1 * (x1 - x0)) / (f1 - f0));
             final double fx = computeObjectiveValue(x);

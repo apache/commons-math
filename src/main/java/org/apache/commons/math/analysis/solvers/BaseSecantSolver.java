@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.MathInternalError;
  * Base class for all bracketing <em>Secant</em>-based methods for root-finding
  * (approximating a zero of a univariate real function).
  *
- * <p>Implementation of the {@link RegulaFalsiSolver <em>Regula Falsi</em>}, and
+ * <p>Implementation of the {@link RegulaFalsiSolver <em>Regula Falsi</em>} and
  * {@link IllinoisSolver <em>Illinois</em>} methods is based on the
  * following article: M. Dowell and P. Jarratt,
  * <em>A modified regula falsi method for computing the root of an
@@ -38,8 +38,8 @@ import org.apache.commons.math.exception.MathInternalError;
  * BIT Numerical Mathematics, volume 12, number 4, pages 503-508, Springer,
  * 1972.</p>
  *
- * <p>The  {@link SecantSolver <em>secant<em>} method is <em>not</emp> a
- * bracketing method so it is not implemented here. It has a separate
+ * <p>The {@link SecantSolver <em>Secant</em>} method is <em>not</em> a
+ * bracketing method, so it is not implemented here. It has a separate
  * implementation.</p>
  *
  * @since 3.0

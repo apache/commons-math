@@ -57,9 +57,9 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * @param f Function to solve.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
-     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
      * accept as solutions.
-     * @return a value where the function is zero.
+     * @return A value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
@@ -79,9 +79,9 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
-     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
      * accept as solutions.
-     * @return a value where the function is zero.
+     * @return A value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException if
