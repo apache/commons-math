@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-581" due-to="Sébastien Brisard">
+        Framework for iterative linear solvers.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-609" due-to="Dave Brosius">
         Improved efficiency in RandomDataImpl, LaguerreSolver, FastMath and OutlineExtractor by
         moving conditional code into blocks where it is needed.
