@@ -509,4 +509,278 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     public void testNewSampleDataXNull() {
         createRegression().newSampleData(new double[] {}, null);
     }
+    
+     /*
+     * This is a test based on the Wampler1 data set
+     * http://www.itl.nist.gov/div898/strd/lls/data/Wampler1.shtml
+     */
+    @Test
+    public void testWampler1() throws Exception {
+        double[] data = new double[]{
+            1, 0,
+            6, 1,
+            63, 2,
+            364, 3,
+            1365, 4,
+            3906, 5,
+            9331, 6,
+            19608, 7,
+            37449, 8,
+            66430, 9,
+            111111, 10,
+            177156, 11,
+            271453, 12,
+            402234, 13,
+            579195, 14,
+            813616, 15,
+            1118481, 16,
+            1508598, 17,
+            2000719, 18,
+            2613660, 19,
+            3368421, 20};
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+
+
+        final int nvars = 5;
+        final int nobs = 21;
+        double[] tmp = new double[(nvars + 1) * nobs];
+        int off = 0;
+        int off2 = 0;
+        for (int i = 0; i < nobs; i++) {
+            tmp[off2] = data[off];
+            tmp[off2 + 1] = data[off + 1];
+            tmp[off2 + 2] = tmp[off2 + 1] * tmp[off2 + 1];
+            tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
+            tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
+            tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
+            off2 += (nvars + 1);
+            off += 2;
+        }
+        model.newSampleData(tmp, nobs, nvars);
+        double[] betaHat = model.estimateRegressionParameters();
+        TestUtils.assertEquals(betaHat,
+                new double[]{1.0,
+                    1.0, 1.0,
+                    1.0, 1.0,
+                    1.0}, 1E-8);
+
+        double[] se = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(se,
+                new double[]{0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0}, 1E-8); 
+
+        TestUtils.assertEquals(1.0, model.calculateRSquared(), 1.0e-10);
+        TestUtils.assertEquals(0, model.estimateErrorVariance(), 1.0e-7);
+        TestUtils.assertEquals(0.00, model.calculateResidualSumOfSquares(), 1.0e-6);
+
+        return;
+    }
+    
+    /*
+     * This is a test based on the Wampler2 data set
+     * http://www.itl.nist.gov/div898/strd/lls/data/Wampler2.shtml
+     */
+    @Test
+    public void testWampler2() throws Exception {
+        double[] data = new double[]{
+            1.00000, 0,
+            1.11111, 1,
+            1.24992, 2,
+            1.42753, 3,
+            1.65984, 4,
+            1.96875, 5,
+            2.38336, 6,
+            2.94117, 7,
+            3.68928, 8,
+            4.68559, 9,
+            6.00000, 10,
+            7.71561, 11,
+            9.92992, 12,
+            12.75603, 13,
+            16.32384, 14,
+            20.78125, 15,
+            26.29536, 16,
+            33.05367, 17,
+            41.26528, 18,
+            51.16209, 19,
+            63.00000, 20};
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+
+
+        final int nvars = 5;
+        final int nobs = 21;
+        double[] tmp = new double[(nvars + 1) * nobs];
+        int off = 0;
+        int off2 = 0;
+        for (int i = 0; i < nobs; i++) {
+            tmp[off2] = data[off];
+            tmp[off2 + 1] = data[off + 1];
+            tmp[off2 + 2] = tmp[off2 + 1] * tmp[off2 + 1];
+            tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
+            tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
+            tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
+            off2 += (nvars + 1);
+            off += 2;
+        }
+        model.newSampleData(tmp, nobs, nvars);
+        double[] betaHat = model.estimateRegressionParameters();
+        TestUtils.assertEquals(betaHat,
+                new double[]{
+                    1.0,
+                    1.0e-1,
+                    1.0e-2,
+                    1.0e-3, 1.0e-4,
+                    1.0e-5}, 1E-8);
+
+        double[] se = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(se,
+                new double[]{0.0,
+                    0.0, 0.0,
+                    0.0, 0.0,
+                    0.0}, 1E-8); 
+        TestUtils.assertEquals(1.0, model.calculateRSquared(), 1.0e-10);
+        TestUtils.assertEquals(0, model.estimateErrorVariance(), 1.0e-7);
+        TestUtils.assertEquals(0.00, model.calculateResidualSumOfSquares(), 1.0e-6);
+        return;
+    }
+    
+    /*
+     * This is a test based on the Wampler3 data set
+     * http://www.itl.nist.gov/div898/strd/lls/data/Wampler3.shtml
+     */
+    @Test
+    public void testWampler3() throws Exception {
+        double[] data = new double[]{
+            760, 0,
+            -2042, 1,
+            2111, 2,
+            -1684, 3,
+            3888, 4,
+            1858, 5,
+            11379, 6,
+            17560, 7,
+            39287, 8,
+            64382, 9,
+            113159, 10,
+            175108, 11,
+            273291, 12,
+            400186, 13,
+            581243, 14,
+            811568, 15,
+            1121004, 16,
+            1506550, 17,
+            2002767, 18,
+            2611612, 19,
+            3369180, 20};
+
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        final int nvars = 5;
+        final int nobs = 21;
+        double[] tmp = new double[(nvars + 1) * nobs];
+        int off = 0;
+        int off2 = 0;
+        for (int i = 0; i < nobs; i++) {
+            tmp[off2] = data[off];
+            tmp[off2 + 1] = data[off + 1];
+            tmp[off2 + 2] = tmp[off2 + 1] * tmp[off2 + 1];
+            tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
+            tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
+            tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
+            off2 += (nvars + 1);
+            off += 2;
+        }
+        model.newSampleData(tmp, nobs, nvars);
+        double[] betaHat = model.estimateRegressionParameters();
+        TestUtils.assertEquals(betaHat,
+                new double[]{
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0}, 1E-8); 
+
+        double[] se = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(se,
+                new double[]{2152.32624678170,
+                    2363.55173469681, 779.343524331583,
+                    101.475507550350, 5.64566512170752,
+                    0.112324854679312}, 1E-8); //
+
+        TestUtils.assertEquals(.999995559025820, model.calculateRSquared(), 1.0e-10);
+        TestUtils.assertEquals(5570284.53333333, model.estimateErrorVariance(), 1.0e-6);
+        TestUtils.assertEquals(83554268.0000000, model.calculateResidualSumOfSquares(), 1.0e-5);
+        return;
+    }
+
+    /*
+     * This is a test based on the Wampler4 data set
+     * http://www.itl.nist.gov/div898/strd/lls/data/Wampler4.shtml
+     */
+    @Test
+    public void testWampler4() throws Exception {
+        double[] data = new double[]{
+            75901, 0,
+            -204794, 1,
+            204863, 2,
+            -204436, 3,
+            253665, 4,
+            -200894, 5,
+            214131, 6,
+            -185192, 7,
+            221249, 8,
+            -138370, 9,
+            315911, 10,
+            -27644, 11,
+            455253, 12,
+            197434, 13,
+            783995, 14,
+            608816, 15,
+            1370781, 16,
+            1303798, 17,
+            2205519, 18,
+            2408860, 19,
+            3444321, 20};
+
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        final int nvars = 5;
+        final int nobs = 21;
+        double[] tmp = new double[(nvars + 1) * nobs];
+        int off = 0;
+        int off2 = 0;
+        for (int i = 0; i < nobs; i++) {
+            tmp[off2] = data[off];
+            tmp[off2 + 1] = data[off + 1];
+            tmp[off2 + 2] = tmp[off2 + 1] * tmp[off2 + 1];
+            tmp[off2 + 3] = tmp[off2 + 1] * tmp[off2 + 2];
+            tmp[off2 + 4] = tmp[off2 + 1] * tmp[off2 + 3];
+            tmp[off2 + 5] = tmp[off2 + 1] * tmp[off2 + 4];
+            off2 += (nvars + 1);
+            off += 2;
+        }
+        model.newSampleData(tmp, nobs, nvars);
+        double[] betaHat = model.estimateRegressionParameters();
+        TestUtils.assertEquals(betaHat,
+                new double[]{
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0}, 1E-6); 
+
+        double[] se = model.estimateRegressionParametersStandardErrors();
+        TestUtils.assertEquals(se,
+                new double[]{215232.624678170,
+                    236355.173469681, 77934.3524331583,
+                    10147.5507550350, 564.566512170752,
+                    11.2324854679312}, 1E-8); 
+
+        TestUtils.assertEquals(.957478440825662, model.calculateRSquared(), 1.0e-10);
+        TestUtils.assertEquals(55702845333.3333, model.estimateErrorVariance(), 1.0e-4);
+        TestUtils.assertEquals(835542680000.000, model.calculateResidualSumOfSquares(), 1.0e-3);
+        return;
+    }
 }
