@@ -107,7 +107,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return the absolute value
      */
     public double abs() {
-        if (isNaN()) {
+        if (isNaN) {
             return Double.NaN;
         }
 
@@ -169,7 +169,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return the conjugate of this Complex object
      */
     public Complex conjugate() {
-        if (isNaN()) {
+        if (isNaN) {
             return NaN;
         }
         return createComplex(real, -imaginary);
@@ -213,7 +213,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     public Complex divide(Complex rhs)
         throws NullArgumentException {
         MathUtils.checkNotNull(rhs);
-        if (isNaN() || rhs.isNaN()) {
+        if (isNaN || rhs.isNaN) {
             return NaN;
         }
 
@@ -265,8 +265,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         }
         if (other instanceof Complex){
             Complex rhs = (Complex)other;
-            if (rhs.isNaN()) {
-                return this.isNaN();
+            if (rhs.isNaN) {
+                return isNaN;
             } else {
                 return (real == rhs.real) && (imaginary == rhs.imaginary);
             }
@@ -283,7 +283,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      */
     @Override
     public int hashCode() {
-        if (isNaN()) {
+        if (isNaN) {
             return 7;
         }
         return 37 * (17 * MathUtils.hash(imaginary) +
@@ -362,7 +362,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     public Complex multiply(Complex rhs)
         throws NullArgumentException {
         MathUtils.checkNotNull(rhs);
-        if (isNaN() || rhs.isNaN()) {
+        if (isNaN || rhs.isNaN) {
             return NaN;
         }
         if (Double.isInfinite(real) || Double.isInfinite(imaginary) ||
@@ -401,7 +401,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return the complex number product
      */
     public Complex multiply(double rhs) {
-        if (isNaN() || Double.isNaN(rhs)) {
+        if (isNaN || Double.isNaN(rhs)) {
             return NaN;
         }
         if (Double.isInfinite(real) || Double.isInfinite(imaginary) ||
@@ -421,7 +421,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return the negation of this complex number
      */
     public Complex negate() {
-        if (isNaN()) {
+        if (isNaN) {
             return NaN;
         }
 
@@ -449,7 +449,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     public Complex subtract(Complex rhs)
         throws NullArgumentException {
         MathUtils.checkNotNull(rhs);
-        if (isNaN() || rhs.isNaN()) {
+        if (isNaN || rhs.isNaN) {
             return NaN;
         }
 
@@ -472,8 +472,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex acos() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return this.add(this.sqrt1z().multiply(Complex.I)).log()
@@ -495,8 +495,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex asin() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return sqrt1z().add(this.multiply(Complex.I)).log()
@@ -518,8 +518,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex atan() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return this.add(Complex.I).divide(Complex.I.subtract(this)).log()
@@ -553,8 +553,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex cos() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return createComplex(FastMath.cos(real) * MathUtils.cosh(imaginary),
@@ -587,8 +587,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex cosh() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return createComplex(MathUtils.cosh(real) * FastMath.cos(imaginary),
@@ -622,8 +622,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex exp() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         double expReal = FastMath.exp(real);
@@ -660,8 +660,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex log() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return createComplex(FastMath.log(abs()),
@@ -718,8 +718,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex sin() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return createComplex(FastMath.sin(real) * MathUtils.cosh(imaginary),
@@ -752,8 +752,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex sinh() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         return createComplex(MathUtils.sinh(real) * FastMath.cos(imaginary),
@@ -794,8 +794,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex sqrt() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         if (real == 0.0 && imaginary == 0.0) {
@@ -860,8 +860,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex tan() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         double real2 = 2.0 * real;
@@ -898,8 +898,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex tanh() {
-        if (isNaN()) {
-            return Complex.NaN;
+        if (isNaN) {
+            return NaN;
         }
 
         double real2 = 2.0 * real;
@@ -957,13 +957,13 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         List<Complex> result = new ArrayList<Complex>();
 
-        if (isNaN()) {
-            result.add(Complex.NaN);
+        if (isNaN) {
+            result.add(NaN);
             return result;
         }
 
         if (isInfinite()) {
-            result.add(Complex.INF);
+            result.add(INF);
             return result;
         }
 
