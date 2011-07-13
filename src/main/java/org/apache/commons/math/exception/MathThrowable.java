@@ -26,6 +26,9 @@ import org.apache.commons.math.exception.util.Localizable;
 *
 * @version $Id$
 * @since 2.2
+* @deprecated To be removed in 3.0. Not deleted right-away because
+* the Javadoc is inherited in old "o.a.c.math.MathException" and
+* "o.a.c.math.MathRuntimeException" classes.
 */
 public interface MathThrowable {
     /**

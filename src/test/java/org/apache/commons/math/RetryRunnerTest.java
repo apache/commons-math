@@ -19,7 +19,7 @@ package org.apache.commons.math;
 
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,10 +34,10 @@ public class RetryRunnerTest {
     /**
      * Shows that an always failing test will fail even if it is retried.
      */
-    @Test(expected=MathRuntimeException.class)
+    @Test(expected=MathIllegalStateException.class)
     @Retry
     public void testRetryFailAlways() {
-        throw new MathRuntimeException();
+        throw new MathIllegalStateException();
     }
 
     /**
@@ -49,7 +49,7 @@ public class RetryRunnerTest {
     @Retry(100)
     public void testRetryFailSometimes() {
         if (rng.nextBoolean()) {
-            throw new MathRuntimeException();
+            throw new MathIllegalStateException();
         }
     }
 }
