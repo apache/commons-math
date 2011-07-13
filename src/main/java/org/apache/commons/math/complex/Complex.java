@@ -1012,4 +1012,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         return ComplexField.getInstance();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "(" + real + ", " + imaginary + ")";
+    }
 }
