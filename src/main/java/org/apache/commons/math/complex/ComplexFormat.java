@@ -26,6 +26,7 @@ import org.apache.commons.math.util.CompositeFormat;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.MathParseException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 
@@ -178,14 +179,46 @@ public class ComplexFormat {
 
         // format sign and imaginary
         double im = complex.getImaginary();
+        StringBuffer imAppendTo = new StringBuffer();
         if (im < 0.0) {
             toAppendTo.append(" - ");
-            CompositeFormat.formatDouble(-im, getImaginaryFormat(), toAppendTo, pos);
+            imAppendTo = formatImaginary(-im, new StringBuffer(), pos);
+            toAppendTo.append(imAppendTo);
             toAppendTo.append(getImaginaryCharacter());
         } else if (im > 0.0 || Double.isNaN(im)) {
             toAppendTo.append(" + ");
-            CompositeFormat.formatDouble(im, getImaginaryFormat(), toAppendTo, pos);
+            imAppendTo = formatImaginary(im, new StringBuffer(), pos);
+            toAppendTo.append(imAppendTo);
             toAppendTo.append(getImaginaryCharacter());
+        }
+
+        return toAppendTo;
+    }
+
+    /**
+     * Format the absolute value of the imaginary part.
+     *
+     * @param absIm Absolute value of the imaginary part of a complex number.
+     * @param toAppendTo where the text is to be appended.
+     * @param pos On input: an alignment field, if desired. On output: the
+     * offsets of the alignment field.
+     * @return the value passed in as toAppendTo.
+     * @throws MathInternalError if {@code absIm} is not positive.
+     */
+    private StringBuffer formatImaginary(double absIm,
+                                         StringBuffer toAppendTo,
+                                         FieldPosition pos) {
+        if (absIm < 0) {
+            throw new MathInternalError();
+        }
+
+        pos.setBeginIndex(0);
+        pos.setEndIndex(0);
+
+        CompositeFormat.formatDouble(absIm, getImaginaryFormat(), toAppendTo, pos);
+        if (toAppendTo.toString().equals("1")) {
+            // Remove the character "1" if it is the only one.
+            toAppendTo.setLength(0);
         }
 
         return toAppendTo;

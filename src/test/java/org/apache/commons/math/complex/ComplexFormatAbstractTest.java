@@ -42,9 +42,35 @@ public abstract class ComplexFormatAbstractTest {
 
     @Test
     public void testSimpleNoDecimals() {
-        Complex c = new Complex(1, 1);
-        String expected = "1 + 1i";
+        Complex c = new Complex(1, 2);
+        String expected = "1 + 2i";
         String actual = complexFormat.format(c);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testTrimOneImaginary() {
+        final ComplexFormat fmt = ComplexFormat.getInstance(getLocale());
+        fmt.getImaginaryFormat().setMaximumFractionDigits(1);
+
+        Complex c = new Complex(1, 1.04);
+        String expected = "1 + i";
+        String actual = fmt.format(c);
+        Assert.assertEquals(expected, actual);
+
+        c = new Complex(1, 1.09);
+        expected = "1 + 1" + getDecimalCharacter() + "1i";
+        actual = fmt.format(c);
+        Assert.assertEquals(expected, actual);
+
+        c = new Complex(1, -1.09);
+        expected = "1 - 1" + getDecimalCharacter() + "1i";
+        actual = fmt.format(c);
+        Assert.assertEquals(expected, actual);
+
+        c = new Complex(1, -1.04);
+        expected = "1 - i";
+        actual = fmt.format(c);
         Assert.assertEquals(expected, actual);
     }
 
@@ -107,7 +133,7 @@ public abstract class ComplexFormatAbstractTest {
     @Test
     public void testDifferentImaginaryChar() {
         Complex c = new Complex(1, 1);
-        String expected = "1 + 1j";
+        String expected = "1 + j";
         String actual = complexFormatJ.format(c);
         Assert.assertEquals(expected, actual);
     }
