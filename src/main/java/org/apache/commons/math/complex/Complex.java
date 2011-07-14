@@ -139,7 +139,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre></p>
      * <p>
      * If either this or <code>rhs</code> has a NaN value in either part,
-     * {@link #NaN} is returned; otherwise Inifinite and NaN values are
+     * {@link #NaN} is returned; otherwise Infinite and NaN values are
      * returned in the parts of the result according to the rules for
      * {@link java.lang.Double} arithmetic.</p>
      *
@@ -438,7 +438,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre></p>
      * <p>
      * If either this or <code>rhs</code> has a NaN value in either part,
-     * {@link #NaN} is returned; otherwise inifinite and NaN values are
+     * {@link #NaN} is returned; otherwise infinite and NaN values are
      * returned in the parts of the result according to the rules for
      * {@link java.lang.Double} arithmetic. </p>
      *
