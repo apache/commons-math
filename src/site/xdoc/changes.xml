@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-618" due-to="Arne Plose">
+        Complex add javadoc says that if either addend has NaN parts, the result
+        should be Complex.NaN.  Prior to the fix for this issue, NaNs were propagated
+        only in real and imaginary parts individually.
+      </action>
       <action dev="erans" type="add" issue="MATH-581" due-to="Sébastien Brisard">
         Framework for iterative linear solvers.
       </action>

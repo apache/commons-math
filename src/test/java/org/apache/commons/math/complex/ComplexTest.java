@@ -113,7 +113,7 @@ public class ComplexTest {
         Assert.assertTrue(z.isNaN());
         z = new Complex(1, nan);
         Complex w = x.add(z);
-        Assert.assertEquals(w.getReal(), 4.0, 0);
+        Assert.assertTrue(Double.isNaN(w.getReal()));
         Assert.assertTrue(Double.isNaN(w.getImaginary()));
     }
 
