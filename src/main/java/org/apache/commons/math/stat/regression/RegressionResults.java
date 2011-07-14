@@ -86,6 +86,7 @@ public class RegressionResults implements Serializable {
             this.globalFitInfo[SST_IDX] = containsConstant ?
                     (sumysq - sumy * sumy / ((double) nobs)) : sumysq;
         }
+
         this.globalFitInfo[SSE_IDX] = sse;
         this.globalFitInfo[MSE_IDX] = this.globalFitInfo[SSE_IDX] /
                 ((double) (nobs - rank));
@@ -94,8 +95,9 @@ public class RegressionResults implements Serializable {
                 this.globalFitInfo[SST_IDX];
 
         if (!containsConstant) {
-            this.globalFitInfo[ADJRSQ_IDX] = 1.0 - (1.0 - this.globalFitInfo[RSQ_IDX]) *
-                    (nobs / (nobs - rank));
+            this.globalFitInfo[ADJRSQ_IDX] = 1.0 - 
+                    (1.0 - this.globalFitInfo[RSQ_IDX]) *
+                    ( (double) nobs / ( (double) (nobs - rank)));
         } else {
             this.globalFitInfo[ADJRSQ_IDX] = 1.0 - (sse * (nobs - 1.0)) /
                     (globalFitInfo[SST_IDX] * (nobs - rank));
