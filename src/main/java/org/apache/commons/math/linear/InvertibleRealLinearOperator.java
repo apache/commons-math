@@ -27,15 +27,6 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  */
 public abstract class InvertibleRealLinearOperator extends RealLinearOperator {
     /**
-     * Creates a new instance of this class with the specified dimension.
-     *
-     * @param dim Common dimension of the domain and codomain.
-     */
-    public InvertibleRealLinearOperator(final int dim) {
-        super(dim, dim);
-    }
-
-    /**
      * Computes the matrix-vector product of the inverse of this instance
      * with {@code b} and returns the result.
      *

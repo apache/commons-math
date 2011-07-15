@@ -41,49 +41,29 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  * <dl>
  *  <dt><a name="BARR1994">Barret et al. (1994)</a></dt>
  *  <dd>
- *   R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra, V.
- *   Eijkhout, R. Pozo, C. Romine and H. Van der Vorst,
+ *   R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra,
+ *   V. Eijkhout, R. Pozo, C. Romine and H. Van der Vorst,
  *   <em>Templates for the Solution of Linear Systems: Building Blocks for
- *   Iterative Methods</em>, SIAM</dd>
+ *   Iterative Methods</em>, SIAM
+ *  </dd>
  * </dl>
  *
  * @version $Id$
  */
 public abstract class RealLinearOperator {
-    /** The dimension of the codomain. */
-    private final int rowDimension;
-    /** The dimension of the domain. */
-    private final int columnDimension;
-
-    /**
-     * Creates a new instance of this class, with specified dimensions
-     * of the domain and codomain.
-     *
-     * @param rowDimension Dimension of the codomain (number of rows).
-     * @param columnDimension Dimension of the domain (number of columns).
-     */
-    public RealLinearOperator(final int rowDimension, final int columnDimension) {
-        this.columnDimension = columnDimension;
-        this.rowDimension = rowDimension;
-    }
-
     /**
      * Returns the dimension of the codomain of this operator.
      *
      * @return the number of rows of the underlying matrix.
      */
-    public final int getRowDimension() {
-        return rowDimension;
-    }
+    public abstract int getRowDimension();
 
     /**
      * Returns the dimension of the domain of this operator.
      *
      * @return the number of columns of the underlying matrix.
      */
-    public final int getColumnDimension() {
-        return columnDimension;
-    }
+    public abstract int getColumnDimension();
 
     /**
      * Returns the result of multiplying {@code this} by the vector {@code x}.
