@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.exception;
 
+import java.util.Locale;
+
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.util.ExceptionContext;
@@ -94,4 +96,15 @@ public class MathUserException extends RuntimeException
     public String getLocalizedMessage() {
         return context.getLocalizedMessage();
     }
+
+    /**
+     * Gets the message in a specified locale.
+     *
+     * @param locale Locale in which the message should be translated
+     * @return localized message
+     */
+    public String getMessage(final Locale locale) {
+        return context.getMessage(locale);
+    }
+
 }
