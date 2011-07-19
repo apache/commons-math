@@ -52,7 +52,7 @@ public class CompositeFormat {
      */
     public static NumberFormat getDefaultNumberFormat(final Locale locale) {
         final NumberFormat nf = NumberFormat.getInstance(locale);
-        nf.setMaximumFractionDigits(2);
+        nf.setMaximumFractionDigits(8);
         return nf;
     }
 
