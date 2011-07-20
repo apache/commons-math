@@ -222,6 +222,8 @@ public class StepNormalizer implements StepHandler {
             MathUtils.equals(nextTime, lastTime, 1)) {
             nextTime += h;
         }
+
+        // Process normalized steps as long as they are in the current step.
         boolean nextInStep = isNextInStep(nextTime, interpolator);
         while (nextInStep) {
             // Output the stored previous step.

@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-605" due-to="Dennis Hendriks">
+        Allow discrete events to be detected by ODE solvers also at step start.
+      </action>
       <action dev="luc" type="fix" issue="MATH-327,MATH-383,MATH-465,MATH-583,MATH-611" due-to="Christopher Nix">
         Rewritten SVD decomposition based on JAMA code.
       </action>
