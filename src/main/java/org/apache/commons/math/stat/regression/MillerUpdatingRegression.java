@@ -141,7 +141,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             throw new IllegalArgumentException("Length of regressor list is less that numberOfVariables");
         }
         if (!this.hasIntercept) {
-            include(Arrays.copyOf(x, x.length), 1.0, y);
+            include(MathUtils.copyOf(x, x.length), 1.0, y);
         } else {
             double[] tmp = new double[x.length + 1];
             System.arraycopy(x, 0, tmp, 1, x.length);
