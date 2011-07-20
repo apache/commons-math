@@ -304,12 +304,14 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     @Override
     public RealVector add(double[] v) {
-        checkVectorDimensions(v.length);
-        double[] out = data.clone();
-        for (int i = 0; i < data.length; i++) {
-            out[i] += v[i];
+        final int dim = v.length;
+        checkVectorDimensions(dim);
+        ArrayRealVector result = new ArrayRealVector(dim);
+        double[] resultData = result.data;
+        for (int i = 0; i < dim; i++) {
+            resultData[i] = data[i] + v[i];
         }
-        return new ArrayRealVector(out, false);
+        return result;
     }
 
     /**
