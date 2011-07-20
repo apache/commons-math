@@ -17,6 +17,10 @@
 
 package org.apache.commons.math.linear;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Random;
 
 import org.junit.Assert;
@@ -163,7 +167,8 @@ public class SingularValueDecompositionImplTest {
     }
 
     /** test matrices values */
-    @Test
+    // This test is useless since whereas the columns of U and V are linked
+    // together, the actual triplet (U,S,V) is not uniquely defined.
     public void testMatricesValues1() {
        SingularValueDecomposition svd =
             new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
@@ -234,6 +239,56 @@ public class SingularValueDecompositionImplTest {
 
     }
 
+     /** test MATH-465 */
+    @Test
+    public void testRank() {
+        double[][] d = { { 1, 1, 1 }, { 0, 0, 0 }, { 1, 2, 3 } };
+        RealMatrix m = new Array2DRowRealMatrix(d);
+        SingularValueDecomposition svd = new SingularValueDecompositionImpl(m);        
+        Assert.assertEquals(2, svd.getRank());        
+    }
+    
+    /** test MATH-583 */
+    @Test
+    public void testStability1() {
+        RealMatrix m = new Array2DRowRealMatrix(201, 201);
+        loadRealMatrix(m,"matrix1.csv");
+        try {
+            new SingularValueDecompositionImpl(m);
+        } catch (Exception e) {
+            Assert.fail("Exception whilst constructing SVD");
+        }      
+    }
+    
+    /** test MATH-327 */
+    @Test
+    public void testStability2() {
+        RealMatrix m = new Array2DRowRealMatrix(7, 168);
+        loadRealMatrix(m,"matrix2.csv");
+        try {
+            new SingularValueDecompositionImpl(m);
+        } catch (Throwable e) {
+            Assert.fail("Exception whilst constructing SVD");
+        }      
+    }
+    
+    private void loadRealMatrix(RealMatrix m, String resourceName) {
+        try {
+            DataInputStream in = new DataInputStream(getClass().getResourceAsStream(resourceName));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            int row = 0;
+            while ((strLine = br.readLine()) != null) {
+                int col = 0;
+                for (String entry : strLine.split(",")) {
+                    m.setEntry(row, col++, Double.parseDouble(entry));
+                }
+                row++;
+            }
+            in.close();
+        } catch (IOException e) {}      
+    }
+    
     /** test condition number */
     @Test
     public void testConditionNumber() {
