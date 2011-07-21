@@ -29,19 +29,34 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class RegressionResults implements Serializable {
 
+    /** INDEX of Sum of Squared Errors */
     private static final int SSE_IDX = 0;
+    /** INDEX of Sum of Squares of Model */
     private static final int SST_IDX = 1;
+    /** INDEX of R-Squared of regression */
     private static final int RSQ_IDX = 2;
+    /** INDEX of Mean Squared Error */
     private static final int MSE_IDX = 3;
+    /** INDEX of Adjusted R Squared */
     private static final int ADJRSQ_IDX = 4;
+    /** UID */
     private static final long serialVersionUID = 1l;
+    /** regression slope parameters */
     private final double[] parameters;
+    /** variance covariance matrix of parameters */
     private final double[][] varCovData;
+    /** boolean flag for variance covariance matrix in symm compressed storage */
     private final boolean isSymmetricVCD;
+    /** rank of the solution */
     private final int rank;
+    /** number of observations on which results are based */
     private final long nobs;
+    /** boolean flag indicator of whether a constant was included*/
     private final boolean containsConstant;
+    /** array storing global results, SSE, MSE, RSQ, adjRSQ */
     private final double[] globalFitInfo;
+    /** error message */
+    private final String indexOutOfBound = "Index is outside of the 0 to number of variables - 1 range";
 
     /**
      *  Set the default constructor to private access
@@ -58,6 +73,23 @@ public class RegressionResults implements Serializable {
         this.globalFitInfo = null;
     }
 
+    /**
+     * Constructor for Regression Results.
+     *
+     * @param parameters a double array with the regression slope estimates
+     * @param varcov the variance covariance matrix, stored either in a square matrix
+     * or as a compressed
+     * @param isSymmetricCompressed a flag which denotes that the variance covariance
+     * matrix is in symmetric compressed format
+     * @param nobs the number of observations of the regression estimation
+     * @param rank the number of independent variables in the regression
+     * @param sumy the sum of the independent variable
+     * @param sumysq the sum of the squared independent variable
+     * @param sse sum of squared errors
+     * @param containsConstant true model has constant,  false model does not have constant
+     * @param copyData if true a deep copy of all input data is made, if false only references
+     * are copied and the RegressionResults become mutable
+     */
     public RegressionResults(
             final double[] parameters, final double[][] varcov,
             final boolean isSymmetricCompressed,
@@ -95,7 +127,7 @@ public class RegressionResults implements Serializable {
                 this.globalFitInfo[SST_IDX];
 
         if (!containsConstant) {
-            this.globalFitInfo[ADJRSQ_IDX] = 1.0 - 
+            this.globalFitInfo[ADJRSQ_IDX] = 1.0-
                     (1.0 - this.globalFitInfo[RSQ_IDX]) *
                     ( (double) nobs / ( (double) (nobs - rank)));
         } else {
@@ -119,7 +151,7 @@ public class RegressionResults implements Serializable {
             return Double.NaN;
         }
         if (index < 0 || index >= this.parameters.length) {
-            throw new IndexOutOfBoundsException("Index is outside of the 0 to number of variables - 1 range");
+            throw new IndexOutOfBoundsException(indexOutOfBound);
         }
         return this.parameters[index];
     }
@@ -155,7 +187,7 @@ public class RegressionResults implements Serializable {
             return Double.NaN;
         }
         if (index < 0 || index >= this.parameters.length) {
-            throw new IndexOutOfBoundsException("Index is outside of the 0 to number of variables - 1 range");
+            throw new IndexOutOfBoundsException(indexOutOfBound);
         }
         double var = this.getVcvElement(index, index);
         if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
@@ -200,6 +232,7 @@ public class RegressionResults implements Serializable {
      * @param i - the ith regression parameter
      * @param j - the jth regression parameter
      * @return the covariance of the parameter estimates
+     * @throws IndexOutOfBoundsException thrown when i,j >= number of parameters
      */
     public double getCovarianceOfParameters(int i, int j) throws IndexOutOfBoundsException {
         if (parameters == null) {
