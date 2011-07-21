@@ -31,7 +31,6 @@ import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.distribution.GammaDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
 import org.apache.commons.math.distribution.IntegerDistribution;
 import org.apache.commons.math.distribution.PascalDistributionImpl;
@@ -676,8 +675,17 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link GammaDistributionImpl Gamma Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
-     * to generate random values.
+     *
+     * This implementation uses the following algorithms:
+     *
+     * For 0 < shape < 1:
+     * [1]: Ahrens, J. H. and Dieter, U. (1974). Computer methods for
+     * sampling from gamma, beta, Poisson and binomial distributions.
+     * Computing, 12, 223-246.
+     *
+     * For shape >= 1:
+     * [2]: Marsaglia and Tsang (2001). A Simple Method for Generating
+     * Gamma Variables. ACM Transactions on Mathematical Software, 26,
      *
      * @param shape the median of the Gamma distribution
      * @param scale the scale parameter of the Gamma distribution
@@ -686,7 +694,75 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextGamma(double shape, double scale) throws MathException {
-        return nextInversionDeviate(new GammaDistributionImpl(shape, scale));
+        if (shape < 1) {
+            /*
+            final double gamma = this.nextOldGamma(1 + shape, scale);
+            final double u = this.nextUniform(0, 1);
+            return gamma * FastMath.pow(u, 1/shape);
+            */
+
+            // [1]: p. 228, Algorithm GS
+
+            while (true) {
+                // Step 1:
+                final double u = this.nextUniform(0, 1);
+                final double bGS = 1 + shape/FastMath.E;
+                final double p = bGS*u;
+
+                if (p <= 1) {
+                    // Step 2:
+
+                    final double x = FastMath.pow(p, 1/shape);
+                    final double u2 = this.nextUniform(0.0, 1);
+
+                    if (u2 > FastMath.exp(-x)) {
+                        // Reject
+                        continue;
+                    } else {
+                        return scale*x;
+                    }
+                } else {
+                    // Step 3:
+
+                    final double x = -1 * FastMath.log((bGS-p)/shape);
+                    final double u2 = this.nextUniform(0, 1);
+
+                    if (u2 > FastMath.pow(x, shape - 1)) {
+                        // Reject
+                        continue;
+                    } else {
+                        return scale*x;
+                    }
+                }
+            }
+        }
+
+        // Now shape >= 1
+
+        final RandomGenerator generator = this.getRan();
+        final double d = shape - 0.333333333333333333;
+        final double c = 1.0 / (3*FastMath.sqrt(d));
+
+        while (true) {
+            final double x = generator.nextGaussian();
+            final double v = (1+c*x)*(1+c*x)*(1+c*x);
+
+            if (v <= 0) {
+                continue;
+            }
+
+            final double xx = x*x;
+            final double u = this.nextUniform(0, 1);
+
+            // Squeeze
+            if (u < 1 - 0.0331*xx*xx) {
+                return scale*d*v;
+            }
+
+            if (FastMath.log(u) < 0.5*xx + d*(1 - v + FastMath.log(v))) {
+                return scale*d*v;
+            }
+        }
     }
 
     /**

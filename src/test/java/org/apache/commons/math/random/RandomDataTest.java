@@ -910,11 +910,25 @@ public class RandomDataTest {
 
     @Test
     public void testNextGamma() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
-        long[] counts = new long[4];
+        double[] quartiles;
+        long[] counts;
+        
+        // Tests shape > 1, one case in the rejection sampling
+        quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
+        counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
             double value = randomData.nextGamma(4, 2);
+            TestUtils.updateCounts(value, counts, quartiles);
+        }
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
+        
+        // Tests shape <= 1, another case in the rejection sampling        
+        quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(0.3, 3));
+        counts = new long[4];
+        randomData.reSeed(1000);
+        for (int i = 0; i < 1000; i++) {
+            double value = randomData.nextGamma(0.3, 3);
             TestUtils.updateCounts(value, counts, quartiles);
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
