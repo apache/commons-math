@@ -63,7 +63,6 @@ public class MillerUpdatingRegressionTest {
      */
     @Test
     public void testAddObsGetNClear() {
-        System.out.println("getN - test add observation - clear");
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         double[][] xAll = new double[airdata[0].length][];
         double[] y = new double[airdata[0].length];
@@ -90,7 +89,6 @@ public class MillerUpdatingRegressionTest {
 
     @Test
     public void testNegativeTestAddObs() {
-        System.out.println("Test Add obs should fail if number of vars changes");
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         try {
             instance.addObservation(new double[]{1.0}, 0.0);
@@ -137,7 +135,6 @@ public class MillerUpdatingRegressionTest {
 
     @Test
     public void testNegativeTestAddMultipleObs() {
-        System.out.println("Test Add Multiple obs should fail if length of arrays is not same");
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         try {
             double[][] tst = {{1.0, 1.0, 1.0}, {1.20, 2.0, 2.1}};
