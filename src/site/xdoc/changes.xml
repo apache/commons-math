@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="mikl" type="fix" issue="MATH-585">
+        Implemented faster generation of random gamma distributed values with
+        algorithm from Ahrens and Dieter (1972) for shape &lt; 1 and 
+        Marsaglia and Tsang (2001) otherwise.
+      </action>
       <action dev="luc" type="fix" issue="MATH-605" due-to="Dennis Hendriks">
         Allow discrete events to be detected by ODE solvers also at step start.
       </action>
