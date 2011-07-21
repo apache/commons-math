@@ -180,8 +180,6 @@
     
       <copy todir="${build.home}/test-classes">
           <fileset dir="${test.resources}">
-              <include name="**/*.xml"/>
-              <include name="**/*.txt"/>
           </fileset>
       </copy>
 
