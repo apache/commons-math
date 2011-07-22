@@ -288,7 +288,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector add(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return add((ArrayRealVector) v);
+            return add(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
@@ -330,7 +330,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealVector subtract(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return subtract((ArrayRealVector) v);
+            return subtract(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
@@ -422,7 +422,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealVector ebeMultiply(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return ebeMultiply((ArrayRealVector) v);
+            return ebeMultiply(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
@@ -460,7 +460,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     /** {@inheritDoc} */
     public RealVector ebeDivide(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return ebeDivide((ArrayRealVector) v);
+            return ebeDivide(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
@@ -516,7 +516,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public double dotProduct(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return dotProduct((ArrayRealVector) v);
+            return dotProduct(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double dot = 0;
@@ -586,7 +586,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public double getDistance(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return getDistance((ArrayRealVector) v);
+            return getDistance(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double sum = 0;
@@ -633,7 +633,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public double getL1Distance(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return getL1Distance((ArrayRealVector) v);
+            return getL1Distance(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double sum = 0;
@@ -680,7 +680,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public double getLInfDistance(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return getLInfDistance((ArrayRealVector) v);
+            return getLInfDistance(((ArrayRealVector) v).data);
         } else {
             checkVectorDimensions(v);
             double max = 0;
@@ -769,7 +769,7 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
     @Override
     public RealMatrix outerProduct(RealVector v) {
         if (v instanceof ArrayRealVector) {
-            return outerProduct((ArrayRealVector) v);
+            return outerProduct(((ArrayRealVector) v).data);
         } else {
             final int m = data.length;
             final int n = v.getDimension();
