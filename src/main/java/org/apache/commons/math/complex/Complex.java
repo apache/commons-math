@@ -708,7 +708,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where ln on the right hand side is {@link java.lang.Math#log},
      * {@code |a + bi|} is the modulus, {@link Complex#abs},  and
-     * {@code arg(a + bi) = {@link java.lang.Math#atan2}(b, a)}.
+     * {@code arg(a + bi) = }{@link java.lang.Math#atan2}(b, a).
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -868,9 +868,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *  else return {@code |b|/2t + sign(b)t i }</pre></li>
      * </ol>
      * where <ul>
-     * <li>{@code |a| = {@link Math#abs}(a)}</li>
-     * <li>{@code |a + bi| = {@link Complex#abs}(a + bi) }</li>
-     * <li>{@code sign(b) =  {@link MathUtils#indicator}(b) }
+     * <li>{@code |a| = }{@link Math#abs}(a)</li>
+     * <li>{@code |a + bi| = }{@link Complex#abs}(a + bi)</li>
+     * <li>{@code sign(b) =  }{@link MathUtils#indicator}(b)
      * </ul>
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
