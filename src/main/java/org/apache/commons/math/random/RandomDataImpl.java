@@ -674,18 +674,20 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link GammaDistributionImpl Gamma Distribution}.
+     * <p>Generates a random value from the
+     * {@link org.apache.commons.math.distribution.GammaDistributionImpl Gamma Distribution}.</p>
      *
-     * This implementation uses the following algorithms:
+     * <p>This implementation uses the following algorithms: </p>
      *
-     * For 0 < shape < 1:
-     * [1]: Ahrens, J. H. and Dieter, U. (1974). Computer methods for
-     * sampling from gamma, beta, Poisson and binomial distributions.
-     * Computing, 12, 223-246.
+     * <p>For 0 < shape < 1: <br/>
+     * Ahrens, J. H. and Dieter, U., <i>Computer methods for
+     * sampling from gamma, beta, Poisson and binomial distributions.</i>
+     * Computing, 12, 223-246, 1974.</p>
      *
-     * For shape >= 1:
-     * [2]: Marsaglia and Tsang (2001). A Simple Method for Generating
-     * Gamma Variables. ACM Transactions on Mathematical Software, 26,
+     * <p>For shape >= 1: <br/>
+     * Marsaglia and Tsang, <i>A Simple Method for Generating
+     * Gamma Variables.</i> ACM Transactions on Mathematical Software,
+     * Volume 26 Issue 3, September, 2000.</p>
      *
      * @param shape the median of the Gamma distribution
      * @param scale the scale parameter of the Gamma distribution
@@ -695,12 +697,6 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public double nextGamma(double shape, double scale) throws MathException {
         if (shape < 1) {
-            /*
-            final double gamma = this.nextOldGamma(1 + shape, scale);
-            final double u = this.nextUniform(0, 1);
-            return gamma * FastMath.pow(u, 1/shape);
-            */
-
             // [1]: p. 228, Algorithm GS
 
             while (true) {
