@@ -42,16 +42,16 @@ public class LineTest {
     public void testAbscissa() {
         Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
         Assert.assertEquals(0.0,
-                            ((Vector1D) l.toSubSpace(new Vector2D(-3,  4))).getX(),
+                            (l.toSubSpace(new Vector2D(-3,  4))).getX(),
                             1.0e-10);
         Assert.assertEquals(0.0,
-                            ((Vector1D) l.toSubSpace(new Vector2D( 3, -4))).getX(),
+                            (l.toSubSpace(new Vector2D( 3, -4))).getX(),
                             1.0e-10);
         Assert.assertEquals(-5.0,
-                            ((Vector1D) l.toSubSpace(new Vector2D( 7, -1))).getX(),
+                            (l.toSubSpace(new Vector2D( 7, -1))).getX(),
                             1.0e-10);
         Assert.assertEquals( 5.0,
-                             ((Vector1D) l.toSubSpace(new Vector2D(-1, -7))).getX(),
+                             (l.toSubSpace(new Vector2D(-1, -7))).getX(),
                              1.0e-10);
     }
 
@@ -67,12 +67,12 @@ public class LineTest {
         Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
         for (double a = -2.0; a < 2.0; a += 0.2) {
             Vector1D pA = new Vector1D(a);
-            Vector2D point = (Vector2D) l.toSpace(pA);
-            Assert.assertEquals(a, ((Vector1D) l.toSubSpace(point)).getX(), 1.0e-10);
+            Vector2D point = l.toSpace(pA);
+            Assert.assertEquals(a, (l.toSubSpace(point)).getX(), 1.0e-10);
             Assert.assertEquals(0.0, l.getOffset(point),   1.0e-10);
             for (double o = -2.0; o < 2.0; o += 0.2) {
                 point = l.getPointAt(pA, o);
-                Assert.assertEquals(a, ((Vector1D) l.toSubSpace(point)).getX(), 1.0e-10);
+                Assert.assertEquals(a, (l.toSubSpace(point)).getX(), 1.0e-10);
                 Assert.assertEquals(o, l.getOffset(point),   1.0e-10);
             }
         }
@@ -120,7 +120,7 @@ public class LineTest {
     public void testIntersection() {
         Line    l1 = new Line(new Vector2D( 0, 1), new Vector2D(1, 2));
         Line    l2 = new Line(new Vector2D(-1, 2), new Vector2D(2, 1));
-        Vector2D p  = (Vector2D) l1.intersection(l2);
+        Vector2D p  = l1.intersection(l2);
         Assert.assertEquals(0.5, p.getX(), 1.0e-10);
         Assert.assertEquals(1.5, p.getY(), 1.0e-10);
     }

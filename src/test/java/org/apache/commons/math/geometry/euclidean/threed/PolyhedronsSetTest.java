@@ -128,7 +128,7 @@ public class PolyhedronsSetTest {
                          1.0, c,
                          1.0, r.applyTo(barycenter.subtract(c)));
         Assert.assertEquals(0.0,
-                            newB.subtract((Vector3D) tree.getBarycenter()).getNorm(),
+                            newB.subtract(tree.getBarycenter()).getNorm(),
                             1.0e-10);
 
         final Vector3D[] expectedV = new Vector3D[] {
@@ -172,7 +172,7 @@ public class PolyhedronsSetTest {
                     ((PolygonsSet) facet.getRemainingRegion()).getVertices();
                 Assert.assertEquals(1, vertices.length);
                 for (int i = 0; i < vertices[0].length; ++i) {
-                    Vector3D v = (Vector3D) plane.toSpace(vertices[0][i]);
+                    Vector3D v = plane.toSpace(vertices[0][i]);
                     double d = Double.POSITIVE_INFINITY;
                     for (int k = 0; k < expectedV.length; ++k) {
                         d = FastMath.min(d, v.subtract(expectedV[k]).getNorm());

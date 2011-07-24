@@ -130,7 +130,7 @@ public class PlaneTest {
         Vector3D p2  = new Vector3D (3.4, -5.8, 1.2);
         Plane    pA  = new Plane(p1, p2, new Vector3D (-2.0, 4.3, 0.7));
         Plane    pB  = new Plane(p1, new Vector3D (11.4, -3.8, 5.1), p2);
-        Line     l   = (Line) pA.intersection(pB);
+        Line     l   = pA.intersection(pB);
         Assert.assertTrue(l.contains(p1));
         Assert.assertTrue(l.contains(p2));
         Assert.assertNull(pA.intersection(pA));

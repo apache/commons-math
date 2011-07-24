@@ -157,7 +157,7 @@ public class AVLTreeTest {
     }
 
     private int value(AVLTree<Integer>.Node node) {
-        return ((Integer) node.getElement()).intValue();
+        return node.getElement().intValue();
     }
 
     private void checkOrder(AVLTree<Integer> tree) {

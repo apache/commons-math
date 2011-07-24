@@ -232,18 +232,18 @@ public class PolygonsSetTest {
         SubLine s1 = (SubLine) set.intersection(l1.wholeHyperplane());
         List<Interval> i1 = ((IntervalsSet) s1.getRemainingRegion()).asList();
         Assert.assertEquals(2, i1.size());
-        Interval v10 = (Interval) i1.get(0);
-        Vector2D p10Lower = (Vector2D) l1.toSpace(new Vector1D(v10.getLower()));
+        Interval v10 = i1.get(0);
+        Vector2D p10Lower = l1.toSpace(new Vector1D(v10.getLower()));
         Assert.assertEquals(0.0, p10Lower.getX(), 1.0e-10);
         Assert.assertEquals(1.5, p10Lower.getY(), 1.0e-10);
-        Vector2D p10Upper = (Vector2D) l1.toSpace(new Vector1D(v10.getUpper()));
+        Vector2D p10Upper = l1.toSpace(new Vector1D(v10.getUpper()));
         Assert.assertEquals(0.5, p10Upper.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p10Upper.getY(), 1.0e-10);
-        Interval v11 = (Interval) i1.get(1);
-        Vector2D p11Lower = (Vector2D) l1.toSpace(new Vector1D(v11.getLower()));
+        Interval v11 = i1.get(1);
+        Vector2D p11Lower = l1.toSpace(new Vector1D(v11.getLower()));
         Assert.assertEquals(1.0, p11Lower.getX(), 1.0e-10);
         Assert.assertEquals(2.5, p11Lower.getY(), 1.0e-10);
-        Vector2D p11Upper = (Vector2D) l1.toSpace(new Vector1D(v11.getUpper()));
+        Vector2D p11Upper = l1.toSpace(new Vector1D(v11.getUpper()));
         Assert.assertEquals(1.5, p11Upper.getX(), 1.0e-10);
         Assert.assertEquals(3.0, p11Upper.getY(), 1.0e-10);
 
@@ -251,11 +251,11 @@ public class PolygonsSetTest {
         SubLine s2 = (SubLine) set.intersection(l2.wholeHyperplane());
         List<Interval> i2 = ((IntervalsSet) s2.getRemainingRegion()).asList();
         Assert.assertEquals(1, i2.size());
-        Interval v20 = (Interval) i2.get(0);
-        Vector2D p20Lower = (Vector2D) l2.toSpace(new Vector1D(v20.getLower()));
+        Interval v20 = i2.get(0);
+        Vector2D p20Lower = l2.toSpace(new Vector1D(v20.getLower()));
         Assert.assertEquals(1.0, p20Lower.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p20Lower.getY(), 1.0e-10);
-        Vector2D p20Upper = (Vector2D) l2.toSpace(new Vector1D(v20.getUpper()));
+        Vector2D p20Upper = l2.toSpace(new Vector1D(v20.getUpper()));
         Assert.assertEquals(3.0, p20Upper.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p20Upper.getY(), 1.0e-10);
 
@@ -818,8 +818,8 @@ public class PolygonsSetTest {
     }
 
     private double intersectionAbscissa(Line l0, Line l1) {
-        Vector2D p = (Vector2D) l0.intersection(l1);
-        return ((Vector1D) l0.toSubSpace(p)).getX();
+        Vector2D p = l0.intersection(l1);
+        return (l0.toSubSpace(p)).getX();
     }
 
     private SubHyperplane<Euclidean2D> buildHalfLine(Vector2D start, Vector2D end,
@@ -827,17 +827,17 @@ public class PolygonsSetTest {
         Line   line  = new Line(start, end);
         double lower = startIsVirtual
         ? Double.NEGATIVE_INFINITY
-        : ((Vector1D) line.toSubSpace(start)).getX();
+        : (line.toSubSpace(start)).getX();
         double upper = startIsVirtual
-        ? ((Vector1D) line.toSubSpace(end)).getX()
+        ? (line.toSubSpace(end)).getX()
         : Double.POSITIVE_INFINITY;
         return new SubLine(line, new IntervalsSet(lower, upper));
     }
 
     private SubHyperplane<Euclidean2D> buildSegment(Vector2D start, Vector2D end) {
         Line   line  = new Line(start, end);
-        double lower = ((Vector1D) line.toSubSpace(start)).getX();
-        double upper = ((Vector1D) line.toSubSpace(end)).getX();
+        double lower = (line.toSubSpace(start)).getX();
+        double upper = (line.toSubSpace(end)).getX();
         return new SubLine(line, new IntervalsSet(lower, upper));
     }
 
@@ -853,9 +853,9 @@ public class PolygonsSetTest {
                                    double tolerance) {
         Line line = new Line(p1, p2);
         if (line.getOffset(p) < tolerance) {
-            double x  = ((Vector1D) line.toSubSpace(p)).getX();
-            double x1 = ((Vector1D) line.toSubSpace(p1)).getX();
-            double x2 = ((Vector1D) line.toSubSpace(p2)).getX();
+            double x  = (line.toSubSpace(p)).getX();
+            double x1 = (line.toSubSpace(p1)).getX();
+            double x2 = (line.toSubSpace(p2)).getX();
             return (((x - x1) * (x - x2) <= 0.0)
                     || (p1.distance(p) < tolerance)
                     || (p2.distance(p) < tolerance));
