@@ -146,7 +146,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return {@code this + addend}.
      * @throws NullArgumentException if {@code factor} is {@code null}.
      */
-    @Override
     public Complex add(Complex addend) throws NullArgumentException {
         MathUtils.checkNotNull(addend);
         if (isNaN || addend.isNaN) {
@@ -237,7 +236,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return {@code this / divisor}.
      * @throws NullArgumentException if {@code divisor} is {@code null}.
      */
-    @Override
     public Complex divide(Complex divisor)
         throws NullArgumentException {
         MathUtils.checkNotNull(divisor);
@@ -404,7 +402,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return {@code this * factor}.
      * @throws NullArgumentException if {@code factor} is {@code null}.
      */
-    @Override
     public Complex multiply(Complex factor)
         throws NullArgumentException {
         MathUtils.checkNotNull(factor);
@@ -475,7 +472,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @return {@code this - subtrahend}.
      * @throws NullArgumentException if {@code factor} is {@code null}.
      */
-    @Override
     public Complex subtract(Complex subtrahend)
         throws NullArgumentException {
         MathUtils.checkNotNull(subtrahend);
@@ -1162,7 +1158,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
     /** {@inheritDoc} */
-    @Override
     public ComplexField getField() {
         return ComplexField.getInstance();
     }
