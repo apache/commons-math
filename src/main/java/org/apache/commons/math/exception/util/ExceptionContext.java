@@ -302,7 +302,7 @@ public class ExceptionContext implements Serializable {
     /**
      * Replaces a non-serializable object with an error message string.
      *
-     * @param obj Object that does not implement the {@code Serializable
+     * @param obj Object that does not implement the {@code Serializable}
      * interface.
      * @return a string that mentions which class could not be serialized.
      */
