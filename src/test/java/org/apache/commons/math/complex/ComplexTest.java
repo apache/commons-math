@@ -274,11 +274,20 @@ public class ComplexTest {
         Complex x = new Complex(1,1);
         double yDouble = Double.POSITIVE_INFINITY;
         Complex yComplex = new Complex(yDouble);
-        Assert.assertEquals(x.divide(yComplex), x.divide(yDouble));
+        TestUtils.assertEquals(x.divide(yComplex), x.divide(yDouble), 0);
 
         yDouble = Double.NEGATIVE_INFINITY;
         yComplex = new Complex(yDouble);
-        Assert.assertEquals(x.divide(yComplex), x.divide(yDouble));
+        TestUtils.assertEquals(x.divide(yComplex), x.divide(yDouble), 0);
+        
+        x = new Complex(1, Double.NEGATIVE_INFINITY);
+        TestUtils.assertEquals(x.divide(yComplex), x.divide(yDouble), 0);
+    }
+    
+    @Test
+    public void testScalarDivideZero() {
+        Complex x = new Complex(1,1);
+        TestUtils.assertEquals(x.divide(Complex.ZERO), x.divide(0), 0);
     }
 
     @Test

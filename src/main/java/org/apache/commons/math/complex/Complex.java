@@ -278,13 +278,12 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         if (isNaN || Double.isNaN(divisor)) {
             return NaN;
         }
-        if (divisor == 0.0) {
+        if (divisor == 0d) {
             return NaN;
         }
-        if (Double.isInfinite(divisor) && !isInfinite()) {
-            return ZERO;
+        if (Double.isInfinite(divisor)) {
+            return !isInfinite() ? ZERO : NaN;     
         }
-
         return createComplex(real / divisor,
                              imaginary  / divisor);
     }
