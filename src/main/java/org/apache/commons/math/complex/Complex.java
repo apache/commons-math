@@ -144,7 +144,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *
      * @param  addend Value to be added to this {@code Complex}.
      * @return {@code this + addend}.
-     * @throws NullArgumentException if {@code factor} is {@code null}.
+     * @throws NullArgumentException if {@code addend} is {@code null}.
      */
     public Complex add(Complex addend) throws NullArgumentException {
         MathUtils.checkNotNull(addend);
@@ -157,8 +157,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
     /**
-     * Returns a {@code Complex} whose value is
-     * {@code (this + addend)}.
+     * Returns a {@code Complex} whose value is {@code (this + addend)},
+     * with {@code addend} interpreted as a real number.
      *
      * @param addend Value to be added to this {@code Complex}.
      * @return {@code this + addend}.
@@ -267,8 +267,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
     /**
-     * Returns a {@code Complex} whose value is
-     * {@code (this / divisor)}.
+     * Returns a {@code Complex} whose value is {@code (this / divisor)},
+     * with {@code divisor} interpreted as a real number.
      *
      * @param  divisor Value by which this {@code Complex} is to be divided.
      * @return {@code this / divisor}.
@@ -420,7 +420,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     }
 
     /**
-     * Returns a {@code Complex} whose value is {@code this * factor}.
+     * Returns a {@code Complex} whose value is {@code this * factor}, with {@code factor}
+     * interpreted as a real number.
      *
      * @param  factor value to be multiplied by this {@code Complex}.
      * @return {@code this * factor}.
@@ -463,14 +464,14 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *   (a + bi) - (c + di) = (a-c) + (b-d)i
      *  </code>
      * </pre>
-     * If either {@code this} or {@code subtrahend} has a {@code NaN]}value in either part,
+     * If either {@code this} or {@code subtrahend} has a {@code NaN]} value in either part,
      * {@link #NaN} is returned; otherwise infinite and {@code NaN} values are
      * returned in the parts of the result according to the rules for
      * {@link java.lang.Double} arithmetic.
      *
      * @param  subtrahend value to be subtracted from this {@code Complex}.
      * @return {@code this - subtrahend}.
-     * @throws NullArgumentException if {@code factor} is {@code null}.
+     * @throws NullArgumentException if {@code subtrahend} is {@code null}.
      */
     public Complex subtract(Complex subtrahend)
         throws NullArgumentException {
