@@ -137,6 +137,7 @@ public enum LocalizedFormats implements Localizable {
     INVALID_ITERATIONS_LIMITS("invalid iteration limits: min={0}, max={1}"),
     INVALID_MAX_ITERATIONS("bad value for maximum iterations number: {0}"),
     INVALID_REGRESSION_ARRAY("input data array length = {0} does not match the number of observations = {1} and the number of regressors = {2}"),
+    INVALID_REGRESSION_OBSERVATION("length of regressor array = {0} does not match the number of variables = {1} in the model"),
     INVALID_ROUNDING_METHOD("invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})"),
     ITERATOR_EXHAUSTED("iterator exhausted"),
     LCM_OVERFLOW_32_BITS("overflow: lcm({0}, {1}) is 2^31"),
@@ -234,6 +235,7 @@ public enum LocalizedFormats implements Localizable {
     NO_DENSITY_FOR_THIS_DISTRIBUTION("This distribution does not have a density function implemented"),
     NO_FEASIBLE_SOLUTION("no feasible solution"),
     NO_OPTIMUM_COMPUTED_YET("no optimum computed yet"), /* keep */
+    NO_REGRESSORS("Regression model must include at least one regressor"),
     NO_RESULT_AVAILABLE("no result available"),
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
     NULL_NOT_ALLOWED("null is not allowed"), /* keep */
@@ -292,6 +294,7 @@ public enum LocalizedFormats implements Localizable {
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),
+    TOO_MANY_REGRESSORS("too many regressors ({0}) specified, only {1} in the model"),
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),
     TOO_SMALL_ORTHOGONALITY_TOLERANCE("orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian"),

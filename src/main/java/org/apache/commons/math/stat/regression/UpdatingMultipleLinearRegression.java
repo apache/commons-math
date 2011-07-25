@@ -48,8 +48,10 @@ public interface UpdatingMultipleLinearRegression {
      *
      * @param x the independent variables which form the design matrix
      * @param y the dependent or response variable
+     * @throws ModelSpecificationException if the length of {@code x} does not equal
+     * the number of independent variables in the model
      */
-    void addObservation(double[] x, double y);
+    void addObservation(double[] x, double y) throws ModelSpecificationException;
 
     /**
      * Adds a series of observations to the regression model. The lengths of
@@ -58,6 +60,8 @@ public interface UpdatingMultipleLinearRegression {
      * @param x a series of observations on the independent variables
      * @param y a series of observations on the dependent variable
      * The length of x and y must be the same
+     * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
+     * the length of {@code y} or does not contain sufficient data to estimate the model
      */
     void addObservations(double[][] x, double[] y);
 
@@ -71,16 +75,16 @@ public interface UpdatingMultipleLinearRegression {
     /**
      * Performs a regression on data present in buffers and outputs a RegressionResults object
      * @return RegressionResults acts as a container of regression output
-     * @throws MathException a wide variety of exception cases are possible, check message
+     * @throws ModelSpecificationException if the model is not correctly specified
      */
-    RegressionResults regress() throws MathException;
+    RegressionResults regress() throws ModelSpecificationException;
 
     /**
      * Performs a regression on data present in buffers including only regressors
      * indexed in variablesToInclude and outputs a RegressionResults object
      * @param variablesToInclude an array of indices of regressors to include
      * @return RegressionResults acts as a container of regression output
-     * @throws MathException a wide variety of exception cases are possible, check message
+     * @throws ModelSpecificationException if the model is not correctly specified
      */
-    RegressionResults regress(int[] variablesToInclude) throws MathException;
+    RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException;
 }
