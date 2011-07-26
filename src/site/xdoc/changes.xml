@@ -52,7 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
-      <action dev="erans" type="update" issue="MATH-577" due-to="Arne Plöse">
+      <action dev="erans" type="update" issue="MATH-623" due-to="Arne Plöse">
+        Slightly more efficient implementation of basic operations in
+        "ArrayRealVector".
+      </action>
+      <action dev="erans" type="add" issue="MATH-577" due-to="Arne Plöse">
         Overloaded methods (add, subtract, multiply, divide) to take a "double" parameter
         (as a complex number with zero imaginary part).
         Code and Javadoc cleanup.
