@@ -514,6 +514,32 @@ public abstract class AbstractRealVector implements RealVector {
         return this;
     }
 
+    /** {@inheritDoc} */
+    public RealVector combine(double a, double b, double[] y) {
+        return copy().combineToSelf(a, b, y);
+    }
+
+    /** {@inheritDoc} */
+    public RealVector combine(double a, double b, RealVector y) {
+        return copy().combineToSelf(a, b, y);
+    }
+
+    /** {@inheritDoc} */
+    public RealVector combineToSelf(double a, double b, double[] y) {
+        return combineToSelf(a, b, new ArrayRealVector(y, false));
+    }
+
+    /** {@inheritDoc} */
+    public RealVector combineToSelf(double a, double b, RealVector y) {
+        checkVectorDimensions(y);
+        for (int i = 0; i < getDimension(); i++) {
+            final double xi = getEntry(i);
+            final double yi = y.getEntry(i);
+            setEntry(i, a * xi + b * yi);
+        }
+        return this;
+    }
+
     /** An entry in the vector. */
     protected class EntryImpl extends Entry {
 

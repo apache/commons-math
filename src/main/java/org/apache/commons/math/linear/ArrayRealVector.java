@@ -1045,4 +1045,60 @@ public class ArrayRealVector extends AbstractRealVector implements Serializable 
         }
         return MathUtils.hash(data);
     }
+
+    /**
+     * Returns the linear combination of {@code this} and {@code y}.
+     *
+     * @param a Weight of {@code this}.
+     * @param b Weight of {@code y}.
+     * @param y Vector with which {@code this} is linearly combined.
+     * @return a vector containing {@code a * this[i] + b * y[i]} for all
+     * {@code i}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code y} is not the same size as this vector.
+     */
+    public ArrayRealVector combine(double a, double b, ArrayRealVector y) {
+        return (ArrayRealVector) copy().combineToSelf(a, b, y.data);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealVector combineToSelf(double a, double b, double[] y) {
+        checkVectorDimensions(y.length);
+        for (int i = 0; i < this.data.length; i++) {
+            data[i] = a * data[i] + b * y[i];
+        }
+        return this;
+    }
+
+    /**
+     * Updates {@code this} with the linear combination of {@code this} and
+     * {@code y}.
+     *
+     * @param a Weight of {@code this}.
+     * @param b Weight of {@code y}.
+     * @param y Vector with which {@code this} is linearly combined.
+     * @return {@code this}, with components equal to
+     * {@code a * this[i] + b * y[i]} for all {@code i}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if {@code y} is not the same size as this vector.
+     */
+    public ArrayRealVector combineToSelf(double a, double b, ArrayRealVector y) {
+        combineToSelf(a, b, y.data);
+        return this;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealVector combineToSelf(double a, double b, RealVector y) {
+        if (y instanceof ArrayRealVector) {
+            return combineToSelf(a, b, ((ArrayRealVector) y).data);
+        } else {
+            checkVectorDimensions(y);
+            for (int i = 0; i < this.data.length; i++) {
+                data[i] = a * data[i] + b * y.getEntry(i);
+            }
+            return this;
+        }
+    }
 }

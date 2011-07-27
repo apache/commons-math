@@ -20,6 +20,7 @@ package org.apache.commons.math.linear;
 import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealVector.Entry;
 import java.util.Iterator;
 import java.util.Random;
@@ -200,7 +201,7 @@ public class AbstractRealVectorTest {
         for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; ) {
             Assert.assertEquals(onlyOne[1], e.getValue(), 0);
         }
-        
+
     }
 
     @Test
@@ -216,4 +217,86 @@ public class AbstractRealVectorTest {
         Assert.assertEquals(new ArrayRealVector(d).getNorm(), new ArrayRealVector(c).getNorm(), 0);
     }
 
+    @Test(expected=DimensionMismatchException.class)
+    public void testCombinePrecondition() {
+        final double a = 1d;
+        final double b = 2d;
+        double[] aux = new double[] { 3d, 4d, 5d };
+        final TestVectorImpl x = new TestVectorImpl(aux);
+        aux = new double[] { 6d, 7d };
+        final TestVectorImpl y = new TestVectorImpl(aux);
+        x.combine(a, b, y);
+    }
+
+    @Test
+    public void testCombine() {
+        final Random random = new Random(20110726);
+        final int dim = 10;
+        final double a = (2 * random.nextDouble() - 1);
+        final double b = (2 * random.nextDouble() - 1);
+        final RealVector x = new TestVectorImpl(new double[dim]);
+        final RealVector y = new TestVectorImpl(new double[dim]);
+        final double[] expected = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            final double xi = 2 * random.nextDouble() - 1;
+            final double yi = 2 * random.nextDouble() - 1;
+            x.setEntry(i, xi);
+            y.setEntry(i, yi);
+            expected[i] = a * xi + b * yi;
+        }
+        final RealVector z = x.combine(a, b, y);
+        Assert.assertTrue(z != x);
+        final double[] actual = z.getData();
+        for (int i = 0; i < dim; i++) {
+            final double delta;
+            if (expected[i] == 0d) {
+                delta = Math.ulp(1d);
+            } else {
+                delta = Math.ulp(expected[i]);
+            }
+            Assert.assertEquals("elements [" + i + "] differ", expected[i],
+                                actual[i], delta);
+        }
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testCombineToSelfPrecondition() {
+        final double a = 1d;
+        final double b = 2d;
+        double[] aux = new double[] { 3d, 4d, 5d };
+        final TestVectorImpl x = new TestVectorImpl(aux);
+        aux = new double[] { 6d, 7d };
+        final TestVectorImpl y = new TestVectorImpl(aux);
+        x.combineToSelf(a, b, y);
+    }
+
+    @Test
+    public void testCombineToSelf() {
+        final Random random = new Random(20110726);
+        final int dim = 10;
+        final double a = (2 * random.nextDouble() - 1);
+        final double b = (2 * random.nextDouble() - 1);
+        final RealVector x = new TestVectorImpl(new double[dim]);
+        final RealVector y = new TestVectorImpl(new double[dim]);
+        final double[] expected = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            final double xi = 2 * random.nextDouble() - 1;
+            final double yi = 2 * random.nextDouble() - 1;
+            x.setEntry(i, xi);
+            y.setEntry(i, yi);
+            expected[i] = a * xi + b * yi;
+        }
+        Assert.assertSame(x, x.combineToSelf(a, b, y));
+        final double[] actual = x.getData();
+        for (int i = 0; i < dim; i++) {
+            final double delta;
+            if (expected[i] == 0d) {
+                delta = Math.ulp(1d);
+            } else {
+                delta = Math.ulp(expected[i]);
+            }
+            Assert.assertEquals("elements [" + i + "] differ", expected[i],
+                                actual[i], delta);
+        }
+    }
 }
