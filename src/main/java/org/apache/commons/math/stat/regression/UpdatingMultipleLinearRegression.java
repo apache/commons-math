@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.MathException;
-
 /**
  * An interface for regression models allowing for dynamic updating of the data.
  * That is, the entire data set need not be loaded into memory. As observations
