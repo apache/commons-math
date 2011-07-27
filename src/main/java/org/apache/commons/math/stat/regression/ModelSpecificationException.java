@@ -31,7 +31,7 @@ public class ModelSpecificationException extends MathIllegalArgumentException {
 
     /**
      * @param pattern message pattern describing the specification error.
-     * 
+     *
      * @param args arguments.
      */
     public ModelSpecificationException(Localizable pattern,
