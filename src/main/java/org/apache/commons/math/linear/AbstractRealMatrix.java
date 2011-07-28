@@ -35,7 +35,9 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 2.0
  */
-public abstract class AbstractRealMatrix implements RealMatrix {
+public abstract class AbstractRealMatrix
+    extends RealLinearOperator
+    implements RealMatrix {
     /**
      * Creates a matrix with no data
      */
@@ -591,9 +593,21 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
+
+    /**
+     * Returns the number of rows of this matrix.
+     *
+     * @return the number of rows.
+     */
+    @Override
     public abstract int getRowDimension();
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the number of columns of this matrix.
+     *
+     * @return the number of columns.
+     */
+    @Override
     public abstract int getColumnDimension();
 
     /** {@inheritDoc} */
@@ -611,6 +625,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] operate(final double[] v) {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
@@ -631,6 +646,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector operate(final RealVector v) {
         try {
             return new ArrayRealVector(operate(((ArrayRealVector) v).getDataRef()), false);
