@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-636" >
+        Added a solver for Dfp-based (i.e. high accuracy) functions.
+      </action>
       <action dev="luc" type="add" issue="MATH-635" >
         Added a Brent-like solver that has higher (user specified) order and does
         bracket selection on the result: BracketingNthOrderBrentSolver.
