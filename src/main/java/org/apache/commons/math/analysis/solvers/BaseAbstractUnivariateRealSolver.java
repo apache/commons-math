@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.util.MathUtils;
@@ -147,7 +148,8 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    protected double computeObjectiveValue(double point) {
+    protected double computeObjectiveValue(double point)
+        throws TooManyEvaluationsException {
         incrementEvaluationCount();
         return function.value(point);
     }
@@ -205,8 +207,11 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRe
      * @return the root.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
+     * @throws NoBracketingException if the initial search interval does not bracket
+     * a root and the solver requires it.
      */
-    protected abstract double doSolve();
+    protected abstract double doSolve()
+        throws TooManyEvaluationsException, NoBracketingException;
 
     /**
      * Check whether the function takes opposite signs at the endpoints.
