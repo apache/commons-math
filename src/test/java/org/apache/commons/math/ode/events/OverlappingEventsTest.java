@@ -46,7 +46,8 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
 
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead. Uses event type 0. See
-     * {@link Event#g}.
+     * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
+     * EventHandler.g(double, double[])}.
      * @throws EventException in case of event evaluation failure
      * @throws IntegratorException in case of integration failure
      * @throws MathUserException in case of derivative evaluation failure
@@ -58,7 +59,8 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
 
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead. Uses event type 1. See
-     * {@link Event#g}.
+     * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
+     * EventHandler.g(double, double[])}.
      * @throws EventException in case of event evaluation failure
      * @throws IntegratorException in case of integration failure
      * @throws MathUserException in case of derivative evaluation failure
@@ -70,7 +72,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
 
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead.
-     * @param eventType the type of events to use. See {@link Event#g}
+     * @param eventType the type of events to use. See
+     * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
+     * EventHandler.g(double, double[])}.
      * @throws EventException in case of event evaluation failure
      * @throws IntegratorException in case of integration failure
      * @throws MathUserException in case of derivative evaluation failure
