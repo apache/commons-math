@@ -262,11 +262,11 @@ public abstract class ContinuousDistributionAbstractTest {
     public void testSampling() throws Exception {
         AbstractContinuousDistribution dist = (AbstractContinuousDistribution) makeDistribution();
         final int sampleSize = 1000;
+        dist.reseedRandomGenerator(1000);  // Use fixed seed
         double[] sample = dist.sample(sampleSize);
         double[] quartiles = TestUtils.getDistributionQuartiles(dist);
         double[] expected = {250, 250, 250, 250};
         long[] counts = new long[4];
-        dist.reseedRandomGenerator(1000);  // Use fixed seed
         for (int i = 0; i < sampleSize; i++) {
             TestUtils.updateCounts(sample[i], counts, quartiles);
         }
