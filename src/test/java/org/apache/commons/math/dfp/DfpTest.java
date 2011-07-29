@@ -1515,4 +1515,74 @@ public class DfpTest {
         Assert.assertEquals(+1, FastMath.copySign(1, field.newDfp(+0.0).toDouble()), MathUtils.EPSILON);
     }
 
+    @Test
+    public void testIsZero() {
+        Assert.assertTrue(field.getZero().isZero());
+        Assert.assertTrue(field.getZero().negate().isZero());
+        Assert.assertTrue(field.newDfp(+0.0).isZero());
+        Assert.assertTrue(field.newDfp(-0.0).isZero());
+        Assert.assertFalse(field.newDfp(1.0e-90).isZero());
+        Assert.assertFalse(nan.isZero());
+        Assert.assertFalse(nan.negate().isZero());
+        Assert.assertFalse(pinf.isZero());
+        Assert.assertFalse(pinf.negate().isZero());
+        Assert.assertFalse(ninf.isZero());
+        Assert.assertFalse(ninf.negate().isZero());
+    }
+
+    @Test
+    public void testSignPredicates() {
+
+        Assert.assertTrue(field.getZero().negativeOrNull());
+        Assert.assertTrue(field.getZero().positiveOrNull());
+        Assert.assertFalse(field.getZero().strictlyNegative());
+        Assert.assertFalse(field.getZero().strictlyPositive());
+
+        Assert.assertTrue(field.getZero().negate().negativeOrNull());
+        Assert.assertTrue(field.getZero().negate().positiveOrNull());
+        Assert.assertFalse(field.getZero().negate().strictlyNegative());
+        Assert.assertFalse(field.getZero().negate().strictlyPositive());
+
+        Assert.assertFalse(field.getOne().negativeOrNull());
+        Assert.assertTrue(field.getOne().positiveOrNull());
+        Assert.assertFalse(field.getOne().strictlyNegative());
+        Assert.assertTrue(field.getOne().strictlyPositive());
+
+        Assert.assertTrue(field.getOne().negate().negativeOrNull());
+        Assert.assertFalse(field.getOne().negate().positiveOrNull());
+        Assert.assertTrue(field.getOne().negate().strictlyNegative());
+        Assert.assertFalse(field.getOne().negate().strictlyPositive());
+
+        Assert.assertFalse(nan.negativeOrNull());
+        Assert.assertFalse(nan.positiveOrNull());
+        Assert.assertFalse(nan.strictlyNegative());
+        Assert.assertFalse(nan.strictlyPositive());
+
+        Assert.assertFalse(nan.negate().negativeOrNull());
+        Assert.assertFalse(nan.negate().positiveOrNull());
+        Assert.assertFalse(nan.negate().strictlyNegative());
+        Assert.assertFalse(nan.negate().strictlyPositive());
+
+        Assert.assertFalse(pinf.negativeOrNull());
+        Assert.assertTrue(pinf.positiveOrNull());
+        Assert.assertFalse(pinf.strictlyNegative());
+        Assert.assertTrue(pinf.strictlyPositive());
+
+        Assert.assertTrue(pinf.negate().negativeOrNull());
+        Assert.assertFalse(pinf.negate().positiveOrNull());
+        Assert.assertTrue(pinf.negate().strictlyNegative());
+        Assert.assertFalse(pinf.negate().strictlyPositive());
+
+        Assert.assertTrue(ninf.negativeOrNull());
+        Assert.assertFalse(ninf.positiveOrNull());
+        Assert.assertTrue(ninf.strictlyNegative());
+        Assert.assertFalse(ninf.strictlyPositive());
+
+        Assert.assertFalse(ninf.negate().negativeOrNull());
+        Assert.assertTrue(ninf.negate().positiveOrNull());
+        Assert.assertFalse(ninf.negate().strictlyNegative());
+        Assert.assertTrue(ninf.negate().strictlyPositive());
+
+    }
+
 }

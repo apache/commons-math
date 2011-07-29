@@ -796,6 +796,75 @@ public class Dfp implements FieldElement<Dfp> {
         return compare(this, x) > 0;
     }
 
+    /** Check if instance is less than or equal to 0.
+     * @return true if instance is not NaN and less than or equal to 0, false otherwise
+     */
+    public boolean negativeOrNull() {
+
+        if (isNaN()) {
+            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
+            dotrap(DfpField.FLAG_INVALID, LESS_THAN_TRAP, this, newInstance(getZero()));
+            return false;
+        }
+
+        return (sign < 0) || ((mant[mant.length - 1] == 0) && !isInfinite());
+
+    }
+
+    /** Check if instance is strictly less than 0.
+     * @return true if instance is not NaN and less than or equal to 0, false otherwise
+     */
+    public boolean strictlyNegative() {
+
+        if (isNaN()) {
+            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
+            dotrap(DfpField.FLAG_INVALID, LESS_THAN_TRAP, this, newInstance(getZero()));
+            return false;
+        }
+
+        return (sign < 0) && ((mant[mant.length - 1] != 0) || isInfinite());
+
+    }
+
+    /** Check if instance is greater than or equal to 0.
+     * @return true if instance is not NaN and greater than or equal to 0, false otherwise
+     */
+    public boolean positiveOrNull() {
+
+        if (isNaN()) {
+            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
+            dotrap(DfpField.FLAG_INVALID, LESS_THAN_TRAP, this, newInstance(getZero()));
+            return false;
+        }
+
+        return (sign > 0) || ((mant[mant.length - 1] == 0) && !isInfinite());
+
+    }
+
+    /** Check if instance is strictly greater than 0.
+     * @return true if instance is not NaN and greater than or equal to 0, false otherwise
+     */
+    public boolean strictlyPositive() {
+
+        if (isNaN()) {
+            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
+            dotrap(DfpField.FLAG_INVALID, LESS_THAN_TRAP, this, newInstance(getZero()));
+            return false;
+        }
+
+        return (sign > 0) && ((mant[mant.length - 1] != 0) || isInfinite());
+
+    }
+
+    /** Get the absolute value of instance.
+     * @return absolute value of instance
+     */
+    public Dfp abs() {
+        Dfp result = newInstance(this);
+        result.sign = 1;
+        return result;
+    }
+
     /** Check if instance is infinite.
      * @return true if instance is infinite
      */
@@ -808,6 +877,21 @@ public class Dfp implements FieldElement<Dfp> {
      */
     public boolean isNaN() {
         return (nans == QNAN) || (nans == SNAN);
+    }
+
+    /** Check if instance is equal to zero.
+     * @return true if instance is equal to zero
+     */
+    public boolean isZero() {
+
+        if (isNaN()) {
+            field.setIEEEFlagsBits(DfpField.FLAG_INVALID);
+            dotrap(DfpField.FLAG_INVALID, LESS_THAN_TRAP, this, newInstance(getZero()));
+            return false;
+        }
+
+        return (mant[mant.length - 1] == 0) && !isInfinite();
+
     }
 
     /** Check if instance is equal to x.

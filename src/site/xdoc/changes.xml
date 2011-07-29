@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added a few shortcut methods and predicates to Dfp (abs, isZero,
+        negativeOrNull, strictlyNegative, positiveOrNull, strictlyPositive).
+      </action>
       <action dev="erans" type="add" issue="MATH-633" due-to="Sébastien Brisard">
         "AbstractRealMatrix" inherits from "RealLinearOperator".
       </action>
