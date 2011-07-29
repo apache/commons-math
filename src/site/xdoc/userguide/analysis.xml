@@ -74,6 +74,12 @@
               <td>no</td>
             </tr>
             <tr>
+              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
+              <td>variable order, guaranteed</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
               <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
               <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
@@ -206,7 +212,8 @@
         <source>UnivariateRealFunction function = // some user defined function object
 final double relativeAccuracy = 1.0e-12;
 final double absoluteAccuracy = 1.0e-8;
-UnivariateRealSolver solver   = new PegasusSolver(relativeAccuracy, absoluteAccuracy);
+final int    maxOrder         = 5;
+UnivariateRealSolver solver   = new BracketingNthOrderBrentSolver(relativeAccuracy, absoluteAccuracy, maxOrder);
 double c = solver.solve(100, function, 1.0, 5.0, AllowedSolutions.LEFT_SIDE);</source>
         <p>
           Force bracketing, by refining a base solution found by a non-bracketing solver:
@@ -221,9 +228,9 @@ double c = UnivariateRealSolverUtils.forceSide(100, function,
                                                baseRoot, 1.0, 5.0, AllowedSolutions.LEFT_SIDE);
 </source>
         <p>
-          The <code>BrentSolve</code> uses the Brent-Dekker algorithm which is
-          fast and robust.  This algorithm is recommended for most users.  If there
-          are multiple roots in the interval, or there is a large domain of indeterminacy, the
+          The <code>BrentSolver</code> uses the Brent-Dekker algorithm which is
+          fast and robust.  If there are multiple roots in the interval,
+          or there is a large domain of indeterminacy, the
           algorithm will converge to a random root in the interval without
           indication that there are problems.  Interestingly, the examined text
           book implementations all disagree in details of the convergence
@@ -231,6 +238,15 @@ double c = UnivariateRealSolverUtils.forceSide(100, function,
           cases, so the expressions had to be fudged further. Don't expect to
           get exactly the same root values as for other implementations of this
           algorithm.
+        </p>
+        <p>
+          The <code>BracketingNthOrderBrentSolver</code> uses an extension of the
+          Brent-Dekker algorithm which uses inverse n<sup>th</sup> order polynomial
+          interpolation instead of inverse quadratic interpolation, and which allows
+          selection of the side of the convergence interval for result bracketing.
+          This is now the recommended algorithm for most users since it has the
+          largest order, doesn't require derivatives, has guaranteed convergence
+          and allows result bracket selection.
         </p>
         <p>
           The <code>SecantSolver</code> uses a straightforward secant
