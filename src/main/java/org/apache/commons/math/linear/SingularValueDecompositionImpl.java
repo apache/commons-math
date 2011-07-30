@@ -124,7 +124,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 singularValues[k] = -singularValues[k];
             }
             for (int j = k + 1; j < n; j++) {
-                if ((k < nct) & (singularValues[k] != 0.0)) {
+                if ((k < nct) && (singularValues[k] != 0.0)) {
                     // Apply the transformation.
                     double t = 0;
                     for (int i = k; i < m; i++) {
@@ -139,7 +139,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // subsequent calculation of the row transformation.
                 e[j] = A[k][j];
             }
-            if (wantu & (k < nct)) {
+            if (wantu && (k < nct)) {
                 // Place the transformation in U for subsequent back
                 // multiplication.
                 for (int i = k; i < m; i++) {
@@ -164,7 +164,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     e[k + 1] += 1.0;
                 }
                 e[k] = -e[k];
-                if ((k + 1 < m) & (e[k] != 0.0)) {
+                if ((k + 1 < m) && (e[k] != 0.0)) {
                     // Apply the transformation.
                     for (int i = k + 1; i < m; i++) {
                         work[i] = 0.0;
@@ -240,7 +240,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         // If required, generate V.
         if (wantv) {
             for (int k = n - 1; k >= 0; k--) {
-                if ((k < nrt) & (e[k] != 0.0)) {
+                if ((k < nrt) && (e[k] != 0.0)) {
                     for (int j = k + 1; j < nu; j++) {
                         double t = 0;
                         for (int i = k + 1; i < n; i++) {
@@ -262,7 +262,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         int pp = p - 1;
         int iter = 0;
         while (p > 0) {
-            int k, kase;
+            int k;
+            int kase;
             // Here is where a test for too many iterations would go.
             // This section of the program inspects for
             // negligible elements in the s and e arrays.  On
