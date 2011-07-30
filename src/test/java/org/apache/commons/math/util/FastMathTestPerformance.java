@@ -16,10 +16,9 @@
  */
 package org.apache.commons.math.util;
 
-import junit.framework.Assert;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * Performance tests for FastMath.
