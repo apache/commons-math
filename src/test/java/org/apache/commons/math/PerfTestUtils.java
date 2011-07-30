@@ -16,9 +16,9 @@
  */
 package org.apache.commons.math;
 
-import org.apache.commons.math.analysis.function.Add;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.analysis.FunctionUtils;
+import java.util.concurrent.Callable;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.exception.MathIllegalStateException;
 
 /**
  * Simple benchmarking utilities.
@@ -26,73 +26,180 @@ import org.apache.commons.math.analysis.FunctionUtils;
 public class PerfTestUtils {
     /** Nanoseconds to milliseconds conversion factor ({@value}). */
     public static final double NANO_TO_MILLI = 1e-6;
+    /** Default number of code repeat per timed block. */
+    private static final int DEFAULT_REPEAT_CHUNK = 1000;
+    /** Default number of code repeats for computing the average run time. */
+    private static final int DEFAULT_REPEAT_STAT = 10000;
 
     /**
      * Timing.
      *
      * @param repeatChunk Each timing measurement will done done for that
      * number of repeats of the code.
-     * @param repeatStat Timing will be averaged over that number of runs. 
-     * @param methods Code being timed.
-     * @return for each of the given {@code methods}, the averaged time (in
-     * milliseconds) taken by a call to {@code run}.
+     * @param repeatStat Timing will be averaged over that number of runs.
+     * @param runGC Call {@code System.gc()} between each timed block. When
+     * set to {@code true}, the test will run much slower.
+     * @param methods Codes being timed.
+     * @return for each of the given {@code methods}, a statistics of the
+     * average times (in milliseconds) taken by a single call to the
+     * {@code call} method (i.e. the time taken by each timed block divided
+     * by {@code repeatChunk}).
      */
-    public static double[] time(int repeatChunk,
-                                int repeatStat,
-                                Runnable ... methods) {
-        final int numMethods = methods.length;
-        final double[][] times = new double[numMethods][repeatStat];
-    
-        for (int k = 0; k < repeatStat; k++) {
-            for (int j = 0; j < numMethods; j++) {
-                final Runnable r = methods[j];
-                final long start = System.nanoTime();
-                for (int i = 0; i < repeatChunk; i++) {
-                    r.run();
-                }
-                times[j][k] = (System.nanoTime() - start) * NANO_TO_MILLI;
+    public static DescriptiveStatistics[] time(int repeatChunk,
+                                               int repeatStat,
+                                               boolean runGC,
+                                               Callable<Double> ... methods) {
+        final double[][][] times = timesAndResults(repeatChunk,
+                                                   repeatStat,
+                                                   runGC,
+                                                   methods);
+
+        final int len = methods.length;
+        final DescriptiveStatistics[] stats = new DescriptiveStatistics[len];
+        for (int j = 0; j < len; j++) {
+            final DescriptiveStatistics s = new DescriptiveStatistics();
+            for (int k = 0; k < repeatStat; k++) {
+                s.addValue(times[j][k][0]);
             }
+            stats[j] = s;
         }
 
-        final MultivariateRealFunction acc = FunctionUtils.collector(new Add(), 0);
-        final double[] avgTimes = new double[numMethods];
-
-        final double normFactor = 1d / (repeatStat * repeatChunk);
-        for (int j = 0; j < numMethods; j++) {
-            avgTimes[j] = normFactor * acc.value(times[j]);
-        }
-
-        return avgTimes;
+        return stats;
     }
 
     /**
-     * Timing and report (to standard output).
+     * Timing.
+     *
+     * @param repeatChunk Each timing measurement will done done for that
+     * number of repeats of the code.
+     * @param repeatStat Timing will be averaged over that number of runs.
+     * @param runGC Call {@code System.gc()} between each timed block. When
+     * set to {@code true}, the test will run much slower.
+     * @param methods Codes being timed.
+     * @return for each of the given {@code methods} (first dimension), and
+     * each of the {@code repeatStat} runs (second dimension):
+     * <ul>
+     *  <li>
+     *   the average time (in milliseconds) taken by a single call to the
+     *   {@code call} method (i.e. the time taken by each timed block divided
+     *   by {@code repeatChunk})
+     * </li>
+     * <li>
+     *  the result returned by the {@code call} method.
+     * </li>
+     */
+    public static double[][][] timesAndResults(int repeatChunk,
+                                               int repeatStat,
+                                               boolean runGC,
+                                               Callable<Double> ... methods) {
+        final int numMethods = methods.length;
+        final double[][][] timesAndResults = new double[numMethods][repeatStat][2];
+
+        try {
+            for (int k = 0; k < repeatStat; k++) {
+                for (int j = 0; j < numMethods; j++) {
+                    if (runGC) {
+                        // Try to perform GC outside the timed block.
+                        System.gc();
+                    }
+
+                    final Callable<Double> r = methods[j];
+                    double result = 0;
+
+                    // Timed block.
+                    final long start = System.nanoTime();
+                    for (int i = 0; i < repeatChunk; i++) {
+                        result = r.call();
+                    }
+                    final long stop = System.nanoTime();
+
+                    // Collect run time and results.
+                    timesAndResults[j][k][0] = (stop - start) * NANO_TO_MILLI;
+                    timesAndResults[j][k][1] = result;
+                }
+            }
+        } catch (Exception e) {
+            // Abort benchmarking if codes throw exceptions.
+            throw new MathIllegalStateException();
+        }
+
+        final double normFactor = 1d / repeatChunk;
+        for (int j = 0; j < numMethods; j++) {
+            for (int k = 0; k < repeatStat; k++) {
+                timesAndResults[j][k][0] *= normFactor;
+            }
+        }
+
+        return timesAndResults;
+    }
+
+    /**
+     * Timing and report (to standard output) the average time and standard
+     * deviation of a single call.
      *
      * @param title Title of the test (for the report).
      * @param repeatChunk Each timing measurement will done done for that
      * number of repeats of the code.
-     * @param repeatStat Timing will be averaged over that number of runs. 
-     * @param methods Code being timed.
-     * @return for each of the given {@code methods}, the averaged time (in
-     * milliseconds) taken by a call to {@code run}.
+     * @param repeatStat Timing will be averaged over that number of runs.
+     * @param runGC Call {@code System.gc()} between each timed block. When
+     * set to {@code true}, the test will run much slower.
+     * @param methods Codes being timed.
+     * @return for each of the given {@code methods}, a statistics of the
+     * average times (in milliseconds) taken by a single call to the
+     * {@code call} method (i.e. the time taken by each timed block divided
+     * by {@code repeatChunk}).
      */
-    public static double[] timeAndReport(String title,
-                                         int repeatChunk,
-                                         int repeatStat,
-                                         RunTest ... methods) {
-        System.out.println(title);
-        final double[] time = time(repeatChunk, repeatStat, methods);
-        for (int i = 0; i < time.length; i++) {
-            System.out.println(methods[i].getName() + ": " + time[i] + " ms");
+    public static DescriptiveStatistics[] timeAndReport(String title,
+                                                        int repeatChunk,
+                                                        int repeatStat,
+                                                        boolean runGC,
+                                                        RunTest ... methods) {
+        // Header format.
+        final String headerFormat = "%s (runs per timed block: %d, timed blocks: %d)";
+        // Result format.
+        final String format = "%15s: %e (%e) ms";
+
+        System.out.println(String.format(headerFormat,
+                                         title,
+                                         repeatChunk,
+                                         repeatStat));
+        final DescriptiveStatistics[] time = time(repeatChunk, repeatStat, runGC, methods);
+        for (int i = 0, max = time.length; i < max; i++) {
+            final DescriptiveStatistics s = time[i];
+            System.out.println(String.format(format,
+                                             methods[i].getName(),
+                                             s.getMean(),
+                                             s.getStandardDeviation()));
         }
 
         return time;
     }
 
     /**
+     * Timing and report (to standard output).
+     * This method calls {@link #timeAndReport(String,int,int,boolean,RunTest[])
+     * timeAndReport(title, 1000, 10000, false, methods)}.
+     *
+     * @param title Title of the test (for the report).
+     * @param methods Codes being timed.
+     * @return for each of the given {@code methods}, a statistics of the
+     * average times (in milliseconds) taken by a single call to the
+     * {@code call} method (i.e. the time taken by each timed block divided
+     * by {@code repeatChunk}).
+     */
+    public static DescriptiveStatistics[] timeAndReport(String title,
+                                                        RunTest ... methods) {
+        return timeAndReport(title,
+                             DEFAULT_REPEAT_CHUNK,
+                             DEFAULT_REPEAT_STAT,
+                             false,
+                             methods);
+    }
+
+    /**
      * Utility class for storing a test label.
      */
-    public static abstract class RunTest implements Runnable {
+    public static abstract class RunTest implements Callable<Double> {
         private final String name;
 
         /**
@@ -110,6 +217,6 @@ public class PerfTestUtils {
         }
 
         /** {@inheritDoc} */
-        public abstract void run();
+        public abstract Double call() throws Exception;
     }
 }
