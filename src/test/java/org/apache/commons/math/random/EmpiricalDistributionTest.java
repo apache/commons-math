@@ -23,14 +23,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * Test cases for the EmpiricalDistribution class
@@ -38,11 +36,10 @@ import org.junit.runner.RunWith;
  * @version $Id$
  */
 
-@RunWith(RetryRunner.class)
 public final class EmpiricalDistributionTest {
 
     protected EmpiricalDistributionImpl empiricalDistribution = null;
-    protected EmpiricalDistribution empiricalDistribution2 = null;
+    protected EmpiricalDistributionImpl empiricalDistribution2 = null;
     protected File file = null;
     protected URL url = null;
     protected double[] dataArray = null;
@@ -260,6 +257,7 @@ public final class EmpiricalDistributionTest {
 
     private void tstGen(double tolerance)throws Exception {
         empiricalDistribution.load(url);
+        empiricalDistribution.reSeed(1000);
         SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
@@ -270,6 +268,7 @@ public final class EmpiricalDistributionTest {
 
     private void tstDoubleGen(double tolerance)throws Exception {
         empiricalDistribution2.load(dataArray);
+        empiricalDistribution2.reSeed(1000);
         SummaryStatistics stats = new SummaryStatistics();
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution2.getNextValue());
