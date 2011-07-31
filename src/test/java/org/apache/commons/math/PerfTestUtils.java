@@ -16,8 +16,10 @@
  */
 package org.apache.commons.math;
 
+import java.util.Random;
 import java.util.concurrent.Callable;
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.exception.MathIllegalStateException;
 
 /**
@@ -30,6 +32,8 @@ public class PerfTestUtils {
     private static final int DEFAULT_REPEAT_CHUNK = 1000;
     /** Default number of code repeats for computing the average run time. */
     private static final int DEFAULT_REPEAT_STAT = 10000;
+    /** RNG. */
+    private static Random rng = new Random();
 
     /**
      * Timing.
@@ -40,28 +44,28 @@ public class PerfTestUtils {
      * @param runGC Call {@code System.gc()} between each timed block. When
      * set to {@code true}, the test will run much slower.
      * @param methods Codes being timed.
-     * @return for each of the given {@code methods}, a statistics of the
-     * average times (in milliseconds) taken by a single call to the
-     * {@code call} method (i.e. the time taken by each timed block divided
-     * by {@code repeatChunk}).
+     * @return for each of the given {@code methods}, a
+     * {@link StatisticalSummary} of the average times (in milliseconds)
+     * taken by a single call to the {@code call} method (i.e. the time
+     * taken by each timed block divided by {@code repeatChunk}).
      */
-    public static DescriptiveStatistics[] time(int repeatChunk,
-                                               int repeatStat,
-                                               boolean runGC,
-                                               Callable<Double> ... methods) {
+    public static StatisticalSummary[] time(int repeatChunk,
+                                            int repeatStat,
+                                            boolean runGC,
+                                            Callable<Double> ... methods) {
         final double[][][] times = timesAndResults(repeatChunk,
                                                    repeatStat,
                                                    runGC,
                                                    methods);
 
         final int len = methods.length;
-        final DescriptiveStatistics[] stats = new DescriptiveStatistics[len];
+        final StatisticalSummary[] stats = new StatisticalSummary[len];
         for (int j = 0; j < len; j++) {
-            final DescriptiveStatistics s = new DescriptiveStatistics();
+            final SummaryStatistics s = new SummaryStatistics();
             for (int k = 0; k < repeatStat; k++) {
                 s.addValue(times[j][k][0]);
             }
-            stats[j] = s;
+            stats[j] = s.getSummary();
         }
 
         return stats;
@@ -104,18 +108,19 @@ public class PerfTestUtils {
                     }
 
                     final Callable<Double> r = methods[j];
-                    double result = 0;
+                    final double[] result = new double[repeatChunk];
 
                     // Timed block.
                     final long start = System.nanoTime();
                     for (int i = 0; i < repeatChunk; i++) {
-                        result = r.call();
+                        result[i] = r.call();
                     }
                     final long stop = System.nanoTime();
 
-                    // Collect run time and results.
+                    // Collect run time.
                     timesAndResults[j][k][0] = (stop - start) * NANO_TO_MILLI;
-                    timesAndResults[j][k][1] = result;
+                    // Keep track of a randomly selected result.
+                    timesAndResults[j][k][1] = result[rng.nextInt(repeatChunk)];
                 }
             }
         } catch (Exception e) {
@@ -136,6 +141,8 @@ public class PerfTestUtils {
     /**
      * Timing and report (to standard output) the average time and standard
      * deviation of a single call.
+     * The timing is performed by calling the
+     * {@link #time(int,int,boolean,Callable[]) time} method.
      *
      * @param title Title of the test (for the report).
      * @param repeatChunk Each timing measurement will done done for that
@@ -149,23 +156,26 @@ public class PerfTestUtils {
      * {@code call} method (i.e. the time taken by each timed block divided
      * by {@code repeatChunk}).
      */
-    public static DescriptiveStatistics[] timeAndReport(String title,
-                                                        int repeatChunk,
-                                                        int repeatStat,
-                                                        boolean runGC,
-                                                        RunTest ... methods) {
+    public static StatisticalSummary[] timeAndReport(String title,
+                                                     int repeatChunk,
+                                                     int repeatStat,
+                                                     boolean runGC,
+                                                     RunTest ... methods) {
         // Header format.
-        final String headerFormat = "%s (runs per timed block: %d, timed blocks: %d)";
+        final String hFormat = "%s (runs per timed block: %d, timed blocks: %d)";
         // Result format.
         final String format = "%15s: %e (%e) ms";
 
-        System.out.println(String.format(headerFormat,
+        System.out.println(String.format(hFormat,
                                          title,
                                          repeatChunk,
                                          repeatStat));
-        final DescriptiveStatistics[] time = time(repeatChunk, repeatStat, runGC, methods);
+        final StatisticalSummary[] time = time(repeatChunk,
+                                               repeatStat,
+                                               runGC,
+                                               methods);
         for (int i = 0, max = time.length; i < max; i++) {
-            final DescriptiveStatistics s = time[i];
+            final StatisticalSummary s = time[i];
             System.out.println(String.format(format,
                                              methods[i].getName(),
                                              s.getMean(),
@@ -187,8 +197,8 @@ public class PerfTestUtils {
      * {@code call} method (i.e. the time taken by each timed block divided
      * by {@code repeatChunk}).
      */
-    public static DescriptiveStatistics[] timeAndReport(String title,
-                                                        RunTest ... methods) {
+    public static StatisticalSummary[] timeAndReport(String title,
+                                                     RunTest ... methods) {
         return timeAndReport(title,
                              DEFAULT_REPEAT_CHUNK,
                              DEFAULT_REPEAT_STAT,
