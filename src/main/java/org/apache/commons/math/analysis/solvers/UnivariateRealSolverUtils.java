@@ -87,16 +87,16 @@ public class UnivariateRealSolverUtils {
      * @param baseRoot original root found by a previous non-bracketing solver
      * @param min minimal bound of the search interval
      * @param max maximal bound of the search interval
-     * @param allowedSolutions the kind of solutions that the root-finding algorithm may
+     * @param allowedSolution the kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a root approximation, on the specified side of the exact root
      */
     public static double forceSide(final int maxEval, final UnivariateRealFunction f,
                                    final BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing,
                                    final double baseRoot, final double min, final double max,
-                                   final AllowedSolutions allowedSolutions) {
+                                   final AllowedSolution allowedSolution) {
 
-        if (allowedSolutions == AllowedSolutions.ANY_SIDE) {
+        if (allowedSolution == AllowedSolution.ANY_SIDE) {
             // no further bracketing required
             return baseRoot;
         }
@@ -113,7 +113,7 @@ public class UnivariateRealSolverUtils {
 
             if ((fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0)) {
                 // compute the root on the selected side
-                return bracketing.solve(remainingEval, f, xLo, xHi, baseRoot, allowedSolutions);
+                return bracketing.solve(remainingEval, f, xLo, xHi, baseRoot, allowedSolution);
             }
 
             // try increasing the interval

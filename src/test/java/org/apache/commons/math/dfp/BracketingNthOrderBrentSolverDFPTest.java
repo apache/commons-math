@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.dfp;
 
-import org.apache.commons.math.analysis.solvers.AllowedSolutions;
+import org.apache.commons.math.analysis.solvers.AllowedSolution;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.junit.Assert;
@@ -63,12 +63,12 @@ public final class BracketingNthOrderBrentSolverDFPTest {
         };
 
         Dfp result = solver.solve(20, f, field.newDfp(0.2), field.newDfp(0.9),
-                                  field.newDfp(0.4), AllowedSolutions.BELOW_SIDE);
+                                  field.newDfp(0.4), AllowedSolution.BELOW_SIDE);
         Assert.assertTrue(f.value(result).abs().lessThan(solver.getFunctionValueAccuracy()));
         Assert.assertTrue(f.value(result).negativeOrNull());
         Assert.assertTrue(result.subtract(field.newDfp(0.5)).subtract(solver.getAbsoluteAccuracy()).positiveOrNull());
         result = solver.solve(20, f, field.newDfp(-0.9), field.newDfp(-0.2),
-                              field.newDfp(-0.4), AllowedSolutions.ABOVE_SIDE);
+                              field.newDfp(-0.4), AllowedSolution.ABOVE_SIDE);
         Assert.assertTrue(f.value(result).abs().lessThan(solver.getFunctionValueAccuracy()));
         Assert.assertTrue(f.value(result).positiveOrNull());
         Assert.assertTrue(result.add(field.newDfp(0.5)).subtract(solver.getAbsoluteAccuracy()).negativeOrNull());
@@ -81,7 +81,7 @@ public final class BracketingNthOrderBrentSolverDFPTest {
         // "Several New Methods for solving Equations"
         // intern J. Computer Math Vol 23 pp 265-282
         // available here: http://www.math.nps.navy.mil/~bneta/SeveralNewMethods.PDF
-        for (AllowedSolutions allowed : AllowedSolutions.values()) {
+        for (AllowedSolution allowed : AllowedSolution.values()) {
             check(new UnivariateDfpFunction() {
                 public Dfp value(Dfp x) {
                     return DfpMath.sin(x).subtract(x.divide(2));
@@ -122,14 +122,14 @@ public final class BracketingNthOrderBrentSolverDFPTest {
     }
 
     private void check(UnivariateDfpFunction f, int maxEval, double min, double max,
-                       AllowedSolutions allowedSolutions) {
+                       AllowedSolution allowedSolution) {
         BracketingNthOrderBrentSolverDFP solver =
                 new BracketingNthOrderBrentSolverDFP(relativeAccuracy, absoluteAccuracy,
                                                      functionValueAccuracy, 20);
         Dfp xResult = solver.solve(maxEval, f, field.newDfp(min), field.newDfp(max),
-                                   allowedSolutions);
+                                   allowedSolution);
         Dfp yResult = f.value(xResult);
-        switch (allowedSolutions) {
+        switch (allowedSolution) {
         case ANY_SIDE :
             Assert.assertTrue(yResult.abs().lessThan(functionValueAccuracy.multiply(2)));
             break;

@@ -69,11 +69,11 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         BracketingNthOrderBrentSolver solver =
                 new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-10, 0.001, 3);
         QuinticFunction f = new QuinticFunction();
-        double result = solver.solve(20, f, 0.2, 0.9, 0.4, AllowedSolutions.BELOW_SIDE);
+        double result = solver.solve(20, f, 0.2, 0.9, 0.4, AllowedSolution.BELOW_SIDE);
         Assert.assertEquals(0, f.value(result), solver.getFunctionValueAccuracy());
         Assert.assertTrue(f.value(result) <= 0);
         Assert.assertTrue(result - 0.5 > solver.getAbsoluteAccuracy());
-        result = solver.solve(20, f, -0.9, -0.2,  -0.4, AllowedSolutions.ABOVE_SIDE);
+        result = solver.solve(20, f, -0.9, -0.2,  -0.4, AllowedSolution.ABOVE_SIDE);
         Assert.assertEquals(0, f.value(result), solver.getFunctionValueAccuracy());
         Assert.assertTrue(f.value(result) >= 0);
         Assert.assertTrue(result + 0.5 < -solver.getAbsoluteAccuracy());

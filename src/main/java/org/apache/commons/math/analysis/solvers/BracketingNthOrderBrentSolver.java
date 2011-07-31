@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * The changes with respect to the original Brent algorithm are:
  * <ul>
  *   <li>the returned value is chosen in the current interval according
- *   to user specified {@link AllowedSolutions},</li>
+ *   to user specified {@link AllowedSolution},</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
  * </ul>
@@ -60,7 +60,7 @@ public class BracketingNthOrderBrentSolver
     private final int maximalOrder;
 
     /** The kinds of solutions that the algorithm may accept. */
-    private AllowedSolutions allowed;
+    private AllowedSolution allowed;
 
     /**
      * Construct a solver with default accuracy and maximal order (1e-6 and 5 respectively)
@@ -84,7 +84,7 @@ public class BracketingNthOrderBrentSolver
             throw new NumberIsTooSmallException(maximalOrder, 2, true);
         }
         this.maximalOrder = maximalOrder;
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
     }
 
     /**
@@ -104,7 +104,7 @@ public class BracketingNthOrderBrentSolver
             throw new NumberIsTooSmallException(maximalOrder, 2, true);
         }
         this.maximalOrder = maximalOrder;
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
     }
 
     /**
@@ -126,7 +126,7 @@ public class BracketingNthOrderBrentSolver
             throw new NumberIsTooSmallException(maximalOrder, 2, true);
         }
         this.maximalOrder = maximalOrder;
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
     }
 
     /** Get the maximal order.
@@ -381,16 +381,16 @@ public class BracketingNthOrderBrentSolver
 
     /** {@inheritDoc} */
     public double solve(int maxEval, UnivariateRealFunction f, double min,
-                        double max, AllowedSolutions allowedSolutions) {
-        this.allowed = allowedSolutions;
+                        double max, AllowedSolution allowedSolution) {
+        this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max);
     }
 
     /** {@inheritDoc} */
     public double solve(int maxEval, UnivariateRealFunction f, double min,
                         double max, double startValue,
-                        AllowedSolutions allowedSolutions) {
-        this.allowed = allowedSolutions;
+                        AllowedSolution allowedSolution) {
+        this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max, startValue);
     }
 

@@ -53,7 +53,7 @@ public abstract class BaseSecantSolver
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /** The kinds of solutions that the algorithm may accept. */
-    private AllowedSolutions allowed;
+    private AllowedSolution allowed;
 
     /** The <em>Secant</em>-based root-finding method to use. */
     private final Method method;
@@ -66,7 +66,7 @@ public abstract class BaseSecantSolver
      */
     protected BaseSecantSolver(final double absoluteAccuracy, final Method method) {
         super(absoluteAccuracy);
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
         this.method = method;
     }
 
@@ -81,7 +81,7 @@ public abstract class BaseSecantSolver
                                final double absoluteAccuracy,
                                final Method method) {
         super(relativeAccuracy, absoluteAccuracy);
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
         this.method = method;
     }
 
@@ -98,22 +98,22 @@ public abstract class BaseSecantSolver
                                final double functionValueAccuracy,
                                final Method method) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
-        this.allowed = AllowedSolutions.ANY_SIDE;
+        this.allowed = AllowedSolution.ANY_SIDE;
         this.method = method;
     }
 
     /** {@inheritDoc} */
     public double solve(final int maxEval, final UnivariateRealFunction f,
                         final double min, final double max,
-                        final AllowedSolutions allowedSolutions) {
-        return solve(maxEval, f, min, max, min + 0.5 * (max - min), allowedSolutions);
+                        final AllowedSolution allowedSolution) {
+        return solve(maxEval, f, min, max, min + 0.5 * (max - min), allowedSolution);
     }
 
     /** {@inheritDoc} */
     public double solve(final int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double startValue,
-                        final AllowedSolutions allowedSolutions) {
-        this.allowed = allowedSolutions;
+                        final AllowedSolution allowedSolution) {
+        this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max, startValue);
     }
 
@@ -121,7 +121,7 @@ public abstract class BaseSecantSolver
     @Override
     public double solve(final int maxEval, final UnivariateRealFunction f,
                         final double min, final double max, final double startValue) {
-        return solve(maxEval, f, min, max, startValue, AllowedSolutions.ANY_SIDE);
+        return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
     }
 
     /** {@inheritDoc} */

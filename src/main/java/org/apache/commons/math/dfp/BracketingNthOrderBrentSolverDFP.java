@@ -17,7 +17,7 @@
 package org.apache.commons.math.dfp;
 
 
-import org.apache.commons.math.analysis.solvers.AllowedSolutions;
+import org.apache.commons.math.analysis.solvers.AllowedSolution;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathUtils;
  * The changes with respect to the original Brent algorithm are:
  * <ul>
  *   <li>the returned value is chosen in the current interval according
- *   to user specified {@link AllowedSolutions},</li>
+ *   to user specified {@link AllowedSolution},</li>
  *   <li>the maximal order for the invert polynomial root search is
  *   user-specified instead of being invert quadratic only</li>
  * </ul>
@@ -145,7 +145,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param f Function to solve.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
-     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
+     * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
@@ -154,8 +154,8 @@ public class BracketingNthOrderBrentSolverDFP {
      * the allowed number of evaluations is exceeded.
      */
     public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
-                     final Dfp min, final Dfp max, final AllowedSolutions allowedSolutions) {
-        return solve(maxEval, f, min, max, min.add(max).divide(2), allowedSolutions);
+                     final Dfp min, final Dfp max, final AllowedSolution allowedSolution) {
+        return solve(maxEval, f, min, max, min.add(max).divide(2), allowedSolution);
     }
 
     /**
@@ -169,7 +169,7 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
-     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
+     * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
@@ -179,7 +179,7 @@ public class BracketingNthOrderBrentSolverDFP {
      */
     public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
                      final Dfp min, final Dfp max, final Dfp startValue,
-                     final AllowedSolutions allowedSolutions) {
+                     final AllowedSolution allowedSolution) {
 
         // Checks.
         MathUtils.checkNotNull(f);
@@ -266,7 +266,7 @@ public class BracketingNthOrderBrentSolverDFP {
             final Dfp xTol = absoluteAccuracy.add(relativeAccuracy.multiply(maxX));
             if (xB.subtract(xA).subtract(xTol).negativeOrNull() ||
                 maxY.lessThan(functionValueAccuracy)) {
-                switch (allowedSolutions) {
+                switch (allowedSolution) {
                 case ANY_SIDE :
                     return absYA.lessThan(absYB) ? xA : xB;
                 case LEFT_SIDE :

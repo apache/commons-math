@@ -38,7 +38,7 @@ package org.apache.commons.math.analysis.solvers;
  * @since 3.0
  * @version $Id$
  */
-public enum AllowedSolutions {
+public enum AllowedSolution {
     /** There are no additional side restriction on the solutions for
      * root-finding. That is, both under-approximations and over-approximations
      * are allowed. So, if a function f(x) has a root at x = x0, then the

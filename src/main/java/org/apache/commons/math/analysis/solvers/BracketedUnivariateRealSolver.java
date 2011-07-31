@@ -30,17 +30,17 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *      return roots that are greater than or equal to the actual root, or
  *      are less than or equal to the actual root. That is, we can control
  *      whether under-approximations and over-approximations are
- *      {@link AllowedSolutions allowed solutions}. Other root-finding
+ *      {@link AllowedSolution allowed solutions}. Other root-finding
  *      algorithms can usually only guarantee that the solution (the root that
  *      was found) is around the actual root.</li>
  * </ul>
  *
  * <p>For backwards compatibility, all root-finding algorithms must have
- * {@link AllowedSolutions#ANY_SIDE ANY_SIDE} as default for the allowed
+ * {@link AllowedSolution#ANY_SIDE ANY_SIDE} as default for the allowed
  * solutions.</p>
  * @param <FUNC> Type of function to solve.
  *
- * @see AllowedSolutions
+ * @see AllowedSolution
  * @since 3.0
  * @version $Id$
  */
@@ -57,7 +57,7 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * @param f Function to solve.
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
-     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
+     * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return A value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
@@ -66,7 +66,7 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * the allowed number of evaluations is exceeded.
      */
     double solve(int maxEval, FUNC f, double min, double max,
-                 AllowedSolutions allowedSolutions);
+                 AllowedSolution allowedSolution);
 
     /**
      * Solve for a zero in the given interval, start at {@code startValue}.
@@ -79,7 +79,7 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * @param min Lower bound for the interval.
      * @param max Upper bound for the interval.
      * @param startValue Start value to use.
-     * @param allowedSolutions The kind of solutions that the root-finding algorithm may
+     * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return A value where the function is zero.
      * @throws org.apache.commons.math.exception.MathIllegalArgumentException
@@ -88,6 +88,6 @@ public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFuncti
      * the allowed number of evaluations is exceeded.
      */
     double solve(int maxEval, FUNC f, double min, double max, double startValue,
-                 AllowedSolutions allowedSolutions);
+                 AllowedSolution allowedSolution);
 
 }

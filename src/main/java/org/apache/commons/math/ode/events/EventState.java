@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.solvers.AllowedSolutions;
+import org.apache.commons.math.analysis.solvers.AllowedSolution;
 import org.apache.commons.math.analysis.solvers.BracketedUnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.PegasusSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
@@ -244,8 +244,8 @@ public class EventState {
                         BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
                                 (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
                         root = forward ?
-                               bracketing.solve(maxIterationCount, f, ta, tb, AllowedSolutions.RIGHT_SIDE) :
-                               bracketing.solve(maxIterationCount, f, tb, ta, AllowedSolutions.LEFT_SIDE);
+                               bracketing.solve(maxIterationCount, f, ta, tb, AllowedSolution.RIGHT_SIDE) :
+                               bracketing.solve(maxIterationCount, f, tb, ta, AllowedSolution.LEFT_SIDE);
                     } else {
                         final double baseRoot = forward ?
                                                 solver.solve(maxIterationCount, f, ta, tb) :
@@ -255,9 +255,9 @@ public class EventState {
                                 new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
                         root = forward ?
                                UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
-                                                                   baseRoot, ta, tb, AllowedSolutions.RIGHT_SIDE) :
+                                                                   baseRoot, ta, tb, AllowedSolution.RIGHT_SIDE) :
                                UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
-                                                                   baseRoot, tb, ta, AllowedSolutions.LEFT_SIDE);
+                                                                   baseRoot, tb, ta, AllowedSolution.LEFT_SIDE);
                     }
 
                     if ((!Double.isNaN(previousEventTime)) &&

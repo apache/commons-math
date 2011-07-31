@@ -166,7 +166,7 @@ public abstract class BaseSecantSolverAbstractTest {
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.LEFT_SIDE);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolution.LEFT_SIDE);
             if (!Double.isNaN(solution)) {
                 Assert.assertTrue(solution <= 0.0);
             }
@@ -185,7 +185,7 @@ public abstract class BaseSecantSolverAbstractTest {
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.RIGHT_SIDE);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolution.RIGHT_SIDE);
             if (!Double.isNaN(solution)) {
                 Assert.assertTrue(solution >= 0.0);
             }
@@ -203,7 +203,7 @@ public abstract class BaseSecantSolverAbstractTest {
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.BELOW_SIDE);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolution.BELOW_SIDE);
             if (!Double.isNaN(solution)) {
                 Assert.assertTrue(f.value(solution) <= 0.0);
             }
@@ -222,7 +222,7 @@ public abstract class BaseSecantSolverAbstractTest {
         double right = 0.05;
         for(int i = 0; i < 10; i++) {
             // Test whether the allowed solutions are taken into account.
-            double solution = getSolution(solver, 100, f, left, right, AllowedSolutions.ABOVE_SIDE);
+            double solution = getSolution(solver, 100, f, left, right, AllowedSolution.ABOVE_SIDE);
             if (!Double.isNaN(solution)) {
                 Assert.assertTrue(f.value(solution) >= 0.0);
             }
@@ -234,12 +234,12 @@ public abstract class BaseSecantSolverAbstractTest {
     }
 
     private double getSolution(UnivariateRealSolver solver, int maxEval, UnivariateRealFunction f,
-                               double left, double right, AllowedSolutions allowedSolutions) {
+                               double left, double right, AllowedSolution allowedSolution) {
         try {
             @SuppressWarnings("unchecked")
             BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
             (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
-            return bracketing.solve(100, f, left, right, allowedSolutions);
+            return bracketing.solve(100, f, left, right, allowedSolution);
         } catch (ClassCastException cce) {
             double baseRoot = solver.solve(maxEval, f, left, right);
             if ((baseRoot <= left) || (baseRoot >= right)) {
@@ -251,7 +251,7 @@ public abstract class BaseSecantSolverAbstractTest {
                                       solver.getFunctionValueAccuracy());
             return UnivariateRealSolverUtils.forceSide(maxEval - solver.getEvaluations(),
                                                        f, bracketing, baseRoot, left, right,
-                                                       allowedSolutions);
+                                                       allowedSolution);
         }
     }
 
