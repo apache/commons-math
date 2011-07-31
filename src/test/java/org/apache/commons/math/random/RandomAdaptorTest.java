@@ -58,7 +58,17 @@ public class RandomAdaptorTest {
      * "Powered by Eclipse ;-)"
      *
      */
-    private static class ConstantGenerator implements RandomGenerator {
+    public static class ConstantGenerator implements RandomGenerator {
+        
+        private final double value;
+        
+        public ConstantGenerator() {
+            value = 0;
+        }
+        
+        public ConstantGenerator(double value) {
+            this.value = value;
+        }
 
         public boolean nextBoolean() {
             return false;
@@ -68,27 +78,27 @@ public class RandomAdaptorTest {
         }
 
         public double nextDouble() {
-            return 0;
+            return value;
         }
 
         public float nextFloat() {
-            return 0;
+            return (float) value;
         }
 
         public double nextGaussian() {
-            return 0;
+            return value;
         }
 
         public int nextInt() {
-            return 0;
+            return (int) value;
         }
 
         public int nextInt(int n) {
-            return 0;
+            return (int) value;
         }
 
         public long nextLong() {
-            return 0;
+            return (int) value;
         }
 
         public void setSeed(int seed) {
