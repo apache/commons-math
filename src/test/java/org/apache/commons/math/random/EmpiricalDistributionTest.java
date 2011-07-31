@@ -233,8 +233,8 @@ public final class EmpiricalDistributionTest {
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution.getNextValue());
         }
-        Assert.assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
-        Assert.assertEquals("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
+        Assert.assertEquals("mean", 5.069831575018909, stats.getMean(),tolerance);
+        Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),tolerance);
     }
 
     private void tstDoubleGen(double tolerance)throws Exception {
@@ -243,7 +243,7 @@ public final class EmpiricalDistributionTest {
         for (int i = 1; i < 1000; i++) {
             stats.addValue(empiricalDistribution2.getNextValue());
         }
-        Assert.assertEquals("mean", stats.getMean(),5.069831575018909,tolerance);
-        Assert.assertEquals("std dev", stats.getStandardDeviation(),1.0173699343977738,tolerance);
+        Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
+        Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
     }
 }
