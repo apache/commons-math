@@ -41,7 +41,7 @@ import org.junit.runner.RunWith;
 @RunWith(RetryRunner.class)
 public final class EmpiricalDistributionTest {
 
-    protected EmpiricalDistribution empiricalDistribution = null;
+    protected EmpiricalDistributionImpl empiricalDistribution = null;
     protected EmpiricalDistribution empiricalDistribution2 = null;
     protected File file = null;
     protected URL url = null;
@@ -213,6 +213,37 @@ public final class EmpiricalDistributionTest {
         double tol = 10E-12;
         TestUtils.assertEquals(expectedBinUpperBounds, dist.getUpperBounds(), tol);
         TestUtils.assertEquals(expectedGeneratorUpperBounds, dist.getGeneratorUpperBounds(), tol);
+    }
+    
+    @Test
+    public void testGeneratorConfig() {
+        double[] testData = {0, 1, 2, 3, 4};
+        RandomGenerator generator = new RandomAdaptorTest.ConstantGenerator(0.5);
+        
+        EmpiricalDistribution dist = new EmpiricalDistributionImpl(5, generator);
+        dist.load(testData);
+        for (int i = 0; i < 5; i++) {
+            Assert.assertEquals(2.0, dist.getNextValue(), 0d);
+        }
+        
+        // Verify no NPE with null generator argument
+        dist = new EmpiricalDistributionImpl(5, null);
+        dist.load(testData);
+        dist.getNextValue();
+    }
+    
+    @Test
+    public void testReSeed() throws Exception {
+        empiricalDistribution.load(url);
+        empiricalDistribution.reSeed(100);
+        final double [] values = new double[10];
+        for (int i = 0; i < 10; i++) {
+            values[i] = empiricalDistribution.getNextValue();
+        }
+        empiricalDistribution.reSeed(100);
+        for (int i = 0; i < 10; i++) {
+            Assert.assertEquals(values[i],empiricalDistribution.getNextValue(), 0d);
+        }
     }
 
     private void verifySame(EmpiricalDistribution d1, EmpiricalDistribution d2) {

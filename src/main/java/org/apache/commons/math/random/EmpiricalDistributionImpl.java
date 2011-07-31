@@ -92,23 +92,35 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     private double[] upperBounds = null;
 
     /** RandomData instance to use in repeated calls to getNext() */
-    private final RandomData randomData = new RandomDataImpl();
+    private final RandomDataImpl randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistributionImpl() {
-        binCount = 1000;
-        binStats = new ArrayList<SummaryStatistics>();
+        this(1000, null);
     }
 
     /**
-     * Creates a new EmpiricalDistribution  with the specified bin count.
+     * Creates a new EmpiricalDistribution with the specified bin count.
      *
      * @param binCount number of bins
      */
     public EmpiricalDistributionImpl(int binCount) {
+        this(binCount, null);
+    }
+    
+    /**
+     * Creates a new EmpiricalDistribution with the specified bin count using the
+     * provided {@link RandomGenerator} as the source of random data.
+     * 
+     * @param binCount number of bins
+     * @param generator random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistributionImpl(int binCount, RandomGenerator generator) {
         this.binCount = binCount;
+        randomData = new RandomDataImpl(generator);
         binStats = new ArrayList<SummaryStatistics>();
     }
 
@@ -385,7 +397,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         }
 
         // Start with a uniformly distributed random number in (0,1)
-        double x = FastMath.random();
+        double x = randomData.nextUniform(0,1);
 
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {
@@ -484,5 +496,15 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      */
     public boolean isLoaded() {
         return loaded;
+    }
+    
+    /**
+     * Reseeds the random number generator used by {@link #getNextValue()}.
+     * 
+     * @param seed random generator seed
+     * @since 3.0
+     */
+    public void reSeed(long seed) {
+        randomData.reSeed(seed);
     }
 }
