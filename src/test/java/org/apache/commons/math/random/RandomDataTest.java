@@ -65,6 +65,7 @@ public class RandomDataTest {
 
     public RandomDataTest() {
         randomData = new RandomDataImpl();
+        randomData.reSeed(1000);
     }
 
     protected final long smallSampleSize = 1000;
@@ -246,9 +247,6 @@ public class RandomDataTest {
 
     @Test
     public void testNextPoissonConsistency() throws Exception {
-
-        // Reseed randomGenerator to get fixed sequence
-        randomData.reSeed(1000);
 
         // Small integral means
         for (int i = 1; i < 100; i++) {

@@ -16,140 +16,19 @@
  */
 package org.apache.commons.math.random;
 
-
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MersenneTwisterTest {
+public class MersenneTwisterTest extends RandomGeneratorAbstractTest {
 
-    @Test
-    public void testGaussian() {
-        MersenneTwister mt = new MersenneTwister(42853252100l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 1000; ++i) {
-            sample.addValue(mt.nextGaussian());
-        }
-        Assert.assertEquals(0.0, sample.getMean(), 0.005);
-        Assert.assertEquals(1.0, sample.getStandardDeviation(), 0.025);
+    @Override
+    protected RandomGenerator makeGenerator() {
+        return new MersenneTwister(100);
     }
-
-    @Test
-    public void testDouble() {
-        MersenneTwister mt = new MersenneTwister(195357343514l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 1000; ++i) {
-            sample.addValue(mt.nextDouble());
-        }
-        Assert.assertEquals(0.5, sample.getMean(), 0.02);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.002);
-    }
-
-    @Test
-    public void testFloat() {
-        MersenneTwister mt = new MersenneTwister(4442733263l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 1000; ++i) {
-            sample.addValue(mt.nextFloat());
-        }
-        Assert.assertEquals(0.5, sample.getMean(), 0.01);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.006);
-    }
-
-    @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntNeg() {
-        new MersenneTwister(1).nextInt(-1);
-    }
-
-    @Test
-    public void testNextIntN() {
-        MersenneTwister mt = new MersenneTwister(0x12b8a7412bb25el);
-        for (int n = 1; n < 20; ++n) {
-            int[] count = new int[n];
-            for (int k = 0; k < 10000; ++k) {
-                int l = mt.nextInt(n);
-                ++count[l];
-                Assert.assertTrue(l >= 0);
-                Assert.assertTrue(l <  n);
-            }
-            for (int i = 0; i < n; ++i) {
-                Assert.assertTrue(n * count[i] >  8600);
-                Assert.assertTrue(n * count[i] < 11200);
-            }
-        }
-    }
-
-    @Test
-    public void testNextInt() {
-        MersenneTwister mt = new MersenneTwister(new int[] { 1, 2, 3, 4, 5 });
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextInt() >= 0) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 120);
-    }
-
-    @Test
-    public void testNextLong() {
-        MersenneTwister mt = new MersenneTwister(12345);
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextLong() >= 0) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 50);
-    }
-
-    @Test
-    public void testNexBoolean() {
-        MersenneTwister mt = new MersenneTwister(76342);
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextBoolean()) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 250);
-    }
-
-    @Test
-    public void testNexBytes() {
-        MersenneTwister mt = new MersenneTwister(0);
-        int[] count = new int[256];
-        byte[] bytes = new byte[10];
-        for (int k = 0; k < 100000; ++k) {
-           mt.nextBytes(bytes);
-           for (byte b : bytes) {
-               ++count[b + 128];
-           }
-        }
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (int c : count) {
-            min = FastMath.min(min, c);
-            max = FastMath.max(max, c);
-        }
-        int expected = (100000 * bytes.length) / count.length;
-        Assert.assertTrue((expected - 200) < min);
-        Assert.assertTrue(max < (expected + 200));
-    }
-
+    
+    // TODO: Some of the tests moved up to RandomGeneratorAbstractTest tested alternative seeding / constructors
+    // Tests exercising these features directly should be added to this class.
+    
     @Test
     public void testMakotoNishimura() {
         MersenneTwister mt = new MersenneTwister(new int[] {0x123, 0x234, 0x345, 0x456});

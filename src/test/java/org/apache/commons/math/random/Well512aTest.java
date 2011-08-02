@@ -19,8 +19,12 @@ package org.apache.commons.math.random;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Well512aTest {
-
+public class Well512aTest extends RandomGeneratorAbstractTest {
+    
+    @Override
+    public RandomGenerator makeGenerator() {
+        return new Well512a(100);
+    }
     @Test
     public void testReferenceCode() {
         Well512a mt = new Well512a(new int[] {

@@ -18,137 +18,15 @@ package org.apache.commons.math.random;
 
 import org.junit.Assert;
 
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 
-public class Well1024aTest {
+public class Well1024aTest extends RandomGeneratorAbstractTest {
 
-    @Test
-    public void testGaussian() {
-        Well1024a mt = new Well1024a(42853252100l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 10000; ++i) {
-            sample.addValue(mt.nextGaussian());
-        }
-        Assert.assertEquals(0.0, sample.getMean(), 0.004);
-        Assert.assertEquals(1.0, sample.getStandardDeviation(), 0.003);
+    @Override
+    protected RandomGenerator makeGenerator() {
+        return new Well1024a(100);
     }
-
-    @Test
-    public void testDouble() {
-        Well1024a mt = new Well1024a(195357343514l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 10000; ++i) {
-            sample.addValue(mt.nextDouble());
-        }
-        Assert.assertEquals(0.5, sample.getMean(), 0.0006);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.002);
-    }
-
-    @Test
-    public void testFloat() {
-        Well1024a mt = new Well1024a(4442733263l);
-        SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 10000; ++i) {
-            sample.addValue(mt.nextFloat());
-        }
-        Assert.assertEquals(0.5, sample.getMean(), 0.0001);
-        Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.003);
-    }
-
-    @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntNeg() {
-        new Well1024a(1).nextInt(-1);
-    }
-
-    @Test
-    public void testNextIntN() {
-        Well1024a mt = new Well1024a(0x12b8a7412bb25el);
-        for (int n = 1; n < 20; ++n) {
-            int[] count = new int[n];
-            for (int k = 0; k < 10000; ++k) {
-                int l = mt.nextInt(n);
-                ++count[l];
-                Assert.assertTrue(l >= 0);
-                Assert.assertTrue(l <  n);
-            }
-            for (int i = 0; i < n; ++i) {
-                Assert.assertTrue(n * count[i] >  8600);
-                Assert.assertTrue(n * count[i] < 11200);
-            }
-        }
-    }
-
-    @Test
-    public void testNextInt() {
-        Well1024a mt = new Well1024a(new int[] { 1, 2, 3, 4, 5 });
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextInt() >= 0) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 70);
-    }
-
-    @Test
-    public void testNextLong() {
-        Well1024a mt = new Well1024a(12345);
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextLong() >= 0) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 70);
-    }
-
-    @Test
-    public void testNexBoolean() {
-        Well1024a mt = new Well1024a(76342);
-        int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
-           if (mt.nextBoolean()) {
-               ++walk;
-           } else {
-               --walk;
-           }
-        }
-        Assert.assertTrue(FastMath.abs(walk) < 180);
-    }
-
-    @Test
-    public void testNexBytes() {
-        Well1024a mt = new Well1024a(0);
-        int[] count = new int[256];
-        byte[] bytes = new byte[10];
-        for (int k = 0; k < 1000000; ++k) {
-           mt.nextBytes(bytes);
-           for (byte b : bytes) {
-               ++count[b + 128];
-           }
-        }
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (int c : count) {
-            min = FastMath.min(min, c);
-            max = FastMath.max(max, c);
-        }
-        int expected = (1000000 * bytes.length) / count.length;
-        Assert.assertTrue((expected - 600) < min);
-        Assert.assertTrue(max < (expected + 600));
-    }
-
+    
     @Test
     public void testReferenceCode() {
         Well1024a mt = new Well1024a(new int[] {
