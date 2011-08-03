@@ -53,7 +53,7 @@ The <action> type attribute can be add,update,fix,remove.
      -->
     <release version="3.0" date="TBD" description="TBD">
       <action dev="erans" type="add" issue="MATH-637">
-        Simple benchmark utility (new class "PerfTestUtils").
+        Simple benchmark utility (new class "PerfTestUtils" added to test sources in src/test).
       </action>
       <action dev="luc" type="add" issue="MATH-636" >
         Added a solver for Dfp-based (i.e. high accuracy) functions.
