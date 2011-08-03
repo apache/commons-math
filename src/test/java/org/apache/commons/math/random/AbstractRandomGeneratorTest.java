@@ -23,16 +23,6 @@ package org.apache.commons.math.random;
  */
 
 public class AbstractRandomGeneratorTest extends RandomGeneratorAbstractTest {
-    
-    @Override
-    public void testNextInt2() {
-        // Currently broken.  Remove this stub when MATH-640 is resolved
-    }
-    
-    @Override
-    public void testNextLong2() {
-        // Currently broken.  Remove this stub when MATH-640 is resolved
-    }
 
     public AbstractRandomGeneratorTest() {
         super();
@@ -40,7 +30,7 @@ public class AbstractRandomGeneratorTest extends RandomGeneratorAbstractTest {
     
     protected RandomGenerator makeGenerator() {
         RandomGenerator generator = new TestRandomGenerator();
-        generator.setSeed(1000);
+        generator.setSeed(1001);
         return generator;
     }
     

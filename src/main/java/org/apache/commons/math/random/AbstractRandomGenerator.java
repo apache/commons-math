@@ -134,7 +134,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      *  value from this random number generator's sequence
      */
     public int nextInt() {
-        return (int) (nextDouble() * Integer.MAX_VALUE);
+        return (int) ((2d * nextDouble() - 1d) * Integer.MAX_VALUE);
     }
 
     /**
@@ -176,7 +176,7 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
      *value from this random number generator's sequence
      */
     public long nextLong() {
-        return (long) (nextDouble() * Long.MAX_VALUE);
+        return (long) ((2d * nextDouble() - 1d) * Long.MAX_VALUE);
     }
 
     /**

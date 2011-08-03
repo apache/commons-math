@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-640">
+        Fixed bugs in AbstractRandomGenerator nextInt() and nextLong() default
+        implementations.  Prior to the fix for this issue, these methods
+        generated only positive values.
+      </action>
       <action dev="erans" type="add" issue="MATH-637">
         Simple benchmark utility (new class "PerfTestUtils" added to test sources in src/test).
       </action>
