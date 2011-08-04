@@ -71,7 +71,7 @@ public class NonPositiveDefiniteLinearOperatorException
      *
      * @return the offending vector.
      */
-    public RealVector copyOffendingVector() {
+    public RealVector getOffendingVector() {
         return x;
     }
 
