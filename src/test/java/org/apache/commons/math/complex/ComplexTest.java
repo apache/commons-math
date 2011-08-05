@@ -479,20 +479,6 @@ public class ComplexTest {
         Assert.assertTrue(realNaN.equals(imaginaryNaN));
         Assert.assertTrue(imaginaryNaN.equals(complexNaN));
         Assert.assertTrue(realNaN.equals(complexNaN));
-
-        final double a = Double.NaN;
-        final double b = Double.NaN;
-        Assert.assertFalse("a == b", a == b);
-        Assert.assertEquals("a != b", a, b, Double.MIN_VALUE);
-        Assert.assertFalse("a == b", MathUtils.equals(a, b));
-        Assert.assertFalse("a == b", MathUtils.equals(a, b, Double.MIN_VALUE));
-        final Double dA = Double.valueOf(a);
-        final Double dB = Double.valueOf(b);
-        Assert.assertFalse("dA == dB", dA.doubleValue() == dB.doubleValue());
-        Assert.assertTrue("!dA.equals(dB)", dA.equals(dB));
-        final Complex cA = new Complex(a, 0);
-        final Complex cB = new Complex(b, 0);
-        Assert.assertTrue("!cA.equals(cB)", cA.equals(cB));
     }
 
     @Test

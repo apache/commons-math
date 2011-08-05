@@ -31,18 +31,24 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Representation of a Complex number, i.e. a number which has both a
  * real and imaginary part.
- * Implementations of arithmetic operations handle {@code NaN} and
- * infinite values according to the rules for {@link java.lang.Double}
- * arithmetic, applying definitional formulas and returning {@code NaN} or
- * infinite values in real or imaginary parts as these arise in computation.
- * See individual method javadocs for details.
  * <br/>
- * {@link #equals} identifies all values with {@code NaN} in either real
- * or imaginary part, e.g.
- * <pre>
- *  {@code 1 + NaNi  == NaN + i == NaN + NaNi.}
- * </pre>
- *
+ * Implementations of arithmetic operations handle {@code NaN} and
+ * infinite values according to the rules for {@link java.lang.Double}, i.e.
+ * {@link #equals} is an equivalence relation for all instances that have
+ * a {@code NaN} in either real or imaginary part, e.g. the following are
+ * considered equal:
+ * <ul>
+ *  <li>{@code 1 + NaNi}</li>
+ *  <li>{@code NaN + i}</li>
+ *  <li>{@code NaN + NaNi}</li>
+ * </ul>
+ * Note that this is in contradiction with the IEEE-754 standard for floating
+ * point numbers (according to which the test {@code x == x} must fail if
+ * {@code x} is {@code NaN}). The method
+ * {@link MathUtils#equals(double,double,int) equals for primitive double} in
+ * {@link MathUtils} conforms with IEEE-754 while this class conforms with
+ * the standard behavior for Java object types.
+ * <br/>
  * Implements Serializable since 2.0
  *
  * @version $Id$
