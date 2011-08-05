@@ -2362,7 +2362,7 @@ public final class MathUtils {
 
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE753 floating point arithmetic rouding properties.
+        // do use IEEE754 floating point arithmetic rouding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
@@ -2435,7 +2435,7 @@ public final class MathUtils {
 
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE753 floating point arithmetic rouding properties.
+        // do use IEEE754 floating point arithmetic rouding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
@@ -2530,7 +2530,7 @@ public final class MathUtils {
 
         // the code below is split in many additions/subtractions that may
         // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE753 floating point arithmetic rouding properties.
+        // do use IEEE754 floating point arithmetic rouding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
