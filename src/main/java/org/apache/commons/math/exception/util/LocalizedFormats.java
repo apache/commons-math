@@ -172,7 +172,7 @@ public enum LocalizedFormats implements Localizable {
     NON_REAL_FINITE_ABSCISSA("all abscissae must be finite real numbers, but {0}-th is {1}"),
     NON_REAL_FINITE_ORDINATE("all ordinatae must be finite real numbers, but {0}-th is {1}"),
     NON_REAL_FINITE_WEIGHT("all weights must be finite real numbers, but {0}-th is {1}"),
-    NON_SQUARE_MATRIX("a {0}x{1} matrix was provided instead of a square matrix"),
+    NON_SQUARE_MATRIX("non square ({0}x{1}) matrix"),
     NORMALIZE_INFINITE("Cannot normalize to an infinite value"),
     NORMALIZE_NAN("Cannot normalize to NaN"),
     NOT_ADDITION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not addition compatible"),
@@ -188,8 +188,9 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"),
     NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({0},{0}) is larger than {2}"), /* keep */
-    NON_POSITIVE_DEFINITE_LINEAR_OPERATOR("non positive definite linear operator: x' A x <= 0 when x is {0}"),
-    NON_SELF_ADJOINT_LINEAR_OPERATOR("non self-adjoint linear operator: |x' A y - y' A x| > {0} when x is {1} and y is {2}"),
+    NON_POSITIVE_DEFINITE_LINEAR_OPERATOR("non positive definite linear operator"), /* keep */
+    NON_SELF_ADJOINT_LINEAR_OPERATOR("non self-adjoint linear operator"), /* keep */
+    NON_SQUARE_LINEAR_OPERATOR("non square ({0}x{1}) linear operator"), /* keep */
     DEGREES_OF_FREEDOM("degrees of freedom ({0})"), /* keep */
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),

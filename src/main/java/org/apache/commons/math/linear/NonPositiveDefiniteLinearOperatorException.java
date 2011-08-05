@@ -33,54 +33,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  */
 public class NonPositiveDefiniteLinearOperatorException
     extends MathIllegalArgumentException {
-    /** The offending linear operator.*/
-    private final RealLinearOperator a;
-    /** A reference to the offending vector. */
-    private final RealVector x;
-
-    /**
-     * Creates a new instance of this class.
-     *
-     * @param a Offending linear operator.
-     * @param x Offending vector.
-     */
-    public NonPositiveDefiniteLinearOperatorException(final RealLinearOperator a,
-                                                      final double[] x) {
-        this(a, new ArrayRealVector(x, false));
-    }
-
-    /**
-     * Creates a new instance of this class.
-     *
-     * @param a Offending linear operator.
-     * @param x Offending vector.
-     */
-    public NonPositiveDefiniteLinearOperatorException(final RealLinearOperator a,
-                                                      final RealVector x) {
-        super(LocalizedFormats.NON_POSITIVE_DEFINITE_LINEAR_OPERATOR, x);
-        this.a = a;
-        this.x = x;
-    }
-
-    /**
-     * Returns a reference to the offending vector.
-     * If the exception was raised by a call to
-     * {@link #NonPositiveDefiniteLinearOperatorException(RealLinearOperator,
-     * double[])}, then a new {@link ArrayRealVector} holding a reference to
-     * the actual {@code double[]} is returned.
-     *
-     * @return the offending vector.
-     */
-    public RealVector getOffendingVector() {
-        return x;
-    }
-
-    /**
-     * Returns a reference to the offending linear operator.
-     *
-     * @return the offending linear operator.
-     */
-    public RealLinearOperator getOffendingLinearOperator() {
-        return a;
+    /** Creates a new instance of this class. */
+    public NonPositiveDefiniteLinearOperatorException() {
+        super(LocalizedFormats.NON_POSITIVE_DEFINITE_LINEAR_OPERATOR);
     }
 }

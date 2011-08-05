@@ -26,7 +26,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Id$
  */
 public class NonSquareMatrixException extends DimensionMismatchException {
-
     /** Serializable version Id. */
     private static final long serialVersionUID = -660069396594485772L;
 

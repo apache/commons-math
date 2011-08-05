@@ -14,31 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when a self-adjoint {@link RealLinearOperator}
- * is expected.
- * Since the coefficients of the matrix are not accessible, the most
- * general definition is used to check that A is not self-adjoint, i.e.
- * there exist x and y such as {@code | x' A y - y' A x | >= eps},
- * where {@code eps} is a user-specified tolerance, and {@code x'}
- * denotes the transpose of {@code x}.
- * In the terminology of this exception, {@code A} is the "offending"
- * linear operator, {@code x} and {@code y} are the first and second
- * "offending" vectors, respectively.
+ * Exception to be thrown when a square linear operator is expected.
  *
+ * @since 3.0
  * @version $Id$
  */
-public class NonSelfAdjointLinearOperatorException
-    extends MathIllegalArgumentException {
+public class NonSquareLinearOperatorException extends DimensionMismatchException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -660069396594485772L;
 
-    /** Creates a new instance of this class. */
-    public NonSelfAdjointLinearOperatorException() {
-        super(LocalizedFormats.NON_SELF_ADJOINT_LINEAR_OPERATOR);
+    /**
+     * Construct an exception from the mismatched dimensions.
+     *
+     * @param wrong Row dimension.
+     * @param expected Column dimension.
+     */
+    public NonSquareLinearOperatorException(int wrong, int expected) {
+        super(LocalizedFormats.NON_SQUARE_LINEAR_OPERATOR, wrong, expected);
     }
 }
