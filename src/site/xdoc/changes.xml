@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added a few linearCombination utility methods in MathUtils to compute accurately
+        linear combinations a1.b1 + a2.b2 + ... + an.bn taking great care to compensate
+        for cancellation effects. This both improves and simplify several methods in
+        euclidean geometry classes, including linear constructors, dot product and cross
+        product.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-640">
         Fixed bugs in AbstractRandomGenerator nextInt() and nextLong() default
         implementations.  Prior to the fix for this issue, these methods

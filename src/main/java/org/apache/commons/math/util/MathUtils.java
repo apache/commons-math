@@ -19,22 +19,22 @@ package org.apache.commons.math.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-import org.apache.commons.math.exception.util.Localizable;
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Some useful additions to the built-in functions in {@link Math}.
@@ -90,6 +90,9 @@ public final class MathUtils {
                479001600l,         6227020800l,         87178291200l,
            1307674368000l,     20922789888000l,     355687428096000l,
         6402373705728000l, 121645100408832000l, 2432902008176640000l };
+
+    /** Factor used for splitting double numbers: n = 2^27 + 1. */
+    private static final int SPLIT_FACTOR = 0x8000001;
 
     /**
      * Private Constructor
@@ -2332,4 +2335,277 @@ public final class MathUtils {
             throw new NullArgumentException();
         }
     }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> to high accuracy. It does
+     * so by using specific multiplication and addition algorithms to
+     * preserve accuracy and reduce cancellation effects. It is based
+     * on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub>
+     * @see #linearCombination(double, double, double, double, double, double)
+     * @see #linearCombination(double, double, double, double, double, double, double, double)
+     */
+    public static double linearCombination(final double a1, final double b1,
+                                           final double a2, final double b2) {
+
+        // the code below is split in many additions/subtractions that may
+        // appear redundant. However, they shoud NOT be simplified, as they
+        // do use IEEE753 floating point arithmetic rouding properties.
+        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
+        // The variables naming conventions are that xyzHigh contains the most significant
+        // bits of xyz and xyzLow contains its least significant bits. So theoretically
+        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
+        // be represented in only one double precision number so we preserve two numbers
+        // to hold it as long as we can, combining the high and low order bits together
+        // only at the end, after cancellation may have occurred on high order bits
+
+        // split a1 and b1 as two 26 bits numbers
+        final double ca1        = SPLIT_FACTOR * a1;
+        final double a1High     = ca1 - (ca1 - a1);
+        final double a1Low      = a1 - a1High;
+        final double cb1        = SPLIT_FACTOR * b1;
+        final double b1High     = cb1 - (cb1 - b1);
+        final double b1Low      = b1 - b1High;
+
+        // accurate multiplication a1 * b1
+        final double prod1High  = a1 * b1;
+        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
+
+        // split a2 and b2 as two 26 bits numbers
+        final double ca2        = SPLIT_FACTOR * a2;
+        final double a2High     = ca2 - (ca2 - a2);
+        final double a2Low      = a2 - a2High;
+        final double cb2        = SPLIT_FACTOR * b2;
+        final double b2High     = cb2 - (cb2 - b2);
+        final double b2Low      = b2 - b2High;
+
+        // accurate multiplication a2 * b2
+        final double prod2High  = a2 * b2;
+        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
+
+        // accurate addition a1 * b1 + a2 * b2
+        final double s12High    = prod1High + prod2High;
+        final double s12Prime   = s12High - prod2High;
+        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
+
+        // final rounding, s12 may have suffered many cancellations, we try
+        // to recover some bits from the extra words we have saved up to now
+        return s12High + (prod1Low + prod2Low + s12Low);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * @see #linearCombination(double, double, double, double)
+     * @see #linearCombination(double, double, double, double, double, double, double, double)
+     */
+    public static double linearCombination(final double a1, final double b1,
+                                           final double a2, final double b2,
+                                           final double a3, final double b3) {
+
+        // the code below is split in many additions/subtractions that may
+        // appear redundant. However, they shoud NOT be simplified, as they
+        // do use IEEE753 floating point arithmetic rouding properties.
+        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
+        // The variables naming conventions are that xyzHigh contains the most significant
+        // bits of xyz and xyzLow contains its least significant bits. So theoretically
+        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
+        // be represented in only one double precision number so we preserve two numbers
+        // to hold it as long as we can, combining the high and low order bits together
+        // only at the end, after cancellation may have occurred on high order bits
+
+        // split a1 and b1 as two 26 bits numbers
+        final double ca1        = SPLIT_FACTOR * a1;
+        final double a1High     = ca1 - (ca1 - a1);
+        final double a1Low      = a1 - a1High;
+        final double cb1        = SPLIT_FACTOR * b1;
+        final double b1High     = cb1 - (cb1 - b1);
+        final double b1Low      = b1 - b1High;
+
+        // accurate multiplication a1 * b1
+        final double prod1High  = a1 * b1;
+        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
+
+        // split a2 and b2 as two 26 bits numbers
+        final double ca2        = SPLIT_FACTOR * a2;
+        final double a2High     = ca2 - (ca2 - a2);
+        final double a2Low      = a2 - a2High;
+        final double cb2        = SPLIT_FACTOR * b2;
+        final double b2High     = cb2 - (cb2 - b2);
+        final double b2Low      = b2 - b2High;
+
+        // accurate multiplication a2 * b2
+        final double prod2High  = a2 * b2;
+        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
+
+        // split a3 and b3 as two 26 bits numbers
+        final double ca3        = SPLIT_FACTOR * a3;
+        final double a3High     = ca3 - (ca3 - a3);
+        final double a3Low      = a3 - a3High;
+        final double cb3        = SPLIT_FACTOR * b3;
+        final double b3High     = cb3 - (cb3 - b3);
+        final double b3Low      = b3 - b3High;
+
+        // accurate multiplication a3 * b3
+        final double prod3High  = a3 * b3;
+        final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
+
+        // accurate addition a1 * b1 + a2 * b2
+        final double s12High    = prod1High + prod2High;
+        final double s12Prime   = s12High - prod2High;
+        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
+
+        // accurate addition a1 * b1 + a2 * b2 + a3 * b3
+        final double s123High   = s12High + prod3High;
+        final double s123Prime  = s123High - prod3High;
+        final double s123Low    = (prod3High - (s123High - s123Prime)) + (s12High - s123Prime);
+
+        // final rounding, s123 may have suffered many cancellations, we try
+        // to recover some bits from the extra words we have saved up to now
+        return s123High + (prod1Low + prod2Low + prod3Low + s12Low + s123Low);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @param a4 first factor of the third term
+     * @param b4 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * @see #linearCombination(double, double, double, double)
+     * @see #linearCombination(double, double, double, double, double, double)
+     */
+    public static double linearCombination(final double a1, final double b1,
+                                           final double a2, final double b2,
+                                           final double a3, final double b3,
+                                           final double a4, final double b4) {
+
+        // the code below is split in many additions/subtractions that may
+        // appear redundant. However, they shoud NOT be simplified, as they
+        // do use IEEE753 floating point arithmetic rouding properties.
+        // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
+        // The variables naming conventions are that xyzHigh contains the most significant
+        // bits of xyz and xyzLow contains its least significant bits. So theoretically
+        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
+        // be represented in only one double precision number so we preserve two numbers
+        // to hold it as long as we can, combining the high and low order bits together
+        // only at the end, after cancellation may have occurred on high order bits
+
+        // split a1 and b1 as two 26 bits numbers
+        final double ca1        = SPLIT_FACTOR * a1;
+        final double a1High     = ca1 - (ca1 - a1);
+        final double a1Low      = a1 - a1High;
+        final double cb1        = SPLIT_FACTOR * b1;
+        final double b1High     = cb1 - (cb1 - b1);
+        final double b1Low      = b1 - b1High;
+
+        // accurate multiplication a1 * b1
+        final double prod1High  = a1 * b1;
+        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);
+
+        // split a2 and b2 as two 26 bits numbers
+        final double ca2        = SPLIT_FACTOR * a2;
+        final double a2High     = ca2 - (ca2 - a2);
+        final double a2Low      = a2 - a2High;
+        final double cb2        = SPLIT_FACTOR * b2;
+        final double b2High     = cb2 - (cb2 - b2);
+        final double b2Low      = b2 - b2High;
+
+        // accurate multiplication a2 * b2
+        final double prod2High  = a2 * b2;
+        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);
+
+        // split a3 and b3 as two 26 bits numbers
+        final double ca3        = SPLIT_FACTOR * a3;
+        final double a3High     = ca3 - (ca3 - a3);
+        final double a3Low      = a3 - a3High;
+        final double cb3        = SPLIT_FACTOR * b3;
+        final double b3High     = cb3 - (cb3 - b3);
+        final double b3Low      = b3 - b3High;
+
+        // accurate multiplication a3 * b3
+        final double prod3High  = a3 * b3;
+        final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);
+
+        // split a4 and b4 as two 26 bits numbers
+        final double ca4        = SPLIT_FACTOR * a4;
+        final double a4High     = ca4 - (ca4 - a4);
+        final double a4Low      = a4 - a4High;
+        final double cb4        = SPLIT_FACTOR * b4;
+        final double b4High     = cb4 - (cb4 - b4);
+        final double b4Low      = b4 - b4High;
+
+        // accurate multiplication a4 * b4
+        final double prod4High  = a4 * b4;
+        final double prod4Low   = a4Low * b4Low - (((prod4High - a4High * b4High) - a4Low * b4High) - a4High * b4Low);
+
+        // accurate addition a1 * b1 + a2 * b2
+        final double s12High    = prod1High + prod2High;
+        final double s12Prime   = s12High - prod2High;
+        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);
+
+        // accurate addition a1 * b1 + a2 * b2 + a3 * b3
+        final double s123High   = s12High + prod3High;
+        final double s123Prime  = s123High - prod3High;
+        final double s123Low    = (prod3High - (s123High - s123Prime)) + (s12High - s123Prime);
+
+        // accurate addition a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4
+        final double s1234High  = s123High + prod4High;
+        final double s1234Prime = s1234High - prod4High;
+        final double s1234Low   = (prod4High - (s1234High - s1234Prime)) + (s123High - s1234Prime);
+
+        // final rounding, s1234 may have suffered many cancellations, we try
+        // to recover some bits from the extra words we have saved up to now
+        return s1234High + (prod1Low + prod2Low + prod3Low + prod4Low + s12Low + s123Low + s1234Low);
+
+    }
+
 }
