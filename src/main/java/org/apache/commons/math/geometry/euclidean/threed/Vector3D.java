@@ -132,9 +132,9 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      * @param u2 second base (unscaled) vector
      */
     public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2) {
-        this.x = a1 * u1.x + a2 * u2.x;
-        this.y = a1 * u1.y + a2 * u2.y;
-        this.z = a1 * u1.z + a2 * u2.z;
+        this.x = MathUtils.linearCombination(a1, u1.x, a2, u2.x);
+        this.y = MathUtils.linearCombination(a1, u1.y, a2, u2.y);
+        this.z = MathUtils.linearCombination(a1, u1.z, a2, u2.z);
     }
 
     /** Linear constructor
@@ -149,9 +149,9 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      */
     public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
                     double a3, Vector3D u3) {
-        this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x;
-        this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y;
-        this.z = a1 * u1.z + a2 * u2.z + a3 * u3.z;
+        this.x = MathUtils.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x);
+        this.y = MathUtils.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y);
+        this.z = MathUtils.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z);
     }
 
     /** Linear constructor
@@ -168,9 +168,9 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      */
     public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2,
                     double a3, Vector3D u3, double a4, Vector3D u4) {
-        this.x = a1 * u1.x + a2 * u2.x + a3 * u3.x + a4 * u4.x;
-        this.y = a1 * u1.y + a2 * u2.y + a3 * u3.y + a4 * u4.y;
-        this.z = a1 * u1.z + a2 * u2.z + a3 * u3.z + a4 * u4.z;
+        this.x = MathUtils.linearCombination(a1, u1.x, a2, u2.x, a3, u3.x, a4, u4.x);
+        this.y = MathUtils.linearCombination(a1, u1.y, a2, u2.y, a3, u3.y, a4, u4.y);
+        this.z = MathUtils.linearCombination(a1, u1.z, a2, u2.z, a3, u3.z, a4, u4.z);
     }
 
     /** Get the abscissa of the vector.
@@ -214,11 +214,13 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
 
     /** {@inheritDoc} */
     public double getNorm() {
+        // there are no cancellation problems here, so we use the straightforward formula
         return FastMath.sqrt (x * x + y * y + z * z);
     }
 
     /** {@inheritDoc} */
     public double getNormSq() {
+        // there are no cancellation problems here, so we use the straightforward formula
         return x * x + y * y + z * z;
     }
 
@@ -251,8 +253,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
 
     /** {@inheritDoc} */
     public Vector3D add(double factor, final Vector<Euclidean3D> v) {
-        final Vector3D v3 = (Vector3D) v;
-        return new Vector3D(x + factor * v3.x, y + factor * v3.y, z + factor * v3.z);
+        return new Vector3D(1, this, factor, (Vector3D) v);
     }
 
     /** {@inheritDoc} */
@@ -263,8 +264,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
 
     /** {@inheritDoc} */
     public Vector3D subtract(final double factor, final Vector<Euclidean3D> v) {
-        final Vector3D v3 = (Vector3D) v;
-        return new Vector3D(x - factor * v3.x, y - factor * v3.y, z - factor * v3.z);
+        return new Vector3D(1, this, -factor, (Vector3D) v);
     }
 
     /** {@inheritDoc} */
@@ -328,7 +328,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
 
-        double dot = dotProduct(v1, v2);
+        double dot = v1.dotProduct(v2);
         double threshold = normProduct * 0.9999;
         if ((dot < -threshold) || (dot > threshold)) {
             // the vectors are almost aligned, compute using the sine
@@ -416,52 +416,28 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         return 643 * (164 * MathUtils.hash(x) +  3 * MathUtils.hash(y) +  MathUtils.hash(z));
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * <p>
+     * The implementation uses specific multiplication and addition
+     * algorithms to preserve accuracy and reduce cancellation effects.
+     * It should be very accurate even for nearly orthogonal vectors.
+     * </p>
+     * @see MathUtils#linearCombination(double, double, double, double, double, double)
+     */
     public double dotProduct(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
-        return x * v3.x + y * v3.y + z * v3.z;
+        return MathUtils.linearCombination(x, v3.x, y, v3.y, z, v3.z);
     }
 
     /** Compute the cross-product of the instance with another vector.
-     * @param v other vectorvector
+     * @param v other vector
      * @return the cross product this ^ v as a new Vector3D
      */
     public Vector3D crossProduct(final Vector<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
-
-        final double n1 = getNormSq();
-        final double n2 = v.getNormSq();
-        if ((n1 * n2) < MathUtils.SAFE_MIN) {
-            return ZERO;
-        }
-
-        // rescale both vectors without losing precision,
-        // to ensure their norm are the same order of magnitude
-        final int deltaExp = (FastMath.getExponent(n1) - FastMath.getExponent(n2)) / 4;
-        final double x1    = FastMath.scalb(x,   -deltaExp);
-        final double y1    = FastMath.scalb(y,   -deltaExp);
-        final double z1    = FastMath.scalb(z,   -deltaExp);
-        final double x2    = FastMath.scalb(v3.x, deltaExp);
-        final double y2    = FastMath.scalb(v3.y, deltaExp);
-        final double z2    = FastMath.scalb(v3.z, deltaExp);
-
-        // we reduce cancellation errors by preconditioning,
-        // we replace v1 by v3 = v1 - rho v2 with rho chosen in order to compute
-        // v3 without loss of precision. See Kahan lecture
-        // "Computing Cross-Products and Rotations in 2- and 3-Dimensional Euclidean Spaces"
-        // available at http://www.cs.berkeley.edu/~wkahan/MathH110/Cross.pdf
-
-        // compute rho as an 8 bits approximation of v1.v2 / v2.v2
-        final double ratio = (x1 * x2 + y1 * y2 + z1 * z2) / FastMath.scalb(n2, 2 * deltaExp);
-        final double rho   = FastMath.rint(256 * ratio) / 256;
-
-        final double x3 = x1 - rho * x2;
-        final double y3 = y1 - rho * y2;
-        final double z3 = z1 - rho * z2;
-
-        // compute cross product from v3 and v2 instead of v1 and v2
-        return new Vector3D(y3 * z2 - z3 * y2, z3 * x2 - x3 * z2, x3 * y2 - y3 * x2);
-
+        return new Vector3D(MathUtils.linearCombination(y, v3.z, -z, v3.y),
+                            MathUtils.linearCombination(z, v3.x, -x, v3.z),
+                            MathUtils.linearCombination(x, v3.y, -y, v3.x));
     }
 
     /** {@inheritDoc} */

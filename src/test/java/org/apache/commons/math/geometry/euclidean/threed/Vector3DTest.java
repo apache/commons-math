@@ -17,10 +17,9 @@
 
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathArithmeticException;
-
+import org.apache.commons.math.random.Well1024a;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -233,6 +232,83 @@ public class Vector3DTest {
             Assert.fail("an exception should have been thrown");
         } catch (MathArithmeticException ae) {
             // expected behavior
+        }
+    }
+
+    @Test
+    public void testAccurateDotProduct() {
+        // the following two vectors are nearly but not exactly orthogonal
+        // naive dot product (i.e. computing u1.x * u2.x + u1.y * u2.y + u1.z * u2.z
+        // leads to a result of 0.0, instead of the correct -1.855129...
+        Vector3D u1 = new Vector3D(-1321008684645961.0 /  268435456.0,
+                                   -5774608829631843.0 /  268435456.0,
+                                   -7645843051051357.0 / 8589934592.0);
+        Vector3D u2 = new Vector3D(-5712344449280879.0 /    2097152.0,
+                                   -4550117129121957.0 /    2097152.0,
+                                    8846951984510141.0 /     131072.0);
+        double sNaive = u1.getX() * u2.getX() + u1.getY() * u2.getY() + u1.getZ() * u2.getZ();
+        double sAccurate = u1.dotProduct(u2);
+        Assert.assertEquals(0.0, sNaive, 1.0e-30);
+        Assert.assertEquals(-2088690039198397.0 / 1125899906842624.0, sAccurate, 1.0e-16);
+    }
+
+    @Test
+    public void testDotProduct() {
+        // we compare accurate versus naive dot product implementations
+        // on regular vectors (i.e. not extreme cases like in the previous test)
+        Well1024a random = new Well1024a(553267312521321234l);
+        for (int i = 0; i < 10000; ++i) {
+            double ux = 10000 * random.nextDouble();
+            double uy = 10000 * random.nextDouble();
+            double uz = 10000 * random.nextDouble();
+            double vx = 10000 * random.nextDouble();
+            double vy = 10000 * random.nextDouble();
+            double vz = 10000 * random.nextDouble();
+            double sNaive = ux * vx + uy * vy + uz * vz;
+            double sAccurate = new Vector3D(ux, uy, uz).dotProduct(new Vector3D(vx, vy, vz));
+            Assert.assertEquals(sNaive, sAccurate, 2.5e-16 * sAccurate);
+        }
+    }
+
+    @Test
+    public void testAccurateCrossProduct() {
+        // the vectors u1 and u2 are nearly but not exactly anti-parallel
+        // (7.31e-16 degrees from 180 degrees) naive cross product (i.e.
+        // computing u1.x * u2.x + u1.y * u2.y + u1.z * u2.z
+        // leads to a result of   [0.0009765, -0.0001220, -0.0039062],
+        // instead of the correct [0.0006913, -0.0001254, -0.0007909]
+        final Vector3D u1 = new Vector3D(-1321008684645961.0 /   268435456.0,
+                                         -5774608829631843.0 /   268435456.0,
+                                         -7645843051051357.0 /  8589934592.0);
+        final Vector3D u2 = new Vector3D( 1796571811118507.0 /  2147483648.0,
+                                          7853468008299307.0 /  2147483648.0,
+                                          2599586637357461.0 / 17179869184.0);
+        final Vector3D u3 = new Vector3D(12753243807587107.0 / 18446744073709551616.0, 
+                                         -2313766922703915.0 / 18446744073709551616.0, 
+                                          -227970081415313.0 /   288230376151711744.0);
+        Vector3D cNaive = new Vector3D(u1.getY() * u2.getZ() - u1.getZ() * u2.getY(),
+                                       u1.getZ() * u2.getX() - u1.getX() * u2.getZ(),
+                                       u1.getX() * u2.getY() - u1.getY() * u2.getX());
+        Vector3D cAccurate = u1.crossProduct(u2);
+        Assert.assertTrue(u3.distance(cNaive) > 2.9 * u3.getNorm());
+        Assert.assertEquals(0.0, u3.distance(cAccurate), 1.0e-30 * cAccurate.getNorm());
+    }
+
+    @Test
+    public void testCrossProduct() {
+        // we compare accurate versus naive cross product implementations
+        // on regular vectors (i.e. not extreme cases like in the previous test)
+        Well1024a random = new Well1024a(885362227452043214l);
+        for (int i = 0; i < 10000; ++i) {
+            double ux = 10000 * random.nextDouble();
+            double uy = 10000 * random.nextDouble();
+            double uz = 10000 * random.nextDouble();
+            double vx = 10000 * random.nextDouble();
+            double vy = 10000 * random.nextDouble();
+            double vz = 10000 * random.nextDouble();
+            Vector3D cNaive = new Vector3D(uy * vz - uz * vy, uz * vx - ux * vz, ux * vy - uy * vx);
+            Vector3D cAccurate = new Vector3D(ux, uy, uz).crossProduct(new Vector3D(vx, vy, vz));
+            Assert.assertEquals(0.0, cAccurate.distance(cNaive), 6.0e-15 * cAccurate.getNorm());
         }
     }
 
