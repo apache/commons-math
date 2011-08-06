@@ -16,16 +16,15 @@
  */
 package org.apache.commons.math.optimization.direct;
 
-import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 import java.util.Random;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MultiDimensionMismatchException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -38,73 +37,69 @@ import org.junit.Test;
 public class BOBYQAOptimizerTest {
 
     static final int DIM = 13;
- 
-    @Test(expected = OutOfRangeException.class)
-    public void testInitOutofbounds() {
-        double[] startPoint = point(DIM,3);
-        double[][] boundaries = boundaries(DIM,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+   
+    @Test(expected=OutOfRangeException.class)
+    public void testInitOutOfBounds() {
+        double[] startPoint = point(DIM, 3);
+        double[][] boundaries = boundaries(DIM, -1, 2);
         doTest(new Rosen(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
-                1e-13, 1e-6, 2000, expected);
+                1e-13, 1e-6, 2000, null);
     }
     
-    @Test(expected = MultiDimensionMismatchException.class)
+    @Test(expected=DimensionMismatchException.class)
     public void testBoundariesDimensionMismatch() {
-        double[] startPoint = point(DIM,0.5);
-        double[][] boundaries = boundaries(DIM+1,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        double[] startPoint = point(DIM, 0.5);
+        double[][] boundaries = boundaries(DIM + 1, -1, 2);
         doTest(new Rosen(), startPoint, boundaries,
-                GoalType.MINIMIZE, 
-                1e-13, 1e-6, 2000, expected);
+               GoalType.MINIMIZE, 
+               1e-13, 1e-6, 2000, null);
     }
 
-    @Test(expected = NoDataException.class)
-    public void testBoundariesNoData() {
-        double[] startPoint = point(DIM,0.5);
-        double[][] boundaries = boundaries(DIM,-1,2);
-        boundaries[1] = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
-        doTest(new Rosen(), startPoint, boundaries,
-                GoalType.MINIMIZE, 
-                1e-13, 1e-6, 2000, expected);
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testProblemDimensionTooSmall() {
+        double[] startPoint = point(1, 0.5);
+        double[][] boundaries = null;
+        doTest(new Rosen(), startPoint, null,
+               GoalType.MINIMIZE,
+               1e-13, 1e-6, 2000, null);
     }
-    
+
+    @Test(expected=TooManyEvaluationsException.class)
+    public void testMaxEvaluations() {
+        final int lowMaxEval = 2;
+        double[] startPoint = point(DIM, 0.1);
+        double[][] boundaries = null;
+        doTest(new Rosen(), startPoint, boundaries,
+               GoalType.MINIMIZE, 
+               1e-13, 1e-6, lowMaxEval, null);
+     }
+
+    @Test(expected=TooManyEvaluationsException.class)
+    public void testRescue() {
+        double[] startPoint = point(DIM, 1);
+        double[][] boundaries = null;
+        RealPointValuePair expected =  new RealPointValuePair(point(DIM, 0), 0);
+        doTest(new MinusElli(), startPoint, boundaries,
+               GoalType.MINIMIZE, 
+               1e-13, 1e-6, 1000, expected);
+    }
+
     @Test
     public void testRosen() {
         double[] startPoint = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        RealPointValuePair expected = new RealPointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 2000, expected);
      }
-    
-    @Test
-    public void testRescue() {
-        double[] startPoint = point(13,1.0);
-        double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(13,0.0),0);
-        try {
-            doTest(new MinusElli(), startPoint, boundaries,
-                GoalType.MINIMIZE, 
-                1e-13, 1e-6, 1000, expected);
-            fail("An TooManyEvaluationsException should have been thrown");
-        } catch(TooManyEvaluationsException e) {
-        }
-    }
 
     @Test
     public void testMaximize() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),1.0);
+        RealPointValuePair expected = new RealPointValuePair(point(DIM,0.0),1.0);
         doTest(new MinusElli(), startPoint, boundaries,
                 GoalType.MAXIMIZE, 
                 2e-10, 5e-6, 1000, expected);
@@ -278,12 +273,17 @@ public class BOBYQAOptimizerTest {
             double pointTol,
             int maxEvaluations,
             RealPointValuePair expected) {
+
+        System.out.println(func.getClass().getName() + " BEGIN"); // XXX
+
         int dim = startPoint.length;
 //        MultivariateRealOptimizer optim =
 //            new PowellOptimizer(1e-13, Math.ulp(1d));
 //        RealPointValuePair result = optim.optimize(100000, func, goal, startPoint);
+        final double[] lB = boundaries == null ? null : boundaries[0];
+        final double[] uB = boundaries == null ? null : boundaries[1];
         MultivariateRealOptimizer optim =
-            new BOBYQAOptimizer(boundaries);
+            new BOBYQAOptimizer(2 * dim + 1, lB, uB);
         RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);        
 //        System.out.println(func.getClass().getName() + " = " 
 //        		+ optim.getEvaluations() + " f(");
@@ -295,6 +295,8 @@ public class BOBYQAOptimizerTest {
             Assert.assertEquals(expected.getPoint()[i],
                     result.getPoint()[i], pointTol);
         }
+
+        System.out.println(func.getClass().getName() + " END"); // XXX
     }
 
     private static double[] point(int n, double value) {
@@ -443,15 +445,10 @@ public class BOBYQAOptimizerTest {
     }
 
     private static class MinusElli implements MultivariateRealFunction {
-        private int fcount = 0;
+        private final Elli elli = new Elli();
         public double value(double[] x) {
-          double f = 1.0-(new Elli().value(x));
-//          System.out.print("" + (fcount++) + ") ");
-//          for (int i = 0; i < x.length; i++)
-//              System.out.print(x[i] +  " ");
-//          System.out.println(" = " + f);
-          return f;
-       }
+            return 1.0 - elli.value(x);
+        }
     }
 
     private static class DiffPow implements MultivariateRealFunction {
