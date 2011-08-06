@@ -169,25 +169,37 @@ public abstract class BaseSecantSolver
 
             // Update the bounds with the new approximation.
             if (f1 * fx < 0) {
-                // We had [x0..x1]. We update it to [x1, x]. Note that the
-                // value of x1 has switched to the other bound, thus inverting
+                // The value of x1 has switched to the other bound, thus inverting
                 // the interval.
                 x0 = x1;
                 f0 = f1;
-                x1 = x;
-                f1 = fx;
                 inverted = !inverted;
             } else {
-                // We had [x0..x1]. We update it to [x0, x].
-                if (method == Method.ILLINOIS) {
+                switch (method) {
+                case ILLINOIS:
                     f0 *= 0.5;
-                }
-                if (method == Method.PEGASUS) {
+                    break;
+                case PEGASUS:
                     f0 *= f1 / (f1 + fx);
+                    break;
+                case REGULA_FALSI:
+                    if (x == x1) {
+                        final double delta = FastMath.max(rtol * FastMath.abs(x1),
+                                                          atol);
+                        // Update formula cannot make any progress: Update the
+                        // search interval.
+                        x0 = 0.5 * (x0 + x1 - delta);
+                        f0 = computeObjectiveValue(x0);
+                    }
+                    break;
+                default:
+                    // Should never happen.
+                    throw new MathInternalError();
                 }
-                x1 = x;
-                f1 = fx;
             }
+            // Update from [x0, x1] to [x0, x].
+            x1 = x;
+            f1 = fx;
 
             // If the function value of the last approximation is too small,
             // given the function value accuracy, then we can't get closer to
