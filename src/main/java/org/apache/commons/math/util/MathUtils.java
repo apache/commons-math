@@ -2608,4 +2608,64 @@ public final class MathUtils {
 
     }
 
+    /**
+     * Compute a linear combination accurately.
+     * This method computes the sum of the products
+     * <code>a<sub>i</sub> b<sub>i</sub></code> to high accuracy.
+     * It does so by using specific multiplication and addition algorithms to
+     * preserve accuracy and reduce cancellation effects.
+     * <br/>
+     * It is based on the 2005 paper
+     * <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump,
+     * and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     *
+     * @param a Factors.
+     * @param b Factors.
+     * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
+     */
+    public static double linearCombination(final double[] a, final double[] b) {
+        final int len = a.length;
+        if (len != b.length) {
+            throw new DimensionMismatchException(len, b.length);
+        }
+
+        final double[] prodHigh = new double[len];
+        double prodLowSum = 0;
+
+        for (int i = 0; i < len; i++) {
+            final double ai = a[i];
+            final double ca = SPLIT_FACTOR * ai;
+            final double aHigh = ca - (ca - ai);
+            final double aLow = ai - aHigh;
+
+            final double bi = b[i];
+            final double cb = SPLIT_FACTOR * bi;
+            final double bHigh = cb - (cb - bi);
+            final double bLow = bi - bHigh;
+            prodHigh[i] = ai * bi;
+            final double prodLow = aLow * bLow - (((prodHigh[i] -
+                                                    aHigh * bHigh) -
+                                                   aLow * bHigh) -
+                                                  aHigh * bLow);
+            prodLowSum += prodLow;
+        }
+
+        final int lenMinusOne = len - 1;
+        final double[] sHigh = new double[lenMinusOne];
+
+        sHigh[0] = prodHigh[0] + prodHigh[1];
+        double sPrime = sHigh[0] - prodHigh[1];
+        double sLowSum = (prodHigh[1] - (sHigh[0] - sPrime)) + (prodHigh[0] - sPrime);
+
+        for (int i = 1; i < lenMinusOne; i++) {
+            final int prev = i - 1;
+            final int next = i + 1;
+            sHigh[i] = sHigh[prev] + prodHigh[next];
+            sPrime = sHigh[i] - prodHigh[next];
+            sLowSum += (prodHigh[next] - (sHigh[i] - sPrime)) + (sHigh[prev] - sPrime);
+        }
+
+        return sHigh[lenMinusOne - 1] + (prodLowSum + sLowSum);
+    }
 }

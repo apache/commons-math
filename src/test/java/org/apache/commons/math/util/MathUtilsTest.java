@@ -1841,4 +1841,25 @@ public final class MathUtilsTest {
             // Expected.
         }
     }
+
+    @Test
+    public void testLinearCombination1() {
+        final double[] a = new double[] {
+            -1321008684645961.0 / 268435456.0,
+            -5774608829631843.0 / 268435456.0,
+            -7645843051051357.0 / 8589934592.0
+        };
+        final double[] b = new double[] {
+            -5712344449280879.0 / 2097152.0,
+            -4550117129121957.0 / 2097152.0,
+            8846951984510141.0 / 131072.0
+        };
+
+        final double abSumInline = MathUtils.linearCombination(a[0], b[0],
+                                                               a[1], b[1],
+                                                               a[2], b[2]);
+        final double abSumArray = MathUtils.linearCombination(a, b);
+
+        Assert.assertEquals(abSumInline, abSumArray, 0);
+    }
 }
