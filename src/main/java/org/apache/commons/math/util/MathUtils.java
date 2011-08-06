@@ -2651,21 +2651,22 @@ public final class MathUtils {
             prodLowSum += prodLow;
         }
 
+
+        final double prodHighCur = prodHigh[0];
+        double prodHighNext = prodHigh[1];
+        double sHighPrev = prodHighCur + prodHighNext;
+        double sPrime = sHighPrev - prodHighNext;
+        double sLowSum = (prodHighNext - (sHighPrev - sPrime)) + (prodHighCur - sPrime);
+
         final int lenMinusOne = len - 1;
-        final double[] sHigh = new double[lenMinusOne];
-
-        sHigh[0] = prodHigh[0] + prodHigh[1];
-        double sPrime = sHigh[0] - prodHigh[1];
-        double sLowSum = (prodHigh[1] - (sHigh[0] - sPrime)) + (prodHigh[0] - sPrime);
-
         for (int i = 1; i < lenMinusOne; i++) {
-            final int prev = i - 1;
-            final int next = i + 1;
-            sHigh[i] = sHigh[prev] + prodHigh[next];
-            sPrime = sHigh[i] - prodHigh[next];
-            sLowSum += (prodHigh[next] - (sHigh[i] - sPrime)) + (sHigh[prev] - sPrime);
+            prodHighNext = prodHigh[i + 1];
+            final double sHighCur = sHighPrev + prodHighNext;
+            sPrime = sHighCur - prodHighNext;
+            sLowSum += (prodHighNext - (sHighCur - sPrime)) + (sHighPrev - sPrime);
+            sHighPrev = sHighCur;
         }
 
-        return sHigh[lenMinusOne - 1] + (prodLowSum + sLowSum);
+        return sHighPrev + (prodLowSum + sLowSum);
     }
 }

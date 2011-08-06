@@ -29,6 +29,7 @@ import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.random.Well1024a;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -1861,5 +1862,27 @@ public final class MathUtilsTest {
         final double abSumArray = MathUtils.linearCombination(a, b);
 
         Assert.assertEquals(abSumInline, abSumArray, 0);
+    }
+
+    @Test
+    public void testLinearCombination2() {
+        // we compare accurate versus naive dot product implementations
+        // on regular vectors (i.e. not extreme cases like in the previous test)
+        Well1024a random = new Well1024a(553267312521321234l);
+
+        for (int i = 0; i < 10000; ++i) {
+            final double ux = 1e17 * random.nextDouble();
+            final double uy = 1e17 * random.nextDouble();
+            final double uz = 1e17 * random.nextDouble();
+            final double vx = 1e17 * random.nextDouble();
+            final double vy = 1e17 * random.nextDouble();
+            final double vz = 1e17 * random.nextDouble();
+            final double sInline = MathUtils.linearCombination(ux, vx,
+                                                               uy, vy,
+                                                               uz, vz);
+            final double sArray = MathUtils.linearCombination(new double[] {ux, uy, uz},
+                                                              new double[] {vx, vy, vz});
+            Assert.assertEquals(sInline, sArray, 0);
+        }
     }
 }
