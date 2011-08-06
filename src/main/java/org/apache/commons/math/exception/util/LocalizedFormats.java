@@ -162,6 +162,7 @@ public enum LocalizedFormats implements Localizable {
     NEGATIVE_NUMBER_OF_SUCCESSES("number of successes must be non-negative ({0})"),
     NUMBER_OF_SUCCESSES("number of successes ({0})"), /* keep */
     NEGATIVE_NUMBER_OF_TRIALS("number of trials must be non-negative ({0})"),
+    NUMBER_OF_INTERPOLATION_POINTS("number of interpolation points ({0})"), /* keep */
     NUMBER_OF_TRIALS("number of trials ({0})"),
     ROBUSTNESS_ITERATIONS("number of robustness iterations ({0})"),
     START_POSITION("start position ({0})"), /* keep */
@@ -261,6 +262,7 @@ public enum LocalizedFormats implements Localizable {
     N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED("{0} points Legendre-Gauss integrator not supported, number of points must be in the {1}-{2} range"),
     OBSERVED_COUNTS_ALL_ZERO("observed counts are all 0 in observed array {0}"),
     OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY("observed counts are both zero for entry {0}"),
+    BOBYQA_BOUND_DIFFERENCE_CONDITION("the difference between the upper and lower bound must be larger than twice the initial trust region radius ({0})"),
     OUT_OF_BOUNDS_QUANTILE_VALUE("out of bounds quantile value: {0}, must be in (0, 100]"),
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
     SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
@@ -295,11 +297,13 @@ public enum LocalizedFormats implements Localizable {
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),
+    TOO_MUCH_CANCELLATION("too much cancellation in a denominator"),
     TOO_MANY_REGRESSORS("too many regressors ({0}) specified, only {1} in the model"),
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),
     TOO_SMALL_ORTHOGONALITY_TOLERANCE("orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian"),
     TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE("parameters relative tolerance is too small ({0}), no further improvement in the approximate solution is possible"),
+    TRUST_REGION_STEP_FAILED("trust region step has failed to reduce Q"),
     TWO_OR_MORE_CATEGORIES_REQUIRED("two or more categories required, got {0}"),
     TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED("two or more values required in each category, one has {0}"),
     UNABLE_TO_BRACKET_OPTIMUM_IN_LINE_SEARCH("unable to bracket optimum in line search"),
