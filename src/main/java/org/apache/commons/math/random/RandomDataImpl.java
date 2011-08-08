@@ -167,7 +167,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Construct a RandomDataImpl using the supplied {@link RandomGenerator} as
      * the source of (non-secure) random data.
      *
-     * @param rand the source of (non-secure) random data 
+     * @param rand the source of (non-secure) random data
      * (may be null, resulting in default JDK-supplied generator)
      * @since 1.1
      */

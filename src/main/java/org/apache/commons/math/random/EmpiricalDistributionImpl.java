@@ -109,11 +109,11 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public EmpiricalDistributionImpl(int binCount) {
         this(binCount, null);
     }
-    
+
     /**
      * Creates a new EmpiricalDistribution with the specified bin count using the
      * provided {@link RandomGenerator} as the source of random data.
-     * 
+     *
      * @param binCount number of bins
      * @param generator random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
@@ -497,10 +497,10 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     public boolean isLoaded() {
         return loaded;
     }
-    
+
     /**
      * Reseeds the random number generator used by {@link #getNextValue()}.
-     * 
+     *
      * @param seed random generator seed
      * @since 3.0
      */
