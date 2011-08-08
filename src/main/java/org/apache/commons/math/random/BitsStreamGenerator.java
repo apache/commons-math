@@ -119,28 +119,35 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
         return next(32);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * <p>This default implementation is copied from Apache Harmony
+     * java.util.Random (r929253).</p>
+     *
+     * <p>Implementation notes: <ul>
+     * <li>If n is a power of 2, this method returns
+     * {@code (int) ((n * (long) next(31)) >> 31)}.</li>
+     *
+     * <li>If n is not a power of 2, what is returned is {@code next(31) % n}
+     * with {@code next(31)} values rejected (i.e. regenerated) until a
+     * value that is larger than the remainder of {@code Integer.MAX_VALUE / n}
+     * is generated. Rejection of this initial segment is necessary to ensure
+     * a uniform distribution.</li></ul></p>
+     */
     public int nextInt(int n) throws IllegalArgumentException {
-
-        if (n < 1) {
-            throw new NotStrictlyPositiveException(n);
-        }
-
-        // find bit mask for n
-        int mask = n;
-        mask |= mask >> 1;
-        mask |= mask >> 2;
-        mask |= mask >> 4;
-        mask |= mask >> 8;
-        mask |= mask >> 16;
-
-        while (true) {
-            final int random = next(32) & mask;
-            if (random < n) {
-                return random;
+        if (n > 0) {
+            if ((n & -n) == n) {
+                return (int) ((n * (long) next(31)) >> 31);
             }
+            int bits;
+            int val;
+            do {
+                bits = next(31);
+                val = bits % n;
+            } while (bits - val + (n - 1) < 0);
+            return val;
         }
-
+        throw new NotStrictlyPositiveException(n);
     }
 
     /** {@inheritDoc} */

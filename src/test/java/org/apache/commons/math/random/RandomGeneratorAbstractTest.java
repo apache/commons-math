@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.random;
 
+import java.util.Arrays;
+
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -77,30 +79,87 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     public void testNextSecureHex() {}
 
     @Test
-    public void testNextIntDirect() {
+    /**
+     * Tests uniformity of nextInt(int) distribution by generating 1000
+     * samples for each of 10 test values and for each sample performing
+     * a chi-square test of homogeneity of the observed distribution with
+     * the expected uniform distribution.  Tests are performed at the .01
+     * level and an average failure rate higher than 2% (i.e. more than 20
+     * null hypothesis rejections) causes the test case to fail.
+     * 
+     * All random values are generated using the generator instance used by
+     * other tests and the generator is not reseeded, so this is a fixed seed
+     * test.
+     */
+    public void testNextIntDirect() throws Exception {
+        // Set up test values - end of the array filled randomly
+        int[] testValues = new int[] {4, 10, 12, 32, 100, 10000, 0, 0, 0, 0};
+        for (int i = 6; i < 10; i++) {
+            final int val = generator.nextInt();
+            testValues[i] = val < 0 ? -val : val + 1;
+        }
+        
+        final int numTests = 1000;
+        for (int i = 0; i < testValues.length; i++) {
+            final int n = testValues[i];
+            // Set up bins
+            int[] binUpperBounds;
+            if (n < 32) {
+                binUpperBounds = new int[n];
+                for (int k = 0; k < n; k++) {
+                    binUpperBounds[k] = k;
+                }
+            } else {
+                binUpperBounds = new int[10];
+                final int step = n / 10;
+                for (int k = 0; k < 9; k++) {
+                    binUpperBounds[k] = (k + 1) * step;
+                }
+                binUpperBounds[9] = n - 1;
+            }  
+            // Run the tests
+            int numFailures = 0;
+            final int binCount = binUpperBounds.length;
+            final long[] observed = new long[binCount];
+            final double[] expected = new double[binCount];
+            expected[0] = binUpperBounds[0] == 0 ? (double) smallSampleSize / (double) n :
+                (double) ((binUpperBounds[0] + 1) * smallSampleSize) / (double) n;
+            for (int k = 1; k < binCount; k++) {
+                expected[k] = (double) smallSampleSize * 
+                (double) (binUpperBounds[k] - binUpperBounds[k - 1]) / (double) n;
+            }
+            for (int j = 0; j < numTests; j++) {
+                Arrays.fill(observed, 0);
+                for (int k = 0; k < smallSampleSize; k++) {
+                    final int value = generator.nextInt(n);
+                    Assert.assertTrue("nextInt range",(value >= 0) && (value < n));
+                    for (int l = 0; l < binCount; l++) {
+                        if (binUpperBounds[l] >= value) {
+                            observed[l]++;
+                            break;
+                        }
+                    }
+                }
+                if (testStatistic.chiSquareTest(expected, observed) < 0.01) {
+                    numFailures++;
+                }  
+            }
+            if ((double) numFailures / (double) numTests > 0.02) {
+                Assert.fail("Too many failures for n = " + n +
+                " " + numFailures + " out of " + numTests + " tests failed.");
+            }
+        }
+    }
+    
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testNextIntIAE() {
         try {
             generator.nextInt(-1);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency freq = new Frequency();
-        int value = 0;
-        for (int i=0; i<smallSampleSize; i++) {
-            value = generator.nextInt(4);
-            Assert.assertTrue("nextInt range",(value >= 0) && (value <= 3));
-            freq.addValue(value);
-        }
-        long[] observed = new long[4];
-        for (int i=0; i<4; i++) {
-            observed[i] = freq.getCount(i);
-        }
-
-        /* Use ChiSquare dist with df = 4-1 = 3, alpha = .001
-         * Change to 11.34 for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected,observed) < 16.27);
+        generator.nextInt(0);
     }
 
     @Test

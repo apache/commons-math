@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-642">
+        Improved performance of nextInt(int) in BitsStreamGenerator.
+      </action>
       <action dev="luc" type="fix" issue="MATH-639" >
         Fixed a wrong detection of rotation axis versus vectors plane in Rotation constructor
         using two vectors pairs.
