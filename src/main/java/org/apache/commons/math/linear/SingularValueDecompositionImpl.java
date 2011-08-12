@@ -78,16 +78,15 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             n = matrix.getColumnDimension();
         }
  
-        final int nu = FastMath.min(m, n);
-        singularValues = new double[FastMath.min(m + 1, n)];
-        final double[][] U = new double[m][nu];
+        singularValues = new double[n];
+        final double[][] U = new double[m][n];
         final double[][] V = new double[n][n];
         final double[] e = new double[n];
         final double[] work = new double[m];
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
         final int nct = FastMath.min(m - 1, n);
-        final int nrt = FastMath.max(0, FastMath.min(n - 2, m));
+        final int nrt = FastMath.max(0, n - 2);
         for (int k = 0; k < FastMath.max(nct, nrt); k++) {
             if (k < nct) {
                 // Compute the transformation for the k-th column and
@@ -177,7 +176,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             }
         }
         // Set up the final bidiagonal matrix or order p.
-        int p = FastMath.min(n, m + 1);
+        int p = n;
         if (nct < n) {
             singularValues[nct] = A[nct][nct];
         }
@@ -190,7 +189,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         e[p - 1] = 0.0;
 
         // Generate U.
-        for (int j = nct; j < nu; j++) {
+        for (int j = nct; j < n; j++) {
             for (int i = 0; i < m; i++) {
                 U[i][j] = 0.0;
             }
@@ -198,7 +197,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         }
         for (int k = nct - 1; k >= 0; k--) {
             if (singularValues[k] != 0.0) {
-                for (int j = k + 1; j < nu; j++) {
+                for (int j = k + 1; j < n; j++) {
                     double t = 0;
                     for (int i = k; i < m; i++) {
                         t += U[i][k] * U[i][j];
@@ -227,7 +226,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         for (int k = n - 1; k >= 0; k--) {
             if (k < nrt &&
                 e[k] != 0) {
-                for (int j = k + 1; j < nu; j++) {
+                for (int j = k + 1; j < n; j++) {
                     double t = 0;
                     for (int i = k + 1; i < n; i++) {
                         t += V[i][k] * V[i][j];
@@ -449,7 +448,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         } else {
             cachedU = MatrixUtils.createRealMatrix(V);
             cachedV = MatrixUtils.createRealMatrix(U);
-
         }
     }
 
@@ -534,7 +532,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** {@inheritDoc} */
     public double getConditionNumber() {
-        return singularValues[0] / singularValues[FastMath.min(m, n) - 1];
+        return singularValues[0] / singularValues[n - 1];
     }
 
     /** {@inheritDoc} */
