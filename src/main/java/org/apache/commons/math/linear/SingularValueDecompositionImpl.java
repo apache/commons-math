@@ -96,20 +96,20 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 for (int i = k; i < m; i++) {
                     singularValues[k] = FastMath.hypot(singularValues[k], A[i][k]);
                 }
-                if (singularValues[k] != 0.0) {
-                    if (A[k][k] < 0.0) {
+                if (singularValues[k] != 0) {
+                    if (A[k][k] < 0) {
                         singularValues[k] = -singularValues[k];
                     }
                     for (int i = k; i < m; i++) {
                         A[i][k] /= singularValues[k];
                     }
-                    A[k][k] += 1.0;
+                    A[k][k] += 1;
                 }
                 singularValues[k] = -singularValues[k];
             }
             for (int j = k + 1; j < n; j++) {
                 if (k < nct &&
-                    singularValues[k] != 0.0) {
+                    singularValues[k] != 0) {
                     // Apply the transformation.
                     double t = 0;
                     for (int i = k; i < m; i++) {
@@ -139,21 +139,21 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 for (int i = k + 1; i < n; i++) {
                     e[k] = FastMath.hypot(e[k], e[i]);
                 }
-                if (e[k] != 0.0) {
-                    if (e[k + 1] < 0.0) {
+                if (e[k] != 0) {
+                    if (e[k + 1] < 0) {
                         e[k] = -e[k];
                     }
                     for (int i = k + 1; i < n; i++) {
                         e[i] /= e[k];
                     }
-                    e[k + 1] += 1.0;
+                    e[k + 1] += 1;
                 }
                 e[k] = -e[k];
                 if (k + 1 < m &&
                     e[k] != 0) {
                     // Apply the transformation.
                     for (int i = k + 1; i < m; i++) {
-                        work[i] = 0.0;
+                        work[i] = 0;
                     }
                     for (int j = k + 1; j < n; j++) {
                         for (int i = k + 1; i < m; i++) {
@@ -181,22 +181,22 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             singularValues[nct] = A[nct][nct];
         }
         if (m < p) {
-            singularValues[p - 1] = 0.0;
+            singularValues[p - 1] = 0;
         }
         if (nrt + 1 < p) {
             e[nrt] = A[nrt][p - 1];
         }
-        e[p - 1] = 0.0;
+        e[p - 1] = 0;
 
         // Generate U.
         for (int j = nct; j < n; j++) {
             for (int i = 0; i < m; i++) {
-                U[i][j] = 0.0;
+                U[i][j] = 0;
             }
-            U[j][j] = 1.0;
+            U[j][j] = 1;
         }
         for (int k = nct - 1; k >= 0; k--) {
-            if (singularValues[k] != 0.0) {
+            if (singularValues[k] != 0) {
                 for (int j = k + 1; j < n; j++) {
                     double t = 0;
                     for (int i = k; i < m; i++) {
@@ -210,15 +210,15 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 for (int i = k; i < m; i++) {
                     U[i][k] = -U[i][k];
                 }
-                U[k][k] = 1.0 + U[k][k];
+                U[k][k] = 1 + U[k][k];
                 for (int i = 0; i < k - 1; i++) {
-                    U[i][k] = 0.0;
+                    U[i][k] = 0;
                 }
             } else {
                 for (int i = 0; i < m; i++) {
-                    U[i][k] = 0.0;
+                    U[i][k] = 0;
                 }
-                U[k][k] = 1.0;
+                U[k][k] = 1;
             }
         }
 
@@ -238,9 +238,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 }
             }
             for (int i = 0; i < n; i++) {
-                V[i][k] = 0.0;
+                V[i][k] = 0;
             }
-            V[k][k] = 1.0;
+            V[k][k] = 1;
         }
 
         // Main iteration loop for the singular values.
@@ -266,7 +266,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     = TINY + EPS * (FastMath.abs(singularValues[k]) +
                                     FastMath.abs(singularValues[k + 1]));
                 if (FastMath.abs(e[k]) <= threshold) {
-                    e[k] = 0.0;
+                    e[k] = 0;
                     break;
                 }
             }
@@ -278,10 +278,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     if (ks == k) {
                         break;
                     }
-                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0.0) +
-                        (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0.0);
+                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0) +
+                        (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0);
                     if (FastMath.abs(singularValues[ks]) <= TINY + EPS * t) {
-                        singularValues[ks] = 0.0;
+                        singularValues[ks] = 0;
                         break;
                     }
                 }
@@ -300,7 +300,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // Deflate negligible s(p).
                 case 1: {
                     double f = e[p - 2];
-                    e[p - 2] = 0.0;
+                    e[p - 2] = 0;
                     for (int j = p - 2; j >= k; j--) {
                         double t = FastMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
@@ -322,7 +322,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // Split at negligible s(k).
                 case 2: {
                     double f = e[k - 1];
-                    e[k - 1] = 0.0;
+                    e[k - 1] = 0;
                     for (int j = k; j < p; j++) {
                         double t = FastMath.hypot(singularValues[j], f);
                         final double cs = singularValues[j] / t;
@@ -352,11 +352,11 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     final double ek = e[k] / scale;
                     final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
                     final double c = (sp * epm1) * (sp * epm1);
-                    double shift = 0.0;
+                    double shift = 0;
                     if (b != 0 ||
                         c != 0) {
                         shift = FastMath.sqrt(b * b + c);
-                        if (b < 0.0) {
+                        if (b < 0) {
                             shift = -shift;
                         }
                         shift = c / (b + shift);
@@ -404,8 +404,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // Convergence.
                 default: {
                     // Make the singular values positive.
-                    if (singularValues[k] <= 0.0) {
-                        singularValues[k] = singularValues[k] < 0.0 ? -singularValues[k] : 0.0;
+                    if (singularValues[k] <= 0) {
+                        singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
 
                         for (int i = 0; i <= pp; i++) {
                             V[i][k] = -V[i][k];
