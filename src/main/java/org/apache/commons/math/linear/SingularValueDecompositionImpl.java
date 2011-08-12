@@ -44,17 +44,17 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     /** Computed singular values. */
     private double[] singularValues;
 
-    /** Row dimension. */
-    private int m;
+    /** max(row dimension, column dimension). */
+    private final int m;
 
-    /** Column dimension. */
-    private int n;
+    /** min(row dimension, column dimension). */
+    private final int n;
 
     /** Indicator for transposed matrix. */
-    private boolean transposed;
+    private final boolean transposed;
 
     /** Cached value of U matrix. */
-    private RealMatrix cachedU;
+    private final RealMatrix cachedU;
 
     /** Cached value of transposed U matrix. */
     private RealMatrix cachedUt;
@@ -63,7 +63,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private RealMatrix cachedS;
 
     /** Cached value of V matrix. */
-    private RealMatrix cachedV;
+    private final RealMatrix cachedV;
 
     /** Cached value of transposed V matrix. */
     private RealMatrix cachedVt;
@@ -74,12 +74,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
      * @param matrix Matrix to decompose.
      */
     public SingularValueDecompositionImpl(final RealMatrix matrix) {
+        final double[][] A;
 
-        // Derived from LINPACK code.
-        // Initialize.
-        double[][] A;
-        m = matrix.getRowDimension();
-        n = matrix.getColumnDimension();
+         // "m" is always the largest dimension.
         if (matrix.getRowDimension() < matrix.getColumnDimension()) {
             transposed = true;
             A = matrix.transpose().getData();
@@ -91,18 +88,19 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             m = matrix.getRowDimension();
             n = matrix.getColumnDimension();
         }
-        int nu = FastMath.min(m, n);
+ 
+        final int nu = FastMath.min(m, n);
         singularValues = new double[FastMath.min(m + 1, n)];
-        double[][] U = new double[m][nu];
-        double[][] V = new double[n][n];
-        double[] e = new double[n];
-        double[] work = new double[m];
+        final double[][] U = new double[m][nu];
+        final double[][] V = new double[n][n];
+        final double[] e = new double[n];
+        final double[] work = new double[m];
         boolean wantu = true;
         boolean wantv = true;
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
-        int nct = FastMath.min(m - 1, n);
-        int nrt = FastMath.max(0, FastMath.min(n - 2, m));
+        final int nct = FastMath.min(m - 1, n);
+        final int nrt = FastMath.max(0, FastMath.min(n - 2, m));
         for (int k = 0; k < FastMath.max(nct, nrt); k++) {
             if (k < nct) {
                 // Compute the transformation for the k-th column and
@@ -175,7 +173,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         }
                     }
                     for (int j = k + 1; j < n; j++) {
-                        double t = -e[j] / e[k + 1];
+                        final double t = -e[j] / e[k + 1];
                         for (int i = k + 1; i < m; i++) {
                             A[i][j] += t * work[i];
                         }
@@ -259,7 +257,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             }
         }
         // Main iteration loop for the singular values.
-        int pp = p - 1;
+        final int pp = p - 1;
         int iter = 0;
         while (p > 0) {
             int k;
@@ -277,8 +275,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 if (k == -1) {
                     break;
                 }
-                final double threshold =
-                        TINY + EPS * (FastMath.abs(singularValues[k]) + FastMath.abs(singularValues[k + 1]));
+                final double threshold
+                    = TINY + EPS * (FastMath.abs(singularValues[k]) +
+                                    FastMath.abs(singularValues[k + 1]));
                 if (FastMath.abs(e[k]) <= threshold) {
                     e[k] = 0.0;
                     break;
@@ -292,8 +291,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     if (ks == k) {
                         break;
                     }
-                    double t = (ks != p ? FastMath.abs(e[ks]) : 0.0) +
-                               (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0.0);
+                    final double t = (ks != p ? FastMath.abs(e[ks]) : 0.0) +
+                        (ks != k + 1 ? FastMath.abs(e[ks - 1]) : 0.0);
                     if (FastMath.abs(singularValues[ks]) <= TINY + EPS * t) {
                         singularValues[ks] = 0.0;
                         break;
@@ -317,8 +316,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     e[p - 2] = 0.0;
                     for (int j = p - 2; j >= k; j--) {
                         double t = FastMath.hypot(singularValues[j], f);
-                        double cs = singularValues[j] / t;
-                        double sn = f / t;
+                        final double cs = singularValues[j] / t;
+                        final double sn = f / t;
                         singularValues[j] = t;
                         if (j != k) {
                             f = -sn * e[j - 1];
@@ -340,8 +339,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     e[k - 1] = 0.0;
                     for (int j = k; j < p; j++) {
                         double t = FastMath.hypot(singularValues[j], f);
-                        double cs = singularValues[j] / t;
-                        double sn = f / t;
+                        final double cs = singularValues[j] / t;
+                        final double sn = f / t;
                         singularValues[j] = t;
                         f = -sn * e[j];
                         e[j] = cs * e[j];
@@ -358,16 +357,16 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // Perform one qr step.
                 case 3: {
                     // Calculate the shift.
-                    double scale = FastMath.max(FastMath.max(FastMath.max(FastMath.max(
+                    final double scale = FastMath.max(FastMath.max(FastMath.max(FastMath.max(
                             FastMath.abs(singularValues[p - 1]), FastMath.abs(singularValues[p - 2])), FastMath.abs(e[p - 2])),
                             FastMath.abs(singularValues[k])), FastMath.abs(e[k]));
-                    double sp = singularValues[p - 1] / scale;
-                    double spm1 = singularValues[p - 2] / scale;
-                    double epm1 = e[p - 2] / scale;
-                    double sk = singularValues[k] / scale;
-                    double ek = e[k] / scale;
-                    double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
-                    double c = (sp * epm1) * (sp * epm1);
+                    final double sp = singularValues[p - 1] / scale;
+                    final double spm1 = singularValues[p - 2] / scale;
+                    final double epm1 = e[p - 2] / scale;
+                    final double sk = singularValues[k] / scale;
+                    final double ek = e[k] / scale;
+                    final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
+                    final double c = (sp * epm1) * (sp * epm1);
                     double shift = 0.0;
                     if ((b != 0.0) | (c != 0.0)) {
                         shift = FastMath.sqrt(b * b + c);
@@ -525,7 +524,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
         if (dimension == 0) {
             throw new NumberIsTooLargeException(LocalizedFormats.TOO_LARGE_CUTOFF_SINGULAR_VALUE,
-                    minSingularValue, singularValues[0], true);
+                                                minSingularValue, singularValues[0], true);
         }
 
         final double[][] data = new double[dimension][p];
@@ -554,7 +553,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** {@inheritDoc} */
     public int getRank() {
-        double tol = FastMath.max(m, n) * singularValues[0] * EPS;
+        final double tol = m * singularValues[0] * EPS;
         int r = 0;
         for (int i = 0; i < singularValues.length; i++) {
             if (singularValues[i] > tol) {
@@ -566,7 +565,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
-        return new Solver(singularValues, getUT(), getV(), getRank() == Math.max(m, n));
+        return new Solver(singularValues, getUT(), getV(), getRank() == m);
     }
 
     /** Specialized solver. */
@@ -585,8 +584,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @param nonSingular Singularity indicator.
          */
         private Solver(final double[] singularValues, final RealMatrix uT,
-                final RealMatrix v, final boolean nonSingular) {
-            double[][] suT = uT.getData();
+                       final RealMatrix v, final boolean nonSingular) {
+            final double[][] suT = uT.getData();
             for (int i = 0; i < singularValues.length; ++i) {
                 final double a;
                 if (singularValues[i] > 0) {
