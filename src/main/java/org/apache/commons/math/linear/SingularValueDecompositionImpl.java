@@ -84,8 +84,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         final double[][] V = new double[n][n];
         final double[] e = new double[n];
         final double[] work = new double[m];
-        boolean wantu = true;
-        boolean wantv = true;
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
         final int nct = FastMath.min(m - 1, n);
@@ -127,8 +125,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // subsequent calculation of the row transformation.
                 e[j] = A[k][j];
             }
-            if (wantu &&
-                k < nct) {
+            if (k < nct) {
                 // Place the transformation in U for subsequent back
                 // multiplication.
                 for (int i = k; i < m; i++) {
@@ -171,12 +168,11 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         }
                     }
                 }
-                if (wantv) {
-                    // Place the transformation in V for subsequent
-                    // back multiplication.
-                    for (int i = k + 1; i < n; i++) {
-                        V[i][k] = e[i];
-                    }
+
+                // Place the transformation in V for subsequent
+                // back multiplication.
+                for (int i = k + 1; i < n; i++) {
+                    V[i][k] = e[i];
                 }
             }
         }
@@ -192,63 +188,62 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             e[nrt] = A[nrt][p - 1];
         }
         e[p - 1] = 0.0;
-        // If required, generate U.
-        if (wantu) {
-            for (int j = nct; j < nu; j++) {
-                for (int i = 0; i < m; i++) {
-                    U[i][j] = 0.0;
-                }
-                U[j][j] = 1.0;
+
+        // Generate U.
+        for (int j = nct; j < nu; j++) {
+            for (int i = 0; i < m; i++) {
+                U[i][j] = 0.0;
             }
-            for (int k = nct - 1; k >= 0; k--) {
-                if (singularValues[k] != 0.0) {
-                    for (int j = k + 1; j < nu; j++) {
-                        double t = 0;
-                        for (int i = k; i < m; i++) {
-                            t += U[i][k] * U[i][j];
-                        }
-                        t = -t / U[k][k];
-                        for (int i = k; i < m; i++) {
-                            U[i][j] += t * U[i][k];
-                        }
-                    }
+            U[j][j] = 1.0;
+        }
+        for (int k = nct - 1; k >= 0; k--) {
+            if (singularValues[k] != 0.0) {
+                for (int j = k + 1; j < nu; j++) {
+                    double t = 0;
                     for (int i = k; i < m; i++) {
-                        U[i][k] = -U[i][k];
+                        t += U[i][k] * U[i][j];
                     }
-                    U[k][k] = 1.0 + U[k][k];
-                    for (int i = 0; i < k - 1; i++) {
-                        U[i][k] = 0.0;
+                    t = -t / U[k][k];
+                    for (int i = k; i < m; i++) {
+                        U[i][j] += t * U[i][k];
                     }
-                } else {
-                    for (int i = 0; i < m; i++) {
-                        U[i][k] = 0.0;
-                    }
-                    U[k][k] = 1.0;
                 }
+                for (int i = k; i < m; i++) {
+                    U[i][k] = -U[i][k];
+                }
+                U[k][k] = 1.0 + U[k][k];
+                for (int i = 0; i < k - 1; i++) {
+                    U[i][k] = 0.0;
+                }
+            } else {
+                for (int i = 0; i < m; i++) {
+                    U[i][k] = 0.0;
+                }
+                U[k][k] = 1.0;
             }
         }
-        // If required, generate V.
-        if (wantv) {
-            for (int k = n - 1; k >= 0; k--) {
-                if (k < nrt &&
-                    e[k] != 0) {
-                    for (int j = k + 1; j < nu; j++) {
-                        double t = 0;
-                        for (int i = k + 1; i < n; i++) {
-                            t += V[i][k] * V[i][j];
-                        }
-                        t = -t / V[k + 1][k];
-                        for (int i = k + 1; i < n; i++) {
-                            V[i][j] += t * V[i][k];
-                        }
+
+        // Generate V.
+        for (int k = n - 1; k >= 0; k--) {
+            if (k < nrt &&
+                e[k] != 0) {
+                for (int j = k + 1; j < nu; j++) {
+                    double t = 0;
+                    for (int i = k + 1; i < n; i++) {
+                        t += V[i][k] * V[i][j];
+                    }
+                    t = -t / V[k + 1][k];
+                    for (int i = k + 1; i < n; i++) {
+                        V[i][j] += t * V[i][k];
                     }
                 }
-                for (int i = 0; i < n; i++) {
-                    V[i][k] = 0.0;
-                }
-                V[k][k] = 1.0;
             }
+            for (int i = 0; i < n; i++) {
+                V[i][k] = 0.0;
+            }
+            V[k][k] = 1.0;
         }
+
         // Main iteration loop for the singular values.
         final int pp = p - 1;
         int iter = 0;
@@ -316,12 +311,11 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                             f = -sn * e[j - 1];
                             e[j - 1] = cs * e[j - 1];
                         }
-                        if (wantv) {
-                            for (int i = 0; i < n; i++) {
-                                t = cs * V[i][j] + sn * V[i][p - 1];
-                                V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
-                                V[i][j] = t;
-                            }
+
+                        for (int i = 0; i < n; i++) {
+                            t = cs * V[i][j] + sn * V[i][p - 1];
+                            V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
+                            V[i][j] = t;
                         }
                     }
                 }
@@ -337,12 +331,11 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         singularValues[j] = t;
                         f = -sn * e[j];
                         e[j] = cs * e[j];
-                        if (wantu) {
-                            for (int i = 0; i < m; i++) {
-                                t = cs * U[i][j] + sn * U[i][k - 1];
-                                U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
-                                U[i][j] = t;
-                            }
+
+                        for (int i = 0; i < m; i++) {
+                            t = cs * U[i][j] + sn * U[i][k - 1];
+                            U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
+                            U[i][j] = t;
                         }
                     }
                 }
@@ -383,12 +376,11 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         e[j] = cs * e[j] - sn * singularValues[j];
                         g = sn * singularValues[j + 1];
                         singularValues[j + 1] = cs * singularValues[j + 1];
-                        if (wantv) {
-                            for (int i = 0; i < n; i++) {
-                                t = cs * V[i][j] + sn * V[i][j + 1];
-                                V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
-                                V[i][j] = t;
-                            }
+
+                        for (int i = 0; i < n; i++) {
+                            t = cs * V[i][j] + sn * V[i][j + 1];
+                            V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
+                            V[i][j] = t;
                         }
                         t = FastMath.hypot(f, g);
                         cs = f / t;
@@ -398,8 +390,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
                         g = sn * e[j + 1];
                         e[j + 1] = cs * e[j + 1];
-                        if (wantu &&
-                            j < m - 1) {
+                        if (j < m - 1) {
                             for (int i = 0; i < m; i++) {
                                 t = cs * U[i][j] + sn * U[i][j + 1];
                                 U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
@@ -416,10 +407,9 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     // Make the singular values positive.
                     if (singularValues[k] <= 0.0) {
                         singularValues[k] = singularValues[k] < 0.0 ? -singularValues[k] : 0.0;
-                        if (wantv) {
-                            for (int i = 0; i <= pp; i++) {
-                                V[i][k] = -V[i][k];
-                            }
+
+                        for (int i = 0; i <= pp; i++) {
+                            V[i][k] = -V[i][k];
                         }
                     }
                     // Order the singular values.
@@ -430,16 +420,14 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         double t = singularValues[k];
                         singularValues[k] = singularValues[k + 1];
                         singularValues[k + 1] = t;
-                        if (wantv &&
-                            k < n - 1) {
+                        if (k < n - 1) {
                             for (int i = 0; i < n; i++) {
                                 t = V[i][k + 1];
                                 V[i][k + 1] = V[i][k];
                                 V[i][k] = t;
                             }
                         }
-                        if (wantu &&
-                            k < m - 1) {
+                        if (k < m - 1) {
                             for (int i = 0; i < m; i++) {
                                 t = U[i][k + 1];
                                 U[i][k + 1] = U[i][k];
