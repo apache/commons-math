@@ -42,7 +42,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private static final double TINY = 0x1.0p-966;
 
     /** Computed singular values. */
-    private double[] singularValues;
+    private final double[] singularValues;
 
     /** max(row dimension, column dimension). */
     private final int m;
