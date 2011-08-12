@@ -183,14 +183,7 @@ public abstract class BaseSecantSolver
                     f0 *= f1 / (f1 + fx);
                     break;
                 case REGULA_FALSI:
-                    if (x == x1) {
-                        final double delta = FastMath.max(rtol * FastMath.abs(x1),
-                                                          atol);
-                        // Update formula cannot make any progress: Update the
-                        // search interval.
-                        x0 = 0.5 * (x0 + x1 - delta);
-                        f0 = computeObjectiveValue(x0);
-                    }
+                    // Nothing.
                     break;
                 default:
                     // Should never happen.

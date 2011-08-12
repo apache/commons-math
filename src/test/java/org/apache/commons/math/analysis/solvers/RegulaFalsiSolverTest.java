@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -40,7 +41,7 @@ public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
         return new int[] {3, 7, 8, 19, 18, 11, 67, 55, 288, 151, -1};
     }
 
-    @Test
+    @Test(expected=TooManyEvaluationsException.class)
     public void testIssue631() {
         final UnivariateRealFunction f = new UnivariateRealFunction() {
                 /** {@inheritDoc} */
