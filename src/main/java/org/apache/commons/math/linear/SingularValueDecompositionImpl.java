@@ -34,37 +34,26 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 public class SingularValueDecompositionImpl implements SingularValueDecomposition {
-
     /** Relative threshold for small singular values. */
     private static final double EPS = 0x1.0p-52;
-
     /** Absolute threshold for small singular values. */
     private static final double TINY = 0x1.0p-966;
-
     /** Computed singular values. */
     private final double[] singularValues;
-
     /** max(row dimension, column dimension). */
     private final int m;
-
     /** min(row dimension, column dimension). */
     private final int n;
-
     /** Indicator for transposed matrix. */
     private final boolean transposed;
-
     /** Cached value of U matrix. */
     private final RealMatrix cachedU;
-
     /** Cached value of transposed U matrix. */
     private RealMatrix cachedUt;
-
     /** Cached value of S (diagonal) matrix. */
     private RealMatrix cachedS;
-
     /** Cached value of V matrix. */
     private final RealMatrix cachedV;
-
     /** Cached value of transposed V matrix. */
     private RealMatrix cachedVt;
 
@@ -122,7 +111,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 singularValues[k] = -singularValues[k];
             }
             for (int j = k + 1; j < n; j++) {
-                if ((k < nct) && (singularValues[k] != 0.0)) {
+                if (k < nct &&
+                    singularValues[k] != 0.0) {
                     // Apply the transformation.
                     double t = 0;
                     for (int i = k; i < m; i++) {
@@ -137,7 +127,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                 // subsequent calculation of the row transformation.
                 e[j] = A[k][j];
             }
-            if (wantu && (k < nct)) {
+            if (wantu &&
+                k < nct) {
                 // Place the transformation in U for subsequent back
                 // multiplication.
                 for (int i = k; i < m; i++) {
@@ -162,7 +153,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     e[k + 1] += 1.0;
                 }
                 e[k] = -e[k];
-                if ((k + 1 < m) && (e[k] != 0.0)) {
+                if (k + 1 < m &&
+                    e[k] != 0) {
                     // Apply the transformation.
                     for (int i = k + 1; i < m; i++) {
                         work[i] = 0.0;
@@ -238,7 +230,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         // If required, generate V.
         if (wantv) {
             for (int k = n - 1; k >= 0; k--) {
-                if ((k < nrt) && (e[k] != 0.0)) {
+                if (k < nrt &&
+                    e[k] != 0) {
                     for (int j = k + 1; j < nu; j++) {
                         double t = 0;
                         for (int i = k + 1; i < n; i++) {
@@ -368,7 +361,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
                     final double c = (sp * epm1) * (sp * epm1);
                     double shift = 0.0;
-                    if ((b != 0.0) | (c != 0.0)) {
+                    if (b != 0 ||
+                        c != 0) {
                         shift = FastMath.sqrt(b * b + c);
                         if (b < 0.0) {
                             shift = -shift;
@@ -404,7 +398,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
                         g = sn * e[j + 1];
                         e[j + 1] = cs * e[j + 1];
-                        if (wantu && (j < m - 1)) {
+                        if (wantu &&
+                            j < m - 1) {
                             for (int i = 0; i < m; i++) {
                                 t = cs * U[i][j] + sn * U[i][j + 1];
                                 U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
@@ -435,14 +430,16 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                         double t = singularValues[k];
                         singularValues[k] = singularValues[k + 1];
                         singularValues[k + 1] = t;
-                        if (wantv && (k < n - 1)) {
+                        if (wantv &&
+                            k < n - 1) {
                             for (int i = 0; i < n; i++) {
                                 t = V[i][k + 1];
                                 V[i][k + 1] = V[i][k];
                                 V[i][k] = t;
                             }
                         }
-                        if (wantu && (k < m - 1)) {
+                        if (wantu &&
+                            k < m - 1) {
                             for (int i = 0; i < m; i++) {
                                 t = U[i][k + 1];
                                 U[i][k + 1] = U[i][k];
@@ -518,7 +515,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         // get the number of singular values to consider
         final int p = singularValues.length;
         int dimension = 0;
-        while ((dimension < p) && (singularValues[dimension] >= minSingularValue)) {
+        while (dimension < p &&
+               singularValues[dimension] >= minSingularValue) {
             ++dimension;
         }
 
