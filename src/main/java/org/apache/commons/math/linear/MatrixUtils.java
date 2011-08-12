@@ -25,6 +25,8 @@ import java.util.Arrays;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -34,6 +36,8 @@ import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * A collection of static methods that operate on or return matrices.
@@ -801,6 +805,86 @@ public class MatrixUtils {
             IOException ioe = new IOException();
             ioe.initCause(iae);
             throw ioe;
+        }
+    }
+
+    /**Solve  a  system of composed of a Lower Triangular Matrix
+     * {@link RealMatrix}.
+     * <p>
+     * This method is called to solve systems of equations which are
+     * of the lower triangular form. The matrix {@link RealMatrix}
+     * is assumed, though not checked, to be in lower triangular form.
+     * The vector {@link RealVector} is overwritten with the solution.
+     * The matrix is checked that it is square and its dimensions match
+     * the length of the vector.
+     * </p>
+     * @param rm RealMatrix which is lower triangular
+     * @param b  RealVector this is overwritten
+     * @exception IllegalArgumentException if the matrix and vector are not conformable
+     * @exception ArithmeticException there is a zero or near zero on the diagonal of rm
+     */
+    public static void solveLowerTriangularSystem( RealMatrix rm, RealVector b){
+        if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
+            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+                    (rm == null) ? 0 : rm.getRowDimension(),
+                    (b == null) ? 0 : b.getDimension());
+        }
+        if( rm.getColumnDimension() != rm.getRowDimension() ){
+            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
+                    rm.getRowDimension(),rm.getRowDimension(),
+                    rm.getRowDimension(),rm.getColumnDimension());
+        }
+        int rows = rm.getRowDimension();
+        for( int i = 0 ; i < rows ; i++ ){
+            double diag = rm.getEntry(i, i);
+            if( FastMath.abs(diag) < MathUtils.SAFE_MIN ){
+                throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            }
+            double bi = b.getEntry(i)/diag;
+            b.setEntry(i,  bi );
+            for( int j = i+1; j< rows; j++ ){
+                b.setEntry(j, b.getEntry(j)-bi*rm.getEntry(j,i)  );
+            }
+        }
+    }
+
+    /** Solver a  system composed  of an Upper Triangular Matrix
+     * {@link RealMatrix}.
+     * <p>
+     * This method is called to solve systems of equations which are
+     * of the lower triangular form. The matrix {@link RealMatrix}
+     * is assumed, though not checked, to be in upper triangular form.
+     * The vector {@link RealVector} is overwritten with the solution.
+     * The matrix is checked that it is square and its dimensions match
+     * the length of the vector.
+     * </p>
+     * @param rm RealMatrix which is upper triangular
+     * @param b  RealVector this is overwritten
+     * @exception IllegalArgumentException if the matrix and vector are not conformable
+     * @exception ArithmeticException there is a zero or near zero on the diagonal of rm
+     */
+    public static void solveUpperTriangularSystem( RealMatrix rm, RealVector b){
+        if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
+            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+                    (rm == null) ? 0 : rm.getRowDimension(),
+                    (b == null) ? 0 : b.getDimension());
+        }
+        if( rm.getColumnDimension() != rm.getRowDimension() ){
+            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
+                    rm.getRowDimension(),rm.getRowDimension(),
+                    rm.getRowDimension(),rm.getColumnDimension());
+        }
+        int rows = rm.getRowDimension();
+        for( int i = rows-1 ; i >-1 ; i-- ){
+            double diag = rm.getEntry(i, i);
+            if( FastMath.abs(diag) < MathUtils.SAFE_MIN ){
+                throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+            }
+            double bi = b.getEntry(i)/diag;
+            b.setEntry(i,  bi );
+            for( int j = i-1; j>-1; j-- ){
+                b.setEntry(j, b.getEntry(j)-bi*rm.getEntry(j,i)  );
+            }
         }
     }
 }

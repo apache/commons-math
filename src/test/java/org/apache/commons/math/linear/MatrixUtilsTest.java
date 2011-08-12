@@ -17,8 +17,7 @@
 package org.apache.commons.math.linear;
 
 import java.math.BigDecimal;
-
-
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionConversionException;
@@ -301,6 +300,30 @@ public final class MatrixUtilsTest {
             Assert.fail(fce.getMessage());
         }
         return d;
+    }
+  
+    @Test 
+    public void testSolveLowerTriangularSystem(){
+        RealMatrix rm = new Array2DRowRealMatrix(
+                new double[][] { {2,0,0,0 }, { 1,1,0,0 }, { 3,3,3,0 }, { 3,3,3,4 } },
+                       false);
+        RealVector b = new ArrayRealVector(new double[] { 2,3,4,8 }, false);
+        MatrixUtils.solveLowerTriangularSystem(rm, b);
+        TestUtils.assertEquals( new double[]{1,2,-1.66666666666667, 1.0}  , b.getData() , 1.0e-12);
+    }
+    
+     
+    /*
+     * Taken from R manual http://stat.ethz.ch/R-manual/R-patched/library/base/html/backsolve.html
+     */
+    @Test
+    public void testSolveUpperTriangularSystem(){
+        RealMatrix rm = new Array2DRowRealMatrix(
+                new double[][] { {1,2,3 }, { 0,1,1 }, { 0,0,2 } },
+                       false);
+        RealVector b = new ArrayRealVector(new double[] { 8,4,2 }, false);
+        MatrixUtils.solveUpperTriangularSystem(rm, b);
+        TestUtils.assertEquals( new double[]{-1,3,1}  , b.getData() , 1.0e-12);
     }
 }
 
