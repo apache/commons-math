@@ -51,6 +51,12 @@ The <action> type attribute can be add,update,fix,remove.
     with a new-line in the release notes. (These spaces are ignored when displaying HTML).
     If the output is not quite correct, check for invisible trailing spaces!
      -->
+    <release version="2.2.1" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-560">
+        Removed unwarranted deprecated tags.
+      </action>
+    </release>
+
     <release version="2.2" date="2011-03-02" description="
 This is primarily a maintenance release, but it also includes new features and enhancements.
 

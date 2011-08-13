@@ -50,9 +50,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     * @deprecated in 2.2 (to be removed in 3.0).
      */
-    @Deprecated
     public NewtonSolver() {
         super(100, 1E-6);
     }

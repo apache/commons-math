@@ -53,9 +53,7 @@ public class RiddersSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     * @deprecated in 2.2
      */
-    @Deprecated
     public RiddersSolver() {
         super(100, 1E-6);
     }

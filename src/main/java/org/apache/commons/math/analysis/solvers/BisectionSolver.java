@@ -47,7 +47,6 @@ public class BisectionSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     *
      */
     public BisectionSolver() {
         super(100, 1E-6);

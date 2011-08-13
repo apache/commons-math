@@ -54,9 +54,7 @@ public class MullerSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     * @deprecated in 2.2 (to be removed in 3.0).
      */
-    @Deprecated
     public MullerSolver() {
         super(100, 1E-6);
     }

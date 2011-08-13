@@ -64,9 +64,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver with default properties.
-     * @deprecated in 2.2 (to be removed in 3.0).
      */
-    @Deprecated
     public BrentSolver() {
         super(DEFAULT_MAXIMUM_ITERATIONS, DEFAULT_ABSOLUTE_ACCURACY);
     }

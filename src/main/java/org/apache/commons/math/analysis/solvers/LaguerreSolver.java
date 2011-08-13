@@ -68,9 +68,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
     /**
      * Construct a solver.
-     * @deprecated in 2.2 (to be removed in 3.0)
      */
-    @Deprecated
     public LaguerreSolver() {
         super(100, 1E-6);
         p = null;
