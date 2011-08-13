@@ -264,10 +264,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             // kase = 3     if e[k-1] is negligible, k<p, and
             //              s(k), ..., s(p) are not negligible (qr step).
             // kase = 4     if e(p-1) is negligible (convergence).
-            for (k = p - 2; k >= -1; k--) {
-                if (k == -1) {
-                    break;
-                }
+            for (k = p - 2; k >= 0; k--) {
                 final double threshold
                     = TINY + EPS * (FastMath.abs(singularValues[k]) +
                                     FastMath.abs(singularValues[k + 1]));
@@ -276,6 +273,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
                     break;
                 }
             }
+
             if (k == p - 2) {
                 kase = 4;
             } else {
