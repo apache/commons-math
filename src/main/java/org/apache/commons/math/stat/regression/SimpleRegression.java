@@ -43,7 +43,7 @@ import org.apache.commons.math.util.FastMath;
  * <li> When there are fewer than two observations in the model, or when
  * there is no variation in the x values (i.e. all x values are the same)
  * all statistics return <code>NaN</code>. At least two observations with
- * different x coordinates are requred to estimate a bivariate regression
+ * different x coordinates are required to estimate a bivariate regression
  * model.
  * </li>
  * <li> getters for the statistics always compute values based on the current
