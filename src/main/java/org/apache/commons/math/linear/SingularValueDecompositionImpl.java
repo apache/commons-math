@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.
@@ -56,6 +57,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private final RealMatrix cachedV;
     /** Cached value of transposed V matrix. */
     private RealMatrix cachedVt;
+    /** Tolerance value for small singular values, calculated once we have populated singularValues **/
+    private final double tol;
 
     /**
      * Calculates the compact Singular Value Decomposition of the given matrix.
@@ -77,7 +80,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             m = matrix.getRowDimension();
             n = matrix.getColumnDimension();
         }
- 
+
         singularValues = new double[n];
         final double[][] U = new double[m][n];
         final double[][] V = new double[n][n];
@@ -442,6 +445,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
             }
         }
 
+        // Set the small value tolerance used to calculate rank and pseudo-inverse
+        tol = FastMath.max(FastMath.max(m, n) * singularValues[0] * EPS,
+                FastMath.sqrt( MathUtils.SAFE_MIN));
+
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);
             cachedV = MatrixUtils.createRealMatrix(V);
@@ -537,7 +544,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** {@inheritDoc} */
     public int getRank() {
-        final double tol = m * singularValues[0] * EPS;
         int r = 0;
         for (int i = 0; i < singularValues.length; i++) {
             if (singularValues[i] > tol) {
@@ -549,7 +555,7 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
 
     /** {@inheritDoc} */
     public DecompositionSolver getSolver() {
-        return new Solver(singularValues, getUT(), getV(), getRank() == m);
+        return new Solver(singularValues, getUT(), getV(), getRank() == m, tol);
     }
 
     /** Specialized solver. */
@@ -566,13 +572,14 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @param uT U<sup>T</sup> matrix of the decomposition.
          * @param v V matrix of the decomposition.
          * @param nonSingular Singularity indicator.
+         * @param tol tolerance for singular values
          */
         private Solver(final double[] singularValues, final RealMatrix uT,
-                       final RealMatrix v, final boolean nonSingular) {
+                       final RealMatrix v, final boolean nonSingular, final double tol) {
             final double[][] suT = uT.getData();
             for (int i = 0; i < singularValues.length; ++i) {
                 final double a;
-                if (singularValues[i] > 0) {
+                if (singularValues[i] > tol) {
                     a = 1 / singularValues[i];
                 } else {
                     a = 0;
