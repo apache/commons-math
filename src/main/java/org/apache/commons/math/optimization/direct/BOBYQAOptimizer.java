@@ -55,6 +55,7 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 public class BOBYQAOptimizer
     extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
     implements MultivariateRealOptimizer {
+    private static final int INDEX_OFFSET = 1; // XXX to become "0" when all loops are 0-based.
     private static final double ZERO = 0d;
     private static final double ONE = 1d;
     private static final double TWO = 2d;
@@ -437,7 +438,7 @@ public class BOBYQAOptimizer
             final double deltaOne = xopt.getEntry(i);
             xoptsq += deltaOne * deltaOne;
         }
-        fsave = fval.getEntry(1);
+        fsave = fval.getEntry(INDEX_OFFSET);
         kbase = 1;
 
         // Complete the settings that are required for the iterative procedure.
@@ -1848,7 +1849,7 @@ public class BOBYQAOptimizer
                 if (getEvaluations() >= 2 && getEvaluations() <= n + 1) {
                     gopt.setEntry( nfm, (f - fbeg) / stepa);
                     if (npt < getEvaluations() + n) {
-                        bmat.setEntry(1, nfm, -ONE / stepa);
+                        bmat.setEntry(INDEX_OFFSET, nfm, -ONE / stepa);
                         bmat.setEntry( getEvaluations(), nfm, ONE / stepa);
                         bmat.setEntry( npt + nfm, nfm, -HALF * rhosq);
                     }
@@ -1869,14 +1870,14 @@ public class BOBYQAOptimizer
                             xpt.setEntry(getEvaluations(), nfx, stepa);
                         }
                     }
-                    bmat.setEntry(1, nfx, -(stepa + stepb) / (stepa * stepb));
+                    bmat.setEntry(INDEX_OFFSET, nfx, -(stepa + stepb) / (stepa * stepb));
                     bmat.setEntry( getEvaluations(), nfx, -HALF /
                                    xpt.getEntry(getEvaluations() - n, nfx));
-                    bmat.setEntry( getEvaluations() - n, nfx, -bmat.getEntry(1, nfx) -
+                    bmat.setEntry( getEvaluations() - n, nfx, -bmat.getEntry(INDEX_OFFSET, nfx) -
                                    bmat.getEntry( getEvaluations(), nfx));
-                    zmat.setEntry(1, nfx, Math.sqrt(TWO) / (stepa * stepb));
+                    zmat.setEntry(INDEX_OFFSET, nfx, Math.sqrt(TWO) / (stepa * stepb));
                     zmat.setEntry( getEvaluations(), nfx, Math.sqrt(HALF) / rhosq);
-                    zmat.setEntry( getEvaluations() - n, nfx, -zmat.getEntry(1, nfx) -
+                    zmat.setEntry( getEvaluations() - n, nfx, -zmat.getEntry(INDEX_OFFSET, nfx) -
                                    zmat.getEntry( getEvaluations(), nfx));
                 }
 
@@ -1885,7 +1886,7 @@ public class BOBYQAOptimizer
 
             } else {
                 ih = ipt * (ipt - 1) / 2 + jpt;
-                zmat.setEntry(1, nfx, recip);
+                zmat.setEntry(INDEX_OFFSET, nfx, recip);
                 zmat.setEntry( getEvaluations(), nfx, recip);
                 zmat.setEntry(ipt + 1, nfx, -recip);
                 zmat.setEntry( jpt + 1, nfx, -recip);
@@ -2052,20 +2053,20 @@ public class BOBYQAOptimizer
             // Computing MIN
             d__1 = delta;
             d__2 = su.getEntry(j);
-            ptsaux.setEntry(j, 1, Math.min(d__1, d__2));
+            ptsaux.setEntry(j, INDEX_OFFSET, Math.min(d__1, d__2));
             // Computing MAX
             d__1 = -delta;
             d__2 = sl.getEntry(j);
-            ptsaux.setEntry(j, 2, Math.max(d__1, d__2));
-            if (ptsaux.getEntry(j, 1) + ptsaux.getEntry(j, 2) < ZERO) {
-                temp = ptsaux.getEntry(j, 1);
-                ptsaux.setEntry(j, 1, ptsaux.getEntry(j, 2));
-                ptsaux.setEntry(j, 2, temp);
+            ptsaux.setEntry(j, INDEX_OFFSET + 1, Math.max(d__1, d__2));
+            if (ptsaux.getEntry(j, INDEX_OFFSET) + ptsaux.getEntry(j, INDEX_OFFSET + 1) < ZERO) {
+                temp = ptsaux.getEntry(j, INDEX_OFFSET);
+                ptsaux.setEntry(j, INDEX_OFFSET, ptsaux.getEntry(j, INDEX_OFFSET + 1));
+                ptsaux.setEntry(j, INDEX_OFFSET + 1, temp);
             }
-            d__2 = ptsaux.getEntry(j, 2);
-            d__1 = ptsaux.getEntry(j, 1);
+            d__2 = ptsaux.getEntry(j, INDEX_OFFSET + 1);
+            d__1 = ptsaux.getEntry(j, INDEX_OFFSET);
             if (Math.abs(d__2) < HALF * Math.abs(d__1)) {
-                ptsaux.setEntry(j, 2, HALF * ptsaux.getEntry(j, 1));
+                ptsaux.setEntry(j, INDEX_OFFSET + 1, HALF * ptsaux.getEntry(j, INDEX_OFFSET));
             }
             for (int i = 1; i <= ndim; i++) {
                 bmat.setEntry(i, j, ZERO);
@@ -2077,28 +2078,28 @@ public class BOBYQAOptimizer
         // along a coordinate direction from XOPT, and set the corresponding
         // nonzero elements of BMAT and ZMAT.
 
-        ptsid.setEntry(1, sfrac);
+        ptsid.setEntry(INDEX_OFFSET, sfrac);
         for (int j = 1; j <= n; j++) {
             jp = j + 1;
             jpn = jp + n;
             ptsid.setEntry(jp, (double) j + sfrac);
             if (jpn <= npt) {
                 ptsid.setEntry(jpn, (double) j / (double) np + sfrac);
-                temp = ONE / (ptsaux.getEntry(j, 1) - ptsaux.getEntry(j, 2));
-                bmat.setEntry(jp, j, -temp + ONE / ptsaux.getEntry(j, 1));
-                bmat.setEntry(jpn, j, temp + ONE / ptsaux.getEntry(j, 2));
-                bmat.setEntry(1, j, -bmat.getEntry(jp, j) - bmat.getEntry(jpn, j));
-                final double d1 = ptsaux.getEntry(j, 1) * ptsaux.getEntry(j, 2);
-                zmat.setEntry(1, j,  Math.sqrt(TWO) / Math.abs(d1));
-                zmat.setEntry(jp, j, zmat.getEntry(1, j) *
-                        ptsaux.getEntry(j, 2) * temp);
-                zmat.setEntry(jpn, j, -zmat.getEntry(1, j) *
-                        ptsaux.getEntry(j, 1) * temp);
+                temp = ONE / (ptsaux.getEntry(j, INDEX_OFFSET) - ptsaux.getEntry(j, INDEX_OFFSET + 1));
+                bmat.setEntry(jp, j, -temp + ONE / ptsaux.getEntry(j, INDEX_OFFSET));
+                bmat.setEntry(jpn, j, temp + ONE / ptsaux.getEntry(j, INDEX_OFFSET + 1));
+                bmat.setEntry(INDEX_OFFSET, j, -bmat.getEntry(jp, j) - bmat.getEntry(jpn, j));
+                final double d1 = ptsaux.getEntry(j, INDEX_OFFSET) * ptsaux.getEntry(j, INDEX_OFFSET + 1);
+                zmat.setEntry(INDEX_OFFSET, j,  Math.sqrt(TWO) / Math.abs(d1));
+                zmat.setEntry(jp, j, zmat.getEntry(INDEX_OFFSET, j) *
+                        ptsaux.getEntry(j, INDEX_OFFSET + 1) * temp);
+                zmat.setEntry(jpn, j, -zmat.getEntry(INDEX_OFFSET, j) *
+                        ptsaux.getEntry(j, INDEX_OFFSET) * temp);
             } else {
-                bmat.setEntry(1, j, -ONE / ptsaux.getEntry(j, 1));
-                bmat.setEntry(jp, j, ONE / ptsaux.getEntry(j, 1));
+                bmat.setEntry(INDEX_OFFSET, j, -ONE / ptsaux.getEntry(j, INDEX_OFFSET));
+                bmat.setEntry(jp, j, ONE / ptsaux.getEntry(j, INDEX_OFFSET));
                 // Computing 2nd power
-                final double d1 = ptsaux.getEntry(j, 1);
+                final double d1 = ptsaux.getEntry(j, INDEX_OFFSET);
                 bmat.setEntry(j + npt, j, -HALF * (d1 * d1));
             }
         }
@@ -2115,8 +2116,8 @@ public class BOBYQAOptimizer
                 }
                 ptsid.setEntry(k, (double) ip + (double) iq / (double) np +
                         sfrac);
-                temp = ONE / (ptsaux.getEntry(ip, 1) * ptsaux.getEntry(iq, 1));
-                zmat.setEntry(1, (k - np), temp);
+                temp = ONE / (ptsaux.getEntry(ip, INDEX_OFFSET) * ptsaux.getEntry(iq, INDEX_OFFSET));
+                zmat.setEntry(INDEX_OFFSET, (k - np), temp);
                 zmat.setEntry(ip + 1, k - np, -temp);
                 zmat.setEntry(iq + 1, k - np, -temp);
                 zmat.setEntry(k, k - np, temp);
@@ -2202,13 +2203,13 @@ public class BOBYQAOptimizer
                 } else {
                     ip = (int) ptsid.getEntry(k);
                     if (ip > 0) {
-                        sum = work2.getEntry(ip) * ptsaux.getEntry(ip, 1);
+                        sum = work2.getEntry(ip) * ptsaux.getEntry(ip, INDEX_OFFSET);
                     }
                     iq = (int) ((double) np * ptsid.getEntry(k) - (double) (ip * np));
                     if (iq > 0) {
-                        int iw = 1;
+                        int iw = INDEX_OFFSET;
                         if (ip == 0) {
-                            iw = 2;
+                            iw = INDEX_OFFSET + 1;
                         }
                         sum += work2.getEntry(iq) * ptsaux.getEntry(iq, iw);
                     }
@@ -2320,13 +2321,13 @@ public class BOBYQAOptimizer
                 ip = (int) ptsid.getEntry(kpt);
                 iq = (int) ((double) np * ptsid.getEntry(kpt) - (double) (ip * np));
                 if (ip > 0) {
-                    xp = ptsaux.getEntry(ip, 1);
+                    xp = ptsaux.getEntry(ip, INDEX_OFFSET);
                     xpt.setEntry(kpt, ip, xp);
                 }
                 if (iq > 0) {
-                    xq = ptsaux.getEntry(iq, 1);
+                    xq = ptsaux.getEntry(iq, INDEX_OFFSET);
                     if (ip == 0) {
-                        xq = ptsaux.getEntry(iq, 2);
+                        xq = ptsaux.getEntry(iq, INDEX_OFFSET + 1);
                     }
                     xpt.setEntry(kpt, iq, xq);
                 }
@@ -2407,20 +2408,20 @@ public class BOBYQAOptimizer
                         int ihq = (iq * iq + iq) / 2;
                         if (ip == 0) {
                             // Computing 2nd power
-                            final double d1 = ptsaux.getEntry(iq, 2);
+                            final double d1 = ptsaux.getEntry(iq, INDEX_OFFSET + 1);
                             hq.setEntry(ihq, hq.getEntry(ihq) + temp * (d1 * d1));
                         } else {
                             ihp = (ip * ip + ip) / 2;
                             // Computing 2nd power
-                            final double d1 = ptsaux.getEntry(ip, 1);
+                            final double d1 = ptsaux.getEntry(ip, INDEX_OFFSET);
                             hq.setEntry(ihp, hq.getEntry(ihp) + temp * (d1 * d1));
                             if (iq > 0) {
                                 // Computing 2nd power
-                                final double d2 = ptsaux.getEntry(iq, 1);
+                                final double d2 = ptsaux.getEntry(iq, INDEX_OFFSET);
                                 hq.setEntry(ihq, hq.getEntry(ihq) + temp * (d2 * d2));
                                 int iw = Math.max(ihp,ihq) - Math.abs(iq - ip);
                                 hq.setEntry(iw, hq.getEntry(iw)
-                                            + temp * ptsaux.getEntry(ip, 1) * ptsaux.getEntry(iq, 1));
+                                            + temp * ptsaux.getEntry(ip, INDEX_OFFSET) * ptsaux.getEntry(iq, INDEX_OFFSET));
                             }
                         }
                     }
@@ -3028,17 +3029,17 @@ public class BOBYQAOptimizer
             d__1 = zmat.getEntry(knew, j);
             if (Math.abs(d__1) > ztest) {
                 // Computing 2nd power
-                d__1 = zmat.getEntry(knew, 1);
+                d__1 = zmat.getEntry(knew, INDEX_OFFSET);
                 // Computing 2nd power
                 d__2 = zmat.getEntry(knew, j);
                 temp = Math.sqrt(d__1 * d__1 + d__2 * d__2);
-                tempa = zmat.getEntry(knew, 1) / temp;
+                tempa = zmat.getEntry(knew, INDEX_OFFSET) / temp;
                 tempb = zmat.getEntry(knew, j) / temp;
                 for (int i = 1; i <= npt; i++) {
-                    temp = tempa * zmat.getEntry(i, 1) + tempb * zmat.getEntry(i, j);
+                    temp = tempa * zmat.getEntry(i, INDEX_OFFSET) + tempb * zmat.getEntry(i, j);
                     zmat.setEntry(i, j, tempa * zmat.getEntry(i, j) -
-                                  tempb * zmat.getEntry(i, 1));
-                    zmat.setEntry(i, 1, temp);
+                                  tempb * zmat.getEntry(i, INDEX_OFFSET));
+                    zmat.setEntry(i, INDEX_OFFSET, temp);
                 }
             }
             zmat.setEntry(knew, j, ZERO);
@@ -3048,7 +3049,7 @@ public class BOBYQAOptimizer
         // and calculate the parameters of the updating formula.
 
         for (int i = 1; i <= npt; i++) {
-            work.setEntry(i, zmat.getEntry(knew, 1) * zmat.getEntry(i, 1));
+            work.setEntry(i, zmat.getEntry(knew, INDEX_OFFSET) * zmat.getEntry(i, INDEX_OFFSET));
         }
         alpha = work.getEntry(knew);
         tau = vlag.getEntry(knew);
@@ -3057,10 +3058,10 @@ public class BOBYQAOptimizer
         // Complete the updating of ZMAT.
 
         temp = Math.sqrt(denom);
-        tempb = zmat.getEntry(knew, 1) / temp;
+        tempb = zmat.getEntry(knew, INDEX_OFFSET) / temp;
         tempa = tau / temp;
         for (int i= 1; i <= npt; i++) {
-            zmat.setEntry(i, 1, tempa * zmat.getEntry(i, 1) -
+            zmat.setEntry(i, INDEX_OFFSET, tempa * zmat.getEntry(i, INDEX_OFFSET) -
                     tempb * vlag.getEntry(i));
         }
 
@@ -3157,12 +3158,12 @@ public class BOBYQAOptimizer
 
         /** {@inheritDoc} */
         public double getEntry(int index) {
-            return super.getEntry(index - 1);
+            return super.getEntry(index - INDEX_OFFSET);
         }
 
         /** {@inheritDoc} */
         public void setEntry(int index, double value) {
-            super.setEntry(index - 1, value);
+            super.setEntry(index - INDEX_OFFSET, value);
         }
     }
 
@@ -3175,12 +3176,12 @@ public class BOBYQAOptimizer
         }
         /** {@inheritDoc} */
         public double getEntry(int row, int col) {
-            return super.getEntry(row - 1, col - 1);
+            return super.getEntry(row - INDEX_OFFSET, col - INDEX_OFFSET);
         }
 
         /** {@inheritDoc} */
         public void setEntry(int row, int col, double value) {
-            super.setEntry(row - 1, col - 1, value);
+            super.setEntry(row - INDEX_OFFSET, col - INDEX_OFFSET, value);
         }
     }
 
@@ -3203,6 +3204,6 @@ public class BOBYQAOptimizer
     // For use in Fortran-like 1-based loops.  Calls to this offset
     // function will be removed when all loops are converted to 0-base.
     private static int f2jai(int j) {
-        return j - 1;
+        return j - INDEX_OFFSET;
     }
 }
