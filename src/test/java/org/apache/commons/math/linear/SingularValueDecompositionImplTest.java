@@ -298,6 +298,13 @@ public class SingularValueDecompositionImplTest {
         Assert.assertEquals(3.0, svd.getConditionNumber(), 1.5e-15);
     }
 
+    @Test
+    public void testInverseConditionNumber() {
+        SingularValueDecompositionImpl svd =
+            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
+        Assert.assertEquals(1.0/3.0, svd.getInverseConditionNumber(), 1.5e-15);
+    }
+    
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns,
                                         final double[] singularValues) {
         final RealMatrix u =

@@ -545,6 +545,17 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         return singularValues[0] / singularValues[n - 1];
     }
 
+    /**
+     * Computes the inverse of the condition number.
+     * In cases of rank deficiency, the {@link #getConditionNumber() condition
+     * number} will become undefined.
+     *
+     * @return the inverse of the condition number.
+     */
+    public double getInverseConditionNumber() {
+        return singularValues[n - 1] / singularValues[0];
+    }
+
     /** {@inheritDoc} */
     public int getRank() {
         int r = 0;
