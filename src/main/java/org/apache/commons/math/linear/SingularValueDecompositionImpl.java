@@ -57,7 +57,10 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
     private final RealMatrix cachedV;
     /** Cached value of transposed V matrix. */
     private RealMatrix cachedVt;
-    /** Tolerance value for small singular values, calculated once we have populated singularValues **/
+    /**
+     * Tolerance value for small singular values, calculated once we have
+     * populated "singularValues".
+     **/
     private final double tol;
 
     /**
@@ -446,8 +449,8 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
         }
 
         // Set the small value tolerance used to calculate rank and pseudo-inverse
-        tol = FastMath.max(FastMath.max(m, n) * singularValues[0] * EPS,
-                FastMath.sqrt( MathUtils.SAFE_MIN));
+        tol = FastMath.max(m * singularValues[0] * EPS,
+                           FastMath.sqrt(MathUtils.SAFE_MIN));
 
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);
