@@ -998,4 +998,30 @@ public class SparseRealVectorTest {
             Assert.assertEquals(msg + " " +  i + " elements differ", m[i],n[i],tolerance);
         }
     }
+
+    /* Check that the operations do not throw an exception (cf. MATH-645). */
+    @Test
+    public void testConcurrentModification() {
+        final RealVector u = new OpenMapRealVector(3, 1e-6);
+        u.setEntry(0, 1);
+        u.setEntry(1, 0);
+        u.setEntry(2, 2);
+
+        final RealVector v1 = new OpenMapRealVector(3, 1e-6);
+        final double[] v2 = new double[3];
+        v1.setEntry(0, 0);
+        v2[0] = 0;
+        v1.setEntry(1, 3);
+        v2[1] = 3;
+        v1.setEntry(2, 0);
+        v2[2] = 0;
+
+        RealVector w;
+
+        w = u.ebeMultiply(v1);
+        w = u.ebeMultiply(v2);
+
+        w = u.ebeDivide(v1);
+        w = u.ebeDivide(v2);
+    }
 }
