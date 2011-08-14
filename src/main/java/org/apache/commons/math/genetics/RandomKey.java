@@ -50,7 +50,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * For details, see:
  * <ul>
  * <li>Bean, J.C.: Genetic algorithms and random keys for sequencing and
- * optimization. ORSA Journal on Computing 6 (1994) 154–160</li>
+ * optimization. ORSA Journal on Computing 6 (1994) 154-160</li>
  * <li>Rothlauf, F.: Representations for Genetic and Evolutionary Algorithms.
  * Volume 104 of Studies in Fuzziness and Soft Computing. Physica-Verlag,
  * Heidelberg (2002)</li>
