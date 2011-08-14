@@ -342,7 +342,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
 
         /*
          * Aside from the first column and last row, the (i, j)-th element is
-         * 1/(i - j + 1)! if i − j + 1 >= 0, else 0. 1's and 0's are already
+         * 1/(i - j + 1)! if i - j + 1 >= 0, else 0. 1's and 0's are already
          * put, so only division with (i - j + 1)! is needed in the elements
          * that have 1's. There is no need to calculate (i - j + 1)! and then
          * divide - small steps avoid overflows.
