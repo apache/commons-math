@@ -2402,7 +2402,15 @@ public final class MathUtils {
 
         // final rounding, s12 may have suffered many cancellations, we try
         // to recover some bits from the extra words we have saved up to now
-        return s12High + (prod1Low + prod2Low + s12Low);
+        double result = s12High + (prod1Low + prod2Low + s12Low);
+
+        if (Double.isNaN(result)) {
+            // either we have split infinite numbers or some coefficients were NaNs,
+            // just rely on the naive implementation and let IEEE754 handle this
+            result = a1 * b1 + a2 * b2;
+        }
+
+        return result;
 
     }
 
@@ -2492,7 +2500,15 @@ public final class MathUtils {
 
         // final rounding, s123 may have suffered many cancellations, we try
         // to recover some bits from the extra words we have saved up to now
-        return s123High + (prod1Low + prod2Low + prod3Low + s12Low + s123Low);
+        double result = s123High + (prod1Low + prod2Low + prod3Low + s12Low + s123Low);
+
+        if (Double.isNaN(result)) {
+            // either we have split infinite numbers or some coefficients were NaNs,
+            // just rely on the naive implementation and let IEEE754 handle this
+            result = a1 * b1 + a2 * b2 + a3 * b3;
+        }
+
+        return result;
 
     }
 
@@ -2604,7 +2620,15 @@ public final class MathUtils {
 
         // final rounding, s1234 may have suffered many cancellations, we try
         // to recover some bits from the extra words we have saved up to now
-        return s1234High + (prod1Low + prod2Low + prod3Low + prod4Low + s12Low + s123Low + s1234Low);
+        double result = s1234High + (prod1Low + prod2Low + prod3Low + prod4Low + s12Low + s123Low + s1234Low);
+
+        if (Double.isNaN(result)) {
+            // either we have split infinite numbers or some coefficients were NaNs,
+            // just rely on the naive implementation and let IEEE754 handle this
+            result = a1 * b1 + a2 * b2 + a3 * b3 + a4 * b4;
+        }
+
+        return result;
 
     }
 
@@ -2667,6 +2691,19 @@ public final class MathUtils {
             sHighPrev = sHighCur;
         }
 
-        return sHighPrev + (prodLowSum + sLowSum);
+        double result = sHighPrev + (prodLowSum + sLowSum);
+
+        if (Double.isNaN(result)) {
+            // either we have split infinite numbers or some coefficients were NaNs,
+            // just rely on the naive implementation and let IEEE754 handle this
+            result = 0;
+            for (int i = 0; i < len; ++i) {
+                result += a[i] * b[i];
+            }
+        }
+
+        return result;
+
     }
+
 }
