@@ -104,7 +104,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** Copy constructor.
-     * <p>The created instance is completely independant from the
+     * <p>The created instance is completely independent from the
      * original instance, it is a deep copy.</p>
      * @param line line to copy
      */
@@ -192,16 +192,15 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** Get the intersection point of the instance and another line.
      * @param other other line
      * @return intersection point of the instance and the other line
-     * (really a {@link Vector2D Vector2D} instance)
+     * or null if there are no intersection points
      */
-    public Vector2D intersection(final Hyperplane<Euclidean2D> other) {
-        final Line otherL = (Line) other;
-        final double d = sin * otherL.cos - otherL.sin * cos;
+    public Vector2D intersection(final Line other) {
+        final double d = sin * other.cos - other.sin * cos;
         if (FastMath.abs(d) < 1.0e-10) {
             return null;
         }
-        return new Vector2D((cos * otherL.originOffset - otherL.cos * originOffset) / d,
-                           (sin * otherL.originOffset - otherL.sin * originOffset) / d);
+        return new Vector2D((cos * other.originOffset - other.cos * originOffset) / d,
+                            (sin * other.originOffset - other.sin * originOffset) / d);
     }
 
     /** {@inheritDoc} */
