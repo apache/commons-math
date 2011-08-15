@@ -244,17 +244,6 @@ public class BOBYQAOptimizerTest {
                 1e-13, 1e-6, 2000, expected);
     }
 
-    @Test
-    public void testDiagonalRosen() {
-        double[] startPoint = point(DIM,0.1);
-        double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
-        doTest(new Rosen(), startPoint, boundaries,
-                GoalType.MINIMIZE, 
-                1e-10, 1e-4, 2000, expected);
-     }
-
     /**
      * @param func Function to optimize.
      * @param startPoint Starting point.
