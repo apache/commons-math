@@ -175,7 +175,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
                 final Plane    plane  = (Plane) facet.getHyperplane();
                 final Vector3D facetB = plane.toSpace(polygon.getBarycenter());
-                double   scaled = area * Vector3D.dotProduct(facetB, plane.getNormal());
+                double   scaled = area * facetB.dotProduct(plane.getNormal());
                 if (reversed) {
                     scaled = -scaled;
                 }

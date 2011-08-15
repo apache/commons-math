@@ -164,7 +164,7 @@ public class OutlineExtractor {
                 (AbstractSubHyperplane<Euclidean3D, Euclidean2D>) facet;
             final Plane plane    = (Plane) facet.getHyperplane();
 
-            final double scal = Vector3D.dotProduct(plane.getNormal(), w);
+            final double scal = plane.getNormal().dotProduct(w);
             if (FastMath.abs(scal) > 1.0e-3) {
                 Vector2D[][] vertices =
                     ((PolygonsSet) absFacet.getRemainingRegion()).getVertices();
@@ -201,13 +201,13 @@ public class OutlineExtractor {
                     int previous         = closed ? (loop.length - 1) : 1;
                     Vector3D previous3D  = (Vector3D) plane.toSpace(loop[previous]);
                     int current          = (previous + 1) % loop.length;
-                    Vector2D pPoint       = new Vector2D(Vector3D.dotProduct(previous3D, u),
-                                                       Vector3D.dotProduct(previous3D, v));
+                    Vector2D pPoint       = new Vector2D(previous3D.dotProduct(u),
+                                                         previous3D.dotProduct(v));
                     while (current < loop.length) {
 
                         final Vector3D current3D = (Vector3D) plane.toSpace(loop[current]);
-                        final Vector2D  cPoint    = new Vector2D(Vector3D.dotProduct(current3D, u),
-                                                               Vector3D.dotProduct(current3D, v));
+                        final Vector2D  cPoint    = new Vector2D(current3D.dotProduct(u),
+                                                                 current3D.dotProduct(v));
                         final org.apache.commons.math.geometry.euclidean.twod.Line line =
                             new org.apache.commons.math.geometry.euclidean.twod.Line(pPoint, cPoint);
                         SubHyperplane<Euclidean2D> edge = line.wholeHyperplane();

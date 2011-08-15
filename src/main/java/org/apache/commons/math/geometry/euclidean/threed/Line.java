@@ -16,11 +16,14 @@
  */
 package org.apache.commons.math.geometry.euclidean.threed;
 
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.geometry.Vector;
 import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math.geometry.partitioning.Embedding;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /** The class represent lines in a three dimensional space.
 
@@ -45,24 +48,34 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** Build a line from a point and a direction.
      * @param p point belonging to the line (this can be any point)
      * @param direction direction of the line
-     * @exception IllegalArgumentException if the direction norm is too small
+     * @exception MathArithmeticException if the direction norm is too small
      */
     public Line(final Vector3D p, final Vector3D direction) {
         reset(p, direction);
     }
 
+    /** Copy constructor.
+     * <p>The created instance is completely independent from the
+     * original instance, it is a deep copy.</p>
+     * @param line line to copy
+     */
+    public Line(final Line line) {
+        this.direction = line.direction;
+        this.zero      = line.zero;
+    }
+
     /** Reset the instance as if built from a point and a normal.
      * @param p point belonging to the line (this can be any point)
      * @param dir direction of the line
-     * @exception IllegalArgumentException if the direction norm is too small
+     * @exception MathArithmeticException if the direction norm is too small
      */
     public void reset(final Vector3D p, final Vector3D dir) {
         final double norm = dir.getNorm();
         if (norm == 0.0) {
-            throw new IllegalArgumentException("null norm");
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
         this.direction = new Vector3D(1.0 / norm, dir);
-        zero = new Vector3D(1.0, p, -Vector3D.dotProduct(p, this.direction), this.direction);
+        zero = new Vector3D(1.0, p, -p.dotProduct(this.direction), this.direction);
     }
 
     /** Get a line with reversed direction.
@@ -90,25 +103,33 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * <p>The abscissa is 0 if the projection of the point and the
      * projection of the frame origin on the line are the same
      * point.</p>
-     * @param point point to check (must be a {@link Vector3D Vector3D}
-     * instance)
-     * @return abscissa of the point (really a
-     * {org.apache.commons.math.geometry.euclidean.oned.Vector1D Vector1D} instance)
+     * @param point point to check
+     * @return abscissa of the point
      */
-    public Vector1D toSubSpace(final Vector<Euclidean3D> point) {
-        Vector3D p3 = (Vector3D) point;
-        return new Vector1D(Vector3D.dotProduct(p3.subtract(zero), direction));
+    public double getAbscissa(final Vector3D point) {
+        return point.subtract(zero).dotProduct(direction);
     }
 
     /** Get one point from the line.
-     * @param point desired abscissa for the point (must be a
-     * {org.apache.commons.math.geometry.euclidean.oned.Vector1D Vector1D} instance)
+     * @param point desired abscissa for the point
      * @return one point belonging to the line, at specified abscissa
-     * (really a {@link Vector3D Vector3D} instance)
+     */
+    public Vector3D pointAt(final double abscissa) {
+        return new Vector3D(1.0, zero, abscissa, direction);
+    }
+
+    /** {@inheritDoc}
+     * @see #getAbscissa(Vector3D)
+     */
+    public Vector1D toSubSpace(final Vector<Euclidean3D> point) {
+        return new Vector1D(getAbscissa((Vector3D) point));
+    }
+
+    /** {@inheritDoc}
+     * @see #pointAt(double)
      */
     public Vector3D toSpace(final Vector<Euclidean1D> point) {
-        Vector1D p1 = (Vector1D) point;
-        return new Vector3D(1.0, zero, p1.getX(), direction);
+        return pointAt(((Vector1D) point).getX());
     }
 
     /** Check if the instance is similar to another line.
@@ -137,28 +158,59 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      */
     public double distance(final Vector3D p) {
         final Vector3D d = p.subtract(zero);
-        final Vector3D n = new Vector3D(1.0, d, -Vector3D.dotProduct(d, direction), direction);
+        final Vector3D n = new Vector3D(1.0, d, -d.dotProduct(direction), direction);
         return n.getNorm();
     }
 
     /** Compute the shortest distance between the instance and another line.
-     * @param line line to check agains the instance
+     * @param line line to check against the instance
      * @return shortest distance between the instance and the line
      */
     public double distance(final Line line) {
 
         final Vector3D normal = Vector3D.crossProduct(direction, line.direction);
-        if (normal.getNorm() < 1.0e-10) {
+        final double n = normal.getNorm();
+        if (n < MathUtils.SAFE_MIN) {
             // lines are parallel
             return distance(line.zero);
         }
 
-        // separating middle plane
-        final Plane middle = new Plane(new Vector3D(0.5, zero, 0.5, line.zero), normal);
+        // signed separation of the two parallel planes that contains the lines
+        final double offset = line.zero.subtract(zero).dotProduct(normal) / n;
 
-        // the lines are at the same distance on either side of the plane
-        return 2 * FastMath.abs(middle.getOffset(zero));
+        return FastMath.abs(offset);
 
+    }
+
+    /** Compute the point of the instance closest to another line.
+     * @param line line to check against the instance
+     * @return point of the instance closest to another line
+     */
+    public Vector3D closestPoint(final Line line) {
+
+        final double cos = direction.dotProduct(line.direction);
+        final double n = 1 - cos * cos;
+        if (n < MathUtils.EPSILON) {
+            // the lines are parallel
+            return zero;
+        }
+
+        final Vector3D delta0 = line.zero.subtract(zero);
+        final double a        = delta0.dotProduct(direction);
+        final double b        = delta0.dotProduct(line.direction);
+
+        return new Vector3D(1, zero, (a - b * cos) / n, direction);
+
+    }
+
+    /** Get the intersection point of the instance and another line.
+     * @param line other line
+     * @return intersection point of the instance and the other line
+     * or null if there are no intersection points
+     */
+    public Vector3D intersection(final Line line) {
+        final Vector3D closest = closestPoint(line);
+        return line.contains(closest) ? closest : null;
     }
 
 }

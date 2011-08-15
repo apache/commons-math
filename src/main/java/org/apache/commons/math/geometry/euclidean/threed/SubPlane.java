@@ -72,7 +72,7 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         Vector2D p = thisPlane.toSubSpace(inter.toSpace(Vector1D.ZERO));
         Vector2D q = thisPlane.toSubSpace(inter.toSpace(Vector1D.ONE));
         Vector3D crossP = Vector3D.crossProduct(inter.getDirection(), thisPlane.getNormal());
-        if (Vector3D.dotProduct(crossP, otherPlane.getNormal()) < 0) {
+        if (crossP.dotProduct(otherPlane.getNormal()) < 0) {
             final Vector2D tmp = p;
             p           = q;
             q           = tmp;
@@ -109,7 +109,7 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         Vector2D p = thisPlane.toSubSpace(inter.toSpace(Vector1D.ZERO));
         Vector2D q = thisPlane.toSubSpace(inter.toSpace(Vector1D.ONE));
         Vector3D crossP = Vector3D.crossProduct(inter.getDirection(), thisPlane.getNormal());
-        if (Vector3D.dotProduct(crossP, otherPlane.getNormal()) < 0) {
+        if (crossP.dotProduct(otherPlane.getNormal()) < 0) {
             final Vector2D tmp = p;
             p           = q;
             q           = tmp;
