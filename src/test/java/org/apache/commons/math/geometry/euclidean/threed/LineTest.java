@@ -70,6 +70,61 @@ public class LineTest {
         Assert.assertEquals(0.0,
                             l.distance(new Line(new Vector3D(0, -4, -4), new Vector3D(0, -1, -1))),
                             1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.distance(new Line(new Vector3D(0, -4, -4), new Vector3D(0, 1, 0))),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.distance(new Line(new Vector3D(0, -4, -4), new Vector3D(1, 0, 0))),
+                            1.0e-10);
+        Assert.assertEquals(FastMath.sqrt(8),
+                            l.distance(new Line(new Vector3D(0, -4, 0), new Vector3D(1, 0, 0))),
+                            1.0e-10);
+    }
+
+    @Test
+    public void testClosest() {
+        Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 1, 1));
+        Assert.assertEquals(0.0,
+                            l.closestPoint(new Line(new Vector3D(1, 0, 1), Vector3D.PLUS_K)).distance(new Vector3D(0, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.5,
+                            l.closestPoint(new Line(new Vector3D(-0.5, 0, 0), new Vector3D(0, -1, -1))).distance(new Vector3D(-0.5, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.closestPoint(l).distance(new Vector3D(0, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.closestPoint(new Line(new Vector3D(0, -4, -4), new Vector3D(0, -1, -1))).distance(new Vector3D(0, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.closestPoint(new Line(new Vector3D(0, -4, -4), new Vector3D(0, 1, 0))).distance(new Vector3D(0, -4, -4)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.closestPoint(new Line(new Vector3D(0, -4, -4), new Vector3D(1, 0, 0))).distance(new Vector3D(0, -4, -4)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.closestPoint(new Line(new Vector3D(0, -4, 0), new Vector3D(1, 0, 0))).distance(new Vector3D(0, -2, -2)),
+                            1.0e-10);
+    }
+
+    @Test
+    public void testIntersection() {
+        Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 1, 1));
+        Assert.assertNull(l.intersection(new Line(new Vector3D(1, 0, 1), Vector3D.PLUS_K)));
+        Assert.assertNull(l.intersection(new Line(new Vector3D(-0.5, 0, 0), new Vector3D(0, -1, -1))));
+        Assert.assertEquals(0.0,
+                            l.intersection(l).distance(new Vector3D(0, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.intersection(new Line(new Vector3D(0, -4, -4), new Vector3D(0, -1, -1))).distance(new Vector3D(0, 0, 0)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.intersection(new Line(new Vector3D(0, -4, -4), new Vector3D(0, 1, 0))).distance(new Vector3D(0, -4, -4)),
+                            1.0e-10);
+        Assert.assertEquals(0.0,
+                            l.intersection(new Line(new Vector3D(0, -4, -4), new Vector3D(1, 0, 0))).distance(new Vector3D(0, -4, -4)),
+                            1.0e-10);
+        Assert.assertNull(l.intersection(new Line(new Vector3D(0, -4, 0), new Vector3D(1, 0, 0))));
     }
 
 }
