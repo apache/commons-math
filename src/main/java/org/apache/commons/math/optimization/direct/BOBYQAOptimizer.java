@@ -1995,8 +1995,9 @@ public class BOBYQAOptimizer
         // upper bound on the indices of the conjugate gradient iterations.
 
         int state = 20;
-        for(;;) switch (state) {
-
+        for(;;) {
+            // System.out.println("loop in trsbox: state=" + state); // XXX
+            switch (state) {
         case 20: {
             beta = ZERO;
         }
@@ -2390,6 +2391,7 @@ public class BOBYQAOptimizer
         default: {
             throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "trsbox");
         }}
+        }
     } // trsbox
 
     // ----------------------------------------------------------------------------------------
@@ -2427,18 +2429,7 @@ public class BOBYQAOptimizer
         // XXX Should probably be split into two arrays.
         final ArrayRealVector work = new ArrayRealVector(npt + n);
 
-
-        // System generated locals
-        double d__1, d__2, d__3;
-
-        // Local variables
-        int jp;
-        double tau, temp;
-        double alpha, tempa, tempb, ztest;
-
-        // Function Body
-
-        ztest = ZERO;
+        double ztest = ZERO;
         for (int k = 0; k < npt; k++) {
             for (int j = 0; j < nptm; j++) {
                 // Computing MAX
@@ -2450,20 +2441,19 @@ public class BOBYQAOptimizer
         // Apply the rotations that put zeros in the KNEW-th row of ZMAT.
 
         for (int j = 1; j < nptm; j++) {
-            d__1 = zmat.getEntry(knew, j);
-            if (Math.abs(d__1) > ztest) {
+            final double d1 = zmat.getEntry(knew, j);
+            if (Math.abs(d1) > ztest) {
                 // Computing 2nd power
-                d__1 = zmat.getEntry(knew, 0);
+                final double d2 = zmat.getEntry(knew, 0);
                 // Computing 2nd power
-                d__2 = zmat.getEntry(knew, j);
-                temp = Math.sqrt(d__1 * d__1 + d__2 * d__2);
-                tempa = zmat.getEntry(knew, 0) / temp;
-                tempb = zmat.getEntry(knew, j) / temp;
+                final double d3 = zmat.getEntry(knew, j);
+                final double d4 = Math.sqrt(d2 * d2 + d3 * d3);
+                final double d5 = zmat.getEntry(knew, 0) / d4;
+                final double d6 = zmat.getEntry(knew, j) / d4;
                 for (int i = 0; i < npt; i++) {
-                    temp = tempa * zmat.getEntry(i, 0) + tempb * zmat.getEntry(i, j);
-                    zmat.setEntry(i, j, tempa * zmat.getEntry(i, j) -
-                                  tempb * zmat.getEntry(i, 0));
-                    zmat.setEntry(i, 0, temp);
+                    final double d7 = d5 * zmat.getEntry(i, 0) + d6 * zmat.getEntry(i, j);
+                    zmat.setEntry(i, j, d5 * zmat.getEntry(i, j) - d6 * zmat.getEntry(i, 0));
+                    zmat.setEntry(i, 0, d7);
                 }
             }
             zmat.setEntry(knew, j, ZERO);
@@ -2475,30 +2465,30 @@ public class BOBYQAOptimizer
         for (int i = 0; i < npt; i++) {
             work.setEntry(i, zmat.getEntry(knew, 0) * zmat.getEntry(i, 0));
         }
-        alpha = work.getEntry(knew);
-        tau = vlag.getEntry(knew);
+        final double alpha = work.getEntry(knew);
+        final double tau = vlag.getEntry(knew);
         vlag.setEntry(knew, vlag.getEntry(knew) - ONE);
 
         // Complete the updating of ZMAT.
 
-        temp = Math.sqrt(denom);
-        tempb = zmat.getEntry(knew, 0) / temp;
-        tempa = tau / temp;
+        final double sqrtDenom = Math.sqrt(denom);
+        final double d1 = tau / sqrtDenom;
+        final double d2 = zmat.getEntry(knew, 0) / sqrtDenom;
         for (int i = 0; i < npt; i++) {
             zmat.setEntry(i, 0,
-                          tempa * zmat.getEntry(i, 0) - tempb * vlag.getEntry(i));
+                          d1 * zmat.getEntry(i, 0) - d2 * vlag.getEntry(i));
         }
 
         // Finally, update the matrix BMAT.
 
         for (int j = 0; j < n; j++) {
-            jp = npt + j;
+            final int jp = npt + j;
             work.setEntry(jp, bmat.getEntry(knew, j));
-            tempa = (alpha * vlag.getEntry(jp) - tau * work.getEntry(jp)) / denom;
-            tempb = (-beta * work.getEntry(jp) - tau * vlag.getEntry(jp)) / denom;
+            final double d3 = (alpha * vlag.getEntry(jp) - tau * work.getEntry(jp)) / denom;
+            final double d4 = (-beta * work.getEntry(jp) - tau * vlag.getEntry(jp)) / denom;
             for (int i = 0; i <= jp; i++) {
-                bmat.setEntry(i, j, bmat.getEntry(i, j) + tempa *
-                        vlag.getEntry(i) + tempb * work.getEntry(i));
+                bmat.setEntry(i, j,
+                              bmat.getEntry(i, j) + d3 * vlag.getEntry(i) + d4 * work.getEntry(i));
                 if (i >= npt) {
                     bmat.setEntry(jp, (i - npt), bmat.getEntry(i, j));
                 }
