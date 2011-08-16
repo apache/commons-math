@@ -75,16 +75,6 @@ public class BOBYQAOptimizerTest {
                1e-13, 1e-6, lowMaxEval, null);
      }
 
-    @Test(expected=TooManyEvaluationsException.class)
-    public void testRescue() {
-        double[] startPoint = point(DIM, 1);
-        double[][] boundaries = null;
-        RealPointValuePair expected =  new RealPointValuePair(point(DIM, 0), 0);
-        doTest(new MinusElli(), startPoint, boundaries,
-               GoalType.MINIMIZE, 
-               1e-13, 1e-6, 1000, expected);
-    }
-
     @Test
     public void testRosen() {
         double[] startPoint = point(DIM,0.1);
