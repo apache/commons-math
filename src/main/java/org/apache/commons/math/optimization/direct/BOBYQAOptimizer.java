@@ -31,6 +31,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 
@@ -2334,16 +2335,12 @@ public class BOBYQAOptimizer
                     ih++;
                 }
             }
+            final RealVector tmp = xpt.operate(s).ebeMultiply(pq);
             for (int k = 0; k < npt; k++) {
                 if (pq.getEntry(k) != ZERO) {
-                    temp = ZERO;
-                    for (int j = 0; j < n; j++) {
-                        temp += xpt.getEntry(k, j) * s.getEntry(j);
-                    }
-                    temp *= pq.getEntry(k);
                     for (int i = 0; i < n; i++) {
-                        hs.setEntry(i, hs.getEntry(i) + temp * xpt.getEntry(k, i));
-                    }
+                        hs.setEntry(i, hs.getEntry(i) + tmp.getEntry(k) * xpt.getEntry(k, i));
+                    } 
                 }
             }
             if (crvmin != ZERO) {
