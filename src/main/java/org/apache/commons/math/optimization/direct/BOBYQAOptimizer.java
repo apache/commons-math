@@ -1304,40 +1304,17 @@ public class BOBYQAOptimizer
         final ArrayRealVector work1 = new ArrayRealVector(n);
         final ArrayRealVector work2 = new ArrayRealVector(n);
 
-        double alpha = Double.NaN;
-        double cauchy = Double.NaN;
-
-        // System generated locals
-        double d__1, d__2, d__3, d__4;
-
-        // Local variables
-        double ha, gw, diff;
-        int ilbd, isbd;
-        double slbd;
-        int iubd;
-        double vlag, subd, temp;
-        int ksav = 0;
-        double step = 0, curv = 0;
-        int iflag;
-        double scale = 0, csave = 0, tempa = 0, tempb = 0, tempd = 0, const__ = 0, sumin = 0, 
-        ggfree = 0;
-        int ibdsav = 0;
-        double dderiv = 0, bigstp = 0, predsq = 0, presav = 0, distsq = 0, stpsav = 0, wfixsq = 0, wsqsav = 0;
-
-
-        // Function Body
-        const__ = ONE + Math.sqrt(2.);
         for (int k = 0; k < npt; k++) {
             hcol.setEntry(k, ZERO);
         }
         for (int j = 0, max = npt - n - 1; j < max; j++) {
-            temp = zmat.getEntry(knew, j);
+            final double tmp = zmat.getEntry(knew, j);
             for (int k = 0; k < npt; k++) {
-                hcol.setEntry(k, hcol.getEntry(k) + temp * zmat.getEntry(k, j));
+                hcol.setEntry(k, hcol.getEntry(k) + tmp * zmat.getEntry(k, j));
             }
         }
-        alpha = hcol.getEntry(knew);
-        ha = HALF * alpha;
+        final double alpha = hcol.getEntry(knew);
+        final double ha = HALF * alpha;
 
         // Calculate the gradient of the KNEW-th Lagrange function at XOPT.
 
@@ -1345,13 +1322,13 @@ public class BOBYQAOptimizer
             glag.setEntry(i, bmat.getEntry(knew, i));
         }
         for (int k = 0; k < npt; k++) {
-            temp = ZERO;
+            double tmp = ZERO;
             for (int j = 0; j < n; j++) {
-                temp += xpt.getEntry(k, j) * xopt.getEntry(j);
+                tmp += xpt.getEntry(k, j) * xopt.getEntry(j);
             }
-            temp = hcol.getEntry(k) * temp;
+            tmp *= hcol.getEntry(k);
             for (int i = 0; i < n; i++) {
-                glag.setEntry(i, glag.getEntry(i) + temp * xpt.getEntry(k, i));
+                glag.setEntry(i, glag.getEntry(i) + tmp * xpt.getEntry(k, i));
             }
         }
 
@@ -1361,50 +1338,52 @@ public class BOBYQAOptimizer
         // set to the square of the predicted denominator for each line. PRESAV
         // will be set to the largest admissible value of PREDSQ that occurs.
 
-        presav = ZERO;
+        double presav = ZERO;
+        double step = Double.NaN;
+        int ksav = 0;
+        int ibdsav = 0;
+        double stpsav = 0;
         for (int k = 0; k < npt; k++) {
             if (k == trustRegionCenterInterpolationPointIndex) {
                 continue;
             }
-            dderiv = ZERO;
-            distsq = ZERO;
+            double dderiv = ZERO;
+            double distsq = ZERO;
             for (int i = 0; i < n; i++) {
-                temp = xpt.getEntry(k, i) - xopt.getEntry(i);
-                dderiv += glag.getEntry(i) * temp;
-                distsq += temp * temp;
+                final double tmp = xpt.getEntry(k, i) - xopt.getEntry(i);
+                dderiv += glag.getEntry(i) * tmp;
+                distsq += tmp * tmp;
             }
-            subd = adelt / Math.sqrt(distsq);
-            slbd = -subd;
-            ilbd = 0;
-            iubd = 0;
-            sumin = Math.min(ONE, subd);
+            double subd = adelt / Math.sqrt(distsq);
+            double slbd = -subd;
+            int ilbd = 0;
+            int iubd = 0;
+            final double sumin = Math.min(ONE, subd);
 
             // Revise SLBD and SUBD if necessary because of the bounds in SL and SU.
 
             for (int i = 0; i < n; i++) {
-                temp = xpt.getEntry(k, i) - xopt.getEntry(i);
-                if (temp > ZERO) {
-                    if (slbd * temp < sl.getEntry(i) - xopt.getEntry(i)) {
-                        slbd = (sl.getEntry(i) - xopt.getEntry(i)) / temp;
+                final double tmp = xpt.getEntry(k, i) - xopt.getEntry(i);
+                if (tmp > ZERO) {
+                    if (slbd * tmp < sl.getEntry(i) - xopt.getEntry(i)) {
+                        slbd = (sl.getEntry(i) - xopt.getEntry(i)) / tmp;
                         ilbd = -i - 1;
                     }
-                    if (subd * temp > su.getEntry(i) - xopt.getEntry(i)) {
+                    if (subd * tmp > su.getEntry(i) - xopt.getEntry(i)) {
                         // Computing MAX
-                        d__1 = sumin;
-                        d__2 = (su.getEntry(i) - xopt.getEntry(i)) / temp;
-                        subd = Math.max(d__1, d__2);
-                        iubd = i+1;
+                        subd = Math.max(sumin,
+                                        (su.getEntry(i) - xopt.getEntry(i)) / tmp);
+                        iubd = i + 1;
                     }
-                } else if (temp < ZERO) {
-                    if (slbd * temp > su.getEntry(i) - xopt.getEntry(i)) {
-                        slbd = (su.getEntry(i) - xopt.getEntry(i)) / temp;
-                        ilbd = i+1;
+                } else if (tmp < ZERO) {
+                    if (slbd * tmp > su.getEntry(i) - xopt.getEntry(i)) {
+                        slbd = (su.getEntry(i) - xopt.getEntry(i)) / tmp;
+                        ilbd = i + 1;
                     }
-                    if (subd * temp < sl.getEntry(i) - xopt.getEntry(i)) {
+                    if (subd * tmp < sl.getEntry(i) - xopt.getEntry(i)) {
                         // Computing MAX
-                        d__1 = sumin;
-                        d__2 = (sl.getEntry(i) - xopt.getEntry(i)) / temp;
-                        subd = Math.max(d__1, d__2);
+                        subd = Math.max(sumin,
+                                        (sl.getEntry(i) - xopt.getEntry(i)) / tmp);
                         iubd = -i - 1;
                     }
                 }
@@ -1413,25 +1392,26 @@ public class BOBYQAOptimizer
             // Seek a large modulus of the KNEW-th Lagrange function when the index
             // of the other interpolation point on the line through XOPT is KNEW.
 
+            step = slbd;
+            int isbd = ilbd;
+            double vlag = Double.NaN;
             if (k == knew) {
-                diff = dderiv - ONE;
-                step = slbd;
+                final double diff = dderiv - ONE;
                 vlag = slbd * (dderiv - slbd * diff);
-                isbd = ilbd;
-                temp = subd * (dderiv - subd * diff);
-                if (Math.abs(temp) > Math.abs(vlag)) {
+                final double d1 = subd * (dderiv - subd * diff);
+                if (Math.abs(d1) > Math.abs(vlag)) {
                     step = subd;
-                    vlag = temp;
+                    vlag = d1;
                     isbd = iubd;
                 }
-                tempd = HALF * dderiv;
-                tempa = tempd - diff * slbd;
-                tempb = tempd - diff * subd;
-                if (tempa * tempb < ZERO) {
-                    temp = tempd * tempd / diff;
-                    if (Math.abs(temp) > Math.abs(vlag)) {
-                        step = tempd / diff;
-                        vlag = temp;
+                final double d2 = HALF * dderiv;
+                final double d3 = d2 - diff * slbd;
+                final double d4 = d2 - diff * subd;
+                if (d3 * d4 < ZERO) {
+                    final double d5 = d2 * d2 / diff;
+                    if (Math.abs(d5) > Math.abs(vlag)) {
+                        step = d2 / diff;
+                        vlag = d5;
                         isbd = 0;
                     }
                 }
@@ -1439,17 +1419,15 @@ public class BOBYQAOptimizer
                 // Search along each of the other lines through XOPT and another point.
 
             } else {
-                step = slbd;
                 vlag = slbd * (ONE - slbd);
-                isbd = ilbd;
-                temp = subd * (ONE - subd);
-                if (Math.abs(temp) > Math.abs(vlag)) {
+                final double tmp = subd * (ONE - subd);
+                if (Math.abs(tmp) > Math.abs(vlag)) {
                     step = subd;
-                    vlag = temp;
+                    vlag = tmp;
                     isbd = iubd;
                 }
                 if (subd > HALF) {
-                    if (Math.abs(vlag) < .25) {
+                    if (Math.abs(vlag) < ONE_OVER_FOUR) {
                         step = HALF;
                         vlag = ONE_OVER_FOUR;
                         isbd = 0;
@@ -1460,8 +1438,8 @@ public class BOBYQAOptimizer
 
             // Calculate PREDSQ for the current line search and maintain PRESAV.
 
-            temp = step * (ONE - step) * distsq;
-            predsq = vlag * vlag * (vlag * vlag + ha * temp * temp);
+            final double tmp = step * (ONE - step) * distsq;
+            final double predsq = vlag * vlag * (vlag * vlag + ha * tmp * tmp);
             if (predsq > presav) {
                 presav = predsq;
                 ksav = k;
@@ -1473,13 +1451,9 @@ public class BOBYQAOptimizer
         // Construct XNEW in a way that satisfies the bound constraints exactly.
 
         for (int i = 0; i < n; i++) {
-            temp = xopt.getEntry(i) + stpsav * (xpt.getEntry(ksav, i) - xopt.getEntry(i));
-            // Computing MAX
-            // Computing MIN
-            d__3 = su.getEntry(i);
-            d__1 = sl.getEntry(i);
-            d__2 = Math.min(d__3, temp);
-            xnew.setEntry(i, Math.max(d__1, d__2));
+            final double tmp = xopt.getEntry(i) + stpsav * (xpt.getEntry(ksav, i) - xopt.getEntry(i));
+            xnew.setEntry(i, Math.max(sl.getEntry(i),
+                                      Math.min(su.getEntry(i), tmp)));
         }
         if (ibdsav < 0) {
             xnew.setEntry(-ibdsav - 1, sl.getEntry(-ibdsav - 1));
@@ -1492,50 +1466,43 @@ public class BOBYQAOptimizer
         // step in W. The sum of squares of the fixed components of W is formed in
         // WFIXSQ, and the free components of W are set to BIGSTP.
 
-        bigstp = adelt + adelt;
-        iflag = 0;
-
+        final double bigstp = adelt + adelt;
+        int iflag = 0;
+        double cauchy = Double.NaN;
+        double csave = ZERO;
         L100: for(;;) {
-            wfixsq = ZERO;
-            ggfree = ZERO;
+            double wfixsq = ZERO;
+            double ggfree = ZERO;
             for (int i = 0; i < n; i++) {
+                final double glagValue = glag.getEntry(i);
                 work1.setEntry(i, ZERO);
-                // Computing MIN
-                d__1 = xopt.getEntry(i) - sl.getEntry(i);
-                d__2 = glag.getEntry(i);
-                tempa = Math.min(d__1, d__2);
-                // Computing MAX
-                d__1 = xopt.getEntry(i) - su.getEntry(i);
-                d__2 = glag.getEntry(i);
-                tempb = Math.max(d__1, d__2);
-                if (tempa > ZERO || tempb < ZERO) {
+                if (Math.min(xopt.getEntry(i) - sl.getEntry(i), glagValue) > ZERO ||
+                    Math.max(xopt.getEntry(i) - su.getEntry(i), glagValue) < ZERO) {
                     work1.setEntry(i, bigstp);
                     // Computing 2nd power
-                    final double d1 = glag.getEntry(i);
-                    ggfree += d1 * d1;
+                    ggfree += glagValue * glagValue;
                 }
             }
             if (ggfree == ZERO) {
-                cauchy = ZERO;
-                return new double[] { alpha, cauchy };
+                return new double[] { alpha, ZERO };
             }
 
             // Investigate whether more components of W can be fixed.
             L120: {
-                temp = adelt * adelt - wfixsq;
-                if (temp > ZERO) {
-                    wsqsav = wfixsq;
-                    step = Math.sqrt(temp / ggfree);
+                final double tmp = adelt * adelt - wfixsq;
+                if (tmp > ZERO) {
+                    final double wsqsav = wfixsq;
+                    step = Math.sqrt(tmp / ggfree);
                     ggfree = ZERO;
                     for (int i = 0; i < n; i++) {
                         if (work1.getEntry(i) == bigstp) {
-                            temp = xopt.getEntry(i) - step * glag.getEntry(i);
-                            if (temp <= sl.getEntry(i)) {
+                            final double tmp2 = xopt.getEntry(i) - step * glag.getEntry(i);
+                            if (tmp2 <= sl.getEntry(i)) {
                                 work1.setEntry(i, sl.getEntry(i) - xopt.getEntry(i));
                                 // Computing 2nd power
                                 final double d1 = work1.getEntry(i);
                                 wfixsq += d1 * d1;
-                            } else if (temp >= su.getEntry(i)) {
+                            } else if (tmp2 >= su.getEntry(i)) {
                                 work1.setEntry(i, su.getEntry(i) - xopt.getEntry(i));
                                 // Computing 2nd power
                                 final double d1 = work1.getEntry(i);
@@ -1547,7 +1514,8 @@ public class BOBYQAOptimizer
                             }
                         }
                     }
-                    if (!(wfixsq > wsqsav && ggfree > ZERO)) {
+                    if (!(wfixsq > wsqsav &&
+                          ggfree > ZERO)) {
                         break L120;
                     }
                 }} // end L120
@@ -1555,21 +1523,22 @@ public class BOBYQAOptimizer
             // Set the remaining free components of W and all components of XALT,
             // except that W may be scaled later.
 
-            gw = ZERO;
+            double gw = ZERO;
             for (int i = 0; i < n; i++) {
+                final double glagValue = glag.getEntry(i);
                 if (work1.getEntry(i) == bigstp) {
-                    work1.setEntry(i, -step * glag.getEntry(i));
+                    work1.setEntry(i, -step * glagValue);
                     final double min = Math.min(su.getEntry(i),
                                                 xopt.getEntry(i) + work1.getEntry(i));
                     xalt.setEntry(i, Math.max(sl.getEntry(i), min));
                 } else if (work1.getEntry(i) == ZERO) {
                     xalt.setEntry(i, xopt.getEntry(i));
-                } else if (glag.getEntry(i) > ZERO) {
+                } else if (glagValue > ZERO) {
                     xalt.setEntry(i, sl.getEntry(i));
                 } else {
                     xalt.setEntry(i, su.getEntry(i));
                 }
-                gw += glag.getEntry(i) * work1.getEntry(i);
+                gw += glagValue * work1.getEntry(i);
             }
 
             // Set CURV to the curvature of the KNEW-th Lagrange function along W.
@@ -1577,26 +1546,24 @@ public class BOBYQAOptimizer
             // the Lagrange function at XOPT+W. Set CAUCHY to the final value of
             // the square of this function.
 
-            curv = ZERO;
+            double curv = ZERO;
             for (int k = 0; k < npt; k++) {
-                temp = ZERO;
+                double tmp = ZERO;
                 for (int j = 0; j < n; j++) {
-                    temp += xpt.getEntry(k, j) * work1.getEntry(j);
+                    tmp += xpt.getEntry(k, j) * work1.getEntry(j);
                 }
-                curv += hcol.getEntry(k) * temp * temp;
+                curv += hcol.getEntry(k) * tmp * tmp;
             }
             if (iflag == 1) {
                 curv = -curv;
             }
-            if (curv > -gw && curv < -const__ * gw) {
-                scale = -gw / curv;
+            if (curv > -gw &&
+                curv < -gw * (ONE + Math.sqrt(TWO))) {
+                final double scale = -gw / curv;
                 for (int i = 0; i < n; i++) {
-                    temp = xopt.getEntry(i) + scale * work1.getEntry(i);
-                    // Computing MAX
-                    // Computing MIN
-                    d__3 = su.getEntry(i);
-                    d__2 = Math.min(d__3, temp);
-                    xalt.setEntry(i, Math.max(sl.getEntry(i), d__2));
+                    final double tmp = xopt.getEntry(i) + scale * work1.getEntry(i);
+                    xalt.setEntry(i, Math.max(sl.getEntry(i),
+                                              Math.min(su.getEntry(i), tmp)));
                 }
                 // Computing 2nd power
                 final double d1 = HALF * gw * scale;
