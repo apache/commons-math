@@ -1470,7 +1470,7 @@ public class BOBYQAOptimizer
         int iflag = 0;
         double cauchy = Double.NaN;
         double csave = ZERO;
-        L100: for(;;) {
+        while (true) {
             double wfixsq = ZERO;
             double ggfree = ZERO;
             for (int i = 0; i < n; i++) {
@@ -1518,7 +1518,8 @@ public class BOBYQAOptimizer
                           ggfree > ZERO)) {
                         break L120;
                     }
-                }} // end L120
+                }
+            } // end L120
 
             // Set the remaining free components of W and all components of XALT,
             // except that W may be scaled later.
@@ -1586,8 +1587,9 @@ public class BOBYQAOptimizer
                 csave = cauchy;
                 iflag = 1;
             } else {
-                break L100;
-            }} // end L100
+                break;
+            }
+        }
         if (csave > cauchy) {
             for (int i = 0; i < n; i++) {
                 xalt.setEntry(i, work2.getEntry(i));
