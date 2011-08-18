@@ -105,8 +105,10 @@ public class GaussNewtonOptimizerTest {
     public void testTrivial() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -121,8 +123,9 @@ public class GaussNewtonOptimizerTest {
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
                               new double[] { 4.0, 6.0, 1.0 });
 
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -144,8 +147,10 @@ public class GaussNewtonOptimizerTest {
                 { 0, 0, 0, 0, 2, 0 },
                 { 0, 0, 0, 0, 0, 2 }
         }, new double[] { 0.0, 1.1, 2.2, 3.3, 4.4, 5.5 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
@@ -163,8 +168,10 @@ public class GaussNewtonOptimizerTest {
                 { -1,  1, 0 },
                 {  0, -1, 1 }
         }, new double[] { 1, 1, 1});
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -186,8 +193,9 @@ public class GaussNewtonOptimizerTest {
                 {  0,  0,   0,  0,       1, 1 }
         }, new double[] { 2, -9, 2, 2, 1 + epsilon * epsilon, 2});
 
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
@@ -209,8 +217,10 @@ public class GaussNewtonOptimizerTest {
                 {  2, 1,  3 },
                 { -3, 0, -9 }
         }, new double[] { 1, 1, 1 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
     }
 
@@ -222,8 +232,10 @@ public class GaussNewtonOptimizerTest {
                 {  8.0, 6.0, 10.0,  9.0 },
                 {  7.0, 5.0,  9.0, 10.0 }
         }, new double[] { 32, 23, 33, 31 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum1 =
             optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
@@ -259,8 +271,9 @@ public class GaussNewtonOptimizerTest {
                 { 2.0, 0.0,  1.0, 0.0 }
         }, new double[] { 7.0, 3.0, 5.0 });
 
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                            new double[] { 7, 6, 5, 4 });
     }
@@ -274,8 +287,10 @@ public class GaussNewtonOptimizerTest {
                  { 0.0, 0.0, -1.0,  1.0, 0.0,  1.0 },
                  { 0.0, 0.0,  0.0, -1.0, 1.0,  0.0 }
         }, new double[] { 3.0, 12.0, -1.0, 7.0, 1.0 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1 },
                            new double[] { 2, 2, 2, 2, 2, 2 });
     }
@@ -288,8 +303,9 @@ public class GaussNewtonOptimizerTest {
                 { 1.0,  3.0 }
         }, new double[] { 3.0, 1.0, 5.0 });
 
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
@@ -306,8 +322,9 @@ public class GaussNewtonOptimizerTest {
                 { 1.0,  3.0 }
         }, new double[] { 3.0, 1.0, 4.0 });
 
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 1, 1 });
         Assert.assertTrue(optimizer.getRMS() > 0.1);
 
@@ -317,8 +334,9 @@ public class GaussNewtonOptimizerTest {
     public void testInconsistentSizes1() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
@@ -335,8 +353,9 @@ public class GaussNewtonOptimizerTest {
     public void testInconsistentSizes2() throws MathUserException {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
@@ -357,8 +376,9 @@ public class GaussNewtonOptimizerTest {
         circle.addPoint(110.0, -20.0);
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialPointChecker(1.0e-30, 1.0e-30));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-30, 1.0e-30));
 
         optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                            new double[] { 1, 1, 1, 1, 1 },
@@ -373,8 +393,10 @@ public class GaussNewtonOptimizerTest {
         circle.addPoint(110.0, -20.0);
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
+
         VectorialPointValuePair optimum =
             optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
@@ -397,8 +419,9 @@ public class GaussNewtonOptimizerTest {
         for (int i = 0; i < points.length; ++i) {
             circle.addPoint(points[i][0], points[i][1]);
         }
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
     }
@@ -414,8 +437,9 @@ public class GaussNewtonOptimizerTest {
         for (int i = 0; i < points.length; ++i) {
             circle.addPoint(points[i][0], points[i][1]);
         }
-        GaussNewtonOptimizer optimizer = new GaussNewtonOptimizer(true);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+
+        GaussNewtonOptimizer optimizer
+            = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         VectorialPointValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { 0, 0 });
