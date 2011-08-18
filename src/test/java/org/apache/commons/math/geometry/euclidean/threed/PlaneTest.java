@@ -116,12 +116,12 @@ public class PlaneTest {
     @Test
     public void testIntersection() {
         Plane p = new Plane(new Vector3D(1, 2, 3), new Vector3D(-4, 1, -5));
-        Line  l = new Line(new Vector3D(0.2, -3.5, 0.7), new Vector3D(1, 1, -1));
+        Line  l = new Line(new Vector3D(0.2, -3.5, 0.7), new Vector3D(1.2, -2.5, -0.3));
         Vector3D point = p.intersection(l);
         Assert.assertTrue(p.contains(point));
         Assert.assertTrue(l.contains(point));
         Assert.assertNull(p.intersection(new Line(new Vector3D(10, 10, 10),
-                                                  p.getNormal().orthogonal())));
+                                                  new Vector3D(10, 10, 10).add(p.getNormal().orthogonal()))));
     }
 
     @Test

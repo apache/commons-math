@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.geometry.Vector;
 import org.apache.commons.math.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math.geometry.partitioning.Embedding;
 import org.apache.commons.math.util.FastMath;
@@ -28,7 +29,7 @@ import org.apache.commons.math.util.MathUtils;
 /** The class represent lines in a three dimensional space.
 
  * <p>Each oriented line is intrinsically associated with an abscissa
- * wich is a coordinate on the line. The point at abscissa 0 is the
+ * which is a coordinate on the line. The point at abscissa 0 is the
  * orthogonal projection of the origin on the line, another equivalent
  * way to express this is to say that it is the point of the line
  * which is closest to the origin. Abscissa increases in the line
@@ -45,13 +46,13 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** Line point closest to the origin. */
     private Vector3D zero;
 
-    /** Build a line from a point and a direction.
-     * @param p point belonging to the line (this can be any point)
-     * @param direction direction of the line
-     * @exception MathArithmeticException if the direction norm is too small
+    /** Build a line from two points.
+     * @param p1 first point belonging to the line (this can be any point)
+     * @param p2 second point belonging to the line (this can be any point, different from p1)
+     * @exception MathIllegalArgumentException if the points are equal
      */
-    public Line(final Vector3D p, final Vector3D direction) {
-        reset(p, direction);
+    public Line(final Vector3D p1, final Vector3D p2) {
+        reset(p1, p2);
     }
 
     /** Copy constructor.
@@ -64,25 +65,26 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
         this.zero      = line.zero;
     }
 
-    /** Reset the instance as if built from a point and a normal.
-     * @param p point belonging to the line (this can be any point)
-     * @param dir direction of the line
-     * @exception MathArithmeticException if the direction norm is too small
+    /** Reset the instance as if built from two points.
+     * @param p1 first point belonging to the line (this can be any point)
+     * @param p2 second point belonging to the line (this can be any point, different from p1)
+     * @exception MathIllegalArgumentException if the points are equal
      */
-    public void reset(final Vector3D p, final Vector3D dir) {
-        final double norm = dir.getNorm();
-        if (norm == 0.0) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+    public void reset(final Vector3D p1, final Vector3D p2) {
+        final Vector3D delta = p2.subtract(p1);
+        final double norm2 = delta.getNormSq();
+        if (norm2 == 0.0) {
+            throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM);
         }
-        this.direction = new Vector3D(1.0 / norm, dir);
-        zero = new Vector3D(1.0, p, -p.dotProduct(this.direction), this.direction);
+        this.direction = new Vector3D(1.0 / FastMath.sqrt(norm2), delta);
+        zero = new Vector3D(1.0, p1, -p1.dotProduct(delta) / norm2, delta);
     }
 
     /** Get a line with reversed direction.
      * @return a new instance, with reversed direction
      */
     public Line revert() {
-        return new Line(zero, direction.negate());
+        return new Line(zero, zero.subtract(direction));
     }
 
     /** Get the normalized direction vector.
@@ -211,6 +213,13 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     public Vector3D intersection(final Line line) {
         final Vector3D closest = closestPoint(line);
         return line.contains(closest) ? closest : null;
+    }
+
+    /** Build a sub-line covering the whole line.
+     * @return a sub-line covering the whole line
+     */
+    public SubLine wholeLine() {
+        return new SubLine(this, new IntervalsSet());
     }
 
 }

@@ -323,8 +323,8 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         if (direction.getNorm() < 1.0e-10) {
             return null;
         }
-        return new Line(intersection(this, other, new Plane(direction)),
-                        direction);
+        final Vector3D point = intersection(this, other, new Plane(direction));
+        return new Line(point, point.add(direction));
     }
 
     /** Get the intersection point of three planes.
