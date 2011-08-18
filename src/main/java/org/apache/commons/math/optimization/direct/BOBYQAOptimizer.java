@@ -20,20 +20,18 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
@@ -374,7 +372,6 @@ public class BOBYQAOptimizer
 
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
-        final int ndim = bmat.getRowDimension();
         final int np = n + 1;
         final int nptm = npt - np;
         final int nh = n * np / 2;
@@ -389,7 +386,6 @@ public class BOBYQAOptimizer
         double crvmin = Double.NaN;
 
         // System generated locals
-        int xpt_offset;
         double d__1, d__2, d__3, d__4;
 
         // Local variables
@@ -404,7 +400,7 @@ public class BOBYQAOptimizer
         double gqsq = 0, dist = 0, sumw = 0, sumz = 0, diffa = 0, diffb = 0, diffc = 0, hdiag = 0;
         int kbase;
         double delta = 0, adelt = 0, denom = 0, fsave = 0, bdtol = 0, delsq = 0;
-        int nresc, nfsav;
+        int nfsav;
         double ratio = 0, dnorm = 0, vquad = 0, pqold = 0;
         int itest;
         double sumpq, scaden;
@@ -445,7 +441,6 @@ public class BOBYQAOptimizer
 
         rho = initialTrustRegionRadius;
         delta = rho;
-        nresc = getEvaluations();
         ntrits = 0;
         diffa = ZERO;
         diffb = ZERO;
@@ -1297,7 +1292,6 @@ public class BOBYQAOptimizer
 
         final int n = currentBest.getDimension();
         final int npt = numberOfInterpolationPoints;
-        final int ndim = bmat.getRowDimension();
 
         final ArrayRealVector glag = new ArrayRealVector(n);
         final ArrayRealVector hcol = new ArrayRealVector(npt);
@@ -1903,9 +1897,6 @@ public class BOBYQAOptimizer
 
         double dsq = Double.NaN;
         double crvmin = Double.NaN;
-
-        // System generated locals
-        double d__1, d__2, d__3, d__4;
 
         // Local variables
         int ih;
