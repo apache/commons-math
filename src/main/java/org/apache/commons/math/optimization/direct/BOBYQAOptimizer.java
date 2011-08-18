@@ -22,6 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -475,6 +476,7 @@ public class BOBYQAOptimizer
                             gopt.setEntry(i, gopt.getEntry(i) + temp * xpt.getEntry(k, i));
                         }
                     }
+                    throw new PathIsExploredException(); // XXX
                 }
             }
 
@@ -2526,5 +2528,18 @@ public class BOBYQAOptimizer
         double[] ds = new double[n];
         Arrays.fill(ds, value);
         return ds;
+    }
+}
+
+/**
+ * Marker for code paths that are not explored with the current unit tests.
+ * If the path becomes explored, it should just be removed from the code.
+ */
+class PathIsExploredException extends RuntimeException {
+    private static final String PATH_IS_EXPLORED
+        = "If this exception is thrown, just remove it from the code";
+
+    PathIsExploredException() {
+        super(PATH_IS_EXPLORED);
     }
 }
