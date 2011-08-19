@@ -565,12 +565,15 @@ public class BOBYQAOptimizer
             if (dsq <= xoptsq * ONE_OVER_A_THOUSAND) {
                 fracsq = xoptsq * ONE_OVER_FOUR;
                 sumpq = ZERO;
+                // final RealVector sumVector
+                //     = new ArrayRealVector(npt, -HALF * xoptsq).add(xpt.operate(xopt));
                 for (int k = 0; k < npt; k++) {
                     sumpq += pq.getEntry(k);
                     sum = -HALF * xoptsq;
                     for (int i = 0; i < n; i++) {
                         sum += xpt.getEntry(k, i) * xopt.getEntry(i);
                     }
+                    // sum = sumVector.getEntry(k); // XXX "testAckley" and "testDiffPow" fail.
                     work2.setEntry(k, sum);
                     temp = fracsq - HALF * sum;
                     for (int i = 0; i < n; i++) {
@@ -1648,22 +1651,8 @@ public class BOBYQAOptimizer
         final int ndim = bmat.getRowDimension();
 
         final double rhosq = initialTrustRegionRadius * initialTrustRegionRadius;
-        final double recip = ONE / rhosq;
+        final double recip = 1d / rhosq;
         final int np = n + 1;
-
-        // System generated locals
-        double d__1, d__2, d__3, d__4;
-
-        // Local variables
-        double f;
-        int ih, nfm;
-        int nfx = 0, ipt = 0, jpt = 0;
-        double fbeg = 0, diff = 0, temp = 0, stepa = 0, stepb = 0;
-        int itemp;
-
-        // Set some constants.
-
-        // Function Body
 
         // Set XBASE to the initial vector of variables, and set the initial
         // elements of XPT, BMAT, HQ, PQ and ZMAT to zero.
@@ -1691,41 +1680,47 @@ public class BOBYQAOptimizer
         // of function values so far. The coordinates of the displacement of the
         // next initial interpolation point from XBASE are set in XPT(NF+1,.).
 
+        int ipt = 0;
+        int jpt = 0;
+        double fbeg = Double.NaN;
         do {
-            nfm = getEvaluations();
-            nfx = getEvaluations() - n;
+            final int nfm = getEvaluations();
+            final int nfx = nfm - n;
             final int nfmm = nfm - 1;
             final int nfxm = nfx - 1;
-            if (nfm <= n << 1) {
-                if (nfm >= 1 && nfm <= n) {
+            double stepa = 0;
+            double stepb = 0;
+            if (nfm <= 2 * n) {
+                if (nfm >= 1 &&
+                    nfm <= n) {
                     stepa = initialTrustRegionRadius;
                     if (su.getEntry(nfmm) == ZERO) {
                         stepa = -stepa;
+                        throw new PathIsExploredException(); // XXX
                     }
                     xpt.setEntry(nfm, nfmm, stepa);
                 } else if (nfm > n) {
                     stepa = xpt.getEntry(nfx, nfxm);
                     stepb = -initialTrustRegionRadius;
                     if (sl.getEntry(nfxm) == ZERO) {
-                        // Computing MIN
-                        final double d1 = TWO * initialTrustRegionRadius;
-                        stepb = Math.min(d1, su.getEntry(nfxm));
+                        stepb = Math.min(TWO * initialTrustRegionRadius, su.getEntry(nfxm));
+                        throw new PathIsExploredException(); // XXX
                     }
                     if (su.getEntry(nfxm) == ZERO) {
-                        // Computing MAX
-                        final double d1 = -TWO * initialTrustRegionRadius;
-                        stepb = Math.max(d1, sl.getEntry(nfxm));
+                        stepb = Math.max(-TWO * initialTrustRegionRadius, sl.getEntry(nfxm));
+                        throw new PathIsExploredException(); // XXX
                     }
                     xpt.setEntry(nfm, nfxm, stepb);
                 }
             } else {
-                itemp = (nfm - np) / n;
-                jpt = nfm - itemp * n - n;
-                ipt = jpt + itemp;
+                final int tmp1 = (nfm - np) / n;
+                jpt = nfm - tmp1 * n - n;
+                ipt = jpt + tmp1;
                 if (ipt > n) {
-                    itemp = jpt;
+                    final int tmp2 = jpt;
                     jpt = ipt - n;
-                    ipt = itemp;
+                    ipt = tmp2;
+                    throw new PathIsExploredException(); // XXX
                 }
                 xpt.setEntry(nfm, ipt, xpt.getEntry(ipt, ipt));
                 xpt.setEntry(nfm, jpt, xpt.getEntry(jpt, jpt));
@@ -1735,13 +1730,9 @@ public class BOBYQAOptimizer
             // its index are required.
 
             for (int j = 0; j < n; j++) {
-                // Computing MIN
-                // Computing MAX
-                d__3 = lowerBound[j];
-                d__4 = xbase.getEntry(j) + xpt.getEntry(nfm, j);
-                d__1 = Math.max(d__3, d__4);
-                d__2 = upperBound[j];
-                currentBest.setEntry(j, Math.min(d__1, d__2));
+                currentBest.setEntry(j, Math.min(Math.max(lowerBound[j],
+                                                          xbase.getEntry(j) + xpt.getEntry(nfm, j)),
+                                                 upperBound[j]));
                 if (xpt.getEntry(nfm, j) == sl.getEntry(j)) {
                     currentBest.setEntry(j, lowerBound[j]);
                 }
@@ -1749,13 +1740,13 @@ public class BOBYQAOptimizer
                     currentBest.setEntry(j, upperBound[j]);
                 }
             }
-
-            f = computeObjectiveValue(currentBest.getData());
-
-            if (!isMinimize)
-                f = -f;
+            
+            final double objectiveValue = computeObjectiveValue(currentBest.getData());
+            final double f = isMinimize ? objectiveValue : -objectiveValue;
+            final int numEval = getEvaluations(); // nfm + 1
             fval.setEntry(nfm, f);
-            if (getEvaluations() == 1) {
+
+            if (numEval == 1) {
                 fbeg = f;
                 trustRegionCenterInterpolationPointIndex = 0;
             } else if (f < fval.getEntry(trustRegionCenterInterpolationPointIndex)) {
@@ -1768,20 +1759,23 @@ public class BOBYQAOptimizer
             // order that the function value at the first of them contributes to the
             // off-diagonal second derivative terms of the initial quadratic model.
 
-            if (getEvaluations() <= (n << 1) + 1) {
-                if (getEvaluations() >= 2 && getEvaluations() <= n + 1) {
+            if (numEval <= 2 * n + 1) {
+                if (numEval >= 2 &&
+                    numEval <= n + 1) {
                     gopt.setEntry(nfmm, (f - fbeg) / stepa);
-                    if (npt < getEvaluations() + n) {
-                        bmat.setEntry(0, nfmm, -ONE / stepa);
-                        bmat.setEntry(nfm, nfmm, ONE / stepa);
+                    if (npt < numEval + n) {
+                        final double oneOverStepA = ONE / stepa;
+                        bmat.setEntry(0, nfmm, -oneOverStepA);
+                        bmat.setEntry(nfm, nfmm, oneOverStepA);
                         bmat.setEntry(npt + nfmm, nfmm, -HALF * rhosq);
+                        throw new PathIsExploredException(); // XXX
                     }
-                } else if (getEvaluations() >= n + 2) {
-                    ih = nfx * (nfx + 1) / 2 - 1;
-                    temp = (f - fbeg) / stepb;
-                    diff = stepb - stepa;
-                    hq.setEntry(ih, TWO * (temp - gopt.getEntry(nfxm)) / diff);
-                    gopt.setEntry(nfxm, (gopt.getEntry(nfxm) * stepb - temp * stepa) / diff);
+                } else if (numEval >= n + 2) {
+                    final int ih = nfx * (nfx + 1) / 2 - 1;
+                    final double tmp = (f - fbeg) / stepb;
+                    final double diff = stepb - stepa;
+                    hq.setEntry(ih, TWO * (tmp - gopt.getEntry(nfxm)) / diff);
+                    gopt.setEntry(nfxm, (gopt.getEntry(nfxm) * stepb - tmp * stepa) / diff);
                     if (stepa * stepb < ZERO) {
                         if (f < fval.getEntry(nfm - n)) {
                             fval.setEntry(nfm, fval.getEntry(nfm - n));
@@ -1794,27 +1788,29 @@ public class BOBYQAOptimizer
                         }
                     }
                     bmat.setEntry(0, nfxm, -(stepa + stepb) / (stepa * stepb));
-                    bmat.setEntry(nfm, nfxm, -HALF /
-                                   xpt.getEntry(nfm - n, nfxm));
-                    bmat.setEntry(nfm - n, nfxm, -bmat.getEntry(0, nfxm) -
-                                   bmat.getEntry(nfm, nfxm));
+                    bmat.setEntry(nfm, nfxm, -HALF / xpt.getEntry(nfm - n, nfxm));
+                    bmat.setEntry(nfm - n, nfxm,
+                                  -bmat.getEntry(0, nfxm) - bmat.getEntry(nfm, nfxm));
                     zmat.setEntry(0, nfxm, Math.sqrt(TWO) / (stepa * stepb));
                     zmat.setEntry(nfm, nfxm, Math.sqrt(HALF) / rhosq);
-                    zmat.setEntry(nfm - n, nfxm, -zmat.getEntry(0, nfxm) -
-                                   zmat.getEntry(nfm, nfxm));
+                    // zmat.setEntry(nfm, nfxm, Math.sqrt(HALF) * recip); // XXX "testAckley" and "testDiffPow" fail.
+                    zmat.setEntry(nfm - n, nfxm,
+                                  -zmat.getEntry(0, nfxm) - zmat.getEntry(nfm, nfxm));
                 }
 
                 // Set the off-diagonal second derivatives of the Lagrange functions and
                 // the initial quadratic model.
 
             } else {
-                ih = ipt * (ipt - 1) / 2 + jpt - 1;
                 zmat.setEntry(0, nfxm, recip);
                 zmat.setEntry(nfm, nfxm, recip);
                 zmat.setEntry(ipt, nfxm, -recip);
                 zmat.setEntry(jpt, nfxm, -recip);
-                temp = xpt.getEntry(nfm, ipt - 1) * xpt.getEntry(nfm, jpt - 1);
-                hq.setEntry(ih, (fbeg - fval.getEntry(ipt) - fval.getEntry(jpt) + f) / temp);
+
+                final int ih = ipt * (ipt - 1) / 2 + jpt - 1;
+                final double tmp = xpt.getEntry(nfm, ipt - 1) * xpt.getEntry(nfm, jpt - 1);
+                hq.setEntry(ih, (fbeg - fval.getEntry(ipt) - fval.getEntry(jpt) + f) / tmp);
+                throw new PathIsExploredException(); // XXX
             }
         } while (getEvaluations() < npt);
     } // prelim
