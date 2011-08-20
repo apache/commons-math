@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-648">
+         Eliminated extraneous constructor from SimpleRegression.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-506">
          Eliminated pluggability of ChiSquaredDistribution used by ChiSquaredDistributionTest.
       </action>

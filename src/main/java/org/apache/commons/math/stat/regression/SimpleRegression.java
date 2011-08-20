@@ -60,9 +60,6 @@ public class SimpleRegression implements Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -3004689053607543335L;
 
-    /** the distribution used to compute inference statistics. */
-    private TDistribution distribution;
-
     /** sum of x values */
     private double sumX = 0d;
 
@@ -93,19 +90,7 @@ public class SimpleRegression implements Serializable {
      * Create an empty SimpleRegression instance
      */
     public SimpleRegression() {
-        this(1);
-    }
-
-    /**
-     * Create an empty SimpleRegression using the given distribution object to
-     * compute inference statistics.
-     *
-     * @param degrees Number of degrees of freedom of the distribution used
-     * to compute inference statistics.
-     * @since 2.2
-     */
-    public SimpleRegression(int degrees) {
-        distribution = new TDistributionImpl(degrees);
+        super();
     }
 
     /**
@@ -137,10 +122,6 @@ public class SimpleRegression implements Serializable {
         sumX += x;
         sumY += y;
         n++;
-
-        if (n > 2) {
-            distribution = new TDistributionImpl(n - 2);
-        }
     }
 
 
@@ -169,10 +150,6 @@ public class SimpleRegression implements Serializable {
             sumX -= x;
             sumY -= y;
             n--;
-
-            if (n > 2) {
-                distribution = new TDistributionImpl(n - 2);
-            }
         }
     }
 
@@ -553,6 +530,7 @@ public class SimpleRegression implements Serializable {
             throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
                                           alpha, 0, 1);
         }
+        TDistribution distribution = new TDistributionImpl(n - 2);
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);
     }
@@ -579,6 +557,7 @@ public class SimpleRegression implements Serializable {
      * @throws MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
+        TDistribution distribution = new TDistributionImpl(n - 2);
         return 2d * (1.0 - distribution.cumulativeProbability(
                     FastMath.abs(getSlope()) / getSlopeStdErr()));
     }
