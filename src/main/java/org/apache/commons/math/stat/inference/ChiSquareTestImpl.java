@@ -35,26 +35,13 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
 
-    /** Distribution used to compute inference statistics. */
-    private ChiSquaredDistribution distribution;
-
     /**
      * Construct a ChiSquareTestImpl
      */
     public ChiSquareTestImpl() {
-        this(new ChiSquaredDistributionImpl(1.0));
+        super();
     }
 
-    /**
-     * Create a test instance using the given distribution for computing
-     * inference statistics.
-     * @param x distribution used to compute inference statistics.
-     * @since 1.2
-     */
-    public ChiSquareTestImpl(ChiSquaredDistribution x) {
-        super();
-        setDistribution(x);
-    }
      /**
      * {@inheritDoc}
      * <p><strong>Note: </strong>This implementation rescales the
@@ -114,7 +101,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquareTest(double[] expected, long[] observed)
         throws MathException {
-        distribution = new ChiSquaredDistributionImpl(expected.length - 1.0);
+        ChiSquaredDistribution distribution =
+            new ChiSquaredDistributionImpl(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(
             chiSquare(expected, observed));
     }
@@ -188,7 +176,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     throws MathException {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        distribution = new ChiSquaredDistributionImpl(df);
+        ChiSquaredDistribution distribution = new ChiSquaredDistributionImpl(df);
         return 1 - distribution.cumulativeProbability(chiSquare(counts));
     }
 
@@ -282,7 +270,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws MathException {
-        distribution = new ChiSquaredDistributionImpl((double) observed1.length - 1);
+        ChiSquaredDistribution distribution =
+            new ChiSquaredDistributionImpl((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
     }
@@ -400,16 +389,5 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
                 }
             }
         }
-    }
-
-    /**
-     * Modify the distribution used to compute inference statistics.
-     *
-     * @param value
-     *            the new distribution
-     * @since 1.2
-     */
-    public void setDistribution(ChiSquaredDistribution value) {
-        distribution = value;
     }
 }
