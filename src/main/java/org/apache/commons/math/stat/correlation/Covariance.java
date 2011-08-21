@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.stat.correlation;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -195,7 +195,7 @@ public class Covariance {
     }
 
     /**
-     * Create a covariance matrix from a rectangual array whose columns represent
+     * Create a covariance matrix from a rectangular array whose columns represent
      * covariates. Covariances are computed using the bias-corrected formula.
      * @param data input array (must have at least two columns and two rows)
      * @return covariance matrix
@@ -223,11 +223,11 @@ public class Covariance {
         double result = 0d;
         int length = xArray.length;
         if (length != yArray.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                   LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, length, yArray.length);
         } else if (length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, length, 2);
+            throw new MathIllegalArgumentException(
+                  LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, length, 2);
         } else {
             double xMean = mean.evaluate(xArray);
             double yMean = mean.evaluate(yArray);
@@ -266,7 +266,7 @@ public class Covariance {
         int nRows = matrix.getRowDimension();
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
                     nRows, nCols);
         }
