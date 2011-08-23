@@ -16,9 +16,19 @@
  */
 package org.apache.commons.math.analysis.integration;
 
+import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.Incrementor;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * Provide a default implementation for several generic functions.
@@ -28,23 +38,41 @@ import org.apache.commons.math.exception.MaxCountExceededException;
  */
 public abstract class UnivariateRealIntegratorImpl implements UnivariateRealIntegrator {
 
+    /** Default absolute accuracy. */
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1.0e-15;
+
+    /** Default relative accuracy. */
+    public static final double DEFAULT_RELATIVE_ACCURACY = 1.0e-6;
+
+    /** Default minimal iteration count. */
+    public static final int DEFAULT_MIN_ITERATIONS_COUNT = 3;
+
+    /** Default maximal iteration count. */
+    public static final int DEFAULT_MAX_ITERATIONS_COUNT = Integer.MAX_VALUE;
+
     /** Maximum absolute error. */
     protected double absoluteAccuracy;
 
     /** Maximum relative error. */
     protected double relativeAccuracy;
 
-    /** Maximum number of iterations. */
-    protected int maximalIterationCount;
-
     /** minimum number of iterations */
     protected int minimalIterationCount;
 
-    /** default minimum number of iterations */
-    protected int defaultMinimalIterationCount;
+    /** The iteration count. */
+    protected Incrementor iterations;
 
-    /** The last iteration count. */
-    protected int iterationCount;
+    /** The functions evaluation count. */
+    protected Incrementor evaluations;
+
+    /** Function to integrate. */
+    protected UnivariateRealFunction function;
+
+    /** Lower bound for the interval. */
+    protected double min;
+
+    /** Upper bound for the interval. */
+    protected double max;
 
     /** indicates whether an integral has been computed */
     protected boolean resultComputed = false;
@@ -53,33 +81,96 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
     protected double result;
 
     /**
-     * Construct an integrator with given iteration count and accuracy.
-     *
+     * Construct an integrator with given accuracies and iteration counts.
+     * <p>
+     * The meanings of the various parameters are:
+     * <ul>
+     *   <li>relative accuracy:
+     *       this is used to stop iterations if the absolute accuracy can't be
+     *       achieved due to large values or short mantissa length. If this
+     *       should be the primary criterion for convergence rather then a
+     *       safety measure, set the absolute accuracy to a ridiculously small value,
+     *       like {@link org.apache.commons.math.util.MathUtils#SAFE_MIN MathUtils.SAFE_MIN}.</li>
+     *   <li>absolute accuracy:
+     *       The default is usually chosen so that results in the interval
+     *       -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
+     *       expected absolute value of your results is of much smaller magnitude, set
+     *       this to a smaller value.</li>
+     *   <li>minimum number of iterations:
+     *       minimal iteration is needed to avoid false early convergence, e.g.
+     *       the sample points happen to be zeroes of the function. Users can
+     *       use the default value or choose one that they see as appropriate.</li>
+     *   <li>maximum number of iterations:
+     *       usually a high iteration count indicates convergence problems. However,
+     *       the "reasonable value" varies widely for different algorithms. Users are
+     *       advised to use the default value supplied by the algorithm.</li>
+     * </ul>
+     * </p>
+     * @param relativeAccuracy relative accuracy of the result
+     * @param absoluteAccuracy absolute accuracy of the result
+     * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
      */
-    protected UnivariateRealIntegratorImpl(final int maximalIterationCount) {
+    protected UnivariateRealIntegratorImpl(final double relativeAccuracy,
+                                           final double absoluteAccuracy,
+                                           final int minimalIterationCount,
+                                           final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException {
 
-        setMaximalIterationCount(maximalIterationCount);
-        setAbsoluteAccuracy(1.0e-15);
-        setRelativeAccuracy(1.0e-6);
-        setMinimalIterationCount(3);
+        // accuracy settings
+        this.relativeAccuracy      = relativeAccuracy;
+        this.absoluteAccuracy      = absoluteAccuracy;
 
-        verifyIterationCount();
+        // iterations count settings
+        if (minimalIterationCount <= 0) {
+            throw new NotStrictlyPositiveException(minimalIterationCount);
+        }
+        if (maximalIterationCount <= minimalIterationCount) {
+            throw new NumberIsTooSmallException(maximalIterationCount, minimalIterationCount, false);
+        }
+        this.minimalIterationCount = minimalIterationCount;
+        this.iterations            = new Incrementor();
+        iterations.setMaximalCount(maximalIterationCount);
+
+        // prepare evaluations counter, but do not set it yet
+        evaluations = new Incrementor();
+
+    }
+
+    /**
+     * Construct an integrator with given accuracies.
+     * @param relativeAccuracy relative accuracy of the result
+     * @param absoluteAccuracy absolute accuracy of the result
+     */
+    protected UnivariateRealIntegratorImpl(final double relativeAccuracy,
+                                           final double absoluteAccuracy) {
+        this(relativeAccuracy, absoluteAccuracy,
+             DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
+    }
+
+    /**
+     * Construct an integrator with given iteration counts.
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     */
+    protected UnivariateRealIntegratorImpl(final int minimalIterationCount,
+                                           final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException {
+        this(DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY,
+             minimalIterationCount, maximalIterationCount);
     }
 
     /** {@inheritDoc} */
-    public void setMaximalIterationCount(final int count) {
-        maximalIterationCount = count;
-    }
-
-    /** {@inheritDoc} */
-    public int getMaximalIterationCount() {
-        return maximalIterationCount;
-    }
-
-    /** {@inheritDoc} */
-    public void setAbsoluteAccuracy(double accuracy) {
-        absoluteAccuracy = accuracy;
+    public double getRelativeAccuracy() {
+        return relativeAccuracy;
     }
 
     /** {@inheritDoc} */
@@ -88,13 +179,13 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
     }
 
     /** {@inheritDoc} */
-    public void setRelativeAccuracy(final double accuracy) {
-        relativeAccuracy = accuracy;
+    public int getMinimalIterationCount() {
+        return minimalIterationCount;
     }
 
     /** {@inheritDoc} */
-    public double getRelativeAccuracy() {
-        return relativeAccuracy;
+    public int getMaximalIterationCount() {
+        return iterations.getMaximalCount();
     }
 
     /** {@inheritDoc} */
@@ -106,90 +197,110 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
         }
     }
 
+    /** {@inheritDoc} */
+    public int getEvaluations() throws IllegalStateException {
+        if (resultComputed) {
+            return evaluations.getCount();
+        } else {
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
+        }
+    }
+
+    /** {@inheritDoc} */
+    public int getIterations() throws IllegalStateException {
+        if (resultComputed) {
+            return iterations.getCount();
+        } else {
+            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
+        }
+    }
+
     /**
      * Convenience function for implementations.
      *
      * @param newResult the result to set
      * @param newCount the iteration count to set
      */
-    protected final void setResult(final double newResult, final int newCount) {
-        this.result         = newResult;
-        this.iterationCount = newCount;
-        this.resultComputed = true;
+    protected final void setResult(final double newResult) {
+        result         = newResult;
+        resultComputed = true;
     }
 
     /**
-     * Convenience function for implementations.
+     * Compute the objective function value.
+     *
+     * @param point Point at which the objective function must be evaluated.
+     * @return the objective function value at specified point.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
      */
-    protected final void clearResult() {
-        this.iterationCount = 0;
-        this.resultComputed = false;
+    protected double computeObjectiveValue(final double point)
+        throws TooManyEvaluationsException {
+        try {
+            evaluations.incrementCount();
+        } catch (MaxCountExceededException e) {
+            throw new TooManyEvaluationsException(e.getMax());
+        }
+        return function.value(point);
+    }
+
+    /**
+     * Prepare for computation.
+     * Subclasses must call this method if they override any of the
+     * {@code solve} methods.
+     *
+     * @param maxEval Maximum number of evaluations.
+     * @param f the integrand function
+     * @param min the min bound for the interval
+     * @param upper the upper bound for the interval
+     * @throws NullArgumentException if {@code f} is {@code null}.
+     * @throws MathIllegalArgumentException if {@code min >= max}.
+     */
+    protected void setup(final int maxEval,
+                         final UnivariateRealFunction f,
+                         final double min, final double max)
+        throws NullArgumentException, MathIllegalArgumentException {
+
+        // Checks.
+        MathUtils.checkNotNull(f);
+        UnivariateRealSolverUtils.verifyInterval(min, max);
+
+        // Reset.
+        this.min = min;
+        this.max = max;
+        function = f;
+        evaluations.setMaximalCount(maxEval);
+        evaluations.resetCount();
+        iterations.resetCount();
+        resultComputed = false;
+
     }
 
     /** {@inheritDoc} */
-    public void setMinimalIterationCount(final int count) {
-        minimalIterationCount = count;
-    }
+    public double integrate(final int maxEval, final UnivariateRealFunction f,
+                            final double min, final double max)
+        throws TooManyEvaluationsException, ConvergenceException,
+               MathIllegalArgumentException, NullArgumentException {
 
-    /** {@inheritDoc} */
-    public int getMinimalIterationCount() {
-        return minimalIterationCount;
-    }
+        // Initialization.
+        setup(maxEval, f, min, max);
 
-    /** {@inheritDoc} */
-    public void resetMinimalIterationCount() {
-        minimalIterationCount = defaultMinimalIterationCount;
-    }
+        // Perform computation.
+        return doIntegrate();
 
-    /**
-     * Verifies that the endpoints specify an interval.
-     *
-     * @param lower lower endpoint
-     * @param upper upper endpoint
-     * @throws IllegalArgumentException if not interval
-     */
-    protected void verifyInterval(final double lower, final double upper)
-        throws IllegalArgumentException {
-        if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
-                    lower, upper);
-        }
     }
 
     /**
-     * Verifies that the upper and lower limits of iterations are valid.
+     * Method for implementing actual integration algorithms in derived
+     * classes.
      *
-     * @throws IllegalArgumentException if not valid
+     * @return the root.
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
+     * @throws ConvergenceException if the maximum iteration count is exceeded
+     * or the integrator detects convergence problems otherwise
      */
-    protected void verifyIterationCount() throws IllegalArgumentException {
-        if ((minimalIterationCount <= 0) || (maximalIterationCount <= minimalIterationCount)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
-                    minimalIterationCount, maximalIterationCount);
-        }
-    }
-
-    /**
-     * Reset the iterations counter to 0.
-     *
-     * @since 2.2
-     */
-    protected void resetIterationsCounter() {
-        iterationCount = 0;
-    }
-
-    /**
-     * Increment the iterations counter by 1.
-     *
-     * @throws MaxCountExceededException if the maximal number
-     * of iterations is exceeded.
-     * @since 2.2
-     */
-    protected void incrementIterationsCounter() {
-        if (++iterationCount > maximalIterationCount) {
-            throw new MaxCountExceededException(maximalIterationCount);
-        }
-    }
+    protected abstract double doIntegrate()
+        throws TooManyEvaluationsException, ConvergenceException;
 
 }

@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -37,57 +37,95 @@ import org.apache.commons.math.util.FastMath;
  */
 public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
+    /** Maximal number of iterations for Simpson. */
+    public static final int SIMPSON_MAX_ITERATIONS_COUNT = 64;
+
     /**
-     * Construct an integrator.
+     * Build a Simpson integrator with given accuracies and iterations counts.
+     * @param relativeAccuracy relative accuracy of the result
+     * @param absoluteAccuracy absolute accuracy of the result
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
+     */
+    public SimpsonIntegrator(final double relativeAccuracy,
+                             final double absoluteAccuracy,
+                             final int minimalIterationCount,
+                             final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                SIMPSON_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Build a Simpson integrator with given iteration counts.
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #SIMPSON_MAX_ITERATIONS_COUNT}
+     */
+    public SimpsonIntegrator(final int minimalIterationCount,
+                             final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > SIMPSON_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                SIMPSON_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Construct an integrator with default settings.
+     * (max iteration count set to {@link #SIMPSON_MAX_ITERATIONS_COUNT})
      */
     public SimpsonIntegrator() {
-        super(64);
+        super(DEFAULT_MIN_ITERATIONS_COUNT, SIMPSON_MAX_ITERATIONS_COUNT);
     }
 
     /** {@inheritDoc} */
-    public double integrate(final UnivariateRealFunction f, final double min, final double max)
-        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
-
-        clearResult();
-        verifyInterval(min, max);
-        verifyIterationCount();
+    protected double doIntegrate()
+        throws TooManyEvaluationsException, ConvergenceException {
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
         if (minimalIterationCount == 1) {
-            final double s = (4 * qtrap.stage(f, min, max, 1) - qtrap.stage(f, min, max, 0)) / 3.0;
-            setResult(s, 1);
+            final double s = (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
+            setResult(s);
             return result;
         }
         // Simpson's rule requires at least two trapezoid stages.
         double olds = 0;
-        double oldt = qtrap.stage(f, min, max, 0);
-        for (int i = 1; i <= maximalIterationCount; ++i) {
-            final double t = qtrap.stage(f, min, max, i);
+        double oldt = qtrap.stage(this, 0);
+        while (true) {
+            final double t = qtrap.stage(this, iterations.getCount());
+            iterations.incrementCount();
             final double s = (4 * t - oldt) / 3.0;
-            if (i >= minimalIterationCount) {
+            if (iterations.getCount() >= minimalIterationCount) {
                 final double delta = FastMath.abs(s - olds);
                 final double rLimit =
                     relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(s, i);
+                    setResult(s);
                     return result;
                 }
             }
             olds = s;
             oldt = t;
         }
-        throw new MaxCountExceededException(maximalIterationCount);
+
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void verifyIterationCount() throws IllegalArgumentException {
-        super.verifyIterationCount();
-        // at most 64 bisection refinements
-        if (maximalIterationCount > 64) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
-                    0, 64);
-        }
-    }
 }

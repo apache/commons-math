@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -38,36 +38,88 @@ import org.apache.commons.math.util.FastMath;
  */
 public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
+    /** Maximal number of iterations for Romberg. */
+    public static final int ROMBERG_MAX_ITERATIONS_COUNT = 32;
+
     /**
-     * Construct an integrator.
+     * Build a Romberg integrator with given accuracies and iterations counts.
+     * @param relativeAccuracy relative accuracy of the result
+     * @param absoluteAccuracy absolute accuracy of the result
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #ROMBERG_MAX_ITERATIONS_COUNT})
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #ROMBERG_MAX_ITERATIONS_COUNT}
+     */
+    public RombergIntegrator(final double relativeAccuracy,
+                             final double absoluteAccuracy,
+                             final int minimalIterationCount,
+                             final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                ROMBERG_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Build a Romberg integrator with given iteration counts.
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #ROMBERG_MAX_ITERATIONS_COUNT})
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #ROMBERG_MAX_ITERATIONS_COUNT}
+     */
+    public RombergIntegrator(final int minimalIterationCount,
+                             final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > ROMBERG_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                ROMBERG_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Construct a Romberg integrator with default settings
+     * (max iteration count set to {@link #ROMBERG_MAX_ITERATIONS_COUNT})
      */
     public RombergIntegrator() {
-        super(32);
+        super(DEFAULT_MIN_ITERATIONS_COUNT, ROMBERG_MAX_ITERATIONS_COUNT);
     }
 
     /** {@inheritDoc} */
-    public double integrate(final UnivariateRealFunction f, final double min, final double max)
-        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
+    protected double doIntegrate()
+        throws TooManyEvaluationsException, ConvergenceException {
 
-        final int m = maximalIterationCount + 1;
+        final int m = iterations.getMaximalCount() + 1;
         double previousRow[] = new double[m];
         double currentRow[]  = new double[m];
 
-        clearResult();
-        verifyInterval(min, max);
-        verifyIterationCount();
-
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        currentRow[0] = qtrap.stage(f, min, max, 0);
+        currentRow[0] = qtrap.stage(this, 0);
+        iterations.incrementCount();
         double olds = currentRow[0];
-        for (int i = 1; i <= maximalIterationCount; ++i) {
+        while (true) {
+
+            final int i = iterations.getCount();
 
             // switch rows
             final double[] tmpRow = previousRow;
             previousRow = currentRow;
             currentRow = tmpRow;
 
-            currentRow[0] = qtrap.stage(f, min, max, i);
+            currentRow[0] = qtrap.stage(this, i);
+            iterations.incrementCount();
             for (int j = 1; j <= i; j++) {
                 // Richardson extrapolation coefficient
                 final double r = (1L << (2 * j)) - 1;
@@ -79,24 +131,13 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
                 final double delta  = FastMath.abs(s - olds);
                 final double rLimit = relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(s, i);
+                    setResult(s);
                     return result;
                 }
             }
             olds = s;
         }
-        throw new MaxCountExceededException(maximalIterationCount);
+
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void verifyIterationCount() throws IllegalArgumentException {
-        super.verifyIterationCount();
-        // at most 32 bisection refinements due to higher order divider
-        if (maximalIterationCount > 32) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
-                    0, 32);
-        }
-    }
 }

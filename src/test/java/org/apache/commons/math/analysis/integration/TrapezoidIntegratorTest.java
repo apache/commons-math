@@ -20,6 +20,8 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,12 +48,16 @@ public final class TrapezoidIntegratorTest {
 
         min = 0; max = FastMath.PI; expected = 2;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(f, min, max);
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < 2500);
+        Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -FastMath.PI/3; max = 0; expected = -0.5;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(f, min, max);
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < 2500);
+        Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
     }
 
@@ -66,18 +72,25 @@ public final class TrapezoidIntegratorTest {
 
         min = 0; max = 1; expected = -1.0/48;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(f, min, max);
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < 5000);
+        Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
 
         min = 0; max = 0.5; expected = 11.0/768;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(f, min, max);
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < 2500);
+        Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
 
         min = -1; max = 4; expected = 2048/3.0 - 78 + 1.0/48;
         tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
-        result = integrator.integrate(f, min, max);
+        result = integrator.integrate(10000, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < 5000);
+        Assert.assertTrue(integrator.getIterations()  < 15);
         Assert.assertEquals(expected, result, tolerance);
+
     }
 
     /**
@@ -86,31 +99,26 @@ public final class TrapezoidIntegratorTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateRealFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new TrapezoidIntegrator();
 
         try {
             // bad interval
-            integrator.integrate(f, 1, -1);
-            Assert.fail("Expecting IllegalArgumentException - bad interval");
-        } catch (IllegalArgumentException ex) {
+            new TrapezoidIntegrator().integrate(1000, f, 1, -1);
+            Assert.fail("Expecting NumberIsTooLargeException - bad interval");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         try {
             // bad iteration limits
-            integrator.setMinimalIterationCount(5);
-            integrator.setMaximalIterationCount(4);
-            integrator.integrate(f, -1, 1);
-            Assert.fail("Expecting IllegalArgumentException - bad iteration limits");
-        } catch (IllegalArgumentException ex) {
+            new TrapezoidIntegrator(5, 4);
+            Assert.fail("Expecting NumberIsTooSmallException - bad iteration limits");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             // bad iteration limits
-            integrator.setMinimalIterationCount(10);
-            integrator.setMaximalIterationCount(99);
-            integrator.integrate(f, -1, 1);
-            Assert.fail("Expecting IllegalArgumentException - bad iteration limits");
-        } catch (IllegalArgumentException ex) {
+            new TrapezoidIntegrator(10,99);
+            Assert.fail("Expecting NumberIsTooLargeException - bad iteration limits");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
     }

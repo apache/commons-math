@@ -17,8 +17,10 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 
 /**
  * Interface for univariate real integration algorithms.
@@ -29,42 +31,10 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 public interface UnivariateRealIntegrator {
 
     /**
-     * Set the upper limit for the number of iterations.
-     * <p>
-     * Usually a high iteration count indicates convergence problems. However,
-     * the "reasonable value" varies widely for different algorithms. Users are
-     * advised to use the default value supplied by the algorithm.</p>
-     * <p>
-     * A {@link ConvergenceException} will be thrown if this number
-     * is exceeded.</p>
-     *
-     * @param count maximum number of iterations
+     * Get the actual relative accuracy.
+     * @return the accuracy
      */
-    void setMaximalIterationCount(int count);
-
-    /**
-     * Get the upper limit for the number of iterations.
-     *
-     * @return the actual upper limit
-     */
-    int getMaximalIterationCount();
-
-    /**
-     * Set the absolute accuracy.
-     * <p>
-     * The default is usually chosen so that results in the interval
-     * -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the
-     * expected absolute value of your results is of much smaller magnitude, set
-     * this to a smaller value.</p>
-     * <p>
-     * Algorithms are advised to do a plausibility check with the relative
-     * accuracy, but clients should not rely on this.</p>
-     *
-     * @param accuracy the accuracy.
-     * @throws IllegalArgumentException if the accuracy can't be achieved by
-     * the solver or is otherwise deemed unreasonable.
-     */
-    void setAbsoluteAccuracy(double accuracy);
+    double getRelativeAccuracy();
 
     /**
      * Get the actual absolute accuracy.
@@ -74,70 +44,38 @@ public interface UnivariateRealIntegrator {
     double getAbsoluteAccuracy();
 
     /**
-     * Set the relative accuracy.
-     * <p>
-     * This is used to stop iterations if the absolute accuracy can't be
-     * achieved due to large values or short mantissa length.</p>
-     * <p>
-     * If this should be the primary criterion for convergence rather then a
-     * safety measure, set the absolute accuracy to a ridiculously small value,
-     * like {@link org.apache.commons.math.util.MathUtils#SAFE_MIN MathUtils.SAFE_MIN}.</p>
+     * Get the min limit for the number of iterations.
      *
-     * @param accuracy the relative accuracy.
-     */
-    void setRelativeAccuracy(double accuracy);
-
-    /**
-     * Get the actual relative accuracy.
-     * @return the accuracy
-     */
-    double getRelativeAccuracy();
-
-    /**
-     * Set the lower limit for the number of iterations.
-     * <p>
-     * Minimal iteration is needed to avoid false early convergence, e.g.
-     * the sample points happen to be zeroes of the function. Users can
-     * use the default value or choose one that they see as appropriate.</p>
-     * <p>
-     * A <code>ConvergenceException</code> will be thrown if this number
-     * is not met.</p>
-     *
-     * @param count minimum number of iterations
-     */
-    void setMinimalIterationCount(int count);
-
-    /**
-     * Get the lower limit for the number of iterations.
-     *
-     * @return the actual lower limit
+     * @return the actual min limit
      */
     int getMinimalIterationCount();
 
     /**
-     * Reset the lower limit for the number of iterations to the default.
-     * <p>
-     * The default value is supplied by the implementation.</p>
+     * Get the upper limit for the number of iterations.
      *
-     * @see #setMinimalIterationCount(int)
+     * @return the actual upper limit
      */
-    void resetMinimalIterationCount();
+    int getMaximalIterationCount();
 
     /**
      * Integrate the function in the given interval.
      *
+     * @param maxEval Maximum number of evaluations.
      * @param f the integrand function
-     * @param min the lower bound for the interval
+     * @param min the min bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
      * @throws ConvergenceException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
-     * @throws MathUserException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min > max or the endpoints do not
+     * @throws MathIllegalArgumentException if min > max or the endpoints do not
      * satisfy the requirements specified by the integrator
+     * @throws NullArgumentException if {@code f} is {@code null}.
      */
-    double integrate(UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException, MathUserException, IllegalArgumentException;
+    double integrate(int maxEval, UnivariateRealFunction f, double min, double max)
+        throws TooManyEvaluationsException, ConvergenceException,
+               MathIllegalArgumentException, NullArgumentException;
 
     /**
      * Get the result of the last run of the integrator.
@@ -147,4 +85,21 @@ public interface UnivariateRealIntegrator {
      * because no result was yet computed or the last attempt failed
      */
     double getResult() throws IllegalStateException;
+
+    /**
+     * Get the number of function evaluations of the last run of the integrator.
+     * @return number of function evaluations
+     * @throws IllegalStateException if there is no result available, either
+     * because no result was yet computed or the last attempt failed
+     */
+    int getEvaluations() throws IllegalStateException;
+
+    /**
+     * Get the number of iterations of the last run of the integrator.
+     * @return number of iterations
+     * @throws IllegalStateException if there is no result available, either
+     * because no result was yet computed or the last attempt failed
+     */
+    int getIterations() throws IllegalStateException;
+
 }

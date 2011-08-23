@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -36,14 +36,66 @@ import org.apache.commons.math.util.FastMath;
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 
+    /** Maximal number of iterations for trapezoid. */
+    public static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 64;
+
     /** Intermediate result. */
     private double s;
 
     /**
-     * Construct an integrator.
+     * Build a trapezoid integrator with given accuracies and iterations counts.
+     * @param relativeAccuracy relative accuracy of the result
+     * @param absoluteAccuracy absolute accuracy of the result
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT)
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
+     */
+    public TrapezoidIntegrator(final double relativeAccuracy,
+                               final double absoluteAccuracy,
+                               final int minimalIterationCount,
+                               final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                TRAPEZOID_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Build a trapezoid integrator with given iteration counts.
+     * @param minimalIterationCount minimum number of iterations
+     * @param maximalIterationCount maximum number of iterations
+     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT)
+     * @exception NotStrictlyPositiveException if minimal number of iterations
+     * is not strictly positive
+     * @exception NumberIsTooSmallException if maximal number of iterations
+     * is lesser than or equal to the minimal number of iterations
+     * @exception NumberIsTooLargeException if maximal number of iterations
+     * is greater than {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
+     */
+    public TrapezoidIntegrator(final int minimalIterationCount,
+                               final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
+        super(minimalIterationCount, maximalIterationCount);
+        if (maximalIterationCount > TRAPEZOID_MAX_ITERATIONS_COUNT) {
+            throw new NumberIsTooLargeException(maximalIterationCount,
+                                                TRAPEZOID_MAX_ITERATIONS_COUNT, false);
+        }
+    }
+
+    /**
+     * Construct a trapezoid integrator with default settings.
+     * (max iteration count set to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT})
      */
     public TrapezoidIntegrator() {
-        super(64);
+        super(DEFAULT_MIN_ITERATIONS_COUNT, TRAPEZOID_MAX_ITERATIONS_COUNT);
     }
 
     /**
@@ -55,27 +107,28 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * arbitrary m sections because this configuration can best utilize the
      * alrealy computed values.</p>
      *
-     * @param f the integrand function
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param baseIntegrator integrator holdingintegration parameters
      * @param n the stage of 1/2 refinement, n = 0 is no refinement
      * @return the value of n-th stage integral
-     * @throws MathUserException if an error occurs evaluating the function
+     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * is exceeded.
      */
-    double stage(final UnivariateRealFunction f,
-                 final double min, final double max, final int n)
-        throws MathUserException {
+    double stage(final UnivariateRealIntegratorImpl baseIntegrator, final int n)
+        throws TooManyEvaluationsException {
 
         if (n == 0) {
-            s = 0.5 * (max - min) * (f.value(min) + f.value(max));
+            s = 0.5 * (baseIntegrator.max - baseIntegrator.min) *
+                      (baseIntegrator.computeObjectiveValue(baseIntegrator.min) +
+                       baseIntegrator.computeObjectiveValue(baseIntegrator.max));
             return s;
         } else {
             final long np = 1L << (n-1);           // number of new points in this stage
             double sum = 0;
-            final double spacing = (max - min) / np; // spacing between adjacent new points
-            double x = min + 0.5 * spacing;    // the first new point
+            // spacing between adjacent new points
+            final double spacing = (baseIntegrator.max - baseIntegrator.min) / np;
+            double x = baseIntegrator.min + 0.5 * spacing;    // the first new point
             for (long i = 0; i < np; i++) {
-                sum += f.value(x);
+                sum += baseIntegrator.computeObjectiveValue(x);
                 x += spacing;
             }
             // add the new sum to previously calculated result
@@ -85,39 +138,27 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
-    public double integrate(final UnivariateRealFunction f, final double min, final double max)
-        throws MaxCountExceededException, MathUserException, IllegalArgumentException {
+    protected double doIntegrate()
+        throws TooManyEvaluationsException, ConvergenceException {
 
-        clearResult();
-        verifyInterval(min, max);
-        verifyIterationCount();
-
-        double oldt = stage(f, min, max, 0);
-        for (int i = 1; i <= maximalIterationCount; ++i) {
-            final double t = stage(f, min, max, i);
+        double oldt = stage(this, 0);
+        iterations.incrementCount();
+        while (true) {
+            final int i = iterations.getCount();
+            final double t = stage(this, i);
             if (i >= minimalIterationCount) {
                 final double delta = FastMath.abs(t - oldt);
                 final double rLimit =
                     relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(t, i);
+                    setResult(t);
                     return result;
                 }
             }
             oldt = t;
+            iterations.incrementCount();
         }
-        throw new MaxCountExceededException(maximalIterationCount);
+
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected void verifyIterationCount() throws IllegalArgumentException {
-        super.verifyIterationCount();
-        // at most 64 bisection refinements
-        if (maximalIterationCount > 64) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INVALID_ITERATIONS_LIMITS,
-                    0, 64);
-        }
-    }
 }
