@@ -214,8 +214,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
             // check convergence
             if ((iterations.getCount() + 1 >= minimalIterationCount) && (delta <= limit)) {
-                setResult(t);
-                return result;
+                return t;
             }
 
             // prepare next iteration

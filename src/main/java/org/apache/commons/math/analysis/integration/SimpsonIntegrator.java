@@ -102,10 +102,9 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
         if (minimalIterationCount == 1) {
-            final double s = (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
-            setResult(s);
-            return result;
+            return (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
         }
+
         // Simpson's rule requires at least two trapezoid stages.
         double olds = 0;
         double oldt = qtrap.stage(this, 0);
@@ -118,8 +117,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
                 final double rLimit =
                     relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(s);
-                    return result;
+                    return s;
                 }
             }
             olds = s;

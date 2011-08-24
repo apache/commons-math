@@ -151,8 +151,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
                 final double rLimit =
                     relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(t);
-                    return result;
+                    return t;
                 }
             }
             oldt = t;

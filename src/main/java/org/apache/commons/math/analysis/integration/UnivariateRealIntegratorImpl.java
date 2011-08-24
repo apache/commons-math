@@ -17,7 +17,6 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -26,7 +25,6 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.util.MathUtils;
 
@@ -73,12 +71,6 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
 
     /** Upper bound for the interval. */
     protected double max;
-
-    /** indicates whether an integral has been computed */
-    protected boolean resultComputed = false;
-
-    /** the last computed integral */
-    protected double result;
 
     /**
      * Construct an integrator with given accuracies and iteration counts.
@@ -189,41 +181,13 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
     }
 
     /** {@inheritDoc} */
-    public double getResult() throws IllegalStateException {
-        if (resultComputed) {
-            return result;
-        } else {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
-        }
+    public int getEvaluations() {
+        return evaluations.getCount();
     }
 
     /** {@inheritDoc} */
-    public int getEvaluations() throws IllegalStateException {
-        if (resultComputed) {
-            return evaluations.getCount();
-        } else {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public int getIterations() throws IllegalStateException {
-        if (resultComputed) {
-            return iterations.getCount();
-        } else {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_RESULT_AVAILABLE);
-        }
-    }
-
-    /**
-     * Convenience function for implementations.
-     *
-     * @param newResult the result to set
-     * @param newCount the iteration count to set
-     */
-    protected final void setResult(final double newResult) {
-        result         = newResult;
-        resultComputed = true;
+    public int getIterations() {
+        return iterations.getCount();
     }
 
     /**
@@ -272,7 +236,6 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
         iterations.resetCount();
-        resultComputed = false;
 
     }
 

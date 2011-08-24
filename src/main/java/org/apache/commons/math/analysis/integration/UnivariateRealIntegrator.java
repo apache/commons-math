@@ -78,28 +78,15 @@ public interface UnivariateRealIntegrator {
                MathIllegalArgumentException, NullArgumentException;
 
     /**
-     * Get the result of the last run of the integrator.
-     *
-     * @return the last result
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed
-     */
-    double getResult() throws IllegalStateException;
-
-    /**
      * Get the number of function evaluations of the last run of the integrator.
      * @return number of function evaluations
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed
      */
-    int getEvaluations() throws IllegalStateException;
+    int getEvaluations();
 
     /**
      * Get the number of iterations of the last run of the integrator.
      * @return number of iterations
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed
      */
-    int getIterations() throws IllegalStateException;
+    int getIterations();
 
 }

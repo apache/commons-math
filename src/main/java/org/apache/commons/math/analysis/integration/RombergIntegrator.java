@@ -131,8 +131,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
                 final double delta  = FastMath.abs(s - olds);
                 final double rLimit = relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
                 if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
-                    setResult(s);
-                    return result;
+                    return s;
                 }
             }
             olds = s;
