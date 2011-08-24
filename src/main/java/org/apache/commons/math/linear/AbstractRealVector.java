@@ -631,4 +631,391 @@ public abstract class AbstractRealVector implements RealVector {
             throw new MathUnsupportedOperationException();
         }
     }
+
+    /**
+     * This class is an implementation of {@link RealVector} with read-only
+     * access.
+     * It wraps any {@link RealVector}, and exposes all methods which do not
+     * modify it. Invoking methods which should normally result in the
+     * modification of the calling {@link RealVector} results in an
+     * {@link MathUnsupportedOperationException}. It should be noted that
+     * {@link UnmodifiableVector} is <em>not</em> immutable.
+     */
+    private static final class UnmodifiableVector implements RealVector {
+        /** The vector for which an unmodifiable view is provided. */
+        private final RealVector v;
+
+        /**
+         * Creates a view of the given vector.
+         *
+         * @param v Vector wrapped in {@code this} view.
+         */
+        public UnmodifiableVector(RealVector v) {
+            this.v = v;
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapToSelf(UnivariateRealFunction function) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector map(UnivariateRealFunction function) {
+            return v.map(function);
+        }
+
+        /** {@inheritDoc} */
+        public Iterator<Entry> iterator() {
+            final Iterator<Entry> i = v.iterator();
+            return new Iterator<Entry>() {
+                /** The current entry. */
+                private final UnmodifiableEntry e = new UnmodifiableEntry();
+
+                public boolean hasNext() {
+                    return i.hasNext();
+                }
+
+                public Entry next() {
+                    e.setIndex(i.next().getIndex());
+                    return e;
+                }
+
+                public void remove() {
+                    throw new MathUnsupportedOperationException();
+                }
+            };
+        }
+
+        /** {@inheritDoc} */
+        public Iterator<Entry> sparseIterator() {
+            final Iterator<Entry> i = v.sparseIterator();
+            return new Iterator<Entry>() {
+                /** The current entry. */
+                private final UnmodifiableEntry e = new UnmodifiableEntry();
+
+                public boolean hasNext() {
+                    return i.hasNext();
+                }
+
+                public Entry next() {
+                    e.setIndex(i.next().getIndex());
+                    return e;
+                }
+
+                public void remove() {
+                    throw new MathUnsupportedOperationException();
+                }
+            };
+        }
+
+        /** {@inheritDoc} */
+        public RealVector copy() {
+            return v.copy();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector add(RealVector w) {
+            return v.add(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector add(double[] w) {
+            return v.add(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector subtract(RealVector w) {
+            return v.subtract(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector subtract(double[] w) {
+            return v.subtract(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapAdd(double d) {
+            return v.mapAdd(d);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapAddToSelf(double d) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapSubtract(double d) {
+            return v.mapSubtract(d);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapSubtractToSelf(double d) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapMultiply(double d) {
+            return v.mapMultiply(d);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapMultiplyToSelf(double d) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapDivide(double d) {
+            return v.mapDivide(d);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector mapDivideToSelf(double d) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector ebeMultiply(RealVector w) {
+            return v.ebeMultiply(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector ebeMultiply(double[] w) {
+            return v.ebeMultiply(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector ebeDivide(RealVector w) {
+            return v.ebeDivide(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector ebeDivide(double[] w) {
+            return v.ebeDivide(w);
+        }
+
+        /** {@inheritDoc} */
+        public double[] getData() {
+            // TODO It is not specified in the javadoc that getData should
+            // return a
+            // deep copy
+            return v.getData();
+        }
+
+        /** {@inheritDoc} */
+        public double dotProduct(RealVector w) {
+            return v.dotProduct(w);
+        }
+
+        /** {@inheritDoc} */
+        public double dotProduct(double[] w) {
+            return v.dotProduct(w);
+        }
+
+        /** {@inheritDoc} */
+        public double cosine(RealVector w) {
+            return v.cosine(w);
+        }
+
+        /** {@inheritDoc} */
+        public double cosine(double[] w) {
+            return v.cosine(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getNorm() {
+            return v.getNorm();
+        }
+
+        /** {@inheritDoc} */
+        public double getL1Norm() {
+            return v.getL1Norm();
+        }
+
+        /** {@inheritDoc} */
+        public double getLInfNorm() {
+            return v.getLInfNorm();
+        }
+
+        /** {@inheritDoc} */
+        public double getDistance(RealVector w) {
+            return v.getDistance(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getDistance(double[] w) {
+            return v.getDistance(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getL1Distance(RealVector w) {
+            return v.getL1Distance(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getL1Distance(double[] w) {
+            return v.getL1Distance(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getLInfDistance(RealVector w) {
+            return v.getLInfDistance(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getLInfDistance(double[] w) {
+            return v.getLInfDistance(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector unitVector() {
+            return v.unitVector();
+        }
+
+        /** {@inheritDoc} */
+        public void unitize() {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector projection(RealVector w) {
+            return v.projection(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector projection(double[] w) {
+            return v.projection(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealMatrix outerProduct(RealVector w) {
+            return v.outerProduct(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealMatrix outerProduct(double[] w) {
+            return v.outerProduct(w);
+        }
+
+        /** {@inheritDoc} */
+        public double getEntry(int index) {
+            return v.getEntry(index);
+        }
+
+        /** {@inheritDoc} */
+        public void setEntry(int index, double value) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public int getDimension() {
+            return v.getDimension();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector append(RealVector w) {
+            return v.append(w);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector append(double d) {
+            return v.append(d);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector append(double[] a) {
+            return v.append(a);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector getSubVector(int index, int n) {
+            return v.getSubVector(index, n);
+        }
+
+        /** {@inheritDoc} */
+        public void setSubVector(int index, RealVector w) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public void setSubVector(int index, double[] w) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public void set(double value) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public double[] toArray() {
+            return v.toArray();
+        }
+
+        /** {@inheritDoc} */
+        public boolean isNaN() {
+            return v.isNaN();
+        }
+
+        /** {@inheritDoc} */
+        public boolean isInfinite() {
+            return v.isInfinite();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector combine(double a, double b, double[] y) {
+            return v.combine(a, b, y);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector combine(double a, double b, RealVector y) {
+            return v.combine(a, b, y);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector combineToSelf(double a, double b, double[] y) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** {@inheritDoc} */
+        public RealVector combineToSelf(double a, double b, RealVector y) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        /** An entry in the vector. */
+        private class UnmodifiableEntry extends Entry {
+            /** {@inheritDoc} */
+            @Override
+            public double getValue() {
+                return v.getEntry(getIndex());
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void setValue(double newValue) {
+                throw new MathUnsupportedOperationException();
+            }
+        }
+    }
+
+    /**
+     * Returns an unmodifiable view of the specified vector.
+     * The returned vector has read-only access. An attempt to modify it will
+     * result in a {@link MathUnsupportedOperationException}. However, the
+     * returned vector is <em>not</em> immutable, since any modification of
+     * {@code v} will also change the returned view.
+     * For example, in the following piece of code
+     * <pre>
+     *     RealVector v = new ArrayRealVector(2);
+     *     RealVector w = RealVector.unmodifiableRealVector(v);
+     *     v.setEntry(0, 1.2);
+     *     v.setEntry(1, -3.4);
+     * </pre>
+     * the changes will be seen in the {@code w} view of {@code v}.
+     *
+     * @param v Vector for which an unmodifiable view is to be returned.
+     * @return an unmodifiable view of {@code v}.
+     */
+    public static RealVector unmodifiableRealVector(final RealVector v) {
+        return new UnmodifiableVector(v);
+    }
 }
