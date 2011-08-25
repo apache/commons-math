@@ -141,15 +141,70 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * other contructor}.
      * The default values for the algorithm settings are:
      * <ul>
-     *  <li>Initial step bound factor}: 100</li>
-     *  <li>Cost relative tolerance}: 1e-10</li>
-     *  <li>Parameters relative tolerance}: 1e-10</li>
-     *  <li>Orthogonality tolerance}: 1e-10</li>
-     *  <li>QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
+     *  <li>Initial step bound factor: 100</li>
+     *  <li>Cost relative tolerance: 1e-10</li>
+     *  <li>Parameters relative tolerance: 1e-10</li>
+     *  <li>Orthogonality tolerance: 1e-10</li>
+     *  <li>QR ranking threshold: {@link MathUtils#SAFE_MIN}</li>
      * </ul>
      */
     public LevenbergMarquardtOptimizer() {
         this(100, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);
+    }
+
+    /**
+     * Constructor that allows the specification of a custom convergence
+     * checker.
+     * Note that all the usual convergence checks will be <em>disabled</em>.
+     * The default values for the algorithm settings are:
+     * <ul>
+     *  <li>Initial step bound factor: 100</li>
+     *  <li>Cost relative tolerance: 1e-10</li>
+     *  <li>Parameters relative tolerance: 1e-10</li>
+     *  <li>Orthogonality tolerance: 1e-10</li>
+     *  <li>QR ranking threshold: {@link MathUtils#SAFE_MIN}</li>
+     * </ul>
+     *
+     * @param checker Convergence checker.
+     */
+    public LevenbergMarquardtOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+        this(100, checker, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);
+    }
+
+    /**
+     * Constructor that allows the specification of a custom convergence
+     * checker, in addition to the standard ones.
+     *
+     * @param initialStepBoundFactor Positive input variable used in
+     * determining the initial step bound. This bound is set to the
+     * product of initialStepBoundFactor and the euclidean norm of
+     * {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor}
+     * itself. In most cases factor should lie in the interval
+     * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
+     * @param checker Convergence checker.
+     * @param costRelativeTolerance Desired relative error in the sum of
+     * squares.
+     * @param parRelativeTolerance Desired relative error in the approximate
+     * solution parameters.
+     * @param orthoTolerance Desired max cosine on the orthogonality between
+     * the function vector and the columns of the Jacobian.
+     * @param threshold Desired threshold for QR ranking. If the squared norm
+     * of a column vector is smaller or equal to this threshold during QR
+     * decomposition, it is considered to be a zero vector and hence the rank
+     * of the matrix is reduced.
+     */
+    public LevenbergMarquardtOptimizer(double initialStepBoundFactor,
+                                       ConvergenceChecker<VectorialPointValuePair> checker,
+                                       double costRelativeTolerance,
+                                       double parRelativeTolerance,
+                                       double orthoTolerance,
+                                       double threshold) {
+        super(checker);
+        this.initialStepBoundFactor = initialStepBoundFactor;
+        this.costRelativeTolerance = costRelativeTolerance;
+        this.parRelativeTolerance = parRelativeTolerance;
+        this.orthoTolerance = orthoTolerance;
+        this.qrRankingThreshold = threshold;
     }
 
     /**
