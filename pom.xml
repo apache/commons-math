@@ -112,6 +112,11 @@
       <id>erans</id>
       <email>erans at apache dot org</email>
     </developer>
+    <developer>
+      <name>Greg Sterijevski</name>
+      <id>gregs</id>
+      <email>gregs at apache dot org</email>
+    </developer>
   </developers>
   <contributors>
     <contributor>
@@ -230,9 +235,6 @@
     </contributor>
     <contributor>
       <name>David Stefka</name>
-    </contributor>
-    <contributor>
-      <name>Greg Sterijevski</name>
     </contributor>
     <contributor>
       <name>Mauro Talevi</name>
