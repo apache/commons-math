@@ -42,10 +42,10 @@ import org.apache.commons.math.util.FastMath;
  * The {@code code map} and {@code mapToSelf} methods operate
  * on vectors element-wise, i.e. they perform the same operation (adding a scalar,
  * applying a function ...) on each element in turn. The {@code map}
- * version creates a new vector to hold the result and do not change the instance.
- * The {@code mapToSelf} version use the instance itself to store the
- * results, so the instance is changed by this method. In both cases, the result
- * vector is returned by the methods, this allows to use the <i>fluent API</i>
+ * versions create a new vector to hold the result and do not change the instance.
+ * The {@code mapToSelf} version uses the instance itself to store the
+ * results, so the instance is changed by this method. In all cases, the result
+ * vector is returned by the methods, allowing the <i>fluent API</i>
  * style, like this:
  * </p>
  * <pre>
@@ -64,7 +64,7 @@ public abstract class RealVector {
     public abstract int getDimension();
 
     /**
-     * Returns the entry in the specified index.
+     * Return the entry at the specified index.
      *
      * @param index Index location of entry to be fetched.
      * @return the vector entry at {@code index}.
@@ -76,6 +76,7 @@ public abstract class RealVector {
 
     /**
      * Set a single element.
+     *
      * @param index element index.
      * @param value new value for the element.
      * @throws org.apache.commons.math.exception.OutOfRangeException
@@ -85,7 +86,7 @@ public abstract class RealVector {
     public abstract void setEntry(int index, double value);
 
     /**
-     * Construct a vector by appending a vector to this vector.
+     * Construct a new vector by appending a vector to this vector.
      *
      * @param v vector to append to this one.
      * @return a new vector
@@ -93,7 +94,7 @@ public abstract class RealVector {
     public abstract RealVector append(RealVector v);
 
     /**
-     * Construct a vector by appending a double to this vector.
+     * Construct a new vector by appending a double to this vector.
      *
      * @param d double to append.
      * @return a new vector
@@ -101,7 +102,7 @@ public abstract class RealVector {
     public abstract RealVector append(double d);
 
     /**
-     * Construct a vector by appending a double array to this vector.
+     * Construct a new vector by appending a double array to this vector.
      *
      * @param a double array to append.
      * @return a new vector
@@ -120,7 +121,7 @@ public abstract class RealVector {
     public abstract RealVector getSubVector(int index, int n);
 
     /**
-     * Set a set of consecutive elements.
+     * Set a sequence of consecutive elements.
      *
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
@@ -131,7 +132,7 @@ public abstract class RealVector {
     public abstract void setSubVector(int index, RealVector v);
 
     /**
-     * Set a set of consecutive elements.
+     * Set a sequence of consecutive elements.
      *
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
@@ -198,6 +199,7 @@ public abstract class RealVector {
 
     /**
      * Compute the sum of this vector and {@code v}.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v Vector to be added.
      * @return {@code this} + {@code v}.
@@ -216,6 +218,7 @@ public abstract class RealVector {
 
     /**
      * Compute the sum of this vector and {@code v}.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v Vector to be added.
      * @return {@code this} + {@code v}.
@@ -239,6 +242,7 @@ public abstract class RealVector {
 
     /**
      * Subtract {@code v} from this vector.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v Vector to be subtracted.
      * @return {@code this} - {@code v}.
@@ -258,6 +262,7 @@ public abstract class RealVector {
 
     /**
      * Subtract {@code v} from this vector.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v Vector to be subtracted.
      * @return {@code this} - {@code v}.
@@ -281,6 +286,7 @@ public abstract class RealVector {
 
     /**
      * Add a value to each entry.
+     * Returns a new vector. Does not change instance data.
      *
      * @param d Value to be added to each entry.
      * @return {@code this} + {@code d}.
@@ -311,7 +317,9 @@ public abstract class RealVector {
     public abstract RealVector copy();
 
     /**
-     * Compute the dot product.
+     * Compute the dot product of this vector with a vector built from the
+     * entries in {@code v}.
+     *
      * @param v vector with which dot product should be computed
      * @return the scalar dot product between instance and v
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -322,7 +330,8 @@ public abstract class RealVector {
     }
 
     /**
-     * Compute the dot product.
+     * Compute the dot product of this vector with {@code v}.
+     *
      * @param v vector with which dot product should be computed
      * @return the scalar dot product between instance and v
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -380,6 +389,7 @@ public abstract class RealVector {
 
     /**
      * Element-by-element division.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v vector by which instance elements must be divided
      * @return a vector containing this[i] / v[i] for all i
@@ -402,6 +412,7 @@ public abstract class RealVector {
 
     /**
      * Element-by-element multiplication.
+     * Returns a new vector. Does not change instance data.
      *
      * @param v vector by which instance elements must be multiplied
      * @return a vector containing this[i] * v[i] for all i
@@ -416,7 +427,8 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with the
      * L<sub>2</sub> norm, i.e. the square root of the sum of
-     * elements differences, or euclidian distance.</p>
+     * element differences, or Euclidian distance.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -441,7 +453,8 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with the
      * L<sub>2</sub> norm, i.e. the square root of the sum of
-     * elements differences, or euclidian distance.</p>
+     * element differences, or Euclidian distance.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -458,6 +471,7 @@ public abstract class RealVector {
      * Returns the L<sub>2</sub> norm of the vector.
      * <p>The L<sub>2</sub> norm is the root of the sum of
      * the squared elements.</p>
+     *
      * @return norm
      * @see #getL1Norm()
      * @see #getLInfNorm()
@@ -477,7 +491,8 @@ public abstract class RealVector {
     /**
      * Returns the L<sub>1</sub> norm of the vector.
      * <p>The L<sub>1</sub> norm is the sum of the absolute
-     * values of elements.</p>
+     * values of the elements.</p>
+     *
      * @return norm
      * @see #getNorm()
      * @see #getLInfNorm()
@@ -496,7 +511,8 @@ public abstract class RealVector {
     /**
      * Returns the L<sub>&infin;</sub> norm of the vector.
      * <p>The L<sub>&infin;</sub> norm is the max of the absolute
-     * values of elements.</p>
+     * values of the elements.</p>
+     *
      * @return norm
      * @see #getNorm()
      * @see #getL1Norm()
@@ -516,7 +532,8 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
-     * elements differences.</p>
+     * the elements differences.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -540,7 +557,8 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
-     * elements differences.</p>
+     * element differences.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -564,7 +582,8 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with
      * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
-     * elements differences.</p>
+     * element differences.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -589,6 +608,7 @@ public abstract class RealVector {
      * <p>This method computes the distance consistent with
      * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
+     *
      * @param v vector to which distance is requested
      * @return distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
@@ -608,9 +628,11 @@ public abstract class RealVector {
         return d;
     }
 
-    /** Get the index of the minimum entry.
-     * @return index of the minimum entry or -1 if vector length is 0
-     * or all entries are NaN
+    /**
+     * Get the index of the minimum entry.
+     *
+     * @return index of the minimum entry or -1 if vector length is 0 or
+     * or all entries are {@code NaN}
      */
     public int getMinIndex() {
         int minIndex    = -1;
@@ -626,17 +648,21 @@ public abstract class RealVector {
         return minIndex;
     }
 
-    /** Get the value of the minimum entry.
-     * @return value of the minimum entry or NaN if all entries are NaN
+    /**
+     * Get the value of the minimum entry.
+     *
+     * @return value of the minimum entry or {@code NaN} if all entries are {@code NaN}
      */
     public double getMinValue() {
         final int minIndex = getMinIndex();
         return minIndex < 0 ? Double.NaN : getEntry(minIndex);
     }
 
-    /** Get the index of the maximum entry.
+    /**
+     * Get the index of the maximum entry.
+     *
      * @return index of the maximum entry or -1 if vector length is 0
-     * or all entries are NaN
+     * or all entries are {@code NaN}
      */
     public int getMaxIndex() {
         int maxIndex    = -1;
@@ -652,8 +678,10 @@ public abstract class RealVector {
         return maxIndex;
     }
 
-    /** Get the value of the maximum entry.
-     * @return value of the maximum entry or NaN if all entries are NaN
+    /**
+     * Get the value of the maximum entry.
+     *
+     * @return value of the maximum entry or {@code NaN} if all entries are {@code NaN}
      */
     public double getMaxValue() {
         final int maxIndex = getMaxIndex();
@@ -662,7 +690,8 @@ public abstract class RealVector {
 
 
     /**
-     * Multiply each entry.
+     * Multiply each entry by the argument. Returns a new vector.
+     * Does not change instance data.
      *
      * @param d Multiplication factor.
      * @return {@code this} * {@code d}.
@@ -683,7 +712,8 @@ public abstract class RealVector {
     }
 
     /**
-     * Subtract a value from each entry.
+     * Subtract a value from each entry. Returns a new vector.
+     * Does not change instance data.
      *
      * @param d Value to be subtracted.
      * @return {@code this} - {@code d}.
@@ -704,7 +734,8 @@ public abstract class RealVector {
     }
 
     /**
-     * Divide each entry.
+     * Divide each entry by the argument. Returns a new vector.
+     * Does not change instance data.
      *
      * @param d Value to divide by.
      * @return {@code this} / {@code d}.
@@ -714,7 +745,7 @@ public abstract class RealVector {
     }
 
     /**
-     * Divide each entry.
+     * Divide each entry by the argument.
      * The instance is changed in-place.
      *
      * @param d Value to divide by.
@@ -726,6 +757,7 @@ public abstract class RealVector {
 
     /**
      * Compute the outer product.
+     *
      * @param v vector with which outer product should be computed
      * @return the matrix outer product between instance and v
      */
@@ -755,6 +787,7 @@ public abstract class RealVector {
 
     /**
      * Compute the outer product.
+     *
      * @param v vector with which outer product should be computed
      * @return the matrix outer product between instance and v
      */
@@ -786,6 +819,7 @@ public abstract class RealVector {
 
     /**
      * Set all elements to a single value.
+     *
      * @param value single value to set for all elements
      */
     public void set(double value) {
@@ -800,6 +834,7 @@ public abstract class RealVector {
      * Convert the vector to a double array.
      * <p>The array is independent from vector data, it's elements
      * are copied.</p>
+     *
      * @return array containing a copy of vector elements
      */
     public double[] toArray() {
@@ -813,6 +848,8 @@ public abstract class RealVector {
 
     /**
      * Returns vector entries as a double array.
+     * <p>The array is independent from vector data, it's elements
+     * are copied.</p>
      *
      * @return double array of entries.
      */
@@ -845,11 +882,11 @@ public abstract class RealVector {
     }
 
     /**
+     * Create a sparse iterator over the vector, which may omit some entries.
      * Specialized implementations may choose to not iterate over all
      * dimensions, either because those values are unset, or are equal
      * to defaultValue(), or are small enough to be ignored for the
-     * purposes of iteration.
-     * No guarantees are made about order of iteration.
+     * purposes of iteration. No guarantees are made about order of iteration.
      * In dense implementations, this method will often delegate to
      * {@link #iterator()}.
      *
@@ -860,8 +897,8 @@ public abstract class RealVector {
     }
 
     /**
-     * Generic dense iterator.
-     * It iterates in increasing order of the vector index.
+     * Generic dense iterator. Iteration is in increasing order
+     * of the vector index.
      *
      * @return a dense iterator.
      */
@@ -898,6 +935,7 @@ public abstract class RealVector {
      * <pre>
      *  return copy().mapToSelf(function);
      * </pre>
+     * Returns a new vector. Does not change instance data.
      *
      * @param function Function to apply to each entry.
      * @return a new vector.
@@ -916,9 +954,10 @@ public abstract class RealVector {
      *      e.setValue(function.value(e.getValue()));
      *  }
      * </pre>
+     * Entries of this vector are modified in-place by this method.
      *
      * @param function Function to apply to each entry.
-     * @return this vector.
+     * @return a reference to this vector.
      * @throws org.apache.commons.math.exception.MathUserException
      * if the function throws it.
      */
@@ -932,10 +971,13 @@ public abstract class RealVector {
     }
 
     /**
-     * Returns the linear combination of {@code this} and {@code y}.
+     * Returns a new vector representing {@code a*this + b*y}, the linear
+     * combination of {@code this} and a vector with components equal to the
+     * entries in {@code y}.
+     * Returns a new vector. Does not change instance data.
      *
-     * @param a Weight of {@code this}.
-     * @param b Weight of {@code y}.
+     * @param a Coefficient of {@code this}.
+     * @param b Coefficient of {@code y}.
      * @param y Vector with which {@code this} is linearly combined.
      * @return a vector containing {@code a * this[i] + b * y[i]} for all
      * {@code i}.
@@ -947,10 +989,12 @@ public abstract class RealVector {
     }
 
     /**
-     * Returns the linear combination of {@code this} and {@code y}.
+     * Returns a new vector representing {@code a*this + b*y}, the linear
+     * combination of {@code this} and {@code y}.
+     * Returns a new vector. Does not change instance data.
      *
-     * @param a Weight of {@code this}.
-     * @param b Weight of {@code y}.
+     * @param a Coefficient of {@code this}.
+     * @param b Coefficient of {@code y}.
      * @param y Vector with which {@code this} is linearly combined.
      * @return a vector containing {@code a * this[i] + b * y[i]} for all
      * {@code i}.
@@ -963,10 +1007,10 @@ public abstract class RealVector {
 
     /**
      * Updates {@code this} with the linear combination of {@code this} and
-     * {@code y}.
+     * a vector with components equal to the entries of {@code y}.
      *
-     * @param a Weight of {@code this}.
-     * @param b Weight of {@code y}.
+     * @param a Coefficient of {@code this}.
+     * @param b Coefficient of {@code y}.
      * @param y Vector with which {@code this} is linearly combined.
      * @return {@code this}, with components equal to
      * {@code a * this[i] + b * y[i]} for all {@code i}.
@@ -999,7 +1043,9 @@ public abstract class RealVector {
         return this;
     }
 
-    /** An entry in the vector. */
+    /**
+     *  An entry in the vector.
+     */
     protected class Entry {
         /** Index of this entry. */
         private int index;
@@ -1047,12 +1093,12 @@ public abstract class RealVector {
     }
 
     /**
-     * This class should rare be used, but is here to provide
+     * This class should rarely be used, but is here to provide
      * a default implementation of sparseIterator(), which is implemented
      * by walking over the entries, skipping those whose values are the default one.
      *
      * Concrete subclasses which are SparseVector implementations should
-     * make their own sparse iterator, not use this one.
+     * make their own sparse iterator, rather than using this one.
      *
      * This implementation might be useful for ArrayRealVector, when expensive
      * operations which preserve the default value are to be done on the entries,
