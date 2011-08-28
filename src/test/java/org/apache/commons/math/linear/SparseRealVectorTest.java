@@ -76,7 +76,7 @@ public class SparseRealVectorTest {
 
     // Testclass to test the RealVector interface
     // only with enough content to support the test
-    public static class SparseRealVectorTestImpl extends AbstractRealVector implements Serializable {
+    public static class SparseRealVectorTestImpl extends RealVector implements Serializable {
 
         private static final long serialVersionUID = -6251371752518113791L;
         /** Entries of the vector. */
@@ -106,7 +106,7 @@ public class SparseRealVectorTest {
         }
 
         @Override
-        public AbstractRealVector copy() {
+        public RealVector copy() {
             return new SparseRealVectorTestImpl(data);
         }
 

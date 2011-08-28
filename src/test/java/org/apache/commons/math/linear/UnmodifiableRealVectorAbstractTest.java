@@ -18,7 +18,8 @@ package org.apache.commons.math.linear;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -31,10 +32,12 @@ import org.apache.commons.math.linear.RealVector.Entry;
 import org.junit.Test;
 
 /**
- * This is an abstract test of the {@link AbstractRealVector.UnmodifiableVector}
+ * This is an abstract test of the {@link
+ * RealVector#unmodifiableRealVector(RealVector) unmodifiable vector}
  * implementation. These unmodifiable vectors decorate a (modifiable)
- * {@link RealVector}; therefore, a new implementation of this abstract test
- * should be considered for each implementation of {@link RealVector}.
+ * {@link RealVector}; therefore, a new implementation of this abstract
+ * test should be considered for each implementation of
+ * {@link RealVector}.
  *
  * @version $Id$
  *
@@ -48,18 +51,22 @@ public abstract class UnmodifiableRealVectorAbstractTest {
      * The list of methods which are excluded from the general test
      * {@link #testAllButExcluded()}.
      */
-    protected static final ArrayList<String> EXCLUDE;
+    protected static final Set<String> EXCLUDE = new HashSet<String>();
     /** The random number generator (always initialized with the same seed. */
     protected static final Random RANDOM;
 
     static {
-        EXCLUDE = new ArrayList<String>();
         EXCLUDE.add("getEntry");
         EXCLUDE.add("setEntry");
         EXCLUDE.add("getSubVector");
         EXCLUDE.add("setSubVector");
         EXCLUDE.add("iterator");
         EXCLUDE.add("sparseIterator");
+
+        // Excluded because they are inherited from "Object".
+        for (Method m : Object.class.getMethods()) {
+            EXCLUDE.add(m.getName());
+        }
         RANDOM = new Random(20110813);
     }
 
@@ -234,7 +241,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
 
     /**
      * Creates a new random vector of a specified type. This vector is then to
-     * be wrapped in a {@link AbstractRealVector.UnmodifiableVector}.
+     * be wrapped in an unmodifiable vector.
      *
      * @return a new random vector.
      */
@@ -243,11 +250,10 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     /**
      * Creates a new random object of the specified type.
      *
-     * @param c
-     *            the class of the object to be created.
+     * @param c Class of the object to be created.
      * @return a new random object.
-     * @throws IllegalArgumentException
-     *             if the specified class is not recognized by this method.
+     * @throws IllegalArgumentException if the specified class is not
+     * recognized by this method.
      */
     public Object createParameter(final Class<?> c) {
         if (c == Integer.TYPE) {
@@ -270,8 +276,9 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     }
 
     /**
-     * This is the general test of most methods in
-     * {@link AbstractRealVector.UnmodifiableVector}. It works as follows.
+     * This is the general test of most methods in the
+     * {@link RealVector#unmodifiableRealVector(RealVector) unmodifiable vector}.
+     * It works as follows.
      * First, an unmodifiable view of a copy of the specified random vector
      * {@code u} is created: this defines {@code v}. Then the <em>same</em>
      * method {@code m} is invoked on {@code u} and {@code v}, with randomly
@@ -288,19 +295,21 @@ public abstract class UnmodifiableRealVectorAbstractTest {
      *constructed.
      * @param args Arguments to be passed to method {@code m}.
      */
-    private void callMethod(final Method m, final RealVector u,
-            final Object... args) throws IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
+    private void callMethod(final Method m,
+                            final RealVector u,
+                            final Object... args)
+        throws IllegalAccessException,
+               IllegalArgumentException,
+               InvocationTargetException {
         final RealVector uu = u.copy();
-        final RealVector v = AbstractRealVector
-                .unmodifiableRealVector(u.copy());
+        final RealVector v = RealVector.unmodifiableRealVector(u.copy());
         Object exp = m.invoke(u, args);
         if (equals(uu, u)) {
             Object act = m.invoke(v, args);
-            Assert.assertTrue(m.toGenericString()
-                    + ", unmodifiable vector has changed", equals(uu, v));
+            Assert.assertTrue(m.toGenericString() + ", unmodifiable vector has changed",
+                              equals(uu, v));
             Assert.assertTrue(m.toGenericString() + ", wrong result",
-                    equals(exp, act));
+                              equals(exp, act));
 
         } else {
             boolean flag = false;
@@ -322,8 +331,10 @@ public abstract class UnmodifiableRealVectorAbstractTest {
      * {@link #EXCLUDE}), they must be handled by separate tests.
      */
     @Test
-    public void testAllButExcluded() throws IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
+    public void testAllButExcluded()
+        throws IllegalAccessException,
+               IllegalArgumentException,
+               InvocationTargetException {
         Method[] method = RealVector.class.getMethods();
         for (int i = 0; i < method.length; i++) {
             Method m = method[i];
@@ -342,7 +353,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     @Test
     public void testGetEntry() {
         RealVector u = createVector();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u);
+        RealVector v = RealVector.unmodifiableRealVector(u);
         for (int i = 0; i < DIM; i++) {
             Assert.assertTrue(equals(u.getEntry(i), v.getEntry(i)));
         }
@@ -351,7 +362,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     @Test(expected = MathUnsupportedOperationException.class)
     public void testSetEntry() {
         RealVector u = createVector();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u);
+        RealVector v = RealVector.unmodifiableRealVector(u);
         for (int i = 0; i < DIM; i++) {
             v.setEntry(i, 0d);
         }
@@ -360,7 +371,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     @Test
     public void testGetSubVector() {
         RealVector u = createVector();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u);
+        RealVector v = RealVector.unmodifiableRealVector(u);
         for (int i = 0; i < DIM; i++) {
             for (int n = 1; n < DIM - i; n++) {
                 RealVector exp = u.getSubVector(i, n);
@@ -373,7 +384,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     @Test(expected = MathUnsupportedOperationException.class)
     public void testSetSubVector() {
         RealVector u = createVector();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u);
+        RealVector v = RealVector.unmodifiableRealVector(u);
         v.setSubVector(0, new ArrayRealVector());
     }
 
@@ -381,7 +392,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     public void testIterator() {
         RealVector u = createVector();
         Iterator<Entry> i = u.iterator();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u.copy());
+        RealVector v = RealVector.unmodifiableRealVector(u.copy());
         Iterator<Entry> j = v.iterator();
         boolean flag;
         while (i.hasNext()) {
@@ -407,7 +418,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     public void testSparseIterator() {
         RealVector u = createVector();
         Iterator<Entry> i = u.sparseIterator();
-        RealVector v = AbstractRealVector.unmodifiableRealVector(u.copy());
+        RealVector v = RealVector.unmodifiableRealVector(u.copy());
         Iterator<Entry> j = v.sparseIterator();
         boolean flag;
         while (i.hasNext()) {

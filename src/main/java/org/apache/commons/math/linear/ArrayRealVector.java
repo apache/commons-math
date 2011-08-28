@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 2.0
  */
-public class ArrayRealVector extends AbstractRealVector implements Serializable {
+public class ArrayRealVector extends RealVector implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1097961340710804027L;
     /** Default format. */

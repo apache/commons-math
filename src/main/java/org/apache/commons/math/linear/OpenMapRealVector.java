@@ -30,8 +30,8 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 2.0
 */
-public class OpenMapRealVector extends AbstractRealVector
-    implements SparseRealVector, Serializable {
+public class OpenMapRealVector extends SparseRealVector
+    implements Serializable {
     /** Default Tolerance for having a value considered zero. */
     public static final double DEFAULT_ZERO_TOLERANCE = 1.0e-12;
     /** Serializable version identifier. */

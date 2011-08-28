@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-653">
+         Renamed "AbstractRealVector" to "RealVector". The interface was removed
+         in favour of its unique (abstract) implementation.
+      </action>
+      <action dev="erans" type="add" issue="MATH-646" due-to="Sébastien Brisard">
+         Unmodifiable view of a "RealVector".
+      </action>
       <action dev="luc" type="fix" issue="MATH-501" >
           Refactored integration API for consistency with solvers API. Now the main convergence
           parameters are set in the constructor and remain fixed.

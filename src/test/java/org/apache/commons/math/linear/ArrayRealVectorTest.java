@@ -78,7 +78,8 @@ public class ArrayRealVectorTest {
 
     // Testclass to test the RealVector interface
     // only with enough content to support the test
-    public static class RealVectorTestImpl implements RealVector, Serializable {
+    public static class RealVectorTestImpl extends RealVector
+        implements Serializable {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = 4715341047369582908L;

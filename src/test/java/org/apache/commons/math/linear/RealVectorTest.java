@@ -26,13 +26,13 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- *
+ * Tests for {@link RealVector}.
  */
-public class AbstractRealVectorTest {
+public class RealVectorTest {
     private double[] vec1 = { 1d, 2d, 3d, 4d, 5d };
     private double[] vec2 = { -3d, 0d, 0d, 2d, 1d };
 
-    private static class TestVectorImpl extends AbstractRealVector {
+    private static class TestVectorImpl extends RealVector {
         private double[] values;
 
         TestVectorImpl(double[] values) {
@@ -43,10 +43,9 @@ public class AbstractRealVectorTest {
         public double[] getData() { return values; }
 
         @Override
-        public AbstractRealVector copy() {
+        public RealVector copy() {
             return new TestVectorImpl(values.clone());
         }
-
 
         UnsupportedOperationException unsupported() {
             return new UnsupportedOperationException("Test implementation only supports methods necessary for testing");
@@ -153,6 +152,13 @@ public class AbstractRealVectorTest {
         }
 
         public RealVector getSubVector(int index, int n) {
+            throw unsupported();
+        }
+
+        public void setSubVector(int index, double[] v) {
+            throw unsupported();
+        }
+        public void setSubVector(int index, RealVector v) {
             throw unsupported();
         }
 
