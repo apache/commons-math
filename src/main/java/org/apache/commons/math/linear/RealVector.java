@@ -59,7 +59,7 @@ public abstract class RealVector {
     /**
      * Returns the size of the vector.
      *
-     * @return size
+     * @return the size of this vector.
      */
     public abstract int getDimension();
 
@@ -89,7 +89,7 @@ public abstract class RealVector {
      * Construct a new vector by appending a vector to this vector.
      *
      * @param v vector to append to this one.
-     * @return a new vector
+     * @return a new vector.
      */
     public abstract RealVector append(RealVector v);
 
@@ -97,7 +97,7 @@ public abstract class RealVector {
      * Construct a new vector by appending a double to this vector.
      *
      * @param d double to append.
-     * @return a new vector
+     * @return a new vector.
      */
     public abstract RealVector append(double d);
 
@@ -105,7 +105,7 @@ public abstract class RealVector {
      * Construct a new vector by appending a double array to this vector.
      *
      * @param a double array to append.
-     * @return a new vector
+     * @return a new vector.
      */
     public abstract RealVector append(double[] a);
 
@@ -332,8 +332,8 @@ public abstract class RealVector {
     /**
      * Compute the dot product of this vector with {@code v}.
      *
-     * @param v vector with which dot product should be computed
-     * @return the scalar dot product between instance and v
+     * @param v Vector with which dot product should be computed
+     * @return the scalar dot product between this instance and {@code v}.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -380,8 +380,8 @@ public abstract class RealVector {
     /**
      * Element-by-element division.
      *
-     * @param v vector by which instance elements must be divided
-     * @return a vector containing this[i] / v[i] for all i
+     * @param v Vector by which instance elements must be divided.
+     * @return a vector containing this[i] / v[i] for all i.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -391,8 +391,8 @@ public abstract class RealVector {
      * Element-by-element division.
      * Returns a new vector. Does not change instance data.
      *
-     * @param v vector by which instance elements must be divided
-     * @return a vector containing this[i] / v[i] for all i
+     * @param v Vector by which instance elements must be divided
+     * @return a vector containing this[i] / v[i] for all i.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -403,8 +403,8 @@ public abstract class RealVector {
     /**
      * Element-by-element multiplication.
      *
-     * @param v vector by which instance elements must be multiplied
-     * @return a vector containing this[i] * v[i] for all i
+     * @param v Vector by which instance elements must be multiplied
+     * @return a vector containing this[i] * v[i] for all i.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -414,8 +414,8 @@ public abstract class RealVector {
      * Element-by-element multiplication.
      * Returns a new vector. Does not change instance data.
      *
-     * @param v vector by which instance elements must be multiplied
-     * @return a vector containing this[i] * v[i] for all i
+     * @param v Vector by which instance elements must be multiplied
+     * @return a vector containing this[i] * v[i] for all i.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -429,8 +429,8 @@ public abstract class RealVector {
      * L<sub>2</sub> norm, i.e. the square root of the sum of
      * element differences, or Euclidian distance.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getL1Distance(RealVector)
@@ -455,8 +455,8 @@ public abstract class RealVector {
      * L<sub>2</sub> norm, i.e. the square root of the sum of
      * element differences, or Euclidian distance.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getL1Distance(double[])
@@ -472,7 +472,7 @@ public abstract class RealVector {
      * <p>The L<sub>2</sub> norm is the root of the sum of
      * the squared elements.</p>
      *
-     * @return norm
+     * @return the norm.
      * @see #getL1Norm()
      * @see #getLInfNorm()
      * @see #getDistance(RealVector)
@@ -493,7 +493,7 @@ public abstract class RealVector {
      * <p>The L<sub>1</sub> norm is the sum of the absolute
      * values of the elements.</p>
      *
-     * @return norm
+     * @return the norm.
      * @see #getNorm()
      * @see #getLInfNorm()
      * @see #getL1Distance(RealVector)
@@ -513,7 +513,7 @@ public abstract class RealVector {
      * <p>The L<sub>&infin;</sub> norm is the max of the absolute
      * values of the elements.</p>
      *
-     * @return norm
+     * @return the norm.
      * @see #getNorm()
      * @see #getL1Norm()
      * @see #getLInfDistance(RealVector)
@@ -534,8 +534,8 @@ public abstract class RealVector {
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
      * the elements differences.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getDistance(double[])
@@ -559,8 +559,8 @@ public abstract class RealVector {
      * L<sub>1</sub> norm, i.e. the sum of the absolute values of
      * element differences.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getDistance(double[])
@@ -584,8 +584,8 @@ public abstract class RealVector {
      * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * element differences.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getDistance(RealVector)
@@ -609,8 +609,8 @@ public abstract class RealVector {
      * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
      * elements differences.</p>
      *
-     * @param v vector to which distance is requested
-     * @return distance between two vectors.
+     * @param v Vector to which distance is requested.
+     * @return Distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      * @see #getDistance(double[])
@@ -631,8 +631,8 @@ public abstract class RealVector {
     /**
      * Get the index of the minimum entry.
      *
-     * @return index of the minimum entry or -1 if vector length is 0 or
-     * or all entries are {@code NaN}
+     * @return the index of the minimum entry or -1 if vector length is 0
+     * or all entries are {@code NaN}.
      */
     public int getMinIndex() {
         int minIndex    = -1;
@@ -651,7 +651,8 @@ public abstract class RealVector {
     /**
      * Get the value of the minimum entry.
      *
-     * @return value of the minimum entry or {@code NaN} if all entries are {@code NaN}
+     * @return the value of the minimum entry or {@code NaN} if all
+     * entries are {@code NaN}.
      */
     public double getMinValue() {
         final int minIndex = getMinIndex();
@@ -661,7 +662,7 @@ public abstract class RealVector {
     /**
      * Get the index of the maximum entry.
      *
-     * @return index of the maximum entry or -1 if vector length is 0
+     * @return the index of the maximum entry or -1 if vector length is 0
      * or all entries are {@code NaN}
      */
     public int getMaxIndex() {
@@ -681,7 +682,8 @@ public abstract class RealVector {
     /**
      * Get the value of the maximum entry.
      *
-     * @return value of the maximum entry or {@code NaN} if all entries are {@code NaN}
+     * @return the value of the maximum entry or {@code NaN} if all
+     * entries are {@code NaN}.
      */
     public double getMaxValue() {
         final int maxIndex = getMaxIndex();
@@ -758,8 +760,8 @@ public abstract class RealVector {
     /**
      * Compute the outer product.
      *
-     * @param v vector with which outer product should be computed
-     * @return the matrix outer product between instance and v
+     * @param v Vector with which outer product should be computed.
+     * @return the matrix outer product between this instance and {@code v}.
      */
     public RealMatrix outerProduct(RealVector v) {
         RealMatrix product;
@@ -788,8 +790,8 @@ public abstract class RealVector {
     /**
      * Compute the outer product.
      *
-     * @param v vector with which outer product should be computed
-     * @return the matrix outer product between instance and v
+     * @param v Vector with which outer product should be computed
+     * @return the matrix outer product between instance and {@code v}.
      */
     public RealMatrix outerProduct(double[] v) {
         return outerProduct(new ArrayRealVector(v, false));
@@ -808,8 +810,8 @@ public abstract class RealVector {
     /**
      * Find the orthogonal projection of this vector onto another vector.
      *
-     * @param v vector onto which instance must be projected.
-     * @return projection of the instance onto v.
+     * @param v Vector onto which instance must be projected.
+     * @return the projection of the instance onto {@code v.}
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
@@ -820,7 +822,7 @@ public abstract class RealVector {
     /**
      * Set all elements to a single value.
      *
-     * @param value single value to set for all elements
+     * @param value Single value to set for all elements.
      */
     public void set(double value) {
         Iterator<Entry> it = iterator();
@@ -835,7 +837,7 @@ public abstract class RealVector {
      * <p>The array is independent from vector data, it's elements
      * are copied.</p>
      *
-     * @return array containing a copy of vector elements
+     * @return an array containing a copy of vector elements.
      */
     public double[] toArray() {
         int dim = getDimension();
@@ -851,7 +853,7 @@ public abstract class RealVector {
      * <p>The array is independent from vector data, it's elements
      * are copied.</p>
      *
-     * @return double array of entries.
+     * @return a {@code double} array of entries.
      */
     public double[] getData() {
         return toArray();
@@ -861,8 +863,8 @@ public abstract class RealVector {
      * Creates a unit vector pointing in the direction of this vector.
      * The instance is not changed by this method.
      *
-     * @return a unit vector pointing in direction of this vector
-     * @exception ArithmeticException if the norm is null
+     * @return a unit vector pointing in direction of this vector.
+     * @throws ArithmeticException if the norm is {@code null}.
      */
     public RealVector unitVector() {
         RealVector copy = copy();
@@ -989,7 +991,7 @@ public abstract class RealVector {
     }
 
     /**
-     * Returns a new vector representing {@code a*this + b*y}, the linear
+     * Returns a new vector representing {@code a * this + b * y}, the linear
      * combination of {@code this} and {@code y}.
      * Returns a new vector. Does not change instance data.
      *
