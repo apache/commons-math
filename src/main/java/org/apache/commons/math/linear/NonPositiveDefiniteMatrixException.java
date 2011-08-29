@@ -20,7 +20,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when a symmetric matrix is expected.
+ * Exception to be thrown when a positive definite matrix is expected.
  *
  * @since 3.0
  * @version $Id$
