@@ -89,7 +89,7 @@ public class LinearObjectiveFunction implements Serializable {
      * @return value of the linear equation at the current point
      */
     public double getValue(final double[] point) {
-        return coefficients.dotProduct(point) + constantTerm;
+        return coefficients.dotProduct(new ArrayRealVector(point, false)) + constantTerm;
     }
 
     /**

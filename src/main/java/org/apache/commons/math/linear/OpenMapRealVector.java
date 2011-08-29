@@ -48,9 +48,8 @@ public class OpenMapRealVector extends SparseRealVector
      * Zero-length vectors may be used to initialized construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #OpenMapRealVector(OpenMapRealVector, int)} constructor
-     * or one of the {@code append} method ({@link #append(double)}, {@link
-     * #append(double[])}, {@link #append(RealVector)}) to gather data
-     * into this vector.
+     * or one of the {@code append} method ({@link #append(double)},
+     * {@link #append(RealVector)}) to gather data into this vector.
      */
     public OpenMapRealVector() {
         this(0, DEFAULT_ZERO_TOLERANCE);
@@ -222,7 +221,7 @@ public class OpenMapRealVector extends SparseRealVector
 
     /** {@inheritDoc} */
     @Override
-        public RealVector add(RealVector v) {
+    public RealVector add(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return add((OpenMapRealVector) v);
@@ -277,23 +276,19 @@ public class OpenMapRealVector extends SparseRealVector
     public OpenMapRealVector append(RealVector v) {
         if (v instanceof OpenMapRealVector) {
             return append((OpenMapRealVector) v);
+        } else {
+            final OpenMapRealVector res = new OpenMapRealVector(this, v.getDimension());
+            for (int i = 0; i < v.getDimension(); i++) {
+                res.setEntry(i + virtualSize, v.getEntry(i));
+            }
+            return res;
         }
-        return append(v.getData());
     }
 
     /** {@inheritDoc} */
     public OpenMapRealVector append(double d) {
         OpenMapRealVector res = new OpenMapRealVector(this, 1);
         res.setEntry(virtualSize, d);
-        return res;
-    }
-
-    /** {@inheritDoc} */
-    public OpenMapRealVector append(double[] a) {
-        OpenMapRealVector res = new OpenMapRealVector(this, a.length);
-        for (int i = 0; i < a.length; i++) {
-            res.setEntry(i + virtualSize, a[i]);
-        }
         return res;
     }
 
@@ -351,19 +346,6 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
-    @Override
-    public OpenMapRealVector ebeDivide(double[] v) {
-        checkVectorDimensions(v.length);
-        OpenMapRealVector res = new OpenMapRealVector(this);
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            res.setEntry(iter.key(), iter.value() / v[iter.key()]);
-        }
-        return res;
-    }
-
-    /** {@inheritDoc} */
     public OpenMapRealVector ebeMultiply(RealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -371,19 +353,6 @@ public class OpenMapRealVector extends SparseRealVector
         while (iter.hasNext()) {
             iter.advance();
             res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
-        }
-        return res;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public OpenMapRealVector ebeMultiply(double[] v) {
-        checkVectorDimensions(v.length);
-        OpenMapRealVector res = new OpenMapRealVector(this);
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            res.setEntry(iter.key(), iter.value() * v[iter.key()]);
         }
         return res;
     }
@@ -458,20 +427,9 @@ public class OpenMapRealVector extends SparseRealVector
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getDistance((OpenMapRealVector) v);
+        } else {
+            return super.getDistance(v);
         }
-        return getDistance(v.getData());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double getDistance(double[] v) {
-        checkVectorDimensions(v.length);
-        double res = 0;
-        for (int i = 0; i < v.length; i++) {
-            double delta = entries.get(i) - v[i];
-            res += delta * delta;
-        }
-        return FastMath.sqrt(res);
     }
 
     /** {@inheritDoc} */
@@ -515,20 +473,9 @@ public class OpenMapRealVector extends SparseRealVector
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getL1Distance((OpenMapRealVector) v);
+        } else {
+            return super.getL1Distance(v);
         }
-        return getL1Distance(v.getData());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double getL1Distance(double[] v) {
-        checkVectorDimensions(v.length);
-        double max = 0;
-        for (int i = 0; i < v.length; i++) {
-            double delta = FastMath.abs(getEntry(i) - v[i]);
-            max += delta;
-        }
-        return max;
     }
 
     /**
@@ -566,22 +513,9 @@ public class OpenMapRealVector extends SparseRealVector
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return getLInfDistance((OpenMapRealVector) v);
+        } else {
+            return super.getLInfDistance(v);
         }
-        return getLInfDistance(v.getData());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double getLInfDistance(double[] v) {
-        checkVectorDimensions(v.length);
-        double max = 0;
-        for (int i = 0; i < v.length; i++) {
-            double delta = FastMath.abs(getEntry(i) - v[i]);
-            if (delta > max) {
-                max = delta;
-            }
-        }
-        return max;
     }
 
     /** {@inheritDoc} */
@@ -628,34 +562,10 @@ public class OpenMapRealVector extends SparseRealVector
         return this;
     }
 
-     /** {@inheritDoc} */
-    @Override
-    public RealMatrix outerProduct(double[] v) {
-        final int n = v.length;
-        RealMatrix res = new OpenMapRealMatrix(virtualSize, n);
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            int row = iter.key();
-            double value = iter.value();
-            for (int col = 0; col < n; col++) {
-                res.setEntry(row, col, value * v[col]);
-            }
-        }
-        return res;
-    }
-
     /** {@inheritDoc} */
     public RealVector projection(RealVector v) {
         checkVectorDimensions(v.getDimension());
         return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public OpenMapRealVector projection(double[] v) {
-        checkVectorDimensions(v.length);
-        return (OpenMapRealVector) projection(new OpenMapRealVector(v));
     }
 
     /** {@inheritDoc} */
@@ -673,16 +583,8 @@ public class OpenMapRealVector extends SparseRealVector
     public void setSubVector(int index, RealVector v) {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
-        setSubVector(index, v.getData());
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void setSubVector(int index, double[] v) {
-        checkIndex(index);
-        checkIndex(index + v.length - 1);
-        for (int i = 0; i < v.length; i++) {
-            setEntry(i + index, v[i]);
+        for (int i = 0; i < v.getDimension(); i++) {
+            setEntry(i + index, v.getEntry(i));
         }
     }
 
@@ -720,29 +622,14 @@ public class OpenMapRealVector extends SparseRealVector
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector subtract(RealVector v) {
+    public RealVector subtract(RealVector v) {
         checkVectorDimensions(v.getDimension());
         if (v instanceof OpenMapRealVector) {
             return subtract((OpenMapRealVector) v);
+        } else {
+            return super.subtract(v);
         }
-        return subtract(v.getData());
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public OpenMapRealVector subtract(double[] v) {
-        checkVectorDimensions(v.length);
-        OpenMapRealVector res = new OpenMapRealVector(this);
-        for (int i = 0; i < v.length; i++) {
-            if (entries.containsKey(i)) {
-                res.setEntry(i, entries.get(i) - v[i]);
-            } else {
-                res.setEntry(i, -v[i]);
-            }
-        }
-        return res;
-    }
-
 
     /** {@inheritDoc} */
     @Override

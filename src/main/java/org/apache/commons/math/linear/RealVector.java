@@ -102,14 +102,6 @@ public abstract class RealVector {
     public abstract RealVector append(double d);
 
     /**
-     * Construct a new vector by appending a double array to this vector.
-     *
-     * @param a double array to append.
-     * @return a new vector.
-     */
-    public abstract RealVector append(double[] a);
-
-    /**
      * Get a subvector from consecutive elements.
      *
      * @param index index of first element.
@@ -127,20 +119,8 @@ public abstract class RealVector {
      * @param v vector containing the values to set.
      * @throws org.apache.commons.math.exception.OutOfRangeException
      * if the index is not valid.
-     * @see #setSubVector(int, double[])
      */
     public abstract void setSubVector(int index, RealVector v);
-
-    /**
-     * Set a sequence of consecutive elements.
-     *
-     * @param index index of first element to be set.
-     * @param v vector containing the values to set.
-     * @throws org.apache.commons.math.exception.OutOfRangeException
-     * if the index is not valid.
-     * @see #setSubVector(int, RealVector)
-     */
-    public abstract void setSubVector(int index, double[] v);
 
     /**
      * Check whether any coordinate of this vector is {@code NaN}.
@@ -206,30 +186,7 @@ public abstract class RealVector {
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
-    public RealVector add(double[] v) {
-        double[] result = v.clone();
-        Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
-            result[e.getIndex()] += e.getValue();
-        }
-        return new ArrayRealVector(result, false);
-    }
-
-    /**
-     * Compute the sum of this vector and {@code v}.
-     * Returns a new vector. Does not change instance data.
-     *
-     * @param v Vector to be added.
-     * @return {@code this} + {@code v}.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
     public RealVector add(RealVector v) {
-        if (v instanceof ArrayRealVector) {
-            double[] values = ((ArrayRealVector)v).getDataRef();
-            return add(values);
-        }
         RealVector result = v.copy();
         Iterator<Entry> it = sparseIterator();
         Entry e;
@@ -249,37 +206,13 @@ public abstract class RealVector {
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
-    public RealVector subtract(double[] v) {
-        double[] result = v.clone();
-        Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
-            final int index = e.getIndex();
-            result[index] = e.getValue() - result[index];
-        }
-        return new ArrayRealVector(result, false);
-    }
-
-    /**
-     * Subtract {@code v} from this vector.
-     * Returns a new vector. Does not change instance data.
-     *
-     * @param v Vector to be subtracted.
-     * @return {@code this} - {@code v}.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
     public RealVector subtract(RealVector v) {
-        if (v instanceof ArrayRealVector) {
-            double[] values = ((ArrayRealVector)v).getDataRef();
-            return add(values);
-        }
         RealVector result = v.copy();
         Iterator<Entry> it = sparseIterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
             final int index = e.getIndex();
-            v.setEntry(index, e.getValue() - result.getEntry(index));
+            result.setEntry(index, e.getValue() - result.getEntry(index));
         }
         return result;
     }
@@ -315,19 +248,6 @@ public abstract class RealVector {
      * @return a vector copy.
      */
     public abstract RealVector copy();
-
-    /**
-     * Compute the dot product of this vector with a vector built from the
-     * entries in {@code v}.
-     *
-     * @param v vector with which dot product should be computed
-     * @return the scalar dot product between instance and v
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
-    public double dotProduct(double[] v) {
-        return dotProduct(new ArrayRealVector(v, false));
-    }
 
     /**
      * Compute the dot product of this vector with {@code v}.
@@ -367,17 +287,6 @@ public abstract class RealVector {
     }
 
     /**
-     * Computes the cosine of the angle between this vector and the
-     * vector whose components are given as argument.
-     *
-     * @param v Components of a vector.
-     * @return the cosine of the angle between this vector and {@code v}.
-     */
-    public double cosine(double[] v) {
-        return cosine(new ArrayRealVector(v, false));
-    }
-
-    /**
      * Element-by-element division.
      *
      * @param v Vector by which instance elements must be divided.
@@ -388,19 +297,6 @@ public abstract class RealVector {
     public abstract RealVector ebeDivide(RealVector v);
 
     /**
-     * Element-by-element division.
-     * Returns a new vector. Does not change instance data.
-     *
-     * @param v Vector by which instance elements must be divided
-     * @return a vector containing this[i] / v[i] for all i.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
-    public RealVector ebeDivide(double[] v) {
-        return ebeDivide(new ArrayRealVector(v, false));
-    }
-
-    /**
      * Element-by-element multiplication.
      *
      * @param v Vector by which instance elements must be multiplied
@@ -409,19 +305,6 @@ public abstract class RealVector {
      * if {@code v} is not the same size as this vector.
      */
     public abstract RealVector ebeMultiply(RealVector v);
-
-    /**
-     * Element-by-element multiplication.
-     * Returns a new vector. Does not change instance data.
-     *
-     * @param v Vector by which instance elements must be multiplied
-     * @return a vector containing this[i] * v[i] for all i.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
-    public RealVector ebeMultiply(double[] v) {
-        return ebeMultiply(new ArrayRealVector(v, false));
-    }
 
     /**
      * Distance between two vectors.
@@ -447,24 +330,6 @@ public abstract class RealVector {
             d += diff * diff;
         }
         return FastMath.sqrt(d);
-    }
-
-    /**
-     * Distance between two vectors.
-     * <p>This method computes the distance consistent with the
-     * L<sub>2</sub> norm, i.e. the square root of the sum of
-     * element differences, or Euclidian distance.</p>
-     *
-     * @param v Vector to which distance is requested.
-     * @return the distance between two vectors.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     * @see #getL1Distance(double[])
-     * @see #getLInfDistance(double[])
-     * @see #getNorm()
-     */
-    public double getDistance(double[] v) {
-        return getDistance(new ArrayRealVector(v,false));
     }
 
     /**
@@ -538,9 +403,6 @@ public abstract class RealVector {
      * @return the distance between two vectors.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
-     * @see #getDistance(double[])
-     * @see #getLInfDistance(double[])
-     * @see #getL1Norm()
      */
     public double getL1Distance(RealVector v) {
         checkVectorDimensions(v);
@@ -549,31 +411,6 @@ public abstract class RealVector {
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
             d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
-        }
-        return d;
-    }
-
-    /**
-     * Distance between two vectors.
-     * <p>This method computes the distance consistent with
-     * L<sub>1</sub> norm, i.e. the sum of the absolute values of
-     * element differences.</p>
-     *
-     * @param v Vector to which distance is requested.
-     * @return the distance between two vectors.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     * @see #getDistance(double[])
-     * @see #getLInfDistance(double[])
-     * @see #getL1Norm()
-     */
-    public double getL1Distance(double[] v) {
-        checkVectorDimensions(v.length);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
-            d += FastMath.abs(e.getValue() - v[e.getIndex()]);
         }
         return d;
     }
@@ -599,31 +436,6 @@ public abstract class RealVector {
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
             d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
-        }
-        return d;
-    }
-
-    /**
-     * Distance between two vectors.
-     * <p>This method computes the distance consistent with
-     * L<sub>&infin;</sub> norm, i.e. the max of the absolute values of
-     * elements differences.</p>
-     *
-     * @param v Vector to which distance is requested.
-     * @return Distance between two vectors.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     * @see #getDistance(double[])
-     * @see #getL1Distance(double[])
-     * @see #getLInfNorm()
-     */
-    public double getLInfDistance(double[] v) {
-        checkVectorDimensions(v.length);
-        double d = 0;
-        Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
-            d = FastMath.max(FastMath.abs(e.getValue() - v[e.getIndex()]), d);
         }
         return d;
     }
@@ -788,16 +600,6 @@ public abstract class RealVector {
     }
 
     /**
-     * Compute the outer product.
-     *
-     * @param v Vector with which outer product should be computed
-     * @return the matrix outer product between instance and {@code v}.
-     */
-    public RealMatrix outerProduct(double[] v) {
-        return outerProduct(new ArrayRealVector(v, false));
-    }
-
-    /**
      * Find the orthogonal projection of this vector onto another vector.
      *
      * @param v vector onto which instance must be projected.
@@ -806,18 +608,6 @@ public abstract class RealVector {
      * if {@code v} is not the same size as this vector.
      */
     public abstract RealVector projection(RealVector v);
-
-    /**
-     * Find the orthogonal projection of this vector onto another vector.
-     *
-     * @param v Vector onto which instance must be projected.
-     * @return the projection of the instance onto {@code v.}
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
-     */
-    public RealVector projection(double[] v) {
-        return projection(new ArrayRealVector(v, false));
-    }
 
     /**
      * Set all elements to a single value.
@@ -833,11 +623,11 @@ public abstract class RealVector {
     }
 
     /**
-     * Convert the vector to a double array.
-     * <p>The array is independent from vector data, it's elements
-     * are copied.</p>
+     * Convert the vector to an array of {@code double}s.
+     * The array is independent from this vector data: the elements
+     * are copied.
      *
-     * @return an array containing a copy of vector elements.
+     * @return an array containing a copy of the vector elements.
      */
     public double[] toArray() {
         int dim = getDimension();
@@ -849,11 +639,11 @@ public abstract class RealVector {
     }
 
     /**
-     * Returns vector entries as a double array.
-     * <p>The array is independent from vector data, it's elements
-     * are copied.</p>
+     * Convert the vector to an array of {@code double}s.
+     * The array is independent from this vector data: the elements
+     * are copied.
      *
-     * @return a {@code double} array of entries.
+     * @return an array containing a copy of the vector elements.
      */
     public double[] getData() {
         return toArray();
@@ -973,24 +763,6 @@ public abstract class RealVector {
     }
 
     /**
-     * Returns a new vector representing {@code a*this + b*y}, the linear
-     * combination of {@code this} and a vector with components equal to the
-     * entries in {@code y}.
-     * Returns a new vector. Does not change instance data.
-     *
-     * @param a Coefficient of {@code this}.
-     * @param b Coefficient of {@code y}.
-     * @param y Vector with which {@code this} is linearly combined.
-     * @return a vector containing {@code a * this[i] + b * y[i]} for all
-     * {@code i}.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code y} is not the same size as this vector.
-     */
-    public RealVector combine(double a, double b, double[] y) {
-        return copy().combineToSelf(a, b, y);
-    }
-
-    /**
      * Returns a new vector representing {@code a * this + b * y}, the linear
      * combination of {@code this} and {@code y}.
      * Returns a new vector. Does not change instance data.
@@ -1005,22 +777,6 @@ public abstract class RealVector {
      */
     public RealVector combine(double a, double b, RealVector y) {
         return copy().combineToSelf(a, b, y);
-    }
-
-    /**
-     * Updates {@code this} with the linear combination of {@code this} and
-     * a vector with components equal to the entries of {@code y}.
-     *
-     * @param a Coefficient of {@code this}.
-     * @param b Coefficient of {@code y}.
-     * @param y Vector with which {@code this} is linearly combined.
-     * @return {@code this}, with components equal to
-     * {@code a * this[i] + b * y[i]} for all {@code i}.
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if {@code y} is not the same size as this vector.
-     */
-    public RealVector combineToSelf(double a, double b, double[] y) {
-        return combineToSelf(a, b, new ArrayRealVector(y, false));
     }
 
     /**
@@ -1195,6 +951,12 @@ public abstract class RealVector {
         return new RealVector() {
             /** {@inheritDoc} */
             @Override
+            public double[] getData() {
+                return v.getData();
+            }
+
+            /** {@inheritDoc} */
+            @Override
             public RealVector mapToSelf(UnivariateRealFunction function) {
                 throw new MathUnsupportedOperationException();
             }
@@ -1272,19 +1034,7 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector add(double[] w) {
-                return v.add(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public RealVector subtract(RealVector w) {
-                return v.subtract(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector subtract(double[] w) {
                 return v.subtract(w);
             }
 
@@ -1344,29 +1094,8 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector ebeMultiply(double[] w) {
-                return v.ebeMultiply(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public RealVector ebeDivide(RealVector w) {
                 return v.ebeDivide(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector ebeDivide(double[] w) {
-                return v.ebeDivide(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double[] getData() {
-                // TODO It is not specified in the javadoc that getData should
-                // return a
-                // deep copy
-                return v.getData();
             }
 
             /** {@inheritDoc} */
@@ -1377,19 +1106,7 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public double dotProduct(double[] w) {
-                return v.dotProduct(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public double cosine(RealVector w) {
-                return v.cosine(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double cosine(double[] w) {
                 return v.cosine(w);
             }
 
@@ -1419,31 +1136,13 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public double getDistance(double[] w) {
-                return v.getDistance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public double getL1Distance(RealVector w) {
                 return v.getL1Distance(w);
             }
 
             /** {@inheritDoc} */
             @Override
-            public double getL1Distance(double[] w) {
-                return v.getL1Distance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public double getLInfDistance(RealVector w) {
-                return v.getLInfDistance(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public double getLInfDistance(double[] w) {
                 return v.getLInfDistance(w);
             }
 
@@ -1467,19 +1166,7 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector projection(double[] w) {
-                return v.projection(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public RealMatrix outerProduct(RealVector w) {
-                return v.outerProduct(w);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealMatrix outerProduct(double[] w) {
                 return v.outerProduct(w);
             }
 
@@ -1515,12 +1202,6 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector append(double[] a) {
-                return v.append(a);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public RealVector getSubVector(int index, int n) {
                 return v.getSubVector(index, n);
             }
@@ -1528,12 +1209,6 @@ public abstract class RealVector {
             /** {@inheritDoc} */
             @Override
             public void setSubVector(int index, RealVector w) {
-                throw new MathUnsupportedOperationException();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public void setSubVector(int index, double[] w) {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1563,20 +1238,8 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector combine(double a, double b, double[] y) {
-                return v.combine(a, b, y);
-            }
-
-            /** {@inheritDoc} */
-            @Override
             public RealVector combine(double a, double b, RealVector y) {
                 return v.combine(a, b, y);
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector combineToSelf(double a, double b, double[] y) {
-                throw new MathUnsupportedOperationException();
             }
 
             /** {@inheritDoc} */

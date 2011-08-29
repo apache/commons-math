@@ -486,10 +486,6 @@ public class ArrayRealVectorTest {
         Assert.assertEquals("testData len", 4, v_append_2.getDimension());
         Assert.assertEquals("testData is 2.0 ", 2.0, v_append_2.getEntry(3), 0);
 
-        RealVector v_append_3 = v1.append(vec2);
-        Assert.assertEquals("testData len", 6, v_append_3.getDimension());
-        Assert.assertEquals("testData is  ", 4.0, v_append_3.getEntry(3), 0);
-
         RealVector v_append_4 = v1.append(v2_t);
         Assert.assertEquals("testData len", 6, v_append_4.getDimension());
         Assert.assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3), 0);
@@ -527,17 +523,6 @@ public class ArrayRealVectorTest {
         Assert.assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1), 0);
         try {
             v_set1.setEntry(3, 11.0);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        ArrayRealVector v_set2 = v4.copy();
-        v_set2.set(3, v1);
-        Assert.assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6), 0);
-        try {
-            v_set2.set(7, v1);
             Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
@@ -1039,18 +1024,13 @@ public class ArrayRealVectorTest {
             // expected behavior
         }
 
-        ArrayRealVector v_projection = v1.projection(v2);
+        RealVector v_projection = v1.projection(v2);
         double[] result_projection = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection.getData(), result_projection, normTolerance);
 
         RealVector v_projection_2 = v1.projection(v2_t);
         double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection_2.getData(), result_projection_2, normTolerance);
-
-        RealVector v_projection_3 = v1.projection(v2.getData());
-        double[] result_projection_3 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
-        assertClose("compare vect", v_projection_3.getData(), result_projection_3, normTolerance);
-
     }
 
     @Test
@@ -1169,22 +1149,18 @@ public class ArrayRealVectorTest {
 
         double[] wData = new double[] {1, 1, 0};
         RealVector w = new ArrayRealVector(wData);
-        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(wData), normTolerance);
         Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(w), normTolerance);
 
         wData = new double[] {1, 0, 0};
         w = new ArrayRealVector(wData);
-        Assert.assertEquals(1, v.cosine(wData), normTolerance);
         Assert.assertEquals(1, v.cosine(w), normTolerance);
 
         wData = new double[] {0, 1, 0};
         w = new ArrayRealVector(wData);
-        Assert.assertEquals(0, v.cosine(wData), normTolerance);
         Assert.assertEquals(0, v.cosine(w), 0);
 
         wData = new double[] {-1, 0, 0};
         w = new ArrayRealVector(wData);
-        Assert.assertEquals(-1, v.cosine(wData), normTolerance);
         Assert.assertEquals(-1, v.cosine(w), normTolerance);
     }
 
@@ -1228,7 +1204,7 @@ public class ArrayRealVectorTest {
         final double a = 1d;
         final double b = 2d;
         double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = new ArrayRealVector(aux, false);
+        final ArrayRealVector x = new ArrayRealVector(aux, false);
         final double[] y = new double[] { 6d, 7d };
         x.combine(a, b, y);
     }
@@ -1239,7 +1215,7 @@ public class ArrayRealVectorTest {
         final int dim = 10;
         final double a = (2 * random.nextDouble() - 1);
         final double b = (2 * random.nextDouble() - 1);
-        final RealVector x = new ArrayRealVector(dim);
+        final ArrayRealVector x = new ArrayRealVector(dim);
         final double[] y = new double[dim];
         final double[] expected = new double[dim];
         for (int i = 0; i < dim; i++) {
@@ -1353,7 +1329,7 @@ public class ArrayRealVectorTest {
         final double a = 1d;
         final double b = 2d;
         double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = new ArrayRealVector(aux, false);
+        final ArrayRealVector x = new ArrayRealVector(aux, false);
         final double[] y = new double[] { 6d, 7d };
         x.combineToSelf(a, b, y);
     }
@@ -1364,7 +1340,7 @@ public class ArrayRealVectorTest {
         final int dim = 10;
         final double a = (2 * random.nextDouble() - 1);
         final double b = (2 * random.nextDouble() - 1);
-        final RealVector x = new ArrayRealVector(dim);
+        final ArrayRealVector x = new ArrayRealVector(dim);
         final double[] y = new double[dim];
         final double[] expected = new double[dim];
         for (int i = 0; i < dim; i++) {

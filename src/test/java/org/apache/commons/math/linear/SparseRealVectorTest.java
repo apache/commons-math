@@ -115,18 +115,9 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
-        @Override
-        public RealVector add(double[] v) {
-            throw unsupported();
-        }
 
         @Override
         public RealVector subtract(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector subtract(double[] v) {
             throw unsupported();
         }
 
@@ -178,17 +169,7 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
-        @Override
-        public RealVector ebeMultiply(double[] v) {
-            throw unsupported();
-        }
-
         public RealVector ebeDivide(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector ebeDivide(double[] v) {
             throw unsupported();
         }
 
@@ -202,15 +183,6 @@ public class SparseRealVectorTest {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
                 dot += data[i] * v.getEntry(i);
-            }
-            return dot;
-        }
-
-        @Override
-        public double dotProduct(double[] v) {
-            double dot = 0;
-            for (int i = 0; i < data.length; i++) {
-                dot += data[i] * v[i];
             }
             return dot;
         }
@@ -236,27 +208,12 @@ public class SparseRealVectorTest {
         }
 
         @Override
-        public double getDistance(double[] v) {
-            throw unsupported();
-        }
-
-        @Override
         public double getL1Distance(RealVector v) {
             throw unsupported();
         }
 
         @Override
-        public double getL1Distance(double[] v) {
-            throw unsupported();
-        }
-
-        @Override
         public double getLInfDistance(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double getLInfDistance(double[] v) {
             throw unsupported();
         }
 
@@ -275,17 +232,7 @@ public class SparseRealVectorTest {
         }
 
         @Override
-        public RealVector projection(double[] v) {
-            throw unsupported();
-        }
-
-        @Override
         public RealMatrix outerProduct(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealMatrix outerProduct(double[] v) {
             throw unsupported();
         }
 
@@ -305,10 +252,6 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
-        public RealVector append(double[] a) {
-            throw unsupported();
-        }
-
         public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
@@ -319,11 +262,6 @@ public class SparseRealVectorTest {
 
         @Override
         public void setSubVector(int index, RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public void setSubVector(int index, double[] v) {
             throw unsupported();
         }
 
@@ -410,10 +348,6 @@ public class SparseRealVectorTest {
         RealVector v_append_2 = v1.append(2.0);
         Assert.assertEquals("testData len", 4, v_append_2.getDimension());
         Assert.assertEquals("testData is 2.0 ", 2.0, v_append_2.getEntry(3), 0);
-
-        RealVector v_append_3 = v1.append(vec2);
-        Assert.assertEquals("testData len", 6, v_append_3.getDimension());
-        Assert.assertEquals("testData is  ", 4.0, v_append_3.getEntry(3), 0);
 
         RealVector v_append_4 = v1.append(v2_t);
         Assert.assertEquals("testData len", 6, v_append_4.getDimension());
@@ -990,7 +924,7 @@ public class SparseRealVectorTest {
 
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
-            double tolerance) {
+                               double tolerance) {
         if (m.length != n.length) {
             Assert.fail("vectors have different lengths");
         }
@@ -1008,20 +942,13 @@ public class SparseRealVectorTest {
         u.setEntry(2, 2);
 
         final RealVector v1 = new OpenMapRealVector(3, 1e-6);
-        final double[] v2 = new double[3];
         v1.setEntry(0, 0);
-        v2[0] = 0;
         v1.setEntry(1, 3);
-        v2[1] = 3;
         v1.setEntry(2, 0);
-        v2[2] = 0;
 
         RealVector w;
 
         w = u.ebeMultiply(v1);
-        w = u.ebeMultiply(v2);
-
         w = u.ebeDivide(v1);
-        w = u.ebeDivide(v2);
     }
 }
