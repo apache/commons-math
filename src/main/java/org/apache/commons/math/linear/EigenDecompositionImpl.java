@@ -291,10 +291,11 @@ public class EigenDecompositionImpl implements EigenDecomposition {
             }
 
             final double[] bp = new double[m];
+            final ArrayRealVector bVector = new ArrayRealVector(b, false);
             for (int i = 0; i < m; ++i) {
                 final ArrayRealVector v = eigenvectors[i];
                 final double[] vData = v.getDataRef();
-                final double s = v.dotProduct(b) / realEigenvalues[i];
+                final double s = v.dotProduct(bVector) / realEigenvalues[i];
                 for (int j = 0; j < m; ++j) {
                     bp[j] += s * vData[j];
                 }
