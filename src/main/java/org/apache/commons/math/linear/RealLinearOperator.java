@@ -69,7 +69,7 @@ public abstract class RealLinearOperator {
      * @param x Vector to operate on.
      * @return the product of {@code this} instance with {@code x}.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
-     *         if {@code getColumnDimension() != v.getDimension()}
+     * if the column dimension does not match the size of {@code x}.
      */
     public abstract RealVector operate(final RealVector x);
 }
