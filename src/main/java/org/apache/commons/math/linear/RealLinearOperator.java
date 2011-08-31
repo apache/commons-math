@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.DimensionMismatchException;
-
 /**
  * This class defines a linear operator operating on real ({@code double})
  * vector spaces.
@@ -70,24 +68,8 @@ public abstract class RealLinearOperator {
      *
      * @param x Vector to operate on.
      * @return the product of {@code this} instance with {@code x}.
-     */
-    public double[] operate(final double[] x) {
-        if (x.length != getColumnDimension()) {
-            throw new DimensionMismatchException(x.length, getColumnDimension());
-        }
-        final RealVector y = operate(new ArrayRealVector(x, false));
-        if (y instanceof ArrayRealVector) {
-            return ((ArrayRealVector) y).getDataRef();
-        } else {
-            return y.getData();
-        }
-    }
-
-    /**
-     * Returns the result of multiplying {@code this} by the vector {@code x}.
-     *
-     * @param x Vector to operate on.
-     * @return the product of {@code this} instance with {@code x}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     *         if {@code getColumnDimension() != v.getDimension()}
      */
     public abstract RealVector operate(final RealVector x);
 }

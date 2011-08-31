@@ -625,7 +625,6 @@ public abstract class AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    @Override
     public double[] operate(final double[] v) {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
