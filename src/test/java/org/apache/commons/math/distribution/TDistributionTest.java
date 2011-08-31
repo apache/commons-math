@@ -19,7 +19,8 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
 import org.junit.Test;
-
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.TestUtils;
 /**
  * Test cases for TDistribution.
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
@@ -134,5 +135,33 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         dist = new TDistributionImpl(5);
         Assert.assertEquals(dist.getNumericalMean(), 0, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);        
+    }
+
+    /*
+     * Adding this test to benchmark against tables published by NIST
+     * http://itl.nist.gov/div898/handbook/eda/section3/eda3672.htm
+     * Have chosen tabulated results for degrees of freedom 2,10,30,100
+     * Have chosen problevels from 0.10 to 0.001
+     */
+    @Test
+    public void nistData() throws MathException{
+        double[] prob = new double[]{ 0.10,0.05,0.025,0.01,0.005,0.001};
+        double[] args2 = new double[]{1.886,2.920,4.303,6.965,9.925,22.327};
+        double[] args10 = new double[]{1.372,1.812,2.228,2.764,3.169,4.143};
+        double[] args30 = new double[]{1.310,1.697,2.042,2.457,2.750,3.385};
+        double[] args100= new double[]{1.290,1.660,1.984,2.364,2.626,3.174};
+        TestUtils.assertEquals(prob, makeNistResults(args2, 2), 1.0e-4);
+        TestUtils.assertEquals(prob, makeNistResults(args10, 10), 1.0e-4);
+        TestUtils.assertEquals(prob, makeNistResults(args30, 30), 1.0e-4);
+        TestUtils.assertEquals(prob, makeNistResults(args100, 100), 1.0e-4);
+        return;
+    }
+    private double[] makeNistResults(double[] args, int df) throws MathException{
+        TDistribution td =  new TDistributionImpl(df);
+        double[] res  = new double[ args.length ];
+        for( int i = 0 ; i < res.length ; i++){
+            res[i] = 1.0 - td.cumulativeProbability(args[i]);
+        }
+        return res;
     }
 }
