@@ -64,6 +64,9 @@ import org.apache.commons.math.util.MathUtils;
  */
 public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistribution {
 
+    /** Default bin count */
+    public static final int DEFAULT_BIN_COUNT = 1000;
+
     /** Serializable version identifier */
     private static final long serialVersionUID = 5729073523949762654L;
 
@@ -91,14 +94,14 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
 
-    /** RandomData instance to use in repeated calls to getNext() */
+    /** RandomDataImpl instance to use in repeated calls to getNext() */
     private final RandomDataImpl randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistributionImpl() {
-        this(1000, null);
+        this(DEFAULT_BIN_COUNT, new RandomDataImpl());
     }
 
     /**
@@ -107,7 +110,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @param binCount number of bins
      */
     public EmpiricalDistributionImpl(int binCount) {
-        this(binCount, null);
+        this(binCount, new RandomDataImpl());
     }
 
     /**
@@ -122,6 +125,42 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
         this.binCount = binCount;
         randomData = new RandomDataImpl(generator);
         binStats = new ArrayList<SummaryStatistics>();
+    }
+
+    /**
+     * Creates a new EmpiricalDistribution with default bin count using the
+     * provided {@link RandomGenerator} as the source of random data.
+     *
+     * @param generator random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistributionImpl(RandomGenerator generator) {
+        this(DEFAULT_BIN_COUNT, generator);
+    }
+
+    /**
+     * Creates a new EmpiricalDistribution with the specified bin count using the
+     * provided {@link RandomDataImpl} instance as the source of random data.
+     *
+     * @param binCount number of bins
+     * @param randomData random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistributionImpl(int binCount, RandomDataImpl randomData) {
+        this.binCount = binCount;
+        this.randomData = randomData;
+        binStats = new ArrayList<SummaryStatistics>();
+    }
+
+    /**
+     * Creates a new EmpiricalDistribution with default bin count using the
+     * provided {@link RandomDataImpl} as the source of random data.
+     *
+     * @param randomData random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistributionImpl(RandomDataImpl randomData) {
+        this(DEFAULT_BIN_COUNT, randomData);
     }
 
      /**

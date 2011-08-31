@@ -85,7 +85,7 @@ public class ValueServer {
     private BufferedReader filePointer = null;
 
     /** RandomDataImpl to use for random data generation. */
-    private final RandomData randomData;
+    private final RandomDataImpl randomData;
 
     // Data generation modes ======================================
 
@@ -95,13 +95,13 @@ public class ValueServer {
     }
 
     /**
-     * Construct a ValueServer instance using a RandomData as its source
+     * Construct a ValueServer instance using a RandomDataImpl as its source
      * of random data.
      *
-     * @param randomData the RandomData instance used to source random data
-     * @since 1.1
+     * @param randomData the RandomDataImpl instance used to source random data
+     * @since 3.0
      */
-    public ValueServer(RandomData randomData) {
+    public ValueServer(RandomDataImpl randomData) {
         this.randomData = randomData;
     }
 
@@ -170,8 +170,7 @@ public class ValueServer {
      * @throws IOException if an I/O error occurs reading the input file
      */
     public void computeDistribution() throws IOException {
-        empiricalDistribution = new EmpiricalDistributionImpl();
-        empiricalDistribution.load(valuesFileURL);
+        computeDistribution(EmpiricalDistributionImpl.DEFAULT_BIN_COUNT);
     }
 
     /**
@@ -190,7 +189,7 @@ public class ValueServer {
      */
     public void computeDistribution(int binCount)
             throws IOException {
-        empiricalDistribution = new EmpiricalDistributionImpl(binCount);
+        empiricalDistribution = new EmpiricalDistributionImpl(binCount, randomData);
         empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
@@ -297,6 +296,16 @@ public class ValueServer {
      */
     public void setSigma(double sigma) {
         this.sigma = sigma;
+    }
+
+    /**
+     * Reseeds the random data generator.
+     *
+     * @param seed Value with which to reseed the {@link RandomDataImpl}
+     * used to generate random data.
+     */
+    public void reSeed(long seed) {
+        randomData.reSeed(seed);
     }
 
     //------------- private methods ---------------------------------

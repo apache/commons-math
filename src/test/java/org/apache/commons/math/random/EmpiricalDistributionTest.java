@@ -224,7 +224,7 @@ public final class EmpiricalDistributionTest {
         }
         
         // Verify no NPE with null generator argument
-        dist = new EmpiricalDistributionImpl(5, null);
+        dist = new EmpiricalDistributionImpl(5, (RandomGenerator) null);
         dist.load(testData);
         dist.getNextValue();
     }

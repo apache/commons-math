@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-654">
+        Enabled reseeding of the random generators used by EmpiricalDistributionImpl
+        and ValueServer.  Modified ValueServer to pass its RandomData instance to
+        the EmpiricalDistributionImpl that it creates when used in DIGEST_MODE, so
+        reseeding ValueServer works as expected.
+      </action>
       <action dev="erans" type="fix" issue="MATH-653">
          Renamed "AbstractRealVector" to "RealVector". The interface was removed
          in favour of its unique (abstract) implementation.

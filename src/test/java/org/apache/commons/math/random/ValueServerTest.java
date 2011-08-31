@@ -18,6 +18,7 @@ package org.apache.commons.math.random;
 
 import java.io.EOFException;
 import java.net.URL;
+import java.util.Arrays;
 
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -50,7 +51,7 @@ public final class ValueServerTest {
       * these tests will fail even if the code is working as designed.
       */
     @Test
-    public void testNextDigest() throws Exception{
+    public void testNextDigest() throws Exception {
         double next = 0.0;
         double tolerance = 0.1;
         vs.computeDistribution();
@@ -74,7 +75,40 @@ public final class ValueServerTest {
         Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(),
             tolerance);
-
+    }
+    
+    /**
+     * Verify that when provided with fixed seeds, stochastic modes
+     * generate fixed sequences.  Verifies the fix for MATH-654.
+     */
+    @Test 
+    public void testFixedSeed() throws Exception {
+        ValueServer valueServer = new ValueServer();
+        URL url = getClass().getResource("testData.txt");
+        valueServer.setValuesFileURL(url);
+        valueServer.computeDistribution();
+        checkFixedSeed(valueServer, ValueServer.DIGEST_MODE);
+        checkFixedSeed(valueServer, ValueServer.EXPONENTIAL_MODE);
+        checkFixedSeed(valueServer, ValueServer.GAUSSIAN_MODE);
+        checkFixedSeed(valueServer, ValueServer.UNIFORM_MODE);
+    }
+    
+    /**
+     * Do the check for {@link #testFixedSeed()}
+     * @param mode ValueServer mode
+     */
+    private void checkFixedSeed(ValueServer valueServer, int mode) throws Exception {
+        valueServer.reSeed(1000);
+        valueServer.setMode(mode);
+        double[][] values = new double[2][100];
+        for (int i = 0; i < 100; i++) {
+            values[0][i] = valueServer.getNext();
+        }
+        valueServer.reSeed(1000);
+        for (int i = 0; i < 100; i++) {
+            values[1][i] = valueServer.getNext();
+        }
+        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
     }
 
     /**
