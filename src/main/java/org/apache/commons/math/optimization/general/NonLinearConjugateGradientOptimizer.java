@@ -24,6 +24,8 @@ import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -43,47 +45,82 @@ public class NonLinearConjugateGradientOptimizer
     /** Update formula for the beta parameter. */
     private final ConjugateGradientFormula updateFormula;
     /** Preconditioner (may be null). */
-    private Preconditioner preconditioner;
+    private final Preconditioner preconditioner;
     /** solver to use in the line search (may be null). */
-    private UnivariateRealSolver solver;
+    private final UnivariateRealSolver solver;
     /** Initial step used to bracket the optimum in line search. */
     private double initialStep;
     /** Current point. */
     private double[] point;
 
     /**
-     * Simple constructor with default settings.
-     * The convergence check is set to a {@link
-     * org.apache.commons.math.optimization.SimpleVectorialValueChecker}.
+     * Constructor with default {@link SimpleScalarValueChecker checker},
+     * {@link BrentSolver line search solver} and
+     * {@link IdentityPreconditioner preconditioner}.
      *
      * @param updateFormula formula to use for updating the &beta; parameter,
      * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
-     * ConjugateGradientFormula#POLAK_RIBIERE}
+     * ConjugateGradientFormula#POLAK_RIBIERE}.
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula) {
+        this(updateFormula,
+             new SimpleScalarValueChecker());
+    }
+
+    /**
+     * Constructor with default {@link BrentSolver line search solver} and
+     * {@link IdentityPreconditioner preconditioner}.
+     *
+     * @param updateFormula formula to use for updating the &beta; parameter,
+     * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
+     * ConjugateGradientFormula#POLAK_RIBIERE}.
+     * @param checker Convergence checker.
+     */
+    public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
+                                               ConvergenceChecker<RealPointValuePair> checker) {
+        this(updateFormula,
+             checker,
+             new BrentSolver(),
+             new IdentityPreconditioner());
+    }
+
+
+    /**
+     * Constructor with default {@link IdentityPreconditioner preconditioner}.
+     *
+     * @param updateFormula formula to use for updating the &beta; parameter,
+     * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
+     * ConjugateGradientFormula#POLAK_RIBIERE}.
+     * @param checker Convergence checker.
+     * @param lineSearchSolver Solver to use during line search.
+     */
+    public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
+                                               ConvergenceChecker<RealPointValuePair> checker,
+                                               final UnivariateRealSolver lineSearchSolver) {
+        this(updateFormula,
+             checker,
+             lineSearchSolver,
+             new IdentityPreconditioner());
+    }
+
+    /**
+     * @param updateFormula formula to use for updating the &beta; parameter,
+     * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
+     * ConjugateGradientFormula#POLAK_RIBIERE}.
+     * @param checker Convergence checker.
+     * @param lineSearchSolver Solver to use during line search.
+     * @param preconditioner Preconditioner.
+     */
+    public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
+                                               ConvergenceChecker<RealPointValuePair> checker,
+                                               final UnivariateRealSolver lineSearchSolver,
+                                               final Preconditioner preconditioner) {
+        super(checker);
+
         this.updateFormula = updateFormula;
-        preconditioner     = null;
-        solver             = null;
-        initialStep        = 1.0;
-    }
-
-    /**
-     * Set the preconditioner.
-     * @param preconditioner preconditioner to use for next optimization,
-     * may be null to remove an already registered preconditioner
-     */
-    public void setPreconditioner(final Preconditioner preconditioner) {
-        this.preconditioner = preconditioner;
-    }
-
-    /**
-     * Set the solver to use during line search.
-     * @param lineSearchSolver solver to use during line search, may be null
-     * to remove an already registered solver and fall back to the
-     * default {@link BrentSolver Brent solver}.
-     */
-    public void setLineSearchSolver(final UnivariateRealSolver lineSearchSolver) {
         solver = lineSearchSolver;
+        this.preconditioner = preconditioner;
+        initialStep = 1.0;
     }
 
     /**
@@ -107,13 +144,7 @@ public class NonLinearConjugateGradientOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize() {
-        // Initialization.
-        if (preconditioner == null) {
-            preconditioner = new IdentityPreconditioner();
-        }
-        if (solver == null) {
-            solver = new BrentSolver();
-        }
+        final ConvergenceChecker checker = getConvergenceChecker();
         point = getStartPoint();
         final GoalType goal = getGoalType();
         final int n = point.length;
@@ -143,7 +174,7 @@ public class NonLinearConjugateGradientOptimizer
             RealPointValuePair previous = current;
             current = new RealPointValuePair(point, objective);
             if (previous != null) {
-                if (getConvergenceChecker().converged(iter, previous, current)) {
+                if (checker.converged(iter, previous, current)) {
                     // We have found an optimum.
                     return current;
                 }
@@ -230,7 +261,7 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /** Default identity preconditioner. */
-    private static class IdentityPreconditioner implements Preconditioner {
+    public static class IdentityPreconditioner implements Preconditioner {
 
         /** {@inheritDoc} */
         public double[] precondition(double[] variables, double[] r) {
