@@ -195,30 +195,39 @@ public class ValueServer {
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
     }
 
-    /** Getter for property mode.
+    /**
+     * Returns the data generation mode. See {@link ValueServer the class javadoc}
+     * for description of the valid values of this property.
+     *
      * @return Value of property mode.
      */
     public int getMode() {
         return mode;
     }
 
-    /** Setter for property mode.
-     * @param mode New value of property mode.
+    /**
+     * Sets the data generation mode.
+     *
+     * @param mode New value of the data generation mode.
      */
     public void setMode(int mode) {
         this.mode = mode;
     }
 
     /**
-     * Getter for <code>valuesFileURL<code>
-     * @return Value of property valuesFileURL.
+     * Returns the URL for the file used to build the empirical distribution
+     * when using {@link #DIGEST_MODE}.
+     *
+     * @return Values file URL.
      */
     public URL getValuesFileURL() {
         return valuesFileURL;
     }
 
     /**
-     * Sets the <code>valuesFileURL</code> using a string URL representation
+     * Sets the {@link #getValuesFileURL() values file URL} using a string
+     * URL representation.
+     *
      * @param url String representation for new valuesFileURL.
      * @throws MalformedURLException if url is not well formed
      */
@@ -227,15 +236,18 @@ public class ValueServer {
     }
 
     /**
-     * Sets the <code>valuesFileURL</code>
-     * @param url New value of property valuesFileURL.
+     * Sets the the {@link #getValuesFileURL() values file URL}.
+     *
+     * @param url URL of the values file.
      */
     public void setValuesFileURL(URL url) {
         this.valuesFileURL = url;
     }
 
-    /** Getter for property empiricalDistribution.
-     * @return Value of property empiricalDistribution.
+    /**
+     * Returns the {@link EmpiricalDistribution} used when operating in {@value #DIGEST_MODE}.
+     *
+     * @return EmpircalDistribution built by {@link #computeDistribution()}
      */
     public EmpiricalDistribution getEmpiricalDistribution() {
         return empiricalDistribution;
@@ -259,7 +271,7 @@ public class ValueServer {
     }
 
     /**
-     * Closes <code>valuesFileURL</code> after use in REPLAY_MODE.
+     * Closes {@code valuesFileURL} after use in REPLAY_MODE.
      *
      * @throws IOException if an error occurs closing the file
      */
@@ -270,29 +282,46 @@ public class ValueServer {
         }
     }
 
-    /** Getter for property mu.
-     * @return Value of property mu.
+    /**
+     * Returns the mean used when operating in {@link #GAUSSIAN_MODE}, {@link #EXPONENTIAL_MODE}
+     * or {@link #UNIFORM_MODE}.  When operating in {@link #CONSTANT_MODE}, this is the constant
+     * value always returned.  Calling {@link #computeDistribution()} sets this value to the
+     * overall mean of the values in the {@link #getValuesFileURL() values file}.
+     *
+     * @return Mean used in data generation.
      */
     public double getMu() {
         return mu;
     }
 
-    /** Setter for property mu.
-     * @param mu New value of property mu.
+    /**
+     * Sets the {@link #getMu() mean} used in data generation.  Note that calling this method
+     * after {@link #computeDistribution()} has been called will have no effect on data
+     * generated in {@link #DIGEST_MODE}.
+     *
+     * @param mu new Mean value.
      */
     public void setMu(double mu) {
         this.mu = mu;
     }
 
-    /** Getter for property sigma.
-     * @return Value of property sigma.
+    /**
+     * Returns the standard deviation used when operating in {@link #GAUSSIAN_MODE}.
+     * Calling {@link #computeDistribution()} sets this value to the overall standard
+     * deviation of the values in the {@link #getValuesFileURL() values file}.  This
+     * property has no effect when the data generation mode is not
+     * {@link #GAUSSIAN_MODE}.
+     *
+     * @return Standard deviation used when operating in {@link #GAUSSIAN_MODE}.
      */
     public double getSigma() {
         return sigma;
     }
 
-    /** Setter for property sigma.
-     * @param sigma New value of property sigma.
+    /**
+     * Sets the {@link #getSigma() standard deviation} used in {@link #GAUSSIAN_MODE}.
+     *
+     * @param sigma New standard deviation.
      */
     public void setSigma(double sigma) {
         this.sigma = sigma;
