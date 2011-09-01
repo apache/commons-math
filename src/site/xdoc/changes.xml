@@ -60,7 +60,8 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="erans" type="fix" issue="MATH-653">
          Renamed "AbstractRealVector" to "RealVector". The interface was removed
-         in favour of its unique (abstract) implementation.
+         in favour of its unique (abstract) implementation.  Also removed several
+         methods with double[] arguments from AbstractRealVector.
       </action>
       <action dev="erans" type="add" issue="MATH-646" due-to="Sébastien Brisard">
          Unmodifiable view of a "RealVector".
@@ -81,6 +82,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="psteitz" type="update" issue="MATH-506">
          Eliminated pluggability of ChiSquaredDistribution used by ChiSquaredDistributionTest.
+      </action>
+      <action dev="psteitz" type="update" issue="MATH-634">
+         Made RandomGenerator configurable and reseedable in EmpiricalDistributionImpl.
       </action>
       <action dev="luc" type="add" issue="MATH-593">
          Added a 3D SubLine class.
