@@ -195,4 +195,22 @@ public class ErfTest {
             TestUtils.assertRelativelyEquals(ref[i][1], result, 1E-13);
         }
     }
+    
+    /**
+     * Test the implementation of Erf.erf(double, double) for consistency with results
+     * obtained from Erf.erf(double) and Erf.erfc(double).
+     */
+    @Test
+    public void testTwoArgumentErf() throws Exception {
+        double[] xi = new double[]{-2.0, -1.0, -0.9, -0.1, 0.0, 0.1, 0.9, 1.0, 2.0};
+        for(double x1 : xi) {
+            for(double x2 : xi) {
+                double a = Erf.erf(x1, x2);
+                double b = Erf.erf(x2) - Erf.erf(x1);
+                double c = Erf.erfc(x1) - Erf.erfc(x2);
+                Assert.assertEquals(a, b, 1E-15);
+                Assert.assertEquals(a, c, 1E-15);
+            }
+        }
+    }
 }

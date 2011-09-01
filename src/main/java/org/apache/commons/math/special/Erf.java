@@ -25,6 +25,19 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  */
 public class Erf {
+
+    /**
+     * The number {@code X_CRIT} is used by {@link #erf(double, double)} internally.
+     * This number solves {@code erf(x)=0.5} within 1ulp.
+     * More precisely, the current implementations of
+     * {@link #erf(double)} and {@link #erfc(double)} satisfy:<br/>
+     * {@code erf(X_CRIT) < 0.5},<br/>
+     * {@code erf(Math.nextUp(X_CRIT) > 0.5},<br/>
+     * {@code erfc(X_CRIT) = 0.5}, and<br/>
+     * {@code erfc(Math.nextUp(X_CRIT) < 0.5}
+     */
+    private static final double X_CRIT = 0.4769362762044697;
+
     /**
      * Default constructor.  Prohibit instantiation.
      */
@@ -54,11 +67,8 @@ public class Erf {
         if (FastMath.abs(x) > 40) {
             return x > 0 ? 1 : -1;
         }
-        double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
-        if (x < 0) {
-            ret = -ret;
-        }
-        return ret;
+        final double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+        return x < 0 ? -ret : ret;
     }
 
     /**
@@ -90,6 +100,31 @@ public class Erf {
         }
         final double ret = Gamma.regularizedGammaQ(0.5, x * x, 1.0e-15, 10000);
         return x < 0 ? 2 - ret : ret;
+    }
+
+    /**
+     * Returns the difference between erf(x1) and erf(x2).
+     *
+     * The implementation uses either erf(double) or erfc(double)
+     * depending on which provides the most precise result.
+     *
+     * @param x1 the first value
+     * @param x2 the second value
+     * @return erf(x2) - erf(x1)
+     */
+    public static double erf(double x1, double x2) {
+        if(x1 > x2) {
+            return -erf(x2, x1);
+        }
+
+        return
+        x1 < -X_CRIT ?
+            x2 < 0.0 ?
+                erfc(-x2) - erfc(-x1) :
+                erf(x2) - erf(x1) :
+            x2 > X_CRIT && x1 > 0.0 ?
+                erfc(x1) - erfc(x2) :
+                erf(x2) - erf(x1);
     }
 }
 

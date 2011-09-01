@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Erf;
 import org.apache.commons.math.util.FastMath;
@@ -40,8 +41,10 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
-    /** &sqrt;(2 &pi;) */
+    /** &radic;(2 &pi;) */
     private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
+    /** &radic;(2) */
+    private static final double SQRT2 = FastMath.sqrt(2.0);
     /** Mean of this distribution. */
     private final double mean;
     /** Standard deviation of this distribution. */
@@ -125,7 +128,22 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
         if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
         }
-        return 0.5 * (1 + Erf.erf(dev / (standardDeviation * FastMath.sqrt(2))));
+        return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double cumulativeProbability(double x0, double x1) throws MathException {
+        if (x0 > x1) {
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
+                                                x0, x1, true);
+        }
+        final double denom = standardDeviation * SQRT2;
+        final double v0 = (x0 - mean) / denom;
+        final double v1 = (x1 - mean) / denom;
+        return 0.5 * Erf.erf(v0, v1);
     }
 
     /**
