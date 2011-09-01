@@ -26,62 +26,67 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.LeastSquaresConverter;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class SimplexOptimizerNelderMeadTest {
     @Test
-    public void testMinimizeMaximize() {
-
-        // the following function has 4 local extrema:
-        final double xM        = -3.841947088256863675365;
-        final double yM        = -1.391745200270734924416;
-        final double xP        =  0.2286682237349059125691;
-        final double yP        = -yM;
-        final double valueXmYm =  0.2373295333134216789769; // local  maximum
-        final double valueXmYp = -valueXmYm;                // local  minimum
-        final double valueXpYm = -0.7290400707055187115322; // global minimum
-        final double valueXpYp = -valueXpYm;                // global maximum
-        MultivariateRealFunction fourExtrema = new MultivariateRealFunction() {
-                public double value(double[] variables) {
-                    final double x = variables[0];
-                    final double y = variables[1];
-                    return (x == 0 || y == 0) ? 0 :
-                        (Math.atan(x) * Math.atan(x + 2) * Math.atan(y) * Math.atan(y) / (x * y));
-                }
-            };
-
+    public void testMinimize1() {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
-        RealPointValuePair optimum;
+        final FourExtrema fourExtrema = new FourExtrema();
 
-        // minimization
-        optimum = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
-        Assert.assertEquals(xM,        optimum.getPoint()[0], 2e-7);
-        Assert.assertEquals(yP,        optimum.getPoint()[1], 2e-5);
-        Assert.assertEquals(valueXmYp, optimum.getValue(),    6e-12);
+        final RealPointValuePair optimum
+            = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
+        Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 2e-7);
+        Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 2e-5);
+        Assert.assertEquals(fourExtrema.valueXmYp, optimum.getValue(), 6e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+    }
 
-        optimum = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
-        Assert.assertEquals(xP,        optimum.getPoint()[0], 5e-6);
-        Assert.assertEquals(yM,        optimum.getPoint()[1], 6e-6);
-        Assert.assertEquals(valueXpYm, optimum.getValue(),    1e-11);
+    @Test
+    public void testMinimize2() {
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
+        optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
+        final FourExtrema fourExtrema = new FourExtrema();
+
+        final RealPointValuePair optimum
+            = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
+        Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 5e-6);
+        Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 6e-6);
+        Assert.assertEquals(fourExtrema.valueXpYm, optimum.getValue(), 1e-11);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+    }
 
-        // maximization
-        optimum = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { -3, 0 });
-        Assert.assertEquals(xM,        optimum.getPoint()[0], 1e-5);
-        Assert.assertEquals(yM,        optimum.getPoint()[1], 3e-6);
-        Assert.assertEquals(valueXmYm, optimum.getValue(),    3e-12);
+    @Test
+    public void testMaximize1() {
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
+        optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
+        final FourExtrema fourExtrema = new FourExtrema();
+
+        final RealPointValuePair optimum
+            = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { -3, 0 });
+        Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 1e-5);
+        Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 3e-6);
+        Assert.assertEquals(fourExtrema.valueXmYm, optimum.getValue(), 3e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+    }
 
-        optimum = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
-        Assert.assertEquals(xP,        optimum.getPoint()[0], 4e-6);
-        Assert.assertEquals(yP,        optimum.getPoint()[1], 5e-6);
-        Assert.assertEquals(valueXpYp, optimum.getValue(),    7e-12);
+    @Test
+    public void testMaximize2() {
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
+        optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
+        final FourExtrema fourExtrema = new FourExtrema();
+
+        final RealPointValuePair optimum
+            = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
+        Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 4e-6);
+        Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 5e-6);
+        Assert.assertEquals(fourExtrema.valueXpYp, optimum.getValue(), 7e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
     }
@@ -197,6 +202,25 @@ public class SimplexOptimizerNelderMeadTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
         optimizer.setSimplex(new NelderMeadSimplex(4));
         optimizer.optimize(20, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
+    }
+
+    private static class FourExtrema implements MultivariateRealFunction {
+        // The following function has 4 local extrema.
+        final double xM = -3.841947088256863675365;
+        final double yM = -1.391745200270734924416;
+        final double xP =  0.2286682237349059125691;
+        final double yP = -yM;
+        final double valueXmYm = 0.2373295333134216789769; // Local maximum.
+        final double valueXmYp = -valueXmYm; // Local minimum.
+        final double valueXpYm = -0.7290400707055187115322; // Global minimum.
+        final double valueXpYp = -valueXpYm; // Global maximum.
+
+        public double value(double[] variables) {
+            final double x = variables[0];
+            final double y = variables[1];
+            return (x == 0 || y == 0) ? 0 :
+                FastMath.atan(x) * FastMath.atan(x + 2) * FastMath.atan(y) * FastMath.atan(y) / (x * y);
+        }
     }
 
     private static class Rosenbrock implements MultivariateRealFunction {

@@ -63,10 +63,6 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  *  re-initialized to one with the appropriate dimensions.
  * </p>
  * <p>
- *  If {@link #setConvergenceChecker(ConvergenceChecker)} is not called,
- *  a default {@link SimpleScalarValueChecker} is used.
- * </p>
- * <p>
  *  Convergence is checked by providing the <em>worst</em> points of
  *  previous and current simplex to the convergence checker, not the best
  *  ones.
@@ -83,10 +79,18 @@ public class SimplexOptimizer
     private AbstractSimplex simplex;
 
     /**
-     * Default constructor.
+     * Constructor using a default {@link SimpleScalarValueChecker convergence
+     * checker}.
      */
     public SimplexOptimizer() {
-        setConvergenceChecker(new SimpleScalarValueChecker());
+        this(new SimpleScalarValueChecker());
+    }
+
+    /**
+     * @param checker Convergence checker.
+     */
+    public SimplexOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+        super(checker);
     }
 
     /**
@@ -94,7 +98,7 @@ public class SimplexOptimizer
      * @param abs Absolute threshold.
      */
     public SimplexOptimizer(double rel, double abs) {
-        setConvergenceChecker(new SimpleScalarValueChecker(rel, abs));
+        this(new SimpleScalarValueChecker(rel, abs));
     }
 
     /**
