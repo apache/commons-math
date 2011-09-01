@@ -35,10 +35,18 @@ import org.apache.commons.math.util.FastMath;
  * Base class for implementing least squares optimizers.
  * It handles the boilerplate methods associated to thresholds settings,
  * jacobian and error estimation.
+ * <br/>
+ * This class uses the {@link DifferentiableMultivariateVectorialFunction#jacobian()}
+ * of the function argument in method
+ * {@link #optimize(int,DifferentiableMultivariateVectorialFunction,double[],double[],double[])
+ * optimize} and assumes that, in the matrix returned by the
+ * {@link MultivariateMatrixFunction#value(double[]) value} method, the rows
+ * iterate on the model functions while the columns iterate on the parameters; thus,
+ * the numbers of rows is equal to the length of the {@code target} array while the
+ * number of columns is equal to the length of the {@code startPoint} array.
  *
  * @version $Id$
  * @since 1.2
- *
  */
 public abstract class AbstractLeastSquaresOptimizer
     extends BaseAbstractVectorialOptimizer<DifferentiableMultivariateVectorialFunction>
