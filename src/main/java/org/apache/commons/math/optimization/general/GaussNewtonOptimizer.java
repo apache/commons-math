@@ -17,18 +17,20 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularMatrixException;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
+import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /**
  * Gauss-Newton least-squares solver.
@@ -146,8 +148,13 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 DecompositionSolver solver = useLU ?
                         new LUDecompositionImpl(mA).getSolver() :
                         new QRDecompositionImpl(mA).getSolver();
-                final double[] dX = solver.solve(b);
-
+                final RealVector dummy = solver.solve(new ArrayRealVector(b, false));
+                final double[] dX;
+                if (dummy instanceof ArrayRealVector){
+                    dX = ((ArrayRealVector) dummy).getDataRef();
+                }else{
+                    dX = dummy.getData();
+                }
                 // update the estimated parameters
                 for (int i = 0; i < cols; ++i) {
                     point[i] += dX[i];
