@@ -230,38 +230,38 @@ public final class Array2DRowRealMatrixTest {
         Array2DRowRealMatrix mInv = new Array2DRowRealMatrix(testDataInv);
         Array2DRowRealMatrix mPlusInv = new Array2DRowRealMatrix(testDataPlusInv);
         Array2DRowRealMatrix identity = new Array2DRowRealMatrix(id);
-        
+
         TestUtils.assertEquals("m^0", m.power(0),
-            identity, entryTolerance);        
+            identity, entryTolerance);
         TestUtils.assertEquals("mInv^0", mInv.power(0),
-                identity, entryTolerance);        
+                identity, entryTolerance);
         TestUtils.assertEquals("mPlusInv^0", mPlusInv.power(0),
                 identity, entryTolerance);
-        
+
         TestUtils.assertEquals("m^1", m.power(1),
-                m, entryTolerance);        
+                m, entryTolerance);
         TestUtils.assertEquals("mInv^1", mInv.power(1),
-                mInv, entryTolerance);        
+                mInv, entryTolerance);
         TestUtils.assertEquals("mPlusInv^1", mPlusInv.power(1),
-                mPlusInv, entryTolerance); 
-        
+                mPlusInv, entryTolerance);
+
         RealMatrix C1 = m.copy();
         RealMatrix C2 = mInv.copy();
         RealMatrix C3 = mPlusInv.copy();
-        
+
         for (int i = 2; i <= 10; ++i) {
             C1 = C1.multiply(m);
             C2 = C2.multiply(mInv);
             C3 = C3.multiply(mPlusInv);
-            
+
             TestUtils.assertEquals("m^" + i, m.power(i),
-                    C1, entryTolerance);        
+                    C1, entryTolerance);
             TestUtils.assertEquals("mInv^" + i, mInv.power(i),
-                    C2, entryTolerance);        
+                    C2, entryTolerance);
             TestUtils.assertEquals("mPlusInv^" + i, mPlusInv.power(i),
-                    C3, entryTolerance);            
+                    C3, entryTolerance);
         }
-        
+
         try {
             Array2DRowRealMatrix mNotSquare = new Array2DRowRealMatrix(testData2T);
             mNotSquare.power(2);
@@ -269,7 +269,7 @@ public final class Array2DRowRealMatrixTest {
         } catch (NonSquareMatrixException ex) {
             // ignored
         }
-        
+
         try {
             m.power(-1);
             Assert.fail("Expecting IllegalArgumentException");
@@ -277,7 +277,7 @@ public final class Array2DRowRealMatrixTest {
             // ignored
         }
     }
-    
+
     /** test trace */
     @Test
     public void testTrace() {
@@ -437,12 +437,17 @@ public final class Array2DRowRealMatrixTest {
         // Solve example
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new Array2DRowRealMatrix(coefficientsData);
-        double[] constants = {1, -2, 1};
-        double[] solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
-        Assert.assertEquals(2 * solution[0] + 3 * solution[1] -2 * solution[2], constants[0], 1E-12);
-        Assert.assertEquals(-1 * solution[0] + 7 * solution[1] + 6 * solution[2], constants[1], 1E-12);
-        Assert.assertEquals(4 * solution[0] - 3 * solution[1] -5 * solution[2], constants[2], 1E-12);
-
+        RealVector constants = new ArrayRealVector(new double[]{1, -2, 1}, false);
+        RealVector solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
+        final double cst0 = constants.getEntry(0);
+        final double cst1 = constants.getEntry(1);
+        final double cst2 = constants.getEntry(2);
+        final double sol0 = solution.getEntry(0);
+        final double sol1 = solution.getEntry(1);
+        final double sol2 = solution.getEntry(2);
+        Assert.assertEquals(2 * sol0 + 3 * sol1 -2 * sol2, cst0, 1E-12);
+        Assert.assertEquals(-1 * sol0 + 7 * sol1 + 6 * sol2, cst1, 1E-12);
+        Assert.assertEquals(4 * sol0 - 3 * sol1 -5 * sol2, cst2, 1E-12);
     }
 
     // test submatrix accessors
