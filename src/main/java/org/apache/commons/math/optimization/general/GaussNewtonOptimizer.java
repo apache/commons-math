@@ -148,13 +148,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 DecompositionSolver solver = useLU ?
                         new LUDecompositionImpl(mA).getSolver() :
                         new QRDecompositionImpl(mA).getSolver();
-                final RealVector dummy = solver.solve(new ArrayRealVector(b, false));
-                final double[] dX;
-                if (dummy instanceof ArrayRealVector){
-                    dX = ((ArrayRealVector) dummy).getDataRef();
-                }else{
-                    dX = dummy.getData();
-                }
+                final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
                 // update the estimated parameters
                 for (int i = 0; i < cols; ++i) {
                     point[i] += dX[i];
