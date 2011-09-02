@@ -24,10 +24,13 @@ package org.apache.commons.math.analysis.solvers;
  *
  * <p>Like the <em>Regula Falsi</em> method, convergence is guaranteed by
  * maintaining a bracketed solution. The <em>Pegasus</em> method however,
- * should converge much faster than the original <em>Regula Falsi</em> method.
- * Furthermore, it should converge faster than the
- * {@link IllinoisSolver <em>Illinois</em>} method, another
- * <em>Regula Falsi</em>-based method.</p>
+ * should converge much faster than the original <em>Regula Falsi</em>
+ * method. Furthermore, this implementation of the <em>Pegasus</em> method
+ * should not suffer from the same implementation issues as the <em>Regula
+ * Falsi</em> method, which may fail to convergence in certain cases. Also,
+ * the <em>Pegasus</em> method should converge faster than the
+ * {@link IllinoisSolver <em>Illinois</em>} method, another <em>Regula
+ * Falsi</em>-based method.</p>
  *
  * <p>The <em>Pegasus</em> method assumes that the function is continuous,
  * but not necessarily smooth.</p>
@@ -50,7 +53,7 @@ public class PegasusSolver extends BaseSecantSolver {
     /**
      * Construct a solver.
      *
-     * @param absoluteAccuracy absolute accuracy
+     * @param absoluteAccuracy Absolute accuracy.
      */
     public PegasusSolver(final double absoluteAccuracy) {
         super(absoluteAccuracy, Method.PEGASUS);
@@ -59,8 +62,8 @@ public class PegasusSolver extends BaseSecantSolver {
     /**
      * Construct a solver.
      *
-     * @param relativeAccuracy relative accuracy
-     * @param absoluteAccuracy absolute accuracy
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
      */
     public PegasusSolver(final double relativeAccuracy,
                          final double absoluteAccuracy) {
@@ -70,8 +73,8 @@ public class PegasusSolver extends BaseSecantSolver {
     /**
      * Construct a solver.
      *
-     * @param relativeAccuracy relative accuracy
-     * @param absoluteAccuracy absolute accuracy
+     * @param relativeAccuracy Relative accuracy.
+     * @param absoluteAccuracy Absolute accuracy.
      * @param functionValueAccuracy Maximum function value error.
      */
     public PegasusSolver(final double relativeAccuracy,
@@ -79,5 +82,4 @@ public class PegasusSolver extends BaseSecantSolver {
                          final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy, Method.PEGASUS);
     }
-
 }
