@@ -17,9 +17,10 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.TestProblem4;
@@ -27,8 +28,6 @@ import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -38,26 +37,19 @@ import org.junit.Test;
 
 public class DormandPrince54IntegratorTest {
 
-  @Test
+  @Test(expected=DimensionMismatchException.class)
   public void testDimensionCheck() {
-    try  {
       TestProblem1 pb = new TestProblem1();
       DormandPrince54Integrator integrator = new DormandPrince54Integrator(0.0, 1.0,
                                                                            1.0e-10, 1.0e-10);
       integrator.integrate(pb,
                            0.0, new double[pb.getDimension()+10],
                            1.0, new double[pb.getDimension()+10]);
-      Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
-    }
   }
 
-  @Test
+  @Test(expected=NumberIsTooSmallException.class)
   public void testMinStep() {
 
-    try {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -73,16 +65,12 @@ public class DormandPrince54IntegratorTest {
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
-    }
 
   }
 
   @Test
   public void testSmallLastStep()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblemAbstract pb = new TestProblem5();
     double minStep = 1.25;
@@ -108,7 +96,7 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testBackward()
-      throws MathUserException, IntegratorException {
+      {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -159,7 +147,7 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testIncreasingTolerance()
-    throws MathUserException, IntegratorException {
+    {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -201,7 +189,7 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testEvents()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -235,7 +223,7 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testKepler()
-    throws MathUserException, IntegratorException {
+    {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -258,7 +246,7 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testVariableSteps()
-    throws MathUserException, IntegratorException {
+    {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;

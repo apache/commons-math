@@ -17,13 +17,9 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math.ode.sampling.FixedStepHandler;
-import org.apache.commons.math.ode.sampling.StepNormalizer;
 import org.apache.commons.math.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
@@ -40,7 +36,7 @@ public class StepNormalizerTest {
 
   @Test
   public void testBoundaries()
-    throws MathUserException, IntegratorException {
+    {
     double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.0,
@@ -68,7 +64,7 @@ public class StepNormalizerTest {
 
   @Test
   public void testBeforeEnd()
-    throws MathUserException, IntegratorException {
+    {
     final double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.5,

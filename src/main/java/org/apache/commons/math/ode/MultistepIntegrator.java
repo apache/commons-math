@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -204,12 +205,10 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param y0 initial value of the state vector at t0
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
-     * @throws IntegratorException if the integrator cannot perform integration
-     * @throws MathUserException this exception is propagated to the caller if
-     * the underlying user function triggers one
+     * @throws MathIllegalStateException if the integrator cannot perform integration
      */
     protected void start(final double t0, final double[] y0, final double t)
-        throws MathUserException, IntegratorException {
+        throws MathIllegalStateException {
 
         // make sure NO user event nor user step handler is triggered,
         // this is the task of the top level integrator, not the task

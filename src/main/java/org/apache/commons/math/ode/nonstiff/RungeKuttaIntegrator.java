@@ -18,10 +18,10 @@
 package org.apache.commons.math.ode.nonstiff;
 
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
@@ -93,7 +93,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
   public double integrate(final FirstOrderDifferentialEquations equations,
                           final double t0, final double[] y0,
                           final double t, final double[] y)
-  throws MathUserException, IntegratorException {
+      throws MathIllegalStateException, MathIllegalArgumentException {
 
     sanityChecks(equations, t0, y0, t, y);
     setEquations(equations);

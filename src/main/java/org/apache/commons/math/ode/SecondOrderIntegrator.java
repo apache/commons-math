@@ -17,7 +17,8 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 
 
 /** This interface represents a second order integrator for
@@ -48,13 +49,13 @@ public interface SecondOrderIntegrator extends ODEIntegrator {
    * same object as y0
    * @param yDot placeholder where to put the first derivative of
    * the state vector at time t, can be the same object as yDot0
-   * @throws IntegratorException if the integrator cannot perform integration
-   * @throws MathUserException this exception is propagated to the caller if the
-   * underlying user function triggers one
+   * @throws MathIllegalStateException if the integrator cannot perform integration
+   * @throws MathIllegalArgumentException if integration parameters are wrong (typically
+   * too small integration span)
    */
   void integrate(SecondOrderDifferentialEquations equations,
                  double t0, double[] y0, double[] yDot0,
                  double t, double[] y, double[] yDot)
-      throws MathUserException, IntegratorException;
+      throws MathIllegalStateException, MathIllegalArgumentException;
 
 }

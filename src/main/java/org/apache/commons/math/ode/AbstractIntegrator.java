@@ -26,13 +26,14 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
@@ -226,14 +227,13 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @param tEnd final integration time
      * @return time at end of step
-     * @exception IntegratorException if the value of one event state cannot be evaluated
+     * @exception MathIllegalStateException if the value of one event state cannot be evaluated
      * @since 2.2
      */
     protected double acceptStep(final AbstractStepInterpolator interpolator,
                                 final double[] y, final double[] yDot, final double tEnd)
-        throws IntegratorException {
+        throws MathIllegalStateException {
 
-        try {
             double previousT = interpolator.getGlobalPreviousTime();
             final double currentT = interpolator.getGlobalCurrentTime();
             resetOccurred = false;
@@ -329,15 +329,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             }
 
             return currentT;
-        } catch (EventException se) {
-            final Throwable cause = se.getCause();
-            if ((cause != null) && (cause instanceof MathUserException)) {
-                throw (MathUserException) cause;
-            }
-            throw new IntegratorException(se);
-        } catch (ConvergenceException ce) {
-            throw new IntegratorException(ce);
-        }
 
     }
 
@@ -347,27 +338,27 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param y0 state vector at t0
      * @param t target time for the integration
      * @param y placeholder where to put the state vector
-     * @exception IntegratorException if some inconsistency is detected
+     * @exception DimensionMismatchException if some inconsistency is detected
+     * @exception NumberIsTooSmallException if integration span is too small
      */
     protected void sanityChecks(final FirstOrderDifferentialEquations ode,
                                 final double t0, final double[] y0,
                                 final double t, final double[] y)
-        throws IntegratorException {
+        throws DimensionMismatchException, NumberIsTooSmallException {
 
         if (ode.getDimension() != y0.length) {
-            throw new IntegratorException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y0.length);
+            throw new DimensionMismatchException(ode.getDimension(), y0.length);
         }
 
         if (ode.getDimension() != y.length) {
-            throw new IntegratorException(
-                    LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, ode.getDimension(), y.length);
+            throw new DimensionMismatchException(ode.getDimension(), y.length);
         }
 
         if (FastMath.abs(t - t0) <= 1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t))) {
-            throw new IntegratorException(
-                    LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
-                    FastMath.abs(t - t0));
+            throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
+                                                FastMath.abs(t - t0),
+                                                1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t)),
+                                                false);
         }
 
     }

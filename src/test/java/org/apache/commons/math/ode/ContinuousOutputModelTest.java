@@ -20,9 +20,6 @@ package org.apache.commons.math.ode;
 import java.util.Random;
 
 import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.ode.ContinuousOutputModel;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
@@ -41,8 +38,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testBoundaries()
-    throws MathUserException, IntegratorException {
+  public void testBoundaries() {
     integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -54,8 +50,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testRandomAccess()
-    throws MathUserException, IntegratorException {
+  public void testRandomAccess() {
 
     ContinuousOutputModel cm = new ContinuousOutputModel();
     integ.addStepHandler(cm);
@@ -84,8 +79,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testModelsMerging()
-    throws MathUserException, IntegratorException {
+  public void testModelsMerging() {
 
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =

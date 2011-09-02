@@ -18,9 +18,7 @@
 package org.apache.commons.math.ode.events;
 
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.junit.Assert;
@@ -30,8 +28,7 @@ public class EventStateTest {
 
     // JIRA: MATH-322
     @Test
-    public void closeEvents()
-        throws EventException, ConvergenceException, MathUserException {
+    public void closeEvents() {
 
         final double r1  = 90.0;
         final double r2  = 135.0;

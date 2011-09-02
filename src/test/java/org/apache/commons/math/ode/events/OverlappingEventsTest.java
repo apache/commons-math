@@ -24,7 +24,6 @@ import org.apache.commons.math.analysis.solvers.PegasusSolver;
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,12 +47,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * calculations occur very close together instead. Uses event type 0. See
      * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
-     * @throws EventException in case of event evaluation failure
-     * @throws IntegratorException in case of integration failure
-     * @throws MathUserException in case of derivative evaluation failure
      */
     @Test
-    public void testOverlappingEvents0() throws MathUserException, IntegratorException, EventException {
+    public void testOverlappingEvents0() {
         test(0);
     }
 
@@ -61,12 +57,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * calculations occur very close together instead. Uses event type 1. See
      * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
-     * @throws EventException in case of event evaluation failure
-     * @throws IntegratorException in case of integration failure
-     * @throws MathUserException in case of derivative evaluation failure
      */
     @Test
-    public void testOverlappingEvents1() throws MathUserException, IntegratorException, EventException {
+    public void testOverlappingEvents1() {
         test(1);
     }
 
@@ -75,11 +68,8 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * @param eventType the type of events to use. See
      * {@link org.apache.commons.math.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
-     * @throws EventException in case of event evaluation failure
-     * @throws IntegratorException in case of integration failure
-     * @throws MathUserException in case of derivative evaluation failure
      */
-    public void test(int eventType) throws MathUserException, IntegratorException, EventException {
+    public void test(int eventType) {
         double e = 1e-15;
         FirstOrderIntegrator integrator = new DormandPrince853Integrator(e, 100.0, 1e-7, 1e-7);
         BaseSecantSolver rootSolver = new PegasusSolver(e, e);
@@ -147,18 +137,18 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
         }
 
         /** {@inheritDoc} */
-        public double g(double t, double[] y) throws EventException {
+        public double g(double t, double[] y) {
             return (eventType == 0) ? y[idx] >= 1.0 ? 1.0 : -1.0
                                     : y[idx] - 1.0;
         }
 
         /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y, boolean increasing) throws EventException {
+        public int eventOccurred(double t, double[] y, boolean increasing) {
             return STOP;
         }
 
         /** {@inheritDoc} */
-        public void resetState(double t, double[] y) throws EventException {
+        public void resetState(double t, double[] y) {
             // Never called.
         }
     }

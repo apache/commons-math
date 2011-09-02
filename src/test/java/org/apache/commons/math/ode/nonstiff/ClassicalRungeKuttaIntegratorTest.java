@@ -18,10 +18,11 @@
 package org.apache.commons.math.ode.nonstiff;
 
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.TestProblem5;
@@ -29,7 +30,6 @@ import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.ode.TestProblemFactory;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -39,7 +39,7 @@ import org.junit.Test;
 public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
-  public void testMissedEndEvent() throws IntegratorException, MathUserException {
+  public void testMissedEndEvent() {
       final double   t0     = 1878250320.0000029;
       final double   tEvent = 1878250379.9999986;
       final double[] k      = { 1.0e-4, 1.0e-5, 1.0e-6 };
@@ -100,9 +100,7 @@ public class ClassicalRungeKuttaIntegratorTest {
                                                         0.0, new double[pb.getDimension()+10],
                                                         1.0, new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
+    } catch(DimensionMismatchException ie) {
     }
     try  {
         TestProblem1 pb = new TestProblem1();
@@ -110,9 +108,7 @@ public class ClassicalRungeKuttaIntegratorTest {
                                                           0.0, new double[pb.getDimension()],
                                                           1.0, new double[pb.getDimension()+10]);
           Assert.fail("an exception should have been thrown");
-      } catch(MathUserException de) {
-        Assert.fail("wrong exception caught");
-      } catch(IntegratorException ie) {
+      } catch(DimensionMismatchException ie) {
       }
     try  {
       TestProblem1 pb = new TestProblem1();
@@ -120,15 +116,13 @@ public class ClassicalRungeKuttaIntegratorTest {
                                                         0.0, new double[pb.getDimension()],
                                                         0.0, new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
+    } catch(NumberIsTooSmallException ie) {
     }
   }
 
   @Test
   public void testDecreasingSteps()
-    throws MathUserException, IntegratorException  {
+     {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -177,7 +171,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testSmallStep()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -196,7 +190,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testBigStep()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -215,7 +209,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testBackward()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem5 pb = new TestProblem5();
     double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -234,7 +228,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testKepler()
-    throws MathUserException, IntegratorException {
+    {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
@@ -278,7 +272,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testStepSize()
-    throws MathUserException, IntegratorException {
+    {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
       integ.addStepHandler(new StepHandler() {

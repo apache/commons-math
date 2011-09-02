@@ -94,9 +94,8 @@ public interface EventHandler  {
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * @return value of the g switching function
-   * @exception EventException if the switching function cannot be evaluated
    */
-  double g(double t, double[] y) throws EventException;
+  double g(double t, double[] y);
 
   /** Handle an event and choose what to do next.
 
@@ -158,9 +157,8 @@ public interface EventHandler  {
    * @return indication of what the integrator should do next, this
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
-   * @exception EventException if the event occurrence triggers an error
    */
-  int eventOccurred(double t, double[] y, boolean increasing) throws EventException;
+  int eventOccurred(double t, double[] y, boolean increasing);
 
   /** Reset the state prior to continue the integration.
 
@@ -176,8 +174,7 @@ public interface EventHandler  {
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
    * the new state should be put in the same array
-   * @exception EventException if the state cannot be reseted
    */
-  void resetState(double t, double[] y) throws EventException;
+  void resetState(double t, double[] y);
 
 }

@@ -18,18 +18,18 @@
 package org.apache.commons.math.ode.nonstiff;
 
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.TestProblem4;
 import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemHandler;
-import org.apache.commons.math.ode.events.EventException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -72,10 +72,9 @@ public class HighamHall54IntegratorTest {
 
   }
 
-  @Test
+  @Test(expected=NumberIsTooSmallException.class)
   public void testMinStep() {
 
-    try {
       TestProblem1 pb = new TestProblem1();
       double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -91,16 +90,12 @@ public class HighamHall54IntegratorTest {
                       pb.getInitialTime(), pb.getInitialState(),
                       pb.getFinalTime(), new double[pb.getDimension()]);
       Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
-    }
 
   }
 
   @Test
   public void testIncreasingTolerance()
-    throws MathUserException, IntegratorException {
+    {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -136,7 +131,7 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testBackward()
-      throws MathUserException, IntegratorException {
+      {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -160,7 +155,7 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testEvents()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -211,11 +206,11 @@ public class HighamHall54IntegratorTest {
         public int eventOccurred(double t, double[] y, boolean increasing) {
           return EventHandler.CONTINUE;
         }
-        public double g(double t, double[] y) throws EventException {
+        public double g(double t, double[] y) {
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new EventException(LocalizedFormats.EVALUATION_FAILED, t);
+            throw new MathUserException(LocalizedFormats.EVALUATION_FAILED, t);
           }
           return offset;
         }
@@ -228,7 +223,7 @@ public class HighamHall54IntegratorTest {
                         pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (MathUserException ie) {
         // expected behavior
       }
 
@@ -285,7 +280,7 @@ public class HighamHall54IntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), new double[6],
                         pb.getFinalTime(), new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (DimensionMismatchException ie) {
         // expected behavior
       }
 
@@ -295,7 +290,7 @@ public class HighamHall54IntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[6]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (DimensionMismatchException ie) {
         // expected behavior
       }
 
@@ -305,7 +300,7 @@ public class HighamHall54IntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (DimensionMismatchException ie) {
         // expected behavior
       }
 
@@ -315,7 +310,7 @@ public class HighamHall54IntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getFinalTime(), new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (DimensionMismatchException ie) {
         // expected behavior
       }
 
@@ -325,7 +320,7 @@ public class HighamHall54IntegratorTest {
         integ.integrate(pb, pb.getInitialTime(), pb.getInitialState(),
                         pb.getInitialTime(), new double[pb.getDimension()]);
         Assert.fail("an exception should have been thrown");
-      } catch (IntegratorException ie) {
+      } catch (NumberIsTooSmallException ie) {
         // expected behavior
       }
 
@@ -333,7 +328,7 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testKepler()
-    throws MathUserException, IntegratorException {
+    {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;

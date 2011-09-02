@@ -27,7 +27,6 @@ import java.util.Random;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -40,7 +39,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  throws MathUserException, IntegratorException {
+  {
     TestProblem3 pb = new TestProblem3(0.9);
     double minStep   = 0;
     double maxStep   = pb.getFinalTime() - pb.getInitialTime();
@@ -55,8 +54,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws MathUserException, IntegratorException,
-           IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException {
 
     TestProblem3 pb  = new TestProblem3(0.9);
     double minStep   = 0;
@@ -107,7 +105,7 @@ public class GraggBulirschStoerStepInterpolatorTest {
 
   @Test
   public void checklone()
-  throws MathUserException, IntegratorException {
+  {
     TestProblem3 pb = new TestProblem3(0.9);
     double minStep = 0;
     double maxStep = pb.getFinalTime() - pb.getInitialTime();

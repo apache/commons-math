@@ -18,9 +18,10 @@
 package org.apache.commons.math.ode.nonstiff;
 
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblem6;
@@ -31,8 +32,8 @@ import org.junit.Test;
 
 public class AdamsMoultonIntegratorTest {
 
-    @Test(expected=IntegratorException.class)
-    public void dimensionCheck() throws MathUserException, IntegratorException {
+    @Test(expected=DimensionMismatchException.class)
+    public void dimensionCheck() {
         TestProblem1 pb = new TestProblem1();
         FirstOrderIntegrator integ =
             new AdamsMoultonIntegrator(2, 0.0, 1.0, 1.0e-10, 1.0e-10);
@@ -41,8 +42,8 @@ public class AdamsMoultonIntegratorTest {
                         1.0, new double[pb.getDimension()+10]);
     }
 
-    @Test(expected=IntegratorException.class)
-    public void testMinStep() throws MathUserException, IntegratorException {
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testMinStep() {
 
           TestProblem1 pb = new TestProblem1();
           double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
@@ -63,7 +64,7 @@ public class AdamsMoultonIntegratorTest {
 
     @Test
     public void testIncreasingTolerance()
-        throws MathUserException, IntegratorException {
+        {
 
         int previousCalls = Integer.MAX_VALUE;
         for (int i = -12; i < -2; ++i) {
@@ -99,7 +100,7 @@ public class AdamsMoultonIntegratorTest {
     }
 
     @Test(expected = MathUserException.class)
-    public void exceedMaxEvaluations() throws MathUserException, IntegratorException {
+    public void exceedMaxEvaluations() {
 
         TestProblem1 pb  = new TestProblem1();
         double range = pb.getFinalTime() - pb.getInitialTime();
@@ -115,7 +116,7 @@ public class AdamsMoultonIntegratorTest {
     }
 
     @Test
-    public void backward() throws MathUserException, IntegratorException {
+    public void backward() {
 
         TestProblem5 pb = new TestProblem5();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
@@ -133,7 +134,7 @@ public class AdamsMoultonIntegratorTest {
     }
 
     @Test
-    public void polynomial() throws MathUserException, IntegratorException {
+    public void polynomial() {
         TestProblem6 pb = new TestProblem6();
         double range = FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
 

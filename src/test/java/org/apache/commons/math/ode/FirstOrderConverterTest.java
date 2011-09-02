@@ -17,10 +17,8 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.ode.FirstOrderConverter;
-import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.SecondOrderDifferentialEquations;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -39,8 +37,7 @@ public class FirstOrderConverterTest {
   }
 
   @Test
-  public void testDecreasingSteps()
-    throws MathUserException, IntegratorException {
+  public void testDecreasingSteps() {
 
     double previousError = Double.NaN;
     for (int i = 0; i < 10; ++i) {
@@ -57,16 +54,14 @@ public class FirstOrderConverterTest {
   }
 
   @Test
-  public void testSmallStep()
-    throws MathUserException, IntegratorException {
+  public void testSmallStep() {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 1.0e-4)
                    - FastMath.sin(4.0);
     Assert.assertTrue(FastMath.abs(error) < 1.0e-10);
   }
 
   @Test
-  public void testBigStep()
-    throws MathUserException, IntegratorException {
+  public void testBigStep() {
     double error = integrateWithSpecifiedStep(4.0, 0.0, 1.0, 0.5)
                    - FastMath.sin(4.0);
     Assert.assertTrue(FastMath.abs(error) > 0.1);
@@ -100,7 +95,7 @@ public class FirstOrderConverterTest {
   private double integrateWithSpecifiedStep(double omega,
                                             double t0, double t,
                                             double step)
-  throws MathUserException, IntegratorException {
+  throws MathIllegalStateException, MathIllegalArgumentException {
     double[] y0 = new double[2];
     y0[0] = FastMath.sin(omega * t0);
     y0[1] = omega * FastMath.cos(omega * t0);

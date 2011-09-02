@@ -18,17 +18,15 @@
 package org.apache.commons.math.ode.nonstiff;
 
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem5;
 import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.ode.TestProblemFactory;
 import org.apache.commons.math.ode.TestProblemHandler;
 import org.apache.commons.math.ode.events.EventHandler;
-import org.apache.commons.math.ode.nonstiff.MidpointIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -37,23 +35,18 @@ import org.junit.Test;
 
 public class MidpointIntegratorTest {
 
-  @Test
+  @Test(expected=DimensionMismatchException.class)
   public void testDimensionCheck() {
-    try  {
       TestProblem1 pb = new TestProblem1();
       new MidpointIntegrator(0.01).integrate(pb,
                                              0.0, new double[pb.getDimension()+10],
                                              1.0, new double[pb.getDimension()+10]);
         Assert.fail("an exception should have been thrown");
-    } catch(MathUserException de) {
-      Assert.fail("wrong exception caught");
-    } catch(IntegratorException ie) {
-    }
   }
 
   @Test
   public void testDecreasingSteps()
-    throws MathUserException, IntegratorException  {
+     {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -99,7 +92,7 @@ public class MidpointIntegratorTest {
 
   @Test
   public void testSmallStep()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem1 pb  = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -120,7 +113,7 @@ public class MidpointIntegratorTest {
 
   @Test
   public void testBigStep()
-    throws MathUserException, IntegratorException {
+    {
 
     TestProblem1 pb  = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -140,7 +133,7 @@ public class MidpointIntegratorTest {
 
   @Test
   public void testBackward()
-      throws MathUserException, IntegratorException {
+      {
 
       TestProblem5 pb = new TestProblem5();
       double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -159,7 +152,7 @@ public class MidpointIntegratorTest {
 
   @Test
   public void testStepSize()
-    throws MathUserException, IntegratorException {
+    {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new MidpointIntegrator(step);
       integ.addStepHandler(new StepHandler() {

@@ -19,7 +19,6 @@ package org.apache.commons.math.ode.sampling;
 
 import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
 import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -28,8 +27,7 @@ public class StepInterpolatorTestUtils {
 
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,
-                                                   final double threshold)
-        throws MathUserException, IntegratorException {
+                                                   final double threshold) {
         integrator.addStepHandler(new StepHandler() {
 
             public void handleStep(StepInterpolator interpolator, boolean isLast)
