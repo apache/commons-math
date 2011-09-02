@@ -39,9 +39,8 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * <br/>
  * The default stopping criterion is based on the differences of the
  * function value between two successive iterations. It is however possible
- * to define custom convergence criteria by calling a {@link
- * #setConvergenceChecker(ConvergenceChecker) setConvergenceChecker}
- * prior to using the optimizer.
+ * to define a custom convergence checker that might terminate the algorithm
+ * earlier.
  *
  * @version $Id$
  * @since 2.2
@@ -67,16 +66,21 @@ public class PowellOptimizer
     private final LineSearch line;
 
     /**
-     * The arguments control the behaviour of the default convergence
-     * checking procedure.
+     * This constructor allows to specify a user-defined convergence checker,
+     * in addition to the parameters that control the default convergence
+     * checking procedure and the line search tolerances.
      *
      * @param rel Relative threshold.
      * @param abs Absolute threshold.
+     * @param checker Convergence checker.
      * @throws NotStrictlyPositiveException if {@code abs <= 0}.
      * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
      */
     public PowellOptimizer(double rel,
-                           double abs) {
+                           double abs,
+                           ConvergenceChecker<RealPointValuePair> checker) {
+        super(checker);
+
         if (rel < MIN_RELATIVE_TOLERANCE) {
             throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
         }
@@ -92,6 +96,20 @@ public class PowellOptimizer
         final double lsRel = Math.min(FastMath.sqrt(relativeThreshold), minTol);
         final double lsAbs = Math.min(FastMath.sqrt(absoluteThreshold), minTol);
         line = new LineSearch(lsRel, lsAbs);
+    }
+
+    /**
+     * The parameters control the default convergence checking procedure, and
+     * the line search tolerances.
+     *
+     * @param rel Relative threshold.
+     * @param abs Absolute threshold.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
+     */
+    public PowellOptimizer(double rel,
+                           double abs) {
+        this(rel, abs, null);
     }
 
     /** {@inheritDoc} */
