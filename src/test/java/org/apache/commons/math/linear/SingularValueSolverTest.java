@@ -44,7 +44,7 @@ public class SingularValueSolverTest {
             // expected behavior
         }
         try {
-            solver.solve(b.getColumn(0));
+            solver.solve(b.getColumnVector(0));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
@@ -74,9 +74,6 @@ public class SingularValueSolverTest {
         Assert.assertEquals(12, xMatrix.getEntry(0, 1), 1.0e-15);
         Assert.assertEquals(0, xMatrix.getEntry(1, 0), 1.0e-15);
         Assert.assertEquals(0, xMatrix.getEntry(1, 1), 1.0e-15);
-        double[] xCol = solver.solve(b.getColumn(0));
-        Assert.assertEquals(11, xCol[0], 1.0e-15);
-        Assert.assertEquals(0, xCol[1], 1.0e-15);
         RealVector xColVec = solver.solve(b.getColumnVector(0));
         Assert.assertEquals(11, xColVec.getEntry(0), 1.0e-15);
         Assert.assertEquals(0, xColVec.getEntry(1), 1.0e-15);
@@ -104,21 +101,14 @@ public class SingularValueSolverTest {
         // using double[][]
         Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), normTolerance);
 
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            Assert.assertEquals(0,
-                         new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
-
-        // using Array2DRowRealMatrix
+        // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             Assert.assertEquals(0,
                          solver.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          1.0e-13);
         }
 
-        // using RealMatrix with an alternate implementation
+        // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             ArrayRealVectorTest.RealVectorTestImpl v =
                 new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));

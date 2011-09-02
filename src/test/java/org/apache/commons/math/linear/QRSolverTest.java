@@ -82,12 +82,6 @@ public class QRSolverTest {
             // expected behavior
         }
         try {
-            solver.solve(b.getColumn(0));
-            Assert.fail("an exception should have been thrown");
-        } catch (MathIllegalArgumentException iae) {
-            // expected behavior
-        }
-        try {
             solver.solve(b.getColumnVector(0));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
@@ -103,12 +97,6 @@ public class QRSolverTest {
         RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
-            Assert.fail("an exception should have been thrown");
-        } catch (SingularMatrixException iae) {
-            // expected behavior
-        }
-        try {
-            solver.solve(b.getColumn(0));
             Assert.fail("an exception should have been thrown");
         } catch (SingularMatrixException iae) {
             // expected behavior
@@ -139,13 +127,6 @@ public class QRSolverTest {
 
         // using double[][]
         Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), 2.0e-16 * xRef.getNorm());
-
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            final double[] x = solver.solve(b.getColumn(i));
-            final double error = new ArrayRealVector(x).subtract(xRef.getColumnVector(i)).getNorm();
-            Assert.assertEquals(0, error, 3.0e-16 * xRef.getColumnVector(i).getNorm());
-        }
 
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {

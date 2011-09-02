@@ -74,7 +74,7 @@ public class EigenSolverTest {
             // expected behavior
         }
         try {
-            es.solve(b.getColumn(0));
+            es.solve(b.getColumnVector(0));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
@@ -124,21 +124,14 @@ public class EigenSolverTest {
         solution = MatrixUtils.createRealMatrix(es.solve(b.getData()));
         Assert.assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
 
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            Assert.assertEquals(0,
-                         new ArrayRealVector(es.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
-                         2.0e-11);
-        }
-
-        // using Array2DRowRealMatrix
+        // using RealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             Assert.assertEquals(0,
                          es.solve(b.getColumnVector(i)).subtract(xRef.getColumnVector(i)).getNorm(),
                          2.0e-11);
         }
 
-        // using RealMatrix with an alternate implementation
+        // using RealVector with an alternate implementation
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             ArrayRealVectorTest.RealVectorTestImpl v =
                 new ArrayRealVectorTest.RealVectorTestImpl(b.getColumn(i));

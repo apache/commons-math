@@ -83,7 +83,7 @@ public class LUSolverTest {
             // expected behavior
         }
         try {
-            solver.solve(b.getColumn(0));
+            solver.solve(b.getColumnVector(0));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
@@ -104,12 +104,6 @@ public class LUSolverTest {
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
-            Assert.fail("an exception should have been thrown");
-        } catch (SingularMatrixException ime) {
-            // expected behavior
-        }
-        try {
-            solver.solve(b.getColumn(0));
             Assert.fail("an exception should have been thrown");
         } catch (SingularMatrixException ime) {
             // expected behavior
@@ -145,13 +139,6 @@ public class LUSolverTest {
 
         // using double[][]
         Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), 1.0e-13);
-
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            Assert.assertEquals(0,
-                         new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
 
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {

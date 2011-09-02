@@ -45,7 +45,7 @@ public class CholeskySolverTest {
             // expected behavior
         }
         try {
-            solver.solve(b.getColumn(0));
+            solver.solve(b.getColumnVector(0));
             Assert.fail("an exception should have been thrown");
         } catch (MathIllegalArgumentException iae) {
             // expected behavior
@@ -83,13 +83,6 @@ public class CholeskySolverTest {
 
         // using double[][]
         Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), 1.0e-13);
-
-        // using double[]
-        for (int i = 0; i < b.getColumnDimension(); ++i) {
-            Assert.assertEquals(0,
-                         new ArrayRealVector(solver.solve(b.getColumn(i))).subtract(xRef.getColumnVector(i)).getNorm(),
-                         1.0e-13);
-        }
 
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
