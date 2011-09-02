@@ -62,6 +62,11 @@ public class MathArithmeticException extends ArithmeticException
     }
 
     /** {@inheritDoc} */
+    public Throwable getException() {
+        return this;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return context.getMessage();

@@ -73,6 +73,11 @@ public class MathIllegalStateException extends IllegalStateException
     }
 
     /** {@inheritDoc} */
+    public Throwable getException() {
+        return this;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return context.getMessage();

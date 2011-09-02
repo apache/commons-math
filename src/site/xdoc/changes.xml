@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" >
+        Added a getter to allow retrieving the exception related to an exception context
+        provider. 
+      </action>
       <action dev="psteitz" type="update" issue="MATH-364" due-to="Christian Winter">
         Added erf(double,double) to Erf and used this to improve tail probability
         accuracy in NormalDistributionImpl. 

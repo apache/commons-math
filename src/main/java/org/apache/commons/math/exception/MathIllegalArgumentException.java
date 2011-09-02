@@ -51,6 +51,11 @@ public class MathIllegalArgumentException extends IllegalArgumentException
     }
 
     /** {@inheritDoc} */
+    public Throwable getException() {
+        return this;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return context.getMessage();

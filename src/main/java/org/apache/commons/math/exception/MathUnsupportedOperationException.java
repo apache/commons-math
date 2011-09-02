@@ -59,6 +59,11 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
     }
 
     /** {@inheritDoc} */
+    public Throwable getException() {
+        return this;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
         return context.getMessage();

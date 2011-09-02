@@ -30,4 +30,10 @@ public interface ExceptionContextProvider {
      * @return a reference to the exception context.
      */
     ExceptionContext getContext();
+
+    /** Get a reference to the exception to which the context relates.
+     * @return a reference to the exception to which the context relates
+     */
+    Throwable getException();
+
 }
