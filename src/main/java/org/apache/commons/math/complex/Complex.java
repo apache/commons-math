@@ -78,8 +78,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
     private final transient boolean isNaN;
     /** Record whether this complex number is infinite. */
     private final transient boolean isInfinite;
-    /** Record whether this complex number is zero. */
-    private final transient boolean isZero;
 
     /**
      * Create a complex number given only the real part.
@@ -103,7 +101,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         isNaN = Double.isNaN(real) || Double.isNaN(imaginary);
         isInfinite = !isNaN &&
             (Double.isInfinite(real) || Double.isInfinite(imaginary));
-        isZero = real == 0 && imaginary == 0;
     }
 
     /**
@@ -225,10 +222,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *  <li>If either {@code this} or {@code divisor} has a {@code NaN} value
      *   in either part, {@link #NaN} is returned.
      *  </li>
-     *  <li>If {@code this} and {@code divisor} are both {@link #ZERO},
-     *   {@link #NaN} is returned.
-     *  </li>
-     *  <li>If {@code divisor} equals {@link #ZERO}, {@link #INF} is returned.
+     *  <li>If {@code divisor} equals {@link #ZERO}, {@link #NaN} is returned.
      *  </li>
      *  <li>If {@code this} and {@code divisor} are both infinite,
      *   {@link #NaN} is returned.
@@ -255,17 +249,15 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
 
-        if (divisor.isZero) {
-            // return isZero ? NaN : INF; // See MATH-657
+        final double c = divisor.getReal();
+        final double d = divisor.getImaginary();
+        if (c == 0.0 && d == 0.0) {
             return NaN;
         }
 
         if (divisor.isInfinite() && !isInfinite()) {
             return ZERO;
         }
-
-        final double c = divisor.getReal();
-        final double d = divisor.getImaginary();
 
         if (FastMath.abs(c) < FastMath.abs(d)) {
             double q = c / d;
@@ -293,7 +285,6 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
         if (divisor == 0d) {
-            // return isZero ? NaN : INF; // See MATH-657
             return NaN;
         }
         if (Double.isInfinite(divisor)) {
