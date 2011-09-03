@@ -229,7 +229,8 @@ public class ComplexTest {
     public void testDivideZero() {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.divide(Complex.ZERO);
-        Assert.assertEquals(z, Complex.INF);
+        // Assert.assertEquals(z, Complex.INF); // See MATH-657
+        Assert.assertEquals(z, Complex.NaN);
     }
 
     @Test
@@ -573,10 +574,7 @@ public class ComplexTest {
 
     @Test
     public void testAtanI() {
-        for (int i = -10; i < 10; i++) {
-            System.out.println(new Complex(0, 1 - 0.1 * i).atan());
-        }
-        Assert.assertTrue(Complex.I.atan().isInfinite());
+        Assert.assertTrue(Complex.I.atan().isNaN());
     }
 
     @Test
