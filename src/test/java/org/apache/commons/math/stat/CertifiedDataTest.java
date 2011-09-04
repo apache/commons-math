@@ -17,6 +17,7 @@
 package org.apache.commons.math.stat;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
@@ -112,10 +113,12 @@ public class CertifiedDataTest {
         mean = Double.NaN;
         std = Double.NaN;
 
+        InputStream resourceAsStream = CertifiedDataTest.class.getResourceAsStream(resource);
+        Assert.assertNotNull("Could not find resource "+resource,resourceAsStream);
         BufferedReader in =
             new BufferedReader(
                     new InputStreamReader(
-                            CertifiedDataTest.class.getResourceAsStream(resource)));
+                            resourceAsStream));
 
         String line = null;
 
@@ -144,6 +147,7 @@ public class CertifiedDataTest {
             line = in.readLine();
         }
 
+        resourceAsStream.close();
         in.close();
     }
 }
