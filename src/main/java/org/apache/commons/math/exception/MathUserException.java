@@ -37,12 +37,13 @@ public class MathUserException extends RuntimeException
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /** Context. */
-    private final ExceptionContext context = new ExceptionContext();
+    private final ExceptionContext context;
 
     /**
      * Build an exception with a default message.
      */
     public MathUserException() {
+        context = new ExceptionContext(this);
         context.addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
@@ -52,6 +53,7 @@ public class MathUserException extends RuntimeException
      */
     public MathUserException(final Throwable cause) {
         super(cause);
+        context = new ExceptionContext(this);
         context.addMessage(LocalizedFormats.USER_EXCEPTION);
     }
 
@@ -63,6 +65,7 @@ public class MathUserException extends RuntimeException
      */
     public MathUserException(final Localizable pattern,
                              final Object ... arguments) {
+        context = new ExceptionContext(this);
         context.addMessage(pattern, arguments);
     }
 
@@ -77,17 +80,13 @@ public class MathUserException extends RuntimeException
                              final Localizable pattern,
                              final Object ... arguments) {
         super(cause);
+        context = new ExceptionContext(this);
         context.addMessage(pattern, arguments);
     }
 
     /** {@inheritDoc} */
     public ExceptionContext getContext() {
         return context;
-    }
-
-    /** {@inheritDoc} */
-    public Throwable getException() {
-        return this;
     }
 
     /** {@inheritDoc} */

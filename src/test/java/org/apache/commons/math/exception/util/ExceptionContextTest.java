@@ -35,7 +35,7 @@ import org.junit.Test;
 public class ExceptionContextTest {
     @Test
     public void testMessageChain() {
-        final ExceptionContext c = new ExceptionContext();
+        final ExceptionContext c = new ExceptionContext(new Exception("oops"));
         final String sep = " | "; // Non-default separator.
         final String m1 = "column index (0)";
         c.addMessage(LocalizedFormats.COLUMN_INDEX, 0);
@@ -50,14 +50,14 @@ public class ExceptionContextTest {
 
     @Test
     public void testNoArgAddMessage() {
-        final ExceptionContext c = new ExceptionContext();
+        final ExceptionContext c = new ExceptionContext(new Exception("hello"));
         c.addMessage(LocalizedFormats.SIMPLE_MESSAGE);
         Assert.assertEquals(c.getMessage(), "{0}");
     }
 
     @Test
     public void testContext() {
-        final ExceptionContext c = new ExceptionContext();
+        final ExceptionContext c = new ExceptionContext(new Exception("bye"));
 
         final String[] keys = {"Key 1", "Key 2"};
         final Object[] values = {"Value 1", Integer.valueOf(2)};
@@ -82,7 +82,7 @@ public class ExceptionContextTest {
     public void testSerialize()
         throws IOException,
                ClassNotFoundException {
-        final ExceptionContext cOut = new ExceptionContext();
+        final ExceptionContext cOut = new ExceptionContext(new Exception("Apache"));
         cOut.addMessage(LocalizedFormats.COLUMN_INDEX, 0);
         cOut.setValue("Key 1", Integer.valueOf(0));
 
@@ -102,7 +102,7 @@ public class ExceptionContextTest {
 
     @Test
     public void testSerializeUnserializable() {
-        final ExceptionContext cOut = new ExceptionContext();
+        final ExceptionContext cOut = new ExceptionContext(new Exception("Apache Commons Math"));
         cOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, "OK");
         cOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, new Unserializable());
         String key = "Key 1";

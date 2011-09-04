@@ -35,7 +35,7 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /** Context. */
-    private final ExceptionContext context = new ExceptionContext();
+    private final ExceptionContext context;
 
     /**
      * Default constructor.
@@ -50,17 +50,13 @@ public class MathUnsupportedOperationException extends UnsupportedOperationExcep
      */
     public MathUnsupportedOperationException(Localizable pattern,
                                              Object ... args) {
+        context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }
 
     /** {@inheritDoc} */
     public ExceptionContext getContext() {
         return context;
-    }
-
-    /** {@inheritDoc} */
-    public Throwable getException() {
-        return this;
     }
 
     /** {@inheritDoc} */

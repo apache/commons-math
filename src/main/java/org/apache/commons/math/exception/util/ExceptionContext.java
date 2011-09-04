@@ -40,19 +40,40 @@ public class ExceptionContext implements Serializable {
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /**
+     * The throwable to which this context refers to.
+     */
+    private Throwable throwable;
+    /**
      * Various informations that enrich the informative message.
      */
-    private List<Localizable> msgPatterns = new ArrayList<Localizable>();
+    private List<Localizable> msgPatterns;
     /**
      * Various informations that enrich the informative message.
      * The arguments will replace the corresponding place-holders in
      * {@link #msgPatterns}.
      */
-    private List<Object[]> msgArguments = new ArrayList<Object[]>();
+    private List<Object[]> msgArguments;
     /**
      * Arbitrary context information.
      */
-    private Map<String, Object> context = new HashMap<String, Object>();
+    private Map<String, Object> context;
+
+    /** Simple constructor.
+     * @param throwable the exception this context refers too
+     */
+    public ExceptionContext(final Throwable throwable) {
+        this.throwable = throwable;
+        msgPatterns    = new ArrayList<Localizable>();
+        msgArguments   = new ArrayList<Object[]>();
+        context        = new HashMap<String, Object>();
+    }
+
+    /** Get a reference to the exception to which the context relates.
+     * @return a reference to the exception to which the context relates
+     */
+    public Throwable getThrowable() {
+        return throwable;
+    }
 
     /**
      * Adds a message.
@@ -173,6 +194,7 @@ public class ExceptionContext implements Serializable {
      */
     private void writeObject(ObjectOutputStream out)
         throws IOException {
+        out.writeObject(throwable);
         serializeMessages(out);
         serializeContext(out);
     }
@@ -186,6 +208,7 @@ public class ExceptionContext implements Serializable {
     private void readObject(ObjectInputStream in)
         throws IOException,
                ClassNotFoundException {
+        throwable = (Throwable) in.readObject();
         deSerializeMessages(in);
         deSerializeContext(in);
     }

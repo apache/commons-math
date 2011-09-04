@@ -33,7 +33,7 @@ public class MathIllegalStateException extends IllegalStateException
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /** Context. */
-    private final ExceptionContext context = new ExceptionContext();
+    private final ExceptionContext context;
 
     /**
      * Simple constructor.
@@ -43,6 +43,7 @@ public class MathIllegalStateException extends IllegalStateException
      */
     public MathIllegalStateException(Localizable pattern,
                                      Object ... args) {
+        context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }
 
@@ -57,6 +58,7 @@ public class MathIllegalStateException extends IllegalStateException
                                      Localizable pattern,
                                      Object ... args) {
         super(cause);
+        context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }
 
@@ -70,11 +72,6 @@ public class MathIllegalStateException extends IllegalStateException
     /** {@inheritDoc} */
     public ExceptionContext getContext() {
         return context;
-    }
-
-    /** {@inheritDoc} */
-    public Throwable getException() {
-        return this;
     }
 
     /** {@inheritDoc} */

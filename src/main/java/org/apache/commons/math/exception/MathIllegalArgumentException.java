@@ -34,7 +34,7 @@ public class MathIllegalArgumentException extends IllegalArgumentException
     /** Serializable version Id. */
     private static final long serialVersionUID = -6024911025449780478L;
     /** Context. */
-    private final ExceptionContext context = new ExceptionContext();
+    private final ExceptionContext context;
 
     /**
      * @param pattern Message pattern explaining the cause of the error.
@@ -42,17 +42,13 @@ public class MathIllegalArgumentException extends IllegalArgumentException
      */
     public MathIllegalArgumentException(Localizable pattern,
                                         Object ... args) {
+        context = new ExceptionContext(this);
         context.addMessage(pattern, args);
     }
 
     /** {@inheritDoc} */
     public ExceptionContext getContext() {
         return context;
-    }
-
-    /** {@inheritDoc} */
-    public Throwable getException() {
-        return this;
     }
 
     /** {@inheritDoc} */
