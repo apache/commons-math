@@ -314,6 +314,7 @@
           </executions>
         </plugin>
       </plugins>
+      <!-- This section can be dropped once the parent pom is corrected (v22+) -->
       <resources>
         <resource>
           <directory>${basedir}</directory>
@@ -323,9 +324,9 @@
             <include>LICENSE.txt</include>
           </includes>
         </resource>
+        <!-- This is the default from the super-pom, currently missing from commons parent -->
         <resource>
-          <directory>${basedir}/src/main/resources/META-INF/localization</directory>
-          <targetPath>META-INF/localization</targetPath>
+          <directory>src/main/resources</directory>
         </resource>
       </resources>
 
