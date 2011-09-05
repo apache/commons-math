@@ -45,18 +45,6 @@ public interface DecompositionSolver {
      * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
-    double[] solve(final double[] b);
-
-    /** Solve the linear equation A &times; X = B for matrices A.
-     * <p>The A matrix is implicit, it is provided by the underlying
-     * decomposition algorithm.</p>
-     * @param b right-hand side of the equation A &times; X = B
-     * @return a vector X that minimizes the two norm of A &times; X - B
-     * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if the matrices dimensions do not match.
-     * @throws SingularMatrixException
-     * if the decomposed matrix is singular.
-     */
     RealVector solve(final RealVector b);
 
     /** Solve the linear equation A &times; X = B for matrices A.
