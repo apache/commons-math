@@ -57,6 +57,9 @@
   <!-- The base directory for component sources -->
   <property name="source.home"             value="src/main/java"/>
 
+  <!-- The base directory for component resources -->
+  <property name="source.resources"        value="src/main/resources"/>
+
   <!-- The base directory for unit test sources -->
   <property name="test.home"               value="src/test/java"/>
 
@@ -142,10 +145,10 @@
     <mkdir dir="${build.home}"/>
     <mkdir dir="${build.home}/classes"/>
     <mkdir dir="${build.home}/test-classes"/>
-    <mkdir dir="${build.home}/classes/META-INF"/>
-    <copy todir="${build.home}/classes/META-INF">
-       <fileset dir="src/main/resources/META-INF" />
+    <copy todir="${build.home}/classes/">
+       <fileset dir="${source.resources}" />
     </copy>
+
   </target>
 
 <!-- ========== Compile Targets =========================================== -->
