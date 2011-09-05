@@ -196,13 +196,13 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
         }
 
         /** {@inheritDoc} */
-        public double[] solve(double[] b) {
+        public RealVector solve(final RealVector b) {
             final int m = lTData.length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
+            if (b.getDimension() != m) {
+                throw new DimensionMismatchException(b.getDimension(), m);
             }
 
-            final double[] x = b.clone();
+            final double[] x = b.getData();
 
             // Solve LY = b
             for (int j = 0; j < m; j++) {
@@ -223,54 +223,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 }
             }
 
-            return x;
-        }
-
-        /** {@inheritDoc} */
-        public RealVector solve(RealVector b) {
-            try {
-                return solve((ArrayRealVector) b);
-            } catch (ClassCastException cce) {
-
-                final int m = lTData.length;
-                if (b.getDimension() != m) {
-                    throw new DimensionMismatchException(b.getDimension(), m);
-                }
-
-                final double[] x = b.getData();
-
-                // Solve LY = b
-                for (int j = 0; j < m; j++) {
-                    final double[] lJ = lTData[j];
-                    x[j] /= lJ[j];
-                    final double xJ = x[j];
-                    for (int i = j + 1; i < m; i++) {
-                        x[i] -= xJ * lJ[i];
-                    }
-                }
-
-                // Solve LTX = Y
-                for (int j = m - 1; j >= 0; j--) {
-                    x[j] /= lTData[j][j];
-                    final double xJ = x[j];
-                    for (int i = 0; i < j; i++) {
-                        x[i] -= xJ * lTData[i][j];
-                    }
-                }
-
-                return new ArrayRealVector(x, false);
-            }
-        }
-
-        /** Solve the linear equation A &times; X = B.
-         * <p>The A matrix is implicit here. It is </p>
-         * @param b right-hand side of the equation A &times; X = B
-         * @return a vector X such that A &times; X = B
-         * @throws DimensionMismatchException if the matrices dimensions do not match.
-         * @throws SingularMatrixException if the decomposed matrix is singular.
-         */
-        public ArrayRealVector solve(ArrayRealVector b) {
-            return new ArrayRealVector(solve(b.getDataRef()), false);
+            return new ArrayRealVector(x, false);
         }
 
         /** Solve the linear equation A &times; X = B for matrices A.
