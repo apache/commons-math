@@ -316,6 +316,12 @@ public class ComplexTest {
     }
 
     @Test
+    public void testMultiplyInInf() {
+        // Assert.assertTrue(infInf.multiply(infInf).isNaN()); // MATH-620
+        Assert.assertTrue(infInf.multiply(infInf).isInfinite());
+    }
+
+    @Test
     public void testMultiplyNaNInf() {
         Complex z = new Complex(1,1);
         Complex w = z.multiply(infOne);
