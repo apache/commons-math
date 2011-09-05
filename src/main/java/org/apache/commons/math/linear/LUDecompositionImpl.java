@@ -33,8 +33,8 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0
  */
 public class LUDecompositionImpl implements LUDecomposition {
-    /** Default bound to determine effective singularity in LU decomposition */
-    private static final double DEFAULT_TOO_SMALL = 10E-12;
+    /** Default bound to determine effective singularity in LU decomposition. */
+    private static final double DEFAULT_TOO_SMALL = 1e-11;
     /** Entries of LU decomposition. */
     private double lu[][];
     /** Pivot permutation associated with LU decomposition */
@@ -52,6 +52,9 @@ public class LUDecompositionImpl implements LUDecomposition {
 
     /**
      * Calculates the LU-decomposition of the given matrix.
+     * This constructor uses 1e-11 as default value for the singularity
+     * threshold.
+     *
      * @param matrix Matrix to decompose.
      * @throws NonSquareMatrixException if matrix is not square.
      */
