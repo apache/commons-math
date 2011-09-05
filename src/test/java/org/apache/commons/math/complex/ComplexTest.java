@@ -229,6 +229,14 @@ public class ComplexTest {
     public void testDivideZero() {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.divide(Complex.ZERO);
+        // Assert.assertEquals(z, Complex.INF); // See MATH-657
+        Assert.assertEquals(z, Complex.NaN);
+    }
+
+    @Test
+    public void testDivideZeroZero() {
+        Complex x = new Complex(0.0, 0.0);
+        Complex z = x.divide(Complex.ZERO);
         Assert.assertEquals(z, Complex.NaN);
     }
 
@@ -349,13 +357,13 @@ public class ComplexTest {
 
     @Test
     public void testScalarMultiplyInf() {
-        Complex x = new Complex(1,1);
+        Complex x = new Complex(1, 1);
         double yDouble = Double.POSITIVE_INFINITY;
         Complex yComplex = new Complex(yDouble);
         Assert.assertEquals(x.multiply(yComplex), x.multiply(yDouble));
         
         yDouble = Double.NEGATIVE_INFINITY;
-         yComplex = new Complex(yDouble);
+        yComplex = new Complex(yDouble);
         Assert.assertEquals(x.multiply(yComplex), x.multiply(yDouble));
     }
 
@@ -565,9 +573,13 @@ public class ComplexTest {
     }
 
     @Test
+    public void testAtanI() {
+        Assert.assertTrue(Complex.I.atan().isNaN());
+    }
+
+    @Test
     public void testAtanNaN() {
         Assert.assertTrue(Complex.NaN.atan().isNaN());
-        Assert.assertTrue(Complex.I.atan().isNaN());
     }
 
     @Test
