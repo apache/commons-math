@@ -312,7 +312,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public ArrayRealVector subtract(RealVector v) {
-        if (v instanceof ArrayRealVector) { 
+        if (v instanceof ArrayRealVector) {
             final double[] vData = ((ArrayRealVector) v).data;
             final int dim = vData.length;
             checkVectorDimensions(dim);
