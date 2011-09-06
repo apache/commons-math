@@ -538,7 +538,7 @@ public class BOBYQAOptimizer
                         bdtest = -work1.getEntry(j);
                     }
                     if (bdtest < bdtol) {
-                        curv = hq.getEntry((j + j * j) / 2 - 1);
+                        curv = hq.getEntry((j + j * j) / 2);
                         for (int k = 0; k < npt; k++) {
                             // Computing 2nd power
                             final double d1 = xpt.getEntry(k, j);
@@ -548,6 +548,7 @@ public class BOBYQAOptimizer
                         if (bdtest < bdtol) {
                             state = 650; break;
                         }
+                        throw new PathIsExploredException(); // XXX
                     }
                 }
                 state = 680; break;
