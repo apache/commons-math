@@ -3091,10 +3091,12 @@ public class FastMath {
         Double.NaN,
     };
 
-    private static final int EXP_FRAC_TABLE_LEN = 1025;
+    private static final int TWO_POWER_10 = 1024;
+    private static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
 
     /** Exponential over the range of 0 - 1 in increments of 2^-10
      * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
+     * 1024 = 2^10
      */
     private static final double EXP_FRAC_TABLE_A[] = 
         {
@@ -5181,11 +5183,11 @@ public class FastMath {
         +2.0922789888E13d,            
         +3.55687428096E14d,           
         +6.402373705728E15d,          
-        +1.21645100408832E17d,        
+        +1.21645100408832E17d,
     };
             
 
-    private static final int LN_MANT_LEN = 1024;
+    private static final int LN_MANT_LEN = 1024; // MAGIC NUMBER
 
     /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
     private static final double LN_MANT[][] =     { 
@@ -6265,7 +6267,7 @@ public class FastMath {
         {-0.16624879837036133, -2.6033824355191673E-8}
     };
 
-    private static final int SINE_TABLE_LEN = 14;
+    private static final int SINE_TABLE_LEN = 14; // MAGIC NUMBER
     
     /** Sine table (high bits). */
     private static final double SINE_TABLE_A[] =
@@ -6472,7 +6474,7 @@ public class FastMath {
 
         // Populate expFracTable
         for (i = 0; i < EXP_FRAC_TABLE_A.length; i++) {
-            slowexp(i/1024.0, tmp);
+            slowexp(i/1024.0, tmp); // TWO_POWER_10
             EXP_FRAC_TABLE_A[i] = tmp[0];
             EXP_FRAC_TABLE_B[i] = tmp[1];
         }
@@ -6500,7 +6502,7 @@ public class FastMath {
         printarray("COSINE_TABLE_A", SINE_TABLE_LEN, COSINE_TABLE_A);
         printarray("COSINE_TABLE_B", SINE_TABLE_LEN, COSINE_TABLE_B);
         printarray("TANGENT_TABLE_A", SINE_TABLE_LEN, TANGENT_TABLE_A);
-        printarray("TANGENT_TABLE_B", SINE_TABLE_LEN, TANGENT_TABLE_B);        
+        printarray("TANGENT_TABLE_B", SINE_TABLE_LEN, TANGENT_TABLE_B);
     }
 
     private static void printarray(String string, int expectedLen, double[][] array2d) {
@@ -6578,6 +6580,11 @@ public class FastMath {
           return x;
       }
 
+      // cosh[z] = (exp(z) + exp(-z))/2
+
+      // for numbers with magnitude 20 or so, 
+      // exp(-z) can be ignored in comparison with exp(z)
+
       if (x > 20.0) {
           return exp(x)/2.0;
       }
@@ -6633,6 +6640,11 @@ public class FastMath {
           return x;
       }
 
+      // sinh[z] = (exp(z) - exp(-z) / 2
+      
+      // for values of z larger than about 20, 
+      // exp(-z) can be ignored in comparison with exp(z)
+      
       if (x > 20.0) {
           return exp(x)/2.0;
       }
@@ -6743,6 +6755,12 @@ public class FastMath {
       if (x != x) {
           return x;
       }
+
+      // tanh[z] = sinh[z] / cosh[z] 
+      // = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
+      // = (exp(2x) - 1) / (exp(2x) + 1)
+      
+      // for magnitude > 20, sinh[z] == cosh[z] in double precision
 
       if (x > 20.0) {
           return 1.0;
@@ -7283,7 +7301,7 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = 19; i >= 0; i--) {
+        for (int i = FACT_LEN-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0];
             ys[1] = as[1];
@@ -7329,7 +7347,7 @@ public class FastMath {
         final double c = a[0] + a[1];
         final double d = -(c - a[0] - a[1]);
 
-        if (c < 8e298 && c > -8e298) {
+        if (c < 8e298 && c > -8e298) { // MAGIC NUMBER
             double z = c * HEX_40000000;
             a[0] = (c + z) - z;
             a[1] = c - a[0] + d;
