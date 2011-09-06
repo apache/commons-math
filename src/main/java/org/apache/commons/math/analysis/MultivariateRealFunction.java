@@ -30,8 +30,6 @@ public interface MultivariateRealFunction {
      *
      * @param point Point at which the function must be evaluated.
      * @return the function value for the given point.
-     * @throws org.apache.commons.math.exception.MathUserException if
-     * the function evaluation fails.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the parameter's dimension is wrong for the function being evaluated.
      * @throws  org.apache.commons.math.exception.MathIllegalArgumentException

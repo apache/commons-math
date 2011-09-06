@@ -24,7 +24,6 @@ import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -78,7 +77,7 @@ public class LegendreGaussIntegratorTest {
 
     @Test
     public void testExactIntegration()
-        throws ConvergenceException, MathUserException {
+        throws ConvergenceException {
         Random random = new Random(86343623467878363l);
         for (int n = 2; n < 6; ++n) {
             LegendreGaussIntegrator integrator =

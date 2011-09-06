@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /**
  * An interface representing a trivariate real function.
  *
@@ -33,8 +31,6 @@ public interface TrivariateRealFunction {
      * @param y y-coordinate for which the function value should be computed.
      * @param z z-coordinate for which the function value should be computed.
      * @return the value.
-     * @throws MathUserException if the function evaluation fails.
      */
-    double value(double x, double y, double z)
-        throws MathUserException;
+    double value(double x, double y, double z);
 }

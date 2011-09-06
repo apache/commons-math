@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /**
  * Auxiliary class for testing optimizers.
  *
@@ -43,7 +41,7 @@ public class SumSincFunction implements DifferentiableMultivariateRealFunction {
      * @param point Argument.
      * @return the value of this function at point {@code x}.
      */
-    public double value(double[] point) throws MathUserException {
+    public double value(double[] point) {
         double sum = 0;
         for (int i = 0, max = point.length; i < max; i++) {
             final double x = point[i];
@@ -58,7 +56,7 @@ public class SumSincFunction implements DifferentiableMultivariateRealFunction {
      */
     public MultivariateRealFunction partialDerivative(final int k) {
         return new MultivariateRealFunction() {
-            public double value(double[] point) throws MathUserException {
+            public double value(double[] point) {
                 return sincDeriv.value(point[k]);
             }
         };
@@ -69,8 +67,7 @@ public class SumSincFunction implements DifferentiableMultivariateRealFunction {
      */
     public MultivariateVectorialFunction gradient() {
         return new MultivariateVectorialFunction() {
-            public double[] value(double[] point)
-                throws MathUserException {
+            public double[] value(double[] point) {
                 final int n = point.length;
                 final double[] r = new double[n];
                 for (int i = 0; i < n; i++) {

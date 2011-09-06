@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /**
  * An interface representing a univariate real function.
  *
@@ -27,6 +25,52 @@ public interface UnivariateRealFunction {
     /**
      * Compute the value of the function.
      *
+     * <p>
+     * For user-defined functions, when the method encounters an error
+     * during evaluation, users must use their <em>own</em> unchecked exceptions.
+     * The following example shows the recommended way to do that, using root
+     * solving as the example (the same construct should be used for ODE
+     * integrators or for optimizations).
+     * </p>
+     * <pre>
+     * private static class LocalException extends RuntimeException {
+     *
+     *   // the x value that caused the problem
+     *   private final double x;
+     *
+     *   public LocalException(double x) {
+     *     this.x = x;
+     *   }
+     *
+     *   public double getX() {
+     *     return x;
+     *   }
+     *
+     * }
+     *
+     * private static class MyFunction implements UnivariateRealFunction {
+     *   public double value(double x) {
+     *     double y = hugeFormula(x);
+     *     if (somethingBadHappens) {
+     *       throw new LocalException(x);
+     *     }
+     *     return y;
+     *   }
+     * }
+     *
+     * public void compute() {
+     *   try {
+     *     solver.solve(maxEval, new MyFunction(a, b, c), min, max);
+     *   } catch (LocalException le) {
+     *     // retrieve the x value
+     *   }
+     * }
+     * </pre>
+     *
+     * <p>
+     * As shown in this example the exception is really something local to user code
+     * and there is a guarantee Apache Commons Math will not mess with it. The user is safe.
+     * </p>
      * @param x Point at which the function value should be computed.
      * @return the value.
      * @throws IllegalArgumentException when the activated method itself can
@@ -35,15 +79,6 @@ public interface UnivariateRealFunction {
      * majority of cases where Commons-Math throws IllegalArgumentException,
      * it is the result of argument checking of actual parameters immediately
      * passed to a method.
-     * @throws MathUserException when the method may encounter errors during evaluation.
-     * This should be thrown only in circumstances where, at the level of the
-     * activated function, IllegalArgumentException is not appropriate and it
-     * should indicate that while formal preconditions of the method have not
-     * been violated, an irrecoverable error has occurred evaluating a
-     * function at some (usually lower) level of the call stack.
-     * Convergence failures, runtime exceptions (even IllegalArgumentException)
-     * in user code or lower level methods can cause (and should be wrapped in)
-     * a MathUserException.
      */
-    double value(double x) throws MathUserException;
+    double value(double x);
 }
