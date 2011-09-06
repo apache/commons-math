@@ -26,12 +26,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.events.EventHandler;
@@ -39,6 +38,7 @@ import org.apache.commons.math.ode.events.EventState;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.util.MathUtils;
 
 /**
@@ -72,11 +72,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Name of the method. */
     private final String name;
 
-    /** Maximal number of evaluations allowed. */
-    private int maxEvaluations;
-
-    /** Number of evaluations already performed. */
-    private int evaluations;
+    /** Counter for number of evaluations. */
+    private Incrementor evaluations;
 
     /** Differential equations to integrate. */
     private transient FirstOrderDifferentialEquations equations;
@@ -91,6 +88,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         stepSize  = Double.NaN;
         eventsStates = new ArrayList<EventState>();
         statesInitialized = false;
+        evaluations = new Incrementor();
         setMaxEvaluations(-1);
         resetEvaluations();
     }
@@ -167,23 +165,23 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** {@inheritDoc} */
     public void setMaxEvaluations(int maxEvaluations) {
-        this.maxEvaluations = (maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations;
+        evaluations.setMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);
     }
 
     /** {@inheritDoc} */
     public int getMaxEvaluations() {
-        return maxEvaluations;
+        return evaluations.getMaximalCount();
     }
 
     /** {@inheritDoc} */
     public int getEvaluations() {
-        return evaluations;
+        return evaluations.getCount();
     }
 
     /** Reset the number of evaluations to zero.
      */
     protected void resetEvaluations() {
-        evaluations = 0;
+        evaluations.resetCount();
     }
 
     /** Set the differential equations.
@@ -198,14 +196,11 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
-     * @throws MathUserException this user-defined exception should be used if an error is
-     * is triggered by user code
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
-        throws MathUserException {
-        if (++evaluations > maxEvaluations) {
-            throw new MathUserException(new MaxEvaluationsExceededException(maxEvaluations));
-        }
+        throws MaxCountExceededException {
+        evaluations.incrementCount();
         equations.computeDerivatives(t, y, yDot);
     }
 

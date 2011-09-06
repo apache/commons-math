@@ -149,7 +149,6 @@ public enum LocalizedFormats implements Localizable {
     MAP_MODIFIED_WHILE_ITERATING("map has been modified while iterating"),
     EVALUATIONS("evaluations"), /* keep */
     MAX_COUNT_EXCEEDED("maximal count ({0}) exceeded"), /* keep */
-    MAX_EVALUATIONS_EXCEEDED("maximal number of evaluations ({0}) exceeded"),
     MAX_ITERATIONS_EXCEEDED("maximal number of iterations ({0}) exceeded"),
     MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION("minimal step size ({1,number,0.00E00}) reached, integration needs {0,number,0.00E00}"),
     MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS("Loess expects the abscissa and ordinate arrays to be of the same size, but got {0} abscissae and {1} ordinatae"),

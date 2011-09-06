@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.TestProblem1;
@@ -99,7 +99,7 @@ public class AdamsMoultonIntegratorTest {
 
     }
 
-    @Test(expected = MathUserException.class)
+    @Test(expected = MaxCountExceededException.class)
     public void exceedMaxEvaluations() {
 
         TestProblem1 pb  = new TestProblem1();
