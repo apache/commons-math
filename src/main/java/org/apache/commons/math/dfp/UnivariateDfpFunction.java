@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.dfp;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /**
  * An interface representing a univariate {@link Dfp} function.
  *
@@ -36,16 +34,7 @@ public interface UnivariateDfpFunction {
      * majority of cases where Commons-Math throws IllegalArgumentException,
      * it is the result of argument checking of actual parameters immediately
      * passed to a method.
-     * @throws MathUserException when the method may encounter errors during evaluation.
-     * This should be thrown only in circumstances where, at the level of the
-     * activated function, IllegalArgumentException is not appropriate and it
-     * should indicate that while formal preconditions of the method have not
-     * been violated, an irrecoverable error has occurred evaluating a
-     * function at some (usually lower) level of the call stack.
-     * Convergence failures, runtime exceptions (even IllegalArgumentException)
-     * in user code or lower level methods can cause (and should be wrapped in)
-     * a MathUserException.
      */
-    Dfp value(Dfp x) throws MathUserException;
+    Dfp value(Dfp x);
 
 }
