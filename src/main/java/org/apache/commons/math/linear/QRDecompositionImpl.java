@@ -275,18 +275,18 @@ public class QRDecompositionImpl implements QRDecomposition {
         }
 
         /** {@inheritDoc} */
-        public double[] solve(double[] b) {
+        public RealVector solve(RealVector b) {
             final int n = qrt.length;
             final int m = qrt[0].length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
+            if (b.getDimension() != m) {
+                throw new DimensionMismatchException(b.getDimension(), m);
             }
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
             }
 
             final double[] x = new double[n];
-            final double[] y = b.clone();
+            final double[] y = b.toArray();
 
             // apply Householder transforms to solve Q.y = b
             for (int minor = 0; minor < FastMath.min(m, n); minor++) {
@@ -306,7 +306,7 @@ public class QRDecompositionImpl implements QRDecomposition {
             // solve triangular system R.x = y
             for (int row = rDiag.length - 1; row >= 0; --row) {
                 y[row] /= rDiag[row];
-                final double yRow   = y[row];
+                final double yRow = y[row];
                 final double[] qrtRow = qrt[row];
                 x[row] = yRow;
                 for (int i = 0; i < row; i++) {
@@ -314,27 +314,7 @@ public class QRDecompositionImpl implements QRDecomposition {
                 }
             }
 
-            return x;
-        }
-
-        /** {@inheritDoc} */
-        public RealVector solve(RealVector b) {
-            try {
-                return solve((ArrayRealVector) b);
-            } catch (ClassCastException cce) {
-                return new ArrayRealVector(solve(b.getData()), false);
-            }
-        }
-
-        /** Solve the linear equation A &times; X = B.
-         * <p>The A matrix is implicit here. It is </p>
-         * @param b right-hand side of the equation A &times; X = B
-         * @return a vector X that minimizes the two norm of A &times; X - B
-         * @throws DimensionMismatchException if the matrices dimensions do not match.
-         * @throws SingularMatrixException if the decomposed matrix is singular.
-         */
-        public ArrayRealVector solve(ArrayRealVector b) {
-            return new ArrayRealVector(solve(b.getDataRef()), false);
+            return new ArrayRealVector(x, false);
         }
 
         /** {@inheritDoc} */

@@ -333,7 +333,7 @@ public class ArrayRealVectorTest {
         }
 
         public double[] toArray() {
-            throw unsupported();
+            return data.clone();
         }
 
         public boolean isNaN() {
