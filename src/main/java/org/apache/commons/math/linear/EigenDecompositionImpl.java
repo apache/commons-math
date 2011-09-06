@@ -279,43 +279,6 @@ public class EigenDecompositionImpl implements EigenDecomposition {
          * @throws DimensionMismatchException if the matrices dimensions do not match.
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
-        public double[] solve(final double[] b) {
-
-            if (!isNonSingular()) {
-                throw new SingularMatrixException();
-            }
-
-            final int m = realEigenvalues.length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
-            }
-
-            final double[] bp = new double[m];
-            final ArrayRealVector bVector = new ArrayRealVector(b, false);
-            for (int i = 0; i < m; ++i) {
-                final ArrayRealVector v = eigenvectors[i];
-                final double[] vData = v.getDataRef();
-                final double s = v.dotProduct(bVector) / realEigenvalues[i];
-                for (int j = 0; j < m; ++j) {
-                    bp[j] += s * vData[j];
-                }
-            }
-
-            return bp;
-
-        }
-
-        /**
-         * Solve the linear equation A &times; X = B for symmetric matrices A.
-         * <p>
-         * This method only find exact linear solutions, i.e. solutions for
-         * which ||A &times; X - B|| is exactly 0.
-         * </p>
-         * @param b Right-hand side of the equation A &times; X = B
-         * @return a Vector X that minimizes the two norm of A &times; X - B
-         * @throws DimensionMismatchException if the matrices dimensions do not match.
-         * @throws SingularMatrixException if the decomposed matrix is singular.
-         */
         public RealVector solve(final RealVector b) {
             if (!isNonSingular()) {
                 throw new SingularMatrixException();
