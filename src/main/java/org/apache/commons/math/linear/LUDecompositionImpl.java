@@ -249,10 +249,10 @@ public class LUDecompositionImpl implements LUDecomposition {
         }
 
         /** {@inheritDoc} */
-        public double[] solve(double[] b) {
+        public RealVector solve(RealVector b) {
             final int m = pivot.length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
+            if (b.getDimension() != m) {
+                throw new DimensionMismatchException(b.getDimension(), m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -262,7 +262,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 
             // Apply permutations to b
             for (int row = 0; row < m; row++) {
-                bp[row] = b[pivot[row]];
+                bp[row] = b.getEntry(pivot[row]);
             }
 
             // Solve LY = b
@@ -282,61 +282,7 @@ public class LUDecompositionImpl implements LUDecomposition {
                 }
             }
 
-            return bp;
-        }
-
-        /** {@inheritDoc} */
-        public RealVector solve(RealVector b) {
-            try {
-                return solve((ArrayRealVector) b);
-            } catch (ClassCastException cce) {
-
-                final int m = pivot.length;
-                if (b.getDimension() != m) {
-                    throw new DimensionMismatchException(b.getDimension(), m);
-                }
-                if (singular) {
-                    throw new SingularMatrixException();
-                }
-
-                final double[] bp = new double[m];
-
-                // Apply permutations to b
-                for (int row = 0; row < m; row++) {
-                    bp[row] = b.getEntry(pivot[row]);
-                }
-
-                // Solve LY = b
-                for (int col = 0; col < m; col++) {
-                    final double bpCol = bp[col];
-                    for (int i = col + 1; i < m; i++) {
-                        bp[i] -= bpCol * lu[i][col];
-                    }
-                }
-
-                // Solve UX = Y
-                for (int col = m - 1; col >= 0; col--) {
-                    bp[col] /= lu[col][col];
-                    final double bpCol = bp[col];
-                    for (int i = 0; i < col; i++) {
-                        bp[i] -= bpCol * lu[i][col];
-                    }
-                }
-
-                return new ArrayRealVector(bp, false);
-            }
-        }
-
-        /** Solve the linear equation A &times; X = B.
-         * <p>The A matrix is implicit here. It is </p>
-         * @param b right-hand side of the equation A &times; X = B
-         * @return a vector X such that A &times; X = B
-         * @throws DimensionMismatchException if the matrices dimensions
-         * do not match.
-         * @throws SingularMatrixException if decomposed matrix is singular.
-         */
-        public ArrayRealVector solve(ArrayRealVector b) {
-            return new ArrayRealVector(solve(b.getDataRef()), false);
+            return new ArrayRealVector(bp, false);
         }
 
         /** {@inheritDoc} */
