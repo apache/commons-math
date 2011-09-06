@@ -70,10 +70,11 @@
             <li><a href="analysis.html">4. Numerical Analysis</a>
                 <ul>
                 <li><a href="analysis.html#a4.1_Overview">4.1 Overview</a></li>
-                <li><a href="analysis.html#a4.2_Root-finding">4.2 Root-finding</a></li>                
-                <li><a href="analysis.html#a4.3_Interpolation">4.3 Interpolation</a></li>
-                <li><a href="analysis.html#a4.4_Integration">4.4 Integration</a></li>
-                <li><a href="analysis.html#a4.5_Polynomials">4.5 Polynomials</a></li>
+                <li><a href="analysis.html#a4.2_Error-handling">4.2 Error handling</a></li>                
+                <li><a href="analysis.html#a4.3_Root-finding">4.3 Root-finding</a></li>                
+                <li><a href="analysis.html#a4.4_Interpolation">4.4 Interpolation</a></li>
+                <li><a href="analysis.html#a4.5_Integration">4.5 Integration</a></li>
+                <li><a href="analysis.html#a4.6_Polynomials">4.6 Polynomials</a></li>
                 </ul></li>     
             <li><a href="special.html">5. Special Functions</a>
                 <ul>

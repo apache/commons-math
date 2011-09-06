@@ -44,7 +44,54 @@
           Possible future additions may include numerical differentiation.
         </p>
       </subsection>
-      <subsection name="4.2 Root-finding" href="rootfinding">
+      <subsection name="4.2 Error handling" href="errorhandling">
+        <p>
+          For user-defined functions, when the method encounters an error
+          during evaluation, users must use their <em>own</em> unchecked exceptions.
+          The following example shows the recommended way to do that, using root
+          solving as the example (the same construct should be used for ODE
+          integrators or for optimizations).
+        </p>
+        <source>private static class LocalException extends RuntimeException {
+
+   // the x value that caused the problem
+   private final double x;
+
+   public LocalException(double x) {
+     this.x = x;
+   }
+
+   public double getX() {
+     return x;
+   }
+
+ }
+
+ private static class MyFunction implements UnivariateRealFunction {
+   public double value(double x) {
+     double y = hugeFormula(x);
+     if (somethingBadHappens) {
+       throw new LocalException(x);
+     }
+     return y;
+   }
+ }
+
+ public void compute() {
+   try {
+     solver.solve(maxEval, new MyFunction(a, b, c), min, max);
+   } catch (LocalException le) {
+     // retrieve the x value
+   }
+ }
+ </source>
+      <p>
+        As shown in this example the exception is really something local to user code
+        and there is a guarantee Apache Commons Math will not mess with it.
+        The user is safe.
+      </p>
+      </subsection>
+      <subsection name="4.3 Root-finding" href="rootfinding">
         <p>
           <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
           UnivariateRealSolver</a>, <a href="../apidocs/org/apache/commons/math/analysis/solvers/DifferentiableUnivariateRealSolver.html">
@@ -327,7 +374,7 @@ double c = UnivariateRealSolverUtils.forceSide(100, function,
           </table>
         </p>
       </subsection>
-      <subsection name="4.3 Interpolation" href="interpolation">
+      <subsection name="4.4 Interpolation" href="interpolation">
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/UnivariateRealInterpolator.html">
           UnivariateRealInterpolator</a> is used to find a univariate real-valued
@@ -445,7 +492,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           tricubic interpolating function</a>.
         </p>
       </subsection>
-      <subsection name="4.4 Integration" href="integration">
+      <subsection name="4.5 Integration" href="integration">
         <p>
           A <a href="../apidocs/org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.html">
           UnivariateRealIntegrator</a> provides the means to numerically integrate
@@ -463,7 +510,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           </ul>      
         </p>
       </subsection>
-      <subsection name="4.5 Polynomials" href="polynomials">
+      <subsection name="4.6 Polynomials" href="polynomials">
         <p>
           The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package-summary.html">
           org.apache.commons.math.analysis.polynomials</a> package provides real
