@@ -19,7 +19,6 @@ package org.apache.commons.math.transform;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.complex.Complex;
@@ -86,13 +85,11 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws MathUserException if function cannot be evaluated
-     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] transform(UnivariateRealFunction f,
                                double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
         double data[] = sample(f, min, max, n);
         return fft(data, false);
     }
@@ -141,13 +138,11 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws MathUserException if function cannot be evaluated
-     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] transform2(UnivariateRealFunction f,
                                 double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / FastMath.sqrt(n);
@@ -200,13 +195,11 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws MathUserException if function cannot be evaluated
-     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] inversetransform(UnivariateRealFunction f,
                                       double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / n;
@@ -259,13 +252,11 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws MathUserException if function cannot be evaluated
-     * at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public Complex[] inversetransform2(UnivariateRealFunction f,
                                        double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
 
         double data[] = sample(f, min, max, n);
         double scaling_coefficient = 1.0 / FastMath.sqrt(n);
@@ -424,11 +415,10 @@ public class FastFourierTransformer implements Serializable {
      * @param max the upper bound for the interval
      * @param n the number of sample points
      * @return the samples array
-     * @throws MathUserException if function cannot be evaluated at some point
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public static double[] sample(UnivariateRealFunction f, double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
 
         if (n <= 0) {
             throw MathRuntimeException.createIllegalArgumentException(

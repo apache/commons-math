@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -43,7 +42,7 @@ public class FastHadamardTransformer implements RealTransformer {
     /** {@inheritDoc} */
     public double[] transform(UnivariateRealFunction f,
                               double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
         return fht(FastFourierTransformer.sample(f, min, max, n));
     }
 
@@ -56,7 +55,7 @@ public class FastHadamardTransformer implements RealTransformer {
     /** {@inheritDoc} */
     public double[] inversetransform(UnivariateRealFunction f,
                                      double min, double max, int n)
-        throws MathUserException, IllegalArgumentException {
+        throws IllegalArgumentException {
         final double[] unscaled =
             fht(FastFourierTransformer.sample(f, min, max, n));
         return FastFourierTransformer.scaleArray(unscaled, 1.0 / n);
