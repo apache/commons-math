@@ -5,7 +5,6 @@ import static org.junit.Assert.assertArrayEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.nonstiff.GraggBulirschStoerIntegrator;
@@ -208,14 +207,12 @@ public abstract class StepNormalizerOutputTestBase
     }
 
     /** {@inheritDoc} */
-    public void computeDerivatives(double t, double[] y, double[] yDot)
-        throws MathUserException {
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
         yDot[0] = y[0];
     }
 
     /** {@inheritDoc} */
-    public void handleStep(double t, double[] y, double[] yDot, boolean isLast)
-        throws MathUserException {
+    public void handleStep(double t, double[] y, double[] yDot, boolean isLast) {
         output.add(t);
     }
 }

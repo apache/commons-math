@@ -19,7 +19,6 @@ package org.apache.commons.math.ode;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator;
@@ -417,8 +416,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         /** {@inheritDoc} */
-        public void computeDerivatives(double t, double[] y, double[] dot)
-                throws MathUserException {
+        public void computeDerivatives(double t, double[] y, double[] dot) {
             MultistepIntegrator.this.computeDerivatives(t, y, dot);
         }
 

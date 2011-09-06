@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -43,12 +43,11 @@ public class HighamHall54IntegratorTest {
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
           new FirstOrderDifferentialEquations() {
-            public void computeDerivatives(double t, double[] y, double[] dot)
-            throws MathUserException {
+            public void computeDerivatives(double t, double[] y, double[] dot) {
             if (t < -0.5) {
-                throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "oops");
+                throw new LocalException(t);
             } else {
-                throw new MathUserException(new RuntimeException("oops"));
+                throw new RuntimeException("oops");
            }
           }
           public int getDimension() {
@@ -59,14 +58,14 @@ public class HighamHall54IntegratorTest {
       try  {
         integrator.integrate(equations, -1.0, new double[1], 0.0, new double[1]);
         Assert.fail("an exception should have been thrown");
-      } catch(MathUserException de) {
+      } catch(LocalException de) {
         // expected behavior
       }
 
       try  {
         integrator.integrate(equations, 0.0, new double[1], 1.0, new double[1]);
         Assert.fail("an exception should have been thrown");
-      } catch(MathUserException de) {
+      } catch(RuntimeException de) {
         // expected behavior
       }
 
@@ -187,8 +186,8 @@ public class HighamHall54IntegratorTest {
 
   }
 
-  @Test
-  public void testEventsErrors() throws Exception {
+  @Test(expected=LocalException.class)
+  public void testEventsErrors() {
 
       final TestProblem1 pb = new TestProblem1();
       double minStep = 0;
@@ -210,7 +209,7 @@ public class HighamHall54IntegratorTest {
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new MathUserException(LocalizedFormats.EVALUATION_FAILED, t);
+            throw new LocalException(t);
           }
           return offset;
         }
@@ -218,15 +217,17 @@ public class HighamHall54IntegratorTest {
         }
       }, Double.POSITIVE_INFINITY, 1.0e-8 * maxStep, 1000);
 
-      try {
-        integ.integrate(pb,
-                        pb.getInitialTime(), pb.getInitialState(),
-                        pb.getFinalTime(), new double[pb.getDimension()]);
-        Assert.fail("an exception should have been thrown");
-      } catch (MathUserException ie) {
-        // expected behavior
-      }
+      integ.integrate(pb,
+                      pb.getInitialTime(), pb.getInitialState(),
+                      pb.getFinalTime(), new double[pb.getDimension()]);
 
+  }
+
+  private static class LocalException extends MathIllegalNumberException {
+    private static final long serialVersionUID = 3041292643919807960L;
+    protected LocalException(Number wrong) {
+        super(LocalizedFormats.SIMPLE_MESSAGE, wrong);
+    }
   }
 
   @Test

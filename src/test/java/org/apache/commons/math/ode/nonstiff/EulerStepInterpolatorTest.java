@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
@@ -56,8 +55,7 @@ public class EulerStepInterpolatorTest {
   }
 
   @Test
-  public void interpolationAtBounds()
-    throws MathUserException {
+  public void interpolationAtBounds() {
 
     double   t0 = 0;
     double[] y0 = {0.0, 1.0, -2.0};
@@ -93,8 +91,7 @@ public class EulerStepInterpolatorTest {
   }
 
   @Test
-  public void interpolationInside()
-  throws MathUserException {
+  public void interpolationInside() {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };

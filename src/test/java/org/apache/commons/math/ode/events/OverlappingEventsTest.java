@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.apache.commons.math.analysis.solvers.BaseSecantSolver;
 import org.apache.commons.math.analysis.solvers.PegasusSolver;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator;
@@ -114,7 +113,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
     }
 
     /** {@inheritDoc} */
-    public void computeDerivatives(double t, double[] y, double[] yDot) throws MathUserException {
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
         yDot[0] = 1.0;
         yDot[1] = 2.0;
     }

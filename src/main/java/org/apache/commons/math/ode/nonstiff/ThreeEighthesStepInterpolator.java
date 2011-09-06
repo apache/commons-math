@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -85,8 +84,7 @@ class ThreeEighthesStepInterpolator
   /** {@inheritDoc} */
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
-                                          final double oneMinusThetaH)
-      throws MathUserException {
+                                          final double oneMinusThetaH) {
 
       final double fourTheta2 = 4 * theta * theta;
       final double s          = oneMinusThetaH / 8.0;

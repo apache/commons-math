@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
 
 
 /** This interface represents a first order differential equations set.
@@ -58,10 +57,7 @@ public interface FirstOrderDifferentialEquations {
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
-     * @throws MathUserException this user-defined exception should be used if an error is
-     * is triggered by user code
      */
-    void computeDerivatives(double t, double[] y, double[] yDot)
-        throws MathUserException;
+    void computeDerivatives(double t, double[] y, double[] yDot);
 
 }

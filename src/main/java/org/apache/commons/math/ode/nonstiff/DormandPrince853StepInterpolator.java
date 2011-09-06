@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
@@ -311,8 +310,7 @@ class DormandPrince853StepInterpolator
   /** {@inheritDoc} */
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
-                                          final double oneMinusThetaH)
-    throws MathUserException {
+                                          final double oneMinusThetaH) {
 
     if (! vectorsInitialized) {
 
@@ -385,8 +383,7 @@ class DormandPrince853StepInterpolator
 
   /** {@inheritDoc} */
   @Override
-  protected void doFinalize()
-    throws MathUserException {
+  protected void doFinalize() {
 
     if (currentState == null) {
       // we are finalizing an uninitialized instance
@@ -436,7 +433,7 @@ class DormandPrince853StepInterpolator
     try {
       // save the local attributes
       finalizeStep();
-    } catch (MathUserException e) {
+    } catch (Exception e) {
         IOException ioe = new IOException(e.getLocalizedMessage());
         ioe.initCause(e);
         throw ioe;

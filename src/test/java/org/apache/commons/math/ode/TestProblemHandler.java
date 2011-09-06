@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.ode.ODEIntegrator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -67,9 +65,7 @@ public class TestProblemHandler
     expectedStepStart = Double.NaN;
   }
 
-  public void handleStep(StepInterpolator interpolator,
-                         boolean isLast)
-    throws MathUserException {
+  public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
     double start = integrator.getCurrentStepStart();
     if (FastMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {

@@ -25,7 +25,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.ContinuousOutputModel;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -113,8 +112,7 @@ public class DormandPrince853StepInterpolatorTest {
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
     integ.addStepHandler(new StepHandler() {
-        public void handleStep(StepInterpolator interpolator, boolean isLast)
-        throws MathUserException {
+        public void handleStep(StepInterpolator interpolator, boolean isLast) {
             StepInterpolator cloned = interpolator.copy();
             double tA = cloned.getPreviousTime();
             double tB = cloned.getCurrentTime();

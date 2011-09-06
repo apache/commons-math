@@ -18,7 +18,6 @@
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
@@ -296,9 +295,7 @@ public class DormandPrince853IntegratorTest {
       nbSteps = 0;
       maxError = 0;
     }
-    public void handleStep(StepInterpolator interpolator,
-                           boolean isLast)
-    throws MathUserException {
+    public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
       ++nbSteps;
       for (int a = 1; a < 10; ++a) {

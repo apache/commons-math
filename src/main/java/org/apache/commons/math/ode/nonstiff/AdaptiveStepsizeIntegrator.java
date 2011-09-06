@@ -259,14 +259,11 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param y1 work array for a state vector
    * @param yDot1 work array for the first time derivative of y1
    * @return first integration step
-   * @exception MathUserException this exception is propagated to
-   * the caller if the underlying user function triggers one
    */
   public double initializeStep(final FirstOrderDifferentialEquations equations,
                                final boolean forward, final int order, final double[] scale,
                                final double t0, final double[] y0, final double[] yDot0,
-                               final double[] y1, final double[] yDot1)
-      throws MathUserException {
+                               final double[] y1, final double[] yDot1) {
 
     if (initialStep > 0) {
       // use the user provided value

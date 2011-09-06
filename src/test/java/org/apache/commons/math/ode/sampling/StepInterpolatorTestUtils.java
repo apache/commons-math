@@ -17,7 +17,6 @@
 package org.apache.commons.math.ode.sampling;
 
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.TestProblemAbstract;
 import org.apache.commons.math.util.FastMath;
@@ -30,8 +29,7 @@ public class StepInterpolatorTestUtils {
                                                    final double threshold) {
         integrator.addStepHandler(new StepHandler() {
 
-            public void handleStep(StepInterpolator interpolator, boolean isLast)
-                throws MathUserException {
+            public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
                 final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
                 final double t = interpolator.getCurrentTime() - 300 * h;

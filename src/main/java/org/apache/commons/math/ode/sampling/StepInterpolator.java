@@ -19,8 +19,6 @@ package org.apache.commons.math.ode.sampling;
 
 import java.io.Externalizable;
 
-import org.apache.commons.math.exception.MathUserException;
-
 /** This interface represents an interpolator over the last step
  * during an ODE integration.
  *
@@ -89,10 +87,8 @@ public interface StepInterpolator extends Externalizable {
    * to be preserved across several calls.</p>
    * @return state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedDerivatives()
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
    */
-  double[] getInterpolatedState() throws MathUserException;
+  double[] getInterpolatedState();
 
   /**
    * Get the derivatives of the state vector of the interpolated point.
@@ -101,11 +97,9 @@ public interface StepInterpolator extends Externalizable {
    * to be preserved across several calls.</p>
    * @return derivatives of the state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedState()
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
    * @since 2.0
    */
-  double[] getInterpolatedDerivatives() throws MathUserException;
+  double[] getInterpolatedDerivatives();
 
   /** Check if the natural integration direction is forward.
    * <p>This method provides the integration direction as specified by
@@ -123,10 +117,8 @@ public interface StepInterpolator extends Externalizable {
    * original one. Both can be used with different settings for
    * interpolated time without any side effect.</p>
    * @return a deep copy of the instance, which can be used independently.
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
    * @see #setInterpolatedTime(double)
    */
-   StepInterpolator copy() throws MathUserException;
+   StepInterpolator copy();
 
 }

@@ -17,12 +17,12 @@
 
 package org.apache.commons.math.ode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -117,14 +117,12 @@ public class ContinuousOutputModel
 
   /** Append another model at the end of the instance.
    * @param model model to add at the end of the instance
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
-   * @exception IllegalArgumentException if the model to append is not
+   * @exception MathIllegalArgumentException if the model to append is not
    * compatible with the instance (dimension of the state vector,
    * propagation direction, hole between the dates)
    */
   public void append(final ContinuousOutputModel model)
-    throws MathUserException {
+    throws MathIllegalArgumentException {
 
     if (model.steps.size() == 0) {
       return;
@@ -136,14 +134,12 @@ public class ContinuousOutputModel
     } else {
 
       if (getInterpolatedState().length != model.getInterpolatedState().length) {
-          throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                getInterpolatedState().length, model.getInterpolatedState().length);
+          throw new DimensionMismatchException(model.getInterpolatedState().length,
+                                               getInterpolatedState().length);
       }
 
       if (forward ^ model.forward) {
-          throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.PROPAGATION_DIRECTION_MISMATCH);
+          throw new MathIllegalArgumentException(LocalizedFormats.PROPAGATION_DIRECTION_MISMATCH);
       }
 
       final StepInterpolator lastInterpolator = steps.get(index);
@@ -152,8 +148,8 @@ public class ContinuousOutputModel
       final double step = current - previous;
       final double gap = model.getInitialTime() - current;
       if (FastMath.abs(gap) > 1.0e-3 * FastMath.abs(step)) {
-        throw MathRuntimeException.createIllegalArgumentException(
-              LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES, FastMath.abs(gap));
+        throw new MathIllegalArgumentException(LocalizedFormats.HOLE_BETWEEN_MODELS_TIME_RANGES,
+                                               FastMath.abs(gap));
       }
 
     }
@@ -184,11 +180,8 @@ public class ContinuousOutputModel
    * the instance for later use.
    * @param interpolator interpolator for the last accepted step.
    * @param isLast true if the step is the last one
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
    */
-  public void handleStep(final StepInterpolator interpolator, final boolean isLast)
-    throws MathUserException {
+  public void handleStep(final StepInterpolator interpolator, final boolean isLast) {
 
     if (steps.size() == 0) {
       initialTime = interpolator.getPreviousTime();
@@ -333,10 +326,8 @@ public class ContinuousOutputModel
   /**
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
-   * @exception MathUserException if user code called from step interpolator
-   * finalization triggers one
    */
-  public double[] getInterpolatedState() throws MathUserException {
+  public double[] getInterpolatedState() {
     return steps.get(index).getInterpolatedState();
   }
 

@@ -20,7 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
@@ -451,14 +450,11 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * @param yTmp placeholder for one state vector
    * @return true if computation was done properly,
    *         false if stability check failed before end of computation
-   * @throws MathUserException this exception is propagated to the caller if the
-   * underlying user function triggers one
    */
   private boolean tryStep(final double t0, final double[] y0, final double step, final int k,
                           final double[] scale, final double[][] f,
                           final double[] yMiddle, final double[] yEnd,
-                          final double[] yTmp)
-    throws MathUserException {
+                          final double[] yTmp) {
 
     final int    n        = sequence[k];
     final double subStep  = step / n;

@@ -19,7 +19,6 @@ package org.apache.commons.math.ode.nonstiff;
 
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderIntegrator;
 import org.apache.commons.math.ode.TestProblem1;
@@ -183,8 +182,7 @@ public class GillIntegratorTest {
     public void reset() {
       maxError = 0;
     }
-    public void handleStep(StepInterpolator interpolator,
-                           boolean isLast) throws MathUserException {
+    public void handleStep(StepInterpolator interpolator, boolean isLast) {
 
       double[] interpolatedY = interpolator.getInterpolatedState();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());

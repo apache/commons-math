@@ -18,16 +18,14 @@
 package org.apache.commons.math.ode.sampling;
 
 
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-import org.apache.commons.math.exception.MathUserException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math.ode.sampling.DummyStepInterpolator;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +33,7 @@ import org.junit.Test;
 public class DummyStepInterpolatorTest {
 
   @Test
-  public void testNoReset() throws MathUserException {
+  public void testNoReset() {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -51,8 +49,7 @@ public class DummyStepInterpolatorTest {
   }
 
   @Test
-  public void testFixedState()
-    throws MathUserException {
+  public void testFixedState() {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -76,7 +73,7 @@ public class DummyStepInterpolatorTest {
 
   @Test
   public void testSerialization()
-  throws MathUserException, IOException, ClassNotFoundException {
+  throws IOException, ClassNotFoundException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -132,8 +129,8 @@ public class DummyStepInterpolatorTest {
           super(y, new double[y.length], forward);
       }
       @Override
-      protected void doFinalize() throws MathUserException {
-          throw new MathUserException(LocalizedFormats.SIMPLE_MESSAGE, "");
+      protected void doFinalize() {
+          throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "");
       }
   }
 }

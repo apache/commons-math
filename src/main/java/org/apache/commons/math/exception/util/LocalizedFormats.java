@@ -95,7 +95,6 @@ public enum LocalizedFormats implements Localizable {
     ENDPOINTS_NOT_AN_INTERVAL("endpoints do not specify an interval: [{0}, {1}]"),
     EQUAL_VERTICES_IN_SIMPLEX("equal vertices {0} and {1} in simplex configuration"),
     EULER_ANGLES_SINGULARITY("Euler angles singularity"),
-    EVALUATION_FAILED("evaluation failed for argument = {0}"),
     EVALUATION("evaluation"), /* keep */
     EXPANSION_FACTOR_SMALLER_THAN_ONE("expansion factor smaller than one ({0})"),
     FACTORIAL_NEGATIVE_PARAMETER("must have n >= 0 for n!, got n = {0}"),

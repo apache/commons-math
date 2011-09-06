@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import org.apache.commons.math.exception.MathUserException;
 
 /**
  * This interface represents a handler that should be called after
@@ -55,8 +54,7 @@ public interface FixedStepHandler  {
    * provide at the end of the integration a complete array of all
    * steps), it should build a local copy store this copy.
    * @param isLast true if the step is the last one
-   * @throws MathUserException if some error condition is encountered
    */
-  void handleStep(double t, double[] y, double[] yDot, boolean isLast) throws MathUserException;
+  void handleStep(double t, double[] y, double[] yDot, boolean isLast);
 
 }
