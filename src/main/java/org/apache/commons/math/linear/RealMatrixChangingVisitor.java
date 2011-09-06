@@ -44,8 +44,6 @@ public interface RealMatrixChangingVisitor {
      * @param column column index of the entry
      * @param value current value of the entry
      * @return the new value to be set for the entry
-     * @throws org.apache.commons.math.exception.MathUserException if the visitor
-     * cannot process an entry.
      */
     double visit(int row, int column, double value);
 

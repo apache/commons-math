@@ -972,7 +972,7 @@ public final class Array2DRowRealMatrixTest {
     }
 
     @Test
-    public void testWalk() throws MathUserException {
+    public void testWalk() {
         int rows    = 150;
         int columns = 75;
 

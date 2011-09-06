@@ -19,7 +19,6 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -50,10 +49,9 @@ public class QRDecompositionImplTest {
 
     private static final double normTolerance = 10e-14;
 
-    /** test dimensions 
-     * @throws MathUserException */
+    /** test dimensions */
     @Test
-    public void testDimensions() throws MathUserException {
+    public void testDimensions() {
         checkDimension(MatrixUtils.createRealMatrix(testData3x3NonSingular));
 
         checkDimension(MatrixUtils.createRealMatrix(testData4x3));
@@ -78,10 +76,9 @@ public class QRDecompositionImplTest {
         Assert.assertEquals(columns, qr.getR().getColumnDimension());
     }
 
-    /** test A = QR 
-     * @throws MathUserException */
+    /** test A = QR */
     @Test
-    public void testAEqualQR() throws MathUserException {
+    public void testAEqualQR() {
         checkAEqualQR(MatrixUtils.createRealMatrix(testData3x3NonSingular));
 
         checkAEqualQR(MatrixUtils.createRealMatrix(testData3x3Singular));
@@ -105,10 +102,9 @@ public class QRDecompositionImplTest {
         Assert.assertEquals(0, norm, normTolerance);
     }
 
-    /** test the orthogonality of Q 
-     * @throws MathUserException */
+    /** test the orthogonality of Q */
     @Test
-    public void testQOrthogonal() throws MathUserException {
+    public void testQOrthogonal() {
         checkQOrthogonal(MatrixUtils.createRealMatrix(testData3x3NonSingular));
 
         checkQOrthogonal(MatrixUtils.createRealMatrix(testData3x3Singular));
@@ -135,7 +131,7 @@ public class QRDecompositionImplTest {
 
     /** test that R is upper triangular */
     @Test
-    public void testRUpperTriangular() throws MathUserException {
+    public void testRUpperTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
 
@@ -159,7 +155,7 @@ public class QRDecompositionImplTest {
 
     }
 
-    private void checkUpperTriangular(RealMatrix m) throws MathUserException {
+    private void checkUpperTriangular(RealMatrix m) {
         m.walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
             @Override
             public void visit(int row, int column, double value) {
@@ -170,10 +166,9 @@ public class QRDecompositionImplTest {
         });
     }
 
-    /** test that H is trapezoidal 
-     * @throws MathUserException */
+    /** test that H is trapezoidal */
     @Test
-    public void testHTrapezoidal() throws MathUserException {
+    public void testHTrapezoidal() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
         checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
 
@@ -197,7 +192,7 @@ public class QRDecompositionImplTest {
 
     }
 
-    private void checkTrapezoidal(RealMatrix m) throws MathUserException {
+    private void checkTrapezoidal(RealMatrix m) {
         m.walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
             @Override
             public void visit(int row, int column, double value) {

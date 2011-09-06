@@ -731,8 +731,6 @@ public abstract class RealVector {
      *
      * @param function Function to apply to each entry.
      * @return a new vector.
-     * @throws org.apache.commons.math.exception.MathUserException
-     * if the function throws it.
      */
     public RealVector map(UnivariateRealFunction function) {
         return copy().mapToSelf(function);
@@ -750,8 +748,6 @@ public abstract class RealVector {
      *
      * @param function Function to apply to each entry.
      * @return a reference to this vector.
-     * @throws org.apache.commons.math.exception.MathUserException
-     * if the function throws it.
      */
     public RealVector mapToSelf(UnivariateRealFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
