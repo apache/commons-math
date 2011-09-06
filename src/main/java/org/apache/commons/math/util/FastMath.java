@@ -5161,7 +5161,7 @@ public class FastMath {
 
     private static final int FACT_LEN = 20;
 
-    /** Factorial table, for Taylor series expansions. */
+    /** Factorial table, for Taylor series expansions. 0!, 1!, 2!, ... 19! */
     private static final double FACT[] = new double[] 
         {
         +1.0d,                        
@@ -6267,7 +6267,8 @@ public class FastMath {
         {-0.16624879837036133, -2.6033824355191673E-8}
     };
 
-    private static final int SINE_TABLE_LEN = 14; // MAGIC NUMBER
+    /** Sine, Cosine, Tangent tables are for 0, 1/8, 2/8, ... 13/8 = PI/2 approx. */
+    private static final int SINE_TABLE_LEN = 14;
     
     /** Sine table (high bits). */
     private static final double SINE_TABLE_A[] =
@@ -8069,9 +8070,11 @@ public class FastMath {
     }
 
     /**
-     * For x between 0 and pi/4 compute sine.
+     * For x between 0 and pi/4 compute sine using Taylor expansion:
+     * sin(x) = x - x^3/3! + x^5/5! - x^7/7! ...
      * @param x number from which sine is requested
      * @param result placeholder where to put the result in extended precision
+     * (may be null)
      * @return sin(x)
      */
     private static double slowSin(final double x, final double result[]) {
@@ -8082,18 +8085,18 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = 19; i >= 0; i--) {
+        for (int i = FACT_LEN-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0]; ys[1] = as[1];
 
-            if ( (i & 1) == 0) {
+            if ( (i & 1) == 0) { // Ignore even numbers
                 continue;
             }
 
             split(FACT[i], as);
             splitReciprocal(as, facts);
 
-            if ( (i & 2) != 0 ) {
+            if ( (i & 2) != 0 ) { // alternate terms are negative
                 facts[0] = -facts[0];
                 facts[1] = -facts[1];
             }
@@ -8111,9 +8114,11 @@ public class FastMath {
     }
 
     /**
-     *  For x between 0 and pi/4 compute cosine
+     *  For x between 0 and pi/4 compute cosine using Talor series
+     *  cos(x) = 1 - x^2/2! + x^4/4! ...
      * @param x number from which cosine is requested
      * @param result placeholder where to put the result in extended precision
+     * (may be null)
      * @return cos(x)
      */
     private static double slowCos(final double x, final double result[]) {
@@ -8125,18 +8130,18 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = 19; i >= 0; i--) {
+        for (int i = FACT_LEN-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0]; ys[1] = as[1];
 
-            if ( (i & 1) != 0) {
+            if ( (i & 1) != 0) { // skip odd entries
                 continue;
             }
 
             split(FACT[i], as);
             splitReciprocal(as, facts);
 
-            if ( (i & 2) != 0 ) {
+            if ( (i & 2) != 0 ) { // alternate terms are negative
                 facts[0] = -facts[0];
                 facts[1] = -facts[1];
             }
@@ -8172,7 +8177,7 @@ public class FastMath {
         }
 
         /* Use angle addition formula to complete table to 13/8, just beyond pi/2 */
-        for (int i = 7; i < 14; i++) {
+        for (int i = 7; i < SINE_TABLE_LEN; i++) {
             double xs[] = new double[2];
             double ys[] = new double[2];
             double as[] = new double[2];
@@ -8228,7 +8233,7 @@ public class FastMath {
         }
 
         /* Compute tangent = sine/cosine */
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < SINE_TABLE_LEN; i++) {
             double xs[] = new double[2];
             double ys[] = new double[2];
             double as[] = new double[2];
