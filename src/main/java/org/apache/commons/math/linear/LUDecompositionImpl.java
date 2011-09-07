@@ -36,9 +36,9 @@ public class LUDecompositionImpl implements LUDecomposition {
     /** Default bound to determine effective singularity in LU decomposition. */
     private static final double DEFAULT_TOO_SMALL = 1e-11;
     /** Entries of LU decomposition. */
-    private double lu[][];
+    private final double lu[][];
     /** Pivot permutation associated with LU decomposition */
-    private int[] pivot;
+    private final int[] pivot;
     /** Parity of the permutation associated with the LU decomposition */
     private boolean even;
     /** Singularity indicator. */
@@ -92,12 +92,10 @@ public class LUDecompositionImpl implements LUDecomposition {
         // Loop over columns
         for (int col = 0; col < m; col++) {
 
-            double sum = 0;
-
             // upper
             for (int row = 0; row < col; row++) {
                 final double[] luRow = lu[row];
-                sum = luRow[col];
+                double sum = luRow[col];
                 for (int i = 0; i < row; i++) {
                     sum -= luRow[i] * lu[i][col];
                 }
@@ -109,7 +107,7 @@ public class LUDecompositionImpl implements LUDecomposition {
             double largest = Double.NEGATIVE_INFINITY;
             for (int row = col; row < m; row++) {
                 final double[] luRow = lu[row];
-                sum = luRow[col];
+                double sum = luRow[col];
                 for (int i = 0; i < col; i++) {
                     sum -= luRow[i] * lu[i][col];
                 }
