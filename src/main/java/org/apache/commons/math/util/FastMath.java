@@ -77,6 +77,9 @@ public class FastMath {
     private static final int EXP_INT_TABLE_MAX_INDEX = 750;
     private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
+    // Enclose large data table in nested static class so it's only loaded on first access
+  private static class ExpInitTable {
+
     /** Exponential evaluated at integer values,
      * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
      */
@@ -3090,9 +3093,13 @@ public class FastMath {
         Double.NaN,
         Double.NaN,
     };
+  }
 
     private static final int TWO_POWER_10 = 1024;
     private static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
+
+    // Enclose large data table in nested static class so it's only loaded on first access
+  private static class ExpFracTable {
 
     /** Exponential over the range of 0 - 1 in increments of 2^-10
      * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
@@ -5158,6 +5165,7 @@ public class FastMath {
         -7.184550924856607E-8d,
         +8.254840070367875E-8d,
     };
+  }
 
     private static final int FACT_LEN = 20;
 
@@ -5188,6 +5196,9 @@ public class FastMath {
             
 
     private static final int LN_MANT_LEN = 1024; // MAGIC NUMBER
+
+    // Enclose large data table in nested static class so it's only loaded on first access
+  private static class lnMant {
 
     /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
     private static final double LN_MANT[][] =     { 
@@ -6216,6 +6227,7 @@ public class FastMath {
         {+0.6921701431274414d,    -2.2153227096187463E-9d, }, // 1022
         {+0.6926587820053101d,    -1.943473623641502E-9d,  }, // 1023
     };
+  }
 
 
     /** log(2) (high bits). */
@@ -6462,28 +6474,28 @@ public class FastMath {
         // Populate expIntTable
         for (i = 0; i < EXP_INT_TABLE_MAX_INDEX; i++) {
             expint(i, tmp);
-            EXP_INT_TABLE_A[i+EXP_INT_TABLE_MAX_INDEX] = tmp[0];
-            EXP_INT_TABLE_B[i+EXP_INT_TABLE_MAX_INDEX] = tmp[1];
+            ExpInitTable.EXP_INT_TABLE_A[i+EXP_INT_TABLE_MAX_INDEX] = tmp[0];
+            ExpInitTable.EXP_INT_TABLE_B[i+EXP_INT_TABLE_MAX_INDEX] = tmp[1];
 
             if (i != 0) {
                 // Negative integer powers
                 splitReciprocal(tmp, recip);
-                EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-i] = recip[0];
-                EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-i] = recip[1];
+                ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-i] = recip[0];
+                ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-i] = recip[1];
             }
         }
 
         // Populate expFracTable
-        for (i = 0; i < EXP_FRAC_TABLE_A.length; i++) {
+        for (i = 0; i < ExpFracTable.EXP_FRAC_TABLE_A.length; i++) {
             slowexp(i/1024.0, tmp); // TWO_POWER_10
-            EXP_FRAC_TABLE_A[i] = tmp[0];
-            EXP_FRAC_TABLE_B[i] = tmp[1];
+            ExpFracTable.EXP_FRAC_TABLE_A[i] = tmp[0];
+            ExpFracTable.EXP_FRAC_TABLE_B[i] = tmp[1];
         }
 
         // Populate lnMant table
-        for (i = 0; i < LN_MANT.length; i++) {
+        for (i = 0; i < lnMant.LN_MANT.length; i++) {
             double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
-            LN_MANT[i] = slowLog(d);
+            lnMant.LN_MANT[i] = slowLog(d);
         }
 
         // Build the sine and cosine tables
@@ -6493,11 +6505,11 @@ public class FastMath {
 
     public static void main(String[] a){
         printarray("FACT", FACT_LEN, FACT);
-        printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, EXP_INT_TABLE_A);
-        printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, EXP_INT_TABLE_B);
-        printarray("EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, EXP_FRAC_TABLE_A);
-        printarray("EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, EXP_FRAC_TABLE_B);
-        printarray("LN_MANT",LN_MANT_LEN, LN_MANT);
+        printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpInitTable.EXP_INT_TABLE_A);
+        printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpInitTable.EXP_INT_TABLE_B);
+        printarray("EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
+        printarray("EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_B);
+        printarray("LN_MANT",LN_MANT_LEN, lnMant.LN_MANT);
         printarray("SINE_TABLE_A", SINE_TABLE_LEN, SINE_TABLE_A);
         printarray("SINE_TABLE_B", SINE_TABLE_LEN, SINE_TABLE_B);
         printarray("COSINE_TABLE_A", SINE_TABLE_LEN, COSINE_TABLE_A);
@@ -7057,8 +7069,8 @@ public class FastMath {
 
             intVal++;
 
-            intPartA = EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];
-            intPartB = EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];
+            intPartA = ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];
+            intPartB = ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];
 
             intVal = -intVal;
         } else {
@@ -7072,8 +7084,8 @@ public class FastMath {
                 return Double.POSITIVE_INFINITY;
             }
 
-            intPartA = EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
-            intPartB = EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
+            intPartA = ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
+            intPartB = ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
         }
 
         /* Get the fractional part of x, find the greatest multiple of 2^-10 less than
@@ -7081,8 +7093,8 @@ public class FastMath {
          * fracPartA will have the upper 22 bits, fracPartB the lower 52 bits.
          */
         final int intFrac = (int) ((x - intVal) * 1024.0);
-        final double fracPartA = EXP_FRAC_TABLE_A[intFrac];
-        final double fracPartB = EXP_FRAC_TABLE_B[intFrac];
+        final double fracPartA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac];
+        final double fracPartB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];
 
         /* epsilon is the difference in x from the nearest multiple of 2^-10.  It
          * has a value in the range 0 <= epsilon < 2^-10.
@@ -7177,8 +7189,8 @@ public class FastMath {
 
         {
             int intFrac = (int) (x * 1024.0);
-            double tempA = EXP_FRAC_TABLE_A[intFrac] - 1.0;
-            double tempB = EXP_FRAC_TABLE_B[intFrac];
+            double tempA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac] - 1.0;
+            double tempB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];
 
             double temp = tempA + tempB;
             tempB = -(temp - tempA - tempB);
@@ -7645,7 +7657,7 @@ public class FastMath {
         }
 
         // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)
-        double lnm[] = LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
+        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
 
         /*
     double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);
