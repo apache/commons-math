@@ -19,9 +19,8 @@ package org.apache.commons.math.optimization;
 
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.optimization.direct.SimplexOptimizer;
 import org.apache.commons.math.optimization.direct.NelderMeadSimplex;
+import org.apache.commons.math.optimization.direct.SimplexOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomVectorGenerator;
@@ -31,7 +30,7 @@ import org.junit.Test;
 
 public class MultiStartMultivariateRealOptimizerTest {
     @Test
-    public void testRosenbrock() throws MathUserException {
+    public void testRosenbrock() {
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer underlying = new SimplexOptimizer();
         NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {

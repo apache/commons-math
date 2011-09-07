@@ -119,8 +119,6 @@ public class CurveFitter {
      * @return the fitted parameters.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * parametric function throws one.
      */
     public double[] fit(final ParametricUnivariateRealFunction f, final double[] initialGuess) {
         return fit(Integer.MAX_VALUE, f, initialGuess);
@@ -141,8 +139,6 @@ public class CurveFitter {
      * if the number of allowed evaluations is exceeded.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * parametric function throws one.
      */
     public double[] fit(int maxEval, final ParametricUnivariateRealFunction f,
                         final double[] initialGuess) {

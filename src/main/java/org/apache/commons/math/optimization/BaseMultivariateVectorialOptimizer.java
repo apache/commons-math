@@ -53,8 +53,6 @@ public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVec
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * function throws one during search.
      */
     VectorialPointValuePair optimize(int maxEval, FUNC f, double[] target,
                                      double[] weight, double[] startPoint);

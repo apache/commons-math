@@ -261,8 +261,6 @@ public class PowellOptimizer
          * @return the optimum.
          * @throws org.apache.commons.math.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
-         * @throws org.apache.commons.math.exception.MathUserException if the
-         * objective function throws one.
          */
         public UnivariateRealPointValuePair search(final double[] p, final double[] d) {
             final int n = p.length;

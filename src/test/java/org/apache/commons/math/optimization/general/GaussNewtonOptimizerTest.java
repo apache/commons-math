@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -30,7 +29,6 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunct
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.optimization.SimpleVectorialPointChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
@@ -102,7 +100,7 @@ import org.junit.Test;
 public class GaussNewtonOptimizerTest {
 
     @Test
-    public void testTrivial() throws MathUserException {
+    public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
 
@@ -117,7 +115,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testColumnsPermutation() throws MathUserException {
+    public void testColumnsPermutation() {
 
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1.0, -1.0 }, { 0.0, 2.0 }, { 1.0, -2.0 } },
@@ -138,7 +136,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testNoDependency() throws MathUserException {
+    public void testNoDependency() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 2, 0, 0, 0, 0, 0 },
                 { 0, 2, 0, 0, 0, 0 },
@@ -161,7 +159,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testOneSet() throws MathUserException {
+    public void testOneSet() {
 
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1,  0, 0 },
@@ -182,7 +180,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testTwoSets() throws MathUserException {
+    public void testTwoSets() {
         double epsilon = 1.0e-7;
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  2,  1,   0,  4,       0, 0 },
@@ -225,7 +223,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testIllConditioned() throws MathUserException {
+    public void testIllConditioned() {
         LinearProblem problem1 = new LinearProblem(new double[][] {
                 { 10.0, 7.0,  8.0,  7.0 },
                 {  7.0, 5.0,  6.0,  5.0 },
@@ -296,7 +294,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testRedundantEquations() throws MathUserException {
+    public void testRedundantEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -315,7 +313,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testInconsistentEquations() throws MathUserException {
+    public void testInconsistentEquations() {
         LinearProblem problem = new LinearProblem(new double[][] {
                 { 1.0,  1.0 },
                 { 1.0, -1.0 },
@@ -331,7 +329,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test(expected=DimensionMismatchException.class)
-    public void testInconsistentSizes1() throws MathUserException {
+    public void testInconsistentSizes1() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
 
@@ -350,7 +348,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test(expected=DimensionMismatchException.class)
-    public void testInconsistentSizes2() throws MathUserException {
+    public void testInconsistentSizes2() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 1, 0 }, { 0, 1 } }, new double[] { -1, 1 });
 
@@ -386,7 +384,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testCircleFitting() throws MathUserException {
+    public void testCircleFitting() {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -409,7 +407,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test(expected=ConvergenceException.class)
-    public void testCircleFittingBadInit() throws MathUserException {
+    public void testCircleFittingBadInit() {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = circlePoints;
         double[] target = new double[points.length];
@@ -427,7 +425,7 @@ public class GaussNewtonOptimizerTest {
     }
 
     @Test
-    public void testCircleFittingGoodInit() throws MathUserException {
+    public void testCircleFittingGoodInit() {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = circlePoints;
         double[] target = new double[points.length];

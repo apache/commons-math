@@ -20,12 +20,11 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
@@ -145,7 +144,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
                                             double[] target, double[] weights,
                                             double[] startPoint) {
         maxEvaluations = maxEval;
-        MathUserException lastException = null;
+        RuntimeException lastException = null;
         optima = new VectorialPointValuePair[starts];
         totalEvaluations = 0;
 
@@ -155,10 +154,10 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
             try {
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, target, weights,
                                                i == 0 ? startPoint : generator.nextVector());
-            } catch (MathUserException mue) {
-                lastException = mue;
-                optima[i] = null;
             } catch (ConvergenceException oe) {
+                optima[i] = null;
+            } catch (RuntimeException mue) {
+                lastException = mue;
                 optima[i] = null;
             }
 

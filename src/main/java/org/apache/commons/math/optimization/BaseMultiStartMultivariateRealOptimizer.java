@@ -20,11 +20,10 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.exception.MathUserException;
-import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
@@ -101,7 +100,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
      * elements will be null if the {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
-     * optimize} method did throw a {@link MathUserException}).
+     * optimize} method did throw an exception.
      * This also means that if the first element is not {@code null}, it
      * is the best point found across all starts.
      *
@@ -144,7 +143,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
                                        final GoalType goal,
                                        double[] startPoint) {
         maxEvaluations = maxEval;
-        MathUserException lastException = null;
+        RuntimeException lastException = null;
         optima = new RealPointValuePair[starts];
         totalEvaluations = 0;
 
@@ -153,7 +152,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
             try {
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal,
                                                i == 0 ? startPoint : generator.nextVector());
-            } catch (MathUserException mue) {
+            } catch (RuntimeException mue) {
                 lastException = mue;
                 optima[i] = null;
             }

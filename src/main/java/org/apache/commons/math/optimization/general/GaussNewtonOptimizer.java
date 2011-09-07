@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.exception.ConvergenceException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -26,7 +25,6 @@ import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
@@ -97,7 +95,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    public VectorialPointValuePair doOptimize() throws MathUserException {
+    public VectorialPointValuePair doOptimize() {
 
         final ConvergenceChecker<VectorialPointValuePair> checker
             = getConvergenceChecker();

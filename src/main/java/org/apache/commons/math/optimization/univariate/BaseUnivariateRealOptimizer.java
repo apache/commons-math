@@ -54,8 +54,6 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * if the optimizer detects a convergence problem.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * function to optimize throws one during search.
      */
     UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                           double min, double max);
@@ -80,8 +78,6 @@ public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction
      * do not satisfy the requirements specified by the optimizer.
      * @throws org.apache.commons.math.exception.NullArgumentException if any
      * argument is {@code null}.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * function to optimize throws one during search.
      */
     UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                           double min, double max,

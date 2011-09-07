@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.ZeroException;
@@ -202,11 +201,9 @@ public abstract class AbstractSimplex {
      * to worst.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the algorithm fails to converge.
-     * @throws MathUserException if evaluation function throws one
      */
     public abstract void iterate(final MultivariateRealFunction evaluationFunction,
-                                 final Comparator<RealPointValuePair> comparator)
-        throws MathUserException;
+                                 final Comparator<RealPointValuePair> comparator);
 
     /**
      * Build an initial simplex.
@@ -242,11 +239,9 @@ public abstract class AbstractSimplex {
      * @param comparator Comparator to use to sort simplex vertices from best to worst.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws MathUserException if evaluation function throws one
      */
     public void evaluate(final MultivariateRealFunction evaluationFunction,
-                         final Comparator<RealPointValuePair> comparator)
-        throws MathUserException {
+                         final Comparator<RealPointValuePair> comparator) {
         // Evaluate the objective function at all non-evaluated simplex points.
         for (int i = 0; i < simplex.length; i++) {
             final RealPointValuePair vertex = simplex[i];

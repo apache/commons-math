@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
 /**
@@ -154,8 +153,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
     /** {@inheritDoc} */
     @Override
     public void iterate(final MultivariateRealFunction evaluationFunction,
-                        final Comparator<RealPointValuePair> comparator)
-        throws MathUserException {
+                        final Comparator<RealPointValuePair> comparator) {
         // Save the original simplex.
         final RealPointValuePair[] original = getPoints();
         final RealPointValuePair best = original[0];
@@ -192,13 +190,11 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @return the best point in the transformed simplex.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws MathUserException if function cannot be evaluated at some points
      */
     private RealPointValuePair evaluateNewSimplex(final MultivariateRealFunction evaluationFunction,
                                                   final RealPointValuePair[] original,
                                                   final double coeff,
-                                                  final Comparator<RealPointValuePair> comparator)
-        throws MathUserException {
+                                                  final Comparator<RealPointValuePair> comparator) {
         final double[] xSmallest = original[0].getPointRef();
         // Perform a linear transformation on all the simplex points,
         // except the first one.

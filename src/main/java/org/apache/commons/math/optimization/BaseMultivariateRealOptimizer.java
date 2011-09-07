@@ -51,8 +51,6 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * objective function throws one during search.
      */
     RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                 double[] startPoint);

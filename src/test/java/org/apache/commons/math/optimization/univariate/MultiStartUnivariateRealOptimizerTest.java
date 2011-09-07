@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -79,7 +78,7 @@ public class MultiStartUnivariateRealOptimizerTest {
         UnivariateRealFunction f = new UnivariateRealFunction() {
                 public double value(double x) {
                     if (x < 0) {
-                        throw new MathUserException();
+                        throw new LocalException();
                     }
                     return 0;
                 }
@@ -93,11 +92,16 @@ public class MultiStartUnivariateRealOptimizerTest {
         try {
             optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
             Assert.fail();
-        } catch (MathUserException e) {
+        } catch (LocalException e) {
             // Expected.
         }
 
         // Ensure that the exception was thrown because no optimum was found.
         Assert.assertTrue(optimizer.getOptima()[0] == null);
     }
+
+    private static class LocalException extends RuntimeException {
+        private static final long serialVersionUID = 1194682757034350629L;
+    }
+
 }

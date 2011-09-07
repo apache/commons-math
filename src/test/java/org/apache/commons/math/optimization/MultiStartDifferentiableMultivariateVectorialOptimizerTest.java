@@ -21,7 +21,6 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
@@ -133,7 +132,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         Assert.assertEquals(100, optimizer.getMaxEvaluations());
     }
 
-    @Test(expected = MathUserException.class)
+    @Test(expected = TestException.class)
     public void testNoOptimum() {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true);
@@ -150,9 +149,13 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
                     return null;
                 }
                 public double[] value(double[] point) {
-                    throw new MathUserException();
+                    throw new TestException();
                 }
             }, new double[] { 2 }, new double[] { 1 }, new double[] { 0 });
+    }
+
+    private static class TestException extends RuntimeException {
+        private static final long serialVersionUID = -7809988995389067683L;
     }
 
     private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {

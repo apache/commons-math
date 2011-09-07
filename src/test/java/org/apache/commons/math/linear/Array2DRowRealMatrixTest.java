@@ -21,7 +21,6 @@ import org.junit.Assert;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;

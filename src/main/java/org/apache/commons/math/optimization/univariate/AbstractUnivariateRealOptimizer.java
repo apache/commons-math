@@ -91,8 +91,6 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the objective function value at specified point.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * objective function throws one.
      */
     protected double computeObjectiveValue(double point) {
         try {
@@ -158,8 +156,6 @@ public abstract class AbstractUnivariateRealOptimizer
      * @return the optimum and its corresponding function value.
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * function to optimize throws one during search.
      */
     protected abstract UnivariateRealPointValuePair doOptimize();
 }

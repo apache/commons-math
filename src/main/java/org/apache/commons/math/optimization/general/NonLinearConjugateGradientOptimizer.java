@@ -243,8 +243,6 @@ public class NonLinearConjugateGradientOptimizer
      * @param h initial step to try.
      * @return b such that f(a) and f(b) have opposite signs.
      * @throws MathIllegalStateException if no bracket can be found.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * function throws one.
      */
     private double findUpperBound(final UnivariateRealFunction f,
                                   final double a, final double h) {

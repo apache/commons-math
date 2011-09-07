@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
@@ -27,8 +26,7 @@ import org.junit.Test;
 public class CurveFitterTest {
 
     @Test
-    public void testMath303()
-        throws MathUserException {
+    public void testMath303() {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter fitter = new CurveFitter(optimizer);
@@ -51,8 +49,7 @@ public class CurveFitterTest {
     }
 
     @Test
-    public void testMath304()
-        throws MathUserException {
+    public void testMath304() {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter fitter = new CurveFitter(optimizer);
@@ -74,8 +71,7 @@ public class CurveFitterTest {
     }
 
     @Test
-    public void testMath372()
-    throws MathUserException {
+    public void testMath372() {
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
         CurveFitter curveFitter = new CurveFitter(optimizer);
 

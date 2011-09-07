@@ -93,8 +93,6 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * objective function throws one.
      */
     protected double computeObjectiveValue(double[] point) {
         try {
@@ -151,8 +149,6 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      *
      * @return the point/value pair giving the optimal value for the
      * objective function.
-     * @throws org.apache.commons.math.exception.MathUserException if
-     * the objective function throws one.
      */
     protected abstract RealPointValuePair doOptimize();
 }

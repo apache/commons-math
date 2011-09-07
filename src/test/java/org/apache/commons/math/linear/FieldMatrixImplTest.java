@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.fraction.FractionField;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;

@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -63,10 +62,8 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @return the gradient at the specified point.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the allowed number of evaluations is exceeded.
-     * @throws MathUserException if objective function gradient throws one
      */
-    protected double[] computeObjectiveGradient(final double[] evaluationPoint)
-        throws MathUserException {
+    protected double[] computeObjectiveGradient(final double[] evaluationPoint) {
         return gradient.value(evaluationPoint);
     }
 
@@ -75,7 +72,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     public RealPointValuePair optimize(int maxEval,
                                        final DifferentiableMultivariateRealFunction f,
                                        final GoalType goalType,
-                                       final double[] startPoint) throws MathUserException {
+                                       final double[] startPoint) {
         // Store optimization problem characteristics.
         gradient = f.gradient();
 

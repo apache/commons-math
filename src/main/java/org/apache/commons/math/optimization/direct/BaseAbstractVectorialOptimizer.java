@@ -95,8 +95,6 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      * @return the objective function value at the specified point.
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * objective function throws one.
      */
     protected double[] computeObjectiveValue(double[] point) {
         try {
@@ -153,8 +151,6 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      *
      * @return the point/value pair giving the optimal value for the
      * objective function.
-     * @throws org.apache.commons.math.exception.MathUserException if
-     * the function throws one during search.
      */
     protected abstract VectorialPointValuePair doOptimize();
 

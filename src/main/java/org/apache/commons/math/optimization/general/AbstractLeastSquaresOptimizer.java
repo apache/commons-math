@@ -103,8 +103,6 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
-     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
-     * function throws one.
      */
     protected void updateJacobian() {
         ++jacobianEvaluations;
@@ -180,8 +178,6 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the covariance matrix.
      * @throws org.apache.commons.math.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
-     * @throws org.apache.commons.math.exception.MathUserException if the
-     * jacobian function throws one.
      */
     public double[][] getCovariances() {
         // set up the jacobian
@@ -216,8 +212,6 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.
-     * @throws org.apache.commons.math.exception.MathUserException if the jacobian
-     * function throws one.
      */
     public double[] guessParametersErrors() {
         if (rows <= cols) {

@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
@@ -518,8 +517,6 @@ public class MinpackTest {
           function.checkTheoreticalMinCost(optimizer.getRMS());
           function.checkTheoreticalMinParams(optimum);
       } catch (TooManyEvaluationsException e) {
-          Assert.assertTrue(exceptionExpected);
-      } catch (MathUserException fe) {
           Assert.assertTrue(exceptionExpected);
       }
   }

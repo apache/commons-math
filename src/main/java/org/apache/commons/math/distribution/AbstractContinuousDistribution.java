@@ -21,7 +21,6 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -76,6 +75,8 @@ public abstract class AbstractContinuousDistribution
      */
     public double inverseCumulativeProbability(final double p)
         throws MathException {
+        try {
+
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
@@ -84,15 +85,15 @@ public abstract class AbstractContinuousDistribution
         // subclasses can override if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
-            public double value(double x) throws MathUserException {
+            public double value(double x) {
                 double ret = Double.NaN;
                 try {
                     ret = cumulativeProbability(x) - p;
                 } catch (MathException ex) {
-                    throw new MathUserException(ex);
+                    throw new WrappingException(ex);
                 }
                 if (Double.isNaN(ret)) {
-                    throw new MathUserException(LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p);
+                    throw new WrappingException(new MathException(LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p));
                 }
                 return ret;
             }
@@ -128,6 +129,35 @@ public abstract class AbstractContinuousDistribution
                 // absolute accuracy different from the default.
                 bracket[0],bracket[1], getSolverAbsoluteAccuracy());
         return root;
+
+        } catch (WrappingException we) {
+            throw we.getWrapped();
+        }
+    }
+
+    /** Local exception wrapping a MathException. */
+    private static class WrappingException extends RuntimeException {
+
+        /** Serializable UID. */
+        private static final long serialVersionUID = -2102700399222815344L;
+
+        /** Wrapped exception. */
+        private final MathException wrapped;
+
+        /** simple constructor.
+         * @param wrapped exception to wrap
+         */
+        public WrappingException(final MathException wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        /** Get the wrapped exception.
+         * @return wrapped exception
+         */
+        public MathException getWrapped() {
+            return wrapped;
+        }
+
     }
 
     /**

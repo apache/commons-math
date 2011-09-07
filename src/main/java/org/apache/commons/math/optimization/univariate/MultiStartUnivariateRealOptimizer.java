@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.exception.MathUserException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -128,7 +127,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * corresponding to the runs that did not converge. This means all
      * elements will be {@code null} if the {@link
      * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
-     * method did throw a {@link MathUserException}).
+     * method did throw an exception.
      * This also means that if the first element is not {@code null}, it is
      * the best point found across all starts.
      *
@@ -156,7 +155,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
                                                  final GoalType goal,
                                                  final double min, final double max,
                                                  final double startValue) {
-        MathUserException lastException = null;
+        RuntimeException lastException = null;
         optima = new UnivariateRealPointValuePair[starts];
         totalEvaluations = 0;
 
@@ -165,7 +164,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
             try {
                 final double s = (i == 0) ? startValue : min + generator.nextDouble() * (max - min);
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal, min, max, s);
-            } catch (MathUserException mue) {
+            } catch (RuntimeException mue) {
                 lastException = mue;
                 optima[i] = null;
             }

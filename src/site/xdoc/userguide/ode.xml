@@ -130,7 +130,7 @@ dp853.integrate(ode, 0.0, y, 16.0, y); // now y contains final state at time t=1
 StepHandler stepHandler = new StepHandler() {
     public void reset() {}
             
-    public void handleStep(StepInterpolator interpolator, boolean isLast) throws MathUserException {
+    public void handleStep(StepInterpolator interpolator, boolean isLast) {
         double   t = interpolator.getCurrentTime();
         double[] y = interpolator.getInterpolatedState();
         System.out.println(t + " " + y[0] + " " + y[1]);
