@@ -30,6 +30,7 @@ import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.QRDecompositionImpl;
+import org.apache.commons.math.linear.RealMatrix;
 
 /** Transformer to Nordsieck vectors for Adams integrators.
  * <p>This class is used by {@link AdamsBashforthIntegrator Adams-Bashforth} and
@@ -289,8 +290,8 @@ public class AdamsNordsieckTransformer {
         // solve the rectangular system in the least square sense
         // to get the best estimate of the Nordsieck vector [s2 ... sk]
         QRDecomposition decomposition = new QRDecompositionImpl(new Array2DRowRealMatrix(a, false));
-        return new Array2DRowRealMatrix(decomposition.getSolver().solve(b), false);
-
+        RealMatrix x = decomposition.getSolver().solve(new Array2DRowRealMatrix(b, false));
+        return new Array2DRowRealMatrix(x.getData(), false);
     }
 
     /** Update the high order scaled derivatives for Adams integrators (phase 1).
