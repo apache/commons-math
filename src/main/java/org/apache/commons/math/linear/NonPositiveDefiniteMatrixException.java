@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 3.0
  * @version $Id$
  */
-public class NonPositiveDefiniteMatrixException extends MathIllegalArgumentException {
+public class NonPositiveDefiniteMatrixException extends MathIllegalNumberException {
     /** Serializable version Id. */
     private static final long serialVersionUID = 1641613838113738061L;
     /** Index (diagonal element). */
@@ -36,12 +36,14 @@ public class NonPositiveDefiniteMatrixException extends MathIllegalArgumentExcep
     /**
      * Construct an exception.
      *
+     * @param wrong Value that fails the positivity check.
      * @param index Row (and column) index.
      * @param threshold Absolute positivity threshold.
      */
-    public NonPositiveDefiniteMatrixException(int index,
+    public NonPositiveDefiniteMatrixException(double wrong,
+                                              int index,
                                               double threshold) {
-        super(LocalizedFormats.NON_POSITIVE_DEFINITE_MATRIX, index, threshold);
+        super(LocalizedFormats.NON_POSITIVE_DEFINITE_MATRIX, wrong, index, threshold);
         this.index = index;
         this.threshold = threshold;
     }

@@ -126,7 +126,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
 
             // check diagonal element
             if (ltI[i] < absolutePositivityThreshold) {
-                throw new NonPositiveDefiniteMatrixException(i, absolutePositivityThreshold);
+                throw new NonPositiveDefiniteMatrixException(ltI[i], i, absolutePositivityThreshold);
             }
 
             ltI[i] = FastMath.sqrt(ltI[i]);

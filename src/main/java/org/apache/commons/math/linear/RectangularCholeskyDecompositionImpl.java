@@ -87,7 +87,7 @@ public class RectangularCholeskyDecompositionImpl implements RectangularCholesky
             if (c[ir][ir] < small) {
 
                 if (r == 0) {
-                    throw new NonPositiveDefiniteMatrixException(ir, small);
+                    throw new NonPositiveDefiniteMatrixException(c[ir][ir], ir, small);
                 }
 
                 // check remaining diagonal elements
@@ -95,7 +95,7 @@ public class RectangularCholeskyDecompositionImpl implements RectangularCholesky
                     if (c[index[i]][index[i]] < -small) {
                         // there is at least one sufficiently negative diagonal element,
                         // the symmetric positive semidefinite matrix is wrong
-                        throw new NonPositiveDefiniteMatrixException(i, small);
+                        throw new NonPositiveDefiniteMatrixException(c[index[i]][index[i]], i, small);
                     }
                 }
 
