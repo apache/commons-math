@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-658" due-to="Yannick TANGUY">
+        Dead code in FastMath.pow(double, double) and some improvement in test coverage.
+      </action>
       <action dev="erans" type="fix" issue="MATH-663">
         Removed "getData()" method from "RealVector" as it was redundant with
         "toArray()".

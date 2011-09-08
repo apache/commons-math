@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.util;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -252,6 +254,15 @@ public class FastMathTest {
     }
 
     @Test
+    public void testLog1pSpecialCases() {
+        double x;
+
+    	x = FastMath.log1p(-1.0);
+        if (x != Double.NEGATIVE_INFINITY)
+            throw new RuntimeException("Log1p of -1 should be -infinity");
+    }
+
+    @Test
     public void testLogSpecialCases() {
         double x;
 
@@ -399,6 +410,45 @@ public class FastMathTest {
         x = FastMath.pow(-2.0, 3.5);
         if (x == x)
             throw new RuntimeException("pow(-2.0, 3.5) should be NaN");
+
+        // Added tests for a 100% coverage
+
+        x = FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN);
+        if (x == x)
+            throw new RuntimeException("pow(+Inf, NaN) should be NaN");
+
+        x = FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN);
+        if (x == x)
+            throw new RuntimeException("pow(+Inf, NaN) should be NaN");
+
+        x = FastMath.pow(1.0, Double.POSITIVE_INFINITY);
+        if (x == x)
+            throw new RuntimeException("pow(1.0, +Inf) should be NaN");
+
+        x = FastMath.pow(Double.NEGATIVE_INFINITY, Double.NaN);
+        if (x == x)
+            throw new RuntimeException("pow(-Inf, NaN) should be NaN");
+
+        x = FastMath.pow(Double.NEGATIVE_INFINITY, -1.0);
+        if (x != -0.0)
+            throw new RuntimeException("pow(-Inf, -1.0) should be 0.0");
+
+        x = FastMath.pow(Double.NEGATIVE_INFINITY, -2.0);
+        if (x != 0.0)
+            throw new RuntimeException("pow(-Inf, -2.0) should be 0.0");
+
+        x = FastMath.pow(Double.NEGATIVE_INFINITY, 1.0);
+        if (x != Double.NEGATIVE_INFINITY)
+            throw new RuntimeException("pow(-Inf, 1.0) should be -Inf");
+
+        x = FastMath.pow(Double.NEGATIVE_INFINITY, 2.0);
+        if (x != Double.POSITIVE_INFINITY)
+            throw new RuntimeException("pow(-Inf, 2.0) should be +Inf");
+
+        x = FastMath.pow(1.0, Double.NEGATIVE_INFINITY);
+        if (x == x)
+            throw new RuntimeException("pow(1.0, -Inf) should be NaN");
+
     }
 
     @Test
@@ -791,6 +841,58 @@ public class FastMathTest {
         }
 
         Assert.assertTrue("acos() had errors in excess of " + MAX_ERROR_ULP + " ULP", maxerrulp < MAX_ERROR_ULP);
+    }
+
+    /**
+     * Added tests for a 100% coverage of acos().
+     */
+    @Test
+    public void testAcosSpecialCases() {
+    	double x;
+
+    	x = FastMath.acos(Double.NaN);
+    	if (x == x)
+    		throw new RuntimeException("acos(NaN) should NaN");
+
+    	x = FastMath.acos(-1.1);
+    	if (x == x)
+    		throw new RuntimeException("acos(-1.1) should NaN");
+    	
+    	x = FastMath.acos(1.1);
+    	if (x == x)
+    		throw new RuntimeException("acos(-1.1) should NaN");
+
+    	assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
+
+    	assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
+
+    	assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+    }
+
+    /**
+     * Added tests for a 100% coverage of asin().
+     */
+    @Test
+    public void testAsinSpecialCases() {
+    	double x;
+
+    	x = FastMath.asin(Double.NaN);
+    	if (x == x)
+    		throw new RuntimeException("asin(NaN) should NaN");
+
+    	x = FastMath.asin(-1.1);
+    	if (x == x)
+    		throw new RuntimeException("asin(-1.1) should NaN");
+    	
+    	x = FastMath.asin(1.1);
+    	if (x == x)
+    		throw new RuntimeException("asin(-1.1) should NaN");
+
+    	assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+
+    	assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
+
+    	assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
     }
 
     private Dfp cosh(Dfp x) {

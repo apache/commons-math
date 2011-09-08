@@ -7876,10 +7876,6 @@ public class FastMath {
                     return Double.NEGATIVE_INFINITY;
                 }
 
-                if (y < 0 && y == yi && (yi & 1) == 1) {
-                    return -0.0;
-                }
-
                 if (y > 0 && y == yi && (yi & 1) == 1) {
                     return -0.0;
                 }
