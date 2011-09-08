@@ -120,10 +120,6 @@ public class EigenSolverTest {
         RealMatrix solution=es.solve(b);
         Assert.assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
 
-        // using double[][]
-        solution = MatrixUtils.createRealMatrix(es.solve(b.getData()));
-        Assert.assertEquals(0, solution.subtract(xRef).getNorm(), 2.5e-12);
-
         // using RealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             Assert.assertEquals(0,
