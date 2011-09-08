@@ -831,7 +831,7 @@ public class BOBYQAOptimizer
                 }
             }
 
-            f = computeObjectiveValue(currentBest.getData());
+            f = computeObjectiveValue(currentBest.toArray());
             
             if (!isMinimize)
                 f = -f;
@@ -1742,7 +1742,7 @@ public class BOBYQAOptimizer
                 }
             }
             
-            final double objectiveValue = computeObjectiveValue(currentBest.getData());
+            final double objectiveValue = computeObjectiveValue(currentBest.toArray());
             final double f = isMinimize ? objectiveValue : -objectiveValue;
             final int numEval = getEvaluations(); // nfm + 1
             fval.setEntry(nfm, f);

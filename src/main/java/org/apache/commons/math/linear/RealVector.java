@@ -639,17 +639,6 @@ public abstract class RealVector {
     }
 
     /**
-     * Convert the vector to an array of {@code double}s.
-     * The array is independent from this vector data: the elements
-     * are copied.
-     *
-     * @return an array containing a copy of the vector elements.
-     */
-    public double[] getData() {
-        return toArray();
-    }
-
-    /**
      * Creates a unit vector pointing in the direction of this vector.
      * The instance is not changed by this method.
      *
@@ -945,12 +934,6 @@ public abstract class RealVector {
          * that {@link UnmodifiableVector} is <em>not</em> immutable.
          */
         return new RealVector() {
-            /** {@inheritDoc} */
-            @Override
-            public double[] getData() {
-                return v.getData();
-            }
-
             /** {@inheritDoc} */
             @Override
             public RealVector mapToSelf(UnivariateRealFunction function) {

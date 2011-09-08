@@ -234,7 +234,7 @@ public class KalmanFilter {
      * @return the state estimation vector
      */
     public double[] getStateEstimation() {
-        return stateEstimation.getData();
+        return stateEstimation.toArray();
     }
 
     /**

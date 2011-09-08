@@ -133,9 +133,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     public double calculateTotalSumOfSquares() {
         if (isNoIntercept()) {
-            return StatUtils.sumSq(Y.getData());
+            return StatUtils.sumSq(Y.toArray());
         } else {
-            return new SecondMoment().evaluate(Y.getData());
+            return new SecondMoment().evaluate(Y.toArray());
         }
     }
 

@@ -42,7 +42,7 @@ public abstract class InvertibleRealLinearOperator extends RealLinearOperator {
         if (x instanceof ArrayRealVector) {
             return ((ArrayRealVector) x).getDataRef();
         } else {
-            return x.getData();
+            return x.toArray();
         }
     }
 

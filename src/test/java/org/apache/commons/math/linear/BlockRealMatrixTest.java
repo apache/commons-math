@@ -328,7 +328,7 @@ public final class BlockRealMatrixTest {
     public void testOperate() {
         RealMatrix m = new BlockRealMatrix(id);
         assertClose(testVector, m.operate(testVector), entryTolerance);
-        assertClose(testVector, m.operate(new ArrayRealVector(testVector)).getData(), entryTolerance);
+        assertClose(testVector, m.operate(new ArrayRealVector(testVector)).toArray(), entryTolerance);
         m = new BlockRealMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -396,7 +396,7 @@ public final class BlockRealMatrixTest {
     public void testPremultiplyVector() {
         RealMatrix m = new BlockRealMatrix(testData);
         assertClose(m.preMultiply(testVector), preMultTest, normTolerance);
-        assertClose(m.preMultiply(new ArrayRealVector(testVector).getData()),
+        assertClose(m.preMultiply(new ArrayRealVector(testVector).toArray()),
                     preMultTest, normTolerance);
         m = new BlockRealMatrix(bigSingular);
         try {

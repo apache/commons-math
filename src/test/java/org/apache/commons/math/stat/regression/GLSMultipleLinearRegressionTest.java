@@ -200,8 +200,8 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         glsModel.newSampleData(longley, 16, 6);
         olsModel.newSampleData(longley, 16, 6);
         glsModel.newCovarianceData(identityCov.getData());
-        double[] olsBeta = olsModel.calculateBeta().getData();
-        double[] glsBeta = glsModel.calculateBeta().getData();
+        double[] olsBeta = olsModel.calculateBeta().toArray();
+        double[] glsBeta = glsModel.calculateBeta().toArray();
         // TODO:  Should have assertRelativelyEquals(double[], double[], eps) in TestUtils
         //        Should also add RealVector and RealMatrix versions
         for (int i = 0; i < olsBeta.length; i++) {
@@ -271,7 +271,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
             
             // Generate y = xb + u with u cov
             RealVector u = MatrixUtils.createRealVector(gen.nextVector());
-            double[] y = u.add(x.operate(b)).getData();
+            double[] y = u.add(x.operate(b)).toArray();
             
             // Estimate OLS parameters
             ols.newYSampleData(y);

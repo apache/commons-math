@@ -257,7 +257,7 @@ public final class SparseRealMatrixTest {
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
-                new ArrayRealVector(testVector)).getData(), entryTolerance);
+                new ArrayRealVector(testVector)).toArray(), entryTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -298,7 +298,7 @@ public final class SparseRealMatrixTest {
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
-            new ArrayRealVector(testVector).getData()), preMultTest, normTolerance);
+            new ArrayRealVector(testVector).toArray()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);

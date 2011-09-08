@@ -375,18 +375,6 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
-    @Override
-    public double[] getData() {
-        double[] res = new double[virtualSize];
-        Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            res[iter.key()] = iter.value();
-        }
-        return res;
-    }
-
-    /** {@inheritDoc} */
     public int getDimension() {
         return virtualSize;
     }
@@ -656,7 +644,13 @@ public class OpenMapRealVector extends SparseRealVector
     /** {@inheritDoc} */
     @Override
     public double[] toArray() {
-        return getData();
+        double[] res = new double[virtualSize];
+        Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res[iter.key()] = iter.value();
+        }
+        return res;
     }
 
     /**

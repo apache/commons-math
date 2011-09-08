@@ -202,7 +202,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 throw new DimensionMismatchException(b.getDimension(), m);
             }
 
-            final double[] x = b.getData();
+            final double[] x = b.toArray();
 
             // Solve LY = b
             for (int j = 0; j < m; j++) {

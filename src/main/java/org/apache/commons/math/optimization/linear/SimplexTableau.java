@@ -191,7 +191,7 @@ class SimplexTableau implements Serializable {
         matrix.setEntry(zIndex, zIndex, maximize ? 1 : -1);
         RealVector objectiveCoefficients =
             maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
-        copyArray(objectiveCoefficients.getData(), matrix.getDataRef()[zIndex]);
+        copyArray(objectiveCoefficients.toArray(), matrix.getDataRef()[zIndex]);
         matrix.setEntry(zIndex, width - 1,
             maximize ? f.getConstantTerm() : -1 * f.getConstantTerm());
 
@@ -208,7 +208,7 @@ class SimplexTableau implements Serializable {
             int row = getNumObjectiveFunctions() + i;
 
             // decision variable coefficients
-            copyArray(constraint.getCoefficients().getData(), matrix.getDataRef()[row]);
+            copyArray(constraint.getCoefficients().toArray(), matrix.getDataRef()[row]);
 
             // x-
             if (!restrictToNonNegative) {
@@ -296,7 +296,7 @@ class SimplexTableau implements Serializable {
      */
     protected static double getInvertedCoefficientSum(final RealVector coefficients) {
         double sum = 0;
-        for (double coefficient : coefficients.getData()) {
+        for (double coefficient : coefficients.toArray()) {
             sum -= coefficient;
         }
         return sum;

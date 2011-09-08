@@ -434,7 +434,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
          */
         double[] residuals = model.estimateResiduals();
         RealMatrix I = MatrixUtils.createRealIdentityMatrix(10);
-        double[] hatResiduals = I.subtract(hat).operate(model.Y).getData();
+        double[] hatResiduals = I.subtract(hat).operate(model.Y).toArray();
         TestUtils.assertEquals(residuals, hatResiduals, 10e-12);
     }
 
@@ -457,13 +457,13 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      */
     protected void checkVarianceConsistency(OLSMultipleLinearRegression model) throws Exception {
         // Check Y variance consistency
-        TestUtils.assertEquals(StatUtils.variance(model.Y.getData()), model.calculateYVariance(), 0);
+        TestUtils.assertEquals(StatUtils.variance(model.Y.toArray()), model.calculateYVariance(), 0);
         
         // Check residual variance consistency
-        double[] residuals = model.calculateResiduals().getData();
+        double[] residuals = model.calculateResiduals().toArray();
         RealMatrix X = model.X;
         TestUtils.assertEquals(
-                StatUtils.variance(model.calculateResiduals().getData()) * (residuals.length - 1),
+                StatUtils.variance(model.calculateResiduals().toArray()) * (residuals.length - 1),
                 model.calculateErrorVariance() * (X.getRowDimension() - X.getColumnDimension()), 1E-20);
         
     }

@@ -309,7 +309,7 @@ public final class MatrixUtilsTest {
                        false);
         RealVector b = new ArrayRealVector(new double[] { 2,3,4,8 }, false);
         MatrixUtils.solveLowerTriangularSystem(rm, b);
-        TestUtils.assertEquals( new double[]{1,2,-1.66666666666667, 1.0}  , b.getData() , 1.0e-12);
+        TestUtils.assertEquals( new double[]{1,2,-1.66666666666667, 1.0}  , b.toArray() , 1.0e-12);
     }
     
      
@@ -323,7 +323,7 @@ public final class MatrixUtilsTest {
                        false);
         RealVector b = new ArrayRealVector(new double[] { 8,4,2 }, false);
         MatrixUtils.solveUpperTriangularSystem(rm, b);
-        TestUtils.assertEquals( new double[]{-1,3,1}  , b.getData() , 1.0e-12);
+        TestUtils.assertEquals( new double[]{-1,3,1}  , b.toArray() , 1.0e-12);
     }
 }
 

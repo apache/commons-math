@@ -430,12 +430,6 @@ public class ArrayRealVector extends RealVector implements Serializable {
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public double[] getData() {
-        return data.clone();
-    }
-
     /**
      * Get a reference to the underlying data array.
      * This method does not make a fresh copy of the underlying data.

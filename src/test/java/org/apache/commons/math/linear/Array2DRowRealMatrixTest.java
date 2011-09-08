@@ -306,7 +306,7 @@ public final class Array2DRowRealMatrixTest {
         TestUtils.assertEquals("identity operate", testVector,
                     m.operate(testVector), entryTolerance);
         TestUtils.assertEquals("identity operate", testVector,
-                    m.operate(new ArrayRealVector(testVector)).getData(), entryTolerance);
+                    m.operate(new ArrayRealVector(testVector)).toArray(), entryTolerance);
         m = new Array2DRowRealMatrix(bigSingular);
         try {
             m.operate(testVector);
@@ -347,7 +347,7 @@ public final class Array2DRowRealMatrixTest {
         RealMatrix m = new Array2DRowRealMatrix(testData);
         TestUtils.assertEquals("premultiply", m.preMultiply(testVector),
                     preMultTest, normTolerance);
-        TestUtils.assertEquals("premultiply", m.preMultiply(new ArrayRealVector(testVector).getData()),
+        TestUtils.assertEquals("premultiply", m.preMultiply(new ArrayRealVector(testVector).toArray()),
                     preMultTest, normTolerance);
         m = new Array2DRowRealMatrix(bigSingular);
         try {
