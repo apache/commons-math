@@ -265,7 +265,7 @@ public class BOBYQAOptimizerTest {
             new BOBYQAOptimizer(2 * dim + 1, lB, uB);
         RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);        
 //        System.out.println(func.getClass().getName() + " = " 
-//        		+ optim.getEvaluations() + " f(");
+//              + optim.getEvaluations() + " f(");
 //        for (double x: result.getPoint())  System.out.print(x + " ");
 //        System.out.println(") = " +  result.getValue());
         Assert.assertEquals(expected.getValue(),
