@@ -22,7 +22,6 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Set;
 
-import org.apache.commons.math.exception.MathThrowable;
 import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -36,7 +35,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 *
 * @version $Id$
 */
-public class MathException extends Exception implements MathThrowable {
+public class MathException extends Exception {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 7428019509644517071L;
@@ -105,23 +104,45 @@ public class MathException extends Exception implements MathThrowable {
       this.arguments = (arguments == null) ? new Object[0] : arguments.clone();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Sets a message.
+     *
+     * @param pat Message pattern.
+     * @param args Values for replacing the placeholders in the message
+     * pattern.
+     */
     public void addMessage(Localizable pat,
                            Object ... args) {
         throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Sets the context (key, value) pair.
+     * Keys are assumed to be unique within an instance. If the same key is
+     * assigned a new value, the previous one will be lost.
+     *
+     * @param key Context key (not null).
+     * @param value Context value.
+     */
     public void setContext(String key, Object value) {
         throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Gets the value associated to the given context key.
+     *
+     * @param key Context key.
+     * @return the context value or {@code null} if the key does not exist.
+     */
     public Object getContext(String key) {
         throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Gets all the keys stored in the exception
+     *
+     * @return the set of keys.
+     */
     public Set<String> getContextKeys() {
         throw new UnsupportedOperationException(DEPRECATION_MESSAGE);
     }
@@ -140,13 +161,21 @@ public class MathException extends Exception implements MathThrowable {
         return "";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Gets the message in a conventional US locale.
+     *
+     * @return localized message
+     */
     @Override
     public String getMessage() {
         return getMessage(Locale.US);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Gets the message in the system default locale.
+     *
+     * @return localized message
+     */
     @Override
     public String getLocalizedMessage() {
         return getMessage(Locale.getDefault());
