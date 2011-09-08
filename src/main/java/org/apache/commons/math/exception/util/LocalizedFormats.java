@@ -186,7 +186,7 @@ public enum LocalizedFormats implements Localizable {
     BETA("beta"), /* keep */
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"),
-    NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({0},{0}) is larger than {1}"), /* keep */
+    NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({0},{0}) is smaller than {1}"), /* keep */
     NON_POSITIVE_DEFINITE_LINEAR_OPERATOR("non positive definite linear operator"), /* keep */
     NON_SELF_ADJOINT_LINEAR_OPERATOR("non self-adjoint linear operator"), /* keep */
     NON_SQUARE_LINEAR_OPERATOR("non square ({0}x{1}) linear operator"), /* keep */
