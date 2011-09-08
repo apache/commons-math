@@ -27,30 +27,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * Implementation of RealMatrix using a double[][] array to store entries and
- * <a href="http://www.math.gatech.edu/~bourbaki/math2601/Web-notes/2num.pdf">
- * LU decomposition</a> to support linear system
- * solution and inverse.
- * <p>
- * The LU decomposition is performed as needed, to support the following operations: <ul>
- * <li>solve</li>
- * <li>isSingular</li>
- * <li>getDeterminant</li>
- * <li>inverse</li> </ul></p>
- * <p>
- * <strong>Usage notes</strong>:<br>
- * <ul><li>
- * The LU decomposition is cached and reused on subsequent calls.
- * If data are modified via references to the underlying array obtained using
- * <code>getDataRef()</code>, then the stored LU decomposition will not be
- * discarded.  In this case, you need to explicitly invoke
- * <code>LUDecompose()</code> to recompute the decomposition
- * before using any of the methods above.</li>
- * <li>
- * As specified in the {@link RealMatrix} interface, matrix element indexing
- * is 0-based -- e.g., <code>getEntry(0, 0)</code>
- * returns the element in the first row, first column of the matrix.</li></ul>
- * </p>
+ * Implementation of {@link RealMatrix} using a {@code double[][]} array to
+ * store entries.
  *
  * @version $Id$
  */
