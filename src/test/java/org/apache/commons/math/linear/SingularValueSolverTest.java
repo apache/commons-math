@@ -98,9 +98,6 @@ public class SingularValueSolverTest {
         // using RealMatrix
         Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), normTolerance);
 
-        // using double[][]
-        Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), normTolerance);
-
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             Assert.assertEquals(0,
