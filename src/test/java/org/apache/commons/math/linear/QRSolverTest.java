@@ -124,9 +124,6 @@ public class QRSolverTest {
         // using RealMatrix
         Assert.assertEquals(0, solver.solve(b).subtract(xRef).getNorm(), 2.0e-16 * xRef.getNorm());
 
-        // using double[][]
-        Assert.assertEquals(0, MatrixUtils.createRealMatrix(solver.solve(b.getData())).subtract(xRef).getNorm(), 2.0e-16 * xRef.getNorm());
-
         // using ArrayRealVector
         for (int i = 0; i < b.getColumnDimension(); ++i) {
             final RealVector x = solver.solve(b.getColumnVector(i));
