@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.util;
 
-import static org.junit.Assert.*;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -862,11 +860,11 @@ public class FastMathTest {
     	if (x == x)
     		throw new RuntimeException("acos(-1.1) should NaN");
 
-    	assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
 
-    	assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
 
-    	assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
     }
 
     /**
@@ -888,11 +886,11 @@ public class FastMathTest {
     	if (x == x)
     		throw new RuntimeException("asin(-1.1) should NaN");
 
-    	assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
 
-    	assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
 
-    	assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
+    	Assert.assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
     }
 
     private Dfp cosh(Dfp x) {
