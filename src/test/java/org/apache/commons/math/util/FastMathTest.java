@@ -255,7 +255,7 @@ public class FastMathTest {
     public void testLog1pSpecialCases() {
         double x;
 
-    	x = FastMath.log1p(-1.0);
+        x = FastMath.log1p(-1.0);
         if (x != Double.NEGATIVE_INFINITY)
             throw new RuntimeException("Log1p of -1 should be -infinity");
     }
@@ -800,7 +800,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble();
 
             double tst = FastMath.asin(x);
             double ref = DfpMath.asin(field.newDfp(x)).toDouble();
@@ -823,7 +823,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 2.0) - 1.0) * generator.nextDouble();
 
             double tst = FastMath.acos(x);
             double ref = DfpMath.acos(field.newDfp(x)).toDouble();
@@ -846,25 +846,25 @@ public class FastMathTest {
      */
     @Test
     public void testAcosSpecialCases() {
-    	double x;
+        double x;
 
-    	x = FastMath.acos(Double.NaN);
-    	if (x == x)
-    		throw new RuntimeException("acos(NaN) should NaN");
+        x = FastMath.acos(Double.NaN);
+        if (x == x)
+            throw new RuntimeException("acos(NaN) should NaN");
 
-    	x = FastMath.acos(-1.1);
-    	if (x == x)
-    		throw new RuntimeException("acos(-1.1) should NaN");
-    	
-    	x = FastMath.acos(1.1);
-    	if (x == x)
-    		throw new RuntimeException("acos(-1.1) should NaN");
+        x = FastMath.acos(-1.1);
+        if (x == x)
+            throw new RuntimeException("acos(-1.1) should NaN");
 
-    	Assert.assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
+        x = FastMath.acos(1.1);
+        if (x == x)
+            throw new RuntimeException("acos(-1.1) should NaN");
 
-    	Assert.assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
+        Assert.assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
 
-    	Assert.assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+        Assert.assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
+
+        Assert.assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
     }
 
     /**
@@ -872,25 +872,25 @@ public class FastMathTest {
      */
     @Test
     public void testAsinSpecialCases() {
-    	double x;
+        double x;
 
-    	x = FastMath.asin(Double.NaN);
-    	if (x == x)
-    		throw new RuntimeException("asin(NaN) should NaN");
+        x = FastMath.asin(Double.NaN);
+        if (x == x)
+            throw new RuntimeException("asin(NaN) should NaN");
 
-    	x = FastMath.asin(-1.1);
-    	if (x == x)
-    		throw new RuntimeException("asin(-1.1) should NaN");
-    	
-    	x = FastMath.asin(1.1);
-    	if (x == x)
-    		throw new RuntimeException("asin(-1.1) should NaN");
+        x = FastMath.asin(-1.1);
+        if (x == x)
+            throw new RuntimeException("asin(-1.1) should NaN");
 
-    	Assert.assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+        x = FastMath.asin(1.1);
+        if (x == x)
+            throw new RuntimeException("asin(-1.1) should NaN");
 
-    	Assert.assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
+        Assert.assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
 
-    	Assert.assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
+        Assert.assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
+
+        Assert.assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
     }
 
     private Dfp cosh(Dfp x) {
@@ -910,7 +910,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = FastMath.sinh(x);
             double ref = sinh(field.newDfp(x)).toDouble();
@@ -918,8 +918,8 @@ public class FastMathTest {
 
             if (err != 0) {
                 double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
-                double errulp = field.newDfp(tst).subtract(sinh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
-                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                double errulp = field.newDfp(tst).subtract(sinh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
                 maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
             }
         }
@@ -932,7 +932,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = FastMath.cosh(x);
             double ref = cosh(field.newDfp(x)).toDouble();
@@ -940,8 +940,8 @@ public class FastMathTest {
 
             if (err != 0) {
                 double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
-                double errulp = field.newDfp(tst).subtract(cosh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
-                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                double errulp = field.newDfp(tst).subtract(cosh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
                 maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
             }
         }
@@ -954,7 +954,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 16.0) - 8.0) * generator.nextDouble();
 
             double tst = FastMath.tanh(x);
             double ref = tanh(field.newDfp(x)).toDouble();
@@ -962,8 +962,8 @@ public class FastMathTest {
 
             if (err != 0) {
                 double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
-                double errulp = field.newDfp(tst).subtract(tanh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
-                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                double errulp = field.newDfp(tst).subtract(tanh(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
                 maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
             }
         }
@@ -976,7 +976,7 @@ public class FastMathTest {
         double maxerrulp = 0.0;
 
         for (int i=0; i<10000; i++) {
-            double x = ((generator.nextDouble() * 200.0) - 100.0) * generator.nextDouble(); 
+            double x = ((generator.nextDouble() * 200.0) - 100.0) * generator.nextDouble();
 
             double tst = FastMath.cbrt(x);
             double ref = cbrt(field.newDfp(x)).toDouble();
@@ -984,8 +984,8 @@ public class FastMathTest {
 
             if (err != 0) {
                 double ulp = Math.abs(ref - Double.longBitsToDouble((Double.doubleToLongBits(ref) ^ 1)));
-                double errulp = field.newDfp(tst).subtract(cbrt(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble(); 
-                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp); 
+                double errulp = field.newDfp(tst).subtract(cbrt(field.newDfp(x))).divide(field.newDfp(ulp)).toDouble();
+                //System.out.println(x+"\t"+tst+"\t"+ref+"\t"+err+"\t"+errulp);
                 maxerrulp = Math.max(maxerrulp, Math.abs(errulp));
             }
         }
