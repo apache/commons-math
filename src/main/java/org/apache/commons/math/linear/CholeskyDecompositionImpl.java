@@ -226,34 +226,15 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             return new ArrayRealVector(x, false);
         }
 
-        /** Solve the linear equation A &times; X = B for matrices A.
-         * <p>The A matrix is implicit, it is provided by the underlying
-         * decomposition algorithm.</p>
-         * @param b right-hand side of the equation A &times; X = B
-         * @param reuseB if true, the b array will be reused and returned,
-         * instead of being copied
-         * @return a matrix X that minimizes the two norm of A &times; X - B
-         * @throws org.apache.commons.math.exception.DimensionMismatchException
-         * if the matrices dimensions do not match.
-         * @throws SingularMatrixException
-         * if the decomposed matrix is singular.
-         */
-        private double[][] solve(double[][] b, boolean reuseB) {
+        /** {@inheritDoc} */
+        public RealMatrix solve(RealMatrix b) {
             final int m = lTData.length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
+            if (b.getRowDimension() != m) {
+                throw new DimensionMismatchException(b.getRowDimension(), m);
             }
 
-            final int nColB = b[0].length;
-            final double[][] x;
-            if (reuseB) {
-                x = b;
-            } else {
-                x = new double[b.length][nColB];
-                for (int i = 0; i < b.length; ++i) {
-                    System.arraycopy(b[i], 0, x[i], 0, nColB);
-                }
-            }
+            final int nColB = b.getColumnDimension();
+            final double[][] x = b.getData();
 
             // Solve LY = b
             for (int j = 0; j < m; j++) {
@@ -288,18 +269,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
                 }
             }
 
-            return x;
-
-        }
-
-        /** {@inheritDoc} */
-        public double[][] solve(double[][] b) {
-            return solve(b, false);
-        }
-
-        /** {@inheritDoc} */
-        public RealMatrix solve(RealMatrix b) {
-            return new Array2DRowRealMatrix(solve(b.getData(), true), false);
+            return new Array2DRowRealMatrix(x);
         }
 
         /** {@inheritDoc} */
