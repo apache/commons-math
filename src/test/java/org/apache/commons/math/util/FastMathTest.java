@@ -253,301 +253,160 @@ public class FastMathTest {
 
     @Test
     public void testLog1pSpecialCases() {
-        double x;
 
-        x = FastMath.log1p(-1.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("Log1p of -1 should be -infinity");
+        Assert.assertTrue("Logp of -1.0 should be -Inf", Double.isInfinite(FastMath.log1p(-1.0)));
+
     }
 
     @Test
     public void testLogSpecialCases() {
-        double x;
 
-        x = FastMath.log(0.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("Log of zero should be -Inf");
+        Assert.assertTrue("Log of zero should be -Inf", Double.isInfinite(FastMath.log(0.0)));
 
-        x = FastMath.log(-0.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("Log of zero should be -Inf");
+        Assert.assertTrue("Log of -zero should be -Inf", Double.isInfinite(FastMath.log(-0.0)));
 
-        x = FastMath.log(Double.NaN);
-        if (x == x)
-            throw new RuntimeException("Log of NaN should be NaN");
+        Assert.assertTrue("Log of NaN should be NaN", Double.isNaN(FastMath.log(Double.NaN)));
 
-        x = FastMath.log(-1.0);
-        if (x == x)
-            throw new RuntimeException("Log of negative number should be NaN");
+        Assert.assertTrue("Log of negative number should be NaN", Double.isNaN(FastMath.log(-1.0)));
 
-        x = FastMath.log(Double.MIN_VALUE);
-        if (x != -744.4400719213812)
-            throw new RuntimeException(
-                                       "Log of Double.MIN_VALUE should be -744.4400719213812");
+        Assert.assertEquals("Log of Double.MIN_VALUE should be -744.4400719213812", -744.4400719213812, FastMath.log(Double.MIN_VALUE), MathUtils.EPSILON);
 
-        x = FastMath.log(-1.0);
-        if (x == x)
-            throw new RuntimeException("Log of negative number should be NaN");
-
-        x = FastMath.log(Double.POSITIVE_INFINITY);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("Log of infinity should be infinity");
+        Assert.assertTrue("Log of infinity should be infinity", Double.isInfinite(FastMath.log(Double.POSITIVE_INFINITY)));
     }
-
     @Test
     public void testExpSpecialCases() {
-        double x;
 
-        /* Smallest value that will round up to Double.MIN_VALUE */
-        x = FastMath.exp(-745.1332191019411);
-        if (x != Double.MIN_VALUE)
-            throw new RuntimeException(
-                                       "exp(-745.1332191019411) should be Double.MIN_VALUE");
+        // Smallest value that will round up to Double.MIN_VALUE
+        Assert.assertEquals(Double.MIN_VALUE, FastMath.exp(-745.1332191019411), MathUtils.EPSILON);
 
-        x = FastMath.exp(-745.1332191019412);
-        if (x != 0.0)
-            throw new RuntimeException("exp(-745.1332191019412) should be 0.0");
+        Assert.assertEquals("exp(-745.1332191019412) should be 0.0", 0.0, FastMath.exp(-745.1332191019412), MathUtils.EPSILON);
 
-        x = FastMath.exp(Double.NaN);
-        if (x == x)
-            throw new RuntimeException("exp of NaN should be NaN");
+        Assert.assertTrue("exp of NaN should be NaN", Double.isNaN(FastMath.exp(Double.NaN)));
 
-        x = FastMath.exp(Double.POSITIVE_INFINITY);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("exp of infinity should be infinity");
+        Assert.assertTrue("exp of infinity should be infinity", Double.isInfinite(FastMath.exp(Double.POSITIVE_INFINITY)));
 
-        x = FastMath.exp(Double.NEGATIVE_INFINITY);
-        if (x != 0.0)
-            throw new RuntimeException("exp of -infinity should be 0.0");
+        Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.exp(1.0);
-        if (x != Math.E)
-            throw new RuntimeException("exp(1) should be Math.E");
+        Assert.assertEquals("exp(1) should be Math.E", Math.E, FastMath.exp(1.0), MathUtils.EPSILON);
     }
 
     @Test
     public void testPowSpecialCases() {
-        double x;
 
-        x = FastMath.pow(-1.0, 0.0);
-        if (x != 1.0)
-            throw new RuntimeException("pow(x, 0) should be 1.0");
+        Assert.assertEquals("pow(-1, 0) should be 1.0", 1.0, FastMath.pow(-1.0, 0.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(-1.0, -0.0);
-        if (x != 1.0)
-            throw new RuntimeException("pow(x, -0) should be 1.0");
+        Assert.assertEquals("pow(-1, -0) should be 1.0", 1.0, FastMath.pow(-1.0, -0.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(Math.PI, 1.0);
-        if (x != Math.PI)
-            throw new RuntimeException("pow(PI, 1.0) should be PI");
+        Assert.assertEquals("pow(PI, 1.0) should be PI", FastMath.PI, FastMath.pow(FastMath.PI, 1.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(-Math.PI, 1.0);
-        if (x != -Math.PI)
-            throw new RuntimeException("pow(-PI, 1.0) should be PI");
+        Assert.assertEquals("pow(-PI, 1.0) should be -PI", -FastMath.PI, FastMath.pow(-FastMath.PI, 1.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(Math.PI, Double.NaN);
-        if (x == x)
-            throw new RuntimeException("pow(PI, NaN) should be NaN");
+        Assert.assertTrue("pow(PI, NaN) should be NaN", Double.isNaN(FastMath.pow(Math.PI, Double.NaN)));
 
-        x = FastMath.pow(Double.NaN, Math.PI);
-        if (x == x)
-            throw new RuntimeException("pow(NaN, PI) should be NaN");
+        Assert.assertTrue("pow(NaN, PI) should be NaN", Double.isNaN(FastMath.pow(Double.NaN, Math.PI)));
 
-        x = FastMath.pow(2.0, Double.POSITIVE_INFINITY);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(2.0, Infinity) should be Infinity");
+        Assert.assertTrue("pow(2.0, Infinity) should be Infinity", Double.isInfinite(FastMath.pow(2.0, Double.POSITIVE_INFINITY)));
 
-        x = FastMath.pow(0.5, Double.NEGATIVE_INFINITY);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(0.5, -Infinity) should be Infinity");
+        Assert.assertTrue("pow(0.5, -Infinity) should be Infinity", Double.isInfinite(FastMath.pow(0.5, Double.NEGATIVE_INFINITY)));
 
-        x = FastMath.pow(0.5, Double.POSITIVE_INFINITY);
-        if (x != 0.0)
-            throw new RuntimeException("pow(0.5, Infinity) should be 0.0");
+        Assert.assertEquals("pow(0.5, Infinity) should be 0.0", 0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.pow(2.0, Double.NEGATIVE_INFINITY);
-        if (x != 0.0)
-            throw new RuntimeException("pow(2.0, -Infinity) should be 0.0");
+        Assert.assertEquals("pow(2.0, -Infinity) should be 0.0", 0.0, FastMath.pow(2.0, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.pow(0.0, 0.5);
-        if (x != 0.0)
-            throw new RuntimeException("pow(0.0, 0.5) should be 0.0");
+        Assert.assertEquals("pow(0.0, 0.5) should be 0.0", 0.0, FastMath.pow(0.0, 0.5), MathUtils.EPSILON);
 
-        x = FastMath.pow(Double.POSITIVE_INFINITY, -0.5);
-        if (x != 0.0)
-            throw new RuntimeException("pow(Inf, -0.5) should be 0.0");
+        Assert.assertEquals("pow(Infinity, -0.5) should be 0.0", 0.0, FastMath.pow(Double.POSITIVE_INFINITY, -0.5), MathUtils.EPSILON);
 
-        x = FastMath.pow(0.0, -0.5);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(0.0, -0.5) should be Inf");
+        Assert.assertTrue("pow(0.0, -0.5) should be Inf", Double.isInfinite(FastMath.pow(0.0, -0.5)));
 
-        x = FastMath.pow(Double.POSITIVE_INFINITY, 0.5);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(Inf, 0.5) should be Inf");
+        Assert.assertTrue("pow(Inf, 0.5) should be Inf", Double.isInfinite(FastMath.pow(Double.POSITIVE_INFINITY, 0.5)));
 
-        x = FastMath.pow(-0.0, -3.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("pow(-0.0, -3.0) should be -Inf");
+        Assert.assertTrue("pow(-0.0, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(-0.0, -3.0)));
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, 3.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("pow(-Inf, -3.0) should be -Inf");
+        Assert.assertTrue("pow(-Inf, -3.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 3.0)));
 
-        x = FastMath.pow(-0.0, -3.5);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(-0.0, -3.5) should be Inf");
+        Assert.assertTrue("pow(-0.0, -3.5) should be Inf", Double.isInfinite(FastMath.pow(-0.0, -3.5)));
 
-        x = FastMath.pow(Double.POSITIVE_INFINITY, 3.5);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(Inf, 3.5) should be Inf");
+        Assert.assertTrue("pow(Inf, 3.5) should be Inf", Double.isInfinite(FastMath.pow(Double.POSITIVE_INFINITY, 3.5)));
 
-        x = FastMath.pow(-2.0, 3.0);
-        if (x != -8.0)
-            throw new RuntimeException("pow(-2.0, 3.0) should be -8.0");
+        Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(-2.0, 3.5);
-        if (x == x)
-            throw new RuntimeException("pow(-2.0, 3.5) should be NaN");
+        Assert.assertTrue("pow(-2.0, 3.5) should be NaN", Double.isNaN(FastMath.pow(-2.0, 3.5)));
 
         // Added tests for a 100% coverage
 
-        x = FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN);
-        if (x == x)
-            throw new RuntimeException("pow(+Inf, NaN) should be NaN");
+        Assert.assertTrue("pow(+Inf, NaN) should be NaN", Double.isNaN(FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN)));
 
-        x = FastMath.pow(Double.POSITIVE_INFINITY, Double.NaN);
-        if (x == x)
-            throw new RuntimeException("pow(+Inf, NaN) should be NaN");
+        Assert.assertTrue("pow(1.0, +Inf) should be NaN", Double.isNaN(FastMath.pow(1.0, Double.POSITIVE_INFINITY)));
 
-        x = FastMath.pow(1.0, Double.POSITIVE_INFINITY);
-        if (x == x)
-            throw new RuntimeException("pow(1.0, +Inf) should be NaN");
+        Assert.assertTrue("pow(-Inf, NaN) should be NaN", Double.isNaN(FastMath.pow(Double.NEGATIVE_INFINITY, Double.NaN)));
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, Double.NaN);
-        if (x == x)
-            throw new RuntimeException("pow(-Inf, NaN) should be NaN");
+        Assert.assertEquals("pow(-Inf, -1.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -1.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, -1.0);
-        if (x != -0.0)
-            throw new RuntimeException("pow(-Inf, -1.0) should be 0.0");
+        Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), MathUtils.EPSILON);
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, -2.0);
-        if (x != 0.0)
-            throw new RuntimeException("pow(-Inf, -2.0) should be 0.0");
+        Assert.assertTrue("pow(-Inf, 1.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 1.0)));
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, 1.0);
-        if (x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("pow(-Inf, 1.0) should be -Inf");
+        Assert.assertTrue("pow(-Inf, 2.0) should be +Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 2.0)));
 
-        x = FastMath.pow(Double.NEGATIVE_INFINITY, 2.0);
-        if (x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("pow(-Inf, 2.0) should be +Inf");
-
-        x = FastMath.pow(1.0, Double.NEGATIVE_INFINITY);
-        if (x == x)
-            throw new RuntimeException("pow(1.0, -Inf) should be NaN");
+        Assert.assertTrue("pow(1.0, -Inf) should be NaN", Double.isNaN(FastMath.pow(1.0, Double.NEGATIVE_INFINITY)));
 
     }
 
     @Test
     public void testAtan2SpecialCases() {
-        double x;
 
-        x = FastMath.atan2(Double.NaN, 0.0);
-        if (x == x)
-            throw new RuntimeException("atan2(NaN, 0.0) should be NaN");
+        Assert.assertTrue("atan2(NaN, 0.0) should be NaN", Double.isNaN(FastMath.atan2(Double.NaN, 0.0)));
 
-        x = FastMath.atan2(0.0, Double.NaN);
-        if (x == x)
-            throw new RuntimeException("atan2(0.0, NaN) should be NaN");
+        Assert.assertTrue("atan2(0.0, NaN) should be NaN", Double.isNaN(FastMath.atan2(0.0, Double.NaN)));
 
-        x = FastMath.atan2(0.0, 0.0);
-        if (x != 0.0 || 1 / x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("atan2(0.0, 0.0) should be 0.0");
+        Assert.assertEquals("atan2(0.0, 0.0) should be 0.0", 0.0, FastMath.atan2(0.0, 0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.0, 0.001);
-        if (x != 0.0 || 1 / x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("atan2(0.0, 0.001) should be 0.0");
+        Assert.assertEquals("atan2(0.0, 0.001) should be 0.0", 0.0, FastMath.atan2(0.0, 0.001), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.1, Double.POSITIVE_INFINITY);
-        if (x != 0.0 || 1 / x != Double.POSITIVE_INFINITY)
-            throw new RuntimeException("atan2(0.1, +Inf) should be 0.0");
+        Assert.assertEquals("atan2(0.1, +Inf) should be 0.0", 0.0, FastMath.atan2(0.1, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.0, 0.0);
-        if (x != 0.0 || 1 / x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("atan2(-0.0, 0.0) should be -0.0");
+        Assert.assertEquals("atan2(-0.0, 0.0) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.0, 0.001);
-        if (x != 0.0 || 1 / x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("atan2(-0.0, 0.001) should be -0.0");
+        Assert.assertEquals("atan2(-0.0, 0.001) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.001), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.1, Double.POSITIVE_INFINITY);
-        if (x != 0.0 || 1 / x != Double.NEGATIVE_INFINITY)
-            throw new RuntimeException("atan2(-0.0, +Inf) should be -0.0");
+        Assert.assertEquals("atan2(-0.0, +Inf) should be -0.0", -0.0, FastMath.atan2(-0.1, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.0, -0.0);
-        if (x != Math.PI)
-            throw new RuntimeException("atan2(0.0, -0.0) should be PI");
+        Assert.assertEquals("atan2(0.0, -0.0) should be PI", FastMath.PI, FastMath.atan2(0.0, -0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.1, Double.NEGATIVE_INFINITY);
-        if (x != Math.PI)
-            throw new RuntimeException("atan2(0.1, -Inf) should be PI");
+        Assert.assertEquals("atan2(0.1, -Inf) should be PI", FastMath.PI, FastMath.atan2(0.1, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.0, -0.0);
-        if (x != -Math.PI)
-            throw new RuntimeException("atan2(-0.0, -0.0) should be -PI");
+        Assert.assertEquals("atan2(-0.0, -0.0) should be -PI", -FastMath.PI, FastMath.atan2(-0.0, -0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.1, Double.NEGATIVE_INFINITY);
-        if (x != -Math.PI)
-            throw new RuntimeException("atan2(0.1, -Inf) should be -PI");
+        Assert.assertEquals("atan2(0.1, -Inf) should be -PI", -FastMath.PI, FastMath.atan2(-0.1, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.1, 0.0);
-        if (x != Math.PI / 2)
-            throw new RuntimeException("atan2(0.1, 0.0) should be PI/2");
+        Assert.assertEquals("atan2(0.1, 0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, 0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(0.1, -0.0);
-        if (x != Math.PI / 2)
-            throw new RuntimeException("atan2(0.1, -0.0) should be PI/2");
+        Assert.assertEquals("atan2(0.1, -0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, -0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.POSITIVE_INFINITY, 0.1);
-        if (x != Math.PI / 2)
-            throw new RuntimeException("atan2(Inf, 0.1) should be PI/2");
+        Assert.assertEquals("atan2(Inf, 0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, 0.1), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.POSITIVE_INFINITY, -0.1);
-        if (x != Math.PI / 2)
-            throw new RuntimeException("atan2(Inf, -0.1) should be PI/2");
+        Assert.assertEquals("atan2(Inf, -0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, -0.1), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.1, 0.0);
-        if (x != -Math.PI / 2)
-            throw new RuntimeException("atan2(-0.1, 0.0) should be -PI/2");
+        Assert.assertEquals("atan2(-0.1, 0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, 0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(-0.1, -0.0);
-        if (x != -Math.PI / 2)
-            throw new RuntimeException("atan2(-0.1, -0.0) should be -PI/2");
+        Assert.assertEquals("atan2(-0.1, -0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, -0.0), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.NEGATIVE_INFINITY, 0.1);
-        if (x != -Math.PI / 2)
-            throw new RuntimeException("atan2(-Inf, 0.1) should be -PI/2");
+        Assert.assertEquals("atan2(-Inf, 0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, 0.1), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.NEGATIVE_INFINITY, -0.1);
-        if (x != -Math.PI / 2)
-            throw new RuntimeException("atan2(-Inf, -0.1) should be -PI/2");
+        Assert.assertEquals("atan2(-Inf, -0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, -0.1), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-        if (x != Math.PI / 4)
-            throw new RuntimeException("atan2(Inf, Inf) should be PI/4");
+        Assert.assertEquals("atan2(Inf, Inf) should be PI/4", FastMath.PI / 4.0, FastMath.atan2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+                MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
-        if (x != Math.PI * 3.0 / 4.0)
-            throw new RuntimeException("atan2(Inf, -Inf) should be PI * 3/4");
+        Assert.assertEquals("atan2(Inf, -Inf) should be PI * 3/4", FastMath.PI * 3.0 / 4.0,
+                FastMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        if (x != -Math.PI / 4)
-            throw new RuntimeException("atan2(-Inf, Inf) should be -PI/4");
+        Assert.assertEquals("atan2(-Inf, Inf) should be -PI/4", -FastMath.PI / 4.0, FastMath.atan2(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
+                MathUtils.EPSILON);
 
-        x = FastMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-        if (x != -Math.PI * 3.0 / 4.0)
-            throw new RuntimeException("atan2(-Inf, -Inf) should be -PI * 3/4");
+        Assert.assertEquals("atan2(-Inf, -Inf) should be -PI * 3/4", - FastMath.PI * 3.0 / 4.0,
+                FastMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
     }
 
     @Test
@@ -846,25 +705,18 @@ public class FastMathTest {
      */
     @Test
     public void testAcosSpecialCases() {
-        double x;
+        
+        Assert.assertTrue("acos(NaN) should be NaN", Double.isNaN(FastMath.acos(Double.NaN)));
+        
+        Assert.assertTrue("acos(-1.1) should be NaN", Double.isNaN(FastMath.acos(-1.1)));
 
-        x = FastMath.acos(Double.NaN);
-        if (x == x)
-            throw new RuntimeException("acos(NaN) should NaN");
+        Assert.assertTrue("acos(-1.1) should be NaN", Double.isNaN(FastMath.acos(1.1)));
+        
+        Assert.assertEquals("acos(-1.0) should be PI", FastMath.acos(-1.0), FastMath.PI, MathUtils.EPSILON);
 
-        x = FastMath.acos(-1.1);
-        if (x == x)
-            throw new RuntimeException("acos(-1.1) should NaN");
+        Assert.assertEquals("acos(1.0) should be 0.0", FastMath.acos(1.0), 0.0, MathUtils.EPSILON);
 
-        x = FastMath.acos(1.1);
-        if (x == x)
-            throw new RuntimeException("acos(-1.1) should NaN");
-
-        Assert.assertEquals(FastMath.acos(-1.0), FastMath.PI, Double.MIN_VALUE);
-
-        Assert.assertEquals(FastMath.acos(1.0), 0.0, Double.MIN_VALUE);
-
-        Assert.assertEquals(FastMath.acos(0.0), FastMath.PI / 2.0, Double.MIN_VALUE);
+        Assert.assertEquals("acos(0.0) should be PI/2", FastMath.acos(0.0), FastMath.PI / 2.0, MathUtils.EPSILON);
     }
 
     /**
@@ -872,25 +724,18 @@ public class FastMathTest {
      */
     @Test
     public void testAsinSpecialCases() {
-        double x;
+   
+        Assert.assertTrue("asin(NaN) should be NaN", Double.isNaN(FastMath.asin(Double.NaN)));
+        
+        Assert.assertTrue("asin(1.1) should be NaN", Double.isNaN(FastMath.asin(1.1)));
+        
+        Assert.assertTrue("asin(-1.1) should be NaN", Double.isNaN(FastMath.asin(-1.1)));
+        
+        Assert.assertEquals("asin(1.0) should be PI/2", FastMath.asin(1.0), FastMath.PI / 2.0, MathUtils.EPSILON);
 
-        x = FastMath.asin(Double.NaN);
-        if (x == x)
-            throw new RuntimeException("asin(NaN) should NaN");
+        Assert.assertEquals("asin(-1.0) should be -PI/2", FastMath.asin(-1.0), -FastMath.PI / 2.0, MathUtils.EPSILON);
 
-        x = FastMath.asin(-1.1);
-        if (x == x)
-            throw new RuntimeException("asin(-1.1) should NaN");
-
-        x = FastMath.asin(1.1);
-        if (x == x)
-            throw new RuntimeException("asin(-1.1) should NaN");
-
-        Assert.assertEquals(FastMath.asin(1.0), FastMath.PI / 2.0, Double.MIN_VALUE);
-
-        Assert.assertEquals(FastMath.asin(-1.0), -FastMath.PI / 2.0, Double.MIN_VALUE);
-
-        Assert.assertEquals(FastMath.asin(0.0), 0.0, Double.MIN_VALUE);
+        Assert.assertEquals("asin(0.0) should be 0.0", FastMath.asin(0.0), 0.0, MathUtils.EPSILON);
     }
 
     private Dfp cosh(Dfp x) {
