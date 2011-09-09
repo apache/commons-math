@@ -202,9 +202,8 @@ public class LevenbergMarquardtOptimizerTest {
         Assert.assertEquals( 1.0 - epsilon, optimum.getPoint()[5], 1.0e-10);
     }
 
-    @Test
+    @Test(expected=SingularMatrixException.class)
     public void testNonInvertible() {
-
         LinearProblem problem = new LinearProblem(new double[][] {
                 {  1, 2, -3 },
                 {  2, 1,  3 },
@@ -212,14 +211,13 @@ public class LevenbergMarquardtOptimizerTest {
         }, new double[] { 1, 1, 1 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+        VectorialPointValuePair optimum
+            = optimizer.optimize(100, problem, problem.target,
+                                 new double[] { 1, 1, 1 },
+                                 new double[] { 0, 0, 0 });
         Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
-        try {
-            optimizer.getCovariances();
-            Assert.fail("an exception should have been thrown");
-        } catch (SingularMatrixException ee) {
-            // expected behavior
-        }
+
+        final double[][] m = optimizer.getCovariances();
     }
 
     @Test
