@@ -125,7 +125,7 @@ public class CholeskyDecompositionImpl implements CholeskyDecomposition {
             final double[] ltI = lTData[i];
 
             // check diagonal element
-            if (ltI[i] < absolutePositivityThreshold) {
+            if (ltI[i] <= absolutePositivityThreshold) {
                 throw new NonPositiveDefiniteMatrixException(ltI[i], i, absolutePositivityThreshold);
             }
 

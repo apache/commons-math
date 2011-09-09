@@ -16,8 +16,9 @@
  */
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathIllegalNumberException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.util.ExceptionContext;
 
 /**
  * Exception to be thrown when a positive definite matrix is expected.
@@ -25,7 +26,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 3.0
  * @version $Id$
  */
-public class NonPositiveDefiniteMatrixException extends MathIllegalNumberException {
+public class NonPositiveDefiniteMatrixException extends NumberIsTooSmallException {
     /** Serializable version Id. */
     private static final long serialVersionUID = 1641613838113738061L;
     /** Index (diagonal element). */
@@ -43,9 +44,13 @@ public class NonPositiveDefiniteMatrixException extends MathIllegalNumberExcepti
     public NonPositiveDefiniteMatrixException(double wrong,
                                               int index,
                                               double threshold) {
-        super(LocalizedFormats.NON_POSITIVE_DEFINITE_MATRIX, wrong, index, threshold);
+        super(wrong, threshold, false);
         this.index = index;
         this.threshold = threshold;
+
+        final ExceptionContext context = getContext();
+        context.addMessage(LocalizedFormats.NOT_POSITIVE_DEFINITE_MATRIX);
+        context.addMessage(LocalizedFormats.ARRAY_ELEMENT, wrong, index);
     }
 
     /**
