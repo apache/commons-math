@@ -14,6 +14,7 @@
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -93,6 +94,20 @@ public class IncrementorTest {
         i.incrementCount();
         i.incrementCount();
         i.incrementCount();
+        i.incrementCount();
+    }
+
+    @Test(expected=TooManyEvaluationsException.class)
+    public void testAlternateException() {
+        final Incrementor.MaxCountExceededCallback cb
+            = new Incrementor.MaxCountExceededCallback() {
+                    /** {@inheritDoc} */
+                    public void trigger(int max) {
+                        throw new TooManyEvaluationsException(max);
+                    }
+                };
+
+        final Incrementor i = new Incrementor(0, cb);
         i.incrementCount();
     }
 

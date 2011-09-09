@@ -19,8 +19,12 @@ package org.apache.commons.math.util;
 import org.apache.commons.math.exception.MaxCountExceededException;
 
 /**
- * Utility that increments a counter until a maximum is reached, at which
- * point it will throw an exception.
+ * Utility that increments a counter until a maximum is reached, at
+ * which point, the instance will by default throw a
+ * {@link MaxCountExceededException}.
+ * However, the user is able to override this behaviour by defining a
+ * custom {@link MaxCountExceededCallback callback}, in order to e.g.
+ * select which exception must be thrown.
  *
  * @version $Id$
  * @since 3.0
@@ -33,7 +37,11 @@ public class Incrementor {
     /**
      * Current count.
      */
-    private int count;
+    private int count = 0;
+    /**
+     * Function called at counter exhaustion.
+     */
+    private final MaxCountExceededCallback maxCountCallback;
 
     /**
      * Default constructor.
@@ -50,12 +58,30 @@ public class Incrementor {
      * @param max Maximal count.
      */
     public Incrementor(int max) {
-        maximalCount = max;
-        count = 0;
+        this(max,
+             new MaxCountExceededCallback() {
+                 /** {@inheritDoc} */
+                 public void trigger(int max) {
+                     throw new MaxCountExceededException(max);
+                 }
+             });
     }
 
     /**
-     * Set the upper limit for the counter.
+     * Defines a maximal count and a callback method to be triggered at
+     * counter exhaustion.
+     *
+     * @param max Maximal count.
+     * @param cb Function to be called when the maximal count has been reached.
+     */
+    public Incrementor(int max,
+                       MaxCountExceededCallback cb) {
+        maximalCount = max;
+        maxCountCallback = cb;
+    }
+
+    /**
+     * Sets the upper limit for the counter.
      * This does not automatically reset the current count to zero (see
      * {@link #resetCount()}).
      *
@@ -66,7 +92,7 @@ public class Incrementor {
     }
 
     /**
-     * Get the upper limit of the counter.
+     * Gets the upper limit of the counter.
      *
      * @return the counter upper limit.
      */
@@ -75,7 +101,7 @@ public class Incrementor {
     }
 
     /**
-     * Get the current count.
+     * Gets the current count.
      *
      * @return the current count.
      */
@@ -84,7 +110,7 @@ public class Incrementor {
     }
 
     /**
-     * Check whether a single increment is allowed.
+     * Checks whether a single increment is allowed.
      *
      * @return {@code false} if the next call to {@link #incrementCount(int)
      * incrementCount} will trigger a {@code MaxCountExceededException},
@@ -95,7 +121,7 @@ public class Incrementor {
     }
 
     /**
-     * Perform multiple increments.
+     * Performs multiple increments.
      * See the other {@link #incrementCount() incrementCount} method).
      *
      * @param value Number of increments.
@@ -108,20 +134,41 @@ public class Incrementor {
     }
 
     /**
-     * Add one to the current iteration count.
+     * Adds one to the current iteration count.
+     * At counter exhaustion, this method will call the
+     * {@link MaxCountExceededCallback#trigger(int) trigger} method of the
+     * callback object passed to the
+     * {@link #Incrementor(int,MaxCountExceededCallback) constructor}.
+     * If not explictly set, a default callback is used that will throw
+     * a {@code MaxCountExceededException}.
      *
-     * @throws MaxCountExceededException at counter exhaustion.
+     * @throws MaxCountExceededException at counter exhaustion, unless a
+     * custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
      */
     public void incrementCount() {
         if (++count > maximalCount) {
-            throw new MaxCountExceededException(maximalCount);
+            maxCountCallback.trigger(maximalCount);
         }
     }
 
     /**
-     * Reset the counter to 0.
+     * Resets the counter to 0.
      */
     public void resetCount() {
         count = 0;
+    }
+
+    /**
+     * Defines a method to be called at counter exhaustion.
+     * The {@link #trigger(int) trigger} method should usually throw an exception.
+     */
+    public interface MaxCountExceededCallback {
+        /**
+         * Function called when the maximal count has been reached.
+         *
+         * @param maximalCount Maximal count.
+         */
+        void trigger(int maximalCount);
     }
 }
