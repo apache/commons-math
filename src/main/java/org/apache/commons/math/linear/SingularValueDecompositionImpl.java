@@ -632,22 +632,6 @@ public class SingularValueDecompositionImpl implements SingularValueDecompositio
          * @throws org.apache.commons.math.exception.DimensionMismatchException
          * if the matrices dimensions do not match.
          */
-        public double[][] solve(final double[][] b) {
-            return pseudoInverse.multiply(MatrixUtils.createRealMatrix(b)).getData();
-        }
-
-        /**
-         * Solve the linear equation A &times; X = B in least square sense.
-         * <p>
-         * The m&times;n matrix A may not be square, the solution X is such that
-         * ||A &times; X - B|| is minimal.
-         * </p>
-         *
-         * @param b Right-hand side of the equation A &times; X = B
-         * @return a matrix X that minimizes the two norm of A &times; X - B
-         * @throws org.apache.commons.math.exception.DimensionMismatchException
-         * if the matrices dimensions do not match.
-         */
         public RealMatrix solve(final RealMatrix b) {
             return pseudoInverse.multiply(b);
         }
