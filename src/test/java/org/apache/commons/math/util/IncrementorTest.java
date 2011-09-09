@@ -21,6 +21,48 @@ import org.junit.Test;
  * Test for {@link Incrementor}.
  */
 public class IncrementorTest {
+    @Test
+    public void testConstructor1() {
+        final Incrementor i = new Incrementor();
+        Assert.assertEquals(0, i.getMaximalCount());
+        Assert.assertEquals(0, i.getCount());
+    }
+
+    @Test
+    public void testConstructor2() {
+        final Incrementor i = new Incrementor(10);
+        Assert.assertEquals(10, i.getMaximalCount());
+        Assert.assertEquals(0, i.getCount());
+    }
+
+    @Test
+    public void testCanIncrement1() {
+        final Incrementor i = new Incrementor(3);
+        Assert.assertTrue(i.canIncrement());
+        i.incrementCount();
+        Assert.assertTrue(i.canIncrement());
+        i.incrementCount();
+        Assert.assertTrue(i.canIncrement());
+        i.incrementCount();
+        Assert.assertFalse(i.canIncrement());
+    }
+
+    @Test
+    public void testCanIncrement2() {
+        final Incrementor i = new Incrementor(3);
+        while (i.canIncrement()) {
+            i.incrementCount();
+        }
+
+        // Must keep try/catch because the exception must be generated here,
+        // and not in the previous loop.
+        try {
+            i.incrementCount();
+            Assert.fail("MaxCountExceededException expected");
+        } catch (MaxCountExceededException e) {
+            // Expected.
+        }
+    }
 
     @Test
     public void testAccessor() {
@@ -43,7 +85,7 @@ public class IncrementorTest {
         Assert.assertEquals(3, i.getCount());
     }
 
-    @Test(expected = MaxCountExceededException.class)
+    @Test(expected=MaxCountExceededException.class)
     public void testAboveMaxCount() {
         final Incrementor i = new Incrementor();
 

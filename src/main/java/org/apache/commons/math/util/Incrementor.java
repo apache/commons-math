@@ -36,7 +36,28 @@ public class Incrementor {
     private int count;
 
     /**
+     * Default constructor.
+     * For the new instance to be useful, the maximal count must be set
+     * by calling {@link #setMaximalCount(int) setMaximalCount}.
+     */
+    public Incrementor() {
+        this(0);
+    }
+
+    /**
+     * Defines a maximal count.
+     *
+     * @param max Maximal count.
+     */
+    public Incrementor(int max) {
+        maximalCount = max;
+        count = 0;
+    }
+
+    /**
      * Set the upper limit for the counter.
+     * This does not automatically reset the current count to zero (see
+     * {@link #resetCount()}).
      *
      * @param max Upper limit of the counter.
      */
@@ -60,6 +81,17 @@ public class Incrementor {
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * Check whether a single increment is allowed.
+     *
+     * @return {@code false} if the next call to {@link #incrementCount(int)
+     * incrementCount} will trigger a {@code MaxCountExceededException},
+     * {@code true} otherwise.
+     */
+    public boolean canIncrement() {
+        return count < maximalCount;
     }
 
     /**
