@@ -340,7 +340,56 @@ public class LUDecompositionImpl implements LUDecomposition {
 
         /** {@inheritDoc} */
         public RealMatrix solve(RealMatrix b) {
-            return new Array2DRowRealMatrix(solve(b.getData()), false);
+
+            final int m = pivot.length;
+            if (b.getRowDimension() != m) {
+                throw new DimensionMismatchException(b.getRowDimension(), m);
+            }
+            if (singular) {
+                throw new SingularMatrixException();
+            }
+
+            final int nColB = b.getColumnDimension();
+
+            // Apply permutations to b
+            final double[][] bp = new double[m][nColB];
+            for (int row = 0; row < m; row++) {
+                final double[] bpRow = bp[row];
+                final int pRow = pivot[row];
+                for (int col = 0; col < nColB; col++) {
+                    bpRow[col] = b.getEntry(pRow, col);
+                }
+            }
+
+            // Solve LY = b
+            for (int col = 0; col < m; col++) {
+                final double[] bpCol = bp[col];
+                for (int i = col + 1; i < m; i++) {
+                    final double[] bpI = bp[i];
+                    final double luICol = lu[i][col];
+                    for (int j = 0; j < nColB; j++) {
+                        bpI[j] -= bpCol[j] * luICol;
+                    }
+                }
+            }
+
+            // Solve UX = Y
+            for (int col = m - 1; col >= 0; col--) {
+                final double[] bpCol = bp[col];
+                final double luDiag = lu[col][col];
+                for (int j = 0; j < nColB; j++) {
+                    bpCol[j] /= luDiag;
+                }
+                for (int i = 0; i < col; i++) {
+                    final double[] bpI = bp[i];
+                    final double luICol = lu[i][col];
+                    for (int j = 0; j < nColB; j++) {
+                        bpI[j] -= bpCol[j] * luICol;
+                    }
+                }
+            }
+
+            return new Array2DRowRealMatrix(bp, false);
         }
 
         /** {@inheritDoc} */
