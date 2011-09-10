@@ -80,6 +80,76 @@ public final class SimpleRegressionTest {
             {5, -1 }, {6, 12 }
     };
 
+    
+    /*
+     * Data from NIST NOINT1 
+     */
+    private double[][] noint1 = {
+        {130.0,60.0},
+        {131.0,61.0},
+        {132.0,62.0},
+        {133.0,63.0},
+        {134.0,64.0},
+        {135.0,65.0},
+        {136.0,66.0},
+        {137.0,67.0},
+        {138.0,68.0},
+        {139.0,69.0},
+        {140.0,70.0}        
+    };
+    
+    /*
+     * Data from NIST NOINT2 
+     * 
+     */
+    private double[][] noint2 = {
+        {3.0,4},
+        {4,5},
+        {4,6}
+    };
+    
+    @Test
+    public void testNoInterceot_noint2(){
+         SimpleRegression regression = new SimpleRegression(false);
+         regression.addData(noint2[0][1], noint2[0][0]);
+         regression.addData(noint2[1][1], noint2[1][0]);
+         regression.addData(noint2[2][1], noint2[2][0]);
+         Assert.assertEquals("slope", 0.727272727272727, 
+                 regression.getSlope(), 10E-12);
+         Assert.assertEquals("slope std err", 0.420827318078432E-01,
+                regression.getSlopeStdErr(),10E-12);
+        Assert.assertEquals("number of observations", 3, regression.getN());
+        Assert.assertEquals("r-square", 0.993348115299335,
+            regression.getRSquare(), 10E-12);
+        Assert.assertEquals("SSR", 40.7272727272727,
+            regression.getRegressionSumSquares(), 10E-9);
+        Assert.assertEquals("MSE", 0.136363636363636,
+            regression.getMeanSquareError(), 10E-10);
+        Assert.assertEquals("SSE", 0.272727272727273,
+            regression.getSumSquaredErrors(),10E-9);
+    }
+    
+    @Test 
+    public void testNoIntercept_noint1(){
+        SimpleRegression regression = new SimpleRegression(false);
+        for (int i = 0; i < noint1.length; i++) {
+            regression.addData(noint1[i][1], noint1[i][0]);
+        }
+        Assert.assertEquals("slope", 2.07438016528926, regression.getSlope(), 10E-12);
+        Assert.assertEquals("slope std err", 0.165289256198347E-01,
+                regression.getSlopeStdErr(),10E-12);
+        Assert.assertEquals("number of observations", 11, regression.getN());
+        Assert.assertEquals("r-square", 0.999365492298663,
+            regression.getRSquare(), 10E-12);
+        Assert.assertEquals("SSR", 200457.727272727,
+            regression.getRegressionSumSquares(), 10E-9);
+        Assert.assertEquals("MSE", 12.7272727272727,
+            regression.getMeanSquareError(), 10E-10);
+        Assert.assertEquals("SSE", 127.272727272727,
+            regression.getSumSquaredErrors(),10E-9);
+            
+    }  
+    
     @Test
     public void testNorris() {
         SimpleRegression regression = new SimpleRegression();

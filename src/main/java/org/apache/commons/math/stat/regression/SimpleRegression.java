@@ -84,13 +84,23 @@ public class SimpleRegression implements Serializable {
     /** mean of accumulated y values, used in updating formulas */
     private double ybar = 0;
 
+    /** include an intercept or not */
+    private final boolean hasIntercept;
     // ---------------------Public methods--------------------------------------
 
     /**
      * Create an empty SimpleRegression instance
      */
     public SimpleRegression() {
+        this(true);
+    }
+    /**
+    * Secondary constructor which allows the user the ability to include/exclude const
+    * @param includeIntercept boolean flag, true includes an intercept
+    */
+    public SimpleRegression(boolean includeIntercept){
         super();
+        hasIntercept = includeIntercept;
     }
 
     /**
@@ -106,22 +116,32 @@ public class SimpleRegression implements Serializable {
      * @param x independent variable value
      * @param y dependent variable value
      */
-    public void addData(double x, double y) {
+    public void addData(final double x, final double y){
         if (n == 0) {
             xbar = x;
             ybar = y;
         } else {
-            double dx = x - xbar;
-            double dy = y - ybar;
-            sumXX += dx * dx * (double) n / (n + 1d);
-            sumYY += dy * dy * (double) n / (n + 1d);
-            sumXY += dx * dy * (double) n / (n + 1d);
-            xbar += dx / (n + 1.0);
-            ybar += dy / (n + 1.0);
+            if( hasIntercept ){
+                final double fact1 = 1.0 + (double) n;
+                final double fact2 = ((double) n) / (1.0 + (double) n);
+                final double dx = x - xbar;
+                final double dy = y - ybar;
+                sumXX += dx * dx * fact2;
+                sumYY += dy * dy * fact2;
+                sumXY += dx * dy * fact2;
+                xbar += dx / fact1;
+                ybar += dy / fact1;
+            }
+         }
+        if( !hasIntercept ){
+            sumXX += x * x ;
+            sumYY += y * y ;
+            sumXY += x * y ;
         }
         sumX += x;
         sumY += y;
         n++;
+        return;
     }
 
 
@@ -140,17 +160,29 @@ public class SimpleRegression implements Serializable {
      */
     public void removeData(double x, double y) {
         if (n > 0) {
-            double dx = x - xbar;
-            double dy = y - ybar;
-            sumXX -= dx * dx * (double) n / (n - 1d);
-            sumYY -= dy * dy * (double) n / (n - 1d);
-            sumXY -= dx * dy * (double) n / (n - 1d);
-            xbar -= dx / (n - 1.0);
-            ybar -= dy / (n - 1.0);
-            sumX -= x;
-            sumY -= y;
-            n--;
+            if (hasIntercept) {
+                final double fact1 = (double) n - 1.0;
+                final double fact2 = ((double) n) / ((double) n - 1.0);
+                final double dx = x - xbar;
+                final double dy = y - ybar;
+                sumXX -= dx * dx * fact2;
+                sumYY -= dy * dy * fact2;
+                sumXY -= dx * dy * fact2;
+                xbar -= dx / fact1;
+                ybar -= dy / fact1;
+            } else {
+                final double fact1 = (double) n - 1.0;
+                sumXX -= x * x;
+                sumYY -= y * y;
+                sumXY -= x * y;
+                xbar -= x / fact1;
+                ybar -= y / fact1;
+            }
+             sumX -= x;
+             sumY -= y;
+             n--;
         }
+        return;
     }
 
     /**
@@ -235,7 +267,10 @@ public class SimpleRegression implements Serializable {
      */
     public double predict(double x) {
         double b1 = getSlope();
-        return getIntercept(b1) + b1 * x;
+        if (hasIntercept) {
+            return getIntercept(b1) + b1 * x;
+        }
+        return b1 * x;
     }
 
     /**
@@ -255,7 +290,16 @@ public class SimpleRegression implements Serializable {
      * @return the intercept of the regression line
      */
     public double getIntercept() {
-        return getIntercept(getSlope());
+        return hasIntercept ? getIntercept(getSlope()) : 0.0;
+    }
+
+    /**
+     * Returns true if a constant has been included false otherwise.
+     *
+     * @return true if constant exists, false otherwise
+     */
+    public boolean hasIntercept(){
+        return hasIntercept;
     }
 
     /**
@@ -391,7 +435,7 @@ public class SimpleRegression implements Serializable {
         if (n < 3) {
             return Double.NaN;
         }
-        return getSumSquaredErrors() / (n - 2);
+        return hasIntercept ? (getSumSquaredErrors() / (n - 2)) : (getSumSquaredErrors() / (n - 1));
     }
 
     /**
@@ -443,11 +487,15 @@ public class SimpleRegression implements Serializable {
      * <p>
      * If there are fewer that <strong>three</strong> observations in the
      * model, or if there is no variation in x, this returns
-     * <code>Double.NaN</code>.</p>
+     * <code>Double.NaN</code>.</p> Additionally, a <code>Double.NaN</code> is
+     * returned when the intercept is constrained to be zero
      *
      * @return standard error associated with intercept estimate
      */
     public double getInterceptStdErr() {
+        if( !hasIntercept ){
+            return Double.NaN;
+        }
         return FastMath.sqrt(
             getMeanSquareError() * ((1d / (double) n) + (xbar * xbar) / sumXX));
     }
@@ -572,8 +620,11 @@ public class SimpleRegression implements Serializable {
     * @param slope current slope
     * @return the intercept of the regression line
     */
-    private double getIntercept(double slope) {
+    private double getIntercept(double slope){
+      if( hasIntercept){
         return (sumY - slope * sumX) / n;
+      }
+      return 0.0;
     }
 
     /**
