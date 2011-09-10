@@ -20,7 +20,7 @@
 This file is used by the maven-changes-plugin to generate the release notes.
 Useful ways of finding items to add to this file are:
 
-1.  Add items when you fix a bug or add a feature (this makes the 
+1.  Add items when you fix a bug or add a feature (this makes the
 release process easy :-).
 
 2.  Do a JIRA search for tickets closed since the previous release.
@@ -32,7 +32,7 @@ To generate the release notes from this file:
 
 mvn changes:announcement-generate
 mv target/announcement/RELEASE_NOTES.txt RELEASE_NOTES.txt
-then tweak the formatting 
+then tweak the formatting
 (e.g. copy/paste the description to replace the one-line version)
 and commit
 
@@ -44,7 +44,7 @@ The <action> type attribute can be add,update,fix,remove.
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <!-- NOTE: 
+    <!-- NOTE:
     The description below is specially formatted so as to improve the layout of the generated release notes:
     The parsing process removes all line feeds, replacing them with a single space.
     The Velocity template in resources/templates has been enhanced to replace pairs of adjacent spaces
@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="gregs" type="fix" issue="MATH-649">
+        Added the ability to suppress the estimation of the intercept.
+      </action>
       <action dev="sebb" type="fix" issue="MATH-658" due-to="Yannick TANGUY">
         Dead code in FastMath.pow(double, double) and some improvement in test coverage.
       </action>
@@ -60,18 +63,18 @@ The <action> type attribute can be add,update,fix,remove.
         "toArray()".
       </action>
       <action dev="luc" type="update" issue="MATH-195" >
-        Removed completely MathUserException. 
+        Removed completely MathUserException.
       </action>
       <action dev="luc" type="update" issue="MATH-488" >
-        Use the refactored exceptions framework for ODE. 
+        Use the refactored exceptions framework for ODE.
       </action>
       <action dev="luc" type="add" >
         Added a getter to allow retrieving the exception related to an exception context
-        provider. 
+        provider.
       </action>
       <action dev="psteitz" type="update" issue="MATH-364" due-to="Christian Winter">
         Added erf(double,double) to Erf and used this to improve tail probability
-        accuracy in NormalDistributionImpl. 
+        accuracy in NormalDistributionImpl.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-654">
         Enabled reseeding of the random generators used by EmpiricalDistributionImpl
@@ -174,7 +177,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="mikl" type="fix" issue="MATH-585">
         Implemented faster generation of random gamma distributed values with
-        algorithm from Ahrens and Dieter (1972) for shape &lt; 1 and 
+        algorithm from Ahrens and Dieter (1972) for shape &lt; 1 and
         Marsaglia and Tsang (2001) otherwise.
       </action>
       <action dev="luc" type="fix" issue="MATH-605" due-to="Dennis Hendriks">
@@ -216,7 +219,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="mikl" type="fix" issue="MATH-597">
         Implemented faster generation of random exponential distributed values with
-        algorithm from Ahrens and Dieter (1972): Computer methods for sampling 
+        algorithm from Ahrens and Dieter (1972): Computer methods for sampling
         from the exponential and normal distributions.
       </action>
       <action dev="luc" type="add" issue="MATH-548">
@@ -354,13 +357,13 @@ The <action> type attribute can be add,update,fix,remove.
         of clusters in Kmeans++ clustering
       </action>
       <action dev="mikl" type="add" issue="MATH-437">
-        Added two sided Kolmogorov-Smirnov distribution using modified 
-        Marsaglia et al. (2003) implementation and quick decisions for certain 
+        Added two sided Kolmogorov-Smirnov distribution using modified
+        Marsaglia et al. (2003) implementation and quick decisions for certain
         parameter areas according to Simard et al. (2011).
       </action>
       <action dev="mikl" type="add" issue="MATH-435">
-        Added "power" method in "RealMatrix" and "FieldMatrix&lt;T&gt;" 
-        interfaces and their default implementations in "AbstractRealMatrix" 
+        Added "power" method in "RealMatrix" and "FieldMatrix&lt;T&gt;"
+        interfaces and their default implementations in "AbstractRealMatrix"
         and "AbstractFieldMatrix".
       </action>
       <action dev="erans" type="update" issue="MATH-545">
@@ -571,11 +574,11 @@ This is primarily a maintenance release, but it also includes new features and e
   of them are in APIs likely to be accessed by user code:
   the MessagesResources_fr class has been removed (replaced by a properties file);
   the arguments of the EventState.reinitializeBegin method have changed;
-  some protected fields which already had public accessors in AbstractStepInterpolator have been replaced.  
-  
+  some protected fields which already had public accessors in AbstractStepInterpolator have been replaced.
+
   There is a behavior change that users of the multiple regression classes should be aware of. In version
   2.1, there was no way to estimate models without intercept terms, and, while this was not clear from
-  the documentation, design (X) matrices needed to include initial unitary columns.  In 2.2, initial 
+  the documentation, design (X) matrices needed to include initial unitary columns.  In 2.2, initial
   unitary columns are not necessary and whether or not models include intercept terms is configurable.
   See the change log and javadoc for the classes in org.apache.commons.math.stat.regression for details.
 
@@ -628,7 +631,7 @@ This is primarily a maintenance release, but it also includes new features and e
       </action>
       <action dev="mikkel" type="update" issue="MATH-384">
         Added a constructor and addValues(double[]) methods allowing DescriptiveStatistics to
-        be initialized with values from a double[] array.  Similarly enhanced 
+        be initialized with values from a double[] array.  Similarly enhanced
         ResizeableDoubleArray.
       </action>
       <action dev="psteitz" type="update" issue="MATH-448" due-to="Patrick Meyer">
@@ -718,7 +721,7 @@ This is primarily a maintenance release, but it also includes new features and e
         class intended to be a drop-in replacement for java.util.Math at source-level. Some functions
         still directly delegates to Math but this will improve with time. Some functions like exp
         may be twice as fast (even 3 times faster on some processors). Sine, cosine or power functions
-        show typical speedups of 1.5 times faster or more. 
+        show typical speedups of 1.5 times faster or more.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-386">
         Added R-squared and adjusted R-squared statistics to OLSMultipleLinearRegression.
@@ -752,7 +755,7 @@ This is primarily a maintenance release, but it also includes new features and e
         Added a feature allowing error estimation to be computed only on a subset of
         Ordinary Differential Equations, considered as the main set, the remaining equations
         being considered only as an extension set that should not influence the ODE integration
-        algorithm 
+        algorithm
       </action>
       <action dev="erans" type="fix" issue="MATH-382">
         Fixed bug in precondition check (method "setMicrosphereElements").
@@ -772,10 +775,10 @@ This is primarily a maintenance release, but it also includes new features and e
       </action>
       <action dev="luc" type="fix" issue="MATH-361">
         Improved localization of error messages.
-      </action>      
+      </action>
       <action dev="erans" type="fix" issue="MATH-376">
         Allow multiple optimizations with a default simplex.
-      </action>      
+      </action>
       <action dev="erans" type="update" issue="MATH-370">
         Added new "equalsIncludingNaN" methods that have the same semantics as the old "equals" methods.
         These are deprecated, and their semantics will be modified (in the next major release) such that
@@ -863,7 +866,7 @@ This is primarily a maintenance release, but it also includes new features and e
       </action>
       <action dev="psteitz" type="fix" issue="MATH-282">
         Resolved multiple problems leading to inaccuracy and/or failure to compute Normal,
-        ChiSquare and  Poisson probabilities, Erf and Gamma functions.  Made Brent solver 
+        ChiSquare and  Poisson probabilities, Erf and Gamma functions.  Made Brent solver
         absolute accuracy configurable for all continuous distributions.
       </action>
       <action dev="luc" type="fix" issue="MATH-347" >
@@ -905,7 +908,7 @@ This is primarily a maintenance release, but it also includes new features and e
         A EigenDecompositionImpl simplified makes it possible to compute
         the SVD of a singular matrix (with the right number of elements in
         the diagonal matrix) or a matrix with singular value(s) of multiplicity
-        greater than 1. 
+        greater than 1.
       </action>
       <action dev="psteitz" type="add" issue="MATH-323" due-to="Larry Diamond">
         Added SemiVariance statistic.
@@ -1071,8 +1074,8 @@ This release is NOT source and binary compatible with earlier versions
 of Commons Math. Starting with version 2.0 of the library, the minimal
 version of the Java platform required to compile and use Commons Math
 is Java 5.  Users are encouraged to upgrade to this version, as in addition
-to new features, this release includes numerous bug fixes.  Users of 
-Commons Math 1.0-1.2 should recompile their code against the 2.0 jar. 
+to new features, this release includes numerous bug fixes.  Users of
+Commons Math 1.0-1.2 should recompile their code against the 2.0 jar.
 Most of the compilation errors users will encounter after the switch
 will be due to classes moved due to package reorganization.  These errors
 are simply solved by adjusting the import statements in users code.">
@@ -1235,13 +1238,13 @@ are simply solved by adjusting the import statements in users code.">
       </action>
       <action dev="luc" type="add" >
         Added factory methods to create Chebyshev, Hermite, Laguerre and Legendre polynomials.
-      </action> 
+      </action>
       <action dev="luc" type="add" >
         Added add, subtract, negate, multiply and toString methods to PolynomialFunction.
-      </action> 
+      </action>
       <action dev="psteitz" type="update" issue="MATH-189">
         Changed FractionFormat to extend NumberFormat.
-      </action> 
+      </action>
       <action dev="psteitz" type="update" issue="MATH-242" due-to="Christian Semrau">
         Forced symmetry in binomialCoefficientLog and added test cases for MathUtils.
       </action>
@@ -1308,10 +1311,10 @@ are simply solved by adjusting the import statements in users code.">
         Added support for the Zipf distribution.
       </action>
       <action dev="psteitz" type="add" issue="MATH-212" due-to="Jason C. HandUber">
-        Added support for copying statistics. Changes to stats classes 
+        Added support for copying statistics. Changes to stats classes
         include copy constructor, static copy(-,-) and instance copy()
         methods. Added copy() to UnivariateStatistic and StorelessUnivariateStatistic
-        interfaces. 
+        interfaces.
       </action>
       <action dev="luc" type="add" issue="MATH-229" due-to="Cyril Briquet">
         Added a removal feature for observations in descriptive statistics.
@@ -1543,7 +1546,7 @@ are simply solved by adjusting the import statements in users code.">
         Added a nextAfter method in MathUtils to return the next
         machine-representable number in a specified direction from a given
         floating point number.  Used this to ensure that MathUtils.round does
-        not return incorrect results for numbers with bad IEEE754 
+        not return incorrect results for numbers with bad IEEE754
         representations.
       </action>
       <action dev="psteitz" type="add" issue="MATH-140" due-to="Xiaogang Zhang">
@@ -1595,36 +1598,36 @@ are simply solved by adjusting the import statements in users code.">
       <action dev="psteitz" type="fix" issue="MATH-175" due-to="Carl Anderson">
         Added check and rescaling of expected counts to sum to sum of expected
         counts if necessary in ChiSquare test.
-      </action>     
+      </action>
       <action dev="luc" type="fix" issue="MATH-164">
         Handle multiplication of Complex numbers with infinite parts specially.
-      </action>     
+      </action>
       <action dev="luc" type="update" issue="MATH-176" due-to="Kazuhiro Koshino">
         Add errors guessing to least-squares estimators.
-      </action>     
+      </action>
       <action dev="luc" type="update" issue="MATH-179" due-to="Niall Pemberton">
         Add tests for Fraction constructor using double parameter.
-      </action> 
+      </action>
       <action dev="psteitz" type="add" issue="MATH-173" due-to="Bob MacCallum">
         Added one-way ANOVA implementation.
-      </action>    
+      </action>
       <action dev="luc" type="update" issue="MATH-181" due-to="Niall Pemberton">
         Add Fraction constructor using max denominator value.
-      </action> 
+      </action>
       <action dev="luc" type="fix" issue="MATH-182">
         Add integer overflow checks in Fraction constructor using double parameter.
-      </action>     
+      </action>
       <action dev="luc" type="fix" issue="MATH-185">
         Throw EOFException when using empty files with ValueServer in replay and
         digest modes.
-      </action>     
+      </action>
       <action dev="luc" type="update" >
         Added a equals and hash methods in MathUtils to check for double arrays
-      </action> 
+      </action>
       <action dev="luc" type="add" >
         Added an angle normalization method in MathUtils to force angles in some
         user-defined interval
-      </action> 
+      </action>
       <action dev="luc" type="add" >
         Added vectorial covariance computation (either sample or population
         covariance)
@@ -1647,9 +1650,9 @@ are simply solved by adjusting the import statements in users code.">
         immutable in 2.0.
       </action>
     </release>
-    <release version="1.1" date="2005-12-17"  
+    <release version="1.1" date="2005-12-17"
  description="This is a maintenance release containing bug fixes and enhancements.
-       All API changes are binary compatible with version 1.0. The enhancements 
+       All API changes are binary compatible with version 1.0. The enhancements
        include some new probability distributions, a Fraction class, new matrix
        and numerical utilities, and a PRNG pluggability framework making it
        possible to replace the JDK-supplied random number generator in
@@ -1668,11 +1671,11 @@ are simply solved by adjusting the import statements in users code.">
       </action>
       <action dev="psteitz" type="fix" issue="MATH-49" due-to="Elliotte Harold">
         Made all serialVersionUIDs private.
-      </action> 
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-5">
         Improved documentation and test cases related to handling of infinite
-        and NaN values in Complex, ComplexUtils classes. 
-      </action> 
+        and NaN values in Complex, ComplexUtils classes.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-57" due-to="Mauro Talevi">
         Fixed incorrect NaN handling in o.a.m.s.d.rank.Min, Max
       </action>
@@ -1755,7 +1758,7 @@ are simply solved by adjusting the import statements in users code.">
         implementation, AbstractRandomGenerator providing default
         implementations of methods based on nextDouble().  Added a constructor
         taking a RandomGenerator as an argument to RandomDataImpl.  Changed
-        ValueServer to use a RandomData in its constructor.  Changes to 
+        ValueServer to use a RandomData in its constructor.  Changes to
         1.0 classes should be backward compatible (including serialization).
       </action>
       <action dev="psteitz" type="update" due-to="C. Scott Ananian">
@@ -1789,9 +1792,9 @@ are simply solved by adjusting the import statements in users code.">
         fraction class, FractionFormat and ProperFractionFormat classes were
         added to provide fraction formatting and parsing.
       </action>
-    </release>  
-    <release version="1.0" date="2004-12-06"  
+    </release>
+    <release version="1.0" date="2004-12-06"
        description="Apache Commons Math 1.0 - Initial Release">
-    </release>    
+    </release>
   </body>
 </document>
