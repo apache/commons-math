@@ -23,8 +23,8 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunct
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -51,6 +51,8 @@ import org.apache.commons.math.util.FastMath;
 public abstract class AbstractLeastSquaresOptimizer
     extends BaseAbstractVectorialOptimizer<DifferentiableMultivariateVectorialFunction>
     implements DifferentiableMultivariateVectorialOptimizer {
+    /** Singularity threshold (cf. {@link #getCovariances(double)}). */
+    private static final double DEFAULT_SINGULARITY_THRESHOLD = 1e-14;
     /**
      * Jacobian matrix of the weighted residuals.
      * This matrix is in canonical form just after the calls to
@@ -180,10 +182,22 @@ public abstract class AbstractLeastSquaresOptimizer
      * if the covariance matrix cannot be computed (singular problem).
      */
     public double[][] getCovariances() {
-        // set up the jacobian
+        return getCovariances(DEFAULT_SINGULARITY_THRESHOLD);
+    }
+
+    /**
+     * Get the covariance matrix of the optimized parameters.
+     *
+     * @param threshold Singularity threshold.
+     * @return the covariance matrix.
+     * @throws org.apache.commons.math.linear.SingularMatrixException
+     * if the covariance matrix cannot be computed (singular problem).
+     */
+    public double[][] getCovariances(double threshold) {
+        // Set up the jacobian.
         updateJacobian();
 
-        // compute transpose(J).J, avoiding building big intermediate matrices
+        // Compute transpose(J)J, without building intermediate matrices.
         double[][] jTj = new double[cols][cols];
         for (int i = 0; i < cols; ++i) {
             for (int j = i; j < cols; ++j) {
@@ -196,10 +210,10 @@ public abstract class AbstractLeastSquaresOptimizer
             }
         }
 
-        // compute the covariances matrix
-        RealMatrix inverse =
-            new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj)).getSolver().getInverse();
-        return inverse.getData();
+        // Compute the covariances matrix.
+        final DecompositionSolver solver
+            = new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
+        return solver.getInverse().getData();
     }
 
     /**
