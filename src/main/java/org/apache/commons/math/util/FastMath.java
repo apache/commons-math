@@ -78,7 +78,7 @@ public class FastMath {
     private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
     // Enclose large data table in nested static class so it's only loaded on first access
-  private static class ExpInitTable {
+  private static class ExpIntTable {
 
     /** Exponential evaluated at integer values,
      * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
@@ -6474,14 +6474,14 @@ public class FastMath {
         // Populate expIntTable
         for (i = 0; i < EXP_INT_TABLE_MAX_INDEX; i++) {
             expint(i, tmp);
-            ExpInitTable.EXP_INT_TABLE_A[i+EXP_INT_TABLE_MAX_INDEX] = tmp[0];
-            ExpInitTable.EXP_INT_TABLE_B[i+EXP_INT_TABLE_MAX_INDEX] = tmp[1];
+            ExpIntTable.EXP_INT_TABLE_A[i+EXP_INT_TABLE_MAX_INDEX] = tmp[0];
+            ExpIntTable.EXP_INT_TABLE_B[i+EXP_INT_TABLE_MAX_INDEX] = tmp[1];
 
             if (i != 0) {
                 // Negative integer powers
                 splitReciprocal(tmp, recip);
-                ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-i] = recip[0];
-                ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-i] = recip[1];
+                ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-i] = recip[0];
+                ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-i] = recip[1];
             }
         }
 
@@ -6505,8 +6505,8 @@ public class FastMath {
 
     public static void main(String[] a){
         printarray("FACT", FACT_LEN, FACT);
-        printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpInitTable.EXP_INT_TABLE_A);
-        printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpInitTable.EXP_INT_TABLE_B);
+        printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_A);
+        printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_B);
         printarray("EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
         printarray("EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_B);
         printarray("LN_MANT",LN_MANT_LEN, lnMant.LN_MANT);
@@ -7069,8 +7069,8 @@ public class FastMath {
 
             intVal++;
 
-            intPartA = ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];
-            intPartB = ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];
+            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];
+            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];
 
             intVal = -intVal;
         } else {
@@ -7084,8 +7084,8 @@ public class FastMath {
                 return Double.POSITIVE_INFINITY;
             }
 
-            intPartA = ExpInitTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
-            intPartB = ExpInitTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
+            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
+            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
         }
 
         /* Get the fractional part of x, find the greatest multiple of 2^-10 less than
