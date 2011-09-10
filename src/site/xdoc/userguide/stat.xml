@@ -365,6 +365,10 @@ System.out.println(f.getCumPct("z"));  // displays 1
            <code> y = intercept + slope * x  </code>
          </p>
          <p>
+         or
+         <p>
+           <code> y = slope * x  </code>
+         </p>
            Standard errors for <code>intercept</code> and <code>slope</code> are
            available as well as ANOVA, r-square and Pearson's r statistics.
          </p>
@@ -408,7 +412,6 @@ System.out.println(f.getCumPct("z"));  // displays 1
         Here are some examples.
         <dl>
           <dt>Estimate a model based on observations added one at a time</dt>
-          <br></br>
           <dd>Instantiate a regression instance and add data points
           <source>
 regression = new SimpleRegression();
@@ -445,8 +448,8 @@ System.out.println(regression.predict(1.5d)
          More data points can be added and subsequent getXxx calls will incorporate
          additional data in statistics.
          </dd>
+         <br></br>
          <dt>Estimate a model from a double[][] array of data points</dt>
-          <br></br>
           <dd>Instantiate a regression object and load dataset
           <source>
 double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
@@ -468,6 +471,34 @@ System.out.println(regression.getSlopeStdErr());
          More data points -- even another double[][] array -- can be added and subsequent
          getXxx calls will incorporate additional data in statistics.
          </dd>
+<br></br>
+         <dt>Estimate a model from a double[][] array of data points, <em>excluding</em> the intercept</dt>
+          <dd>Instantiate a regression object and load dataset
+          <source>
+double[][] data = { { 1, 3 }, {2, 5 }, {3, 7 }, {4, 14 }, {5, 11 }};
+SimpleRegression regression = new SimpleRegression(false);
+//the argument, false, tells the class not to include a constant
+regression.addData(data);
+          </source>
+          </dd>
+          <dd>Estimate regression model based on data
+         <source>
+System.out.println(regression.getIntercept());
+// displays intercept of regression line, since we have constrained the constant, 0.0 is returned
+
+System.out.println(regression.getSlope());
+// displays slope of regression line
+
+System.out.println(regression.getSlopeStdErr());
+// displays slope standard error
+
+System.out.println(regression.getInterceptStdErr() );
+// will return Double.NaN, since we constrained the parameter to zero
+         </source>
+         Caution must be exercised when interpreting the slope when no constant is being estimated. The slope 
+         may be biased.
+         </dd>
+
          </dl>
         </p>
       </subsection>
