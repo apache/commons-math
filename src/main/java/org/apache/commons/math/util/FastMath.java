@@ -77,14 +77,42 @@ public class FastMath {
     private static final int EXP_INT_TABLE_MAX_INDEX = 750;
     private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
-    // Enclose large data table in nested static class so it's only loaded on first access
-  private static class ExpIntTable {
+    private static final boolean INIT_TABLES = true;
 
-    /** Exponential evaluated at integer values,
-     * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
-     */
-    private static final double EXP_INT_TABLE_A[] = 
-    {
+    // Enclose large data table in nested static class so it's only loaded on first access
+    private static class ExpIntTable {
+        /** Exponential evaluated at integer values,
+         * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
+         */
+        private static final double[] EXP_INT_TABLE_A;
+        /** Exponential evaluated at integer values,
+         * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX]
+         */
+        private static final double[] EXP_INT_TABLE_B;
+
+        static {
+            if (FastMath.INIT_TABLES) {
+                EXP_INT_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
+                EXP_INT_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
+
+                final double tmp[] = new double[2];
+                final double recip[] = new double[2];
+
+                // Populate expIntTable
+                for (int i = 0; i < FastMath.EXP_INT_TABLE_MAX_INDEX; i++) {
+                    expint(i, tmp);
+                    EXP_INT_TABLE_A[i + FastMath.EXP_INT_TABLE_MAX_INDEX] = tmp[0];
+                    EXP_INT_TABLE_B[i + FastMath.EXP_INT_TABLE_MAX_INDEX] = tmp[1];
+
+                    if (i != 0) {
+                        // Negative integer powers
+                        splitReciprocal(tmp, recip);
+                        EXP_INT_TABLE_A[FastMath.EXP_INT_TABLE_MAX_INDEX - i] = recip[0];
+                        EXP_INT_TABLE_B[FastMath.EXP_INT_TABLE_MAX_INDEX - i] = recip[1];
+                    }
+                }
+            } else {
+                EXP_INT_TABLE_A = new double[] {
         +0.0d,
         Double.NaN,
         Double.NaN,
@@ -1585,13 +1613,9 @@ public class FastMath {
         Double.NaN,
         Double.NaN,
         Double.NaN,
-    };
+                };
 
-    /** Exponential evaluated at integer values,
-     * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX]
-     */
-    private static final double EXP_INT_TABLE_B[] =
-    {
+                EXP_INT_TABLE_B = new double[] {
         +0.0d,
         Double.NaN,
         Double.NaN,
@@ -3092,21 +3116,42 @@ public class FastMath {
         Double.NaN,
         Double.NaN,
         Double.NaN,
-    };
-  }
+                };
+            }
+        }
+    }
 
-    private static final int TWO_POWER_10 = 1024;
-    private static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
+      private static final int TWO_POWER_10 = 1024;
+      private static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
 
-    // Enclose large data table in nested static class so it's only loaded on first access
-  private static class ExpFracTable {
+      // Enclose large data table in nested static class so it's only loaded on first access
+      private static class ExpFracTable {
+          /** Exponential over the range of 0 - 1 in increments of 2^-10
+           * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
+           * 1024 = 2^10
+           */
+          private static final double[] EXP_FRAC_TABLE_A;
+          /** Exponential over the range of 0 - 1 in increments of 2^-10
+           * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
+           */
+          private static final double[] EXP_FRAC_TABLE_B;
 
-    /** Exponential over the range of 0 - 1 in increments of 2^-10
-     * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
-     * 1024 = 2^10
-     */
-    private static final double EXP_FRAC_TABLE_A[] = 
-        {
+          static {
+              if (FastMath.INIT_TABLES) {
+                  EXP_FRAC_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
+                  EXP_FRAC_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
+
+                  final double tmp[] = new double[2];
+                  final double recip[] = new double[2];
+
+                  // Populate expFracTable
+                  for (int i = 0; i < EXP_FRAC_TABLE_A.length; i++) {
+                      slowexp(i/1024.0, tmp); // TWO_POWER_10
+                      EXP_FRAC_TABLE_A[i] = tmp[0];
+                      EXP_FRAC_TABLE_B[i] = tmp[1];
+                  }
+              } else {
+                  EXP_FRAC_TABLE_A = new double[] {
         +1.0d,
         +1.0009770393371582d,
         +1.0019550323486328d,
@@ -4132,13 +4177,9 @@ public class FastMath {
         +2.712977886199951d,
         +2.7156286239624023d,
         +2.7182817459106445d,
-    };
+                  };
 
-    /** Exponential over the range of 0 - 1 in increments of 2^-10
-     * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
-     */
-    private static final double EXP_FRAC_TABLE_B[] =
-        {
+                  EXP_FRAC_TABLE_B = new double[] {
         +0.0d,
         +1.552583321178453E-10d,
         +1.2423699995465188E-9d,
@@ -5164,8 +5205,10 @@ public class FastMath {
         -2.0599801342241997E-8d,
         -7.184550924856607E-8d,
         +8.254840070367875E-8d,
-    };
-  }
+                  };
+              }
+          }
+      }
 
     private static final int FACT_LEN = 20;
 
@@ -5192,16 +5235,26 @@ public class FastMath {
         +3.55687428096E14d,           
         +6.402373705728E15d,          
         +1.21645100408832E17d,
-    };
-            
+        };
 
     private static final int LN_MANT_LEN = 1024; // MAGIC NUMBER
 
     // Enclose large data table in nested static class so it's only loaded on first access
-  private static class lnMant {
+      private static class lnMant {
+          /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
+          private static final double[][] LN_MANT;
 
-    /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
-    private static final double LN_MANT[][] =     { 
+          static {
+              if (FastMath.INIT_TABLES) {
+                  LN_MANT = new double[FastMath.LN_MANT_LEN][];
+
+                  // Populate lnMant table
+                  for (int i = 0; i < LN_MANT.length; i++) {
+                      final double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
+                      LN_MANT[i] = slowLog(d);
+                  }
+              } else {
+                  LN_MANT = new double[][] { 
         {+0.0d,                   +0.0d,                   }, // 0
         {+9.760860120877624E-4d,  -3.903230345984362E-11d, }, // 1
         {+0.0019512202125042677d, -8.124251825289188E-11d, }, // 2
@@ -6226,9 +6279,10 @@ public class FastMath {
         {+0.6916812658309937d,    -2.9535446262017846E-9d, }, // 1021
         {+0.6921701431274414d,    -2.2153227096187463E-9d, }, // 1022
         {+0.6926587820053101d,    -1.943473623641502E-9d,  }, // 1023
-    };
-  }
-
+                  };
+              }
+          }
+      }
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
@@ -6454,54 +6508,22 @@ public class FastMath {
 
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
-
-    private static final boolean INIT_TABLES = false;
     
     // Initialize tables
-    static {
-      if (INIT_TABLES) { // suppress table initialisation as now hard-coded
-        int i;
+    // static {
+    //   if (INIT_TABLES) { // suppress table initialisation as now hard-coded
+    //     int i;
 
-        // Generate an array of factorials
-        FACT[0] = 1.0;
-        for (i = 1; i < FACT.length; i++) {
-            FACT[i] = FACT[i-1] * i;
-        }
+    //     // Generate an array of factorials
+    //     FACT[0] = 1.0;
+    //     for (i = 1; i < FACT.length; i++) {
+    //         FACT[i] = FACT[i-1] * i;
+    //     }
 
-        double tmp[] = new double[2];
-        double recip[] = new double[2];
-
-        // Populate expIntTable
-        for (i = 0; i < EXP_INT_TABLE_MAX_INDEX; i++) {
-            expint(i, tmp);
-            ExpIntTable.EXP_INT_TABLE_A[i+EXP_INT_TABLE_MAX_INDEX] = tmp[0];
-            ExpIntTable.EXP_INT_TABLE_B[i+EXP_INT_TABLE_MAX_INDEX] = tmp[1];
-
-            if (i != 0) {
-                // Negative integer powers
-                splitReciprocal(tmp, recip);
-                ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-i] = recip[0];
-                ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-i] = recip[1];
-            }
-        }
-
-        // Populate expFracTable
-        for (i = 0; i < ExpFracTable.EXP_FRAC_TABLE_A.length; i++) {
-            slowexp(i/1024.0, tmp); // TWO_POWER_10
-            ExpFracTable.EXP_FRAC_TABLE_A[i] = tmp[0];
-            ExpFracTable.EXP_FRAC_TABLE_B[i] = tmp[1];
-        }
-
-        // Populate lnMant table
-        for (i = 0; i < lnMant.LN_MANT.length; i++) {
-            double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
-            lnMant.LN_MANT[i] = slowLog(d);
-        }
-
-        // Build the sine and cosine tables
-        buildSinCosTables();
-      }
-    }
+    //     // Build the sine and cosine tables
+    //     buildSinCosTables();
+    //   }
+    // }
 
     public static void main(String[] a){
         printarray("FACT", FACT_LEN, FACT);
