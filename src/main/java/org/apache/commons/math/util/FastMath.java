@@ -77,7 +77,7 @@ public class FastMath {
     private static final int EXP_INT_TABLE_MAX_INDEX = 750;
     private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
-    private static final boolean INIT_TABLES = true;
+    private static final boolean INIT_TABLES = false;
 
     // Enclose large data table in nested static class so it's only loaded on first access
     private static class ExpIntTable {
