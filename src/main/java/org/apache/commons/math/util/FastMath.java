@@ -5232,8 +5232,6 @@ public class FastMath {
           }
       }
 
-    private static final int FACT_LEN = 20;
-
     /** Factorial table, for Taylor series expansions. 0!, 1!, 2!, ... 19! */
     private static final double FACT[] = new double[] 
         {
@@ -6536,19 +6534,12 @@ public class FastMath {
     //   if (USE_PRECOMPUTED_TABLES) { // suppress table initialisation as now hard-coded
     //     int i;
 
-    //     // Generate an array of factorials
-    //     FACT[0] = 1.0;
-    //     for (i = 1; i < FACT.length; i++) {
-    //         FACT[i] = FACT[i-1] * i;
-    //     }
-
     //     // Build the sine and cosine tables
     //     buildSinCosTables();
     //   }
     // }
 
     public static void main(String[] a){
-        printarray("FACT", FACT_LEN, FACT);
         printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_A);
         printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_B);
         printarray("EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
@@ -7358,7 +7349,7 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT_LEN-1; i >= 0; i--) {
+        for (int i = FACT.length-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0];
             ys[1] = as[1];
@@ -8137,7 +8128,7 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT_LEN-1; i >= 0; i--) {
+        for (int i = FACT.length-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0]; ys[1] = as[1];
 
@@ -8182,7 +8173,7 @@ public class FastMath {
         split(x, xs);
         ys[0] = ys[1] = 0.0;
 
-        for (int i = FACT_LEN-1; i >= 0; i--) {
+        for (int i = FACT.length-1; i >= 0; i--) {
             splitMult(xs, ys, as);
             ys[0] = as[0]; ys[1] = as[1];
 
