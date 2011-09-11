@@ -16,23 +16,33 @@
  */
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
+
 /**
  * Faster, more accurate, portable alternative to {@link Math} and
  * {@link StrictMath} for large scale computation.
  * <p>
+ * FastMath is a drop-in replacement for both Math and StrictMath. This
+ * means that for any method in Math (say {@code Math.sin(x)} or
+ * {@code Math.cbrt(y)}), user can directly change the class and use the
+ * methods as is (using {@code FastMath.sin(x)} or {@code FastMath.cbrt(y)}
+ * in the previous example).
+ * </p>
+ * <p>
  * FastMath speed is achieved by relying heavily on optimizing compilers
- * to native code present in many JVM todays and use of large tables that
- * are computed once at class loading (regardless of the number of subsequent
- * calls to computation methods). This implies that FastMath is targeted
- * more towards large scale computation (i.e. computation that take at least
- * a handful of seconds to complete) on desktop or server machines rather
- * than very small utilities on devices with limited power (i.e. computation
- * that should return a result almost instantly). Note that FastMath is
+ * to native code present in many JVM todays and use of large tables.
+ * Precomputed literal arrays are provided in this class to speed up load
+ * time. If users prefer to compute the tables automatically at load time,
+ * they can change the compile-time constant {@code USE_PRECOMPUTED_TABLES}
+ * and set it to {@code false}. This will increase class load time at first
+ * use, but this overhead will occur only once per run, regardless of the
+ * number of subsequent calls to computation methods. Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
- * the one-shot overhead will occur regardless of the end-user calling FastMath
- * methods directly or not. Performance figures for a specific JVM and hardware
- * can be evaluated by running the FastMathTestPerformance tests in the test
- * directory of the source distribution.
+ * the one-shot overhead when the constant is set to false will occur
+ * regardless of the end-user calling FastMath methods directly or not.
+ * Performance figures for a specific JVM and hardware can be evaluated by
+ * running the FastMathTestPerformance tests in the test directory of the source
+ * distribution.
  * </p>
  * <p>
  * FastMath accuracy should be mostly independent of the JVM as it relies only
@@ -44,13 +54,14 @@ package org.apache.commons.math.util;
  * Maker's Dilemma</a>).
  * </p>
  * <p>
- * Additionally implements the following methods not found in StrictMath:
+ * FastMath additionally implements the following methods not found in Math/StrictMath:
  * <ul>
  * <li>{@link #asinh(double)}</li>
  * <li>{@link #acosh(double)}</li>
  * <li>{@link #atanh(double)}</li>
  * </ul>
- * The following methods are found in StrictMath since 1.6 only
+ * The following methods are found in Math/StrictMath since 1.6 only, they are provided
+ * by FastMath even in 1.5 Java virtual machines
  * <ul>
  * <li>{@link #copySign(double, double)}</li>
  * <li>{@link #getExponent(double)}</li>
@@ -63,6 +74,7 @@ package org.apache.commons.math.util;
  * <li>{@link #nextUp(float)}</li>
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
+ * </p>
  * @version $Id$
  * @since 2.2
  */
@@ -74,10 +86,20 @@ public class FastMath {
     /** Napier's constant e, base of the natural logarithm. */
     public static final double E = 2850325.0 / 1048576.0 + 8.254840070411028747e-8;
 
+    /** Index of exp(0) in the array of integer exponentials. */
     private static final int EXP_INT_TABLE_MAX_INDEX = 750;
+
+    /** Length of the array of integer exponentials. */
     private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
-    private static final boolean INIT_TABLES = false;
+    /** Indicator for precomputed tables.
+     * <p>
+     * This compile-time constant should be set to true only if one explicitly
+     * wants to compute the tables at class loading time instead of using the
+     * already computed ones provided as literal arrays below.
+     * </p>
+     */
+    private static final boolean USE_PRECOMPUTED_TABLES = false;
 
     // Enclose large data table in nested static class so it's only loaded on first access
     private static class ExpIntTable {
@@ -91,7 +113,7 @@ public class FastMath {
         private static final double[] EXP_INT_TABLE_B;
 
         static {
-            if (FastMath.INIT_TABLES) {
+            if (FastMath.USE_PRECOMPUTED_TABLES) {
                 EXP_INT_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
                 EXP_INT_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
 
@@ -3137,7 +3159,7 @@ public class FastMath {
           private static final double[] EXP_FRAC_TABLE_B;
 
           static {
-              if (FastMath.INIT_TABLES) {
+              if (FastMath.USE_PRECOMPUTED_TABLES) {
                   EXP_FRAC_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
                   EXP_FRAC_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
 
@@ -5245,7 +5267,7 @@ public class FastMath {
           private static final double[][] LN_MANT;
 
           static {
-              if (FastMath.INIT_TABLES) {
+              if (FastMath.USE_PRECOMPUTED_TABLES) {
                   LN_MANT = new double[FastMath.LN_MANT_LEN][];
 
                   // Populate lnMant table
@@ -6511,7 +6533,7 @@ public class FastMath {
     
     // Initialize tables
     // static {
-    //   if (INIT_TABLES) { // suppress table initialisation as now hard-coded
+    //   if (USE_PRECOMPUTED_TABLES) { // suppress table initialisation as now hard-coded
     //     int i;
 
     //     // Generate an array of factorials
@@ -6549,7 +6571,7 @@ public class FastMath {
             System.out.print("        {");
             for(double d : array) { // assume inner array has very few entries
                 String ds = d >= 0 ? "+"+Double.toString(d)+"d," : Double.toString(d)+"d,";
-                System.out.printf("%-25.25s",ds); // mulitple entries per line
+                System.out.printf("%-25.25s",ds); // multiple entries per line
             }
             System.out.println("}, // "+i++);
         }
@@ -6569,7 +6591,7 @@ public class FastMath {
 
     private static void checkLen(int expectedLen, int actual) {
         if (expectedLen != actual) {
-            System.out.println("Error - expected length "+expectedLen+" actual "+actual);
+            throw new DimensionMismatchException(actual, expectedLen);
         }
     }
 
@@ -8190,6 +8212,7 @@ public class FastMath {
 
     /** Build the sine and cosine tables.
      */
+    @SuppressWarnings("unused")
     private static void buildSinCosTables() {
         final double result[] = new double[2];
 
