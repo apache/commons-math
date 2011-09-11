@@ -3160,8 +3160,8 @@ public class FastMath {
 
           static {
               if (FastMath.USE_PRECOMPUTED_TABLES) {
-                  EXP_FRAC_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
-                  EXP_FRAC_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
+                  EXP_FRAC_TABLE_A = new double[FastMath.EXP_FRAC_TABLE_LEN];
+                  EXP_FRAC_TABLE_B = new double[FastMath.EXP_FRAC_TABLE_LEN];
 
                   final double tmp[] = new double[2];
                   final double recip[] = new double[2];
