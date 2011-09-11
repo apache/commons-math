@@ -146,7 +146,7 @@
   </p>
 </subsection>
 
-<subsection name="6.5 binomial coefficients, factorials and other common math functions" href="math_utils">
+<subsection name="6.5 Binomial coefficients, factorials and other common math functions" href="binomial_coefficients_factorials_and_other_common_math_functions">
     <p>
     A collection of reusable math functions is provided in the
     <a href="../apidocs/org/apache/commons/math/util/MathUtils.html">MathUtils</a>
@@ -182,7 +182,69 @@
     </p>
 </subsection>
 
-<subsection name="6.7 Miscellaneous" href="math_utils">
+<subsection name="6.6 Fast mathematical functions" href="fast_math">
+    <p>
+        Apache Commons Math provides a faster, more accurate, portable alternative
+        to the regular <code>Math</code> and <code>StrictMath</code>classes for large
+        scale computation.
+    </p>
+    <p>
+        FastMath is a drop-in replacement for both Math and StrictMath. This
+        means that for any method in Math (say <code>Math.sin(x)</code> or
+        <code>Math.cbrt(y)</code>), user can directly change the class and use the
+        methods as is (using <code>FastMath.sin(x)</code> or <code>FastMath.cbrt(y)</code>
+        in the previous example).
+    </p>
+    <p>
+        FastMath speed is achieved by relying heavily on optimizing compilers to
+        native code present in many JVM todays and use of large tables. Precomputed
+        literal arrays are provided in this class to speed up load time. These 
+        precomputed tables are used in the default configuration, to improve speed
+        even at first use of the class. If users prefer to compute the tables
+        automatically at load time, they can change a compile-time constant. This will
+        increase class load time at first use, but this overhead will occur only once
+        per run, regardless of the number of subsequent calls to computation methods.
+        Note that FastMath is extensively used inside Apache Commons Math, so by
+        calling some algorithms, the one-shot overhead when the constant is set to
+        false will occur regardless of the end-user calling FastMath methods directly
+        or not. Performance figures for a specific JVM and hardware can be evaluated by
+        running the FastMathTestPerformance tests in the test directory of the source
+        distribution.
+    </p>
+    <p>
+        FastMath accuracy should be mostly independent of the JVM as it relies only
+        on IEEE-754 basic operations and on embedded tables. Almost all operations
+        are accurate to about 0.5 ulp throughout the domain range. This statement, of
+        course is only a rough global observed behavior, it is <em>not</em> a guarantee
+        for <em>every</em> double numbers input (see William Kahan's <a
+        href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">Table
+        Maker's Dilemma</a>).
+    </p>
+    <p>
+        FastMath additionally implements the following methods not found in Math/StrictMath:
+        <ul>
+            <li>asinh(double)</li>
+            <li>acosh(double)</li>
+            <li>atanh(double)</li>
+        </ul>
+        The following methods are found in Math/StrictMath since 1.6 only, they are
+        provided by FastMath even in 1.5 Java virtual machines
+        <ul>
+            <li>copySign(double, double)</li>
+            <li>getExponent(double)</li>
+            <li>nextAfter(double,double)</li>
+            <li>nextUp(double)</li>
+            <li>scalb(double, int)</li>
+            <li>copySign(float, float)</li>
+            <li>getExponent(float)</li>
+            <li>nextAfter(float,double)</li>
+            <li>nextUp(float)</li>
+            <li>scalb(float, int)</li>
+        </ul>
+    </p>
+</subsection>
+
+<subsection name="6.7 Miscellaneous" href="miscellaneous">
   The <a href="../apidocs/org/apache/commons/math/util/MultidimensionalCounter.html">
     MultidimensionalCounter</a> is a utility class that converts a set of indices
   (identifying points in a multidimensional space) to a single index (e.g. identifying
