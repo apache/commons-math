@@ -30,15 +30,14 @@ import org.apache.commons.math.exception.DimensionMismatchException;
  * </p>
  * <p>
  * FastMath speed is achieved by relying heavily on optimizing compilers
- * to native code present in many JVM todays and use of large tables.
- * Precomputed literal arrays are provided in this class to speed up load
- * time. If users prefer to compute the tables automatically at load time,
- * they can change the compile-time constant {@code USE_PRECOMPUTED_TABLES}
- * and set it to {@code false}. This will increase class load time at first
- * use, but this overhead will occur only once per run, regardless of the
- * number of subsequent calls to computation methods. Note that FastMath is
+ * to native code present in many JVMs today and use of large tables.
+ * The larger tables are lazily initialised on first use, so that the setup
+ * time does not penalise methods that don't need them. 
+ * </p>
+ * <p>
+ * Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
- * the one-shot overhead when the constant is set to false will occur
+ * the overhead when the the tables need to be intialised will occur
  * regardless of the end-user calling FastMath methods directly or not.
  * Performance figures for a specific JVM and hardware can be evaluated by
  * running the FastMathTestPerformance tests in the test directory of the source
