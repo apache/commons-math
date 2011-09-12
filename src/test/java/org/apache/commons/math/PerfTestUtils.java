@@ -87,10 +87,11 @@ public class PerfTestUtils {
      *   the average time (in milliseconds) taken by a single call to the
      *   {@code call} method (i.e. the time taken by each timed block divided
      *   by {@code repeatChunk})
-     * </li>
-     * <li>
-     *  the result returned by the {@code call} method.
-     * </li>
+     *  </li>
+     *  <li>
+     *   the result returned by the {@code call} method.
+     *  </li>
+     * </ul>
      */
     public static double[][][] timesAndResults(int repeatChunk,
                                                int repeatStat,
@@ -162,7 +163,7 @@ public class PerfTestUtils {
                                                      boolean runGC,
                                                      RunTest ... methods) {
         // Header format.
-        final String hFormat = "%s (runs per timed block: %d, timed blocks: %d)";
+        final String hFormat = "%s (calls per timed block: %d, timed blocks: %d)";
         // Result format.
         final String format = "%15s: %e (%e) ms";
 
