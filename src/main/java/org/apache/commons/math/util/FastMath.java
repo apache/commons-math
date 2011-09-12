@@ -6726,7 +6726,6 @@ public class FastMath {
                 EXP_FRAC_TABLE_B = new double[FastMath.EXP_FRAC_TABLE_LEN];
 
                 final double tmp[] = new double[2];
-                final double recip[] = new double[2];
 
                 // Populate expFracTable
                 for (int i = 0; i < EXP_FRAC_TABLE_A.length; i++) {
