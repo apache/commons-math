@@ -163,24 +163,49 @@ public class PerfTestUtils {
                                                      boolean runGC,
                                                      RunTest ... methods) {
         // Header format.
-        final String hFormat = "%s (calls per timed block: %d, timed blocks: %d)";
+        final String hFormat = "%s (calls per timed block: %d, timed blocks: %d, time unit: ms)";
+
+        // Width of the longest name.
+        int nameLength = 0;
+        for (RunTest m : methods) {
+            int len = m.getName().length();
+            if (len > nameLength) {
+                nameLength = len;
+            }
+        }
+        final String nameLengthFormat = "%" + nameLength + "s";
+
+        // Column format.
+        final String cFormat = nameLengthFormat + " %14s %14s %10s %10s %15s";
         // Result format.
-        final String format = "%15s: %e (%e) ms";
+        final String format = nameLengthFormat + " %.8e %.8e %.4e %.4e % .8e";
 
         System.out.println(String.format(hFormat,
                                          title,
                                          repeatChunk,
                                          repeatStat));
+        System.out.println(String.format(cFormat,
+                                         "name",
+                                         "time/call",
+                                         "std error",
+                                         "total time",
+                                         "ratio",
+                                         "difference"));
         final StatisticalSummary[] time = time(repeatChunk,
                                                repeatStat,
                                                runGC,
                                                methods);
+        final double refSum = time[0].getSum();
         for (int i = 0, max = time.length; i < max; i++) {
             final StatisticalSummary s = time[i];
+            final double sum = s.getSum();
             System.out.println(String.format(format,
                                              methods[i].getName(),
                                              s.getMean(),
-                                             s.getStandardDeviation()));
+                                             s.getStandardDeviation(),
+                                             sum,
+                                             sum / refSum,
+                                             sum - refSum));
         }
 
         return time;
