@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -195,7 +195,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
 
     /** {@inheritDoc} */
     protected double doIntegrate()
-        throws TooManyEvaluationsException, ConvergenceException {
+        throws TooManyEvaluationsException, MaxCountExceededException {
 
         // compute first estimate with a single step
         double oldt = stage(1);

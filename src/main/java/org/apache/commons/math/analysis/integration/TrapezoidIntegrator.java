@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -107,7 +107,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * arbitrary m sections because this configuration can best utilize the
      * alrealy computed values.</p>
      *
-     * @param baseIntegrator integrator holdingintegration parameters
+     * @param baseIntegrator integrator holding integration parameters
      * @param n the stage of 1/2 refinement, n = 0 is no refinement
      * @return the value of n-th stage integral
      * @throws TooManyEvaluationsException if the maximal number of evaluations
@@ -139,7 +139,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 
     /** {@inheritDoc} */
     protected double doIntegrate()
-        throws TooManyEvaluationsException, ConvergenceException {
+        throws TooManyEvaluationsException, MaxCountExceededException {
 
         double oldt = stage(this, 0);
         iterations.incrementCount();

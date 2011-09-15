@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -99,7 +99,7 @@ public class RombergIntegrator extends UnivariateRealIntegratorImpl {
 
     /** {@inheritDoc} */
     protected double doIntegrate()
-        throws TooManyEvaluationsException, ConvergenceException {
+        throws TooManyEvaluationsException, MaxCountExceededException {
 
         final int m = iterations.getMaximalCount() + 1;
         double previousRow[] = new double[m];
