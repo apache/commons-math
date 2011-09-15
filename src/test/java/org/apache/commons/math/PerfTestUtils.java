@@ -195,10 +195,10 @@ public class PerfTestUtils {
                                                repeatStat,
                                                runGC,
                                                methods);
-        final double refSum = time[0].getSum();
+        final double refSum = time[0].getSum() * repeatChunk;
         for (int i = 0, max = time.length; i < max; i++) {
             final StatisticalSummary s = time[i];
-            final double sum = s.getSum();
+            final double sum = s.getSum() * repeatChunk;
             System.out.println(String.format(format,
                                              methods[i].getName(),
                                              s.getMean(),
