@@ -1,12 +1,12 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with
+ * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,8 @@ package org.apache.commons.math.util;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.apache.commons.math.exception.MaxCountExceededException;
+
 /**
  * This abstract class provides a general framework for managing iterative
  * algorithms. The maximum number of iterations can be set, and methods are
@@ -28,6 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version $Id$
  */
 public class IterationManager {
+
     /** Keeps a count of the number of iterations. */
     private final Incrementor iterations;
 
@@ -126,10 +129,11 @@ public class IterationManager {
      * maximum number of iterations is reached. This method should be called at
      * the beginning of a new iteration.
      *
-     * @throws MaxCountExceededException if the maximum number of iterations
-     * is reached.
+     * @throws MaxCountExceededException if the maximum number of iterations is
+     * reached.
      */
-    public void incrementIterationCount() {
+    public void incrementIterationCount()
+        throws MaxCountExceededException {
         iterations.incrementCount();
     }
 
