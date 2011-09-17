@@ -342,10 +342,6 @@ public class ArrayFieldVectorTest {
         Assert.assertEquals(4, v_append_2.getDimension());
         Assert.assertEquals(new Fraction(2), v_append_2.getEntry(3));
 
-        FieldVector<Fraction> v_append_3 = v1.append(vec2);
-        Assert.assertEquals(6, v_append_3.getDimension());
-        Assert.assertEquals(new Fraction(4), v_append_3.getEntry(3));
-
         FieldVector<Fraction> v_append_4 = v1.append(v2_t);
         Assert.assertEquals(6, v_append_4.getDimension());
         Assert.assertEquals(new Fraction(4), v_append_4.getEntry(3));

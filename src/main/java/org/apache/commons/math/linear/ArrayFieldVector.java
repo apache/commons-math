@@ -410,16 +410,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public FieldVector<T> add(T[] v) {
-        checkVectorDimensions(v.length);
-        T[] out = buildArray(data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].add(v[i]);
-        }
-        return new ArrayFieldVector<T>(field, out, false);
-    }
-
     /**
      * Compute the sum of this and v.
      * @param v vector to be added
@@ -427,7 +417,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws IllegalArgumentException if v is not the same size as this
      */
     public ArrayFieldVector<T> add(ArrayFieldVector<T> v) {
-        return (ArrayFieldVector<T>) add(v.data);
+        checkVectorDimensions(v.data.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].add(v.data[i]);
+        }
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /** {@inheritDoc} */
@@ -444,16 +439,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public FieldVector<T> subtract(T[] v) {
-        checkVectorDimensions(v.length);
-        T[] out = buildArray(data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].subtract(v[i]);
-        }
-        return new ArrayFieldVector<T>(field, out, false);
-    }
-
     /**
      * Compute this minus v.
      * @param v vector to be subtracted
@@ -461,7 +446,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws IllegalArgumentException if v is not the same size as this
      */
     public ArrayFieldVector<T> subtract(ArrayFieldVector<T> v) {
-        return (ArrayFieldVector<T>) subtract(v.data);
+        checkVectorDimensions(v.data.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].subtract(v.data[i]);
+        }
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /** {@inheritDoc} */
@@ -565,16 +555,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public FieldVector<T> ebeMultiply(T[] v) {
-        checkVectorDimensions(v.length);
-        T[] out = buildArray(data.length);
-        for (int i = 0; i < data.length; i++) {
-            out[i] = data[i].multiply(v[i]);
-        }
-        return new ArrayFieldVector<T>(field, out, false);
-    }
-
     /**
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
@@ -582,7 +562,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @exception IllegalArgumentException if v is not the same size as this
      */
     public ArrayFieldVector<T> ebeMultiply(ArrayFieldVector<T> v) {
-        return (ArrayFieldVector<T>) ebeMultiply(v.data);
+        checkVectorDimensions(v.data.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+            out[i] = data[i].multiply(v.data[i]);
+        }
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /** {@inheritDoc} */
@@ -599,16 +584,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public FieldVector<T> ebeDivide(T[] v) {
-        checkVectorDimensions(v.length);
-        T[] out = buildArray(data.length);
-        for (int i = 0; i < data.length; i++) {
-                out[i] = data[i].divide(v[i]);
-        }
-        return new ArrayFieldVector<T>(field, out, false);
-    }
-
     /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
@@ -616,7 +591,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws IllegalArgumentException if v is not the same size as this
      */
     public ArrayFieldVector<T> ebeDivide(ArrayFieldVector<T> v) {
-        return (ArrayFieldVector<T>) ebeDivide(v.data);
+        checkVectorDimensions(v.data.length);
+        T[] out = buildArray(data.length);
+        for (int i = 0; i < data.length; i++) {
+                out[i] = data[i].divide(v.data[i]);
+        }
+        return new ArrayFieldVector<T>(field, out, false);
     }
 
     /** {@inheritDoc} */
@@ -647,16 +627,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public T dotProduct(T[] v) {
-        checkVectorDimensions(v.length);
-        T dot = field.getZero();
-        for (int i = 0; i < data.length; i++) {
-            dot = dot.add(data[i].multiply(v[i]));
-        }
-        return dot;
-    }
-
     /**
      * Compute the dot product.
      * @param v vector with which dot product should be computed
@@ -664,17 +634,17 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @exception IllegalArgumentException if v is not the same size as this
      */
     public T dotProduct(ArrayFieldVector<T> v) {
-        return dotProduct(v.data);
+        checkVectorDimensions(v.data.length);
+        T dot = field.getZero();
+        for (int i = 0; i < data.length; i++) {
+            dot = dot.add(data[i].multiply(v.data[i]));
+        }
+        return dot;
     }
 
     /** {@inheritDoc} */
     public FieldVector<T> projection(FieldVector<T> v) {
         return v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
-    }
-
-    /** {@inheritDoc} */
-    public FieldVector<T> projection(T[] v) {
-        return projection(new ArrayFieldVector<T>(getField(), v, false));
     }
 
    /** Find the orthogonal projection of this vector onto another vector.
@@ -710,17 +680,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @exception IllegalArgumentException if v is not the same size as this
      */
     public FieldMatrix<T> outerProduct(ArrayFieldVector<T> v) {
-        return outerProduct(v.data);
-    }
-
-    /** {@inheritDoc} */
-    public FieldMatrix<T> outerProduct(T[] v) {
         final int m = data.length;
-        final int n = v.length;
+        final int n = v.data.length;
         final FieldMatrix<T> out = new Array2DRowFieldMatrix<T>(field, m, n);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                out.setEntry(i, j, data[i].multiply(v[j]));
+                out.setEntry(i, j, data[i].multiply(v.data[j]));
             }
         }
         return out;
@@ -763,11 +728,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> append(T[] in) {
-        return new ArrayFieldVector<T>(this, in);
-    }
-
-    /** {@inheritDoc} */
     public FieldVector<T> getSubVector(int index, int n) {
         ArrayFieldVector<T> out = new ArrayFieldVector<T>(field, n);
         try {
@@ -804,16 +764,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /** {@inheritDoc} */
-    public void setSubVector(int index, T[] v) {
-        try {
-            System.arraycopy(v, 0, data, index, v.length);
-        } catch (IndexOutOfBoundsException e) {
-            checkIndex(index);
-            checkIndex(index + v.length - 1);
-        }
-    }
-
     /**
      * Set a set of consecutive elements.
      *
@@ -823,7 +773,12 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * inconsistent with vector size
      */
     public void set(int index, ArrayFieldVector<T> v) {
-        setSubVector(index, v.data);
+        try {
+            System.arraycopy(v.data, 0, data, index, v.data.length);
+        } catch (IndexOutOfBoundsException e) {
+            checkIndex(index);
+            checkIndex(index + v.data.length - 1);
+        }
     }
 
     /** {@inheritDoc} */

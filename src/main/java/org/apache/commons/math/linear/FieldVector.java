@@ -67,30 +67,12 @@ public interface FieldVector<T extends FieldElement<T>>  {
         throws IllegalArgumentException;
 
     /**
-     * Compute the sum of this and v.
-     * @param v vector to be added
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
-     */
-    FieldVector<T> add(T[] v)
-        throws IllegalArgumentException;
-
-    /**
      * Compute this minus v.
      * @param v vector to be subtracted
      * @return this + v
      * @throws IllegalArgumentException if v is not the same size as this
      */
     FieldVector<T> subtract(FieldVector<T> v)
-        throws IllegalArgumentException;
-
-    /**
-     * Compute this minus v.
-     * @param v vector to be subtracted
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
-     */
-    FieldVector<T> subtract(T[] v)
         throws IllegalArgumentException;
 
     /**
@@ -175,28 +157,12 @@ public interface FieldVector<T extends FieldElement<T>>  {
     FieldVector<T> ebeMultiply(FieldVector<T> v) throws IllegalArgumentException;
 
     /**
-     * Element-by-element multiplication.
-     * @param v vector by which instance elements must be multiplied
-     * @return a vector containing this[i] * v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
-     */
-    FieldVector<T> ebeMultiply(T[] v) throws IllegalArgumentException;
-
-    /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
      * @return a vector containing this[i] / v[i] for all i
      * @throws IllegalArgumentException if v is not the same size as this
      */
     FieldVector<T> ebeDivide(FieldVector<T> v) throws IllegalArgumentException;
-
-    /**
-     * Element-by-element division.
-     * @param v vector by which instance elements must be divided
-     * @return a vector containing this[i] / v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
-     */
-    FieldVector<T> ebeDivide(T[] v) throws IllegalArgumentException;
 
     /**
      * Returns vector entries as a T array.
@@ -213,15 +179,6 @@ public interface FieldVector<T extends FieldElement<T>>  {
     T dotProduct(FieldVector<T> v)
         throws IllegalArgumentException;
 
-    /**
-     * Compute the dot product.
-     * @param v vector with which dot product should be computed
-     * @return the scalar dot product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
-     */
-    T dotProduct(T[] v)
-        throws IllegalArgumentException;
-
     /** Find the orthogonal projection of this vector onto another vector.
      * @param v vector onto which instance must be projected
      * @return projection of the instance onto v
@@ -230,27 +187,12 @@ public interface FieldVector<T extends FieldElement<T>>  {
     FieldVector<T> projection(FieldVector<T> v)
         throws IllegalArgumentException;
 
-    /** Find the orthogonal projection of this vector onto another vector.
-     * @param v vector onto which instance must be projected
-     * @return projection of the instance onto v
-     * @throws IllegalArgumentException if v is not the same size as this
-     */
-    FieldVector<T> projection(T[] v)
-        throws IllegalArgumentException;
-
     /**
      * Compute the outer product.
      * @param v vector with which outer product should be computed
      * @return the matrix outer product between instance and v
      */
     FieldMatrix<T> outerProduct(FieldVector<T> v);
-
-    /**
-     * Compute the outer product.
-     * @param v vector with which outer product should be computed
-     * @return the matrix outer product between instance and v
-     */
-    FieldMatrix<T> outerProduct(T[] v);
 
     /**
      * Returns the entry in the specified index.
@@ -294,13 +236,6 @@ public interface FieldVector<T extends FieldElement<T>>  {
     FieldVector<T> append(T d);
 
     /**
-     * Construct a vector by appending a T array to this vector.
-     * @param a T array to append.
-     * @return a new vector
-     */
-    FieldVector<T> append(T[] a);
-
-    /**
      * Get a subvector from consecutive elements.
      * @param index index of first element.
      * @param n number of elements to be retrieved.
@@ -319,16 +254,6 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @see #setSubVector(int, FieldElement[])
      */
     void setSubVector(int index, FieldVector<T> v);
-
-    /**
-     * Set a set of consecutive elements.
-     * @param index index of first element to be set.
-     * @param v vector containing the values to set.
-     * @throws org.apache.commons.math.exception.OutOfRangeException
-     * if the index is inconsistent with vector size.
-     * @see #setSubVector(int, FieldVector)
-     */
-    void setSubVector(int index, T[] v);
 
     /**
      * Set all elements to a single value.

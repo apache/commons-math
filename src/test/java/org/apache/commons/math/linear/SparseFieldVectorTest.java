@@ -115,14 +115,14 @@ public class SparseFieldVectorTest {
         SparseFieldVector<Fraction> v1 = new SparseFieldVector<Fraction>(field,vec1);
         SparseFieldVector<Fraction> v2 = new SparseFieldVector<Fraction>(field,vec2);
 
-        SparseFieldVector<Fraction> v2_t = new SparseFieldVector<Fraction>(field,vec2);
+        FieldVector<Fraction> v2_t = new ArrayFieldVectorTest.FieldVectorTestImpl<Fraction>(vec2);
 
         //octave =  v1 + v2
         FieldVector<Fraction> v_add = v1.add(v2);
         Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
         Assert.assertArrayEquals("compare vect" ,v_add.getData(),result_add);
 
-        SparseFieldVector<Fraction> vt2 = new SparseFieldVector<Fraction>(field,vec2);
+        FieldVector<Fraction> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<Fraction>(vec2);
         FieldVector<Fraction> v_add_i = v1.add(vt2);
         Fraction[] result_add_i = {new Fraction(5), new Fraction(7), new Fraction(9)};
         Assert.assertArrayEquals("compare vect" ,v_add_i.getData(),result_add_i);
