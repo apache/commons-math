@@ -25,14 +25,14 @@ public class FastMathLoadCheck {
 
     private static int LOOPS = 10;
     private static boolean MAX = false;
-    private static boolean compute = false;
+    private static boolean compute = true;
 
     public static void main(String[] args) throws Exception {
         if (args.length>0) MAX = Boolean.valueOf(args[0]);
         if (args.length>1) compute = Boolean.valueOf(args[1]);
         if (args.length>2) LOOPS = Integer.valueOf(args[2]);
         p("Using "+ (MAX ? "max(0,0)" : "exp(100)") + "; compute=" + compute+"\n");
-        Field usePrecompute = FastMath.class.getDeclaredField("USE_PRECOMPUTED_TABLES");
+        Field usePrecompute = FastMath.class.getDeclaredField("RECOMPUTE_TABLES_AT_RUNTIME");
         usePrecompute.setAccessible(true);
         if (usePrecompute.getBoolean(null) != compute) {
             usePrecompute.setBoolean(null, compute);
@@ -41,7 +41,7 @@ public class FastMathLoadCheck {
         test();
     }
     private static void test(){
-        p("new");
+        p("times");
         for(int i=0; i< LOOPS; i++){
             p(" ");
             long t1 = System.nanoTime();
