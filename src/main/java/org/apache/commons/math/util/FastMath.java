@@ -85,14 +85,14 @@ public class FastMath {
 
     private static final int TWO_POWER_10 = 1024;
 
-    /** Indicator for precomputed tables.
+    /** Indicator for tables initialization.
      * <p>
      * This compile-time constant should be set to true only if one explicitly
      * wants to compute the tables at class loading time instead of using the
      * already computed ones provided as literal arrays below.
      * </p>
      */
-    private static final boolean USE_PRECOMPUTED_TABLES = false;
+    private static final boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
@@ -299,16 +299,6 @@ public class FastMath {
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
     
-    // Initialize tables
-    // static {
-    //   if (USE_PRECOMPUTED_TABLES) { // suppress table initialisation as now hard-coded
-    //     int i;
-
-    //     // Build the sine and cosine tables
-    //     buildSinCosTables();
-    //   }
-    // }
-
     /**
      * Private Constructor
      */
@@ -3676,7 +3666,7 @@ public class FastMath {
         private static final double[] EXP_INT_TABLE_B;
 
         static {
-            if (FastMath.USE_PRECOMPUTED_TABLES) {
+            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
                 EXP_INT_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
                 EXP_INT_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
 
@@ -6721,7 +6711,7 @@ public class FastMath {
         private static final double[] EXP_FRAC_TABLE_B;
 
         static {
-            if (FastMath.USE_PRECOMPUTED_TABLES) {
+            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
                 EXP_FRAC_TABLE_A = new double[FastMath.EXP_FRAC_TABLE_LEN];
                 EXP_FRAC_TABLE_B = new double[FastMath.EXP_FRAC_TABLE_LEN];
 
@@ -8801,7 +8791,7 @@ public class FastMath {
         private static final double[][] LN_MANT;
 
         static {
-            if (FastMath.USE_PRECOMPUTED_TABLES) {
+            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
                 LN_MANT = new double[FastMath.LN_MANT_LEN][];
 
                 // Populate lnMant table
