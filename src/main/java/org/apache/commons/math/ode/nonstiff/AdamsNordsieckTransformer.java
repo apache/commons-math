@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.ArrayFieldVector;
 import org.apache.commons.math.linear.FieldDecompositionSolver;
 import org.apache.commons.math.linear.FieldLUDecompositionImpl;
 import org.apache.commons.math.linear.FieldMatrix;
@@ -157,7 +158,8 @@ public class AdamsNordsieckTransformer {
 
         BigFraction[] u = new BigFraction[nSteps];
         Arrays.fill(u, BigFraction.ONE);
-        BigFraction[] bigC1 = pSolver.solve(u);
+        BigFraction[] bigC1 = pSolver
+            .solve(new ArrayFieldVector<BigFraction>(u, false)).toArray();
 
         // update coefficients are computed by combining transform from
         // Nordsieck to multistep, then shifting rows to represent step advance
