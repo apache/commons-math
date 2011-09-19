@@ -204,30 +204,30 @@ public final class FieldMatrixImplTest {
         FieldMatrix<Fraction> mInv = new Array2DRowFieldMatrix<Fraction>(testDataInv);
         FieldMatrix<Fraction> mPlusInv = new Array2DRowFieldMatrix<Fraction>(testDataPlusInv);
         FieldMatrix<Fraction> identity = new Array2DRowFieldMatrix<Fraction>(id);
-        
-        TestUtils.assertEquals(m.power(0), identity);        
-        TestUtils.assertEquals(mInv.power(0), identity);        
+
+        TestUtils.assertEquals(m.power(0), identity);
+        TestUtils.assertEquals(mInv.power(0), identity);
         TestUtils.assertEquals(mPlusInv.power(0), identity);
-        
-        TestUtils.assertEquals(m.power(1), m);        
-        TestUtils.assertEquals(mInv.power(1), mInv);        
-        TestUtils.assertEquals(mPlusInv.power(1), mPlusInv); 
-        
+
+        TestUtils.assertEquals(m.power(1), m);
+        TestUtils.assertEquals(mInv.power(1), mInv);
+        TestUtils.assertEquals(mPlusInv.power(1), mPlusInv);
+
         FieldMatrix<Fraction> C1 = m.copy();
         FieldMatrix<Fraction> C2 = mInv.copy();
         FieldMatrix<Fraction> C3 = mPlusInv.copy();
-        
+
         // stop at 5 to avoid overflow
         for (int i = 2; i <= 5; ++i) {
             C1 = C1.multiply(m);
             C2 = C2.multiply(mInv);
             C3 = C3.multiply(mPlusInv);
-            
-            TestUtils.assertEquals(m.power(i), C1);        
-            TestUtils.assertEquals(mInv.power(i), C2);        
-            TestUtils.assertEquals(mPlusInv.power(i), C3);            
+
+            TestUtils.assertEquals(m.power(i), C1);
+            TestUtils.assertEquals(mInv.power(i), C2);
+            TestUtils.assertEquals(mPlusInv.power(i), C3);
         }
-        
+
         try {
             FieldMatrix<Fraction> mNotSquare = new Array2DRowFieldMatrix<Fraction>(testData2T);
             mNotSquare.power(2);
@@ -235,7 +235,7 @@ public final class FieldMatrixImplTest {
         } catch (NonSquareMatrixException ex) {
             // ignored
         }
-        
+
         try {
             m.power(-1);
             Assert.fail("Expecting IllegalArgumentException");
@@ -406,8 +406,13 @@ public final class FieldMatrixImplTest {
                 {new Fraction(4), new Fraction(-3), new Fraction(-5)}
         };
         FieldMatrix<Fraction> coefficients = new Array2DRowFieldMatrix<Fraction>(coefficientsData);
-        Fraction[] constants = {new Fraction(1), new Fraction(-2), new Fraction(1)};
-        Fraction[] solution = new FieldLUDecompositionImpl<Fraction>(coefficients).getSolver().solve(constants);
+        Fraction[] constants = {
+            new Fraction(1), new Fraction(-2), new Fraction(1)
+        };
+        Fraction[] solution;
+        solution = new FieldLUDecompositionImpl<Fraction>(coefficients)
+            .getSolver()
+            .solve(new ArrayFieldVector<Fraction>(constants, false)).toArray();
         Assert.assertEquals(new Fraction(2).multiply(solution[0]).
                      add(new Fraction(3).multiply(solution[1])).
                      subtract(new Fraction(2).multiply(solution[2])), constants[0]);

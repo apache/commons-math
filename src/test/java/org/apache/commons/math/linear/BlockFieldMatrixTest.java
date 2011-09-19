@@ -543,8 +543,13 @@ public final class BlockFieldMatrixTest {
                 {new Fraction(4), new Fraction(-3), new Fraction(-5)}
         };
         FieldMatrix<Fraction> coefficients = new BlockFieldMatrix<Fraction>(coefficientsData);
-        Fraction[] constants = {new Fraction(1), new Fraction(-2), new Fraction(1)};
-        Fraction[] solution = new FieldLUDecompositionImpl<Fraction>(coefficients).getSolver().solve(constants);
+        Fraction[] constants = {
+            new Fraction(1), new Fraction(-2), new Fraction(1)
+        };
+        Fraction[] solution;
+        solution = new FieldLUDecompositionImpl<Fraction>(coefficients)
+            .getSolver()
+            .solve(new ArrayFieldVector<Fraction>(constants, false)).toArray();
         Assert.assertEquals(new Fraction(2).multiply(solution[0]).
                      add(new Fraction(3).multiply(solution[1])).
                      subtract(new Fraction(2).multiply(solution[2])),

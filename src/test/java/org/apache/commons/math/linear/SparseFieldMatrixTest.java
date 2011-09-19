@@ -396,7 +396,10 @@ public class SparseFieldMatrixTest {
                 { new Fraction(4), new Fraction(-3), new Fraction(-5) } };
         FieldMatrix<Fraction> coefficients = createSparseMatrix(coefficientsData);
         Fraction[] constants = { new Fraction(1), new Fraction(-2), new Fraction(1) };
-        Fraction[] solution = new FieldLUDecompositionImpl<Fraction>(coefficients).getSolver().solve(constants);
+        Fraction[] solution;
+        solution = new FieldLUDecompositionImpl<Fraction>(coefficients)
+            .getSolver()
+            .solve(new ArrayFieldVector<Fraction>(constants, false)).toArray();
         Assert.assertEquals((new Fraction(2).multiply((solution[0])).add(new Fraction(3).multiply(solution[1])).subtract(new Fraction(2).multiply(solution[2]))).doubleValue(),
                 constants[0].doubleValue(), 1E-12);
         Assert.assertEquals(((new Fraction(-1).multiply(solution[0])).add(new Fraction(7).multiply(solution[1])).add(new Fraction(6).multiply(solution[2]))).doubleValue(),
