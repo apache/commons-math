@@ -253,45 +253,6 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
         }
 
         /** {@inheritDoc} */
-        public T[] solve(T[] b) {
-            final int m = pivot.length;
-            if (b.length != m) {
-                throw new DimensionMismatchException(b.length, m);
-            }
-            if (singular) {
-                throw new SingularMatrixException();
-            }
-
-            @SuppressWarnings("unchecked") // field is of type T
-            final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(), m);
-
-            // Apply permutations to b
-            for (int row = 0; row < m; row++) {
-                bp[row] = b[pivot[row]];
-            }
-
-            // Solve LY = b
-            for (int col = 0; col < m; col++) {
-                final T bpCol = bp[col];
-                for (int i = col + 1; i < m; i++) {
-                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
-                }
-            }
-
-            // Solve UX = Y
-            for (int col = m - 1; col >= 0; col--) {
-                bp[col] = bp[col].divide(lu[col][col]);
-                final T bpCol = bp[col];
-                for (int i = 0; i < col; i++) {
-                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
-                }
-            }
-
-            return bp;
-
-        }
-
-        /** {@inheritDoc} */
         public FieldVector<T> solve(FieldVector<T> b) {
             try {
                 return solve((ArrayFieldVector<T>) b);
@@ -343,7 +304,42 @@ public class FieldLUDecompositionImpl<T extends FieldElement<T>> implements Fiel
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
-            return new ArrayFieldVector<T>(field, solve(b.getDataRef()), false);
+            final int m = pivot.length;
+            if (b.data.length != m) {
+                throw new DimensionMismatchException(b.data.length, m);
+            }
+            if (singular) {
+                throw new SingularMatrixException();
+            }
+
+            @SuppressWarnings("unchecked")
+            // field is of type T
+            final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(),
+                                                   m);
+
+            // Apply permutations to b
+            for (int row = 0; row < m; row++) {
+                bp[row] = b.data[pivot[row]];
+            }
+
+            // Solve LY = b
+            for (int col = 0; col < m; col++) {
+                final T bpCol = bp[col];
+                for (int i = col + 1; i < m; i++) {
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
+                }
+            }
+
+            // Solve UX = Y
+            for (int col = m - 1; col >= 0; col--) {
+                bp[col] = bp[col].divide(lu[col][col]);
+                final T bpCol = bp[col];
+                for (int i = 0; i < col; i++) {
+                    bp[i] = bp[i].subtract(bpCol.multiply(lu[i][col]));
+                }
+            }
+
+            return new ArrayFieldVector<T>(bp, false);
         }
 
         /** {@inheritDoc} */

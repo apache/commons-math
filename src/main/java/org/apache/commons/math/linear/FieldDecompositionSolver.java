@@ -47,7 +47,7 @@ public interface FieldDecompositionSolver<T extends FieldElement<T>> {
      * @throws SingularMatrixException
      * if the decomposed matrix is singular.
      */
-    T[] solve(final T[] b);
+    //T[] solve(final T[] b);
 
     /** Solve the linear equation A &times; X = B for matrices A.
      * <p>The A matrix is implicit, it is provided by the underlying
