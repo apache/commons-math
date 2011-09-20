@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -144,11 +145,29 @@ public abstract class ContinuousDistributionAbstractTest {
      * using current test instance data
      */
     protected void verifyCumulativeProbabilities() throws Exception {
+        // verify cumulativeProbability(double)
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect cumulative probability value returned for "
                 + cumulativeTestPoints[i], cumulativeTestValues[i],
                 distribution.cumulativeProbability(cumulativeTestPoints[i]),
                 getTolerance());
+        }
+        // verify cumulativeProbability(double, double)
+        for (int i = 0; i < cumulativeTestPoints.length; i++) {
+            for (int j = 0; j < cumulativeTestPoints.length; j++) {
+                if (cumulativeTestPoints[i] <= cumulativeTestPoints[j]) {
+                    TestUtils.assertEquals(cumulativeTestValues[j] - cumulativeTestValues[i],
+                        distribution.cumulativeProbability(cumulativeTestPoints[i], cumulativeTestPoints[j]),
+                        getTolerance());
+                } else {
+                    try {
+                        distribution.cumulativeProbability(cumulativeTestPoints[i], cumulativeTestPoints[j]);
+                    } catch (NumberIsTooLargeException e) {
+                        continue;
+                    }
+                    Assert.fail("distribution.cumulativeProbability(double, double) should have thrown an exception that second argument is too large");
+                }
+            }
         }
     }
 
