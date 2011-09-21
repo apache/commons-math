@@ -19,7 +19,7 @@ package org.apache.commons.math.filter;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
-import org.apache.commons.math.linear.CholeskyDecompositionImpl;
+import org.apache.commons.math.linear.CholeskyDecomposition;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixDimensionMismatchException;
 import org.apache.commons.math.linear.MatrixUtils;
@@ -355,7 +355,7 @@ public class KalmanFilter {
         // invert S
         // as the error covariance matrix is a symmetric positive
         // semi-definite matrix, we can use the cholesky decomposition
-        DecompositionSolver solver = new CholeskyDecompositionImpl(s).getSolver();
+        DecompositionSolver solver = new CholeskyDecomposition(s).getSolver();
         RealMatrix invertedS = solver.getInverse();
 
         // Inn = z(k) - H * xHat(k)-

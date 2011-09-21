@@ -36,7 +36,7 @@ public class CholeskySolverTest {
     @Test
     public void testSolveDimensionErrors() {
         DecompositionSolver solver =
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
+            new CholeskyDecomposition(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -62,7 +62,7 @@ public class CholeskySolverTest {
     @Test
     public void testSolve() {
         DecompositionSolver solver =
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData)).getSolver();
+            new CholeskyDecomposition(MatrixUtils.createRealMatrix(testData)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 {   78,  -13,    1 },
                 {  414,  -62,   -1 },
@@ -106,7 +106,7 @@ public class CholeskySolverTest {
     }
 
     private double getDeterminant(RealMatrix m) {
-        return new CholeskyDecompositionImpl(m).getDeterminant();
+        return new CholeskyDecomposition(m).getDeterminant();
     }
 
 }

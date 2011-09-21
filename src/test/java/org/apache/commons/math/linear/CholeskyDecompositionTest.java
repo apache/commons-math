@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class CholeskyDecompositionImplTest {
+public class CholeskyDecompositionTest {
 
     private double[][] testData = new double[][] {
             {  1,  2,   4,   7,  11 },
@@ -33,8 +33,8 @@ public class CholeskyDecompositionImplTest {
     /** test dimensions */
     @Test
     public void testDimensions() {
-        CholeskyDecompositionImpl llt =
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
+        CholeskyDecomposition llt =
+            new CholeskyDecomposition(MatrixUtils.createRealMatrix(testData));
         Assert.assertEquals(testData.length, llt.getL().getRowDimension());
         Assert.assertEquals(testData.length, llt.getL().getColumnDimension());
         Assert.assertEquals(testData.length, llt.getLT().getRowDimension());
@@ -44,7 +44,7 @@ public class CholeskyDecompositionImplTest {
     /** test non-square matrix */
     @Test(expected = NonSquareMatrixException.class)
     public void testNonSquare() {
-        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
+        new CholeskyDecomposition(MatrixUtils.createRealMatrix(new double[3][2]));
     }
 
     /** test non-symmetric matrix */
@@ -52,13 +52,13 @@ public class CholeskyDecompositionImplTest {
     public void testNotSymmetricMatrixException() {
         double[][] changed = testData.clone();
         changed[0][changed[0].length - 1] += 1.0e-5;
-        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(changed));
+        new CholeskyDecomposition(MatrixUtils.createRealMatrix(changed));
     }
 
     /** test non positive definite matrix */
     @Test(expected = NonPositiveDefiniteMatrixException.class)
     public void testNotPositiveDefinite() {
-        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
+        new CholeskyDecomposition(MatrixUtils.createRealMatrix(new double[][] {
                 { 14, 11, 13, 15, 24 },
                 { 11, 34, 13, 8,  25 },
                 { 13, 13, 14, 15, 21 },
@@ -69,7 +69,7 @@ public class CholeskyDecompositionImplTest {
 
     @Test(expected = NonPositiveDefiniteMatrixException.class)
     public void testMath274() {
-        new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(new double[][] {
+        new CholeskyDecomposition(MatrixUtils.createRealMatrix(new double[][] {
                 { 0.40434286, -0.09376327, 0.30328980, 0.04909388 },
                 {-0.09376327,  0.10400408, 0.07137959, 0.04762857 },
                 { 0.30328980,  0.07137959, 0.30458776, 0.04882449 },
@@ -82,7 +82,7 @@ public class CholeskyDecompositionImplTest {
     @Test
     public void testAEqualLLT() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        CholeskyDecompositionImpl llt = new CholeskyDecompositionImpl(matrix);
+        CholeskyDecomposition llt = new CholeskyDecomposition(matrix);
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.multiply(lt).subtract(matrix).getNorm();
@@ -93,7 +93,7 @@ public class CholeskyDecompositionImplTest {
     @Test
     public void testLLowerTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        RealMatrix l = new CholeskyDecompositionImpl(matrix).getL();
+        RealMatrix l = new CholeskyDecomposition(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             for (int j = i + 1; j < l.getColumnDimension(); j++) {
                 Assert.assertEquals(0.0, l.getEntry(i, j), 0.0);
@@ -105,7 +105,7 @@ public class CholeskyDecompositionImplTest {
     @Test
     public void testLTTransposed() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        CholeskyDecompositionImpl llt = new CholeskyDecompositionImpl(matrix);
+        CholeskyDecomposition llt = new CholeskyDecomposition(matrix);
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.subtract(lt.transpose()).getNorm();
@@ -122,8 +122,8 @@ public class CholeskyDecompositionImplTest {
                 {  7,  8,  9, 10,  0 },
                 { 11, 12, 13, 14, 15 }
         });
-       CholeskyDecompositionImpl llt =
-            new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
+       CholeskyDecomposition llt =
+            new CholeskyDecomposition(MatrixUtils.createRealMatrix(testData));
 
         // check values against known references
         RealMatrix l = llt.getL();
