@@ -33,7 +33,7 @@ public class CholeskyDecompositionImplTest {
     /** test dimensions */
     @Test
     public void testDimensions() {
-        CholeskyDecomposition llt =
+        CholeskyDecompositionImpl llt =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
         Assert.assertEquals(testData.length, llt.getL().getRowDimension());
         Assert.assertEquals(testData.length, llt.getL().getColumnDimension());
@@ -82,7 +82,7 @@ public class CholeskyDecompositionImplTest {
     @Test
     public void testAEqualLLT() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        CholeskyDecomposition llt = new CholeskyDecompositionImpl(matrix);
+        CholeskyDecompositionImpl llt = new CholeskyDecompositionImpl(matrix);
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.multiply(lt).subtract(matrix).getNorm();
@@ -105,7 +105,7 @@ public class CholeskyDecompositionImplTest {
     @Test
     public void testLTTransposed() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        CholeskyDecomposition llt = new CholeskyDecompositionImpl(matrix);
+        CholeskyDecompositionImpl llt = new CholeskyDecompositionImpl(matrix);
         RealMatrix l  = llt.getL();
         RealMatrix lt = llt.getLT();
         double norm = l.subtract(lt.transpose()).getNorm();
@@ -122,7 +122,7 @@ public class CholeskyDecompositionImplTest {
                 {  7,  8,  9, 10,  0 },
                 { 11, 12, 13, 14, 15 }
         });
-       CholeskyDecomposition llt =
+       CholeskyDecompositionImpl llt =
             new CholeskyDecompositionImpl(MatrixUtils.createRealMatrix(testData));
 
         // check values against known references
