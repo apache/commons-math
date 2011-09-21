@@ -93,6 +93,8 @@ public class FastMath {
      * </p>
      */
     private static final boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
+    /** Indicator for loading big tables from "resource" files. */
+    private static final boolean LOAD_RESOURCES = true;
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
@@ -3649,10 +3651,10 @@ public class FastMath {
 
 
     /** Index of exp(0) in the array of integer exponentials. */
-    private static final int EXP_INT_TABLE_MAX_INDEX = 750;
+    static final int EXP_INT_TABLE_MAX_INDEX = 750;
 
     /** Length of the array of integer exponentials. */
-    private static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
+    static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
     // Enclose large data table in nested static class so it's only loaded on first access
     private static class ExpIntTable {
@@ -3666,7 +3668,7 @@ public class FastMath {
         private static final double[] EXP_INT_TABLE_B;
 
         static {
-            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
+            if (RECOMPUTE_TABLES_AT_RUNTIME) {
                 EXP_INT_TABLE_A = new double[FastMath.EXP_INT_TABLE_LEN];
                 EXP_INT_TABLE_B = new double[FastMath.EXP_INT_TABLE_LEN];
 
@@ -3686,6 +3688,10 @@ public class FastMath {
                         EXP_INT_TABLE_B[FastMath.EXP_INT_TABLE_MAX_INDEX - i] = recip[1];
                     }
                 }
+            } else if (LOAD_RESOURCES) {
+                final double[][] expInt = FastMathResources.loadExpInt();
+                EXP_INT_TABLE_A = expInt[0];
+                EXP_INT_TABLE_B = expInt[1];
             } else {
                 EXP_INT_TABLE_A = new double[] {
         +0.0d,
@@ -6696,7 +6702,7 @@ public class FastMath {
         }
     }
 
-    private static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
+    static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
 
     // Enclose large data table in nested static class so it's only loaded on first access
     private static class ExpFracTable {
@@ -6711,7 +6717,7 @@ public class FastMath {
         private static final double[] EXP_FRAC_TABLE_B;
 
         static {
-            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
+            if (RECOMPUTE_TABLES_AT_RUNTIME) {
                 EXP_FRAC_TABLE_A = new double[FastMath.EXP_FRAC_TABLE_LEN];
                 EXP_FRAC_TABLE_B = new double[FastMath.EXP_FRAC_TABLE_LEN];
 
@@ -6723,6 +6729,10 @@ public class FastMath {
                     EXP_FRAC_TABLE_A[i] = tmp[0];
                     EXP_FRAC_TABLE_B[i] = tmp[1];
                 }
+            } else if (LOAD_RESOURCES) {
+                final double[][] expFrac = FastMathResources.loadExpFrac();
+                EXP_FRAC_TABLE_A = expFrac[0];
+                EXP_FRAC_TABLE_B = expFrac[1];
             } else {
                 EXP_FRAC_TABLE_A = new double[] {
       +1.0d,
@@ -8783,7 +8793,7 @@ public class FastMath {
         }
     }
 
-    private static final int LN_MANT_LEN = TWO_POWER_10; // (see LN_MANT comment below)
+    static final int LN_MANT_LEN = TWO_POWER_10; // (see LN_MANT comment below)
 
     // Enclose large data table in nested static class so it's only loaded on first access
     private static class lnMant {
@@ -8791,7 +8801,7 @@ public class FastMath {
         private static final double[][] LN_MANT;
 
         static {
-            if (FastMath.RECOMPUTE_TABLES_AT_RUNTIME) {
+            if (RECOMPUTE_TABLES_AT_RUNTIME) {
                 LN_MANT = new double[FastMath.LN_MANT_LEN][];
 
                 // Populate lnMant table
@@ -8799,6 +8809,8 @@ public class FastMath {
                     final double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
                     LN_MANT[i] = FastMathCalc.slowLog(d);
                 }
+            } else if (LOAD_RESOURCES) {
+                LN_MANT = FastMathResources.loadLnMant();
             } else {
                 LN_MANT = new double[][] { 
       {+0.0d,                   +0.0d,                   }, // 0
