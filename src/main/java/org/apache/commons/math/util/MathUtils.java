@@ -2006,8 +2006,8 @@ public final class MathUtils {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise
      */
-    public static boolean isMonotone( double[] val, OrderDirection dir,
-                                      boolean strict){
+    public static boolean isMonotone(double[] val, OrderDirection dir,
+                                     boolean strict){
         double previous = val[0];
         int max = val.length;
         for (int i = 1; i < max; i++) {
@@ -2065,14 +2065,14 @@ public final class MathUtils {
                 if (strict) {
                     if (val[i] <= previous) {
                         if (abort) {
-                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
                         }
                         return false;
                     }
                 } else {
                     if (val[i] < previous) {
                         if (abort) {
-                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
                         }
                         return false;
                     }
@@ -2082,14 +2082,14 @@ public final class MathUtils {
                 if (strict) {
                     if (val[i] >= previous) {
                         if (abort) {
-                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
                         }
                         return false;
                     }
                 } else {
                     if (val[i] > previous) {
                         if (abort) {
-                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
                         }
                         return false;
                     }
