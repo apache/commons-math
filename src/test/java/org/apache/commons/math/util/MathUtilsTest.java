@@ -1087,7 +1087,7 @@ public final class MathUtilsTest {
         Assert.assertEquals(expected,
                             MathUtils.reduce(orig, -period, offset),
                             1e-6);
-        
+
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig, Double.NaN, offset)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.NaN, period, offset)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig, period, Double.NaN)));
@@ -1096,13 +1096,13 @@ public final class MathUtilsTest {
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
                 period, offset)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig,
-                Double.POSITIVE_INFINITY, offset)));   
+                Double.POSITIVE_INFINITY, offset)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(orig,
                 Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
                 period, Double.POSITIVE_INFINITY)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
-                Double.POSITIVE_INFINITY, offset))); 
+                Double.POSITIVE_INFINITY, offset)));
         Assert.assertTrue(Double.isNaN(MathUtils.reduce(Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY,  Double.POSITIVE_INFINITY)));
     }
@@ -1251,7 +1251,7 @@ public final class MathUtilsTest {
         try {
             MathUtils.round(1.234, 2, BigDecimal.ROUND_UNNECESSARY);
             Assert.fail();
-        } catch (ArithmeticException ex) { 
+        } catch (ArithmeticException ex) {
             // expected
         }
 
@@ -1651,6 +1651,52 @@ public final class MathUtilsTest {
     }
 
     @Test
+    public void testIsMonotone() {
+        if(MathUtils.isMonotone(new double[] {-15, -5.5, -1, -1, 2,15},
+                             MathUtils.OrderDirection.INCREASING, true) ){
+            Assert.fail("an exception should have been thrown");
+        }
+
+        if(MathUtils.isMonotone(new double[] {-15, -5.5,-1,-2,2},
+                             MathUtils.OrderDirection.INCREASING, false)){
+            Assert.fail("an exception should have been thrown");
+        }
+
+        if(MathUtils.isMonotone(new double[] {3,3,-5.5,-11,-27.5},
+                             MathUtils.OrderDirection.DECREASING, true)){
+            Assert.fail("an exception should have been thrown");
+        }
+        if( MathUtils.isMonotone(new double[] {3,-1,0,-5.5,-11,-27.5},
+                             MathUtils.OrderDirection.DECREASING, false) ){
+        Assert.fail("an exception should have been thrown");
+        }
+
+    }
+
+    @Test
+    public void testIsMonotoneComparable() {
+        if(MathUtils.isMonotone(new Double[] {new Double(-15), new Double(-5.5), new Double(-1), new Double(-1), new Double(2), new Double(15)},
+                             MathUtils.OrderDirection.INCREASING, true) ){
+            Assert.fail("an exception should have been thrown");
+        }
+
+        if(MathUtils.isMonotone(new Double[] {new Double(-15), new Double(-5.5), new Double(-1), new Double(-2), new Double(2)},
+                             MathUtils.OrderDirection.INCREASING, false)){
+            Assert.fail("an exception should have been thrown");
+        }
+
+        if(MathUtils.isMonotone(new Double[] {new Double(3), new Double(3), new Double(-5.5), new Double(-11), new Double(-27.5)},
+                             MathUtils.OrderDirection.DECREASING, true)){
+            Assert.fail("an exception should have been thrown");
+        }
+        if( MathUtils.isMonotone(new Double[] {new Double(3), new Double(-1), new Double(0), new Double(-5.5), new Double(-11), new Double(-27.5)},
+                             MathUtils.OrderDirection.DECREASING, false) ){
+        Assert.fail("an exception should have been thrown");
+        }
+
+    }
+
+    @Test
     public void testCheckFinite() {
         try {
             MathUtils.checkFinite(Double.POSITIVE_INFINITY);
@@ -1696,7 +1742,7 @@ public final class MathUtilsTest {
         final double[] x1 = {2,   5,  -3, 1,  4};
         final double[] x2 = {4,  25,   9, 1, 16};
         final double[] x3 = {8, 125, -27, 1, 64};
-        
+
         MathUtils.sortInPlace(x1, x2, x3);
 
         Assert.assertEquals(-3,  x1[0], Math.ulp(1d));

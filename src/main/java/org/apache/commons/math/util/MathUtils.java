@@ -1949,6 +1949,100 @@ public final class MathUtils {
         /** Constant for decreasing direction. */
         DECREASING
     }
+     /**
+     * Check that an array is monotone increasing or decreasing
+     *
+     * @param val Values.
+     * @param dir Ordering direction.
+     * @param strict Whether the order should be strict.
+     * @return {@code true} if sorted, {@code false} otherwise
+     */
+    public static boolean isMonotone(Comparable[] val, OrderDirection dir,
+            boolean strict){
+        Comparable previous = val[0];
+        int max = val.length;
+        int comp;
+        for (int i = 1; i < max; i++) {
+            switch (dir) {
+            case INCREASING:
+                comp = -val[i].compareTo(previous);
+                if (strict) {
+                    if (0 <= comp) {
+                        return false;
+                    }
+                } else {
+                    if ( comp > 0) {
+                        return false;
+                    }
+                }
+                break;
+            case DECREASING:
+                comp = val[i].compareTo(previous);
+                if (strict) {
+                    if (comp >= 0) {
+                        return false;
+                    }
+                } else {
+                    if (comp > 0) {
+                       return false;
+                    }
+                }
+                break;
+            default:
+                // Should never happen.
+                throw new IllegalArgumentException();
+            }
+
+            previous = val[i];
+        }
+        return true;
+    }
+
+    /**
+     * Check that an array is monotone increasing or decreasing
+     *
+     * @param val Values.
+     * @param dir Ordering direction.
+     * @param strict Whether the order should be strict.
+     * @return {@code true} if sorted, {@code false} otherwise
+     */
+    public static boolean isMonotone( double[] val, OrderDirection dir,
+                                      boolean strict){
+        double previous = val[0];
+        int max = val.length;
+        for (int i = 1; i < max; i++) {
+            switch (dir) {
+            case INCREASING:
+                if (strict) {
+                    if (val[i] <= previous) {
+                        return false;
+                    }
+                } else {
+                    if (val[i] < previous) {
+                        return false;
+                    }
+                }
+                break;
+            case DECREASING:
+                if (strict) {
+                    if (val[i] >= previous) {
+                        return false;
+                    }
+                } else {
+                    if (val[i] > previous) {
+                        return false;
+                    }
+                }
+                break;
+            default:
+                // Should never happen.
+                throw new IllegalArgumentException();
+            }
+            previous = val[i];
+        }
+
+        return true;
+    }
 
     /**
      * Check that the given array is sorted.
@@ -1964,30 +2058,40 @@ public final class MathUtils {
     public static boolean checkOrder(double[] val, OrderDirection dir,
                                      boolean strict, boolean abort) {
         double previous = val[0];
-        boolean ok = true;
-
         int max = val.length;
         for (int i = 1; i < max; i++) {
             switch (dir) {
             case INCREASING:
                 if (strict) {
                     if (val[i] <= previous) {
-                        ok = false;
+                        if (abort) {
+                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                        }
+                        return false;
                     }
                 } else {
                     if (val[i] < previous) {
-                        ok = false;
+                        if (abort) {
+                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                        }
+                        return false;
                     }
                 }
                 break;
             case DECREASING:
                 if (strict) {
                     if (val[i] >= previous) {
-                        ok = false;
+                        if (abort) {
+                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                        }
+                        return false;
                     }
                 } else {
                     if (val[i] > previous) {
-                        ok = false;
+                        if (abort) {
+                            throw new NonMonotonousSequenceException((Number)val[i], (Number)previous, i, dir, strict);
+                        }
+                        return false;
                     }
                 }
                 break;
@@ -1995,15 +2099,9 @@ public final class MathUtils {
                 // Should never happen.
                 throw new IllegalArgumentException();
             }
-
-            if (!ok &&
-                abort) {
-                throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
-            }
             previous = val[i];
         }
-
-        return ok;
+        return true;
     }
 
     /**
