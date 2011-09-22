@@ -28,7 +28,6 @@ import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.EigenDecomposition;
 import org.apache.commons.math.linear.EigenDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
@@ -769,7 +768,7 @@ public class CMAESOptimizer extends
             // to achieve O(N^2)
             C = triu(C, 0).add(triu(C, 1).transpose());
             // enforce symmetry to prevent complex numbers
-            EigenDecomposition eig = new EigenDecompositionImpl(C, 1.0);
+            EigenDecompositionImpl eig = new EigenDecompositionImpl(C, 1.0);
             B = eig.getV(); // eigen decomposition, B==normalized eigenvectors
             D = eig.getD();
             diagD = diag(D);

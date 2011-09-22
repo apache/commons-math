@@ -32,7 +32,7 @@ public class EigenSolverTest {
     public void testNonInvertible() {
         Random r = new Random(9994100315209l);
         RealMatrix m =
-            EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 });
+            EigenDecompositionTest.createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 });
         DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
         Assert.assertFalse(es.isNonSingular());
         try {
@@ -48,7 +48,7 @@ public class EigenSolverTest {
     public void testInvertible() {
         Random r = new Random(9994100315209l);
         RealMatrix m =
-            EigenDecompositionImplTest.createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
+            EigenDecompositionTest.createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
         DecompositionSolver es = new EigenDecompositionImpl(m, MathUtils.SAFE_MIN).getSolver();
         Assert.assertTrue(es.isNonSingular());
         RealMatrix inverse = es.getInverse();
@@ -63,7 +63,7 @@ public class EigenSolverTest {
         final double[] refValues = new double[] {
             2.003, 2.002, 2.001, 1.001, 1.000, 0.001
         };
-        final RealMatrix matrix = EigenDecompositionImplTest.createTestMatrix(new Random(35992629946426l), refValues);
+        final RealMatrix matrix = EigenDecompositionTest.createTestMatrix(new Random(35992629946426l), refValues);
 
         DecompositionSolver es = new EigenDecompositionImpl(matrix, MathUtils.SAFE_MIN).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);

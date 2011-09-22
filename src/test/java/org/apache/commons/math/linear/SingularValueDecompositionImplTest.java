@@ -308,11 +308,11 @@ public class SingularValueDecompositionImplTest {
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns,
                                         final double[] singularValues) {
         final RealMatrix u =
-            EigenDecompositionImplTest.createOrthogonalMatrix(r, rows);
+            EigenDecompositionTest.createOrthogonalMatrix(r, rows);
         final RealMatrix d =
-            EigenDecompositionImplTest.createDiagonalMatrix(singularValues, rows, columns);
+            EigenDecompositionTest.createDiagonalMatrix(singularValues, rows, columns);
         final RealMatrix v =
-            EigenDecompositionImplTest.createOrthogonalMatrix(r, columns);
+            EigenDecompositionTest.createOrthogonalMatrix(r, columns);
         return u.multiply(d).multiply(v);
     }
 
