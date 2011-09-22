@@ -28,6 +28,7 @@ import java.util.List;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NotPositiveException;
@@ -1992,7 +1993,7 @@ public final class MathUtils {
                 break;
             default:
                 // Should never happen.
-                throw new IllegalArgumentException();
+                throw new MathInternalError();
             }
 
             previous = val[i];
@@ -2039,7 +2040,7 @@ public final class MathUtils {
                 break;
             default:
                 // Should never happen.
-                throw new IllegalArgumentException();
+                throw new MathInternalError();
             }
             previous = val[i];
         }
@@ -2091,7 +2092,7 @@ public final class MathUtils {
                 break;
             default:
                 // Should never happen.
-                throw new IllegalArgumentException();
+                throw new MathInternalError();
             }
             previous = val[index];
         }
@@ -2342,7 +2343,7 @@ public final class MathUtils {
                 break;
                 default:
                     // Should never happen.
-                    throw new IllegalArgumentException();
+                    throw new MathInternalError();
                 }
                 return val;
             }
