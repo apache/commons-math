@@ -2062,39 +2062,30 @@ public final class MathUtils {
                                      boolean strict, boolean abort) {
         double previous = val[0];
         final int max = val.length;
-        for (int i = 1; i < max; i++) {
+
+        int index;
+        ITEM:
+        for (index = 1; index < max; index++) {
             switch (dir) {
             case INCREASING:
                 if (strict) {
-                    if (val[i] <= previous) {
-                        if (abort) {
-                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
-                        }
-                        return false;
+                    if (val[index] <= previous) {
+                        break ITEM;
                     }
                 } else {
-                    if (val[i] < previous) {
-                        if (abort) {
-                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
-                        }
-                        return false;
+                    if (val[index] < previous) {
+                        break ITEM;
                     }
                 }
                 break;
             case DECREASING:
                 if (strict) {
-                    if (val[i] >= previous) {
-                        if (abort) {
-                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
-                        }
-                        return false;
+                    if (val[index] >= previous) {
+                        break ITEM;
                     }
                 } else {
-                    if (val[i] > previous) {
-                        if (abort) {
-                            throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
-                        }
-                        return false;
+                    if (val[index] > previous) {
+                        break ITEM;
                     }
                 }
                 break;
@@ -2102,9 +2093,20 @@ public final class MathUtils {
                 // Should never happen.
                 throw new IllegalArgumentException();
             }
-            previous = val[i];
+            previous = val[index];
         }
-        return true;
+
+        if (index == max) {
+            // Loop completed.
+            return true;
+        }
+
+        // Loop early exit means wrong ordering.
+        if (abort) {
+            throw new NonMonotonousSequenceException(val[index], previous, index, dir, strict);
+        } else {
+            return false;
+        }
     }
 
     /**
