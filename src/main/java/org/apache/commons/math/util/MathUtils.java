@@ -1949,13 +1949,14 @@ public final class MathUtils {
         /** Constant for decreasing direction. */
         DECREASING
     }
-     /**
-     * Check that an array is monotone increasing or decreasing
+
+    /**
+     * Check that an array is monotone increasing or decreasing.
      *
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
-     * @return {@code true} if sorted, {@code false} otherwise
+     * @return {@code true} if sorted, {@code false} otherwise.
      */
     public static boolean isMonotone(Comparable[] val,
                                      OrderDirection dir,
@@ -2000,12 +2001,12 @@ public final class MathUtils {
     }
 
     /**
-     * Check that an array is monotone increasing or decreasing
+     * Check that an array is monotone increasing or decreasing.
      *
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
-     * @return {@code true} if sorted, {@code false} otherwise
+     * @return {@code true} if sorted, {@code false} otherwise.
      */
     public static boolean isMonotone(double[] val,
                                      OrderDirection dir,
