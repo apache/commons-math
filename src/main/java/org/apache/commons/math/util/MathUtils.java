@@ -1957,10 +1957,11 @@ public final class MathUtils {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise
      */
-    public static boolean isMonotone(Comparable[] val, OrderDirection dir,
-            boolean strict){
+    public static boolean isMonotone(Comparable[] val,
+                                     OrderDirection dir,
+                                     boolean strict){
         Comparable previous = val[0];
-        int max = val.length;
+        final int max = val.length;
         int comp;
         for (int i = 1; i < max; i++) {
             switch (dir) {
@@ -2006,10 +2007,11 @@ public final class MathUtils {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise
      */
-    public static boolean isMonotone(double[] val, OrderDirection dir,
+    public static boolean isMonotone(double[] val,
+                                     OrderDirection dir,
                                      boolean strict){
         double previous = val[0];
-        int max = val.length;
+        final int max = val.length;
         for (int i = 1; i < max; i++) {
             switch (dir) {
             case INCREASING:
@@ -2058,7 +2060,7 @@ public final class MathUtils {
     public static boolean checkOrder(double[] val, OrderDirection dir,
                                      boolean strict, boolean abort) {
         double previous = val[0];
-        int max = val.length;
+        final int max = val.length;
         for (int i = 1; i < max; i++) {
             switch (dir) {
             case INCREASING:
