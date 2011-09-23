@@ -291,8 +291,8 @@ public class SparseFieldMatrixTest {
     @Test
     public void testTranspose() {
         FieldMatrix<Fraction> m = createSparseMatrix(testData);
-        FieldMatrix<Fraction> mIT = new FieldLUDecompositionImpl<Fraction>(m).getSolver().getInverse().transpose();
-        FieldMatrix<Fraction> mTI = new FieldLUDecompositionImpl<Fraction>(m.transpose()).getSolver().getInverse();
+        FieldMatrix<Fraction> mIT = new FieldLUDecomposition<Fraction>(m).getSolver().getInverse().transpose();
+        FieldMatrix<Fraction> mTI = new FieldLUDecomposition<Fraction>(m.transpose()).getSolver().getInverse();
         assertClose("inverse-transpose", mIT, mTI, normTolerance);
         m = createSparseMatrix(testData2);
         FieldMatrix<Fraction> mt = createSparseMatrix(testData2T);
@@ -387,7 +387,7 @@ public class SparseFieldMatrixTest {
         Assert.assertEquals(2, p.getRowDimension());
         Assert.assertEquals(2, p.getColumnDimension());
         // Invert p
-        FieldMatrix<Fraction> pInverse = new FieldLUDecompositionImpl<Fraction>(p).getSolver().getInverse();
+        FieldMatrix<Fraction> pInverse = new FieldLUDecomposition<Fraction>(p).getSolver().getInverse();
         Assert.assertEquals(2, pInverse.getRowDimension());
         Assert.assertEquals(2, pInverse.getColumnDimension());
 
@@ -397,7 +397,7 @@ public class SparseFieldMatrixTest {
         FieldMatrix<Fraction> coefficients = createSparseMatrix(coefficientsData);
         Fraction[] constants = { new Fraction(1), new Fraction(-2), new Fraction(1) };
         Fraction[] solution;
-        solution = new FieldLUDecompositionImpl<Fraction>(coefficients)
+        solution = new FieldLUDecomposition<Fraction>(coefficients)
             .getSolver()
             .solve(new ArrayFieldVector<Fraction>(constants, false)).toArray();
         Assert.assertEquals((new Fraction(2).multiply((solution[0])).add(new Fraction(3).multiply(solution[1])).subtract(new Fraction(2).multiply(solution[2]))).doubleValue(),

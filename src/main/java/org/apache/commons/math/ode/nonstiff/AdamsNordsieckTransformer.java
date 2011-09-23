@@ -26,7 +26,7 @@ import org.apache.commons.math.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayFieldVector;
 import org.apache.commons.math.linear.FieldDecompositionSolver;
-import org.apache.commons.math.linear.FieldLUDecompositionImpl;
+import org.apache.commons.math.linear.FieldLUDecomposition;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.QRDecomposition;
@@ -154,7 +154,7 @@ public class AdamsNordsieckTransformer {
         // compute exact coefficients
         FieldMatrix<BigFraction> bigP = buildP(nSteps);
         FieldDecompositionSolver<BigFraction> pSolver =
-            new FieldLUDecompositionImpl<BigFraction>(bigP).getSolver();
+            new FieldLUDecomposition<BigFraction>(bigP).getSolver();
 
         BigFraction[] u = new BigFraction[nSteps];
         Arrays.fill(u, BigFraction.ONE);

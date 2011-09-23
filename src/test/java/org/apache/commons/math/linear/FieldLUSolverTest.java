@@ -65,13 +65,13 @@ public class FieldLUSolverTest {
     @Test
     public void testSingular() {
         FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecompositionImpl<Fraction>(createFractionMatrix(testData))
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(testData))
             .getSolver();
         Assert.assertTrue(solver.isNonSingular());
-        solver = new FieldLUDecompositionImpl<Fraction>(createFractionMatrix(singular))
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(singular))
             .getSolver();
         Assert.assertFalse(solver.isNonSingular());
-        solver = new FieldLUDecompositionImpl<Fraction>(createFractionMatrix(bigSingular))
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(bigSingular))
             .getSolver();
         Assert.assertFalse(solver.isNonSingular());
     }
@@ -80,7 +80,7 @@ public class FieldLUSolverTest {
     @Test
     public void testSolveDimensionErrors() {
         FieldDecompositionSolver<Fraction> solver;
-        solver = new FieldLUDecompositionImpl<Fraction>(createFractionMatrix(testData))
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(testData))
             .getSolver();
         FieldMatrix<Fraction> b = createFractionMatrix(new int[2][2]);
         try {
@@ -101,7 +101,7 @@ public class FieldLUSolverTest {
     @Test
     public void testSolveSingularityErrors() {
         FieldDecompositionSolver solver;
-        solver = new FieldLUDecompositionImpl(createFractionMatrix(singular))
+        solver = new FieldLUDecomposition(createFractionMatrix(singular))
             .getSolver();
         FieldMatrix b = createFractionMatrix(new int[2][2]);
         try {
@@ -122,7 +122,7 @@ public class FieldLUSolverTest {
     @Test
     public void testSolve() {
         FieldDecompositionSolver solver;
-        solver = new FieldLUDecompositionImpl<Fraction>(createFractionMatrix(testData))
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(testData))
             .getSolver();
         FieldMatrix<Fraction> b = createFractionMatrix(new int[][] {
                 { 1, 0 }, { 2, -5 }, { 3, 1 }
@@ -172,6 +172,6 @@ public class FieldLUSolverTest {
     }
 
     private double getDeterminant(final FieldMatrix<Fraction> m) {
-        return new FieldLUDecompositionImpl<Fraction>(m).getDeterminant().doubleValue();
+        return new FieldLUDecomposition<Fraction>(m).getDeterminant().doubleValue();
     }
 }
