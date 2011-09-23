@@ -84,7 +84,7 @@ public class BicubicSplineInterpolatingFunction
      * every grid point.
      * @throws DimensionMismatchException if the various arrays do not contain
      * the expected number of elements.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if {@code x} or {@code y} are not strictly increasing.
      * @throws NoDataException if any of the arrays has zero length.
      */

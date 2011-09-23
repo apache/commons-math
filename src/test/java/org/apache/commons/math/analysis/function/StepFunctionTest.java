@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 
@@ -57,7 +57,7 @@ public class StepFunctionTest {
         new StepFunction(new double[] {0, 1}, new double[] {0, -1, -2});
     }
 
-    @Test(expected=NonMonotonousSequenceException.class)
+    @Test(expected=NonMonotonicSequenceException.class)
     public void testPreconditions6() {
         new StepFunction(new double[] {1, 0, 1}, new double[] {0, -1, -2});
     }

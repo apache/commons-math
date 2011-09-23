@@ -20,7 +20,7 @@ import java.util.Random;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -150,7 +150,7 @@ public class UnivariateRealPeriodicInterpolatorTest {
         interpolator.interpolate(xval, yval);
     }
 
-    @Test(expected=NonMonotonousSequenceException.class)
+    @Test(expected=NonMonotonicSequenceException.class)
     public void testUnsortedSamples() {
         final double[] xval = { 2, 3, 7, 4, 6 };
         final double[] yval = { 1, 6, 5, -1, -2 };

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.TestUtils;
@@ -120,7 +120,7 @@ public class LinearInterpolatorTest {
             double yval[] = { 0.0, 1.0, 2.0 };
             i.interpolate(xval, yval);
             Assert.fail("Failed to detect unsorted arguments.");
-        } catch (NonMonotonousSequenceException iae) {
+        } catch (NonMonotonicSequenceException iae) {
             // Expected.
         }
         // Not enough data to interpolate.

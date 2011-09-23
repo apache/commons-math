@@ -48,7 +48,7 @@ public class DividedDifferenceInterpolator
      * if the array lengths are different.
      * @throws org.apache.commons.math.exception.NumberIsTooSmallException
      * if the number of points is less than 2.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      */
     public PolynomialFunctionNewtonForm interpolate(double x[], double y[]) {
@@ -91,7 +91,7 @@ public class DividedDifferenceInterpolator
      * if the array lengths are different.
      * @throws org.apache.commons.math.exception.NumberIsTooSmallException
      * if the number of points is less than 2.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      */
     protected static double[] computeDividedDifference(final double x[], final double y[]) {

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -122,8 +122,8 @@ public final class DividedDifferenceInterpolatorTest {
             double y[] = { 0.0, 4.0, 4.0, 2.5 };
             UnivariateRealFunction p = interpolator.interpolate(x, y);
             p.value(0.0);
-            Assert.fail("Expecting NonMonotonousSequenceException - bad abscissas array");
-        } catch (NonMonotonousSequenceException ex) {
+            Assert.fail("Expecting NonMonotonicSequenceException - bad abscissas array");
+        } catch (NonMonotonicSequenceException ex) {
             // expected
         }
     }

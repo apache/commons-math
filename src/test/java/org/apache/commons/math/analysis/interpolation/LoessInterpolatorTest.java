@@ -20,7 +20,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 
@@ -169,12 +169,12 @@ public class LoessInterpolatorTest {
         new LoessInterpolator().smooth(new double[] {}, new double[] {});
     }
 
-    @Test(expected=NonMonotonousSequenceException.class)
+    @Test(expected=NonMonotonicSequenceException.class)
     public void testNonStrictlyIncreasing1() {
         new LoessInterpolator().smooth(new double[] {4,3,1,2}, new double[] {3,4,5,6});
     }
 
-    @Test(expected=NonMonotonousSequenceException.class)
+    @Test(expected=NonMonotonicSequenceException.class)
     public void testNonStrictlyIncreasing2() {
         new LoessInterpolator().smooth(new double[] {1,2,2,3}, new double[] {3,4,5,6});
     }

@@ -22,22 +22,22 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test for {@link NonMonotonousSequenceException}.
+ * Test for {@link NonMonotonicSequenceException}.
  * 
  * @version $Id$
  */
-public class NonMonotonousSequenceExceptionTest {
+public class NonMonotonicSequenceExceptionTest {
     @Test
     public void testAccessors() {
-        NonMonotonousSequenceException e
-            = new NonMonotonousSequenceException(0, -1, 1, MathUtils.OrderDirection.DECREASING, false);
+        NonMonotonicSequenceException e
+            = new NonMonotonicSequenceException(0, -1, 1, MathUtils.OrderDirection.DECREASING, false);
         Assert.assertEquals(0, e.getArgument());
         Assert.assertEquals(-1, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());
         Assert.assertTrue(e.getDirection() == MathUtils.OrderDirection.DECREASING);
         Assert.assertFalse(e.getStrict());
 
-        e = new NonMonotonousSequenceException(-1, 0, 1);
+        e = new NonMonotonicSequenceException(-1, 0, 1);
         Assert.assertEquals(-1, e.getArgument());
         Assert.assertEquals(0, e.getPrevious());
         Assert.assertEquals(1, e.getIndex());

@@ -43,7 +43,7 @@ public class StepFunction implements UnivariateRealFunction {
      *
      * @param x Abscissae.
      * @param y Ordinates.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if the {@code x} array is not sorted in strictly increasing order.
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
      * @throws NoDataException if {@code x} or {@code y} are zero-length.

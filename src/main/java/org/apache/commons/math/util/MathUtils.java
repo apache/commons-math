@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathInternalError;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -2056,7 +2056,7 @@ public final class MathUtils {
      * @param strict Whether the order should be strict.
      * @param abort Whether to throw an exception if the check fails.
      * @return {@code true} if the array is sorted.
-     * @throws NonMonotonousSequenceException if the array is not sorted
+     * @throws NonMonotonicSequenceException if the array is not sorted
      * and {@code abort} is {@code true}.
      */
     public static boolean checkOrder(double[] val, OrderDirection dir,
@@ -2104,7 +2104,7 @@ public final class MathUtils {
 
         // Loop early exit means wrong ordering.
         if (abort) {
-            throw new NonMonotonousSequenceException(val[index], previous, index, dir, strict);
+            throw new NonMonotonicSequenceException(val[index], previous, index, dir, strict);
         } else {
             return false;
         }
@@ -2116,7 +2116,7 @@ public final class MathUtils {
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.
-     * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @throws NonMonotonicSequenceException if the array is not sorted.
      * @since 2.2
      */
     public static void checkOrder(double[] val, OrderDirection dir,
@@ -2128,7 +2128,7 @@ public final class MathUtils {
      * Check that the given array is sorted in strictly increasing order.
      *
      * @param val Values.
-     * @throws NonMonotonousSequenceException if the array is not sorted.
+     * @throws NonMonotonicSequenceException if the array is not sorted.
      * @since 2.2
      */
     public static void checkOrder(double[] val) {

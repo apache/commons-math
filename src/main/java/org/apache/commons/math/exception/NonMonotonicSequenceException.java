@@ -20,13 +20,13 @@ import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when the a sequence of values is not monotonously
+ * Exception to be thrown when the a sequence of values is not monotonically
  * increasing or decreasing.
  *
- * @since 2.2
+ * @since 2.2 (name changed to "NonMonotonicSequenceException" in 3.0)
  * @version $Id$
  */
-public class NonMonotonousSequenceException extends MathIllegalNumberException {
+public class NonMonotonicSequenceException extends MathIllegalNumberException {
     /** Serializable version Id. */
     private static final long serialVersionUID = 3596849179428944575L;
     /**
@@ -55,9 +55,9 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
      * @param previous Previous value in the sequence.
      * @param index Index of the value that did not match the requirements.
      */
-    public NonMonotonousSequenceException(Number wrong,
-                                          Number previous,
-                                          int index) {
+    public NonMonotonicSequenceException(Number wrong,
+                                         Number previous,
+                                         int index) {
         this(wrong, previous, index, MathUtils.OrderDirection.INCREASING, true);
     }
 
@@ -72,11 +72,11 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
      * @param strict Whether the sequence must be strictly increasing or
      * decreasing.
      */
-    public NonMonotonousSequenceException(Number wrong,
-                                          Number previous,
-                                          int index,
-                                          MathUtils.OrderDirection direction,
-                                          boolean strict) {
+    public NonMonotonicSequenceException(Number wrong,
+                                         Number previous,
+                                         int index,
+                                         MathUtils.OrderDirection direction,
+                                         boolean strict) {
         super(direction == MathUtils.OrderDirection.INCREASING ?
               (strict ?
                LocalizedFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
@@ -99,7 +99,7 @@ public class NonMonotonousSequenceException extends MathIllegalNumberException {
         return direction;
     }
     /**
-     * @return {@code true} is the sequence should be strictly monotonous.
+     * @return {@code true} is the sequence should be strictly monotonic.
      **/
     public boolean getStrict() {
         return strict;

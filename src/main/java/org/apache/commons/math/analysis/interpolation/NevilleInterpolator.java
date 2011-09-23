@@ -48,7 +48,7 @@ public class NevilleInterpolator implements UnivariateRealInterpolator,
      * the array lengths are different.
      * @throws org.apache.commons.math.exception.NumberIsTooSmallException if
      * the number of points is less than 2.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if two abscissae have the same value.
      */
     public PolynomialFunctionLagrangeForm interpolate(double x[], double y[]) {

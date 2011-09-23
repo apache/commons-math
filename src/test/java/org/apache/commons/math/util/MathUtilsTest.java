@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.exception.NonMonotonousSequenceException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
@@ -1624,28 +1624,28 @@ public final class MathUtilsTest {
             MathUtils.checkOrder(new double[] {-15, -5.5, -1, -1, 2, 15},
                                  MathUtils.OrderDirection.INCREASING, true);
             Assert.fail("an exception should have been thrown");
-        } catch (NonMonotonousSequenceException e) {
+        } catch (NonMonotonicSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {-15, -5.5, -1, -2, 2},
                                  MathUtils.OrderDirection.INCREASING, false);
             Assert.fail("an exception should have been thrown");
-        } catch (NonMonotonousSequenceException e) {
+        } catch (NonMonotonicSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {3, 3, -5.5, -11, -27.5},
                                  MathUtils.OrderDirection.DECREASING, true);
             Assert.fail("an exception should have been thrown");
-        } catch (NonMonotonousSequenceException e) {
+        } catch (NonMonotonicSequenceException e) {
             // Expected
         }
         try {
             MathUtils.checkOrder(new double[] {3, -1, 0, -5.5, -11, -27.5},
                                  MathUtils.OrderDirection.DECREASING, false);
             Assert.fail("an exception should have been thrown");
-        } catch (NonMonotonousSequenceException e) {
+        } catch (NonMonotonicSequenceException e) {
             // Expected
         }
     }

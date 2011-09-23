@@ -93,7 +93,7 @@ public class PolynomialSplineFunction implements DifferentiableUnivariateRealFun
      * @throws NullArgumentException if either of the input arrays is {@code null}.
      * @throws NumberIsTooSmallException if knots has length less than 2.
      * @throws DimensionMismatchException if {@code polynomials.length != knots.length - 1}.
-     * @throws org.apache.commons.math.exception.NonMonotonousSequenceException if
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException if
      * the {@code knots} array is not strictly increasing.
      *
      */
