@@ -42,6 +42,7 @@ public enum LocalizedFormats implements Localizable {
     // CHECKSTYLE: stop JavadocVariable
 
     ARGUMENT_OUTSIDE_DOMAIN("Argument {0} outside domain [{1} ; {2}]"),
+    ARRAY_SIZE_EXCEEDS_MAX_VARIABLES("array size cannot be greater than {0}"),
     ARRAY_SIZES_SHOULD_HAVE_DIFFERENCE_1("array sizes should have difference 1 ({0} != {1} + 1)"),
     ARRAY_SUMS_TO_ZERO("array sums to zero"),
     ASSYMETRIC_EIGEN_NOT_SUPPORTED("eigen decomposition of assymetric matrices not supported yet"),
@@ -135,6 +136,7 @@ public enum LocalizedFormats implements Localizable {
     INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS("invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}"),
     INVALID_ITERATIONS_LIMITS("invalid iteration limits: min={0}, max={1}"),
     INVALID_MAX_ITERATIONS("bad value for maximum iterations number: {0}"),
+    NOT_ENOUGH_DATA_REGRESSION("the number of observations is not sufficient to conduct regression"),
     INVALID_REGRESSION_ARRAY("input data array length = {0} does not match the number of observations = {1} and the number of regressors = {2}"),
     INVALID_REGRESSION_OBSERVATION("length of regressor array = {0} does not match the number of variables = {1} in the model"),
     INVALID_ROUNDING_METHOD("invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})"),
@@ -239,6 +241,7 @@ public enum LocalizedFormats implements Localizable {
     NO_RESULT_AVAILABLE("no result available"),
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
     NULL_NOT_ALLOWED("null is not allowed"), /* keep */
+    ARRAY_ZERO_LENGTH_OR_NULL_NOTALLOWED("A null or zero length array not allowed"),
     COVARIANCE_MATRIX("covariance matrix"), /* keep */
     DENOMINATOR("denominator"), /* keep */
     DENOMINATOR_FORMAT("denominator format"), /* keep */

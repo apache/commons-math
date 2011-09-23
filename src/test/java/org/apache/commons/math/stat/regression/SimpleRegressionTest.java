@@ -80,9 +80,9 @@ public final class SimpleRegressionTest {
             {5, -1 }, {6, 12 }
     };
 
-    
+
     /*
-     * Data from NIST NOINT1 
+     * Data from NIST NOINT1
      */
     private double[][] noint1 = {
         {130.0,60.0},
@@ -95,26 +95,74 @@ public final class SimpleRegressionTest {
         {137.0,67.0},
         {138.0,68.0},
         {139.0,69.0},
-        {140.0,70.0}        
+        {140.0,70.0}
     };
-    
+
     /*
-     * Data from NIST NOINT2 
-     * 
+     * Data from NIST NOINT2
+     *
      */
     private double[][] noint2 = {
         {3.0,4},
         {4,5},
         {4,6}
     };
-    
+
+    @Test
+    public void testRegressIfaceMethod(){
+        final SimpleRegression regression = new SimpleRegression(true);
+        final UpdatingMultipleLinearRegression iface = regression;
+        final SimpleRegression regressionNoint = new SimpleRegression( false );
+        final SimpleRegression regressionIntOnly= new SimpleRegression( false );
+        for (int i = 0; i < data.length; i++) {
+            iface.addObservation( new double[]{data[i][1]}, data[i][0]);
+            regressionNoint.addData(data[i][1], data[i][0]);
+            regressionIntOnly.addData(1.0, data[i][0]);
+        }
+
+        //should not be null
+        final RegressionResults fullReg = iface.regress( );
+        Assert.assertTrue(fullReg != null);
+        Assert.assertEquals("intercept", regression.getIntercept(), fullReg.getParameterEstimate(0), 1.0e-16);
+        Assert.assertEquals("intercept std err",regression.getInterceptStdErr(), fullReg.getStdErrorOfEstimate(0),1.0E-16);
+        Assert.assertEquals("slope", regression.getSlope(), fullReg.getParameterEstimate(1), 1.0e-16);
+        Assert.assertEquals("slope std err",regression.getSlopeStdErr(), fullReg.getStdErrorOfEstimate(1),1.0E-16);
+        Assert.assertEquals("number of observations",regression.getN(), fullReg.getN());
+        Assert.assertEquals("r-square",regression.getRSquare(), fullReg.getRSquared(), 1.0E-16);
+        Assert.assertEquals("SSR", regression.getRegressionSumSquares(), fullReg.getRegressionSumSquares() ,1.0E-16);
+        Assert.assertEquals("MSE", regression.getMeanSquareError(), fullReg.getMeanSquareError() ,1.0E-16);
+        Assert.assertEquals("SSE", regression.getSumSquaredErrors(), fullReg.getErrorSumSquares() ,1.0E-16);
+
+
+        final RegressionResults noInt   = iface.regress( new int[]{1} );
+        Assert.assertTrue(noInt != null);
+        Assert.assertEquals("slope", regressionNoint.getSlope(), noInt.getParameterEstimate(0), 1.0e-12);
+        Assert.assertEquals("slope std err",regressionNoint.getSlopeStdErr(), noInt.getStdErrorOfEstimate(0),1.0E-16);
+        Assert.assertEquals("number of observations",regressionNoint.getN(), noInt.getN());
+        Assert.assertEquals("r-square",regressionNoint.getRSquare(), noInt.getRSquared(), 1.0E-16);
+        Assert.assertEquals("SSR", regressionNoint.getRegressionSumSquares(), noInt.getRegressionSumSquares() ,1.0E-8);
+        Assert.assertEquals("MSE", regressionNoint.getMeanSquareError(), noInt.getMeanSquareError() ,1.0E-16);
+        Assert.assertEquals("SSE", regressionNoint.getSumSquaredErrors(), noInt.getErrorSumSquares() ,1.0E-16);
+
+        final RegressionResults onlyInt = iface.regress( new int[]{0} );
+        Assert.assertTrue( onlyInt != null );
+        Assert.assertEquals("slope", regressionIntOnly.getSlope(), onlyInt.getParameterEstimate(0), 1.0e-12);
+        Assert.assertEquals("slope std err",regressionIntOnly.getSlopeStdErr(), onlyInt.getStdErrorOfEstimate(0),1.0E-12);
+        Assert.assertEquals("number of observations",regressionIntOnly.getN(), onlyInt.getN());
+        Assert.assertEquals("r-square",regressionIntOnly.getRSquare(), onlyInt.getRSquared(), 1.0E-14);
+        Assert.assertEquals("SSE", regressionIntOnly.getSumSquaredErrors(), onlyInt.getErrorSumSquares() ,1.0E-8);
+        Assert.assertEquals("SSR", regressionIntOnly.getRegressionSumSquares(), onlyInt.getRegressionSumSquares() ,1.0E-8);
+        Assert.assertEquals("MSE", regressionIntOnly.getMeanSquareError(), onlyInt.getMeanSquareError() ,1.0E-8);
+
+    }
+
     @Test
     public void testNoInterceot_noint2(){
          SimpleRegression regression = new SimpleRegression(false);
          regression.addData(noint2[0][1], noint2[0][0]);
          regression.addData(noint2[1][1], noint2[1][0]);
          regression.addData(noint2[2][1], noint2[2][0]);
-         Assert.assertEquals("slope", 0.727272727272727, 
+         Assert.assertEquals("slope", 0.727272727272727,
                  regression.getSlope(), 10E-12);
          Assert.assertEquals("slope std err", 0.420827318078432E-01,
                 regression.getSlopeStdErr(),10E-12);
@@ -128,8 +176,8 @@ public final class SimpleRegressionTest {
         Assert.assertEquals("SSE", 0.272727272727273,
             regression.getSumSquaredErrors(),10E-9);
     }
-    
-    @Test 
+
+    @Test
     public void testNoIntercept_noint1(){
         SimpleRegression regression = new SimpleRegression(false);
         for (int i = 0; i < noint1.length; i++) {
@@ -147,9 +195,9 @@ public final class SimpleRegressionTest {
             regression.getMeanSquareError(), 10E-10);
         Assert.assertEquals("SSE", 127.272727272727,
             regression.getSumSquaredErrors(),10E-9);
-            
-    }  
-    
+
+    }
+
     @Test
     public void testNorris() {
         SimpleRegression regression = new SimpleRegression();

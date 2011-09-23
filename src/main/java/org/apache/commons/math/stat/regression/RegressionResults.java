@@ -114,7 +114,7 @@ public class RegressionResults implements Serializable {
         this.globalFitInfo = new double[5];
         Arrays.fill(this.globalFitInfo, Double.NaN);
 
-        if (rank > 2) {
+        if (rank > 0) {
             this.globalFitInfo[SST_IDX] = containsConstant ?
                     (sumysq - sumy * sumy / ((double) nobs)) : sumysq;
         }

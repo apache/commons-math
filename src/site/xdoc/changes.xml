@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="gregs" type="update" issue="MATH-607">
+        SimpleRegression implements UpdatingMultipleLinearRegression interface.
+      </action>
       <action dev="gregs" type="update" issue="MATH-675">
         Added isMonotone methods in MathUtils. Optimized checkOrder method.
       </action>

@@ -61,7 +61,7 @@ public interface UpdatingMultipleLinearRegression {
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
      * the length of {@code y} or does not contain sufficient data to estimate the model
      */
-    void addObservations(double[][] x, double[] y);
+    void addObservations(double[][] x, double[] y) throws ModelSpecificationException;
 
     /**
      * Clears internal buffers and resets the regression model. This means all
