@@ -23,7 +23,7 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecomposition;
-import org.apache.commons.math.linear.QRDecompositionImpl;
+import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -145,7 +145,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 RealMatrix mA = new BlockRealMatrix(a);
                 DecompositionSolver solver = useLU ?
                         new LUDecomposition(mA).getSolver() :
-                        new QRDecompositionImpl(mA).getSolver();
+                        new QRDecomposition(mA).getSolver();
                 final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
                 // update the estimated parameters
                 for (int i = 0; i < cols; ++i) {

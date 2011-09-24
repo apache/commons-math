@@ -19,7 +19,6 @@ package org.apache.commons.math.stat.regression;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.QRDecomposition;
-import org.apache.commons.math.linear.QRDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.stat.StatUtils;
@@ -33,7 +32,7 @@ import org.apache.commons.math.stat.descriptive.moment.SecondMoment;
  * <pre><code> X<sup>T</sup> X b = X<sup>T</sup> y </code></pre></p>
  *
  * <p>To solve the normal equations, this implementation uses QR decomposition
- * of the <code>X</code> matrix. (See {@link QRDecompositionImpl} for details on the
+ * of the <code>X</code> matrix. (See {@link QRDecomposition} for details on the
  * decomposition algorithm.) The <code>X</code> matrix, also known as the <i>design matrix,</i>
  * has rows corresponding to sample observations and columns corresponding to independent
  * variables.  When the model is estimated using an intercept term (i.e. when
@@ -79,7 +78,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     public void newSampleData(double[] data, int nobs, int nvars) {
         super.newSampleData(data, nobs, nvars);
-        qr = new QRDecompositionImpl(X);
+        qr = new QRDecomposition(X);
     }
 
     /**
@@ -198,7 +197,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected void newXSampleData(double[][] x) {
         super.newXSampleData(x);
-        qr = new QRDecompositionImpl(X);
+        qr = new QRDecomposition(X);
     }
 
     /**

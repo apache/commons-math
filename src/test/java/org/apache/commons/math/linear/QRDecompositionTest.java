@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class QRDecompositionImplTest {
+public class QRDecompositionTest {
     double[][] testData3x3NonSingular = {
             { 12, -51, 4 },
             { 6, 167, -68 },
@@ -69,7 +69,7 @@ public class QRDecompositionImplTest {
     private void checkDimension(RealMatrix m) {
         int rows = m.getRowDimension();
         int columns = m.getColumnDimension();
-        QRDecomposition qr = new QRDecompositionImpl(m);
+        QRDecomposition qr = new QRDecomposition(m);
         Assert.assertEquals(rows,    qr.getQ().getRowDimension());
         Assert.assertEquals(rows,    qr.getQ().getColumnDimension());
         Assert.assertEquals(rows,    qr.getR().getRowDimension());
@@ -97,7 +97,7 @@ public class QRDecompositionImplTest {
     }
 
     private void checkAEqualQR(RealMatrix m) {
-        QRDecomposition qr = new QRDecompositionImpl(m);
+        QRDecomposition qr = new QRDecomposition(m);
         double norm = qr.getQ().multiply(qr.getR()).subtract(m).getNorm();
         Assert.assertEquals(0, norm, normTolerance);
     }
@@ -123,7 +123,7 @@ public class QRDecompositionImplTest {
     }
 
     private void checkQOrthogonal(RealMatrix m) {
-        QRDecomposition qr = new QRDecompositionImpl(m);
+        QRDecomposition qr = new QRDecomposition(m);
         RealMatrix eye = MatrixUtils.createRealIdentityMatrix(m.getRowDimension());
         double norm = qr.getQT().multiply(qr.getQ()).subtract(eye).getNorm();
         Assert.assertEquals(0, norm, normTolerance);
@@ -133,25 +133,25 @@ public class QRDecompositionImplTest {
     @Test
     public void testRUpperTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData3x4);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData4x3);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
         Random r = new Random(643895747384642l);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
         matrix = createTestMatrix(r, p, q);
-        checkUpperTriangular(new QRDecompositionImpl(matrix).getR());
+        checkUpperTriangular(new QRDecomposition(matrix).getR());
 
     }
 
@@ -170,25 +170,25 @@ public class QRDecompositionImplTest {
     @Test
     public void testHTrapezoidal() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData3x4);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData4x3);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
         Random r = new Random(643895747384642l);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
         matrix = createTestMatrix(r, p, q);
-        checkTrapezoidal(new QRDecompositionImpl(matrix).getH());
+        checkTrapezoidal(new QRDecomposition(matrix).getH());
 
     }
 
@@ -206,7 +206,7 @@ public class QRDecompositionImplTest {
     @Test
     public void testMatricesValues() {
         QRDecomposition qr =
-            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular));
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular));
         RealMatrix qRef = MatrixUtils.createRealMatrix(new double[][] {
                 { -12.0 / 14.0,   69.0 / 175.0,  -58.0 / 175.0 },
                 {  -6.0 / 14.0, -158.0 / 175.0,    6.0 / 175.0 },

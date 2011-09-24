@@ -54,16 +54,16 @@ public class QRSolverTest {
     @Test
     public void testRank() {
         DecompositionSolver solver =
-            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
         Assert.assertTrue(solver.isNonSingular());
 
-        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
+        solver = new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
         Assert.assertFalse(solver.isNonSingular());
 
-        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x4)).getSolver();
+        solver = new QRDecomposition(MatrixUtils.createRealMatrix(testData3x4)).getSolver();
         Assert.assertTrue(solver.isNonSingular());
 
-        solver = new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData4x3)).getSolver();
+        solver = new QRDecomposition(MatrixUtils.createRealMatrix(testData4x3)).getSolver();
         Assert.assertTrue(solver.isNonSingular());
 
     }
@@ -72,7 +72,7 @@ public class QRSolverTest {
     @Test
     public void testSolveDimensionErrors() {
         DecompositionSolver solver =
-            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             solver.solve(b);
@@ -92,7 +92,7 @@ public class QRSolverTest {
     @Test
     public void testSolveRankErrors() {
         DecompositionSolver solver =
-            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3Singular)).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[3][2]);
         try {
             solver.solve(b);
@@ -112,7 +112,7 @@ public class QRSolverTest {
     @Test
     public void testSolve() {
         QRDecomposition decomposition =
-            new QRDecompositionImpl(MatrixUtils.createRealMatrix(testData3x3NonSingular));
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular));
         DecompositionSolver solver = decomposition.getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { -102, 12250 }, { 544, 24500 }, { 167, -36750 }
@@ -161,7 +161,7 @@ public class QRSolverTest {
         });
 
         // despite perturbation, the least square solution should be pretty good
-        RealMatrix x = new QRDecompositionImpl(a).getSolver().solve(b);
+        RealMatrix x = new QRDecomposition(a).getSolver().solve(b);
         Assert.assertEquals(0, x.subtract(xRef).getNorm(), 0.01 * noise * p * q);
 
     }
@@ -174,7 +174,7 @@ public class QRSolverTest {
         RealMatrix   a    = createTestMatrix(r, p, q);
         RealMatrix   xRef = createTestMatrix(r, q, BlockRealMatrix.BLOCK_SIZE + 3);
         RealMatrix   b    = a.multiply(xRef);
-        RealMatrix   x = new QRDecompositionImpl(a).getSolver().solve(b);
+        RealMatrix   x = new QRDecomposition(a).getSolver().solve(b);
 
         // too many equations, the system cannot be solved at all
         Assert.assertTrue(x.subtract(xRef).getNorm() / (p * q) > 0.01);
