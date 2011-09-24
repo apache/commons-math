@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class SingularValueDecompositionImplTest {
+public class SingularValueDecompositionTest {
 
     private double[][] testSquare = {
             { 24.0 / 25.0, 43.0 / 25.0 },
@@ -50,7 +50,7 @@ public class SingularValueDecompositionImplTest {
         final int columns = singularValues.length;
         Random r = new Random(15338437322523l);
         SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(createTestMatrix(r, rows, columns, singularValues));
+            new SingularValueDecomposition(createTestMatrix(r, rows, columns, singularValues));
         double[] computedSV = svd.getSingularValues();
         Assert.assertEquals(singularValues.length, computedSV.length);
         for (int i = 0; i < singularValues.length; ++i) {
@@ -65,7 +65,7 @@ public class SingularValueDecompositionImplTest {
         final int columns = singularValues.length + 2;
         Random r = new Random(732763225836210l);
         SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(createTestMatrix(r, rows, columns, singularValues));
+            new SingularValueDecomposition(createTestMatrix(r, rows, columns, singularValues));
         double[] computedSV = svd.getSingularValues();
         Assert.assertEquals(singularValues.length, computedSV.length);
         for (int i = 0; i < singularValues.length; ++i) {
@@ -79,7 +79,7 @@ public class SingularValueDecompositionImplTest {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testSquare);
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
-        SingularValueDecomposition svd = new SingularValueDecompositionImpl(matrix);
+        SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
         Assert.assertEquals(m, svd.getU().getRowDimension());
         Assert.assertEquals(m, svd.getU().getColumnDimension());
         Assert.assertEquals(m, svd.getS().getColumnDimension());
@@ -98,7 +98,7 @@ public class SingularValueDecompositionImplTest {
                 { 9.0 / 2.0,  3.0 / 2.0, 15.0 / 2.0,  5.0 / 2.0 },
                 { 3.0 / 2.0,  9.0 / 2.0,  5.0 / 2.0, 15.0 / 2.0 }
         }, false);
-        SingularValueDecomposition svd = new SingularValueDecompositionImpl(matrix);
+        SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
         Assert.assertEquals(16.0, svd.getSingularValues()[0], 1.0e-14);
         Assert.assertEquals( 8.0, svd.getSingularValues()[1], 1.0e-14);
         Assert.assertEquals( 4.0, svd.getSingularValues()[2], 1.0e-14);
@@ -135,7 +135,7 @@ public class SingularValueDecompositionImplTest {
     }
 
     public void checkAEqualUSVt(final RealMatrix matrix) {
-        SingularValueDecomposition svd = new SingularValueDecompositionImpl(matrix);
+        SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
         RealMatrix u = svd.getU();
         RealMatrix s = svd.getS();
         RealMatrix v = svd.getV();
@@ -147,17 +147,17 @@ public class SingularValueDecompositionImplTest {
     /** test that U is orthogonal */
     @Test
     public void testUOrthogonal() {
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getU());
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare)).getU());
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getU());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testSquare)).getU());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testNonSquare)).getU());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getU());
     }
 
     /** test that V is orthogonal */
     @Test
     public void testVOrthogonal() {
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare)).getV());
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare)).getV());
-        checkOrthogonal(new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getV());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testSquare)).getV());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testNonSquare)).getV());
+        checkOrthogonal(new SingularValueDecomposition(MatrixUtils.createRealMatrix(testNonSquare).transpose()).getV());
     }
 
     public void checkOrthogonal(final RealMatrix m) {
@@ -171,7 +171,7 @@ public class SingularValueDecompositionImplTest {
     // together, the actual triplet (U,S,V) is not uniquely defined.
     public void testMatricesValues1() {
        SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
+            new SingularValueDecomposition(MatrixUtils.createRealMatrix(testSquare));
         RealMatrix uRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 3.0 / 5.0, -4.0 / 5.0 },
                 { 4.0 / 5.0,  3.0 / 5.0 }
@@ -224,7 +224,7 @@ public class SingularValueDecompositionImplTest {
 
         // check values against known references
         SingularValueDecomposition svd =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testNonSquare));
+            new SingularValueDecomposition(MatrixUtils.createRealMatrix(testNonSquare));
         RealMatrix u = svd.getU();
         Assert.assertEquals(0, u.subtract(uRef).getNorm(), normTolerance);
         RealMatrix s = svd.getS();
@@ -244,34 +244,34 @@ public class SingularValueDecompositionImplTest {
     public void testRank() {
         double[][] d = { { 1, 1, 1 }, { 0, 0, 0 }, { 1, 2, 3 } };
         RealMatrix m = new Array2DRowRealMatrix(d);
-        SingularValueDecomposition svd = new SingularValueDecompositionImpl(m);        
-        Assert.assertEquals(2, svd.getRank());        
+        SingularValueDecomposition svd = new SingularValueDecomposition(m);
+        Assert.assertEquals(2, svd.getRank());
     }
-    
+
     /** test MATH-583 */
     @Test
     public void testStability1() {
         RealMatrix m = new Array2DRowRealMatrix(201, 201);
         loadRealMatrix(m,"matrix1.csv");
         try {
-            new SingularValueDecompositionImpl(m);
+            new SingularValueDecomposition(m);
         } catch (Exception e) {
             Assert.fail("Exception whilst constructing SVD");
-        }      
+        }
     }
-    
+
     /** test MATH-327 */
     @Test
     public void testStability2() {
         RealMatrix m = new Array2DRowRealMatrix(7, 168);
         loadRealMatrix(m,"matrix2.csv");
         try {
-            new SingularValueDecompositionImpl(m);
+            new SingularValueDecomposition(m);
         } catch (Throwable e) {
             Assert.fail("Exception whilst constructing SVD");
-        }      
+        }
     }
-    
+
     private void loadRealMatrix(RealMatrix m, String resourceName) {
         try {
             DataInputStream in = new DataInputStream(getClass().getResourceAsStream(resourceName));
@@ -286,25 +286,25 @@ public class SingularValueDecompositionImplTest {
                 row++;
             }
             in.close();
-        } catch (IOException e) {}      
+        } catch (IOException e) {}
     }
-    
+
     /** test condition number */
     @Test
     public void testConditionNumber() {
-        SingularValueDecompositionImpl svd =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
+        SingularValueDecomposition svd =
+            new SingularValueDecomposition(MatrixUtils.createRealMatrix(testSquare));
         // replace 1.0e-15 with 1.5e-15
         Assert.assertEquals(3.0, svd.getConditionNumber(), 1.5e-15);
     }
 
     @Test
     public void testInverseConditionNumber() {
-        SingularValueDecompositionImpl svd =
-            new SingularValueDecompositionImpl(MatrixUtils.createRealMatrix(testSquare));
+        SingularValueDecomposition svd =
+            new SingularValueDecomposition(MatrixUtils.createRealMatrix(testSquare));
         Assert.assertEquals(1.0/3.0, svd.getInverseConditionNumber(), 1.5e-15);
     }
-    
+
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns,
                                         final double[] singularValues) {
         final RealMatrix u =
