@@ -20,7 +20,6 @@ package org.apache.commons.math.random;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RectangularCholeskyDecomposition;
-import org.apache.commons.math.linear.RectangularCholeskyDecompositionImpl;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with
@@ -95,7 +94,7 @@ public class CorrelatedRandomVectorGenerator
         this.mean = mean.clone();
 
         final RectangularCholeskyDecomposition decomposition =
-            new RectangularCholeskyDecompositionImpl(covariance, small);
+            new RectangularCholeskyDecomposition(covariance, small);
         root = decomposition.getRootMatrix();
 
         this.generator = generator;
@@ -124,7 +123,7 @@ public class CorrelatedRandomVectorGenerator
         }
 
         final RectangularCholeskyDecomposition decomposition =
-            new RectangularCholeskyDecompositionImpl(covariance, small);
+            new RectangularCholeskyDecomposition(covariance, small);
         root = decomposition.getRootMatrix();
 
         this.generator = generator;
