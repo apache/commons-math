@@ -25,7 +25,7 @@ import org.apache.commons.math.FieldElement;
  * <p>Decomposition algorithms decompose an A matrix has a product of several specific
  * matrices from which they can solve A &times; X = B in least squares sense: they find X
  * such that ||A &times; X - B|| is minimal.</p>
- * <p>Some solvers like {@link LUDecomposition} can only find the solution for
+ * <p>Some solvers like {@link FieldLUDecomposition} can only find the solution for
  * square matrices and when the solution is an exact linear solution, i.e. when
  * ||A &times; X - B|| is exactly 0. Other solvers can also find solutions
  * with non-square matrix A and with non-null minimal norm. If an exact linear
