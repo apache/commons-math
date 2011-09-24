@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -212,7 +212,7 @@ public abstract class AbstractLeastSquaresOptimizer
 
         // Compute the covariances matrix.
         final DecompositionSolver solver
-            = new LUDecompositionImpl(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
+            = new LUDecomposition(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
         return solver.getInverse().getData();
     }
 

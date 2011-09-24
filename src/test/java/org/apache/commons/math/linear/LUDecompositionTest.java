@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class LUDecompositionImplTest {
+public class LUDecompositionTest {
     private double[][] testData = {
             { 1.0, 2.0, 3.0},
             { 2.0, 5.0, 3.0},
@@ -57,7 +57,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testDimensions() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        LUDecomposition LU = new LUDecompositionImpl(matrix);
+        LUDecomposition LU = new LUDecomposition(matrix);
         Assert.assertEquals(testData.length, LU.getL().getRowDimension());
         Assert.assertEquals(testData.length, LU.getL().getColumnDimension());
         Assert.assertEquals(testData.length, LU.getU().getRowDimension());
@@ -71,7 +71,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testNonSquare() {
         try {
-            new LUDecompositionImpl(MatrixUtils.createRealMatrix(new double[3][2]));
+            new LUDecomposition(MatrixUtils.createRealMatrix(new double[3][2]));
             Assert.fail("Expecting NonSquareMatrixException");
         } catch (NonSquareMatrixException ime) {
             // expected behavior
@@ -82,7 +82,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testPAEqualLU() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        LUDecomposition lu = new LUDecompositionImpl(matrix);
+        LUDecomposition lu = new LUDecomposition(matrix);
         RealMatrix l = lu.getL();
         RealMatrix u = lu.getU();
         RealMatrix p = lu.getP();
@@ -90,7 +90,7 @@ public class LUDecompositionImplTest {
         Assert.assertEquals(0, norm, normTolerance);
 
         matrix = MatrixUtils.createRealMatrix(testDataMinus);
-        lu = new LUDecompositionImpl(matrix);
+        lu = new LUDecomposition(matrix);
         l = lu.getL();
         u = lu.getU();
         p = lu.getP();
@@ -98,7 +98,7 @@ public class LUDecompositionImplTest {
         Assert.assertEquals(0, norm, normTolerance);
 
         matrix = MatrixUtils.createRealIdentityMatrix(17);
-        lu = new LUDecompositionImpl(matrix);
+        lu = new LUDecomposition(matrix);
         l = lu.getL();
         u = lu.getU();
         p = lu.getP();
@@ -106,14 +106,14 @@ public class LUDecompositionImplTest {
         Assert.assertEquals(0, norm, normTolerance);
 
         matrix = MatrixUtils.createRealMatrix(singular);
-        lu = new LUDecompositionImpl(matrix);
+        lu = new LUDecomposition(matrix);
         Assert.assertFalse(lu.getSolver().isNonSingular());
         Assert.assertNull(lu.getL());
         Assert.assertNull(lu.getU());
         Assert.assertNull(lu.getP());
 
         matrix = MatrixUtils.createRealMatrix(bigSingular);
-        lu = new LUDecompositionImpl(matrix);
+        lu = new LUDecomposition(matrix);
         Assert.assertFalse(lu.getSolver().isNonSingular());
         Assert.assertNull(lu.getL());
         Assert.assertNull(lu.getU());
@@ -125,7 +125,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testLLowerTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        RealMatrix l = new LUDecompositionImpl(matrix).getL();
+        RealMatrix l = new LUDecomposition(matrix).getL();
         for (int i = 0; i < l.getRowDimension(); i++) {
             Assert.assertEquals(l.getEntry(i, i), 1, entryTolerance);
             for (int j = i + 1; j < l.getColumnDimension(); j++) {
@@ -138,7 +138,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testUUpperTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        RealMatrix u = new LUDecompositionImpl(matrix).getU();
+        RealMatrix u = new LUDecomposition(matrix).getU();
         for (int i = 0; i < u.getRowDimension(); i++) {
             for (int j = 0; j < i; j++) {
                 Assert.assertEquals(u.getEntry(i, j), 0, entryTolerance);
@@ -150,7 +150,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testPPermutation() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData);
-        RealMatrix p   = new LUDecompositionImpl(matrix).getP();
+        RealMatrix p   = new LUDecomposition(matrix).getP();
 
         RealMatrix ppT = p.multiply(p.transpose());
         RealMatrix id  = MatrixUtils.createRealIdentityMatrix(p.getRowDimension());
@@ -200,11 +200,11 @@ public class LUDecompositionImplTest {
     @Test
     public void testSingular() {
         LUDecomposition lu =
-            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData));
+            new LUDecomposition(MatrixUtils.createRealMatrix(testData));
         Assert.assertTrue(lu.getSolver().isNonSingular());
-        lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(singular));
+        lu = new LUDecomposition(MatrixUtils.createRealMatrix(singular));
         Assert.assertFalse(lu.getSolver().isNonSingular());
-        lu = new LUDecompositionImpl(MatrixUtils.createRealMatrix(bigSingular));
+        lu = new LUDecomposition(MatrixUtils.createRealMatrix(bigSingular));
         Assert.assertFalse(lu.getSolver().isNonSingular());
     }
 
@@ -212,7 +212,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testMatricesValues1() {
        LUDecomposition lu =
-            new LUDecompositionImpl(MatrixUtils.createRealMatrix(testData));
+            new LUDecomposition(MatrixUtils.createRealMatrix(testData));
         RealMatrix lRef = MatrixUtils.createRealMatrix(new double[][] {
                 { 1.0, 0.0, 0.0 },
                 { 0.5, 1.0, 0.0 },
@@ -253,7 +253,7 @@ public class LUDecompositionImplTest {
     @Test
     public void testMatricesValues2() {
        LUDecomposition lu =
-            new LUDecompositionImpl(MatrixUtils.createRealMatrix(luData));
+            new LUDecomposition(MatrixUtils.createRealMatrix(luData));
         RealMatrix lRef = MatrixUtils.createRealMatrix(new double[][] {
                 {    1.0,    0.0, 0.0 },
                 {    0.0,    1.0, 0.0 },

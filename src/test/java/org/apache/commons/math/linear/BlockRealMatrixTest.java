@@ -383,8 +383,8 @@ public final class BlockRealMatrixTest {
     @Test
     public void testTranspose() {
         RealMatrix m = new BlockRealMatrix(testData);
-        RealMatrix mIT = new LUDecompositionImpl(m).getSolver().getInverse().transpose();
-        RealMatrix mTI = new LUDecompositionImpl(m.transpose()).getSolver().getInverse();
+        RealMatrix mIT = new LUDecomposition(m).getSolver().getInverse().transpose();
+        RealMatrix mTI = new LUDecomposition(m.transpose()).getSolver().getInverse();
         assertClose(mIT, mTI, normTolerance);
         m = new BlockRealMatrix(testData2);
         RealMatrix mt = new BlockRealMatrix(testData2T);
@@ -474,7 +474,7 @@ public final class BlockRealMatrixTest {
         Assert.assertEquals(2, p.getRowDimension());
         Assert.assertEquals(2, p.getColumnDimension());
         // Invert p
-        RealMatrix pInverse = new LUDecompositionImpl(p).getSolver().getInverse();
+        RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
         Assert.assertEquals(2, pInverse.getRowDimension());
         Assert.assertEquals(2, pInverse.getColumnDimension());
 
@@ -482,7 +482,7 @@ public final class BlockRealMatrixTest {
         double[][] coefficientsData = {{2, 3, -2}, {-1, 7, 6}, {4, -3, -5}};
         RealMatrix coefficients = new BlockRealMatrix(coefficientsData);
         RealVector constants = new ArrayRealVector(new double[]{1, -2, 1}, false);
-        RealVector solution = new LUDecompositionImpl(coefficients).getSolver().solve(constants);
+        RealVector solution = new LUDecomposition(coefficients).getSolver().solve(constants);
         final double cst0 = constants.getEntry(0);
         final double cst1 = constants.getEntry(1);
         final double cst2 = constants.getEntry(2);
