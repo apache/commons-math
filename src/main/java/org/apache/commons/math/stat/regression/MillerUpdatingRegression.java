@@ -771,7 +771,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                     rhs[m] = rhs[mp1];
                     rhs[mp1] = X;
                     bSkipTo40 = true;
-                    break;
+                    //break;
                 } else if (d2 < this.epsilon) {
                     d[m] = d1 * X * X;
                     r[m1] = 1.0 / X;
@@ -780,7 +780,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                     }
                     rhs[m] = rhs[m] / X;
                     bSkipTo40 = true;
-                    break;
+                    //break;
                 }
                 if (!bSkipTo40) {
                     d1new = d2 + d1 * X * X;
