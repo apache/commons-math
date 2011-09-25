@@ -39,8 +39,8 @@ public class EventStateTest {
             public double g(double t, double[] y) {
                 return (t - r1) * (r2 - t);
             }
-            public int eventOccurred(double t, double[] y, boolean increasing) {
-                return CONTINUE;
+            public Action eventOccurred(double t, double[] y, boolean increasing) {
+                return Action.CONTINUE;
             }
         };
 

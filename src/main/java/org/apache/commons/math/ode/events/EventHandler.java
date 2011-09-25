@@ -49,38 +49,43 @@ package org.apache.commons.math.ode.events;
 
 public interface EventHandler  {
 
-  /** Stop indicator.
-   * <p>This value should be used as the return value of the {@link
-   * #eventOccurred eventOccurred} method when the integration should be
-   * stopped after the event ending the current step.</p>
-   */
-  int STOP = 0;
+    /** Enumerate for actions to be performed when an event occurs. */
+    public enum Action {
 
-  /** Reset state indicator.
-   * <p>This value should be used as the return value of the {@link
-   * #eventOccurred eventOccurred} method when the integration should
-   * go on after the event ending the current step, with a new state
-   * vector (which will be retrieved thanks to the {@link #resetState
-   * resetState} method).</p>
-   */
-  int RESET_STATE = 1;
+        /** Stop indicator.
+         * <p>This value should be used as the return value of the {@link
+         * #eventOccurred eventOccurred} method when the integration should be
+         * stopped after the event ending the current step.</p>
+         */
+        STOP,
 
-  /** Reset derivatives indicator.
-   * <p>This value should be used as the return value of the {@link
-   * #eventOccurred eventOccurred} method when the integration should
-   * go on after the event ending the current step, with a new derivatives
-   * vector (which will be retrieved thanks to the {@link
-   * org.apache.commons.math.ode.FirstOrderDifferentialEquations#computeDerivatives}
-   * method).</p>
-   */
-  int RESET_DERIVATIVES = 2;
+        /** Reset state indicator.
+         * <p>This value should be used as the return value of the {@link
+         * #eventOccurred eventOccurred} method when the integration should
+         * go on after the event ending the current step, with a new state
+         * vector (which will be retrieved thanks to the {@link #resetState
+         * resetState} method).</p>
+         */
+        RESET_STATE,
 
-  /** Continue indicator.
-   * <p>This value should be used as the return value of the {@link
-   * #eventOccurred eventOccurred} method when the integration should go
-   * on after the event ending the current step.</p>
-   */
-  int CONTINUE = 3;
+        /** Reset derivatives indicator.
+         * <p>This value should be used as the return value of the {@link
+         * #eventOccurred eventOccurred} method when the integration should
+         * go on after the event ending the current step, with a new derivatives
+         * vector (which will be retrieved thanks to the {@link
+         * org.apache.commons.math.ode.FirstOrderDifferentialEquations#computeDerivatives}
+         * method).</p>
+         */
+        RESET_DERIVATIVES,
+
+        /** Continue indicator.
+         * <p>This value should be used as the return value of the {@link
+         * #eventOccurred eventOccurred} method when the integration should go
+         * on after the event ending the current step.</p>
+         */
+        CONTINUE;
+
+    }
 
   /** Compute the value of the switching function.
 
@@ -158,7 +163,7 @@ public interface EventHandler  {
    * value must be one of {@link #STOP}, {@link #RESET_STATE},
    * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
    */
-  int eventOccurred(double t, double[] y, boolean increasing);
+  Action eventOccurred(double t, double[] y, boolean increasing);
 
   /** Reset the state prior to continue the integration.
 

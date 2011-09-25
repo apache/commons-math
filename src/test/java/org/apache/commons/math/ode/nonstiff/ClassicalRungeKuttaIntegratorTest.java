@@ -78,9 +78,9 @@ public class ClassicalRungeKuttaIntegratorTest {
               return t - tEvent;
           }
 
-          public int eventOccurred(double t, double[] y, boolean increasing) {
+          public Action eventOccurred(double t, double[] y, boolean increasing) {
               Assert.assertEquals(tEvent, t, 5.0e-6);
-              return CONTINUE;
+              return Action.CONTINUE;
           }
       }, Double.POSITIVE_INFINITY, 1.0e-20, 100);
       finalT = integrator.integrate(ode, t0, y0, tEvent + 120, y);

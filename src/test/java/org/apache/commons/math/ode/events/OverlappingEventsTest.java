@@ -142,8 +142,8 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
         }
 
         /** {@inheritDoc} */
-        public int eventOccurred(double t, double[] y, boolean increasing) {
-            return STOP;
+        public Action eventOccurred(double t, double[] y, boolean increasing) {
+            return Action.STOP;
         }
 
         /** {@inheritDoc} */

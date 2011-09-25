@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.solvers.PegasusSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
 
@@ -81,7 +82,7 @@ public class EventState {
     private boolean increasing;
 
     /** Next action indicator. */
-    private int nextAction;
+    private EventHandler.Action nextAction;
 
     /** Root-finding algorithm to use to detect state events. */
     private final UnivariateRealSolver solver;
@@ -113,7 +114,7 @@ public class EventState {
         pendingEventTime  = Double.NaN;
         previousEventTime = Double.NaN;
         increasing        = true;
-        nextAction        = EventHandler.CONTINUE;
+        nextAction        = EventHandler.Action.CONTINUE;
 
     }
 
@@ -304,7 +305,7 @@ public class EventState {
             nextAction        = handler.eventOccurred(t, y, !(increasing ^ forward));
         } else {
             g0Positive = g0 >= 0;
-            nextAction = EventHandler.CONTINUE;
+            nextAction = EventHandler.Action.CONTINUE;
         }
     }
 
@@ -313,7 +314,7 @@ public class EventState {
      * @return true if the integration should be stopped
      */
     public boolean stop() {
-        return nextAction == EventHandler.STOP;
+        return nextAction == EventHandler.Action.STOP;
     }
 
     /** Let the event handler reset the state if it wants.
@@ -329,14 +330,14 @@ public class EventState {
             return false;
         }
 
-        if (nextAction == EventHandler.RESET_STATE) {
+        if (nextAction == EventHandler.Action.RESET_STATE) {
             handler.resetState(t, y);
         }
         pendingEvent      = false;
         pendingEventTime  = Double.NaN;
 
-        return (nextAction == EventHandler.RESET_STATE) ||
-               (nextAction == EventHandler.RESET_DERIVATIVES);
+        return (nextAction == EventHandler.Action.RESET_STATE) ||
+               (nextAction == EventHandler.Action.RESET_DERIVATIVES);
 
     }
 

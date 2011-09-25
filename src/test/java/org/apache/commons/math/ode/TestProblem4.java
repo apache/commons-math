@@ -119,10 +119,10 @@ public TestProblem4 copy() {
       return sign * y[0];
     }
 
-    public int eventOccurred(double t, double[] y, boolean increasing) {
+    public Action eventOccurred(double t, double[] y, boolean increasing) {
       // this sign change is needed because the state will be reset soon
       sign = -sign;
-      return EventHandler.RESET_STATE;
+      return Action.RESET_STATE;
     }
 
     public void resetState(double t, double[] y) {
@@ -141,8 +141,8 @@ public TestProblem4 copy() {
       return t - 12.0;
     }
 
-    public int eventOccurred(double t, double[] y, boolean increasing) {
-      return EventHandler.STOP;
+    public Action eventOccurred(double t, double[] y, boolean increasing) {
+      return Action.STOP;
     }
 
     public void resetState(double t, double[] y) {
