@@ -1,0 +1,133 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.math.linear;
+
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.IterationManager;
+import org.apache.commons.math.util.MathUtils;
+
+/**
+ * This abstract class defines an iterative solver for the linear system A
+ * &middot; x = b. In what follows, the <em>residual</em> r is defined as r = b
+ * - A &middot; x, where A is the linear operator of the linear system, b is the
+ * right-hand side vector, and x the current estimate of the solution.
+ *
+ * @version $Id$
+ * @since 3.0
+ */
+public abstract class IterativeLinearSolver {
+
+    /** The object in charge of managing the iterations. */
+    private final IterationManager manager;
+
+    /**
+     * Creates a new instance of this class, with default iteration manager.
+     *
+     * @param maxIterations Maximum number of iterations.
+     */
+    public IterativeLinearSolver(final int maxIterations) {
+        this.manager = new IterationManager(maxIterations);
+    }
+
+    /**
+     * Creates a new instance of this class, with custom iteration manager.
+     *
+     * @param manager Custom iteration manager.
+     */
+    public IterativeLinearSolver(final IterationManager manager) {
+        MathUtils.checkNotNull(manager);
+        this.manager = manager;
+    }
+    /**
+     * Performs all dimension checks on the parameters of
+     * {@link #solve(RealLinearOperator, RealVector, RealVector, boolean)}, and
+     * throws an exception if one of the checks fails.
+     *
+     * @param a Linear operator A of the system.
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution (can be {@code null} if
+     *        {@code inPlace} is set to {@code false}).
+     * @param inPlace {@code true} if the initial guess is to be updated with
+     *        the current estimate of the solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws DimensionMismatchException if {@code b} or {@code x0} have
+     *         dimensions inconsistent with {@code a}.
+     */
+    protected static void checkParameters(final RealLinearOperator a,
+                                          final RealVector b,
+                                          final RealVector x0,
+                                          final boolean inPlace)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException {
+        MathUtils.checkNotNull(a);
+        MathUtils.checkNotNull(b);
+        if (a.getRowDimension() != a.getColumnDimension()) {
+            throw new NonSquareLinearOperatorException(a.getRowDimension(),
+                                                       a.getColumnDimension());
+        }
+        if (b.getDimension() != a.getRowDimension()) {
+            throw new DimensionMismatchException(b.getDimension(),
+                                                 a.getRowDimension());
+        }
+        if (inPlace) {
+            MathUtils.checkNotNull(x0);
+            if (x0.getDimension() != a.getColumnDimension()) {
+                throw new DimensionMismatchException(x0.getDimension(),
+                                                     a.getColumnDimension());
+            }
+        }
+    }
+
+    /**
+     * Returns the {@link IterationManager} attached to this solver.
+     *
+     * @return the manager.
+     */
+    public IterationManager getIterationManager() {
+        return manager;
+    }
+
+    /**
+     * Returns an estimate of the solution to the linear system A &middot; x =
+     * b. If no initial estimate of the solution is provided, (0, &hellip;, 0)
+     * is assumed.
+     *
+     * @param a Linear operator A of the system.
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution (can be {@code null} if
+     *        {@code inPlace} is set to {@code false}).
+     * @param inPlace {@code true} if the initial guess is to be updated with
+     *        the current estimate of the solution.
+     * @return A reference to {@code x0} (shallow copy) if {@code inPlace} was
+     *         set to {@code true}. Otherwise, a new vector containing the
+     *         solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws DimensionMismatchException if {@code b} or {@code x0} have
+     *         dimensions inconsistent with {@code a}.
+     * @throws MaxCountExceededException at exhaustion of the iteration count,
+     *         unless a custom {@link MaxCountExceededCallback callback} has
+     *         been set at construction.
+     */
+    public abstract RealVector solve(RealLinearOperator a, RealVector b,
+                                     RealVector x0, boolean inPlace)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException;
+}
