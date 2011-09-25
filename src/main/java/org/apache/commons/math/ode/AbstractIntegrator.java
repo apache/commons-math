@@ -29,6 +29,7 @@ import java.util.TreeSet;
 import org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -46,7 +47,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  * @since 2.0
  */
-public abstract class AbstractIntegrator implements FirstOrderIntegrator {
+public abstract class AbstractIntegrator implements ExpandableFirstOrderIntegrator {
 
     /** Step handler. */
     protected Collection<StepHandler> stepHandlers;
@@ -76,7 +77,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     private Incrementor evaluations;
 
     /** Differential equations to integrate. */
-    private transient FirstOrderDifferentialEquations equations;
+    private transient ExpandableFirstOrderDifferentialEquations equations;
 
     /** Build an instance.
      * @param name name of the method
@@ -188,8 +189,15 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param equations differential equations to integrate
      * @see #computeDerivatives(double, double[], double[])
      */
-    protected void setEquations(final FirstOrderDifferentialEquations equations) {
+    protected void setEquations(final ExpandableFirstOrderDifferentialEquations equations) {
         this.equations = equations;
+    }
+
+    /** {@inheritDoc} */
+    public double integrate(FirstOrderDifferentialEquations equations,
+                            double t0, double[] y0, double t, double[] y)
+        throws MathIllegalStateException, MathIllegalArgumentException {
+        return integrate(new ExpandableFirstOrderDifferentialEquations(equations), t0, y0, t, y);
     }
 
     /** Compute the derivatives and check the number of evaluations.
@@ -336,16 +344,16 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @exception DimensionMismatchException if some inconsistency is detected
      * @exception NumberIsTooSmallException if integration span is too small
      */
-    protected void sanityChecks(final FirstOrderDifferentialEquations ode,
+    protected void sanityChecks(final ExpandableFirstOrderDifferentialEquations ode,
                                 final double t0, final double[] y0,
                                 final double t, final double[] y)
         throws DimensionMismatchException, NumberIsTooSmallException {
 
-        if (ode.getDimension() != y0.length) {
+        if (ode.getMainSetDimension() != y0.length) {
             throw new DimensionMismatchException(ode.getDimension(), y0.length);
         }
 
-        if (ode.getDimension() != y.length) {
+        if (ode.getMainSetDimension() != y.length) {
             throw new DimensionMismatchException(ode.getDimension(), y.length);
         }
 

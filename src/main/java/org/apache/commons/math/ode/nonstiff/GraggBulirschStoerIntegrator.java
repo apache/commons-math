@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.ExpandableFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -541,26 +541,32 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
   /** {@inheritDoc} */
   @Override
-  public double integrate(final FirstOrderDifferentialEquations equations,
-                          final double t0, final double[] y0, final double t, final double[] y)
+  public double integrate(final ExpandableFirstOrderDifferentialEquations equations,
+                          final double t0, final double[] z0, final double t, final double[] z)
       throws MathIllegalStateException, MathIllegalArgumentException {
 
-    sanityChecks(equations, t0, y0, t, y);
+    sanityChecks(equations, t0, z0, t, z);
     setEquations(equations);
     resetEvaluations();
     final boolean forward = t > t0;
 
     // create some internal working arrays
-    final double[] yDot0   = new double[y0.length];
-    final double[] y1      = new double[y0.length];
-    final double[] yTmp    = new double[y0.length];
-    final double[] yTmpDot = new double[y0.length];
+    final int totalDim = equations.getDimension();
+    final int mainDim  = equations.getMainSetDimension();
+    final double[] y0 = new double[totalDim];
+    final double[] y  = new double[totalDim];
+    System.arraycopy(z0, 0, y0, 0, mainDim);
+    System.arraycopy(equations.getCurrentAdditionalStates(), 0, y0, mainDim, totalDim - mainDim);
+    final double[] yDot0   = new double[totalDim];
+    final double[] y1      = new double[totalDim];
+    final double[] yTmp    = new double[totalDim];
+    final double[] yTmpDot = new double[totalDim];
 
     final double[][] diagonal = new double[sequence.length-1][];
     final double[][] y1Diag = new double[sequence.length-1][];
     for (int k = 0; k < sequence.length-1; ++k) {
-      diagonal[k] = new double[y0.length];
-      y1Diag[k] = new double[y0.length];
+      diagonal[k] = new double[totalDim];
+      y1Diag[k] = new double[totalDim];
     }
 
     final double[][][] fk  = new double[sequence.length][][];
@@ -631,8 +637,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         if (firstTime) {
-          hNew = initializeStep(equations, forward,
-                                2 * targetIter + 1, scale,
+          hNew = initializeStep(forward, 2 * targetIter + 1, scale,
                                 stepStart, y, yDot0, yTmp, yTmpDot);
         }
 

@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-380" due-to="Pascal Parraud">
+        Completely revamped the computation of Jacobians in ODE. This computation is now
+        included in the mainstream class hierarchy, not in a separate package anymore,
+        and it allows adding other types of equations to a main ODE, not only variational
+        equations for Jacobians computation.
+      </action>
       <action dev="gregs" type="update" issue="MATH-607">
         SimpleRegression implements UpdatingMultipleLinearRegression interface.
       </action>

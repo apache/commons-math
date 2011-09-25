@@ -256,8 +256,7 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test
-  public void testUnstableDerivative()
-    {
+  public void testUnstableDerivative() {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(0.1, 10, 1.0e-12, 0.0);

@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.AbstractIntegrator;
-import org.apache.commons.math.ode.ExtendedFirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.ExpandableFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.util.FastMath;
 
@@ -42,12 +42,11 @@ import org.apache.commons.math.util.FastMath;
  * component. The user can also use only two scalar values absTol and
  * relTol which will be used for all components.
  * </p>
- *
- * <p>If the Ordinary Differential Equations is an {@link ExtendedFirstOrderDifferentialEquations
- * extended ODE} rather than a {@link FirstOrderDifferentialEquations basic ODE},
- * then <em>only</em> the {@link ExtendedFirstOrderDifferentialEquations#getMainSetDimension()
- * main set} part of the state vector is used for stepsize control, not the complete
- * state vector.
+ * <p>
+ * If the Ordinary Differential Equations is an {@link ExpandableFirstOrderDifferentialEquations
+ * extended ODE} rather than a {@link FirstOrderDifferentialEquations basic ODE}, then
+ * <em>only</em> the {@link ExpandableFirstOrderDifferentialEquations#getMainSet() main part}
+ * of the state vector is used for stepsize control, not the complete state vector.
  * </p>
  *
  * <p>If the estimated error for ym+1 is such that
@@ -224,18 +223,14 @@ public abstract class AdaptiveStepsizeIntegrator
    * @exception NumberIsTooSmallException if integration span is too small
    */
   @Override
-  protected void sanityChecks(final FirstOrderDifferentialEquations equations,
+  protected void sanityChecks(final ExpandableFirstOrderDifferentialEquations equations,
                               final double t0, final double[] y0,
                               final double t, final double[] y)
       throws DimensionMismatchException, NumberIsTooSmallException {
 
       super.sanityChecks(equations, t0, y0, t, y);
 
-      if (equations instanceof ExtendedFirstOrderDifferentialEquations) {
-          mainSetDimension = ((ExtendedFirstOrderDifferentialEquations) equations).getMainSetDimension();
-      } else {
-          mainSetDimension = equations.getDimension();
-      }
+      mainSetDimension = equations.getMainSetDimension();
 
       if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != mainSetDimension)) {
           throw new DimensionMismatchException(mainSetDimension, vecAbsoluteTolerance.length);
@@ -248,7 +243,6 @@ public abstract class AdaptiveStepsizeIntegrator
   }
 
   /** Initialize the integration step.
-   * @param equations differential equations set
    * @param forward forward integration indicator
    * @param order order of the method
    * @param scale scaling vector for the state vector (can be shorter than state vector)
@@ -259,8 +253,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @param yDot1 work array for the first time derivative of y1
    * @return first integration step
    */
-  public double initializeStep(final FirstOrderDifferentialEquations equations,
-                               final boolean forward, final int order, final double[] scale,
+  public double initializeStep(final boolean forward, final int order, final double[] scale,
                                final double t0, final double[] y0, final double[] yDot0,
                                final double[] y1, final double[] yDot1) {
 
@@ -356,7 +349,7 @@ public abstract class AdaptiveStepsizeIntegrator
   }
 
   /** {@inheritDoc} */
-  public abstract double integrate (FirstOrderDifferentialEquations equations,
+  public abstract double integrate (ExpandableFirstOrderDifferentialEquations equations,
                                     double t0, double[] y0,
                                     double t, double[] y)
     throws MathIllegalStateException, MathIllegalArgumentException;

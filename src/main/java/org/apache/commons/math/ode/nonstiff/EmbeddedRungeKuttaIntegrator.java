@@ -19,7 +19,7 @@ package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.ExpandableFirstOrderDifferentialEquations;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
@@ -189,24 +189,30 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
   /** {@inheritDoc} */
   @Override
-  public double integrate(final FirstOrderDifferentialEquations equations,
-                          final double t0, final double[] y0,
-                          final double t, final double[] y)
+  public double integrate(final ExpandableFirstOrderDifferentialEquations equations,
+                          final double t0, final double[] z0,
+                          final double t, final double[] z)
       throws MathIllegalStateException, MathIllegalArgumentException {
 
-    sanityChecks(equations, t0, y0, t, y);
+    sanityChecks(equations, t0, z0, t, z);
     setEquations(equations);
     resetEvaluations();
     final boolean forward = t > t0;
 
     // create some internal working arrays
+    final int totalDim = equations.getDimension();
+    final int mainDim  = equations.getMainSetDimension();
+    final double[] y0  = new double[totalDim];
+    final double[] y   = new double[totalDim];
+    System.arraycopy(z0, 0, y0, 0, mainDim);
+    System.arraycopy(equations.getCurrentAdditionalStates(), 0, y0, mainDim, totalDim - mainDim);
     final int stages = c.length + 1;
     if (y != y0) {
-      System.arraycopy(y0, 0, y, 0, y0.length);
+      System.arraycopy(y0, 0, y, 0, totalDim);
     }
-    final double[][] yDotK = new double[stages][y0.length];
-    final double[] yTmp    = new double[y0.length];
-    final double[] yDotTmp = new double[y0.length];
+    final double[][] yDotK = new double[stages][totalDim];
+    final double[] yTmp    = new double[totalDim];
+    final double[] yDotTmp = new double[totalDim];
 
     // set up an interpolator sharing the integrator arrays
     final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
@@ -248,7 +254,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
                 scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);
               }
           }
-          hNew = initializeStep(equations, forward, getOrder(), scale,
+          hNew = initializeStep(forward, getOrder(), scale,
                                 stepStart, y, yDotK[0], yTmp, yDotK[1]);
           firstTime = false;
         }
@@ -324,6 +330,10 @@ public abstract class EmbeddedRungeKuttaIntegrator
       }
 
     } while (!isLastStep);
+
+    // dispatch result between main and additional states
+    System.arraycopy(y, 0, z, 0, z.length);
+    equations.setCurrentAdditionalState(y);
 
     final double stopTime = stepStart;
     resetInternalState();
