@@ -940,6 +940,10 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     } while (!isLastStep);
 
+    // dispatch result between main and additional states
+    System.arraycopy(y, 0, z, 0, z.length);
+    equations.setCurrentAdditionalState(y);
+
     final double stopTime = stepStart;
     resetInternalState();
     return stopTime;
