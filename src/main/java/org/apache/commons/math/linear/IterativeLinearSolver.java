@@ -88,10 +88,10 @@ public abstract class IterativeLinearSolver {
         }
         if (inPlace) {
             MathUtils.checkNotNull(x0);
-            if (x0.getDimension() != a.getColumnDimension()) {
-                throw new DimensionMismatchException(x0.getDimension(),
-                                                     a.getColumnDimension());
-            }
+        }
+        if ((x0 != null) && (x0.getDimension() != a.getColumnDimension())) {
+            throw new DimensionMismatchException(x0.getDimension(),
+                                                 a.getColumnDimension());
         }
     }
 

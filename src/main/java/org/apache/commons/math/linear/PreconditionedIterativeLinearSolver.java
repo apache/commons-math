@@ -126,10 +126,10 @@ public abstract class PreconditionedIterativeLinearSolver
     /** {@inheritDoc} */
     @Override
     public RealVector solve(final RealLinearOperator a, final RealVector b,
-                            final RealVector x, final boolean inPlace)
+                            final RealVector x0, final boolean inPlace)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        checkParameters(a, b, x, inPlace);
-        return solve(a, null, b, x, inPlace);
+        checkParameters(a, b, x0, inPlace);
+        return solve(a, null, b, x0, inPlace);
     }
 }
