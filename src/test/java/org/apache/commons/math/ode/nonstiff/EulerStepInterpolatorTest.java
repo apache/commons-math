@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.util.Random;
 
 import org.apache.commons.math.ode.ContinuousOutputModel;
+import org.apache.commons.math.ode.EquationsMapper;
 import org.apache.commons.math.ode.TestProblem1;
 import org.apache.commons.math.ode.TestProblem3;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -42,7 +43,9 @@ public class EulerStepInterpolatorTest {
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true,
+                              new EquationsMapper(0, y.length),
+                              new EquationsMapper[0]);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);
@@ -63,7 +66,9 @@ public class EulerStepInterpolatorTest {
     double[] y = y0.clone();
     double[][] yDot = { new double[y0.length] };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true,
+                              new EquationsMapper(0, y.length),
+                              new EquationsMapper[0]);
     interpolator.storeTime(t0);
 
     double dt = 1.0;
@@ -96,7 +101,9 @@ public class EulerStepInterpolatorTest {
     double[]   y    =   { 1.0, 3.0, -4.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
-    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true);
+    interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true,
+                              new EquationsMapper(0, y.length),
+                              new EquationsMapper[0]);
     interpolator.storeTime(0);
     interpolator.shift();
     interpolator.storeTime(1);

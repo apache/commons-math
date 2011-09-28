@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.ode.ExpandableFirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.ExpandableStatefulODE;
 import org.apache.commons.math.ode.MultistepIntegrator;
 
 
@@ -86,9 +86,7 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
 
     /** {@inheritDoc} */
     @Override
-    public abstract double integrate(final ExpandableFirstOrderDifferentialEquations equations,
-                                     final double t0, final double[] y0,
-                                     final double t, final double[] y)
+    public abstract void integrate(final ExpandableStatefulODE equations, final double t)
         throws MathIllegalStateException, MathIllegalArgumentException;
 
     /** {@inheritDoc} */

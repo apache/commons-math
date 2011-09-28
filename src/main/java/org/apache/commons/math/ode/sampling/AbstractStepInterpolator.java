@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math.ode.EquationsMapper;
+
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.
  *
@@ -56,6 +58,18 @@ public abstract class AbstractStepInterpolator
   /** interpolated derivatives */
   protected double[] interpolatedDerivatives;
 
+  /** interpolated primary state */
+  protected double[] interpolatedPrimaryState;
+
+  /** interpolated primary derivatives */
+  protected double[] interpolatedPrimaryDerivatives;
+
+  /** interpolated secondary state */
+  protected double[][] interpolatedSecondaryState;
+
+  /** interpolated secondary derivatives */
+  protected double[][] interpolatedSecondaryDerivatives;
+
   /** global previous time */
   private double globalPreviousTime;
 
@@ -77,6 +91,11 @@ public abstract class AbstractStepInterpolator
   /** indicator for dirty state. */
   private boolean dirtyState;
 
+  /** Equations mapper for the primary equations set. */
+  private EquationsMapper primaryMapper;
+
+  /** Equations mappers for the secondary equations sets. */
+  private EquationsMapper[] secondaryMappers;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
@@ -90,41 +109,45 @@ public abstract class AbstractStepInterpolator
    * initializing the copy.
    */
   protected AbstractStepInterpolator() {
-    globalPreviousTime      = Double.NaN;
-    globalCurrentTime       = Double.NaN;
-    softPreviousTime        = Double.NaN;
-    softCurrentTime         = Double.NaN;
-    h                       = Double.NaN;
-    interpolatedTime        = Double.NaN;
-    currentState            = null;
-    interpolatedState       = null;
-    interpolatedDerivatives = null;
-    finalized               = false;
-    this.forward            = true;
-    this.dirtyState         = true;
-  }
-
-  /** Simple constructor.
-   * @param y reference to the integrator array holding the state at
-   * the end of the step
-   * @param forward integration direction indicator
-   */
-  protected AbstractStepInterpolator(final double[] y, final boolean forward) {
-
     globalPreviousTime = Double.NaN;
     globalCurrentTime  = Double.NaN;
     softPreviousTime   = Double.NaN;
     softCurrentTime    = Double.NaN;
     h                  = Double.NaN;
     interpolatedTime   = Double.NaN;
+    currentState       = null;
+    finalized          = false;
+    this.forward       = true;
+    this.dirtyState    = true;
+    primaryMapper      = null;
+    secondaryMappers   = null;
+    allocateInterpolatedArrays(-1, null, null);
+  }
 
-    currentState            = y;
-    interpolatedState       = new double[y.length];
-    interpolatedDerivatives = new double[y.length];
+  /** Simple constructor.
+   * @param y reference to the integrator array holding the state at
+   * the end of the step
+   * @param forward integration direction indicator
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
+   */
+  protected AbstractStepInterpolator(final double[] y, final boolean forward,
+                                     final EquationsMapper primaryMapper,
+                                     final EquationsMapper[] secondaryMappers) {
 
-    finalized         = false;
-    this.forward      = forward;
-    this.dirtyState   = true;
+    globalPreviousTime    = Double.NaN;
+    globalCurrentTime     = Double.NaN;
+    softPreviousTime      = Double.NaN;
+    softCurrentTime       = Double.NaN;
+    h                     = Double.NaN;
+    interpolatedTime      = Double.NaN;
+    currentState          = y;
+    finalized             = false;
+    this.forward          = forward;
+    this.dirtyState       = true;
+    this.primaryMapper    = primaryMapper;
+    this.secondaryMappers = (secondaryMappers == null) ? null : secondaryMappers.clone();
+    allocateInterpolatedArrays(y.length, primaryMapper, secondaryMappers);
 
   }
 
@@ -154,43 +177,89 @@ public abstract class AbstractStepInterpolator
     h                  = interpolator.h;
     interpolatedTime   = interpolator.interpolatedTime;
 
-    if (interpolator.currentState != null) {
-      currentState            = interpolator.currentState.clone();
-      interpolatedState       = interpolator.interpolatedState.clone();
-      interpolatedDerivatives = interpolator.interpolatedDerivatives.clone();
+    if (interpolator.currentState == null) {
+        currentState = null;
+        allocateInterpolatedArrays(-1, null, null);
     } else {
-      currentState            = null;
-      interpolatedState       = null;
-      interpolatedDerivatives = null;
+      currentState                     = interpolator.currentState.clone();
+      interpolatedState                = interpolator.interpolatedState.clone();
+      interpolatedDerivatives          = interpolator.interpolatedDerivatives.clone();
+      interpolatedPrimaryState         = interpolator.interpolatedPrimaryState.clone();
+      interpolatedPrimaryDerivatives   = interpolator.interpolatedPrimaryDerivatives.clone();
+      interpolatedSecondaryState       = new double[interpolator.interpolatedSecondaryState.length][];
+      interpolatedSecondaryDerivatives = new double[interpolator.interpolatedSecondaryDerivatives.length][];
+      for (int i = 0; i < interpolatedSecondaryState.length; ++i) {
+          interpolatedSecondaryState[i]       = interpolator.interpolatedSecondaryState[i].clone();
+          interpolatedSecondaryDerivatives[i] = interpolator.interpolatedSecondaryDerivatives[i].clone();
+      }
     }
 
-    finalized  = interpolator.finalized;
-    forward    = interpolator.forward;
-    dirtyState = interpolator.dirtyState;
+    finalized        = interpolator.finalized;
+    forward          = interpolator.forward;
+    dirtyState       = interpolator.dirtyState;
+    primaryMapper    = interpolator.primaryMapper;
+    secondaryMappers = (interpolator.secondaryMappers == null) ?
+                       null : interpolator.secondaryMappers.clone();
 
   }
 
-  /** Reinitialize the instance
-   * @param y reference to the integrator array holding the state at
-   * the end of the step
-   * @param isForward integration direction indicator
+  /** Allocate the various interpolated states arrays.
+   * @param dimension total dimension (negative if arrays should be set to null)
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
    */
-  protected void reinitialize(final double[] y, final boolean isForward) {
+  private void allocateInterpolatedArrays(final int dimension,
+                                          final EquationsMapper primaryMapper,
+                                          final EquationsMapper[] secondaryMappers) {
+      if (dimension < 0) {
+          interpolatedState                = null;
+          interpolatedDerivatives          = null;
+          interpolatedPrimaryState         = null;
+          interpolatedPrimaryDerivatives   = null;
+          interpolatedSecondaryState       = null;
+          interpolatedSecondaryDerivatives = null;
+      } else {
+          interpolatedState                = new double[dimension];
+          interpolatedDerivatives          = new double[dimension];
+          interpolatedPrimaryState         = new double[primaryMapper.getDimension()];
+          interpolatedPrimaryDerivatives   = new double[primaryMapper.getDimension()];
+          if (secondaryMappers == null) {
+              interpolatedSecondaryState       = null;
+              interpolatedSecondaryDerivatives = null;
+          } else {
+              interpolatedSecondaryState       = new double[secondaryMappers.length][];
+              interpolatedSecondaryDerivatives = new double[secondaryMappers.length][];
+              for (int i = 0; i < secondaryMappers.length; ++i) {
+                  interpolatedSecondaryState[i]       = new double[secondaryMappers[i].getDimension()];
+                  interpolatedSecondaryDerivatives[i] = new double[secondaryMappers[i].getDimension()];
+              }
+          }
+      }
+  }
 
-    globalPreviousTime = Double.NaN;
-    globalCurrentTime  = Double.NaN;
-    softPreviousTime   = Double.NaN;
-    softCurrentTime    = Double.NaN;
-    h                  = Double.NaN;
-    interpolatedTime   = Double.NaN;
+  /** Reinitialize the instance
+   * @param y reference to the integrator array holding the state at the end of the step
+   * @param isForward integration direction indicator
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
+   */
+  protected void reinitialize(final double[] y, final boolean isForward,
+                              final EquationsMapper primaryMapper,
+                              final EquationsMapper[] secondaryMappers) {
 
-    currentState            = y;
-    interpolatedState       = new double[y.length];
-    interpolatedDerivatives = new double[y.length];
-
-    finalized         = false;
-    this.forward      = isForward;
-    this.dirtyState   = true;
+    globalPreviousTime    = Double.NaN;
+    globalCurrentTime     = Double.NaN;
+    softPreviousTime      = Double.NaN;
+    softCurrentTime       = Double.NaN;
+    h                     = Double.NaN;
+    interpolatedTime      = Double.NaN;
+    currentState          = y;
+    finalized             = false;
+    this.forward          = isForward;
+    this.dirtyState       = true;
+    this.primaryMapper    = primaryMapper;
+    this.secondaryMappers = secondaryMappers.clone();
+    allocateInterpolatedArrays(y.length, primaryMapper, secondaryMappers);
 
   }
 
@@ -328,9 +397,9 @@ public abstract class AbstractStepInterpolator
   protected abstract void computeInterpolatedStateAndDerivatives(double theta,
                                                                  double oneMinusThetaH);
 
-  /** {@inheritDoc} */
-  public double[] getInterpolatedState() {
-
+  /** Lazy evaluation of complete interpolated state.
+   */
+  private void evaluateCompleteInterpolatedState() {
       // lazy evaluation of the state
       if (dirtyState) {
           final double oneMinusThetaH = globalCurrentTime - interpolatedTime;
@@ -338,24 +407,38 @@ public abstract class AbstractStepInterpolator
           computeInterpolatedStateAndDerivatives(theta, oneMinusThetaH);
           dirtyState = false;
       }
+  }
 
-      return interpolatedState;
-
+  /** {@inheritDoc} */
+  public double[] getInterpolatedState() {
+      evaluateCompleteInterpolatedState();
+      primaryMapper.extractEquationData(interpolatedState,
+                                        interpolatedPrimaryState);
+      return interpolatedPrimaryState;
   }
 
   /** {@inheritDoc} */
   public double[] getInterpolatedDerivatives() {
+      evaluateCompleteInterpolatedState();
+      primaryMapper.extractEquationData(interpolatedDerivatives,
+                                        interpolatedPrimaryDerivatives);
+      return interpolatedPrimaryDerivatives;
+  }
 
-      // lazy evaluation of the state
-      if (dirtyState) {
-          final double oneMinusThetaH = globalCurrentTime - interpolatedTime;
-          final double theta = (h == 0) ? 0 : (h - oneMinusThetaH) / h;
-          computeInterpolatedStateAndDerivatives(theta, oneMinusThetaH);
-          dirtyState = false;
-      }
+  /** {@inheritDoc} */
+  public double[] getInterpolatedSecondaryState(final int index) {
+      evaluateCompleteInterpolatedState();
+      secondaryMappers[index].extractEquationData(interpolatedState,
+                                                  interpolatedSecondaryState[index]);
+      return interpolatedSecondaryState[index];
+  }
 
-      return interpolatedDerivatives;
-
+  /** {@inheritDoc} */
+  public double[] getInterpolatedSecondaryDerivatives(final int index) {
+      evaluateCompleteInterpolatedState();
+      secondaryMappers[index].extractEquationData(interpolatedDerivatives,
+                                                  interpolatedSecondaryDerivatives[index]);
+      return interpolatedSecondaryDerivatives[index];
   }
 
   /**
@@ -439,6 +522,11 @@ public abstract class AbstractStepInterpolator
     out.writeDouble(softCurrentTime);
     out.writeDouble(h);
     out.writeBoolean(forward);
+    out.writeObject(primaryMapper);
+    out.write(secondaryMappers.length);
+    for (final EquationsMapper  mapper : secondaryMappers) {
+        out.writeObject(mapper);
+    }
 
     if (currentState != null) {
         for (int i = 0; i < currentState.length; ++i) {
@@ -468,11 +556,11 @@ public abstract class AbstractStepInterpolator
    * properly calling the {@link #setInterpolatedTime} method later,
    * once all rest of the object state has been set up properly.
    * @param in stream where to read the state from
-   * @return interpolated time be set later by the caller
+   * @return interpolated time to be set later by the caller
    * @exception IOException in case of read error
    */
   protected double readBaseExternal(final ObjectInput in)
-    throws IOException {
+    throws IOException, ClassNotFoundException {
 
     final int dimension = in.readInt();
     globalPreviousTime  = in.readDouble();
@@ -481,6 +569,11 @@ public abstract class AbstractStepInterpolator
     softCurrentTime     = in.readDouble();
     h                   = in.readDouble();
     forward             = in.readBoolean();
+    primaryMapper       = (EquationsMapper) in.readObject();
+    secondaryMappers    = new EquationsMapper[in.read()];
+    for (int i = 0; i < secondaryMappers.length; ++i) {
+        secondaryMappers[i] = (EquationsMapper) in.readObject();
+    }
     dirtyState          = true;
 
     if (dimension < 0) {
@@ -493,9 +586,8 @@ public abstract class AbstractStepInterpolator
     }
 
     // we do NOT handle the interpolated time and state here
-    interpolatedTime        = Double.NaN;
-    interpolatedState       = (dimension < 0) ? null : new double[dimension];
-    interpolatedDerivatives = (dimension < 0) ? null : new double[dimension];
+    interpolatedTime = Double.NaN;
+    allocateInterpolatedArrays(dimension, primaryMapper, secondaryMappers);
 
     finalized = true;
 

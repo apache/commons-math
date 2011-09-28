@@ -22,6 +22,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math.ode.AbstractIntegrator;
+import org.apache.commons.math.ode.EquationsMapper;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 
 /** This class represents an interpolator over the last step during an
@@ -120,10 +121,14 @@ abstract class RungeKuttaStepInterpolator
    * @param yDotArray reference to the integrator array holding all the
    * intermediate slopes
    * @param forward integration direction indicator
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
    */
   public void reinitialize(final AbstractIntegrator rkIntegrator,
-                           final double[] y, final double[][] yDotArray, final boolean forward) {
-    reinitialize(y, forward);
+                           final double[] y, final double[][] yDotArray, final boolean forward,
+                           final EquationsMapper primaryMapper,
+                           final EquationsMapper[] secondaryMappers) {
+    reinitialize(y, forward, primaryMapper, secondaryMappers);
     this.yDotK = yDotArray;
     this.integrator = rkIntegrator;
   }
@@ -153,7 +158,7 @@ abstract class RungeKuttaStepInterpolator
   /** {@inheritDoc} */
   @Override
   public void readExternal(final ObjectInput in)
-    throws IOException {
+    throws IOException, ClassNotFoundException {
 
     // read the base class
     final double t = readBaseExternal(in);

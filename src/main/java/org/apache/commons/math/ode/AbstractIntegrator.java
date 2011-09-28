@@ -47,7 +47,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  * @since 2.0
  */
-public abstract class AbstractIntegrator implements ExpandableFirstOrderIntegrator {
+public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** Step handler. */
     protected Collection<StepHandler> stepHandlers;
@@ -77,7 +77,7 @@ public abstract class AbstractIntegrator implements ExpandableFirstOrderIntegrat
     private Incrementor evaluations;
 
     /** Differential equations to integrate. */
-    private transient ExpandableFirstOrderDifferentialEquations equations;
+    private transient ExpandableStatefulODE equations;
 
     /** Build an instance.
      * @param name name of the method
@@ -185,20 +185,58 @@ public abstract class AbstractIntegrator implements ExpandableFirstOrderIntegrat
         evaluations.resetCount();
     }
 
-    /** Set the differential equations.
-     * @param equations differential equations to integrate
-     * @see #computeDerivatives(double, double[], double[])
+    /** Set the equations.
+     * @param equations equations to set
      */
-    protected void setEquations(final ExpandableFirstOrderDifferentialEquations equations) {
+    protected void setEquations(final ExpandableStatefulODE equations) {
         this.equations = equations;
     }
 
     /** {@inheritDoc} */
-    public double integrate(FirstOrderDifferentialEquations equations,
-                            double t0, double[] y0, double t, double[] y)
+    public double integrate(final FirstOrderDifferentialEquations equations,
+                            final double t0, final double[] y0, final double t, final double[] y)
         throws MathIllegalStateException, MathIllegalArgumentException {
-        return integrate(new ExpandableFirstOrderDifferentialEquations(equations), t0, y0, t, y);
+
+        if (y0.length != equations.getDimension()) {
+            throw new DimensionMismatchException(y0.length, equations.getDimension());
+        }
+        if (y.length != equations.getDimension()) {
+            throw new DimensionMismatchException(y.length, equations.getDimension());
+        }
+
+        // prepare expandable stateful equations
+        final ExpandableStatefulODE expandable = new ExpandableStatefulODE(equations);
+        expandable.setTime(t0);
+        expandable.setPrimaryState(y0);
+
+        // perform integration
+        integrate(expandable, t);
+
+        // extract results back from the stateful equations
+        System.arraycopy(expandable.getPrimaryState(), 0, y, 0, y.length);
+        return expandable.getTime();
+
     }
+
+    /** Integrate a set of differential equations up to the given time.
+     * <p>This method solves an Initial Value Problem (IVP).</p>
+     * <p>The set of differential equations is composed of a main set, which
+     * can be extended by some sets of secondary equations. The set of
+     * equations must be already set up with initial time and partial states.
+     * At integration completion, the final time and partial states will be
+     * available in the same object.</p>
+     * <p>Since this method stores some internal state variables made
+     * available in its public interface during integration ({@link
+     * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
+     * @param equations complete set of differential equations to integrate
+     * @param t target time for the integration
+     * (can be set to a value smaller than <code>t0</code> for backward integration)
+     * @throws MathIllegalStateException if the integrator cannot perform integration
+     * @throws MathIllegalArgumentException if integration parameters are wrong (typically
+     * too small integration span)
+     */
+    public abstract void integrate(ExpandableStatefulODE equations, double t)
+        throws MathIllegalStateException, MathIllegalArgumentException;
 
     /** Compute the derivatives and check the number of evaluations.
      * @param t current value of the independent <I>time</I> variable
@@ -335,33 +373,19 @@ public abstract class AbstractIntegrator implements ExpandableFirstOrderIntegrat
 
     }
 
-    /** Perform some sanity checks on the integration parameters.
-     * @param ode differential equations set
-     * @param t0 start time
-     * @param y0 state vector at t0
+    /** Check the integration span.
      * @param t target time for the integration
-     * @param y placeholder where to put the state vector
-     * @exception DimensionMismatchException if some inconsistency is detected
      * @exception NumberIsTooSmallException if integration span is too small
      */
-    protected void sanityChecks(final ExpandableFirstOrderDifferentialEquations ode,
-                                final double t0, final double[] y0,
-                                final double t, final double[] y)
-        throws DimensionMismatchException, NumberIsTooSmallException {
+    protected void sanityChecks(final ExpandableStatefulODE equations, final double t)
+        throws NumberIsTooSmallException {
 
-        if (ode.getMainSetDimension() != y0.length) {
-            throw new DimensionMismatchException(ode.getDimension(), y0.length);
-        }
-
-        if (ode.getMainSetDimension() != y.length) {
-            throw new DimensionMismatchException(ode.getDimension(), y.length);
-        }
-
-        if (FastMath.abs(t - t0) <= 1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t))) {
+        final double threshold = 1000 * FastMath.ulp(FastMath.max(FastMath.abs(equations.getTime()),
+                                                                  FastMath.abs(t)));
+        final double dt = FastMath.abs(equations.getTime() - t);
+        if (dt <= threshold) {
             throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,
-                                                FastMath.abs(t - t0),
-                                                1.0e-12 * FastMath.max(FastMath.abs(t0), FastMath.abs(t)),
-                                                false);
+                                                dt, threshold, false);
         }
 
     }

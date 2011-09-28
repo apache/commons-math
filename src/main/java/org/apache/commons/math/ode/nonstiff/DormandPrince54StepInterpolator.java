@@ -18,6 +18,7 @@
 package org.apache.commons.math.ode.nonstiff;
 
 import org.apache.commons.math.ode.AbstractIntegrator;
+import org.apache.commons.math.ode.EquationsMapper;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -145,8 +146,10 @@ class DormandPrince54StepInterpolator
   /** {@inheritDoc} */
   @Override
   public void reinitialize(final AbstractIntegrator integrator,
-                           final double[] y, final double[][] yDotK, final boolean forward) {
-    super.reinitialize(integrator, y, yDotK, forward);
+                           final double[] y, final double[][] yDotK, final boolean forward,
+                           final EquationsMapper primaryMapper,
+                           final EquationsMapper[] secondaryMappers) {
+    super.reinitialize(integrator, y, yDotK, forward, primaryMapper, secondaryMappers);
     v1 = null;
     v2 = null;
     v3 = null;

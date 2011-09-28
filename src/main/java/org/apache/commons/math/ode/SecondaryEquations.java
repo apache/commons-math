@@ -18,38 +18,39 @@
 package org.apache.commons.math.ode;
 
 /**
- * This interface allows users to add their own differential equations to a main
+ * This interface allows users to add secondary differential equations to a primary
  * set of differential equations.
  * <p>
  * In some cases users may need to integrate some problem-specific equations along
- * with a main set of differential equations. One example is optimal control where
+ * with a primary set of differential equations. One example is optimal control where
  * adjoined parameters linked to the minimized hamiltonian must be integrated.
  * </p>
  * <p>
- * This interface allows users to add such equations to a main set of {@link
+ * This interface allows users to add such equations to a primary set of {@link
  * FirstOrderDifferentialEquations first order differential equations}
  * thanks to the {@link
- * ExpandableFirstOrderDifferentialEquations#addAdditionalEquations(AdditionalEquations)}
+ * ExpandableStatefulODE#addSecondaryEquations(SecondaryEquations)}
  * method.
  * </p>
- * @see ExpandableFirstOrderDifferentialEquations
+ * @see ExpandableStatefulODE
  * @version $Id$
  * @since 3.0
  */
-public interface AdditionalEquations {
+public interface SecondaryEquations {
 
-    /** Get the dimension of the additional state parameters.
-     * @return dimension of the additional state parameters
+    /** Get the dimension of the secondary state parameters.
+     * @return dimension of the secondary state parameters
      */
     int getDimension();
 
-    /** Compute the derivatives related to the additional state parameters.
+    /** Compute the derivatives related to the secondary state parameters.
      * @param t current value of the independent <I>time</I> variable
-     * @param y array containing the current value of the main state vector
-     * @param yDot array containing the derivative of the main state vector
-     * @param z array containing the current value of the additional state vector
-     * @param zDot placeholder array where to put the derivative of the additional state vector
+     * @param primary array containing the current value of the primary state vector
+     * @param primaryDot array containing the derivative of the primary state vector
+     * @param secondary array containing the current value of the secondary state vector
+     * @param secondaryDot placeholder array where to put the derivative of the secondary state vector
      */
-    void computeDerivatives(double t, double[] y, double[] yDot, double[] z, double[] zDot);
+    void computeDerivatives(double t, double[] primary, double[] primaryDot,
+                            double[] secondary, double[] secondaryDot);
 
 }

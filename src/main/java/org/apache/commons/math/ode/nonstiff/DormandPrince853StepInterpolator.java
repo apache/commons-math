@@ -22,6 +22,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 import org.apache.commons.math.ode.AbstractIntegrator;
+import org.apache.commons.math.ode.EquationsMapper;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
@@ -280,9 +281,11 @@ class DormandPrince853StepInterpolator
   /** {@inheritDoc} */
   @Override
   public void reinitialize(final AbstractIntegrator integrator,
-                           final double[] y, final double[][] yDotK, final boolean forward) {
+                           final double[] y, final double[][] yDotK, final boolean forward,
+                           final EquationsMapper primaryMapper,
+                           final EquationsMapper[] secondaryMappers) {
 
-    super.reinitialize(integrator, y, yDotK, forward);
+    super.reinitialize(integrator, y, yDotK, forward, primaryMapper, secondaryMappers);
 
     final int dimension = currentState.length;
 
@@ -454,7 +457,7 @@ class DormandPrince853StepInterpolator
   /** {@inheritDoc} */
   @Override
   public void readExternal(final ObjectInput in)
-    throws IOException {
+    throws IOException, ClassNotFoundException {
 
     // read the local attributes
     yDotKLast = new double[3][];

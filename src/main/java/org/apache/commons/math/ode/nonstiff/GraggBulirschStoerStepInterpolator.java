@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math.ode.EquationsMapper;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.apache.commons.math.util.FastMath;
@@ -94,13 +95,13 @@ class GraggBulirschStoerStepInterpolator
      */
     private double[][] yMidDots;
 
-    /** Interpolation polynoms. */
-    private double[][] polynoms;
+    /** Interpolation polynomials. */
+    private double[][] polynomials;
 
     /** Error coefficients for the interpolation. */
     private double[] errfac;
 
-    /** Degree of the interpolation polynoms. */
+    /** Degree of the interpolation polynomials. */
     private int currentDegree;
 
   /** Simple constructor.
@@ -126,13 +127,17 @@ class GraggBulirschStoerStepInterpolator
    * @param yMidDots reference to the integrator array holding the
    * derivatives at the middle point of the step
    * @param forward integration direction indicator
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
    */
   public GraggBulirschStoerStepInterpolator(final double[] y, final double[] y0Dot,
                                             final double[] y1, final double[] y1Dot,
                                             final double[][] yMidDots,
-                                            final boolean forward) {
+                                            final boolean forward,
+                                            final EquationsMapper primaryMapper,
+                                            final EquationsMapper[] secondaryMappers) {
 
-    super(y, forward);
+    super(y, forward, primaryMapper, secondaryMappers);
     this.y0Dot    = y0Dot;
     this.y1       = y1;
     this.y1Dot    = y1Dot;
@@ -161,16 +166,16 @@ class GraggBulirschStoerStepInterpolator
     y1Dot    = null;
     yMidDots = null;
 
-    // copy the interpolation polynoms (up to the current degree only)
-    if (interpolator.polynoms == null) {
-      polynoms = null;
+    // copy the interpolation polynomials (up to the current degree only)
+    if (interpolator.polynomials == null) {
+      polynomials = null;
       currentDegree = -1;
     } else {
       resetTables(interpolator.currentDegree);
-      for (int i = 0; i < polynoms.length; ++i) {
-        polynoms[i] = new double[dimension];
-        System.arraycopy(interpolator.polynoms[i], 0,
-                         polynoms[i], 0, dimension);
+      for (int i = 0; i < polynomials.length; ++i) {
+        polynomials[i] = new double[dimension];
+        System.arraycopy(interpolator.polynomials[i], 0,
+                         polynomials[i], 0, dimension);
       }
       currentDegree = interpolator.currentDegree;
     }
@@ -179,21 +184,21 @@ class GraggBulirschStoerStepInterpolator
 
   /** Reallocate the internal tables.
    * Reallocate the internal tables in order to be able to handle
-   * interpolation polynoms up to the given degree
+   * interpolation polynomials up to the given degree
    * @param maxDegree maximal degree to handle
    */
   private void resetTables(final int maxDegree) {
 
     if (maxDegree < 0) {
-      polynoms      = null;
+      polynomials   = null;
       errfac        = null;
       currentDegree = -1;
     } else {
 
       final double[][] newPols = new double[maxDegree + 1][];
-      if (polynoms != null) {
-        System.arraycopy(polynoms, 0, newPols, 0, polynoms.length);
-        for (int i = polynoms.length; i < newPols.length; ++i) {
+      if (polynomials != null) {
+        System.arraycopy(polynomials, 0, newPols, 0, polynomials.length);
+        for (int i = polynomials.length; i < newPols.length; ++i) {
           newPols[i] = new double[currentState.length];
         }
       } else {
@@ -201,7 +206,7 @@ class GraggBulirschStoerStepInterpolator
           newPols[i] = new double[currentState.length];
         }
       }
-      polynoms = newPols;
+      polynomials = newPols;
 
       // initialize the error factors array for interpolation
       if (maxDegree <= 4) {
@@ -237,7 +242,7 @@ class GraggBulirschStoerStepInterpolator
    */
   public void computeCoefficients(final int mu, final double h) {
 
-    if ((polynoms == null) || (polynoms.length <= (mu + 4))) {
+    if ((polynomials == null) || (polynomials.length <= (mu + 4))) {
       resetTables(mu + 4);
     }
 
@@ -251,10 +256,10 @@ class GraggBulirschStoerStepInterpolator
       final double aspl  = ydiff - yp1;
       final double bspl  = yp0 - ydiff;
 
-      polynoms[0][i] = currentState[i];
-      polynoms[1][i] = ydiff;
-      polynoms[2][i] = aspl;
-      polynoms[3][i] = bspl;
+      polynomials[0][i] = currentState[i];
+      polynomials[1][i] = ydiff;
+      polynomials[2][i] = aspl;
+      polynomials[3][i] = bspl;
 
       if (mu < 0) {
         return;
@@ -262,25 +267,25 @@ class GraggBulirschStoerStepInterpolator
 
       // compute the remaining coefficients
       final double ph0 = 0.5 * (currentState[i] + y1[i]) + 0.125 * (aspl + bspl);
-      polynoms[4][i] = 16 * (yMidDots[0][i] - ph0);
+      polynomials[4][i] = 16 * (yMidDots[0][i] - ph0);
 
       if (mu > 0) {
         final double ph1 = ydiff + 0.25 * (aspl - bspl);
-        polynoms[5][i] = 16 * (yMidDots[1][i] - ph1);
+        polynomials[5][i] = 16 * (yMidDots[1][i] - ph1);
 
         if (mu > 1) {
           final double ph2 = yp1 - yp0;
-          polynoms[6][i] = 16 * (yMidDots[2][i] - ph2 + polynoms[4][i]);
+          polynomials[6][i] = 16 * (yMidDots[2][i] - ph2 + polynomials[4][i]);
 
           if (mu > 2) {
             final double ph3 = 6 * (bspl - aspl);
-            polynoms[7][i] = 16 * (yMidDots[3][i] - ph3 + 3 * polynoms[5][i]);
+            polynomials[7][i] = 16 * (yMidDots[3][i] - ph3 + 3 * polynomials[5][i]);
 
             for (int j = 4; j <= mu; ++j) {
               final double fac1 = 0.5 * j * (j - 1);
               final double fac2 = 2 * fac1 * (j - 2) * (j - 3);
-              polynoms[j+4][i] =
-                  16 * (yMidDots[j][i] + fac1 * polynoms[j+2][i] - fac2 * polynoms[j][i]);
+              polynomials[j+4][i] =
+                  16 * (yMidDots[j][i] + fac1 * polynomials[j+2][i] - fac2 * polynomials[j][i]);
             }
 
           }
@@ -298,7 +303,7 @@ class GraggBulirschStoerStepInterpolator
     double error = 0;
     if (currentDegree >= 5) {
       for (int i = 0; i < scale.length; ++i) {
-        final double e = polynoms[currentDegree][i] / scale[i];
+        final double e = polynomials[currentDegree][i] / scale[i];
         error += e * e;
       }
       error = FastMath.sqrt(error / scale.length) * errfac[currentDegree - 5];
@@ -309,7 +314,7 @@ class GraggBulirschStoerStepInterpolator
   /** {@inheritDoc} */
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
-                                          final double oneMinusThetaH) {
+                                                        final double oneMinusThetaH) {
 
     final int dimension = currentState.length;
 
@@ -324,20 +329,20 @@ class GraggBulirschStoerStepInterpolator
 
     for (int i = 0; i < dimension; ++i) {
 
-        final double p0 = polynoms[0][i];
-        final double p1 = polynoms[1][i];
-        final double p2 = polynoms[2][i];
-        final double p3 = polynoms[3][i];
+        final double p0 = polynomials[0][i];
+        final double p1 = polynomials[1][i];
+        final double p2 = polynomials[2][i];
+        final double p3 = polynomials[3][i];
         interpolatedState[i] = p0 + theta * (p1 + oneMinusTheta * (p2 * theta + p3 * oneMinusTheta));
         interpolatedDerivatives[i] = dot1 * p1 + dot2 * p2 + dot3 * p3;
 
         if (currentDegree > 3) {
             double cDot = 0;
-            double c = polynoms[currentDegree][i];
+            double c = polynomials[currentDegree][i];
             for (int j = currentDegree - 1; j > 3; --j) {
                 final double d = 1.0 / (j - 3);
                 cDot = d * (theta05 * cDot + c);
-                c = polynoms[j][i] + c * d * theta05;
+                c = polynomials[j][i] + c * d * theta05;
             }
             interpolatedState[i]       += t4 * c;
             interpolatedDerivatives[i] += (t4 * cDot + t4Dot * c) / h;
@@ -367,7 +372,7 @@ class GraggBulirschStoerStepInterpolator
     out.writeInt(currentDegree);
     for (int k = 0; k <= currentDegree; ++k) {
       for (int l = 0; l < dimension; ++l) {
-        out.writeDouble(polynoms[k][l]);
+        out.writeDouble(polynomials[k][l]);
       }
     }
 
@@ -376,7 +381,7 @@ class GraggBulirschStoerStepInterpolator
   /** {@inheritDoc} */
   @Override
   public void readExternal(final ObjectInput in)
-    throws IOException {
+    throws IOException, ClassNotFoundException {
 
     // read the base class
     final double t = readBaseExternal(in);
@@ -389,7 +394,7 @@ class GraggBulirschStoerStepInterpolator
 
     for (int k = 0; k <= currentDegree; ++k) {
       for (int l = 0; l < dimension; ++l) {
-        polynoms[k][l] = in.readDouble();
+        polynomials[k][l] = in.readDouble();
       }
     }
 

@@ -20,7 +20,7 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.ode.ExpandableFirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.ExpandableStatefulODE;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
@@ -541,32 +541,27 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
   /** {@inheritDoc} */
   @Override
-  public double integrate(final ExpandableFirstOrderDifferentialEquations equations,
-                          final double t0, final double[] z0, final double t, final double[] z)
+  public void integrate(final ExpandableStatefulODE equations, final double t)
       throws MathIllegalStateException, MathIllegalArgumentException {
 
-    sanityChecks(equations, t0, z0, t, z);
+    sanityChecks(equations, t);
     setEquations(equations);
     resetEvaluations();
-    final boolean forward = t > t0;
+    final boolean forward = t > equations.getTime();
 
     // create some internal working arrays
-    final int totalDim = equations.getDimension();
-    final int mainDim  = equations.getMainSetDimension();
-    final double[] y0 = new double[totalDim];
-    final double[] y  = new double[totalDim];
-    System.arraycopy(z0, 0, y0, 0, mainDim);
-    System.arraycopy(equations.getCurrentAdditionalStates(), 0, y0, mainDim, totalDim - mainDim);
-    final double[] yDot0   = new double[totalDim];
-    final double[] y1      = new double[totalDim];
-    final double[] yTmp    = new double[totalDim];
-    final double[] yTmpDot = new double[totalDim];
+    final double[] y0      = equations.getCompleteState();
+    final double[] y       = y0.clone();
+    final double[] yDot0   = new double[y.length];
+    final double[] y1      = new double[y.length];
+    final double[] yTmp    = new double[y.length];
+    final double[] yTmpDot = new double[y.length];
 
     final double[][] diagonal = new double[sequence.length-1][];
     final double[][] y1Diag = new double[sequence.length-1][];
     for (int k = 0; k < sequence.length-1; ++k) {
-      diagonal[k] = new double[totalDim];
-      y1Diag[k] = new double[totalDim];
+      diagonal[k] = new double[y.length];
+      y1Diag[k] = new double[y.length];
     }
 
     final double[][][] fk  = new double[sequence.length][][];
@@ -606,10 +601,12 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     final AbstractStepInterpolator interpolator =
             new GraggBulirschStoerStepInterpolator(y, yDot0,
                                                    y1, yDot1,
-                                                   yMidDots, forward);
-    interpolator.storeTime(t0);
+                                                   yMidDots, forward,
+                                                   equations.getPrimaryMapper(),
+                                                   equations.getSecondaryMappers());
+    interpolator.storeTime(equations.getTime());
 
-    stepStart = t0;
+    stepStart = equations.getTime();
     double  hNew             = 0;
     double  maxError         = Double.MAX_VALUE;
     boolean previousRejected = false;
@@ -940,13 +937,11 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     } while (!isLastStep);
 
-    // dispatch result between main and additional states
-    System.arraycopy(y, 0, z, 0, z.length);
-    equations.setCurrentAdditionalState(y);
+    // dispatch results
+    equations.setTime(stepStart);
+    equations.setCompleteState(y);
 
-    final double stopTime = stepStart;
     resetInternalState();
-    return stopTime;
 
   }
 

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math.ode.EquationsMapper;
+
 /** This class is a step interpolator that does nothing.
  *
  * <p>This class is used when the {@link StepHandler "step handler"}
@@ -65,9 +67,11 @@ public class DummyStepInterpolator
    * @param yDot reference to the integrator array holding the state
    * derivative at some arbitrary point within the step
    * @param forward integration direction indicator
+   * @param primaryMapper equations mapper for the primary equations set
+   * @param secondaryMappers equations mappers for the secondary equations sets
    */
   public DummyStepInterpolator(final double[] y, final double[] yDot, final boolean forward) {
-    super(y, forward);
+    super(y, forward, new EquationsMapper(0, y.length), new EquationsMapper[0]);
     currentDerivative = yDot;
   }
 
@@ -128,7 +132,7 @@ public class DummyStepInterpolator
    */
   @Override
   public void readExternal(final ObjectInput in)
-    throws IOException {
+    throws IOException, ClassNotFoundException {
 
     // read the base class
     final double t = readBaseExternal(in);

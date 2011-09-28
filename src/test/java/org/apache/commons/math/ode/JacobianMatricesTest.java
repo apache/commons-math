@@ -85,7 +85,7 @@ public class JacobianMatricesTest {
 
     @Test
     public void testInternalDifferentiation() {
-        ExpandableFirstOrderIntegrator integ =
+        AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         double hP = 1.0e-12;
         double hY = 1.0e-12;
@@ -97,15 +97,19 @@ public class JacobianMatricesTest {
             double[] z = { 1.3, b };
             double[][] dZdZ0 = new double[2][2];
             double[]   dZdP  = new double[2];
-            ExpandableFirstOrderDifferentialEquations efode = new ExpandableFirstOrderDifferentialEquations(brusselator);
-            JacobianMatrices jacob = new JacobianMatrices(efode, brusselator);
+
+            JacobianMatrices jacob = new JacobianMatrices(brusselator, new double[] { hY, hY }, ParamBrusselator.B);
             jacob.setParameterizedODE(brusselator);
-            jacob.selectParameters(ParamBrusselator.B);
-            jacob.setMainStateSteps(new double[] { hY, hY });
             jacob.setParameterStep(ParamBrusselator.B, hP);
             jacob.setInitialParameterJacobian(ParamBrusselator.B, new double[] { 0.0, 1.0 });
+
+            ExpandableStatefulODE efode = new ExpandableStatefulODE(brusselator);
+            efode.setTime(0);
+            efode.setPrimaryState(z);
+            jacob.registerVariationalEquations(efode);
+
             integ.setMaxEvaluations(5000);
-            integ.integrate(efode, 0, z, 20.0, z);
+            integ.integrate(efode, 20.0);
             jacob.getCurrentMainSetJacobian(dZdZ0);
             jacob.getCurrentParameterJacobian(ParamBrusselator.B, dZdP);
 //            Assert.assertEquals(5000, integ.getMaxEvaluations());
@@ -123,7 +127,7 @@ public class JacobianMatricesTest {
 
     @Test
     public void testAnalyticalDifferentiation() {
-        ExpandableFirstOrderIntegrator integ =
+        AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         SummaryStatistics residualsP0 = new SummaryStatistics();
         SummaryStatistics residualsP1 = new SummaryStatistics();
@@ -132,13 +136,18 @@ public class JacobianMatricesTest {
             double[] z = { 1.3, b };
             double[][] dZdZ0 = new double[2][2];
             double[]   dZdP  = new double[2];
-            ExpandableFirstOrderDifferentialEquations efode = new ExpandableFirstOrderDifferentialEquations(brusselator);
-            JacobianMatrices jacob = new JacobianMatrices(efode, brusselator);
-            jacob.setParameterJacobianProvider(brusselator);
-            jacob.selectParameters(Brusselator.B);
+
+            JacobianMatrices jacob = new JacobianMatrices(brusselator, Brusselator.B);
+            jacob.addParameterJacobianProvider(brusselator);
             jacob.setInitialParameterJacobian(Brusselator.B, new double[] { 0.0, 1.0 });
+
+            ExpandableStatefulODE efode = new ExpandableStatefulODE(brusselator);
+            efode.setTime(0);
+            efode.setPrimaryState(z);
+            jacob.registerVariationalEquations(efode);
+
             integ.setMaxEvaluations(5000);
-            integ.integrate(efode, 0, z, 20.0, z);
+            integ.integrate(efode, 20.0);
             jacob.getCurrentMainSetJacobian(dZdZ0);
             jacob.getCurrentParameterJacobian(Brusselator.B, dZdP);
 //            Assert.assertEquals(5000, integ.getMaxEvaluations());
@@ -156,23 +165,28 @@ public class JacobianMatricesTest {
     @Test
     public void testFinalResult() {
 
-        ExpandableFirstOrderIntegrator integ =
+        AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };
         Circle circle = new Circle(y, 1.0, 1.0, 0.1);
 
-        ExpandableFirstOrderDifferentialEquations efode = new ExpandableFirstOrderDifferentialEquations(circle);
-        JacobianMatrices jacob = new JacobianMatrices(efode, circle);
-        jacob.setParameterJacobianProvider(circle);
-        jacob.selectParameters(Circle.CX, Circle.CY, Circle.OMEGA);
+        JacobianMatrices jacob = new JacobianMatrices(circle, Circle.CX, Circle.CY, Circle.OMEGA);
+        jacob.addParameterJacobianProvider(circle);
         jacob.setInitialMainStateJacobian(circle.exactDyDy0(0));
         jacob.setInitialParameterJacobian(Circle.CX, circle.exactDyDcx(0));
         jacob.setInitialParameterJacobian(Circle.CY, circle.exactDyDcy(0));
         jacob.setInitialParameterJacobian(Circle.OMEGA, circle.exactDyDom(0));
+
+        ExpandableStatefulODE efode = new ExpandableStatefulODE(circle);
+        efode.setTime(0);
+        efode.setPrimaryState(y);
+        jacob.registerVariationalEquations(efode);
+
         integ.setMaxEvaluations(5000);
 
         double t = 18 * FastMath.PI;
-        integ.integrate(efode, 0, y, t, y);
+        integ.integrate(efode, t);
+        y = efode.getPrimaryState();
         for (int i = 0; i < y.length; ++i) {
             Assert.assertEquals(circle.exactY(t)[i], y[i], 1.0e-9);
         }
@@ -204,7 +218,7 @@ public class JacobianMatricesTest {
     @Test
     public void testParameterizable() {
 
-        ExpandableFirstOrderIntegrator integ =
+        AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };
         ParameterizedCircle pcircle = new ParameterizedCircle(y, 1.0, 1.0, 0.1);
@@ -212,25 +226,29 @@ public class JacobianMatricesTest {
 //        pcircle.setParameter(ParameterizedCircle.CY, 1.0);
 //        pcircle.setParameter(ParameterizedCircle.OMEGA, 0.1);
 
-        ExpandableFirstOrderDifferentialEquations efode = new ExpandableFirstOrderDifferentialEquations(pcircle);
-
         double hP = 1.0e-12;
         double hY = 1.0e-12;
 
-        JacobianMatrices jacob = new JacobianMatrices(efode, pcircle);
-        jacob.setParameterJacobianProvider(pcircle);
+        JacobianMatrices jacob = new JacobianMatrices(pcircle, new double[] { hY, hY },
+                                                      Circle.CX, Circle.OMEGA);
+        jacob.addParameterJacobianProvider(pcircle);
         jacob.setParameterizedODE(pcircle);
-        jacob.selectParameters(Circle.CX, Circle.OMEGA);
-        jacob.setMainStateSteps(new double[] { hY, hY });
         jacob.setParameterStep(Circle.OMEGA, hP);
         jacob.setInitialMainStateJacobian(pcircle.exactDyDy0(0));
         jacob.setInitialParameterJacobian(Circle.CX, pcircle.exactDyDcx(0));
 //        jacob.setInitialParameterJacobian(Circle.CY, circle.exactDyDcy(0));
         jacob.setInitialParameterJacobian(Circle.OMEGA, pcircle.exactDyDom(0));
+
+        ExpandableStatefulODE efode = new ExpandableStatefulODE(pcircle);
+        efode.setTime(0);
+        efode.setPrimaryState(y);
+        jacob.registerVariationalEquations(efode);
+
         integ.setMaxEvaluations(50000);
 
         double t = 18 * FastMath.PI;
-        integ.integrate(efode, 0, y, t, y);
+        integ.integrate(efode, t);
+        y = efode.getPrimaryState();
         for (int i = 0; i < y.length; ++i) {
             Assert.assertEquals(pcircle.exactY(t)[i], y[i], 1.0e-9);
         }

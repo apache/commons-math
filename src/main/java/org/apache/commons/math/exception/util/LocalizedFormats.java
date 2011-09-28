@@ -315,9 +315,8 @@ public enum LocalizedFormats implements Localizable {
     UNABLE_TO_SOLVE_SINGULAR_PROBLEM("unable to solve: singular problem"),
     UNBOUNDED_SOLUTION("unbounded solution"),
     UNKNOWN_MODE("unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})"),
-    UNKNOWN_ADDITIONAL_EQUATION("unknown additional equation"),
     UNKNOWN_PARAMETER("unknown parameter {0}"),
-    UNMATCHED_ODE_IN_EXTENDED_SET("ode does not match the main ode set in the extended set"),
+    UNMATCHED_ODE_IN_EXPANDED_SET("ode does not match the main ode set in the extended set"),
     CANNOT_PARSE_AS_TYPE("string {0} unparseable (from position {1}) as an object of type {2}"), /* keep */
     CANNOT_PARSE("string {0} unparseable (from position {1})"), /* keep */
     UNPARSEABLE_3D_VECTOR("unparseable 3D vector: \"{0}\""),
