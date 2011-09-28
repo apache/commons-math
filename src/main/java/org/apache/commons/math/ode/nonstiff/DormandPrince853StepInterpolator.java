@@ -38,8 +38,8 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class DormandPrince853StepInterpolator
   extends RungeKuttaStepInterpolator {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 7152276390558450974L;
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 20110928L;
 
     /** Propagation weights, element 1. */
     private static final double B_01 =         104257.0 / 1920240.0;

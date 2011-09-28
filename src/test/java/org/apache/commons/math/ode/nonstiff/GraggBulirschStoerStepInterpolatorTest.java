@@ -75,8 +75,8 @@ public class GraggBulirschStoerStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    Assert.assertTrue(bos.size () > 34000);
-    Assert.assertTrue(bos.size () < 35000);
+    Assert.assertTrue(bos.size () > 35000);
+    Assert.assertTrue(bos.size () < 36000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);

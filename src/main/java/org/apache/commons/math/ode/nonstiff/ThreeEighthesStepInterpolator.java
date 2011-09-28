@@ -48,8 +48,8 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class ThreeEighthesStepInterpolator
   extends RungeKuttaStepInterpolator {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -3345024435978721931L;
+  /** Serializable version identifier */
+  private static final long serialVersionUID = 20110928L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the

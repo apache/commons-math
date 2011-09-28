@@ -73,8 +73,8 @@ public class HighamHall54StepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    Assert.assertTrue(bos.size () > 167000);
-    Assert.assertTrue(bos.size () < 168000);
+    Assert.assertTrue(bos.size () > 170000);
+    Assert.assertTrue(bos.size () < 175000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);

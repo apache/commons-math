@@ -62,8 +62,8 @@ public class MidpointStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    Assert.assertTrue(bos.size () > 114000);
-    Assert.assertTrue(bos.size () < 115000);
+    Assert.assertTrue(bos.size () > 120000);
+    Assert.assertTrue(bos.size () < 125000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);

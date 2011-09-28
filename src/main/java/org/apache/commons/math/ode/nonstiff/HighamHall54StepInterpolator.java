@@ -33,7 +33,7 @@ class HighamHall54StepInterpolator
   extends RungeKuttaStepInterpolator {
 
   /** Serializable version identifier */
-  private static final long serialVersionUID = -3583240427587318654L;
+  private static final long serialVersionUID = 20110928L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the

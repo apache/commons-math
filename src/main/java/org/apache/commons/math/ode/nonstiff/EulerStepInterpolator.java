@@ -41,8 +41,8 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 class EulerStepInterpolator
   extends RungeKuttaStepInterpolator {
 
-  /** Serializable version identifier */
-  private static final long serialVersionUID = -7179861704951334960L;
+  /** Serializable version identifier. */
+  private static final long serialVersionUID = 20110928L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the

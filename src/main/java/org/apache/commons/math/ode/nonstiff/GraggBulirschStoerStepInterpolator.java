@@ -79,7 +79,7 @@ class GraggBulirschStoerStepInterpolator
   extends AbstractStepInterpolator {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 7320613236731409847L;
+    private static final long serialVersionUID = 20110928L;
 
     /** Slope at the beginning of the step. */
     private double[] y0Dot;

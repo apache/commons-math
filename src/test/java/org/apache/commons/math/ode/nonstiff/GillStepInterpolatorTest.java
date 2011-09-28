@@ -61,8 +61,8 @@ public class GillStepInterpolatorTest {
         oos.writeObject(handler);
     }
 
-    Assert.assertTrue(bos.size () > 753000);
-    Assert.assertTrue(bos.size () < 754000);
+    Assert.assertTrue(bos.size () > 750000);
+    Assert.assertTrue(bos.size () < 800000);
 
     ByteArrayInputStream  bis = new ByteArrayInputStream(bos.toByteArray());
     ObjectInputStream     ois = new ObjectInputStream(bis);
