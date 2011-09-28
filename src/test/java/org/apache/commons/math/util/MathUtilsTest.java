@@ -1648,6 +1648,13 @@ public final class MathUtilsTest {
         } catch (NonMonotonicSequenceException e) {
             // Expected
         }
+        try {
+            MathUtils.checkOrder(new double[] {3, 0, -5.5, -11, -10},
+                                 MathUtils.OrderDirection.DECREASING, false);
+            Assert.fail("an exception should have been thrown");
+        } catch (NonMonotonicSequenceException e) {
+            // Expected
+        }
     }
 
     @Test
