@@ -17,34 +17,15 @@
 
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.DimensionMismatchException;
 
 /**
  * This interface defines a {@link RealLinearOperator} which can be inverted.
  * Preconditioners typically fall into this category.
  *
  * @version $Id$
+ * @since 3.0
  */
 public abstract class InvertibleRealLinearOperator extends RealLinearOperator {
-    /**
-     * Computes the matrix-vector product of the inverse of this instance
-     * with {@code b} and returns the result.
-     *
-     * @param b Right-hand side vector.
-     * @return the left-hand side vector.
-     */
-    public double[] solve(final double[] b) {
-        if (b.length != getRowDimension()) {
-            throw new DimensionMismatchException(b.length,
-                                                 getRowDimension());
-        }
-        final RealVector x = solve(new ArrayRealVector(b, false));
-        if (x instanceof ArrayRealVector) {
-            return ((ArrayRealVector) x).getDataRef();
-        } else {
-            return x.toArray();
-        }
-    }
 
     /**
      * Computes the matrix-vector product of the inverse of this instance
