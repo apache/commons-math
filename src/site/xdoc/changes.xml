@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-381" due-to="Pascal Parraud">
+        ODE step interpolation with Jacobians is now fully merged with
+        classical step interpolation.
+      </action>
       <action dev="luc" type="fix" issue="MATH-380" due-to="Pascal Parraud">
         Completely revamped the computation of Jacobians in ODE. This computation is now
         included in the mainstream class hierarchy, not in a separate package anymore,
