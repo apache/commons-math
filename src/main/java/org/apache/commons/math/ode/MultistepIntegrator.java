@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -114,7 +114,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
         if (nSteps <= 1) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                   LocalizedFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS,
                   name);
         }
@@ -390,7 +390,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
 
     /** Marker exception used ONLY to stop the starter integrator after first step. */
     private static class InitializationCompletedMarkerException
-        extends MathRuntimeException {
+        extends RuntimeException {
 
         /** Serializable version identifier. */
         private static final long serialVersionUID = -1914085471038046418L;
