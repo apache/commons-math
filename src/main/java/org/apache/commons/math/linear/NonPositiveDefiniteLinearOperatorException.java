@@ -30,6 +30,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * linear operator and {@code x} the "offending" vector.
  *
  * @version $Id$
+ * @since 3.0
  */
 public class NonPositiveDefiniteLinearOperatorException
     extends MathIllegalArgumentException {

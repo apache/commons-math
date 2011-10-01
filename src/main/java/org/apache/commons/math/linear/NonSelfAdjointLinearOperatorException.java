@@ -33,6 +33,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * "offending" vectors, respectively.
  *
  * @version $Id$
+ * @since 3.0
  */
 public class NonSelfAdjointLinearOperatorException
     extends MathIllegalArgumentException {

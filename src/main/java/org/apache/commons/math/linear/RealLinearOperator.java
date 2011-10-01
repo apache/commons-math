@@ -47,6 +47,7 @@ package org.apache.commons.math.linear;
  * </dl>
  *
  * @version $Id$
+ * @since 3.0
  */
 public abstract class RealLinearOperator {
     /**
