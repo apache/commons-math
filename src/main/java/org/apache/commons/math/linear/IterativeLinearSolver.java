@@ -49,35 +49,36 @@ public abstract class IterativeLinearSolver {
      * Creates a new instance of this class, with custom iteration manager.
      *
      * @param manager Custom iteration manager.
+     * @throws NullArgumentException if {@code manager} is {@code null}.
      */
-    public IterativeLinearSolver(final IterationManager manager) {
+    public IterativeLinearSolver(final IterationManager manager)
+        throws NullArgumentException {
         MathUtils.checkNotNull(manager);
         this.manager = manager;
     }
+
     /**
      * Performs all dimension checks on the parameters of
-     * {@link #solve(RealLinearOperator, RealVector, RealVector, boolean)}, and
-     * throws an exception if one of the checks fails.
+     * {@link #solve(RealLinearOperator, RealVector, RealVector) solve} and
+     * {@link #solveInPlace(RealLinearOperator, RealVector, RealVector) solveInPlace},
+     * and throws an exception if one of the checks fails.
      *
      * @param a Linear operator A of the system.
      * @param b Right-hand side vector.
-     * @param x0 Initial guess of the solution (can be {@code null} if
-     *        {@code inPlace} is set to {@code false}).
-     * @param inPlace {@code true} if the initial guess is to be updated with
-     *        the current estimate of the solution.
+     * @param x0 Initial guess of the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareLinearOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
-     *         dimensions inconsistent with {@code a}.
+     * dimensions inconsistent with {@code a}.
      */
     protected static void checkParameters(final RealLinearOperator a,
                                           final RealVector b,
-                                          final RealVector x0,
-                                          final boolean inPlace)
+                                          final RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException {
         MathUtils.checkNotNull(a);
         MathUtils.checkNotNull(b);
+        MathUtils.checkNotNull(x0);
         if (a.getRowDimension() != a.getColumnDimension()) {
             throw new NonSquareLinearOperatorException(a.getRowDimension(),
                                                        a.getColumnDimension());
@@ -86,10 +87,7 @@ public abstract class IterativeLinearSolver {
             throw new DimensionMismatchException(b.getDimension(),
                                                  a.getRowDimension());
         }
-        if (inPlace) {
-            MathUtils.checkNotNull(x0);
-        }
-        if ((x0 != null) && (x0.getDimension() != a.getColumnDimension())) {
+        if (x0.getDimension() != a.getColumnDimension()) {
             throw new DimensionMismatchException(x0.getDimension(),
                                                  a.getColumnDimension());
         }
@@ -106,28 +104,70 @@ public abstract class IterativeLinearSolver {
 
     /**
      * Returns an estimate of the solution to the linear system A &middot; x =
-     * b. If no initial estimate of the solution is provided, (0, &hellip;, 0)
-     * is assumed.
+     * b.
      *
      * @param a Linear operator A of the system.
      * @param b Right-hand side vector.
-     * @param x0 Initial guess of the solution (can be {@code null} if
-     *        {@code inPlace} is set to {@code false}).
-     * @param inPlace {@code true} if the initial guess is to be updated with
-     *        the current estimate of the solution.
-     * @return A reference to {@code x0} (shallow copy) if {@code inPlace} was
-     *         set to {@code true}. Otherwise, a new vector containing the
-     *         solution.
+     * @return A new vector containing the solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws DimensionMismatchException if {@code b} has dimensions
+     * inconsistent with {@code a}.
+     * @throws MaxCountExceededException at exhaustion of the iteration count,
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
+     */
+    public RealVector solve(RealLinearOperator a, RealVector b)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(a);
+        final RealVector x = new ArrayRealVector(a.getColumnDimension());
+        x.set(0.);
+        return solveInPlace(a, b, x);
+    }
+
+    /**
+     * Returns an estimate of the solution to the linear system A &middot; x =
+     * b.
+     *
+     * @param a Linear operator A of the system.
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution.
+     * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareLinearOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
-     *         dimensions inconsistent with {@code a}.
+     * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     *         unless a custom {@link MaxCountExceededCallback callback} has
-     *         been set at construction.
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
      */
-    public abstract RealVector solve(RealLinearOperator a, RealVector b,
-                                     RealVector x0, boolean inPlace)
+    public RealVector solve(RealLinearOperator a, RealVector b, RealVector x0)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(x0);
+        return solveInPlace(a, b, x0.copy());
+    }
+
+    /**
+     * Returns an estimate of the solution to the linear system A &middot; x =
+     * b. The solution is computed in-place (initial guess is modified).
+     *
+     * @param a Linear operator A of the system.
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution.
+     * @return A reference to {@code x0} (shallow copy) updated with the
+     * solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws DimensionMismatchException if {@code b} or {@code x0} have
+     * dimensions inconsistent with {@code a}.
+     * @throws MaxCountExceededException at exhaustion of the iteration count,
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
+     */
+    public abstract RealVector solveInPlace(RealLinearOperator a, RealVector b,
+                                            RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException, MaxCountExceededException;
 }

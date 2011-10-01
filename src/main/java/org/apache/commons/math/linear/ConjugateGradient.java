@@ -61,8 +61,9 @@ import org.apache.commons.math.util.IterationManager;
  * <dt><a id="BARR1994">Barret et al. (1994)</a></dt>
  * <dd>R. Barrett, M. Berry, T. F. Chan, J. Demmel, J. M. Donato, J. Dongarra,
  * V. Eijkhout, R. Pozo, C. Romine and H. Van der Vorst,
- * <em>Templates for the Solution of Linear Systems: Building Blocks for
- * Iterative Methods</em>, SIAM</dd>
+ * <a href="http://www.netlib.org/linalg/html_templates/Templates.html"><em>
+ * Templates for the Solution of Linear Systems: Building Blocks for Iterative
+ * Methods</em></a>, SIAM</dd>
  * <dt><a id="STRA2002">Strakos and Tichy (2002)
  * <dt>
  * <dd>Z. Strakos and P. Tichy, <a
@@ -82,7 +83,8 @@ public class ConjugateGradient
      * The type of all events fired by this implementation of the Conjugate
      * Gradient method.
      *
-     * @version $Id$
+     * @version $Id: ConjugateGradient.java 1175404 2011-09-25 14:48:18Z
+     * celestin $
      */
     public abstract static class ConjugateGradientEvent
         extends IterativeLinearSolverEvent
@@ -95,7 +97,7 @@ public class ConjugateGradient
          * Creates a new instance of this class.
          *
          * @param source The iterative algorithm on which the event initially
-         *        occurred.
+         * occurred.
          */
         public ConjugateGradientEvent(final Object source) {
             super(source);
@@ -124,7 +126,7 @@ public class ConjugateGradient
      * @param maxIterations Maximum number of iterations.
      * @param delta &delta; parameter for the default stopping criterion.
      * @param check {@code true} if positive definiteness of both matrix and
-     *        preconditioner should be checked.
+     * preconditioner should be checked.
      */
     public ConjugateGradient(final int maxIterations, final double delta,
                              final boolean check) {
@@ -140,7 +142,7 @@ public class ConjugateGradient
      * @param manager Custom iteration manager.
      * @param delta &delta; parameter for the default stopping criterion.
      * @param check {@code true} if positive definiteness of both matrix and
-     *        preconditioner should be checked.
+     * preconditioner should be checked.
      */
     public ConjugateGradient(final IterationManager manager,
                              final double delta, final boolean check) {
@@ -161,13 +163,12 @@ public class ConjugateGradient
 
     /** {@inheritDoc} */
     @Override
-    public RealVector solve(final RealLinearOperator a,
-                            final InvertibleRealLinearOperator m,
-                            final RealVector b, final RealVector x0,
-                            final boolean inPlace)
+    public RealVector solveInPlace(final RealLinearOperator a,
+                                   final InvertibleRealLinearOperator m,
+                                   final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        checkParameters(a, m, b, x0, inPlace);
+        checkParameters(a, m, b, x0);
         final IterationManager manager = getIterationManager();
         // Initialization of default stopping criterion
         manager.resetIterationCount();
@@ -176,16 +177,7 @@ public class ConjugateGradient
         // p and x are constructed as copies of x0, since presumably, the type
         // of x is optimized for the calculation of the matrix-vector product
         // A.x.
-        final RealVector x;
-        if (inPlace) {
-            x = x0;
-        } else {
-            if (x0 != null) {
-                x = x0.copy();
-            } else {
-                x = new ArrayRealVector(a.getColumnDimension());
-            }
-        }
+        final RealVector x = x0;
         final RealVector p = x.copy();
         RealVector q = a.operate(p);
         manager.incrementIterationCount();

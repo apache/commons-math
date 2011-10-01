@@ -32,7 +32,7 @@ public class ConjugateGradientTest {
         solver = new ConjugateGradient(10, 0., false);
         final ArrayRealVector b = new ArrayRealVector(a.getRowDimension());
         final ArrayRealVector x = new ArrayRealVector(a.getColumnDimension());
-        solver.solve(a, b, x, false);
+        solver.solve(a, b, x);
     }
 
     @Test(expected = DimensionMismatchException.class)
@@ -42,7 +42,7 @@ public class ConjugateGradientTest {
         solver = new ConjugateGradient(10, 0., false);
         final ArrayRealVector b = new ArrayRealVector(2);
         final ArrayRealVector x = new ArrayRealVector(3);
-        solver.solve(a, b, x, false);
+        solver.solve(a, b, x);
     }
 
     @Test(expected = DimensionMismatchException.class)
@@ -52,7 +52,7 @@ public class ConjugateGradientTest {
         solver = new ConjugateGradient(10, 0., false);
         final ArrayRealVector b = new ArrayRealVector(3);
         final ArrayRealVector x = new ArrayRealVector(2);
-        solver.solve(a, b, x, false);
+        solver.solve(a, b, x);
     }
 
     @Test(expected = NonPositiveDefiniteLinearOperatorException.class)
@@ -68,7 +68,7 @@ public class ConjugateGradientTest {
         b.setEntry(0, -1.);
         b.setEntry(1, -1.);
         final ArrayRealVector x = new ArrayRealVector(2);
-        solver.solve(a, b, x, false);
+        solver.solve(a, b, x);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class ConjugateGradientTest {
         for (int j = 0; j < n; j++) {
             b.set(0.);
             b.setEntry(j, 1.);
-            final RealVector x = solver.solve(a, b, null, false);
+            final RealVector x = solver.solve(a, b);
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
@@ -108,7 +108,7 @@ public class ConjugateGradientTest {
             b.setEntry(j, 1.);
             final RealVector x0 = new ArrayRealVector(n);
             x0.set(1.);
-            final RealVector x = solver.solve(a, b, x0, true);
+            final RealVector x = solver.solveInPlace(a, b, x0);
             Assert.assertSame("x should be a reference to x0", x0, x);
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
@@ -134,7 +134,7 @@ public class ConjugateGradientTest {
             b.setEntry(j, 1.);
             final RealVector x0 = new ArrayRealVector(n);
             x0.set(1.);
-            final RealVector x = solver.solve(a, b, x0, false);
+            final RealVector x = solver.solve(a, b, x0);
             Assert.assertNotSame("x should not be a reference to x0", x0, x);
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
@@ -186,7 +186,7 @@ public class ConjugateGradientTest {
             b.set(0.);
             b.setEntry(j, 1.);
 
-            final RealVector x = solver.solve(a, b, null, false);
+            final RealVector x = solver.solve(a, b);
             final RealVector y = a.operate(x);
             for (int i = 0; i < n; i++) {
                 final double actual = b.getEntry(i) - y.getEntry(i);
@@ -228,7 +228,7 @@ public class ConjugateGradientTest {
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(10, 0d, false);
         final ArrayRealVector b = new ArrayRealVector(a.getRowDimension());
-        solver.solve(a, m, b, null, false);
+        solver.solve(a, m, b);
     }
 
     @Test(expected = DimensionMismatchException.class)
@@ -260,7 +260,7 @@ public class ConjugateGradientTest {
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(10, 0d, false);
         final ArrayRealVector b = new ArrayRealVector(a.getRowDimension());
-        solver.solve(a, m, b, null, false);
+        solver.solve(a, m, b);
     }
 
     @Test(expected = NonPositiveDefiniteLinearOperatorException.class)
@@ -304,7 +304,7 @@ public class ConjugateGradientTest {
         final ArrayRealVector b = new ArrayRealVector(2);
         b.setEntry(0, -1d);
         b.setEntry(1, -1d);
-        solver.solve(a, m, b, null, false);
+        solver.solve(a, m, b);
     }
 
     @Test
@@ -320,7 +320,7 @@ public class ConjugateGradientTest {
         for (int j = 0; j < n; j++) {
             b.set(0.);
             b.setEntry(j, 1.);
-            final RealVector x = solver.solve(a, m, b, null, false);
+            final RealVector x = solver.solve(a, m, b);
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
@@ -364,7 +364,7 @@ public class ConjugateGradientTest {
         for (int j = 0; j < n; j++) {
             b.set(0.);
             b.setEntry(j, 1.);
-            final RealVector x = solver.solve(a, m, b, null, false);
+            final RealVector x = solver.solve(a, m, b);
             final RealVector y = a.operate(x);
             double rnorm = 0.;
             for (int i = 0; i < n; i++) {
@@ -411,8 +411,8 @@ public class ConjugateGradientTest {
         for (int j = 0; j < 1; j++) {
             b.set(0.);
             b.setEntry(j, 1.);
-            final RealVector px = pcg.solve(a, m, b, null, false);
-            final RealVector x = cg.solve(a, b, null, false);
+            final RealVector px = pcg.solve(a, m, b);
+            final RealVector x = cg.solve(a, b);
             final int npcg = pcg.getIterationManager().getIterations();
             final int ncg = cg.getIterationManager().getIterations();
             msg = String.format(pattern, npcg, ncg);
@@ -465,7 +465,7 @@ public class ConjugateGradientTest {
         for (int j = 0; j < n; j++) {
             b.set(0.);
             b.setEntry(j, 1.);
-            solver.solve(a, b, null, false);
+            solver.solve(a, b);
             String msg = String.format("column %d (initialization)", j);
             Assert.assertEquals(msg, 1, count[0]);
             msg = String.format("column %d (iterations started)", j);

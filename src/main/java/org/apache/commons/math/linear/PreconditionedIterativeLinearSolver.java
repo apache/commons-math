@@ -20,6 +20,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.IterationManager;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * This abstract class defines preconditioned iterative solvers. When A is
@@ -48,41 +49,88 @@ public abstract class PreconditionedIterativeLinearSolver
      * Creates a new instance of this class, with custom iteration manager.
      *
      * @param manager Custom iteration manager.
+     * @throws NullArgumentException if {@code manager} is {@code null}.
      */
-    public PreconditionedIterativeLinearSolver(final IterationManager manager) {
+    public PreconditionedIterativeLinearSolver(final IterationManager manager)
+        throws NullArgumentException {
         super(manager);
     }
 
     /**
+     * Returns an estimate of the solution to the linear system A &middot; x =
+     * b.
+     *
+     * @param a Linear operator A of the system.
+     * @param m Preconditioner (can be {@code null}).
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution.
+     * @return A new vector containing the solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * square.
+     * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
+     * have dimensions inconsistent with {@code a}.
+     * @throws MaxCountExceededException at exhaustion of the iteration count,
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
+     */
+    public RealVector solve(final RealLinearOperator a,
+                            final InvertibleRealLinearOperator m,
+                            final RealVector b, final RealVector x0)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(x0);
+        return solveInPlace(a, m, b, x0.copy());
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealVector solve(final RealLinearOperator a, final RealVector b)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(a);
+        final RealVector x = new ArrayRealVector(a.getColumnDimension());
+        x.set(0.);
+        return solveInPlace(a, null, b, x);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealVector solve(final RealLinearOperator a, final RealVector b,
+                            final RealVector x0)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(x0);
+        return solveInPlace(a, null, b, x0.copy());
+    }
+
+    /**
      * Performs all dimension checks on the parameters of
-     * {@link #solve(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector, boolean)}
+     * {@link #solve(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector) solve}
+     * and
+     * {@link #solveInPlace(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector) solveInPlace}
      * , and throws an exception if one of the checks fails.
      *
      * @param a Linear operator A of the system.
      * @param m Preconditioner (can be {@code null}).
      * @param b Right-hand side vector.
-     * @param x0 Initial guess of the solution (can be {@code null} if
-     *        {@code inPlace} is set to {@code false}).
-     * @param inPlace {@code true} if the initial guess is to be updated with
-     *        the current estimate of the solution.
+     * @param x0 Initial guess of the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
-     *         square.
-     * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x}
-     *         have dimensions inconsistent with {@code a}.
+     * square.
+     * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
+     * have dimensions inconsistent with {@code a}.
      */
     protected static void checkParameters(final RealLinearOperator a,
                                           final InvertibleRealLinearOperator m,
                                           final RealVector b,
-                                          final RealVector x0,
-                                          final boolean inPlace)
+                                          final RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException {
-        checkParameters(a, b, x0, inPlace);
+        checkParameters(a, b, x0);
         if (m != null) {
             if (m.getColumnDimension() != m.getRowDimension()) {
-                throw new NonSquareLinearOperatorException(
-                                                           m.getColumnDimension(),
+                throw new NonSquareLinearOperatorException(m.getColumnDimension(),
                                                            m.getRowDimension());
             }
             if (m.getRowDimension() != a.getRowDimension()) {
@@ -94,42 +142,61 @@ public abstract class PreconditionedIterativeLinearSolver
 
     /**
      * Returns an estimate of the solution to the linear system A &middot; x =
-     * b. If no initial estimate of the solution is provided, (0, &hellip;, 0)
-     * is assumed.
+     * b.
      *
      * @param a Linear operator A of the system.
      * @param m Preconditioner (can be {@code null}).
      * @param b Right-hand side vector.
-     * @param x0 Initial guess of the solution (can be {@code null} if
-     *        {@code inPlace} is set to {@code false}).
-     * @param inPlace {@code true} if the initial guess is to be updated with
-     *        the current estimate of the solution.
-     * @return A reference to {@code x0} (shallow copy) if {@code update} was
-     *         set to {@code true}. Otherwise, a new vector containing the
-     *         solution.
+     * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
-     *         square.
-     * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x}
-     *         have dimensions inconsistent with {@code a}.
+     * square.
+     * @throws DimensionMismatchException if {@code m} or {@code b} have
+     * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     *         unless a custom {@link MaxCountExceededCallback callback} has
-     *         been set at construction.
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
      */
-    public abstract RealVector solve(RealLinearOperator a,
-                                     InvertibleRealLinearOperator m,
-                                     RealVector b, RealVector x0,
-                                     final boolean inPlace)
+    public RealVector solve(RealLinearOperator a,
+                            InvertibleRealLinearOperator m, RealVector b)
+        throws NullArgumentException, NonSquareLinearOperatorException,
+        DimensionMismatchException, MaxCountExceededException {
+        MathUtils.checkNotNull(a);
+        final RealVector x = new ArrayRealVector(a.getColumnDimension());
+        return solveInPlace(a, m, b, x);
+    }
+
+    /**
+     * Returns an estimate of the solution to the linear system A &middot; x =
+     * b. The solution is computed in-place (initial guess is modified).
+     *
+     * @param a Linear operator A of the system.
+     * @param m Preconditioner (can be {@code null}).
+     * @param b Right-hand side vector.
+     * @param x0 Initial guess of the solution.
+     * @return A reference to {@code x0} (shallow copy) updated with the
+     * solution.
+     * @throws NullArgumentException if one of the parameters is {@code null}.
+     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * square.
+     * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
+     * have dimensions inconsistent with {@code a}.
+     * @throws MaxCountExceededException at exhaustion of the iteration count,
+     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * construction.
+     */
+    public abstract RealVector solveInPlace(RealLinearOperator a,
+                                            InvertibleRealLinearOperator m,
+                                            RealVector b, RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException, MaxCountExceededException;
 
     /** {@inheritDoc} */
     @Override
-    public RealVector solve(final RealLinearOperator a, final RealVector b,
-                            final RealVector x0, final boolean inPlace)
+    public RealVector solveInPlace(final RealLinearOperator a,
+                                   final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareLinearOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        checkParameters(a, b, x0, inPlace);
-        return solve(a, null, b, x0, inPlace);
+        return solveInPlace(a, null, b, x0);
     }
 }
