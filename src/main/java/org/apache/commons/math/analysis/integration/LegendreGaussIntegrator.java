@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -156,7 +156,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
             weights   = WEIGHTS_5;
             break;
         default :
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED,
                     n, 2, 5);
         }
