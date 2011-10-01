@@ -19,8 +19,8 @@ package org.apache.commons.math.fraction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;

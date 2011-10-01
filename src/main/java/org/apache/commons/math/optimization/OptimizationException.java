@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.Localizable;
 
 /**
@@ -42,14 +42,6 @@ public class OptimizationException extends ConvergenceException {
      */
     public OptimizationException(Localizable specifier, Object ... parts) {
         super(specifier, parts);
-    }
-
-    /**
-     * Create an exception with a given root cause.
-     * @param cause  the exception or error that caused this exception to be thrown
-     */
-    public OptimizationException(Throwable cause) {
-        super(cause);
     }
 
 }

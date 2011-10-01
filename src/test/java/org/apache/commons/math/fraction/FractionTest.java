@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.fraction;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.TestUtils;
@@ -65,15 +65,10 @@ public class FractionTest {
         assertFraction(15, 1, new Fraction(15.0000000000001));
     }
 
-    @Test
+    @Test(expected=ConvergenceException.class)
     public void testGoldenRatio() {
-        try {
-            // the golden ratio is notoriously a difficult number for continuous fraction
-            new Fraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
-            Assert.fail("an exception should have been thrown");
-        } catch (ConvergenceException ce) {
-            // expected behavior
-        }
+        // the golden ratio is notoriously a difficult number for continuous fraction
+        new Fraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
     }
 
     // MATH-179

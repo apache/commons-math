@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-487" >
+        The checked ConvergenceException has been replaced by an unchecked ConvergenceException.
+      </action>
       <action dev="luc" type="fix" issue="MATH-381" due-to="Pascal Parraud">
         ODE step interpolation with Jacobians is now fully merged with
         classical step interpolation.

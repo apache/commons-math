@@ -18,7 +18,6 @@ package org.apache.commons.math.analysis.integration;
 
 import java.util.Random;
 
-import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
@@ -76,8 +75,7 @@ public class LegendreGaussIntegratorTest {
     }
 
     @Test
-    public void testExactIntegration()
-        throws ConvergenceException {
+    public void testExactIntegration() {
         Random random = new Random(86343623467878363l);
         for (int n = 2; n < 6; ++n) {
             LegendreGaussIntegrator integrator =
@@ -105,7 +103,7 @@ public class LegendreGaussIntegratorTest {
     }
 
     @Test
-    public void testIssue464() throws ConvergenceException {
+    public void testIssue464() {
         final double value = 0.2;
         UnivariateRealFunction f = new UnivariateRealFunction() {
             public double value(double x) {

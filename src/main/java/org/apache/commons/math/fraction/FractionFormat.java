@@ -23,7 +23,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 

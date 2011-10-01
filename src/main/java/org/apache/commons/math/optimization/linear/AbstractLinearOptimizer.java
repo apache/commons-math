@@ -90,13 +90,13 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     }
 
     /** Increment the iterations counter by 1.
-     * @exception OptimizationException if the maximal number
+     * @exception MaxCountExceededException if the maximal number
      * of iterations is exceeded
      */
     protected void incrementIterationsCounter()
-        throws OptimizationException {
+        throws MaxCountExceededException {
         if (++iterations > maxIterations) {
-            throw new OptimizationException(new MaxCountExceededException(maxIterations));
+            throw new MaxCountExceededException(maxIterations);
         }
     }
 

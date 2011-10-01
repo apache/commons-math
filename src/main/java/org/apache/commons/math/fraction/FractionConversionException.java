@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.fraction;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
