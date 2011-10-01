@@ -67,7 +67,7 @@ public class ExpandableStatefulODE {
     private List<SecondaryComponent> components;
 
     /** Build an expandable set from its primary ODE set.
-     * @param ode the primary set of differential equations to be integrated.
+     * @param primary the primary set of differential equations to be integrated.
      */
     public ExpandableStatefulODE(final FirstOrderDifferentialEquations primary) {
         final int n          = primary.getDimension();

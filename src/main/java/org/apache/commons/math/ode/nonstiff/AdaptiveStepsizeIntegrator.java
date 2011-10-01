@@ -45,7 +45,7 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * If the Ordinary Differential Equations is an {@link ExpandableStatefulODE
  * extended ODE} rather than a {@link FirstOrderDifferentialEquations basic ODE}, then
- * <em>only</em> the {@link ExpandableStatefulODE#getMainSet() main part}
+ * <em>only</em> the {@link ExpandableStatefulODE#getPrimaryState() primary part}
  * of the state vector is used for stepsize control, not the complete state vector.
  * </p>
  *

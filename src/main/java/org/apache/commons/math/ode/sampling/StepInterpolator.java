@@ -112,7 +112,7 @@ public interface StepInterpolator extends Externalizable {
    * @return interpolated secondary state at the current interpolation date
    * @see #getInterpolatedState()
    * @see #getInterpolatedDerivatives()
-   * @see #getInterpolatedSecondaryDerivatives(String)
+   * @see #getInterpolatedSecondaryDerivatives(int)
    * @see #setInterpolatedTime(double)
    * @since 3.0
    */
@@ -129,7 +129,7 @@ public interface StepInterpolator extends Externalizable {
    * @return interpolated secondary derivatives at the current interpolation date
    * @see #getInterpolatedState()
    * @see #getInterpolatedDerivatives()
-   * @see #getInterpolatedSecondaryState(String)
+   * @see #getInterpolatedSecondaryState(int)
    * @see #setInterpolatedTime(double)
    * @since 3.0
    */

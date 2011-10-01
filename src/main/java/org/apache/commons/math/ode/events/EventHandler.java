@@ -115,17 +115,17 @@ public interface EventHandler  {
    * or continue integration, possibly with a reset state or derivatives.</p>
 
    * <ul>
-   *   <li>if {@link #STOP} is returned, the step handler will be called
+   *   <li>if {@link Action#STOP} is returned, the step handler will be called
    *   with the <code>isLast</code> flag of the {@link
    *   org.apache.commons.math.ode.sampling.StepHandler#handleStep handleStep}
    *   method set to true and the integration will be stopped,</li>
-   *   <li>if {@link #RESET_STATE} is returned, the {@link #resetState
+   *   <li>if {@link Action#RESET_STATE} is returned, the {@link #resetState
    *   resetState} method will be called once the step handler has
    *   finished its task, and the integrator will also recompute the
    *   derivatives,</li>
-   *   <li>if {@link #RESET_DERIVATIVES} is returned, the integrator
+   *   <li>if {@link Action#RESET_DERIVATIVES} is returned, the integrator
    *   will recompute the derivatives,
-   *   <li>if {@link #CONTINUE} is returned, no specific action will
+   *   <li>if {@link Action#CONTINUE} is returned, no specific action will
    *   be taken (apart from having called this method) and integration
    *   will continue.</li>
    * </ul>
@@ -138,7 +138,7 @@ public interface EventHandler  {
    * <code>handleStep</code> afterwards. This scheduling allows the integrator to
    * pass <code>true</code> as the <code>isLast</code> parameter to the step
    * handler to make it aware the step will be the last one if this method
-   * returns {@link #STOP}. As the interpolator may be used to navigate back
+   * returns {@link Action#STOP}. As the interpolator may be used to navigate back
    * throughout the last step (as {@link
    * org.apache.commons.math.ode.sampling.StepNormalizer StepNormalizer}
    * does for example), user code called by this method and user
@@ -160,8 +160,8 @@ public interface EventHandler  {
    * when times increases around event (note that increase is measured with respect
    * to physical time, not with respect to integration which may go backward in time)
    * @return indication of what the integrator should do next, this
-   * value must be one of {@link #STOP}, {@link #RESET_STATE},
-   * {@link #RESET_DERIVATIVES} or {@link #CONTINUE}
+   * value must be one of {@link Action#STOP}, {@link Action#RESET_STATE},
+   * {@link Action#RESET_DERIVATIVES} or {@link Action#CONTINUE}
    */
   Action eventOccurred(double t, double[] y, boolean increasing);
 
@@ -169,11 +169,11 @@ public interface EventHandler  {
 
    * <p>This method is called after the step handler has returned and
    * before the next step is started, but only when {@link
-   * #eventOccurred} has itself returned the {@link #RESET_STATE}
+   * #eventOccurred} has itself returned the {@link Action#RESET_STATE}
    * indicator. It allows the user to reset the state vector for the
    * next step, without perturbing the step handler of the finishing
    * step. If the {@link #eventOccurred} never returns the {@link
-   * #RESET_STATE} indicator, this function will never be called, and it is
+   * Action#RESET_STATE} indicator, this function will never be called, and it is
    * safe to leave its body empty.</p>
 
    * @param t current value of the independent <i>time</i> variable
