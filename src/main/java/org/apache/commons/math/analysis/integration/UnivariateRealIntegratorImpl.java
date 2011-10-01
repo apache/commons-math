@@ -215,7 +215,7 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
      * @param maxEval Maximum number of evaluations.
      * @param f the integrand function
      * @param min the min bound for the interval
-     * @param upper the upper bound for the interval
+     * @param max the upper bound for the interval
      * @throws NullArgumentException if {@code f} is {@code null}.
      * @throws MathIllegalArgumentException if {@code min >= max}.
      */

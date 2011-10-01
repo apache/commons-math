@@ -48,7 +48,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * @param absoluteAccuracy absolute accuracy of the result
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT)
+     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
@@ -72,7 +72,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * Build a trapezoid integrator with given iteration counts.
      * @param minimalIterationCount minimum number of iterations
      * @param maximalIterationCount maximum number of iterations
-     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT)
+     * (must be less than or equal to {@link #TRAPEZOID_MAX_ITERATIONS_COUNT}
      * @exception NotStrictlyPositiveException if minimal number of iterations
      * is not strictly positive
      * @exception NumberIsTooSmallException if maximal number of iterations
