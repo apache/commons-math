@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.linear;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.util.MathUtils;
 
@@ -128,11 +128,11 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /**
      * Runs one iteration of the Simplex method on the given model.
      * @param tableau simple tableau for the problem
-     * @throws OptimizationException if the maximal iteration count has been
-     * exceeded or if the model is found not to have a bounded solution
+     * @throws MaxCountExceededException if the maximal iteration count has been exceeded
+     * @throws UnboundedSolutionException if the model is found not to have a bounded solution
      */
     protected void doIteration(final SimplexTableau tableau)
-        throws OptimizationException {
+        throws MaxCountExceededException, UnboundedSolutionException {
 
         incrementIterationsCounter();
 
@@ -158,11 +158,12 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /**
      * Solves Phase 1 of the Simplex method.
      * @param tableau simple tableau for the problem
-     * @exception OptimizationException if the maximal number of iterations is
-     * exceeded, or if the problem is found not to have a bounded solution, or
-     * if there is no feasible solution
+     * @throws MaxCountExceededException if the maximal iteration count has been exceeded
+     * @throws UnboundedSolutionException if the model is found not to have a bounded solution
+     * @throws NoFeasibleSolutionException if there is no feasible solution
      */
-    protected void solvePhase1(final SimplexTableau tableau) throws OptimizationException {
+    protected void solvePhase1(final SimplexTableau tableau)
+        throws MaxCountExceededException, UnboundedSolutionException, NoFeasibleSolutionException {
 
         // make sure we're in Phase 1
         if (tableau.getNumArtificialVariables() == 0) {
@@ -181,7 +182,8 @@ public class SimplexSolver extends AbstractLinearOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    public RealPointValuePair doOptimize() throws OptimizationException {
+    public RealPointValuePair doOptimize()
+        throws MaxCountExceededException, UnboundedSolutionException, NoFeasibleSolutionException {
         final SimplexTableau tableau =
             new SimplexTableau(function, linearConstraints, goal, nonNegative,
                                epsilon, maxUlps);

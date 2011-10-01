@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.optimization.linear;
 
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.OptimizationException;
 
 /**
  * This class represents exceptions thrown by optimizers when a solution
@@ -26,7 +26,7 @@ import org.apache.commons.math.optimization.OptimizationException;
  * @version $Id$
  * @since 2.0
  */
-public class UnboundedSolutionException extends OptimizationException {
+public class UnboundedSolutionException extends MathIllegalStateException {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 940539497277290619L;

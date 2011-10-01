@@ -19,8 +19,8 @@ package org.apache.commons.math.optimization.linear;
 
 import java.util.Collection;
 
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
 /**
@@ -79,11 +79,11 @@ public interface LinearOptimizer {
      * or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @return point/value pair giving the optimal value for objective function
-     * @exception OptimizationException if no solution fulfilling the constraints
+     * @exception MathIllegalStateException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
    RealPointValuePair optimize(LinearObjectiveFunction f, Collection<LinearConstraint> constraints,
                                GoalType goalType, boolean restrictToNonNegative)
-        throws OptimizationException;
+        throws MathIllegalStateException;
 
 }

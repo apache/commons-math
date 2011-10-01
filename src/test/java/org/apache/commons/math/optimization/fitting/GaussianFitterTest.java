@@ -18,7 +18,6 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 
 import org.junit.Assert;
@@ -182,12 +181,9 @@ public class GaussianFitterTest {
 
     /**
      * Basic.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test
-    public void testFit01()
-    throws OptimizationException {
+    public void testFit01() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET1, fitter);
         double[] parameters = fitter.fit();
@@ -199,24 +195,18 @@ public class GaussianFitterTest {
 
     /**
      * Zero points is not enough observed points.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test(expected=MathIllegalArgumentException.class)
-    public void testFit02()
-    throws OptimizationException {
+    public void testFit02() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         fitter.fit();
     }
     
     /**
      * Two points is not enough observed points.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test(expected=MathIllegalArgumentException.class)
-    public void testFit03()
-    throws OptimizationException {
+    public void testFit03() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(new double[][] {
             {4.0254623,  531026.0},
@@ -227,13 +217,9 @@ public class GaussianFitterTest {
     
     /**
      * Poor data: right of peak not symmetric with left of peak.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test
-    public void testFit04()
-    throws OptimizationException 
-    {
+    public void testFit04() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET2, fitter);
         double[] parameters = fitter.fit();
@@ -245,12 +231,9 @@ public class GaussianFitterTest {
     
     /**
      * Poor data: long tails.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test
-    public void testFit05()
-    throws OptimizationException {
+    public void testFit05() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET3, fitter);
         double[] parameters = fitter.fit();
@@ -262,12 +245,9 @@ public class GaussianFitterTest {
     
     /**
      * Poor data: right of peak is missing.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test
-    public void testFit06()
-    throws OptimizationException {
+    public void testFit06() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET4, fitter);
         double[] parameters = fitter.fit();
@@ -279,12 +259,9 @@ public class GaussianFitterTest {
 
     /**
      * Basic with smaller dataset.
-     *
-     * @throws OptimizationException in the event of a test case error
      */
     @Test
-    public void testFit07()
-    throws OptimizationException {
+    public void testFit07() {
         GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
         addDatasetToGaussianFitter(DATASET5, fitter);
         double[] parameters = fitter.fit();

@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-457" >
+        The last remaining uses of OptimizationException have been replaced by unchecked
+        exceptions (UnboundSolutionException, NoFeasibleSolutionException,
+        MaxCountExceededException ...)
+      </action>
       <action dev="luc" type="fix" issue="MATH-487" >
         The checked ConvergenceException has been replaced by an unchecked ConvergenceException.
       </action>

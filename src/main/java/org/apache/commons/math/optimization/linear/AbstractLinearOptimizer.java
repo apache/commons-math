@@ -19,9 +19,9 @@ package org.apache.commons.math.optimization.linear;
 
 import java.util.Collection;
 
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.OptimizationException;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
 /**
@@ -104,7 +104,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     public RealPointValuePair optimize(final LinearObjectiveFunction f,
                                        final Collection<LinearConstraint> constraints,
                                        final GoalType goalType, final boolean restrictToNonNegative)
-         throws OptimizationException {
+         throws MathIllegalStateException {
 
         // store linear problem characteristics
         this.function          = f;
@@ -121,10 +121,10 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
     /** Perform the bulk of optimization algorithm.
      * @return the point/value pair giving the optimal value for objective function
-     * @exception OptimizationException if no solution fulfilling the constraints
+     * @exception MathIllegalStateException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
     protected abstract RealPointValuePair doOptimize()
-        throws OptimizationException;
+        throws MathIllegalStateException;
 
 }
