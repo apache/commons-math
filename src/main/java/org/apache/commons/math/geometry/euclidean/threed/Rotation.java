@@ -19,7 +19,7 @@ package org.apache.commons.math.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -168,13 +168,13 @@ public class Rotation implements Serializable {
    * attitude community or in the graphics community.</p>
    * @param axis axis around which to rotate
    * @param angle rotation angle.
-   * @exception ArithmeticException if the axis norm is zero
+   * @exception MathIllegalArgumentException if the axis norm is zero
    */
   public Rotation(Vector3D axis, double angle) {
 
     double norm = axis.getNorm();
     if (norm == 0) {
-      throw MathRuntimeException.createArithmeticException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_AXIS);
+      throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_AXIS);
     }
 
     double halfAngle = -0.5 * angle;
@@ -308,7 +308,7 @@ public class Rotation implements Serializable {
    * @param u2 second vector of the origin pair
    * @param v1 desired image of u1 by the rotation
    * @param v2 desired image of u2 by the rotation
-   * @exception IllegalArgumentException if the norm of one of the vectors is zero
+   * @exception MathIllegalArgumentException if the norm of one of the vectors is zero
    */
   public Rotation(Vector3D u1, Vector3D u2, Vector3D v1, Vector3D v2) {
 
@@ -318,7 +318,7 @@ public class Rotation implements Serializable {
   double v1v1 = v1.getNormSq();
   double v2v2 = v2.getNormSq();
   if ((u1u1 == 0) || (u2u2 == 0) || (v1v1 == 0) || (v2v2 == 0)) {
-    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
+    throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
   }
 
   // normalize v1 in order to have (v1'|v1') = (u1|u1)
@@ -401,13 +401,13 @@ public class Rotation implements Serializable {
 
    * @param u origin vector
    * @param v desired image of u by the rotation
-   * @exception IllegalArgumentException if the norm of one of the vectors is zero
+   * @exception MathIllegalArgumentException if the norm of one of the vectors is zero
    */
   public Rotation(Vector3D u, Vector3D v) {
 
     double normProduct = u.getNorm() * v.getNorm();
     if (normProduct == 0) {
-        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
+        throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
     }
 
     double dot = u.dotProduct(v);

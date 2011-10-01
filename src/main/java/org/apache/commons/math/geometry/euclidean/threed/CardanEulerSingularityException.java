@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /** This class represents exceptions thrown while extractiong Cardan
@@ -27,7 +27,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @since 1.2
  */
 public class CardanEulerSingularityException
-  extends MathException {
+  extends MathIllegalStateException {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -1360952845582206770L;

@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.geometry.euclidean.threed;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 import org.junit.Assert;
@@ -62,7 +63,7 @@ public class RotationTest {
     try {
       new Rotation(new Vector3D(0, 0, 0), 2 * FastMath.PI / 3);
       Assert.fail("an exception should have been thrown");
-    } catch (ArithmeticException e) {
+    } catch (MathIllegalArgumentException e) {
     }
 
     r = new Rotation(Vector3D.PLUS_K, 1.5 * FastMath.PI);

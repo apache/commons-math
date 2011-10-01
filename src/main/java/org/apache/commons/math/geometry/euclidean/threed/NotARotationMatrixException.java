@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.geometry.euclidean.threed;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.Localizable;
 
 /**
@@ -29,7 +29,7 @@ import org.apache.commons.math.exception.util.Localizable;
  */
 
 public class NotARotationMatrixException
-  extends MathException {
+  extends MathIllegalArgumentException {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 5647178478658937642L;
