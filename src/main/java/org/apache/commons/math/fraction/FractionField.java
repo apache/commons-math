@@ -20,6 +20,7 @@ package org.apache.commons.math.fraction;
 import java.io.Serializable;
 
 import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
 
 /**
  * Representation of the fractional numbers field.
@@ -57,6 +58,10 @@ public class FractionField implements Field<Fraction>, Serializable  {
         return Fraction.ZERO;
     }
 
+    /** {@inheritDoc} */
+    public Class<? extends FieldElement<Fraction>> getRuntimeClass() {
+        return Fraction.class;
+    }
     // CHECKSTYLE: stop HideUtilityClassConstructor
     /** Holder for the instance.
      * <p>We use here the Initialization On Demand Holder Idiom.</p>

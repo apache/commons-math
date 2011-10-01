@@ -18,6 +18,7 @@
 package org.apache.commons.math.dfp;
 
 import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
 
 /** Field for Decimal floating point instances.
  * @version $Id$
@@ -405,6 +406,11 @@ public class DfpField implements Field<Dfp> {
      */
     public Dfp getOne() {
         return one;
+    }
+
+    /** {@inheritDoc} */
+    public Class<? extends FieldElement<Dfp>> getRuntimeClass() {
+        return Dfp.class;
     }
 
     /** Get the constant 2.

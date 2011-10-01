@@ -383,7 +383,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      */
     @SuppressWarnings("unchecked") // field is of type T
     private T[] buildArray(final int length) {
-        return (T[]) Array.newInstance(field.getZero().getClass(), length);
+        return (T[]) Array.newInstance(field.getRuntimeClass(), length);
     }
 
     /** {@inheritDoc} */

@@ -308,7 +308,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
                 }
 
                 @SuppressWarnings("unchecked") // field is of type T
-                final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(), m);
+                final T[] bp = (T[]) Array.newInstance(field.getRuntimeClass(), m);
 
                 // Apply permutations to b
                 for (int row = 0; row < m; row++) {
@@ -355,7 +355,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
 
             @SuppressWarnings("unchecked")
             // field is of type T
-            final T[] bp = (T[]) Array.newInstance(field.getZero().getClass(),
+            final T[] bp = (T[]) Array.newInstance(field.getRuntimeClass(),
                                                    m);
 
             // Apply permutations to b
@@ -397,7 +397,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
 
             // Apply permutations to b
             @SuppressWarnings("unchecked") // field is of type T
-            final T[][] bp = (T[][]) Array.newInstance(field.getZero().getClass(), new int[] { m, nColB });
+            final T[][] bp = (T[][]) Array.newInstance(field.getRuntimeClass(), new int[] { m, nColB });
             for (int row = 0; row < m; row++) {
                 final T[] bpRow = bp[row];
                 final int pRow = pivot[row];

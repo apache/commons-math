@@ -48,4 +48,12 @@ public interface Field<T> {
      */
     T getOne();
 
+    /**
+     * Returns the runtime class of the FieldElement. 
+     * 
+     * @return The {@code Class} object that represents the runtime
+     *         class of this object.
+     */
+    Class<? extends FieldElement<T>> getRuntimeClass();
+
 }

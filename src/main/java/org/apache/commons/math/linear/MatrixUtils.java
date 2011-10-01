@@ -179,8 +179,8 @@ public class MatrixUtils {
         createFieldIdentityMatrix(final Field<T> field, final int dimension) {
         final T zero = field.getZero();
         final T one  = field.getOne();
-        @SuppressWarnings("unchecked") // zero is type T
-        final T[][] d = (T[][]) Array.newInstance(zero.getClass(), new int[] { dimension, dimension });
+        @SuppressWarnings("unchecked")
+        final T[][] d = (T[][]) Array.newInstance(field.getRuntimeClass(), new int[] { dimension, dimension });
         for (int row = 0; row < dimension; row++) {
             final T[] dRow = d[row];
             Arrays.fill(dRow, zero);
