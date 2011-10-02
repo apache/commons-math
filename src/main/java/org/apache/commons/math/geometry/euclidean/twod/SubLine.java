@@ -95,7 +95,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
     /** Get the intersection of the instance and another sub-line.
      * <p>
-     * This method is related to the {@link Line#intersection(Hyperplane)
+     * This method is related to the {@link Line#intersection(Line)
      * intersection} method in the {@link Line Line} class, but in addition
      * to compute the point along infinite lines, it also checks the point
      * lies on both sub-line ranges.

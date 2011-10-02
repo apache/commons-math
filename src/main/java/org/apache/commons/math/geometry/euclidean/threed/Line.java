@@ -113,7 +113,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     }
 
     /** Get one point from the line.
-     * @param point desired abscissa for the point
+     * @param abscissa desired abscissa for the point
      * @return one point belonging to the line, at specified abscissa
      */
     public Vector3D pointAt(final double abscissa) {
