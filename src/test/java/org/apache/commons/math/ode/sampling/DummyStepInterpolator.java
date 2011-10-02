@@ -67,8 +67,6 @@ public class DummyStepInterpolator
    * @param yDot reference to the integrator array holding the state
    * derivative at some arbitrary point within the step
    * @param forward integration direction indicator
-   * @param primaryMapper equations mapper for the primary equations set
-   * @param secondaryMappers equations mappers for the secondary equations sets
    */
   public DummyStepInterpolator(final double[] y, final double[] yDot, final boolean forward) {
     super(y, forward, new EquationsMapper(0, y.length), new EquationsMapper[0]);
