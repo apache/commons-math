@@ -251,7 +251,6 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @param v vector containing the values to set.
      * @throws org.apache.commons.math.exception.OutOfRangeException
      * if the index is inconsistent with vector size.
-     * @see #setSubVector(int, FieldElement[])
      */
     void setSubVector(int index, FieldVector<T> v);
 
