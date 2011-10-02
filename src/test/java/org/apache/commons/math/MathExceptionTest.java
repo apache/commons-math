@@ -23,8 +23,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Locale;
 
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.DummyLocalizable;
 import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,7 +58,7 @@ public class MathExceptionTest {
     public void testPrintStackTrace() {
         Localizable outMsg = new DummyLocalizable("outer message");
         Localizable inMsg = new DummyLocalizable("inner message");
-        MathException cause = new MathConfigurationException(inMsg);
+        MathIllegalStateException cause = new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, inMsg);
         MathException ex = new MathException(cause, outMsg);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -64,7 +66,7 @@ public class MathExceptionTest {
         String stack = baos.toString();
         String outerMsg = "org.apache.commons.math.MathException: outer message";
         String innerMsg = "Caused by: " +
-        "org.apache.commons.math.MathConfigurationException: inner message";
+        "org.apache.commons.math.exception.MathIllegalStateException: inner message";
         Assert.assertTrue(stack.startsWith(outerMsg));
         Assert.assertTrue(stack.indexOf(innerMsg) > 0);
 
@@ -82,7 +84,7 @@ public class MathExceptionTest {
     public void testSerialization() {
         Localizable outMsg = new DummyLocalizable("outer message");
         Localizable inMsg = new DummyLocalizable("inner message");
-        MathException cause = new MathConfigurationException(inMsg);
+        MathIllegalStateException cause = new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, inMsg);
         MathException ex = new MathException(cause, outMsg);
         MathException image = (MathException) TestUtils.serializeAndRecover(ex);
 
