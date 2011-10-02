@@ -24,7 +24,9 @@
   <property name="localeLanguage" value="en"/>
 
   <module name="TreeWalker">
-   
+
+    <property name="cacheFile" value="target/checkstyle-cachefile"/>
+
     <!-- Operator must be at end of wrapped line -->
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
