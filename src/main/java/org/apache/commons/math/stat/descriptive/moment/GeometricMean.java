@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -201,7 +201,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      */
     private void checkEmpty() {
         if (getN() > 0) {
-            throw MathRuntimeException.createIllegalStateException(
+            throw new MathIllegalStateException(
                     LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
                     getN());
         }
