@@ -80,7 +80,7 @@ public class FractionFormat extends AbstractFormat {
      * FractionFormat.
      *
      * @param f Fraction object to format
-     * @return A formatted fraction in proper form.
+     * @return a formatted fraction in proper form.
      */
     public static String formatFraction(Fraction f) {
         return getImproperInstance().format(f);
@@ -165,8 +165,8 @@ public class FractionFormat extends AbstractFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws FractionConversionException if the numbrer cannot be converted to a fraction
-     * @throws MathIllegalArgumentException is <code>obj</code> is not a valid type.
+     * @throws FractionConversionException if the number cannot be converted to a fraction
+     * @throws MathIllegalArgumentException if <code>obj</code> is not a valid type.
      */
     @Override
     public StringBuffer format(final Object obj,
@@ -206,7 +206,7 @@ public class FractionFormat extends AbstractFormat {
      * Parses a string to produce a {@link Fraction} object.  This method
      * expects the string to be formatted as an improper fraction.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link Fraction} object.
      */
     @Override
