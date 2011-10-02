@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -121,7 +121,7 @@ public class Frequency implements Serializable {
             }
         } catch (ClassCastException ex) {
             //TreeMap will throw ClassCastException if v is not comparable
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                   LocalizedFormats.INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES,
                   v.getClass().getName());
         }
